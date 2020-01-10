@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{477054AE-FBE1-4A93-8591-E2C61DD14390}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NuovaGM.Client</RootNamespace>
+    <AssemblyName>NuovaGM.Client.net</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\NuovaGM\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CitizenFX.Core.Client, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CitizenFX.Core.Client.1.0.1970\lib\net45\CitizenFX.Core.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Banking\BankingClient.cs" />
+    <Compile Include="Interactions\RenderTargets.cs" />
+    <Compile Include="Interactions\Televisioni.cs" />
+    <Compile Include="IPLs\dlc_afterhours\AfterHoursNightclubs.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerClubhouse2.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerClubhouse1.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerCocaine.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerCounterfeit.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerDocumentForgery.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerGang.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerMethLab.cs" />
+    <Compile Include="IPLs\dlc_bikers\BikerWeedFarm.cs" />
+    <Compile Include="IPLs\dlc_doomsday\DoomsdayAvenger.cs" />
+    <Compile Include="IPLs\dlc_doomsday\DoomsdayFacility.cs" />
+    <Compile Include="IPLs\dlc_executive\ExecApartment3.cs" />
+    <Compile Include="IPLs\dlc_executive\ExecApartment2.cs" />
+    <Compile Include="IPLs\dlc_executive\ExecApartment1.cs" />
+    <Compile Include="IPLs\dlc_finance\FinanceOffice4.cs" />
+    <Compile Include="IPLs\dlc_finance\FinanceOffice3.cs" />
+    <Compile Include="IPLs\dlc_finance\FinanceOffice2.cs" />
+    <Compile Include="IPLs\dlc_finance\FinanceOffice1.cs" />
+    <Compile Include="IPLs\dlc_gunrunning\GunrunningBunker.cs" />
+    <Compile Include="IPLs\dlc_gunrunning\GunrunningYacht.cs" />
+    <Compile Include="IPLs\dlc_heists\HeistCarrier.cs" />
+    <Compile Include="IPLs\dlc_heists\HeistYacht.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment6.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment5.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment4.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment3.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment2.cs" />
+    <Compile Include="IPLs\dlc_high_life\HLApartment1.cs" />
+    <Compile Include="IPLs\dlc_import_export\ImportCEOGarage4.cs" />
+    <Compile Include="IPLs\dlc_import_export\ImportCEOGarage3.cs" />
+    <Compile Include="IPLs\dlc_import_export\ImportCEOGarage2.cs" />
+    <Compile Include="IPLs\dlc_import_export\ImportCEOGarage1.cs" />
+    <Compile Include="IPLs\dlc_import_export\ImportVehicleWarehouse.cs" />
+    <Compile Include="IPLs\dlc_smuggler\SmugglerHangar.cs" />
+    <Compile Include="IPLs\common\InteriorObserver.cs" />
+    <Compile Include="IPLs\gta_offline\Ammunations.cs" />
+    <Compile Include="IPLs\gta_offline\Bahama.cs" />
+    <Compile Include="IPLs\gta_offline\Floyd.cs" />
+    <Compile Include="IPLs\gta_offline\Franklin.cs" />
+    <Compile Include="IPLs\gta_offline\FranklinAunt.cs" />
+    <Compile Include="IPLs\gta_offline\Graffitis.cs" />
+    <Compile Include="IPLs\gta_offline\LesterFactory.cs" />
+    <Compile Include="IPLs\gta_offline\Michael.cs" />
+    <Compile Include="IPLs\gta_offline\NorthYankton.cs" />
+    <Compile Include="IPLs\gta_offline\PillboxHospital.cs" />
+    <Compile Include="IPLs\gta_offline\RedCarpet.cs" />
+    <Compile Include="IPLs\gta_offline\Simeon.cs" />
+    <Compile Include="IPLs\gta_offline\StripClub.cs" />
+    <Compile Include="IPLs\gta_offline\TrevorsTrailer.cs" />
+    <Compile Include="IPLs\gta_offline\UFO.cs" />
+    <Compile Include="IPLs\gta_offline\ZancudoGates.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi3.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi4.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi5.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi6.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi7.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseMid1.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseLow1.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi8.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi2.cs" />
+    <Compile Include="IPLs\gta_online\GTAOHouseHi1.cs" />
+    <Compile Include="IPLs\gta_online\GTAOApartmentHi2.cs" />
+    <Compile Include="IPLs\gta_online\GTAOApartmentHi1.cs" />
+    <Compile Include="IPLs\IPLInstance.cs" />
+    <Compile Include="IPLs\common\IplManager.cs" />
+    <Compile Include="Meteo_new\Meteo.cs" />
+    <Compile Include="Meteo_new\Orario.cs" />
+    <Compile Include="Proprietà\Hotel\Hotel.cs" />
+    <Compile Include="Proprietà\Hotel\Hotels.cs" />
+    <Compile Include="ClassCollector.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="Businesses\PompeDiBenzinaClient.cs" />
+    <Compile Include="DamageEvents.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Giostre\Funivia.cs" />
+    <Compile Include="Giostre\MontagneRusse.cs" />
+    <Compile Include="Giostre\RuotaPanoramica.cs" />
+    <Compile Include="gmPrincipale\Discord.cs" />
+    <Compile Include="gmPrincipale\status\StatsNeeds.cs" />
+    <Compile Include="Manager\ManagerMenu.cs" />
+    <Compile Include="MenuNativo\ProgressBars\items\UIProgressBar.cs" />
+    <Compile Include="MenuNativo\ProgressBars\UIProgressBarPool.cs" />
+    <Compile Include="MenuNativo\TimerBars\items\UITimerBarItem.cs" />
+    <Compile Include="MenuNativo\TimerBars\items\UITimerBarProgressItem.cs" />
+    <Compile Include="MenuNativo\TimerBars\UITimerBarPool.cs" />
+    <Compile Include="gmPrincipale\Utility\HUD\HUD.cs" />
+    <Compile Include="Interactions\Spazzatura.cs" />
+    <Compile Include="MenuNativo\BigMessage.cs" />
+    <Compile Include="MenuNativo\Colors.cs" />
+    <Compile Include="MenuNativo\Controls.cs" />
+    <Compile Include="MenuNativo\Elements\Sprite.cs" />
+    <Compile Include="MenuNativo\Elements\TimerBars.cs" />
+    <Compile Include="MenuNativo\Elements\UIResRectangle.cs" />
+    <Compile Include="MenuNativo\Elements\UIResText.cs" />
+    <Compile Include="MenuNativo\InstructionalButton.cs" />
+    <Compile Include="MenuNativo\Items\IListItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuCheckboxItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuColoredItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuDynamicListItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuListItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuProgressItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuSeparatorItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuSliderHeritageItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuSliderItem.cs" />
+    <Compile Include="MenuNativo\Items\UIMenuSliderProgressItem.cs" />
+    <Compile Include="MenuNativo\MenuPool.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuColorPanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuGridPanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuHorizontalOneLineGridPanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuPanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuPercentagePanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuStatisticsPanel.cs" />
+    <Compile Include="MenuNativo\Panels\UIMenuVerticalOneLineGridPanel.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabInteractiveListItem.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabItem.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabItemSimpleList.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabMissionSelectItem.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabSubmenuItem.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabTextItem.cs" />
+    <Compile Include="MenuNativo\PauseMenu\TabView.cs" />
+    <Compile Include="MenuNativo\PointExtensions.cs" />
+    <Compile Include="MenuNativo\ScreenTools.cs" />
+    <Compile Include="MenuNativo\StringMeasurer.cs" />
+    <Compile Include="MenuNativo\UIMenu.cs" />
+    <Compile Include="MenuNativo\Windows\UIMenuHeritageWindow.cs" />
+    <Compile Include="MenuNativo\Windows\UIMenuWindow.cs" />
+    <Compile Include="Proprietà\Manager.cs" />
+    <Compile Include="Sport\BraccioDiFerro.cs" />
+    <Compile Include="TickController.cs" />
+    <Compile Include="Lavori\Whitelistati\Polizia\InfoPolizia.cs" />
+    <Compile Include="Lavori\Whitelistati\Polizia\MenuPolizia.cs" />
+    <Compile Include="Negozi\Barberie\BarberClient.cs" />
+    <Compile Include="Negozi\Barberie\ConfigBarbieri.cs" />
+    <Compile Include="Negozi\Clothestores\ConfigClothes.cs" />
+    <Compile Include="Negozi\Clothestores\MenuNegoziAbiti.cs" />
+    <Compile Include="Negozi\Clothestores\NegozioAbitiClient.cs" />
+    <Compile Include="ConfigClient.cs" />
+    <Compile Include="gmPrincipale\Main.cs" />
+    <Compile Include="EntityDecoration.cs" />
+    <Compile Include="gmPrincipale\Utility\Eventi.cs" />
+    <Compile Include="gmPrincipale\Utility\Funzioni.cs" />
+    <Compile Include="gmPrincipale\Utility\PublicTraffic.cs" />
+    <Compile Include="gmPrincipale\MenuGm\Menus.cs" />
+    <Compile Include="gmPrincipale\MenuGm\CamerasFirstTime.cs" />
+    <Compile Include="gmPrincipale\PlayerChar\PlayerChar.cs" />
+    <Compile Include="gmPrincipale\status\Death.cs" />
+    <Compile Include="gmPrincipale\Voice.cs" />
+    <Compile Include="Lavori\JobManager.cs" />
+    <Compile Include="Lavori\Whitelistati\DutyManager.cs" />
+    <Compile Include="Lavori\Whitelistati\Polizia\ConfigPolizia.cs" />
+    <Compile Include="Lavori\Whitelistati\Polizia\PoliziaMainClient.cs" />
+    <Compile Include="Lavori\Whitelistati\Polizia\SkinLoadout.cs" />
+    <Compile Include="Manager\ClientManager.cs" />
+    <Compile Include="Manager\DevManager.cs" />
+    <Compile Include="Negozi\Armerie\Armerie.cs" />
+    <Compile Include="Negozi\NegoziClient.cs" />
+    <Compile Include="Negozi\Negozi\NegoziBusiness.cs" />
+    <Compile Include="ObjectHash.cs" />
+    <Compile Include="Personale\EventiPersonalMenu.cs" />
+    <Compile Include="Personale\PersonalMenu.cs" />
+    <Compile Include="playerlist\PlayerListClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interactions\Prostitute.cs" />
+    <Compile Include="Sport\Yoga.cs" />
+    <Compile Include="Veicoli\Assicurazione.cs" />
+    <Compile Include="Veicoli\EffettiRuote.cs" />
+    <Compile Include="Veicoli\FuelClient.cs" />
+    <Compile Include="Veicoli\MenuAffittoVeicoli.cs" />
+    <Compile Include="Veicoli\Treni.cs" />
+    <Compile Include="Veicoli\VehicleDamage.cs" />
+    <Compile Include="Veicoli\VeicoliClient.cs" />
+    <Compile Include="Interactions\Macchinette.cs" />
+    <Compile Include="weather\WeatherClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lavori\Generici\" />
+    <Folder Include="Lavori\Whitelistati\Meccanici\" />
+    <Folder Include="Lavori\Whitelistati\Medici\" />
+    <Folder Include="Proprietà\Appartamenti\" />
+    <Folder Include="Proprietà\Garages\" />
+    <Folder Include="Proprietà\Uffici\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NuovaGM.Shared\NuovaGM.Shared.csproj">
+      <Project>{0aebd4eb-c50f-4764-a58c-31f17426f024}</Project>
+      <Name>NuovaGM.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="F:\FiveM_gioco\citizen\clr2\lib\mono\4.5\mscorlib.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(OutDir)\NuovaGM.Client.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\
+</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets" Condition="Exists('..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Questo progetto fa riferimento a uno o più pacchetti NuGet che non sono presenti in questo computer. Usare lo strumento di ripristino dei pacchetti NuGet per scaricarli. Per altre informazioni, vedere http://go.microsoft.com/fwlink/?LinkID=322105. Il file mancante è {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets'))" />
+  </Target>
+</Project>
