@@ -20,6 +20,8 @@ namespace NuovaGM.Server.Meteo_New
 
 		public static void Init()
 		{
+			Server.GetInstance.RegisterEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+			Server.GetInstance.RegisterEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
 			Server.GetInstance.RegisterEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
 			Server.GetInstance.RegisterEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
 			Server.GetInstance.RegisterTickHandler(Conteggio);
@@ -31,6 +33,20 @@ namespace NuovaGM.Server.Meteo_New
 		private static async void CambiaMeteoPerMe([FromSource]Player p, bool startup)
 		{
 			p.TriggerEvent("lprp:getMeteo", currentWeather, blackout, startup);
+		}
+
+		private static async void CambiaMeteoConParams(int meteo, bool black, bool startup)
+		{
+			currentWeather = meteo;
+			weatherTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+			blackout = black;
+			BaseScript.TriggerClientEvent("lprp:getMeteo", currentWeather, blackout, startup);
+		}
+
+		private static async void CambiaMeteoDinamico(bool dynamic)
+		{
+			Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic;
+			BaseScript.TriggerClientEvent("CambiaMeteoDinamicoPerTutti", dynamic);
 		}
 
 		private static async void CambiaMeteo(bool startup)

@@ -161,7 +161,6 @@ namespace NuovaGM.Client.Manager
 		private static string noclip_ANIM_B = "base";
 		private static int travelSpeed = 0;
 		private static Vector3 curLocation;
-		private static Vector3 curRotation;
 		private static float curHeading;
 		private static string travelSpeedStr = "Media";
 
@@ -189,7 +188,6 @@ namespace NuovaGM.Client.Manager
 						RequestAnimDict(noclip_ANIM_A);
 						while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
 						curLocation = Game.PlayerPed.Position;
-						curRotation = Game.PlayerPed.Rotation;
 						curHeading = Game.PlayerPed.Heading;
 						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 						Client.GetInstance.RegisterTickHandler(noClip);
@@ -221,6 +219,16 @@ namespace NuovaGM.Client.Manager
 		private static async Task noClip()
 		{
 			Game.DisableAllControlsThisFrame(0);
+			Game.EnableControlThisFrame(0, Control.LookLeftRight);
+			Game.EnableControlThisFrame(0, Control.LookUpDown);
+			Game.EnableControlThisFrame(0, Control.LookDown);
+			Game.EnableControlThisFrame(0, Control.LookUp);
+			Game.EnableControlThisFrame(0, Control.LookLeft);
+			Game.EnableControlThisFrame(0, Control.LookRight);
+			Game.EnableControlThisFrame(0, Control.LookDownOnly);
+			Game.EnableControlThisFrame(0, Control.LookUpOnly);
+			Game.EnableControlThisFrame(0, Control.LookLeftOnly);
+			Game.EnableControlThisFrame(0, Control.LookRightOnly);
 			string helpTextTastiera = "~INPUT_COVER~ / ~INPUT_HUD_SPECIAL~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_SPRINT~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
 			string helpTextPad = "~INPUT_FRONTEND_LT~ / ~INPUT_FRONTEND_RT~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_FRONTEND_X~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
 			if (IsInputDisabled(2))
@@ -229,7 +237,7 @@ namespace NuovaGM.Client.Manager
 				HUD.ShowHelp(helpTextPad);
 
 			float rotationSpeed = 2.5f;
-			float forwardPush = 0;
+			float forwardPush = 0.8f;
 
 			switch (travelSpeed)
 			{

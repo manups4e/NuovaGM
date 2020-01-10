@@ -223,7 +223,7 @@ namespace NuovaGM.Client.Manager
 					Inventario.AddItem(addItem);
 					if (chars.inventory.Count > 0)
 					{
-						for (int i=0; i < chars.inventory.Count; i++)
+						for (int i = 0; i < chars.inventory.Count; i++)
 						{
 							Inventory item = chars.inventory[i];
 							if (item.amount > 0)
@@ -265,7 +265,7 @@ namespace NuovaGM.Client.Manager
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", player.Key, chars.id, oggetto, quantita);
 						else
 							HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-						menu.RefreshIndex(); 
+						menu.RefreshIndex();
 					};
 					#endregion
 
@@ -309,7 +309,7 @@ namespace NuovaGM.Client.Manager
 				if (CancellaVecchioVeh)
 					if (VeicoloSalvato != null)
 						VeicoloSalvato.Delete();
-				if (SpawnaNelVeicolo) 
+				if (SpawnaNelVeicolo)
 				{
 					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Game.PlayerPed.Position, Game.PlayerPed.Heading);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane)
@@ -319,7 +319,7 @@ namespace NuovaGM.Client.Manager
 					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Game.PlayerPed.Heading);
 				VeicoloSalvato.DirtLevel = 0;
 				VeicoloSalvato.NeedsToBeHotwired = false;
-				VeicoloSalvato.MarkAsNoLongerNeeded();	
+				VeicoloSalvato.MarkAsNoLongerNeeded();
 			};
 
 			VehOptions.OnCheckboxChange += (menu, item, activated) =>
@@ -328,6 +328,118 @@ namespace NuovaGM.Client.Manager
 					SpawnaNelVeicolo = activated;
 				else if (item == deletepreviousveh)
 					CancellaVecchioVeh = activated;
+			};
+			#endregion
+
+			#region Meteo
+			UIMenu metei = HUD.MenuPool.AddSubMenu(Meteo, "Seleziona Meteo");
+			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, Meteo_new.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
+			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "Attiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+			Meteo.AddItem(blackout);
+			Meteo.AddItem(dinamico);
+			UIMenuItem Soleggiato = new UIMenuItem("Super Soleggiato");
+			UIMenuItem CSgombro = new UIMenuItem("Cielo Sgombro");
+			UIMenuItem Nuvoloso = new UIMenuItem("Nuvoloso");
+			UIMenuItem Smog = new UIMenuItem("Smog");
+			UIMenuItem Nebbioso = new UIMenuItem("Nebbioso");
+			UIMenuItem Nuvoloso2 = new UIMenuItem("Nuvoloso");
+			UIMenuItem Piovoso = new UIMenuItem("Piovoso");
+			UIMenuItem Tempesta = new UIMenuItem("Tempestoso");
+			UIMenuItem Sereno = new UIMenuItem("Sereno");
+			UIMenuItem Neutrale = new UIMenuItem("Neutrale");
+			UIMenuItem Nevoso = new UIMenuItem("Nevoso");
+			UIMenuItem Bufera = new UIMenuItem("Bufera di neve");
+			UIMenuItem NNebbia = new UIMenuItem("Nevoso con Nebbia");
+			UIMenuItem Natalizio = new UIMenuItem("Natalizio");
+			UIMenuItem Halloween = new UIMenuItem("Halloween");
+
+			metei.AddItem(Soleggiato);
+			metei.AddItem(CSgombro);
+			metei.AddItem(Nuvoloso);
+			metei.AddItem(Smog);
+			metei.AddItem(Nebbioso);
+			metei.AddItem(Nuvoloso2);
+			metei.AddItem(Piovoso);
+			metei.AddItem(Tempesta);
+			metei.AddItem(Sereno);
+			metei.AddItem(Neutrale);
+			metei.AddItem(Nevoso);
+			metei.AddItem(Bufera);
+			metei.AddItem(NNebbia);
+			metei.AddItem(Natalizio);
+			metei.AddItem(Halloween);
+
+			Meteo.OnCheckboxChange += async (menu, item, _checked) =>
+			{
+				if (item == blackout)
+				{
+					BaseScript.TriggerServerEvent("changeWeatherWithParams", Meteo_new.Meteo.CurrentWeather, _checked, false);
+					HUD.ShowNotification("Blackout ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
+				}
+				else if (item == dinamico)
+				{
+					BaseScript.TriggerServerEvent("changeWeatherDynamic", _checked);
+					HUD.ShowNotification("Meteo dinamico ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
+				}
+			};
+
+			metei.OnItemSelect += async (menu, item, index) =>
+			{
+				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, Meteo_new.Meteo.BlackOut, false);
+				string m = "";
+				switch (index)
+				{
+					case 0:
+						m = "Super Soleggiato";
+						break;
+					case 1:
+						m = "Cielo Sgombro";
+						break;
+					case 2:
+						m = "Nuvoloso";
+						break;
+					case 3:
+						m = "Smog";
+						break;
+					case 4:
+						m = "Nebbioso";
+						break;
+					case 5:
+						m = "Nuvoloso";
+						break;
+					case 6:
+						m = "Piovoso";
+						break;
+					case 7:
+						m = "Tempestoso";
+						break;
+					case 8:
+						m = "Sereno";
+						break;
+					case 9:
+						m = "Neutrale";
+						break;
+					case 10:
+						m = "Nevoso";
+						break;
+					case 11:
+						m = "Bufera di neve";
+						break;
+					case 12:
+						m = "Nevoso con Nebbia";
+						break;
+					case 13:
+						m = "Natalizio";
+						break;
+					case 14:
+						m = "Halloween";
+						break;
+					default:
+						m = "Sconosciuto?";
+						break;
+				}
+
+				HUD.ShowNotification("Meteo in transizione verso ~b~" + m + "~w~.");
 			};
 			#endregion
 

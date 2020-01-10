@@ -104,7 +104,7 @@
     <Compile Include="ConfigServer.cs" />
     <Compile Include="gmPrincipale\advPlayer\User.cs" />
     <Compile Include="gmPrincipale\chat\ChatMain.cs" />
-    <Compile Include="gmPrincipale\chat\ChatEvents.cs" />
+    <Compile Include="gmPrincipale\chat\ChatCommands.cs" />
     <Compile Include="gmPrincipale\Coda.cs" />
     <Compile Include="gmPrincipale\License.cs" />
     <Compile Include="gmPrincipale\Eventi.cs" />
