@@ -479,7 +479,5 @@ namespace NuovaGM.Client.Manager
 			}
 			AdminMenu.Visible = true;
 		}
-
-
 	}
 }

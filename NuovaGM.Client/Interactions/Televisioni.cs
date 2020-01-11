@@ -162,7 +162,7 @@ namespace NuovaGM.Client.Interactions
 				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
 				if (Game.IsDisabledControlJustPressed(0, Control.FrontendLeft)) // canale-
 				{
-					TV.Canale--;
+					--TV.Canale;
 					if (TV.Canale < 0) TV.Canale = CanaliTV.Count - 1;
 					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
 					SetTvChannel((int)TVChannel.TV);
@@ -171,7 +171,7 @@ namespace NuovaGM.Client.Interactions
 
 				if (Game.IsDisabledControlJustPressed(0, Control.FrontendRight)) // canale+ 
 				{
-					TV.Canale++;
+					++TV.Canale;
 					if (TV.Canale > 18) TV.Canale = 0;
 					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
 					SetTvChannel((int)TVChannel.TV);
