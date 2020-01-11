@@ -63,8 +63,7 @@ namespace NuovaGM.Client.Manager
 					"3 mesi",
 					"6 mesi",
 					"1 anno",
-					"Perma-Ban",
-					"Tempo personalizzato"
+					"100 anni (potrebbe sembrare un Permaban)",
 				};
 				UIMenu Ban = HUD.MenuPool.AddSubMenu(Giocatore, "~r~Banna Player~w~");
 
@@ -148,11 +147,8 @@ namespace NuovaGM.Client.Manager
 						case "1 anno":
 							TempoDiBan = ora.AddYears(1);
 							break;
-						case "Perma-Ban":
+						case "100 anni (potrebbe sembrare un Perma-ban)":
 							TempoDiBan = ora.AddYears(100);
-							break;
-						case "Tempo personalizzato":
-							TempoDiBan = ora.AddMinutes(1); // per ora
 							break;
 					}
 				};
@@ -334,7 +330,7 @@ namespace NuovaGM.Client.Manager
 			#region Meteo
 			UIMenu metei = HUD.MenuPool.AddSubMenu(Meteo, "Seleziona Meteo");
 			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, Meteo_new.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
-			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "Attiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
 			Meteo.AddItem(blackout);
 			Meteo.AddItem(dinamico);
 			UIMenuItem Soleggiato = new UIMenuItem("Super Soleggiato");
