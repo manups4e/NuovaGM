@@ -98,8 +98,10 @@ namespace NuovaGM.Client.Interactions
 		public static async Task ControlloTv()
 		{
 			VicinoTV = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 3f, 2));
-			if (VicinoTV)
+			if (VicinoTV && GetInteriorFromEntity(Game.PlayerPed.Handle) != 145921)
 				TV.Entity = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 3f, 2));
+			if (GetInteriorFromGameplayCam() == 145921 && World.GetDistance(new Vector3(-1469.154f, -548.539f, 73.244f), Game.PlayerPed.Position) < 9f)
+				VicinoTV = true;
 			await BaseScript.Delay(500);
 		}
 
@@ -112,37 +114,28 @@ namespace NuovaGM.Client.Interactions
 					HUD.ShowHelp(GetLabelText("TV_HLP1"));
 					if (Game.IsControlJustPressed(0, Control.Context))
 					{
-						Vector3 pos = TV.Entity.Position;
 						Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
-						Client.GetInstance.RegisterTickHandler(DrawTV);
-						Client.GetInstance.DeregisterTickHandler(Televisione);
+						AccendiTV();
 					}
 				}
 			}
 		}
 
-		public static async Task DrawTV()
+		private static async void AccendiTV()
 		{
 			if (TV.Canale == 0 && !TV.Accesa)
 			{
-				if (TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_01 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_02 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_03)
+				if (GetInteriorFromGameplayCam() == 145921)
+					FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-1469.128f, -548.506f, 73.114f), new Vector3(0f, 0f, -235), true, false);
+				else if (TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_01 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_02 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_03)
 					FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), TV.Entity.Position + new Vector3(0, 0, -0.13f), TV.Entity.Rotation, true, false);
-				else if(TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_03)
+				else if (TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_03)
 					FakeTV = await World.CreateProp(new Model("prop_tv_03_overlay"), TV.Entity.Position + new Vector3(0, 0, -0.21f), TV.Entity.Rotation, true, false);
-				else if (TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunitm_01)
-					FakeTV = await World.CreateProp(new Model("ex_prop_ex_tv_flat_01"), TV.Entity.Position, TV.Entity.Rotation, true, false);
-				else if (TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunits_04)
-					FakeTV = await World.CreateProp(new Model("ex_prop_ex_tv_flat_01"), TV.Entity.Position, TV.Entity.Rotation, true, false);
-//				else if (GetInteriorFromGameplayCam() == 145921)
-//					FakeTV = await World.CreateProp(new Model("ex_tvscreen"), new Vector3(-1469.104f, -548.509f, -73.244f), TV.Entity.Rotation, true, false);
-				RenderTarget = RenderTargets.CreateNamedRenderTargetForModel(TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunitm_01 || TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunits_04 ? "ex_tvscreen" : "tvscreen", (uint)FakeTV.Model.Hash);
-				Debug.WriteLine("TV Hash = " + TV.Entity.Model.Hash);
-				Debug.WriteLine("TV Pos = " + TV.Entity.Position);
-				Debug.WriteLine("FakeTV Rotation = " + FakeTV.Rotation);
+				RenderTarget = RenderTargets.CreateNamedRenderTargetForModel(TV.Entity != null? TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunitm_01 || TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunits_04 ? "ex_tvscreen" : "tvscreen" : "tvscreen", (uint)FakeTV.Model.Hash);
 
 				RegisterScriptWithAudio(0);
 				SetTvAudioFrontend(false);
-				AttachTvAudioToEntity(TV.Entity.Handle);
+				AttachTvAudioToEntity(TV.Entity != null? TV.Entity.Handle : FakeTV.Handle);
 				SetTvChannel(-1);
 				SetTvChannelPlaylist(1, CanaliTV[0], false);
 				TV.Canale = 1;
@@ -150,7 +143,12 @@ namespace NuovaGM.Client.Interactions
 				SetTvVolume(-4f);
 				EnableMovieSubtitles(true);
 				TV.Accesa = true;
+				Client.GetInstance.RegisterTickHandler(DrawTV);
 			}
+		}
+
+		public static async Task DrawTV()
+		{
 			Game.DisableControlThisFrame(0, Control.FrontendLeft);
 			Game.DisableControlThisFrame(0, Control.FrontendRight);
 			Game.DisableControlThisFrame(0, Control.FrontendUp);
@@ -210,7 +208,6 @@ namespace NuovaGM.Client.Interactions
 					FakeTV.Delete();
 					int intnum = -1;
 					uint something = (uint)intnum;
-					Client.GetInstance.RegisterTickHandler(Televisione);
 					Client.GetInstance.DeregisterTickHandler(DrawTV);
 				}
 			}

@@ -41,7 +41,7 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
-			HUD.DrawText(0.4f, 0.95f, $"Posizione: X = {Math.Round(Game.PlayerPed.Position.X, 3)}, Y = {Math.Round(Game.PlayerPed.Position.Y, 3)}, Z = {Math.Round(Game.PlayerPed.Position.X, 3)}, Heading = {Math.Round(Game.PlayerPed.Heading, 3)}");
+			HUD.DrawText(0.4f, 0.95f, $"Posizione: X = {Math.Round(Game.PlayerPed.Position.X, 3)}, Y = {Math.Round(Game.PlayerPed.Position.Y, 3)}, Z = {Math.Round(Game.PlayerPed.Position.Z, 3)}, Heading = {Math.Round(Game.PlayerPed.Heading, 3)}");
 			if (Game.PlayerPed.IsInVehicle())
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
