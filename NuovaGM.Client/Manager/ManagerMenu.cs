@@ -63,7 +63,7 @@ namespace NuovaGM.Client.Manager
 					"3 mesi",
 					"6 mesi",
 					"1 anno",
-					"100 anni (potrebbe sembrare un Permaban)",
+					"100 anni (Perma-ban)",
 				};
 				UIMenu Ban = HUD.MenuPool.AddSubMenu(Giocatore, "~r~Banna Player~w~");
 
@@ -147,7 +147,7 @@ namespace NuovaGM.Client.Manager
 						case "1 anno":
 							TempoDiBan = ora.AddYears(1);
 							break;
-						case "100 anni (potrebbe sembrare un Perma-ban)":
+						case "100 anni (Perma-ban)":
 							TempoDiBan = ora.AddYears(100);
 							break;
 					}
