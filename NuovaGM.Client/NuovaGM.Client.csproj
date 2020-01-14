@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banking\BankingClient.cs" />
+    <Compile Include="Interactions\Doccie.cs" />
     <Compile Include="Interactions\RenderTargets.cs" />
     <Compile Include="Interactions\Televisioni.cs" />
     <Compile Include="IPLs\dlc_afterhours\AfterHoursNightclubs.cs" />

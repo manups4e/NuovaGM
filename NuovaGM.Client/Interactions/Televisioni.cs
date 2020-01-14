@@ -135,7 +135,7 @@ namespace NuovaGM.Client.Interactions
 
 				RegisterScriptWithAudio(0);
 				SetTvAudioFrontend(false);
-				AttachTvAudioToEntity(TV.Entity != null? TV.Entity.Handle : FakeTV.Handle);
+				AttachTvAudioToEntity(TV.Entity != null ? TV.Entity.Handle : FakeTV.Handle);
 				SetTvChannel(-1);
 				SetTvChannelPlaylist(1, CanaliTV[0], false);
 				TV.Canale = 1;
