@@ -8,6 +8,7 @@ using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.MenuNativo;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -31,11 +32,11 @@ namespace NuovaGM.Client.Interactions
 		private static float Global_2499242_f_16 = 0;
 		private static float Global_2499242_f_17 = 0;
 		private static float Global_2499242_f_18 = 0;
+		
 
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawned", new Action(Spawnato));
-			
 		}
 
 		private async static void Spawnato()
@@ -89,6 +90,12 @@ namespace NuovaGM.Client.Interactions
 		private static async void FaiLaDoccia()
 		{
 			ClearAreaOfProjectiles(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 3f, false);
+			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+		}
+
+		private static async void DocciaMenu()
+		{
+
 		}
 	}
 }
