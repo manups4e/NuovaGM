@@ -6850,6 +6850,7 @@
 		p_michael_scuba_mask_s = 136880302,
 		p_michael_scuba_tank_s = 1593773001,
 		p_mp_showerdoor_s = 1924030334,
+		p_mp_showerdoor_s2 = 1358716892,
 		p_mrk_harness_s = -1173768201,
 		p_mr_raspberry_01_s = -25464105,
 		p_new_j_counter_01 = 709180631,

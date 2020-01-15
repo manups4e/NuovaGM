@@ -9,6 +9,7 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Shared;
 using System.Drawing;
+using System.Linq;
 
 namespace NuovaGM.Client.Manager
 {
@@ -25,6 +26,7 @@ namespace NuovaGM.Client.Manager
 			HUD.MenuPool.Add(AdminMenu);
 			UIMenu MenuPlayers = HUD.MenuPool.AddSubMenu(AdminMenu, "Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi). ~o~FAI ATTENZIONE!~w~");
 			UIMenu MenuVehicles = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Veicoli");
+			UIMenu Oggetti = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Oggetti");
 			UIMenu MenuArmi = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Armi");
 			UIMenu Meteo = HUD.MenuPool.AddSubMenu(AdminMenu, "Cambia Meteo");
 			UIMenu Orario = HUD.MenuPool.AddSubMenu(AdminMenu, "Cambia Ora del Server");
@@ -297,7 +299,12 @@ namespace NuovaGM.Client.Manager
 			{
 				string input = await HUD.GetUserInput("Modello del veicolo", "", 15);
 				if (UpdateOnscreenKeyboard() == 3) return;
-				if (!IsModelValid(Funzioni.HashUint(input)))
+				if (!input.All(o => char.IsDigit(o)) && !IsModelValid(Funzioni.HashUint(input)))
+				{
+					HUD.ShowNotification("Modello errato!");
+					return;
+				}
+				else if (!IsModelValid((uint)Convert.ToInt32(input)))
 				{
 					HUD.ShowNotification("Modello errato!");
 					return;
@@ -324,6 +331,31 @@ namespace NuovaGM.Client.Manager
 					SpawnaNelVeicolo = activated;
 				else if (item == deletepreviousveh)
 					CancellaVecchioVeh = activated;
+			};
+			#endregion
+
+			#region Oggetti
+			UIMenuItem oggettoDaSpawnare = new UIMenuItem("Oggetto da Spawnare");
+			Oggetti.AddItem(oggettoDaSpawnare);
+			Oggetti.OnItemSelect += async (menu, item, index) =>
+			{
+				string oggettino = "";
+				if (item == oggettoDaSpawnare)
+				{
+					oggettino = await HUD.GetUserInput("Inserisci oggetto o il suo HASH", "", 50);
+					if (UpdateOnscreenKeyboard() == 3) return;
+					if (!oggettino.All(o => char.IsDigit(o)) && !IsModelValid(Funzioni.HashUint(oggettino)))
+					{
+						HUD.ShowNotification("Modello errato!");
+						return;
+					}
+					else if (!IsModelValid((uint)Convert.ToInt32(oggettino)))
+					{
+						HUD.ShowNotification("Modello errato!");
+						return;
+					}
+					Prop obj = await World.CreateProp(oggettino.All(o => char.IsDigit(o)) ? new Model(Convert.ToInt32(oggettino)) : new Model(oggettino), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), true, true);
+				}
 			};
 			#endregion
 
@@ -476,6 +508,11 @@ namespace NuovaGM.Client.Manager
 			{
 				Meteo.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
 				Orario.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
+			}
+			if (Eventi.Player.group_level < 5)
+			{
+				Oggetti.ParentItem.Enabled = false;
+				Oggetti.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
 			}
 			AdminMenu.Visible = true;
 		}

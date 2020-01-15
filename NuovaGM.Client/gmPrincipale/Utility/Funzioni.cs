@@ -504,7 +504,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return vehicle;
 		}
 
-		public static async Task<Vehicle> SpawnVehicle(string modelName, Vector3 coords, float heading)
+		public static async Task<Vehicle> SpawnVehicle(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
 			if (vehicleModel.IsValid)
@@ -544,7 +544,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 		}
 
-		public static async Task<Vehicle> SpawnLocalVehicle(string modelName, Vector3 coords, float heading)
+		public static async Task<Vehicle> SpawnLocalVehicle(dynamic modelName, Vector3 coords, float heading)
 		{
 			var vehicleModel = new Model(modelName);
 			if (vehicleModel.IsValid)
@@ -581,7 +581,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 		}
 
-		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(string modelName, Vector3 coords, float heading)
+		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
 			if (vehicleModel.IsValid)
