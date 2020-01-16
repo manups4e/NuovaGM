@@ -38,23 +38,23 @@ namespace NuovaGM.Server.gmPrincipale
 				deferrals.defer();
 				await BaseScript.Delay(0);
 				//deferrals.update($"Shield 2.0 Controllo credenziali per il Player {player.Name}...");
-				string ControlloDiscord = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+				string ControlloDiscord = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 				deferrals.presentCard(ControlloDiscord);
 				await BaseScript.Delay(2000);
 				if (License.GetLicense(player, Identifier.Discord) != "discord:")
 				{
-					string ControlloLicenza = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+					string ControlloLicenza = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 					deferrals.presentCard(ControlloLicenza);
 					await BaseScript.Delay(2000);
 					if (License.GetLicense(player, Identifier.License) != "license:")
 					{
-						string ControlloConnessione = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+						string ControlloConnessione = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 						deferrals.presentCard(ControlloConnessione);
 						await BaseScript.Delay(2000);
 						if (DiscordWhitelist.ConnessoADiscord)
 						{
 //							deferrals.update($"Shield 2.0 Controllo Ban per il Player {player.Name}...");
-							string ControlloBan = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo Ban per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+							string ControlloBan = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo Ban per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 							deferrals.presentCard(ControlloBan);
 							await BaseScript.Delay(2000);
 							dynamic result = await Server.GetInstance.Query("SELECT * FROM bans");
