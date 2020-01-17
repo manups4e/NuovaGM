@@ -66,6 +66,8 @@ namespace NuovaGM.Client
 			IPLInstance.Init();
 
 			Televisioni.Init();
+
+			Docce.Init();
 		}
 	}
 }

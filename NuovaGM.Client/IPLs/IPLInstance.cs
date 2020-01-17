@@ -13,7 +13,7 @@ using NuovaGM.Client.IPLs.gtav;
 
 namespace NuovaGM.Client.IPLs
 {
-	static class IPLInstance
+	public static class IPLInstance
 	{
 
 		public static async void Init()
