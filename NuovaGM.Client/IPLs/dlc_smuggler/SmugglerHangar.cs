@@ -24,15 +24,15 @@ namespace NuovaGM.Client.IPLs.dlc_smuggler
 
 		public enum Colors
 		{
-			colorSet1 = 1, // sable, red, gray
-			colorSet2 = 2, // white, blue, gray
-			colorSet3 = 3, // gray, orange, blue
-			colorSet4 = 4, // gray, blue, orange
-			colorSet5 = 5, // gray, light gray, red
-			colorSet6 = 6, // yellow, gray, light gray
-			colorSet7 = 7, // light Black and white
-			colorSet8 = 8, // dark Black and white
-			colorSet9 = 9  // sable and gray
+			Set1 = 1, // sable, red, gray
+			Set2 = 2, // white, blue, gray
+			Set3 = 3, // gray, orange, blue
+			Set4 = 4, // gray, blue, orange
+			Set5 = 5, // gray, light gray, red
+			Set6 = 6, // yellow, gray, light gray
+			Set7 = 7, // light Black and white
+			Set8 = 8, // dark Black and white
+			Set9 = 9  // sable and gray
 		}
 
 		public class HWalls
@@ -288,20 +288,20 @@ namespace NuovaGM.Client.IPLs.dlc_smuggler
 		public static void LoadDefault()
 		{
 			Enabled = true;
-			Walls.SetColor(Colors.colorSet1);
-			Cranes.Set(Cranes.On, Colors.colorSet1);
+			Walls.SetColor(Colors.Set1);
+			Cranes.Set(Cranes.On, Colors.Set1);
 			Floor.Style.Set(Floor.Style.Plain);
-			Floor.Decals.Set(Floor.Decals.decal1, Colors.colorSet1);
+			Floor.Decals.Set(Floor.Decals.decal1, Colors.Set1);
 
 			Lighting.Ceiling.Set(Lighting.Ceiling.Yellow);
 			Lighting.Walls.Set(Lighting.Walls.Neutral);
 			Lighting.FakeLights.Set(Lighting.FakeLights.Yellow);
 
-			ModArea.Set(ModArea.On, Colors.colorSet1);
+			ModArea.Set(ModArea.On, Colors.Set1);
 
 			Office.Set(Office.Basic);
 
-			Bedroom.Style.Set(Bedroom.Style.Modern, Colors.colorSet1);
+			Bedroom.Style.Set(Bedroom.Style.Modern, Colors.Set1);
 			Bedroom.Blinds.Set(Bedroom.Blinds.Opened);
 
 			Details.Enable(Details.BedroomClutter, false);
