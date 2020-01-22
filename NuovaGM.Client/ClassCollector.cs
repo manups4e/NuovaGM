@@ -68,6 +68,7 @@ namespace NuovaGM.Client
 			Televisioni.Init();
 
 			Docce.Init();
+			Letti.Init();
 		}
 	}
 }
