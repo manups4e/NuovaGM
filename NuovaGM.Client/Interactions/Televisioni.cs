@@ -91,8 +91,8 @@ namespace NuovaGM.Client.Interactions
 
 		public static async void Init()
 		{
-			Client.GetInstance.RegisterTickHandler(ControlloTv);
-			Client.GetInstance.RegisterTickHandler(Televisione);
+//			Client.GetInstance.RegisterTickHandler(ControlloTv);
+//			Client.GetInstance.RegisterTickHandler(Televisione);
 		}
 
 		public static async Task ControlloTv()

@@ -45,6 +45,9 @@ namespace NuovaGM.Client.Interactions
 		private static int Scena7;
 		private static int Scena8;
 
+		private static DocceCoords[] Coords = new DocceCoords[50];
+
+
 		private static List<int> Doccie = new List<int>()
 		{
 			Funzioni.HashInt("p_mp_showerdoor_s"),
@@ -56,6 +59,9 @@ namespace NuovaGM.Client.Interactions
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Coords[0].anim = new Vector3(122.8969f, 551.7355f, 181.5680f);
+			Coords[0].rot = new Vector3(-12.6595f, -0.0559f, 111.6776f);
+
 		}
 
 		private async static void Spawnato()
@@ -232,6 +238,12 @@ namespace NuovaGM.Client.Interactions
 			return new KeyValuePair<Vector3, Vector3>();
 		}
 
+	}
+
+	internal class DocceCoords
+	{
+		public Vector3 anim = new Vector3(0);
+		public Vector3 rot = new Vector3(0);
 	}
 }
 

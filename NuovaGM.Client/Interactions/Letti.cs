@@ -18,86 +18,94 @@ namespace NuovaGM.Client.Interactions
 		private static LettoLow LettoLow = new LettoLow();
 		private static LettoHigh LettoHigh = new LettoHigh();
 
+		private static Vector3 coord = new Vector3();
+		private static Vector3 rot = new Vector3();
+
 		public static async void Init()
 		{
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(1);
-
-			LettoHigh.Lista[0].fLocal_397 = 1.75f;
-			LettoHigh.Lista[0].fLocal_464 = 0;
-			LettoHigh.Lista[0].vLocal_414 = new Vector3(-796.3056f, 337.3367f, 202.4136f);
-			LettoHigh.Lista[0].vLocal_417 = new Vector3(-793.9697f, 337.3367f, 200.4136f);
-			LettoHigh.Lista[0].vLocal_468 = new Vector3(-795.8910f, 338.6630f, 200.8270f);
-			LettoHigh.Lista[0].vLocal_471 = new Vector3(0.0000f, 0.0000f, -5.7600f);
-			LettoHigh.Lista[0].vLocal_426 = new Vector3(-794.1949f, 339.9690f, 200.4136f);
-			LettoHigh.Lista[0].vLocal_429 = new Vector3(-796.4470f, 339.9556f, 202.4136f);
-			LettoHigh.Lista[0].vLocal_468 = new Vector3(-794.9370f, 340.6300f, 201.4280f);
-			LettoHigh.Lista[0].vLocal_471 = new Vector3(0.0000f, 0.0000f, 129.2400f);
-
-			LettoHigh.Lista[0].vLocal_449 = LettoHigh.Lista[0].vLocal_471;
-			LettoHigh.Lista[0].vLocal_446 = LettoHigh.Lista[0].vLocal_468;
-
 			Client.GetInstance.RegisterTickHandler(Letto);
 		}
 
 		public static async Task Letto()
 		{
-			if (World.GetDistance(Game.PlayerPed.Position, LettoMid.vLocal_338) < 3f)
+			if (!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_l_bighouse", 2) &&
+				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_r_bighouse", 2) &&
+				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
+					!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_r_bighouse", 2))
 			{
-				if (!LettoMid.ALetto)
+				if (World.GetDistance(Game.PlayerPed.Position, LettoMid.vLocal_338) < 3f)
 				{
-					HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-					if (Game.IsControlJustPressed(0, Control.Context))
-						LettoMid.Sdraiati();
+					if (!LettoMid.ALetto)
+					{
+						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
+						if (Game.IsControlJustPressed(0, Control.Context))
+							LettoMid.Sdraiati();
+					}
+					else
+					{
+						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
+						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+							LettoMid.ScendiDalLetto();
+						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+							HUD.ShowNotification("Cambia personaggio");
+					}
 				}
-				else
+				if (World.GetDistance(Game.PlayerPed.Position, LettoLow.vLocal_343) < 3f)
 				{
-					HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-					if (Game.IsControlJustPressed(0, Control.ScriptRUp))
-						LettoMid.ScendiDalLetto();
-					else if (Game.IsControlJustPressed(0, Control.FrontendX))
-						HUD.ShowNotification("Cambia personaggio");
-				}
-			}
-			if (World.GetDistance(Game.PlayerPed.Position, LettoLow.vLocal_343) < 3f)
-			{
-				if (!LettoLow.ALetto)
-				{
-					HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-					if (Game.IsControlJustPressed(0, Control.Context))
-						LettoLow.Sdraiati();
-				}
-				else
-				{
-					HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-					if (Game.IsControlJustPressed(0, Control.ScriptRUp))
-						LettoLow.ScendiDalLetto();
-					else if (Game.IsControlJustPressed(0, Control.FrontendX))
-						HUD.ShowNotification("Cambia personaggio");
-				}
-			}
-			if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[0].vLocal_446) < 3f)
-			{
-				if (!LettoHigh.ALetto)
-				{
-					HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-					if (Game.IsControlJustPressed(0, Control.Context))
-						LettoHigh.Sdraiati();
-				}
-				else
-				{
-					HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-					if (Game.IsControlJustPressed(0, Control.ScriptRUp))
-						LettoHigh.ScendiDalLetto();
-					else if (Game.IsControlJustPressed(0, Control.FrontendX))
-						HUD.ShowNotification("Cambia personaggio");
+					if (!LettoLow.ALetto)
+					{
+						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
+						if (Game.IsControlJustPressed(0, Control.Context))
+							LettoLow.Sdraiati();
+					}
+					else
+					{
+						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
+						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+							LettoLow.ScendiDalLetto();
+						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+							HUD.ShowNotification("Cambia personaggio");
+					}
 				}
 
+				for (int i = 0; i < LettoHigh.Lista.Count; i++)
+				{
+					if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[i].Destra1) < 2f && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					{
+						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticDestra;
+						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticDestra;
+						coord = LettoHigh.Lista[i].CoordAnim;
+						rot = LettoHigh.Lista[i].RotAnim;
+						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
+						if (Game.IsControlJustPressed(0, Control.Context))
+							LettoHigh.Sdraiati(LettoHigh.Lista[i], true);
+					}
+					else if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[i].Sinistra1) < 2f && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					{
+						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticSinistra;
+						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticSinistra;
+						coord = LettoHigh.Lista[i].CoordAnim;
+						rot = LettoHigh.Lista[i].RotAnim;
+						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
+						if (Game.IsControlJustPressed(0, Control.Context))
+							LettoHigh.Sdraiati(LettoHigh.Lista[i], false);
+					}
+					else if (LettoHigh.ALettoDestra || LettoHigh.ALettoSinistra)
+					{
+						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
+						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+							LettoHigh.ScendiDalLetto(new Vector3[2] { coord, rot }, LettoHigh.ALettoDestra ? true : false);
+						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+							HUD.ShowNotification("Cambia personaggio");
+					}
+				}
 			}
 		}
 	}
 
-	internal class LettoMidLowHigh
+	internal class LettoBase
 	{
 		public virtual async void Sdraiati()
 		{
@@ -151,7 +159,7 @@ namespace NuovaGM.Client.Interactions
 		}
 	}
 
-	internal class LettoMid : LettoMidLowHigh
+	internal class LettoMid : LettoBase
 	{
 		public string sLocal_334 = "mp_bedmid";
 		public string sLocal_335 = "f_getin_l_bighouse";
@@ -221,7 +229,7 @@ namespace NuovaGM.Client.Interactions
 		}
 	}
 
-	internal class LettoLow : LettoMidLowHigh
+	internal class LettoLow : LettoBase
 	{
 		public string sLocal_333 = "mp_bedmid";
 		public string sLocal_334 = "f_getin_l_bighouse";
@@ -288,10 +296,11 @@ namespace NuovaGM.Client.Interactions
 
 	}
 
-	internal class LettoHigh : LettoMidLowHigh
+	internal class LettoHigh : LettoBase
 	{
 		public string sLocal_413 = "mp_bedmid";
-		public bool ALetto = false;
+		public bool ALettoDestra = false;
+		public bool ALettoSinistra = false;
 
 		private string func_234(bool iParam0) => !iParam0 ? "f_getin_l_bighouse" : "f_getin_r_bighouse";
 		private string func_9(bool iParam0) => !iParam0 ? "f_getout_l_bighouse" : "f_getout_r_bighouse";
@@ -299,24 +308,18 @@ namespace NuovaGM.Client.Interactions
 
 		public class LettiCoordsAnim
 		{
-			public Vector3 vLocal_414;
-			public Vector3 vLocal_417;
-			public Vector3 vLocal_452;
-			public Vector3 vLocal_455;
-			public Vector3 vLocal_420;
-			public Vector3 vLocal_423;
-			public Vector3 vLocal_458;
-			public Vector3 vLocal_461;
-			public Vector3 vLocal_468;
-			public Vector3 vLocal_471;
-			public Vector3 vLocal_426;
-			public Vector3 vLocal_429;
-			public Vector3 vLocal_446;
-			public Vector3 vLocal_449;
+			public Vector3 Sinistra1;
+			public Vector3 Sinistra2;
+			public Vector3 CoordsAnimStaticDestra;
+			public Vector3 RotAnimStaticDestra;
+			public Vector3 CoordsAnimStaticSinistra;
+			public Vector3 RotAnimStaticSinistra;
+			public Vector3 Destra1;
+			public Vector3 Destra2;
+			public Vector3 CoordAnim;
+			public Vector3 RotAnim;
 			public Vector3 vLocal_438;
 
-			public float fLocal_397;
-			public float fLocal_464;
 			public float fLocal_402;
 
 			public int uLocal_409;
@@ -325,53 +328,183 @@ namespace NuovaGM.Client.Interactions
 
 		public List<LettiCoordsAnim> Lista = new List<LettiCoordsAnim>()
 		{
-			new LettiCoordsAnim()
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 		};
 
-		public async override void Sdraiati()
+		public LettoHigh()
 		{
+			#region letto 1
+			Lista[0].Sinistra1 = new Vector3(-796.3056f, 337.3367f, 202.4136f);
+			Lista[0].Sinistra2 = new Vector3(-793.9697f, 337.3367f, 200.4136f);
+
+			Lista[0].CoordsAnimStaticSinistra = new Vector3(-795.8910f, 338.6630f, 200.8270f);
+			Lista[0].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -5.7600f);
+
+			Lista[0].Destra1 = new Vector3(-794.1949f, 339.9690f, 200.4136f);
+			Lista[0].Destra2 = new Vector3(-796.4470f, 339.9556f, 202.4136f);
+
+			Lista[0].CoordsAnimStaticDestra = new Vector3(-794.9370f, 340.6300f, 201.4280f);
+			Lista[0].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 129.2400f);
+			#endregion
+
+			#region letto 2
+			Lista[1].Sinistra1 = new Vector3(126.4232f, 545.7162f, 179.5227f);
+			Lista[1].Sinistra2 = new Vector3(125.1505f, 546.0822f, 180.5208f);
+
+			Lista[1].CoordsAnimStaticSinistra = new Vector3(125.6500f, 544.4750f, 179.9700f);
+			Lista[1].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -177.8400f);
+
+			Lista[1].Destra1 = new Vector3(126.7189f, 542.8882f, 179.5227f);
+			Lista[1].Destra2 = new Vector3(124.6794f, 542.6829f, 181.5227f);
+
+			Lista[1].CoordsAnimStaticDestra = new Vector3(124.8870f, 541.9250f, 180.5120f);
+			Lista[1].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, -41.7600f);
+			#endregion
+
+			#region letto 3
+			Lista[2].Sinistra1 = new Vector3(-796.3056f, 337.3367f, 202.4136f);
+			Lista[2].Sinistra2 = new Vector3(-793.9697f, 337.3367f, 200.4136f);
+
+			Lista[2].CoordsAnimStaticSinistra = new Vector3(-795.8910f, 338.6630f, 200.8270f);
+			Lista[2].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -5.7600f);
+
+			Lista[2].Destra1 = new Vector3(-794.1949f, 339.9690f, 200.4136f);
+			Lista[2].Destra2 = new Vector3(-796.4470f, 339.9556f, 202.4136f);
+
+			Lista[2].CoordsAnimStaticDestra = new Vector3(-794.9370f, 340.6300f, 201.4280f);
+			Lista[2].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 129.2400f);
+			#endregion
+			
+			#region letto 4
+
+			Lista[3].Sinistra1 = new Vector3(-792.4382f, 332.6826f, 209.7966f);
+			Lista[3].Sinistra2 = new Vector3(-794.6772f, 332.6597f, 211.7966f);
+
+			Lista[3].CoordsAnimStaticSinistra = new Vector3(-793.5940f, 333.7590f, 210.2250f);
+			Lista[3].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -1.0000f);
+
+			Lista[3].Destra1 = new Vector3(-794.6525f, 335.1653f, 209.7966f);
+			Lista[3].Destra2 = new Vector3(-792.5333f, 335.1687f, 211.7966f);
+
+			Lista[3].CoordsAnimStaticDestra = new Vector3(-792.6250f, 335.8620f, 210.8130f);
+			Lista[3].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 133.2000f);
+			#endregion
+
+			#region letto 5
+			Lista[4].Sinistra1 = new Vector3(-162.6263f, 484.8703f, 132.8697f);
+			Lista[4].Sinistra2 = new Vector3(-164.7478f, 484.4771f, 134.8697f);
+
+			Lista[4].CoordsAnimStaticSinistra = new Vector3(-163.4570f, 483.4740f, 133.2820f);
+			Lista[4].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -166.6800f);
+
+			Lista[4].Destra1 = new Vector3(-162.3055f, 482.5231f, 132.8697f);
+			Lista[4].Destra2 = new Vector3(-164.4513f, 482.0749f, 134.8697f);
+
+			Lista[4].CoordsAnimStaticDestra = new Vector3(-163.9880f, 481.3370f, 133.8630f);
+			Lista[4].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, -31.6800f);
+			#endregion
+
+			#region letto 6 
+			Lista[5].Sinistra1 = new Vector3(-796.5303f, 334.3555f, 189.7135f);
+			Lista[5].Sinistra2 = new Vector3(-796.5093f, 336.8433f, 191.7135f);
+
+			Lista[5].CoordsAnimStaticSinistra = new Vector3(-797.6820f, 335.6830f, 190.1550f);
+			Lista[5].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, 90f);
+
+			Lista[5].Destra1 = new Vector3(-799.1369f, 334.6384f, 189.7135f);
+			Lista[5].Destra2 = new Vector3(-799.1272f, 336.8023f, 191.7135f);
+
+			Lista[5].CoordsAnimStaticDestra = new Vector3(-799.7870f, 336.5630f, 190.7500f);
+			Lista[5].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, -133.2000f);
+			#endregion
+
+			#region letto 7 
+			Lista[6].Sinistra1 = new Vector3(-1486.2543f, -3750.0811f, 4.9114f);
+			Lista[6].Sinistra2 = new Vector3(-1484.0914f, -3750.7080f, 6.9114f);
+
+			Lista[6].CoordsAnimStaticSinistra = new Vector3(-1485.1100f, -3749.3369f, 5.3490f);
+			Lista[6].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -20.1600f);
+
+			Lista[6].Destra1 = new Vector3(-1485.3296f, -3747.1462f, 4.9114f);
+			Lista[6].Destra2 = new Vector3(-1483.2997f, -3747.8845f, 6.9114f);
+
+			Lista[6].CoordsAnimStaticDestra = new Vector3(-1483.2990f, -3747.2151f, 5.9150f);
+			Lista[6].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 110.5200f);
+			#endregion
+
+
+
+			/*
+				#region letto 
+				Lista[].Sinistra1 = new Vector3();
+				Lista[].Sinistra2 = new Vector3();
+
+				Lista[].CoordsAnimStaticSinistra = new Vector3();
+				Lista[].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, );
+
+				Lista[].Destra1 = new Vector3();
+				Lista[].Destra2 = new Vector3();
+
+				Lista[].CoordsAnimStaticDestra = new Vector3();
+				Lista[].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, );
+				#endregion
+			*/
+
+
+
+		}
+
+		public async override void Sdraiati() { }
+		public async void Sdraiati(LettiCoordsAnim lato, bool destra)
+		{
+			Vector3 var0 = lato.CoordAnim;
+			Vector3 var1 = lato.RotAnim;
+
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)
 				SetFollowPedCamViewMode(1);
 
-			Lista[0].vLocal_438 = GetAnimInitialOffsetPosition(sLocal_413, func_234(true), Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 0, 2);
-			vVar3 = GetAnimInitialOffsetRotation(sLocal_413, func_234(true), Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 0, 2);
-			Lista[0].fLocal_402 = vVar3.Z;
-			TaskGoStraightToCoord(PlayerPedId(), Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, 1f, 5000, Lista[0].fLocal_402, 0.05f);
+			lato.vLocal_438 = GetAnimInitialOffsetPosition(sLocal_413, func_234(destra), var0.X, var0.Y, var0.Z, var1.X, var1.Y, var1.Z, 0, 2);
+			vVar3 = GetAnimInitialOffsetRotation(sLocal_413, func_234(destra), var0.X, var0.Y, var0.Z, var1.X, var1.Y, var1.Z, 0, 2);
+			lato.fLocal_402 = vVar3.Z;
+			TaskGoStraightToCoord(PlayerPedId(), var0.X, var0.Y, var0.Z, 1f, 5000, lato.fLocal_402, 0.05f);
 			await BaseScript.Delay(2000);
 
-			Lista[0].uLocal_410 = NetworkCreateSynchronisedScene(Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 2, false, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(PlayerPedId(), Lista[0].uLocal_410, sLocal_413, func_234(true), 4f, -2f, 261, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(Lista[0].uLocal_410);
+			lato.uLocal_410 = NetworkCreateSynchronisedScene(var0.X, var0.Y, var0.Z, var1.X, var1.Y, var1.Z, 2, false, false, 1065353216, 0, 1065353216);
+			NetworkAddPedToSynchronisedScene(PlayerPedId(), lato.uLocal_410, sLocal_413, func_234(destra), 4f, -2f, 261, 0, 1148846080, 0);
+			NetworkStartSynchronisedScene(lato.uLocal_410);
 
 			await BaseScript.Delay(1000);
 
-			Lista[0].uLocal_409 = NetworkConvertSynchronisedSceneToSynchronizedScene(Lista[0].uLocal_410);
+			lato.uLocal_409 = NetworkConvertSynchronisedSceneToSynchronizedScene(lato.uLocal_410);
 
-			while (GetSynchronizedScenePhase(Lista[0].uLocal_409) < 0.9f) await BaseScript.Delay(1);
+			while (GetSynchronizedScenePhase(lato.uLocal_409) < 0.9f) await BaseScript.Delay(1);
 
-			Lista[0].uLocal_410 = NetworkCreateSynchronisedScene(Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 2, false, true, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(PlayerPedId(), Lista[0].uLocal_410, sLocal_413, func_272(true), 8f, -2f, 261, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(Lista[0].uLocal_410);
+			lato.uLocal_410 = NetworkCreateSynchronisedScene(var0.X, var0.Y, var0.Z, var1.X, var1.Y, var1.Z, 2, false, true, 1065353216, 0, 1065353216);
+			NetworkAddPedToSynchronisedScene(PlayerPedId(), lato.uLocal_410, sLocal_413, func_272(destra), 8f, -2f, 261, 0, 1148846080, 0);
+			NetworkStartSynchronisedScene(lato.uLocal_410);
 
-			Lista[0].uLocal_409 = NetworkConvertSynchronisedSceneToSynchronizedScene(Lista[0].uLocal_410);
-			SetSynchronizedSceneLooped(Lista[0].uLocal_409, true);
-			ALetto = true;
+			lato.uLocal_409 = NetworkConvertSynchronisedSceneToSynchronizedScene(lato.uLocal_410);
+			SetSynchronizedSceneLooped(lato.uLocal_409, true);
+			ALettoDestra = destra;
+			ALettoSinistra = !destra;
 		}
 
-		public async override void ScendiDalLetto()
+		public async override void ScendiDalLetto() { }
+		public async void ScendiDalLetto(Vector3[] coords, bool destra)
 		{
-			Lista[0].uLocal_410 = NetworkCreateSynchronisedScene(Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 2, false, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(PlayerPedId(), Lista[0].uLocal_410, sLocal_413, func_9(true), 2f, -2f, 261, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(Lista[0].uLocal_410);
+			int uLocal_410 = NetworkCreateSynchronisedScene(coords[0].X, coords[0].Y, coords[0].Z, coords[1].X, coords[1].Y, coords[1].Z, 2, false, false, 1065353216, 0, 1065353216);
+			NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_410, sLocal_413, func_9(destra), 2f, -2f, 261, 0, 1148846080, 0);
+			NetworkStartSynchronisedScene(uLocal_410);
 
-			Lista[0].uLocal_410 = NetworkCreateSynchronisedScene(Lista[0].vLocal_446.X, Lista[0].vLocal_446.Y, Lista[0].vLocal_446.Z, Lista[0].vLocal_449.X, Lista[0].vLocal_449.Y, Lista[0].vLocal_449.Z, 2, false, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(PlayerPedId(), Lista[0].uLocal_410, sLocal_413, func_9(true), 1000f, -2f, 261, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(Lista[0].uLocal_410);
+			uLocal_410 = NetworkCreateSynchronisedScene(coords[0].X, coords[0].Y, coords[0].Z, coords[1].X, coords[1].Y, coords[1].Z, 2, false, false, 1065353216, 0, 1065353216);
+			NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_410, sLocal_413, func_9(destra), 1000f, -2f, 261, 0, 1148846080, 0);
+			NetworkStartSynchronisedScene(uLocal_410);
 
-			ALetto = false;
-
+			ALettoDestra = false;
+			ALettoSinistra = false;
 		}
 	}
 }
