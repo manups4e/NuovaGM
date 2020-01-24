@@ -258,10 +258,14 @@ namespace NuovaGM.Client.Manager
 					travelSpeedStr = "Estremamente veloce";
 					break;
 				case 4:
+					forwardPush = 0.025f; //very slow
+					travelSpeedStr = "Estremamente lenta";
+					break;
+				case 5:
 					forwardPush = 0.05f; //very slow
 					travelSpeedStr = "Molto lenta";
 					break;
-				case 5:
+				case 6:
 					forwardPush = 0.2f; //slow
 					travelSpeedStr = "Lenta";
 					break;
@@ -293,7 +297,7 @@ namespace NuovaGM.Client.Manager
 			if (Game.IsDisabledControlJustPressed(0, Control.Sprint) && IsInputDisabled(2) || Game.IsDisabledControlJustPressed(0, Control.FrontendX) && !IsInputDisabled(2))
 			{
 				travelSpeed++;
-				if (travelSpeed > 5)
+				if (travelSpeed > 6)
 					travelSpeed = 0;
 			}
 			if (Game.IsDisabledControlPressed(0, Control.Cover) && IsInputDisabled(2) || Game.IsDisabledControlPressed(0, Control.FrontendLt) && !IsInputDisabled(2))
