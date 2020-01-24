@@ -119,14 +119,16 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <param name="helpText"></param>
 		public static void ShowHelp(string helpText)
 		{
-			string[] strings = Screen.StringToArray(helpText);
-			BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
-			foreach (string s in strings)
+			if (!IsPlayerSwitchInProgress())
 			{
-				AddTextComponentSubstringPlayerName(s);
-			}
-			EndTextCommandDisplayHelp(0, false, true, 1);
-		}
+				string[] strings = Screen.StringToArray(helpText);
+				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
+				foreach (string s in strings)
+				{
+					AddTextComponentSubstringPlayerName(s);
+				}
+				EndTextCommandDisplayHelp(0, false, true, 1);
+			}		}
 
 		/// <summary>
 		/// Notifica con immagine (stile sms / mms)

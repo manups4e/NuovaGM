@@ -161,6 +161,7 @@ namespace NuovaGM.Client.Manager
 		private static string noclip_ANIM_B = "base";
 		private static int travelSpeed = 0;
 		private static Vector3 curLocation;
+		private static Vector3 curRotation;
 		private static float curHeading;
 		private static string travelSpeedStr = "Media";
 
@@ -188,8 +189,10 @@ namespace NuovaGM.Client.Manager
 						RequestAnimDict(noclip_ANIM_A);
 						while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
 						curLocation = Game.PlayerPed.Position;
+						curRotation = Game.PlayerPed.Rotation;
 						curHeading = Game.PlayerPed.Heading;
 						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
+						Game.PlayerPed.Rotation = new Vector3(0);
 						Client.GetInstance.RegisterTickHandler(noClip);
 						NoClip = true;
 					}
@@ -279,7 +282,6 @@ namespace NuovaGM.Client.Manager
 				target = Game.PlayerPed.CurrentVehicle;
 
 			Game.PlayerPed.Velocity = new Vector3(0);
-			Game.PlayerPed.Rotation = new Vector3(0);
 
 			if (!Game.PlayerPed.IsInVehicle())
 			{
@@ -318,7 +320,30 @@ namespace NuovaGM.Client.Manager
 				curHeading += rotationSpeed;
 			if (Game.IsControlPressed(0, Control.MoveRightOnly))
 				curHeading -= rotationSpeed;
+			if (Game.IsDisabledControlPressed(0, Control.FrontendLb))
+			{
+				Game.DisableControlThisFrame(0, Control.LookLeftRight);
+				Game.DisableControlThisFrame(0, Control.LookUpDown);
+				Game.DisableControlThisFrame(0, Control.LookDown);
+				Game.DisableControlThisFrame(0, Control.LookUp);
+				Game.DisableControlThisFrame(0, Control.LookLeft);
+				Game.DisableControlThisFrame(0, Control.LookRight);
+				Game.DisableControlThisFrame(0, Control.LookDownOnly);
+				Game.DisableControlThisFrame(0, Control.LookUpOnly);
+				Game.DisableControlThisFrame(0, Control.LookLeftOnly);
+				Game.DisableControlThisFrame(0, Control.LookRightOnly);
+
+				if (Game.IsDisabledControlPressed(0, Control.LookDownOnly))
+					curRotation.Y += rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookUpOnly))
+					curRotation.Y -= rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookLeftOnly))
+					curRotation.Z += rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookRightOnly))
+					curRotation.Z -= rotationSpeed;
+			}
 			SetEntityCoordsNoOffset(target.Handle, curLocation.X, curLocation.Y, curLocation.Z, true, true, true);
+			SetEntityRotation(target.Handle, curRotation.X, curRotation.Y, curRotation.Z, 2, true);
 			SetEntityHeading(target.Handle, curHeading - rotationSpeed);
 		}
 
