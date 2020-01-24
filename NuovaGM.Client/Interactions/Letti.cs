@@ -308,17 +308,17 @@ namespace NuovaGM.Client.Interactions
 
 		public class LettiCoordsAnim
 		{
-			public Vector3 Sinistra1;
-			public Vector3 Sinistra2;
-			public Vector3 CoordsAnimStaticDestra;
-			public Vector3 RotAnimStaticDestra;
-			public Vector3 CoordsAnimStaticSinistra;
-			public Vector3 RotAnimStaticSinistra;
-			public Vector3 Destra1;
-			public Vector3 Destra2;
-			public Vector3 CoordAnim;
-			public Vector3 RotAnim;
-			public Vector3 vLocal_438;
+			public Vector3 Sinistra1 = new Vector3(0);
+			public Vector3 Sinistra2 = new Vector3(0);
+			public Vector3 CoordsAnimStaticDestra = new Vector3(0);
+			public Vector3 RotAnimStaticDestra = new Vector3(0);
+			public Vector3 CoordsAnimStaticSinistra = new Vector3(0);
+			public Vector3 RotAnimStaticSinistra = new Vector3(0);
+			public Vector3 Destra1 = new Vector3(0);
+			public Vector3 Destra2 = new Vector3(0);
+			public Vector3 CoordAnim = new Vector3(0);
+			public Vector3 RotAnim = new Vector3(0);
+			public Vector3 vLocal_438 = new Vector3(0);
 
 			public float fLocal_402;
 
@@ -329,7 +329,8 @@ namespace NuovaGM.Client.Interactions
 		public List<LettiCoordsAnim> Lista = new List<LettiCoordsAnim>()
 		{
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
-			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 		};
 
 		public LettoHigh()
@@ -433,7 +434,33 @@ namespace NuovaGM.Client.Interactions
 			Lista[6].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 110.5200f);
 			#endregion
 
+			#region letto 8
+			Lista[7].Sinistra1 = new Vector3(-37.348f, -577.829f, 83.908f);
+			Lista[7].Sinistra2 = new Vector3(0);
 
+			Lista[7].CoordsAnimStaticSinistra = new Vector3(-36.505f, -576.744f, 83.325f);
+			Lista[7].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -5.7600f);
+
+			Lista[7].Destra1 = new Vector3(-36.378f, -575.181f, 83.908f);
+			Lista[7].Destra2 = new Vector3(0);
+
+			Lista[7].CoordsAnimStaticDestra = new Vector3(-35.212f, -574.873f, 83.908f);
+			Lista[7].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 129.2400f);
+			#endregion
+
+			#region letto 9
+			Lista[8].Sinistra1 = new Vector3(-1471.651f, -533.368f, 50.722f);
+			Lista[8].Sinistra2 = new Vector3();
+
+			Lista[8].CoordsAnimStaticSinistra = new Vector3(-1471.805f, -532.204f, 50.60f);
+			Lista[8].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, -5.7600f);
+
+			Lista[8].Destra1 = new Vector3(-1473.288f, -530.835f, 50.722f);
+			Lista[8].Destra2 = new Vector3();
+
+			Lista[8].CoordsAnimStaticDestra = new Vector3(0);
+			Lista[8].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 129.2400f);
+			#endregion
 
 			/*
 				#region letto 
