@@ -25,7 +25,7 @@ namespace NuovaGM.Client.Interactions
 		{
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(1);
-			Client.GetInstance.RegisterTickHandler(Letto);
+//			Client.GetInstance.RegisterTickHandler(Letto);
 		}
 
 		public static async Task Letto()
@@ -333,7 +333,7 @@ namespace NuovaGM.Client.Interactions
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
-			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim()
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 		};
 
 		public LettoHigh()
@@ -705,6 +705,22 @@ namespace NuovaGM.Client.Interactions
 
 			Lista[22].CoordsAnimStaticDestra = new Vector3(-761.27f, 321.345f, 199.486f);
 			Lista[22].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 45f);
+			#endregion
+
+			#region letto 24
+			Lista[23].Sinistra1 = new Vector3(-759.477f, 319.868f, 170.596f);
+			Lista[23].Sinistra2 = new Vector3();
+
+			Lista[23].CoordsAnimStaticSinistra = new Vector3(-759.983f, 318.388f, 169.956f);
+			Lista[23].RotAnimStaticSinistra = new Vector3(0.0000f, 0.0000f, 175.966f);
+
+			//////////////////////////////////////////////////////////////////
+
+			Lista[23].Destra1 = new Vector3(-759.535f, 317.094f, 170.596f);
+			Lista[23].Destra2 = new Vector3();
+
+			Lista[23].CoordsAnimStaticDestra = new Vector3(-761.023f, 316.715f, 170.596f);
+			Lista[23].RotAnimStaticDestra = new Vector3(0.0000f, 0.0000f, 310.966f);
 			#endregion
 
 			/*

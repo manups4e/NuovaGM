@@ -57,15 +57,15 @@ namespace NuovaGM.Client.IPLs.gta_online
 
 		public static void LoadDefault()
 		{
-			Strip.Enable(Strip.A, false);
-			Strip.Enable(Strip.B, false);
-			Strip.Enable(Strip.C, false);
-			Booze.Enable(Booze.A, false);
-			Booze.Enable(Booze.B, false);
-			Booze.Enable(Booze.C, false);
-			Smoke.Enable(Smoke.A, false);
-			Smoke.Enable(Smoke.B, false);
-			Smoke.Enable(Smoke.C, false);
+			Strip.Enable(Strip.A, true);
+			Strip.Enable(Strip.B, true);
+			Strip.Enable(Strip.C, true);
+			Booze.Enable(Booze.A, true);
+			Booze.Enable(Booze.B, true);
+			Booze.Enable(Booze.C, true);
+			Smoke.Enable(Smoke.A, true);
+			Smoke.Enable(Smoke.B, true);
+			Smoke.Enable(Smoke.C, true);
 			API.RefreshInterior(InteriorId);
 		}
 	}

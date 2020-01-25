@@ -50,7 +50,8 @@ namespace NuovaGM.Client.IPLs.gta_online
 			}
 		}
 
-		public static int InteriorId = 149761;
+//		public static int InteriorId = 149761;
+		public static int InteriorId = 148225;
 		public static Style Strip = new Style("Studio_Mid_Strip_A", "Studio_Mid_Strip_B", "Studio_Mid_Strip_C");
 		public static Style Booze = new Style("Studio_Mid_Booze_A", "Studio_Mid_Booze_B", "Studio_Mid_Booze_C");
 		public static Style Smoke = new Style("Studio_Mid_Smoke_A", "Studio_Mid_Smoke_B", "Studio_Mid_Smoke_C");

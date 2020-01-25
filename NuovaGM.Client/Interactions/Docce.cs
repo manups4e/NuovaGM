@@ -9,6 +9,7 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using Newtonsoft.Json;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -45,12 +46,78 @@ namespace NuovaGM.Client.Interactions
 		private static int Scena7;
 		private static int Scena8;
 
-		private static DocceCoords[] Coords = new DocceCoords[50];
+		private static DocceCoords attuale = new DocceCoords(new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0));
+
+		private static List<DocceCoords> Test = new List<DocceCoords>();
+
+		private static List<DocceCoords> Coords = new List<DocceCoords>()
+		{
+			new DocceCoords(new Vector3(254.847f, -1000.64f, -99.768f), new Vector3(0f, 0f, -180f), new Vector3(254.5308f, -1000.291f, -97.67236f), new Vector3(-45f, 0f, 0f), new Vector3(254.5308f, -1000.291f, -97.67236f), new Vector3(-45f, 0f, 0f)),
+			new DocceCoords(new Vector3(347.3f, -994.85f, -99.966f), new Vector3(0f, 0f, -90f), new Vector3(346.9f, -995.1795f, -97.85f), new Vector3(-45f, 0f, 0f), new Vector3(346.9f, -995.1795f, -97.85f), new Vector3(-45f, 0f, 0f)),
+			new DocceCoords(new Vector3(-788.3300f, 330.6500f, 200.6120f), new Vector3(0.0000f, 0.0000f, -90.0000f),new Vector3(-788.7310f, 330.0000f, 202.7750f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(-787.9000f, 329.6000f, 202.5000f),new Vector3(315.0000f, 0.0000f, 270.0000f)),
+			new DocceCoords(new Vector3(-796.8000f, 332.8490f, 209.9510f),new Vector3(0.0000f, 0.0000f, 90.0000f),new Vector3(-796.4452f, 333.5307f, 212.1467f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(-796.3611f, 333.2506f, 210.7966f),new Vector3(315.0000f, 0.0000f, 264.6319f)),
+			new DocceCoords(new Vector3(-168.4210f, 490.7790f, 133.0250f),new Vector3(0.0000f, 0.0000f, -78.7500f),new Vector3(-167.8510f, 490.0606f, 135.7694f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(-167.5152f, 490.5291f, 134.8193f),new Vector3(-8.5698f, 0.0000f, 118.8549f)),
+			new DocceCoords(new Vector3(121.3710f, 551.8600f, 179.6770f),new Vector3(0.0000f, 0.0000f, -84.2400f),new Vector3(121.9528f, 551.1089f, 182.4490f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(121.6896f, 551.3428f, 181.2820f),new Vector3(-12.7072f, 0.0000f, 106.2162f)),
+			new DocceCoords(new Vector3(-804.2160f, 335.0650f, 189.9520f),new Vector3(0.0000f, 0.0000f, 90.0000f),new Vector3(-803.8332f, 335.6036f, 192.1505f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(-803.7757f, 335.7051f, 192.0836f),new Vector3(-64.3203f, 0.0000f, 90.0509f)),
+			new DocceCoords(new Vector3(-1385.4200f, -470.7970f, 71.2030f),new Vector3(0.0000f, 0.0000f, -82.1600f),new Vector3(-1385.7200f, -471.5600f, 73.3700f),new Vector3(-45.0000f, 0.0000f, 0.0000f),new Vector3(-1385.4200f, -470.7970f, 72.3000f),new Vector3(0.0000f, 0.0000f, -82.1600f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 200.612f), new Vector3(0.0f, 0.0f, -90.0f), new Vector3(-788.731f, 330.0f, 202.775f), new Vector3(-45.0f, 0.0f, 0.0f), new Vector3(-787.9f, 329.6f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-767.6866f, 326.602478f, 169.7948f),new Vector3(0.0f, 0.0f, 90.0f),new Vector3(-767.2856f, 327.252472f, 171.9578f),new Vector3(-45.0f, 0.0f, -180.0f),new Vector3(-768.1166f, 327.652466f, 171.6828f),new Vector3(315.0f, 0.0f, 90.0f)),
+			new DocceCoords(new Vector3(-767.777161f, 326.606079f, 216.2488f),new Vector3(0.0f, 0.0f, 90.0f),new Vector3(-767.37616f, 327.256073f, 218.411789f),new Vector3(-45.0f, 0.0f, -180.0f),new Vector3(-768.207153f, 327.656067f, 218.1368f),new Vector3(315.0f, 0.0f, 90.0f)),
+			new DocceCoords(new Vector3(-788.797241f, 331.0422f, 152.9926f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-789.198242f, 330.3922f, 155.1556f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-788.367249f, 329.992218f, 154.8806f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-268.8693f, -953.806152f, 70.2224045f),new Vector3(0.0f, 0.0f, 160.0f),new Vector3(-269.342926f, -953.207031f, 72.3854f),new Vector3(-45.0f, 0.0f, -110.0f),new Vector3(-270.003021f, -953.851135f, 72.110405f),new Vector3(315.0f, 0.0f, 160.0f)),
+			new DocceCoords(new Vector3(-274.3165f, -954.534363f, 85.502f),new Vector3(0.0f, 0.0f, -20.0f),new Vector3(-273.842865f, -955.1335f, 87.66499f),new Vector3(-45.0f, 0.0f, 70.0f),new Vector3(-273.18277f, -954.4894f, 87.39f),new Vector3(315.0f, 0.0f, -20.0f)),
+			new DocceCoords(new Vector3(-1461.3363f, -534.3227f, 62.54768f),new Vector3(0.0f, 0.0f, -55.0f),new Vector3(-1461.292f, -535.085144f, 64.71068f),new Vector3(-45.0f, 0.0f, 35.0f),new Vector3(-1460.38184f, -534.936157f, 64.4356842f),new Vector3(315.0f, 0.0f, -55.0f)),
+			new DocceCoords(new Vector3(-1461.3363f, -534.3227f, 49.920063f),new Vector3(0.0f, 0.0f, -55.0f),new Vector3(-1461.292f, -535.085144f, 52.0830574f),new Vector3(-45.0f, 0.0f, 35.0f),new Vector3(-1460.38184f, -534.936157f, 51.8080635f),new Vector3(315.0f, 0.0f, -55.0f)),
+			new DocceCoords(new Vector3(-895.3639f, -446.567139f, 119.525505f),new Vector3(0.0f, 0.0f, 117.556168f),new Vector3(-895.3091f, -445.805359f, 121.6885f),new Vector3(-45.0f, 0.0f, -152.443832f),new Vector3(-896.230835f, -445.835175f, 121.413506f),new Vector3(315.0f, 0.0f, 117.556168f)),
+			new DocceCoords(new Vector3(-903.1201f, -443.489166f, 114.5982f),new Vector3(0.0f, 0.0f, -63.3092957f),new Vector3(-903.1864f, -444.250031f, 116.761192f),new Vector3(-45.0f, 0.0f, 26.6907043f),new Vector3(-902.2643f, -444.234131f, 116.4862f),new Vector3(315.0f, 0.0f, -63.3092957f)),
+			new DocceCoords(new Vector3(-897.571045f, -440.417419f, 88.45218f),new Vector3(0.0f, 0.0f, -153.0807f),new Vector3(-898.332153f, -440.354156f, 90.61517f),new Vector3(-45.0f, 0.0f, -63.0807037f),new Vector3(-898.3126f, -441.276184f, 90.34018f),new Vector3(315.0f, 0.0f, -153.0807f)),
+			new DocceCoords(new Vector3(-31.9253273f, -587.0056f, 83.10589f),new Vector3(0.0f, 0.0f, -110.0f),new Vector3(-32.524456f, -587.479248f, 85.26888f),new Vector3(-45.0f, 0.0f, -20.0f),new Vector3(-31.8803825f, -588.139343f, 84.99389f),new Vector3(315.0f, 0.0f, -110.0f)),
+			new DocceCoords(new Vector3(-21.0673981f, -593.863953f, 93.22392f),new Vector3(0.0f, 0.0f, 160.0f),new Vector3(-21.5410423f, -593.264832f, 95.38692f),new Vector3(-45.0f, 0.0f, -110.0f),new Vector3(-22.20113f, -593.908936f, 95.11192f),new Vector3(315.0f, 0.0f, 160.0f)),
+			new DocceCoords(new Vector3(-910.5702f, -371.726227f, 78.4715652f),new Vector3(0.0f, 0.0f, 116.926117f),new Vector3(-910.507f, -370.9651f, 80.63456f),new Vector3(-45.0f, 0.0f, -153.073883f),new Vector3(-911.4291f, -370.984772f, 80.3595657f),new Vector3(315.0f, 0.0f, 116.926117f)),
+			new DocceCoords(new Vector3(-919.498657f, -379.439819f, 102.431404f),new Vector3(0.0f, 0.0f, -62.5531f),new Vector3(-919.554932f, -380.201477f, 104.5944f),new Vector3(-45.0f, 0.0f, 27.4469f),new Vector3(-918.633057f, -380.173431f, 104.319405f),new Vector3(315.0f, 0.0f, -62.5531f)),
+			new DocceCoords(new Vector3(-610.5763f, 55.62761f, 101.018105f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-610.9773f, 54.9776154f, 103.1811f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-610.1463f, 54.57762f, 102.906105f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-590.789856f, 51.68989f, 86.6172f),new Vector3(0.0f, 0.0f, 90.0f),new Vector3(-590.388855f, 52.3398857f, 88.7802f),new Vector3(-45.0f, 0.0f, -180.0f),new Vector3(-591.219849f, 52.73988f, 88.5052f),new Vector3(315.0f, 0.0f, 90.0f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.731f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.6f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-1456.09961f, -547.293457f, 62.6591034f),new Vector3(0.0f, 0.0f, 35.0f),new Vector3(-1455.33716f, -547.249146f, 64.8221f),new Vector3(-45.0f, 0.0f, 125.0f),new Vector3(-1455.48608f, -546.339f, 64.5471039f),new Vector3(315.0f, 0.0f, 35.0f)),
+			new DocceCoords(new Vector3(-906.45105f, -369.819153f, 102.8895f),new Vector3(0.0f, 0.0f, 117.0f),new Vector3(-906.388855f, -369.057953f, 105.0525f),new Vector3(-45.0f, 0.0f, -153.0f),new Vector3(-907.3109f, -369.078827f, 104.777504f),new Vector3(315.0f, 0.0f, 117.0f)),
+			new DocceCoords(new Vector3(-599.7421f, 51.948204f, 86.81501f),new Vector3(0.0f, 0.0f, 90.0f),new Vector3(-599.3411f, 52.5981979f, 88.9780045f),new Vector3(-45.0f, 0.0f, -180.0f),new Vector3(-600.1721f, 52.99819f, 88.70301f),new Vector3(315.0f, 0.0f, 90.0f)),
+			new DocceCoords(new Vector3(-32.0679359f, -587.3891f, 68.6457062f),new Vector3(0.0f, 0.0f, -110.12f),new Vector3(-32.6680565f, -587.8615f, 70.8087f),new Vector3(-45.0f, 0.0f, -20.1200027f),new Vector3(-32.0253677f, -588.522949f, 70.53371f),new Vector3(315.0f, 0.0f, -110.119995f)),
+			new DocceCoords(new Vector3(-788.329956f, 330.65f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.731f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.6f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(16.963623f, 984.8595f, 212.3391f),new Vector3(0.0f, 0.0f, -164.5f),new Vector3(16.2301025f, 985.072144f, 214.50209f),new Vector3(-45.0f, 0.0f, -74.5f),new Vector3(16.0667114f, 984.164551f, 214.2271f),new Vector3(315.0f, 0.0f, -164.5f)),
+			new DocceCoords(new Vector3(-1004.13171f, 1206.0321f, 207.099f),new Vector3(0.0f, 0.0f, -172.5f),new Vector3(-1004.82849f, 1206.34485f, 209.262f),new Vector3(-45.0f, 0.0f, -82.5f),new Vector3(-1005.11658f, 1205.46875f, 208.987f),new Vector3(315.0f, 0.0f, -172.5f)),
+			new DocceCoords(new Vector3(-1134.5575f, 144.810211f, 208.3381f),new Vector3(0.0f, 0.0f, -60.5f),new Vector3(-1134.58643f, 144.047f, 210.5011f),new Vector3(-45.0f, 0.0f, 29.5f),new Vector3(-1133.66626f, 144.108032f, 210.2261f),new Vector3(315.0f, 0.0f, -60.5f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.7311f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9001f, 329.6f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-1500.40833f, 764.311768f, 162.147f),new Vector3(0.0f, 0.0f, -110.5f),new Vector3(-1501.0116f, 763.8434f, 164.31f),new Vector3(-45.0f, 0.0f, -20.5f),new Vector3(-1500.37329f, 763.1777f, 164.035f),new Vector3(315.0f, 0.0f, -110.5f)),
+			new DocceCoords(new Vector3(-1614.35083f, 925.894348f, 162.5754f),new Vector3(0.0f, 0.0f, -125.0f),new Vector3(-1615.05212f, 925.5919f, 164.738388f),new Vector3(-45.0f, 0.0f, -35.0f),new Vector3(-1614.60083f, 924.7876f, 164.4634f),new Vector3(315.0f, 0.0f, -125.0f)),
+			new DocceCoords(new Vector3(-1771.13623f, 485.763184f, 169.167908f),new Vector3(0.0f, 0.0f, -91.5f),new Vector3(-1771.5542f, 485.1239f, 171.3309f),new Vector3(-45.0f, 0.0f, -1.5f),new Vector3(-1770.73389f, 484.702271f, 171.055908f),new Vector3(315.0f, 0.0f, -91.5f)),
+			new DocceCoords(new Vector3(-2214.38281f, 316.302063f, 114.2096f),new Vector3(0.0f, 0.0f, -96.0f),new Vector3(-2214.84961f, 315.6975f, 116.3726f),new Vector3(-45.0f, 0.0f, -6.0f),new Vector3(-2214.065f, 315.21286f, 116.0976f),new Vector3(315.0f, 0.0f, -96.0f)),
+			new DocceCoords(new Vector3(-555.7201f, 517.9686f, 162.2154f),new Vector3(0.0f, 0.0f, -110.0f),new Vector3(-556.3192f, 517.495f, 164.378387f),new Vector3(-45.0f, 0.0f, -20.0f),new Vector3(-555.675049f, 516.834839f, 164.1034f),new Vector3(315.0f, 0.0f, -110.0f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.731f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.6f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 230.33699f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.731f, 330.0f, 232.499985f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.6f, 232.224991f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-772.676331f, 327.0984f, 209.3848f),new Vector3(0.0f, 0.0f, 90.0f),new Vector3(-772.2753f, 327.748383f, 211.547791f),new Vector3(-45.0f, 0.0f, -180.0f),new Vector3(-773.1063f, 328.148376f, 211.2728f),new Vector3(315.0f, 0.0f, 90.0f)),
+			new DocceCoords(new Vector3(-579.7008f, -717.703064f, 237.0929f),new Vector3(0.0f, 0.0f, -152.0f),new Vector3(-580.463f, -717.654236f, 239.25589f),new Vector3(-45.0f, 0.0f, -62.0f),new Vector3(-580.4261f, -718.5757f, 238.9809f),new Vector3(315.0f, 0.0f, -152.0f)),
+			new DocceCoords(new Vector3(-788.33f, 330.65f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.730957f, 329.9999f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.599945f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(648.079468f, -1253.17676f, 297.390381f),new Vector3(0.0f, 0.0f, 178.0f),new Vector3(647.443848f, -1252.7533f, 299.5534f),new Vector3(-45.0f, 0.0f, -92.0f),new Vector3(647.015137f, -1253.56982f, 299.278381f),new Vector3(315.0f, 0.0f, 178.0f)),
+			new DocceCoords(new Vector3(-508.118622f, 87.24957f, 371.9558f),new Vector3(0.0f, 0.0f, -28.0f),new Vector3(-507.732819f, 86.59033f, 374.118774f),new Vector3(-45.0f, 0.0f, 62.0f),new Vector3(-506.9896f, 87.13629f, 373.8438f),new Vector3(315.0f, 0.0f, -28.0f)),
+			new DocceCoords(new Vector3(-788.329956f, 330.6499f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.7311f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.9f, 329.6001f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-1090.84912f, 404.4295f, 151.112f),new Vector3(0.0f, 0.0f, -150.06f),new Vector3(-1091.61255f, 404.4525f, 153.275f),new Vector3(-45.0f, 0.0f, -60.0600052f),new Vector3(-1091.54431f, 403.5327f, 153.0f),new Vector3(315.0f, 0.0f, -150.06f)),
+			new DocceCoords(new Vector3(-597.065f, -1052.30847f, 151.112f),new Vector3(0.0f, 0.0f, 119.94f),new Vector3(-597.042f, -1051.545f, 153.275f),new Vector3(-45.0f, 0.0f, -150.06f),new Vector3(-597.9618f, -1051.61316f, 153.0f),new Vector3(315.0f, 0.0f, 119.94f)),
+			new DocceCoords(new Vector3(-2053.81982f, -1546.1062f, 151.112f),new Vector3(0.0f, 0.0f, 29.9400024f),new Vector3(-2053.0564f, -1546.12915f, 153.275f),new Vector3(-45.0f, 0.0f, 119.94f),new Vector3(-2053.12451f, -1545.20947f, 153.0f),new Vector3(315.0f, 0.0f, 29.9400024f)),
+			new DocceCoords(new Vector3(-2025.88879f, 403.6874f, 121.712f),new Vector3(0.0f, 0.0f, -87.46001f),new Vector3(-2026.26062f, 403.020172f, 123.874992f),new Vector3(-45.0f, 0.0f, 2.53999329f),new Vector3(-2025.4126f, 402.65744f, 123.6f),new Vector3(315.0f, 0.0f, -87.46002f)),
+			new DocceCoords(new Vector3(-2025.90881f, 403.6702f, 113.712f),new Vector3(0.0f, 0.0f, -87.46001f),new Vector3(-2026.28064f, 403.00296f, 115.874992f),new Vector3(-45.0f, 0.0f, 2.53999329f),new Vector3(-2025.43262f, 402.640228f, 115.6f),new Vector3(315.0f, 0.0f, -87.46002f)),
+			new DocceCoords(new Vector3(-734.5568f, -1354.55688f, 121.712f),new Vector3(0.0f, 0.0f, 92.73999f),new Vector3(-734.1874f, -1353.88843f, 123.874992f),new Vector3(-45.0f, 0.0f, -177.26001f),new Vector3(-735.03656f, -1353.52856f, 123.6f),new Vector3(315.0f, 0.0f, 92.73999f)),
+			new DocceCoords(new Vector3(-788.33f, 330.649963f, 200.612f),new Vector3(0.0f, 0.0f, -90.0f),new Vector3(-788.731f, 330.0f, 202.775f),new Vector3(-45.0f, 0.0f, 0.0f),new Vector3(-787.899963f, 329.599976f, 202.5f),new Vector3(315.0f, 0.0f, -90.0f)),
+			new DocceCoords(new Vector3(-927.401245f, 158.913879f, 200.612f),new Vector3(0.0f, 0.0f, -75.2000046f),new Vector3(-927.6229f, 158.182922f, 202.775f),new Vector3(-45.0f, 0.0f, 14.7999954f),new Vector3(-926.7173f, 158.008484f, 202.5f),new Vector3(315.0f, 0.0f, -75.20001f)),
+			new DocceCoords(new Vector3(898.497f, -292.3025f, 200.612f),new Vector3(0.0f, 0.0f, 164.799988f),new Vector3(897.9749f, -291.7451f, 202.775f),new Vector3(-45.0f, 0.0f, -105.200005f),new Vector3(897.3709f, -292.442169f, 202.5f),new Vector3(315.0f, 0.0f, 164.799988f)),
+			new DocceCoords(new Vector3(-219.241867f, 256.858643f, 286.612f),new Vector3(0.0f, 0.0f, -116.16f),new Vector3(-219.888382f, 256.452026f, 288.775f),new Vector3(-45.0f, 0.0f, -26.1600037f),new Vector3(-219.3188f, 255.726563f, 288.5f),new Vector3(315.0f, 0.0f, -116.16f)),
+			new DocceCoords(new Vector3(-1149.80664f, -959.772339f, 286.612f),new Vector3(0.0f, 0.0f, -26.1600037f),new Vector3(-1149.3999f, -960.4188f, 288.775f),new Vector3(-45.0f, 0.0f, 63.8399963f),new Vector3(-1148.67444f, -959.8493f, 288.5f),new Vector3(315.0f, 0.0f, -26.1600037f)),
+			new DocceCoords(new Vector3(999.511841f, -678.230957f, 286.612f),new Vector3(0.0f, 0.0f, 153.84f),new Vector3(999.1052f, -677.5845f, 288.775f),new Vector3(-45.0f, 0.0f, -116.16f),new Vector3(998.379761f, -678.154053f, 288.5f),new Vector3(315.0f, 0.0f, 153.84f)),
+		};
 
 
 		private static List<int> Doccie = new List<int>()
 		{
-			Funzioni.HashInt("p_mp_showerdoor_s"),
+			1924030334,
 			1358716892,
 			879181614,
 			-553740697,
@@ -59,9 +126,6 @@ namespace NuovaGM.Client.Interactions
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Coords[0].anim = new Vector3(122.8969f, 551.7355f, 181.5680f);
-			Coords[0].rot = new Vector3(-12.6595f, -0.0559f, 111.6776f);
-
 		}
 
 		private async static void Spawnato()
@@ -111,15 +175,25 @@ namespace NuovaGM.Client.Interactions
 			RequestAnimDict(sLocal_436);
 			while (!HasAnimDictLoaded(sLocal_436)) await BaseScript.Delay(0);
 			RequestAmbientAudioBank(sLocal_448, false);
+			RequestPtfxAsset();
 			Client.GetInstance.RegisterTickHandler(ControlloDocceVicino);
 			Client.GetInstance.RegisterTickHandler(Docceeee);
 		}
 
 		private async static Task ControlloDocceVicino()
 		{
-			VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
-			if (VicinoDoccia)
-				DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
+			if (!InDoccia)
+			{
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
+				if (VicinoDoccia)
+				{
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
+					if (!DocciaPorta.IsAttached())
+						DocciaPorta.IsPositionFrozen = true;
+					attuale = Coords.First(o => World.GetDistance(o.anim, DocciaPorta.Position) < 2f);
+				}
+			}
+			await BaseScript.Delay(850);
 		}
 
 		private static async Task Docceeee()
@@ -128,27 +202,82 @@ namespace NuovaGM.Client.Interactions
 			{
 				if (!InDoccia)
 				{
+
 					int val = -1750863300;
 					DoorSystemSetDoorState((uint)val, 0, false, true);
 					HUD.ShowHelp(GetLabelText("SA_SHWR_IN"));
 					if (Game.IsControlJustPressed(0, Control.Context))
 					{
-						func_314();
+						InDoccia = true;
+
 						//CreaCam(CameraCoords(GetInteriorFromGameplayCam()));
-						var doccia = CaricaDoccia(GetInteriorFromEntity(PlayerPedId()));
-						Scena1 = CreateSynchronizedScene(DocciaPorta.Position.X, DocciaPorta.Position.Y, DocciaPorta.Position.Z, 0, 0, DocciaPorta.Heading, 0);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
 						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_437, 1000f, -8f, 1, 0, 1000f, 4);
 						if (DoesEntityHaveDrawable(DocciaPorta.Handle))
 							PlaySynchronizedEntityAnim(DocciaPorta.Handle, Scena1, sLocal_444, sLocal_436, 2f, -8f, 1, 1148846080);
+						func_314();
+						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_UNDRESSED_MASTER", PlayerPedId(), 0, 0, 0);
 
-						InDoccia = true;
-					}
-				}
-				else
-				{
-					HUD.ShowHelp(GetLabelText("SA_SHWR_OUT"));
-					if (Game.IsControlJustPressed(0, Control.VehicleExit))
-					{
+						await BaseScript.Delay(1000);
+						Game.PlayerPed.ClearBloodDamage();
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
+
+						int uLocal_433 = StartParticleFxLoopedAtCoord("ent_amb_shower", attuale.FxDocciaCoord.X, attuale.FxDocciaCoord.Y, attuale.FxDocciaCoord.Z, attuale.FxDocciaRot.X, attuale.FxDocciaRot.Y, attuale.FxDocciaRot.Z, 1f, false, false, false, true);
+						int uLocal_434 = StartParticleFxLoopedAtCoord("ent_amb_shower_steam", attuale.FxVaporeCoord.X, attuale.FxVaporeCoord.Y, attuale.FxVaporeCoord.Z, attuale.FxVaporeRot.X, attuale.FxVaporeRot.Y, attuale.FxVaporeRot.Z, 1f, false, false, false, true);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_439, 8f, -8f, 1, 0, 1148846080, 0);
+						N_0x2208438012482a1a(PlayerPedId(), false, false);
+
+						await BaseScript.Delay(3750);
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_440, 8f, -8f, 1, 0, 1148846080, 0);
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_441, 8f, -8f, 1, 0, 1148846080, 0);
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_442, 8f, -8f, 1, 0, 1148846080, 0);
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
+
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_443, 1000f, -8f, 1, 0, 1148846080, 0);
+						if (DoesEntityHaveDrawable(DocciaPorta.Handle))
+							PlaySynchronizedEntityAnim(DocciaPorta.Handle, Scena1, sLocal_445, sLocal_436, 1000f, -8f, 1, 1148846080);
+
+						if (Eventi.Player.CurrentChar.skin.sex == "Femmina")
+						{
+							while (GetSynchronizedScenePhase(Scena1) < 0.76f) await BaseScript.Delay(0);
+							Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);
+						}
+						else
+						{
+							while (GetSynchronizedScenePhase(Scena1) < 0.8f) await BaseScript.Delay(0);
+							Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);
+						}
+
+						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_23) await BaseScript.Delay(0);
+						if (DoesParticleFxLoopedExist(uLocal_433))
+							StopParticleFxLooped(uLocal_433, false);
+						if (DoesParticleFxLoopedExist(uLocal_434))
+							StopParticleFxLooped(uLocal_434, false);
+
+						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_21) await BaseScript.Delay(0);
+
+						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_DRESSED_MASTER", PlayerPedId(), 0, 0, 0);
+
+
+
 						InDoccia = false;
 					}
 				}
@@ -190,60 +319,38 @@ namespace NuovaGM.Client.Interactions
 				N_0x4668d80430d6c299(PlayerPedId());
 			}
 		}
-
-		private static KeyValuePair<Vector3, Vector3> CaricaDoccia(int interior)
-		{
-			if (interior == 145921)
-				return new KeyValuePair<Vector3, Vector3>(new Vector3(-1453.325f, -556.203f, 71.881f), new Vector3(0, 0, 29.242f));
-			else if (interior == IPLs.gta_online.GTAOApartmentHi2.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi1.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi2.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi3.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi4.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi5.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi6.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi7.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseHi8.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseLow1.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.GTAOHouseMid1.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment1.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment2.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment3.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment4.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment5.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.gta_online.HLApartment6.InteriorId)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.dlc_executive.ExecApartment1.CurrentInteriorId && IPLs.dlc_executive.ExecApartment1.CurrentInteriorId != -1)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.dlc_executive.ExecApartment2.CurrentInteriorId && IPLs.dlc_executive.ExecApartment2.CurrentInteriorId != -1)
-				return new KeyValuePair<Vector3, Vector3>();
-			else if (interior == IPLs.dlc_executive.ExecApartment3.CurrentInteriorId && IPLs.dlc_executive.ExecApartment3.CurrentInteriorId != -1)
-				return new KeyValuePair<Vector3, Vector3>();
-			return new KeyValuePair<Vector3, Vector3>();
-		}
-
 	}
 
 	internal class DocceCoords
 	{
 		public Vector3 anim = new Vector3(0);
 		public Vector3 rot = new Vector3(0);
+		public Vector3 FxDocciaCoord = new Vector3(0); // Global_2499242.f_83
+		public Vector3 FxDocciaRot = new Vector3(0); // Global_2499242.f_86
+		public Vector3 FxVaporeCoord = new Vector3(0); // Global_2499242.f_89 
+		public Vector3 FxVaporeRot = new Vector3(0); // Global_2499242.f_92
+		public DocceCoords() { }
+		public DocceCoords(Vector3 anima, Vector3 rotaz, Vector3 fxdoccia, Vector3 fxdocciarot, Vector3 fxvapore, Vector3 fxvaporerot)
+		{
+			anim = anima;
+			rot = rotaz;
+			FxDocciaCoord = fxdoccia;
+			FxDocciaRot = fxdocciarot;
+			FxVaporeCoord = fxvapore;
+			FxVaporeRot = fxvaporerot;
+		}
+	}
+
+	internal class testino
+	{
+		public int val1;
+		public string val2;
+	}
+
+	internal class testino2
+	{
+		public Vector3 val1;
+		public Vector3 val2;
 	}
 }
 

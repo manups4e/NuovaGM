@@ -81,7 +81,6 @@ namespace NuovaGM.Client.Giostre
 			};
 			SetBlipDisplay(roller.Handle, 4);
 			CaricaTutto();
-			Debug.WriteLine("Is Host = " + NetworkIsHost());
 		}
 
 		private static async void SpawnaMontagne()
