@@ -333,7 +333,7 @@ namespace NuovaGM.Client.Interactions
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
 			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
-			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim(),
+			new LettiCoordsAnim(), new LettiCoordsAnim(), new LettiCoordsAnim()
 		};
 
 		public LettoHigh()
@@ -708,10 +708,6 @@ namespace NuovaGM.Client.Interactions
 			#endregion
 
 			/*
-			 * 
-			 *  -0.4415
-
-			 * 
 				#region letto 
 				Lista[].Sinistra1 = new Vector3();
 				Lista[].Sinistra2 = new Vector3();
