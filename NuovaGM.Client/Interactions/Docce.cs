@@ -26,6 +26,7 @@ namespace NuovaGM.Client.Interactions
 		private static string sLocal_444;
 		private static string sLocal_445;
 		private static float Global_2499242_f_20 = 0;
+		private static int Global_2499242_f_25 = 0;
 		private static float Global_2499242_f_21 = 0;
 		private static float Global_2499242_f_22 = 0;
 		private static float Global_2499242_f_23 = 0;
@@ -38,13 +39,8 @@ namespace NuovaGM.Client.Interactions
 		private static bool InDoccia = false;
 		private static string sLocal_448 = "dlc_EXEC1/MP_APARTMENT_SHOWER_01";
 		private static int Scena1;
-		private static int Scena2;
-		private static int Scena3;
-		private static int Scena4;
-		private static int Scena5;
-		private static int Scena6;
-		private static int Scena7;
-		private static int Scena8;
+		private static int uLocal_433;
+		private static int uLocal_434;
 
 		private static DocceCoords attuale = new DocceCoords(new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0));
 
@@ -123,7 +119,7 @@ namespace NuovaGM.Client.Interactions
 			-553740697,
 		};
 
-		public static void Init()
+		public static async void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
@@ -175,7 +171,9 @@ namespace NuovaGM.Client.Interactions
 			RequestAnimDict(sLocal_436);
 			while (!HasAnimDictLoaded(sLocal_436)) await BaseScript.Delay(0);
 			RequestAmbientAudioBank(sLocal_448, false);
-			RequestPtfxAsset();
+			Global_2499242_f_25 = GetSoundId();
+			RequestNamedPtfxAsset("scr_fm_mp_missioncreator");
+			while (!HasNamedPtfxAssetLoaded("scr_fm_mp_missioncreator")) await BaseScript.Delay(0);
 			Client.GetInstance.RegisterTickHandler(ControlloDocceVicino);
 			Client.GetInstance.RegisterTickHandler(Docceeee);
 		}
@@ -193,7 +191,7 @@ namespace NuovaGM.Client.Interactions
 					attuale = Coords.First(o => World.GetDistance(o.anim, DocciaPorta.Position) < 2f);
 				}
 			}
-			await BaseScript.Delay(850);
+			HUD.DrawText("Scena1 = " + GetSynchronizedScenePhase(Scena1));
 		}
 
 		private static async Task Docceeee()
@@ -216,22 +214,31 @@ namespace NuovaGM.Client.Interactions
 						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_437, 1000f, -8f, 1, 0, 1000f, 4);
 						if (DoesEntityHaveDrawable(DocciaPorta.Handle))
 							PlaySynchronizedEntityAnim(DocciaPorta.Handle, Scena1, sLocal_444, sLocal_436, 2f, -8f, 1, 1148846080);
+
+						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_20) await BaseScript.Delay(0);
 						func_314();
+						Game.PlayerPed.ClearBloodDamage();
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_UNDRESSED_MASTER", PlayerPedId(), 0, 0, 0);
 
-						await BaseScript.Delay(1000);
-						Game.PlayerPed.ClearBloodDamage();
+						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_22) await BaseScript.Delay(0);
+
+						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_MASTER", PlayerPedId(), 0, 0, 0);
+						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
+						uLocal_433 = StartParticleFxLoopedAtCoord("ent_amb_shower", attuale.FxDocciaCoord.X, attuale.FxDocciaCoord.Y, attuale.FxDocciaCoord.Z, attuale.FxDocciaRot.X, attuale.FxDocciaRot.Y, attuale.FxDocciaRot.Z, 1f, false, false, false, true);
+						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
+						uLocal_434 = StartParticleFxLoopedAtCoord("ent_amb_shower_steam", attuale.FxVaporeCoord.X, attuale.FxVaporeCoord.Y, attuale.FxVaporeCoord.Z, attuale.FxVaporeRot.X, attuale.FxVaporeRot.Y, attuale.FxVaporeRot.Z, 1f, false, false, false, true);
+
 
 						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
 
-						int uLocal_433 = StartParticleFxLoopedAtCoord("ent_amb_shower", attuale.FxDocciaCoord.X, attuale.FxDocciaCoord.Y, attuale.FxDocciaCoord.Z, attuale.FxDocciaRot.X, attuale.FxDocciaRot.Y, attuale.FxDocciaRot.Z, 1f, false, false, false, true);
-						int uLocal_434 = StartParticleFxLoopedAtCoord("ent_amb_shower_steam", attuale.FxVaporeCoord.X, attuale.FxVaporeCoord.Y, attuale.FxVaporeCoord.Z, attuale.FxVaporeRot.X, attuale.FxVaporeRot.Y, attuale.FxVaporeRot.Z, 1f, false, false, false, true);
+						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
+						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_438, 8f, -8f, 1, 0, 1148846080, 0);
+
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
 
 						Scena1 = CreateSynchronizedScene(attuale.anim.X, attuale.anim.Y, attuale.anim.Z, attuale.rot.X, attuale.rot.Y, attuale.rot.Z, 0);
 						TaskSynchronizedScene(PlayerPedId(), Scena1, sLocal_436, sLocal_439, 8f, -8f, 1, 0, 1148846080, 0);
 						N_0x2208438012482a1a(PlayerPedId(), false, false);
-
-						await BaseScript.Delay(3750);
 
 						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
 
@@ -255,6 +262,23 @@ namespace NuovaGM.Client.Interactions
 						if (DoesEntityHaveDrawable(DocciaPorta.Handle))
 							PlaySynchronizedEntityAnim(DocciaPorta.Handle, Scena1, sLocal_445, sLocal_436, 1000f, -8f, 1, 1148846080);
 
+						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_23) await BaseScript.Delay(0);
+
+						Debug.WriteLine("" + DoesParticleFxLoopedExist(uLocal_433));
+						Debug.WriteLine("" + DoesParticleFxLoopedExist(uLocal_434));
+						if (DoesParticleFxLoopedExist(uLocal_433))
+							StopParticleFxLooped(uLocal_433, false);
+						if (DoesParticleFxLoopedExist(uLocal_434))
+							StopParticleFxLooped(uLocal_434, false);
+
+						StopSound(Global_2499242_f_25);
+
+						ReleaseAmbientAudioBank();
+						if (Global_2499242_f_25 != -1)
+							ReleaseSoundId(Global_2499242_f_25);
+
+
+
 						if (Eventi.Player.CurrentChar.skin.sex == "Femmina")
 						{
 							while (GetSynchronizedScenePhase(Scena1) < 0.76f) await BaseScript.Delay(0);
@@ -266,17 +290,12 @@ namespace NuovaGM.Client.Interactions
 							Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);
 						}
 
-						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_23) await BaseScript.Delay(0);
-						if (DoesParticleFxLoopedExist(uLocal_433))
-							StopParticleFxLooped(uLocal_433, false);
-						if (DoesParticleFxLoopedExist(uLocal_434))
-							StopParticleFxLooped(uLocal_434, false);
-
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_21) await BaseScript.Delay(0);
-
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_DRESSED_MASTER", PlayerPedId(), 0, 0, 0);
 
+						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(0);
 
+						Game.PlayerPed.Task.ClearAll();
 
 						InDoccia = false;
 					}
