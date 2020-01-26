@@ -182,16 +182,16 @@ namespace NuovaGM.Client.Interactions
 		{
 			if (!InDoccia)
 			{
-				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.5f, 2));
 				if (VicinoDoccia)
 				{
-					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1.3f, 2));
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.5f, 2));
 					if (!DocciaPorta.IsAttached())
 						DocciaPorta.IsPositionFrozen = true;
 					attuale = Coords.First(o => World.GetDistance(o.anim, DocciaPorta.Position) < 2f);
 				}
 			}
-			HUD.DrawText("Scena1 = " + GetSynchronizedScenePhase(Scena1));
+			await BaseScript.Delay(850);
 		}
 
 		private static async Task Docceeee()
@@ -222,12 +222,11 @@ namespace NuovaGM.Client.Interactions
 
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_22) await BaseScript.Delay(0);
 
-						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_MASTER", PlayerPedId(), 0, 0, 0);
+						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, Global_2499242_f_25, "MP_APARTMENT_SHOWER_MASTER", PlayerPedId(), 0, 0, 0);
 						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
 						uLocal_433 = StartParticleFxLoopedAtCoord("ent_amb_shower", attuale.FxDocciaCoord.X, attuale.FxDocciaCoord.Y, attuale.FxDocciaCoord.Z, attuale.FxDocciaRot.X, attuale.FxDocciaRot.Y, attuale.FxDocciaRot.Z, 1f, false, false, false, true);
 						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
 						uLocal_434 = StartParticleFxLoopedAtCoord("ent_amb_shower_steam", attuale.FxVaporeCoord.X, attuale.FxVaporeCoord.Y, attuale.FxVaporeCoord.Z, attuale.FxVaporeRot.X, attuale.FxVaporeRot.Y, attuale.FxVaporeRot.Z, 1f, false, false, false, true);
-
 
 						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);
 
@@ -276,8 +275,6 @@ namespace NuovaGM.Client.Interactions
 						ReleaseAmbientAudioBank();
 						if (Global_2499242_f_25 != -1)
 							ReleaseSoundId(Global_2499242_f_25);
-
-
 
 						if (Eventi.Player.CurrentChar.skin.sex == "Femmina")
 						{
