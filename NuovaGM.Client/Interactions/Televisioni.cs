@@ -88,7 +88,7 @@ namespace NuovaGM.Client.Interactions
 			new TvCoord(new Vector3(-622.5483f, 67.8886261f, 107.6601f), new Vector3(0.0f, 0.0f, 0.0f)),
 			new TvCoord(new Vector3(-578.8179f, 39.428875f, 93.2592f), new Vector3(0.0f, 0.0f, -180.0f)),
 			new TvCoord(new Vector3(-775.2212f, 337.7615f, 219.0373f), new Vector3(0.0f, 0.0f, -90.0f)), // da sistemare
-			new TvCoord(new Vector3(-1469.44385f, -540.634338f, 81.0844f), new Vector3(0.0f, 0.0f, 35.0f)),
+			new TvCoord(new Vector3(-1469.44385f, -540.634338f, 81.0844f), new Vector3(0.0f, 0.0f, 35.0f)), // FORSE da sistemare
 			new TvCoord(new Vector3(-914.9026f, -382.106842f, 121.3148f), new Vector3(0.0f, 0.0f, 117.0f)), // da sistemare
 			new TvCoord(new Vector3(-612.850952f, 44.8366928f, 105.2403f), new Vector3(0.0f, 0.0f, 90.0f)), // da sistemare
 			new TvCoord(new Vector3(-17.3128166f, -585.2208f, 87.071f), new Vector3(0.0f, 0.0f, -110.12f)), // da sistemare 
@@ -154,14 +154,14 @@ namespace NuovaGM.Client.Interactions
 
 		public static async void Init()
 		{
-			Client.GetInstance.RegisterTickHandler(ControlloTv);
-			Client.GetInstance.RegisterTickHandler(Televisione);
-			for (int i = 0; i < 500; i++)
+//			Client.GetInstance.RegisterTickHandler(ControlloTv);
+//			Client.GetInstance.RegisterTickHandler(Televisione);
+/*			for (int i = 0; i < 500; i++)
 			{
 				prendicoords(i);
 			}
 			Debug.WriteLine("Ecco qui = " + JsonConvert.SerializeObject(Test));
-		}
+*/		}
 
 		public static async Task ControlloTv()
 		{
