@@ -26,57 +26,51 @@ namespace NuovaGM.Client.Interactions
 		private static Prop Telecomando;
 		private static Televisione TV = new Televisione();
 		private static int RenderTarget;
+		private static TvCoord TvAttuale = new TvCoord();
 		private static List<ObjectHash> TVHashes = new List<ObjectHash>()
 		{
-			ObjectHash.prop_monitor_01b,
-			ObjectHash.prop_laptop_lester2,
 			ObjectHash.prop_tv_flat_01,
 			ObjectHash.prop_tv_flat_02,
 			ObjectHash.prop_tv_flat_02b,
 			ObjectHash.prop_tv_flat_03,
 			ObjectHash.prop_tv_flat_03b,
-			ObjectHash.xm_prop_x17_tv_flat_01,
-			ObjectHash.vw_prop_vw_tv_rt_01a,
-			ObjectHash.vw_prop_vw_cinema_tv_01,
-			ObjectHash.sm_prop_smug_tv_flat_01,
 			ObjectHash.prop_tv_03,
-			ObjectHash.des_tvsmash_start,
-			ObjectHash.v_ilev_mm_scre_off,
-			ObjectHash.v_ilev_mm_screen2,
-			ObjectHash.v_ilev_mm_screen2_vl,
-			ObjectHash.prop_trev_tv_01,
-			ObjectHash.prop_tt_screenstatic,
-			ObjectHash.prop_tv_flat_michael,
 			ObjectHash.apa_mp_h_str_avunits_01,
 			ObjectHash.apa_mp_h_str_avunitm_01,
 			ObjectHash.apa_mp_h_str_avunitm_03,
 			ObjectHash.apa_mp_h_str_avunitl_01_b,
 			ObjectHash.apa_mp_h_str_avunitl_04,
 			ObjectHash.apa_mp_h_str_avunits_04,
-			ObjectHash.ex_prop_ex_tv_flat_01,
+			(ObjectHash)(-1223496606),
+			(ObjectHash)608950395,
+			(ObjectHash)1340914825,
+			(ObjectHash)1020451759,
+			(ObjectHash)60046420,
+			(ObjectHash)1020451759,
+			(ObjectHash)(-1949621260),
+			(ObjectHash)(-240931727),
+			(ObjectHash)(-897601557),
+			(ObjectHash)777010715,
 		};
 
+		//questo poi lo tolgo insieme al resto perchè metterò il controllo se il ped è seduto
 		private static List<TvCoord> Coords = new List<TvCoord>()
 		{
-			new TvCoord(new Vector3(-800.3020f, 342.9110f, 207.2540f), new Vector3(0)),
+			new TvCoord(new Vector3(-800.302f, 342.911f, 207.254f), new Vector3(0.0f, 0.0f, 0.0f)),
 			new TvCoord(new Vector3(-781.8525f, 342.0280f, 211.1880f), new Vector3(0)),
-			new TvCoord(new Vector3(-161.6548f, 482.8907f, 136.2438f), new Vector3(0)),
+			new TvCoord(new Vector3(-161.654785f, 482.8907f, 136.2438f), new Vector3(0, 0, -78.99996f)),	
 			new TvCoord(new Vector3(127.2918f, 543.4010f, 182.9871f), new Vector3(0.0000f, 0.0000f, -84.0000f)),
-			new TvCoord(new Vector3(-780.4050f, 338.4678f, 186.1134f), new Vector3(0.0000f, 0.0000f, -90.0000f)),
-			new TvCoord(new Vector3(-1464.4001f, -3758.1221f, 9.4872f), new Vector3(0.0000f, 0.0000f, 72.0000f)),
+			new TvCoord(new Vector3(-780.4701f, 338.4247f, 187.5084f), new Vector3(0.0000f, 0.0000f, -90.0000f)),
 			new TvCoord(new Vector3(-1373.8730f, -476.7940f, 72.4570f), new Vector3(0.0000f, 0.0000f, 98.0000f)),
 			new TvCoord(new Vector3(-143.1880f, -605.2324f, 167.6455f), new Vector3(0.0000f, 0.0000f, 130.0000f)),
-			new TvCoord(new Vector3(-780.4701f, 338.4247f, 187.5084f), new Vector3(0.0000f, 0.0000f, -90.0000f)),
 			new TvCoord(new Vector3(337.2845f, -996.6658f, -99.0276f), new Vector3(0f, 0f, 90f)),
 			new TvCoord(new Vector3(256.7323f, -995.4481f, -98.8606f), new Vector3( 0f, 0f, 45f)),
-			new TvCoord(new Vector3(-800.302f, 342.911f, 207.254f), new Vector3(0.0f, 0.0f, 0.0f)),
 			new TvCoord(new Vector3(-755.7146f, 314.341461f, 176.4368f), new Vector3(0.0f, 0.0f, -180.0f)),
-			new TvCoord(new Vector3(-755.8052f, 314.345062f, 222.8908f), new Vector3(0.0f, 0.0f, -180.0f)),
+//			new TvCoord(new Vector3(-755.8052f, 314.345062f, 222.8908f), new Vector3(0.0f, 0.0f, -180.0f)),
 			new TvCoord(new Vector3(-800.7692f, 343.303223f, 159.6346f), new Vector3(0.0f, 0.0f, 0.0f)),
 			new TvCoord(new Vector3(-253.253036f, -946.7497f, 76.8644f), new Vector3(0.0f, 0.0f, -110.0f)),
 			new TvCoord(new Vector3(-289.932739f, -961.5908f, 92.144f), new Vector3(0.0f, 0.0f, 70.0f)),
 			new TvCoord(new Vector3(-1478.17578f, -531.1459f, 69.18968f), new Vector3(0.0f, 0.0f, 35.0f)),
-			new TvCoord(new Vector3(265.713318f, -1000.7132f, -93.1595f), new Vector3(0.0f, 0.0f, -180.0f)),
 			new TvCoord(new Vector3(-1478.17578f, -531.1459f, 56.56206f), new Vector3(0.0f, 0.0f, 35.0f)),
 			new TvCoord(new Vector3(-879.0779f, -451.898773f, 126.1675f), new Vector3(0.0f, 0.0f, -152.443832f)),
 			new TvCoord(new Vector3(-919.3237f, -437.91214f, 121.2402f), new Vector3(0.0f, 0.0f, 26.6907043f)),
@@ -87,23 +81,22 @@ namespace NuovaGM.Client.Interactions
 			new TvCoord(new Vector3(-935.7745f, -374.077118f, 109.0734f), new Vector3(0.0f, 0.0f, 27.4469f)),
 			new TvCoord(new Vector3(-622.5483f, 67.8886261f, 107.6601f), new Vector3(0.0f, 0.0f, 0.0f)),
 			new TvCoord(new Vector3(-578.8179f, 39.428875f, 93.2592f), new Vector3(0.0f, 0.0f, -180.0f)),
-			new TvCoord(new Vector3(-775.2212f, 337.7615f, 219.0373f), new Vector3(0.0f, 0.0f, -90.0f)), // da sistemare
-			new TvCoord(new Vector3(-1469.44385f, -540.634338f, 81.0844f), new Vector3(0.0f, 0.0f, 35.0f)), // FORSE da sistemare
-			new TvCoord(new Vector3(-914.9026f, -382.106842f, 121.3148f), new Vector3(0.0f, 0.0f, 117.0f)), // da sistemare
-			new TvCoord(new Vector3(-612.850952f, 44.8366928f, 105.2403f), new Vector3(0.0f, 0.0f, 90.0f)), // da sistemare
-			new TvCoord(new Vector3(-17.3128166f, -585.2208f, 87.071f), new Vector3(0.0f, 0.0f, -110.12f)), // da sistemare 
-			new TvCoord(new Vector3(-165.4855f, 492.070251f, 141.334f), new Vector3(0.0f, 0.0f, -169.0f)), // da sistemare
-			new TvCoord(new Vector3(338.961f, 427.805237f, 153.0611f), new Vector3(0.0f, 0.0f, 116.5f)), // da sistemare
-			new TvCoord(new Vector3(-762.794861f, 609.5857f, 147.821f), new Vector3(0.0f, 0.0f, 108.5f)), // da sistemare
-			new TvCoord(new Vector3(-671.948364f, 592.006531f, 149.0601f), new Vector3(0.0f, 0.0f, -139.5f)), // da sistemare
-			new TvCoord(new Vector3(125.751526f, 551.089355f, 187.9348f), new Vector3(0.0f, 0.0f, -174.0f)), // da sistemare
-			new TvCoord(new Vector3(-567.0141f, 650.673035f, 149.4698f), new Vector3(0.0f, 0.0f, 165.5f)), // sistemare
-			new TvCoord(new Vector3(-739.1402f, 582.172058f, 149.8982f), new Vector3(0.0f, 0.0f, 151.0f)), // sistemare
-			new TvCoord(new Vector3(-851.597534f, 682.1991f, 156.4907f), new Vector3(0.0f, 0.0f, -175.5f)), // sistemare
-			new TvCoord(new Vector3(-1282.26648f, 439.986267f, 101.5324f), new Vector3(0.0f, 0.0f, -180.0f)), // sistemare
-			new TvCoord(new Vector3(378.6303f, 412.479523f, 149.5382f), new Vector3(0.0f, 0.0f, 166.0f)), // sistemare
-			new TvCoord(new Vector3(-784.4961f, 340.3068f, 192.9539f), new Vector3(0.0f, 0.0f, -90.0f)), // sistemare
-			new TvCoord(new Vector3(-776.510254f, 317.4416f, 201.7267f), new Vector3(0.0f, 0.0f, 90.0f)), // sistemare
+			new TvCoord(new Vector3(-775.2212f, 337.7615f, 219.0373f), new Vector3(0.0f, 0.0f, -90.0f)),
+			new TvCoord(new Vector3(-1469.278f, -547.617f, 73.244f), new Vector3(0.0f, 0.0f, 35.0f)),
+			new TvCoord(new Vector3(-914.9026f, -382.106842f, 121.3148f), new Vector3(0.0f, 0.0f, 117.0f)),
+			new TvCoord(new Vector3(-612.850952f, 44.8366928f, 105.2403f), new Vector3(0.0f, 0.0f, 90.0f)),
+			new TvCoord(new Vector3(-17.3128166f, -585.2208f, 87.071f), new Vector3(0.0f, 0.0f, -110.12f)),
+			new TvCoord(new Vector3(-165.4855f, 492.070251f, 141.334f), new Vector3(0.0f, 0.0f, -169.0f)),
+			new TvCoord(new Vector3(329.961f, 424.805237f, 148.0611f), new Vector3(0.0f, 0.0f, 116.5f)),
+			new TvCoord(new Vector3(-772.289f, 606.808f, 143.752f), new Vector3(0.0f, 0.0f, 108.5f)),
+			new TvCoord(new Vector3(-666.948364f, 584.006531f, 144.0601f), new Vector3(0.0f, 0.0f, -139.5f)), 
+			new TvCoord(new Vector3(-571.0141f, 643.673035f, 145.4698f), new Vector3(0.0f, 0.0f, 165.5f)),
+//			new TvCoord(new Vector3(-739.1402f, 582.172058f, 149.8982f), new Vector3(0.0f, 0.0f, 151.0f)), // sistemare
+			new TvCoord(new Vector3(-852.597534f, 674.1991f, 152.4907f), new Vector3(0.0f, 0.0f, -175.5f)),
+			new TvCoord(new Vector3(-1284.26648f, 432.986267f, 97.5324f), new Vector3(0.0f, 0.0f, -180.0f)), // sistemare CONTINUARE DA QUI
+			new TvCoord(new Vector3(374.6303f, 405.479523f, 145.5382f), new Vector3(0.0f, 0.0f, 166.0f)), // sistemare
+			new TvCoord(new Vector3(-782.4961f, 338.3068f, 187.9539f), new Vector3(0.0f, 0.0f, -90.0f)), // sistemare
+			new TvCoord(new Vector3(-776.510254f, 319.4416f, 196.7267f), new Vector3(0.0f, 0.0f, 90.0f)), // sistemare
 		};
 
 		private static List<TvCoord> Test = new List<TvCoord>();
@@ -154,25 +147,43 @@ namespace NuovaGM.Client.Interactions
 
 		public static async void Init()
 		{
-//			Client.GetInstance.RegisterTickHandler(ControlloTv);
-//			Client.GetInstance.RegisterTickHandler(Televisione);
-/*			for (int i = 0; i < 500; i++)
-			{
+			Client.GetInstance.RegisterTickHandler(ControlloTv);
+			Client.GetInstance.RegisterTickHandler(Televisione);
+
+
+/*			
+			for (int i = 0; i < 1000; i++)
 				prendicoords(i);
-			}
 			Debug.WriteLine("Ecco qui = " + JsonConvert.SerializeObject(Test));
-*/		}
+*/			
+		}
 
 		public static async Task ControlloTv()
 		{
-			VicinoTV = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 3f, 2));
-			if (VicinoTV && GetInteriorFromEntity(Game.PlayerPed.Handle) != 145921)
-				TV.Entity = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 3f, 2));
-			if (GetInteriorFromGameplayCam() == 145921 && World.GetDistance(new Vector3(-1469.154f, -548.539f, 73.244f), Game.PlayerPed.Position) < 9f)
-				VicinoTV = true;
-			await BaseScript.Delay(500);
-		}
+			/*			VicinoTV = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1f, 2));
+						if (VicinoTV && GetInteriorFromEntity(Game.PlayerPed.Handle) != 145921)
+							TV.Entity = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 1f, 2));
+						if (GetInteriorFromGameplayCam() == 145921 && World.GetDistance(new Vector3(-1469.154f, -548.539f, 73.244f), Game.PlayerPed.Position) < 9f)
+							VicinoTV = true;
+			*/
 
+			VicinoTV = Coords.Any(o => o.Coord.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 20f, 2));
+			if (VicinoTV)
+				TvAttuale = Coords.First(o => o.Coord.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 20f, 2));
+			await BaseScript.Delay(500);
+			if (Game.PlayerPed.IsAiming)
+			{
+				int entity = 0;
+				GetEntityPlayerIsFreeAimingAt(PlayerId(), ref entity);
+				Debug.WriteLine("Entità = " + entity);
+				Debug.WriteLine("Modello = " + GetEntityModel(entity));
+			}
+
+		}
+		static Vector3 curLocation;
+		static Vector3 curRotation;
+		static float curHeading;
+		static bool noclippino = false;
 		public static async Task Televisione()
 		{
 			if (VicinoTV)
@@ -186,35 +197,159 @@ namespace NuovaGM.Client.Interactions
 						AccendiTV();
 					}
 				}
+				else if (TV.Accesa)
+				{
+					if (FakeTV != null)
+					{
+						if (Game.IsControlPressed(0, Control.FrontendRb))
+						{
+							if (Game.IsControlJustPressed(0, Control.FrontendX))
+							{
+								if (!noclippino)
+								{
+									curLocation = FakeTV.Position;
+									curRotation = FakeTV.Rotation;
+									curHeading = FakeTV.Heading;
+									Client.GetInstance.RegisterTickHandler(noClip);
+									noclippino = true;
+								}
+								else if (noclippino)
+								{
+									Client.GetInstance.DeregisterTickHandler(noClip);
+									noclippino = false;
+								}
+							}
+						}
+
+					}
+				}
 			}
 		}
+
+
 
 		private static async void AccendiTV()
 		{
 			if (TV.Canale == 0 && !TV.Accesa)
 			{
+				TV.Accesa = true;
+				Prop tv;
+				switch (GetInteriorFromGameplayCam())
+				{
+
+					/*
+					case 0:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(), new Vector3(0.0000f, 0.0000f, ), true, false);
+						FakeTV.Position = new Vector3();
+						break;
+					*/
+					case 0:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(), new Vector3(0.0000f, 0.0000f, 0), true, false);
+						FakeTV.Position = new Vector3();
+						break;
+					case 207361:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-850.4965f, 674.4608f, 152.53f), new Vector3(0.0000f, 0.0000f, -85.40627f), true, false);
+						FakeTV.Position = new Vector3(-850.4965f, 674.4608f, 152.53f);
+						break;
+					case 207873:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-568.4861f, 642.998f, 145.5069f), new Vector3(0.0000f, 0.0000f, -104.5563f), true, false);
+						FakeTV.Position = new Vector3(-568.4861f, 642.998f, 145.5069f);
+						break;
+					case 208129:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-664.2865f, 585.6975f, 144.9159f), new Vector3(0.0000f, 0.0000f, -49.71875f), true, false);
+						FakeTV.Position = new Vector3(-664.2865f, 585.6975f, 144.9159f);
+						break;
+					case 207617:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-771.523f, 604.845f, 143.6769f), new Vector3(0.0000f, 0.0000f, -161.5625f), true, false);
+						FakeTV.Position = new Vector3(-771.523f, 604.845f, 143.6769f);
+						break;
+					case 206081:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(330.9883f, 421.8975f, 148.917f), new Vector3(0.0000f, 0.0000f, -153.5f), true, false);
+						FakeTV.Position = new Vector3(330.9883f, 421.8975f, 148.917f);
+						break;
+					case 146689:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-606.229f, 40.56918f, 97.39062f), new Vector3(0.0000f, 0.0000f, 180.0000f), true, false);
+						FakeTV.Position = new Vector3(-606.229f, 40.56918f, 97.39062f);
+						break;
+					case 147201:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-22.07481f, -578.9377f, 79.22162f), new Vector3(0.0000f, 0.0000f, -20.46875f), true, false);
+						FakeTV.Position = new Vector3(-22.07481f, -578.9377f, 79.22162f);
+						break;
+					case 146177:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-907.0548f, -382.8968f, 113.4625f), new Vector3(0.0000f, 0.0000f, 153.0f), true, false);
+						FakeTV.Position = new Vector3(-907.0548f, -382.8968f, 113.4625f);
+						break;
+					case 227841:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-780.6545f, 338.4835f, 187.1751f), new Vector3(0.0000f, 0.0000f, -90f), true, false);
+						FakeTV.Position = new Vector3(-780.6545f, 338.4835f, 187.1751f);
+						break;
+					case 206593:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(127.057f, 543.3829f, 183.9688f), new Vector3(0.0000f, 0.0000f, -84.0000f), true, false);
+						FakeTV.Position = new Vector3(127.057f, 543.3829f, 183.9688f);
+						break;
+					case 207105:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-161.9239f, 482.8065f, 137.1923f), new Vector3(0.0000f, 0.0000f, -78.99996f), true, false);
+						FakeTV.Position = new Vector3(-161.9239f, 482.8065f, 137.1923f);
+						break;
+					case 146945:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), Coords[1].Coord + new Vector3(0, 0, -0.13f), Coords[1].Rot, true, false);
+						break;
+					case 145921:
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-1469.128f, -548.506f, 73.114f), new Vector3(0f, 0f, -235), true, false);
+						break;
+					case 143873:
+					case 243201:
+					case 148225:
+					case 144641:
+					case 144129:
+					case 144385:
+					case 141825:
+					case 141569:
+					case 145409:
+					case 145665:
+					case 143617:
+					case 143105:
+					case 142593:
+					case 141313:
+					case 147969:
+					case 142849:
+					case 143361:
+					case 144897:
+					case 145153:
+						tv = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+						FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), tv.Position + new Vector3(0, 0, -0.13f), tv.Rotation, true, false);
+						break;
+					case 149761:
+						tv = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+						FakeTV = await World.CreateProp(new Model("prop_tv_03_overlay"), tv.Position + new Vector3(0, 0, -0.21f), tv.Rotation, true, false);
+						break;
+				}
+				/*
 				if (GetInteriorFromGameplayCam() == 145921)
 					FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), new Vector3(-1469.128f, -548.506f, 73.114f), new Vector3(0f, 0f, -235), true, false);
 				else if (TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_01 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_02 || TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_flat_03)
 					FakeTV = await World.CreateProp(new Model("prop_tv_flat_01_screen"), TV.Entity.Position + new Vector3(0, 0, -0.13f), TV.Entity.Rotation, true, false);
 				else if (TV.Entity.Model.Hash == (int)ObjectHash.prop_tv_03)
 					FakeTV = await World.CreateProp(new Model("prop_tv_03_overlay"), TV.Entity.Position + new Vector3(0, 0, -0.21f), TV.Entity.Rotation, true, false);
-				RenderTarget = RenderTargets.CreateNamedRenderTargetForModel(TV.Entity != null? TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunitm_01 || TV.Entity.Model.Hash == (int)ObjectHash.apa_mp_h_str_avunits_04 ? "ex_tvscreen" : "tvscreen" : "tvscreen", (uint)FakeTV.Model.Hash);
+				*/
 
-				Debug.WriteLine("Posizione = " + TV.Entity.Position);
-				Debug.WriteLine("Rotazione = " + TV.Entity.Rotation);
-
+				Prop pippo = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+				RenderTarget = RenderTargets.CreateNamedRenderTargetForModel("tvscreen", (uint)FakeTV.Model.Hash);
 				RegisterScriptWithAudio(0);
 				SetTvAudioFrontend(false);
-				AttachTvAudioToEntity(TV.Entity != null ? TV.Entity.Handle : FakeTV.Handle);
+				AttachTvAudioToEntity(FakeTV.Handle);
 				SetTvChannel(-1);
 				SetTvChannelPlaylist(1, CanaliTV[0], false);
 				TV.Canale = 1;
 				SetTvChannel((int)TVChannel.TV);
 				SetTvVolume(-4f);
 				EnableMovieSubtitles(true);
-				TV.Accesa = true;
 				Client.GetInstance.RegisterTickHandler(DrawTV);
+
+				Debug.WriteLine("TVCoord Attuale Posizione = " + TvAttuale.Coord);
+				Debug.WriteLine("TVCoord Attuale Rotazione = " + TvAttuale.Rot);
+				Debug.WriteLine("pippo Posizione = " + pippo.Position);
+				Debug.WriteLine("pippo Rotazione = " + pippo.Rotation);
 			}
 		}
 
@@ -309,6 +444,77 @@ namespace NuovaGM.Client.Interactions
 
 
 
+		private static async Task noClip()
+		{
+			Game.DisableAllControlsThisFrame(0);
+			Game.EnableControlThisFrame(0, Control.LookLeftRight);
+			Game.EnableControlThisFrame(0, Control.LookUpDown);
+			Game.EnableControlThisFrame(0, Control.LookDown);
+			Game.EnableControlThisFrame(0, Control.LookUp);
+			Game.EnableControlThisFrame(0, Control.LookLeft);
+			Game.EnableControlThisFrame(0, Control.LookRight);
+			Game.EnableControlThisFrame(0, Control.LookDownOnly);
+			Game.EnableControlThisFrame(0, Control.LookUpOnly);
+			Game.EnableControlThisFrame(0, Control.LookLeftOnly);
+			Game.EnableControlThisFrame(0, Control.LookRightOnly);
+
+			float rotationSpeed = 0.15625f;
+			float forwardPush = 0.00625f;
+
+
+			float xVect = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f;
+			float yVect = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading));
+
+			if (Game.IsDisabledControlPressed(0, Control.Cover) && IsInputDisabled(2) || Game.IsDisabledControlPressed(0, Control.FrontendLt) && !IsInputDisabled(2))
+				curLocation.Z += forwardPush / 2;
+			if (Game.IsDisabledControlPressed(0, Control.HUDSpecial) && IsInputDisabled(2) || Game.IsDisabledControlPressed(0, Control.FrontendRt) && !IsInputDisabled(2))
+				curLocation.Z -= forwardPush / 2;
+			if (Game.IsDisabledControlPressed(0, Control.MoveUpOnly))
+			{
+				curLocation.X += xVect;
+				curLocation.Y += yVect;
+			}
+			if (Game.IsDisabledControlPressed(0, Control.MoveDownOnly))
+			{
+				curLocation.X -= xVect;
+				curLocation.Y -= yVect;
+			}
+			if (Game.IsDisabledControlPressed(0, Control.MoveLeftOnly))
+				curHeading += rotationSpeed;
+			if (Game.IsControlPressed(0, Control.MoveRightOnly))
+				curHeading -= rotationSpeed;
+			if (Game.IsDisabledControlPressed(0, Control.FrontendLb))
+			{
+				Game.DisableControlThisFrame(0, Control.LookLeftRight);
+				Game.DisableControlThisFrame(0, Control.LookUpDown);
+				Game.DisableControlThisFrame(0, Control.LookDown);
+				Game.DisableControlThisFrame(0, Control.LookUp);
+				Game.DisableControlThisFrame(0, Control.LookLeft);
+				Game.DisableControlThisFrame(0, Control.LookRight);
+				Game.DisableControlThisFrame(0, Control.LookDownOnly);
+				Game.DisableControlThisFrame(0, Control.LookUpOnly);
+				Game.DisableControlThisFrame(0, Control.LookLeftOnly);
+				Game.DisableControlThisFrame(0, Control.LookRightOnly);
+
+				if (Game.IsDisabledControlPressed(0, Control.LookDownOnly))
+					curRotation.Y += rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookUpOnly))
+					curRotation.Y -= rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookLeftOnly))
+					curRotation.Z += rotationSpeed;
+				if (Game.IsDisabledControlPressed(0, Control.LookRightOnly))
+					curRotation.Z -= rotationSpeed;
+			}
+			SetEntityCoordsNoOffset(FakeTV.Handle, curLocation.X, curLocation.Y, curLocation.Z, true, true, true);
+			SetEntityRotation(FakeTV.Handle, curRotation.X, curRotation.Y, curRotation.Z, 2, true);
+			SetEntityHeading(FakeTV.Handle, curHeading - rotationSpeed);
+			HUD.DrawText(0.35f, 0.6f, "Posizione TV = " + FakeTV.Position);
+			HUD.DrawText(0.35f, 0.625f, "Rotazione TV = " + FakeTV.Rotation);
+			HUD.DrawText(0.35f, 0.650f, "heading TV = " + FakeTV.Heading);
+		}
+
+
+
 
 
 		static void prendicoords(int iParam1)
@@ -317,7 +523,7 @@ namespace NuovaGM.Client.Interactions
 			int iVar6;
 			TvCoord test = new TvCoord();
 
-			func_15(iParam1, 557, ref test, func_3774(iParam1), false);
+			func_15(iParam1, 14, ref test, func_3774(iParam1), true);
 			valore.Coord = test.Coord;
 			valore.Rot = test.Rot;
 			Test.Add(valore);
@@ -335,8 +541,6 @@ namespace NuovaGM.Client.Interactions
 				case 6:
 				case 7:
 					return 1;
-					break;
-
 				case 8:
 				case 9:
 				case 10:
@@ -351,8 +555,6 @@ namespace NuovaGM.Client.Interactions
 				case 66:
 				case 67:
 					return 8;
-					break;
-
 				case 17:
 				case 18:
 				case 19:
@@ -363,59 +565,50 @@ namespace NuovaGM.Client.Interactions
 				case 70:
 				case 71:
 				case 72:
-					break;
-
+					return 17;
 				case 61:
 				case 62:
 				case 63:
 				case 64:
 				case 65:
-					break;
-
+					return 61;
 				case 73:
 				case 74:
 				case 75:
 				case 76:
-					break;
-
+					return 73;
 				case 77:
 				case 78:
 				case 79:
 				case 80:
 				case 81:
 				case 82:
-					break;
-
+					return 77;
 				case 83:
 				case 84:
 				case 85:
-					break;
-
+					return 83;
 				case 86:
-					break;
-
+					return 86;
 				case 87:
 				case 88:
 				case 89:
 				case 90:
-					break;
-
+					return 88;
 				case 91:
 				case 92:
 				case 93:
 				case 94:
 				case 95:
 				case 96:
-					break;
-
+					return 91;
 				case 97:
 				case 98:
 				case 99:
 				case 100:
 				case 101:
 				case 102:
-					break;
-
+					return 97;
 				case 103:
 				case 106:
 				case 109:
@@ -428,7 +621,7 @@ namespace NuovaGM.Client.Interactions
 				case 108:
 				case 111:
 				case 114:
-					break;
+					return 109;
 			}
 			return -1;
 		}
@@ -1675,7 +1868,7 @@ namespace NuovaGM.Client.Interactions
 			OutputArgument Rot = new OutputArgument();
 			testino uVar6;
 
-			if (Function.Call<bool>(Hash._GET_BASE_ELEMENT_METADATA, Coord, Rot, uParam0, false))
+			if (Function.Call<bool>(Hash._GET_BASE_ELEMENT_METADATA, Coord, Rot, uParam0, func_8(uParam0)))
 			{
 				Var0.Coord = Coord.GetResult<Vector3>();
 				Var0.Rot = Rot.GetResult<Vector3>();
@@ -1781,51 +1974,41 @@ namespace NuovaGM.Client.Interactions
 			return -1;
 		}
 
-		static testino func_8(int iParam0)
+		static int func_8(int iParam0)
 		{
-			testino uParam1 = new testino();
+			int uParam1 = 0;
 			switch (iParam0)
 			{
 				case -1:
 				case 1:
-					uParam1.val1 = 0;
-					uParam1.val2 = "BaseElementLocationsMap";
+					uParam1 = 0;
 					break;
 				case 61:
-					uParam1.val1 = 1;
-					uParam1.val2 = "BaseElementLocationsMap_HighApt";
+					uParam1 = 1;
 					break;
 				case 73:
-					uParam1.val1 = 2;
-					uParam1.val2 = "ExtraBaseElementLocMap1";
+					uParam1 = 2;
 					break;
 				case 77:
-					uParam1.val1 = 3;
-					uParam1.val2 = "ExtraBaseElementLocMap2";
+					uParam1 = 3;
 					break;
 				case 83:
-					uParam1.val1 = 4;
-					uParam1.val2 = "ExtraBaseElementLocMap3";
+					uParam1 = 4;
 					break;
 				case 86:
-					uParam1.val1 = 5;
-					uParam1.val2 = "ExtraBaseElementLocMap4";
+					uParam1 = 5;
 					break;
 				case 88:
-					uParam1.val1 = 6;
-					uParam1.val2 = "ExtraBaseElementLocMap5";
+					uParam1 = 6;
 					break;
 				case 91:
-					uParam1.val1 = 7;
-					uParam1.val2 = "ExtraBaseElementLocMap6";
+					uParam1 = 7;
 					break;
 				case 97:
-					uParam1.val1 = 8;
-					uParam1.val2 = "ExtraBaseElementLocMap7";
+					uParam1 = 8;
 					break;
 				case 109:
-					uParam1.val1 = 9;
-					uParam1.val2 = "ExtraBaseElementLocMap8";
+					uParam1 = 9;
 					break;
 			}
 			return uParam1;
