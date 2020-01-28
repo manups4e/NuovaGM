@@ -44,8 +44,6 @@ namespace NuovaGM.Client.Interactions
 
 		private static DocceCoords attuale = new DocceCoords(new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0), new Vector3(0));
 
-		private static List<DocceCoords> Test = new List<DocceCoords>();
-
 		private static List<DocceCoords> Coords = new List<DocceCoords>()
 		{
 			new DocceCoords(new Vector3(254.847f, -1000.64f, -99.768f), new Vector3(0f, 0f, -180f), new Vector3(254.5308f, -1000.291f, -97.67236f), new Vector3(-45f, 0f, 0f), new Vector3(254.5308f, -1000.291f, -97.67236f), new Vector3(-45f, 0f, 0f)),
@@ -174,11 +172,9 @@ namespace NuovaGM.Client.Interactions
 			Global_2499242_f_25 = GetSoundId();
 			RequestNamedPtfxAsset("scr_fm_mp_missioncreator");
 			while (!HasNamedPtfxAssetLoaded("scr_fm_mp_missioncreator")) await BaseScript.Delay(0);
-			Client.GetInstance.RegisterTickHandler(ControlloDocceVicino);
-			Client.GetInstance.RegisterTickHandler(Docceeee);
 		}
 
-		private async static Task ControlloDocceVicino()
+		public async static Task ControlloDocceVicino()
 		{
 			if (!InDoccia)
 			{
@@ -194,7 +190,7 @@ namespace NuovaGM.Client.Interactions
 			await BaseScript.Delay(850);
 		}
 
-		private static async Task Docceeee()
+		public static async Task Docceeee()
 		{
 			if (VicinoDoccia)
 			{

@@ -25,7 +25,6 @@ namespace NuovaGM.Client.Interactions
 		{
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(1);
-//			Client.GetInstance.RegisterTickHandler(Letto);
 		}
 
 		public static async Task Letto()

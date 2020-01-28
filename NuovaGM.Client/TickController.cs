@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.Banking;
 using NuovaGM.Client.Businesses;
 using NuovaGM.Client.Giostre;
@@ -28,6 +29,7 @@ namespace NuovaGM.Client
 	{
 		private static bool InUnVeicolo = false;
 		private static bool HideHud = false;
+		private static bool InAppartamento = false;
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
@@ -125,6 +127,71 @@ namespace NuovaGM.Client
 					HideHud = false;
 				}
 			}
+			if (CheckAppartamento(GetInteriorFromGameplayCam()))
+			{
+				if (!InAppartamento)
+				{
+					Client.GetInstance.RegisterTickHandler(Docce.ControlloDocceVicino);
+					Client.GetInstance.RegisterTickHandler(Docce.Docceeee);
+					Client.GetInstance.RegisterTickHandler(Televisioni.Televisione);
+					Client.GetInstance.RegisterTickHandler(Letti.Letto);
+					InAppartamento = true;
+				}
+			}
+			else
+			{
+				Client.GetInstance.DeregisterTickHandler(Docce.ControlloDocceVicino);
+				Client.GetInstance.DeregisterTickHandler(Docce.Docceeee);
+				Client.GetInstance.DeregisterTickHandler(Televisioni.Televisione);
+				Client.GetInstance.DeregisterTickHandler(Letti.Letto);
+				InAppartamento = false;
+			}
+		}
+
+		private static bool CheckAppartamento(int iParam1)
+		{
+			switch (iParam1)
+			{
+				case 227329:
+				case 227585:
+				case 206337:
+				case 208385:
+				case 207361:
+				case 207873:
+				case 208129:
+				case 207617:
+				case 206081:
+				case 146689:
+				case 147201:
+				case 146177:
+				case 227841:
+				case 206593:
+				case 207105:
+				case 146945:
+				case 145921:
+				case 143873:
+				case 243201:
+				case 148225:
+				case 144641:
+				case 144129:
+				case 144385:
+				case 141825:
+				case 141569:
+				case 145409:
+				case 145665:
+				case 143617:
+				case 143105:
+				case 142593:
+				case 141313:
+				case 147969:
+				case 142849:
+				case 143361:
+				case 144897:
+				case 145153:
+				case 149761:
+					return true;
+			}
+			return false;
 		}
 	}
 }
