@@ -337,10 +337,10 @@ namespace NuovaGM.Client.Interactions
 	{
 		public Vector3 anim = new Vector3(0);
 		public Vector3 rot = new Vector3(0);
-		public Vector3 FxDocciaCoord = new Vector3(0); // Global_2499242.f_83
-		public Vector3 FxDocciaRot = new Vector3(0); // Global_2499242.f_86
-		public Vector3 FxVaporeCoord = new Vector3(0); // Global_2499242.f_89 
-		public Vector3 FxVaporeRot = new Vector3(0); // Global_2499242.f_92
+		public Vector3 FxDocciaCoord = new Vector3(0);
+		public Vector3 FxDocciaRot = new Vector3(0);
+		public Vector3 FxVaporeCoord = new Vector3(0);
+		public Vector3 FxVaporeRot = new Vector3(0);
 		public DocceCoords() { }
 		public DocceCoords(Vector3 anima, Vector3 rotaz, Vector3 fxdoccia, Vector3 fxdocciarot, Vector3 fxvapore, Vector3 fxvaporerot)
 		{
@@ -365,34 +365,6 @@ namespace NuovaGM.Client.Interactions
 		public Vector3 val2;
 	}
 }
-
-/*		private async static Task ControlloDocceVicino()
-		{
-			if (GetInteriorFromGameplayCam() != 0)
-				HUD.ShowHelp("Interior = " + GetInteriorFromGameplayCam());
-			if (GetInteriorFromGameplayCam() == 149761)
-			{
-//				if (World.GetDistance(Game.PlayerPed.Position, new Vector3()))
-			}
-			else if (GetInteriorFromGameplayCam() == 149761)
-			{
-				if (World.GetDistance(Game.PlayerPed.Position, new Vector3(347.681f, -995.201f, -99.112f)) < 2f)
-				{
-					VicinoDoccia = true;
-					HUD.ShowHelp("Vicino la doccia");
-				}
-			}
-			else if (GetInteriorFromGameplayCam() == 145921)
-			{
-
-			}
-//			else if (GetInteriorFromGameplayCam() == )
-//			else if (GetInteriorFromGameplayCam() == )
-//			else if (GetInteriorFromGameplayCam() == )
-//			else if (GetInteriorFromGameplayCam() == )
-//			else if (GetInteriorFromGameplayCam() == )
-		}
-*/
 
 
 
