@@ -131,20 +131,23 @@ namespace NuovaGM.Client
 			{
 				if (!InAppartamento)
 				{
+					Client.GetInstance.RegisterTickHandler(DivaniEPosizioniSedute.DivaniCasa);
 					Client.GetInstance.RegisterTickHandler(Docce.ControlloDocceVicino);
 					Client.GetInstance.RegisterTickHandler(Docce.Docceeee);
-					Client.GetInstance.RegisterTickHandler(Televisioni.Televisione);
 					Client.GetInstance.RegisterTickHandler(Letti.Letto);
 					InAppartamento = true;
 				}
 			}
 			else
 			{
-				Client.GetInstance.DeregisterTickHandler(Docce.ControlloDocceVicino);
-				Client.GetInstance.DeregisterTickHandler(Docce.Docceeee);
-				Client.GetInstance.DeregisterTickHandler(Televisioni.Televisione);
-				Client.GetInstance.DeregisterTickHandler(Letti.Letto);
-				InAppartamento = false;
+				if (InAppartamento)
+				{
+					Client.GetInstance.DeregisterTickHandler(DivaniEPosizioniSedute.DivaniCasa);
+					Client.GetInstance.DeregisterTickHandler(Docce.ControlloDocceVicino);
+					Client.GetInstance.DeregisterTickHandler(Docce.Docceeee);
+					Client.GetInstance.DeregisterTickHandler(Letti.Letto);
+					InAppartamento = false;
+				}
 			}
 		}
 

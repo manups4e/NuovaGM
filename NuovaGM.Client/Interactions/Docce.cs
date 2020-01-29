@@ -259,8 +259,6 @@ namespace NuovaGM.Client.Interactions
 
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_23) await BaseScript.Delay(0);
 
-						Debug.WriteLine("" + DoesParticleFxLoopedExist(uLocal_433));
-						Debug.WriteLine("" + DoesParticleFxLoopedExist(uLocal_434));
 						if (DoesParticleFxLoopedExist(uLocal_433))
 							StopParticleFxLooped(uLocal_433, false);
 						if (DoesParticleFxLoopedExist(uLocal_434))

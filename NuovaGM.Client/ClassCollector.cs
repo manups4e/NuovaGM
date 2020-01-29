@@ -65,10 +65,10 @@ namespace NuovaGM.Client
 
 			IPLInstance.Init();
 
-			Televisioni.Init();
-
 			Docce.Init();
 			Letti.Init();
+
+			DivaniEPosizioniSedute.Init();
 		}
 	}
 }

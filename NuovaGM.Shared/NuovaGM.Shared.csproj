@@ -34,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core.Client, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2015\lib\net45\CitizenFX.Core.Client.dll</HintPath>
+      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2025\lib\net45\CitizenFX.Core.Client.dll</HintPath>
     </Reference>
     <Reference Include="CitizenFX.Core.Server, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\CitizenFX.Core.Server.1.0.2015\lib\net45\CitizenFX.Core.Server.dll</HintPath>
+      <HintPath>..\packages\CitizenFX.Core.Server.1.0.2025\lib\net45\CitizenFX.Core.Server.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>

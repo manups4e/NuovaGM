@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using Newtonsoft.Json;
-using NuovaGM.Client.MenuNativo;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -24,9 +19,11 @@ namespace NuovaGM.Client.Interactions
 	{
 		private static Prop FakeTV;
 		private static Prop Telecomando;
-		private static Televisione TV = new Televisione();
+		public static Televisione TV = new Televisione();
 		private static int RenderTarget;
 		private static TvCoord TvAttuale = new TvCoord();
+		private static bool Scaleform = false;
+		private static Scaleform Buttons = new Scaleform("instructional_buttons");
 		private static List<ObjectHash> TVHashes = new List<ObjectHash>()
 		{
 			ObjectHash.prop_tv_flat_01,
@@ -96,29 +93,7 @@ namespace NuovaGM.Client.Interactions
 			"PL_WEB_RS",
 		};
 
-		public static async void Init()
-		{
-//			Client.GetInstance.RegisterTickHandler(Televisione);
-		}
-
-		public static async Task Televisione()
-		{
-			if (IsPedUsingScenario(PlayerPedId(), ""))
-			{
-				if (!TV.Accesa)
-				{
-					HUD.ShowHelp(GetLabelText("TV_HLP1"));
-					if (Game.IsControlJustPressed(0, Control.Context))
-					{
-						Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
-						AccendiTV();
-					}
-				}
-			}
-		}
-
-
-		private static async void AccendiTV()
+		public static async void AccendiTV()
 		{
 			if (TV.Canale == 0 && !TV.Accesa)
 			{
@@ -135,13 +110,14 @@ namespace NuovaGM.Client.Interactions
 				SetTvChannel((int)TVChannel.TV);
 				SetTvVolume(-4f);
 				EnableMovieSubtitles(true);
+				Scaleform = false;
 				Client.GetInstance.RegisterTickHandler(DrawTV);
 			}
 		}
 
 		private static Tuple<Vector3, Vector3> OttieniCoords(int iParam1)
 		{
-			Prop tv = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+			Prop tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
 			switch (iParam1)
 			{
 				case 227329:
@@ -197,79 +173,44 @@ namespace NuovaGM.Client.Interactions
 				case 143361:
 				case 144897:
 				case 145153:
-					tv = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.13f), tv.Rotation);
 				case 149761:
-					tv = new Prop(GetClosestObjectOfType(TvAttuale.Coord.X, TvAttuale.Coord.Y, TvAttuale.Coord.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(TvAttuale.Coord) < Math.Pow(2 * 2f, 2)).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.21f), tv.Rotation);
 			}
 			return new Tuple<Vector3, Vector3>(new Vector3(), new Vector3());
 		}
 
+		private static async void UpdateTasti()
+		{
+			//func_3840(GET_CONTROL_INSTRUCTIONAL_BUTTON(0, func_6651(0), 1), "HUD_INPUT3", &(uParam2->f_87.f_47.f_1474), 0);
+			if (!Scaleform)
+			{
+				Buttons = new Scaleform("instructional_buttons");
+				while (!HasScaleformMovieLoaded(Buttons.Handle)) await BaseScript.Delay(0);
+				Buttons.CallFunction("CLEAR_ALL");
+				Buttons.CallFunction("TOGGLE_MOUSE_BUTTONS", false);
+
+				Buttons.CallFunction("SET_DATA_SLOT", 0, GetControlInstructionalButton(0, IsInputDisabled(2) ? 177 : 202, 1), GetLabelText("HUD_INPUT3"));
+				if (!TV.Accesa)
+					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT81"));
+				else
+					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT82"));
+
+				Buttons.CallFunction("SET_DATA_SLOT", 2, GetControlInstructionalButton(2, 218, 1), GetLabelText("HUD_INPUT75"));
+				Buttons.CallFunction("SET_DATA_SLOT", 3, GetControlInstructionalButton(2, 219, 1), GetLabelText("HUD_INPUT77"));
+				Buttons.CallFunction("SET_DATA_SLOT", 4, GetControlInstructionalButton(0, 236, 1), GetLabelText("HUD_INPUT87"));
+
+				Buttons.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
+				Scaleform = true;
+			}
+			if (Scaleform)
+				Buttons.Render2D();
+		}
+
 		public static async Task DrawTV()
 		{
-			Game.DisableControlThisFrame(0, Control.FrontendLeft);
-			Game.DisableControlThisFrame(0, Control.FrontendRight);
-			Game.DisableControlThisFrame(0, Control.FrontendUp);
-			Game.DisableControlThisFrame(0, Control.MultiplayerInfo);
-			Game.DisableControlThisFrame(0, Control.FrontendDown);
-			Game.DisableControlThisFrame(0, Control.VehicleExit);
-			if (TV.Accesa)
-			{
-				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendLeft)) // canale-
-				{
-					--TV.Canale;
-					if (TV.Canale < 0) TV.Canale = CanaliTV.Count - 1;
-					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
-					SetTvChannel((int)TVChannel.TV);
-					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
-				}
-
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendRight)) // canale+ 
-				{
-					++TV.Canale;
-					if (TV.Canale > 18) TV.Canale = 0;
-					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
-					SetTvChannel((int)TVChannel.TV);
-					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
-				}
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendUp)) // volume su
-				{
-					TV.Volume += 0.5f;
-					if (TV.Volume > 0) TV.Volume = 0; 
-					SetTvVolume(TV.Volume);
-					if (TV.Volume > -36 && TV.Volume < 0)
-						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
-				}
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendDown)) // volume giu
-				{
-					TV.Volume -= 0.5f;
-					if (TV.Volume < -36) TV.Volume = -36;
-					SetTvVolume(TV.Volume);
-					if (TV.Volume > -36 && TV.Volume < 0)
-						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
-				}
-				if (Game.IsDisabledControlJustPressed(0, Control.VehicleExit))
-				{
-					ClearTvChannelPlaylist(1);
-					SetTvChannel(-1);
-					Game.PlayerPed.Task.ClearAll();
-					if (IsNamedRendertargetRegistered("tvscreen"))
-						ReleaseNamedRendertarget("tvscreen");
-					else if (IsNamedRendertargetRegistered("ex_tvscreen"))
-						ReleaseNamedRendertarget("ex_tvscreen");
-					RenderTarget = -1;
-					SetTextRenderId(GetDefaultScriptRendertargetRenderId());
-					TV.Accesa = false;
-					TV.Canale = 0;
-					EnableMovieSubtitles(false);
-					FakeTV.Delete();
-					int intnum = -1;
-					uint something = (uint)intnum;
-					Client.GetInstance.DeregisterTickHandler(DrawTV);
-				}
-			}
 			float fVar0 = 1f;
 			CalcolaAspectRatioRenderTarget(ref fVar0);
 			SetTextRenderId(RenderTarget);
@@ -278,6 +219,80 @@ namespace NuovaGM.Client.Interactions
 			DrawTvChannel(0.5f, 0.5f, fVar0, 1.0f, 0.0f, 255, 255, 255, 255);
 			SetTextRenderId(GetDefaultScriptRendertargetRenderId());
 			SetScriptGfxDrawBehindPausemenu(false);
+		}
+		public static async Task ControllaTV()
+		{
+			UpdateTasti();
+			Game.DisableControlThisFrame(0, Control.MoveLeftOnly);
+			Game.DisableControlThisFrame(0, Control.MoveRightOnly);
+			Game.DisableControlThisFrame(0, Control.MoveUpOnly);
+			Game.DisableControlThisFrame(0, Control.MultiplayerInfo);
+			Game.DisableControlThisFrame(0, Control.MoveDownOnly);
+			Game.DisableControlThisFrame(0, Control.ScriptRUp);
+			Game.DisableControlThisFrame(0, Control.Context);
+			if (!TV.Accesa && DivaniEPosizioniSedute.Seduto)
+			{
+				if (IsDisabledControlJustPressed(0, IsInputDisabled(2) ? 51 : 222))
+				{
+					AccendiTV();
+					Scaleform = false;
+				}
+			}
+			else if (TV.Accesa && DivaniEPosizioniSedute.Seduto)
+			{
+//				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
+				if (Game.IsDisabledControlJustPressed(0, Control.MoveLeftOnly)) // canale-
+				{
+					--TV.Canale;
+					if (TV.Canale < 0) TV.Canale = CanaliTV.Count - 1;
+					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
+					SetTvChannel((int)TVChannel.TV);
+					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
+				}
+				if (Game.IsDisabledControlJustPressed(0, Control.MoveRightOnly)) // canale+ 
+				{
+					++TV.Canale;
+					if (TV.Canale > 18) TV.Canale = 0;
+					SetTvChannelPlaylist(1, CanaliTV[TV.Canale], false);
+					SetTvChannel((int)TVChannel.TV);
+					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
+				}
+				if (Game.IsDisabledControlPressed(0, Control.MoveUpOnly)) // volume su
+				{
+					TV.Volume += 0.5f;
+					if (TV.Volume > 0) TV.Volume = 0;
+					SetTvVolume(TV.Volume);
+					if (TV.Volume > -36 && TV.Volume < 0)
+						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
+				}
+				if (Game.IsDisabledControlPressed(0, Control.MoveDownOnly)) // volume giu
+				{
+					TV.Volume -= 0.5f;
+					if (TV.Volume < -36) TV.Volume = -36;
+					SetTvVolume(TV.Volume);
+					if (TV.Volume > -36 && TV.Volume < 0)
+						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
+				}
+				if (IsDisabledControlJustPressed(0, IsInputDisabled(2) ? 51 : 222))
+				{
+					ClearTvChannelPlaylist(1);
+					SetTvChannel(-1);
+					if (IsNamedRendertargetRegistered("tvscreen"))
+						ReleaseNamedRendertarget("tvscreen");
+					else if (IsNamedRendertargetRegistered("ex_tvscreen"))
+						ReleaseNamedRendertarget("ex_tvscreen");
+					RenderTarget = -1;
+					SetTextRenderId(GetDefaultScriptRendertargetRenderId());
+					TV.Accesa = false;
+					TV.Canale = 0;
+					Scaleform = false;
+					EnableMovieSubtitles(false);
+					FakeTV.Delete();
+					int intnum = -1;
+					uint something = (uint)intnum;
+					Client.GetInstance.DeregisterTickHandler(DrawTV);
+				}
+			}
 		}
 
 		static void CalcolaAspectRatioRenderTarget(ref float fParam0)
