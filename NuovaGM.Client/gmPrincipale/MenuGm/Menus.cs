@@ -230,16 +230,28 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						Char_data Data = Eventi.Player.CurrentChar;
 						if (Data.location.x != 0.0 && Data.location.y != 0.0 && Data.location.z != 0.0)
 						{
-							RequestCollisionAtCoord((float)Data.location.x, (float)Data.location.y, (float)Data.location.z);
-							RequestCollisionForModel((uint)Game.PlayerPed.Model.Hash);
-							Game.PlayerPed.Position = new Vector3((float)Data.location.x, (float)Data.location.y, (float)Data.location.z + 1f);
-							Game.PlayerPed.Heading = (float)Data.location.h;
+							Vector3 pino = new Vector3();
+							if (GetSafeCoordForPed(Data.location.x, Data.location.y, Data.location.z, true, ref pino, 16))
+							{
+								RequestCollisionAtCoord(pino.X, pino.Y, pino.Z);
+								RequestCollisionForModel((uint)Game.PlayerPed.Model.Hash);
+								Game.PlayerPed.Position = new Vector3(pino.X, pino.Y, pino.Z);
+								Game.PlayerPed.Heading = Data.location.h;
+							}
+							else
+							{
+								RequestCollisionAtCoord(Data.location.x, Data.location.y, Data.location.z);
+								RequestCollisionForModel((uint)Game.PlayerPed.Model.Hash);
+								Game.PlayerPed.Position = new Vector3(Data.location.x, Data.location.y, Data.location.z + 1f);
+								Game.PlayerPed.Heading = Data.location.h;
+							}
 						}
 						else
 						{
 							RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 							Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 							Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
+
 						}
 						Eventi.LoadModel();
 						Game.PlayerPed.IsPositionFrozen = false;

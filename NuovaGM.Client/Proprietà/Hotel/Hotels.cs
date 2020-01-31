@@ -1,9 +1,7 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -67,25 +65,17 @@ namespace NuovaGM.Client.Proprietà.Hotel
 
 			HotelMenu.OnItemSelect += async (menu, item, index) =>
 			{
+				Vector3 pos = new Vector3(0);
 				if (item == stanzaPiccola)
 				{
 					if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola || Eventi.Player.Bank >= hotel.Prezzi.StanzaPiccola)
 					{
-						Client.GetInstance.DeregisterTickHandler(Eventi.LocationSave);
-						menu.Visible = false;
 						if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaPiccola);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaPiccola);
-						Screen.Fading.FadeOut(800);
-						await BaseScript.Delay(1000);
-						OldPos = Game.PlayerPed.Position;
-						RequestCollisionAtCoord(261.4586f, -998.8196f, -99.00863f);
-						Game.PlayerPed.Position = new Vector3(266.094f, -1007.487f, -101.800f);
-						await BaseScript.Delay(2000);
-						Main.istanced = true;
+						pos = new Vector3(266.094f, -1007.487f, -101.800f);
 						IsInPiccola = true;
-						Screen.Fading.FadeIn(800);
 					}
 					else
 						HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
@@ -94,21 +84,12 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				{
 					if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia || Eventi.Player.Bank >= hotel.Prezzi.StanzaMedia)
 					{
-						Client.GetInstance.DeregisterTickHandler(Eventi.LocationSave);
-						menu.Visible = false;
 						if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaMedia);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaMedia);
-						Screen.Fading.FadeOut(800);
-						await BaseScript.Delay(1000);
-						OldPos = Game.PlayerPed.Position;
-						RequestCollisionAtCoord(347.2686f, -999.2955f, -99.19622f);
-						Game.PlayerPed.Position = new Vector3(346.493f, -1013.031f, -99.196f);
-						Main.istanced = true;
+						pos = new Vector3(346.493f, -1013.031f, -99.196f);
 						IsInMedia = true;
-						await BaseScript.Delay(2000);
-						Screen.Fading.FadeIn(800);
 					}
 					else
 						HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
@@ -117,25 +98,27 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				{
 					if (Eventi.Player.Money >= hotel.Prezzi.Appartamento || Eventi.Player.Bank >= hotel.Prezzi.Appartamento)
 					{
-						Client.GetInstance.DeregisterTickHandler(Eventi.LocationSave);
-						menu.Visible = false;
 						if (Eventi.Player.Money >= hotel.Prezzi.Appartamento)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.Appartamento);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.Appartamento);
-						Screen.Fading.FadeOut(800);
-						await BaseScript.Delay(1000);
-						OldPos = Game.PlayerPed.Position;
-						RequestCollisionAtCoord(-1468.14f, -541.815f, 73.4442f);
-						Game.PlayerPed.Position = new Vector3(-1452.841f, -539.489f, 74.044f);
-						Main.istanced = true;
+						pos = new Vector3(-1452.841f, -539.489f, 74.044f);
 						IsInAppartamento = true;
-						await BaseScript.Delay(2000);
-						Screen.Fading.FadeIn(800);
 					}
 					else
 						HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
 				}
+				Client.GetInstance.DeregisterTickHandler(Eventi.LocationSave);
+				menu.Visible = false;
+				Screen.Fading.FadeOut(800);
+				await BaseScript.Delay(1000);
+				OldPos = Game.PlayerPed.Position;
+				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
+				Game.PlayerPed.Position = pos;
+				await BaseScript.Delay(2000);
+				Main.istanced = true;
+				Eventi.Player.InCasa = true;
+				Screen.Fading.FadeIn(800);
 				Client.GetInstance.RegisterTickHandler(GestioneHotel);
 			};
 			HotelMenu.Visible = true;
@@ -160,12 +143,13 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
+							Eventi.Player.InCasa = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
 				}
-				else if (IsInMedia)
+				if (IsInMedia)
 				{
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(346.493f, -1013.031f, -99.196f)) < 1.3f)
 					{
@@ -179,13 +163,14 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
-							IsInPiccola = false;
+							IsInMedia = false;
+							Eventi.Player.InCasa = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
 				}
-				else if (IsInAppartamento)
+				if (IsInAppartamento)
 				{
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1452.164f, -540.640f, 74.044f)) < 1.3f)
 					{
@@ -199,7 +184,8 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
-							IsInPiccola = false;
+							IsInAppartamento = false;
+							Eventi.Player.InCasa = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

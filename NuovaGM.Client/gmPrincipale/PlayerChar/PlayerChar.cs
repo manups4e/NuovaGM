@@ -17,6 +17,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public long playTime;
 		public Identifiers identifiers;
 		public bool ammanettato;
+		public bool InCasa;
 		public string lastConnection;
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();
@@ -33,6 +34,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			data = JsonConvert.DeserializeObject<JContainer>(result.Value<string>("char_data"));
 			status = new Status();
 			ammanettato = false;
+			InCasa = false;
 			playerId = Game.Player.Handle;
 			for (int i = 0; i < data.Count; i++)
 			{
