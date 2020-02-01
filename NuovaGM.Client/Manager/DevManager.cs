@@ -44,6 +44,14 @@ namespace NuovaGM.Client.Manager
 			HUD.DrawText(0.4f, 0.925f, $"Posizione: X = {Math.Round(Game.PlayerPed.Position.X, 3)}, Y = {Math.Round(Game.PlayerPed.Position.Y, 3)}, Z = {Math.Round(Game.PlayerPed.Position.Z, 3)}, Heading = {Math.Round(Game.PlayerPed.Heading, 3)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: X = {Math.Round(GetEntityRotation(PlayerPedId(), 2).X, 3)}, Y = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Y, 3)}, Z = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Z, 3)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = " + GetInteriorFromGameplayCam());
+			if (Game.PlayerPed.IsAiming)
+			{
+				int entity = 0;
+				if (GetEntityPlayerIsFreeAimingAt(PlayerId(), ref entity))
+				{
+					HUD.DrawText3D(GetEntityCoords(entity, true), Colors.DarkSeaGreen, "Hash = " + GetEntityModel(entity));
+				}
+			}
 			if (Game.PlayerPed.IsInVehicle())
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));

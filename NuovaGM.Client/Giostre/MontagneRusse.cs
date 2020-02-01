@@ -164,7 +164,7 @@ namespace NuovaGM.Client.Giostre
 						Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_enter_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
 						PlaySoundFromEntity(-1, "Bar_Lower_And_Lock", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Posto per entrare
 						if (SonoSeduto) await Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_enter_player_" + Posto, 8f, -8f, -1, AnimationFlags.StayInEndFrame, 0);
-						await BaseScript.Delay(5000);
+						while (GetEntityAnimCurrentTime(Montagna.Carrelli[0].Entity.Handle, RollerAnim, "safety_bar_enter_roller_car") < 0.9f) await BaseScript.Delay(0); 
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "VIAGGIO");
 					}
 					else if (Montagna.State == "VIAGGIO")

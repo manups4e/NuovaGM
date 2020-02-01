@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using System;
@@ -200,11 +201,12 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerScende(int player)
 		{
-			Debug.WriteLine("Player = " + player);
 			Ped p = new Ped(player);
 			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
 			Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabine[Ruota.Gradient].Entity.Handle, 0f, 0f, 0f);
-			RenderScriptCams(false, false, 3000, true, false);
+			DestroyAllCams(false);
+			RenderScriptCams(false, false, 1000, false, false);
+			DestroyAllCams(false);
 			int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
 			NetworkAddPedToSynchronisedScene(p.Handle, uLocal_377, "anim@mp_ferris_wheel", "exit_player_one", 8f, -8f, 131072, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(uLocal_377);
@@ -309,7 +311,10 @@ namespace NuovaGM.Client.Giostre
 			Cam1 = new Camera(CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -1703.854f, -1082.222f, 42.006f, -8.3096f, 0f, -111.8213f, 50f, false, 0));
 			Cam1.PointAt(Ruota.Entity);
 			Cam1.IsActive = true;
+			Screen.Fading.FadeOut(500);
+			await BaseScript.Delay(800);
 			RenderScriptCams(true, false, 3000, false, false);
+			Screen.Fading.FadeIn(500);
 			func_79();
 			SetLocalPlayerInvisibleLocally(false);
 		}
