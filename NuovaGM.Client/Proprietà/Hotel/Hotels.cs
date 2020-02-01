@@ -132,7 +132,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				{
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(266.094f, -1007.487f, -101.800f)) < 1.3f)
 					{
-						HUD.ShowHelp("~INPUT_CONTEXT~ per uscire dalla stanza");
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Game.IsControlJustPressed(0, Control.Context))
 						{
 							Screen.Fading.FadeOut(800);
@@ -153,7 +153,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				{
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(346.493f, -1013.031f, -99.196f)) < 1.3f)
 					{
-						HUD.ShowHelp("~INPUT_CONTEXT~ per uscire dalla stanza");
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Game.IsControlJustPressed(0, Control.Context))
 						{
 							Screen.Fading.FadeOut(800);
@@ -174,7 +174,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				{
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1452.164f, -540.640f, 74.044f)) < 1.3f)
 					{
-						HUD.ShowHelp("~INPUT_CONTEXT~ per uscire dalla stanza");
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'appartamento");
 						if (Game.IsControlJustPressed(0, Control.Context))
 						{
 							Screen.Fading.FadeOut(800);
