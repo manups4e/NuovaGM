@@ -124,4 +124,95 @@ namespace NuovaGM.Client
 	{
 		public List<Hotel> hotels = new List<Hotel>();
 	}
+
+	public class BarbieriTesta
+	{
+		public Capelli capelli = new Capelli();
+		public List<Capigliature> trucco = new List<Capigliature>();
+		public List<Capigliature> sopr = new List<Capigliature>();
+		public List<Capigliature> barba = new List<Capigliature>();
+		public List<Capigliature> ross = new List<Capigliature>();
+	}
+
+	public class Capelli
+	{
+		public List<Capigliature> kuts = new List<Capigliature>();
+		public List<Capigliature> osheas = new List<Capigliature>();
+		public List<Capigliature> hawick = new List<Capigliature>();
+		public List<Capigliature> beach = new List<Capigliature>();
+		public List<Capigliature> mulet = new List<Capigliature>();
+	}
+
+	public class Abiti
+	{
+		public List<Completo> BincoVest = new List<Completo>();
+		public List<Completo> DiscVest = new List<Completo>();
+		public List<Completo> SubVest = new List<Completo>();
+		public List<Completo> PonsVest = new List<Completo>();
+		public List<Singolo> BincoScarpe = new List<Singolo>();
+		public List<Singolo> DiscScarpe = new List<Singolo>();
+		public List<Singolo> SubScarpe = new List<Singolo>();
+		public List<Singolo> PonsScarpe = new List<Singolo>();
+		public List<Singolo> BincoPant = new List<Singolo>();
+		public List<Singolo> DiscPant = new List<Singolo>();
+		public List<Singolo> SubPant = new List<Singolo>();
+		public List<Singolo> PonsPant = new List<Singolo>();
+		public List<Singolo> Occhiali = new List<Singolo>();
+		public Accessori Accessori = new Accessori();
+	}
+
+	public class Completo
+	{
+		public string Name;
+		public string Description;
+		public int Price;
+		public ComponentDrawables ComponentDrawables = new ComponentDrawables();
+		public ComponentDrawables ComponentTextures = new ComponentDrawables();
+		public PropIndices PropIndices = new PropIndices();
+		public PropIndices PropTextures = new PropIndices();
+
+		public Completo(string name, string desc, int price, ComponentDrawables componentDrawables, ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures)
+		{
+			Name = name;
+			Description = desc;
+			Price = price;
+			ComponentDrawables = componentDrawables;
+			ComponentTextures = componentTextures;
+			PropIndices = propIndices;
+			PropTextures = propTextures;
+		}
+	}
+
+	public class Singolo
+	{
+		public string Title;
+		public string Description;
+		public int Modello;
+		public int Price;
+		public List<int> Text = new List<int>();
+	}
+
+	public class Accessori
+	{
+		public List<Singolo> Borse = new List<Singolo>();
+		public Testa Testa = new Testa();
+		public List<Singolo> Orologi = new List<Singolo>();
+		public List<Singolo> Bracciali = new List<Singolo>();
+	}
+
+	public class Testa
+	{
+		public List<Singolo> Orecchini = new List<Singolo>();
+		public List<Singolo> Auricolari = new List<Singolo>();
+		public List<Singolo> Cappellini = new List<Singolo>();
+	}
+
+	public class Capigliature
+	{
+		public string Name;
+		public string Description;
+		public int var;
+		public int price;
+	}
+
 }

@@ -15,7 +15,6 @@ namespace NuovaGM.Client.Negozi
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			//			Client.GetInstance().RegisterTickHandler(OnTick);
 		}
 
 		public static async void Spawnato()

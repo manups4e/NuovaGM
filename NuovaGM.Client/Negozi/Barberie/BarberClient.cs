@@ -27,7 +27,6 @@ namespace NuovaGM.Client.Negozi
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:capigliature:CaricaAbiti", new Action<string, string>(BarbieriEAccessori.CaricaCapigliature));
 		}
 
 		public static async void Spawnato()
@@ -90,13 +89,9 @@ namespace NuovaGM.Client.Negozi
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
 				if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-				{
-					BarberMenu(BarbieriEAccessori.Maschio, Menu);
-				}
+					BarberMenu(ConfigClient.Conf.Negozi.Barbieri.Maschio, Menu);
 				else
-				{
-					BarberMenu(BarbieriEAccessori.Femmina, Menu);
-				}
+					BarberMenu(ConfigClient.Conf.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 
@@ -336,34 +331,20 @@ namespace NuovaGM.Client.Negozi
 			string title = "";
 
 			if (skin.sex == "Maschio")
-			{
 				desc = "Ma davvero?!?!";
-			}
 			else
-			{
 				desc = "Scegli il trucco perfetto!";
-			}
 
 			if (NomeNegozio == "Kuts")
-			{
 				title = "Benvenuto da Herr Kuts!";
-			}
 			else if (NomeNegozio == "Hawick")
-			{
 				title = "Benvenuto da Hair On Hawick!";
-			}
 			else if (NomeNegozio == "Osheas")
-			{
 				title = "Benvenuto da O'Sheas!";
-			}
 			else if (NomeNegozio == "Combo")
-			{
 				title = "Benvenuto da Beachcombover!";
-			}
 			else if (NomeNegozio == "Mulet")
-			{
 				title = "Benvenuto da Bob Mulet!";
-			}
 
 			List<dynamic> barbe = new List<dynamic>();
 			List<dynamic> trucco = new List<dynamic>();
@@ -376,49 +357,23 @@ namespace NuovaGM.Client.Negozi
 			List<dynamic> capmulet = new List<dynamic>();
 
 			foreach (var b in Tipo.barba)
-			{
 				barbe.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.trucco)
-			{
 				trucco.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.sopr)
-			{
 				sopr.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.ross)
-			{
 				ross.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.capelli.kuts)
-			{
 				capkuts.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.capelli.hawick)
-			{
 				caphawick.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.capelli.osheas)
-			{
 				caposheas.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.capelli.beach)
-			{
 				capcombo.Add(b.Name);
-			}
-
 			foreach (var b in Tipo.capelli.mulet)
-			{
 				capmulet.Add(b.Name);
-			}
 
 			MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);
 			HUD.MenuPool.Add(MenuPrincipale);
@@ -426,25 +381,15 @@ namespace NuovaGM.Client.Negozi
 
 			UIMenuListItem Capelli = new UIMenuListItem("Capelli", new List<dynamic>() { 0 }, 0);
 			if (NomeNegozio == "Kuts")
-			{
 				Capelli = new UIMenuListItem("Capelli", capkuts, 0);
-			}
 			else if (NomeNegozio == "Hawick")
-			{
 				Capelli = new UIMenuListItem("Capelli", caphawick, 0);
-			}
 			else if (NomeNegozio == "Osheas")
-			{
 				Capelli = new UIMenuListItem("Capelli", caposheas, 0);
-			}
 			else if (NomeNegozio == "Combo")
-			{
 				Capelli = new UIMenuListItem("Capelli", capcombo, 0);
-			}
 			else if (NomeNegozio == "Mulet")
-			{
 				Capelli = new UIMenuListItem("Capelli", capmulet, 0);
-			}
 
 			UIMenuColorPanel capCol1 = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
 			UIMenuColorPanel capCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);

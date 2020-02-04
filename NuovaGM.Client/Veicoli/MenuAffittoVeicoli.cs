@@ -14,7 +14,7 @@ namespace NuovaGM.Client.Veicoli
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		public static VeicoloAffitto veicoloInAffitto = null;
-		public static VeicoliAffitto veicoliAff;
+		public static VeicoliAffitto veicoliAff = ConfigClient.Conf.Veicoli.veicoliAff;
 		public static bool affittato = false;
 
 		public static async void MenuAffitto(int num)
@@ -450,10 +450,7 @@ namespace NuovaGM.Client.Veicoli
 				await BaseScript.Delay(100);
 				Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
 				foreach (Vehicle v in ves)
-				{
 					v.Delete();
-				}
-
 				VeicoliClient.setupGarageCamera(true, num);
 			};
 
@@ -464,10 +461,7 @@ namespace NuovaGM.Client.Veicoli
 				{
 					if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
 					Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
-					foreach (Vehicle v in ves)
-					{
-						v.Delete();
-					}
+					foreach (Vehicle v in ves) v.Delete();
 				}
 			};
 

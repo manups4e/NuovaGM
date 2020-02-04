@@ -1,7 +1,5 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.Interactions;
 using NuovaGM.Client.IPLs;
-using NuovaGM.Client.Meteo_new;
 
 namespace NuovaGM.Client
 {
@@ -11,8 +9,8 @@ namespace NuovaGM.Client
 		{
 			ConfigClient.Init();
 			while (ConfigClient.Conf == null) await BaseScript.Delay(0);
-			Meteo.Init();
-			Orario.Init();
+			Meteo_new.Meteo.Init();
+			Meteo_new.Orario.Init();
 			gmPrincipale.Main.Init();
 
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
@@ -52,20 +50,19 @@ namespace NuovaGM.Client
 			Giostre.RuotaPanoramica.Init();
 			Giostre.Funivia.Init();
 
+			IPLInstance.Init();
 			Proprietà.Hotel.Hotels.Init();
 
-			Macchinette.Init();
-			Spazzatura.Init();
+			Interactions.Macchinette.Init();
+			Interactions.Spazzatura.Init();
+			Interactions.Docce.Init();
+			Interactions.Letti.Init();
+
+			Interactions.DivaniEPosizioniSedute.Init();
 
 			TickController.Init();
 			DamageEvents.Init();
 
-			IPLInstance.Init();
-
-			Docce.Init();
-			Letti.Init();
-
-			DivaniEPosizioniSedute.Init();
 		}
 	}
 }
