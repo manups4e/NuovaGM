@@ -8,7 +8,6 @@ using NuovaGM.Server.Lavori.Whitelistati;
 using NuovaGM.Server.manager;
 using NuovaGM.Server.Meteo_New;
 using NuovaGM.Server.Veicoli;
-using NuovaGM.Server.weather;
 
 namespace NuovaGM.Server
 {
@@ -32,7 +31,6 @@ namespace NuovaGM.Server
 			FPLServer.Init();
 			FuelServer.Init();
 			VeicoliServer.Init();
-//			WeatherServer.Init();
 			Meteo.Init();
 			Orario.Init();
 			Coda.Init();

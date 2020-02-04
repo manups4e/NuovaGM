@@ -16,7 +16,6 @@ using NuovaGM.Client.Negozi;
 using NuovaGM.Client.Personale;
 using NuovaGM.Client.Sport;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Client.weather;
 using System;
 using System.Collections.Generic;
 using System.Linq;

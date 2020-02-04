@@ -195,8 +195,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Bracciali, dress.Accessori.Bracciali, dress.TexturesAccessori.Bracciali, true);
 			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_8, dress.Accessori.Unk_8, dress.TexturesAccessori.Unk_8, true);
 		}
-
-		#endregion
+			#endregion
 
 		#region MenuF6
 		static UIMenu MenuPoliziaPrincipale = new UIMenu("", "");
@@ -469,13 +468,13 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			CercaPers.OnMenuOpen += async (Menu) =>
 			{
-				Dictionary<string, gmPrincipale.Personaggio.PlayerChar> players = await Funzioni.GetAllPlayersAndTheirData();
+				Dictionary<string, PlayerChar> players = await Funzioni.GetAllPlayersAndTheirData();
 				Menu.Clear();
-				foreach (KeyValuePair<string, gmPrincipale.Personaggio.PlayerChar> pers in players.OrderBy(x => x.Key))
+				foreach (KeyValuePair<string, PlayerChar> pers in players.OrderBy(x => x.Key))
 				{
 					foreach (Char_data data in pers.Value.char_data)
 					{
-						if (nome != "" && nome != null && data.info.firstname.Contains(nome) || cognome != "" && cognome != null && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
+						if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
 						{
 							int source = 0;
 							foreach (Player p in Client.GetInstance.GetPlayers.ToList())

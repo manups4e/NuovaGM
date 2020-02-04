@@ -48,12 +48,9 @@ namespace NuovaGM.Client
 			Veicoli.Treni.Init();
 			Veicoli.EffettiRuote.Init();
 
-//			weather.WeatherClient.Init();
-
-
 			Giostre.MontagneRusse.Init();
 			Giostre.RuotaPanoramica.Init();
-//			Giostre.Funivia.Init();
+			Giostre.Funivia.Init();
 
 			Proprietà.Hotel.Hotels.Init();
 

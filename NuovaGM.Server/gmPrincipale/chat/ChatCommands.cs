@@ -20,7 +20,6 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.AddCommand("mec", new Action<int, List<dynamic>, string>(Mec), false);
 			Server.GetInstance.AddCommand("me", new Action<int, List<dynamic>, string>(Me), false);
 			Server.GetInstance.AddCommand("do", new Action<int, List<dynamic>, string>(Do), false);
-			Server.GetInstance.AddCommand("setmeteo", new Action<int, List<dynamic>, string>(SetMeteo), false);
 			Server.GetInstance.AddCommand("giveitem", new Action<int, List<dynamic>, string>(GiveItem), false);
 			Server.GetInstance.AddCommand("removeitem", new Action<int, List<dynamic>, string>(RemoveItem), false);
 			Server.GetInstance.AddCommand("giveweapon", new Action<int, List<dynamic>, string>(GiveWeapon), false);
@@ -45,7 +44,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.AddCommand("setgang", new Action<int, List<dynamic>, string>(SetGang), false);
 			Server.GetInstance.AddCommand("cambiaora", new Action<int, List<dynamic>, string>(Time), false);
 			Server.GetInstance.AddCommand("bloccatempo", new Action<int, List<dynamic>, string>(FreezeTime), false);
-			Server.GetInstance.AddCommand("meteo", new Action<int, List<dynamic>, string>(Weather), false);
+			Server.GetInstance.AddCommand("setmeteo", new Action<int, List<dynamic>, string>(Weather), false);
 
 
 			//			Server.GetInstance.AddCommand("nome comando", new Action<int, List<dynamic>, string>(funzione comando), false);
@@ -491,23 +490,6 @@ namespace NuovaGM.Server.gmPrincipale
 			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
-		public static void SetMeteo(int sender, List<dynamic> args, string rawCommand)
-		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmeteo"]))
-			{
-				if ((args[0] as string).All(char.IsDigit))
-				{
-					if (Convert.ToInt32(args[0]) != 0 && Convert.ToInt32(args[0]) != 1 && Convert.ToInt32(args[0]) != 2 && Convert.ToInt32(args[0]) != 3 && Convert.ToInt32(args[0]) != 4 && Convert.ToInt32(args[0]) != 5 && Convert.ToInt32(args[0]) != 6 && Convert.ToInt32(args[0]) != 7 && Convert.ToInt32(args[0]) != 8)
-						BaseScript.TriggerClientEvent("lprp:weather:setWeatherTrans", Convert.ToInt32(args[0]));
-				}
-				else if ((args[0] as string) == "neve")
-					weather.WeatherServer.sendSnowEvents();
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmeteo] = ", "ExtraSunny = 0, Clear = 1, Clouds = 2, Foggy = 4, Raining = 5, Heavy Rain = 6, ThunderStorm = 7, Clearing = 8, Snow = \"Neve\"" }, color = new[] { 255, 0, 0 } });
-			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
-		}
-
 		public static void Muori(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["suicidati"]))
@@ -740,7 +722,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			else
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["meteo"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmeteo"]))
 				{
 					bool validWeatherType = false;
 					if (args.Count < 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))

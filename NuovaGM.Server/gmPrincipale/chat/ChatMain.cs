@@ -22,7 +22,6 @@ namespace NuovaGM.Server.gmPrincipale
 			["removeitem"] = 2,
 			["giveweapon"] = 2,
 			["removeweapon"] = 2,
-			["setmeteo"] = 5,
 			["setjob"] = 2,
 			["setgang"] = 2,
 			["revive"] = 2,
@@ -55,7 +54,7 @@ namespace NuovaGM.Server.gmPrincipale
 			["sviluppatore"] = 5,
 			["cambiaora"] = 3,
 			["bloccatempo"] = 3,
-			["meteo"] = 3,
+			["setmeteo"] = 3,
 		};
 
 		public static void Init()
