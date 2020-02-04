@@ -85,7 +85,7 @@ namespace NuovaGM.Client.ListaPlayers
 		/// </summary>
 		private static void UpdateMaxPages()
 		{
-			maxPages = (int)Math.Ceiling((double)Client.GetInstance.GetPlayers.Count() / 16.0);
+			maxPages = (int)Math.Ceiling((double)Client.GetInstance.GetPlayers.ToList().Count() / 16.0);
 		}
 
 		/// <summary>
@@ -279,7 +279,7 @@ namespace NuovaGM.Client.ListaPlayers
 			}
 
 			var amount = 0;
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				if (IsRowSupposedToShow(amount))
 				{

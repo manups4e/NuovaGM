@@ -4,6 +4,7 @@ using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Server.Businesses
@@ -161,7 +162,7 @@ namespace NuovaGM.Server.Businesses
 			int manageid = (int)Manageid;
 			if (name != null)
 			{
-				foreach (Player a in Server.GetInstance.GetPlayers)
+				foreach (Player a in Server.GetInstance.GetPlayers.ToList())
 				{
 					if (ServerEntrance.PlayerList[a.Handle].FullName == name)
 					{

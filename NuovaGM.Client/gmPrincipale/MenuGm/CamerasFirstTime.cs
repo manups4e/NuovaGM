@@ -3,6 +3,7 @@ using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -217,7 +218,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(-640.411f, -525.006f, 25.331f), 2f);
 				foreach (Vehicle v in vehs)
 				{
-					foreach (Player p in Client.GetInstance.GetPlayers)
+					foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 					{
 						if (v.Driver != new Ped(GetPlayerPed(p.Handle)))
 						{

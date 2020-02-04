@@ -14,6 +14,9 @@ namespace NuovaGM.Client.Giostre
 	static class MontagneRusse
 	{
 		// DA PROVARE A SPAWNARLE NETWORKED E SOLO DALL'HOST! COSì TUTTI SALGONO SULLE SUE A PRESCINDERE!
+		// funziona.. ma a scattissimi e cmq non serve a nulla perchè così a scatti è inusabile.. ruota panoramica too
+		// NEXT STEP => QUANDO IL PLAYER VUOLE SALIRE, TRIGGERA EVENTO E LUI SALE.. GLI ALTRI VEDONO IL SUO PED SALIRE..
+		// ALTRIMENTI NON SO CHE FARE....
 		//Montagna.Index == index
 
 		static int iLocal_715 = 0;

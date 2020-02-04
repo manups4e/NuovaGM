@@ -204,7 +204,7 @@ namespace NuovaGM.Client.Giostre
 			Ped p = new Ped(player);
 			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
 			Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabine[Ruota.Gradient].Entity.Handle, 0f, 0f, 0f);
-			DestroyAllCams(false);
+			Cam1.Delete();
 			RenderScriptCams(false, false, 1000, false, false);
 			DestroyAllCams(false);
 			int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
@@ -313,7 +313,7 @@ namespace NuovaGM.Client.Giostre
 			Cam1.IsActive = true;
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(800);
-			RenderScriptCams(true, false, 3000, false, false);
+			RenderScriptCams(true, false, 1000, false, false);
 			Screen.Fading.FadeIn(500);
 			func_79();
 			SetLocalPlayerInvisibleLocally(false);

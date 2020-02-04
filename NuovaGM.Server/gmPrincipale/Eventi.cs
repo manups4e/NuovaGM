@@ -4,6 +4,7 @@ using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -180,7 +181,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Log.Printa(LogType.Info, ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
 			BaseScript.TriggerEvent("lprp:serverLog", ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
-			foreach (Player player in Server.GetInstance.GetPlayers)
+			foreach (Player player in Server.GetInstance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
 					BaseScript.TriggerClientEvent(player, "lprp:ShowNotification", "~g~" + ServerEntrance.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));

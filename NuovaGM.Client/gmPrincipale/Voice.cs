@@ -4,6 +4,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Personale;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -36,7 +37,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static void UpdateVoices()
 		{
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				Ped otherPed = new Ped(p.Handle);
 				int serverID = GetPlayerServerId(p.Handle);
@@ -103,7 +104,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			if (FirstTick)
 			{
-				foreach (Player p in Client.GetInstance.GetPlayers)
+				foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 					SendVoiceToPlayer(p, false);
 				NetworkSetTalkerProximity(-1000.0f);
 				FirstTick = false;
@@ -117,7 +118,7 @@ namespace NuovaGM.Client.gmPrincipale
 			else if (!sendVoice && shouldReset)
 			{
 				shouldReset = false;
-				foreach (Player p in Client.GetInstance.GetPlayers)
+				foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 				{
 					SendVoiceToPlayer(p, false);
 				}
@@ -184,7 +185,7 @@ namespace NuovaGM.Client.gmPrincipale
 						notif = true;
 					}
 					Permesso = false;
-					foreach (Player p in Client.GetInstance.GetPlayers)
+					foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 					{
 						Ped otherPed = new Ped(p.Handle);
 						if (CanPedBeListened(Game.PlayerPed, otherPed))

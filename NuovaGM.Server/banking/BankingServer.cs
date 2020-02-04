@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server.gmPrincipale;
 using System;
+using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Server.banking
@@ -19,7 +20,7 @@ namespace NuovaGM.Server.banking
 			User user = ServerEntrance.PlayerList[player.Handle];
 			if (user.Bank >= amount)
 			{
-				foreach (Player p in Server.GetInstance.GetPlayers)
+				foreach (Player p in Server.GetInstance.GetPlayers.ToList())
 				{
 					if (ServerEntrance.PlayerList[p.Handle].FullName.ToLower() == name.ToLower())
 					{

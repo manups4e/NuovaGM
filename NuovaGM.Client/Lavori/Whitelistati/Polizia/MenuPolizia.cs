@@ -241,7 +241,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			DatiPlayer.OnMenuOpen += async (menu) =>
 			{
 				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.GetInstance.GetPlayers.Count() > 1)
+				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -291,7 +291,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			Perquisizione.OnMenuOpen += async (menu) =>
 			{
 				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.GetInstance.GetPlayers.Count() > 1)
+				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -334,7 +334,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			InterazioneCivile.OnItemSelect += async (menu, item, index) =>
 			{
-				if (Client.GetInstance.GetPlayers.Count() > 1)
+				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -478,7 +478,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						if (nome != "" && nome != null && data.info.firstname.Contains(nome) || cognome != "" && cognome != null && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
 						{
 							int source = 0;
-							foreach (Player p in Client.GetInstance.GetPlayers)
+							foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 							{
 								if (p.Name == pers.Key)
 								{
@@ -836,7 +836,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					ControlliVeicoloRemoto.ParentItem.Description = ControlliVeicoloRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
 				}
 			}
-			if (Client.GetInstance.GetPlayers.Count() > 1)
+			if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
 			{
 				Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 				float distance = Player_Distance.Item2;

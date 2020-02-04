@@ -2,6 +2,7 @@
 using NuovaGM.Server;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace FivemPlayerlistServer
@@ -20,7 +21,7 @@ namespace FivemPlayerlistServer
 		private static async void ReturnMaxPlayers([FromSource] Player source)
 		{
 			source.TriggerEvent("lprp:fs:setMaxPlayers", int.Parse(GetConvar("sv_maxClients", "30").ToString()));
-			foreach (Player p in Server.GetInstance.GetPlayers)
+			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
 			{
 				if (list.ContainsKey(int.Parse(p.Handle)))
 				{

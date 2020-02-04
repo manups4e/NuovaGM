@@ -32,7 +32,7 @@ namespace NuovaGM.Server.gmPrincipale
 			if (result != null)
 			{
 				string stringa = JsonConvert.SerializeObject(result);
-				if (stringa != "[]" && stringa != "{}")
+				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
 					PlayerList[handle] = new User(player, result[0]);
 					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);

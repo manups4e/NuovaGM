@@ -759,7 +759,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 				}
 			}
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				SetCanAttackFriendly(p.Character.Handle, true, true);
 				NetworkSetFriendlyFireOption(true);

@@ -144,6 +144,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
 							Eventi.Player.InCasa = false;
+							Main.istanced = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -165,6 +166,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
 							Eventi.Player.InCasa = false;
+							Main.istanced = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -186,6 +188,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
 							Eventi.Player.InCasa = false;
+							Main.istanced = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

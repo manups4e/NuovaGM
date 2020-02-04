@@ -651,7 +651,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area)
 		{
 			List<Player> PlayersInArea = new List<Player>();
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				Player target = p;
 				if (World.GetDistance(target.Character.Position, coords) <= area)
@@ -671,7 +671,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area)
 		{
 			List<Ped> PlayersPedsInArea = new List<Ped>();
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				if (World.GetDistance(target.Position, coords) <= area)
@@ -731,7 +731,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static Player GetPlayerFromPed(Ped ped)
 		{
 			Player p = null;
-			foreach (Player pl in Client.GetInstance.GetPlayers)
+			foreach (Player pl in Client.GetInstance.GetPlayers.ToList())
 			{
 				if (pl.Character == ped)
 				{
@@ -751,7 +751,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Player closestPlayer = null;
 			Vector3 Coords = Game.PlayerPed.Position;
 
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				if (p != Game.Player)
@@ -792,7 +792,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			float closestDistance = -1;
 			Player closestPlayer = null;
 
-			foreach (Player p in Client.GetInstance.GetPlayers)
+			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				Vector3 targetCoords = target.Position;

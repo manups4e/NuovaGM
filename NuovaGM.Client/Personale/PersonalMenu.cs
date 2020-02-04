@@ -360,7 +360,7 @@ namespace NuovaGM.Client.Personale
 						{
 							bool found = false;
 							List<Ped> players = new List<Ped>();
-							foreach (Player p in Client.GetInstance.GetPlayers)
+							foreach (Player p in Client.GetInstance.GetPlayers.ToList())
 							{
 								Ped ped = new Ped(p.Handle);
 								if (World.GetDistance(Game.PlayerPed.Position, ped.Position) < 1.375)

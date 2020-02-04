@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NuovaGM.Server.gmPrincipale
@@ -14,7 +15,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static Player GetPlayerFromId(int id)
 		{
-			foreach (Player p in Server.GetInstance.GetPlayers)
+			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
 			{
 				if (p.Handle == "" + id)
 					return p;
@@ -23,7 +24,7 @@ namespace NuovaGM.Server.gmPrincipale
 		}
 		public static Player GetPlayerFromId(string id)
 		{
-			foreach (Player p in Server.GetInstance.GetPlayers)
+			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
 			{
 				if (p.Handle == id)
 					return p;
@@ -36,7 +37,7 @@ namespace NuovaGM.Server.gmPrincipale
 			if (ServerEntrance.PlayerList.Count > 0)
 			{
 				await BaseScript.Delay(ConfigServer.Conf.Main.SalvataggioTutti * 60000);
-				foreach (Player player in Server.GetInstance.GetPlayers)
+				foreach (Player player in Server.GetInstance.GetPlayers.ToList())
 				{
 					string name = player.Name;
 					if (ServerEntrance.PlayerList.ContainsKey(player.Handle))
