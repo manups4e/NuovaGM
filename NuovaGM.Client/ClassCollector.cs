@@ -14,7 +14,7 @@ namespace NuovaGM.Client
 			gmPrincipale.Main.Init();
 
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
-			Lavori.JobManager.Init();
+//			Lavori.JobManager.Init();
 
 			Banking.BankingClient.Init();
 

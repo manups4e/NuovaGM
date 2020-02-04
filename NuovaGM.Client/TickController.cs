@@ -57,7 +57,7 @@ namespace NuovaGM.Client
 			Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MainTickPolizia);
 			Client.GetInstance.RegisterTickHandler(FuelClient.FuelCount);
 			Client.GetInstance.RegisterTickHandler(FuelClient.FuelTruck);
-			if (JobManager.Polizia.Config.AbilitaBlipVolanti)
+			if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
 				Client.GetInstance.RegisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
 		}
 

@@ -27,7 +27,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		public static async void Spawnato()
 		{
-			foreach (var stazione in JobManager.Polizia.Config.Stazioni)
+			foreach (var stazione in ConfigClient.Conf.Lavori.Polizia.Config.Stazioni)
 			{
 				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords[0], stazione.Blip.Coords[1], stazione.Blip.Coords[2]))
 				{
@@ -69,12 +69,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		{
 			if (Eventi.Player.CurrentChar.job.name == "Polizia")
 			{
-				for (int stazione=0; stazione < JobManager.Polizia.Config.Stazioni.Count; stazione++)
+				for (int stazione=0; stazione < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni.Count; stazione++)
 				{
-					for (int spoglio = 0; spoglio < JobManager.Polizia.Config.Stazioni[stazione].Spogliatoio.Count; spoglio++)
+					for (int spoglio = 0; spoglio < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio.Count; spoglio++)
 					{
-						World.DrawMarker(MarkerType.HorizontalCircleSkinny, JobManager.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(Game.PlayerPed.Position, JobManager.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3()) < 1.375f)
+						World.DrawMarker(MarkerType.HorizontalCircleSkinny, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
+						if (World.GetDistance(Game.PlayerPed.Position, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
 							if (Game.IsControlJustPressed(0, Control.Context))
@@ -84,30 +84,30 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					for (int arm = 0; arm < JobManager.Polizia.Config.Stazioni[stazione].Armerie.Count; arm++)
+					for (int arm = 0; arm < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Armerie.Count; arm++)
 					{
-						World.DrawMarker(MarkerType.HorizontalCircleSkinny, JobManager.Polizia.Config.Stazioni[stazione].Armerie[arm].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Red, false, false, true);
+						World.DrawMarker(MarkerType.HorizontalCircleSkinny, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Armerie[arm].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Red, false, false, true);
 					}
 
-					for (int veh = 0; veh< JobManager.Polizia.Config.Stazioni[stazione].Veicoli.Count; veh++)
+					for (int veh = 0; veh< ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli.Count; veh++)
 					{
-						World.DrawMarker(MarkerType.CarSymbol, JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
+						World.DrawMarker(MarkerType.CarSymbol, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
+						if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
 								CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								MenuPolizia.VehicleMenu(JobManager.Polizia.Config.Stazioni[stazione], JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
+								MenuPolizia.VehicleMenu(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
 							}
 						}
-						for (int del=0;del< JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters.Count; del++)
+						for (int del=0;del< ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters.Count; del++)
 						{
 							if (Game.PlayerPed.IsInVehicle())
 							{
-								World.DrawMarker(MarkerType.CarSymbol, JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(JobManager.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 1.375f && Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
+								World.DrawMarker(MarkerType.CarSymbol, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 1.375f && Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Game.IsControlJustPressed(0, Control.Context))
@@ -128,24 +128,24 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							}
 						}
 					}
-					for (int eli = 0; eli < JobManager.Polizia.Config.Stazioni[stazione].Elicotteri.Count; eli++)
+					for (int eli = 0; eli < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri.Count; eli++)
 					{
-						World.DrawMarker(MarkerType.HelicopterSymbol, JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
+						World.DrawMarker(MarkerType.HelicopterSymbol, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
+						if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
 								CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								MenuPolizia.HeliMenu(JobManager.Polizia.Config.Stazioni[stazione], JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli]);
+								MenuPolizia.HeliMenu(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli]);
 							}
 						}
-						for (int del = 0; del < JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters.Count; del++)
+						for (int del = 0; del < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters.Count; del++)
 						{
-							if (!Funzioni.IsSpawnPointClear(JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), 2f))
+							if (!Funzioni.IsSpawnPointClear(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), 2f))
 							{
-								foreach (var veh in Funzioni.GetVehiclesInArea(JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), 2f))
+								foreach (var veh in Funzioni.GetVehiclesInArea(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), 2f))
 								{
 									if (!veh.HasDecor("VeicoloPolizia"))
 									{
@@ -156,8 +156,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 							if (Game.PlayerPed.IsInHeli)
 							{
-								World.DrawMarker(MarkerType.HelicopterSymbol, JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(JobManager.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 3.375f && Game.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen())
+								World.DrawMarker(MarkerType.HelicopterSymbol, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 3.375f && Game.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
 									if (Game.IsControlJustPressed(0, Control.Context))
@@ -178,11 +178,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							}
 						}
 					}
-					if (Eventi.Player.CurrentChar.job.grade == JobManager.Polizia.Gradi.Count - 1)
+					if (Eventi.Player.CurrentChar.job.grade == ConfigClient.Conf.Lavori.Polizia.Gradi.Count - 1)
 					{
-						for (int boss = 0; boss < JobManager.Polizia.Config.Stazioni[stazione].AzioniCapo.Count; boss++)
+						for (int boss = 0; boss < ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo.Count; boss++)
 						{
-							World.DrawMarker(MarkerType.HorizontalCircleSkinny, JobManager.Polizia.Config.Stazioni[stazione].AzioniCapo[boss].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
+							World.DrawMarker(MarkerType.HorizontalCircleSkinny, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo[boss].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 						}
 					}
 				}
@@ -198,7 +198,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		public static async Task AbilitaBlipVolanti()
 		{
 			await BaseScript.Delay(1000);
-			if (JobManager.Polizia.Config.AbilitaBlipVolanti)
+			if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (var p in Eventi.GiocatoriOnline)
 				{
