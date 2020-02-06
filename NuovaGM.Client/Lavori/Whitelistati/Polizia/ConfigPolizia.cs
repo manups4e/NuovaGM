@@ -8,4 +8,10 @@ namespace NuovaGM.Client
 		public ConfigurazionePolizia Config = new ConfigurazionePolizia();
 		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
 	}
+
+	public class ConfigMedici
+	{
+		public ConfigurazioneMedici Config = new ConfigurazioneMedici();
+		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
+	}
 }

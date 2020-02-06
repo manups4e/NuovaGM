@@ -24,8 +24,6 @@ namespace NuovaGM.Client
 		{
 			Conf = JsonConvert.DeserializeObject<Configurazione>(JsonMain);
 			ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(JsonShared);
-			Debug.WriteLine(JsonConvert.SerializeObject(Conf.Lavori.Polizia.Config));
-			Debug.WriteLine(JsonConvert.SerializeObject(Conf.Lavori.Polizia.Gradi));
 		}
 	}
 
@@ -36,7 +34,6 @@ namespace NuovaGM.Client
 		public ConfigLavori Lavori = new ConfigLavori();
 		public ConfigNegozi Negozi = new ConfigNegozi();
 		public ConfigProprieta Proprieta = new ConfigProprieta();
-
 	}
 
 	public class ConfPrincipale
@@ -101,7 +98,9 @@ namespace NuovaGM.Client
 	public class ConfigLavori
 	{
 		public ConfigPolizia Polizia = new ConfigPolizia();
+		public ConfigMedici Medici = new ConfigMedici();
 	}
+
 	public class ConfigVeicoli
 	{
 		public VeicoliAffitto veicoliAff = new VeicoliAffitto();

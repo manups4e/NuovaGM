@@ -397,17 +397,20 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				switch (item)
 				{
 					case UIMenuItem n when n == PickLock:
-						// check veicolo lock
+						// check veicolo di un player locked
 						RequestAnimDict("anim@amb@clubhouse@tutorial@bkr_tut_ig3@");
 						while (!HasAnimDictLoaded("anim@amb@clubhouse@tutorial@bkr_tut_ig3@")) await BaseScript.Delay(0);
 						Game.PlayerPed.Task.PlayAnimation("anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 8f, -1, AnimationFlags.Loop);
 						await BaseScript.Delay(5000);
-						// veicolo aperto da ora
+						// veicolo aperto qui da ora
 						Game.PlayerPed.Task.ClearAll();
 						break;
 					case UIMenuItem n when n == requisizione:
 						TaskStartScenarioInPlace(PlayerPedId(), "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true);
 						await BaseScript.Delay(5000);
+						// veicolo eliminato e riportato in deposito...
+						// oppure marchiato come non necessario (MarkAsNoLongerNeeded) e poi despawnato dopo un po'
+						// oppure si chiama azienda di rimozione auto
 						Game.PlayerPed.Task.ClearAll();
 						break;
 				}
@@ -526,14 +529,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			MenuPoliziaPrincipale.OnMenuClose += (menu) =>
 			{
 				if (menu == MenuPoliziaPrincipale)
-				{
 					Client.GetInstance.DeregisterTickHandler(ControlloMenu);
-				}
 			};
 
 			MenuPoliziaPrincipale.Visible = true;
 		}
-
 		#endregion
 
 		#region MenuSpawnVeicoli

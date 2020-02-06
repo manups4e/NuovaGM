@@ -16,6 +16,12 @@ namespace NuovaGM.Shared
 
 	}
 
+	public class ConfigurazioneMedici
+	{
+		public List<Ospedale> Ospedali = new List<Ospedale>();
+	}
+
+
 	public class WhiteListed
 	{
 		public Dictionary<string, JobGrade> Polizia = new Dictionary<string, JobGrade>();
@@ -69,6 +75,18 @@ namespace NuovaGM.Shared
 		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
 		public List<float[]> AzioniCapo = new List<float[]>();
 	}
+
+	public class Ospedale
+	{
+		public BlipLavoro Blip = new BlipLavoro();
+		public List<float[]> Spogliatoio = new List<float[]>();
+		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
+		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
+		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
+		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
+		public List<float[]> AzioniCapo = new List<float[]>();
+	}
+
 	public class BlipLavoro
 	{
 		public float[] Coords = new float[3];
