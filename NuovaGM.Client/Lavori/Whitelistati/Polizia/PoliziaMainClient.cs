@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.MenuNativo;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
@@ -8,6 +6,8 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Client.MenuNativo;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 {

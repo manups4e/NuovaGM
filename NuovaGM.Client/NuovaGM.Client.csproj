@@ -122,6 +122,8 @@
     <Compile Include="IPLs\gta_online\GTAOApartmentHi1.cs" />
     <Compile Include="IPLs\IPLInstance.cs" />
     <Compile Include="IPLs\common\IplManager.cs" />
+    <Compile Include="Lavori\Whitelistati\Medici\MediciMainClient.cs" />
+    <Compile Include="Lavori\Whitelistati\Medici\MenuMedici.cs" />
     <Compile Include="Meteo_new\Meteo.cs" />
     <Compile Include="Meteo_new\Orario.cs" />
     <Compile Include="Proprietà\Hotel\Hotel.cs" />
@@ -236,7 +238,6 @@
   <ItemGroup>
     <Folder Include="Lavori\Generici\" />
     <Folder Include="Lavori\Whitelistati\Meccanici\" />
-    <Folder Include="Lavori\Whitelistati\Medici\" />
     <Folder Include="Proprietà\Appartamenti\" />
     <Folder Include="Proprietà\Garages\" />
     <Folder Include="Proprietà\Uffici\" />
