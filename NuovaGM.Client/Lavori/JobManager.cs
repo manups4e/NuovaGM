@@ -5,17 +5,15 @@ using System.Collections.Generic;
 
 namespace NuovaGM.Client.Lavori
 {
-	static class JobManager
+	public class ConfigPolizia
 	{
-		public static ConfigPolizia Polizia = new ConfigPolizia();
-		public static void Init()
-		{
-			Client.GetInstance.RegisterEventHandler("lprp:lavori:polizia", new Action<string, string>(ConfiguraPolizia));
-		}
-		private static void ConfiguraPolizia(string JsonConfig, string JsonGradi)
-		{
-			Polizia.Config = JsonConvert.DeserializeObject<ConfigurazionePolizia>(JsonConfig);
-			Polizia.Gradi = JsonConvert.DeserializeObject<Dictionary<string, JobGrade>>(JsonGradi);
-		}
+		public ConfigurazionePolizia Config = new ConfigurazionePolizia();
+		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
+	}
+
+	public class ConfigMedici
+	{
+		public ConfigurazioneMedici Config = new ConfigurazioneMedici();
+		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
 	}
 }

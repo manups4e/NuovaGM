@@ -207,7 +207,6 @@
     <Compile Include="gmPrincipale\Voice.cs" />
     <Compile Include="Lavori\JobManager.cs" />
     <Compile Include="Lavori\Whitelistati\DutyManager.cs" />
-    <Compile Include="Lavori\Whitelistati\Polizia\ConfigPolizia.cs" />
     <Compile Include="Lavori\Whitelistati\Polizia\PoliziaMainClient.cs" />
     <Compile Include="Lavori\Whitelistati\Polizia\SkinLoadout.cs" />
     <Compile Include="Manager\ClientManager.cs" />

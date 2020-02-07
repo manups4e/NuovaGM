@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Personaggio;
+using NuovaGM.Client.Lavori;
 using NuovaGM.Client.Proprietà.Hotel;
 using NuovaGM.Shared;
 using NuovaGM.Shared.Veicoli;
