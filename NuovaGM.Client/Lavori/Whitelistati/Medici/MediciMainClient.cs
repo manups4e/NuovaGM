@@ -8,6 +8,7 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
+using CitizenFX.Core.UI;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 {
@@ -36,7 +37,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersMedici()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico" || Eventi.Player.CurrentChar.job.name.ToLower() == "medici")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in ConfigClient.Conf.Lavori.Medici.Config.Ospedali)
 				{
@@ -44,17 +45,26 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					{
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 3f)
 						{
-							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
-							// Menu spogliatoio
+							if (World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => o.Model.Hash == (int)ObjectHash.p_cs_locker_01).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 2, 2)))
+							{
+								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
+								if (Game.IsControlJustPressed(0, Control.Context))
+								{
+									// Menu spogliatoio
+								}
+							}
 						}
 					}
 
 					foreach (float[] vettore in osp.Farmacia)
 					{
-						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 3f)
+						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.5f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
-							// Menu farmacia
+							if (Game.IsControlJustPressed(0, Control.Context))
+							{
+								// Menu farmacia
+							}
 						}
 					}
 
@@ -63,7 +73,40 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
-							// Ingresso visitatori
+							if (Game.IsControlJustPressed(0, Control.Context))
+							{
+								Vector3 pos;
+								if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
+									pos = new Vector3(272.8f, -1358.8f, 23.5f);
+								else
+									pos = new Vector3(254.301f, -1372.288f, 23.538f);
+
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								Game.PlayerPed.Position = pos;
+								Screen.Fading.FadeIn(800);
+							}
+						}
+					}
+
+					foreach (float[] vettore in osp.UscitaVisitatori)
+					{
+						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
+						{
+							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
+							if (Game.IsControlJustPressed(0, Control.Context))
+							{
+								Vector3 pos;
+								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
+									pos = osp.IngressoVisitatori[0].ToVector3();
+								else
+									pos = osp.IngressoVisitatori[2].ToVector3();
+
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								Game.PlayerPed.Position = pos;
+								Screen.Fading.FadeIn(800);
+							}
 						}
 					}
 
@@ -71,7 +114,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					{
 						if (!Game.PlayerPed.IsInVehicle())
 							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-						if (World.GetDistance(Game.PlayerPed.Position, vehicle.SpawnerMenu.ToVector3()) < 3f)
+						if (World.GetDistance(Game.PlayerPed.Position, vehicle.SpawnerMenu.ToVector3()) < 1.5f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
@@ -84,7 +127,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							if (Game.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(Game.PlayerPed.Position, vehicle.Deleters[i].ToVector3()) < 3f)
+								if (World.GetDistance(Game.PlayerPed.Position, vehicle.Deleters[i].ToVector3()) < 2f)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Game.IsControlJustPressed(0, Control.Context))
@@ -107,7 +150,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					{
 						if (!Game.PlayerPed.IsInVehicle())
 							World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-						if (World.GetDistance(Game.PlayerPed.Position, heli.SpawnerMenu.ToVector3()) < 3f)
+						if (World.GetDistance(Game.PlayerPed.Position, heli.SpawnerMenu.ToVector3()) < 1.5f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
@@ -120,7 +163,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							if (Game.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(Game.PlayerPed.Position, heli.Deleters[i].ToVector3()) < 3f)
+								if (World.GetDistance(Game.PlayerPed.Position, heli.Deleters[i].ToVector3()) < 2f)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Game.IsControlJustPressed(0, Control.Context))
@@ -154,7 +197,40 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
-							// ingresso visitatori
+							if (Game.IsControlJustPressed(0, Control.Context))
+							{
+								Vector3 pos;
+								if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
+									pos = new Vector3(272.8f, -1358.8f, 23.5f);
+								else
+									pos = new Vector3(254.301f, -1372.288f, 24.538f);
+
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								Game.PlayerPed.Position = pos;
+								Screen.Fading.FadeIn(800);
+							}
+						}
+					}
+
+					foreach (float[] vettore in osp.UscitaVisitatori)
+					{
+						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
+						{
+							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
+							if (Game.IsControlJustPressed(0, Control.Context))
+							{
+								Vector3 pos;
+								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
+									pos = osp.IngressoVisitatori[0].ToVector3();
+								else
+									pos = osp.IngressoVisitatori[2].ToVector3();
+
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								Game.PlayerPed.Position = pos;
+								Screen.Fading.FadeIn(800);
+							}
 						}
 					}
 				}

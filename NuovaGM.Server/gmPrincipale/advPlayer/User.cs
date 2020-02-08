@@ -140,6 +140,13 @@ namespace NuovaGM.Server.gmPrincipale
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
 
+		public void SetGang(string job, int grade)
+		{
+			CurrentChar.gang.name = job;
+			CurrentChar.gang.grade = grade;
+			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
+		}
+
 		public Tuple<bool, Inventory> getInventoryItem(string item)
 		{
 			for (int i = 0; i < CurrentChar.inventory.Count; i++)

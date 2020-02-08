@@ -75,7 +75,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			{
 				await BaseScript.Delay(1000);
 			}
-
 			Camera Cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,

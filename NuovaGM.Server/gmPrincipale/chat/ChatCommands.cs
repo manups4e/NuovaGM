@@ -582,11 +582,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					User pers = ServerEntrance.PlayerList[p.Handle];
 					if (pers.status.spawned)
-					{
-						pers.CurrentChar.job.name = args[1];
-						pers.CurrentChar.job.grade = Convert.ToInt32(args[2]);
-						BaseScript.TriggerEvent("lprp:updateCurChar", "char_data", JsonConvert.SerializeObject(pers.char_data));
-					}
+						pers.SetJob(args[1], Convert.ToInt32(args[2]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
@@ -605,11 +601,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					User pers = ServerEntrance.PlayerList[p.Handle];
 					if (pers.status.spawned)
-					{
-						pers.CurrentChar.gang.name = args[1];
-						pers.CurrentChar.gang.grade = Convert.ToInt32(args[2]);
-						BaseScript.TriggerEvent("lprp:updateCurChar", "char_data", JsonConvert.SerializeObject(pers.char_data));
-					}
+						pers.SetGang(args[1], Convert.ToInt32(args[2]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
 				}

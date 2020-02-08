@@ -82,6 +82,7 @@ namespace NuovaGM.Shared
 		public List<float[]> Spogliatoio = new List<float[]>();
 		public List<float[]> Farmacia = new List<float[]>();
 		public List<float[]> IngressoVisitatori = new List<float[]>();
+		public List<float[]> UscitaVisitatori = new List<float[]>();
 		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
 		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
 		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
