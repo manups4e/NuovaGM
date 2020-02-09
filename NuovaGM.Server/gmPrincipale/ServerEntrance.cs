@@ -16,7 +16,6 @@ namespace NuovaGM.Server.gmPrincipale
 		public static void Init()
 		{
 			Server.GetInstance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
-			Server.GetInstance.RegisterEventHandler("lprp:EntratoMaProprioSulSerio", new Action<Player>(EntratoMaProprioSulSerio));
 			Server.GetInstance.RegisterTickHandler(Orario);
 			Server.GetInstance.RegisterTickHandler(PlayTime);
 			Avvio();
@@ -34,7 +33,7 @@ namespace NuovaGM.Server.gmPrincipale
 				string stringa = JsonConvert.SerializeObject(result);
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
-					PlayerList[handle] = new User(player, result[0]);
+					PlayerList.Add(handle, new User(player, result[0]));
 					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
@@ -47,7 +46,7 @@ namespace NuovaGM.Server.gmPrincipale
 						name = GetPlayerName(handle),
 						group = "normal",
 						time = 0,
-						last = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"),
+						last = DateTime.Now,
 						current = 0,
 						data = "{}"
 					});
@@ -55,16 +54,17 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					PlayerList[handle] = new User(player, created[0]);
+					PlayerList.Add(handle, new User(player, result[0]));
 					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 			}
+			EntratoMaProprioSulSerio(player);
 		}
 
-		public static async void EntratoMaProprioSulSerio([FromSource]Player player)
+		public static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await Server.GetInstance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), id = License.GetLicense(player, Identifier.Discord) });
+			await Server.GetInstance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = License.GetLicense(player, Identifier.Discord) });
 		}
 
 		public static long starttick = GetGameTimer();
@@ -91,10 +91,10 @@ namespace NuovaGM.Server.gmPrincipale
 			await BaseScript.Delay(60000);
 			if (PlayerList.Count > 0)
 			{
-				foreach (var player in PlayerList)
+				foreach (var user in PlayerList)
 				{
-					if (player.Value.status.spawned)
-						player.Value.playTime += 60;
+					if (user.Value.status.spawned)
+						user.Value.playTime += 60;
 				}
 			}
 		}

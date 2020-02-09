@@ -7,6 +7,7 @@ namespace NuovaGM.Server
 {
 	public class Server : BaseScript
 	{
+		public static System.Globalization.CultureInfo Ita = new System.Globalization.CultureInfo("it-IT");
 		public static Server GetInstance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }

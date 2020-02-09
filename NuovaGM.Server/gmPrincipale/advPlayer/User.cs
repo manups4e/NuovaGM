@@ -14,7 +14,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public int group_level;
 		public int char_current;
 		public long playTime;
-		public string lastConnection;
+		public DateTime lastConnection;
 		public Identifiers identifiers = new Identifiers();
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();
@@ -29,7 +29,7 @@ namespace NuovaGM.Server.gmPrincipale
 			identifiers.discord = License.GetLicense(player, Identifier.Discord);
 			identifiers.fivem = License.GetLicense(player, Identifier.Fivem);
 			identifiers.ip = License.GetLicense(player, Identifier.Ip);
-			lastConnection = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss");
+			lastConnection = DateTime.Now;
 			source = player.Handle;
 			char_current = result.char_current;
 			group = result.group;

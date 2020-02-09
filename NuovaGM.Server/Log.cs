@@ -32,32 +32,33 @@ namespace NuovaGM.Server
 
 		private static void CommandWriteLine(LogType tipo, string text)
 		{
-			System.Globalization.CultureInfo Ita = new System.Globalization.CultureInfo("it-IT");
-			if (tipo == LogType.Info)
+			string err = "-- [INFO] -- ";
+			string incipit = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Server.Ita)}";
+			Color colore = Color.LimeGreen;
+			switch (tipo)
 			{
-				string testo = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Ita)} -- [INFO] -- ";
-				Console.WriteLine(testo + text, Color.LimeGreen);
+				case LogType.Info:
+					err = "-- [INFO] -- ";
+					colore = Color.LimeGreen;
+					break;
+				case LogType.Debug:
+					err = "-- [DEBUG] -- ";
+					colore = Color.Cyan;
+					break;
+				case LogType.Warning:
+					err = "-- [ATTENZIONE] --";
+					colore = Color.DarkOrange;
+					break;
+				case LogType.Error:
+					err = "-- [ERRORE] --";
+					colore = Color.OrangeRed;
+					break;
+				case LogType.Fatal:
+					err = "-- [FATALE] --";
+					colore = Color.Yellow;
+					break;
 			}
-			else if (tipo == LogType.Debug)
-			{
-				string testo = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Ita)} -- [DEBUG] -- ";
-				Console.WriteLine(testo + text, Color.Cyan);
-			}
-			else if (tipo == LogType.Warning)
-			{
-				string testo = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Ita)} -- [ATTENZIONE] -- ";
-				Console.WriteLine(testo + text, Color.DarkOrange);
-			}
-			else if (tipo == LogType.Error)
-			{
-				string testo = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Ita)} -- [ERRORE] -- ";
-				Console.WriteLine(testo + text, Color.OrangeRed);
-			}
-			else if (tipo == LogType.Fatal)
-			{
-				string testo = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", Ita)} -- [FATALE] -- ";
-				Console.WriteLine(testo + text, Color.Yellow);
-			}
+			Console.WriteLine($"{incipit} {err} {text}", colore);
 		}
 	}
 }
