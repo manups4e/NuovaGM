@@ -133,7 +133,6 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static bool IsDead = false;
 		public static bool isAdmin = false;
-		public static bool istanced = false;
 		public static bool LoadoutLoaded = false;
 		public static int MaxPlayers = 256;
 		private static bool passengerDriveBy = ConfigClient.Conf.Main.PassengerDriveBy;
@@ -221,7 +220,7 @@ namespace NuovaGM.Client.gmPrincipale
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
 //          BaseScript.TriggerEvent("lprp:toggleCompass", true);
-			istanced = false;
+			Eventi.Player.Stanziato = false;
 			Game.PlayerPed.IsVisible = true;
 			spawned = true;
 			Eventi.Player.status.spawned = true;
@@ -259,7 +258,7 @@ namespace NuovaGM.Client.gmPrincipale
 				Game.PlayerPed.Style.SetDefaultClothes();
 				Game.PlayerPed.SetDecor(Main.decorName, Main.decorInt);
 				Game.PlayerPed.IsVisible = false;
-				istanced = true;
+				Eventi.Player.Stanziato = true;
 				Game.PlayerPed.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
@@ -634,8 +633,11 @@ namespace NuovaGM.Client.gmPrincipale
 
 		private static async Task Istanza()
 		{
-			if (istanced) Funzioni.ConcealAllPlayers();
-			else Funzioni.RevealAllPlayers();
+			if (Eventi.Player != null)
+			{
+				if (Eventi.Player.Stanziato) Funzioni.ConcealAllPlayers();
+				else Funzioni.RevealAllPlayers();
+			}
 			await BaseScript.Delay(10000);
 		}
 

@@ -1332,64 +1332,36 @@ namespace NuovaGM.Client.Personale
 		private static async Task AggiornaSalute()
 		{
 			if (Eventi.Player.CurrentChar.needs.fame > 30f)
-			{
 				fa.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.fame > 60f)
-			{
 				fa.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.fame > 90f)
-			{
 				fa.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			}
 			else
-			{
 				fa.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			}
 
 			if (Eventi.Player.CurrentChar.needs.sete > 30f)
-			{
 				se.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.sete > 60f)
-			{
 				se.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.sete > 90f)
-			{
 				se.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			}
 			else
-			{
 				se.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			}
 
 			if (Eventi.Player.CurrentChar.needs.stanchezza > 30f)
-			{
 				st.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.stanchezza > 60f)
-			{
 				st.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			}
 			else if (Eventi.Player.CurrentChar.needs.stanchezza > 90f)
-			{
 				st.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			}
 			else
-			{
 				st.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			}
 
 			if (Eventi.Player.CurrentChar.needs.malattia)
-			{
 				ma.SetRightLabel("~r~In malattia");
-			}
 			else
-			{
 				ma.SetRightLabel("~g~In Salute");
-			}
 
 			await BaseScript.Delay(3000);
 		}
@@ -1398,13 +1370,9 @@ namespace NuovaGM.Client.Personale
 		public static async Task attiva()
 		{
 			if ((Game.IsControlPressed(0, Control.InteractionMenu) && (Game.CurrentInputMode == InputMode.MouseAndKeyboard) || Game.IsControlPressed(2, Control.InteractionMenu) && Game.CurrentInputMode == InputMode.GamePad))
-			{
 				++aa;
-			}
 			else
-			{
 				aa = 0;
-			}
 
 			if (aa >= 60 && !aperto)
 			{
@@ -1414,9 +1382,7 @@ namespace NuovaGM.Client.Personale
 					aperto = true;
 				}
 				else
-				{
 					HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", NotificationColor.Red, true);
-				}
 			}
 			await Task.FromResult(0);
 		}
@@ -1432,25 +1398,15 @@ namespace NuovaGM.Client.Personale
 		{
 
 			if (World.GetDistance(Game.PlayerPed.Position, b.Position) > 5000f)
-			{
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
-			}
 			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 5000f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 4500f)
-			{
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Blue);
-			}
 			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 4500f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 2500f)
-			{
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			}
 			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 2500f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 1500f)
-			{
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			}
 			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 1500f)
-			{
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Green);
-			}
 
 			if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 20)
 			{

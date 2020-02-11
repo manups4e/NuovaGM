@@ -99,7 +99,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							{
 								CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								MenuPolizia.VehicleMenu(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
+	/*MenuPolizia.VehicleMenu*/MenuPolizia.VehicleMenuNuovo(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
 							}
 						}
 						for (int del=0;del< ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters.Count; del++)

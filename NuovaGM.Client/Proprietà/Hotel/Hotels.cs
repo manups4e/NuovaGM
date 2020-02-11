@@ -116,7 +116,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
-				Main.istanced = true;
+				Eventi.Player.Stanziato = true;
 				Eventi.Player.InCasa = true;
 				Screen.Fading.FadeIn(800);
 				Client.GetInstance.RegisterTickHandler(GestioneHotel);
@@ -144,7 +144,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
 							Eventi.Player.InCasa = false;
-							Main.istanced = false;
+							Eventi.Player.Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -166,7 +166,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
 							Eventi.Player.InCasa = false;
-							Main.istanced = false;
+							Eventi.Player.Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -188,7 +188,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
 							Eventi.Player.InCasa = false;
-							Main.istanced = false;
+							Eventi.Player.Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

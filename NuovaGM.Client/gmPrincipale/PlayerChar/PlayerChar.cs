@@ -18,6 +18,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public Identifiers identifiers;
 		public bool ammanettato;
 		public bool InCasa;
+		public bool Stanziato;
 		public string lastConnection;
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();
@@ -35,6 +36,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			status = new Status();
 			ammanettato = false;
 			InCasa = false;
+			Stanziato = false;
 			playerId = Game.Player.Handle;
 			for (int i = 0; i < data.Count; i++)
 			{

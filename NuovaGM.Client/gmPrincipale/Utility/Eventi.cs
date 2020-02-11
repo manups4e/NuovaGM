@@ -74,7 +74,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Player = JsonConvert.DeserializeObject<PlayerChar>(data);
 			DisplayRadar(false);
-			Main.istanced = true;
+			Eventi.Player.Stanziato = true;
 			Main.charSelect();
 		}
 

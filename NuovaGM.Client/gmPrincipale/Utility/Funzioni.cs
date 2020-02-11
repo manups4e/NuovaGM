@@ -532,6 +532,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsDriveable = false,
 					PreviouslyOwnedByPlayer = true
 				};
+				vehicle.PlaceOnGround();
 				Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicle.MarkAsNoLongerNeeded();
@@ -550,18 +551,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			if (vehicleModel.IsValid)
 			{
 				if (!vehicleModel.IsLoaded)
-				{
 					await vehicleModel.Request(3000); // for when you stream resources.
-				}
 
 				if (!IsSpawnPointClear(coords, 2f))
 				{
 					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs)
-					{
-						v.Delete();
-					}
+					foreach (Vehicle v in vehs) v.Delete();
 				}
+
 				Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, false, false))
 				{
 					IsPersistent = true,
@@ -571,14 +568,13 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsEngineRunning = false,
 					IsDriveable = false
 				};
+				vehicle.PlaceOnGround();
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				//SetVehicleEngineOn(vehicle.Handle, false, true, true);
 				return vehicle;
 			}
 			else
-			{
 				return null;
-			}
 		}
 
 		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
@@ -608,6 +604,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsDriveable = false,
 					PreviouslyOwnedByPlayer = true
 				};
+				vehicle.PlaceOnGround();
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicle.MarkAsNoLongerNeeded();
 				return vehicle;

@@ -255,7 +255,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						}
 						Eventi.LoadModel();
 						Game.PlayerPed.IsPositionFrozen = false;
-						Main.istanced = false;
+						Eventi.Player.Stanziato = false;
 						Game.PlayerPed.IsVisible = true;
 						Game.PlayerPed.IsCollisionEnabled = true;
 						NetworkClearClockTimeOverride();

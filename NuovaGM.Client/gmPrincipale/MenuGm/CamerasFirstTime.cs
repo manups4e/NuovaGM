@@ -62,7 +62,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Client.GetInstance.RegisterTickHandler(Crediti);
 			Game.PlayerPed.IsPositionFrozen = true;
 			Game.PlayerPed.IsVisible = false;
-			Main.istanced = true;
+			Eventi.Player.Stanziato = true;
 			Game.PlayerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
 			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
@@ -295,7 +295,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Game.PlayerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);
 			Game.PlayerPed.IsVisible = true;
-			Main.istanced = false;
+			Eventi.Player.Stanziato = false;
 			Game.PlayerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);

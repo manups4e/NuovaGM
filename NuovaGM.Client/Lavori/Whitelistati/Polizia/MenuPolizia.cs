@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.UI;
 using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -108,7 +110,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							{
 								if (Grado.Value.Id == Eventi.Player.CurrentChar.job.grade)
 								{
-									Debug.WriteLine(JsonConvert.SerializeObject(Grado.Value.Vestiti.Maschio));
 									switch (Eventi.Player.CurrentChar.skin.sex)
 									{
 										case "Maschio":
@@ -519,6 +520,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			};
 			#endregion
 
+			#region OGGETTI
+			#endregion
+
 			MenuPoliziaPrincipale.OnMenuOpen += (menu) =>
 			{
 				if (menu == MenuPoliziaPrincipale)
@@ -537,7 +541,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		#endregion
 
 		#region MenuSpawnVeicoli
-		static Vehicle PreviewVehicle = new Vehicle(0);
+/*		static Vehicle PreviewVehicle = new Vehicle(0);
 		static Camera cam = new Camera(0);
 		public static async void VehicleMenu(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
 		{
@@ -639,7 +643,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			};
 			MenuVeicoli.Visible = true;
 		}
-
+*/
+		///////////////////////// ELICOTTERI
 		static Vehicle PreviewHeli = new Vehicle(0);
 		static Camera HeliCam = new Camera(0);
 		public static async void HeliMenu(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
@@ -759,10 +764,202 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		#endregion
 
+		#region MenuVeicoliGarageSperimentale
+		private static List<Vehicle> veicoliParcheggio = new List<Vehicle>();
+		private static StazioniDiPolizia StazioneAttuale = new StazioniDiPolizia();
+		private static int LivelloGarage = 0;
+		private static List<Vector4> parcheggi = new List<Vector4>()
+		{
+			new Vector4(224.500f, -998.695f, -99.6f, 225.0f),
+			new Vector4(224.500f, -994.630f, -99.6f, 225.0f),
+			new Vector4(224.500f, -990.255f, -99.6f, 225.0f),
+			new Vector4(224.500f, -986.628f, -99.6f, 225.0f),
+			new Vector4(224.500f, -982.496f, -99.6f, 225.0f),
+			new Vector4(232.500f, -982.496f, -99.6f, 135.0f),
+			new Vector4(232.500f, -986.628f, -99.6f, 135.0f),
+			new Vector4(232.500f, -990.255f, -99.6f, 135.0f),
+			new Vector4(232.500f, -994.630f, -99.6f, 135.0f),
+			new Vector4(232.500f, -998.695f, -99.6f, 135.0f),
+		};
+		private static SpawnerSpawn PuntoAttuale = new SpawnerSpawn();
+		private static bool InGarage = false;
+		public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
+		{
+			Eventi.Player.Stanziato = true;
+			StazioneAttuale = Stazione;
+			PuntoAttuale = Punto;
+			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
+			Game.PlayerPed.Heading = 85.162f;
+			InGarage = true;
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)) <= 10)
+			{
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)); i++)
+				{
+					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
+					veicoliParcheggio[i].PlaceOnGround();
+					veicoliParcheggio[i].IsPersistent = true;
+					veicoliParcheggio[i].LockStatus = VehicleLockStatus.Unlocked;
+					veicoliParcheggio[i].IsInvincible = true;
+					veicoliParcheggio[i].IsCollisionEnabled = true;
+					veicoliParcheggio[i].IsEngineRunning = false;
+					veicoliParcheggio[i].IsDriveable = false;
+					veicoliParcheggio[i].IsSirenActive = true;
+					veicoliParcheggio[i].IsSirenSilent = true;
+					veicoliParcheggio[i].SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+				}
+			}
+			else
+			{
+				await GarageConPiuVeicoli(Stazione.VeicoliAutorizzati, LivelloGarage);
+			}
+			await BaseScript.Delay(1000);
+			Screen.Fading.FadeIn(800);
+			Client.GetInstance.RegisterTickHandler(ControlloGarageNew);
+		}
+		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
+		{
+			foreach (var veh in veicoliParcheggio) veh.Delete();
+			veicoliParcheggio.Clear();
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int LivelloGarageAttuali = totale - livelloGarage*10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
+			for (int i = 0; i < LivelloGarageAttuali; i++)
+			{
+				veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(autorizzati[i + (livelloGarage * 10)].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
+				veicoliParcheggio[i].PlaceOnGround();
+				veicoliParcheggio[i].IsPersistent = true;
+				veicoliParcheggio[i].LockStatus = VehicleLockStatus.Unlocked;
+				veicoliParcheggio[i].IsInvincible = true;
+				veicoliParcheggio[i].IsCollisionEnabled = true;
+				veicoliParcheggio[i].IsEngineRunning = false;
+				veicoliParcheggio[i].IsDriveable = false;
+				veicoliParcheggio[i].IsSirenActive = true;
+				veicoliParcheggio[i].IsSirenSilent = true;
+				veicoliParcheggio[i].SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+			}
+		}
+		#endregion
+
 		#region MenuArmeria
 		#endregion
 
 		#region ControlliETask
+
+		private static async Task ControlloGarageNew()
+		{
+			if (Eventi.Player.Stanziato)
+			{
+				if (InGarage)
+				{
+					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(240.317f, -1004.901f, -99f)) < 3f)
+					{
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiare piano");
+						if(Game.IsControlJustPressed(0, Control.Context))
+						{
+							MenuPiano();
+						}
+					}
+					if (Game.PlayerPed.IsInVehicle())
+					{
+						if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
+						{
+							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
+							if (Game.IsControlJustPressed(0, Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning == true)
+							{
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								int model = Game.PlayerPed.CurrentVehicle.Model.Hash;
+								foreach (var vehicle in veicoliParcheggio) vehicle.Delete();
+								veicoliParcheggio.Clear();
+								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
+								{
+									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), 2f))
+										continue;
+									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), 2f))
+									{
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), PuntoAttuale.SpawnPoints[i].Heading);
+										break;
+									}
+									else
+									{
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords.ToVector3(), PuntoAttuale.SpawnPoints[0].Heading);
+										break;
+									}
+								}
+								Game.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
+								Game.PlayerPed.CurrentVehicle.IsEngineRunning = true;
+								Game.PlayerPed.CurrentVehicle.IsDriveable = true;
+								Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
+								Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+								VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", JsonConvert.SerializeObject(veh));
+								InGarage = false;
+								StazioneAttuale = null;
+								PuntoAttuale = null;
+								veicoliParcheggio.Clear();
+								Eventi.Player.Stanziato = false;
+								await BaseScript.Delay(1000);
+								Screen.Fading.FadeIn(800);
+								Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private static async void MenuPiano()
+		{
+			UIMenu Ascensore = new UIMenu("Seleziona Piano", "Sali o scendi?");
+			HUD.MenuPool.Add(Ascensore);
+			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
+			Ascensore.AddItem(esci);
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int piani = 1;
+			for (int i = 1; i < conto+1; i++)
+			{
+				if (i % 10 == 0)
+				{
+					piani++;
+				}
+			} 
+			for (int i = 0; i < piani; i++)
+			{
+				UIMenuItem piano = new UIMenuItem($"{i+1}° piano");
+				Ascensore.AddItem(piano);
+				if (i == LivelloGarage)
+					piano.SetRightBadge(UIMenuItem.BadgeStyle.Car);
+			}
+			Ascensore.OnItemSelect += async (menu, item, index) =>
+			{
+
+				if (item.RightBadge == UIMenuItem.BadgeStyle.Car)
+					HUD.ShowNotification("Questo è il garage attuale!!", true);
+				else
+				{
+					HUD.MenuPool.CloseAllMenus();
+					Screen.Fading.FadeOut(800);
+					await BaseScript.Delay(1000);
+					if (item == esci)
+					{
+						InGarage = false;
+						StazioneAttuale = null;
+						PuntoAttuale = null;
+						Eventi.Player.Stanziato = false;
+						veicoliParcheggio.Clear();
+						Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
+					}
+					else
+					{
+						LivelloGarage = index-1;
+						await GarageConPiuVeicoli(StazioneAttuale.VeicoliAutorizzati, LivelloGarage);
+					}
+					await BaseScript.Delay(1000);
+					Screen.Fading.FadeIn(800);
+				}
+			};
+			Ascensore.Visible = true;
+		}
+
 		private static async Task ControlloMenu()
 		{
 			if (Game.PlayerPed.IsInVehicle())
@@ -875,11 +1072,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task Heading()
 		{
-			if (PreviewVehicle.Exists())
-			{
-				PreviewVehicle.Heading += 1;
-			}
-
 			if (PreviewHeli.Exists())
 			{
 				RequestCollisionAtCoord(-1267.0f, -3013.135f, -48.5f);
@@ -891,5 +1083,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			}
 		}
 		#endregion
+
 	}
 }

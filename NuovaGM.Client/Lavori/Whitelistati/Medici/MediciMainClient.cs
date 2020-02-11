@@ -31,6 +31,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				blip.Name = ospedale.Blip.Nome;
 				SetBlipDisplay(blip.Handle, ospedale.Blip.Display);
 			}
+			// da fixare col gestore dei lavori per i tick
 			Client.GetInstance.RegisterTickHandler(MarkersMedici);
 			Client.GetInstance.RegisterTickHandler(MarkersNonMedici);
 		}
@@ -43,15 +44,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				{
 					foreach (float[] vettore in osp.Spogliatoio)
 					{
-						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 3f)
+						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 2f)
 						{
-							if (World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => o.Model.Hash == (int)ObjectHash.p_cs_locker_01).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 2, 2)))
+							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
+							if (Game.IsControlJustPressed(0, Control.Context))
 							{
-								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
-								if (Game.IsControlJustPressed(0, Control.Context))
-								{
-									// Menu spogliatoio
-								}
+								// Menu spogliatoio
 							}
 						}
 					}
@@ -155,7 +153,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
-								// Menu spawn veicoli
+								// Menu spawn elicotteri
 							}
 						}
 						for (int i = 0; i < heli.Deleters.Count; i++)
@@ -170,7 +168,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
-											// poso il veicolo
+											// poso l'elicottero
 										}
 										else
 										{
