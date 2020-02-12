@@ -9,11 +9,15 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
 using CitizenFX.Core.UI;
+using NuovaGM.Shared;
+using Newtonsoft.Json;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 {
 	static class MediciMainClient
 	{
+		public static Vehicle VeicoloAttuale;
+		public static Vehicle ElicotteroAttuale;
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
@@ -111,17 +115,25 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					foreach (var vehicle in osp.Veicoli)
 					{
 						if (!Game.PlayerPed.IsInVehicle())
-							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-						if (World.GetDistance(Game.PlayerPed.Position, vehicle.SpawnerMenu.ToVector3()) < 1.5f)
 						{
-							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
+							if (World.GetDistance(Game.PlayerPed.Position, vehicle.SpawnerMenu.ToVector3()) < 1.5f)
 							{
-								// Menu spawn veicoli
+								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
+								if (Game.IsControlJustPressed(0, Control.Context))
+								{
+									Screen.Fading.FadeOut(800);
+									await BaseScript.Delay(1000);
+									MenuMedici.VehicleMenuNuovo(osp, vehicle);
+								}
 							}
 						}
 						for (int i = 0; i < vehicle.Deleters.Count; i++)
 						{
+							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i].ToVector3(), 2f))
+								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i].ToVector3(), 2f))
+									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloPolizia"))
+										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
@@ -132,7 +144,10 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
-											// poso il veicolo
+											VeicoloPol vehicl = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", JsonConvert.SerializeObject(vehicl));
+											Game.PlayerPed.CurrentVehicle.Delete();
+											VeicoloAttuale = new Vehicle(0);
 										}
 										else
 										{
@@ -153,11 +168,17 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
-								// Menu spawn elicotteri
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								MenuMedici.HeliMenu(osp, heli);
 							}
 						}
 						for (int i = 0; i < heli.Deleters.Count; i++)
 						{
+							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i].ToVector3(), 2f))
+								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i].ToVector3(), 2f))
+									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloPolizia"))
+										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
@@ -168,12 +189,13 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
-											// poso l'elicottero
+											VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", JsonConvert.SerializeObject(veh));
+											Game.PlayerPed.CurrentVehicle.Delete();
+											ElicotteroAttuale = new Vehicle(0);
 										}
 										else
-										{
 											HUD.ShowNotification("L'elicottero che tenti di posare non è registrato a un medico!", NotificationColor.Red, true);
-										}
 									}
 								}
 							}

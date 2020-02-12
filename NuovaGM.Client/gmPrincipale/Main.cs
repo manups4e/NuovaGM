@@ -144,6 +144,7 @@ namespace NuovaGM.Client.gmPrincipale
 			DecorRegister(decorName, (int)DecorationType.Int);
 			DecorRegister(FuelClient.DecorName, (int)DecorationType.Float);
 			DecorRegister("VeicoloPolizia", (int)DecorationType.Int);
+			DecorRegister("VeicoloMedici", (int)DecorationType.Int);
 			DecorRegisterLock();
 		}
 

@@ -14,6 +14,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		static List<VeicoloLavorativoEAffitto> NonPersonali = new List<VeicoloLavorativoEAffitto>();
 		static List<VeicoloPersonale> Personali = new List<VeicoloPersonale>();
 		static List<VeicoloPol> Polizia = new List<VeicoloPol>();
+		static List<VeicoloPol> Medici = new List<VeicoloPol>();
 
 		public static void Init()
 		{
@@ -21,6 +22,8 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			Server.GetInstance.RegisterEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
 			Server.GetInstance.RegisterEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
 			Server.GetInstance.RegisterEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
+			Server.GetInstance.RegisterEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
+			Server.GetInstance.RegisterEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
 			Server.GetInstance.RegisterEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
 			Server.GetInstance.RegisterEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
 			Server.GetInstance.RegisterEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
@@ -72,19 +75,30 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (!Polizia.Contains(agg))
-			{
 				Polizia.Add(agg);
-			}
 		}
 
 		private static async void RimuoviVehPolizia(string jsonVeicolo)
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (Polizia.Contains(agg))
-			{
 				Polizia.Remove(agg);
-			}
 		}
+
+		private static async void AggiungiVehMedici(string jsonVeicolo)
+		{
+			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			if (!Medici.Contains(agg))
+				Medici.Add(agg);
+		}
+
+		private static async void RimuoviVehMedici(string jsonVeicolo)
+		{
+			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			if (Medici.Contains(agg))
+				Medici.Remove(agg);
+		}
+
 
 		static bool firstTick = true;
 		public static async Task AggiornamentoClient()

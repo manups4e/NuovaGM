@@ -1,6 +1,11 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
+using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using Newtonsoft.Json;
+using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
@@ -8,12 +13,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
 using NuovaGM.Shared;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
+using Newtonsoft.Json;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 {
@@ -737,6 +737,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				Game.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
 				Game.PlayerPed.CurrentVehicle.IsDriveable = true;
 				Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
+				if (Game.PlayerPed.CurrentVehicle.Model.Hash == 353883353)
+					SetVehicleLivery(Game.PlayerPed.CurrentVehicle.Handle, 0);
 				Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 				VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
 				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", JsonConvert.SerializeObject(veh));
@@ -941,6 +943,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					await BaseScript.Delay(1000);
 					if (item == esci)
 					{
+						Game.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu.ToVector3();
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;

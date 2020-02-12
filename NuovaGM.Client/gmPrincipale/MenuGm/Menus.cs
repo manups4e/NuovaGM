@@ -230,21 +230,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						Char_data Data = Eventi.Player.CurrentChar;
 						if (Data.location.x != 0.0 && Data.location.y != 0.0 && Data.location.z != 0.0)
 						{
-							Vector3 pino = new Vector3();
-							if (GetSafeCoordForPed(Data.location.x, Data.location.y, Data.location.z, true, ref pino, 16))
-							{
-								RequestCollisionAtCoord(pino.X, pino.Y, pino.Z);
-								RequestCollisionForModel((uint)Game.PlayerPed.Model.Hash);
-								Game.PlayerPed.Position = new Vector3(pino.X, pino.Y, pino.Z);
-								Game.PlayerPed.Heading = Data.location.h;
-							}
-							else
-							{
-								RequestCollisionAtCoord(Data.location.x, Data.location.y, Data.location.z);
-								RequestCollisionForModel((uint)Game.PlayerPed.Model.Hash);
-								Game.PlayerPed.Position = new Vector3(Data.location.x, Data.location.y, Data.location.z + 1f);
-								Game.PlayerPed.Heading = Data.location.h;
-							}
+							RequestCollisionAtCoord(Data.location.x, Data.location.y, Data.location.z);
+							Game.PlayerPed.Position = new Vector3(Data.location.x, Data.location.y, Data.location.z + 1f);
+							Game.PlayerPed.Heading = Data.location.h;
 						}
 						else
 						{

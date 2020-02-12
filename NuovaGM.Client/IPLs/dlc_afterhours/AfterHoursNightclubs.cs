@@ -11,6 +11,7 @@ namespace NuovaGM.Client.IPLs.dlc_afterhours
 
 		private static bool _enabled = false;
 		public static string ipl = "ba_int_placement_ba_interior_0_dlc_int_01_ba_milo_";
+
 		public static bool Enabled
 		{
 			get { return _enabled; }
