@@ -64,6 +64,10 @@ namespace NuovaGM.Client
 			TickController.Init();
 			DamageEvents.Init();
 
+
+
+			ClasseDiTest.Init(); // da rimouvere
+
 		}
 	}
 }

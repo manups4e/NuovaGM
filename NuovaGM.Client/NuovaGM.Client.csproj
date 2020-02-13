@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banking\BankingClient.cs" />
+    <Compile Include="ClasseDiTest.cs" />
     <Compile Include="Interactions\DivaniEPosizioniSedute.cs" />
     <Compile Include="Interactions\Docce.cs" />
     <Compile Include="Interactions\Letti.cs" />

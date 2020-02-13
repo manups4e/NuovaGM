@@ -32,11 +32,11 @@ namespace NuovaGM.Client.MenuNativo
             _sc = null;
         }
 
-        public async void ShowMissionPassedMessage(string msg, int time = 5000)
+        public async void ShowMissionPassedMessage(string msg, string sub, int time = 5000)
         {
             await Load();
             _start = Game.GameTime;
-            _sc.CallFunction("SHOW_MISSION_PASSED_MESSAGE", msg, "", 100, true, 0, true);
+            _sc.CallFunction("SHOW_MISSION_PASSED_MESSAGE", msg, sub, 100, true, 0, true);
             _timer = time;
         }
 
@@ -80,14 +80,23 @@ namespace NuovaGM.Client.MenuNativo
             _timer = time;
         }
 
-        public async void ShowMpMessageLarge(string msg, int time = 5000)
+        public async void ShowMpMessageLarge(string msg, string sub, int time = 5000)
         {
             await Load();
             _start = Game.GameTime;
-            _sc.CallFunction("SHOW_CENTERED_MP_MESSAGE_LARGE", msg, "test", 100, true, 100);
+            _sc.CallFunction("SHOW_CENTERED_MP_MESSAGE_LARGE", msg, sub, 100, true, 100);
             _sc.CallFunction("TRANSITION_IN");
             _timer = time;
         }
+
+        public async void ShowMpWastedMessage(string msg, string sub, int time = 5000)
+        {
+            await Load();
+            _start = Game.GameTime;
+            _sc.CallFunction("SHOW_SHARD_WASTED_MP_MESSAGE", msg, sub);
+            _timer = time;
+        }
+
 
         public async void ShowCustomShard(string funcName, params object[] paremeters)
         {

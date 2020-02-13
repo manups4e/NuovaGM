@@ -1,17 +1,16 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CitizenFX.Core;
+using CitizenFX.Core.UI;
+using NuovaGM.Client.gmPrincipale.Utility;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client.gmPrincipale.MenuGm
 {
 	static class CamerasFirstTime
 	{
-		static Scaleform ciao = new Scaleform("mp_big_message_freemode");
 		static Scaleform Credits = new Scaleform("OPENING_CREDITS");
 		static List<Vector4> SpawnPoints = new List<Vector4>
 		{
@@ -185,13 +184,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			Client.GetInstance.RegisterTickHandler(benvenuto);
-			ciao = new Scaleform("mp_big_message_freemode");
-			//sub_200("TITOLONE!!", 1.0f, 1.0f, 1.5f, 1.0f, 0.0f, 0.0f, 15.0f);
+			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(ConfigClient.Conf.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();
-			Client.GetInstance.DeregisterTickHandler(benvenuto);
 			Client.GetInstance.DeregisterTickHandler(Controllo);
 			Client.GetInstance.DeregisterTickHandler(Crediti);
 			SiContinua(Cam8);
@@ -312,15 +308,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Game.DisableAllControlsThisFrame(0);
 			Game.DisableAllControlsThisFrame(1);
 			Game.DisableAllControlsThisFrame(2);
-			await Task.FromResult(0);
-		}
-
-		public static async Task benvenuto()
-		{
-			while (!ciao.IsLoaded) await BaseScript.Delay(0);
-
-			ciao.CallFunction("SHOW_SHARD_WASTED_MP_MESSAGE", ConfigClient.Conf.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
-			ciao.Render2D();
 			await Task.FromResult(0);
 		}
 
