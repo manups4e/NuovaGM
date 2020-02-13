@@ -9,7 +9,7 @@ using NuovaGM.Client.gmPrincipale.Status;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.Interactions;
 using NuovaGM.Client.Lavori;
-using NuovaGM.Client.Lavori.Whitelistati.Polizia;
+using NuovaGM.Client.Lavori.Whitelistati.Medici;
 using NuovaGM.Client.ListaPlayers;
 using NuovaGM.Client.Manager;
 using NuovaGM.Client.Negozi;
@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NuovaGM.Client.Lavori.Whitelistati.Polizia;
 
 namespace NuovaGM.Client
 {
@@ -29,6 +30,8 @@ namespace NuovaGM.Client
 		private static bool InUnVeicolo = false;
 		private static bool HideHud = false;
 		private static bool InAppartamento = false;
+		private static bool Polizia = false;
+		private static bool Medici = false;
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
@@ -36,7 +39,7 @@ namespace NuovaGM.Client
 
 		private static async void Spawnato()
 		{
-			Client.GetInstance.RegisterTickHandler(KinkOfTheTicks);
+			Client.GetInstance.RegisterTickHandler(KingOfAllTicks);
 			Client.GetInstance.RegisterTickHandler(BankingClient.Markers);
 			Client.GetInstance.RegisterTickHandler(PompeDiBenzinaClient.BusinessesPumps);
 			Client.GetInstance.RegisterTickHandler(Death.Injuried);
@@ -53,16 +56,14 @@ namespace NuovaGM.Client
 			Client.GetInstance.RegisterTickHandler(Main.Armi);
 			Client.GetInstance.RegisterTickHandler(Main.Recoil);
 			Client.GetInstance.RegisterTickHandler(PersonalMenu.attiva);
-			Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MarkersPolizia);
-			Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MainTickPolizia);
 			Client.GetInstance.RegisterTickHandler(FuelClient.FuelCount);
 			Client.GetInstance.RegisterTickHandler(FuelClient.FuelTruck);
-			if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
-				Client.GetInstance.RegisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+			Client.GetInstance.RegisterTickHandler(MediciMainClient.MarkersNonMedici);
 		}
 
-		private static async Task KinkOfTheTicks()
+		private static async Task KingOfAllTicks()
 		{
+			ControlloLavori();
 			if (Game.PlayerPed.IsInVehicle())
 			{
 				if (!InUnVeicolo)
@@ -146,6 +147,73 @@ namespace NuovaGM.Client
 					Client.GetInstance.DeregisterTickHandler(Docce.Docceeee);
 					Client.GetInstance.DeregisterTickHandler(Letti.Letto);
 					InAppartamento = false;
+				}
+			}
+		}
+
+		private static async void ControlloLavori()
+		{
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "polizia")
+			{
+				if (Medici)
+				{
+					Client.GetInstance.DeregisterTickHandler(MediciMainClient.MarkersMedici);
+					foreach (var morto in MediciMainClient.Morti)
+						morto.Value.Delete();
+					if (MediciMainClient.Morti.Count > 0)
+					{
+						MediciMainClient.Morti.Clear();
+						Client.GetInstance.DeregisterTickHandler(MediciMainClient.BlipMorti);
+					}
+					Medici = false;
+				}
+				if (!Polizia)
+				{
+					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MarkersPolizia);
+					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+						Client.GetInstance.RegisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+					Polizia = true;
+				}
+			}
+			else if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			{
+				if (Polizia)
+				{
+					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
+					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+					Polizia = false;
+				}
+				if (!Medici)
+				{
+					Client.GetInstance.RegisterTickHandler(MediciMainClient.MarkersMedici);
+					Client.GetInstance.RegisterTickHandler(MediciMainClient.BlipMorti);
+					Medici = true;
+				}
+			}
+			else if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" && Eventi.Player.CurrentChar.job.name.ToLower() != "polizia")
+			{
+				if (Polizia)
+				{
+					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
+					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+					Polizia = false;
+				}
+				if (Medici)
+				{
+					Client.GetInstance.DeregisterTickHandler(MediciMainClient.MarkersMedici);
+					foreach (var morto in MediciMainClient.Morti)
+						morto.Value.Delete();
+					if (MediciMainClient.Morti.Count > 0)
+					{
+						MediciMainClient.Morti.Clear();
+						Client.GetInstance.DeregisterTickHandler(MediciMainClient.BlipMorti);
+					}
+					Medici = false;
 				}
 			}
 		}

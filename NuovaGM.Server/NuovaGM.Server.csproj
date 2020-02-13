@@ -89,6 +89,7 @@
     <Compile Include="ClassCollector.cs" />
     <Compile Include="DiscordWhitelist.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Lavori\Whitelistati\MediciServer.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Meteo_New\Meteo.cs" />
     <Compile Include="Meteo_New\Orario.cs" />

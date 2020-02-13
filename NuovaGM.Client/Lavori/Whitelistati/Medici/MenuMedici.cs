@@ -104,7 +104,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			farmacia.Visible = true;
 		}
 		#endregion
-		
+
+		#region MenuF6
+		public static async void InteractionMenu()
+		{
+
+		}
+		#endregion
+
 		#region MenuVeicoli
 		private static List<Vehicle> veicoliParcheggio = new List<Vehicle>();
 		private static Ospedale StazioneAttuale = new Ospedale();

@@ -402,9 +402,10 @@ namespace NuovaGM.Client.gmPrincipale
 			if (IsDead)
 			{
 				Game.DisableAllControlsThisFrame(0);
-				DisableControlAction(0, 47, true);
-				DisableControlAction(0, 245, true);
-				DisableControlAction(0, 38, true);
+				EnableControlAction(0, 47, true);
+				EnableControlAction(0, 245, true);
+				EnableControlAction(0, 38, true);
+				Game.EnableControlThisFrame(0, Control.FrontendPause);
 			}
 		}
 

@@ -165,6 +165,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			BaseScript.TriggerEvent("lprp:fineConteggio");
+			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
 			Screen.Fading.FadeIn(800);
 		}
 

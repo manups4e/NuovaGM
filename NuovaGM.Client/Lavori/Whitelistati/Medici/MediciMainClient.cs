@@ -19,9 +19,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		public static Vehicle VeicoloAttuale;
 		public static Vehicle ElicotteroAttuale;
 		public static Dictionary<Ped, Blip> MedsBlips = new Dictionary<Ped, Blip>();
+		public static Dictionary<Ped, Blip> Morti = new Dictionary<Ped, Blip>();
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.GetInstance.RegisterEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
+			Client.GetInstance.RegisterEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}
 
 		private static async void Spawnato()
@@ -36,9 +39,40 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				blip.Name = ospedale.Blip.Nome;
 				SetBlipDisplay(blip.Handle, ospedale.Blip.Display);
 			}
-			// da fixare col gestore dei lavori per i tick
-			Client.GetInstance.RegisterTickHandler(MarkersMedici);
-			Client.GetInstance.RegisterTickHandler(MarkersNonMedici);
+		}
+
+		private static async void Aggiungi(int player)
+		{
+			Player pl = new Player(GetPlayerFromServerId(player));
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			{
+				pl.Character.AttachBlip();
+				pl.Character.AttachedBlip.Sprite = BlipSprite.Deathmatch;
+				pl.Character.AttachedBlip.Color = BlipColor.Red;
+				pl.Character.AttachedBlip.Scale = 1.4f;
+				pl.Character.AttachedBlip.Name = "Ferito grave";
+				SetBlipDisplay(pl.Character.AttachedBlip.Handle, 4);
+				Morti.Add(pl.Character, pl.Character.AttachedBlip);
+			}
+		}
+
+		private static async void Rimuovi(int player)
+		{
+			Player pl = new Player(GetPlayerFromServerId(player));
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			{
+				if (Morti.ContainsKey(pl.Character))
+				{
+					foreach (Blip bl in pl.Character.AttachedBlips)
+					{
+						if (bl == Morti[pl.Character])
+						{
+							bl.Delete();
+							Morti.Remove(pl.Character);
+						}
+					}
+				}
+			}
 		}
 
 		public static async Task MarkersMedici()
@@ -357,5 +391,17 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				Client.GetInstance.DeregisterTickHandler(AbilitaBlipVolanti);
 		}
 
+		public static async Task BlipMorti()
+		{
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			{
+				if (Eventi.Player.InServizio)
+					foreach(var morto in Morti)
+						morto.Value.Alpha = 255;
+				else
+					foreach (var morto in Morti)
+						morto.Value.Alpha = 0;
+			}
+		}
 	}
 }

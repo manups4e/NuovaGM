@@ -38,7 +38,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			Client.GetInstance.RegisterEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
 			Client.GetInstance.RegisterEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
 			Client.GetInstance.RegisterEventHandler("lprp:fineConteggio", new Action(endConteggio));
-			//			Client.GetInstance.RegisterTickHandler(Injuried);
+//			Client.GetInstance.RegisterTickHandler(Injuried);
 		}
 
 		public static void Spawnato()
