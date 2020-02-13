@@ -54,76 +54,119 @@ namespace NuovaGM.Server.gmPrincipale
 		// GESTIONE CHAT
 		public static void Ooc(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["ooc"]))
+			if (sender != 0)
 			{
-				string msg = "";
-				for (int i = 0; i < args.Count; i++)
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["ooc"]))
 				{
-					msg = msg + " " + args[i];
+					string msg = "";
+					for (int i = 0; i < args.Count; i++)
+					{
+						msg = msg + " " + args[i];
+					}
+					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + GetPlayerName(sender.ToString()), msg } });
 				}
-				BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + GetPlayerName(sender.ToString()), msg } });
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Pol(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pol"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "polizia")
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pol"]))
 				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
+					if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "polizia")
 					{
-						msg = msg + " " + args[i];
+						string msg = "";
+						for (int i = 0; i < args.Count; i++)
+						{
+							msg = msg + " " + args[i];
+						}
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 					}
-					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Pil(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pil"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "pilota")
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pil"]))
 				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
+					if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "pilota")
 					{
-						msg = msg + " " + args[i];
-					}
+						string msg = "";
+						for (int i = 0; i < args.Count; i++)
+						{
+							msg = msg + " " + args[i];
+						}
 
-					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+					}
 				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Med(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["med"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "medico")
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["med"]))
 				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
+					if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "medico")
 					{
-						msg = msg + " " + args[i];
-					}
+						string msg = "";
+						for (int i = 0; i < args.Count; i++)
+						{
+							msg = msg + " " + args[i];
+						}
 
-					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+					}
 				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Mec(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["mec"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "meccanico")
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["mec"]))
+				{
+					if (ServerEntrance.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "meccanico")
+					{
+						string msg = "";
+						for (int i = 0; i < args.Count; i++)
+						{
+							msg = msg + " " + args[i];
+						}
+
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+					}
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			}
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+		}
+
+		public static void Me(int sender, List<dynamic> args, string rawCommand)
+		{
+			if (sender != 0)
+			{
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["me"]))
 				{
 					string msg = "";
 					for (int i = 0; i < args.Count; i++)
@@ -131,285 +174,321 @@ namespace NuovaGM.Server.gmPrincipale
 						msg = msg + " " + args[i];
 					}
 
-					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", msg, 0, 255, 153);
 				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
-		}
-
-		public static void Me(int sender, List<dynamic> args, string rawCommand)
-		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["me"]))
-			{
-				string msg = "";
-				for (int i = 0; i < args.Count; i++)
-				{
-					msg = msg + " " + args[i];
-				}
-
-				BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", msg, 0, 255, 153);
-			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Do(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["do"]))
+			if (sender != 0)
 			{
-				string msg = "";
-				for (int i = 0; i < args.Count; i++)
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["do"]))
 				{
-					msg = msg + " " + args[i];
-				}
+					string msg = "";
+					for (int i = 0; i < args.Count; i++)
+					{
+						msg = msg + " " + args[i];
+					}
 
-				BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", msg, 0, 255, 153);
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", msg, 0, 255, 153);
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			else
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		// FINE CHAT
 		// GESTIONE INVENTARIO
 		public static void GiveItem(int sender, List<dynamic> args, string rawCommand)
 		{
-			try
+			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveitem"]))
+				try
 				{
-					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveitem"]))
 					{
-						User player = ServerEntrance.PlayerList[args[0]];
-						player.addInventoryItem(args[1], Convert.ToInt32(args[2]));
-					}
-					else
-					{
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						{
+							User player = ServerEntrance.PlayerList[args[0]];
+							player.addInventoryItem(args[1], Convert.ToInt32(args[2]));
+						}
+						else
+						{
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						}
 					}
 				}
-			}
-			catch
-			{
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
+				catch
+				{
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void RemoveItem(int sender, List<dynamic> args, string rawCommand)
 		{
-			try
+			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeitem"]))
+				try
 				{
-					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeitem"]))
 					{
-						User player = ServerEntrance.PlayerList[args[0]];
-						player.removeInventoryItem(args[1], Convert.ToInt32(args[2]));
-					}
-					else
-					{
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						{
+							User player = ServerEntrance.PlayerList[args[0]];
+							player.removeInventoryItem(args[1], Convert.ToInt32(args[2]));
+						}
+						else
+						{
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						}
 					}
 				}
-			}
-			catch
-			{
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
+				catch
+				{
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		public static void GiveWeapon(int sender, List<dynamic> args, string rawCommand)
 		{
-			try
+			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveweapon"]))
+				try
 				{
-					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveweapon"]))
 					{
-						User player = ServerEntrance.PlayerList[args[0]];
-						player.addWeapon(args[1].ToUpper(), Convert.ToInt32(args[2]));
-					}
-					else
-					{
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						{
+							User player = ServerEntrance.PlayerList[args[0]];
+							player.addWeapon(args[1].ToUpper(), Convert.ToInt32(args[2]));
+						}
+						else
+						{
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						}
 					}
 				}
-			}
-			catch
-			{
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
+				catch
+				{
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		public static void RemoveWeapon(int sender, List<dynamic> args, string rawCommand)
 		{
-			try
+			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeweapon"]))
+				try
 				{
-					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeweapon"]))
 					{
-						User player = ServerEntrance.PlayerList[args[0]];
-						player.removeWeapon(args[1].ToUpper());
-					}
-					else
-					{
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeweapon] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						{
+							User player = ServerEntrance.PlayerList[args[0]];
+							player.removeWeapon(args[1].ToUpper());
+						}
+						else
+						{
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeweapon] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+						}
 					}
 				}
-			}
-			catch
-			{
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
+				catch
+				{
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE GESTIONE INVENTARIO
 		// GESTIONE DELLE FINANZE
 		public static void GiveMoney(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givemoney"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.GiveMoney(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givemoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givemoney"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.GiveMoney(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givemoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+		
 		public static void GiveBank(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givebank"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.GiveBank(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givebank] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givebank"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.GiveBank(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givebank] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		public static void GiveDirty(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givedirty"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.GiveDirty(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givedirty"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.GiveDirty(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+		
 		public static void RemoveMoney(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removemoney"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.RemoveMoney(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removemoney"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.RemoveMoney(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		public static void RemoveBank(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removebank"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.RemoveBank(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removebank"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.RemoveBank(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		public static void RemoveDirty(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removedirty"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
-					Eventi.RemoveDirty(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removedirty"]))
+				{
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+						Eventi.RemoveDirty(Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void SetFinances(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmoney"]))
+			if (sender != 0)
 			{
-				if (ServerEntrance.PlayerList.ContainsKey(args[0]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmoney"]))
 				{
-					var player = ServerEntrance.PlayerList[args[0]];
-					if (args[1] == "soldi")
+					if (ServerEntrance.PlayerList.ContainsKey(args[0]))
 					{
-						player.Money -= player.Money;
-						player.Money += Convert.ToInt32(args[2]);
-					}
-					else if (args[1] == "banca")
-					{
-						player.Bank -= player.Bank;
-						player.Bank += Convert.ToInt32(args[2]);
-					}
-					else if (args[1] == "sporchi")
-					{
-						player.DirtyMoney -= player.DirtyMoney;
-						player.DirtyMoney += Convert.ToInt32(args[2]);
+						var player = ServerEntrance.PlayerList[args[0]];
+						if (args[1] == "soldi")
+						{
+							player.Money -= player.Money;
+							player.Money += Convert.ToInt32(args[2]);
+						}
+						else if (args[1] == "banca")
+						{
+							player.Bank -= player.Bank;
+							player.Bank += Convert.ToInt32(args[2]);
+						}
+						else if (args[1] == "sporchi")
+						{
+							player.DirtyMoney -= player.DirtyMoney;
+							player.DirtyMoney += Convert.ToInt32(args[2]);
+						}
+						else
+						{
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "L'account monetario '" + args[1] + "' non esiste!" }, color = new[] { 255, 0, 0 } });
+						}
 					}
 					else
 					{
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "L'account monetario '" + args[1] + "' non esiste!" }, color = new[] { 255, 0, 0 } });
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 					}
 				}
-				else
-				{
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
-				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
+
 		// FINE GESTIONE FINANZE
 		// ANNUNCIO PLAYERS
 		public static void Annuncio(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["annuncio"]))
+			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["annuncio"]) || sender == 0)
 			{
 				string msg = "";
 				for (int i = 0; i < args.Count; i++)
-				{
 					msg = msg + " " + args[i];
-				}
-
 				BaseScript.TriggerClientEvent("lprp:announce", msg);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if (sender != 0)
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE ANNUNCIO
+
 		// REVIVE
 		public static void Revive(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["revive"]))
+			if (sender != 0)
 			{
-				var now = DateTime.Now;
-				if (args != null && args.Count > 0)
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["revive"]))
 				{
-					if (GetPlayerName(args[0]) != ".")
+					var now = DateTime.Now;
+					if (args != null && args.Count > 0)
 					{
-						Player p = Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])];
-						Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
-						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
-						BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
+						if (GetPlayerName(args[0]) != ".")
+						{
+							Player p = Server.GetInstance.GetPlayers[Convert.ToInt32(args[0])];
+							Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
+							BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
+							BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
+						}
+					}
+					else
+					{
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:reviveChar");
 					}
 				}
-				else
-				{
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:reviveChar");
-				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE REVIVE
+
 		// SETGROUP
 		public static async void SetGroup(int sender, List<dynamic> args, string rawCommand)
 		{
@@ -421,8 +500,11 @@ namespace NuovaGM.Server.gmPrincipale
 				Player ricevitore = Funzioni.GetPlayerFromId(args[0]);
 				if (ricevitore.Name.Length > 0)
 				{
-					Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
-					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
+					if (sender != 0)
+					{
+						Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
+						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
+					}
 					if (args[1] == "normal")
 					{
 						group = "normal";
@@ -465,57 +547,83 @@ namespace NuovaGM.Server.gmPrincipale
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + $" --  Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 				}
 				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+				{
+					if (sender != 0)
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+					else
+						Log.Printa(LogType.Error, "Il player con ID" + args[0] + " non è online!");
+				}
 			}
 			else
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "errore nel comando setgroup.. riprova" }, color = new[] { 255, 0, 0 } });
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			{
+				if (sender != 0)
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "errore nel comando setgroup.. riprova" }, color = new[] { 255, 0, 0 } });
+				else
+					Log.Printa(LogType.Error, "errore nel comando setgroup..riprova");
+			}
+			if (sender != 0)
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE SETGROUP
 
 		public static void Teleport(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["tp"]))
+			if (sender != 0)
 			{
-				float x = 0;
-				float y = 0;
-				float z = 0;
-				if (float.TryParse(args[0], out x) && float.TryParse(args[1], out y) && float.TryParse(args[2], out z))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["tp"]))
 				{
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:teleportCoords", args[0], args[1], args[2]);
+					float x = 0;
+					float y = 0;
+					float z = 0;
+					if (float.TryParse(args[0], out x) && float.TryParse(args[1], out y) && float.TryParse(args[2], out z))
+					{
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:teleportCoords", args[0], args[1], args[2]);
+					}
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void Muori(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["suicidati"]))
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:death");
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if (sender != 0)
+			{
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["suicidati"]))
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:death");
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			}
 		}
 
 		public static void SpawnVehicle(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["car"]))
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:spawnVehicle", args[0]);
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if (sender != 0)
+			{
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["car"]))
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:spawnVehicle", args[0]);
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			}
 		}
 
 		public static void Dv(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["dv"]))
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:deleteVehicle");
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if (sender != 0)
+			{
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["dv"]))
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:deleteVehicle");
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			}
 		}
 
 		public static void Delgun(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["delgun"]))
-				Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ObjectDeleteGun", args[0]);
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if (sender != 0)
+			{
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["delgun"]))
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ObjectDeleteGun", args[0]);
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			}
 		}
 
 		public static async void Salvatutti(int sender, List<dynamic> args, string rawCommand)
@@ -549,68 +657,77 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				Log.Printa(LogType.Fatal, "" + ex);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+			if(sender!=0)
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void Sviluppatore(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["sviluppatore"]))
+			if (sender != 0)
 			{
-				Player send = Funzioni.GetPlayerFromId(sender);
-				if (args[0] == "on")
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["sviluppatore"]))
 				{
-					send.TriggerEvent("lprp:sviluppatoreOn", true);
+					Player send = Funzioni.GetPlayerFromId(sender);
+					if (args[0] == "on")
+					{
+						send.TriggerEvent("lprp:sviluppatoreOn", true);
+					}
+					else if (args[0] == "off")
+					{
+						send.TriggerEvent("lprp:sviluppatoreOn", false);
+					}
+					else
+					{
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
+					}
 				}
-				else if (args[0] == "off")
-				{
-					send.TriggerEvent("lprp:sviluppatoreOn", false);
-				}
-				else
-				{
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
-				}
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void SetJob(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setjob"]))
+			if (sender != 0)
 			{
-				Player p = Funzioni.GetPlayerFromId(args[0]);
-				if (ServerEntrance.PlayerList.ContainsKey(p.Handle))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setjob"]))
 				{
-					User pers = ServerEntrance.PlayerList[p.Handle];
-					if (pers.status.spawned)
-						pers.SetJob(args[1], Convert.ToInt32(args[2]));
+					Player p = Funzioni.GetPlayerFromId(args[0]);
+					if (ServerEntrance.PlayerList.ContainsKey(p.Handle))
+					{
+						User pers = ServerEntrance.PlayerList[p.Handle];
+						if (pers.status.spawned)
+							pers.SetJob(args[1], Convert.ToInt32(args[2]));
+						else
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
+					}
 					else
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void SetGang(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setgang"]))
+			if (sender != 0)
 			{
-				Player p = Funzioni.GetPlayerFromId(args[0]);
-				if (ServerEntrance.PlayerList.ContainsKey(p.Handle))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setgang"]))
 				{
-					User pers = ServerEntrance.PlayerList[p.Handle];
-					if (pers.status.spawned)
-						pers.SetGang(args[1], Convert.ToInt32(args[2]));
+					Player p = Funzioni.GetPlayerFromId(args[0]);
+					if (ServerEntrance.PlayerList.ContainsKey(p.Handle))
+					{
+						User pers = ServerEntrance.PlayerList[p.Handle];
+						if (pers.status.spawned)
+							pers.SetGang(args[1], Convert.ToInt32(args[2]));
+						else
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
+					}
 					else
-						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				else
-					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
+				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
-			ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
-
 
 		public static void Time(int sender, List<dynamic> args, string rawCommand)
 		{
