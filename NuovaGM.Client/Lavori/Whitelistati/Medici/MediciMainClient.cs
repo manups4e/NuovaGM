@@ -53,7 +53,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
-								// Menu spogliatoio
+								MenuMedici.MenuSpogliatoio();
 							}
 						}
 					}

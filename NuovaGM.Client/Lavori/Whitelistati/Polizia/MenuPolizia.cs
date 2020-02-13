@@ -67,23 +67,22 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			UIMenuItem Uniforme = new UIMenuItem("");
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
-			if (!PoliziaMainClient.InServizio && !PoliziaMainClient.InServizioDaPilota)
+			if (!Eventi.Player.InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (!PoliziaMainClient.InServizio && PoliziaMainClient.InServizioDaPilota)
+			else if (!Eventi.Player.InServizio && PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Rimuovi la tuta da Pilota", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
-
 			}
-			else if (PoliziaMainClient.InServizio && !PoliziaMainClient.InServizioDaPilota)
+			else if (Eventi.Player.InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Rimuovi l'uniforme", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (PoliziaMainClient.InServizio || PoliziaMainClient.InServizioDaPilota)
+			else if (Eventi.Player.InServizio || PoliziaMainClient.InServizioDaPilota)
 			{
 				if (Game.PlayerPed.Armor < 1)
 				{
@@ -102,7 +101,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			{
 				if (item == Uniforme)
 				{
-					if (!PoliziaMainClient.InServizio)
+					if (!Eventi.Player.InServizio)
 					{
 						foreach (var Grado in ConfigClient.Conf.Lavori.Polizia.Gradi)
 						{
@@ -122,31 +121,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								}
 							}
 						}
-						PoliziaMainClient.InServizio = true;
+						Eventi.Player.InServizio = true;
 					}
 					else
 					{
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Faccia, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Faccia, Eventi.Player.CurrentChar.dressing.ComponentTextures.Faccia, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Maschera, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Maschera, Eventi.Player.CurrentChar.dressing.ComponentTextures.Maschera, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Torso, Eventi.Player.CurrentChar.dressing.ComponentTextures.Torso, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Pantaloni, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Pantaloni, Eventi.Player.CurrentChar.dressing.ComponentTextures.Pantaloni, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Borsa_Paracadute, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute, Eventi.Player.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Scarpe, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Scarpe, Eventi.Player.CurrentChar.dressing.ComponentTextures.Scarpe, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Accessori, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Accessori, Eventi.Player.CurrentChar.dressing.ComponentTextures.Accessori, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Sottomaglia, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Sottomaglia, Eventi.Player.CurrentChar.dressing.ComponentTextures.Sottomaglia, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Kevlar, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Kevlar, Eventi.Player.CurrentChar.dressing.ComponentTextures.Kevlar, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Badge, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Badge, Eventi.Player.CurrentChar.dressing.ComponentTextures.Badge, 2);
-						SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso_2, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Torso_2, Eventi.Player.CurrentChar.dressing.ComponentTextures.Torso_2, 2);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Cappelli_Maschere, Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere, Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orecchie, Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie, Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Occhiali_Occhi, Eventi.Player.CurrentChar.dressing.PropIndices.Occhiali_Occhi, Eventi.Player.CurrentChar.dressing.PropTextures.Occhiali_Occhi, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_3, Eventi.Player.CurrentChar.dressing.PropIndices.Unk_3, Eventi.Player.CurrentChar.dressing.PropTextures.Unk_3, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_4, Eventi.Player.CurrentChar.dressing.PropIndices.Unk_4, Eventi.Player.CurrentChar.dressing.PropTextures.Unk_4, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_5, Eventi.Player.CurrentChar.dressing.PropIndices.Unk_5, Eventi.Player.CurrentChar.dressing.PropTextures.Unk_5, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orologi, Eventi.Player.CurrentChar.dressing.PropIndices.Orologi, Eventi.Player.CurrentChar.dressing.PropTextures.Orologi, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Bracciali, Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali, Eventi.Player.CurrentChar.dressing.PropTextures.Bracciali, true);
-						SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_8, Eventi.Player.CurrentChar.dressing.PropIndices.Unk_8, Eventi.Player.CurrentChar.dressing.PropTextures.Unk_8, true);
-						PoliziaMainClient.InServizio = false;
+						await Funzioni.UpdateDress(Eventi.Player.CurrentChar.dressing);
+						Eventi.Player.InServizio = false;
 					}
 				}
 				else if (item == Pilota)
@@ -196,7 +176,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Bracciali, dress.Accessori.Bracciali, dress.TexturesAccessori.Bracciali, true);
 			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_8, dress.Accessori.Unk_8, dress.TexturesAccessori.Unk_8, true);
 		}
-			#endregion
+		#endregion
 
 		#region MenuF6
 		static UIMenu MenuPoliziaPrincipale = new UIMenu("", "");
@@ -652,10 +632,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			LoadInterior(GetInteriorAtCoords(-1267.0f, -3013.135f, -48.5f));
 			RequestCollisionAtCoord(-1267.0f, -3013.135f, -48.5f);
 			RequestAdditionalCollisionAtCoord(-1267.0f, -3013.135f, -48.5f);
-			HeliCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
-			HeliCam.Position = new Vector3(-1268.174f, -2999.561f, -44.215f);
-			HeliCam.IsActive = true;
-			RenderScriptCams(true, false, 0, false, false);
+			HeliCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
+			{
+				Position = new Vector3(-1268.174f, -2999.561f, -44.215f),
+				IsActive = true
+			};
 			await BaseScript.Delay(1000);
 			UIMenu MenuElicotteri = new UIMenu("Elicotteri Polizia", "Pattuglia le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
@@ -678,7 +659,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				PreviewHeli.IsDriveable = false;
 				Client.GetInstance.RegisterTickHandler(Heading);
 				HeliCam.PointAt(PreviewHeli);
-				await BaseScript.Delay(1000);
+				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+				RenderScriptCams(true, false, 0, false, false);
 				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
 			};
 

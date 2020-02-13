@@ -19,6 +19,91 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 {
 	static class MenuMedici
 	{
+
+		#region Spogliatoio
+		public static async void MenuSpogliatoio()
+		{
+			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
+			HUD.MenuPool.Add(spogliatoio);
+			UIMenuItem cambio;
+			if (!Eventi.Player.InServizio)
+				cambio = new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.");
+			else
+				cambio = new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+			spogliatoio.AddItem(cambio);
+
+			cambio.Activated += async (item, index) =>
+			{
+				Screen.Fading.FadeOut(800);
+				await BaseScript.Delay(1000);
+				HUD.MenuPool.CloseAllMenus();
+				Eventi.Player.Stanziato = true;
+				if (!Eventi.Player.InServizio) 
+				{
+					foreach (var Grado in ConfigClient.Conf.Lavori.Medici.Gradi)
+					{
+						if (Grado.Value.Id == Eventi.Player.CurrentChar.job.grade)
+						{
+							switch (Eventi.Player.CurrentChar.skin.sex)
+							{
+								case "Maschio":
+									CambiaVestito(Grado.Value.Vestiti.Maschio);
+									break;
+								case "Femmina":
+									CambiaVestito(Grado.Value.Vestiti.Femmina);
+									break;
+							}
+						}
+					}
+					Eventi.Player.InServizio = true;
+				}
+				else
+				{
+					Eventi.Player.InServizio = false;
+					await Funzioni.UpdateDress(Eventi.Player.CurrentChar.dressing);
+				}
+				Screen.Fading.FadeIn(800);
+				Eventi.Player.Stanziato = false;
+			};
+			spogliatoio.Visible = true;
+		}
+
+		public static async void CambiaVestito(AbitiLav dress)
+		{
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Faccia, dress.Abiti.Faccia, dress.TextureVestiti.Faccia, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Maschera, dress.Abiti.Maschera, dress.TextureVestiti.Maschera, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso, dress.Abiti.Torso, dress.TextureVestiti.Torso, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Pantaloni, dress.Abiti.Pantaloni, dress.TextureVestiti.Pantaloni, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Borsa_Paracadute, dress.Abiti.Borsa_Paracadute, dress.TextureVestiti.Borsa_Paracadute, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Scarpe, dress.Abiti.Scarpe, dress.TextureVestiti.Scarpe, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Accessori, dress.Abiti.Accessori, dress.TextureVestiti.Accessori, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Sottomaglia, dress.Abiti.Sottomaglia, dress.TextureVestiti.Sottomaglia, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Kevlar, dress.Abiti.Kevlar, dress.TextureVestiti.Kevlar, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Badge, dress.Abiti.Badge, dress.TextureVestiti.Badge, 2);
+			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso_2, dress.Abiti.Torso_2, dress.TextureVestiti.Torso_2, 2);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Cappelli_Maschere, dress.Accessori.Cappelli_Maschere, dress.TexturesAccessori.Cappelli_Maschere, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orecchie, dress.Accessori.Orecchie, dress.TexturesAccessori.Orecchie, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Occhiali_Occhi, dress.Accessori.Occhiali_Occhi, dress.TexturesAccessori.Occhiali_Occhi, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_3, dress.Accessori.Unk_3, dress.TexturesAccessori.Unk_3, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_4, dress.Accessori.Unk_4, dress.TexturesAccessori.Unk_4, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_5, dress.Accessori.Unk_5, dress.TexturesAccessori.Unk_5, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orologi, dress.Accessori.Orologi, dress.TexturesAccessori.Orologi, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Bracciali, dress.Accessori.Bracciali, dress.TexturesAccessori.Bracciali, true);
+			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_8, dress.Accessori.Unk_8, dress.TexturesAccessori.Unk_8, true);
+		}
+
+		#endregion
+
+		#region Farmacia
+		public static async void MenuFarmacia()
+		{
+			UIMenu farmacia = new UIMenu("Farmacia e Medicinali", "Con prescrizione o senza?");
+			HUD.MenuPool.Add(farmacia);
+
+			farmacia.Visible = true;
+		}
+		#endregion
+		
 		#region MenuVeicoli
 		private static List<Vehicle> veicoliParcheggio = new List<Vehicle>();
 		private static Ospedale StazioneAttuale = new Ospedale();
@@ -210,6 +295,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			Ascensore.Visible = true;
 		}
 		#endregion
+		
 		#region MenuElicotteri
 		static Vehicle PreviewHeli = new Vehicle(0);
 		static Camera HeliCam = new Camera(0);
@@ -221,7 +307,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			HeliCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 			HeliCam.Position = new Vector3(-1268.174f, -2999.561f, -44.215f);
 			HeliCam.IsActive = true;
-			RenderScriptCams(true, false, 0, false, false);
 			await BaseScript.Delay(1000);
 			UIMenu MenuElicotteri = new UIMenu("Elicotteri Medici", "Cura le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
@@ -241,9 +326,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				PreviewHeli.IsDriveable = false;
 				Client.GetInstance.RegisterTickHandler(Heading);
 				HeliCam.PointAt(PreviewHeli);
-				await BaseScript.Delay(1000);
+				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+				RenderScriptCams(true, false, 0, false, false);
 				Screen.Fading.FadeIn(800);
 			};
+
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
 			{

@@ -17,7 +17,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		public static Vehicle VeicoloAttuale = new Vehicle(0);
 		public static Vehicle ElicotteroAttuale = new Vehicle(0);
 		public static Dictionary<Ped, Blip> CopsBlips = new Dictionary<Ped, Blip>();
-		public static bool InServizio = false;
 		public static bool InServizioDaPilota = false;
 		public static void Init()
 		{
