@@ -62,6 +62,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					Eventi.Player.InServizio = false;
 					await Funzioni.UpdateDress(Eventi.Player.CurrentChar.dressing);
 				}
+				await BaseScript.Delay(500);
 				Screen.Fading.FadeIn(800);
 				Eventi.Player.Stanziato = false;
 			};

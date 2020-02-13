@@ -18,6 +18,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 	{
 		public static Vehicle VeicoloAttuale;
 		public static Vehicle ElicotteroAttuale;
+		public static Dictionary<Ped, Blip> MedsBlips = new Dictionary<Ped, Blip>();
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
@@ -132,7 +133,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						{
 							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i].ToVector3(), 2f))
 								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i].ToVector3(), 2f))
-									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloPolizia"))
+									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
@@ -177,7 +178,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						{
 							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i].ToVector3(), 2f))
 								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i].ToVector3(), 2f))
-									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloPolizia"))
+									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
@@ -256,5 +257,105 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				}
 			}
 		}
+
+
+		public static async Task AbilitaBlipVolanti()
+		{
+			await BaseScript.Delay(1000);
+			if (ConfigClient.Conf.Lavori.Medici.Config.AbilitaBlipVolanti)
+			{
+				foreach (var p in Eventi.GiocatoriOnline)
+				{
+					if (p.Value.CurrentChar.job.name == "Medici")
+					{
+						int id = GetPlayerFromServerId(p.Value.source);
+						if (NetworkIsPlayerActive(id) && GetPlayerPed(id) != PlayerPedId())
+						{
+							Ped playerPed = new Ped(GetPlayerPed(id));
+							if (playerPed.IsInVehicle())
+							{
+								if (playerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
+								{
+									if (!MedsBlips.ContainsKey(playerPed))
+									{
+										if (playerPed.AttachedBlips.Length > 0)
+											playerPed.AttachedBlip.Delete();
+										Blip polblip = playerPed.AttachBlip();
+										if (playerPed.CurrentVehicle.Model.IsCar)
+											polblip.Sprite = BlipSprite.PoliceCar;
+										else if (playerPed.CurrentVehicle.Model.IsBike)
+											polblip.Sprite = BlipSprite.PersonalVehicleBike;
+										else if (playerPed.CurrentVehicle.Model.IsBoat)
+											polblip.Sprite = BlipSprite.Boat;
+										else if (playerPed.CurrentVehicle.Model.IsHelicopter)
+											polblip.Sprite = BlipSprite.PoliceHelicopter;
+
+										polblip.Scale = 0.8f;
+										SetBlipCategory(polblip.Handle, 7);
+										SetBlipDisplay(polblip.Handle, 4);
+										SetBlipAsShortRange(polblip.Handle, true);
+										SetBlipNameToPlayerName(polblip.Handle, id);
+										ShowHeadingIndicatorOnBlip(polblip.Handle, true);
+										MedsBlips.Add(playerPed, polblip);
+									}
+									else if (MedsBlips.ContainsKey(playerPed))
+									{
+										if (playerPed.AttachedBlip != null)
+										{
+											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceHelicopter)
+												if (playerPed.CurrentVehicle.IsEngineRunning)
+													playerPed.AttachedBlip.Sprite = BlipSprite.PoliceHelicopterAnimated;
+											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceHelicopterAnimated)
+											{
+												if (playerPed.CurrentVehicle.HeightAboveGround > 5f)
+													SetBlipShowCone(playerPed.AttachedBlip.Handle, true);
+												else
+													SetBlipShowCone(playerPed.AttachedBlip.Handle, false);
+												if (!playerPed.CurrentVehicle.IsEngineRunning)
+													playerPed.AttachedBlip.Sprite = BlipSprite.PoliceHelicopter;
+											}
+											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceCar || playerPed.AttachedBlip.Sprite == BlipSprite.Boat || playerPed.AttachedBlip.Sprite == BlipSprite.PersonalVehicleBike)
+											{
+												if (playerPed.CurrentVehicle.HasSiren && playerPed.CurrentVehicle.IsSirenActive)
+												{
+													playerPed.AttachedBlip.Sprite = BlipSprite.PoliceCarDot;
+													SetBlipShowCone(playerPed.AttachedBlip.Handle, true);
+												}
+											}
+											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceCarDot)
+											{
+												if (playerPed.CurrentVehicle.HasSiren && !playerPed.CurrentVehicle.IsSirenActive)
+												{
+													SetBlipShowCone(playerPed.AttachedBlip.Handle, false);
+													if (playerPed.CurrentVehicle.Model.IsCar)
+														playerPed.AttachedBlip.Sprite = BlipSprite.PoliceCar;
+													else if (playerPed.CurrentVehicle.Model.IsBike)
+														playerPed.AttachedBlip.Sprite = BlipSprite.PersonalVehicleBike;
+													else if (playerPed.CurrentVehicle.Model.IsBoat)
+														playerPed.AttachedBlip.Sprite = BlipSprite.Boat;
+												}
+											}
+										}
+									}
+								}
+							}
+							else
+							{
+								if (MedsBlips.ContainsKey(playerPed))
+								{
+									foreach (Blip b in playerPed.AttachedBlips)
+										if (b.Sprite == BlipSprite.PoliceCar || b.Sprite == BlipSprite.PoliceCarDot || b.Sprite == BlipSprite.PoliceHelicopter || b.Sprite == BlipSprite.PoliceHelicopterAnimated || b.Sprite == BlipSprite.PersonalVehicleBike || b.Sprite == BlipSprite.Boat)
+											b.Delete();
+									MedsBlips.Remove(playerPed);
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+				Client.GetInstance.DeregisterTickHandler(AbilitaBlipVolanti);
+		}
+
 	}
 }

@@ -18,6 +18,7 @@ namespace NuovaGM.Shared
 
 	public class ConfigurazioneMedici
 	{
+		public bool AbilitaBlipVolanti;
 		public List<Ospedale> Ospedali = new List<Ospedale>();
 	}
 

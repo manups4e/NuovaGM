@@ -85,20 +85,19 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			else if (Eventi.Player.InServizio || PoliziaMainClient.InServizioDaPilota)
 			{
 				if (Game.PlayerPed.Armor < 1)
-				{
 					Giubbotto = new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita");
-				}
 				else
-				{
 					Giubbotto = new UIMenuItem("Rimuovi il Giubbotto Anti-Proiettile", "Speriamo sia stato utile");
-				}
-
 				Spogliatoio.AddItem(Giubbotto);
 			}
 			Spogliatoio.AddItem(Uniforme);
 			Spogliatoio.AddItem(Pilota);
 			Spogliatoio.OnItemSelect += async (menu, item, index) =>
 			{
+				Screen.Fading.FadeOut(800);
+				await BaseScript.Delay(1000);
+				HUD.MenuPool.CloseAllMenus();
+				Eventi.Player.Stanziato = true;
 				if (item == Uniforme)
 				{
 					if (!Eventi.Player.InServizio)
@@ -131,7 +130,27 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				}
 				else if (item == Pilota)
 				{
-
+					switch (Eventi.Player.CurrentChar.skin.sex)
+					{
+						case "Maschio":
+							CambiaVestito(new AbitiLav() 
+							{ 
+								Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54),
+								TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0),
+								Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1),
+								TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) }
+							);
+ 							break;
+						case "Femmina":
+							CambiaVestito(new AbitiLav()
+							{
+								Abiti = new ComponentDrawables(-1, 0, -1, 111, 42, -1, 24, 24, 3, 0, 0, 47),
+								TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0),
+								Accessori = new PropIndices(46, 0, 0, 0, 0, 0, 0, 0, 0),
+								TexturesAccessori = new PropIndices(0, -1, -1, -1, -1, -1, -1, -1, -1)
+							});
+							break;
+					}
 				}
 				else if (item == Giubbotto)
 				{
@@ -147,6 +166,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					}
 
 				}
+				Eventi.Player.Stanziato = false;
+				await BaseScript.Delay(500);
+				Screen.Fading.FadeIn(800);
 				menu.RefreshIndex();
 				await Task.FromResult(0);
 			};

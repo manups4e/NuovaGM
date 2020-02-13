@@ -8,6 +8,7 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
+using CitizenFX.Core.UI;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 {
@@ -96,9 +97,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Game.IsControlJustPressed(0, Control.Context))
 							{
-								CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
+								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-	/*MenuPolizia.VehicleMenu*/MenuPolizia.VehicleMenuNuovo(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
+								MenuPolizia.VehicleMenuNuovo(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione], ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh]);
 							}
 						}
 						for (int del=0;del< ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters.Count; del++)
