@@ -142,31 +142,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Game.PlayerPed.Health = -100;
 		}
 
-		static Scaleform scaleformAnnuncio = null;
-		static string messaggio = "";
 		public static async void announce(string msg)
 		{
 			Game.PlaySound("DELETE", "HUD_DEATHMATCH_SOUNDSET");
-			messaggio = msg;
-			scaleformAnnuncio = new Scaleform("mp_big_message_freemode");
-			Client.GetInstance.RegisterTickHandler(annuncio);
-			await BaseScript.Delay(5000);
-			Client.GetInstance.DeregisterTickHandler(annuncio);
-			messaggio = "";
-		}
-
-
-		public static async Task annuncio()
-		{
-			if (scaleformAnnuncio != null)
-			{
-				if (scaleformAnnuncio.IsLoaded)
-				{
-					scaleformAnnuncio.CallFunction("SHOW_SHARD_WASTED_MP_MESSAGE", "~y~Annuncio ai Giocatori!!", messaggio);
-					scaleformAnnuncio.Render2D();
-				}
-			}
-			await Task.FromResult(0);
+			MenuNativo.BigMessageThread.MessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
 		}
 
 		public static async void Revive()
