@@ -54,7 +54,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					PlayerList.Add(handle, new User(player, result[0]));
+					PlayerList.Add(handle, new User(player, created[0]));
 					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}

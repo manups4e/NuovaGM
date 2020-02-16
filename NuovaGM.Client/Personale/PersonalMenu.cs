@@ -1321,11 +1321,43 @@ namespace NuovaGM.Client.Personale
 				}
 			}
 			#endregion
+			#region Suicidio
+			UIMenuListItem suicidio = new UIMenuListItem("Suicidati", new List<dynamic>() { "Medicine", "Pistola" }, 0, "~r~ATTENZIONE~w~, il suicidio assistito è un azzardo RP molto pericoloso.\nIl tempo di respawn sara' molto meno del solito e perderai tutto!");
+			PersonalMenu.AddItem(suicidio);
 
-			PersonalMenu.OnMenuClose += (_menu) =>
+			suicidio.OnListSelected += async (item, index) =>
 			{
-				aperto = false;
+				RequestAnimDict("mp_suicide");
+				while (!HasAnimDictLoaded("mp_suicide")) await BaseScript.Delay(0);
+
+				string var = item.Items[index] as string;
+				switch (var) 
+				{
+					case "Medicine":
+						if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill");
+						else
+							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill_fp");
+						break;
+					case "Pistola":
+						Game.PlayerPed.Weapons.Give(WeaponHash.Pistol, 1, true, true);
+						string anim = "";
+						if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							anim = "PISTOL";
+						else
+							anim = "PISTOL_FP";
+						TaskPlayAnim(PlayerPedId(), "MP_SUICIDE", anim, 8f, -8f, -1, 270540800, 0, false, false, false);
+						while (GetEntityAnimCurrentTime(PlayerPedId(), "MP_SUICIDE", anim) < 0.99f) await BaseScript.Delay(0);
+						Game.PlayerPed.Weapons.Remove(WeaponHash.Pistol);
+						HUD.MenuPool.CloseAllMenus();
+						break;
+				}
+
+
 			};
+
+			#endregion
+			PersonalMenu.OnMenuClose += (_menu) => aperto = false;
 			PersonalMenu.Visible = true;
 		}
 
