@@ -570,7 +570,7 @@ namespace NuovaGM.Client.gmPrincipale
 		public static async Task AFK()
 		{
 			await BaseScript.Delay(wait);
-			if (Eventi.Player.group_level < 3 && !Menus.Creazione.Visible || !Menus.Apparel.Visible || !Menus.Apparenze.Visible || !Menus.Dettagli.Visible || !Menus.Genitori.Visible || !Menus.Info.Visible) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if (Eventi.Player.group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 				currentPosition = Game.PlayerPed.Position;
 				if (World.GetDistance(currentPosition, previousPosition) < .8f && !abort)
