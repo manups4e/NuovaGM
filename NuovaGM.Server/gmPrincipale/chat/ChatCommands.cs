@@ -636,18 +636,9 @@ namespace NuovaGM.Server.gmPrincipale
 					if (player.Value.status.spawned)
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
-						await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
-						{
-							name = Funzioni.GetPlayerFromId(player.Key).Name,
-							gr = player.Value.group,
-							level = player.Value.group_level,
-							time = player.Value.playTime,
-							current = player.Value.char_current,
-							data = JsonConvert.SerializeObject(player.Value.char_data),
-							id = player.Value.identifiers.discord
-						});
+						Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
 						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
-						BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
+						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
 						await Task.FromResult(0);
 					}
 				}

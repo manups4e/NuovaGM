@@ -222,16 +222,7 @@ namespace NuovaGM.Server.gmPrincipale
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
-					await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
-					{
-						name = player.Name,
-						gr = ped.group,
-						level = ped.group_level,
-						time = ped.playTime,
-						current = ped.char_current,
-						data = JsonConvert.SerializeObject(ped.char_data),
-						id = ped.identifiers.discord
-					});
+					Funzioni.SalvaPersonaggio(player);
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord + ", tramite telefono");
 				}

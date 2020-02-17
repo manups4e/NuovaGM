@@ -176,16 +176,7 @@ namespace NuovaGM.Server.gmPrincipale
 				var ped = ServerEntrance.PlayerList[player.Handle];
 				if (ped.status.spawned)
 				{
-					await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
-					{
-						name = player.Name,
-						gr = ped.group,
-						level = ped.group_level,
-						time = ped.playTime,
-						current = ped.char_current,
-						data = JsonConvert.SerializeObject(ped.char_data),
-						id = ped.identifiers.discord
-					});
+					Funzioni.SalvaPersonaggio(player);
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					ServerEntrance.PlayerList.Remove(player.Handle);

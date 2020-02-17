@@ -32,6 +32,21 @@ namespace NuovaGM.Server.gmPrincipale
 			return null;
 		}
 
+		public static async void SalvaPersonaggio(Player player)
+		{
+			var ped = GetUserFromPlayerId(player.Handle);
+			await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
+			{
+				name = player.Name,
+				gr = ped.group,
+				level = ped.group_level,
+				time = ped.playTime,
+				current = ped.char_current,
+				data = JsonConvert.SerializeObject(ped.char_data),
+				id = ped.identifiers.discord
+			});
+		}
+
 		public static async Task Salvataggio()
 		{
 			if (ServerEntrance.PlayerList.Count > 0)
@@ -46,16 +61,7 @@ namespace NuovaGM.Server.gmPrincipale
 						if (ped.status.spawned)
 						{
 							BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
-							await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
-							{
-								name = player.Name,
-								gr = ped.group,
-								level = ped.group_level,
-								time = ped.playTime,
-								current = ped.char_current,
-								data = JsonConvert.SerializeObject(ped.char_data),
-								id = ped.identifiers.discord
-							});
+							SalvaPersonaggio(player);
 							Log.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord);
 							BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord);
 							await Task.FromResult(0);
