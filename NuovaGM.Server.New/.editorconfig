@@ -1,7 +1,0 @@
-﻿[*.cs]
-
-# IDE0050: Converti in tupla
-dotnet_diagnostic.IDE0050.severity = suggestion
-
-# CA2007: Provare a chiamare ConfigureAwait sull'attività attesa
-dotnet_diagnostic.CA2007.severity = silent
