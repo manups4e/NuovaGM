@@ -221,13 +221,13 @@ namespace NuovaGM.Shared
 		public List<Contatto> contatti = new List<Contatto>()
 		{
 			new Contatto("Aggiungi Contatto", "CHAR_MULTIPLAYER", false, "", 0),
-			new Contatto("Polizia", "CHAR_CALL911", false, "polizia", 0),
-			new Contatto("Medico", "CHAR_CALL911", false, "medici", 0),
-			new Contatto("Meccanico", "CHAR_LS_CUSTOMS", false, "meccanico", 0),
-			new Contatto("Taxi", "CHAR_TAXI", false, "taxi", 0),
-			new Contatto("Concessionario", "CHAR_CARSITE2", false, "concessionario", 0),
-			new Contatto("Agente Immobiliare", "CHAR_PEGASUS_DELIVERY", false, "immobiliare", 0),
-			new Contatto("Reporter", "CHAR_LIFEINVADER", false, "reporter", 0),
+			new Contatto("Polizia", "CHAR_CALL911", false, "Polizia", 0),
+			new Contatto("Medico", "CHAR_CALL911", false, "Medico", 0),
+			new Contatto("Meccanico", "CHAR_LS_CUSTOMS", false, "Meccanico", 0),
+			new Contatto("Taxi", "CHAR_TAXI", false, "Taxi", 0),
+			new Contatto("Concessionario", "CHAR_CARSITE2", false, "Concessionario", 0),
+			new Contatto("Agente Immobiliare", "CHAR_PEGASUS_DELIVERY", false, "Immobiliare", 0),
+			new Contatto("Reporter", "CHAR_LIFEINVADER", false, "Reporter", 0),
 		};
 
 		public Phone_data() { }

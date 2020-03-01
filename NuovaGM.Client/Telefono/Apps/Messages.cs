@@ -70,6 +70,8 @@ namespace NuovaGM.Client.Telefono.Apps
 			Phone = phone;
 			FirstTick = true;
 			SelectedItem = 0;
+			SetMobilePhoneRotation(-90.0f, 0.0f, 90.0f, 0);
+			SetPhoneLean(true);
 		}
 
 		public override void Kill()

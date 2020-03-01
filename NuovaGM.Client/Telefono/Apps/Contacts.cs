@@ -25,8 +25,6 @@ namespace NuovaGM.Client.Telefono.Apps
 			new ContactsSubMenuItem("Chiama", 1, 5),
 		};
 
-
-
 		public Dictionary<string, string> pedHeadshots = new Dictionary<string, string>();
 		private bool rimosso = false;
 		private string nome = "Nome";
@@ -36,6 +34,8 @@ namespace NuovaGM.Client.Telefono.Apps
 		private Contatto CurrentSubMenu = null;
 		public List<Contatto> loadedContacts = new List<Contatto>();
 		public int contactAmount = 0;
+		private int currentPage = 0;
+		private int currentRow = 0;
 
 		public override async Task Tick()
         {
@@ -52,39 +52,21 @@ namespace NuovaGM.Client.Telefono.Apps
 			if (CurrentSubMenu != null)
 			{
 				foreach (var subMenu in MenuContatti)
-				{
 					Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, MenuContatti.IndexOf(subMenu), subMenu.Icon, "~l~" + subMenu.Name);
-				}
 				if (SelectedItem < Phone.getCurrentCharPhone().contatti.Count)
-				{
 					if (!String.IsNullOrEmpty(CurrentSubMenu.Name))
-					{
 						appName = CurrentSubMenu.Name;
-					}
-				}
 			}
 			else
 			{
 				foreach (var contatto in Phone.getCurrentCharPhone().contatti)
 				{
-					BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
-					ScaleformMovieMethodAddParamFloat(2.0f);
-					ScaleformMovieMethodAddParamFloat(Phone.getCurrentCharPhone().contatti.IndexOf(contatto));
-					ScaleformMovieMethodAddParamFloat(0.0f);
-					BeginTextCommandScaleformString("STRING");
-					AddTextComponentSubstringPlayerName(contatto.Name);
-					EndTextCommandScaleformString();
-					BeginTextCommandScaleformString("CELL_999");
-					EndTextCommandScaleformString();
-					BeginTextCommandScaleformString("CELL_2000");
-					AddTextComponentSubstringPlayerName(contatto.Icon);
-					EndTextCommandScaleformString();
-					EndScaleformMovieMethod();
+					Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
 				}
 			}
 
 			Phone.Scaleform.CallFunction("SET_HEADER", appName);
-			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 2.0f, SelectedItem);
+			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 2, SelectedItem);
 
 			var navigated = true;
 			if (Game.IsControlJustPressed(0, Control.PhoneUp))
@@ -124,7 +106,7 @@ namespace NuovaGM.Client.Telefono.Apps
 				if (CurrentSubMenu == null)
 				{
 					CurrentSubMenu = Phone.getCurrentCharPhone().contatti[SelectedItem];
-					SelectedItem = 0;
+//					SelectedItem = 0;
 					if ((CurrentSubMenu.Name == "Polizia" || CurrentSubMenu.Name == "Medico" || CurrentSubMenu.Name == "Meccanico" || CurrentSubMenu.Name == "Taxi" || CurrentSubMenu.Name == "Concessionario" || CurrentSubMenu.Name == "Agente Immobiliare" || CurrentSubMenu.Name == "Reporter") && !rimosso)
 					{
 						MenuContatti.RemoveAt(1);
@@ -185,6 +167,45 @@ namespace NuovaGM.Client.Telefono.Apps
 				Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
 			}
 			await Task.FromResult(0);
+		}
+
+
+		private void SetContactRow(int start, int end)
+		{
+			for (int i = start; i < end + 1; i++)
+			{
+				var contatto = Phone.getCurrentCharPhone().contatti[i];
+				BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
+				ScaleformMovieMethodAddParamInt(2);
+				ScaleformMovieMethodAddParamInt(Phone.getCurrentCharPhone().contatti.IndexOf(contatto));
+				ScaleformMovieMethodAddParamInt(0);
+				BeginTextCommandScaleformString("STRING");
+				AddTextComponentSubstringPlayerName(contatto.Name);
+				EndTextCommandScaleformString();
+				BeginTextCommandScaleformString("CELL_999");
+				EndTextCommandScaleformString();
+				BeginTextCommandScaleformString("CELL_2000");
+				AddTextComponentSubstringPlayerName(contatto.Icon);
+				EndTextCommandScaleformString();
+				EndScaleformMovieMethod();
+			}
+		}
+
+		private void SetContactRow(Contatto contatto)
+		{
+			BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
+			ScaleformMovieMethodAddParamInt(2);
+			ScaleformMovieMethodAddParamInt(Phone.getCurrentCharPhone().contatti.IndexOf(contatto));
+			ScaleformMovieMethodAddParamInt(0);
+			BeginTextCommandScaleformString("STRING");
+			AddTextComponentSubstringPlayerName(contatto.Name);
+			EndTextCommandScaleformString();
+			BeginTextCommandScaleformString("CELL_999");
+			EndTextCommandScaleformString();
+			BeginTextCommandScaleformString("CELL_2000");
+			AddTextComponentSubstringPlayerName(contatto.Icon);
+			EndTextCommandScaleformString();
+			EndScaleformMovieMethod();
 		}
 
 		public override void Initialize(Phone phone)
