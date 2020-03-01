@@ -111,6 +111,8 @@
     <Compile Include="Negozi\NegoziServer.cs" />
     <Compile Include="playerlist\PlayerListServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Telefoni\Phone.cs" />
+    <Compile Include="Telefoni\TelefonoMainServer.cs" />
     <Compile Include="Veicoli\FuelServer.cs" />
     <Compile Include="Veicoli\VeicoliServer.cs" />
   </ItemGroup>

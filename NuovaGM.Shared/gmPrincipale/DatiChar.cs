@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -206,6 +207,82 @@ namespace NuovaGM.Shared
 			this.is_dead = is_dead;
 		}
 	}
+
+	public class Phone_data
+	{
+		public int id { get; set; } = 1;
+		public int Theme { get; set; } = 1;
+		public int Wallpaper { get; set; } = 4;
+		public int Ringtone { get; set; } = 0;
+		public int SleepMode { get; set; } = 0;
+		public int Vibration { get; set; } = 1;
+		public string Numero { get; private set; } = "0";
+		public List<Message> messaggi = new List<Message>();
+		public List<Contatto> contatti = new List<Contatto>()
+		{
+			new Contatto("Aggiungi Contatto", "CHAR_MULTIPLAYER", false, "", 0),
+			new Contatto("Polizia", "CHAR_CALL911", false, "polizia", 0),
+			new Contatto("Medico", "CHAR_CALL911", false, "medici", 0),
+			new Contatto("Meccanico", "CHAR_LS_CUSTOMS", false, "meccanico", 0),
+			new Contatto("Taxi", "CHAR_TAXI", false, "taxi", 0),
+			new Contatto("Concessionario", "CHAR_CARSITE2", false, "concessionario", 0),
+			new Contatto("Agente Immobiliare", "CHAR_PEGASUS_DELIVERY", false, "immobiliare", 0),
+			new Contatto("Reporter", "CHAR_LIFEINVADER", false, "reporter", 0),
+		};
+
+		public Phone_data() { }
+
+		public Phone_data(dynamic result)
+		{
+			Theme = (int)result["Theme"].Value;
+			Wallpaper = (int)result["WallPaper"].Value;
+			if (result["contatti"].HasValues)
+				for (int i = 0; i < result["contatti"].Count; i++)
+					contatti.Add(new Contatto(result["contatti"]["Name"].Value, result["contatti"]["Icon"].Value, result["contatti"]["TelephoneNumber"].Value, result["contatti"]["IsPlayer"].Value, result["contatti"]["PlayerIndex"].Value, result["contatti"]["Player"].Value));
+			if (result["messaggi"].HasValues)
+				for (int i = 0; i < result["messaggi"].Count; i++)
+					messaggi.Add(new Message(result["messaggi"]["From"].Value, result["messaggi"]["Title"].Value, result["messaggi"]["Messaggio"].Value, (DateTime)result["messaggi"]["Data"].Value));
+
+		}
+	}
+
+	public class Message
+	{
+		public string From { get; set; }
+		public string Title { get; set; }
+		public string Messaggio { get; set; }
+		public DateTime Data { get; set; }
+
+		public Message(string _from, string _title, string _message, DateTime _data)
+		{
+			this.From = _from;
+			this.Title = _title;
+			this.Messaggio = _message;
+			this.Data = _data;
+		}
+	}
+
+	public class Contatto
+	{
+		public int Player;
+		public string Name;
+		public string Icon;
+		public string TelephoneNumber;
+		public bool IsPlayer;
+		public int PlayerIndex;
+
+
+		public Contatto(string name, string icon, bool isPlayer, string telephoneNumber, int playerIndex = 0, int player = 0)
+		{
+			this.Name = name;
+			this.Icon = icon;
+			this.IsPlayer = isPlayer;
+			this.TelephoneNumber = telephoneNumber;
+			this.PlayerIndex = playerIndex;
+			this.Player = player;
+		}
+	}
+
 
 	public class Info
 	{

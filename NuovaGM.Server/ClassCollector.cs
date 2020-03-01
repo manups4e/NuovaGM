@@ -34,6 +34,7 @@ namespace NuovaGM.Server
 			VeicoliServer.Init();
 			Meteo.Init();
 			Orario.Init();
+			Telefoni.TelefonoMainServer.Init();
 			Coda.Init();
 		}
 	}

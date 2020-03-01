@@ -189,6 +189,15 @@
     <Compile Include="MenuNativo\Windows\UIMenuWindow.cs" />
     <Compile Include="Proprietà\Manager.cs" />
     <Compile Include="Sport\BraccioDiFerro.cs" />
+    <Compile Include="Telefono\Apps\Contacts.cs" />
+    <Compile Include="Telefono\Apps\MainMenu.cs" />
+    <Compile Include="Telefono\Apps\Messages.cs" />
+    <Compile Include="Telefono\Apps\QuickSave.cs" />
+    <Compile Include="Telefono\Apps\Settings.cs" />
+    <Compile Include="Telefono\Models\App.cs" />
+    <Compile Include="Telefono\Models\AppsBase.cs" />
+    <Compile Include="Telefono\Phone.cs" />
+    <Compile Include="Telefono\PhoneMainClient.cs" />
     <Compile Include="TickController.cs" />
     <Compile Include="Lavori\Whitelistati\Polizia\InfoPolizia.cs" />
     <Compile Include="Lavori\Whitelistati\Polizia\MenuPolizia.cs" />

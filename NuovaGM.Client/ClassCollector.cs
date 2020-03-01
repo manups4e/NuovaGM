@@ -64,7 +64,7 @@ namespace NuovaGM.Client
 			TickController.Init();
 			DamageEvents.Init();
 
-
+			Telefono.PhoneMainClient.Init();
 
 			ClasseDiTest.Init(); // da rimouvere
 
