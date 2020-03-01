@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.* F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\&#xD;&#xA;" />
+  </Target>
+
+</Project>
