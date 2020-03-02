@@ -108,7 +108,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		#region MenuF6
 		public static async void InteractionMenu()
 		{
+			UIMenu MenuMedico = new UIMenu("Menu Medico", "Salviamo qualche vita!");
+			HUD.MenuPool.Add(MenuMedico);
+			UIMenuItem controlloFerite = new UIMenuItem("Controlla ferite", "Dove fa male?");
+			UIMenuItem rianima = new UIMenuItem("Tenta rianimazione", "Attenzione: potrebbe fallire!");
+			MenuMedico.AddItem(controlloFerite);
+			MenuMedico.AddItem(rianima);
 
+			MenuMedico.Visible = true;
 		}
 		#endregion
 
@@ -259,10 +266,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 			{
-				if (i % 10 == 0)
-				{
-					piani++;
-				}
+				if (i % 10 == 0) piani++;
 			}
 			for (int i = 0; i < piani; i++)
 			{

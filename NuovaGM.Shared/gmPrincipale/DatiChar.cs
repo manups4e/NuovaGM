@@ -216,8 +216,11 @@ namespace NuovaGM.Shared
 		public int Ringtone { get; set; } = 0;
 		public int SleepMode { get; set; } = 0;
 		public int Vibration { get; set; } = 1;
-		public string Numero { get; private set; } = "0";
-		public List<Message> messaggi = new List<Message>();
+		public List<Message> messaggi = new List<Message>()
+		{
+			new Message("Francesco Pastrengoni", "Test", "Messaggio di prova", DateTime.Now),
+			new Message("Francesco Pastrengoni", "Test", "Messaggio di prova", DateTime.Now)
+		};
 		public List<Contatto> contatti = new List<Contatto>()
 		{
 			new Contatto("Aggiungi Contatto", "CHAR_MULTIPLAYER", false, "", 0),

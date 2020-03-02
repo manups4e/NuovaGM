@@ -62,7 +62,8 @@ namespace NuovaGM.Client.Telefono
 						Game.DisableControlThisFrame(0, Control.Sprint);
 
 						SetMobilePhonePosition(60f, -21f - Phone.VisibleAnimProgress, -60f);
-						SetMobilePhoneRotation(-90f, Phone.VisibleAnimProgress * 2f, 0f, 0);
+						if(Phone.currentApp.Name != "Messaggi")
+							SetMobilePhoneRotation(-90f, Phone.VisibleAnimProgress * 2f, 0f, 0);
 
 						if (Phone.VisibleAnimProgress > 0)
 							Phone.VisibleAnimProgress -= 3;
@@ -73,7 +74,7 @@ namespace NuovaGM.Client.Telefono
 						Phone.Scaleform.CallFunction("SET_SLEEP_MODE", Phone.SleepMode);
 						Phone.Scaleform.CallFunction("SET_THEME", Phone.getCurrentCharPhone().Theme);
 						Phone.Scaleform.CallFunction("SET_BACKGROUND_IMAGE", Phone.getCurrentCharPhone().Wallpaper);
-
+						Phone.SetSoftKeys(2, 19);
 						var playerPos = Game.PlayerPed.Position;
 						Phone.Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
@@ -81,7 +82,7 @@ namespace NuovaGM.Client.Telefono
 						if (GetFollowPedCamViewMode() == 4)
 							Phone.Scale = 0f;
 						else
-							Phone.Scale = 285f;
+							Phone.Scale = 300f;
 						SetMobilePhoneScale(Phone.Scale);
 						int renderId = 0;
 						GetMobilePhoneRenderId(ref renderId);

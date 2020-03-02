@@ -19,6 +19,7 @@ namespace NuovaGM.Client.Telefono.Apps
 		private static bool FirstTick = true;
 		private Phone phone;
 		private int messageCount=0;
+		private bool MessaggioAperto = false;
 		public Messages(Phone phone) : base("Messaggi", 2, phone)   // 8
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:riceviMessaggio", new Action<int, string>(RiceviMessaggio));
@@ -29,25 +30,25 @@ namespace NuovaGM.Client.Telefono.Apps
 		{
 			Tuple<int, string> mugshot = await Funzioni.GetPedMugshotAsync(new Ped(GetPlayerPed(GetPlayerFromServerId(sender))));
 			HUD.ShowAdvancedNotification("Messaggio Privato", Funzioni.GetPlayerCharFromPlayerId(sender).FullName, messaggio, mugshot.Item2, IconType.ChatBox);
-			AddMessage(phone.Scaleform, messageCount, sender, messaggio, false);
+			AddMessage(messageCount, messaggio, Funzioni.GetPlayerCharFromPlayerId(sender).FullName, false);
 			messageCount += 1;
 		}
 
-		private static async void AddMessage(Scaleform scaleform, int index, int sender, string messageTopic, bool sending)
+		private async void AddMessage(int index, string sender, string messageTopic, bool sending)
 		{
-			PushScaleformMovieFunction(scaleform.Handle, "SET_DATA_SLOT");
+			PushScaleformMovieFunction(phone.Scaleform.Handle, "SET_DATA_SLOT");
 			PushScaleformMovieFunctionParameterInt(8);
 			PushScaleformMovieFunctionParameterInt(index);
-			if (!sending)
-				PushScaleformMovieFunctionParameterInt(0);
-			else
+			if (sending)
 				PushScaleformMovieFunctionParameterInt(4);
+			else
+				PushScaleformMovieFunctionParameterInt(0);
 			PushScaleformMovieFunctionParameterInt(0);
-			BeginTextComponent("STRING");
+			BeginTextCommandScaleformString("CELL_2000");
 			AddTextComponentSubstringPlayerName("~l~" + messageTopic);
 			EndTextComponent();
-			BeginTextComponent("STRING");
-			AddTextComponentSubstringPlayerName("~l~" + Funzioni.GetPlayerCharFromPlayerId(sender).FullName);
+			BeginTextCommandScaleformString("CELL_EMAIL_SUBJ");
+			AddTextComponentSubstringPlayerName("~l~" + sender);
 			EndTextComponent();
 			PopScaleformMovieFunctionVoid();
 		}
@@ -60,9 +61,60 @@ namespace NuovaGM.Client.Telefono.Apps
 				await BaseScript.Delay(100);
 				return;
 			}
-			var appName = "Messaggi";
-			Phone.Scaleform.CallFunction("SET_HEADER", appName);
+			
+			Phone.Scaleform.CallFunction("SET_DATA_SLOT_EMPTY", 8);
 
+			var appName = "Messaggi";
+
+			foreach (var messaggio in Phone.getCurrentCharPhone().messaggi)
+			{
+				AddMessage(Phone.getCurrentCharPhone().messaggi.IndexOf(messaggio), messaggio.From, messaggio.Messaggio, false);
+				messageCount += 1;
+			}
+			Phone.Scaleform.CallFunction("SET_HEADER", appName);
+			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 8, SelectedItem);
+
+			var navigated = true;
+			if (Game.IsControlJustPressed(0, Control.PhoneUp))
+			{
+				MoveFinger(1);
+				if (SelectedItem > 0)
+					SelectedItem -= 1;
+			}
+			else if (Game.IsControlJustPressed(0, Control.PhoneDown))
+			{
+				MoveFinger(2);
+				if (SelectedItem < Phone.getCurrentCharPhone().messaggi.Count - 1)
+					SelectedItem += 1;
+				else
+					SelectedItem = 0;
+			}
+			else if (Game.IsControlJustPressed(0, Control.FrontendAccept))
+			{
+				MoveFinger(5);
+			}
+			else if (Game.IsControlJustPressed(0, Control.FrontendCancel))
+			{
+				MoveFinger(5);
+				if (MessaggioAperto)
+				{
+
+				}
+				else
+				{
+					navigated = false;
+					BaseScript.TriggerEvent("lprp:phone_start", "Main");
+				}
+			}
+			else
+			{
+				navigated = false;
+			}
+			if (navigated)
+			{
+				Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
+			}
+			await Task.FromResult(0);
 		}
 
 		public override void Initialize(Phone phone)

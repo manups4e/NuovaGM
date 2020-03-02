@@ -58,12 +58,12 @@ namespace NuovaGM.Client.Telefono
 			Game.PlayerPed.SetConfigFlag(243, false);
 			Game.PlayerPed.SetConfigFlag(244, true);
 			VisibleAnimProgress = 21;
-			N_0x83a169eabcdb10a2(PlayerPedId(), 4);
+			N_0x83a169eabcdb10a2(PlayerPedId(), getCurrentCharPhone().Theme);
 			await BaseScript.Delay(20);
 			if (GetFollowPedCamViewMode() == 4)
 				Scale = 0f;
 			else
-				Scale = 285f;
+				Scale = 300f;
 			SetMobilePhoneScale(Scale);
 			Visible = true;
 			while (!Scaleform.IsLoaded)
@@ -92,6 +92,11 @@ namespace NuovaGM.Client.Telefono
 					return phone_data[i];
 			}
 			return null;
+		}
+
+		public void SetSoftKeys(int index, int icon)
+		{
+			Scaleform.CallFunction("SET_SOFT_KEYS", index, true, icon);
 		}
 	}
 }

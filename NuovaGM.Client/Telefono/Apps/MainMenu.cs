@@ -124,8 +124,9 @@ namespace NuovaGM.Client.Telefono.Apps
         public override void Initialize(Phone phone)
         {
             Phone = phone;
-
             SelectedItem = 0;
+            SetMobilePhoneRotation(-90.0f, 0.0f, 0.0f, 0);
+            SetPhoneLean(false);
         }
 
         public override void Kill()
