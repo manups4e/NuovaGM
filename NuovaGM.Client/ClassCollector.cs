@@ -13,10 +13,6 @@ namespace NuovaGM.Client
 			Meteo_new.Orario.Init();
 			gmPrincipale.Main.Init();
 
-			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
-			Lavori.Whitelistati.Medici.MediciMainClient.Init();
-//			Lavori.JobManager.Init();
-
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();
@@ -30,6 +26,11 @@ namespace NuovaGM.Client
 			gmPrincipale.Status.StatsNeeds.Init();
 			gmPrincipale.Voice.Init();
 			gmPrincipale.Discord.Init();
+
+			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
+			Lavori.Whitelistati.Medici.MediciMainClient.Init();
+			Lavori.Generici.Pescatore.PescatoreClient.Init();
+//			Lavori.JobManager.Init();
 
 			Manager.ClientManager.Init();
 			Manager.DevManager.Init();
@@ -47,9 +48,9 @@ namespace NuovaGM.Client
 			Veicoli.Treni.Init();
 			Veicoli.EffettiRuote.Init();
 
-			Giostre.MontagneRusse.Init();
-			Giostre.RuotaPanoramica.Init();
-			Giostre.Funivia.Init();
+//			Giostre.MontagneRusse.Init();
+//			Giostre.RuotaPanoramica.Init();
+//			Giostre.Funivia.Init();
 
 			IPLInstance.Init();
 			Proprietà.Hotel.Hotels.Init();

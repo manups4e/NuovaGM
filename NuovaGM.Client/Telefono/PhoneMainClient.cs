@@ -47,7 +47,7 @@ namespace NuovaGM.Client.Telefono
 
 		public static async Task ControlloApertura()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen())
+			if (!HUD.MenuPool.IsAnyMenuOpen() && !Game.IsPaused)
 			{
 				if (!Phone.Visible)
 				{

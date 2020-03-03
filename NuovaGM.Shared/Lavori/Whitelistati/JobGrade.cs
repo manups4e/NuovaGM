@@ -22,6 +22,31 @@ namespace NuovaGM.Shared
 		public List<Ospedale> Ospedali = new List<Ospedale>();
 	}
 
+	public class Pescatori
+	{
+		public bool TempoPescaDinamico;
+		public int TempoFisso;
+		public int PrezzoVenditaPesce;
+		public int PrezzoVenditaAltro;
+		public List<PescatoreDati> PuntiDiPesca = new List<PescatoreDati>();
+	}
+
+	public class PescatoreDati
+	{
+		public float[] Contratto = new float[3];
+		public float[] AffittoBarca = new float[3];
+//		public List<float[]> PuntiPesca = new List<float[]>();
+		public List<string> Barche = new List<string>();
+		public PesciPescati Pesci = new PesciPescati();
+	}
+
+	public class PesciPescati
+	{
+		public List<string> facile = new List<string>();
+		public List<string> medio = new List<string>();
+		public List<string> avanzato = new List<string>();
+	}
+
 
 	public class WhiteListed
 	{

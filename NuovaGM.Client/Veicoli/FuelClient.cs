@@ -387,28 +387,17 @@ namespace NuovaGM.Client.Veicoli
 				int pai = Convert.ToInt32(pay);
 
 				if (over > 0)
-				{
 					tankerfuel = over;
-				}
 				else
-				{
 					tankerfuel = 0;
-				}
 
 				if (pai == 0)
-				{
 					HUD.ShowNotification($"Hai consegnato ~b~{tankerful}~w~ litri di carburante. La stazione ora ha ~b~{stationfuel}~w~ litri di carburante.\nLa tua cisterna ha ~b~{tankerfuel}~w~ litri di carburante rimanenti.");
-				}
 				else
-				{
 					HUD.ShowNotification($"Hai consegnato ~b~{tankerful}~w~ litri di carburante. La stazione ora ha ~b~{stationfuel}~w~ litri di carburante.\nSei stato pagato ~g~{pay}$~w~ per la consegna.<br><br>La tua cisterna ha ~b~{tankerfuel}~w~ litri di carburante rimanenti.");
-				}
 			}
 			else
-			{
 				HUD.ShowNotification(tankerful);
-			}
-
 			canUnloadFuel = true;
 			ShowRefuelBlips();
 		}
@@ -472,18 +461,11 @@ namespace NuovaGM.Client.Veicoli
 			{
 				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
 				if (dist < 100)
-				{
 					cl = i;
-				}
-
 				if (cl > 0)
-				{
 					BaseScript.TriggerServerEvent("lprp:businesses:saddfuel", cl, amount);
-				}
 				else
-				{
 					HUD.ShowNotification("Nessuna stazione di rifornimento nelle vicinanze.");
-				}
 			}
 		}
 
@@ -494,18 +476,11 @@ namespace NuovaGM.Client.Veicoli
 			{
 				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
 				if (dist < 100)
-				{
 					cl = i;
-				}
-
 				if (cl > 0)
-				{
 					BaseScript.TriggerServerEvent("lprp:businesses:saddmoney", cl, amount);
-				}
 				else
-				{
 					HUD.ShowNotification("Nessuna stazione di rifornimento nelle vicinanze.");
-				}
 			}
 		}
 
@@ -516,18 +491,11 @@ namespace NuovaGM.Client.Veicoli
 			{
 				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
 				if (dist < 100)
-				{
 					cl = i;
-				}
-
 				if (cl > 0)
-				{
 					BaseScript.TriggerServerEvent("lprp:businesses:sresetmanage", cl);
-				}
 				else
-				{
 					HUD.ShowNotification("Nessuna stazione di rifornimento nelle vicinanze.");
-				}
 			}
 		}
 
@@ -606,17 +574,11 @@ namespace NuovaGM.Client.Veicoli
 								if (Game.PlayerPed.IsInVehicle())
 								{
 									if (veh.ClassType == VehicleClass.Industrial || lastveh.ClassType == VehicleClass.Industrial || veh.ClassType == VehicleClass.Commercial || lastveh.ClassType == VehicleClass.Commercial)
-									{
 										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
-									}
 									else if (veh.Model.IsCar || lastveh.Model.IsCar)
-									{
 										World.DrawMarker(MarkerType.CarSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
-									}
 									else if (veh.Model.IsBike || lastveh.Model.IsBike)
-									{
 										World.DrawMarker(MarkerType.BikeSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
-									}
 								}
 
 								float pdist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3());

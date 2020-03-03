@@ -6,10 +6,22 @@ namespace NuovaGM.Shared
 	{
 
 		public static Dictionary<string, List<Char_data>> Personaggi = new Dictionary<string, List<Char_data>>();
-
 		public static Dictionary<string, Item> ItemList = new Dictionary<string, Item>()
 		{
-			["pietra"] = new Item("Una Bella Coppola Di Minchia", "Gekeje Gay", 1f, 100, 100, 100, new Use("Usa una Pietra", "Ci puoi uccidere una meretrice a lapidate!", true), new Give("Dai una pietra", "A chi vuoi tu!!", true), new Drop("Getta via una Pietra", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["cannadapescabase"] = new Item("Una canna da pesca per principianti", "Ottima per iniziare", 1f, 100, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca base", "Per i principianti", true)),
+			["cannadapescamedia"] = new Item("Una canna da pesca per intermedi", "Per pescatori mediamente bravi", 1f, 300, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca intermedia", "Per i principianti", true)),
+			["cannadapescaavanzata"] = new Item("Una canna da pesca per avanzati", "Per pescatori avanzati", 1f, 500, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca avanzata", "Per i principianti", true)),
+			["esca"] = new Item("Esca", "usala per pescare", 1f, 2, 100, 100, new Use("Usa un'esca", "", false), new Give("Dai un'esca", "A chi vuoi tu!!", true), new Drop("Getta via un'esca", "", true), new Sell("", "", false), new Buy("Compra un'esca", "", false)),
+			["branzino"] = new Item("Branzino", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un branzino", "A chi vuoi tu!!", true), new Drop("Getta via un branzino", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["sgombro"] = new Item("Sgombro", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno sgombro", "A chi vuoi tu!!", true), new Drop("Getta via uno sgombro", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["sogliola"] = new Item("Sogliola", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai una sogliola", "A chi vuoi tu!!", true), new Drop("Getta via una sogliola", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["orata"] = new Item("Orata", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un'orata", "A chi vuoi tu!!", true), new Drop("Getta via un'orata", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["tonno"] = new Item("Tonno", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un tonno", "A chi vuoi tu!!", true), new Drop("Getta via un tonno", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["salmone"] = new Item("Salmone", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un salmone", "A chi vuoi tu!!", true), new Drop("Getta via un salmone", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["merluzzo"] = new Item("Merluzzo", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un merluzzo", "A chi vuoi tu!!", true), new Drop("Getta via un merluzzo", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["pescespada"] = new Item("Pesce Spada", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un pesce spada", "A chi vuoi tu!!", true), new Drop("Getta via un pesce spada", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["squalo"] = new Item("Squalo", "Pesce di mare", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno squalo", "A chi vuoi tu!!", true), new Drop("Getta via uno squalo", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["fruttidimare"] = new Item("Frutti di mare", "", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai frutti di mare", "A chi vuoi tu!!", true), new Drop("Getta via frutti di mare", "", true), new Sell("", "", false), new Buy("", "", false)),
 		};
 
 		Dictionary<uint, string> DeatReasons = new Dictionary<uint, string>()
@@ -325,8 +337,6 @@ namespace NuovaGM.Shared
 			new Arma("WEAPON_MINIGUN", new List<Components>(), new List<Tinte>() { new Tinte("WM_TINT0", 0), new Tinte("WM_TINT1", 1), new Tinte("WM_TINT2", 2), new Tinte("WM_TINT3", 3), new Tinte("WM_TINT4", 4), new Tinte("WM_TINT5", 5), new Tinte("WM_TINT6", 6), new Tinte("WM_TINT7", 7) }),
 			new Arma("WEAPON_KNUCKLE", new List<Components>() { new Components("COMPONENT_KNUCKLE_VARMOD_BASE", true), new Components("COMPONENT_KNUCKLE_VARMOD_PIMP", false), new Components("COMPONENT_KNUCKLE_VARMOD_BALLAS", false), new Components("COMPONENT_KNUCKLE_VARMOD_DOLLAR", false), new Components("COMPONENT_KNUCKLE_VARMOD_DIAMOND", false), new Components("COMPONENT_KNUCKLE_VARMOD_HATE", false), new Components("COMPONENT_KNUCKLE_VARMOD_LOVE", false), new Components("COMPONENT_KNUCKLE_VARMOD_PLAYER", false), new Components("COMPONENT_KNUCKLE_VARMOD_KING", false), new Components("COMPONENT_KNUCKLE_VARMOD_VAGOS", false) }, new List<Tinte>() { new Tinte("WM_TINT0", 0), new Tinte("WM_TINT1", 1), new Tinte("WM_TINT2", 2), new Tinte("WM_TINT3", 3), new Tinte("WM_TINT4", 4), new Tinte("WM_TINT5", 5), new Tinte("WM_TINT6", 6), new Tinte("WM_TINT7", 7) }),
 		};
-
-
 	}
 
 	public class Arma

@@ -31,6 +31,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 					Scale = 1.0f,
 					Color = BlipColor.Yellow,
 					IsShortRange = true,
+					Name = "Hotel"
 				};
 			}
 			Client.GetInstance.RegisterTickHandler(ControlloHotel);

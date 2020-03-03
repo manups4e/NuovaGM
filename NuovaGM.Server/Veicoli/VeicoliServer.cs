@@ -1,5 +1,5 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
+using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 
 
@@ -7,6 +7,7 @@ namespace NuovaGM.Server.Veicoli
 {
 	static class VeicoliServer
 	{
+
 		static string lasthost = "";
 		public static void Init()
 		{
@@ -24,6 +25,7 @@ namespace NuovaGM.Server.Veicoli
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 			Server.GetInstance.RegisterEventHandler("lprp:giostre:spawna", new Action<Player>(SpawnaGiostreHost));
+
 
 			Server.GetInstance.RegisterEventHandler("brakes:add_rear", new Action<int>(AddRear));
 			Server.GetInstance.RegisterEventHandler("brakes:add_front", new Action<int>(AddFront));
@@ -97,6 +99,7 @@ namespace NuovaGM.Server.Veicoli
 				player.TriggerEvent("lprp:ruotapanoramica:spawna");
 			}
 		}
+
 
 		private static async void AddRear(int veh) 
 		{ 

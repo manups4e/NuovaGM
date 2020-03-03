@@ -16,4 +16,9 @@ namespace NuovaGM.Client.Lavori
 		public ConfigurazioneMedici Config = new ConfigurazioneMedici();
 		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
 	}
+
+	public class LavoriGenerici
+	{
+		public Pescatori Pescatore = new Pescatori();
+	}
 }

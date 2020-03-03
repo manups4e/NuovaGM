@@ -235,6 +235,7 @@
     <Compile Include="Interactions\Prostitute.cs" />
     <Compile Include="Sport\Yoga.cs" />
     <Compile Include="Veicoli\Assicurazione.cs" />
+    <Compile Include="Veicoli\Bagagliaio.cs" />
     <Compile Include="Veicoli\EffettiRuote.cs" />
     <Compile Include="Veicoli\FuelClient.cs" />
     <Compile Include="Veicoli\MenuAffittoVeicoli.cs" />
