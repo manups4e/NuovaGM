@@ -95,16 +95,16 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		[JsonIgnore]
 		public int DirtyMoney { get { return CurrentChar.finance.dirtyCash; } }
 
-		public Tuple<bool, Inventory> getInventoryItem(string item)
+		public Tuple<bool, Inventory, Item> getInventoryItem(string item)
 		{
 			for (int i = 0; i < CurrentChar.inventory.Count; i++)
 			{
 				if (CurrentChar.inventory[i].item == item)
 				{
-					return new Tuple<bool, Inventory>(true, CurrentChar.inventory[i]);
+					return new Tuple<bool, Inventory, Item>(true, CurrentChar.inventory[i], SharedScript.ItemList[item]);
 				}
 			}
-			return new Tuple<bool, Inventory>(false, null);
+			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 
 		public List<Inventory> getCharInventory(int charId)

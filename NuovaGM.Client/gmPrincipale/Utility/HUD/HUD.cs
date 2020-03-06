@@ -116,7 +116,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <summary>
 		/// Il testo che viene mostrato in alto a destra dello schermo
 		/// </summary>
-		/// <param name="helpText"></param>
+		/// <param name="helpText">Testo da mostrare</param>
 		public static void ShowHelp(string helpText)
 		{
 			if (!IsPlayerSwitchInProgress())
@@ -128,7 +128,28 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 					AddTextComponentSubstringPlayerName(s);
 				}
 				EndTextCommandDisplayHelp(0, false, true, 1);
-			}		}
+			}
+		}
+
+		/// <summary>
+		/// Il testo che viene mostrato in alto a destra dello schermo
+		/// </summary>
+		/// <param name="helpText">Testo da mostrare</param>
+		/// <param name="tempo">Tempo di permanenza su schermo in millisecondi</param>
+		public static void ShowHelp(string helpText, int tempo)
+		{
+			if (tempo > 5000) tempo = 5000;
+			if (!IsPlayerSwitchInProgress())
+			{
+				string[] strings = Screen.StringToArray(helpText);
+				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
+				foreach (string s in strings)
+				{
+					AddTextComponentSubstringPlayerName(s);
+				}
+				EndTextCommandDisplayHelp(0, false, true, tempo);
+			}
+		}
 
 		/// <summary>
 		/// Notifica con immagine (stile sms / mms)

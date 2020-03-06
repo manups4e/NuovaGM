@@ -28,14 +28,8 @@ namespace NuovaGM.Shared
 		public int TempoFisso;
 		public int PrezzoVenditaPesce;
 		public int PrezzoVenditaAltro;
-		public List<PescatoreDati> PuntiDiPesca = new List<PescatoreDati>();
-	}
-
-	public class PescatoreDati
-	{
-		public float[] Contratto = new float[3];
-		public float[] AffittoBarca = new float[3];
-//		public List<float[]> PuntiPesca = new List<float[]>();
+		//public float[] AffittoBarca = new float[3];
+		public float[] SpawnBarca = new float[4];
 		public List<string> Barche = new List<string>();
 		public PesciPescati Pesci = new PesciPescati();
 	}

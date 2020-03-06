@@ -347,12 +347,13 @@ namespace NuovaGM.Client.Personale
 							newItemMenu.AddItem(useButton);
 							newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 							{
+								/*
+								 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
+								 *///DA GESTIRE 
 								if (_item == useButton)
 								{
-									HUD.ShowNotification("Hai usato 1 " + SharedScript.ItemList[item.item].use.label);
-									/*
-									 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
-									 *///DA GESTIRE 
+									HUD.MenuPool.CloseAllMenus();
+									SharedScript.ItemList[item.item].UsaOggettoEvent(1);
 								}
 							};
 						}
@@ -387,8 +388,7 @@ namespace NuovaGM.Client.Personale
 							{
 								if (_listItem == dropButton)
 								{
-									HUD.ShowNotification("Rimozione in " + rimozione + " minuti..");
-									await BaseScript.Delay(rimozione * 1000);
+									SharedScript.ItemList[item.item].ButtaOggettoEvent(int.Parse(_listItem.Text));
 									BaseScript.TriggerServerEvent("lprp:removeInventoryItem", Eventi.Player.source, item.item, int.Parse(_listItem.Text));
 									newItemMenu.RefreshIndex();
 								}

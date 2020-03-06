@@ -210,7 +210,7 @@ namespace NuovaGM.Shared
 
 	public class Phone_data
 	{
-		public int id { get; set; } = 1;
+		public int id { get; set; };
 		public int Theme { get; set; } = 1;
 		public int Wallpaper { get; set; } = 4;
 		public int Ringtone { get; set; } = 0;

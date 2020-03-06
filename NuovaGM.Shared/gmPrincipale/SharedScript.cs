@@ -2,6 +2,12 @@
 
 namespace NuovaGM.Shared
 {
+	public delegate void UsaOggetto(Item oggetto, int quantità);
+	public delegate void DaiOggetto(Item oggetto, int quantità);
+	public delegate void ButtaOggetto(Item oggetto, int quantità);
+	public delegate void VendiOggetto(Item oggetto, int quantità);
+	public delegate void CompraOggetto(Item oggetto, int quantità);
+
 	public class SharedScript
 	{
 
@@ -365,6 +371,38 @@ namespace NuovaGM.Shared
 		public Drop drop { get; protected set; }
 		public Sell sell { get; protected set; }
 		public Buy buy { get; protected set; }
+
+
+		public event UsaOggetto Usa;
+		public event DaiOggetto Dai;
+		public event ButtaOggetto Butta;
+		public event VendiOggetto Vendi;
+		public event CompraOggetto Compra;
+
+		public async void UsaOggettoEvent(int quantity)
+		{
+			Usa.Invoke(this, quantity);
+		}
+
+		public async void DaiOggettoEvent(int quantity)
+		{
+			Dai.Invoke(this, quantity);
+		}
+
+		public async void ButtaOggettoEvent(int quantity)
+		{
+			Butta.Invoke(this, quantity);
+		}
+
+		public async void VendiOggettoEvent(int quantity)
+		{
+			Vendi.Invoke(this, quantity);
+		}
+
+		public async void CompraOggettoEvent(int quantity)
+		{
+			Compra.Invoke(this, quantity);
+		}
 
 		public Item(string _label, string _desc, float _peso, int _buypr, int _sellpr, int _max, Use _use, Give _give, Drop _drop, Sell _sell, Buy _buy)
 		{

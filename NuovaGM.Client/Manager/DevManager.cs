@@ -41,9 +41,13 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
+
 			HUD.DrawText(0.4f, 0.925f, $"Posizione: X = {Math.Round(Game.PlayerPed.Position.X, 3)}, Y = {Math.Round(Game.PlayerPed.Position.Y, 3)}, Z = {Math.Round(Game.PlayerPed.Position.Z, 3)}, Heading = {Math.Round(Game.PlayerPed.Heading, 3)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: X = {Math.Round(GetEntityRotation(PlayerPedId(), 2).X, 3)}, Y = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Y, 3)}, Z = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Z, 3)}");
-			HUD.DrawText(0.4f, 0.90f, $"Interior Id = " + GetInteriorFromGameplayCam());
+			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
+			float height = 0;
+			bool eccolo = GetWaterHeightNoWaves(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, ref height);
+			HUD.DrawText(0.4f, 0.965f, $"GetWaterHeightNoWaves = {height}, {eccolo}");
 			if (Game.PlayerPed.IsAiming)
 			{
 				int entity = 0;

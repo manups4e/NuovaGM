@@ -42,6 +42,25 @@ namespace NuovaGM.Client.Manager
 
 				UIMenu Giocatore = HUD.MenuPool.AddSubMenu(MenuPlayers, GetPlayerName(GetPlayerFromServerId(player.Value.source)), charscount);
 
+				UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
+				UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
+
+				Giocatore.AddItem(Teletrasportami);
+				Giocatore.AddItem(Teletrasportalo);
+
+				Giocatore.OnItemSelect += async (menu, item, index) =>
+				{
+					Player p = new Player(GetPlayerFromServerId(player.Value.source));
+					if (item == Teletrasportami)
+					{
+						Game.PlayerPed.Position = p.Character.Position;
+					}
+					else if (item == Teletrasportalo)
+					{
+						p.Character.Position = Game.PlayerPed.Position;
+					}
+				};
+
 				#region Ban Player
 				DateTime TempoDiBan = DateTime.Now.AddMinutes(10);
 				string Motivazione = "";
