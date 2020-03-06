@@ -198,8 +198,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 			if (vero)
 			{
-				checkedItem.amount = checkedItem.amount - amount;
-				if (checkedItem.amount < 0)
+				checkedItem.amount -= amount;
+				if (checkedItem.amount <= 0)
 				{
 					CurrentChar.inventory.Remove(checkedItem);
 				}

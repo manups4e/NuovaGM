@@ -126,8 +126,8 @@ namespace NuovaGM.Shared
 			statistiche.FLYING_ABILITY = data["statistiche"].Value<float>("FLYING_ABILITY");
 			statistiche.SHOOTING_ABILITY = data["statistiche"].Value<float>("SHOOTING_ABILITY");
 			statistiche.WHEELIE_ABILITY = data["statistiche"].Value<float>("WHEELIE_ABILITY");
-			statistiche.drugs = data["statistiche"].Value<float>("drugs");
-			statistiche.fishing = data["statistiche"].Value<float>("fishing");
+			statistiche.DRUGS = data["statistiche"].Value<float>("drugs");
+			statistiche.FISHING = data["statistiche"].Value<float>("fishing");
 			if (data["inventory"].HasValues)
 			{
 				for (int i = 0; i < data["inventory"].Count(); i++)
@@ -210,7 +210,7 @@ namespace NuovaGM.Shared
 
 	public class Phone_data
 	{
-		public int id { get; set; };
+		public int id { get; set; }
 		public int Theme { get; set; } = 1;
 		public int Wallpaper { get; set; } = 4;
 		public int Ringtone { get; set; } = 0;
@@ -503,8 +503,8 @@ namespace NuovaGM.Shared
 		public float SHOOTING_ABILITY { get; set; } = 0f;
 		public float WHEELIE_ABILITY { get; set; } = 0f;
 		public float FLYING_ABILITY { get; set; } = 0f;
-		public float drugs { get; set; } = 0f;
-		public float fishing { get; set; } = 0f;
+		public float DRUGS { get; set; } = 0f;
+		public float FISHING { get; set; } = 0f;
 	}
 
 	public class Skin

@@ -34,6 +34,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 		public static bool CannaInMano = false;
 		private static int TipoCanna = -1;
 		private static Prop CannaDaPesca;
+
 		private static Vector3 LuogoDiPesca = new Vector3(0);
 		// oggetti: canna da pesca, esche, pesci, frutti di mare magari, gamberi.. crostacei
 		// considerare spogliatoio (obbligatorio / opzionale)
@@ -51,6 +52,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 
 			SharedScript.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
+				HUD.MenuPool.CloseAllMenus();
 				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -60,6 +62,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			};
 			SharedScript.ItemList["cannadapescamedia"].Usa += async (item, index) =>
 			{
+				HUD.MenuPool.CloseAllMenus();
 				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005),0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -69,6 +72,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			};
 			SharedScript.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
 			{
+				HUD.MenuPool.CloseAllMenus();
 				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005),0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
@@ -78,17 +82,158 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			};
 		}
 
+		static bool mostrablip = false;
+		static List<string> PerVendereIlPesce = new List<string>()
+		{
+			"branzino",
+			"sgombro",
+			"sogliola",
+			"orata",
+			"tonno",
+			"salmone",
+			"merluzzo",
+			"pescespada",
+			"squalo",
+			"fruttidimare",
+			"carpa",
+			"luccio",
+			"persico",
+			"pescegattocomune",
+			"pescegattopunteggiato",
+			"spigola",
+			"trota",
+			"ghiozzo",
+			"lucioperca",
+			"alborella",
+			"carassio",
+			"carassiodorato",
+			"cheppia",
+			"rovella",
+			"spinarello",
+			"storionecobice",
+			"storionecomune",
+			"storioneladano",
+		};
+		static List<Blip> venditaPesceBlip = new List<Blip>();
 		public async static Task ControlloPesca()
 		{
-/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca.ToVector3()) < 2f && !Game.PlayerPed.IsInVehicle())
+			if (Main.spawned)
 			{
-				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (PerVendereIlPesce.Any(o => Eventi.Player.getInventoryItem(o).Item1))
 				{
-					MenuBarche();
+					if (!mostrablip)
+					{
+						foreach (var punto in PuntiPesca.LuoghiVendita)
+						{
+							Blip puntovendita = new Blip(AddBlipForCoord(punto[0], punto[1], punto[2]))
+							{
+								Sprite = BlipSprite.TowTruck,
+								Name = "Vendita pesce",
+								Color = BlipColor.MichaelBlue,
+								Scale = 0.8f,
+							};
+							SetBlipDisplay(puntovendita.Handle, 4);
+							venditaPesceBlip.Add(puntovendita);
+						}
+						mostrablip = true;
+					}
+
+					foreach (var punto in PuntiPesca.LuoghiVendita)
+					{
+						if (World.GetDistance(Game.PlayerPed.Position, punto.ToVector3()) < 80)
+						{
+							World.DrawMarker(MarkerType.DollarSign, punto.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 2.0f), Colors.DarkSeaGreen, false, false, true);
+							if (World.GetDistance(Game.PlayerPed.Position, punto.ToVector3()) < 2)
+							{
+								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
+								if (Game.IsControlJustPressed(0, Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+								{
+									ApriMenuVenditaPesce();
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					if (mostrablip)
+					{
+						foreach (var blip in venditaPesceBlip)
+						{
+							if (blip.Exists())
+								blip.Delete();
+						}
+						venditaPesceBlip.Clear();
+						mostrablip = false;
+					}
+				}
+
+
+				/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca.ToVector3()) < 2f && !Game.PlayerPed.IsInVehicle())
+							{
+								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
+								if (Game.IsControlJustPressed(0, Control.Context))
+								{
+									MenuBarche();
+								}
+							}
+				*/
+			}
+		}
+
+		private static async Task ApriMenuVenditaPesce()
+		{
+			UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
+			HUD.MenuPool.Add(venditaPesce);
+			List<Inventory> inventario = Eventi.Player.CurrentChar.inventory;
+			foreach (var inv in inventario)
+			{
+				foreach (string s in PerVendereIlPesce)
+				{
+					if (inv.item == s)
+					{
+						List<dynamic> amountino = new List<dynamic>();
+						for (int j = 0; j < inv.amount; j++)
+						{
+							amountino.Add((j + 1).ToString());
+						}
+						UIMenuListItem pesce = new UIMenuListItem(SharedScript.ItemList[inv.item].label, amountino, 0, SharedScript.ItemList[inv.item].description);
+						venditaPesce.AddItem(pesce);
+						pesce.OnListSelected += async (item, index) =>
+						{
+							string quantita = item.Items[item.Index].ToString();
+							int perc = 0;
+							if (Convert.ToInt32(quantita) > 9 && Convert.ToInt32(quantita) < 20)
+								perc = 10;
+							else if (Convert.ToInt32(quantita) > 19 && Convert.ToInt32(quantita) < 30)
+								perc = 15;
+							else if (Convert.ToInt32(quantita) > 29 && Convert.ToInt32(quantita) < 40)
+								perc = 20;
+							else if (Convert.ToInt32(quantita) > 39 && Convert.ToInt32(quantita) < 50)
+								perc = 25;
+							else if (Convert.ToInt32(quantita) > 49 && Convert.ToInt32(quantita) < 60)
+								perc = 30;
+							else if (Convert.ToInt32(quantita) > 59 && Convert.ToInt32(quantita) < 70)
+								perc = 35;
+							else if (Convert.ToInt32(quantita) > 69 && Convert.ToInt32(quantita) < 80)
+								perc = 40;
+							else if (Convert.ToInt32(quantita) > 79 && Convert.ToInt32(quantita) < 90)
+								perc = 45;
+							else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
+								perc = 50;
+							else if (Convert.ToInt32(quantita) > 99)
+								perc = 65;
+
+							Debug.WriteLine("Perc = " + perc);
+							int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * perc) / 100 + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10);
+							Debug.WriteLine("Valore = " + valoreAggiunto);
+							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
+							BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
+						};
+					}
 				}
 			}
-*/
+			venditaPesce.Visible = true;
 		}
 
 		public static async Task Pesca()
@@ -112,7 +257,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 						Pescando = true;
 					}
 					else
-						HUD.ShowNotification("Non puoi pescare qui, assicurati di avere almeno i piedi nell'acqua!", true);
+						HUD.ShowNotification("Sei troppo lontano dalle acque più profonde!", true);
 				}
 				if (Game.IsDisabledControlJustPressed(0, Control.FrontendY))
 				{
@@ -125,7 +270,6 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			}
 			if (Pescando)
 			{
-				HUD.ShowHelp("Premi ~INPUT_FRONTEND_Y~ per smettere di pescare.", 5000);
 				if (PuntiPesca.TempoPescaDinamico)
 					await BaseScript.Delay(Funzioni.GetRandomInt(30000, 120000));
 				else
@@ -140,8 +284,24 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			int TocchiTotali = Funzioni.GetRandomInt(20, 40);
 			int tocchiEffettuati = 0;
 			int contogenerico = 0;
+			int contomax = 0;
 			if (TipoCanna != -1) 
 			{
+				if (TipoCanna == 0)
+				{
+					TocchiTotali = Funzioni.GetRandomInt(20, 40);
+					contomax = 1500;
+				}
+				else if (TipoCanna == 1)
+				{
+					TocchiTotali = Funzioni.GetRandomInt(30, 50);
+					contomax = 1000;
+				}
+				else if (TipoCanna == 0)
+				{
+					TocchiTotali = Funzioni.GetRandomInt(40, 60);
+					contomax = 800;
+				}
 				while (tocchiEffettuati < TocchiTotali)
 				{
 					await BaseScript.Delay(0);
@@ -150,7 +310,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 					if (Game.CurrentInputMode == InputMode.GamePad)
 					{
 						HUD.ShowHelp("Ha abboccato qualcosa!! Gira velocemente ~INPUT_LOOK_UD~ per pescarla!");
-						if (Game.IsDisabledControlJustPressed(1, Control.LookUpDown))
+						if (Game.IsDisabledControlJustPressed(1, Control.LookUpOnly) || Game.IsControlJustPressed(1, Control.LookDownOnly))
 							tocchiEffettuati += 1;
 					}
 					else
@@ -160,13 +320,14 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 							tocchiEffettuati += 1;
 					}
 					contogenerico += 1;
-					HUD.DrawText(0.4f, 0.9f, "Conto generico = " + contogenerico);
-					HUD.DrawText(0.4f, 0.925f, "TocchiTotali = " + TocchiTotali);
-					HUD.DrawText(0.4f, 0.95f, "Conto tocchi effettuati = " + tocchiEffettuati);
-					if (contogenerico > 1000) break;
+					HUD.DrawText(0.4f, 0.9f, $"Conto generico = {contogenerico}, / {contomax}");
+					HUD.DrawText(0.4f, 0.925f, $"TocchiTotali = {tocchiEffettuati} / {TocchiTotali}");
+
+
+					if (contogenerico > contomax) break;
 				}
 
-				if (Funzioni.GetRandomInt(0, 100) < 90 && contogenerico < 1000)
+				if (Funzioni.GetRandomInt(0, 100) < 90 && contogenerico < contomax)
 				{
 					string pesce = "";
 					if (TipoCanna == 0)
@@ -175,7 +336,8 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 						pesce = PuntiPesca.Pesci.medio[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.medio.Count - 1)];
 					else if (TipoCanna == 2)
 						pesce = PuntiPesca.Pesci.avanzato[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.avanzato.Count - 1)];
-					HUD.ShowNotification($"Hai pescato un bell'esemplare di {pesce}");
+					HUD.ShowNotification($"Hai pescato un bell'esemplare di {SharedScript.ItemList[pesce].label}, dal peso di {Funzioni.GetRandomInt(1, 20)}Kg");
+					BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1);
 				}
 				else
 					HUD.ShowNotification("Il pesce è scappato! Andrà meglio la prossima volta..", true);

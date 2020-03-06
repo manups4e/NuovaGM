@@ -47,7 +47,7 @@ namespace NuovaGM.Client.Manager
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			float height = 0;
 			bool eccolo = GetWaterHeightNoWaves(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, ref height);
-			HUD.DrawText(0.4f, 0.965f, $"GetWaterHeightNoWaves = {height}, {eccolo}");
+			HUD.DrawText(0.7f, 0.90f, $"GetWaterHeightNoWaves = {height}, {eccolo}");
 			if (Game.PlayerPed.IsAiming)
 			{
 				int entity = 0;

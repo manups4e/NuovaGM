@@ -18,7 +18,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.RegisterEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
 			Server.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
 			Server.GetInstance.RegisterEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
-			Server.GetInstance.RegisterEventHandler("onPlayerDropped", new Action<Player, string>(Dropped));
+			Server.GetInstance.RegisterEventHandler("playerDropped", new Action<Player, string>(Dropped));
 			Server.GetInstance.RegisterEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
 			Server.GetInstance.RegisterEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
 			Server.GetInstance.RegisterEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));

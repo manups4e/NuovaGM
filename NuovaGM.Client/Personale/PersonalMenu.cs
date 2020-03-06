@@ -289,8 +289,8 @@ namespace NuovaGM.Client.Personale
 			PanAbilita.SetPercentage(3, Convert.ToSingle(getStat("MP0_SHOOTING_ABILITY")));
 			PanAbilita.SetPercentage(4, Convert.ToSingle(getStat("MP0_WHEELIE_ABILITY")));
 			PanAbilita.SetPercentage(5, Convert.ToSingle(getStat("MP0_FLYING_ABILITY")));
-			PanAbilita.SetPercentage(6, Eventi.Player.CurrentChar.statistiche.drugs);
-			PanAbilita.SetPercentage(7, Eventi.Player.CurrentChar.statistiche.fishing);
+			PanAbilita.SetPercentage(6, Eventi.Player.CurrentChar.statistiche.DRUGS);
+			PanAbilita.SetPercentage(7, Eventi.Player.CurrentChar.statistiche.FISHING);
 			datiPers.AddItem(abilita);
 			datiPers.OnListChange += async (_sender, _listItem, _newIndex) =>
 			{
@@ -351,10 +351,7 @@ namespace NuovaGM.Client.Personale
 								 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
 								 *///DA GESTIRE 
 								if (_item == useButton)
-								{
-									HUD.MenuPool.CloseAllMenus();
 									SharedScript.ItemList[item.item].UsaOggettoEvent(1);
-								}
 							};
 						}
 						if (SharedScript.ItemList[item.item].give.give)
@@ -380,7 +377,7 @@ namespace NuovaGM.Client.Personale
 							List<dynamic> amountino = new List<dynamic>();
 							for (int j = 0; j < item.amount; j++)
 							{
-								amountino.Add(j.ToString());
+								amountino.Add(j+1.ToString());
 							}
 
 							UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description);

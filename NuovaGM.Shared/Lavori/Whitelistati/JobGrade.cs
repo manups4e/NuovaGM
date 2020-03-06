@@ -28,6 +28,7 @@ namespace NuovaGM.Shared
 		public int TempoFisso;
 		public int PrezzoVenditaPesce;
 		public int PrezzoVenditaAltro;
+		public List<float[]> LuoghiVendita = new List<float[]>();
 		//public float[] AffittoBarca = new float[3];
 		public float[] SpawnBarca = new float[4];
 		public List<string> Barche = new List<string>();
