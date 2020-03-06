@@ -54,17 +54,11 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static async void RegistraStats(string name, int val)
 		{
 			if (name == "DRUGS")
-			{
 				skill.DRUGS = val;
-			}
 			else if (name == "FISHING")
-			{
 				skill.FISHING = val;
-			}
 			else
-			{
 				StatSetInt((uint)Game.GenerateHash("MP0_" + name), val, true);
-			}
 		}
 
 
@@ -95,86 +89,54 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				nee.stanchezza += 0.015f;
 			}
 			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6)
-			{
 				nee.stanchezza += 0.07f;
-			}
 			if (nee.fame >= 100.0f)
-			{
 				nee.fame = 100.0f;
-			}
 			else if (nee.fame <= 0.0f)
-			{
 				nee.fame = 0.0f;
-			}
 
 			if (nee.sete >= 100.0f)
-			{
 				nee.sete = 100.0f;
-			}
 			else if (nee.sete <= 0.0f)
-			{
 				nee.sete = 0.0f;
-			}
 
 			if (nee.stanchezza >= 100.0f)
-			{
 				nee.stanchezza = 100.0f;
-			}
 			else if (nee.stanchezza <= 0.0f)
-			{
 				nee.stanchezza = 0.0f;
-			}
 
 			if (Game.PlayerPed.IsSprinting || Game.PlayerPed.IsSwimmingUnderWater)
-			{
 				skill.STAMINA += 0.002f;
-			}
 			else if (Game.PlayerPed.IsRunning || Game.PlayerPed.IsSwimming)
-			{
 				skill.STAMINA += +0.001f;
-			}
 
 			if (Game.PlayerPed.IsSwimmingUnderWater)
-			{
 				skill.LUNG_CAPACITY += 0.002f;
-			}
 
 			if (Game.PlayerPed.IsInMeleeCombat)
-			{
 				skill.STRENGTH += 0.002f;
-			}
 
 			if (Game.PlayerPed.IsOnBike && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
 			{
 				float speed = Game.PlayerPed.CurrentVehicle.Speed * 3.6f;
 				if (speed > 150f)
-				{
 					skill.WHEELIE_ABILITY += 0.003f;
-				}
 				else if (speed > 90f && speed < 150)
-				{
 					skill.WHEELIE_ABILITY += 0.002f;
-				}
 				else if (speed < 90f)
-				{
 					skill.WHEELIE_ABILITY += 0.001f;
-				}
 			}
 			else if ((Game.PlayerPed.IsInPlane || Game.PlayerPed.IsInHeli) && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
 			{
 				if (Game.PlayerPed.CurrentVehicle.HeightAboveGround >= 15)
-				{
 					skill.FLYING_ABILITY += 0.002f;
-				}
 			}
 			if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
-			{
-				skill.FISHING += 0.005f;
-			}
+				skill.FISHING += 0.003f;
 			/*
 			if (Lavori.Droghe.generico)
 			{
-				skill.DRUGS += 0.0002f;
+				skill.DRUGS += 0.002f;
 			}
 			*/
 
