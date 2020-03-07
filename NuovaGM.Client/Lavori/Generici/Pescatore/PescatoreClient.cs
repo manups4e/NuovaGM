@@ -17,9 +17,6 @@ using Newtonsoft.Json;
 
 namespace NuovaGM.Client.Lavori.Generici.Pescatore
 {
-
-
-
 	// NON E PIU UN LAVORO... LIBERO PER TUTTI.. CREARE PUNTI DI AFFITTO BARCHE PER CHI LE VUOLE..
 	// CREARE PUNTI GENERICI DI VENDITA DEL PESCE, E PUNTI GENERICI DI ATTACCO / STACCO BARCHE PER CHI LE POSSIEDE
 
@@ -34,6 +31,39 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 		public static bool CannaInMano = false;
 		private static int TipoCanna = -1;
 		private static Prop CannaDaPesca;
+		private static bool mostrablip = false;
+		private static List<string> PerVendereIlPesce = new List<string>()
+		{
+			"branzino",
+			"sgombro",
+			"sogliola",
+			"orata",
+			"tonno",
+			"salmone",
+			"merluzzo",
+			"pescespada",
+			"squalo",
+			"fruttidimare",
+			"carpa",
+			"luccio",
+			"persico",
+			"pescegattocomune",
+			"pescegattopunteggiato",
+			"spigola",
+			"trota",
+			"ghiozzo",
+			"lucioperca",
+			"alborella",
+			"carassio",
+			"carassiodorato",
+			"cheppia",
+			"rovella",
+			"spinarello",
+			"storionecobice",
+			"storionecomune",
+			"storioneladano",
+		};
+		private static List<Blip> venditaPesceBlip = new List<Blip>();
 
 		private static Vector3 LuogoDiPesca = new Vector3(0);
 		// oggetti: canna da pesca, esche, pesci, frutti di mare magari, gamberi.. crostacei
@@ -82,39 +112,6 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			};
 		}
 
-		static bool mostrablip = false;
-		static List<string> PerVendereIlPesce = new List<string>()
-		{
-			"branzino",
-			"sgombro",
-			"sogliola",
-			"orata",
-			"tonno",
-			"salmone",
-			"merluzzo",
-			"pescespada",
-			"squalo",
-			"fruttidimare",
-			"carpa",
-			"luccio",
-			"persico",
-			"pescegattocomune",
-			"pescegattopunteggiato",
-			"spigola",
-			"trota",
-			"ghiozzo",
-			"lucioperca",
-			"alborella",
-			"carassio",
-			"carassiodorato",
-			"cheppia",
-			"rovella",
-			"spinarello",
-			"storionecobice",
-			"storionecomune",
-			"storioneladano",
-		};
-		static List<Blip> venditaPesceBlip = new List<Blip>();
 		public async static Task ControlloPesca()
 		{
 			if (Main.spawned)
@@ -183,57 +180,63 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 
 		private static async Task ApriMenuVenditaPesce()
 		{
-			UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
-			HUD.MenuPool.Add(venditaPesce);
-			List<Inventory> inventario = Eventi.Player.CurrentChar.inventory;
-			foreach (var inv in inventario)
+			DateTime oggi = new DateTime();
+			if (oggi.DayOfWeek == DayOfWeek.Monday || oggi.DayOfWeek == DayOfWeek.Wednesday || oggi.DayOfWeek == DayOfWeek.Friday)
 			{
-				foreach (string s in PerVendereIlPesce)
+				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
+				HUD.MenuPool.Add(venditaPesce);
+				List<Inventory> inventario = Eventi.Player.CurrentChar.inventory;
+				foreach (var inv in inventario)
 				{
-					if (inv.item == s)
+					foreach (string s in PerVendereIlPesce)
 					{
-						List<dynamic> amountino = new List<dynamic>();
-						for (int j = 0; j < inv.amount; j++)
+						if (inv.item == s)
 						{
-							amountino.Add((j + 1).ToString());
-						}
-						UIMenuListItem pesce = new UIMenuListItem(SharedScript.ItemList[inv.item].label, amountino, 0, SharedScript.ItemList[inv.item].description);
-						venditaPesce.AddItem(pesce);
-						pesce.OnListSelected += async (item, index) =>
-						{
-							string quantita = item.Items[item.Index].ToString();
-							int perc = 0;
-							if (Convert.ToInt32(quantita) > 9 && Convert.ToInt32(quantita) < 20)
-								perc = 10;
-							else if (Convert.ToInt32(quantita) > 19 && Convert.ToInt32(quantita) < 30)
-								perc = 15;
-							else if (Convert.ToInt32(quantita) > 29 && Convert.ToInt32(quantita) < 40)
-								perc = 20;
-							else if (Convert.ToInt32(quantita) > 39 && Convert.ToInt32(quantita) < 50)
-								perc = 25;
-							else if (Convert.ToInt32(quantita) > 49 && Convert.ToInt32(quantita) < 60)
-								perc = 30;
-							else if (Convert.ToInt32(quantita) > 59 && Convert.ToInt32(quantita) < 70)
-								perc = 35;
-							else if (Convert.ToInt32(quantita) > 69 && Convert.ToInt32(quantita) < 80)
-								perc = 40;
-							else if (Convert.ToInt32(quantita) > 79 && Convert.ToInt32(quantita) < 90)
-								perc = 45;
-							else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
-								perc = 50;
-							else if (Convert.ToInt32(quantita) > 99)
-								perc = 65;
+							List<dynamic> amountino = new List<dynamic>();
+							for (int j = 0; j < inv.amount; j++)
+							{
+								amountino.Add((j + 1).ToString());
+							}
+							UIMenuListItem pesce = new UIMenuListItem(SharedScript.ItemList[inv.item].label, amountino, 0, SharedScript.ItemList[inv.item].description);
+							venditaPesce.AddItem(pesce);
+							pesce.OnListSelected += async (item, index) =>
+							{
+								string quantita = item.Items[item.Index].ToString();
+								int perc = 0;
+								if (Convert.ToInt32(quantita) > 9 && Convert.ToInt32(quantita) < 20)
+									perc = 10;
+								else if (Convert.ToInt32(quantita) > 19 && Convert.ToInt32(quantita) < 30)
+									perc = 15;
+								else if (Convert.ToInt32(quantita) > 29 && Convert.ToInt32(quantita) < 40)
+									perc = 20;
+								else if (Convert.ToInt32(quantita) > 39 && Convert.ToInt32(quantita) < 50)
+									perc = 25;
+								else if (Convert.ToInt32(quantita) > 49 && Convert.ToInt32(quantita) < 60)
+									perc = 30;
+								else if (Convert.ToInt32(quantita) > 59 && Convert.ToInt32(quantita) < 70)
+									perc = 35;
+								else if (Convert.ToInt32(quantita) > 69 && Convert.ToInt32(quantita) < 80)
+									perc = 40;
+								else if (Convert.ToInt32(quantita) > 79 && Convert.ToInt32(quantita) < 90)
+									perc = 45;
+								else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
+									perc = 50;
+								else if (Convert.ToInt32(quantita) > 99)
+									perc = 65;
 
-							Debug.WriteLine("Perc = " + perc);
-							int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * perc) / 100 + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10);
-							Debug.WriteLine("Valore = " + valoreAggiunto);
-							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
-							BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
-						};
+								Debug.WriteLine("Perc = " + perc);
+								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * perc) / 100 + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10);
+								Debug.WriteLine("Valore = " + valoreAggiunto);
+								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
+								BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
+							};
+						}
 					}
 				}
+				venditaPesce.Visible = true;
 			}
-			venditaPesce.Visible = true;
+			else
+				HUD.ShowNotification("Il mercato Ittico è chiuso oggi torna quando siamo aperti!!");
 		}
 
 		public static async Task Pesca()
@@ -257,7 +260,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 						Pescando = true;
 					}
 					else
-						HUD.ShowNotification("Sei troppo lontano dalle acque più profonde!", true);
+						HUD.ShowNotification("Qui non puoi pescare.. prova ad entrare in acqua!", NotificationColor.Red, true);
 				}
 				if (Game.IsDisabledControlJustPressed(0, Control.FrontendY))
 				{
@@ -274,8 +277,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 					await BaseScript.Delay(Funzioni.GetRandomInt(30000, 120000));
 				else
 					await BaseScript.Delay(PuntiPesca.TempoFisso * 1000);
-				if(Pescando)
-					await ControlliEPesca();
+				await ControlliEPesca();
 			}
 		}
 
@@ -322,8 +324,6 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 					contogenerico += 1;
 					HUD.DrawText(0.4f, 0.9f, $"Conto generico = {contogenerico}, / {contomax}");
 					HUD.DrawText(0.4f, 0.925f, $"TocchiTotali = {tocchiEffettuati} / {TocchiTotali}");
-
-
 					if (contogenerico > contomax) break;
 				}
 
