@@ -224,9 +224,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 								else if (Convert.ToInt32(quantita) > 99)
 									perc = 65;
 
-								Debug.WriteLine("Perc = " + perc);
-								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * perc) / 100 + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10);
-								Debug.WriteLine("Valore = " + valoreAggiunto);
+								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10))) / 100;
 								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 								BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
 							};
