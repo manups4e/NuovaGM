@@ -390,7 +390,14 @@ namespace NuovaGM.Client.Banking
 			currentSelection = 0;
 			TryBankingNew(true, 0);
 			Client.GetInstance.RegisterTickHandler(ControlliBank);
+			Client.GetInstance.RegisterTickHandler(AtmDisegna);
 			InterfacciaAperta = true;
+		}
+
+		private static async Task AtmDisegna()
+		{
+			if (atm.IsLoaded)
+				atm.Render2D(); // qui si mostra nel suo splendore!
 		}
 
 		private async static Task ControlliBank()
@@ -490,11 +497,7 @@ namespace NuovaGM.Client.Banking
 				atm.CallFunction("SET_INPUT_SELECT");
 				BeginScaleformMovieMethod(atm.Handle, "GET_CURRENT_SELECTION");
 				int ind = EndScaleformMovieMethodReturn();
-				while (!IsScaleformMovieMethodReturnValueReady(ind))
-				{
-					atm.Render2D();
-					await BaseScript.Delay(0);
-				}
+				while (!IsScaleformMovieMethodReturnValueReady(ind)) await BaseScript.Delay(0);
 				currentSelection = GetScaleformMovieFunctionReturnInt(ind);
 				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
 				switch (MenuAttuale)
@@ -528,7 +531,7 @@ namespace NuovaGM.Client.Banking
 						switch (currentSelection)
 						{
 							case 1: // 50
-								if (Eventi.Player.Money >= 50)
+								if (Eventi.Player.Bank >= 50)
 								{
 									TryBankingNew(false, 5, 50);
 									MenuAttuale = 5;
@@ -540,7 +543,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 2: // 100
-								if (Eventi.Player.Money >= 100)
+								if (Eventi.Player.Bank >= 100)
 								{
 									TryBankingNew(false, 5, 100);
 									MenuAttuale = 5;
@@ -552,7 +555,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 3: // 200
-								if (Eventi.Player.Money >= 200)
+								if (Eventi.Player.Bank >= 200)
 								{
 									TryBankingNew(false, 5, 200);
 									MenuAttuale = 5;
@@ -564,7 +567,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 5: // 500
-								if (Eventi.Player.Money >= 500)
+								if (Eventi.Player.Bank >= 500)
 								{
 									TryBankingNew(false, 5, 500);
 									MenuAttuale = 5;
@@ -576,7 +579,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 6: // 1000
-								if (Eventi.Player.Money >= 1000)
+								if (Eventi.Player.Bank >= 1000)
 								{
 									TryBankingNew(false, 5, 1000);
 									MenuAttuale = 5;
@@ -601,19 +604,19 @@ namespace NuovaGM.Client.Banking
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-											MenuAttuale = 1;
+											MenuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 1;
+										MenuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 1;
+									MenuAttuale = 0;
 								}
 								break;
 						}
@@ -682,7 +685,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Eventi.Player.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Eventi.Player.Money.ToString().Length);
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
@@ -695,19 +698,19 @@ namespace NuovaGM.Client.Banking
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-											MenuAttuale = 2;
+											MenuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 2;
+										MenuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 2;
+									MenuAttuale = 0;
 								}
 								break;
 
@@ -764,7 +767,7 @@ namespace NuovaGM.Client.Banking
 								}
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Eventi.Player.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", Eventi.Player.Bank.ToString().Length);
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
@@ -774,19 +777,19 @@ namespace NuovaGM.Client.Banking
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-											MenuAttuale = 1;
+											MenuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 1;
+										MenuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 1;
+									MenuAttuale = 0;
 								}
 								break;
 						}
@@ -819,36 +822,39 @@ namespace NuovaGM.Client.Banking
 						{
 							case 1:
 								TryBankingNew(false, 7, 0, "", "atmwithdraw"); // ritira
+								MenuAttuale = 0;
 								break;
 							case 2:
 								TryBankingNew(false, 1); // ritira
+								MenuAttuale = 1;
 								break;
 						}
-						MenuAttuale = 0;
 						break;
 					case 6:
 						switch (currentSelection)
 						{
 							case 1:
 								TryBankingNew(false, 7, 0, "", "atmdeposit"); // deposita
+								MenuAttuale = 0;
 								break;
 							case 2:
 								TryBankingNew(false, 2); // deposita
+								MenuAttuale = 2;
 								break;
 						}
-						MenuAttuale = 0;
 						break;
 					case 9:
 						switch (currentSelection)
 						{
 							case 1:
 								TryBankingNew(false, 10, 0, "", "sendMoney"); // invia
+								MenuAttuale = 0;
 								break;
 							case 2:
 								TryBankingNew(false, 3);
+								MenuAttuale = 3;
 								break;
 						}
-						MenuAttuale = 0;
 						break;
 				}
 			}
@@ -857,8 +863,9 @@ namespace NuovaGM.Client.Banking
 				if (MenuAttuale == 0)
 				{
 					Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
-					atm.Dispose();
+					Client.GetInstance.DeregisterTickHandler(AtmDisegna);
 					Client.GetInstance.DeregisterTickHandler(ControlliBank);
+					atm.Dispose();
 					StopAudioScene("ATM_PLAYER_SCENE");
 					InterfacciaAperta = false;
 				}
@@ -885,7 +892,6 @@ namespace NuovaGM.Client.Banking
 					TryBankingNew(false, MenuAttuale);
 				}
 			}
-			atm.Render2D(); // qui si mostra nel suo splendore!
 		}
 
 		private static async void TryBankingNew(bool firstload, int menu, int soldi = 0, string messaggio = "", string evento = "", string destinatario = "")
