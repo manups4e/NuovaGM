@@ -94,7 +94,7 @@ namespace NuovaGM.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task DisplayController()
 		{
-			if (Game.IsControlJustPressed(0, Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+			if (Game.IsControlJustPressed(0, Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
 				UpdateMaxPages();
 				if (ScaleSetup)

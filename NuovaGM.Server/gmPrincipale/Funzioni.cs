@@ -104,5 +104,11 @@ namespace NuovaGM.Server.gmPrincipale
 			return ServerEntrance.PlayerList[id];
 		}
 
+		private static Random random = new Random();
+		public static float RandomFloatInRange(float minimum, float maximum)
+		{
+			return (float)random.NextDouble() * (maximum - minimum) + minimum;
+		}
+
 	}
 }

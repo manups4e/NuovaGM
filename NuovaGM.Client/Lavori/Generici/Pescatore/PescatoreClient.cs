@@ -334,8 +334,9 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 						pesce = PuntiPesca.Pesci.medio[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.medio.Count - 1)];
 					else if (TipoCanna == 2)
 						pesce = PuntiPesca.Pesci.avanzato[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.avanzato.Count - 1)];
-					HUD.ShowNotification($"Hai pescato un bell'esemplare di {SharedScript.ItemList[pesce].label}, dal peso di {Funzioni.GetRandomInt(1, 20)}Kg");
-					BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1);
+					float peso = Funzioni.GetRandomFloat(2f, SharedScript.ItemList[pesce].peso);
+					HUD.ShowNotification($"Hai pescato un bell'esemplare di {SharedScript.ItemList[pesce].label}, dal peso di {peso}Kg");
+					BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1, peso);
 				}
 				else
 					HUD.ShowNotification("Il pesce è scappato! Andrà meglio la prossima volta..", true);

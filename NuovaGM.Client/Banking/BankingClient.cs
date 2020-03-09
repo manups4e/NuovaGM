@@ -4,10 +4,12 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using System;
+using static CitizenFX.Core.Native.API;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using CitizenFX.Core.Native;
 
 namespace NuovaGM.Client.Banking
 {
@@ -117,6 +119,7 @@ namespace NuovaGM.Client.Banking
 			new Vector3(-1096.847f, 4947.532f, 218.354f)
 		};
 
+		public static bool InterfacciaAperta = false;
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
@@ -169,12 +172,13 @@ namespace NuovaGM.Client.Banking
 					World.DrawMarker(MarkerType.DollarSign, atmpos[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 0.8f, 1.0f), Color.FromArgb(160, 0, 255, 190), false, false, true);
 				}
 
-				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
+				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen() && !InterfacciaAperta)
 				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per prelevare / depositare soldi");
+					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
 					if (Game.IsControlJustPressed(0, Control.Context))
 					{
-						BankMenu();
+						AttivaBanca();
+//						BankMenu();
 					}
 				}
 			}
@@ -364,6 +368,862 @@ namespace NuovaGM.Client.Banking
 			{
 				HUD.ShowNotification(msg);
 			}
+		}
+
+		private static Scaleform atm = new Scaleform("ATM");
+		private static int currentSelection = 0;
+		private static int MenuAttuale = 0;
+		private static int iLocal_674 = 0;
+		private static int iLocal_675 = 0;
+		private static float fLocal_591 = -1f;
+		private static float fLocal_592 = 0;
+		private static int SoldiTransazione;
+		private static string Destinatario;
+
+
+
+		private static async void AttivaBanca()
+		{
+			StartAudioScene("ATM_PLAYER_SCENE");
+			atm = new Scaleform("ATM");
+			MenuAttuale = 0;
+			currentSelection = 0;
+			TryBankingNew(true, 0);
+			Client.GetInstance.RegisterTickHandler(ControlliBank);
+			InterfacciaAperta = true;
+		}
+
+		private async static Task ControlliBank()
+		{
+			int iVar0 = 0;
+			int iVar1 = 0;
+			float fVar2;
+			DisableAllControlActions(0);
+			DisableAllControlActions(1);
+			DisableAllControlActions(2);
+			Game.EnableControlThisFrame(2, Control.FrontendPauseAlternate);
+			Game.EnableControlThisFrame(2, Control.FrontendUp);
+			Game.EnableControlThisFrame(2, Control.FrontendLeft);
+			Game.EnableControlThisFrame(2, Control.FrontendDown);
+			Game.EnableControlThisFrame(2, Control.FrontendRight);
+			Game.EnableControlThisFrame(2, Control.CursorAccept);
+			Game.EnableControlThisFrame(2, Control.CursorCancel);
+
+
+			if (Game.IsControlJustPressed(2, Control.FrontendUp))
+			{
+				atm.CallFunction("SET_INPUT_EVENT", 8);
+				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+			}
+			if (Game.IsControlJustPressed(2, Control.FrontendDown))
+			{
+				atm.CallFunction("SET_INPUT_EVENT", 9); 
+				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+			}
+			if (Game.IsControlJustPressed(2, Control.FrontendLeft))
+			{
+				atm.CallFunction("SET_INPUT_EVENT", 10);
+				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+			}
+			if (Game.IsControlJustPressed(2, Control.FrontendRight))
+			{
+				atm.CallFunction("SET_INPUT_EVENT", 11);
+				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+			}
+
+			if (IsInputDisabled(2))
+			{
+				Game.EnableControlThisFrame(2, Control.CursorX);
+				Game.EnableControlThisFrame(2, Control.CursorY);
+				Game.EnableControlThisFrame(2, Control.CursorScrollUp);
+				Game.EnableControlThisFrame(2, Control.CursorScrollDown);
+				float fVar0;
+				float fVar1;
+
+				if (fLocal_591 == -1f)
+				{
+					fLocal_591 = Game.GetControlNormal(2, Control.CursorX);
+					fLocal_592 = Game.GetControlNormal(2, Control.CursorY);
+				}
+				else if (fLocal_591 != Game.GetControlNormal(2, Control.CursorX) || fLocal_592 != Game.GetControlNormal(2, Control.CursorY))
+				{
+					atm.CallFunction("SHOW_CURSOR", true);
+				}
+				ShowCursorThisFrame();
+
+				fVar0 = Game.GetControlNormal(2, Control.CursorX);
+				fVar1 = Game.GetControlNormal(2, Control.CursorY);
+
+				if (((fVar0 >= 0f && fVar0 <= 1f) && fVar1 >= 0f) && fVar1 <= 1f)
+					atm.CallFunction("SET_MOUSE_INPUT", fVar0, fVar1);
+
+				fVar2 = 1f + (10f * Timestep());
+				if (Game.IsControlPressed(2, Control.CursorScrollDown) || Game.IsControlPressed(2, Control.FrontendDown))
+					iVar1 = -200;
+				if (Game.IsControlPressed(2, Control.CursorScrollUp) || Game.IsControlPressed(2, Control.FrontendUp))
+					iVar1 = 200;
+				atm.CallFunction("SET_ANALOG_STICK_INPUT", 0f, 0f, iVar1 * fVar2);
+			}
+			else
+			{
+				atm.CallFunction("SHOW_CURSOR", false);
+				fLocal_591 = -1f;
+				Game.EnableControlThisFrame(2, Control.FrontendRightAxisX);
+				Game.EnableControlThisFrame(2, Control.FrontendRightAxisY);
+				iVar0 = Game.GetControlValue(0, Control.FrontendRightAxisX) - 128;
+				iVar1 = Game.GetControlValue(0, Control.FrontendRightAxisY) - 128;
+				if (iVar0 < 10 && iVar0 > -10)
+					iVar0 = 0;
+				if (iVar1 < 10 && iVar1 > -10)
+					iVar1 = 0;
+				fVar2 = 1f + (10f * Timestep());
+				if (iLocal_674 != iVar0 || iLocal_675 != iVar1)
+				{
+					atm.CallFunction("SET_ANALOG_STICK_INPUT", 0f, -iVar0 * fVar2, -iVar1 * fVar2);
+					iLocal_674 = iVar0;
+					iLocal_675 = iVar1;
+				}
+			}
+
+			if (Game.IsControlJustPressed(2, Control.FrontendAccept) || Game.IsControlJustPressed(2, Control.CursorAccept))
+			{
+				atm.CallFunction("SET_INPUT_SELECT");
+				BeginScaleformMovieMethod(atm.Handle, "GET_CURRENT_SELECTION");
+				int ind = EndScaleformMovieMethodReturn();
+				while (!IsScaleformMovieMethodReturnValueReady(ind))
+				{
+					atm.Render2D();
+					await BaseScript.Delay(0);
+				}
+				currentSelection = GetScaleformMovieFunctionReturnInt(ind);
+				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+				switch (MenuAttuale)
+				{
+					case 0: // menu principale
+						switch (currentSelection)
+						{
+							case 0:
+								TryBankingNew(false, 0); // torna al menu principale
+								MenuAttuale = 0;
+								break;
+							case 1:
+								TryBankingNew(false, 1); // ritira
+								MenuAttuale = 1;
+								break;
+							case 2: 
+								TryBankingNew(false, 2); // deposita
+								MenuAttuale = 2;
+								break;
+							case 3:
+								TryBankingNew(false, 3); // giroconto
+								MenuAttuale = 3;
+								break;
+							case 4:
+								TryBankingNew(false, 4); // lista transazioni
+								MenuAttuale = 4;
+								break;
+						}
+						break;
+					case 1: // ritira
+						switch (currentSelection)
+						{
+							case 1: // 50
+								if (Eventi.Player.Money >= 50)
+								{
+									TryBankingNew(false, 5, 50);
+									MenuAttuale = 5;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 2: // 100
+								if (Eventi.Player.Money >= 100)
+								{
+									TryBankingNew(false, 5, 100);
+									MenuAttuale = 5;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 3: // 200
+								if (Eventi.Player.Money >= 200)
+								{
+									TryBankingNew(false, 5, 200);
+									MenuAttuale = 5;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 5: // 500
+								if (Eventi.Player.Money >= 500)
+								{
+									TryBankingNew(false, 5, 500);
+									MenuAttuale = 5;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 6: // 1000
+								if (Eventi.Player.Money >= 1000)
+								{
+									TryBankingNew(false, 5, 1000);
+									MenuAttuale = 5;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 7: // personalizzato
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Eventi.Player.Bank.ToString().Length);
+								if (valore != "")
+								{
+									if (valore.All(o => char.IsDigit(o)))
+									{
+										if (Eventi.Player.Bank >= Convert.ToInt32(valore))
+										{
+											TryBankingNew(false, 5, Convert.ToInt32(valore));
+											MenuAttuale = 5;
+										}
+										else
+										{
+											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+											MenuAttuale = 1;
+										}
+									}
+									else
+									{
+										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
+										MenuAttuale = 1;
+									}
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
+									MenuAttuale = 1;
+								}
+								break;
+						}
+						break;
+					case 2: // deposita
+						switch (currentSelection)
+						{
+							case 1: // 50
+								if (Eventi.Player.Money >= 50)
+								{
+									TryBankingNew(false, 6, 50);
+									MenuAttuale = 6;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+									MenuAttuale = 2;
+								}
+								break;
+							case 2: // 100
+								if (Eventi.Player.Money >= 100)
+								{
+									TryBankingNew(false, 6, 100);
+									MenuAttuale = 6;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+									MenuAttuale = 2;
+								}
+								break;
+							case 3: // 200
+								if (Eventi.Player.Money >= 200)
+								{
+									TryBankingNew(false, 6, 200);
+									MenuAttuale = 6;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+									MenuAttuale = 2;
+								}
+								break;
+							case 5: // 500
+								if (Eventi.Player.Money >= 500)
+								{
+									TryBankingNew(false, 6, 500);
+									MenuAttuale = 6;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+									MenuAttuale = 2;
+								}
+								break;
+							case 6: // 1000
+								if (Eventi.Player.Money >= 1000)
+								{
+									TryBankingNew(false, 6, 1000);
+									MenuAttuale = 6;
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+									MenuAttuale = 2;
+								}
+								break;
+							case 7: // personalizzato
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Eventi.Player.Bank.ToString().Length);
+								if (valore != "")
+								{
+									if (valore.All(o => char.IsDigit(o)))
+									{
+										if (Eventi.Player.Money >= Convert.ToInt32(valore))
+										{
+											TryBankingNew(false, 6, Convert.ToInt32(valore));
+											MenuAttuale = 6;
+										}
+										else
+										{
+											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
+											MenuAttuale = 2;
+										}
+									}
+									else
+									{
+										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
+										MenuAttuale = 2;
+									}
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
+									MenuAttuale = 2;
+								}
+								break;
+
+						}
+						break;
+
+					case 3: // GIROCONTO
+						int soldi = 0;
+						switch (currentSelection)
+						{
+							case 1: // 50
+								if (Eventi.Player.Money >= 50)
+									soldi = 50;
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 2: // 100
+								if (Eventi.Player.Money >= 100)
+									soldi = 100;
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 3: // 200
+								if (Eventi.Player.Money >= 200)
+									soldi = 200;
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 5: // 500
+								if (Eventi.Player.Money >= 500)
+									soldi = 500;
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 6: // 1000
+								if (Eventi.Player.Money >= 1000)
+									soldi = 1000;
+								else
+								{
+									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+									MenuAttuale = 1;
+								}
+								break;
+							case 7: // personalizzato
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Eventi.Player.Bank.ToString().Length);
+								if (valore != "")
+								{
+									if (valore.All(o => char.IsDigit(o)))
+									{
+										if (Eventi.Player.Bank >= Convert.ToInt32(valore))
+											soldi = Convert.ToInt32(valore);
+										else
+										{
+											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
+											MenuAttuale = 1;
+										}
+									}
+									else
+									{
+										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
+										MenuAttuale = 1;
+									}
+								}
+								else
+								{
+									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
+									MenuAttuale = 1;
+								}
+								break;
+						}
+						if (soldi != 0)
+						{
+							string destinatario = await HUD.GetUserInput("A chi vuoi trasferire i soldi?", "", 100);
+							if (destinatario.Length < 3)
+							{
+								TryBankingNew(false, 13, 0, "Nome inserito troppo corto!");
+								break;
+							}
+							else if (!destinatario.Contains(" "))
+							{
+								TryBankingNew(false, 13, 0, "Errore! Devi inserire Nome e Cognome del destinatario separati da uno spazio!");
+								break;
+							}
+							else if (destinatario.Any(o => char.IsDigit(o)))
+							{
+								TryBankingNew(false, 13, 0, "Errore! I nomi non possono contenere numeri!");
+								break;
+							}
+							TryBankingNew(false, 9, soldi, "", "", destinatario);
+							MenuAttuale = 9;
+						}
+						break;
+					case 4: // log
+						break;
+					case 5: // ritiro
+						switch(currentSelection)
+						{
+							case 1:
+								TryBankingNew(false, 7, 0, "", "atmwithdraw"); // ritira
+								break;
+							case 2:
+								TryBankingNew(false, 1); // ritira
+								break;
+						}
+						MenuAttuale = 0;
+						break;
+					case 6:
+						switch (currentSelection)
+						{
+							case 1:
+								TryBankingNew(false, 7, 0, "", "atmdeposit"); // deposita
+								break;
+							case 2:
+								TryBankingNew(false, 2); // deposita
+								break;
+						}
+						MenuAttuale = 0;
+						break;
+					case 9:
+						switch (currentSelection)
+						{
+							case 1:
+								TryBankingNew(false, 10, 0, "", "sendMoney"); // invia
+								break;
+							case 2:
+								TryBankingNew(false, 3);
+								break;
+						}
+						MenuAttuale = 0;
+						break;
+				}
+			}
+			if (Game.IsControlJustPressed(2, Control.FrontendCancel) || Game.IsControlJustPressed(2, Control.CursorCancel))
+			{
+				if (MenuAttuale == 0)
+				{
+					Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+					atm.Dispose();
+					Client.GetInstance.DeregisterTickHandler(ControlliBank);
+					StopAudioScene("ATM_PLAYER_SCENE");
+					InterfacciaAperta = false;
+				}
+				else
+				{
+					switch (MenuAttuale)
+					{
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+							MenuAttuale = 0;
+							break;
+						case 5:
+							MenuAttuale = 1;
+							break;
+						case 6:
+							MenuAttuale = 2;
+							break;
+						case 7:
+							MenuAttuale = 3;
+							break;
+					}
+					TryBankingNew(false, MenuAttuale);
+				}
+			}
+			atm.Render2D(); // qui si mostra nel suo splendore!
+		}
+
+		private static async void TryBankingNew(bool firstload, int menu, int soldi = 0, string messaggio = "", string evento = "", string destinatario = "")
+		{
+			while (!atm.IsLoaded) await BaseScript.Delay(0);
+
+			if (firstload)
+			{
+				atm.CallFunction("enterPINanim");
+				atm.CallFunction("pinBeep");
+			}
+
+			atm.CallFunction("SET_DATA_SLOT_EMPTY");
+
+			switch (menu)
+			{
+				case 0:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_SER");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					AddText("MPATM_DIDM");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					AddText("MPATM_WITM");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(3);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Giroconto");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(4);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Registro");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MENU");
+					break;
+				case 1:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_WITMT");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(50, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(100, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(3);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(200, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(5);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(500, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(6);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(1000, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(7);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Personalizzato");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+					break;
+				case 2:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_DITMT");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(50, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(100, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(3);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(200, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(5);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(500, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(6);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(1000, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(7);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Personalizzato");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+					break;
+				case 3:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Seleziona l'ammontare da trasferire");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(50, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(100, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(3);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(200, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(5);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(500, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(6);
+					BeginTextCommandScaleformString("ESDOLLA");
+					AddTextComponentFormattedInteger(1000, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(7);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform("Personalizzato");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+					break;
+				case 4:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_LOG");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					AddText("MPATM_BACK");
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_TRANSACTIONS");
+					break;
+
+				case 5: // Conferma ritiro
+					SoldiTransazione = soldi;
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					BeginTextCommandScaleformString("MPATC_CONFW");
+					AddTextComponentFormattedInteger(soldi, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					AddText("MO_YES");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					AddText("MO_NO");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "DISPLAY_MESSAGE");
+					EndScaleformMovieMethod();
+					break;
+				case 6: // Conferma deposito
+					SoldiTransazione = soldi;
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					BeginTextCommandScaleformString("MPATM_CONF");
+					AddTextComponentFormattedInteger(soldi, true);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					AddText("MO_YES");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					AddText("MO_NO");
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MESSAGE");
+					break;
+				case 7: // ATTESA
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_PEND");
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MESSAGE");
+					
+					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
+
+					BaseScript.TriggerServerEvent("lprp:banking:"+evento, SoldiTransazione);
+					SoldiTransazione = 0;
+					TryBankingNew(false, 13, 0, GetLabelText("MPATM_TRANCOM"));
+					MenuAttuale = 0;
+					currentSelection = 0;
+					break;
+				case 9:
+					SoldiTransazione = soldi;
+					Destinatario = destinatario;
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform($"Desideri trasferire ${soldi} a {destinatario}?");
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(1);
+					AddText("MO_YES");
+					EndScaleformMovieMethod();
+
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(2);
+					AddText("MO_NO");
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MESSAGE");
+					break;
+				case 10:
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					AddText("MPATM_PEND");
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MESSAGE");
+
+					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
+
+					BaseScript.TriggerServerEvent("lprp:banking:" + evento, Destinatario, SoldiTransazione);
+					SoldiTransazione = 0;
+					Destinatario = "";
+					TryBankingNew(false, 13, 0, GetLabelText("MPATM_TRANCOM"));
+					MenuAttuale = 0;
+					currentSelection = 0;
+					break;
+				case 13: // messaggio di errore personalizzato
+					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
+					ScaleformMovieMethodAddParamInt(0);
+					BeginTextCommandScaleformString("STRING");
+					AddTextComponentScaleform(messaggio);
+					EndTextCommandScaleformString();
+					EndScaleformMovieMethod();
+
+					atm.CallFunction("DISPLAY_MESSAGE");
+
+					await BaseScript.Delay(2000);
+					TryBankingNew(false, 0);
+					break;
+			}
+
+			BeginScaleformMovieMethod(atm.Handle, "DISPLAY_BALANCE");
+			PushScaleformMovieMethodParameterButtonName(Eventi.Player.FullName);
+			AddText("MPATM_ACBA");
+			PushScaleformMovieMethodParameterButtonName(Eventi.Player.Bank.ToString());
+			EndScaleformMovieMethod();
+		}
+
+		static void AddText(string text)
+		{
+			BeginTextCommandScaleformString(text);
+			EndTextCommandScaleformString();
 		}
 	}
 }

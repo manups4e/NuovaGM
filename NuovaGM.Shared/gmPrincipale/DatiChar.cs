@@ -132,7 +132,7 @@ namespace NuovaGM.Shared
 			{
 				for (int i = 0; i < data["inventory"].Count(); i++)
 				{
-					inventory.Add(new Inventory(data["inventory"][i].Value<string>("item"), data["inventory"][i].Value<int>("amount")));
+					inventory.Add(new Inventory(data["inventory"][i].Value<string>("item"), data["inventory"][i].Value<int>("amount"), data["inventory"][i].Value<float>("weight")));
 				}
 			}
 
@@ -363,11 +363,13 @@ namespace NuovaGM.Shared
 	{
 		public string item { get; set; }
 		public int amount { get; set; }
+		public float weight { get; set; }
 		public Inventory() { }
-		public Inventory(string _item, int _am)
+		public Inventory(string _item, int _am, float _weight)
 		{
 			this.item = _item;
 			this.amount = _am;
+			weight = _weight;
 		}
 	}
 

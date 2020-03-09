@@ -215,11 +215,12 @@ namespace NuovaGM.Server.gmPrincipale
 						if (ServerEntrance.PlayerList.ContainsKey(args[0]))
 						{
 							User player = ServerEntrance.PlayerList[args[0]];
-							player.addInventoryItem(args[1], Convert.ToInt32(args[2]));
+							string item = "" + args[1];
+							player.addInventoryItem(item, Convert.ToInt32(args[2]), Shared.SharedScript.ItemList[item].peso);
 						}
 						else
 						{
-							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
+							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID \"" + args[0] + "\" non è online!" }, color = new[] { 255, 0, 0 } });
 						}
 					}
 				}

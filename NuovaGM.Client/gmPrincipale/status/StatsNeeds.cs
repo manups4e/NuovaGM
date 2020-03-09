@@ -121,7 +121,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				float speed = Game.PlayerPed.CurrentVehicle.Speed * 3.6f;
 				if (speed > 150f)
 					skill.WHEELIE_ABILITY += 0.003f;
-				else if (speed > 90f && speed < 150)
+				else if (speed > 90f && speed < 150f)
 					skill.WHEELIE_ABILITY += 0.002f;
 				else if (speed < 90f)
 					skill.WHEELIE_ABILITY += 0.001f;
@@ -140,37 +140,37 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 			*/
 
-			if (MathUtil.WithinEpsilon(skill.WHEELIE_ABILITY % 1f, 0.0f, 0.002f) && skill.WHEELIE_ABILITY != 0)
+			if (MathUtil.WithinEpsilon(skill.WHEELIE_ABILITY % 1f, 0.0f, 0.002f) && skill.WHEELIE_ABILITY > 0.999f)
 			{
 				Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY = skill.WHEELIE_ABILITY;
 				StatSetInt((uint)Game.GenerateHash("MP0_WHEELIE_ABILITY"), (int)(skill.WHEELIE_ABILITY), true);
 				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Abilità in Moto~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.WHEELIE_ABILITY + "/100!");
 			}
-			if (MathUtil.WithinEpsilon(skill.FLYING_ABILITY % 1f, 0.0f, 0.002f) && skill.FLYING_ABILITY != 0)
+			if (MathUtil.WithinEpsilon(skill.FLYING_ABILITY % 1f, 0.0f, 0.002f) && skill.FLYING_ABILITY > 0.999f)
 			{
 				Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY = skill.FLYING_ABILITY;
 				StatSetInt((uint)Game.GenerateHash("MP0_FLYING_ABILITY"), (int)(skill.FLYING_ABILITY), true);
 				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Abilità in Volo~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.FLYING_ABILITY + "/100!");
 			}
-			if (MathUtil.WithinEpsilon(skill.STAMINA % 1f, 0.0f, 0.002f) && skill.STAMINA != 0)
+			if (MathUtil.WithinEpsilon(skill.STAMINA % 1f, 0.0f, 0.002f) && skill.STAMINA > 0.999f)
 			{
 				Eventi.Player.CurrentChar.statistiche.STAMINA = skill.STAMINA;
 				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(skill.STAMINA), true);
 				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Resistenza~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.STAMINA + "/100!");
 			}
-			if (MathUtil.WithinEpsilon(skill.STRENGTH % 1f, 0.0f, 0.002f) && skill.STRENGTH != 0)
+			if (MathUtil.WithinEpsilon(skill.STRENGTH % 1f, 0.0f, 0.002f) && skill.STRENGTH > 0.999f)
 			{
 				Eventi.Player.CurrentChar.statistiche.STRENGTH = skill.STRENGTH;
 				StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)(skill.STRENGTH), true);
 				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Forza~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.STRENGTH + "/100!");
 			}
-			if (MathUtil.WithinEpsilon(skill.LUNG_CAPACITY % 1f, 0.0f, 0.002f) && skill.LUNG_CAPACITY != 0)
+			if (MathUtil.WithinEpsilon(skill.LUNG_CAPACITY % 1f, 0.0f, 0.002f) && skill.LUNG_CAPACITY > 0.999f)
 			{
 				Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY = skill.LUNG_CAPACITY;
 				StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)(skill.LUNG_CAPACITY), true);
 				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Fiato sott'Acqua~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.LUNG_CAPACITY + "/100!");
 			}
-			if (MathUtil.WithinEpsilon(skill.FISHING%1f, 0.0f, 0.002f) && skill.FISHING != 0)
+			if (MathUtil.WithinEpsilon(skill.FISHING%1f, 0.0f, 0.002f) && skill.FISHING > 0.999f)
 //			if (skill.FISHING >= (Eventi.Player.CurrentChar.statistiche.FISHING + 1))
 			{
 				Eventi.Player.CurrentChar.statistiche.FISHING = skill.FISHING;

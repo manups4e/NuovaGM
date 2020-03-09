@@ -32,7 +32,8 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
 			Server.GetInstance.RegisterEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
 			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
-			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int>(AddInventory));
+			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
+			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
 			Server.GetInstance.RegisterEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));
 			Server.GetInstance.RegisterEventHandler("lprp:addWeapon", new Action<Player, string, int>(AddWeapon));
 			Server.GetInstance.RegisterEventHandler("lprp:removeWeapon", new Action<Player, string>(RemoveWeapon));
@@ -51,7 +52,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int>(AddInventoryToChar));
+			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int, float>(AddInventoryToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:removeIntenvoryItemtochar", new Action<string, int, string, int>(RemoveInventoryToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:removeWeapontochar", new Action<string, int, string>(RemoveWeaponToChar));
@@ -301,9 +302,9 @@ namespace NuovaGM.Server.gmPrincipale
 			player.DirtyMoney -= amount;
 		}
 
-		public static void AddInventory([FromSource]Player source, string item, int amount)
+		public static void AddInventory([FromSource]Player source, string item, int amount, float peso)
 		{
-			ServerEntrance.PlayerList[source.Handle].addInventoryItem(item, amount);
+			ServerEntrance.PlayerList[source.Handle].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventory([FromSource]Player source, string item, int amount)
@@ -384,9 +385,9 @@ namespace NuovaGM.Server.gmPrincipale
 			player.DirtyMoney -= amount;
 		}
 
-		public static void AddInventoryToChar(string target, int charId, string item, int amount)
+		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
 		{
-			ServerEntrance.PlayerList[target].addInventoryItem(item, amount);
+			ServerEntrance.PlayerList[target].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventoryToChar(string target, int charId, string item, int amount)

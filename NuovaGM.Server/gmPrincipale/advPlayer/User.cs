@@ -171,7 +171,7 @@ namespace NuovaGM.Server.gmPrincipale
 			return null;
 		}
 
-		public void addInventoryItem(string item, int amount)
+		public void addInventoryItem(string item, int amount, float weight)
 		{
 			bool vero = getInventoryItem(item).Item1;
 			var checkedItem = getInventoryItem(item).Item2;
@@ -186,7 +186,7 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 			}
 			else
-				CurrentChar.inventory.Add(new Inventory(item, amount));
+				CurrentChar.inventory.Add(new Inventory(item, amount, weight));
 			p.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + SharedScript.ItemList[item].label + "!");
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}

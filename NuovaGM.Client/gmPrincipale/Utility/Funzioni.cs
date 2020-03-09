@@ -897,12 +897,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static float GetRandomFloat(float end)
 		{
-			return GetRandomFloatInRange(0, end);
+			return (float)Math.Round(GetRandomFloatInRange(0, end), 2);
 		}
 
 		public static float GetRandomFloat(float start, float end)
 		{
-			return GetRandomFloatInRange(start, end);
+			return (float)Math.Round(GetRandomFloatInRange(start, end), 2);
 		}
 
 		public static Tuple<int, int> secondsToClock(int Seconds)
