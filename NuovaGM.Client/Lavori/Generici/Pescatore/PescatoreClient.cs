@@ -204,25 +204,25 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 								string quantita = item.Items[item.Index].ToString();
 								int perc = 0;
 								if (Convert.ToInt32(quantita) > 9 && Convert.ToInt32(quantita) < 20)
-									perc = 10;
+									perc = 2;
 								else if (Convert.ToInt32(quantita) > 19 && Convert.ToInt32(quantita) < 30)
-									perc = 15;
+									perc = 4;
 								else if (Convert.ToInt32(quantita) > 29 && Convert.ToInt32(quantita) < 40)
-									perc = 20;
+									perc = 6;
 								else if (Convert.ToInt32(quantita) > 39 && Convert.ToInt32(quantita) < 50)
-									perc = 25;
+									perc = 8;
 								else if (Convert.ToInt32(quantita) > 49 && Convert.ToInt32(quantita) < 60)
-									perc = 30;
+									perc = 10;
 								else if (Convert.ToInt32(quantita) > 59 && Convert.ToInt32(quantita) < 70)
-									perc = 35;
+									perc = 12;
 								else if (Convert.ToInt32(quantita) > 69 && Convert.ToInt32(quantita) < 80)
-									perc = 40;
+									perc = 14;
 								else if (Convert.ToInt32(quantita) > 79 && Convert.ToInt32(quantita) < 90)
-									perc = 45;
+									perc = 16;
 								else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
-									perc = 50;
+									perc = 18;
 								else if (Convert.ToInt32(quantita) > 99)
-									perc = 65;
+									perc = 20;
 
 								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10))) / 100;
 								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));

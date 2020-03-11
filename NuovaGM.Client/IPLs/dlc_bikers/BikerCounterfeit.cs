@@ -55,7 +55,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 			}
 			public void Clear(bool refresh)
 			{
-				IplManager.SetIplPropState(InteriorId, new List<string>() { "counterfeit_low_security" , "counterfeit_security" }, false, refresh);
+				IplManager.SetIplPropState(InteriorId, new List<string>() { "counterfeit_low_security", "counterfeit_security" }, false, refresh);
 			}
 		}
 

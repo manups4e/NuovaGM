@@ -461,7 +461,7 @@ namespace NuovaGM.Client.Personale
 
 			UIMenu Cinematic = pool.AddSubMenu(PersonalMenu, "Modalità Cinema", "Vuoi vivere in un film");
 			UIMenuCheckboxItem attivaCinematica = new UIMenuCheckboxItem("Attiva / Disattiva Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, "");
-			UIMenuSliderProgressItem tipoCinematica = new UIMenuSliderProgressItem("Spessore LetterBox", 100 , (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
+			UIMenuSliderProgressItem tipoCinematica = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
 
 			Cinematic.AddItem(attivaCinematica);
 			Cinematic.AddItem(tipoCinematica);

@@ -119,6 +119,16 @@ namespace NuovaGM.Client.Banking
 			new Vector3(-1096.847f, 4947.532f, 218.354f)
 		};
 
+		private static List<ObjectHash> ATMs = new List<ObjectHash>()
+		{
+			ObjectHash.prop_atm_01,
+			ObjectHash.prop_atm_02,
+			ObjectHash.prop_atm_03,
+			ObjectHash.prop_fleeca_atm
+		};
+
+		private static bool isNearATM = false;
+		private static Prop ClosestATM;
 		public static bool InterfacciaAperta = false;
 		public static void Init()
 		{
@@ -128,44 +138,20 @@ namespace NuovaGM.Client.Banking
 
 		static public async void onPlayerSpawn()
 		{
-			/*
-				foreach (Vector3 b in atmpos)
-				{
-					Blip atmblip = new Blip(AddBlipForCoord(b.X, b.Y, b.Z));
-					atmblip.Sprite = (BlipSprite)(277);
-					atmblip.Color = BlipColor.Green;
-					SetBlipDisplay(atmblip.Handle, 4);
-					atmblip.Scale = 0.85f;
-					atmblip.IsShortRange = true;
-					atmblip.Name = "A.T.M";
-					await Task.FromResult(0);
-				}
-				foreach (Vector3 b in bankCoords)
-				{
-					Blip bankblip = new Blip(AddBlipForCoord(b.X, b.Y, b.Z));
-					bankblip.Sprite = BlipSprite.DollarSign;
-					bankblip.Color = BlipColor.Green;
-					SetBlipDisplay(bankblip.Handle, 4);
-					bankblip.Scale = 0.8f;
-					bankblip.IsShortRange = true;
-					bankblip.Name = "Banca";
-				}
-				foreach (Vector3 b in cleanspotcoords)
-				{
-					Blip cleanerblips = new Blip(AddBlipForCoord(b.X, b.Y, b.Z));
-					cleanerblips.Sprite = BlipSprite.DollarSign;
-					cleanerblips.Color = BlipColor.Red;
-					SetBlipDisplay(cleanerblips.Handle, 4);
-					cleanerblips.Scale = 0.8f;
-					cleanerblips.IsShortRange = true;
-					cleanerblips.Name = "Riciclaggio Denaro Gangs";
-				}
-			*/
+			Client.GetInstance.RegisterTickHandler(ControlloATM);
+		}
+
+		public static async Task ControlloATM()
+		{
+			isNearATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
+			if (isNearATM)
+				ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
+			await BaseScript.Delay(200);
 		}
 
 		static public async Task Markers()
 		{
-			for (int i = 0; i < atmpos.Count; i++)
+/*			for (int i = 0; i < atmpos.Count; i++)
 			{
 				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 100f)
 				{
@@ -182,7 +168,15 @@ namespace NuovaGM.Client.Banking
 					}
 				}
 			}
-
+*/
+			if (isNearATM && !InterfacciaAperta)
+			{
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
+				if (Game.IsControlJustPressed(0, Control.Context))
+				{
+					AttivaBanca();
+				}
+			}
 			/*          foreach (Vector3 b in bankCoords)
 						{
 							if (World.GetDistance(Game.PlayerPed.Position, b) < 30f)
@@ -216,7 +210,7 @@ namespace NuovaGM.Client.Banking
 			await Task.FromResult(0);
 		}
 
-		static public async void BankMenu()
+/*		static public async void BankMenu()
 		{
 			UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
 			HUD.MenuPool.Add(Banca);
@@ -357,17 +351,13 @@ namespace NuovaGM.Client.Banking
 			Banca.Visible = true;
 			await Task.FromResult(0);
 		}
-
+*/
 		static public void Status(bool success, string msg)
 		{
 			if (success)
-			{
 				HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + msg + "$", NotificationColor.GreenLight);
-			}
 			else
-			{
 				HUD.ShowNotification(msg);
-			}
 		}
 
 		private static Scaleform atm = new Scaleform("ATM");
@@ -686,7 +676,7 @@ namespace NuovaGM.Client.Banking
 								break;
 							case 7: // personalizzato
 								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Eventi.Player.Money.ToString().Length);
-								if (valore != "")
+								if (!string.IsNullOrEmpty(valore))
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{

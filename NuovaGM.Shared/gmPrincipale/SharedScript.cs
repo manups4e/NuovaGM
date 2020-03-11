@@ -17,7 +17,7 @@ namespace NuovaGM.Shared
 			["cannadapescabase"] = new Item("Una canna da pesca per principianti", "Ottima per iniziare", 1f, 100, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca base", "Per i principianti", true)),
 			["cannadapescamedia"] = new Item("Una canna da pesca per intermedi", "Per pescatori mediamente bravi", 1f, 300, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca intermedia", "Per i principianti", true)),
 			["cannadapescaavanzata"] = new Item("Una canna da pesca per avanzati", "Per pescatori avanzati", 1f, 500, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca avanzata", "Per i principianti", true)),
-			["esca"] = new Item("Esca", "usala per pescare", 1f, 2, 100, 100, new Use("Usa un'esca", "", false), new Give("Dai un'esca", "A chi vuoi tu!!", true), new Drop("Getta via un'esca", "", true), new Sell("", "", false), new Buy("Compra un'esca", "", false)),
+			["esca"] = new Item("Esca", "Verme per pescare", 1f, 2, 100, 100, new Use("Usa un'esca", "", false), new Give("Dai un'esca", "A chi vuoi tu!!", true), new Drop("Getta via un'esca", "", true), new Sell("", "", false), new Buy("Compra un'esca", "", false)),
 			
 			// prezzi in base anche alle skill e alle canne da pesca
 
@@ -31,6 +31,7 @@ namespace NuovaGM.Shared
 			["merluzzo"] = new Item("Merluzzo", "Pesce di mare", 1f, 0, 45, 100, new Use("", "", false), new Give("Dai un merluzzo", "A chi vuoi tu!!", true), new Drop("Getta via un merluzzo", "", true), new Sell("", "", false), new Buy("", "", false)),
 			["pescespada"] = new Item("Pesce Spada", "Pesce di mare", 1f, 0, 56, 100, new Use("", "", false), new Give("Dai un pesce spada", "A chi vuoi tu!!", true), new Drop("Getta via un pesce spada", "", true), new Sell("", "", false), new Buy("", "", false)),
 			["squalo"] = new Item("Squalo", "Pesce di mare", 1f, 0, 120, 100, new Use("", "", false), new Give("Dai uno squalo", "A chi vuoi tu!!", true), new Drop("Getta via uno squalo", "", true), new Sell("", "", false), new Buy("", "", false)),
+
 			["fruttidimare"] = new Item("Frutti di mare", "", 1f, 0, 50, 100, new Use("", "", false), new Give("Dai frutti di mare", "A chi vuoi tu!!", true), new Drop("Getta via frutti di mare", "", true), new Sell("", "", false), new Buy("", "", false)),
 
 			// acqua dolce
