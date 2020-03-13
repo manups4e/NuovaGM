@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -47,6 +48,8 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			get
 			{
+				return char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
+				/*
 				for (int i = 0; i < char_data.Count; i++)
 				{
 					if ((char_current - 1) == char_data[i].id - 1)
@@ -55,6 +58,7 @@ namespace NuovaGM.Server.gmPrincipale
 					}
 				}
 				return null;
+				*/
 			}
 		}
 
@@ -150,24 +154,16 @@ namespace NuovaGM.Server.gmPrincipale
 		public Tuple<bool, Inventory> getInventoryItem(string item)
 		{
 			for (int i = 0; i < CurrentChar.inventory.Count; i++)
-			{
 				if (CurrentChar.inventory[i].item == item)
-				{
 					return new Tuple<bool, Inventory>(true, CurrentChar.inventory[i]);
-				}
-			}
 			return new Tuple<bool, Inventory>(false, null);
 		}
 
 		public List<Inventory> getCharInventory(int charId)
 		{
 			for (int i = 0; i < char_data.Count; i++)
-			{
 				if (char_data[i].id == charId)
-				{
 					return char_data[i].inventory;
-				}
-			}
 			return null;
 		}
 
@@ -200,14 +196,10 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				checkedItem.amount -= amount;
 				if (checkedItem.amount <= 0)
-				{
 					CurrentChar.inventory.Remove(checkedItem);
-				}
 			}
 			else
-			{
 				CurrentChar.inventory.Remove(checkedItem);
-			}
 
 			p.TriggerEvent("lprp:ShowNotification", amount + " " + SharedScript.ItemList[item].label + " ti sono stati rimossi/e!");
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
@@ -239,9 +231,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
 			if (weapon != null)
-			{
 				CurrentChar.weapons.Remove(weapon);
-			}
 			p.TriggerEvent("lprp:removeWeapon", weaponName);
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
@@ -250,10 +240,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			int num = getWeapon(weaponName).Item1;
 			if (hasWeaponComponent(weaponName, weaponComponent))
-			{
 				p.TriggerEvent("lprp:possiediArma", weaponName, weaponComponent);
-				return;
-			}
 			else
 			{
 				CurrentChar.weapons[num].components.Add(new Components(weaponComponent, true));
@@ -285,10 +272,7 @@ namespace NuovaGM.Server.gmPrincipale
 			if (weapon != null)
 			{
 				if (hasWeaponTint(weaponName, tint))
-				{
 					p.TriggerEvent("lprp:possiediTinta", weaponName, tint);
-					return;
-				}
 				else
 				{
 					CurrentChar.weapons[num].tint = tint;
@@ -300,6 +284,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public bool hasWeapon(string weaponName)
 		{
+			return CurrentChar.weapons.Any(x => x.name == weaponName);
+			/*
 			for (int i = 0; i < CurrentChar.weapons.Count; i++)
 			{
 				if (CurrentChar.weapons[i].name == weaponName)
@@ -308,17 +294,14 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 			}
 			return false;
-		}
+			*/
+			}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
 			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-			{
 				if (CurrentChar.weapons[i].name == weaponName)
-				{
 					return new Tuple<int, Weapons>(i, CurrentChar.weapons[i]);
-				}
-			}
 			return new Tuple<int, Weapons>(0, null);
 		}
 
@@ -326,26 +309,27 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
 			if (weapon == null)
-			{
 				return false;
-			}
 
+			return weapon.tint == tint;
+			/*
 			if (weapon.tint == tint)
 			{
 				Debug.WriteLine("arma = " + weapon.tint + ", tint parametro = " + tint);
 				return true;
 			}
 			return false;
+			*/
 		}
 
 		public bool hasWeaponComponent(string weaponName, string weaponComponent)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
 			if (weapon == null)
-			{
 				return false;
-			}
 
+			return weapon.components.Any(x => x.name == weaponComponent);
+			/*
 			for (int i = 0; i < weapon.components.Count; i++)
 			{
 				if (weapon.components[i].name == weaponComponent)
@@ -354,6 +338,22 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 			}
 			return false;
+			*/
+		}
+
+		public void giveLicense(string license)
+		{
+			Licenses licenza = new Licenses(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"));
+			CurrentChar.licenze.Add(licenza);
+			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
+		}
+		public void removeLicense(string license)
+		{
+			foreach (var licen in CurrentChar.licenze)
+				if (licen.name == license)
+					CurrentChar.licenze.Remove(licen);
+				else Log.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
+			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
 	}
 

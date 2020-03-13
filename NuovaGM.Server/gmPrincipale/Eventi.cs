@@ -60,6 +60,11 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.RegisterEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
 			Server.GetInstance.RegisterEventHandler("lprp:bannaPlayer", new Action<string, string, long, int>(BannaPlayer));
+			Server.GetInstance.RegisterEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
+			Server.GetInstance.RegisterEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
+			Server.GetInstance.RegisterEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
+			Server.GetInstance.RegisterEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
+
 		}
 
 		public static void FinishChar([FromSource] Player p, string data)
@@ -444,5 +449,30 @@ namespace NuovaGM.Server.gmPrincipale
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}
+
+		private static async void GiveLicense([FromSource] Player source, string license)
+		{
+			User player = ServerEntrance.PlayerList[source.Handle];
+
+		}
+
+		private static async void GiveLicenseToChar([FromSource] Player source, int target, string license)
+		{
+			User player = ServerEntrance.PlayerList[source.Handle];
+
+		}
+
+		private static async void RemoveLicense([FromSource] Player source, string license)
+		{
+			User player = ServerEntrance.PlayerList[source.Handle];
+
+		}
+
+		private static async void RemoveLicenseToChar([FromSource] Player source, int target, string license)
+		{
+			User player = ServerEntrance.PlayerList[source.Handle];
+
+		}
+
 	}
 }

@@ -45,6 +45,7 @@ namespace NuovaGM.Shared
 		public Gang gang = new Gang();
 		public Skin skin = new Skin();
 		public List<Weapons> weapons = new List<Weapons>();
+		public List<Licenses> licenze = new List<Licenses>();
 		public List<Inventory> inventory = new List<Inventory>();
 		public Dressing dressing = new Dressing();
 		public Needs needs = new Needs();
@@ -129,20 +130,17 @@ namespace NuovaGM.Shared
 			statistiche.DRUGS = data["statistiche"].Value<float>("drugs");
 			statistiche.FISHING = data["statistiche"].Value<float>("fishing");
 			if (data["inventory"].HasValues)
-			{
 				for (int i = 0; i < data["inventory"].Count(); i++)
-				{
 					inventory.Add(new Inventory(data["inventory"][i].Value<string>("item"), data["inventory"][i].Value<int>("amount"), data["inventory"][i].Value<float>("weight")));
-				}
-			}
+
+			if (data["licenze"].HasValues)
+				for (int i = 0; i < data["licenze"].Count(); i++)
+					licenze.Add(new Licenses(data["licenze"][i].Value<string>("name"), data["licenze"][i].Value<string>("dataDiPossesso")));
+
 
 			if (data["weapons"].HasValues)
-			{
 				for (int i = 0; i < data["weapons"].Count(); i++)
-				{
 					weapons.Add(new Weapons(data["weapons"][i].Value<string>("name"), data["weapons"][i].Value<int>("ammo"), data["weapons"][i]["components"], data["weapons"][i].Value<int>("tint")));
-				}
-			}
 
 			skin.sex = data["skin"].Value<string>("sex");
 			skin.model = data["skin"].Value<string>("model");
@@ -150,10 +148,9 @@ namespace NuovaGM.Shared
 			skin.skinmix = data["skin"].Value<float>("skinmix");
 			skin.face.mom = data["skin"]["face"].Value<int>("mom");
 			skin.face.dad = data["skin"]["face"].Value<int>("dad");
+
 			for (int i = 0; i < 20; i++)
-			{
 				skin.face.tratti[i] = data["skin"]["face"]["tratti"].Value<float>(i);
-			}
 
 			skin.ageing.style = data["skin"]["ageing"].Value<int>("style");
 			skin.ageing.opacity = data["skin"]["ageing"].Value<float>("opacity");
@@ -331,6 +328,18 @@ namespace NuovaGM.Shared
 		{
 			this.name = name;
 			this.grade = grade;
+		}
+	}
+
+	public class Licenses
+	{
+		public string name;
+		public string dataDiPossesso;
+		public Licenses() { }
+		public Licenses(string name, string possesso)
+		{
+			this.name = name;
+			dataDiPossesso = possesso;
 		}
 	}
 

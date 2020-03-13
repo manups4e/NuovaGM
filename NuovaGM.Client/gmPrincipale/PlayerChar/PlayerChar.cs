@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NuovaGM.Client.gmPrincipale.Personaggio
 {
@@ -66,6 +67,8 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		{
 			get
 			{
+				return char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
+				/*
 				for (int i = 0; i < char_data.Count; i++)
 				{
 					if ((char_current - 1) == char_data[i].id - 1)
@@ -74,6 +77,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 					}
 				}
 				return null;
+				*/
 			}
 		}
 
@@ -134,14 +138,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 
 		public bool hasWeapon(string weaponName)
 		{
-			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-			{
-				if (CurrentChar.weapons[i].name == weaponName)
-				{
-					return true;
-				}
-			}
-			return false;
+			return CurrentChar.weapons.Any(x => x.name == weaponName);
 		}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
@@ -164,12 +161,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 				return false;
 			}
 
-			if (weapon.tint == tint)
-			{
-				return true;
-			}
-
-			return false;
+			return weapon.tint == tint;
 		}
 
 		public bool hasWeaponComponent(string weaponName, string weaponComponent)
@@ -180,6 +172,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 				return false;
 			}
 
+			return weapon.components.Any(x => x.name == weaponComponent);
+
+			/*
 			for (int i = 0; i < weapon.components.Count; i++)
 			{
 				if (weapon.components[i].name == weaponComponent)
@@ -188,6 +183,12 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 				}
 			}
 			return false;
+			*/
+		}
+
+		public bool hasLicense(string license)
+		{
+			return CurrentChar.licenze.Any(x => x.name == license);
 		}
 	}
 
