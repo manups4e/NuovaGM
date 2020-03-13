@@ -423,29 +423,38 @@ namespace NuovaGM.Client.Negozi
 			int soprcol2;
 			int soprvar;
 
-			UIMenuListItem Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
-			UIMenuColorPanel beardBase = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
-			UIMenuColorPanel beardSec = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
-			UIMenuPercentagePanel beardOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
-			beardOp.Percentage = 1.0f;
-			Barba.AddPanel(beardBase);
-			Barba.AddPanel(beardSec);
-			Barba.AddPanel(beardOp);
-			if (skin.sex == "Maschio")
-			{
-				MenuPrincipale.AddItem(Barba);
-			}
-
-			beardOp.Enabled = false;
-			beardBase.Enabled = false;
-			beardSec.Enabled = false;
-			beardOp.Percentage = brbAttOp;
-			beardBase.CurrentSelection = brbAttC1;
-			beardSec.CurrentSelection = brbAttC2;
+			UIMenuListItem Barba = null;
+			UIMenuColorPanel beardBase = null;
+			UIMenuColorPanel beardSec = null;
+			UIMenuPercentagePanel beardOp = null;
 			float brbop;
 			int brbcol1;
 			int brbcol2;
 			int brbvar;
+
+			if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+			{
+				Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
+
+				beardBase = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
+				beardSec = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+				beardOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+				beardOp.Percentage = 1.0f;
+				Barba.AddPanel(beardBase);
+				Barba.AddPanel(beardSec);
+				Barba.AddPanel(beardOp);
+				if (skin.sex == "Maschio")
+				{
+					MenuPrincipale.AddItem(Barba);
+				}
+
+				beardOp.Enabled = false;
+				beardBase.Enabled = false;
+				beardSec.Enabled = false;
+				beardOp.Percentage = brbAttOp;
+				beardBase.CurrentSelection = brbAttC1;
+				beardSec.CurrentSelection = brbAttC2;
+			}
 
 			UIMenuListItem Trucco = new UIMenuListItem("Trucco", trucco, 0, desc);
 			UIMenuPercentagePanel trOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");

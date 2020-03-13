@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuovaGM.Client", "NuovaGM.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuovaGM.Shared", "NuovaGM.Shared\NuovaGM.Shared.csproj", "{0AEBD4EB-C50F-4764-A58C-31F17426F024}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuovaGM.Server", "NuovaGM.Server\NuovaGM.Server.csproj", "{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuovaGM.Server", "NuovaGM.Server\NuovaGM.Server.csproj", "{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Dapper;
 using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
-using System.Threading;
-using Newtonsoft.Json;
-using CitizenFX.Core;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace NuovaGM.Server
 {

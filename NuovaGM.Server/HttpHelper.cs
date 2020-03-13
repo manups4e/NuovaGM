@@ -2,6 +2,7 @@
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -51,7 +52,7 @@ namespace NuovaGM.Server
 			requestData.data = data;
 			requestData.headers = headers;
 			string json = JsonConvert.SerializeObject(requestData);
-			int token = API.PerformHttpRequestInternal(json, json.Length);
+			int token = API.PerformHttpRequestInternal(json, Encoding.UTF8.GetByteCount(json));
 			while (!responseDictionary.ContainsKey(token))
 			{
 				await Delay(0);

@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core.Client, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2203\lib\net45\CitizenFX.Core.Client.dll</HintPath>
+      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2207\lib\net45\CitizenFX.Core.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -123,6 +123,7 @@
     <Compile Include="IPLs\gta_online\GTAOApartmentHi1.cs" />
     <Compile Include="IPLs\IPLInstance.cs" />
     <Compile Include="IPLs\common\IplManager.cs" />
+    <Compile Include="Lavori\Generici\Cacciatore\CacciatoreClient.cs" />
     <Compile Include="Lavori\Generici\Pescatore\PescatoreClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MediciMainClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MenuMedici.cs" />
