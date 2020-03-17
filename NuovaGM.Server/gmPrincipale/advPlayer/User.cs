@@ -341,12 +341,13 @@ namespace NuovaGM.Server.gmPrincipale
 			*/
 		}
 
-		public void giveLicense(string license)
+		public void giveLicense(string license, string mittente)
 		{
-			Licenses licenza = new Licenses(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"));
+			Licenses licenza = new Licenses(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
 			CurrentChar.licenze.Add(licenza);
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
+
 		public void removeLicense(string license)
 		{
 			foreach (var licen in CurrentChar.licenze)

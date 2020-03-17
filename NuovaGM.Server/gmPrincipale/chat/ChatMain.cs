@@ -55,6 +55,8 @@ namespace NuovaGM.Server.gmPrincipale
 			["cambiaora"] = 3,
 			["bloccatempo"] = 3,
 			["setmeteo"] = 3,
+			["dailicenza"] = 3,
+			["rimuovilicenza"] = 3,
 		};
 
 		public static void Init()

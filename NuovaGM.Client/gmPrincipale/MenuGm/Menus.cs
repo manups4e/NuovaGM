@@ -147,7 +147,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				await BaseScript.Delay(1);
 			}
 
-			Ped femmi = new Ped(CreatePed(26, femmina, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, Game.PlayerPed.Position.Z - 100, 0, true, false));
+			Ped femmi = new Ped(CreatePed(26, femmina, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, 199f, 0, true, false));
 			femmi.IsPositionFrozen = true;
 			femmi.IsVisible = false;
 			femmi.IsCollisionEnabled = false;

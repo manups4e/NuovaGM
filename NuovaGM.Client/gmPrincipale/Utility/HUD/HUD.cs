@@ -119,7 +119,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <param name="helpText">Testo da mostrare</param>
 		public static void ShowHelp(string helpText)
 		{
-			if (!IsPlayerSwitchInProgress())
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
 			{
 				string[] strings = Screen.StringToArray(helpText);
 				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
@@ -139,7 +139,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		public static void ShowHelp(string helpText, int tempo)
 		{
 			if (tempo > 5000) tempo = 5000;
-			if (!IsPlayerSwitchInProgress())
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
 			{
 				string[] strings = Screen.StringToArray(helpText);
 				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");

@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
@@ -139,6 +140,11 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public bool hasWeapon(string weaponName)
 		{
 			return CurrentChar.weapons.Any(x => x.name == weaponName);
+		}
+
+		public bool hasWeapon(WeaponHash weaponName)
+		{
+			return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
 		}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)

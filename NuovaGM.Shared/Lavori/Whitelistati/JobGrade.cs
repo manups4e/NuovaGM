@@ -42,6 +42,12 @@ namespace NuovaGM.Shared
 		public List<string> avanzato = new List<string>();
 	}
 
+	public class Cacciatori
+	{
+		public float[] inizioCaccia = new float[3];
+		public float[] zonaDiCaccia = new float[3];
+		public float limiteArea;
+	}
 
 	public class WhiteListed
 	{

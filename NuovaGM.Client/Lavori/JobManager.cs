@@ -20,5 +20,6 @@ namespace NuovaGM.Client.Lavori
 	public class LavoriGenerici
 	{
 		public Pescatori Pescatore = new Pescatori();
+		public Cacciatori Cacciatore = new Cacciatori();
 	}
 }

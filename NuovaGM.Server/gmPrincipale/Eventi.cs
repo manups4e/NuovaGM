@@ -321,6 +321,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			ServerEntrance.PlayerList[source.Handle].addWeapon(weaponName, ammo);
 		}
+
 		public static void RemoveWeapon([FromSource]Player source, string weaponName)
 		{
 			ServerEntrance.PlayerList[source.Handle].removeWeapon(weaponName);

@@ -320,8 +320,6 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 							tocchiEffettuati += 1;
 					}
 					contogenerico += 1;
-					HUD.DrawText(0.4f, 0.9f, $"Conto generico = {contogenerico}, / {contomax}");
-					HUD.DrawText(0.4f, 0.925f, $"TocchiTotali = {tocchiEffettuati} / {TocchiTotali}");
 					if (contogenerico > contomax) break;
 				}
 

@@ -207,7 +207,7 @@ namespace NuovaGM.Shared
 
 	public class Phone_data
 	{
-		public int id { get; set; }
+		public int id { get; set; } = 1;
 		public int Theme { get; set; } = 1;
 		public int Wallpaper { get; set; } = 4;
 		public int Ringtone { get; set; } = 0;
@@ -335,11 +335,14 @@ namespace NuovaGM.Shared
 	{
 		public string name;
 		public string dataDiPossesso;
+		public string rilasciataDa = "Admin"; // gestire chi l'ha rilasciata!
+		public string scadenza;
 		public Licenses() { }
-		public Licenses(string name, string possesso)
+		public Licenses(string name, string possesso, string rilasciatoDa = "Admin")
 		{
 			this.name = name;
 			dataDiPossesso = possesso;
+			rilasciataDa = rilasciatoDa;
 		}
 	}
 

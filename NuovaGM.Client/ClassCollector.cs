@@ -30,6 +30,7 @@ namespace NuovaGM.Client
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
 			Lavori.Generici.Pescatore.PescatoreClient.Init();
+			Lavori.Generici.Cacciatore.CacciatoreClient.Init();
 //			Lavori.JobManager.Init();
 
 			Manager.ClientManager.Init();

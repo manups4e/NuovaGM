@@ -36,7 +36,7 @@ namespace NuovaGM.Client.gmPrincipale
 			}
 			else
 			{
-				if (Game.PlayerPed.IsOnFoot && !Game.PlayerPed.IsInWater)
+				if (Game.PlayerPed.IsOnFoot && !Game.PlayerPed.IsInWater && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 				{
 					if (Game.PlayerPed.IsSprinting)
 					{
@@ -114,9 +114,9 @@ namespace NuovaGM.Client.gmPrincipale
 				}
 				else if (Game.PlayerPed.IsInSub && Game.PlayerPed.CurrentVehicle.IsInWater)
 					SetRichPresence("Sta esplorando i fondali in un sottomarino");
-				else if (Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting)
+				else if (Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 					SetRichPresence("E' in uno scontro a fuoco");
-				else if (Game.PlayerPed.IsCuffed)
+				else if (Eventi.Player.ammanettato)
 					SetRichPresence("Legato o ammanettato");
 				else if (Main.IsDead)
 					SetRichPresence("Sta morendo");
@@ -130,6 +130,8 @@ namespace NuovaGM.Client.gmPrincipale
 					SetRichPresence("In Pausa");
 				else if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
 					SetRichPresence("Sta pescando");
+				else if (Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+					SetRichPresence("Sta cacciando");
 			}
 			await BaseScript.Delay(1000);
 		}

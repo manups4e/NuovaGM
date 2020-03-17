@@ -867,12 +867,16 @@ namespace NuovaGM.Client.MenuNativo
 		private readonly UIResRectangle _extraRectangleDown;
 
 		private readonly Scaleform _instructionalButtonsScaleform;
+		private readonly Scaleform _glareScaleform;
 
 		private readonly int _extraYOffset;
 
 		private static readonly MenuControls[] _menuControls = Enum.GetValues(typeof(MenuControls)).Cast<MenuControls>().ToArray();
 
 		private float PanelOffset = 0;
+
+		private SizeF GlareSize;
+		private PointF GlarePosition;
 
 		// Draw Variables
 		private PointF Safe { get; set; }
@@ -1029,11 +1033,12 @@ namespace NuovaGM.Client.MenuNativo
 			WidthOffset = 0;
 
 			_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
+			_glareScaleform = new Scaleform("MP_MENU_GLARE");
 			UpdateScaleform();
 
 			_mainMenu = new Container(new PointF(0, 0), new SizeF(700, 500), Color.FromArgb(0, 0, 0, 0));
 			BannerSprite = new Sprite(spriteLibrary, spriteName, new PointF(0 + Offset.X, 0 + Offset.Y), new SizeF(431, 100));
-			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 1.15f, Colors.White, Font.HouseScript, Alignment.Center));
+			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 1.05f, Colors.White, Font.HouseScript, Alignment.Center));
 			if (!String.IsNullOrWhiteSpace(subtitle))
 			{
 				_mainMenu.Items.Add(new UIResRectangle(new PointF(0 + offset.X, 100 + Offset.Y), new SizeF(431, 37), Colors.Black));
@@ -1152,8 +1157,8 @@ namespace NuovaGM.Client.MenuNativo
 		public void SetBannerType(Sprite spriteBanner)
 		{
 			BannerSprite  = spriteBanner;
-			BannerSprite .Size = new SizeF(431 + WidthOffset, 100);
-			BannerSprite .Position = new PointF(Offset.X, Offset.Y);
+			BannerSprite.Size = new SizeF(431 + WidthOffset, 100);
+			BannerSprite.Position = new PointF(Offset.X, Offset.Y);
 		}
 
 		/// <summary>
@@ -1864,6 +1869,7 @@ namespace NuovaGM.Client.MenuNativo
 				Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
 			}
 			// _instructionalButtonsScaleform.Render2D(); // Bug #13
+			float CinematicHeight = CalculateCinematicHeight();
 
 			if (ScaleWithSafezone)
 			{
@@ -1886,12 +1892,23 @@ namespace NuovaGM.Client.MenuNativo
 
 				//Sprite.DrawTexture(BannerTexture, new PointF(start.X + Offset.X, start.Y + Offset.Y), DrawWidth);
 			}
-			float CinematicHeight = CalculateCinematicHeight();
 			BannerSprite.Position = new PointF(BannerSprite.Position.X, Offset.Y + CinematicHeight);
 			_mainMenu.Items[0].Position = new PointF(_mainMenu.Items[0].Position.X, 13 + Offset.Y + CinematicHeight);
 			_mainMenu.Items[1].Position = new PointF(_mainMenu.Items[1].Position.X, 100 + Offset.Y + CinematicHeight);
 			_mainMenu.Items[2].Position = new PointF(_mainMenu.Items[2].Position.X, 103 + Offset.Y + CinematicHeight);
 			_background.Position = new PointF(_background.Position.X, 144 + Offset.Y - 37 + _extraYOffset + CinematicHeight);
+			if (BannerSprite != null)
+			{
+				_glareScaleform.CallFunction("SET_DATA_SLOT", API.GetGameplayCamRelativeHeading());
+				float x;
+				float y;
+				float width = 1.0f;
+				float height = 1.054f;
+				x = BannerSprite.Position.X / 1860 + Safe.X / 53.211f + 0.4485f;
+				y = BannerSprite.Position.Y / 1080 + Safe.Y / 33.195020746888f + 0.475f;
+
+				API.DrawScaleformMovie(_glareScaleform.Handle, x, y, width, height, 255, 255, 255, 255, 0);
+			}
 			ReDraw = true;
 			_mainMenu.Draw();
 			if (MenuItems.Count == 0 && Windows.Count == 0)

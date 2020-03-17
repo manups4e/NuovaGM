@@ -12,7 +12,6 @@ namespace NuovaGM.Server.gmPrincipale
 	{
 		public static void Init()
 		{
-
 			Server.GetInstance.AddCommand("ooc", new Action<int, List<dynamic>, string>(Ooc), false);
 			Server.GetInstance.AddCommand("pol", new Action<int, List<dynamic>, string>(Pol), false);
 			Server.GetInstance.AddCommand("pil", new Action<int, List<dynamic>, string>(Pil), false);
@@ -45,6 +44,8 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.GetInstance.AddCommand("cambiaora", new Action<int, List<dynamic>, string>(Time), false);
 			Server.GetInstance.AddCommand("bloccatempo", new Action<int, List<dynamic>, string>(FreezeTime), false);
 			Server.GetInstance.AddCommand("setmeteo", new Action<int, List<dynamic>, string>(Weather), false);
+			Server.GetInstance.AddCommand("dailicenza", new Action<int, List<dynamic>, string>(DaiLicenza), false);
+			Server.GetInstance.AddCommand("rimuovilicenza", new Action<int, List<dynamic>, string>(RimuoviLicenza), false);
 
 
 			//			Server.GetInstance.AddCommand("nome comando", new Action<int, List<dynamic>, string>(funzione comando), false);
@@ -896,6 +897,50 @@ namespace NuovaGM.Server.gmPrincipale
 						}
 					}
 				}
+			}
+		}
+
+		private static async void DaiLicenza(int sender, List<dynamic> args, string rawCommand)
+		{
+			if (sender == 0)
+				Log.Printa(LogType.Error, $"Comando permesso solo in game");
+			else
+			{
+				if (!string.IsNullOrEmpty(args[0] as string))
+				{
+					if (!string.IsNullOrEmpty(args[1] as string))
+					{
+						User pers = Funzioni.GetUserFromPlayerId(args[0]);
+						pers.giveLicense(args[1], GetPlayerName(""+sender));
+					}
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+				}
+				else
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Nessun id specificato!!");
+			}
+
+		}
+
+		private static async void RimuoviLicenza(int sender, List<dynamic> args, string rawCommand)
+		{
+			if (sender == 0)
+				Log.Printa(LogType.Error, $"Comando permesso solo in game");
+			else
+			{
+				if (!string.IsNullOrEmpty(args[0] as string))
+				{
+					if (!string.IsNullOrEmpty(args[1] as string))
+					{
+						User pers = Funzioni.GetUserFromPlayerId(args[0]);
+						pers.removeLicense(args[1]);
+					}
+					else
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+				}
+				else
+					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Nessun id specificato!!");
+
 			}
 		}
 	}

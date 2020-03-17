@@ -92,7 +92,6 @@ namespace NuovaGM.Client.Giostre
 			Ruota.Ferma = stato;
 		}
 
-
 		private static async void CaricaTutto()
 		{
 			RequestModel((uint)GetHashKey("prop_ld_ferris_wheel"));
@@ -106,7 +105,6 @@ namespace NuovaGM.Client.Giostre
 			RequestScriptAudioBank("THE_FERRIS_WHALE_SOUNDSET", false);
 			Client.GetInstance.RegisterTickHandler(MuoviRuota);
 			Client.GetInstance.RegisterTickHandler(ControlloPlayer);
-
 		}
 
 		private static async Task MuoviRuota()
