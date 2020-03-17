@@ -18,13 +18,12 @@ namespace NuovaGM.Server.Veicoli
 			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:syncState", new Action<Player, string, int>(SyncRuotaPan));
 			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:RuotaFerma", new Action<bool>(FermaRuota));
 			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<Player, int>(RuotaScende));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<Player, int>(RuotaSale));
+			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<Player, int, int>(RuotaScende));
+			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<Player, int, int>(RuotaSale));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<Player, int>(MontagneScende));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<Player, int, int>(MontagneSale));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
-			Server.GetInstance.RegisterEventHandler("lprp:giostre:spawna", new Action<Player>(SpawnaGiostreHost));
 
 
 			Server.GetInstance.RegisterEventHandler("brakes:add_rear", new Action<int>(AddRear));
@@ -64,42 +63,27 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void SyncRuotaPan([FromSource] Player p, string state, int Player)
 		{
-			string host = GetHostId();
-			if (p.Handle == host)
-				BaseScript.TriggerClientEvent("lprp:ruotapanoramica:forceState", state, Player);
+			BaseScript.TriggerClientEvent("lprp:ruotapanoramica:forceState", state);
 		}
 
 		public static void SyncMontagne([FromSource] Player p, string state)
 		{
-			string host = GetHostId();
-			if (p.Handle == host)
-				BaseScript.TriggerClientEvent("lprp:montagnerusse:forceState", state);
+			BaseScript.TriggerClientEvent("lprp:montagnerusse:forceState", state);
 		}
 
 		public static void AggiornaCabine(int cabina, int player) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:aggiornaCabine", cabina, player);
 
 		public static void FermaRuota(bool stato) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:FermaRuota", stato);
 
-		public static void RuotaSale([FromSource] Player p, int player) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:playerSale", player);
+		public static void RuotaSale([FromSource] Player p, int player, int cabina) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:playerSale", player, cabina);
 
-		public static void RuotaScende([FromSource] Player p, int player) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:playerScende", player);
+		public static void RuotaScende([FromSource] Player p, int player, int cabina) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:playerScende", player, cabina);
 
 		public static void MontagneSale([FromSource] Player p, int player, int index) => p.TriggerEvent("lprp:montagnerusse:playerSale", index);
 
 		public static void MontagneScende([FromSource] Player p, int player) => p.TriggerEvent("lprp:montagnerusse:playerScende");
 
 		public static void SyncCarrelli(int Carrello, int Occupato) => BaseScript.TriggerClientEvent("lprp:montagnerusse:syncCarrelli", Carrello, Occupato);
-
-		public static async void SpawnaGiostreHost([FromSource] Player player)
-		{
-			string host = GetHostId();
-			if (player.Handle == host)
-			{
-				player.TriggerEvent("lprp:montagnerusse:spawna");
-				player.TriggerEvent("lprp:ruotapanoramica:spawna");
-			}
-		}
-
 
 		private static async void AddRear(int veh) 
 		{ 

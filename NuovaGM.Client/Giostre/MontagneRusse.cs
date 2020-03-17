@@ -69,7 +69,6 @@ namespace NuovaGM.Client.Giostre
 		public static async void Init()
 		{
 			func_220();
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:spawna", new Action(SpawnaMontagne));
 			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<int>(PlayerSale));
@@ -86,10 +85,11 @@ namespace NuovaGM.Client.Giostre
 			CaricaTutto();
 		}
 
-		private static async void SpawnaMontagne()
+		private static async Task SpawnaMontagne()
 		{
 			func_191();
 			Client.GetInstance.RegisterTickHandler(ControlloMontagne);
+			await Task.FromResult(0);
 		}
 
 		private static void OnStop(string name)
@@ -108,6 +108,7 @@ namespace NuovaGM.Client.Giostre
 			RequestAnimDict(RollerAnim);
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			LoadStream("LEVIATHON_RIDE_MASTER", "");
+			await SpawnaMontagne();
 			Client.GetInstance.RegisterTickHandler(MuoveMontagneRusse);
 			HUD.TimerBarPool.Add(montagna);
 
@@ -307,7 +308,7 @@ namespace NuovaGM.Client.Giostre
 		{
 			foreach (var v in ingressi)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v) < 1f && Montagna.State == "ATTESA" && tempo > 0)
+				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.3f && Montagna.State == "ATTESA" && tempo > 0)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulle montagne russe");
 					if (Game.IsControlJustPressed(0, Control.Context))

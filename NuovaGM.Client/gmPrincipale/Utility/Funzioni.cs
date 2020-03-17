@@ -727,16 +727,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static Player GetPlayerFromPed(Ped ped)
 		{
-			Player p = null;
 			foreach (Player pl in Client.GetInstance.GetPlayers.ToList())
-			{
-				if (pl.Character == ped)
-				{
-					p = pl;
-				}
-			}
-
-			return p;
+				if (pl.Character.Handle == ped.Handle)
+					return pl;
+			return null;
 		}
 
 		/// <summary>
