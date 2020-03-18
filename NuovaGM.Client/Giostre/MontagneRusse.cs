@@ -13,8 +13,6 @@ namespace NuovaGM.Client.Giostre
 {
 	static class MontagneRusse
 	{
-		// DA PROVARE A SPAWNARLE NETWORKED E SOLO DALL'HOST! COSì TUTTI SALGONO SULLE SUE A PRESCINDERE!
-		// funziona.. ma a scattissimi e cmq non serve a nulla perchè così a scatti è inusabile.. ruota panoramica too
 		// NEXT STEP => QUANDO IL PLAYER VUOLE SALIRE, TRIGGERA EVENTO E LUI SALE.. GLI ALTRI VEDONO IL SUO PED SALIRE..
 		// ALTRIMENTI NON SO CHE FARE....
 		//Montagna.Index == index
@@ -71,8 +69,8 @@ namespace NuovaGM.Client.Giostre
 			func_220();
 			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<int>(PlayerSale));
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action(PlayerScende));
+			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(PlayerSale));
+			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<int>(PlayerScende));
 			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 			Client.GetInstance.RegisterEventHandler("onResourceStop", new Action<string>(OnStop));
 			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f))
@@ -233,7 +231,7 @@ namespace NuovaGM.Client.Giostre
 							PlaySoundFromEntity(-1, "Bar_Unlock_And_Raise", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Postoper entrare
 							Montagna.Carrelli.ToList().ForEach(o => o.Occupato = 0);
 							Montagna.Carrelli.ToList().ForEach(o => BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", Montagna.Carrelli.ToList().IndexOf(o), 0));
-							if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende");
+							if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Game.PlayerPed.NetworkId);
 							await BaseScript.Delay(1000);
 							iLocal_715 = 0;
 							fLocal_716 = 0;
@@ -253,8 +251,12 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void SyncCarrelli(int carrello, int occupato) => Montagna.Carrelli[carrello].Occupato = occupato;
 
-		private static async void PlayerSale(int index)
+		private static async void PlayerSale(int playernetid, int index, int carrellonetid)
 		{
+			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
+			Prop Carrello = (Prop)Entity.FromNetworkId(carrellonetid);
+			if (Carrello == null)
+				Carrello = Montagna.Carrelli[index].Entity;
 			switch (Montagna.Carrelli[index].Occupato)
 			{
 				case 0:
@@ -269,39 +271,42 @@ namespace NuovaGM.Client.Giostre
 					HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
 					return;
 			}
-			TaskGoStraightToCoord(PlayerPedId(), Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
+			TaskGoStraightToCoord(personaggio.Handle, Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
 			await BaseScript.Delay(1000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(Game.PlayerPed.Handle, iLocal_1442, RollerAnim, "enter_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "enter_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(iLocal_1442);
 			int iVar1 = NetworkConvertSynchronisedSceneToSynchronizedScene(iLocal_1442);
 			if (GetSynchronizedScenePhase(iVar1) > 0.99f)
 			{
 				iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, false, true, 1065353216, 0, 1065353216);
-				NetworkAddPedToSynchronisedScene(Game.PlayerPed.Handle, iLocal_1442, RollerAnim, "idle_a_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "idle_a_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 				NetworkStartSynchronisedScene(iLocal_1442);
 			}
 			await BaseScript.Delay(5000);
-			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Montagna.Carrelli[index].Entity.Handle, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
-			AttachEntityToEntity(Game.PlayerPed.Handle, Montagna.Carrelli[index].Entity.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (Game.PlayerPed.Heading - 139.96f), false, false, false, false, 2, true);
-			SonoSeduto = true;
+			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
+			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 2, true);
+			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
+				SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
 		}
 
-		private static async void PlayerScende()
+		private static async void PlayerScende(int playernetid)
 		{
-			if (Game.PlayerPed.IsAttached())
-				Game.PlayerPed.Detach();
-			SonoSeduto = false;
+			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
+			if (personaggio.IsAttached())
+				personaggio.Detach();
+			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
+				SonoSeduto = false;
 			int iLocal_1443 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(Game.PlayerPed.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(iLocal_1443);
 			await BaseScript.Delay(3000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(Game.PlayerPed.Handle, iLocal_1442, RollerAnim, "exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(iLocal_1442);
 			await BaseScript.Delay(7000);
-			Game.PlayerPed.Task.ClearAll();
+			personaggio.Task.ClearAll();
 		}
 
 		private static async Task ControlloMontagne()
@@ -319,7 +324,7 @@ namespace NuovaGM.Client.Giostre
 						else
 							fVar2 = -1.017f;
 						Coord = GetOffsetFromEntityInWorldCoords(Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.Handle, 0, fVar2, 0);
-						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", PlayerPedId(), ingressi.IndexOf(v) / 2);
+						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", Game.PlayerPed.NetworkId, ingressi.IndexOf(v) / 2, Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.NetworkId);
 					}
 				}
 			}

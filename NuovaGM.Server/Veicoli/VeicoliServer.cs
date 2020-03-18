@@ -21,7 +21,7 @@ namespace NuovaGM.Server.Veicoli
 			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<Player, int, int>(RuotaScende));
 			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<Player, int, int>(RuotaSale));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<Player, int>(MontagneScende));
-			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<Player, int, int>(MontagneSale));
+			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<Player, int, int, int>(MontagneSale));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
 			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 
@@ -54,11 +54,7 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void SyncFunivia([FromSource] Player p, int index, string state)
 		{
-			string host = GetHostId();
-			if (p.Handle == host)
-			{
-				BaseScript.TriggerClientEvent("omni:cablecar:forceState", index, state);
-			}
+			BaseScript.TriggerClientEvent("omni:cablecar:forceState", index, state);
 		}
 
 		public static void SyncRuotaPan([FromSource] Player p, string state, int Player)
@@ -79,9 +75,9 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void RuotaScende([FromSource] Player p, int player, int cabina) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:playerScende", player, cabina);
 
-		public static void MontagneSale([FromSource] Player p, int player, int index) => p.TriggerEvent("lprp:montagnerusse:playerSale", index);
+		public static void MontagneSale([FromSource] Player p, int player, int index, int carrello) => BaseScript.TriggerClientEvent("lprp:montagnerusse:playerSale", player, index, carrello);
 
-		public static void MontagneScende([FromSource] Player p, int player) => p.TriggerEvent("lprp:montagnerusse:playerScende");
+		public static void MontagneScende([FromSource] Player p, int player) => BaseScript.TriggerClientEvent("lprp:montagnerusse:playerScende", player);
 
 		public static void SyncCarrelli(int Carrello, int Occupato) => BaseScript.TriggerClientEvent("lprp:montagnerusse:syncCarrelli", Carrello, Occupato);
 
