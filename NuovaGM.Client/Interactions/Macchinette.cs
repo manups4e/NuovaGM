@@ -17,7 +17,6 @@ namespace NuovaGM.Client.Interactions
 		static float MachineRange = 0.6f;
 		static Prop VendingMachineClosest;
 		static Prop Can = new Prop((int)ObjectHash.prop_ld_can_01b);
-		static bool isNearVendingMachine = false;
 		static List<ObjectHash> VendingHashes = new List<ObjectHash>()
 		{
 			ObjectHash.prop_vend_coffe_01,
@@ -49,15 +48,13 @@ namespace NuovaGM.Client.Interactions
 
 		private static async Task ControlloMachines()
 		{
-			isNearVendingMachine = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * MachineRange, 2));
-			if (isNearVendingMachine)
-				VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * MachineRange, 2));
+			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * MachineRange, 2));
 			await BaseScript.Delay(200);
 		}
 
 		private static async Task VendingMachines()
 		{
-			if (isNearVendingMachine)
+			if (VendingMachineClosest != null)
 			{
 				if (!Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.IsDead && !HUD.MenuPool.IsAnyMenuOpen())
 				{

@@ -13,11 +13,6 @@ namespace NuovaGM.Client.Interactions
 {
 	static class RenderTargets
 	{
-		public static void Init()
-		{
-//			CaricaTutto();
-		}
-
 		public static int CreateNamedRenderTargetForModel(string name, uint model)
 		{
 			int handle = 0;
@@ -73,16 +68,6 @@ namespace NuovaGM.Client.Interactions
 					return "taxi";
 			}
 			return null;
-		}
-
-		public static async void CaricaTutto()
-		{
-
-		}
-
-		public static async void Draw()
-		{
-
 		}
 	}
 }

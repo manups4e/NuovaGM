@@ -24,6 +24,7 @@ namespace NuovaGM.Client.Giostre
 		private static string Posto;
 		static MontagnaRussaNew Montagna = new MontagnaRussaNew();
 		static Vector3 Coord = new Vector3(0);
+		static bool Attivato = false;
 		public static bool SonoSeduto = false;
 		static bool Scaleform = false;
 		static Scaleform Buttons = new Scaleform("instructional_buttons");
@@ -123,23 +124,20 @@ namespace NuovaGM.Client.Giostre
 			ObjectHash.prop_roller_car_02
 		};
 
-		static bool isNearMontagneRusse = false;
 		static Prop MRClosest = new Prop(0);
 
 		private static async Task EliminaGialli()
 		{
 			try
 			{
-				isNearMontagneRusse = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 300f, 2));
-				if (isNearMontagneRusse)
-					MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 300f, 2));
-				if (MRClosest.Exists()) MRClosest.Delete();
-				await BaseScript.Delay(500);
+				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 300f, 2));
+				if (MRClosest != null && MRClosest.Exists()) MRClosest.Delete();
 			}
-			catch
+			catch(Exception e)
 			{
-				Debug.WriteLine("errore montagne");
+				Debug.WriteLine("errore montagne\n" +e.ToString() +"\n" + e.StackTrace);
 			}
+			await BaseScript.Delay(500);
 		}
 
 		static int tempo = 30;
@@ -147,10 +145,9 @@ namespace NuovaGM.Client.Giostre
 		{
 			try
 			{
-				if (NetworkIsHost())
+				switch (Montagna.State)
 				{
-					if (Montagna.State == "ATTESA")
-					{
+					case "ATTESA":
 						montagna.TextTimerBar.Caption = tempo + " sec.";
 						while (tempo > 0)
 						{
@@ -160,17 +157,23 @@ namespace NuovaGM.Client.Giostre
 						}
 						await BaseScript.Delay(6000);
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "PARTENZA");
-					}
-					else if (Montagna.State == "PARTENZA")
-					{
-						Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_enter_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
-						PlaySoundFromEntity(-1, "Bar_Lower_And_Lock", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Posto per entrare
-						if (SonoSeduto) await Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_enter_player_" + Posto, 8f, -8f, -1, AnimationFlags.StayInEndFrame, 0);
-						while (GetEntityAnimCurrentTime(Montagna.Carrelli[0].Entity.Handle, RollerAnim, "safety_bar_enter_roller_car") < 0.9f) await BaseScript.Delay(0); 
-						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "VIAGGIO");
-					}
-					else if (Montagna.State == "VIAGGIO")
-					{
+						break;
+					case "PARTENZA":
+						if (!Attivato)
+						{
+							Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_enter_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
+							PlaySoundFromEntity(-1, "Bar_Lower_And_Lock", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Posto per entrare
+							if (SonoSeduto)
+							{
+								TaskPlayAnim(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto, 8f, -8f, -1, 2, 0, false, false, false);
+								while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto) < 0.2f) await BaseScript.Delay(0);
+							}
+							else await BaseScript.Delay(5000);
+							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "VIAGGIO");
+							Attivato = true;
+						}
+						break;
+					case "VIAGGIO":
 						if (ValoreIndiceSconosciuto != 0)
 						{
 							func_46(true);
@@ -202,20 +205,18 @@ namespace NuovaGM.Client.Giostre
 						}
 						else
 							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "ARRIVO");
-					}
-					else if (Montagna.State == "ARRIVO")
-					{
+						break;
+					case "ARRIVO":
 						PlaySoundFromEntity(-1, "Ride_Stop", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0);
 						if (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 						{
 							Game.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
-							while (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3)) await BaseScript.Delay(0);
+							while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto) < 0.99f) await BaseScript.Delay(0);
 							Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 						}
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "FERMATA");
-					}
-					else if (Montagna.State == "FERMATA")
-					{
+						break;
+					case "FERMATA":
 						if (Montagna.VariabileVelocità > 1)
 						{
 							func_46(true);
@@ -226,21 +227,25 @@ namespace NuovaGM.Client.Giostre
 						}
 						else
 						{
-							await BaseScript.Delay(1000);
-							Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_exit_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
-							PlaySoundFromEntity(-1, "Bar_Unlock_And_Raise", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Postoper entrare
-							Montagna.Carrelli.ToList().ForEach(o => o.Occupato = 0);
-							Montagna.Carrelli.ToList().ForEach(o => BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", Montagna.Carrelli.ToList().IndexOf(o), 0));
-							if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Game.PlayerPed.NetworkId);
-							await BaseScript.Delay(1000);
-							iLocal_715 = 0;
-							fLocal_716 = 0;
-							Buttons.Dispose();
-							Scaleform = false;
-							tempo = 30;
-							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "ATTESA");
+							if (Attivato)
+							{
+								await BaseScript.Delay(1000);
+								Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_exit_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
+								PlaySoundFromEntity(-1, "Bar_Unlock_And_Raise", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Postoper entrare
+								if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Game.PlayerPed.NetworkId);
+								Montagna.Carrelli.ToList().ForEach(o => o.Occupato = 0);
+								Montagna.Carrelli.ToList().ForEach(o => BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", Montagna.Carrelli.ToList().IndexOf(o), 0));
+								await BaseScript.Delay(1000);
+								iLocal_715 = 0;
+								fLocal_716 = 0;
+								Buttons.Dispose();
+								Scaleform = false;
+								tempo = 30;
+								BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "ATTESA");
+								Attivato = false;
+							}
 						}
-					}
+						break;
 				}
 			}
 			catch
@@ -271,6 +276,7 @@ namespace NuovaGM.Client.Giostre
 					HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
 					return;
 			}
+			Debug.WriteLine("Posto = " + Posto);
 			TaskGoStraightToCoord(personaggio.Handle, Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
 			await BaseScript.Delay(1000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
@@ -293,20 +299,26 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerScende(int playernetid)
 		{
+			Debug.WriteLine("playernetid = " + playernetid);
+			Debug.WriteLine("game.playerped.networkdid = " + Game.PlayerPed.NetworkId);
+
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
-			if (personaggio.IsAttached())
-				personaggio.Detach();
-			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
-				SonoSeduto = false;
-			int iLocal_1443 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(iLocal_1443);
-			await BaseScript.Delay(3000);
-			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(iLocal_1442);
-			await BaseScript.Delay(7000);
-			personaggio.Task.ClearAll();
+			if (personaggio != null)
+			{
+				if (personaggio.IsAttached())
+					personaggio.Detach();
+				if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
+					SonoSeduto = false;
+				int iLocal_1443 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
+				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+				NetworkStartSynchronisedScene(iLocal_1443);
+				await BaseScript.Delay(3000);
+				int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
+				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
+				NetworkStartSynchronisedScene(iLocal_1442);
+				await BaseScript.Delay(7000);
+				personaggio.Task.ClearAll();
+			}
 		}
 
 		private static async Task ControlloMontagne()

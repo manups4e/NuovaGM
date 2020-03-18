@@ -144,25 +144,29 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							var hash = anim.Value.Model.Hash;
 							Screen.Fading.FadeIn(500);
 							await BaseScript.Delay(501);
-							string messaggio = "errore nella caccia";
+							string animale = "";
 							switch ((uint)hash)
 							{
 								case 3630914197: // deer
 									if (IsPedMale(anim.Value.Handle))
-										messaggio = "Hai ucciso e squoiato un ~y~Cervo~w~ hai ottenuto (inserire carne)";
+										animale = " Cervo";
 									else
-										messaggio = "Hai ucciso e squoiato una ~y~Cerva~w~ hai ottenuto (inserire carne)";
+										animale = " Cerva";
 									break;
 								case 3462393972: // boar
-									messaggio = "Hai ucciso e squoiato un ~y~Cinghiale~w~ hai ottenuto (inserire carne)";
+									animale = " Cinghiale";
 									break;
 								case 1682622302: // coyote
-									messaggio = "Hai ucciso e squoiato un ~y~Coyote~w~ hai ottenuto (inserire carne)";
+									animale = " Coyote";
 									break;
-//								case 307287994: // mountainLion
-//									break;
+								case 3753204865: // coniglio
+									animale = " Coniglio";
+									break;
+								case 2864127842: // aquila
+									animale = "'Aquila";
+									break;
 							}
-							HUD.ShowNotification(messaggio, NotificationColor.GreenDark, true);
+							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{animale}~w~ hai ottenuto (inserire carne)", NotificationColor.GreenDark, true);
 							anim.Value.Delete();
 							animaliUccisi.Remove(anim.Key);
 						}

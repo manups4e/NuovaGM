@@ -12,7 +12,6 @@ namespace NuovaGM.Client.Interactions
 {
 	public static class Prostitute
 	{
-		private static bool isNearProstitute = false;
 		private static Ped Prostituta;
 		private static float ProstDistance = 10f;
 		private static List<string> Scenarios = new List<string>
@@ -34,16 +33,15 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task ControlloProstitute()
 		{
-			isNearProstitute = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * ProstDistance, 2));
-			if (isNearProstitute)
-				Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * ProstDistance, 2));
+			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * ProstDistance, 2));
+			Debug.WriteLine("Id Prostituta = " + Prostituta.Handle);
 			await BaseScript.Delay(200);
 		}
 
 
 		public static async Task LoopProstitute()
 		{
-			if (isNearProstitute)
+			if (Prostituta != null)
 			{
 				if (Prostituta.IsPlayer) return;
 				if (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)

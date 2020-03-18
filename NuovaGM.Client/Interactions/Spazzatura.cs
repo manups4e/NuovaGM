@@ -59,7 +59,6 @@ namespace NuovaGM.Client.Interactions
 			ObjectHash.v_serv_tc_bin3_,
 			ObjectHash.zprop_bin_01a_old
 		};
-		private static bool isNearTrashBin = false;
 		static float TrashRange = 0.8f;
 		static Prop BinClosest;
 
@@ -77,15 +76,13 @@ namespace NuovaGM.Client.Interactions
 
 		private static async Task ControlloSpazzatura()
 		{
-			isNearTrashBin = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * TrashRange, 2));
-			if (isNearTrashBin)
-				BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * TrashRange, 2));
-			await BaseScript.Delay(200);
+			BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * TrashRange, 2));
+			await BaseScript.Delay(500);
 		}
 
 		public static async Task CestiSpazzatura()
 		{
-			if (isNearTrashBin && !HUD.MenuPool.IsAnyMenuOpen())
+			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen())
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 				if (Game.IsControlJustPressed(0, Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
