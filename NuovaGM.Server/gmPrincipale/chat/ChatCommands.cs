@@ -82,9 +82,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
-						{
 							msg = msg + " " + args[i];
-						}
 						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 					}
 				}
@@ -104,10 +102,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
-						{
 							msg = msg + " " + args[i];
-						}
-
 						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 					}
 				}
@@ -127,10 +122,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
-						{
 							msg = msg + " " + args[i];
-						}
-
 						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 					}
 				}
@@ -150,10 +142,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
-						{
 							msg = msg + " " + args[i];
-						}
-
 						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + ServerEntrance.PlayerList[sender.ToString()].FullName, msg } });
 					}
 				}
@@ -171,10 +160,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					string msg = "";
 					for (int i = 0; i < args.Count; i++)
-					{
 						msg = msg + " " + args[i];
-					}
-
 					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", msg, 0, 255, 153);
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -191,10 +177,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					string msg = "";
 					for (int i = 0; i < args.Count; i++)
-					{
 						msg = msg + " " + args[i];
-					}
-
 					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", msg, 0, 255, 153);
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -220,9 +203,7 @@ namespace NuovaGM.Server.gmPrincipale
 							player.addInventoryItem(item, Convert.ToInt32(args[2]), Shared.SharedScript.ItemList[item].peso);
 						}
 						else
-						{
 							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID \"" + args[0] + "\" non è online!" }, color = new[] { 255, 0, 0 } });
-						}
 					}
 				}
 				catch
@@ -248,15 +229,12 @@ namespace NuovaGM.Server.gmPrincipale
 							player.removeInventoryItem(args[1], Convert.ToInt32(args[2]));
 						}
 						else
-						{
 							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
-						}
 					}
 				}
 				catch
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
-
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
@@ -276,15 +254,12 @@ namespace NuovaGM.Server.gmPrincipale
 							player.addWeapon(args[1].ToUpper(), Convert.ToInt32(args[2]));
 						}
 						else
-						{
 							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
-						}
 					}
 				}
 				catch
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
-
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}

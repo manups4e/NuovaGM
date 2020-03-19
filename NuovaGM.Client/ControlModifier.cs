@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace NuovaGM.Client
+{
+    [Flags]
+    public enum ControlModifier
+    {
+        Any = -1,
+        None = 0,
+        Ctrl = 1 << 0,
+        Alt = 1 << 1,
+        Shift = 1 << 2
+    }
+}

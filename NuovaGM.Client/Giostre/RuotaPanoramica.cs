@@ -20,6 +20,7 @@ namespace NuovaGM.Client.Giostre
 		static RuotaPanoramicaCamTastiera Cam2Tastiera = new RuotaPanoramicaCamTastiera();
 		static RuotaPanoramicaCamGamePad Cam2GamePad = new RuotaPanoramicaCamGamePad();
 		static int iLocal_355 = 0;
+		static Prop CabinaAttuale;
 		static CabinaPan[] Cabine = new CabinaPan[16]
 		{
 			new CabinaPan(0),
@@ -151,9 +152,12 @@ namespace NuovaGM.Client.Giostre
 					Ruota.Gradient++;
 
 				if (Ruota.State == "FACCIO_SALIRE")
-					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Entity.NetworkId);
+				{
+					CabinaAttuale = Cabine[Ruota.Gradient].Entity;
+					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, CabinaAttuale.NetworkId);
+				}
 				if (Ruota.State == "FACCIO_SCENDERE")
-					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Entity.NetworkId);
+					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, CabinaAttuale.NetworkId);
 			}
 			await Task.FromResult(0);
 		}
@@ -164,7 +168,7 @@ namespace NuovaGM.Client.Giostre
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
 			Prop Cabina = (Prop)Entity.FromNetworkId(cabina);
 			if (Cabina == null)
-				Cabina = Cabine[Ruota.Gradient].Entity;
+				Cabina = CabinaAttuale;
 			else
 				Cabina = (Prop)Entity.FromNetworkId(cabina);
 
@@ -187,8 +191,14 @@ namespace NuovaGM.Client.Giostre
 				await BaseScript.Delay(7000);
 				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Handle, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
 				AttachEntityToEntity(Personaggio.Handle, Cabina.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Game.PlayerPed.Heading, false, false, false, false, 2, true);
-				Cabine[Ruota.Gradient].NPlayer = Personaggio.Handle;
-				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Ruota.Gradient, Cabine[Ruota.Gradient].NPlayer);
+				foreach (var cab in Cabine)
+				{
+					if (cab.Entity == CabinaAttuale)
+					{
+						cab.NPlayer = Personaggio.Handle;
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
+					}
+				}
 				if (Personaggio.Handle == PlayerPedId())
 					GiroFinito = false;
 				Ruota.State = "IDLE";
@@ -211,7 +221,7 @@ namespace NuovaGM.Client.Giostre
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
 			Prop Cabina = (Prop)Entity.FromNetworkId(cabina);
 			if (Cabina == null)
-				Cabina = Cabine[Ruota.Gradient].Entity;
+				Cabina = CabinaAttuale;
 			else
 				Cabina = (Prop)Entity.FromNetworkId(cabina);
 			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
@@ -224,16 +234,23 @@ namespace NuovaGM.Client.Giostre
 			NetworkStartSynchronisedScene(uLocal_377);
 			Personaggio.Detach();
 			await BaseScript.Delay(5000);
-			Cabine[Ruota.Gradient].NPlayer = 0;
+			foreach (var cab in Cabine)
+			{
+				if (cab.Entity == CabinaAttuale)
+				{
+					cab.NPlayer = 0;
+					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
+				}
+			}
 			if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
 				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 			if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW"))
 				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW");
-			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Ruota.Gradient, Cabine[Ruota.Gradient].NPlayer);
 			if (Personaggio.Handle == PlayerPedId())
 				GiroFinito = true;
 			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", false);
 			Ruota.State = "IDLE";
+			CabinaAttuale = null;
 		}
 
 		private static async Task ControlloPlayer()
@@ -274,10 +291,7 @@ namespace NuovaGM.Client.Giostre
 			if (!Scaleform)
 			{
 				Buttons = new Scaleform("instructional_buttons");
-				while (!HasScaleformMovieLoaded(Buttons.Handle))
-				{
-					await BaseScript.Delay(0);
-				}
+				while (!HasScaleformMovieLoaded(Buttons.Handle)) await BaseScript.Delay(0);
 
 				Buttons.CallFunction("CLEAR_ALL");
 				Buttons.CallFunction("TOGGLE_MOUSE_BUTTONS", false);
@@ -292,9 +306,7 @@ namespace NuovaGM.Client.Giostre
 				Scaleform = true;
 			}
 			if (Scaleform)
-			{
 				Buttons.Render2D();
-			}
 		}
 
 		private static async void func_145(int i)
@@ -308,9 +320,7 @@ namespace NuovaGM.Client.Giostre
 		private static void func_79()
 		{
 			if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
-			{
 				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
-			}
 			StartAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW");
 		}
 
@@ -443,9 +453,7 @@ namespace NuovaGM.Client.Giostre
 				{
 					fVar2 = ((GetControlNormal(2, 221) * 60f) * Timestep());
 					if (IsLookInverted())
-					{
 						fVar2 = (fVar2 * -1f);
-					}
 					uParam0.Valore11 -= fVar2;
 					if (uParam0.Valore14)
 					{
@@ -455,9 +463,7 @@ namespace NuovaGM.Client.Giostre
 							uParam0.Valore11 = 30;
 					}
 					else
-					{
 						uParam0.Valore11 = func_102(uParam0.Valore11, -30f, 30f);
-					}
 				}
 				if (IsControlJustPressed(2, 231))
 				{
@@ -474,9 +480,7 @@ namespace NuovaGM.Client.Giostre
 				{
 					SetCamFov(uParam0.CamEntity.Handle, uParam0.Valore13);
 					if (IsEntityDead(uParam0.Valore8) && !IsEntityDead(PlayerPedId()))
-					{
 						SetCamRot(uParam0.CamEntity.Handle, (Game.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).X, (Game.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Y, (Game.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Z, 2);
-					}
 					else if (!IsEntityDead(uParam0.Valore8) && !IsEntityDead(PlayerPedId()))
 					{
 						func_106(GetEntityCoords(uParam0.Valore8, true), GetEntityCoords(uParam0.Valore9, true), ref uVar0, ref uVar1, 1);
@@ -560,9 +564,7 @@ namespace NuovaGM.Client.Giostre
 			DisableInputGroup(2);
 			func_104(ref iVar0[0], ref iVar0[1], ref iVar0[2], ref iVar0[3], false, false);
 			if (IsLookInverted())
-			{
 				iVar0[3] = (iVar0[3] * -1);
-			}
 			if (IsInputDisabled(2))
 			{
 				fVar1 = GetControlUnboundNormal(2, 239);
@@ -640,14 +642,10 @@ namespace NuovaGM.Client.Giostre
 			if (IsInputDisabled(0) && bParam1)
 			{
 				if (uParam0.Valore28)
-				{
 					uParam0.Valore17 = uParam0.Valore7;
-				}
 			}
 			else
-			{
 				uParam0.Valore17 = uParam0.Valore7;
-			}
 			if (bParam1)
 			{
 				if (IsInputDisabled(0))
@@ -672,13 +670,9 @@ namespace NuovaGM.Client.Giostre
 						uParam0.Valore28 = false;
 					}
 					if (bParam3)
-					{
 						uParam0.Valore17 = func_102(uParam0.Valore17, (uParam0.Valore7 - uParam0.Valore19), uParam0.Valore7);
-					}
 					else
-					{
 						uParam0.Valore17 = func_102(uParam0.Valore17, (uParam0.Valore7 - uParam0.Valore19), (uParam0.Valore7 + uParam0.Valore19));
-					}
 				}
 				else if (bParam8)
 				{
@@ -687,9 +681,7 @@ namespace NuovaGM.Client.Giostre
 					if (bParam3)
 					{
 						if (ToFloat(iVar0[3]) > 127f)
-						{
 							uParam0.Valore17 -= (int)Math.Round(iVar0[3] / 128f * (uParam0.Valore19 / 2f));
-						}
 					}
 					else
 					{
@@ -700,14 +692,10 @@ namespace NuovaGM.Client.Giostre
 				else if (bParam3)
 				{
 					if ((iVar0[1]) < 0f)
-					{
 						uParam0.Valore17 += (int)Math.Round(iVar0[1] / 128f * uParam0.Valore19);
-					}
 				}
 				else
-				{
 					uParam0.Valore17 += (Round(((ToFloat(iVar0[1]) / 128f) * uParam0.Valore19)));
-				}
 			}
 			uParam0.Valore18 += ((((uParam0.Valore17 - uParam0.Valore18) * 0.06f) * fVar5));
 			SetCamParams(uParam0.CamEntity.Handle, uParam0.Valore1.X, uParam0.Valore1.Y, uParam0.Valore1.Z, (uParam0.Valore4 + uParam0.Valore14).X, (uParam0.Valore4 + uParam0.Valore14).Y, (uParam0.Valore4 + uParam0.Valore14).Z, uParam0.Valore18, 0, 1, 1, 2);
@@ -734,34 +722,22 @@ namespace NuovaGM.Client.Giostre
 			if (bParam4)
 			{
 				if (!IsControlEnabled(2, 218))
-				{
 					uParam0 = Floor((GetDisabledControlUnboundNormal(2, 218) * 127f));
-				}
 				if (!IsControlEnabled(2, 219))
-				{
 					uParam1 = Floor((GetDisabledControlUnboundNormal(2, 219) * 127f));
-				}
 				if (!IsControlEnabled(2, 220))
-				{
 					uParam2 = Floor((GetDisabledControlUnboundNormal(2, 220) * 127f));
-				}
 				if (!IsControlEnabled(2, 221))
-				{
 					uParam3 = Floor((GetDisabledControlUnboundNormal(2, 221) * 127f));
-				}
 			}
 			if (IsInputDisabled(2))
 			{
 				if (bParam5)
 				{
 					if (IsLookInverted())
-					{
 						uParam3 *= -1;
-					}
 					if (N_0xe1615ec03b3bb4fd())
-					{
 						uParam3 *= -1;
-					}
 				}
 			}
 		}

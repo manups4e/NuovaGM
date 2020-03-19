@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Banking\BankingClient.cs" />
     <Compile Include="ClasseDiTest.cs" />
+    <Compile Include="ControlModifier.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Interactions\DivaniEPosizioniSedute.cs" />
     <Compile Include="Interactions\Docce.cs" />
     <Compile Include="Interactions\Letti.cs" />
@@ -250,6 +252,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="controlli\" />
     <Folder Include="Lavori\Whitelistati\Meccanici\" />
     <Folder Include="Proprietà\Appartamenti\" />
     <Folder Include="Proprietà\Garages\" />
