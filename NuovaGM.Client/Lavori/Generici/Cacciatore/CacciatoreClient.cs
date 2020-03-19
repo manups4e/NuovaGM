@@ -14,6 +14,7 @@ using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
 using NuovaGM.Shared;
 using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale.Status;
 
 namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 {
@@ -37,7 +38,6 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 			PedHash.ChickenHawk,
 			PedHash.MountainLion,
 		};
-		private static bool blipSettato = false;
 		private static Blip AreadiCaccia;
 
 		public static void Init()
@@ -48,6 +48,13 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 		private static void Spawnato()
 		{
 			Cacciatore = ConfigClient.Conf.Lavori.Generici.Cacciatore;
+			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia.ToVector3());
+			caccia.Sprite = BlipSprite.Hunting;
+			caccia.Color = BlipColor.TrevorOrange;
+			caccia.Scale = 1.0f;
+			caccia.Name = "Zona di Caccia";
+			caccia.IsShortRange = true;
+			SetBlipDisplay(caccia.Handle, 4);
 			Client.GetInstance.RegisterTickHandler(ControlloCaccia);
 		}
 
@@ -73,12 +80,6 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 					Debug.WriteLine("Hash animale = " + animale.Handle);
 					if (!animaliTrovati.ContainsKey(KVAnimale.Key))
 						animaliTrovati.Add(KVAnimale.Key, KVAnimale.Value);
-
-					if (!animaliTrovati[KVAnimale.Key].AttachedBlips.Any(x=> x.Sprite == BlipSprite.Hunting))
-					{
-						Blip nuovo = animaliTrovati[KVAnimale.Key].AttachBlip();
-						nuovo.Sprite = BlipSprite.Hunting;
-					}
 				}
 			}
 			await BaseScript.Delay(500);
@@ -118,6 +119,33 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 						{
 							if (anim.Value.GetKiller() == Game.PlayerPed)
 							{
+								var hash = anim.Value.Model.Hash;
+								float aggValore = 0;
+								switch ((uint)hash)
+								{
+									case 3630914197: // deer
+										if (IsPedMale(anim.Value.Handle))
+											aggValore = 0.003f;
+										else
+											aggValore = 0.002f;
+										break;
+									case 3462393972: // boar
+										aggValore = 0.0025f;
+										break;
+									case 1682622302: // coyote
+										aggValore = 0.003f;
+										break;
+									case 3753204865: // coniglio
+										aggValore = 0.004f;
+										break;
+									case 2864127842: // aquila
+										aggValore = 0.004f;
+										break;
+									case 307287994: // leone di montagna
+										aggValore = 0.005f;
+										break;
+								}
+								StatsNeeds.RegistraStats(Skills.HUNTING, aggValore);
 								if (!animaliUccisi.ContainsKey(anim.Key))
 									animaliUccisi.Add(anim.Key, anim.Value);
 							}
@@ -145,27 +173,42 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							Screen.Fading.FadeIn(500);
 							await BaseScript.Delay(501);
 							string animale = "";
+							float aggValore = 0;
 							switch ((uint)hash)
 							{
 								case 3630914197: // deer
 									if (IsPedMale(anim.Value.Handle))
+									{
 										animale = " Cervo";
+										aggValore = 0.002f;
+									}
 									else
+									{
 										animale = " Cerva";
+										aggValore = 0.001f;
+									}
 									break;
 								case 3462393972: // boar
 									animale = " Cinghiale";
+									aggValore = 0.0012f;
 									break;
 								case 1682622302: // coyote
 									animale = " Coyote";
+									aggValore = 0.002f;
 									break;
 								case 3753204865: // coniglio
 									animale = " Coniglio";
+									aggValore = 0.003f;
 									break;
 								case 2864127842: // aquila
 									animale = "'Aquila";
+									aggValore = 0.003f;
+									break;
+								case 307287994: // leone di montagna
+									aggValore = 0.003f;
 									break;
 							}
+							StatsNeeds.RegistraStats(Skills.HUNTING, aggValore);
 							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{animale}~w~ hai ottenuto (inserire carne)", NotificationColor.GreenDark, true);
 							anim.Value.Delete();
 							animaliUccisi.Remove(anim.Key);

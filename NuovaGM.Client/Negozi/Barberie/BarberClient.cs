@@ -33,30 +33,36 @@ namespace NuovaGM.Client.Negozi
 		{
 			foreach (var barbiere in ConfigBarbieri.Kuts)
 			{
-				Blip kuts = new Blip(AddBlipForCoord(barbiere.Coord.X, barbiere.Coord.Y, barbiere.Coord.Z));
+				Blip kuts = World.CreateBlip(barbiere.Coord);
 				kuts.Sprite = (BlipSprite)71;
 				kuts.Color = (BlipColor)12;
 				kuts.IsShortRange = true;
 				kuts.Name = "Herr Kuts";
 			}
 
-			Blip Hawick = new Blip(AddBlipForCoord(ConfigBarbieri.Hawick.Coord.X, ConfigBarbieri.Hawick.Coord.Y, ConfigBarbieri.Hawick.Coord.Z));
-			Hawick.Sprite = (BlipSprite)71;
-			Hawick.Color = (BlipColor)17;
-			Hawick.IsShortRange = true;
-			Hawick.Name = "Barbieri Hair On Hawick";
+			Blip Hawick = new Blip(AddBlipForCoord(ConfigBarbieri.Hawick.Coord.X, ConfigBarbieri.Hawick.Coord.Y, ConfigBarbieri.Hawick.Coord.Z))
+			{
+				Sprite = (BlipSprite)71,
+				Color = (BlipColor)17,
+				IsShortRange = true,
+				Name = "Barbieri Hair On Hawick"
+			};
 
-			Blip Combo = new Blip(AddBlipForCoord(ConfigBarbieri.Combo.Coord.X, ConfigBarbieri.Combo.Coord.Y, ConfigBarbieri.Combo.Coord.Z));
-			Combo.Sprite = (BlipSprite)71;
-			Combo.Color = (BlipColor)66;
-			Hawick.IsShortRange = true;
-			Hawick.Name = "Barbieri Beachcombover";
+			Blip Combo = new Blip(AddBlipForCoord(ConfigBarbieri.Combo.Coord.X, ConfigBarbieri.Combo.Coord.Y, ConfigBarbieri.Combo.Coord.Z))
+			{
+				Sprite = (BlipSprite)71,
+				Color = (BlipColor)66,
+				IsShortRange = true,
+				Name = "Barbieri Beachcombover",
+			};
 
-			Blip Osheas = new Blip(AddBlipForCoord(ConfigBarbieri.Osheas.Coord.X, ConfigBarbieri.Osheas.Coord.Y, ConfigBarbieri.Osheas.Coord.Z));
-			Osheas.Sprite = (BlipSprite)71;
-			Osheas.Color = (BlipColor)38;
-			Osheas.IsShortRange = true;
-			Osheas.Name = "Barbieri Oshea's";
+			Blip Osheas = new Blip(AddBlipForCoord(ConfigBarbieri.Osheas.Coord.X, ConfigBarbieri.Osheas.Coord.Y, ConfigBarbieri.Osheas.Coord.Z))
+			{
+				Sprite = (BlipSprite)71,
+				Color = (BlipColor)38,
+				IsShortRange = true,
+				Name = "Barbieri Oshea's"
+			};
 		}
 
 		public static async Task<Ped> CreateBarber(BarberModel ped)

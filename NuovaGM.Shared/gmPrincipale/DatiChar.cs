@@ -127,8 +127,9 @@ namespace NuovaGM.Shared
 			statistiche.FLYING_ABILITY = data["statistiche"].Value<float>("FLYING_ABILITY");
 			statistiche.SHOOTING_ABILITY = data["statistiche"].Value<float>("SHOOTING_ABILITY");
 			statistiche.WHEELIE_ABILITY = data["statistiche"].Value<float>("WHEELIE_ABILITY");
-			statistiche.DRUGS = data["statistiche"].Value<float>("drugs");
-			statistiche.FISHING = data["statistiche"].Value<float>("fishing");
+			statistiche.DRUGS = data["statistiche"].Value<float>("DRUGS");
+			statistiche.FISHING = data["statistiche"].Value<float>("FISHING");
+			statistiche.HUNTING = data["statistiche"].Value<float>("HUNTING");
 			if (data["inventory"].HasValues)
 				for (int i = 0; i < data["inventory"].Count(); i++)
 					inventory.Add(new Inventory(data["inventory"][i].Value<string>("item"), data["inventory"][i].Value<int>("amount"), data["inventory"][i].Value<float>("weight")));
@@ -503,22 +504,23 @@ namespace NuovaGM.Shared
 
 	public class Needs
 	{
-		public float fame { get; set; } = 0f;
-		public float sete { get; set; } = 0f;
-		public float stanchezza { get; set; } = 0f;
+		public float fame { get; set; }
+		public float sete { get; set; }
+		public float stanchezza { get; set; }
 		public bool malattia { get; set; } = false;
 	}
 
 	public class Statistiche
 	{
-		public float STAMINA { get; set; } = 0f;
-		public float STRENGTH { get; set; } = 0f;
-		public float LUNG_CAPACITY { get; set; } = 0f;
-		public float SHOOTING_ABILITY { get; set; } = 0f;
-		public float WHEELIE_ABILITY { get; set; } = 0f;
-		public float FLYING_ABILITY { get; set; } = 0f;
-		public float DRUGS { get; set; } = 0f;
-		public float FISHING { get; set; } = 0f;
+		public float STAMINA { get; set; }
+		public float STRENGTH { get; set; }
+		public float LUNG_CAPACITY { get; set; }
+		public float SHOOTING_ABILITY { get; set; }
+		public float WHEELIE_ABILITY { get; set; }
+		public float FLYING_ABILITY { get; set; }
+		public float DRUGS { get; set; }
+		public float FISHING { get; set; }
+		public float HUNTING { get; set; }
 	}
 
 	public class Skin

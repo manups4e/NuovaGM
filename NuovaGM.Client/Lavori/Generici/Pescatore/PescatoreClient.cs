@@ -128,7 +128,8 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 								Name = "Vendita pesce",
 								Color = BlipColor.MichaelBlue,
 								Scale = 0.8f,
-							};
+								IsShortRange = true
+						};
 							SetBlipDisplay(puntovendita.Handle, 4);
 							venditaPesceBlip.Add(puntovendita);
 						}

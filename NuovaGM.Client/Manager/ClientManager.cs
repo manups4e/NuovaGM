@@ -78,6 +78,7 @@ namespace NuovaGM.Client.Manager
 			Client.GetInstance.RegisterTickHandler(AC);
 		}
 
+
 		// SUGGERISCO 16384 (PERMETTE SOLO IL TASTO CONTINUA)
 		// 16392 (permette continua e indietro)
 		static int instructionalKey;

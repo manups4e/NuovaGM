@@ -10,6 +10,17 @@ using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client.gmPrincipale.Status
 {
+	public enum Skills
+	{
+		STAMINA,
+		STRENGTH,
+		FLYING_ABILITY,
+		LUNG_CAPACITY,
+		WHEELIE_ABILITY,
+		DRUGS,
+		FISHING,
+		HUNTING
+	}
 	static class StatsNeeds
 	{
 		public static Needs nee = new Needs();
@@ -26,7 +37,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-			Client.GetInstance.RegisterEventHandler("lprp:skills:registraSkill", new Action<string, int>(RegistraStats));
+			Client.GetInstance.RegisterEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 		}
 
 		public static async void Eccolo()
@@ -40,25 +51,78 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			skill.FLYING_ABILITY = Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY;
 			skill.LUNG_CAPACITY = Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY;
 			skill.WHEELIE_ABILITY = Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY;
-			skill.FLYING_ABILITY = Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY;
 			skill.DRUGS = Eventi.Player.CurrentChar.statistiche.DRUGS;
 			skill.FISHING = Eventi.Player.CurrentChar.statistiche.FISHING;
+			skill.HUNTING = Eventi.Player.CurrentChar.statistiche.HUNTING;
 			StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)Eventi.Player.CurrentChar.statistiche.STAMINA, true);
 			StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)Eventi.Player.CurrentChar.statistiche.STRENGTH, true);
 			StatSetInt((uint)Game.GenerateHash("MP0_FLYING_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY, true);
 			StatSetInt((uint)Game.GenerateHash("MP0_LUNG_CAPACITY"), (int)Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY, true);
 			StatSetInt((uint)Game.GenerateHash("MP0_WHEELIE_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY, true);
-			StatSetInt((uint)Game.GenerateHash("MP0_FLYING_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY, true);
 		}
 
-		public static async void RegistraStats(string name, int val)
+		public static async void RegistraStats(Skills cap, float val)
 		{
-			if (name == "DRUGS")
-				skill.DRUGS = val;
-			else if (name == "FISHING")
-				skill.FISHING = val;
-			else
-				StatSetInt((uint)Game.GenerateHash("MP0_" + name), val, true);
+			switch (cap)
+			{
+				case Skills.STAMINA:
+					skill.STAMINA += val;
+					break;
+				case Skills.STRENGTH:
+					skill.STRENGTH += val;
+					break;
+				case Skills.FLYING_ABILITY:
+					skill.FLYING_ABILITY += val;
+					break;
+				case Skills.LUNG_CAPACITY:
+					skill.LUNG_CAPACITY += val;
+					break;
+				case Skills.WHEELIE_ABILITY:
+					skill.WHEELIE_ABILITY += val;
+					break;
+				case Skills.DRUGS:
+					skill.DRUGS += val;
+					break;
+				case Skills.FISHING:
+					skill.FISHING += val;
+					break;
+				case Skills.HUNTING:
+					skill.HUNTING += val;
+					break;
+			}
+			await Task.FromResult(0);
+		}
+
+		public static async void RegistraStats(string cap, float val)
+		{
+			switch (cap)
+			{
+				case "STAMINA":
+					skill.STAMINA += val;
+					break;
+				case "STRENGTH":
+					skill.STRENGTH += val;
+					break;
+				case "FLYING_ABILITY":
+					skill.FLYING_ABILITY += val;
+					break;
+				case "LUNG_CAPACITY":
+					skill.LUNG_CAPACITY += val;
+					break;
+				case "WHEELIE_ABILITY":
+					skill.WHEELIE_ABILITY += val;
+					break;
+				case "DRUGS":
+					skill.DRUGS += val;
+					break;
+				case "FISHING":
+					skill.FISHING += val;
+					break;
+				case "HUNTING":
+					skill.HUNTING += val;
+					break;
+			}
+			await Task.FromResult(0);
 		}
 
 
@@ -171,11 +235,14 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Fiato sott'Acqua~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.LUNG_CAPACITY + "/100!");
 			}
 			if (MathUtil.WithinEpsilon(skill.FISHING%1f, 0.0f, 0.002f) && skill.FISHING > 0.999f)
-//			if (skill.FISHING >= (Eventi.Player.CurrentChar.statistiche.FISHING + 1))
 			{
 				Eventi.Player.CurrentChar.statistiche.FISHING = skill.FISHING;
-				//Lavori.Pescatore.set(skill.FISHING);
 				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Livello di Pesca~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.FISHING + "/100!");
+			}
+			if (MathUtil.WithinEpsilon(skill.HUNTING % 1f, 0.0f, 0.002f) && skill.HUNTING > 0.999f)
+			{
+				Eventi.Player.CurrentChar.statistiche.HUNTING = skill.HUNTING;
+				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Livello di Caccia~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.HUNTING + "/100!");
 			}
 			if (MathUtil.WithinEpsilon(skill.DRUGS % 1f, 0.0f, 0.002f) && skill.DRUGS != 0)
 			{

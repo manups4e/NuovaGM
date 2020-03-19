@@ -34,7 +34,6 @@ namespace NuovaGM.Client.Interactions
 		public static async Task ControlloProstitute()
 		{
 			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * ProstDistance, 2));
-			Debug.WriteLine("Id Prostituta = " + Prostituta.Handle);
 			await BaseScript.Delay(200);
 		}
 
