@@ -53,7 +53,7 @@ namespace NuovaGM.Client
 				else if (item == g)
 					BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
 				else if (item == h)
-					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test1", "Test2");
+					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
 			};
 			Test.Visible = true;
 		}
@@ -62,7 +62,7 @@ namespace NuovaGM.Client
 
 		public static async Task MenuMessaggi()
 		{
-			if (Game.IsControlPressed(0, Control.Sprint) && Game.IsControlJustPressed(0, Control.DropWeapon) && IsInputDisabled(2))
+			if (Input.IsControlJustPressed(Control.DropWeapon, true, ControlModifier.Shift))
 			{
 				AttivaMenu();
 			}

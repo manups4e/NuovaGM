@@ -86,12 +86,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		public static Notifica ShowNotification(string msg, bool blink = false)
 		{
 			string[] strings = Screen.StringToArray(msg);
-			SetNotificationTextEntry("CELL_EMAIL_BCON");
+			BeginTextCommandThefeedPost("CELL_EMAIL_BCON");
 			foreach (string s in strings)
 			{
 				AddTextComponentSubstringPlayerName(s);
 			}
-			return new Notifica(DrawNotification(blink, true));
+			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
 		/// <summary>
@@ -104,13 +104,13 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		public static Notifica ShowNotification(string msg, NotificationColor color, bool blink = false)
 		{
 			string[] strings = Screen.StringToArray(msg);
-			SetNotificationTextEntry("CELL_EMAIL_BCON");
+			BeginTextCommandThefeedPost("CELL_EMAIL_BCON");
 			foreach (string s in strings)
 			{
 				AddTextComponentSubstringPlayerName(s);
 			}
-			SetNotificationBackgroundColor((int)color);
-			return new Notifica(DrawNotification(blink, true));
+			ThefeedNextPostBackgroundColor((int)color);
+			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
 		/// <summary>
@@ -151,6 +151,26 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			}
 		}
 
+		public static async void ShowStatNotification(int value, string title)
+		{
+			var mug = await Funzioni.GetPedMugshotAsync(Game.PlayerPed);
+			BeginTextCommandThefeedPost("PS_UPDATE");
+			AddTextComponentInteger(value);
+			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);
+			EndTextCommandThefeedPostTicker(false, true);
+			UnregisterPedheadshot(mug.Item1);
+			/*
+				PSF_DRIVING = Driving +
+				PSF_FLYING = Flying +
+				PSF_LUNG = Lung Capacity +
+				PSF_SHOOTING = Shooting +
+				PSF_SPEC_AB = Special capacity +
+				PSF_STAMINA = Stamina +
+				PSF_STEALTH = Stealth +
+				PSF_STRENGTH = Strength +
+			*/
+		}
+
 		/// <summary>
 		/// Notifica con immagine (stile sms / mms)
 		/// </summary>
@@ -162,10 +182,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <param name="lampeggia"></param>
 		public static void ShowAdvancedNotification(string titolo, string sottotitolo, string testo, string immagine, IconType iconType, bool lampeggia = false)
 		{
-			SetNotificationTextEntry("jamyfafi");                                              //icontype 1 → Chat Box --2 → Email
+			BeginTextCommandThefeedPost("jamyfafi");                                              //icontype 1 → Chat Box --2 → Email
 			AddTextComponentSubstringPlayerName(testo);                                        //3 → Add Friend Request--7 → Right Jumping Arrow
-			SetNotificationMessage(immagine, immagine, false, (int)iconType, titolo, sottotitolo);             //8 → RP Icon --9 → $ Icon
-			DrawNotification(lampeggia, true);
+			EndTextCommandThefeedPostMessagetext(immagine, immagine, false, (int)iconType, titolo, sottotitolo);             //8 → RP Icon --9 → $ Icon
+			EndTextCommandThefeedPostTicker(lampeggia, true);
 		}
 
 		/*enum LoadingPromptTypes
@@ -178,14 +198,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
         };
         */
 
-		/// <summary>
-		/// Attiva l'attesa di inserimento testo da parte del giocatore
-		/// </summary>
-		/// <param name="windowTitle">Titolo della finestra</param>
-		/// <param name="defaultText">Test di default se c'è</param>
-		/// <param name="maxLength">Lunghezza dell'input</param>
-		/// <returns></returns>
-		public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
+			/// <summary>
+			/// Attiva l'attesa di inserimento testo da parte del giocatore
+			/// </summary>
+			/// <param name="windowTitle">Titolo della finestra</param>
+			/// <param name="defaultText">Test di default se c'è</param>
+			/// <param name="maxLength">Lunghezza dell'input</param>
+			/// <returns></returns>
+			public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
 		{
 			ClearKeyboard(windowTitle, defaultText, maxLength);
 			while (UpdateOnscreenKeyboard() == 0)

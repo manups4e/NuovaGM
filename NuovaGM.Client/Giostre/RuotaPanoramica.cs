@@ -150,7 +150,6 @@ namespace NuovaGM.Client.Giostre
 				}
 				else
 					Ruota.Gradient++;
-
 				if (Ruota.State == "FACCIO_SALIRE")
 				{
 					CabinaAttuale = Cabine[Ruota.Gradient].Entity;
@@ -224,33 +223,37 @@ namespace NuovaGM.Client.Giostre
 				Cabina = CabinaAttuale;
 			else
 				Cabina = (Prop)Entity.FromNetworkId(cabina);
-			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
-			Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabina.Handle, 0f, 0f, 0f);
-			Cam1.Delete();
-			RenderScriptCams(false, false, 1000, false, false);
-			DestroyAllCams(false);
-			int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
-			NetworkAddPedToSynchronisedScene(Personaggio.Handle, uLocal_377, "anim@mp_ferris_wheel", "exit_player_one", 8f, -8f, 131072, 0, 1148846080, 0);
-			NetworkStartSynchronisedScene(uLocal_377);
-			Personaggio.Detach();
-			await BaseScript.Delay(5000);
-			foreach (var cab in Cabine)
+			if (Personaggio == Game.PlayerPed)
 			{
-				if (cab.Entity == CabinaAttuale)
+				while (CabinaAttuale != Cabine[Ruota.Gradient].Entity) await BaseScript.Delay(0);
+				RenderScriptCams(false, false, 1000, false, false);
+				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
+				Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabina.Handle, 0f, 0f, 0f);
+				Cam1.Delete();
+				DestroyAllCams(false);
+				int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
+				NetworkAddPedToSynchronisedScene(Personaggio.Handle, uLocal_377, "anim@mp_ferris_wheel", "exit_player_one", 8f, -8f, 131072, 0, 1148846080, 0);
+				NetworkStartSynchronisedScene(uLocal_377);
+				Personaggio.Detach();
+				await BaseScript.Delay(5000);
+				foreach (var cab in Cabine)
 				{
-					cab.NPlayer = 0;
-					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
+					if (cab.Entity == CabinaAttuale)
+					{
+						cab.NPlayer = 0;
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
+					}
 				}
+				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
+					StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
+				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW"))
+					StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW");
+				if (Personaggio.Handle == PlayerPedId())
+					GiroFinito = true;
+				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", false);
+				Ruota.State = "IDLE";
+				CabinaAttuale = null;
 			}
-			if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
-				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
-			if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW"))
-				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW");
-			if (Personaggio.Handle == PlayerPedId())
-				GiroFinito = true;
-			BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", false);
-			Ruota.State = "IDLE";
-			CabinaAttuale = null;
 		}
 
 		private static async Task ControlloPlayer()

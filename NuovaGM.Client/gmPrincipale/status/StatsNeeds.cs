@@ -33,13 +33,21 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		private static bool sete60 = false;
 		private static bool sete80 = false;
 		private static bool sete100 = false;
+		private static int stamina = 0;
+		private static int strength = 0;
+		private static int fly = 0;
+		private static int lung = 0;
+		private static int wheelie = 0;
+		private static int drugs = 0;
+		private static int fishing = 0;
+		private static int hunting = 0;
 
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			Client.GetInstance.RegisterEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 		}
-
+		
 		public static async void Eccolo()
 		{
 			nee.fame = Eventi.Player.CurrentChar.needs.fame;
@@ -54,11 +62,19 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			skill.DRUGS = Eventi.Player.CurrentChar.statistiche.DRUGS;
 			skill.FISHING = Eventi.Player.CurrentChar.statistiche.FISHING;
 			skill.HUNTING = Eventi.Player.CurrentChar.statistiche.HUNTING;
-			StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)Eventi.Player.CurrentChar.statistiche.STAMINA, true);
-			StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)Eventi.Player.CurrentChar.statistiche.STRENGTH, true);
-			StatSetInt((uint)Game.GenerateHash("MP0_FLYING_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY, true);
-			StatSetInt((uint)Game.GenerateHash("MP0_LUNG_CAPACITY"), (int)Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY, true);
-			StatSetInt((uint)Game.GenerateHash("MP0_WHEELIE_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY, true);
+			stamina = (int)(Eventi.Player.CurrentChar.statistiche.STAMINA);
+			strength = (int)(Eventi.Player.CurrentChar.statistiche.STRENGTH);
+			fly = (int)(Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY);
+			lung = (int)(Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY);
+			wheelie = (int)(Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY);
+			drugs = (int)(Eventi.Player.CurrentChar.statistiche.DRUGS);
+			fishing = (int)(Eventi.Player.CurrentChar.statistiche.FISHING);
+			hunting = (int)(Eventi.Player.CurrentChar.statistiche.HUNTING);
+			StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)Eventi.Player.CurrentChar.statistiche.STAMINA, true);
+			StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), (int)Eventi.Player.CurrentChar.statistiche.STRENGTH, true);
+			StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY, true);
+			StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY, true);
+			StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), (int)Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY, true);
 		}
 
 		public static async void RegistraStats(Skills cap, float val)
@@ -204,51 +220,72 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 			*/
 
-			if (MathUtil.WithinEpsilon(skill.WHEELIE_ABILITY % 1f, 0.0f, 0.002f) && skill.WHEELIE_ABILITY > 0.999f)
+			if (skill.WHEELIE_ABILITY - wheelie >= 1)
 			{
+				wheelie = (int)Math.Floor(skill.WHEELIE_ABILITY);
 				Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY = skill.WHEELIE_ABILITY;
-				StatSetInt((uint)Game.GenerateHash("MP0_WHEELIE_ABILITY"), (int)(skill.WHEELIE_ABILITY), true);
-				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Abilità in Moto~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.WHEELIE_ABILITY + "/100!");
+				StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), wheelie, true);
+				HUD.ShowStatNotification(wheelie, "PSF_DRIVING");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Abilità in Moto~w~ di 1 punto! Il tuo livello attuale è di ~b~{wheelie}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.FLYING_ABILITY % 1f, 0.0f, 0.002f) && skill.FLYING_ABILITY > 0.999f)
+
+			if (skill.FLYING_ABILITY - fly >= 1)
 			{
+				fly = (int)Math.Floor(skill.FLYING_ABILITY);
 				Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY = skill.FLYING_ABILITY;
-				StatSetInt((uint)Game.GenerateHash("MP0_FLYING_ABILITY"), (int)(skill.FLYING_ABILITY), true);
-				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Abilità in Volo~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.FLYING_ABILITY + "/100!");
+				StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), fly, true);
+				HUD.ShowStatNotification(fly, "PSF_FLYING");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Abilità in Volo~w~ di 1 punto! Il tuo livello attuale è di ~b~{fly}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.STAMINA % 1f, 0.0f, 0.002f) && skill.STAMINA > 0.999f)
+
+			if (skill.STAMINA - stamina >= 1)
 			{
+				stamina = (int)Math.Floor(skill.STAMINA);
 				Eventi.Player.CurrentChar.statistiche.STAMINA = skill.STAMINA;
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(skill.STAMINA), true);
-				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Resistenza~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.STAMINA + "/100!");
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), stamina, true);
+				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Resistenza~w~ di 1 punto! Il tuo livello attuale è di ~b~{stamina}/100~w~!");
+//				HUD.ShowStatNotification(stamina, "PSF_STAMINA");
 			}
-			if (MathUtil.WithinEpsilon(skill.STRENGTH % 1f, 0.0f, 0.002f) && skill.STRENGTH > 0.999f)
+
+			if (skill.STRENGTH - strength >= 1)
 			{
+				strength = (int)Math.Floor(skill.STRENGTH);
 				Eventi.Player.CurrentChar.statistiche.STRENGTH = skill.STRENGTH;
-				StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)(skill.STRENGTH), true);
-				HUD.ShowNotification("Complimenti! Hai aumentato la tua ~y~Forza~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.STRENGTH + "/100!");
+				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), strength, true);
+				HUD.ShowStatNotification(strength, "PSF_STRENGTH");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Forza~w~ di 1 punto! Il tuo livello attuale è di ~b~{strength}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.LUNG_CAPACITY % 1f, 0.0f, 0.002f) && skill.LUNG_CAPACITY > 0.999f)
+
+			if (skill.LUNG_CAPACITY - lung >= 1)
 			{
+				lung = (int)Math.Floor(skill.LUNG_CAPACITY);
 				Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY = skill.LUNG_CAPACITY;
-				StatSetInt((uint)Game.GenerateHash("MP0_STRENGTH"), (int)(skill.LUNG_CAPACITY), true);
-				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Fiato sott'Acqua~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.LUNG_CAPACITY + "/100!");
+				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), lung, true);
+				HUD.ShowStatNotification(lung, "PSF_LUNG");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Fiato sott'Acqua~w~ di 1 punto! Il tuo livello attuale è di ~b~{lung}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.FISHING%1f, 0.0f, 0.002f) && skill.FISHING > 0.999f)
+
+			if (skill.FISHING - fishing >= 1)
 			{
+				fishing = (int)Math.Floor(skill.FISHING);
 				Eventi.Player.CurrentChar.statistiche.FISHING = skill.FISHING;
-				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Livello di Pesca~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.FISHING + "/100!");
+				HUD.ShowStatNotification(lung, "Pescatore +");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Pesca~w~ di 1 punto! Il tuo livello attuale è di ~b~{fishing}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.HUNTING % 1f, 0.0f, 0.002f) && skill.HUNTING > 0.999f)
+
+			if (skill.HUNTING - hunting >= 1)
 			{
+				hunting = (int)Math.Floor(skill.HUNTING);
+				HUD.ShowStatNotification(lung, "Cacciatore +");
 				Eventi.Player.CurrentChar.statistiche.HUNTING = skill.HUNTING;
-				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Livello di Caccia~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.HUNTING + "/100!");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Caccia~w~ di 1 punto! Il tuo livello attuale è di ~b~{hunting}/100~w~!");
 			}
-			if (MathUtil.WithinEpsilon(skill.DRUGS % 1f, 0.0f, 0.002f) && skill.DRUGS != 0)
+
+			if (skill.DRUGS - drugs >= 1)
 			{
-				Eventi.Player.CurrentChar.statistiche.DRUGS = skill.DRUGS;
+				drugs = (int)Math.Floor(skill.DRUGS);
 				//Lavori.Droghe.set(skill.DRUGS);
-				HUD.ShowNotification("Complimenti! Hai aumentato il tuo ~y~Livello di Droga~w~ di 1 punto! Il tuo livello attuale è di ~b~" + (int)skill.DRUGS + "/100!");
+//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Droga~w~ di 1 punto! Il tuo livello attuale è di ~b~{drugs}/100~w~!");
 			}
 			await BaseScript.Delay(2500);
 		}
@@ -257,29 +294,29 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		{
 			int val = 0;
 			int val1 = 0;
-			bool bol = StatGetInt((uint)Game.GenerateHash("MP0_STAMINA"), ref val, -1);
+			bool bol = StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref val, -1);
 			if (nee.stanchezza >= 20.0f)
 			{
-				bool bol1 = StatGetInt((uint)Game.GenerateHash("MP0_SHOOTING_ABILITY"), ref val1, -1);
+				bool bol1 = StatGetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), ref val1, -1);
 				if (val > 10)
 				{
-					StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(val / 10), true);
+					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
 				}
 
 				if (val1 > 10)
 				{
-					StatSetInt((uint)Game.GenerateHash("MP0_SHOOTING_ABILITY"), (int)(val / 10), true);
+					StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(val / 10), true);
 				}
 			}
 			else if (nee.stanchezza >= 40.0f)
 			{
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), 1, true);
-				StatSetInt((uint)Game.GenerateHash("MP0_SHOOTING_ABILITY"), 1, true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), 1, true);
+				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), 1, true);
 			}
 			else if (nee.stanchezza < 20.0f)
 			{
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
-				StatSetInt((uint)Game.GenerateHash("MP0_SHOOTING_ABILITY"), (int)(Eventi.Player.CurrentChar.statistiche.SHOOTING_ABILITY), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
+				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(Eventi.Player.CurrentChar.statistiche.SHOOTING_ABILITY), true);
 			}
 			if (nee.stanchezza >= 60.0f)
 			{
@@ -326,7 +363,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Hai fame! forse dovresti mangiare qualcosa!", NotificationColor.Yellow, true);
 					fame60 = true;
 				}
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(val / 10), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
 			}
 			else if (nee.fame >= 80)
 			{
@@ -353,7 +390,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 			else if (nee.fame < 20.0f)
 			{
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
 				fame20 = false;
 				fame60 = false;
 				fame80 = false;
@@ -374,7 +411,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Hai sete! forse dovresti bere qualcosa!", NotificationColor.Yellow, true);
 					sete60 = true;
 				}
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(val / 10), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
 			}
 			else if (nee.sete >= 80)
 			{
@@ -401,7 +438,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 			else if (nee.sete < 20.0f)
 			{
-				StatSetInt((uint)Game.GenerateHash("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
 				fame20 = false;
 				fame60 = false;
 				fame80 = false;

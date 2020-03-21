@@ -202,11 +202,11 @@ namespace NuovaGM.Client.gmPrincipale
 			Game.PlayerPed.Heading = charSelectCoords.W;
 			Client.GetInstance.GetExports["spawnmanager"].setAutoSpawn(false);
 			Screen.Hud.IsRadarVisible = false;
-			SetCanAttackFriendly(PlayerPedId(), true, true);
-			NetworkSetFriendlyFireOption(true);
 			SetEnablePedEnveffScale(PlayerPedId(), true);
 			SetPlayerTargetingMode(2);
 			SetMaxWantedLevel(0);
+			SetCanAttackFriendly(Game.PlayerPed.Handle, true, false);
+			NetworkSetFriendlyFireOption(true);
 		}
 
 		public static async void onPlayerSpawn()
@@ -693,9 +693,7 @@ namespace NuovaGM.Client.gmPrincipale
 				List<Weapons> armiAgg = new List<Weapons>();
 				bool loadoutChanged = false;
 				if (Game.Player.IsDead)
-				{
 					LoadoutLoaded = false;
-				}
 
 				for (int i = 0; i < SharedScript.Armi.Count; i++)
 				{
@@ -703,29 +701,21 @@ namespace NuovaGM.Client.gmPrincipale
 					WeaponHash weaponHash = (WeaponHash)GetHashKey(weaponName);
 					List<Components> weaponComponents = new List<Components>();
 					int tinta = 0;
-					if (Game.PlayerPed.Weapons.HasWeapon(weaponHash) && weaponName != "WEAPON_UNARMED")
+					if (Eventi.Player.hasWeapon(weaponHash) && weaponName != "WEAPON_UNARMED")
 					{
 						int ammo = GetAmmoInPedWeapon(PlayerPedId(), (uint)weaponHash);
 						List<Components> components = SharedScript.Armi[i].components;
 						if (components.Count > 0)
-						{
 							for (int j = 0; j < components.Count; j++)
-							{
-								if (HasPedGotWeaponComponent(PlayerPedId(), (uint)weaponHash, (uint)GetHashKey(components[j].name)))
-								{
+								if (Eventi.Player.hasWeaponComponent(weaponName, components[j].name))
 									weaponComponents.Add(new Components(components[j].name, components[j].active));
-								}
-							}
-						}
 						for (int l = 0; l < Eventi.Player.getCharWeapons(Eventi.Player.char_current).Count; l++)
 						{
 							Weapons arm = Eventi.Player.getCharWeapons(Eventi.Player.char_current)[l];
 							tinta = arm.tint;
 						}
 						if (!LastLoadout.ContainsKey(weaponName) || LastLoadout[weaponName] != ammo)
-						{
 							loadoutChanged = true;
-						}
 
 						LastLoadout[weaponName] = ammo;
 						armiAgg.Add(new Weapons(weaponName, ammo, weaponComponents, tinta));
@@ -733,10 +723,7 @@ namespace NuovaGM.Client.gmPrincipale
 					else
 					{
 						if (LastLoadout.ContainsKey(weaponName))
-						{
 							loadoutChanged = true;
-						}
-
 						LastLoadout.Remove(weaponName);
 					}
 				}
@@ -744,21 +731,8 @@ namespace NuovaGM.Client.gmPrincipale
 				{
 					Eventi.Player.CurrentChar.weapons.Clear();
 					Eventi.Player.CurrentChar.weapons = armiAgg;
-					try
-					{
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
-					}
-					catch (Exception e)
-					{
-						Debug.WriteLine("Errore in Main:767 = " + e);
-					}
-
+					BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
 				}
-			}
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
-			{
-				SetCanAttackFriendly(p.Character.Handle, true, true);
-				NetworkSetFriendlyFireOption(true);
 			}
 		}
 	}
