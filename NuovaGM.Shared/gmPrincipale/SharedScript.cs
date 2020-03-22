@@ -53,6 +53,14 @@ namespace NuovaGM.Shared
 			["storionecobice"] = new Item("Storione cobice", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione cobice", "A chi vuoi tu!!", true), new Drop("Getta via uno storione cobice", "", true), new Sell("", "", false), new Buy("", "", false)),
 			["storionecomune"] = new Item("Storione comune", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione comune", "A chi vuoi tu!!", true), new Drop("Getta via uno storione comune", "", true), new Sell("", "", false), new Buy("", "", false)),
 			["storioneladano"] = new Item("Storione ladano", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione ladano", "A chi vuoi tu!!", true), new Drop("Getta via uno storione ladano", "", true), new Sell("", "", false), new Buy("", "", false)),
+
+			// caccia
+
+			["carnecervo"] = new Item("Carne di cervo", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di cervo", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cervo", "", true), new Sell("Vendi la carne di cervo", "", true), new Buy("Compra la carne di cervo", "", true)),
+			["carnecinghiale"] = new Item("Carne di cinghiale", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di cinghiale", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cinghiale", "", true), new Sell("Vendi la carne di cinghiale", "", true), new Buy("Compra la carne di cinghiale", "", true)),
+			["carneconiglio"] = new Item("Carne di coniglio", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di coniglio", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coniglio", "", true), new Sell("Vendi la carne di coniglio", "", true), new Buy("Compra la carne di coniglio", "", true)),
+			["carnecoyote"] = new Item("Carne di coyote", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di coyote", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coyote", "", true), new Sell("Vendi la carne di coyote", "", true), new Buy("Compra la carne di coyote", "", true)),
+			["carneaquila"] = new Item("Carne di aquila", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di aquila", "A chi vuoi tu!!", true), new Drop("Getta via la carne di aquila", "", true), new Sell("Vendi la carne di aquila", "", true), new Buy("Compra la carne di aquila", "", true)),
 		};
 
 		Dictionary<uint, string> DeatReasons = new Dictionary<uint, string>()

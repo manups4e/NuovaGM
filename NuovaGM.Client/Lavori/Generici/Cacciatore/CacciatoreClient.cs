@@ -82,13 +82,9 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 				BaseScript.TriggerServerEvent("lprp:removeBank", 1000);
 				if (AreadiCaccia.Exists())
 					AreadiCaccia.Delete();
-//				foreach (var p in animaliTrovati)
-//					foreach (var b in p.Value.AttachedBlips)
-//						b.Delete();
 				foreach (string s in animalGroups)
 					Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
-//				animaliTrovati.Clear();
-//				animaliUccisi.Clear();
+				animaliUccisi.Clear();
 				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 				Client.GetInstance.DeregisterTickHandler(ControlloBordi);
 				Client.GetInstance.DeregisterTickHandler(ControlloUccisi);
@@ -159,6 +155,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							var hash = anim.Value.Entity.Model.Hash;
 							string msg = "";
 							float aggValore = 0;
+							string carne = "";
 							switch ((uint)hash)
 							{
 								case 3630914197: // deer
@@ -172,34 +169,41 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 										msg = " Cerva";
 										aggValore = 0.001f;
 									}
+									carne = "carnecervo";
 									break;
 								case 3462393972: // boar
 									msg = " Cinghiale";
 									aggValore = 0.002f;
+									carne = "carnecinghiale";
 									break;
 								case 1682622302: // coyote
 									msg = " Coyote";
 									aggValore = 0.002f;
+									carne = "carnecoyote";
 									break;
 								case 3753204865: // coniglio
 									msg = " Coniglio";
 									aggValore = 0.004f;
+									carne = "carneconiglio";
 									break;
 								case 2864127842: // aquila
 									msg = "'Aquila";
 									aggValore = 0.003f;
+									carne = "carneaquila";
 									break;
 								case 307287994: // leone di montagna
 									aggValore = 0.003f;
 									break;
 							}
 							StatsNeeds.RegistraStats(Skills.HUNTING, aggValore);
+							animaliUccisi.ToList().Remove(anim);
 							anim.Value.Entity.Delete();
 							await BaseScript.Delay(1000);
 							Screen.Fading.FadeIn(500);
 							await BaseScript.Delay(501);
 							Game.PlayerPed.Task.ClearAll();
-							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto (inserire carne)", NotificationColor.GreenDark, true);
+							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{SharedScript.ItemList[carne].label}~w~.", NotificationColor.GreenDark, true);
+							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", carne, 2, 0.5f);
 						}
 					}
 				}
