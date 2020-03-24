@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Shared;
 using System;
 using System.Linq;
 using static CitizenFX.Core.Native.API;

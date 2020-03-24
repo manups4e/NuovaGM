@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

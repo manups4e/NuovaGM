@@ -20,7 +20,7 @@ namespace NuovaGM.Client.Giostre
 		static RuotaPanoramicaCamTastiera Cam2Tastiera = new RuotaPanoramicaCamTastiera();
 		static RuotaPanoramicaCamGamePad Cam2GamePad = new RuotaPanoramicaCamGamePad();
 		static int iLocal_355 = 0;
-		static Prop CabinaAttuale;
+		static CabinaPan CabinaAttuale;
 		static CabinaPan[] Cabine = new CabinaPan[16]
 		{
 			new CabinaPan(0),
@@ -48,6 +48,7 @@ namespace NuovaGM.Client.Giostre
 			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
 			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(PlayerSale));
 			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(PlayerScende));
+			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
 			Blip Ferris = new Blip(AddBlipForCoord(-1663.97f, -1126.7f, 30.7f))
 			{
 
@@ -59,9 +60,14 @@ namespace NuovaGM.Client.Giostre
 			CaricaTutto();
 		}
 
+		private static async void AggiornaGradient(int gradient)
+		{
+			Ruota.Gradient = gradient;
+		}
+
 		private static async Task SpawnaRuota()
 		{
-			Ruota.Entity = new Prop(CreateObject(GetHashKey("prop_ld_ferris_wheel"), 0f, 1f, 2f, true, false, false))
+			Ruota.Entity = new Prop(CreateObject(GetHashKey("prop_ld_ferris_wheel"), 0f, 1f, 2f, false, false, false))
 			{
 				Position = new Vector3(-1663.97f, -1126.7f, 30.7f),
 				Rotation = new Vector3(360, 0, 0),
@@ -69,9 +75,11 @@ namespace NuovaGM.Client.Giostre
 				LodDistance = 1000,
 				IsInvincible = true,
 			};
+			if (!IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
+				StartAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 			for (int i = 0; i < 16; i++)
 			{
-				Cabine[i].Entity = new Prop(CreateObject(GetHashKey("prop_ferris_car_01"), 0f, 1f, 2f, true, false, false))
+				Cabine[i].Entity = new Prop(CreateObject(GetHashKey("prop_ferris_car_01"), 0f, 1f, 2f, false, false, false))
 				{
 					IsInvincible = true,
 					Position = func_147(i),
@@ -120,7 +128,29 @@ namespace NuovaGM.Client.Giostre
 				float speed = Ruota.Velocità * fVar2;
 				Ruota.Rotazione += speed;
 
-				await ControlloRotazione();
+				HUD.DrawText(0.4f, 0.725f, "Gradient = " + Ruota.Gradient);
+				HUD.DrawText(0.4f, 0.75f, "Rotazione = " + Ruota.Rotazione);
+
+				if (Ruota.Rotazione > 360f / 16 * Ruota.Gradient)
+				{
+					Ruota.Gradient++;
+					if (Ruota.Gradient > 16)
+						Ruota.Gradient = 1;
+
+					if (Ruota.Rotazione >= 360f)
+						Ruota.Rotazione -= 360f;
+
+					if (NetworkIsHost())
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
+
+					if (Ruota.State == "FACCIO_SALIRE")
+					{
+						CabinaAttuale = Cabine[Ruota.Gradient];
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient-1].Index);
+					}
+					if (Ruota.State == "FACCIO_SCENDERE")
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient-1].Index);
+				}
 
 				Vector3 pitch = new Vector3(-Ruota.Rotazione - (360f / 16f),0,0);
 				Ruota.Entity.Rotation = pitch;
@@ -134,49 +164,20 @@ namespace NuovaGM.Client.Giostre
 					SetEntityCoordsNoOffset(Cabine[i].Entity.Handle, offset.X, offset.Y, offset.Z, true, false, false);
 				}
 */
-				await BaseScript.Delay(0);
-			}
-			await Task.FromResult(0);
-		}
-
-		private static async Task ControlloRotazione()
-		{
-			if (Ruota.Rotazione > 360f / 16 * Ruota.Gradient)
-			{
-				if (Ruota.Rotazione > 360f)
-				{
-					Ruota.Rotazione -= 360f;
-					Ruota.Gradient = 0;
-				}
-				else
-					Ruota.Gradient++;
-				if (Ruota.State == "FACCIO_SALIRE")
-				{
-					CabinaAttuale = Cabine[Ruota.Gradient].Entity;
-					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, CabinaAttuale.NetworkId);
-				}
-				if (Ruota.State == "FACCIO_SCENDERE")
-					BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, CabinaAttuale.NetworkId);
 			}
 			await Task.FromResult(0);
 		}
 
 		private static async void PlayerSale(int player, int cabina)
 		{
-			Debug.WriteLine("Cabina = " + cabina);
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
-			Prop Cabina = (Prop)Entity.FromNetworkId(cabina);
-			if (Cabina == null)
-				Cabina = CabinaAttuale;
-			else
-				Cabina = (Prop)Entity.FromNetworkId(cabina);
-
+			CabinaPan Cabina = Cabine[cabina];
 			if (IsEntityAtCoord(Personaggio.Handle, -1661.95f, -1127.011f, 12.6973f, 1f, 1f, 1f, false, true, 0))
 			{
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
 				Ruota.Ferma = true;
 				await BaseScript.Delay(100);
-				Vector3 coord = GetOffsetFromEntityInWorldCoords(Cabina.Handle, 0, 0, 0);
+				Vector3 coord = GetOffsetFromEntityInWorldCoords(Cabina.Entity.Handle, 0, 0, 0);
 				int uLocal_376 = NetworkCreateSynchronisedScene(coord.X, coord.Y, coord.Z, 0f, 0f, 0f, 2, true, false, 1065353216, 0, 1065353216);
 				NetworkAddPedToSynchronisedScene(Personaggio.Handle, uLocal_376, "anim@mp_ferris_wheel", "enter_player_one", 8f, -8f, 131072, 0, 1148846080, 0);
 				NetworkStartSynchronisedScene(uLocal_376);
@@ -188,16 +189,9 @@ namespace NuovaGM.Client.Giostre
 					NetworkStartSynchronisedScene(uLocal_376);
 				}
 				await BaseScript.Delay(7000);
-				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Handle, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
-				AttachEntityToEntity(Personaggio.Handle, Cabina.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Game.PlayerPed.Heading, false, false, false, false, 2, true);
-				foreach (var cab in Cabine)
-				{
-					if (cab.Entity == CabinaAttuale)
-					{
-						cab.NPlayer = Personaggio.Handle;
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
-					}
-				}
+				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Entity.Handle, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
+				AttachEntityToEntity(Personaggio.Handle, Cabina.Entity.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Game.PlayerPed.Heading, false, false, false, false, 2, true);
+				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 				if (Personaggio.Handle == PlayerPedId())
 					GiroFinito = false;
 				Ruota.State = "IDLE";
@@ -218,17 +212,13 @@ namespace NuovaGM.Client.Giostre
 		private static async void PlayerScende(int player, int cabina)
 		{
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
-			Prop Cabina = (Prop)Entity.FromNetworkId(cabina);
-			if (Cabina == null)
-				Cabina = CabinaAttuale;
-			else
-				Cabina = (Prop)Entity.FromNetworkId(cabina);
+			CabinaPan Cabina = Cabine[cabina];
 			if (Personaggio == Game.PlayerPed)
 			{
-				while (CabinaAttuale != Cabine[Ruota.Gradient].Entity) await BaseScript.Delay(0);
+				while (CabinaAttuale != Cabina) await BaseScript.Delay(0);
 				RenderScriptCams(false, false, 1000, false, false);
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
-				Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabina.Handle, 0f, 0f, 0f);
+				Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabina.Entity.Handle, 0f, 0f, 0f);
 				Cam1.Delete();
 				DestroyAllCams(false);
 				int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
@@ -236,14 +226,8 @@ namespace NuovaGM.Client.Giostre
 				NetworkStartSynchronisedScene(uLocal_377);
 				Personaggio.Detach();
 				await BaseScript.Delay(5000);
-				foreach (var cab in Cabine)
-				{
-					if (cab.Entity == CabinaAttuale)
-					{
-						cab.NPlayer = 0;
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", cab.Index, cab.NPlayer);
-					}
-				}
+				Cabina.NPlayer = 0;
+				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
 					StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE_ALTERNATIVE_VIEW"))
@@ -750,7 +734,7 @@ namespace NuovaGM.Client.Giostre
 		static Vector3 func_147(int iParam0)
 		{
 			float fVar0 = 6.28319f / 16 * iParam0;
-			return Function.Call<Vector3>(Hash.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS, Ruota.Entity.Handle, 0f, Funzioni.Deg2rad(15.3f) * Funzioni.Rad2deg((float)Math.Sin(fVar0)), Funzioni.Deg2rad(-15.3f) * Funzioni.Rad2deg((float)Math.Cos(fVar0)));
+			return GetOffsetFromEntityInWorldCoords(Ruota.Entity.Handle, 0f, Funzioni.Deg2rad(15.3f) * Funzioni.Rad2deg((float)Math.Sin(fVar0)), Funzioni.Deg2rad(-15.3f) * Funzioni.Rad2deg((float)Math.Cos(fVar0)));
 		}
 
 		private static void OnStop(string name)
@@ -774,7 +758,7 @@ namespace NuovaGM.Client.Giostre
 		public int Gradient;
 		public float Rotazione;
 		public string State = "IDLE";
-		public float Velocità = 2f;
+		public float Velocità = 5f; // 2f
 		public bool Ferma = false;
 		public RuotaPan(Prop entity, int gradient, string state)
 		{

@@ -3,6 +3,7 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Server
 {

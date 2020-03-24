@@ -7,6 +7,10 @@
     <RootNamespace>NuovaGM.Server</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;SERVER</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2207" />
     <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00669" />

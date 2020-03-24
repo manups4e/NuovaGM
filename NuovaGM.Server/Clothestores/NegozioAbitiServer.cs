@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Shared;
 using System;
 
 namespace NuovaGM.Server.Clothestores

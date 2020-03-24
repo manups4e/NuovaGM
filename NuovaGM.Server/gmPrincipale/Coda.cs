@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -232,6 +233,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public static async void PlayerDropped([FromSource] Player player, string reason)
 		{
 			string name = player.Name;
+			string handle = player.Handle;
 			if (ServerEntrance.PlayerList.ContainsKey(player.Handle))
 			{
 				var ped = ServerEntrance.PlayerList[player.Handle];
@@ -240,14 +242,13 @@ namespace NuovaGM.Server.gmPrincipale
 					Funzioni.SalvaPersonaggio(player);
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
-					ServerEntrance.PlayerList.Remove(player.Handle);
 				}
 				else
 				{
 					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
-					ServerEntrance.PlayerList.Remove(player.Handle);
 				}
+				ServerEntrance.PlayerList.Remove(handle);
 			}
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));
 			await Task.FromResult(0);

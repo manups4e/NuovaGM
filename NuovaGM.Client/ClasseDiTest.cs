@@ -8,6 +8,7 @@ using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using NuovaGM.Shared;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client
@@ -58,12 +59,11 @@ namespace NuovaGM.Client
 			Test.Visible = true;
 		}
 
-
-
 		public static async Task MenuMessaggi()
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, true, ControlModifier.Shift))
 			{
+				Log.Printa(LogType.Debug, "Sto aprendo il menu di test");
 				AttivaMenu();
 			}
 		}
