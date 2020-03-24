@@ -393,7 +393,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			}
 			catch (Exception ex)
 			{
-				Shared.Log.Printa(LogType.Error, "CharCreationMenu = " + ex);
+				Debug.WriteLine("CharCreationMenu = " + ex);
 			}
 		}
 
@@ -1044,7 +1044,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
 				{
-					Log.Printa(LogType.Debug, $"{index}");
+					Debug.WriteLine($"{index}");
 					if (data.skin.sex == "Maschio")
 					{
 						var dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
@@ -1104,7 +1104,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			}
 			catch
 			{
-				Log.Printa(LogType.Error, "MenuCreazione");
+				Debug.WriteLine("MenuCreazione");
 			}
 		}
 		#endregion

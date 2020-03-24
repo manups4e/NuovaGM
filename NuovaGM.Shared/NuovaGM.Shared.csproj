@@ -65,7 +65,6 @@
     <Compile Include="ConfigShared.cs" />
     <Compile Include="Fuel\StazioniGas.cs" />
     <Compile Include="gmPrincipale\DatiChar.cs" />
-    <Compile Include="Log.cs" />
     <Compile Include="gmPrincipale\SharedScript.cs" />
     <Compile Include="Lavori\Whitelistati\JobGrade.cs" />
     <Compile Include="Lavori\Whitelistati\Veicoli.cs" />
