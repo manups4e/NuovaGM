@@ -20,10 +20,10 @@ namespace NuovaGM.Server.Meteo_New
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("freezeTime", new Action<bool>(FreezeTime));
-			Server.GetInstance.RegisterEventHandler("UpdateFromCommandTime", new Action<int>(Update));
-			Server.GetInstance.RegisterTickHandler(SetTime);
-			Server.GetInstance.RegisterTickHandler(UpdateTime);
+			Server.Instance.RegisterEventHandler("freezeTime", new Action<bool>(FreezeTime));
+			Server.Instance.RegisterEventHandler("UpdateFromCommandTime", new Action<int>(Update));
+			Server.Instance.RegisterTickHandler(SetTime);
+			Server.Instance.RegisterTickHandler(UpdateTime);
 		}
 
 		private async static void Update(int time)
@@ -41,7 +41,7 @@ namespace NuovaGM.Server.Meteo_New
 			h = (int)Math.Floor(secondOfDay / 3600f);
 			m = (int)Math.Floor((secondOfDay - (h * 3600)) / 60f);
 			s = secondOfDay - (h * 3600) - (m * 60);
-//			Log.Printa(LogType.Debug, $"Tempo di gioco: {h}:{m}:{s}");
+//			Server.Printa(LogType.Debug, $"Tempo di gioco: {h}:{m}:{s}");
 		}
 
 		public static async Task UpdateTime()

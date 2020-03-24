@@ -16,9 +16,9 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		private static List<int> Morti = new List<int>();
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
-			Server.GetInstance.RegisterEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
-			Server.GetInstance.RegisterEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
+			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.RegisterEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
+			Server.Instance.RegisterEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
 		}
 
 		private static async void PlayerMorto([FromSource] Player player)

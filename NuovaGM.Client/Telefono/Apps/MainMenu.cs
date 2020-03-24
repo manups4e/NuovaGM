@@ -18,7 +18,7 @@ namespace NuovaGM.Client.Telefono.Apps
         {
             AllApps = allApps;
 
-            Debug.WriteLine($"Apps totali {AllApps.Count}");
+            Client.Printa(LogType.Debug, $"Apps totali {AllApps.Count}");
         }
 
         public override async Task Tick()
@@ -115,7 +115,7 @@ namespace NuovaGM.Client.Telefono.Apps
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"{e.Message} : Exception thrown on Apps.Main.Tick()");
+                Client.Printa(LogType.Error, $"{e.Message} : Exception thrown on Apps.Main.Tick()");
             }
 
             await Task.FromResult(0);

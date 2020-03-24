@@ -63,6 +63,7 @@ namespace NuovaGM.Client
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, true, ControlModifier.Shift))
 			{
+				Client.Printa(LogType.Debug, "Ciaooooooooo");
 				AttivaMenu();
 			}
 		}

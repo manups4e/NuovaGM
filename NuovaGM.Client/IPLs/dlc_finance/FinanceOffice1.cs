@@ -92,14 +92,14 @@ namespace NuovaGM.Client.IPLs.dlc_finance
 				if (side.ToLower() == "left" || side.ToLower() == "sinistra") IsLeftDoorOpen = true;
 				else if (side.ToLower() == "right" || side.ToLower() == "destra") IsRightDoorOpen = true;
 				else
-					Debug.WriteLine("Direzioni solo destra e sinistra (left right)");
+					Client.Printa(LogType.Debug, "Direzioni solo destra e sinistra (left right)");
 			}
 			public void Close(string side)
 			{
 				if (side.ToLower() == "left" || side.ToLower() == "sinistra") IsLeftDoorOpen = false;
 				else if (side.ToLower() == "right" || side.ToLower() == "destra") IsRightDoorOpen = false;
 				else
-					Debug.WriteLine("Direzioni solo destra e sinistra (left right)");
+					Client.Printa(LogType.Debug,"Direzioni solo destra e sinistra (left right)");
 			}
 			public async void SetDoorState(string doorSide, bool open)
 			{
@@ -117,7 +117,7 @@ namespace NuovaGM.Client.IPLs.dlc_finance
 				}
 
 				if (doorHandle == 0)
-					Debug.WriteLine("Errore nell'handle della porta");
+					Client.Printa(LogType.Debug,"Errore nell'handle della porta");
 				API.SetEntityHeading(doorHandle, heading);
 			}
 

@@ -2,21 +2,63 @@
 using CitizenFX.Core.Native;
 using System;
 using System.Threading.Tasks;
+using System.Drawing;
+using Console = Colorful.Console;
+using System.Globalization;
 
 namespace NuovaGM.Server
 {
+	public enum LogType
+	{
+		Info,
+		Debug,
+		Warning,
+		Error,
+		Fatal
+	}
+	
 	public class Server : BaseScript
 	{
-		public static System.Globalization.CultureInfo Ita = new System.Globalization.CultureInfo("it-IT");
-		public static Server GetInstance { get; protected set; }
+		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
 
 		public Server()
 		{
 			EventHandlers["onResourceStop"] += new Action<string>(OnResourceStop);
-			GetInstance = this;
+			Instance = this;
 			ClassCollector.Init();
+		}
+
+		public static void Printa(LogType tipo, string text)
+		{
+			string err = "-- [INFO] -- ";
+			string incipit = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", new CultureInfo("it-IT"))}";
+			Color colore = Color.LimeGreen;
+			switch (tipo)
+			{
+				case LogType.Info:
+					err = "-- [INFO] -- ";
+					colore = Color.LimeGreen;
+					break;
+				case LogType.Debug:
+					err = "-- [DEBUG] -- ";
+					colore = Color.Cyan;
+					break;
+				case LogType.Warning:
+					err = "-- [ATTENZIONE] --";
+					colore = Color.DarkOrange;
+					break;
+				case LogType.Error:
+					err = "-- [ERRORE] --";
+					colore = Color.OrangeRed;
+					break;
+				case LogType.Fatal:
+					err = "-- [FATALE] --";
+					colore = Color.Yellow;
+					break;
+			}
+			Console.WriteLine($"{incipit} {err} {text}", colore);
 		}
 
 		/// <summary>

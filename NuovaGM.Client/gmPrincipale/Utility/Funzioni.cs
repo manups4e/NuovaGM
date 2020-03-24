@@ -160,7 +160,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"{ex.Message}");
+				Client.Printa(LogType.Error, $"{ex.Message}");
 			}
 			return null;
 		}
@@ -174,7 +174,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(Vehicle);
 		}
@@ -299,7 +299,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -325,7 +325,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -339,7 +339,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -353,7 +353,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(RaycastResult);
 		}
@@ -421,7 +421,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe CrosshairRaycast Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(_RaycastResult);
 		}
@@ -447,7 +447,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GetEntityType Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
 			return "UNK";
 		}
@@ -471,7 +471,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe FindGroundZ Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
 			await Task.FromResult(0);
 			return result;
@@ -1159,7 +1159,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			else
 			{
-				Debug.WriteLine("Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				Client.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 			}
 
 			return "WT_INVALID";
@@ -1248,7 +1248,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -1265,7 +1265,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -1291,7 +1291,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -1305,7 +1305,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -1319,7 +1319,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(RaycastResult);
 		}
@@ -1385,7 +1385,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe CrosshairRaycast Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(_RaycastResult);
 		}
@@ -1411,7 +1411,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe GetEntityType Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
 			return "UNK";
 		}
@@ -1436,7 +1436,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"WorldProbe FindGroundZ Error: {ex.Message}");
+				Client.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
 			return result;
 		}

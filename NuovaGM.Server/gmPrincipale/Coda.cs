@@ -21,8 +21,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("playerConnecting", new Action<Player, string, dynamic, dynamic>(PlayerConnect));
-			Server.GetInstance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
+			Server.Instance.RegisterEventHandler("playerConnecting", new Action<Player, string, dynamic, dynamic>(PlayerConnect));
+			Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
 		}
 
 		public static async void PlayerConnect([FromSource] Player player, string name, dynamic kickReason, dynamic deferrals)
@@ -42,7 +42,7 @@ namespace NuovaGM.Server.gmPrincipale
 			DateTime time = DateTime.Now;
 			try
 			{
-				Log.Printa(LogType.Info, player.Name + " si sta connettendo");
+				Server.Printa(LogType.Info, player.Name + " si sta connettendo");
 				BaseScript.TriggerEvent("lprp:serverLog", time.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " si sta connettendo");
 				deferrals.defer();
 				await BaseScript.Delay(0);
@@ -72,7 +72,7 @@ namespace NuovaGM.Server.gmPrincipale
 										string ControlloBan = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo Ban per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 										deferrals.presentCard(ControlloBan);
 										await BaseScript.Delay(2000);
-										dynamic result = await Server.GetInstance.Query("SELECT * FROM bans");
+										dynamic result = await Server.Instance.Query("SELECT * FROM bans");
 										await BaseScript.Delay(2000);
 										if (result.Count > 0)
 										{
@@ -93,7 +93,7 @@ namespace NuovaGM.Server.gmPrincipale
 														ban.Minute > DateTime.Now.Minute && ban.Hour < DateTime.Now.Hour && ban.Day < DateTime.Now.Day && ban.Month < DateTime.Now.Month)
 													{
 														deferrals.done("SHIELD 2.0 Sistema Ban:\nSei stato BANNATO da questo server!\nMOTIVAZIONE: " + result[i].Motivazione + "\nBANNATO DA: " + result[i].Banner + ",\nDATA FINE: " + Convert.ToDateTime(result[i].DataFine).ToString("dd/MM/yyyy, HH:mm:ss") + ".\nSE PENSI DI AVER BISOGNO DI DARE / RICEVERE SPIEGAZIONI RAGGIUNGICI SU DISCORD (https://discord.gg/n4ep9Fq)");
-														Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere da bannato!");
+														Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere da bannato!");
 														DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere da bannato!");
 														return;
 													}
@@ -110,7 +110,7 @@ namespace NuovaGM.Server.gmPrincipale
 															timer--;
 															await BaseScript.Delay(1000);
 														}
-														await Server.GetInstance.Execute($"DELETE FROM bans WHERE discord = @discord", new { discord = License.GetLicense(player, Identifier.Discord) });
+														await Server.Instance.Execute($"DELETE FROM bans WHERE discord = @discord", new { discord = License.GetLicense(player, Identifier.Discord) });
 													}
 												}
 											}
@@ -132,7 +132,7 @@ namespace NuovaGM.Server.gmPrincipale
 										#region PER LA WHITELIST VIA DATABASE DECOMMENTARE QUI DENTRO
 										// PER LA WHITELIST VIA DATABASE!
 										/*
-										dynamic WhiteResult = await Server.GetInstance.Query("SELECT * FROM whitelist")
+										dynamic WhiteResult = await Server.Instance.Query("SELECT * FROM whitelist")
 										for (int i = 0; i < WhiteResult.Count; i++)
 										{
 											if (DB.GetLicense(player,Identifier.Discord) == WhiteResult[i].identifier)
@@ -149,21 +149,21 @@ namespace NuovaGM.Server.gmPrincipale
 											{
 												if (EnableAntiSpam)
 												{
-													Log.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
+													Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
 													BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
 													for (int i = 0; i < WaitingTime; i++)
 													{
 														deferrals.update(ConfigServer.Conf.Main.NomeServer + " Shield 2.0 sistema di protezione Anti-Spam\nattendi " + (WaitingTime - i).ToString() + " secondi e sarai connesso automaticamente");
 														await BaseScript.Delay(1000);
 													}
-													Log.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
+													Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
 													BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
 												}
 												deferrals.done();
 											}
 											else
 											{
-												Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere senza permesso!");
+												Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere senza permesso!");
 												DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere senza permesso!");
 												deferrals.done(notWhitelisted);
 												return;
@@ -171,14 +171,14 @@ namespace NuovaGM.Server.gmPrincipale
 										}
 										else
 										{
-											Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+											Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 											DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 											return;
 										}
 									}
 									else
 									{
-										Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+										Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 										DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 										return;
 									}
@@ -186,14 +186,14 @@ namespace NuovaGM.Server.gmPrincipale
 								}
 								else
 								{
-									Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+									Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 									DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 									return;
 								}
 							}
 							else
 							{
-								Log.Printa(LogType.Warning, $"Licenza SocialClub non trovata per il player: {nm}");
+								Server.Printa(LogType.Warning, $"Licenza SocialClub non trovata per il player: {nm}");
 								DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Licenza SocialClub non trovata per il player: {nm}");
 								deferrals.done("ERRORE: Impossibile trovare la licenza del SocialClub, Connessione rifiutata.");
 								return;
@@ -201,7 +201,7 @@ namespace NuovaGM.Server.gmPrincipale
 						}
 						else
 						{
-							Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+							Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 							DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 							return;
 						}
@@ -210,21 +210,21 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il Player: {nm} ha tentato di accedere senza discord attivo");
 						deferrals.done("ERRORE: DiscordID non trovato, Connessione rifiutata.\nPer giocare sul nostro server devi avere Discord sempre attivo!\nAssicurati di avere Discord avviato prima di aprire FiveM.");
-						Log.Printa(LogType.Warning, $"Il Player: {nm} ha tentato di accedere senza discord attivo");
+						Server.Printa(LogType.Warning, $"Il Player: {nm} ha tentato di accedere senza discord attivo");
 						return;
 					}
 				}
 				else
 				{
-					Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+					Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 					DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 					return;
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, "ERRORE NELL'ACCESSO AL SERVER CONTROLLARE SCRIPT CODA: " + ex);
-				Log.Printa(LogType.Fatal, ex.StackTrace);
+				Server.Printa(LogType.Fatal, "ERRORE NELL'ACCESSO AL SERVER CONTROLLARE SCRIPT CODA: " + ex);
+				Server.Printa(LogType.Fatal, ex.StackTrace);
 				deferrals.done("ERRORE NELL'ACCESSO AL SERVER, CONTATTA GLI AMMINISTRATORI SUL NOSTRO CANALE DISCORD\nINVITO: https://discord.gg/n4ep9Fq");
 				return;
 			}
@@ -240,12 +240,12 @@ namespace NuovaGM.Server.gmPrincipale
 				if (ped.status.spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
+					Server.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 				}
 				else
 				{
-					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
+					Server.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 				}
 				ServerEntrance.PlayerList.Remove(handle);

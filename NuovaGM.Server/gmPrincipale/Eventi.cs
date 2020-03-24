@@ -15,55 +15,55 @@ namespace NuovaGM.Server.gmPrincipale
 		static int EarlyRespawnFineAmount = 5000;
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
-			Server.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
-			Server.GetInstance.RegisterEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
-			Server.GetInstance.RegisterEventHandler("playerDropped", new Action<Player, string>(Dropped));
-			Server.GetInstance.RegisterEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
-			Server.GetInstance.RegisterEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
-			Server.GetInstance.RegisterEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
-			Server.GetInstance.RegisterEventHandler("lprp:CheckPing", new Action<Player>(Ping));
-			Server.GetInstance.RegisterEventHandler("lprp:checkAFK", new Action<Player>(AFK));
-			Server.GetInstance.RegisterEventHandler("lprp:payFine", new Action<Player, int>(PayFine));
-			Server.GetInstance.RegisterEventHandler("lprp:givemoney", new Action<Player, int>(GiveMoney));
-			Server.GetInstance.RegisterEventHandler("lprp:removemoney", new Action<Player, int>(RemoveMoney));
-			Server.GetInstance.RegisterEventHandler("lprp:givebank", new Action<Player, int>(GiveBank));
-			Server.GetInstance.RegisterEventHandler("lprp:removebank", new Action<Player, int>(RemoveBank));
-			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
-			Server.GetInstance.RegisterEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
-			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
-			Server.GetInstance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
-			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
-			Server.GetInstance.RegisterEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeapon", new Action<Player, string, int>(AddWeapon));
-			Server.GetInstance.RegisterEventHandler("lprp:removeWeapon", new Action<Player, string>(RemoveWeapon));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeaponComponent", new Action<Player, string, string>(AddWeaponComp));
-			Server.GetInstance.RegisterEventHandler("lprp:removeWeaponComponent", new Action<Player, string, string>(RemoveWeaponComp));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeaponTint", new Action<Player, string, int>(AddWeaponTint));
-			Server.GetInstance.RegisterEventHandler("lprp:removeItemsDeath", new Action<Player>(removeItemsDeath));
-			Server.GetInstance.RegisterEventHandler("lprp:serverlog", new Action<string>(ServerLog));
-			Server.GetInstance.RegisterEventHandler("lprp:salvaPlayer", new Action<Player>(SalvaPlayer));
-			Server.GetInstance.RegisterEventHandler("lprp:getPlayers", new Action<NetworkCallbackDelegate>(GetPlayers));
-			Server.GetInstance.RegisterEventHandler("lprp:getDBPlayers", new Action<NetworkCallbackDelegate>(GetDBPlayers));
-			Server.GetInstance.RegisterEventHandler("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int, float>(AddInventoryToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removeIntenvoryItemtochar", new Action<string, int, string, int>(RemoveInventoryToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removeWeapontochar", new Action<string, int, string>(RemoveWeaponToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeaponComponenttochar", new Action<string, int, string, string>(AddWeaponCompToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:bannaPlayer", new Action<string, string, long, int>(BannaPlayer));
-			Server.GetInstance.RegisterEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
-			Server.GetInstance.RegisterEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
-			Server.GetInstance.RegisterEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
-			Server.GetInstance.RegisterEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
+			Server.Instance.RegisterEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
+			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.RegisterEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
+			Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(Dropped));
+			Server.Instance.RegisterEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
+			Server.Instance.RegisterEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
+			Server.Instance.RegisterEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
+			Server.Instance.RegisterEventHandler("lprp:CheckPing", new Action<Player>(Ping));
+			Server.Instance.RegisterEventHandler("lprp:checkAFK", new Action<Player>(AFK));
+			Server.Instance.RegisterEventHandler("lprp:payFine", new Action<Player, int>(PayFine));
+			Server.Instance.RegisterEventHandler("lprp:givemoney", new Action<Player, int>(GiveMoney));
+			Server.Instance.RegisterEventHandler("lprp:removemoney", new Action<Player, int>(RemoveMoney));
+			Server.Instance.RegisterEventHandler("lprp:givebank", new Action<Player, int>(GiveBank));
+			Server.Instance.RegisterEventHandler("lprp:removebank", new Action<Player, int>(RemoveBank));
+			Server.Instance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
+			Server.Instance.RegisterEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
+			Server.Instance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
+			Server.Instance.RegisterEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
+			Server.Instance.RegisterEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
+			Server.Instance.RegisterEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));
+			Server.Instance.RegisterEventHandler("lprp:addWeapon", new Action<Player, string, int>(AddWeapon));
+			Server.Instance.RegisterEventHandler("lprp:removeWeapon", new Action<Player, string>(RemoveWeapon));
+			Server.Instance.RegisterEventHandler("lprp:addWeaponComponent", new Action<Player, string, string>(AddWeaponComp));
+			Server.Instance.RegisterEventHandler("lprp:removeWeaponComponent", new Action<Player, string, string>(RemoveWeaponComp));
+			Server.Instance.RegisterEventHandler("lprp:addWeaponTint", new Action<Player, string, int>(AddWeaponTint));
+			Server.Instance.RegisterEventHandler("lprp:removeItemsDeath", new Action<Player>(removeItemsDeath));
+			Server.Instance.RegisterEventHandler("lprp:serverlog", new Action<string>(ServerLog));
+			Server.Instance.RegisterEventHandler("lprp:salvaPlayer", new Action<Player>(SalvaPlayer));
+			Server.Instance.RegisterEventHandler("lprp:getPlayers", new Action<NetworkCallbackDelegate>(GetPlayers));
+			Server.Instance.RegisterEventHandler("lprp:getDBPlayers", new Action<NetworkCallbackDelegate>(GetDBPlayers));
+			Server.Instance.RegisterEventHandler("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
+			Server.Instance.RegisterEventHandler("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
+			Server.Instance.RegisterEventHandler("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
+			Server.Instance.RegisterEventHandler("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
+			Server.Instance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+			Server.Instance.RegisterEventHandler("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
+			Server.Instance.RegisterEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+			Server.Instance.RegisterEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int, float>(AddInventoryToChar));
+			Server.Instance.RegisterEventHandler("lprp:removeIntenvoryItemtochar", new Action<string, int, string, int>(RemoveInventoryToChar));
+			Server.Instance.RegisterEventHandler("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
+			Server.Instance.RegisterEventHandler("lprp:removeWeapontochar", new Action<string, int, string>(RemoveWeaponToChar));
+			Server.Instance.RegisterEventHandler("lprp:addWeaponComponenttochar", new Action<string, int, string, string>(AddWeaponCompToChar));
+			Server.Instance.RegisterEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
+			Server.Instance.RegisterEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
+			Server.Instance.RegisterEventHandler("lprp:bannaPlayer", new Action<string, string, long, int>(BannaPlayer));
+			Server.Instance.RegisterEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
+			Server.Instance.RegisterEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
+			Server.Instance.RegisterEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
+			Server.Instance.RegisterEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
 
 		}
 
@@ -76,7 +76,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"{ e.Message}");
+				Server.Printa(LogType.Error, $"{ e.Message}");
 			}
 
 		}
@@ -176,7 +176,7 @@ namespace NuovaGM.Server.gmPrincipale
 			else
 			{
 				var now = DateTime.Now;
-				Log.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
+				Server.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + "--il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				DropPlayer(source.Handle, "LastPlanet Shield [Sospetto Modding]: entra in discord a chiarire perfavore!");
 				// AGGIUNGERE AVVISO DISCORD! ;)
@@ -185,9 +185,9 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Spawnato([FromSource] Player source)
 		{
-			Log.Printa(LogType.Info, ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
+			Server.Printa(LogType.Info, ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
 			BaseScript.TriggerEvent("lprp:serverLog", ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
-			foreach (Player player in Server.GetInstance.GetPlayers.ToList())
+			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
 					BaseScript.TriggerClientEvent(player, "lprp:ShowNotification", "~g~" + ServerEntrance.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));
@@ -200,20 +200,20 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (reason == "Timed out after 10 seconds.")
 				{
-					Log.Printa(LogType.Info, GetPlayerName(player.Handle) + " e' crashato.");
+					Server.Printa(LogType.Info, GetPlayerName(player.Handle) + " e' crashato.");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " e' crashato.");
 					BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ è crashato.");
 				}
 				else if (reason == "Disconnected." || reason == "Exited.")
 				{
-					Log.Printa(LogType.Info, player.Name + " si e' disconnesso.");
+					Server.Printa(LogType.Info, player.Name + " si e' disconnesso.");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " si e' disconnesso.");
 					BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ si e' disconnesso.");
 				}
 			}
 			else
 			{
-				Log.Printa(LogType.Info, player.Name + " e' uscito.");
+				Server.Printa(LogType.Info, player.Name + " e' uscito.");
 				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " e' uscito.");
 				BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ e' uscito.");
 			}
@@ -229,7 +229,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
 					Funzioni.SalvaPersonaggio(player);
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
+					Server.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord + ", tramite telefono");
 				}
 			}
@@ -347,7 +347,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void GetDBPlayers(NetworkCallbackDelegate CB)
 		{
-			dynamic result = await Server.GetInstance.Query($"SELECT * FROM `users`");
+			dynamic result = await Server.Instance.Query($"SELECT * FROM `users`");
 			CB.Invoke(JsonConvert.SerializeObject(result));
 		}
 
@@ -428,7 +428,7 @@ namespace NuovaGM.Server.gmPrincipale
 			DateTime TempoBan = new DateTime(tempodiban);
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Banner = Funzioni.GetPlayerFromId(banner);
-			await Server.GetInstance.Execute("INSERT INTO bans (`discord`, `license`, `Name`, `DataFine`, `Banner`, `Motivazione`) VALUES (@disc, @lice, @nome, @datafine, @banner, @motivation)", new
+			await Server.Instance.Execute("INSERT INTO bans (`discord`, `license`, `Name`, `DataFine`, `Banner`, `Motivazione`) VALUES (@disc, @lice, @nome, @datafine, @banner, @motivation)", new
 			{
 				disc = License.GetLicense(Target, Identifier.Discord),
 				lice = License.GetLicense(Target, Identifier.License),
@@ -437,7 +437,7 @@ namespace NuovaGM.Server.gmPrincipale
 				banner = Banner.Name,
 				motivation = motivazione
 			});
-			Log.Printa(LogType.Warning, $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
+			Server.Printa(LogType.Warning, $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 			Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {Banner.Name}"); // modificare con introduzione in stile anticheat
 		}
@@ -446,7 +446,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Kicker = Funzioni.GetPlayerFromId(kicker);
-			Log.Printa(LogType.Warning, $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
+			Server.Printa(LogType.Warning, $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}

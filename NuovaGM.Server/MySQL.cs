@@ -23,7 +23,7 @@ namespace NuovaGM.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Printa(LogType.Fatal, ex.ToString());
 				return null;
 			}
 		}
@@ -41,7 +41,7 @@ namespace NuovaGM.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Printa(LogType.Fatal, ex.ToString());
 			}
 		}
 	}

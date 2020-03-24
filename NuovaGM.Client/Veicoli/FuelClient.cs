@@ -698,7 +698,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine("Errore in fuelClient = " + e);
+				Client.Printa(LogType.Error, "Errore in fuelClient = " + e);
 			}
 		}
 

@@ -20,11 +20,11 @@ namespace NuovaGM.Server.Meteo_New
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-			Server.GetInstance.RegisterEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-			Server.GetInstance.RegisterEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
-			Server.GetInstance.RegisterEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
-			Server.GetInstance.RegisterTickHandler(Conteggio);
+			Server.Instance.RegisterEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+			Server.Instance.RegisterEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
+			Server.Instance.RegisterEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
+			Server.Instance.RegisterEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
+			Server.Instance.RegisterTickHandler(Conteggio);
 			currentWeather = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
 			weatherTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 			rainTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;

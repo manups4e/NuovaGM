@@ -12,10 +12,10 @@ namespace NuovaGM.Server.Veicoli
 	{
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
-			Server.GetInstance.RegisterEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
-			Server.GetInstance.RegisterEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
-			Server.GetInstance.RegisterEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
+			Server.Instance.RegisterEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
+			Server.Instance.RegisterEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
+			Server.Instance.RegisterEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
+			Server.Instance.RegisterEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
 		}
 
 		public static void RespondDecor([FromSource]Player p)
@@ -28,7 +28,7 @@ namespace NuovaGM.Server.Veicoli
 			User player = ServerEntrance.PlayerList[p.Handle];
 			int sidx = stationindex;
 			float fuelCost;
-			dynamic result = await Server.GetInstance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+			dynamic result = await Server.Instance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
 			int money = player.Money;
 			int bank = player.Bank;
 			fuelCost = result[0].fuelprice;
@@ -36,7 +36,7 @@ namespace NuovaGM.Server.Veicoli
 			if (money >= price)
 			{
 				player.Money -= price;
-				Log.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
+				Server.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
 				BaseScript.TriggerEvent("lprp:businesses:addmoneytostation", sidx, price);
@@ -47,7 +47,7 @@ namespace NuovaGM.Server.Veicoli
 				if (bank >= price)
 				{
 					player.Bank -= price;
-					Log.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
+					Server.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 					BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 					BaseScript.TriggerClientEvent(p, "lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
 					BaseScript.TriggerEvent("lprp:businesses:addmoneytostation", sidx, price);
@@ -68,7 +68,7 @@ namespace NuovaGM.Server.Veicoli
 			if (user.Money >= amount)
 			{
 				user.Money -= amount;
-				Log.Printa(LogType.Info, "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
+				Server.Printa(LogType.Info, "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, JsonConvert.SerializeObject(t));
 			}
@@ -84,7 +84,7 @@ namespace NuovaGM.Server.Veicoli
 			if (user.Money >= cost)
 			{
 				user.Money -= cost;
-				Log.Printa(LogType.Info, $"Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
+				Server.Printa(LogType.Info, $"Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"--Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:buyfuelfortanker", true, fuel.ToString());
 			}

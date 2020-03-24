@@ -13,8 +13,8 @@ namespace NuovaGM.Server
 		public static Configurazione Conf = null;
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
-			Server.GetInstance.RegisterEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
+			Server.Instance.RegisterEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
+			Server.Instance.RegisterEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
 			BaseScript.TriggerEvent("lprp:chiamaConfigServer");
 		}
 

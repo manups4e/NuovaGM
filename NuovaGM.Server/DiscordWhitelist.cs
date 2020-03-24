@@ -19,7 +19,7 @@ namespace NuovaGM.Server
 			while (ConfigServer.Conf.Main.DiscordToken == null) await BaseScript.Delay(0);
 			GuildId = ConfigServer.Conf.Main.GuildId;
 			DiscordToken += ConfigServer.Conf.Main.DiscordToken;
-			Server.GetInstance.RegisterTickHandler(connessioneDiscord);
+			Server.Instance.RegisterTickHandler(connessioneDiscord);
 		}
 
 		public async static Task connessioneDiscord()
@@ -27,17 +27,17 @@ namespace NuovaGM.Server
 			RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);
 			if (connessione.status != System.Net.HttpStatusCode.OK)
 			{
-				Log.Printa(LogType.Warning, "Errore nel contattare i server Discord, controlla la configurazione e assicurati che sia tutto corretto. Errore: " + connessione.status);
+				Server.Printa(LogType.Warning, "Errore nel contattare i server Discord, controlla la configurazione e assicurati che sia tutto corretto. Errore: " + connessione.status);
 				ConnessoADiscord = false;
 			}
 			while (connessione.status != System.Net.HttpStatusCode.OK)
 			{
-				Log.Printa(LogType.Warning, "Nuovo tentativo di riconnessione ai server Discord in corso (ogni 5 secondi)");
+				Server.Printa(LogType.Warning, "Nuovo tentativo di riconnessione ai server Discord in corso (ogni 5 secondi)");
 				await BaseScript.Delay(5000);
 				connessione = await DiscordConnection("guilds/" + GuildId);
 			}
 			dynamic data = JsonConvert.DeserializeObject<DiscordGuildResponse>(connessione.content);
-			Log.Printa(LogType.Info, "Connesso correttamente al Server \"" + data.name + "\" [codice: " + data.id + "]");
+			Server.Printa(LogType.Info, "Connesso correttamente al Server \"" + data.name + "\" [codice: " + data.id + "]");
 			ConnessoADiscord = true;
 			await BaseScript.Delay(300000);
 		}

@@ -17,67 +17,67 @@ namespace NuovaGM.Client
 			{
 				Client.GetInstance.RegisterEventHandler(eventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
-					Debug.WriteLine("event: VehicleDestroyed");
-					Debug.WriteLine($"vehicle: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
-					Debug.WriteLine($"vehicle damage flag: {e}");
+					Client.Printa(LogType.Debug, "event: VehicleDestroyed");
+					Client.Printa(LogType.Debug,$"vehicle: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
 				{
-					Debug.WriteLine("event: PedKilledByVehicle");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"vehicle: {b}");
+					Client.Printa(LogType.Debug,"event: PedKilledByVehicle");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"vehicle: {b}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Debug.WriteLine("event: PedKilledByPlayer");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"player: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,"event: PedKilledByPlayer");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"player: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Debug.WriteLine("event: PedKilledByPed");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,"event: PedKilledByPed");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Debug.WriteLine("event: PedDied");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,"event: PedDied");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Debug.WriteLine("event: EntityKilled");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,"event: EntityKilled");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
-					Debug.WriteLine("event: VehicleDamaged");
-					Debug.WriteLine($"vehicle: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
-					Debug.WriteLine($"vehicle damage flag: {e}");
+					Client.Printa(LogType.Debug,"event: VehicleDamaged");
+					Client.Printa(LogType.Debug,$"vehicle: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
 				Client.GetInstance.RegisterEventHandler(eventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Debug.WriteLine("event: EntityDamaged");
-					Debug.WriteLine($"victim: {a}");
-					Debug.WriteLine($"attacker: {b}");
-					Debug.WriteLine($"weapon hash: {c}");
-					Debug.WriteLine($"was melee damage?: {d}");
+					Client.Printa(LogType.Debug,"event: EntityDamaged");
+					Client.Printa(LogType.Debug,$"victim: {a}");
+					Client.Printa(LogType.Debug,$"attacker: {b}");
+					Client.Printa(LogType.Debug,$"weapon hash: {c}");
+					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 			}
 		}
@@ -194,7 +194,7 @@ namespace NuovaGM.Client
 				uint weaponHash = (uint)int.Parse(data[4].ToString());
 				bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
 				int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
-				Debug.WriteLine("Dati Json = " + JsonConvert.SerializeObject(data));
+				Client.Printa(LogType.Debug,"Dati Json = " + JsonConvert.SerializeObject(data));
 
 				if (victim != null && attacker != null)
 				{

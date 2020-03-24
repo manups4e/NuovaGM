@@ -135,14 +135,14 @@ namespace NuovaGM.Client.Telefono
 			Phone.currentApp.Initialize(Phone);
 			Client.GetInstance.RegisterTickHandler(Phone.currentApp.Tick);
 
-			Debug.WriteLine($"CurrentApp = {Phone.currentApp.Name}");
+			Client.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
 		}
 
 		public static async Task KillApp()
 		{
 			if (Phone.currentApp != null)
 			{
-				Debug.WriteLine($"Killing App {Phone.currentApp.Name}");
+				Client.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
 				Client.GetInstance.DeregisterTickHandler(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 

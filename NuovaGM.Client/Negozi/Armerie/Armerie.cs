@@ -475,7 +475,7 @@ namespace NuovaGM.Client.Negozi
 							}
 							catch (Exception e)
 							{
-								Debug.WriteLine("Da segnalare allo scripter!!\nMessaggio NegoziClient.cs:607 = " + e.Message);
+								Client.Printa(LogType.Error, "Da segnalare allo scripter!!\nMessaggio NegoziClient.cs:607 = " + e.Message);
 							}
 						};
 					}

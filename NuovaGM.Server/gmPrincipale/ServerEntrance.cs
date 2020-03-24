@@ -16,16 +16,16 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
-			Server.GetInstance.RegisterTickHandler(Orario);
-			Server.GetInstance.RegisterTickHandler(PlayTime);
+			Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
+			Server.Instance.RegisterTickHandler(Orario);
+			Server.Instance.RegisterTickHandler(PlayTime);
 			Avvio();
 		}
 
 		public static async void setupUser([FromSource] Player player)
 		{
 			string handle = player.Handle;
-			dynamic result = await Server.GetInstance.Query($"SELECT * FROM `users` WHERE `discord` = @disc", new
+			dynamic result = await Server.Instance.Query($"SELECT * FROM `users` WHERE `discord` = @disc", new
 			{
 				disc = License.GetLicense(player, Identifier.Discord)
 			});
@@ -40,7 +40,7 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 				else
 				{
-					await Server.GetInstance.Execute($"INSERT INTO users (`discord`, `license`, `Name`, `group`, `playTime`, `last_connection`, `char_current`, `char_data`) VALUES (@disc, @lice, @name, @group, @time, @last, @current, @data)", new
+					await Server.Instance.Execute($"INSERT INTO users (`discord`, `license`, `Name`, `group`, `playTime`, `last_connection`, `char_current`, `char_data`) VALUES (@disc, @lice, @name, @group, @time, @last, @current, @data)", new
 					{
 						disc = License.GetLicense(player, Identifier.Discord),
 						lice = License.GetLicense(player, Identifier.License),
@@ -51,7 +51,7 @@ namespace NuovaGM.Server.gmPrincipale
 						current = 0,
 						data = "{}"
 					});
-					dynamic created = await Server.GetInstance.Query($"SELECT * FROM `users` WHERE `discord` = @discord", new
+					dynamic created = await Server.Instance.Query($"SELECT * FROM `users` WHERE `discord` = @discord", new
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
@@ -65,7 +65,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await Server.GetInstance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = License.GetLicense(player, Identifier.Discord) });
+			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = License.GetLicense(player, Identifier.Discord) });
 		}
 
 		public static long starttick = GetGameTimer();
@@ -82,7 +82,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public static async void Avvio()
 		{
 			var now = DateTime.Now;
-			Log.Printa(LogType.Info, "IL SERVER E' AVVIATO!");
+			Server.Printa(LogType.Info, "IL SERVER E' AVVIATO!");
 			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- IL SERVER E' AVVIATO!");
 			ExecuteCommand($"sets locale it_IT");
 		}

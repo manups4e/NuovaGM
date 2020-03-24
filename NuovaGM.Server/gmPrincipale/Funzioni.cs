@@ -11,12 +11,12 @@ namespace NuovaGM.Server.gmPrincipale
 	{
 		public static void Init()
 		{
-			Server.GetInstance.RegisterTickHandler(Salvataggio);
+			Server.Instance.RegisterTickHandler(Salvataggio);
 		}
 
 		public static Player GetPlayerFromId(int id)
 		{
-			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Server.Instance.GetPlayers.ToList())
 			{
 				if (p.Handle == "" + id)
 					return p;
@@ -25,7 +25,7 @@ namespace NuovaGM.Server.gmPrincipale
 		}
 		public static Player GetPlayerFromId(string id)
 		{
-			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Server.Instance.GetPlayers.ToList())
 			{
 				if (p.Handle == id)
 					return p;
@@ -36,7 +36,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public static async void SalvaPersonaggio(Player player)
 		{
 			var ped = GetUserFromPlayerId(player.Handle);
-			await Server.GetInstance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
+			await Server.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
 			{
 				name = player.Name,
 				gr = ped.group,
@@ -53,7 +53,7 @@ namespace NuovaGM.Server.gmPrincipale
 			if (ServerEntrance.PlayerList.Count > 0)
 			{
 				await BaseScript.Delay(ConfigServer.Conf.Main.SalvataggioTutti * 60000);
-				foreach (Player player in Server.GetInstance.GetPlayers.ToList())
+				foreach (Player player in Server.Instance.GetPlayers.ToList())
 				{
 					string name = player.Name;
 					if (ServerEntrance.PlayerList.ContainsKey(player.Handle))
@@ -63,7 +63,7 @@ namespace NuovaGM.Server.gmPrincipale
 						{
 							BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
 							SalvaPersonaggio(player);
-							Log.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord);
+							Server.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord);
 							BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord);
 							await Task.FromResult(0);
 						}

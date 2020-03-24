@@ -11,17 +11,17 @@ namespace NuovaGM.Server.Veicoli
 	{
 		public static async void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:syncState", new Action<Player, string, int>(SyncRuotaPan));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:RuotaFerma", new Action<bool>(FermaRuota));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<Player, int, int>(RuotaScende));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<Player, int, int>(RuotaSale));
-			Server.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<Player, int>(AggiornaGradient));
-			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<Player, int>(MontagneScende));
-			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<Player, int, int, int>(MontagneSale));
-			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
-			Server.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
-			Server.GetInstance.RegisterEventHandler("omni:cablecar:host:sync", new Action<Player, int, string>(SyncFunivia));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:syncState", new Action<Player, string, int>(SyncRuotaPan));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:RuotaFerma", new Action<bool>(FermaRuota));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<Player, int, int>(RuotaScende));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<Player, int, int>(RuotaSale));
+			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<Player, int>(AggiornaGradient));
+			Server.Instance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<Player, int>(MontagneScende));
+			Server.Instance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<Player, int, int, int>(MontagneSale));
+			Server.Instance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
+			Server.Instance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
+			Server.Instance.RegisterEventHandler("omni:cablecar:host:sync", new Action<Player, int, string>(SyncFunivia));
 
 		}
 

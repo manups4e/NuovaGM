@@ -7,7 +7,7 @@ namespace NuovaGM.Server.manager
 	{
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:getDecor", new Action<Player>(getDecorandSendBack));
+			Server.Instance.RegisterEventHandler("lprp:getDecor", new Action<Player>(getDecorandSendBack));
 		}
 		public static void getDecorandSendBack([FromSource] Player p)
 		{

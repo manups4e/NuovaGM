@@ -81,14 +81,13 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static void teleportCoords(float x, float y, float z)
 		{
 			Vector3 pos = new Vector3(x, y, z);
-			Debug.WriteLine("Chiamato = " + pos);
 			RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 			Game.PlayerPed.Position = pos;
 		}
 
 		public static void onPlayerDeath(dynamic data)
 		{
-			Debug.WriteLine(JsonConvert.SerializeObject(data));
+			Client.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			BaseScript.TriggerEvent("lprp:iniziaConteggio");

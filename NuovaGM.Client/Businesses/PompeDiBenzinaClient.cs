@@ -148,8 +148,8 @@ namespace NuovaGM.Client.Businesses
 			int deltype = Convert.ToInt32(data.deltype);
 			string deliverylist = data.deliverylist;
 
-			Debug.WriteLine(name);
-			Debug.WriteLine(thks);
+			Client.Printa(LogType.Debug, name);
+			Client.Printa(LogType.Debug, thks);
 
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);

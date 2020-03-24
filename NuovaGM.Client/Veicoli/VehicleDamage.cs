@@ -168,7 +168,6 @@ namespace NuovaGM.Client.Veicoli
 
 				int numWheels = GetVehicleNumberOfWheels(vehicle.Handle);
 				int affectedTire;
-				Debug.WriteLine("" + numWheels);
 				if (numWheels == 2)
 				{
 					affectedTire = (Funzioni.GetRandomInt(1, 2) - 1) * 4; // wheel 0 or 4;
@@ -196,7 +195,6 @@ namespace NuovaGM.Client.Veicoli
 					HUD.ShowNotification("Hai bucato!\nCerca un meccanico!");
 				}
 				tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
-				Debug.WriteLine("" + affectedTire);
 			}
 		}
 
@@ -426,7 +424,6 @@ namespace NuovaGM.Client.Veicoli
 					if (Game.PlayerPed.LastVehicle != null)
 					{
 						lastVehicle = Game.PlayerPed.LastVehicle;
-						Debug.WriteLine(lastVehicle.LocalizedName);
 						if (deformationMultiplier != -1)
 						{
 							SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fDeformationDamageMult", fDeformationDamageMult);

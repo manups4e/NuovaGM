@@ -103,7 +103,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 					member.PedHeadshot = mugshot.Item1;
 					member.TextureDict = mugshot.Item2;
 					bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(member.TextureDict);
-					if (!IsTextureDictLoaded) Debug.WriteLine("Errore a caricare la texture del biker");
+					if (!IsTextureDictLoaded) Client.Printa(LogType.Error, "Errore a caricare la texture del biker");
 				}
 				public void Clear(Member member)
 				{
@@ -504,7 +504,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 				if (ClubHouse.Emblem.RenderId == -1) 
 					ClubHouse.Emblem.RenderId = RenderTargets.CreateNamedRenderTargetForModel(ClubHouse.Emblem.Target, Funzioni.HashUint(ClubHouse.Emblem.Prop));
 				bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(texturesDict);
-				if (!IsTextureDictLoaded) Debug.WriteLine("Impossibile caricare texture riga 506 bikerGang.cs");
+				if (!IsTextureDictLoaded) Client.Printa(LogType.Error, "Impossibile caricare texture riga 506 bikerGang.cs");
 				ClubHouse.Emblem.Stage = 1;
 			}
 			else if (ClubHouse.Emblem.Stage == 1)

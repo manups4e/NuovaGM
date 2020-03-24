@@ -62,7 +62,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
+			Server.Instance.RegisterEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
 		}
 
 		public static async void chatMessage(int id, string name, string message)
@@ -98,13 +98,13 @@ namespace NuovaGM.Server.gmPrincipale
 				string msg = "";
 				for (int i = 0; i < command.Length; i++)
 					msg += " " + command[i];
-				Log.Printa(LogType.Info, "Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
+				Server.Printa(LogType.Info, "Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
 				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
 			}
 			else
 			{
 				BaseScript.TriggerClientEvent(sender, "lprp:ShowNotification", "Non hai i permessi per usare questo comando!");
-				Log.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
+				Server.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
 				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + sender.Name + " ha provato a usare il comando " + cmd + ".");
 			}
 		}

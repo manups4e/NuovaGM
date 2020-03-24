@@ -11,9 +11,9 @@ namespace NuovaGM.Server.banking
 	{
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:banking:sendMoney", new Action<Player, string, int>(SendMoney));
-			Server.GetInstance.RegisterEventHandler("lprp:banking:atmwithdraw", new Action<Player, int>(Ritira));
-			Server.GetInstance.RegisterEventHandler("lprp:banking:atmdeposit", new Action<Player, int>(Deposita));
+			Server.Instance.RegisterEventHandler("lprp:banking:sendMoney", new Action<Player, string, int>(SendMoney));
+			Server.Instance.RegisterEventHandler("lprp:banking:atmwithdraw", new Action<Player, int>(Ritira));
+			Server.Instance.RegisterEventHandler("lprp:banking:atmdeposit", new Action<Player, int>(Deposita));
 		}
 
 		public static void SendMoney([FromSource]Player player, string name, int amount)
@@ -21,7 +21,7 @@ namespace NuovaGM.Server.banking
 			User user = ServerEntrance.PlayerList[player.Handle];
 			if (user.Bank >= amount)
 			{
-				foreach (Player p in Server.GetInstance.GetPlayers.ToList())
+				foreach (Player p in Server.Instance.GetPlayers.ToList())
 				{
 					if (ServerEntrance.PlayerList[p.Handle].FullName.ToLower() == name.ToLower())
 					{
@@ -54,7 +54,7 @@ namespace NuovaGM.Server.banking
 				if (bal >= amount)
 				{
 					user.Money += amount;
-					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
+					Server.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					user.Bank -= amount;
 					BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", true, newamt.ToString());
@@ -80,7 +80,7 @@ namespace NuovaGM.Server.banking
 				if (amount <= money)
 				{
 					user.Money -= amount;
-					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
+					Server.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					user.Bank += amount;
 					BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", true, newamt.ToString());

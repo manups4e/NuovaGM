@@ -11,7 +11,7 @@ namespace NuovaGM.Server.Veicoli
 		public static Dictionary<string, string> BagagliaiGenerici = new Dictionary<string, string>();
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:bagagliaio:getTrunksContents", new Action<Player, string>(GestisciBagagliaio));
+			Server.Instance.RegisterEventHandler("lprp:bagagliaio:getTrunksContents", new Action<Player, string>(GestisciBagagliaio));
 		}
 
 		private static async void GestisciBagagliaio([FromSource] Player player, string plate)

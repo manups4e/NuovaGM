@@ -69,7 +69,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToColor exception: {ex.Data}");
+				Client.Printa(LogType.Error, $"ToColor exception: {ex.Data}");
 			}
 			return Color.FromArgb(255, 255, 255, 255);
 		}
@@ -82,7 +82,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToArray exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -95,7 +95,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToArray exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -108,7 +108,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToArray exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -121,7 +121,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToVector2 exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToVector2 exception: {ex.Data}");
 			}
 			return Vector2.Zero;
 		}
@@ -134,7 +134,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToVector3 exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
 			}
 			return Vector3.Zero;
 		}
@@ -147,7 +147,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"ToVector4 exception: {ex.Data}");
+				Client.Printa(LogType.Debug, $"ToVector4 exception: {ex.Data}");
 			}
 			return Vector4.Zero;
 		}

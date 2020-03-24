@@ -18,23 +18,23 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
-			Server.GetInstance.RegisterEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
-			Server.GetInstance.RegisterEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
-			Server.GetInstance.RegisterEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
-			Server.GetInstance.RegisterEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
-			Server.GetInstance.RegisterEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
-			Server.GetInstance.RegisterEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
-			Server.GetInstance.RegisterEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
-			Server.GetInstance.RegisterEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
+			Server.Instance.RegisterEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
+			Server.Instance.RegisterEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
+			Server.Instance.RegisterEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
+			Server.Instance.RegisterEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
+			Server.Instance.RegisterEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
+			Server.Instance.RegisterEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
+			Server.Instance.RegisterEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
+			Server.Instance.RegisterEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
+			Server.Instance.RegisterEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
 
-			//Server.GetInstance.RegisterTickHandler(AggiornamentoClient);
+			//Server.Instance.RegisterTickHandler(AggiornamentoClient);
 
 		}
 
 		public static void PlaccaServer([FromSource] Player p, int target)
 		{
-			Player targetPlayer = Server.GetInstance.GetPlayers[target];
+			Player targetPlayer = Server.Instance.GetPlayers[target];
 			BaseScript.TriggerClientEvent(targetPlayer, "lprp:police:placcato", p.Handle);
 			BaseScript.TriggerClientEvent(p, "lprp:police:placca");
 		}
@@ -106,7 +106,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			if (firstTick)
 			{
 				firstTick = false;
-				dynamic result = await Server.GetInstance.Query($"SELECT * FROM veicolipersonali");
+				dynamic result = await Server.Instance.Query($"SELECT * FROM veicolipersonali");
 				for (int i = 0; i < result.Count; i++)
 					Personali.Add(new VeicoloPersonale(result[i].IsVehicleStored, result[i].CharOwner, result[i].identifier, result[i].vehiclename, result[i].plate, result[i].NameOwner, result[i].NAssicurazione, JsonConvert.DeserializeObject<VehProp>(result[i].mods)));
 			}

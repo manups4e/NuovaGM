@@ -17,21 +17,21 @@ namespace NuovaGM.Server.Businesses
 
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:caricaStazioniGasServer", new Action(SendStationsUpdate));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:checkcanmanage", new Action<Player, int>(CheckCanManage));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:getstationcash", new Action<Player, int>(GetStationCash));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:changestation", new Action<Player, string, string, int, int, int, string>(ChangeStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:sellstation", new Action<Player, string, int>(SellStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:depositfuel", new Action<Player, int, int>(DepositFuel));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:checkfuelforstation", new Action<Player, int>(CheckFuelStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:removefuelfromstation", new Action<Player, int, int>(RemoveFuelStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:purchasestation", new Action<Player, int>(PurchaseStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:addmoneytostation", new Action<Player, int, int>(AddMoneyToStation));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:saddfuel", new Action<Player, int, int>(SAddFuel));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:saddmoney", new Action<Player, int, int>(SAddMoney));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:sresetmanage", new Action<Player, int>(SResetManage));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:addstationfunds", new Action<Player, int, int>(AddStationFunds));
-			Server.GetInstance.RegisterEventHandler("lprp:businesses:remstationfunds", new Action<Player, int, int>(RemStationFunds));
+			Server.Instance.RegisterEventHandler("lprp:caricaStazioniGasServer", new Action(SendStationsUpdate));
+			Server.Instance.RegisterEventHandler("lprp:businesses:checkcanmanage", new Action<Player, int>(CheckCanManage));
+			Server.Instance.RegisterEventHandler("lprp:businesses:getstationcash", new Action<Player, int>(GetStationCash));
+			Server.Instance.RegisterEventHandler("lprp:businesses:changestation", new Action<Player, string, string, int, int, int, string>(ChangeStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:sellstation", new Action<Player, string, int>(SellStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:depositfuel", new Action<Player, int, int>(DepositFuel));
+			Server.Instance.RegisterEventHandler("lprp:businesses:checkfuelforstation", new Action<Player, int>(CheckFuelStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:removefuelfromstation", new Action<Player, int, int>(RemoveFuelStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:purchasestation", new Action<Player, int>(PurchaseStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:addmoneytostation", new Action<Player, int, int>(AddMoneyToStation));
+			Server.Instance.RegisterEventHandler("lprp:businesses:saddfuel", new Action<Player, int, int>(SAddFuel));
+			Server.Instance.RegisterEventHandler("lprp:businesses:saddmoney", new Action<Player, int, int>(SAddMoney));
+			Server.Instance.RegisterEventHandler("lprp:businesses:sresetmanage", new Action<Player, int>(SResetManage));
+			Server.Instance.RegisterEventHandler("lprp:businesses:addstationfunds", new Action<Player, int, int>(AddStationFunds));
+			Server.Instance.RegisterEventHandler("lprp:businesses:remstationfunds", new Action<Player, int, int>(RemStationFunds));
 		}
 
 		public static async void SendStationsUpdate()
@@ -39,19 +39,19 @@ namespace NuovaGM.Server.Businesses
 			List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
 			List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
 
-			dynamic result = await Server.GetInstance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
+			dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
 			if (result.Count > 0)
 				for (int i = 0; i < result.Count; i++)
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
-				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
+				Server.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
 			List<dynamic> lista = new List<dynamic>() { stations, playerstations };
 			BaseScript.TriggerClientEvent("lprp:businesses:setstations", JsonConvert.SerializeObject(lista));
 		}
 
 		public static async void checkRent(User p)
 		{
-			dynamic result = await Server.GetInstance.Query($"SELECT lastpaidrent, ownerchar, stationindex FROM businesses WHERE ownerchar = @charname", new { charname = p.FullName });
+			dynamic result = await Server.Instance.Query($"SELECT lastpaidrent, ownerchar, stationindex FROM businesses WHERE ownerchar = @charname", new { charname = p.FullName });
 			if (result.Count > 0)
 			{
 				for (int i = 0; i < result.Count; i++)
@@ -61,19 +61,19 @@ namespace NuovaGM.Server.Businesses
 					DateTime timenow = DateTime.Now;
 					if (rentlimit < timenow)
 					{
-						await Server.GetInstance.Execute($"UPDATE `businesses` SET lastlogin = @now WHERE ownerchar = @charname AND stationindex = @index",
+						await Server.Instance.Execute($"UPDATE `businesses` SET lastlogin = @now WHERE ownerchar = @charname AND stationindex = @index",
 							new { now = timenow, charname = p.FullName, index = result[i].stationindex });
 						if (p.Bank < rentprice)
 						{
-							await Server.GetInstance.Execute($"UPDATE businesses SET identifier = '', ownerchar = '', stationname = 'Stazione di Rifornimento', thanksmessage = 'Grazie per il tuo lavoro!', cashwaiting = 0, fuelprice = 2, lastmanaged = 0, delivertype = 1, deliverallow = '', lastlogin = 0, lastpaidrent = 0 WHERE stationindex = @index", new { index = result[i].stationindex });
-							BaseScript.TriggerClientEvent(Server.GetInstance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "La tua stazione di rifornimento è stata ripresa per mancato pagamento.");
+							await Server.Instance.Execute($"UPDATE businesses SET identifier = '', ownerchar = '', stationname = 'Stazione di Rifornimento', thanksmessage = 'Grazie per il tuo lavoro!', cashwaiting = 0, fuelprice = 2, lastmanaged = 0, delivertype = 1, deliverallow = '', lastlogin = 0, lastpaidrent = 0 WHERE stationindex = @index", new { index = result[i].stationindex });
+							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "La tua stazione di rifornimento è stata ripresa per mancato pagamento.");
 						}
 						else
 						{
 							p.Bank -= rentprice;
-							await Server.GetInstance.Execute($"UPDATE businesses SET lastpaidrent = @now  WHERE stationindex = @idx",
+							await Server.Instance.Execute($"UPDATE businesses SET lastpaidrent = @now  WHERE stationindex = @idx",
 								new { now = timenow, idx = result[i].stationindex });
-							BaseScript.TriggerClientEvent(Server.GetInstance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "{0} è stato pagato automaticamente per l'affitto della stazione.", rentprice);
+							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "{0} è stato pagato automaticamente per l'affitto della stazione.", rentprice);
 						}
 					}
 				}
@@ -82,7 +82,7 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void CheckCanManage([FromSource] Player p, int sidx)
 		{
-			dynamic result = await Server.GetInstance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = License.GetLicense(p, Identifier.Discord) });
+			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = License.GetLicense(p, Identifier.Discord) });
 			if (result != null)
 			{
 				DateTime lastmanaged = Convert.ToDateTime(result[0].lastmanaged);
@@ -96,7 +96,7 @@ namespace NuovaGM.Server.Businesses
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
+				Server.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
 				BaseScript.TriggerClientEvent(p, "lprp:businesses:checkcanmanage", false);
 			}
 		}
@@ -104,14 +104,14 @@ namespace NuovaGM.Server.Businesses
 		public static async void GetStationCash([FromSource] Player p, int sidx)
 		{
 			User user = ServerEntrance.PlayerList[p.Handle];
-			dynamic result = await Server.GetInstance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = License.GetLicense(p, Identifier.Discord) });
+			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = License.GetLicense(p, Identifier.Discord) });
 			if (result.Count > 0)
 			{
 				int payout = (int)Math.Ceiling(result[0].cashwaiting);
 				if (payout > 0)
 				{
 					user.Bank += payout;
-					await Server.GetInstance.Execute($"UPDATE `businesses` SET `cashwaiting` = {0} WHERE `stationindex` = @idx AND `identifier` = @id", new
+					await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = {0} WHERE `stationindex` = @idx AND `identifier` = @id", new
 					{
 						idx = sidx,
 						id = License.GetLicense(p, Identifier.Discord)
@@ -122,7 +122,7 @@ namespace NuovaGM.Server.Businesses
 					p.TriggerEvent("lprp:ShowNotification", "Non ci sono fondi disponibili per questa stazione.");
 			}
 			else
-				Log.Printa(LogType.Error, "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
+				Server.Printa(LogType.Error, "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
 		}
 
 		public static async void ChangeStation([FromSource]Player p, string stationname, string thanksmessage, int fuelCost, int Manageid, int Deltype, string Deliverylist)
@@ -140,7 +140,7 @@ namespace NuovaGM.Server.Businesses
 
 			if (name != null && fuelcost > 0 && manageid != 0)
 			{
-				await Server.GetInstance.Execute($"UPDATE `businesses` SET `stationname` = @stName, `fuelprice` = @price, `thanksmessage` = @thx, `lastmanaged` = @last, `delivertype` = @deliver, `deliverallow` = @allow WHERE `stationindex` = @idx AND `identifier` = @id", new
+				await Server.Instance.Execute($"UPDATE `businesses` SET `stationname` = @stName, `fuelprice` = @price, `thanksmessage` = @thx, `lastmanaged` = @last, `delivertype` = @deliver, `deliverallow` = @allow WHERE `stationindex` = @idx AND `identifier` = @id", new
 				{
 					stName = name,
 					price = fuelcost,
@@ -162,11 +162,11 @@ namespace NuovaGM.Server.Businesses
 			int manageid = (int)Manageid;
 			if (name != null)
 			{
-				foreach (Player a in Server.GetInstance.GetPlayers.ToList())
+				foreach (Player a in Server.Instance.GetPlayers.ToList())
 				{
 					if (ServerEntrance.PlayerList[a.Handle].FullName == name)
 					{
-						await Server.GetInstance.Execute($"UPDATE `businesses` SET `identifier` = @id, ownerchar = @owner WHERE stationindex = @idx", new
+						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier` = @id, ownerchar = @owner WHERE stationindex = @idx", new
 						{
 							id = ServerEntrance.PlayerList[a.Handle].identifiers.discord,
 							owner = ServerEntrance.PlayerList[a.Handle].FullName,
@@ -192,7 +192,7 @@ namespace NuovaGM.Server.Businesses
 			{
 				List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
 
-				dynamic result = await Server.GetInstance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
 				if (result[0].identifier != "" && result[0].identifier != null && result[0].ownerchar != "" && result[0].ownerchar != null)
 				{
 					int stationfuel = result[0].fuel;
@@ -241,7 +241,7 @@ namespace NuovaGM.Server.Businesses
 							if (allowdelivery)
 							{
 								int newcash = stationcash - payout;
-								await Server.GetInstance.Execute($"UPDATE `businesses` SET `fuel` = @fuel, `cashwaiting` = @cash WHERE `stationindex` = @idx", new
+								await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fuel, `cashwaiting` = @cash WHERE `stationindex` = @idx", new
 								{
 									fuel = stationfuel,
 									cash = newcash,
@@ -274,7 +274,7 @@ namespace NuovaGM.Server.Businesses
 							overflow = tankerfuel - (stationCapacity - stationfuel);
 							stationfuel = stationCapacity;
 						}
-						await Server.GetInstance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new
+						await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new
 						{
 							fuel = stationfuel,
 							idx = index
@@ -283,7 +283,7 @@ namespace NuovaGM.Server.Businesses
 						if (pay > 0)
 						{
 							user.Bank += pay;
-							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
+							Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} è stato pagato {2}$ per una consegna di carburante (stazione non posseduta).", user.FullName, GetPlayerName(p.Handle), pay);
 						}
 						BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuelnotowned", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), pay.ToString(), overflow.ToString());
@@ -293,24 +293,24 @@ namespace NuovaGM.Server.Businesses
 				}
 			}
 			else
-				Log.Printa(LogType.Error, "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
+				Server.Printa(LogType.Error, "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
 		}
 
 		public static async void CheckFuelStation([FromSource] Player p, int index)
 		{
 			if (index > 0)
 			{
-				dynamic result = await Server.GetInstance.Query($"SELECT `fuel`, `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				dynamic result = await Server.Instance.Query($"SELECT `fuel`, `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:checkfuelforstation", result[0].fuel, result[0].fuelprice);
 			}
 		}
 
 		public static async void RemoveFuelStation([FromSource]Player p, int stationindex, int addedfuel)
 		{
-			dynamic result = await Server.GetInstance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = stationindex });
+			dynamic result = await Server.Instance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = stationindex });
 			int fuel = result[0].fuel;
 			fuel -= addedfuel;
-			await Server.GetInstance.Execute($"UPDATE `businesses` SET `fuel` = @fu WHERE `stationindex` = @idx", new { fu = fuel, idx = stationindex });
+			await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fu WHERE `stationindex` = @idx", new { fu = fuel, idx = stationindex });
 		}
 
 		public static async void PurchaseStation([FromSource] Player p, int sidx)
@@ -321,7 +321,7 @@ namespace NuovaGM.Server.Businesses
 				List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
 				GasStation station = stations[sidx];
 				int bankmoney = user.Bank;
-				dynamic result = await Server.GetInstance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
 				if ((result[0].identifier != "" && result[0].ownerchar != "") && (result[0].identifier != null && result[0].ownerchar != null))
 					BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", false, "Questa stazione è già posseduta.");
 				else
@@ -330,7 +330,7 @@ namespace NuovaGM.Server.Businesses
 					DateTime now = DateTime.Now;
 					if (bankmoney >= sellprice)
 					{
-						await Server.GetInstance.Execute($"UPDATE `businesses` SET `identifier`= @id, `ownerchar`= @owner, `Name`= @name, `stationname`= @stname, `lastpaidrent` = @last WHERE `stationindex`= {sidx}", new
+						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier`= @id, `ownerchar`= @owner, `Name`= @name, `stationname`= @stname, `lastpaidrent` = @last WHERE `stationindex`= {sidx}", new
 						{
 							id = user.identifiers.discord,
 							owner = user.FullName,
@@ -340,7 +340,7 @@ namespace NuovaGM.Server.Businesses
 							idx = sidx
 						});
 						user.Bank -= sellprice;
-						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
+						Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
 						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha pagato {2} per una Stazione di Rifornimento.", user.FullName, GetPlayerName(p.Handle), sellprice);
 						SendStationsUpdate();
 						BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", true, "", sidx, sellprice);
@@ -358,10 +358,10 @@ namespace NuovaGM.Server.Businesses
 			int oldamount = 0;
 			int newamount = 0;
 
-			dynamic result = await Server.GetInstance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
 			oldamount = result[0].cashwaiting;
 			newamount = oldamount + amount;
-			await Server.GetInstance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE stationindex = @idx", new { cash = newamount, idx = sidx });
+			await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE stationindex = @idx", new { cash = newamount, idx = sidx });
 		}
 
 
@@ -372,10 +372,10 @@ namespace NuovaGM.Server.Businesses
 			int amount = Amount;
 			if (index > 0 && Amount > -1)
 			{
-				dynamic result = await Server.GetInstance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				dynamic result = await Server.Instance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
 				int oldm = result[0].cashwaiting;
 				int newm = oldm + amount;
-				await Server.GetInstance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx ", new { cash = newm, idx = index });
+				await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx ", new { cash = newm, idx = index });
 				BaseScript.TriggerClientEvent(p, "lprp:ShowNotification", "Aggiunti soldi alla stazione. Nuovo saldo: {0}", newm.ToString());
 			}
 		}
@@ -386,10 +386,10 @@ namespace NuovaGM.Server.Businesses
 			int amount = Amount;
 			if (index > 0 && Amount > -1)
 			{
-				dynamic result = await Server.GetInstance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				dynamic result = await Server.Instance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
 				int oldf = result[0].fuel;
 				int newf = oldf + amount;
-				await Server.GetInstance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new
+				await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new
 				{
 					fuel = newf,
 					idx = index
@@ -404,7 +404,7 @@ namespace NuovaGM.Server.Businesses
 			int index = closest;
 			if (index > 0)
 			{
-				await Server.GetInstance.Execute($"UPDATE `businesses` SET `lastmanaged` = @last WHERE `stationindex` = @idx", new
+				await Server.Instance.Execute($"UPDATE `businesses` SET `lastmanaged` = @last WHERE `stationindex` = @idx", new
 				{
 					last = DateTime.MinValue.ToString(),
 					idx = index
@@ -419,7 +419,7 @@ namespace NuovaGM.Server.Businesses
 			int money = user.Money;
 			if (money >= amount)
 			{
-				dynamic result = await Server.GetInstance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
+				dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
 				if (result.Count > 0)
 				{
 					if (result[0].ownerchar.ToLower() == user.FullName.ToLower())
@@ -430,9 +430,9 @@ namespace NuovaGM.Server.Businesses
 						else
 						{
 							user.Money -= amount;
-							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
+							Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha depositato {2}$ nella sua stazione di rifornimento.", user.FullName, GetPlayerName(p.Handle), amount.ToString());
-							await Server.GetInstance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx", new
+							await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx", new
 							{
 								cash = smoney,
 								idx = manageid
@@ -449,7 +449,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void RemStationFunds([FromSource] Player p, int manageid, int amount)
 		{
 			User user = ServerEntrance.PlayerList[p.Handle];
-			dynamic result = await Server.GetInstance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
+			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
 			if (result.Count > 0)
 			{
 				if (result[0].ownerchar.ToLower() == user.FullName.ToLower())
@@ -459,9 +459,9 @@ namespace NuovaGM.Server.Businesses
 					{
 						samount = (int)result[0].cashwaiting - amount;
 						user.Money += amount;
-						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
+						Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
 						BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} has ritirato {2}$ dalla sua stazione di rifornimento", user.FullName, GetPlayerName(p.Handle), amount.ToString());
-						await Server.GetInstance.Execute($"UPDATE businesses SET cashwaiting = @cash  WHERE stationindex = @idx", new
+						await Server.Instance.Execute($"UPDATE businesses SET cashwaiting = @cash  WHERE stationindex = @idx", new
 						{
 							cash = samount,
 							idx = manageid

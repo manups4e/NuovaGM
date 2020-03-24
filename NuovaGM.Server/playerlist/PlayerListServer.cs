@@ -13,15 +13,15 @@ namespace FivemPlayerlistServer
 		private static Dictionary<int, dynamic[]> list = new Dictionary<int, dynamic[]>();
 		public static void Init()
 		{
-			Server.GetInstance.RegisterEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
-			Server.GetInstance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
-			Server.GetInstance.RegisterEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+			Server.Instance.RegisterEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
+			Server.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
+			Server.Instance.RegisterEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
 		}
 
 		private static async void ReturnMaxPlayers([FromSource] Player source)
 		{
 			source.TriggerEvent("lprp:fs:setMaxPlayers", int.Parse(GetConvar("sv_maxClients", "30").ToString()));
-			foreach (Player p in Server.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Server.Instance.GetPlayers.ToList())
 			{
 				if (list.ContainsKey(int.Parse(p.Handle)))
 				{

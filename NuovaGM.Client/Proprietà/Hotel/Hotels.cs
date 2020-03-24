@@ -21,7 +21,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 		{
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
-				Debug.WriteLine("Hash = " + GetHashKey(hash[0]+""));
+				Client.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0]+""));
 			}), false);
 			foreach (var hotel in ConfigClient.Conf.Proprieta.hotels)
 			{

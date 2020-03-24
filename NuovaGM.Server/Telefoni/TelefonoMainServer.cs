@@ -15,15 +15,15 @@ namespace NuovaGM.Server.Telefoni
 
 		public static void Init()
 		{
-			//Server.GetInstance.RegisterEventHandler("lprp:setupUser", new Action<Player>(SetupPhone));
-			Server.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(SetupPhone));
+			//Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(SetupPhone));
+			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(SetupPhone));
 		}
 
 		private static async void SetupPhone([FromSource] Player player)
 		{
 			try
 			{
-				dynamic result = await Server.GetInstance.Query("SELECT * FROM `telefoni` WHERE `discord` = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
+				dynamic result = await Server.Instance.Query("SELECT * FROM `telefoni` WHERE `discord` = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 				string valore = JsonConvert.SerializeObject(result);
 				if (valore != "[]" && valore != "{}" && valore != null)
 				{
@@ -33,13 +33,13 @@ namespace NuovaGM.Server.Telefoni
 				}
 				else
 				{
-					await Server.GetInstance.Execute("INSERT INTO telefoni (`discord`, `playerName`, `phone_data`) VALUES (@disc, @name, @data)", new
+					await Server.Instance.Execute("INSERT INTO telefoni (`discord`, `playerName`, `phone_data`) VALUES (@disc, @name, @data)", new
 					{
 						disc = License.GetLicense(player, Identifier.Discord),
 						name = player.Name,
 						data = "{}"
 					});
-					dynamic Newresult = await Server.GetInstance.Query("SELECT * FROM `telefoni` WHERE `discord` = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
+					dynamic Newresult = await Server.Instance.Query("SELECT * FROM `telefoni` WHERE `discord` = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 					Phones[player.Handle] = new Phone(player, Newresult[0]);
 					string datiphone = JsonConvert.SerializeObject(Phones[player.Handle]);
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
