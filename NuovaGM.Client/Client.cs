@@ -64,10 +64,10 @@ namespace NuovaGM.Client
 					break;
 				case LogType.Fatal:
 					err = "-- [FATALE] --";
-					colore = "^8";
+					colore = "^9";
 					break;
 			}
-			Debug.WriteLine($"^9{incipit} {colore}{err} {text}.^7");
+			Debug.WriteLine($"^4{incipit} {colore}{err} {text}.^7");
 		}
 
 
