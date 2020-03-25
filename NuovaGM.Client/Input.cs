@@ -10,7 +10,7 @@ namespace NuovaGM.Client
 {
     /// <summary>
     /// Pagina di riferimento: https://wiki.fivem.net/wiki/Controls
-    /// Oppure /dev keycodetester in gioro e oremere un tasto
+    /// Oppure /dev keycodetester in gioro e premere un tasto
     /// Occhio.. i tasti premono piu comandi per volta
     /// </summary>
     public static class Input

@@ -55,6 +55,7 @@
     <Compile Include="ClasseDiTest.cs" />
     <Compile Include="ControlModifier.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Interactions\BarbaNaturale.cs" />
     <Compile Include="Interactions\DivaniEPosizioniSedute.cs" />
     <Compile Include="Interactions\Docce.cs" />
     <Compile Include="Interactions\Letti.cs" />

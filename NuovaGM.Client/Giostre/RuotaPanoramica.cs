@@ -133,6 +133,7 @@ namespace NuovaGM.Client.Giostre
 
 				if (Ruota.Rotazione > 360f / 16 * Ruota.Gradient)
 				{
+
 					Ruota.Gradient++;
 					if (Ruota.Gradient > 16)
 						Ruota.Gradient = 1;
@@ -146,10 +147,11 @@ namespace NuovaGM.Client.Giostre
 					if (Ruota.State == "FACCIO_SALIRE")
 					{
 						CabinaAttuale = Cabine[Ruota.Gradient];
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient-1].Index);
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Index);
 					}
 					if (Ruota.State == "FACCIO_SCENDERE")
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient-1].Index);
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Index);
+
 				}
 
 				Vector3 pitch = new Vector3(-Ruota.Rotazione - (360f / 16f),0,0);
