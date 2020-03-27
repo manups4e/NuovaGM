@@ -61,7 +61,7 @@ namespace NuovaGM.Client
 
 		public static async Task MenuMessaggi()
 		{
-			if (Input.IsControlJustPressed(Control.DropWeapon, true, ControlModifier.Shift))
+			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
 				Client.Printa(LogType.Debug, "Ciaooooooooo");
 				Client.Printa(LogType.Error, "Ciaooooooooo");

@@ -5,12 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+// ReSharper disable All
 
 namespace NuovaGM.Client
 {
+    [Flags]
+	public enum PadCheck
+	{
+		Any = 0,
+        Keyboard = 1,
+        Controller = 2,
+	}
     /// <summary>
     /// Pagina di riferimento: https://wiki.fivem.net/wiki/Controls
-    /// Oppure /dev keycodetester in gioro e premere un tasto
+    /// Oppure /dev keycodetester in gioco e premere un tasto
     /// Occhio.. i tasti premono piu comandi per volta
     /// </summary>
     public static class Input
@@ -60,65 +68,66 @@ namespace NuovaGM.Client
             }
         }
 
-        public static bool IsControlJustPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsControlJustPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsControlJustPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+	        return Game.IsControlJustPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsControlPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsControlPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsControlPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsControlPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsControlJustReleased(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsControlJustReleased(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsControlJustReleased(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsControlJustReleased(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsDisabledControlJustPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsDisabledControlJustPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsDisabledControlJustPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsDisabledControlJustPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsDisabledControlJustReleased(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsDisabledControlJustReleased(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsDisabledControlJustReleased(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsDisabledControlJustReleased(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsDisabledControlPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsDisabledControlPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsDisabledControlPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsDisabledControlPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsEnabledControlJustPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsEnabledControlJustPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsEnabledControlJustPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsEnabledControlJustPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsEnabledControlJustReleased(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsEnabledControlJustReleased(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsEnabledControlJustPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsEnabledControlJustPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
-        public static bool IsEnabledControlPressed(Control control, bool keyboardOnly = true, ControlModifier modifier = ControlModifier.None)
+        public static bool IsEnabledControlPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None)
         {
-            return Game.IsEnabledControlPressed(0, control) && ((!keyboardOnly && WasLastInputFromController()) || (keyboardOnly && !WasLastInputFromController())) && IsControlModifierPressed(modifier);
+            return Game.IsEnabledControlPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !WasLastInputFromController() : keyboardOnly == PadCheck.Controller ? WasLastInputFromController() : !WasLastInputFromController() || WasLastInputFromController()) && IsControlModifierPressed(modifier);
         }
 
         /// <summary>
         /// Aspetta finchè un tasto non è stato rilasciato
         /// </summary>
         /// <param name="control">Il <see cref="Control"/> che si vuole aspettare</param>
+        /// <param name="keyboardOnly">Solo tastiera, solo GamePad o entrambi?</param>
         /// <param name="modifier">Il <see cref="ControlModifier"/> aggiuntivo</param>
         /// <param name="timeout">Quanto aspettare prima che il controllo cominci a verificare in millisecondi</param>
         /// <returns>Ritorna se il player ha tenuto premuto più del tempo specificato</returns>
-        public static async Task<bool> WaitForKeyRelease(Control control, ControlModifier modifier = ControlModifier.None, int timeout = 1000)
+        public static async Task<bool> WaitForKeyRelease(Control control, PadCheck keyboardOnly = PadCheck.Any,  ControlModifier modifier = ControlModifier.None, int timeout = 1000)
         {
             var currentTicks = Game.GameTime + 1;
 
             await BaseScript.Delay(0);
 
-            while (IsControlPressed(control, !WasLastInputFromController(), modifier) && Game.GameTime - currentTicks < timeout)
+            while (IsControlPressed(control, keyboardOnly, modifier) && Game.GameTime - currentTicks < timeout)
                 await BaseScript.Delay(0);
 
             return Game.GameTime - currentTicks >= timeout;

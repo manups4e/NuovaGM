@@ -1,8 +1,8 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+// ReSharper disable All
 
 namespace NuovaGM.Client
 {
@@ -30,7 +30,7 @@ namespace NuovaGM.Client
 		/// <summary>
 		/// registra un evento client (TriggerEvent)
 		/// </summary>
-		/// <param name="name">Nome evento</param>
+		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
 		public void RegisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
 
@@ -74,7 +74,7 @@ namespace NuovaGM.Client
 		/// <summary>
 		/// Rimuove un evento client (TriggerEvent)
 		/// </summary>
-		/// <param name="name">Nome evento</param>
+		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
 		public void DeregisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
 
@@ -99,13 +99,13 @@ namespace NuovaGM.Client
 		/// <summary>
 		/// Registra una funzione OnTick
 		/// </summary>
-		/// <param name="action"></param>
+		/// <param name="onTick"></param>
 		public void RegisterTickHandler(Func<Task> onTick) => Tick += onTick;
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
-		/// <param name="action"></param>
+		/// <param name="onTick"></param>
 		public void DeregisterTickHandler(Func<Task> onTick) => Tick -= onTick;
 
 

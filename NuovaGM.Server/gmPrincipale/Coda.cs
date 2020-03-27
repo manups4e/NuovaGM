@@ -4,7 +4,6 @@ using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -17,9 +16,10 @@ namespace NuovaGM.Server.gmPrincipale
 		private static int WaitingTime = 10;
 		public static int onlinePlayers = 0;
 		private static Dictionary<string, bool> inConnection = new Dictionary<string, bool>();
-		private static bool puoentrare = false;
+		private static bool puoentrare;
+		private static bool isVip;
 
-		public static async void Init()
+		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("playerConnecting", new Action<Player, string, dynamic, dynamic>(PlayerConnect));
 			Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
@@ -30,14 +30,13 @@ namespace NuovaGM.Server.gmPrincipale
 			notWhitelisted = ConfigServer.Conf.Main.notWhitelisted;
 			EnableAntiSpam = ConfigServer.Conf.Main.EnableAntiSpam;
 			PlayersToStartRocade = ConfigServer.Conf.Main.PlayersToStartRocade;
-			string nm = player.Name;
 			string st = License.GetLicense(player, Identifier.Discord);
 			Dictionary<string, string> idents = new Dictionary<string, string>()
 			{
 				["steam"] = player.Identifiers["steam"],
 				["license"] = player.Identifiers["license"],
 				["discord"] = player.Identifiers["discord"],
-				["fivem"] = player.Identifiers["fivem"],
+				["fivem"] = player.Identifiers["fivem"]
 			};
 			DateTime time = DateTime.Now;
 			try
@@ -50,10 +49,9 @@ namespace NuovaGM.Server.gmPrincipale
 				string ControlloDiscord = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 				deferrals.presentCard(ControlloDiscord);
 				await BaseScript.Delay(2000);
+				string nm = player.Name;
 				if (License.GetLicense(player, Identifier.Ip) != "ip:")
 				{
-					if (License.GetLicense(player, Identifier.Discord) != "discord:")
-					{
 						string ControlloLicenza = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0 Controllo credenziali per il Player " + player.Name + "...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
 						deferrals.presentCard(ControlloLicenza);
 						await BaseScript.Delay(2000);
@@ -126,20 +124,20 @@ namespace NuovaGM.Server.gmPrincipale
 									{
 
 										await BaseScript.Delay(1000);
-										puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], ConfigServer.Conf.Main.RuoloWhitelistato);
+										dynamic WhiteResult = await Server.Instance.Query("SELECT * FROM whitelist WHERE License = @license", new {license = License.GetLicense(player, Identifier.License) });
+										if (WhiteResult != null)
+										{
+											if (WhiteResult[0].isVip)
+												isVip = true;
+											puoentrare = true;
+										}
+
 										await BaseScript.Delay(1000);
 
-										#region PER LA WHITELIST VIA DATABASE DECOMMENTARE QUI DENTRO
-										// PER LA WHITELIST VIA DATABASE!
+										#region PER LA WHITELIST VIA DISCORD DECOMMENTARE QUI DENTRO
+										// PER LA WHITELIST VIA DISCORD QUANDO CI SARA DI NUOVO!
 										/*
-										dynamic WhiteResult = await Server.Instance.Query("SELECT * FROM whitelist")
-										for (int i = 0; i < WhiteResult.Count; i++)
-										{
-											if (DB.GetLicense(player,Identifier.Discord) == WhiteResult[i].identifier)
-											{
-												puoentrare = true;
-											}
-										}
+											puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], ConfigServer.Conf.Main.RuoloWhitelistato);
 										*/
 										#endregion
 
@@ -149,15 +147,18 @@ namespace NuovaGM.Server.gmPrincipale
 											{
 												if (EnableAntiSpam)
 												{
-													Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
-													BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
-													for (int i = 0; i < WaitingTime; i++)
+													if (!isVip)
 													{
-														deferrals.update(ConfigServer.Conf.Main.NomeServer + " Shield 2.0 sistema di protezione Anti-Spam\nattendi " + (WaitingTime - i).ToString() + " secondi e sarai connesso automaticamente");
-														await BaseScript.Delay(1000);
+														Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
+														BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " + player.Name);
+														for (int i = 0; i < WaitingTime; i++)
+														{
+															deferrals.update(ConfigServer.Conf.Main.NomeServer + " Shield 2.0 sistema di protezione Anti-Spam\nattendi " + (WaitingTime - i).ToString() + " secondi e sarai connesso automaticamente");
+															await BaseScript.Delay(1000);
+														}
+														Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
+														BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
 													}
-													Server.Printa(LogType.Info, "WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
-													BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " + player.Name);
 												}
 												deferrals.done();
 											}
@@ -201,18 +202,12 @@ namespace NuovaGM.Server.gmPrincipale
 						}
 						else
 						{
-							Server.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
-							DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+							Server.Printa(LogType.Warning,
+								$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+							DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso",
+								$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 							return;
 						}
-					}
-					else
-					{
-						DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il Player: {nm} ha tentato di accedere senza discord attivo");
-						deferrals.done("ERRORE: DiscordID non trovato, Connessione rifiutata.\nPer giocare sul nostro server devi avere Discord sempre attivo!\nAssicurati di avere Discord avviato prima di aprire FiveM.");
-						Server.Printa(LogType.Warning, $"Il Player: {nm} ha tentato di accedere senza discord attivo");
-						return;
-					}
 				}
 				else
 				{
@@ -226,7 +221,6 @@ namespace NuovaGM.Server.gmPrincipale
 				Server.Printa(LogType.Fatal, "ERRORE NELL'ACCESSO AL SERVER CONTROLLARE SCRIPT CODA: " + ex);
 				Server.Printa(LogType.Fatal, ex.StackTrace);
 				deferrals.done("ERRORE NELL'ACCESSO AL SERVER, CONTATTA GLI AMMINISTRATORI SUL NOSTRO CANALE DISCORD\nINVITO: https://discord.gg/n4ep9Fq");
-				return;
 			}
 		}
 

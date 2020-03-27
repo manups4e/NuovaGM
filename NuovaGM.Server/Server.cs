@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Console = Colorful.Console;
 using System.Globalization;
+// ReSharper disable All
 
 namespace NuovaGM.Server
 {
