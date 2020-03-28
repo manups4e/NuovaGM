@@ -19,13 +19,12 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
 			Server.Instance.RegisterTickHandler(Orario);
 			Server.Instance.RegisterTickHandler(PlayTime);
-			Avvio();
 		}
 
 		public static async void setupUser([FromSource] Player player)
 		{
 			string handle = player.Handle;
-			dynamic result = await Server.Instance.Query($"SELECT * FROM `users` WHERE `discord` = @disc", new
+			dynamic result = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @disc", new
 			{
 				disc = License.GetLicense(player, Identifier.Discord)
 			});
@@ -40,7 +39,7 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 				else
 				{
-					await Server.Instance.Execute($"INSERT INTO users (`discord`, `license`, `Name`, `group`, `playTime`, `last_connection`, `char_current`, `char_data`) VALUES (@disc, @lice, @name, @group, @time, @last, @current, @data)", new
+					await Server.Instance.Execute($"INSERT INTO users (discord, license, Name, group, playTime, last_connection, char_current, char_data) VALUES (@disc, @lice, @name, @group, @time, @last, @current, @data)", new
 					{
 						disc = License.GetLicense(player, Identifier.Discord),
 						lice = License.GetLicense(player, Identifier.License),
@@ -51,7 +50,7 @@ namespace NuovaGM.Server.gmPrincipale
 						current = 0,
 						data = "{}"
 					});
-					dynamic created = await Server.Instance.Query($"SELECT * FROM `users` WHERE `discord` = @discord", new
+					dynamic created = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @discord", new
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
@@ -77,14 +76,6 @@ namespace NuovaGM.Server.gmPrincipale
 			double uptimeMinute = Math.Floor((double)(tick - starttick) / 60000) % 60;
 			ExecuteCommand($"sets Attivo \"{uptimeDay} giorni {uptimeHour} Ore {uptimeMinute} Minuti \"");
 			await BaseScript.Delay(60000);
-		}
-
-		public static async void Avvio()
-		{
-			var now = DateTime.Now;
-			Server.Printa(LogType.Info, "IL SERVER E' AVVIATO!");
-			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- IL SERVER E' AVVIATO!");
-			ExecuteCommand($"sets locale it_IT");
 		}
 
 		private static async Task PlayTime()

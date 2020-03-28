@@ -128,30 +128,41 @@ namespace NuovaGM.Client.Giostre
 				float speed = Ruota.Velocità * fVar2;
 				Ruota.Rotazione += speed;
 
-				HUD.DrawText(0.4f, 0.725f, "Gradient = " + Ruota.Gradient);
-				HUD.DrawText(0.4f, 0.75f, "Rotazione = " + Ruota.Rotazione);
+				if (Ruota.Rotazione >= 360f)
+					Ruota.Rotazione -= 360f;
 
-				if (Ruota.Rotazione > 360f / 16 * Ruota.Gradient)
+				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
 				{
+					Vector3 vVar1 = Game.PlayerPed.Position;
+					SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", vVar1.Z - 13f);
+				}
 
-					Ruota.Gradient++;
-					if (Ruota.Gradient > 16)
-						Ruota.Gradient = 1;
-
-					if (Ruota.Rotazione >= 360f)
-						Ruota.Rotazione -= 360f;
-
-					if (NetworkIsHost())
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
-
-					if (Ruota.State == "FACCIO_SALIRE")
+/*				if (CabinaAttuale != null)
+					HUD.DrawText(0.2f, 0.925f, "CabinaAttuale = " + CabinaAttuale.Index);
+				HUD.DrawText(0.2f, 0.95f, "Ruota.Gradient = " + Ruota.Gradient);
+*/
+				foreach (var cab in Cabine)
+				{
+//					HUD.DrawText(0.4f, 0.5f + (cab.Index * 0.025f), "Index = " + cab.Index + ", " + (Math.Abs(Ruota.Rotazione - cab.Gradient) <0.1f));
+//					HUD.DrawText(0.2f, 0.5f + (cab.Index * 0.025f), "Index = " + cab.Index + ", " + Math.Abs(Ruota.Rotazione - cab.Gradient));
+					if (Math.Abs(Ruota.Rotazione - cab.Gradient) < 0.05f)
 					{
-						CabinaAttuale = Cabine[Ruota.Gradient];
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Index);
+						Ruota.Gradient = cab.Index + 1 > 15 ? 0 : cab.Index + 1;
+						if (NetworkIsHost() && cab.Index == 15 || cab.Index == 7)
+							BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
+						switch (Ruota.State)
+						{
+							case "FACCIO_SALIRE":
+								CabinaAttuale = Cabine[Ruota.Gradient];
+								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale",
+									Game.PlayerPed.NetworkId, Ruota.Gradient);
+								break;
+							case "FACCIO_SCENDERE":
+								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende",
+									Game.PlayerPed.NetworkId, Ruota.Gradient);
+								break;
+						}
 					}
-					if (Ruota.State == "FACCIO_SCENDERE")
-						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Game.PlayerPed.NetworkId, Cabine[Ruota.Gradient].Index);
-
 				}
 
 				Vector3 pitch = new Vector3(-Ruota.Rotazione - (360f / 16f),0,0);
@@ -263,6 +274,8 @@ namespace NuovaGM.Client.Giostre
 				StopAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 			if (!GiroFinito)
 			{
+				if (GetFollowPedCamViewMode() == 4) SetFollowPedCamViewMode(2);
+				Game.DisableControlThisFrame(0, Control.NextCamera);
 				UpdateTasti();
 				if (Game.IsControlJustPressed(0, Control.FrontendY))
 				{
@@ -752,6 +765,18 @@ namespace NuovaGM.Client.Giostre
 			}
 		}
 
+		private static int GetCabIndex(Prop cab)
+		{
+			foreach (var cabina in Cabine)
+			{
+				if (cab == cabina.Entity)
+					return cabina.Index;
+			}
+
+			return -1;
+		}
+
+
 	}
 
 	internal class RuotaPan
@@ -849,9 +874,11 @@ namespace NuovaGM.Client.Giostre
 		public int Index;
 		public bool PlayerSeduto = false;
 		public int NPlayer = 0;
+		public float Gradient;
 		public CabinaPan(int index) 
 		{
 			Index = index;
+			Gradient = (360f / 16) * Index;
 		}
 	}
 }

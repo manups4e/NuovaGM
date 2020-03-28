@@ -39,7 +39,7 @@ namespace NuovaGM.Client
 			Test.AddItem(g);
 			Test.AddItem(h);
 
-			Test.OnItemSelect += async (menu, item, index) =>
+			Test.OnItemSelect += (menu, item, index) =>
 			{
 				if (item == b)
 					BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
@@ -62,14 +62,7 @@ namespace NuovaGM.Client
 		public static async Task MenuMessaggi()
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
-			{
-				Client.Printa(LogType.Debug, "Ciaooooooooo");
-				Client.Printa(LogType.Error, "Ciaooooooooo");
-				Client.Printa(LogType.Fatal, "Ciaooooooooo");
-				Client.Printa(LogType.Info, "Ciaooooooooo");
-				Client.Printa(LogType.Warning, "Ciaooooooooo");
 				AttivaMenu();
-			}
 		}
 	}
 }

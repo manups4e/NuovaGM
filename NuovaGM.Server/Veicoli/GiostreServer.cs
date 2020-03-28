@@ -22,10 +22,9 @@ namespace NuovaGM.Server.Veicoli
 			Server.Instance.RegisterEventHandler("lprp:montagnerusse:syncState", new Action<Player, string>(SyncMontagne));
 			Server.Instance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 			Server.Instance.RegisterEventHandler("omni:cablecar:host:sync", new Action<Player, int, string>(SyncFunivia));
-
 		}
 
-		private static async void AggiornaGradient([FromSource] Player player, int gradient)
+		private static void AggiornaGradient([FromSource] Player player, int gradient)
 		{
 			BaseScript.TriggerClientEvent("lprp:ruotapanoramica:aggiornaGradient", gradient);
 		}

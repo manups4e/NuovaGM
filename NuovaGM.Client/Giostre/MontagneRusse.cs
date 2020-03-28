@@ -394,10 +394,10 @@ namespace NuovaGM.Client.Giostre
 				iVar1 = func_138((Montagna.Velocità - (2.55f * (iVar0))), ValoreIndiceSconosciuto);
 				vVar2 = func_50((Montagna.Velocità - (2.55f * (iVar0))), iVar1);
 				if (iVar0 == 0)
-					Montagna.Carrelli[0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car"), func_51(1).X, func_51(1).Y, func_51(1).Z, true, false, false));
+					Montagna.Carrelli[0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car"), func_51(1).X, func_51(1).Y, func_51(1).Z, false, false, false));
 				else
 				{
-					Montagna.Carrelli[iVar0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car_02"), vVar2.X, vVar2.Y, vVar2.Z, true, false, false));
+					Montagna.Carrelli[iVar0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car_02"), vVar2.X, vVar2.Y, vVar2.Z, false, false, false));
 					func_134(iVar0, iVar1, (Montagna.Velocità - (2.55f * (iVar0))));
 				}
 				FreezeEntityPosition(Montagna.Carrelli[iVar0].Entity.Handle, true);
