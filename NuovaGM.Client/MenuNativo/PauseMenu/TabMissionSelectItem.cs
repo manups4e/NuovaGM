@@ -96,13 +96,13 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 return;
             }
 
-            if (Game.IsControlJustPressed(0, Control.PhoneSelect))
+            if (Input.IsControlJustPressed(Control.PhoneSelect))
             {
                 Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 OnItemSelect?.Invoke(Heists[Index]);
             }
 
-            if (Game.IsControlJustPressed(0, Control.FrontendUp) || Game.IsControlJustPressed(0, Control.MoveUpOnly))
+            if (Input.IsControlJustPressed(Control.FrontendUp) || Input.IsControlJustPressed(Control.MoveUpOnly))
             {
                 Index = (1000 - (1000 % Heists.Count) + Index - 1) % Heists.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -122,7 +122,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
             }
 
-            else if (Game.IsControlJustPressed(0, Control.FrontendDown) || Game.IsControlJustPressed(0, Control.MoveDownOnly))
+            else if (Input.IsControlJustPressed(Control.FrontendDown) || Input.IsControlJustPressed(Control.MoveDownOnly))
             {
                 Index = (1000 - (1000 % Heists.Count) + Index + 1) % Heists.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");

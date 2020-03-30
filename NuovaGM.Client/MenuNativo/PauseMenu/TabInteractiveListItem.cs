@@ -87,19 +87,19 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (Items.Count == 0) return;
 
 
-            if (Game.IsControlJustPressed(0, Control.FrontendAccept) && Focused && Items[Index] is UIMenuCheckboxItem)
+            if (Input.IsControlJustPressed(Control.FrontendAccept) && Focused && Items[Index] is UIMenuCheckboxItem)
             {
                 Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 ((UIMenuCheckboxItem)Items[Index]).Checked = !((UIMenuCheckboxItem)Items[Index]).Checked;
                 ((UIMenuCheckboxItem)Items[Index]).CheckboxEventTrigger();
             }
-            else if (Game.IsControlJustPressed(0, Control.FrontendAccept) && Focused)
+            else if (Input.IsControlJustPressed(Control.FrontendAccept) && Focused)
             {
                 Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 Items[Index].ItemActivate(null);
             }
 
-            if (Game.IsControlJustPressed(0, Control.FrontendLeft) && Focused && Items[Index] is UIMenuListItem)
+            if (Input.IsControlJustPressed(Control.FrontendLeft) && Focused && Items[Index] is UIMenuListItem)
             {
                 var it = (UIMenuListItem)Items[Index];
                 it.Index--;
@@ -107,7 +107,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 it.ListChangedTrigger(it.Index);
             }
 
-            if (Game.IsControlJustPressed(0, Control.FrontendRight) && Focused && Items[Index] is UIMenuListItem)
+            if (Input.IsControlJustPressed(Control.FrontendRight) && Focused && Items[Index] is UIMenuListItem)
             {
                 var it = (UIMenuListItem)Items[Index];
                 it.Index++;
@@ -115,13 +115,13 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 it.ListChangedTrigger(it.Index);
             }
 
-            if (Game.IsControlJustPressed(0, Control.FrontendUp) || Game.IsControlJustPressed(0, Control.MoveUpOnly) || Game.IsControlJustPressed(0, Control.CursorScrollUp))
+            if (Input.IsControlJustPressed(Control.FrontendUp) || Input.IsControlJustPressed(Control.MoveUpOnly) || Input.IsControlJustPressed(Control.CursorScrollUp))
             {
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 MoveUp();
             }
 
-            else if (Game.IsControlJustPressed(0, Control.FrontendDown) || Game.IsControlJustPressed(0, Control.MoveDownOnly) || Game.IsControlJustPressed(0, Control.CursorScrollDown))
+            else if (Input.IsControlJustPressed(Control.FrontendDown) || Input.IsControlJustPressed(Control.MoveDownOnly) || Input.IsControlJustPressed(Control.CursorScrollDown))
             {
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 MoveDown();
@@ -243,7 +243,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                     itemText.Draw();
                 }
 
-                if (Focused && hovering && Game.IsControlJustPressed(0, Control.CursorAccept))
+                if (Focused && hovering && Input.IsControlJustPressed(Control.CursorAccept))
                 {
                     bool open = Index == c;
                     Index = (1000 - (1000 % Items.Count) + c) % Items.Count;

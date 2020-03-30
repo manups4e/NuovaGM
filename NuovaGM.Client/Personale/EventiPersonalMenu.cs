@@ -385,7 +385,7 @@ namespace NuovaGM.Client.Personale
 			{
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Game.IsControlPressed(2, Control.FrontendRight) && !Game.IsControlPressed(2, Control.FrontendLb) && Game.CurrentInputMode == InputMode.GamePad || (Game.IsControlPressed(1, Control.SelectCharacterFranklin) && Game.CurrentInputMode == InputMode.MouseAndKeyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning))
+					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
 						if (Eventi.Player.CurrentChar.needs.fame > 30f)
@@ -429,7 +429,7 @@ namespace NuovaGM.Client.Personale
 			{
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Game.IsControlPressed(2, Control.FrontendLeft) && !Game.IsControlPressed(2, Control.FrontendLb) && Game.CurrentInputMode == InputMode.GamePad || (Game.IsControlPressed(1, Control.SelectCharacterMichael) && Game.CurrentInputMode == InputMode.MouseAndKeyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning))
+					if (Input.IsControlPressed(Control.FrontendLeft, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterMichael, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendRight);
 						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Eventi.Player.CurrentChar.finance.cash + "$");

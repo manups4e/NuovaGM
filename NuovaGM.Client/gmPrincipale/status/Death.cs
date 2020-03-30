@@ -161,7 +161,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				if (!EarlyRespawnFine)
 				{
 					text = text + "Tieni premuto [~b~E~s~] per respawnare";
-					if (Game.IsControlPressed(0, Control.Context) && timeHeld > 60)
+					if (await Input.WaitForKeyRelease(Control.Context))
 					{
 						Client.GetInstance.DeregisterTickHandler(conteggioSangue);
 						Client.GetInstance.DeregisterTickHandler(conteggioMorte);
@@ -176,7 +176,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				else if (EarlyRespawnFine && canPayFine)
 				{
 					text = text + "Tieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
-					if (Game.IsControlPressed(0, Control.Context) && timeHeld > 60)
+					if (await Input.WaitForKeyRelease(Control.Context))
 					{
 						BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
 						Client.GetInstance.DeregisterTickHandler(conteggioSangue);
@@ -221,19 +221,13 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static async Task Testo()
 		{
-			if (Game.IsControlPressed(0, Control.Context) && earlyRespawn)
-			{
+			if (Input.IsControlPressed(Control.Context) && earlyRespawn)
 				++timeHeld;
-			}
 			else
-			{
 				timeHeld = 0;
-			}
 
 			if (earlyRespawn && earlySpawnTimer < 1)
-			{
 				Client.GetInstance.DeregisterTickHandler(conteggioSangue);
-			}
 
 			HUD.DrawText(text);
 			await Task.FromResult(0);

@@ -96,7 +96,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static bool ShouldSendVoice()
 		{
-			return NetworkIsPlayerTalking(Game.Player.Handle) || Game.IsControlPressed(0, Control.PushToTalk);
+			return NetworkIsPlayerTalking(Game.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
 		}
 
 		private static bool FirstTick = true;

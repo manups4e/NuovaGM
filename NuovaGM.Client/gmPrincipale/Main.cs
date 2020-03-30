@@ -407,7 +407,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async Task MainTick()
 		{
-			if (Game.PlayerPed.IsJumping && Game.IsControlJustPressed(0, Control.Jump))
+			if (Game.PlayerPed.IsJumping && Input.IsControlJustPressed(Control.Jump))
 				Game.PlayerPed.Ragdoll(1);
 			if (Game.Player.WantedLevel != 0)
 				Game.Player.WantedLevel = 0;
@@ -441,12 +441,12 @@ namespace NuovaGM.Client.gmPrincipale
 				if (weapon.Hash == WeaponHash.FireExtinguisher)
 					weapon.InfiniteAmmo = true;
 			}
-			if ((Game.IsControlJustPressed(0, Control.MpTextChatTeam) || Game.IsDisabledControlJustPressed(0, Control.MpTextChatTeam)) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+			if ((Input.IsControlJustPressed(Control.MpTextChatTeam) || Input.IsDisabledControlJustPressed(Control.MpTextChatTeam)) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 			{
 				if (!IsEntityPlayingAnim(Game.PlayerPed.Handle, "mp_arresting", "idle", 3))
 					startPointing();
 			}
-			else if (Game.IsControlJustReleased(0, Control.MpTextChatTeam) || Game.IsDisabledControlJustReleased(0, Control.MpTextChatTeam))
+			else if (Input.IsControlJustReleased(Control.MpTextChatTeam) || Input.IsDisabledControlJustReleased(Control.MpTextChatTeam))
 				StopPointing();
 			if (ispointing)
 			{

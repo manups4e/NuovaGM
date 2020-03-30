@@ -62,56 +62,44 @@ namespace NuovaGM.Client.Telefono.Apps
 
                 var navigated = true;
 
-                if (Game.IsControlJustPressed(1, Control.PhoneUp))
+                if (Input.IsControlJustPressed(Control.PhoneUp))
                 {
                     SelectedItem -= 3;
                     CellCamMoveFinger(1);
                     if (SelectedItem < 0)
-                    {
                         SelectedItem = 8 + SelectedItem;
-                    }
                 }
-                else if (Game.IsControlJustPressed(1, Control.PhoneDown))
+                else if (Input.IsControlJustPressed(Control.PhoneDown))
                 {
                     SelectedItem += 3;
                     CellCamMoveFinger(2);
                     if (SelectedItem > 8)
-                    {
                         SelectedItem = SelectedItem - 8;
-                    }
                 }
-                else if (Game.IsControlJustPressed(1, Control.PhoneRight))
+                else if (Input.IsControlJustPressed(Control.PhoneRight))
                 {
                     SelectedItem += 1;
                     CellCamMoveFinger(3);
                     if (SelectedItem > 8)
-                    {
                         SelectedItem = 0;
-                    }
                 }
-                else if (Game.IsControlJustPressed(1, Control.PhoneLeft))
+                else if (Input.IsControlJustPressed(Control.PhoneLeft))
                 {
                     SelectedItem -= 1;
                     CellCamMoveFinger(3);
                     if (SelectedItem < 0)
-                    {
                         SelectedItem = 8;
-                    }
                 }
-                else if (Game.IsControlJustPressed(1, Control.PhoneSelect))
+                else if (Input.IsControlJustPressed(Control.PhoneSelect))
                 {
                     CellCamMoveFinger(5);
                     BaseScript.TriggerEvent("lprp:phone_start", AllApps[SelectedItem].Name);
                 }
                 else
-                {
                     navigated = false;
-                }
 
                 if (navigated)
-                {
                     Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
-                }
             }
             catch (Exception e)
             {

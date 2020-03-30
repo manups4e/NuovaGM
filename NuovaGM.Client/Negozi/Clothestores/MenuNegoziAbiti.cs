@@ -2062,14 +2062,14 @@ namespace NuovaGM.Client.Negozi
 		{
 			if (_menuVestiti.Any(o => o.Visible))
 			{
-				if (Game.IsControlPressed(0, Control.FrontendLt))
+				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= .7f;
 					if (fov <= 23f)
 						fov = 23f;
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				}
-				else if (Game.IsControlJustReleased(0, Control.FrontendLt))
+				else if (Input.IsControlJustReleased(Control.FrontendLt))
 				{
 					do
 					{
@@ -2078,7 +2078,7 @@ namespace NuovaGM.Client.Negozi
 						if (fov >= 45f)
 							fov = 45f;
 						NegozioAbitiClient.camm.FieldOfView = fov;
-					} while ((fov != 23f) && (!Game.IsControlPressed(0, Control.FrontendLt)));
+					} while ((fov != 23f) && (!Input.IsControlPressed(Control.FrontendLt)));
 				}
 			}
 		}
@@ -2087,14 +2087,14 @@ namespace NuovaGM.Client.Negozi
 		{
 			if (Orecc.Visible || SubMenusPolso.Any(o => o.Visible))
 			{
-				if (Game.IsControlPressed(0, Control.FrontendLt))
+				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= .7f;
 					if (fov <= 5.0f)
 						fov = 5.0f;
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				}
-				else if (Game.IsControlJustReleased(0, Control.FrontendLt))
+				else if (Input.IsControlJustReleased(Control.FrontendLt))
 				{
 					do
 					{
@@ -2103,19 +2103,19 @@ namespace NuovaGM.Client.Negozi
 						if (fov >= 15f)
 							fov = 15f;
 						NegozioAbitiClient.camm.FieldOfView = fov;
-					} while ((fov != 15f) && (!Game.IsControlPressed(0, Control.FrontendLt)));
+					} while ((fov != 15f) && (!Input.IsControlPressed(Control.FrontendLt)));
 				}
 			}
 			else if (Borse.Visible)
 			{
-				if (Game.IsControlPressed(0, Control.FrontendLt))
+				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= .7f;
 					if (fov <= 23f)
 						fov = 23f;
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				}
-				else if (Game.IsControlJustReleased(0, Control.FrontendLt))
+				else if (Input.IsControlJustReleased(Control.FrontendLt))
 				{
 					do
 					{
@@ -2124,19 +2124,19 @@ namespace NuovaGM.Client.Negozi
 						if (fov >= 45f)
 							fov = 45f;
 						NegozioAbitiClient.camm.FieldOfView = fov;
-					} while ((fov != 23f) && (!Game.IsControlPressed(0, Control.FrontendLt)));
+					} while ((fov != 23f) && (!Input.IsControlPressed(Control.FrontendLt)));
 				}
 			}
 			else if (NegozioAbitiClient.camm.IsActive)
 			{
-				if (Game.IsControlPressed(0, Control.FrontendLt))
+				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= 0.7f;
 					if (fov <= 23.0f)
 						fov = 23.0f;
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				}
-				else if (Game.IsControlJustReleased(0, Control.FrontendLt))
+				else if (Input.IsControlJustReleased(Control.FrontendLt))
 				{
 					do
 					{
@@ -2145,7 +2145,7 @@ namespace NuovaGM.Client.Negozi
 						if (fov >= 45.0f)
 							fov = 45.0f;
 						NegozioAbitiClient.camm.FieldOfView = fov;
-					} while ((fov != 45.0f) && (!Game.IsControlPressed(0, Control.FrontendLt)));
+					} while ((fov != 45.0f) && (!Input.IsControlPressed(Control.FrontendLt)));
 				}
 			}
 			await Task.FromResult(0);

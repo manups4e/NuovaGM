@@ -12,8 +12,6 @@ namespace NuovaGM.Server.gmPrincipale
 	{
 
 		public static Dictionary<string, User> PlayerList = new Dictionary<string, User>();
-		private static Dictionary<string, User> DBList = new Dictionary<string, User>();
-
 		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));

@@ -39,15 +39,15 @@ namespace NuovaGM.Client.Interactions
 					if (!LettoMid.ALetto)
 					{
 						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 							LettoMid.Sdraiati();
 					}
 					else
 					{
 						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoMid.ScendiDalLetto();
-						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+						else if (Input.IsControlJustPressed(Control.FrontendX))
 							HUD.ShowNotification("Cambia personaggio");
 					}
 				}
@@ -56,15 +56,15 @@ namespace NuovaGM.Client.Interactions
 					if (!LettoLow.ALetto)
 					{
 						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 							LettoLow.Sdraiati();
 					}
 					else
 					{
 						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoLow.ScendiDalLetto();
-						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+						else if (Input.IsControlJustPressed(Control.FrontendX))
 							HUD.ShowNotification("Cambia personaggio");
 					}
 				}
@@ -78,7 +78,7 @@ namespace NuovaGM.Client.Interactions
 						coord = LettoHigh.Lista[i].CoordAnim;
 						rot = LettoHigh.Lista[i].RotAnim;
 						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 							LettoHigh.Sdraiati(LettoHigh.Lista[i], true);
 					}
 					else if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[i].Sinistra1) < 2f && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
@@ -88,15 +88,15 @@ namespace NuovaGM.Client.Interactions
 						coord = LettoHigh.Lista[i].CoordAnim;
 						rot = LettoHigh.Lista[i].RotAnim;
 						HUD.ShowHelp(GetLabelText("SA_BED_IN"));
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 							LettoHigh.Sdraiati(LettoHigh.Lista[i], false);
 					}
 					else if (LettoHigh.ALettoDestra || LettoHigh.ALettoSinistra)
 					{
 						HUD.ShowHelp(GetLabelText("SA_BED_OUT") + "Premi ~INPUT_FRONTEND_X~ per cambiare personaggio.");
-						if (Game.IsControlJustPressed(0, Control.ScriptRUp))
+						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoHigh.ScendiDalLetto(new Vector3[2] { coord, rot }, LettoHigh.ALettoDestra ? true : false);
-						else if (Game.IsControlJustPressed(0, Control.FrontendX))
+						else if (Input.IsControlJustPressed(Control.FrontendX))
 							HUD.ShowNotification("Cambia personaggio");
 					}
 				}

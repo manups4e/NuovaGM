@@ -184,7 +184,7 @@ namespace NuovaGM.Client.Giostre
 								PlayStreamFromPed(PlayerPedId());
 								if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3))
 									Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
-								if (Game.IsControlJustPressed(0, Control.FrontendX))
+								if (Input.IsControlJustPressed(Control.FrontendX))
 								{
 									if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 									{
@@ -328,7 +328,7 @@ namespace NuovaGM.Client.Giostre
 				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.3f && Montagna.State == "ATTESA" && tempo > 0)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulle montagne russe");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						float fVar2;
 						if (ingressi.IndexOf(v) % 2 != 0)

@@ -93,7 +93,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (!Visible || TemporarilyHidden) return;
             API.DisableAllControlActions(0);
 
-            if (Game.IsControlJustPressed(0, Control.PhoneLeft) && FocusLevel == 0)
+            if (Input.IsControlJustPressed(Control.PhoneLeft) && FocusLevel == 0)
             {
                 Tabs[Index].Active = false;
                 Tabs[Index].Focused = false;
@@ -106,7 +106,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Game.IsControlJustPressed(0, Control.PhoneRight) && FocusLevel == 0)
+            else if (Input.IsControlJustPressed(Control.PhoneRight) && FocusLevel == 0)
             {
                 Tabs[Index].Active = false;
                 Tabs[Index].Focused = false;
@@ -119,7 +119,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Game.IsControlJustPressed(0, Control.FrontendAccept) && FocusLevel == 0)
+            else if (Input.IsControlJustPressed(Control.FrontendAccept) && FocusLevel == 0)
             {
                 if (Tabs[Index].CanBeFocused)
                 {
@@ -137,7 +137,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             }
 
-            else if (Game.IsControlJustPressed(0, Control.PhoneCancel) && FocusLevel == 1)
+            else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 1)
             {
                 Tabs[Index].Focused = false;
                 FocusLevel = 0;
@@ -145,7 +145,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Game.IsControlJustPressed(0, Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
+            else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
             {
                 Visible = false;
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -156,7 +156,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (!HideTabs)
             {
 
-                if (Game.IsControlJustPressed(0, Control.FrontendLb))
+                if (Input.IsControlJustPressed(Control.FrontendLb))
                 {
                     Tabs[Index].Active = false;
                     Tabs[Index].Focused = false;
@@ -171,7 +171,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                     Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 }
 
-                else if (Game.IsControlJustPressed(0, Control.FrontendRb))
+                else if (Input.IsControlJustPressed(Control.FrontendRb))
                 {
                     Tabs[Index].Active = false;
                     Tabs[Index].Focused = false;
@@ -295,7 +295,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                             new SizeF(tabWidth, 10), Colors.DodgerBlue).Draw();
                     }
 
-                    if (hovering && Game.IsControlJustPressed(0, Control.CursorAccept) && !Tabs[i].Active)
+                    if (hovering && Input.IsControlJustPressed(Control.CursorAccept) && !Tabs[i].Active)
                     {
                         Tabs[Index].Active = false;
                         Tabs[Index].Focused = false;

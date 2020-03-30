@@ -1398,12 +1398,13 @@ namespace NuovaGM.Client.Personale
 		static int aa = 0;
 		public static async Task attiva()
 		{
-			if ((Game.IsControlPressed(0, Control.InteractionMenu) && (Game.CurrentInputMode == InputMode.MouseAndKeyboard) || Game.IsControlPressed(2, Control.InteractionMenu) && Game.CurrentInputMode == InputMode.GamePad))
-				++aa;
+			bool tasto = await Input.WaitForKeyRelease(Control.InteractionMenu);
+			if (tasto)
+/*				++aa;
 			else
 				aa = 0;
-
-			if (aa >= 60 && !aperto)
+*/
+			if (/*aa >= 60 &&*/ !aperto)
 			{
 				if (!MontagneRusse.SonoSeduto && RuotaPanoramica.GiroFinito)
 				{

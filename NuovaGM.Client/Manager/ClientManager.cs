@@ -168,22 +168,20 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task AC()
 		{
-			if (Game.IsControlPressed(0, Control.Sprint) && IsInputDisabled(2))
+			if (Input.IsControlPressed(Control.Sprint, PadCheck.Keyboard))
 			{
 				Game.DisableControlThisFrame(0, Control.DropAmmo);
-				if (Game.IsDisabledControlJustPressed(0, Control.DropAmmo) && !HUD.MenuPool.IsAnyMenuOpen() && IsInputDisabled(2))
+				if (Input.IsDisabledControlJustPressed(Control.DropAmmo, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen())
 					ManagerMenu.AdminMenu(Eventi.Player.group_level);
 			}
 			if (Eventi.Player != null && Eventi.Player.group_level > 1)
 			{
-				if (Game.IsControlJustPressed(0, Control.SaveReplayClip) && IsInputDisabled(2))
-				{
+				if (Input.IsControlJustPressed(Control.SaveReplayClip, PadCheck.Keyboard))
 					TeleportToMarker();
-				}
 			}
 			if (Eventi.Player != null && Eventi.Player.group_level > 3)
 			{
-				if (Game.IsControlJustPressed(0, Control.ReplayStartStopRecordingSecondary) && IsInputDisabled(2))
+				if (Input.IsControlJustPressed(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard))
 				{
 					if (!NoClip)
 					{
@@ -297,31 +295,31 @@ namespace NuovaGM.Client.Manager
 				veh.IsInvincible= true;
 			}
 
-			if (Game.IsDisabledControlJustPressed(0, Control.Sprint) && IsInputDisabled(2) || Game.IsDisabledControlJustPressed(0, Control.FrontendX) && !IsInputDisabled(2))
+			if (Input.IsDisabledControlJustPressed(Control.Sprint, PadCheck.Keyboard) || Input.IsDisabledControlJustPressed(Control.FrontendX, PadCheck.Controller))
 			{
 				travelSpeed++;
 				if (travelSpeed > 6)
 					travelSpeed = 0;
 			}
-			if (Game.IsDisabledControlPressed(0, Control.Cover) && IsInputDisabled(2) || Game.IsDisabledControlPressed(0, Control.FrontendLt) && !IsInputDisabled(2))
+			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLt, PadCheck.Controller))
 				curLocation.Z += forwardPush / 2;
-			if (Game.IsDisabledControlPressed(0, Control.HUDSpecial) && IsInputDisabled(2) || Game.IsDisabledControlPressed(0, Control.FrontendRt) && !IsInputDisabled(2))
+			if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRt, PadCheck.Controller))
 				curLocation.Z -= forwardPush / 2;
-			if (Game.IsDisabledControlPressed(0, Control.MoveUpOnly))
+			if (Input.IsDisabledControlPressed(Control.MoveUpOnly))
 			{
 				curLocation.X += xVect;
 				curLocation.Y += yVect;
 			}
-			if (Game.IsDisabledControlPressed(0, Control.MoveDownOnly))
+			if (Input.IsDisabledControlPressed(Control.MoveDownOnly))
 			{
 				curLocation.X -= xVect;
 				curLocation.Y -= yVect;
 			}
-			if (Game.IsDisabledControlPressed(0, Control.MoveLeftOnly))
+			if (Input.IsDisabledControlPressed(Control.MoveLeftOnly))
 				curHeading += rotationSpeed;
-			if (Game.IsControlPressed(0, Control.MoveRightOnly))
+			if (Input.IsControlPressed(Control.MoveRightOnly))
 				curHeading -= rotationSpeed;
-			if (Game.IsDisabledControlPressed(0, Control.FrontendLb))
+			if (Input.IsDisabledControlPressed(Control.FrontendLb))
 			{
 				Game.DisableControlThisFrame(0, Control.LookLeftRight);
 				Game.DisableControlThisFrame(0, Control.LookUpDown);
@@ -334,13 +332,13 @@ namespace NuovaGM.Client.Manager
 				Game.DisableControlThisFrame(0, Control.LookLeftOnly);
 				Game.DisableControlThisFrame(0, Control.LookRightOnly);
 
-				if (Game.IsDisabledControlPressed(0, Control.LookDownOnly))
+				if (Input.IsDisabledControlPressed(Control.LookDownOnly))
 					curRotation.Y += rotationSpeed;
-				if (Game.IsDisabledControlPressed(0, Control.LookUpOnly))
+				if (Input.IsDisabledControlPressed(Control.LookUpOnly))
 					curRotation.Y -= rotationSpeed;
-				if (Game.IsDisabledControlPressed(0, Control.LookLeftOnly))
+				if (Input.IsDisabledControlPressed(Control.LookLeftOnly))
 					curRotation.Z += rotationSpeed;
-				if (Game.IsDisabledControlPressed(0, Control.LookRightOnly))
+				if (Input.IsDisabledControlPressed(Control.LookRightOnly))
 					curRotation.Z -= rotationSpeed;
 			}
 			SetEntityCoordsNoOffset(target.Handle, curLocation.X, curLocation.Y, curLocation.Z, true, true, true);

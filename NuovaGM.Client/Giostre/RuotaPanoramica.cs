@@ -263,7 +263,7 @@ namespace NuovaGM.Client.Giostre
 				if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1661.95f, -1127.011f, 12.6973f)) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulla prima gondola libera");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						HUD.ShowNotification("Attendi, la prima cabina libera sta arrivando");
 						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:syncState", "FACCIO_SALIRE");
@@ -277,12 +277,12 @@ namespace NuovaGM.Client.Giostre
 				if (GetFollowPedCamViewMode() == 4) SetFollowPedCamViewMode(2);
 				Game.DisableControlThisFrame(0, Control.NextCamera);
 				UpdateTasti();
-				if (Game.IsControlJustPressed(0, Control.FrontendY))
+				if (Input.IsControlJustPressed(Control.FrontendY))
 				{
 					HUD.ShowNotification("La giostra si fermerà appena la tua cabina tocca terra per farti scendere");
 					Ruota.State = "FACCIO_SCENDERE";
 				}
-				if (Game.IsControlJustPressed(0, Control.ScriptSelect))
+				if (Input.IsControlJustPressed(Control.ScriptSelect))
 					CambiaCam();
 			}
 			await Task.FromResult(0);

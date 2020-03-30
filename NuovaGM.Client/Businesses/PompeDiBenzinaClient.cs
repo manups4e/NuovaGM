@@ -204,7 +204,7 @@ namespace NuovaGM.Client.Businesses
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 							if (!interactWait)
 							{
-								if (Game.IsControlJustPressed(0, Control.Context) || Game.IsDisabledControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
 								{
 									interactWait = true;
 									BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
@@ -216,7 +216,7 @@ namespace NuovaGM.Client.Businesses
 							HUD.ShowHelp("Questa stazione è in vendita a ~g~" + stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
 							if (!interactWait)
 							{
-								if (Game.IsControlJustPressed(0, Control.Context) || Game.IsDisabledControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
 								{
 									interactWait = true;
 									BaseScript.TriggerServerEvent("lprp:businesses:purchasestation", i + 1);

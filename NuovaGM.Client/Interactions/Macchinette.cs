@@ -66,7 +66,7 @@ namespace NuovaGM.Client.Interactions
 								HUD.ShowHelp("~r~eCola Deliciously Infectious!~w~~n~~INPUT_DETONATE~ per ~b~metterla via~w~.~n~~INPUT_CONTEXT~ per ~b~berla subito~w~.");
 							else if (VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_02)
 								HUD.ShowHelp("~g~Sprunk The Essence of Life!~w~~n~~INPUT_DETONATE~ per ~b~metterla via~w~.~n~~INPUT_CONTEXT~ per ~b~berla subito~w~.");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);
@@ -94,7 +94,7 @@ namespace NuovaGM.Client.Interactions
 								Can.ApplyForce(new Vector3(6f, 10f, 2f), new Vector3(0), ForceType.MaxForceRot);
 								Can.MarkAsNoLongerNeeded();
 							}
-							else if (Game.IsControlJustPressed(0, Control.Detonate))
+							else if (Input.IsControlJustPressed(Control.Detonate))
 							{
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);

@@ -202,7 +202,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(240.317f, -1004.901f, -99f)) < 3f)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiare piano");
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 						{
 							MenuPiano();
 						}
@@ -212,7 +212,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
-							if (Game.IsControlJustPressed(0, Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning == true)
+							if (Input.IsControlJustPressed(Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning)
 							{
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);

@@ -161,7 +161,7 @@ namespace NuovaGM.Client.Banking
 				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen() && !InterfacciaAperta)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						AttivaBanca();
 //						BankMenu();
@@ -172,7 +172,7 @@ namespace NuovaGM.Client.Banking
 			if (isNearATM && !InterfacciaAperta)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (Input.IsControlJustPressed(Control.Context))
 				{
 					AttivaBanca();
 				}
@@ -184,7 +184,7 @@ namespace NuovaGM.Client.Banking
 							if (World.GetDistance(Game.PlayerPed.Position, b) < 1.375f)
 							{
 								Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il tuo conto bancario");
-								if (Game.IsControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context))
 								{
 									Funzioni.ShowNotification("PlaceHolder funzionante");
 								}
@@ -201,7 +201,7 @@ namespace NuovaGM.Client.Banking
 				if (World.GetDistance(Game.PlayerPed.Position, cleanspotcoords[i]) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per pulire i soldi");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						HUD.ShowNotification("PlaceHolder sporchi funzionante");
 					}

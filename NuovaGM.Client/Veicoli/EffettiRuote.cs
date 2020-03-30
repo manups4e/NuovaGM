@@ -72,7 +72,7 @@ namespace NuovaGM.Client.Veicoli
 						if (heat_rear < 300f)
 							heat_rear += 2f;
 					}
-					if (Game.PlayerPed.CurrentVehicle.Speed > 2f && !(Game.PlayerPed.CurrentVehicle.CurrentGear == 0))
+					if (Game.PlayerPed.CurrentVehicle.Speed > 2f && Game.PlayerPed.CurrentVehicle.CurrentGear != 0)
 					{
 						if (Game.IsControlPressed(27, Control.VehicleBrake))
 						{

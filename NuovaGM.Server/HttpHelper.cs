@@ -65,8 +65,6 @@ namespace NuovaGM.Server
 
 	public class Request : BaseScript
 	{
-		public Request() { }
-
 		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", Dictionary<string, string> headers = null)
 		{
 			headers = (headers == null) ? new Dictionary<string, string>() : headers;

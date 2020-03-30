@@ -476,7 +476,7 @@ namespace NuovaGM.Client.Giostre
 				if (dist < 3.0f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nella funivia");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = true;
 						Game.PlayerPed.AttachTo(treno.Entity, Vector3.Subtract(Game.PlayerPed.Position, treno.Position), Game.PlayerPed.Rotation);
@@ -488,7 +488,7 @@ namespace NuovaGM.Client.Giostre
 				if (!moving)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla funivia");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = false;
 						Game.PlayerPed.Detach();

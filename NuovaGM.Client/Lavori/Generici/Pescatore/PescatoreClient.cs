@@ -144,7 +144,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 							if (World.GetDistance(Game.PlayerPed.Position, punto.ToVector3()) < 2)
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
-								if (Game.IsControlJustPressed(0, Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+								if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									ApriMenuVenditaPesce();
 								}
@@ -170,7 +170,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca.ToVector3()) < 2f && !Game.PlayerPed.IsInVehicle())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
-								if (Game.IsControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context))
 								{
 									MenuBarche();
 								}
@@ -246,7 +246,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				Game.DisableControlThisFrame(0, Control.FrontendY);
 				if(!Pescando)
 					HUD.ShowHelp("Premi ~INPUT_FRONTEND_X~ per iniziare a pescare.~n~Premi ~INPUT_FRONTEND_Y~ per posare la canna da pesca");
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendX))
+				if (Input.IsDisabledControlJustPressed(Control.FrontendX))
 				{
 					float altezza = 0;
 					if(GetWaterHeightNoWaves(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, ref altezza)) 
@@ -261,7 +261,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 					else
 						HUD.ShowNotification("Qui non puoi pescare.. prova ad entrare in acqua!", NotificationColor.Red, true);
 				}
-				if (Game.IsDisabledControlJustPressed(0, Control.FrontendY))
+				if (Input.IsDisabledControlJustPressed(Control.FrontendY))
 				{
 					CannaDaPesca.Delete();
 					Client.GetInstance.DeregisterTickHandler(Pesca);
@@ -311,13 +311,13 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 					if (Game.CurrentInputMode == InputMode.GamePad)
 					{
 						HUD.ShowHelp("Ha abboccato qualcosa!! Gira velocemente ~INPUT_LOOK_UD~ per pescarla!");
-						if (Game.IsDisabledControlJustPressed(1, Control.LookUpOnly) || Game.IsControlJustPressed(1, Control.LookDownOnly))
+						if (Input.IsDisabledControlJustPressed(Control.LookUpOnly) || Input.IsControlJustPressed(Control.LookDownOnly))
 							tocchiEffettuati += 1;
 					}
 					else
 					{
 						HUD.ShowHelp("Ha abboccato qualcosa!! Premi velocemente ~INPUT_ATTACK~ per pescarla!");
-						if (Game.IsDisabledControlJustPressed(0, Control.Attack))
+						if (Input.IsDisabledControlJustPressed(Control.Attack))
 							tocchiEffettuati += 1;
 					}
 					contogenerico += 1;

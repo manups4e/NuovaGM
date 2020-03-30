@@ -75,13 +75,13 @@ namespace NuovaGM.Client.Telefono.Apps
 			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 8, SelectedItem);
 
 			var navigated = true;
-			if (Game.IsControlJustPressed(0, Control.PhoneUp))
+			if (Input.IsControlJustPressed(Control.PhoneUp))
 			{
 				MoveFinger(1);
 				if (SelectedItem > 0)
 					SelectedItem -= 1;
 			}
-			else if (Game.IsControlJustPressed(0, Control.PhoneDown))
+			else if (Input.IsControlJustPressed(Control.PhoneDown))
 			{
 				MoveFinger(2);
 				if (SelectedItem < Phone.getCurrentCharPhone().messaggi.Count - 1)
@@ -89,11 +89,11 @@ namespace NuovaGM.Client.Telefono.Apps
 				else
 					SelectedItem = 0;
 			}
-			else if (Game.IsControlJustPressed(0, Control.FrontendAccept))
+			else if (Input.IsControlJustPressed(Control.FrontendAccept))
 			{
 				MoveFinger(5);
 			}
-			else if (Game.IsControlJustPressed(0, Control.FrontendCancel))
+			else if (Input.IsControlJustPressed(Control.FrontendCancel))
 			{
 				MoveFinger(5);
 				if (MessaggioAperto)

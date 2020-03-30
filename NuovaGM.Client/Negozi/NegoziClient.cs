@@ -112,7 +112,7 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						HUD.ShowNotification("Placeholder negozi");
 					}
@@ -123,7 +123,7 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						HUD.ShowNotification("Placeholder negozi");
 					}
@@ -134,7 +134,7 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						HUD.ShowNotification("Placeholder negozi");
 					}
@@ -145,7 +145,7 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Armerie.ArmeriaMenu();
 					}

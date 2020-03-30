@@ -136,7 +136,7 @@ namespace NuovaGM.Client.Negozi
 				else if (World.GetDistance(pos, CurrentBarber.Position) < 2f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 						if (!IsAnyPedNearPoint(S1.X, S1.Y, S1.Z, 0.35f))
@@ -183,7 +183,7 @@ namespace NuovaGM.Client.Negozi
 			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Hawick.Sedia1.X, ConfigBarbieri.Hawick.Sedia1.Y, ConfigBarbieri.Hawick.Sedia1.Z, 0.35f))
@@ -231,7 +231,7 @@ namespace NuovaGM.Client.Negozi
 			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Osheas.Sedia1.X, ConfigBarbieri.Osheas.Sedia1.Y, ConfigBarbieri.Osheas.Sedia1.Z, 0.35f))
@@ -277,7 +277,7 @@ namespace NuovaGM.Client.Negozi
 			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Combo.Sedia1.X, ConfigBarbieri.Combo.Sedia1.Y, ConfigBarbieri.Combo.Sedia1.Z, 0.35f))

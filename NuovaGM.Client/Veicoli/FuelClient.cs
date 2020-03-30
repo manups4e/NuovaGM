@@ -590,7 +590,7 @@ namespace NuovaGM.Client.Veicoli
 									{
 										int benz = lastStationFuel.stationfuel;
 										HUD.ShowHelp("~w~Tieni Premuto ~INPUT_CONTEXT~ per riempire il ~b~serbatoio~w~.~n~Carburante: " + benz + " litri, Prezzo: $ " + lastStationFuel.stationprice + "/Litro");
-										if (Game.IsControlPressed(0, Control.Context) || Game.IsDisabledControlPressed(0, Control.Context))
+										if (Input.IsControlPressed(Control.Context) || Input.IsDisabledControlPressed(Control.Context))
 										{
 											if (!LastVehicle.IsEngineRunning)
 											{
@@ -612,7 +612,7 @@ namespace NuovaGM.Client.Veicoli
 											else
 												HUD.ShowNotification("Il motore del veicolo deve essere SPENTO", NotificationColor.Red, true);
 										}
-										if (Game.IsControlJustReleased(0, Control.Context) || Game.IsDisabledControlJustReleased(0, Control.Context))
+										if (Input.IsControlJustReleased(Control.Context) || Input.IsDisabledControlJustReleased(Control.Context))
 										{
 											if (justPumped)
 											{
@@ -658,7 +658,7 @@ namespace NuovaGM.Client.Veicoli
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per riempire il serbatoio con la tanica");
 						}
 
-						if (Game.IsControlPressed(0, Control.Context))
+						if (Input.IsControlPressed( Control.Context))
 						{
 							if (animState == 3)
 							{
@@ -686,7 +686,7 @@ namespace NuovaGM.Client.Veicoli
 								}
 							}
 						}
-						if (Game.IsControlJustReleased(0, Control.Context))
+						if (Input.IsControlJustReleased(Control.Context))
 						{
 							StopEntityAnim(Game.PlayerPed.Handle, "fire", "weapon@w_sp_jerrycan", 3);
 							Game.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_outro");
@@ -717,7 +717,7 @@ namespace NuovaGM.Client.Veicoli
 							if (canRegisterForTanker)
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per registrare il prelevamento di una cisterna.");
-								if (Game.IsControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context))
 								{
 									canRegisterForTanker = false;
 									curRegPickup = Funzioni.GetRandomInt(1, tankerSpots.Count);
@@ -758,7 +758,7 @@ namespace NuovaGM.Client.Veicoli
 					if (canPickupTanker)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per prendere la cisterna. Ti costerà " + (info.ppu * info.fuelForTanker) + " per il carburante.");
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 						{
 							canPickupTanker = false;
 							BaseScript.TriggerServerEvent("lprp:fuel:buytanker", JsonConvert.SerializeObject(info));
@@ -785,7 +785,7 @@ namespace NuovaGM.Client.Veicoli
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scaricare il carburante nella stazione.");
 									if (canUnloadFuel)
 									{
-										if (Game.IsControlJustPressed(0, Control.Context))
+										if (Input.IsControlJustPressed(Control.Context))
 										{
 											canUnloadFuel = false;
 											BaseScript.TriggerServerEvent("lprp:businesses:depositfuel", i, tankerfuel);
@@ -824,7 +824,7 @@ namespace NuovaGM.Client.Veicoli
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per riempire la cisterna.~n~Ti costerà " + refuelCost * maxfuel + " per " + maxfuel + " litri di carburante.");
 									if (canBuyFuel)
 									{
-										if (Game.IsControlJustPressed(0, Control.Context))
+										if (Input.IsControlJustPressed(Control.Context))
 										{
 											canBuyFuel = false;
 											BaseScript.TriggerServerEvent("lprp:fuel:buyfuelfortanker", (int)(maxfuel * refuelCost), maxfuel);

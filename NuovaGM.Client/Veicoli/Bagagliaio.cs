@@ -52,7 +52,7 @@ namespace NuovaGM.Client.Veicoli
 					if (!trunkOpen && !Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il bagagliaio");
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 						{
 							trunkOpen = true;
 							BaseScript.TriggerServerEvent("lprp:bagagliaio:getTrunksContents", veh.Mods.LicensePlate);

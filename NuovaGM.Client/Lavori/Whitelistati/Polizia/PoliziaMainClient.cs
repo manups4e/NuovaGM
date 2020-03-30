@@ -77,7 +77,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						if (World.GetDistance(Game.PlayerPed.Position, ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								MenuPolizia.CloakRoomMenu();
 							}
@@ -95,7 +95,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
@@ -110,7 +110,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 1.375f && Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
-									if (Game.IsControlJustPressed(0, Control.Context))
+									if (Input.IsControlJustPressed(Control.Context))
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
@@ -134,7 +134,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
@@ -160,7 +160,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								if (World.GetDistance(ConfigClient.Conf.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 3.375f && Game.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
-									if (Game.IsControlJustPressed(0, Control.Context))
+									if (Input.IsControlJustPressed(Control.Context))
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
@@ -331,7 +331,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		public static async Task MainTickPolizia()
 		{
 			if (Eventi.Player.CurrentChar.job.name == "Polizia")
-				if (Game.IsControlJustPressed(0, Control.SelectCharacterFranklin) && Game.CurrentInputMode == InputMode.MouseAndKeyboard && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen())
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);
 		}

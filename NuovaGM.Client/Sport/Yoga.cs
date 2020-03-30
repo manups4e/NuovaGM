@@ -36,7 +36,7 @@ namespace NuovaGM.Client.Sport
 		private static void Spawnato()
 		{
 			Materasso = new Prop(CreateObject(GetHashKey(MaterassoYoga), Coords.X, Coords.Y, Coords.Z, false, false, false));
-			Client.GetInstance.RegisterTickHandler(Materassino);
+	//		Client.GetInstance.RegisterTickHandler(Materassino);
 		}
 
 		private static async void CaricaTutto()
@@ -56,7 +56,7 @@ namespace NuovaGM.Client.Sport
 			if (World.GetDistance(Game.PlayerPed.Position, Coords) < 2)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per praticare lo Yoga");
-				if (Game.IsControlJustPressed(0, Control.Context))
+				if (Input.IsControlJustPressed(Control.Context))
 				{
 					Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 					YogaButtons = new Scaleform("yoga_buttons");

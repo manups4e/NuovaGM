@@ -94,7 +94,7 @@ namespace NuovaGM.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task DisplayController()
 		{
-			if (Game.IsControlJustPressed(0, Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
 				UpdateMaxPages();
 				if (ScaleSetup)
@@ -110,7 +110,7 @@ namespace NuovaGM.Client.ListaPlayers
 					while (GetGameTimer() - timer < 5000)
 					{
 						await BaseScript.Delay(1);
-						if (Game.IsControlJustPressed(0, Control.MultiplayerInfo))
+						if (Input.IsControlJustPressed(Control.MultiplayerInfo))
 						{
 							nextPage = true;
 							break;

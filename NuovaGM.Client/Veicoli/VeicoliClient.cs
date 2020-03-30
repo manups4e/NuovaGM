@@ -176,7 +176,7 @@ namespace NuovaGM.Client.Veicoli
 					{
 						if (!Game.IsPaused)
 						{
-							if (Game.IsControlJustPressed(0, Control.ReplayBack) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+							if (Input.IsControlJustPressed(Control.ReplayBack, PadCheck.Keyboard))
 							{
 								int cstate = state_indic[veh];
 								if (cstate == ind_state_l)
@@ -195,7 +195,7 @@ namespace NuovaGM.Client.Veicoli
 								count_ind_timer = 0;
 								count_bcast_timer = delay_bcast_timer;
 							}
-							else if (Game.IsControlJustPressed(0, Control.ReplayAdvance) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+							else if (Input.IsControlJustPressed(Control.ReplayAdvance, PadCheck.Keyboard))
 							{
 								int cstate = state_indic[veh];
 								if (cstate == ind_state_r)
@@ -214,7 +214,7 @@ namespace NuovaGM.Client.Veicoli
 								count_ind_timer = 0;
 								count_bcast_timer = delay_bcast_timer;
 							}
-							else if (Game.IsControlJustPressed(0, Control.ReplayFfwd) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+							else if (Input.IsControlJustPressed(Control.ReplayFfwd, PadCheck.Keyboard))
 							{
 								int cstate = state_indic[veh];
 								if (cstate == ind_state_h)
@@ -233,7 +233,7 @@ namespace NuovaGM.Client.Veicoli
 								count_ind_timer = 0;
 								count_bcast_timer = delay_bcast_timer;
 							}
-							else if (Game.IsControlJustPressed(0, Control.ThrowGrenade) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+							else if (Input.IsControlJustPressed(Control.ThrowGrenade, PadCheck.Keyboard))
 							{
 								if (SirenToggle)
 								{
@@ -248,7 +248,7 @@ namespace NuovaGM.Client.Veicoli
 									BaseScript.TriggerServerEvent("lprp:SilentSiren", SirenToggle);
 								}
 							}
-							else if (Game.IsControlPressed(2, Control.FrontendLb) && Game.CurrentInputMode == InputMode.GamePad)
+							else if (Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller))
 							{
 								Game.DisableControlThisFrame(2, Control.VehicleExit);
 								Game.DisableControlThisFrame(0, Control.ReplayScreenshot);
@@ -256,7 +256,7 @@ namespace NuovaGM.Client.Veicoli
 								Game.DisableControlThisFrame(2, Control.VehicleRadioWheel);
 								Game.DisableControlThisFrame(2, Control.VehicleHeadlight);
 								Game.DisableControlThisFrame(2, Control.PhoneUp);
-								if (Game.IsDisabledControlJustPressed(2, Control.VehicleRadioWheel) && Game.CurrentInputMode == InputMode.GamePad)
+								if (Input.IsDisabledControlJustPressed(Control.VehicleRadioWheel, PadCheck.Controller))
 								{
 									int cstate = state_indic[veh];
 									if (cstate == ind_state_r)
@@ -275,7 +275,7 @@ namespace NuovaGM.Client.Veicoli
 									count_ind_timer = 0;
 									count_bcast_timer = delay_bcast_timer;
 								}
-								else if (Game.IsDisabledControlJustPressed(2, Control.VehicleHeadlight) && Game.CurrentInputMode == InputMode.GamePad)
+								else if (Input.IsDisabledControlJustPressed(Control.VehicleHeadlight, PadCheck.Controller))
 								{
 									int cstate = state_indic[veh];
 									if (cstate == ind_state_l)
@@ -294,7 +294,7 @@ namespace NuovaGM.Client.Veicoli
 									count_ind_timer = 0;
 									count_bcast_timer = delay_bcast_timer;
 								}
-								else if (Game.IsDisabledControlJustPressed(2, Control.PhoneUp) && Game.CurrentInputMode == InputMode.GamePad)
+								else if (Input.IsDisabledControlJustPressed(Control.PhoneUp, PadCheck.Controller))
 								{
 									int cstate = state_indic[veh];
 									if (cstate == ind_state_h)
@@ -313,7 +313,7 @@ namespace NuovaGM.Client.Veicoli
 									count_ind_timer = 0;
 									count_bcast_timer = delay_bcast_timer;
 								}
-								else if (Game.IsDisabledControlJustPressed(2, Control.VehicleHorn) && Game.CurrentInputMode == InputMode.GamePad)
+								else if (Input.IsDisabledControlJustPressed(Control.VehicleHorn, PadCheck.Controller))
 								{
 									if (SirenToggle)
 									{
@@ -414,7 +414,7 @@ namespace NuovaGM.Client.Veicoli
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
-				if (Game.IsControlJustPressed(1, Control.DropAmmo) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+				if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard))
 				{
 					if ((GetEntitySpeed(GetVehiclePedIsUsing(PlayerPedId())) < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
 					{
@@ -435,7 +435,7 @@ namespace NuovaGM.Client.Veicoli
 				if (IsControlPressed(2, 205) && (!IsInputDisabled(2)))
 				{
 					Game.DisableControlThisFrame(2, Control.VehicleDuck);
-					if (Game.IsDisabledControlJustPressed(2, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.GamePad)
+					if (Input.IsDisabledControlJustPressed(Control.VehicleDuck, PadCheck.Controller))
 					{
 						if ((GetEntitySpeed(GetVehiclePedIsUsing(PlayerPedId())) < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
 						{
@@ -635,7 +635,7 @@ namespace NuovaGM.Client.Veicoli
 					if (World.GetDistance(Game.PlayerPed.Position, carGarageSpots[i]) < 1.375f)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
-						if (Game.IsControlJustPressed(0, Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							MenuAffittoVeicoli.MenuAffitto(i);
 						}

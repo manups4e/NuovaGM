@@ -64,7 +64,7 @@ namespace NuovaGM.Client.Interactions
 						if (World.GetDistance(pedpos, Divani[i][j]) < 1.5f)
 						{
 							HUD.ShowHelp(GetLabelText("MPTV_WALK"));
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								if (DoesScenarioExistInArea(Divani[i][j].X, Divani[i][j].Y, Divani[i][j].Z, 2f, true))
 								{
@@ -87,7 +87,7 @@ namespace NuovaGM.Client.Interactions
 				if (!stato)
 				{
 					HUD.ShowHelp(GetLabelText("MPTV_SEAT"));
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Client.GetInstance.RegisterTickHandler(Televisioni.ControllaTV);
 						stato = true;

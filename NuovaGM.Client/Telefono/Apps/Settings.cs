@@ -133,7 +133,7 @@ namespace NuovaGM.Client.Telefono.Apps
             Phone.Scaleform.CallFunction("DISPLAY_VIEW", 13, SelectedItem);
 
             var navigated = true;
-			if (Game.IsControlJustPressed(0, Control.PhoneUp))
+			if (Input.IsControlJustPressed(Control.PhoneUp))
 			{
 				MoveFinger(1);
 				if (SelectedItem > 0)
@@ -152,7 +152,7 @@ namespace NuovaGM.Client.Telefono.Apps
 					}
 				}
 			}
-			else if (Game.IsControlJustPressed(0, Control.PhoneDown))
+			else if (Input.IsControlJustPressed(Control.PhoneDown))
 			{
 				MoveFinger(2);
 				if (CurrentSubMenu == null)
@@ -178,7 +178,7 @@ namespace NuovaGM.Client.Telefono.Apps
 					}
 				}
 			}
-			else if (Game.IsControlJustPressed(0, Control.FrontendAccept))
+			else if (Input.IsControlJustPressed(Control.FrontendAccept))
 			{
 				MoveFinger(5);
 				if (CurrentSubMenu == null)
@@ -210,7 +210,7 @@ namespace NuovaGM.Client.Telefono.Apps
 					}
 				}
 			}
-			else if (Game.IsControlJustPressed(0, Control.FrontendCancel))
+			else if (Input.IsControlJustPressed(Control.FrontendCancel))
 			{
 				MoveFinger(5);
 				if (CurrentSubMenu != null)

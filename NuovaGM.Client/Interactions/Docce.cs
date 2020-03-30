@@ -200,7 +200,7 @@ namespace NuovaGM.Client.Interactions
 					int val = -1750863300;
 					DoorSystemSetDoorState((uint)val, 0, false, true);
 					HUD.ShowHelp(GetLabelText("SA_SHWR_IN"));
-					if (Game.IsControlJustPressed(0, Control.Context))
+					if (Input.IsControlJustPressed(Control.Context))
 					{
 						InDoccia = true;
 

@@ -86,7 +86,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 2f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								MenuMedici.MenuSpogliatoio();
 							}
@@ -98,7 +98,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.5f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								// Menu farmacia
 							}
@@ -110,7 +110,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
@@ -131,7 +131,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
@@ -155,7 +155,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							if (World.GetDistance(Game.PlayerPed.Position, vehicle.SpawnerMenu.ToVector3()) < 1.5f)
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
-								if (Game.IsControlJustPressed(0, Control.Context))
+								if (Input.IsControlJustPressed(Control.Context))
 								{
 									Screen.Fading.FadeOut(800);
 									await BaseScript.Delay(1000);
@@ -175,7 +175,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 								if (World.GetDistance(Game.PlayerPed.Position, vehicle.Deleters[i].ToVector3()) < 2f)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
-									if (Game.IsControlJustPressed(0, Control.Context))
+									if (Input.IsControlJustPressed(Control.Context))
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
@@ -201,7 +201,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, heli.SpawnerMenu.ToVector3()) < 1.5f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
@@ -220,7 +220,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 								if (World.GetDistance(Game.PlayerPed.Position, heli.Deleters[i].ToVector3()) < 2f)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
-									if (Game.IsControlJustPressed(0, Control.Context))
+									if (Input.IsControlJustPressed(Control.Context))
 									{
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
@@ -252,7 +252,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
@@ -273,7 +273,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						if (World.GetDistance(Game.PlayerPed.Position, vettore.ToVector3()) < 1.375f)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
-							if (Game.IsControlJustPressed(0, Control.Context))
+							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)

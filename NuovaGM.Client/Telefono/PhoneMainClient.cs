@@ -51,7 +51,7 @@ namespace NuovaGM.Client.Telefono
 			{
 				if (!Phone.Visible)
 				{
-					if (Game.IsControlJustPressed(0, Control.Phone))
+					if (Input.IsControlJustPressed(Control.Phone))
 						Phone.OpenPhone();
 				}
 				else
@@ -98,7 +98,7 @@ namespace NuovaGM.Client.Telefono
 							Phone.IsBackOverriddenByApp = false;
 						}
 
-						if (Game.IsControlJustPressed(1, Control.PhoneCancel))
+						if (Input.IsControlJustPressed(Control.PhoneCancel))
 						{
 							if (Phone.IsBackOverriddenByApp)
 							{

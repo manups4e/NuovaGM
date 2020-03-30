@@ -52,7 +52,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             if (!Focused) return;
 
-            if (Game.IsControlJustPressed(0, Control.PhoneSelect) && Focused && Parent.FocusLevel == 1)
+            if (Input.IsControlJustPressed(Control.PhoneSelect) && Focused && Parent.FocusLevel == 1)
             {
                 Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 if (Items[Index].CanBeFocused && !Items[Index].Focused)
@@ -67,7 +67,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
             }
 
-            if (Game.IsControlJustPressed(0, Control.PhoneCancel) && Focused && Parent.FocusLevel > 1)
+            if (Input.IsControlJustPressed(Control.PhoneCancel) && Focused && Parent.FocusLevel > 1)
             {
                 Game.PlaySound("CANCEL", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 if (Items[Index].CanBeFocused && Items[Index].Focused)
@@ -77,12 +77,12 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
             }
 
-            if ((Game.IsControlJustPressed(0, Control.FrontendUp) || Game.IsControlJustPressed(0, Control.MoveUpOnly) || Game.IsControlJustPressed(0, Control.CursorScrollUp)) && Parent.FocusLevel == 1)
+            if ((Input.IsControlJustPressed(Control.FrontendUp) || Input.IsControlJustPressed(Control.MoveUpOnly) || Input.IsControlJustPressed(Control.CursorScrollUp)) && Parent.FocusLevel == 1)
             {
                 Index = (1000 - (1000 % Items.Count) + Index - 1) % Items.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
-            else if ((Game.IsControlJustPressed(0, Control.FrontendDown) || Game.IsControlJustPressed(0, Control.MoveDownOnly) || Game.IsControlJustPressed(0, Control.CursorScrollDown)) && Parent.FocusLevel == 1)
+            else if ((Input.IsControlJustPressed(Control.FrontendDown) || Input.IsControlJustPressed(Control.MoveDownOnly) || Input.IsControlJustPressed(Control.CursorScrollDown)) && Parent.FocusLevel == 1)
             {
                 Index = (1000 - (1000 % Items.Count) + Index + 1) % Items.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -114,7 +114,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 new UIResRectangle(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)), itemSize, (Index == i && Focused) ? Color.FromArgb(fullAlpha, Colors.White) : hovering && Focused ? Color.FromArgb(100, 50, 50, 50) : Color.FromArgb(blackAlpha, Colors.Black)).Draw();
                 new UIResText(Items[i].Title, SafeSize.AddPoints(new PointF(6, 5 + (itemSize.Height + 3) * i)), 0.35f, Color.FromArgb(fullAlpha, (Index == i && Focused) ? Colors.Black : Colors.White)).Draw();
 
-                if (Focused && hovering && Game.IsControlJustPressed(0, Control.CursorAccept))
+                if (Focused && hovering && Input.IsControlJustPressed(Control.CursorAccept))
                 {
                     Items[Index].Focused = false;
                     Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");

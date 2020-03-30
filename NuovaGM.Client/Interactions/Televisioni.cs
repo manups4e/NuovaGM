@@ -241,7 +241,7 @@ namespace NuovaGM.Client.Interactions
 			else if (TV.Accesa && DivaniEPosizioniSedute.Seduto)
 			{
 //				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
-				if (Game.IsDisabledControlJustPressed(0, Control.MoveLeftOnly)) // canale-
+				if (Input.IsDisabledControlJustPressed(Control.MoveLeftOnly)) // canale-
 				{
 					--TV.Canale;
 					if (TV.Canale < 0) TV.Canale = CanaliTV.Count - 1;
@@ -249,7 +249,7 @@ namespace NuovaGM.Client.Interactions
 					SetTvChannel((int)TVChannel.TV);
 					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
 				}
-				if (Game.IsDisabledControlJustPressed(0, Control.MoveRightOnly)) // canale+ 
+				if (Input.IsDisabledControlJustPressed(Control.MoveRightOnly)) // canale+ 
 				{
 					++TV.Canale;
 					if (TV.Canale > 18) TV.Canale = 0;
@@ -257,7 +257,7 @@ namespace NuovaGM.Client.Interactions
 					SetTvChannel((int)TVChannel.TV);
 					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
 				}
-				if (Game.IsDisabledControlPressed(0, Control.MoveUpOnly)) // volume su
+				if (Input.IsDisabledControlPressed(Control.MoveUpOnly)) // volume su
 				{
 					TV.Volume += 0.5f;
 					if (TV.Volume > 0) TV.Volume = 0;
@@ -265,7 +265,7 @@ namespace NuovaGM.Client.Interactions
 					if (TV.Volume > -36 && TV.Volume < 0)
 						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
 				}
-				if (Game.IsDisabledControlPressed(0, Control.MoveDownOnly)) // volume giu
+				if (Input.IsDisabledControlPressed(Control.MoveDownOnly)) // volume giu
 				{
 					TV.Volume -= 0.5f;
 					if (TV.Volume < -36) TV.Volume = -36;

@@ -46,7 +46,7 @@ namespace NuovaGM.Client.Interactions
 				if (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
 				{
 					HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
-					if (Game.IsControlJustPressed(0, Control.VehicleHorn))
+					if (Input.IsControlJustPressed(Control.VehicleHorn))
 					{
 						if (Eventi.Player.Money > 5f)
 						{
@@ -76,38 +76,32 @@ namespace NuovaGM.Client.Interactions
 											HUD.ShowHelp("Tesoro cosa desideri?~n~~INPUT_FRONTEND_RB~ + ~INPUT_CONTEXT~ per la manina.~n~~INPUT_FRONTEND_RB~ + ~INPUT_DETONATE~ per la boccuccia.~n~~INPUT_FRONTEND_RB~ + ~INPUT_FRONTEND_UP~ per darci dentro.");
 										else
 											HUD.ShowHelp("Tesoro cosa desideri?~n~~INPUT_SELECT_WEAPON_UNARMED~ per la manina.~n~~INPUT_SELECT_WEAPON_MELEE~ per la boccuccia.~n~~INPUT_SELECT_WEAPON_SHOTGUN~ per darci dentro.");
-										if (Game.IsControlPressed(0, Control.FrontendRb) && !IsInputDisabled(2))
+										if (Input.IsControlPressed(Control.FrontendRb, PadCheck.Controller))
 										{
 											Game.DisableControlThisFrame(0, Control.Context);
 											Game.DisableControlThisFrame(0, Control.Detonate);
 											Game.DisableControlThisFrame(0, Control.FrontendUp);
-											if (Game.IsDisabledControlJustPressed(0, Control.Context))
-											{
+											if (Input.IsDisabledControlJustPressed(Control.Context, PadCheck.Controller))
 												ProstitutaMano(Prostituta);
-											}
-											else if (Game.IsDisabledControlJustPressed(0, Control.Detonate))
-											{
+											else if (Input.IsDisabledControlJustPressed(Control.Detonate, PadCheck.Controller))
 												ProstitutaBocca(Prostituta);
-											}
-											else if (Game.IsDisabledControlJustPressed(0, Control.FrontendUp))
-											{
+											else if (Input.IsDisabledControlJustPressed(Control.FrontendUp, PadCheck.Controller))
 												ProstitutaSesso(Prostituta);
-											}
 										}
 										else if (IsInputDisabled(2))
 										{
 											Game.DisableControlThisFrame(0, Control.SelectWeaponUnarmed);
 											Game.DisableControlThisFrame(0, Control.SelectWeaponMelee);
 											Game.DisableControlThisFrame(0, Control.SelectWeaponShotgun);
-											if (Game.IsDisabledControlJustPressed(0, Control.SelectWeaponUnarmed))
+											if (Input.IsDisabledControlJustPressed(Control.SelectWeaponUnarmed, PadCheck.Keyboard))
 											{
 												ProstitutaMano(Prostituta);
 											}
-											else if (Game.IsDisabledControlJustPressed(0, Control.SelectWeaponMelee))
+											else if (Input.IsDisabledControlJustPressed(Control.SelectWeaponMelee, PadCheck.Keyboard))
 											{
 												ProstitutaBocca(Prostituta);
 											}
-											else if (Game.IsDisabledControlJustPressed(0, Control.SelectWeaponShotgun))
+											else if (Input.IsDisabledControlJustPressed(Control.SelectWeaponShotgun, PadCheck.Keyboard))
 											{
 												ProstitutaSesso(Prostituta);
 											}

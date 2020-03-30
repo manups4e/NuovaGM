@@ -63,7 +63,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 			if (World.GetDistance(Game.PlayerPed.Position, Cacciatore.inizioCaccia.ToVector3()) < 1.375f)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
-				if (Game.IsControlJustPressed(0, Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 					ApriMenuAffittoArmi();
 			}
 			await Task.FromResult(0);
@@ -145,7 +145,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 					if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Knife))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per saccheggiare il cadavere");
-						if (Game.IsControlJustPressed(0, Control.Context))
+						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Game.PlayerPed.Weapons.Select(WeaponHash.Knife);
 

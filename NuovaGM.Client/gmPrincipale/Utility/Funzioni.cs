@@ -181,12 +181,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static bool IsAnyControlJustPressed()
 		{
-			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Game.IsControlJustPressed(0, value));
+			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlJustPressed(value));
 		}
 
 		public static bool IsAnyControlPressed()
 		{
-			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Game.IsControlPressed(0, value));
+			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlPressed(value));
 		}
 
 

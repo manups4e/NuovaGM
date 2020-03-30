@@ -196,27 +196,19 @@ namespace NuovaGM.Server.gmPrincipale
 		public static void Dropped([FromSource] Player player, string reason)
 		{
 			var now = DateTime.Now;
+			string text = player.Name + " e' uscito.";
 			if (reason != "")
 			{
 				if (reason == "Timed out after 10 seconds.")
-				{
-					Server.Printa(LogType.Info, GetPlayerName(player.Handle) + " e' crashato.");
-					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " e' crashato.");
-					BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ è crashato.");
-				}
+					text = GetPlayerName(player.Handle) + " e' crashato.";
 				else if (reason == "Disconnected." || reason == "Exited.")
-				{
-					Server.Printa(LogType.Info, player.Name + " si e' disconnesso.");
-					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " si e' disconnesso.");
-					BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ si e' disconnesso.");
-				}
+					text = player.Name + " si e' disconnesso.";
+				else
+					text = player.Name + " si e' disconnesso: " + reason;
 			}
-			else
-			{
-				Server.Printa(LogType.Info, player.Name + " e' uscito.");
-				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " e' uscito.");
-				BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + player.Name + "~w~ e' uscito.");
-			}
+			Server.Printa(LogType.Info, text);
+			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
+			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
 
 		public static async void SalvaPlayer([FromSource] Player player)

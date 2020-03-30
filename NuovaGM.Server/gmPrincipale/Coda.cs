@@ -313,9 +313,9 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			string name = player.Name;
 			string handle = player.Handle;
-			if (ServerEntrance.PlayerList.ContainsKey(player.Handle))
+			if (ServerEntrance.PlayerList.ContainsKey(handle))
 			{
-				var ped = ServerEntrance.PlayerList[player.Handle];
+				var ped = ServerEntrance.PlayerList[handle];
 				if (ped.status.spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);
