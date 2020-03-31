@@ -42,13 +42,13 @@ namespace NuovaGM.Client.gmPrincipale
 		private static RelationshipGroup player = Game.PlayerPed.RelationshipGroup;
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
-		public static Vector4 firstSpawnCoords = new Vector4(ConfigClient.Conf.Main.Firstcoords[0], ConfigClient.Conf.Main.Firstcoords[1], ConfigClient.Conf.Main.Firstcoords[2], ConfigClient.Conf.Main.Firstcoords[3]);
+		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);
 		public static Camera charSelectionCam;
 		public static Camera charCreationCam;
 
 		static List<string> tipi = new List<string>() { "CIVMALE", "CIVFEMALE", "COP", "WILD_ANIMAL", "SHARK", "COUGAR", "GUARD_DOG", "DOMESTIC_ANIMAL", "DEER", "SECURITY_GUARD", "PRIVATE_SECURITY", "FIREMAN", "GANG_1", "GANG_2", "GANG_9", "GANG_10", "AMBIENT_GANG_LOST", "AMBIENT_GANG_MEXICAN", "AMBIENT_GANG_FAMILY", "AMBIENT_GANG_BALLAS", "AMBIENT_GANG_MARABUNTE", "AMBIENT_GANG_CULT", "AMBIENT_GANG_SALVA", "AMBIENT_GANG_WEICHENG", "AMBIENT_GANG_HILLBILLY", "DEALER", "HATES_PLAYER", "HEN", "NO_RELATIONSHIP", "SPECIAL", "MISSION2", "MISSION3", "MISSION4", "MISSION5", "MISSION6", "MISSION7", "MISSION8", "AGGRESSIVE_INVESTIGATE", "MEDIC" };
 		static List<int> pickupList = new List<int>() { GetHashKey("PICKUP_AMMO_BULLET_MP"), GetHashKey("PICKUP_AMMO_FIREWORK"), GetHashKey("PICKUP_AMMO_FLAREGUN"), GetHashKey("PICKUP_AMMO_GRENADELAUNCHER"), GetHashKey("PICKUP_AMMO_GRENADELAUNCHER_MP"), GetHashKey("PICKUP_AMMO_HOMINGLAUNCHER"), GetHashKey("PICKUP_AMMO_MG"), GetHashKey("PICKUP_AMMO_MINIGUN"), GetHashKey("PICKUP_AMMO_MISSILE_MP"), GetHashKey("PICKUP_AMMO_PISTOL"), GetHashKey("PICKUP_AMMO_RIFLE"), GetHashKey("PICKUP_AMMO_RPG"), GetHashKey("PICKUP_AMMO_SHOTGUN"), GetHashKey("PICKUP_AMMO_SMG"), GetHashKey("PICKUP_AMMO_SNIPER"), GetHashKey("PICKUP_ARMOUR_STANDARD"), GetHashKey("PICKUP_CAMERA"), GetHashKey("PICKUP_CUSTOM_SCRIPT"), GetHashKey("PICKUP_GANG_ATTACK_MONEY"), GetHashKey("PICKUP_HEALTH_SNACK"), GetHashKey("PICKUP_HEALTH_STANDARD"), GetHashKey("PICKUP_MONEY_CASE"), GetHashKey("PICKUP_MONEY_DEP_BAG"), GetHashKey("PICKUP_MONEY_MED_BAG"), GetHashKey("PICKUP_MONEY_PAPER_BAG"), GetHashKey("PICKUP_MONEY_PURSE"), GetHashKey("PICKUP_MONEY_SECURITY_CASE"), GetHashKey("PICKUP_MONEY_VARIABLE"), GetHashKey("PICKUP_MONEY_WALLET"), GetHashKey("PICKUP_PARACHUTE"), GetHashKey("PICKUP_PORTABLE_CRATE_FIXED_INCAR"), GetHashKey("PICKUP_PORTABLE_CRATE_UNFIXED"), GetHashKey("PICKUP_PORTABLE_CRATE_UNFIXED_INCAR"), GetHashKey("PICKUP_PORTABLE_CRATE_UNFIXED_INCAR_SMALL"), GetHashKey("PICKUP_PORTABLE_CRATE_UNFIXED_LOW_GLOW"), GetHashKey("PICKUP_PORTABLE_DLC_VEHICLE_PACKAGE"), GetHashKey("PICKUP_PORTABLE_PACKAGE"), GetHashKey("PICKUP_SUBMARINE"), GetHashKey("PICKUP_VEHICLE_ARMOUR_STANDARD"), GetHashKey("PICKUP_VEHICLE_CUSTOM_SCRIPT"), GetHashKey("PICKUP_VEHICLE_CUSTOM_SCRIPT_LOW_GLOW"), GetHashKey("PICKUP_VEHICLE_HEALTH_STANDARD"), GetHashKey("PICKUP_VEHICLE_HEALTH_STANDARD_LOW_GLOW"), GetHashKey("PICKUP_VEHICLE_MONEY_VARIABLE"), GetHashKey("PICKUP_VEHICLE_WEAPON_APPISTOL"), GetHashKey("PICKUP_VEHICLE_WEAPON_ASSAULTSMG"), GetHashKey("PICKUP_VEHICLE_WEAPON_COMBATPISTOL"), GetHashKey("PICKUP_VEHICLE_WEAPON_GRENADE"), GetHashKey("PICKUP_VEHICLE_WEAPON_MICROSMG"), GetHashKey("PICKUP_VEHICLE_WEAPON_MOLOTOV"), GetHashKey("PICKUP_VEHICLE_WEAPON_PISTOL"), GetHashKey("PICKUP_VEHICLE_WEAPON_PISTOL50"), GetHashKey("PICKUP_VEHICLE_WEAPON_SAWNOFF"), GetHashKey("PICKUP_VEHICLE_WEAPON_SMG"), GetHashKey("PICKUP_VEHICLE_WEAPON_SMOKEGRENADE"), GetHashKey("PICKUP_VEHICLE_WEAPON_STICKYBOMB"), GetHashKey("PICKUP_WEAPON_ADVANCEDRIFLE"), GetHashKey("PICKUP_WEAPON_APPISTOL"), GetHashKey("PICKUP_WEAPON_ASSAULTRIFLE"), GetHashKey("PICKUP_WEAPON_ASSAULTSHOTGUN"), GetHashKey("PICKUP_WEAPON_ASSAULTSMG"), GetHashKey("PICKUP_WEAPON_AUTOSHOTGUN"), GetHashKey("PICKUP_WEAPON_BAT"), GetHashKey("PICKUP_WEAPON_BATTLEAXE"), GetHashKey("PICKUP_WEAPON_BOTTLE"), GetHashKey("PICKUP_WEAPON_BULLPUPRIFLE"), GetHashKey("PICKUP_WEAPON_BULLPUPSHOTGUN"), GetHashKey("PICKUP_WEAPON_CARBINERIFLE"), GetHashKey("PICKUP_WEAPON_COMBATMG"), GetHashKey("PICKUP_WEAPON_COMBATPDW"), GetHashKey("PICKUP_WEAPON_COMBATPISTOL"), GetHashKey("PICKUP_WEAPON_COMPACTLAUNCHER"), GetHashKey("PICKUP_WEAPON_COMPACTRIFLE"), GetHashKey("PICKUP_WEAPON_CROWBAR"), GetHashKey("PICKUP_WEAPON_DAGGER"), GetHashKey("PICKUP_WEAPON_DBSHOTGUN"), GetHashKey("PICKUP_WEAPON_FIREWORK"), GetHashKey("PICKUP_WEAPON_FLAREGUN"), GetHashKey("PICKUP_WEAPON_FLASHLIGHT"), GetHashKey("PICKUP_WEAPON_GRENADE"), GetHashKey("PICKUP_WEAPON_GRENADELAUNCHER"), GetHashKey("PICKUP_WEAPON_GUSENBERG"), GetHashKey("PICKUP_WEAPON_GOLFCLUB"), GetHashKey("PICKUP_WEAPON_HAMMER"), GetHashKey("PICKUP_WEAPON_HATCHET"), GetHashKey("PICKUP_WEAPON_HEAVYPISTOL"), GetHashKey("PICKUP_WEAPON_HEAVYSHOTGUN"), GetHashKey("PICKUP_WEAPON_HEAVYSNIPER"), GetHashKey("PICKUP_WEAPON_HOMINGLAUNCHER"), GetHashKey("PICKUP_WEAPON_KNIFE"), GetHashKey("PICKUP_WEAPON_KNUCKLE"), GetHashKey("PICKUP_WEAPON_MACHETE"), GetHashKey("PICKUP_WEAPON_MACHINEPISTOL"), GetHashKey("PICKUP_WEAPON_MARKSMANPISTOL"), GetHashKey("PICKUP_WEAPON_MARKSMANRIFLE"), GetHashKey("PICKUP_WEAPON_MG"), GetHashKey("PICKUP_WEAPON_MICROSMG"), GetHashKey("PICKUP_WEAPON_MINIGUN"), GetHashKey("PICKUP_WEAPON_MINISMG"), GetHashKey("PICKUP_WEAPON_MOLOTOV"), GetHashKey("PICKUP_WEAPON_MUSKET"), GetHashKey("PICKUP_WEAPON_NIGHTSTICK"), GetHashKey("PICKUP_WEAPON_PETROLCAN"), GetHashKey("PICKUP_WEAPON_PIPEBOMB"), GetHashKey("PICKUP_WEAPON_PISTOL"), GetHashKey("PICKUP_WEAPON_PISTOL50"), GetHashKey("PICKUP_WEAPON_POOLCUE"), GetHashKey("PICKUP_WEAPON_PROXMINE"), GetHashKey("PICKUP_WEAPON_PUMPSHOTGUN"), GetHashKey("PICKUP_WEAPON_RAILGUN"), GetHashKey("PICKUP_WEAPON_REVOLVER"), GetHashKey("PICKUP_WEAPON_RPG"), GetHashKey("PICKUP_WEAPON_SAWNOFfsHOTGUN"), GetHashKey("PICKUP_WEAPON_SMG"), GetHashKey("PICKUP_WEAPON_SMOKEGRENADE"), GetHashKey("PICKUP_WEAPON_SNIPERRIFLE"), GetHashKey("PICKUP_WEAPON_SNSPISTOL"), GetHashKey("PICKUP_WEAPON_SPECIALCARBINE"), GetHashKey("PICKUP_WEAPON_STICKYBOMB"), GetHashKey("PICKUP_WEAPON_STUNGUN"), GetHashKey("PICKUP_WEAPON_SWITCHBLADE"), GetHashKey("PICKUP_WEAPON_VINTAGEPISTOL"), GetHashKey("PICKUP_WEAPON_WRENCH") };
-		static List<uint> scopedWeapons = ConfigClient.Conf.Main.ScopedWeapons;
+		static List<uint> scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
 
 		static Dictionary<string, int> LastLoadout = new Dictionary<string, int>();
 		static private bool kickWarning;
@@ -134,8 +134,8 @@ namespace NuovaGM.Client.gmPrincipale
 		public static bool IsDead = false;
 		public static bool isAdmin = false;
 		public static bool LoadoutLoaded = false;
-		private static bool passengerDriveBy = ConfigClient.Conf.Main.PassengerDriveBy;
-		public static int SecondsBeforeKick = ConfigClient.Conf.Main.AFKCheckTime;
+		private static bool passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
+		public static int SecondsBeforeKick = Client.Impostazioni.Main.AFKCheckTime;
 		public static void SetDecor(string _name, int _int)
 		{
 			decorName = _name;
@@ -211,11 +211,11 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void onPlayerSpawn()
 		{
-			AddTextEntry("FE_THDR_GTAO", ConfigClient.Conf.Main.NomeServer);
-			scopedWeapons = ConfigClient.Conf.Main.ScopedWeapons;
-			passengerDriveBy = ConfigClient.Conf.Main.PassengerDriveBy;
-			SecondsBeforeKick = ConfigClient.Conf.Main.AFKCheckTime;
-			kickWarning = ConfigClient.Conf.Main.KickWarning;
+			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
+			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
+			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
+			SecondsBeforeKick = Client.Impostazioni.Main.AFKCheckTime;
+			kickWarning = Client.Impostazioni.Main.KickWarning;
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
@@ -648,12 +648,12 @@ namespace NuovaGM.Client.gmPrincipale
 		private static async void Peds()
 		{
 			await BaseScript.Delay(30000);
-			while (ConfigClient.Conf.Main.stripClub == null)
+			while (Client.Impostazioni.Main.stripClub == null)
 			{
 				await BaseScript.Delay(0);
 			}
 
-			foreach (var stripper in ConfigClient.Conf.Main.stripClub)
+			foreach (var stripper in Client.Impostazioni.Main.stripClub)
 			{
 				Ped ped = await World.CreatePed(new Model(GetHashKey(stripper.model)), new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);
 				ped.CanRagdoll = false;
@@ -663,7 +663,7 @@ namespace NuovaGM.Client.gmPrincipale
 				SetPedCombatAttributes(ped.Handle, 17, true);
 				ped.Task.PlayAnimation(stripper.animDict, stripper.animName, -1, -1, AnimationFlags.Loop);
 			}
-			foreach (var market in ConfigClient.Conf.Main.blackMarket)
+			foreach (var market in Client.Impostazioni.Main.blackMarket)
 			{
 				Ped ped1 = await World.CreatePed(new Model(GetHashKey(market.model)), new Vector3(market.coords[0], market.coords[1], market.coords[2]), market.heading);
 				ped1.CanRagdoll = false;
@@ -673,7 +673,7 @@ namespace NuovaGM.Client.gmPrincipale
 				SetPedCombatAttributes(ped1.Handle, 17, true);
 				ped1.Task.StartScenario(market.animName, GetEntityCoords(ped1.Handle, true));
 			}
-			foreach (var illegal in ConfigClient.Conf.Main.illegal_weapon_extra_shop)
+			foreach (var illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
 			{
 				Ped ped2 = await World.CreatePed(new Model(GetHashKey(illegal.model)), new Vector3(illegal.coords[0], illegal.coords[1], illegal.coords[2]), illegal.heading);
 				ped2.CanRagdoll = false;

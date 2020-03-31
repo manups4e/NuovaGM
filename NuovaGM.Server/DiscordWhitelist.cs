@@ -16,9 +16,9 @@ namespace NuovaGM.Server
 
 		public static async void Init()
 		{
-			while (ConfigServer.Conf.Main.DiscordToken == null) await BaseScript.Delay(0);
-			GuildId = ConfigServer.Conf.Main.GuildId;
-			DiscordToken += ConfigServer.Conf.Main.DiscordToken;
+			while (Server.Impostazioni.Main.DiscordToken == null) await BaseScript.Delay(0);
+			GuildId = Server.Impostazioni.Main.GuildId;
+			DiscordToken += Server.Impostazioni.Main.DiscordToken;
 			Server.Instance.RegisterTickHandler(connessioneDiscord);
 		}
 

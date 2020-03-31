@@ -14,7 +14,7 @@ namespace NuovaGM.Client.Veicoli
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		public static VeicoloAffitto veicoloInAffitto = null;
-		public static VeicoliAffitto veicoliAff = ConfigClient.Conf.Veicoli.veicoliAff;
+		public static VeicoliAffitto veicoliAff = Client.Impostazioni.Veicoli.veicoliAff;
 		public static bool affittato = false;
 
 		public static async void MenuAffitto(int num)

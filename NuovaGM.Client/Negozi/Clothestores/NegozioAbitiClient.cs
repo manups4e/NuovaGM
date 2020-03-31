@@ -104,9 +104,9 @@ namespace NuovaGM.Client.Negozi
 							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f) await BaseScript.Delay(0);
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
 							else
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
 							menu = true;
 						}
@@ -120,9 +120,9 @@ namespace NuovaGM.Client.Negozi
 							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f) await BaseScript.Delay(0);
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
 							else
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
 
 							cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
 							menu = true;
@@ -135,10 +135,10 @@ namespace NuovaGM.Client.Negozi
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
 												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Femmina");
 												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
 												//menu = true;
@@ -158,11 +158,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
 							}
 
 							cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
@@ -182,11 +182,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
 							}
 
 							cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -208,11 +208,11 @@ namespace NuovaGM.Client.Negozi
 							{
 								if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 								{
-									MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
+									MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
 								}
 								else
 								{
-									MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
+									MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
 								}
 							}
 
@@ -236,11 +236,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Femmina.DiscVest, "mp_clothing@female@shirt", "Discount");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.DiscVest, "mp_clothing@female@shirt", "Discount");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -260,11 +260,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Femmina.DiscScarpe, "mp_clothing@female@Scarpe", "Discount");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.DiscScarpe, "mp_clothing@female@Scarpe", "Discount");
 							}
 
 							cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
@@ -278,10 +278,10 @@ namespace NuovaGM.Client.Negozi
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
 												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Femmina");
 												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
 												//menu = true;
@@ -301,11 +301,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Femmina.DiscPant, "mp_clothing@female@trousers", "Discount");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.DiscPant, "mp_clothing@female@trousers", "Discount");
 							}
 
 							cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
@@ -325,11 +325,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Discount");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Discount");
 							}
 
 							cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -349,11 +349,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Discount");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Discount");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -376,11 +376,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Femmina.SubVest, "mp_clothing@female@shirt", "Suburban");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.SubVest, "mp_clothing@female@shirt", "Suburban");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -400,11 +400,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Femmina.SubScarpe, "mp_clothing@female@Scarpe", "Suburban");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.SubScarpe, "mp_clothing@female@Scarpe", "Suburban");
 							}
 
 							cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.5f), false, new Vector3(0));
@@ -418,10 +418,10 @@ namespace NuovaGM.Client.Negozi
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
 												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Femmina");
 												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
 												//menu = true;
@@ -441,11 +441,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Femmina.SubPant, "mp_clothing@female@trousers", "Suburban");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.SubPant, "mp_clothing@female@trousers", "Suburban");
 							}
 
 							cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
@@ -465,11 +465,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuOcchiali(ConfigClient.Conf.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Suburban");
+								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Suburban");
 							}
 
 							cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -489,11 +489,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Suburban");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Suburban");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -516,11 +516,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuVest(ConfigClient.Conf.Negozi.Abiti.Femmina.PonsVest, "mp_clothing@female@shirt", "Ponsombys");
+								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.PonsVest, "mp_clothing@female@shirt", "Ponsombys");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
@@ -540,11 +540,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuScarpe(ConfigClient.Conf.Negozi.Abiti.Femmina.PonsScarpe, "mp_clothing@female@Scarpe", "Ponsombys");
+								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.PonsScarpe, "mp_clothing@female@Scarpe", "Ponsombys");
 							}
 
 							cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.5f), false, new Vector3(0));
@@ -558,10 +558,10 @@ namespace NuovaGM.Client.Negozi
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
 												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
-													//ApriMenu(ConfigClient.Conf.Negozi.Abiti.Maschio);
+													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Femmina");
 												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
 												//menu = true;
@@ -581,11 +581,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuPant(ConfigClient.Conf.Negozi.Abiti.Femmina.PonsPant, "mp_clothing@female@trousers", "Ponsombys");
+								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.PonsPant, "mp_clothing@female@trousers", "Ponsombys");
 							}
 
 							cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
@@ -605,11 +605,11 @@ namespace NuovaGM.Client.Negozi
 
 							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
 							}
 							else
 							{
-								MenuNegoziAbiti.MenuAccessori(ConfigClient.Conf.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Ponsombys");
+								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Ponsombys");
 							}
 
 							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));

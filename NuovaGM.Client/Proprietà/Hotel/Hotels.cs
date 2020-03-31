@@ -23,7 +23,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 			{
 				Client.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0]+""));
 			}), false);
-			foreach (var hotel in ConfigClient.Conf.Proprieta.hotels)
+			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
 			{
 				Blip p = new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 				{
@@ -39,13 +39,13 @@ namespace NuovaGM.Client.Proprietà.Hotel
 
 		public static async Task ControlloHotel()
 		{
-			for (int i=0; i< ConfigClient.Conf.Proprieta.hotels.Count; i++)
+			for (int i=0; i< Client.Impostazioni.Proprieta.hotels.Count; i++)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, ConfigClient.Conf.Proprieta.hotels[i].Coords.ToVector3()) < 3f && !HUD.MenuPool.IsAnyMenuOpen())
+				if (World.GetDistance(Game.PlayerPed.Position, Client.Impostazioni.Proprieta.hotels[i].Coords.ToVector3()) < 3f && !HUD.MenuPool.IsAnyMenuOpen())
 				{
-					HUD.ShowHelp($"~INPUT_CONTEXT~ per soggiornare al ~b~{ConfigClient.Conf.Proprieta.hotels[i].Name}~w~.");
+					HUD.ShowHelp($"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.");
 					if (Input.IsControlJustPressed(Control.Context))
-						MenuHotel(ConfigClient.Conf.Proprieta.hotels[i]);
+						MenuHotel(Client.Impostazioni.Proprieta.hotels[i]);
 				}
 			}
 		}

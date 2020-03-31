@@ -202,7 +202,7 @@ namespace NuovaGM.Client.ListaPlayers
 			}
 			scale = new Scaleform("MP_MM_CARD_FREEMODE");
 			var titleIcon = "2";
-			var titleLeftText = ConfigClient.Conf.Main.NomeServer;
+			var titleLeftText = Client.Impostazioni.Main.NomeServer;
 			var titleRightText = $"Players {NetworkGetNumConnectedPlayers()}/{maxClients}";
 			scale.CallFunction("SET_TITLE", titleLeftText, titleRightText, titleIcon);
 			await UpdateScale();

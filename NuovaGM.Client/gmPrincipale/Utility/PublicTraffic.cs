@@ -12,8 +12,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		private static TimeSpan LastCheck;
 		public static void Init()
 		{
-			baseTraffic = ConfigClient.Conf.Main.baseTraffic;
-			divMultiplier = ConfigClient.Conf.Main.divMultiplier;
+			baseTraffic = Client.Impostazioni.Main.baseTraffic;
+			divMultiplier = Client.Impostazioni.Main.divMultiplier;
 			LastCheck = World.CurrentDayTime;
 			SetDensity();
 			Client.GetInstance.RegisterTickHandler(Check);

@@ -29,7 +29,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		private static async void Spawnato()
 		{
-			foreach (var ospedale in ConfigClient.Conf.Lavori.Medici.Config.Ospedali)
+			foreach (var ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 			{
 				Blip blip = World.CreateBlip(ospedale.Blip.Coords.ToVector3());
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
@@ -79,7 +79,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		{
 			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
-				foreach (var osp in ConfigClient.Conf.Lavori.Medici.Config.Ospedali)
+				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (float[] vettore in osp.Spogliatoio)
 					{
@@ -245,7 +245,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		{
 			if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" || Eventi.Player.CurrentChar.job.name.ToLower() != "medici")
 			{
-				foreach (var osp in ConfigClient.Conf.Lavori.Medici.Config.Ospedali)
+				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (float[] vettore in osp.IngressoVisitatori)
 					{
@@ -296,7 +296,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		public static async Task AbilitaBlipVolanti()
 		{
 			await BaseScript.Delay(1000);
-			if (ConfigClient.Conf.Lavori.Medici.Config.AbilitaBlipVolanti)
+			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
 				foreach (var p in Eventi.GiocatoriOnline)
 				{

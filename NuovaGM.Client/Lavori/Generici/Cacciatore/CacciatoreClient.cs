@@ -47,7 +47,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		private static void Spawnato()
 		{
-			Cacciatore = ConfigClient.Conf.Lavori.Generici.Cacciatore;
+			Cacciatore = Client.Impostazioni.Lavori.Generici.Cacciatore;
 			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia.ToVector3());
 			caccia.Sprite = BlipSprite.Hunting;
 			caccia.Color = BlipColor.TrevorOrange;

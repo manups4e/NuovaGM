@@ -27,9 +27,9 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void PlayerConnect([FromSource] Player player, string name, dynamic kickReason, dynamic deferrals)
 		{
-			notWhitelisted = ConfigServer.Conf.Main.notWhitelisted;
-			EnableAntiSpam = ConfigServer.Conf.Main.EnableAntiSpam;
-			PlayersToStartRocade = ConfigServer.Conf.Main.PlayersToStartRocade;
+			notWhitelisted = Server.Impostazioni.Main.notWhitelisted;
+			EnableAntiSpam = Server.Impostazioni.Main.EnableAntiSpam;
+			PlayersToStartRocade = Server.Impostazioni.Main.PlayersToStartRocade;
 			string st = License.GetLicense(player, Identifier.Discord);
 			Dictionary<string, string> idents = new Dictionary<string, string>()
 			{
@@ -183,7 +183,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 										// PER LA WHITELIST VIA DISCORD QUANDO CI SARA DI NUOVO!
 										/*
-											puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], ConfigServer.Conf.Main.RuoloWhitelistato);
+											puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], Server.Impostazioni.Main.RuoloWhitelistato);
 										*/
 
 										#endregion
@@ -206,7 +206,7 @@ namespace NuovaGM.Server.gmPrincipale
 														for (int i = 0; i < WaitingTime; i++)
 														{
 															deferrals.update(
-																ConfigServer.Conf.Main.NomeServer +
+																Server.Impostazioni.Main.NomeServer +
 																" Shield 2.0 sistema di protezione Anti-Spam\nattendi " +
 																(WaitingTime - i).ToString() +
 																" secondi e sarai connesso automaticamente");

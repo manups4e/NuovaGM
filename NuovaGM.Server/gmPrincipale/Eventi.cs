@@ -88,9 +88,9 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Ping([FromSource] Player player)
 		{
-			if (player.Ping >= ConfigServer.Conf.Main.PingMax)
+			if (player.Ping >= Server.Impostazioni.Main.PingMax)
 			{
-				player.Drop("Ping troppo alto (Limite: " + ConfigServer.Conf.Main.PingMax + ", tuo ping: " + player.Ping + ")");
+				player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + player.Ping + ")");
 			}
 		}
 

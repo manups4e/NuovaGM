@@ -87,14 +87,14 @@ namespace NuovaGM.Client.Veicoli
 
 		public static void Spawnato()
 		{
-			FuelCapacity = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
-			FuelRpmImpact = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelRpmImpact;
-			FuelAccelImpact = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelAccelImpact;
-			FuelTractionImpact = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelTractionImpact;
-			trucks = ConfigClient.Conf.Veicoli.DanniVeicoli.trucks;
-			tanker = ConfigClient.Conf.Veicoli.DanniVeicoli.tanker;
-			maxtankerfuel = ConfigClient.Conf.Veicoli.DanniVeicoli.maxtankerfuel;
-			refuelCost = ConfigClient.Conf.Veicoli.DanniVeicoli.refuelCost;
+			FuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+			FuelRpmImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelRpmImpact;
+			FuelAccelImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelAccelImpact;
+			FuelTractionImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelTractionImpact;
+			trucks = Client.Impostazioni.Veicoli.DanniVeicoli.trucks;
+			tanker = Client.Impostazioni.Veicoli.DanniVeicoli.tanker;
+			maxtankerfuel = Client.Impostazioni.Veicoli.DanniVeicoli.maxtankerfuel;
+			refuelCost = Client.Impostazioni.Veicoli.DanniVeicoli.refuelCost;
 		}
 
 		public static string getRandomPlate()
@@ -197,7 +197,7 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async void setVehicleFuelLevel(Vehicle veh, float fuel)
 		{
-			float maxfuel = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+			float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (fuel > maxfuel)
 			{
 				fuel = maxfuel;
@@ -228,7 +228,7 @@ namespace NuovaGM.Client.Veicoli
 		public static async void initFuel(Vehicle veh)
 		{
 			curVehInit = true;
-			float fuelCapacity = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+			float fuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (!veh.HasDecor(DecorName))
 			{
 				veh.SetDecor(DecorName, RandomFuelLevel(fuelCapacity));
@@ -244,7 +244,7 @@ namespace NuovaGM.Client.Veicoli
 
 		public static float vehicleFuelLevel(Vehicle veh)
 		{
-			return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+			return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 		}
 
 		public static async Task ConsumeFuel(Vehicle veh)
@@ -327,16 +327,16 @@ namespace NuovaGM.Client.Veicoli
 		{
 			if (Game.PlayerPed.IsInVehicle())
 			{
-				setVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity);
+				setVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
 			}
 		}
 
 		public static async void FuelLevel(float level)
 		{
-			if (level > ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity)
+			if (level > Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity)
 			{
-				level = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			}
 			else if (level < 0f)
 			{
@@ -350,7 +350,7 @@ namespace NuovaGM.Client.Veicoli
 		public static async void FillTankForVeh(int veh)
 		{
 			Vehicle vehicle = new Vehicle(veh);
-			setVehicleFuelLevel(vehicle, ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity);
+			setVehicleFuelLevel(vehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 		}
 
 		public static async void DepositFuel(bool success, string tankerful, string stationfuel, string overflow)
@@ -598,7 +598,7 @@ namespace NuovaGM.Client.Veicoli
 												{
 													justPumped = true;
 													float fuel = LastVehicle.FuelLevel;
-													float maxfuel = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+													float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 													float afuel = fuel + addedFuel;
 													if (afuel <= maxfuel)
 													{
@@ -647,7 +647,7 @@ namespace NuovaGM.Client.Veicoli
 					float dist = World.GetDistance(Game.PlayerPed.Position, LastVehicle.Position);
 					if (dist < 2 && LastVehicle.HasDecor(DecorName))
 					{
-						float max = ConfigClient.Conf.Veicoli.DanniVeicoli.FuelCapacity;
+						float max = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 						float fuel = vehicleFuelLevel(lastVehicle);
 						if (max - fuel < 0.5)
 						{

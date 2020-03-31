@@ -20,6 +20,7 @@ namespace NuovaGM.Client
 		public static Client GetInstance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
+		public static Configurazione Impostazioni = null;
 
 		public Client()
 		{

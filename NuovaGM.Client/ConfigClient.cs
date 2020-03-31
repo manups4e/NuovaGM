@@ -14,7 +14,6 @@ namespace NuovaGM.Client
 {
 	static class ConfigClient
 	{
-		public static Configurazione Conf = null;
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:ConfigurazioneClient", new Action<string, string>(Configurazione));
@@ -23,7 +22,7 @@ namespace NuovaGM.Client
 
 		public static void Configurazione(string JsonMain, string JsonShared)
 		{
-			Conf = JsonConvert.DeserializeObject<Configurazione>(JsonMain);
+			Client.Impostazioni = JsonConvert.DeserializeObject<Configurazione>(JsonMain);
 			ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(JsonShared);
 		}
 	}

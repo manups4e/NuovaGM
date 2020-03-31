@@ -129,6 +129,7 @@
     <Compile Include="IPLs\common\IplManager.cs" />
     <Compile Include="Lavori\Generici\Cacciatore\CacciatoreClient.cs" />
     <Compile Include="Lavori\Generici\Pescatore\PescatoreClient.cs" />
+    <Compile Include="Lavori\Generici\Rimozione\RimozioneClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MediciMainClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MenuMedici.cs" />
     <Compile Include="Meteo_new\Meteo.cs" />
@@ -255,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lavori\Generici\Consegne\" />
-    <Folder Include="Lavori\Generici\Rimozione\" />
     <Folder Include="Lavori\Whitelistati\Meccanici\" />
     <Folder Include="Proprietà\Appartamenti\" />
     <Folder Include="Proprietà\Garages\" />

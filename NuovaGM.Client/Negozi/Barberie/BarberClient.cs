@@ -95,9 +95,9 @@ namespace NuovaGM.Client.Negozi
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
 				if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
-					BarberMenu(ConfigClient.Conf.Negozi.Barbieri.Maschio, Menu);
+					BarberMenu(Client.Impostazioni.Negozi.Barbieri.Maschio, Menu);
 				else
-					BarberMenu(ConfigClient.Conf.Negozi.Barbieri.Femmina, Menu);
+					BarberMenu(Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 

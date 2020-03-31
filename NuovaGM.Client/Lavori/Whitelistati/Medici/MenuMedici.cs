@@ -40,7 +40,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				Eventi.Player.Stanziato = true;
 				if (!Eventi.Player.InServizio) 
 				{
-					foreach (var Grado in ConfigClient.Conf.Lavori.Medici.Gradi)
+					foreach (var Grado in Client.Impostazioni.Lavori.Medici.Gradi)
 					{
 						if (Grado.Value.Id == Eventi.Player.CurrentChar.job.grade)
 						{

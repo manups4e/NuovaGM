@@ -623,7 +623,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 						data = null;
 						data = dataMaschio;
-						board_scalep1.CallFunction("SET_BOARD", ConfigClient.Conf.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
+						board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
 						selezionato = "Maschio";
 					}
 					else if (_newIndex == 1)
@@ -631,7 +631,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataMaschio = data;
 						data = null;
 						data = dataFemmina;
-						board_scalep1.CallFunction("SET_BOARD", ConfigClient.Conf.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
+						board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
 						selezionato = "Femmina";
 					}
 					BaseScript.TriggerEvent("lprp:aggiornaModel", JsonConvert.SerializeObject(data));
@@ -719,7 +719,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataMaschio = data;
 					else
 						dataFemmina = data;
-					board_scalep1.CallFunction("SET_BOARD", ConfigClient.Conf.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Eventi.Player.char_data.Count + 1, 0);
+					board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Eventi.Player.char_data.Count + 1, 0);
 				};
 				#endregion
 
@@ -1749,7 +1749,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			if (param == "select")
 			{
-				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + ConfigClient.Conf.Main.NomeServer + "!");
+				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
 			}
 			else
 			{

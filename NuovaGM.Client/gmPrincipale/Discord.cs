@@ -11,16 +11,16 @@ namespace NuovaGM.Client.gmPrincipale
 	{
 		public static void Init()
 		{
-			SetDiscordAppId(ConfigClient.Conf.Main.DiscordAppId);
-			SetDiscordRichPresenceAsset(ConfigClient.Conf.Main.DiscordRichPresenceAsset);
+			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
+			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			SetDiscordRichPresenceAssetText("Discord.gg/n4ep9Fq");
 			Client.GetInstance.RegisterTickHandler(RichPresence);
 		}
 
 		private static async Task RichPresence()
 		{
-			SetDiscordAppId(ConfigClient.Conf.Main.DiscordAppId);
-			SetDiscordRichPresenceAsset(ConfigClient.Conf.Main.DiscordRichPresenceAsset);
+			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
+			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			Vector3 PedCoords = Game.PlayerPed.Position;
 			uint StreetName = 0;
 			uint StreetAngolo = 0;

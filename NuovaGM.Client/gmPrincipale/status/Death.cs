@@ -43,12 +43,12 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static void Spawnato()
 		{
-			ReviveReward = ConfigClient.Conf.Main.ReviveReward;
-			EarlyRespawnFine = ConfigClient.Conf.Main.EarlyRespawnFine;
-			EarlyRespawnFineAmount = ConfigClient.Conf.Main.EarlyRespawnFineAmount;
-			earlyRespawn = ConfigClient.Conf.Main.EarlyRespawn;
-			earlySpawnTimer = ConfigClient.Conf.Main.EarlySpawnTimer;
-			bleedoutTimer = ConfigClient.Conf.Main.BleedoutTimer;
+			ReviveReward = Client.Impostazioni.Main.ReviveReward;
+			EarlyRespawnFine = Client.Impostazioni.Main.EarlyRespawnFine;
+			EarlyRespawnFineAmount = Client.Impostazioni.Main.EarlyRespawnFineAmount;
+			earlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
+			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
+			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 		}
 
 		public static void playerDied(int tipo, List<dynamic> Coords)
@@ -167,8 +167,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 						Client.GetInstance.DeregisterTickHandler(conteggioMorte);
 						Client.GetInstance.DeregisterTickHandler(Testo);
 						RemoveItemsAfterRPDeath();
-						earlySpawnTimer = ConfigClient.Conf.Main.EarlySpawnTimer;
-						bleedoutTimer = ConfigClient.Conf.Main.BleedoutTimer;
+						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
+						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 						text = "";
 						return;
 					}
@@ -183,8 +183,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 						Client.GetInstance.DeregisterTickHandler(conteggioMorte);
 						Client.GetInstance.DeregisterTickHandler(Testo);
 						RemoveItemsAfterRPDeath();
-						earlySpawnTimer = ConfigClient.Conf.Main.EarlySpawnTimer;
-						bleedoutTimer = ConfigClient.Conf.Main.BleedoutTimer;
+						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
+						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 						text = "";
 						return;
 					}
@@ -210,8 +210,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				Client.GetInstance.DeregisterTickHandler(conteggioMorte);
 				Client.GetInstance.DeregisterTickHandler(Testo);
 				RemoveItemsAfterRPDeath();
-				earlySpawnTimer = ConfigClient.Conf.Main.EarlySpawnTimer;
-				bleedoutTimer = ConfigClient.Conf.Main.BleedoutTimer;
+				earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
+				bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 				text = "";
 			}
 			await Task.FromResult(0);
@@ -238,8 +238,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			Client.GetInstance.DeregisterTickHandler(conteggioSangue);
 			Client.GetInstance.DeregisterTickHandler(conteggioMorte);
 			Client.GetInstance.DeregisterTickHandler(Testo);
-			earlySpawnTimer = ConfigClient.Conf.Main.EarlySpawnTimer;
-			bleedoutTimer = ConfigClient.Conf.Main.BleedoutTimer;
+			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
+			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 			text = "";
 		}
 

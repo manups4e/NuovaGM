@@ -23,6 +23,7 @@ namespace NuovaGM.Server
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
+		public static Configurazione Impostazioni = null;
 
 		public Server()
 		{

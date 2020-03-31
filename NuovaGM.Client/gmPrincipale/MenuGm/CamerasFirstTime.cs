@@ -184,7 +184,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(ConfigClient.Conf.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();

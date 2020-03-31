@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NuovaGM.Shared;
 using NuovaGM.Shared.Weather;
 using System;
+using System.Collections.Generic;
 
 namespace NuovaGM.Server
 {
@@ -10,7 +11,6 @@ namespace NuovaGM.Server
 	{
 		private static string ConfigClient;
 		private static string ConfigShared;
-		public static Configurazione Conf = null;
 		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
@@ -23,7 +23,7 @@ namespace NuovaGM.Server
 			ConfigShared = JsonConvert.SerializeObject(JsonConfig.Shared);
 			ConfigClient = JsonConvert.SerializeObject(JsonConfig.Client);
 			string ConfigServer = JsonConvert.SerializeObject(JsonConfig.Server);
-			Conf = JsonConvert.DeserializeObject<Configurazione>(ConfigServer);
+			Server.Impostazioni = JsonConvert.DeserializeObject<Configurazione>(ConfigServer);
 			Shared.ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(ConfigShared);
 		}
 
@@ -37,6 +37,7 @@ namespace NuovaGM.Server
 	public class Configurazione
 	{
 		public ConfPrincipale Main = new ConfPrincipale();
+		public ConfigCoda Coda = new ConfigCoda();
 	}
 
 	public class ConfPrincipale
@@ -60,5 +61,17 @@ namespace NuovaGM.Server
 		public string RuoloWhitelistato;
 		public string DiscordToken;
 		public string GuildId;
+	}
+
+	public class ConfigCoda
+	{
+		public Dictionary<string, string> messages = new Dictionary<string, string>();
+		public bool whitelistonly;
+		public int loadTime;
+		public int graceTime;
+		public int queueGraceTime;
+		public bool contoCodaFineNomeServer;
+		public bool allowSymbols;
+		public bool stateChangeMessages;
 	}
 }

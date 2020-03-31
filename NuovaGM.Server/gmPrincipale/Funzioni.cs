@@ -52,7 +52,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (ServerEntrance.PlayerList.Count > 0)
 			{
-				await BaseScript.Delay(ConfigServer.Conf.Main.SalvataggioTutti * 60000);
+				await BaseScript.Delay(Server.Impostazioni.Main.SalvataggioTutti * 60000);
 				foreach (Player player in Server.Instance.GetPlayers.ToList())
 				{
 					string name = player.Name;

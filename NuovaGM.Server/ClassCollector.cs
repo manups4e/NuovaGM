@@ -16,7 +16,7 @@ namespace NuovaGM.Server
 		public static async void Init()
 		{
 			ConfigServer.Init();
-			while (ConfigServer.Conf == null) await BaseScript.Delay(0);
+			while (Server.Impostazioni == null) await BaseScript.Delay(0);
 			DiscordWhitelist.Init();
 			ServerManager.Init();
 			ServerEntrance.Init();
@@ -36,7 +36,8 @@ namespace NuovaGM.Server
 			Meteo.Init();
 			Orario.Init();
 			Telefoni.TelefonoMainServer.Init();
-			Coda.Init();
+//			Coda.Init();
+			NuovaCoda.Init();
 		}
 	}
 }

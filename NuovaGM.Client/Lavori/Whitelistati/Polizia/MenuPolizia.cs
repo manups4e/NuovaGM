@@ -102,7 +102,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				{
 					if (!Eventi.Player.InServizio)
 					{
-						foreach (var Grado in ConfigClient.Conf.Lavori.Polizia.Gradi)
+						foreach (var Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
 						{
 							if (Eventi.Player.CurrentChar.job.name == "Polizia")
 							{

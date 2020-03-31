@@ -171,7 +171,7 @@ namespace NuovaGM.Client
 				{
 					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MarkersPolizia);
 					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MainTickPolizia);
-					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 						Client.GetInstance.RegisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = true;
 				}
@@ -182,7 +182,7 @@ namespace NuovaGM.Client
 				{
 					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
 					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
-					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = false;
 				}
@@ -199,7 +199,7 @@ namespace NuovaGM.Client
 				{
 					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
 					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
-					if (ConfigClient.Conf.Lavori.Polizia.Config.AbilitaBlipVolanti)
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = false;
 				}

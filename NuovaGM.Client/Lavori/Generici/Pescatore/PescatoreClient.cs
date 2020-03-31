@@ -77,7 +77,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 		{
 			RequestAnimDict(AnimDict);
 			RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
-			PuntiPesca = ConfigClient.Conf.Lavori.Generici.Pescatore;
+			PuntiPesca = Client.Impostazioni.Lavori.Generici.Pescatore;
 			Client.GetInstance.RegisterTickHandler(ControlloPesca);
 
 			SharedScript.ItemList["cannadapescabase"].Usa += async (item, index) =>

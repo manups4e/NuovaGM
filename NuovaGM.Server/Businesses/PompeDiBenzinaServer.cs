@@ -13,7 +13,7 @@ namespace NuovaGM.Server.Businesses
 	{
 		static int stationCapacity = 1500;
 		static float fuelUnownedBuyPrice = 0.9f;
-		static int rentprice = ConfigServer.Conf.Main.RentPricePompeDiBenzina;
+		static int rentprice = Server.Impostazioni.Main.RentPricePompeDiBenzina;
 
 		public static void Init()
 		{
