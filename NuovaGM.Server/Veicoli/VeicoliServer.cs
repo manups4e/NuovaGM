@@ -22,16 +22,13 @@ namespace NuovaGM.Server.Veicoli
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)
 		{
-			string host = GetHostId();
-			if (lasthost != host)
+			if (p.Handle == "1")
 			{
-				lasthost = host;
-
 				Debug.WriteLine("train timeout activated.");
 				await BaseScript.Delay(15000);
 				activateTrain();
+				//BaseScript.TriggerClientEvent("lprp:getHost", host);
 			}
-			BaseScript.TriggerClientEvent("lprp:getHost", host);
 		}
 
 		public static void SilentSiren([FromSource]Player player, bool toggle) => BaseScript.TriggerClientEvent("lprp:updateSirens", player.Handle, toggle);

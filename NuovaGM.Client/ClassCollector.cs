@@ -69,7 +69,7 @@ namespace NuovaGM.Client
 			Telefono.PhoneMainClient.Init();
 
 			ClasseDiTest.Init(); // da rimouvere
-
+			CodaControl.CodaAdminPanel.Init();
 		}
 	}
 }

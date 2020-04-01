@@ -53,6 +53,8 @@ namespace NuovaGM.Client
 		public int BleedoutTimer;
 		public bool EscludiMirino;
 		public List<uint> ScopedWeapons = new List<uint>();
+		public Dictionary<long, float> recoils = new Dictionary<long, float>();
+		public List<string> pickupList = new List<string>();
 
 		public List<GenericPeds> stripClub = new List<GenericPeds>();
 		public List<GenericPeds> blackMarket = new List<GenericPeds>();

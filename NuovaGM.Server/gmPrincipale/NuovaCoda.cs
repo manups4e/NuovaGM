@@ -70,17 +70,16 @@ namespace NuovaGM.Server.gmPrincipale
 //            Server.Instance.RegisterEventHandler("onResourceStop", new Action<string>(OnResourceStop));
             Server.Instance.RegisterEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
             Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
-            Server.Instance.RegisterEventHandler("fivemqueue: playerConnected", new Action<Player>(PlayerActivated));
-            Server.Instance.AddCommand("q_session", new Action<int, List<object>, string>(QueueSession), true);
-            Server.Instance.AddCommand("q_changemax", new Action<int, List<object>, string>(QueueChangeMax), true);
-            Server.Instance.AddCommand("q_reloadconfig", new Action<int, List<object>, string>(ReloadConfig), true);
-            Server.Instance.AddCommand("q_kick", new Action<int, List<object>, string>(Kick), true);
-            Server.Instance.AddCommand("q_steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), true);
+            Server.Instance.RegisterEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
+            Server.Instance.AddCommand("sessione", new Action<int, List<object>, string>(QueueSession), true);
+            Server.Instance.AddCommand("cambiamax", new Action<int, List<object>, string>(QueueChangeMax), true);
+            Server.Instance.AddCommand("ricaricaconfig", new Action<int, List<object>, string>(ReloadConfig), true);
+            Server.Instance.AddCommand("kick", new Action<int, List<object>, string>(Kick), true);
+            Server.Instance.AddCommand("steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), true);
             Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
-            Server.Instance.AddCommand("q_count", new Action<int, List<object>, string>(QueueCheck), false);
+            Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
             StopHardcap();
             Server.Instance.RegisterTickHandler(QueueCycle);
-            //Task.Run(QueueCycle);
             serverQueueReady = true;
         }
 
@@ -100,7 +99,7 @@ namespace NuovaGM.Server.gmPrincipale
 
         private static void QueueCheck(int source, List<object> args, string raw)
         {
-            Server.Printa(LogType.Info, $"Coda: {queue.Count}.\nCoda con priorità: {pQueue.Count}");
+            Server.Printa(LogType.Info, $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
             session.Where(k => k.Value == SessionState.Coda).ToList().ForEach(j =>
             {
                 Server.Printa(LogType.Info, $"{j.Key} in coda. Timer: {timer.TryGetValue(j.Key, out DateTime oldTimer)} Priorita: {priority.TryGetValue(j.Key, out int oldPriority)}");
@@ -110,24 +109,6 @@ namespace NuovaGM.Server.gmPrincipale
         private static void ReloadConfig(int source, List<object> args, string raw)
         {
             LoadConfigs();
-        }
-
-        private static void CreateMessagesJSON(string path)
-        {
-            messages.Add("Gathering", "informazioni sulla coda");
-            messages.Add("License", "Licenza SocialClub obbligatoria");
-            messages.Add("Discord", "ERRORE: DiscordID non trovato");
-            messages.Add("Steam", "Steam obbligatorio");
-            messages.Add("Banned", "Sei stato Bannato");
-            messages.Add("Whitelist", "SHIELD 2.0:\nNon sei autorizzato a entrare su questo server!\nChiedi l'autorizzazione sul canale Discord di Manups4e (discord.gg/n4ep9Fq) nella sezione dedicata!.");
-            messages.Add("Queue", "Sei in coda");
-            messages.Add("PriorityQueue", "In coda con priorità");
-            messages.Add("Canceled", "Espulso dalla coda");
-            messages.Add("Error", "Errore contatta lo staff");
-            messages.Add("Timeout", "Ecceduto tempo massimo di caricamento [timeout]");
-            messages.Add("QueueCount", "[Coda: {0}]");
-            messages.Add("Symbols", "I simboli non sono ammessi nel tuo nome steam");
-            File.WriteAllText(path, JsonConvert.SerializeObject(messages, Formatting.Indented));
         }
 
         private static bool IsEverythingReady()
@@ -162,7 +143,7 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 if (args.Count != 1)
                 {
-                    Server.Printa(LogType.Error, $"Questo comando richiede 1 argomento. <Discord> OR <License>");
+                    Server.Printa(LogType.Error, $"Questo comando richiede 1 argomento. <Discord> O <License>");
                     return;
                 }
                 string identifier = args[0].ToString();
@@ -414,7 +395,7 @@ namespace NuovaGM.Server.gmPrincipale
                             {
                                 if (sentLoading.ContainsKey(license) && Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license) != null)
                                 {
-                                    BaseScript.TriggerEvent("fivemqueue: newloading", sentLoading[license]);
+                                    BaseScript.TriggerEvent("lprp:coda: newloading", sentLoading[license]);
                                     sentLoading.TryRemove(license, out Player oldPlayer);
                                 }
                             }
@@ -479,12 +460,12 @@ namespace NuovaGM.Server.gmPrincipale
                 }
                 if (session.Count == 0)
                 {
-                    Server.Printa(LogType.Error, $"Nessun account in sessione");
+                    Server.Printa(LogType.Error, $"Nessun player in sessione");
                     return;
                 }
                 if (source == 0)
                 {
-                    Debug.WriteLine($"| LICENSE" + new string(' ', 33) + " | STATO IN CODA | DISCORD" + new string(' ', 11) + " | STEAM" + new string(' ', 10) + " | PRIORITY | RESERVE | SLOT USED | HANDLE | NAME");
+                    Debug.WriteLine($"| LICENSE" + new string(' ', 33) + " | STATO IN CODA | DISCORD" + new string(' ', 11) + " | STEAM" + new string(' ', 10) + " | PRIORITA' | RISERVATO | SLOT USATO | HANDLE | NOME");
                     session.OrderByDescending(k => k.Value).ToList().ForEach(j =>
                     {
                         Player player = Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
@@ -493,7 +474,7 @@ namespace NuovaGM.Server.gmPrincipale
                         if (!priority.TryGetValue(j.Key, out int oldPriority)) { oldPriority = 0; }
                         if (!reserved.TryGetValue(j.Key, out Reserved oldReserved)) { oldReserved = Reserved.Public; }
                         if (!slotTaken.TryGetValue(j.Key, out Reserved oldSlot)) { oldSlot = Reserved.Public; }
-                        Debug.WriteLine($"| {j.Key} | {j.Value}{new string(' ', 13-j.Value.ToString().Length)} | {player?.Identifiers["discord"]} | {player?.Identifiers["STEAM"]} | {oldPriority}{new string(' ', 8-oldPriority.ToString().Length)} | {oldReserved}{new string(' ', 7 -oldReserved.ToString().Length)} | {oldSlot}{new string(' ', 9 -oldSlot.ToString().Length)} | {player?.Handle}{new string(' ', 6-player.Handle.Length)} | {player?.Name}");
+                        Debug.WriteLine($"| {j.Key} | {j.Value}{new string(' ', 13 - j.Value.ToString().Length)} | {player?.Identifiers["discord"]} | {player?.Identifiers["STEAM"]} | {oldPriority}{new string(' ', 9 - oldPriority.ToString().Length)} | {oldReserved}{new string(' ', 9 - oldReserved.ToString().Length)} | {oldSlot}{new string(' ', 10 - oldSlot.ToString().Length)} | {player?.Handle}{new string(' ', 6 - player.Handle.Length)} | {player?.Name}");
                     });
                 }
                 else
@@ -508,11 +489,11 @@ namespace NuovaGM.Server.gmPrincipale
                         if (!priority.TryGetValue(j.Key, out int oldPriority)) { oldPriority = 0; }
                         if (!reserved.TryGetValue(j.Key, out Reserved oldReserved)) { oldReserved = Reserved.Public; }
                         if (!slotTaken.TryGetValue(j.Key, out Reserved oldSlot)) { oldSlot = Reserved.Public; }
-                        temp = new { License = j.Key, State = j.Value, Discord = player?.Identifiers["discord"], Priority = oldPriority, Reserved = oldReserved, ReservedUsed = oldSlot, Handle = player?.Handle, Name = player?.Name };
+                        temp = new { License = j.Key, State = j.Value, Discord = player?.Identifiers["discord"], Steam = player?.Identifiers["steam"], Priority = oldPriority, Handle = player?.Handle, Name = player?.Name };
                         sessionReturn.Add(temp);
                     });
                     Player requested = Server.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
-                    requested.TriggerEvent("fivemqueue: sessionResponse", JsonConvert.SerializeObject(sessionReturn));
+                    requested.TriggerEvent("lprp:coda: sessionResponse", JsonConvert.SerializeObject(sessionReturn));
                 }
             }
             catch (Exception)
@@ -545,7 +526,7 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                ExecuteCommand($"sets fivemqueue Enabled");
+                ExecuteCommand($"sets lprp:coda Enabled");
                 int attempts = 0;
                 while (attempts < 7)
                 {
@@ -640,7 +621,7 @@ namespace NuovaGM.Server.gmPrincipale
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(source.Identifiers["discord"], Server.Impostazioni.Main.RuoloWhitelistato);
+                puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(discord, Server.Impostazioni.Main.RuoloWhitelistato);
                 await BaseScript.Delay(1000);
 
                 if (puoentrare)
@@ -682,6 +663,9 @@ namespace NuovaGM.Server.gmPrincipale
                             newPQueue.Enqueue(license);
                             if (stateChangeMessages) { Server.Printa(LogType.Info,$"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {license}"); }
                         }
+                        string inCoda = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0: Accesso consentito, attendi...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/ezgif.com-resize-1887cbdf86515eeeb.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+                        deferrals.presentCard(inCoda);
+                        await BaseScript.Delay(2000);
                     }
 
                     if (!session[license].Equals(SessionState.Coda))

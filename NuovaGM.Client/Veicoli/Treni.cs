@@ -97,52 +97,54 @@ namespace NuovaGM.Client.Veicoli
 
 		private static async void SpawnTrain()
 		{
-			int traincount = 0;
-			foreach (string p in trainmodels)
-			{
-				Model m = new Model(p);
-				m.Request();
-				while (!m.IsLoaded) await BaseScript.Delay(10);
-			}
-			Model n = new Model("s_m_m_lsmetro_01");
-			n.Request();
-			while (!n.IsLoaded) await BaseScript.Delay(10);
-			foreach (Vehicle veh in World.GetAllVehicles())
-			{
-				int model = GetEntityModel(veh.Handle);
-				bool istrain = IsThisModelATrain((uint)model);
-				if (istrain) ++traincount;
-			}
+			/*			int traincount = 0;
+						foreach (string p in trainmodels)
+						{
+							Model m = new Model(p);
+							m.Request();
+							while (!m.IsLoaded) await BaseScript.Delay(10);
+						}
+						Model n = new Model("s_m_m_lsmetro_01");
+						n.Request();
+						while (!n.IsLoaded) await BaseScript.Delay(10);
+						foreach (Vehicle veh in World.GetAllVehicles())
+						{
+							int model = GetEntityModel(veh.Handle);
+							bool istrain = IsThisModelATrain((uint)model);
+							if (istrain) ++traincount;
+						}
 
-			if (traincount == 0)
-			{
-				for (int i = 0; i < trainLocations.Count; i++)
-				{
-					int tr1 = GetRandomIntInRange(0, 22);
-					Treno train = new Treno();
-					train.entity = CreateMissionTrain(tr1, trainLocations[i].X, trainLocations[i].Y, trainLocations[i].Z, true);
-					SetEntityAsMissionEntity(train.entity, true, true);
-					Trains.Add(train);
-				}
-			}
-			foreach (Treno v in Trains)
-			{
-				CreatePedInsideVehicle(v.entity, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
-				SetVehicleDoorsLocked(v.entity, 0);
-			}
+						if (traincount == 0)
+						{
+							for (int i = 0; i < trainLocations.Count; i++)
+							{
+								int tr1 = GetRandomIntInRange(0, 22);
+								Treno train = new Treno();
+								train.entity = CreateMissionTrain(tr1, trainLocations[i].X, trainLocations[i].Y, trainLocations[i].Z, true);
+								SetEntityAsMissionEntity(train.entity, true, true);
+								Trains.Add(train);
+							}
+						}
+						foreach (Treno v in Trains)
+						{
+							CreatePedInsideVehicle(v.entity, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
+							SetVehicleDoorsLocked(v.entity, 0);
+						}
 
-			for (int i = 0; i < 4; i++)
-			{
-				int metroAvanti = CreateMissionTrain(24, 40.2f, -1201.3f, 31.0f, true);
-				int metroIndietro = CreateMissionTrain(24, -618.0f, -1476.8f, 16.2f, true);
-				CreatePedInsideVehicle(metroAvanti, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
-				SetVehicleDoorsLocked(metroAvanti, 0);
-				CreatePedInsideVehicle(metroIndietro, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
-				SetVehicleDoorsLocked(metroIndietro, 0);
-				SetEntityAsMissionEntity(metroAvanti, true, true);
-				SetEntityAsMissionEntity(metroIndietro, true, true);
-				await BaseScript.Delay(300000);
-			}
+						for (int i = 0; i < 4; i++)
+						{
+							int metroAvanti = CreateMissionTrain(24, 40.2f, -1201.3f, 31.0f, true);
+							int metroIndietro = CreateMissionTrain(24, -618.0f, -1476.8f, 16.2f, true);
+							CreatePedInsideVehicle(metroAvanti, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
+							SetVehicleDoorsLocked(metroAvanti, 0);
+							CreatePedInsideVehicle(metroIndietro, 26, (uint)GetHashKey("s_m_m_lsmetro_01"), -1, true, true);
+							SetVehicleDoorsLocked(metroIndietro, 0);
+							SetEntityAsMissionEntity(metroAvanti, true, true);
+							SetEntityAsMissionEntity(metroIndietro, true, true);
+							await BaseScript.Delay(300000);
+						}
+						SetRandomTrains(true);
+					*/
 			SetRandomTrains(true);
 		}
 

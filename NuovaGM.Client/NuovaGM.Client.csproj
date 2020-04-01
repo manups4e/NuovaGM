@@ -54,6 +54,7 @@
     <Compile Include="Banking\BankingClient.cs" />
     <Compile Include="Businesses\Negozi.cs" />
     <Compile Include="ClasseDiTest.cs" />
+    <Compile Include="CodaControl\CodaAdminPanel.cs" />
     <Compile Include="ControlModifier.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Interactions\BarbaNaturale.cs" />
