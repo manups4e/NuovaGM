@@ -706,7 +706,25 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			return deg * ((float)Math.PI / 180.0f);
 		}
-		
+
+		public static Tuple<Ped, float> GetClosestPed()
+		{
+			Ped[] Peds = World.GetAllPeds();
+			float closestDistance = -1f;
+			Ped closestPed = null;
+			foreach (Ped v in Peds)
+			{
+				Vector3 pedcoords = v.Position;
+				float distance = World.GetDistance(pedcoords, Game.PlayerPed.Position);
+				if (closestDistance == -1 || closestDistance > distance)
+				{
+					closestPed = v;
+					closestDistance = distance;
+				}
+			}
+			return new Tuple<Ped, float>(closestPed, closestDistance);
+		}
+
 		public static Tuple<Ped, float> GetClosestPed(Vector3 Coords)
 		{
 			Ped[] Peds = World.GetAllPeds();

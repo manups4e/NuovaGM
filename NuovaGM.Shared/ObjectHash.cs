@@ -1,4 +1,4 @@
-﻿namespace NuovaGM.Client
+﻿namespace NuovaGM.Shared
 {
 	public enum ObjectHash : int
 	{
@@ -6607,6 +6607,7 @@
 		prop_w_me_dagger = 1725061196,
 		prop_w_me_hatchet = 173095431,
 		prop_w_me_knife_01 = -518344816,
+		prop_w_me_flashlight_01 = -2016486256,
 		prop_w_r_cedar_01 = 80813867,
 		prop_w_r_cedar_dead = 1872658008,
 		prop_xmas_ext = 118627012,
@@ -8486,6 +8487,7 @@
 		w_at_sr_supp = 985886684,
 		w_at_sr_supp_2 = -1376365801,
 		w_ex_apmine = 1876445962,
+		w_ex_pipebomb = -173454011,
 		w_ex_birdshat = 1090792329,
 		w_ex_grenadefrag = 290600267,
 		w_ex_grenadesmoke = 1591549914,
@@ -8496,6 +8498,7 @@
 		w_lr_firework = 491091384,
 		w_lr_firework_rocket = 439782367,
 		w_lr_grenadelauncher = -606683246,
+		w_lr_compactlauncher = -1523553483,
 		w_lr_homing = 1901887007,
 		w_lr_homing_rocket = -1146260322,
 		w_lr_rpg = -218858073,
@@ -8528,6 +8531,7 @@
 		w_pi_heavypistol = 1927398017,
 		w_pi_heavypistol_mag1 = -642859694,
 		w_pi_heavypistol_mag2 = -404137529,
+		w_pi_doubleaction = 2050882666,
 		w_pi_pistol = 1467525553,
 		w_pi_pistol50 = -178484015,
 		w_pi_pistol50_mag1 = 874805497,
@@ -8541,6 +8545,7 @@
 		w_pi_vintage_pistol = -1124046276,
 		w_pi_vintage_pistol_mag1 = 2068113221,
 		w_pi_vintage_pistol_mag2 = -1786569791,
+		w_pi_marksman_pistol = -103789861,
 		w_sb_assaultsmg = -473574177,
 		w_sb_assaultsmg_mag1 = -312532388,
 		w_sb_assaultsmg_mag2 = -546011513,
@@ -8562,6 +8567,8 @@
 		w_sg_heavyshotgun_mag2 = -992039018,
 		w_sg_pumpshotgun = 689760839,
 		w_sg_sawnoff = -675841386,
+		w_sg_dbshotgun = 222483357,
+		w_sg_autoshotgun = 1380588314,
 		w_sr_heavysniper = -746966080,
 		w_sr_heavysniper_mag1 = -850235586,
 		w_sr_marksmanrifle = -1711248638,

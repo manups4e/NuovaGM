@@ -67,12 +67,12 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void chatMessage(int id, string name, string message)
 		{
-			if (ServerEntrance.PlayerList[id.ToString()].group_level > -1)
+			if (Server.PlayerList[id.ToString()].group_level > -1)
 			{
 				Player p = Funzioni.GetPlayerFromId(id);
 				if (message.Substring(0, 1) != "/")
 				{
-					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), ServerEntrance.PlayerList[p.Handle].FullName + ":", message, 00, 102, 255);
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), Server.PlayerList[p.Handle].FullName + ":", message, 00, 102, 255);
 					CancelEvent();
 				}
 				else
@@ -91,8 +91,8 @@ namespace NuovaGM.Server.gmPrincipale
 			command = command.Where(o => o != cmd).ToArray();
 			cmd = cmd.ToLower();
 
-			if (ServerEntrance.PlayerList[sender.Handle].group_level > -1)
-				adminLevel = ServerEntrance.PlayerList[sender.Handle].group_level;
+			if (Server.PlayerList[sender.Handle].group_level > -1)
+				adminLevel = Server.PlayerList[sender.Handle].group_level;
 			if (adminLevel >= commands[cmd])
 			{
 				string msg = "";

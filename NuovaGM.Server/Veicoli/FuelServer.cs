@@ -25,7 +25,7 @@ namespace NuovaGM.Server.Veicoli
 
 		public static async void PayForFuel([FromSource] Player p, int stationindex, float addedfuel, float fuelval)
 		{
-			User player = ServerEntrance.PlayerList[p.Handle];
+			User player = Server.PlayerList[p.Handle];
 			int sidx = stationindex;
 			float fuelCost;
 			dynamic result = await Server.Instance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
@@ -62,7 +62,7 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void BuyTanker([FromSource] Player p, string Json)
 		{
-			User user = ServerEntrance.PlayerList[p.Handle];
+			User user = Server.PlayerList[p.Handle];
 			Tanker t = JsonConvert.DeserializeObject<Tanker>(Json);
 			int amount = (int)Math.Ceiling(t.ppu * t.fuelForTanker);
 			if (user.Money >= amount)
@@ -80,7 +80,7 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void BuyFuelForTanker([FromSource] Player p, int cost, int fuel)
 		{
-			User user = ServerEntrance.PlayerList[p.Handle];
+			User user = Server.PlayerList[p.Handle];
 			if (user.Money >= cost)
 			{
 				user.Money -= cost;

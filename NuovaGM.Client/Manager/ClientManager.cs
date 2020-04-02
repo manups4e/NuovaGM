@@ -168,12 +168,8 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task AC()
 		{
-			if (Input.IsControlPressed(Control.Sprint, PadCheck.Keyboard))
-			{
-				Game.DisableControlThisFrame(0, Control.DropAmmo);
-				if (Input.IsDisabledControlJustPressed(Control.DropAmmo, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen())
-					ManagerMenu.AdminMenu(Eventi.Player.group_level);
-			}
+			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen())
+				ManagerMenu.AdminMenu(Eventi.Player.group_level);
 			if (Eventi.Player != null && Eventi.Player.group_level > 1)
 			{
 				if (Input.IsControlJustPressed(Control.SaveReplayClip, PadCheck.Keyboard))

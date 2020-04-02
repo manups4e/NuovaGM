@@ -24,22 +24,29 @@ namespace NuovaGM.Server
 
 		public async static Task connessioneDiscord()
 		{
-			RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);
-			if (connessione.status != System.Net.HttpStatusCode.OK)
+			try
 			{
-				Server.Printa(LogType.Warning, "Errore nel contattare i server Discord, controlla la configurazione e assicurati che sia tutto corretto. Errore: " + connessione.status);
-				ConnessoADiscord = false;
+				RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);
+				if (connessione.status != System.Net.HttpStatusCode.OK)
+				{
+					Server.Printa(LogType.Warning, "Errore nel contattare i server Discord, controlla la configurazione e assicurati che sia tutto corretto. Errore: " + connessione.status);
+					ConnessoADiscord = false;
+				}
+				while (connessione.status != System.Net.HttpStatusCode.OK)
+				{
+					Server.Printa(LogType.Warning, "Nuovo tentativo di riconnessione ai server Discord in corso (ogni 5 secondi)");
+					await BaseScript.Delay(5000);
+					connessione = await DiscordConnection("guilds/" + GuildId);
+				}
+				dynamic data = JsonConvert.DeserializeObject<DiscordGuildResponse>(connessione.content);
+				Server.Printa(LogType.Info, "Connesso correttamente al Server \"" + data.name + "\" [codice: " + data.id + "]");
+				ConnessoADiscord = true;
+				await BaseScript.Delay(300000);
 			}
-			while (connessione.status != System.Net.HttpStatusCode.OK)
+			catch(Exception e)
 			{
-				Server.Printa(LogType.Warning, "Nuovo tentativo di riconnessione ai server Discord in corso (ogni 5 secondi)");
-				await BaseScript.Delay(5000);
-				connessione = await DiscordConnection("guilds/" + GuildId);
+				Server.Printa(LogType.Error, e.ToString() + "\n" + e.StackTrace);
 			}
-			dynamic data = JsonConvert.DeserializeObject<DiscordGuildResponse>(connessione.content);
-			Server.Printa(LogType.Info, "Connesso correttamente al Server \"" + data.name + "\" [codice: " + data.id + "]");
-			ConnessoADiscord = true;
-			await BaseScript.Delay(300000);
 		}
 
 		public static async void SendWebhookMessageCoda(Dictionary<string, string> idents, string name, string hook, string Flag, string Info)

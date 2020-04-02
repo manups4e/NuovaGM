@@ -38,10 +38,6 @@ namespace NuovaGM.Server.Meteo_New
 		{
 			await BaseScript.Delay(1000);
 			BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, false);
-			h = (int)Math.Floor(secondOfDay / 3600f);
-			m = (int)Math.Floor((secondOfDay - (h * 3600)) / 60f);
-			s = secondOfDay - (h * 3600) - (m * 60);
-//			Server.Printa(LogType.Debug, $"Tempo di gioco: {h}:{m}:{s}");
 		}
 
 		public static async Task UpdateTime()

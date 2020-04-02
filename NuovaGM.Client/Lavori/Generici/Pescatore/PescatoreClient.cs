@@ -83,7 +83,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			SharedScript.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
 				HUD.MenuPool.CloseAllMenus();
-				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
@@ -93,7 +93,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			SharedScript.ItemList["cannadapescamedia"].Usa += async (item, index) =>
 			{
 				HUD.MenuPool.CloseAllMenus();
-				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005),0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
@@ -103,7 +103,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			SharedScript.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
 			{
 				HUD.MenuPool.CloseAllMenus();
-				CannaDaPesca = new Prop(CreateObject(Funzioni.HashInt("prop_fishing_rod_01"), 1729.73f, 6403.90f, 34.56f, true, true, true));
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005),0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;

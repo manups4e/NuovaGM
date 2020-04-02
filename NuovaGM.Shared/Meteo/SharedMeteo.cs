@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Shared.Weather
+namespace NuovaGM.Shared.Meteo
 {
 	public class SharedMeteo
 	{

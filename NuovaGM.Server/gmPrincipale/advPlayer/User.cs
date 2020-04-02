@@ -227,6 +227,13 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
+		public void updateWeaponAmmo(string weaponName, int ammo)
+		{
+			var weapon = getWeapon(weaponName);
+			if (weapon.Item2.ammo > ammo)
+				CurrentChar.weapons[weapon.Item1].ammo = ammo;
+		}
+
 		public void removeWeapon(string weaponName)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
@@ -341,6 +348,8 @@ namespace NuovaGM.Server.gmPrincipale
 			*/
 		}
 
+		public Vector3 getCoords { get { return new Vector3(CurrentChar.location.x, CurrentChar.location.y, CurrentChar.location.z); } }
+
 		public void giveLicense(string license, string mittente)
 		{
 			Licenses licenza = new Licenses(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
@@ -355,6 +364,11 @@ namespace NuovaGM.Server.gmPrincipale
 					CurrentChar.licenze.Remove(licen);
 				else Server.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
+		}
+
+		public void showNotification(string text)
+		{
+			p.TriggerEvent("lprp:showNotification", text);
 		}
 	}
 

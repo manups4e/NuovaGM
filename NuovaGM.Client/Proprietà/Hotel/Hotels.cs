@@ -21,7 +21,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 		{
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
-				Client.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0]+""));
+				Client.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
 			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
 			{
@@ -34,6 +34,27 @@ namespace NuovaGM.Client.Proprietà.Hotel
 					Name = "Hotel"
 				};
 			}
+
+			RegisterCommand("weaphash", new Action<int, List<dynamic>, string>(async(id, hash, comando) =>
+			{
+				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
+				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
+				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, true, 1.0f, 0));
+
+				Client.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
+			}), false);
+			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
+			{
+				Blip p = new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+				{
+					Sprite = BlipSprite.Heist,
+					Scale = 1.0f,
+					Color = BlipColor.Yellow,
+					IsShortRange = true,
+					Name = "Hotel"
+				};
+			}
+
 			Client.GetInstance.RegisterTickHandler(ControlloHotel);
 		}
 

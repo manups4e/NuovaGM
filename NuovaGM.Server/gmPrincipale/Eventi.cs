@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using NuovaGM.Server.Interactions;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.RegisterEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
 			Server.Instance.RegisterEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
 			Server.Instance.RegisterEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
+			Server.Instance.RegisterEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 
 		}
 
@@ -72,7 +74,7 @@ namespace NuovaGM.Server.gmPrincipale
 			try
 			{
 				Char_data Char = JsonConvert.DeserializeObject<Char_data>(data);
-				ServerEntrance.PlayerList[p.Handle].char_data.Add(Char);
+				Server.PlayerList[p.Handle].char_data.Add(Char);
 			}
 			catch (Exception e)
 			{
@@ -103,72 +105,72 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (type == "char_current")
 			{
-				ServerEntrance.PlayerList[player.Handle].char_current = (int)data;
+				Server.PlayerList[player.Handle].char_current = (int)data;
 			}
 			else if (type == "char_data")
 			{
-				ServerEntrance.PlayerList[player.Handle].char_data = JsonConvert.DeserializeObject<List<Char_data>>(data);
+				Server.PlayerList[player.Handle].char_data = JsonConvert.DeserializeObject<List<Char_data>>(data);
 			}
 			else if (type == "status")
 			{
-				ServerEntrance.PlayerList[player.Handle].status.spawned = (bool)data;
+				Server.PlayerList[player.Handle].status.spawned = (bool)data;
 			}
 			else if (type == "charlocation")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.location.x = data.X;
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.location.y = data.Y;
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.location.z = data.Z;
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.location.h = h;
+				Server.PlayerList[player.Handle].CurrentChar.location.x = data.X;
+				Server.PlayerList[player.Handle].CurrentChar.location.y = data.Y;
+				Server.PlayerList[player.Handle].CurrentChar.location.z = data.Z;
+				Server.PlayerList[player.Handle].CurrentChar.location.h = h;
 			}
 			else if (type == "skin")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.skin = JsonConvert.DeserializeObject<Skin>(data);
+				Server.PlayerList[player.Handle].CurrentChar.skin = JsonConvert.DeserializeObject<Skin>(data);
 			}
 			else if (type == "needs")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.needs = JsonConvert.DeserializeObject<Needs>(data);
+				Server.PlayerList[player.Handle].CurrentChar.needs = JsonConvert.DeserializeObject<Needs>(data);
 			}
 			else if (type == "skill")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.statistiche = JsonConvert.DeserializeObject<Statistiche>(data);
+				Server.PlayerList[player.Handle].CurrentChar.statistiche = JsonConvert.DeserializeObject<Statistiche>(data);
 			}
 			else if (type == "chardressing")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.dressing = JsonConvert.DeserializeObject<Dressing>(data);
+				Server.PlayerList[player.Handle].CurrentChar.dressing = JsonConvert.DeserializeObject<Dressing>(data);
 			}
 			else if (type == "weapons")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.weapons = JsonConvert.DeserializeObject<List<Weapons>>(data);
+				Server.PlayerList[player.Handle].CurrentChar.weapons = JsonConvert.DeserializeObject<List<Weapons>>(data);
 			}
 			else if (type == "job")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.job = JsonConvert.DeserializeObject<Job>(data);
+				Server.PlayerList[player.Handle].CurrentChar.job = JsonConvert.DeserializeObject<Job>(data);
 			}
 			else if (type == "gang")
 			{
-				ServerEntrance.PlayerList[player.Handle].CurrentChar.gang = JsonConvert.DeserializeObject<Gang>(data);
+				Server.PlayerList[player.Handle].CurrentChar.gang = JsonConvert.DeserializeObject<Gang>(data);
 			}
 			else if (type == "group")
 			{
-				ServerEntrance.PlayerList[player.Handle].group = data;
+				Server.PlayerList[player.Handle].group = data;
 			}
 			else if (type == "groupL")
 			{
-				ServerEntrance.PlayerList[player.Handle].group_level = data;
+				Server.PlayerList[player.Handle].group_level = data;
 			}
-			string _char_data = JsonConvert.SerializeObject(ServerEntrance.PlayerList[player.Handle].char_data);
-			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, ServerEntrance.PlayerList[player.Handle].char_current, ServerEntrance.PlayerList[player.Handle].group);
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));
+			string _char_data = JsonConvert.SerializeObject(Server.PlayerList[player.Handle].char_data);
+			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, Server.PlayerList[player.Handle].char_current, Server.PlayerList[player.Handle].group);
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)
 		{
-			ServerEntrance.PlayerList[source.Handle].DeathStatus = value;
+			Server.PlayerList[source.Handle].DeathStatus = value;
 		}
 
 		public static void PayFine([FromSource] Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			if (amount == EarlyRespawnFineAmount)
 			{
 				player.Money -= EarlyRespawnFineAmount;
@@ -185,12 +187,12 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Spawnato([FromSource] Player source)
 		{
-			Server.Printa(LogType.Info, ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
-			BaseScript.TriggerEvent("lprp:serverLog", ServerEntrance.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
+			Server.Printa(LogType.Info, Server.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
+			BaseScript.TriggerEvent("lprp:serverLog", Server.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
-					BaseScript.TriggerClientEvent(player, "lprp:ShowNotification", "~g~" + ServerEntrance.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));
+					BaseScript.TriggerClientEvent(player, "lprp:ShowNotification", "~g~" + Server.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 		}
 
 		public static void Dropped([FromSource] Player player, string reason)
@@ -214,15 +216,15 @@ namespace NuovaGM.Server.gmPrincipale
 		public static async void SalvaPlayer([FromSource] Player player)
 		{
 			string name = player.Name;
-			if (ServerEntrance.PlayerList.ContainsKey(player.Handle))
+			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
-				var ped = ServerEntrance.PlayerList[player.Handle];
+				var ped = Server.PlayerList[player.Handle];
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
 					Funzioni.SalvaPersonaggio(player);
-					Server.Printa(LogType.Info, "Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
-					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ServerEntrance.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + ServerEntrance.PlayerList[player.Handle].identifiers.discord + ", tramite telefono");
+					Server.Printa(LogType.Info, "Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + Server.PlayerList[player.Handle].identifiers.discord + ", tramite telefono");
 				}
 			}
 			await Task.FromResult(0);
@@ -238,7 +240,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void removeItemsDeath([FromSource] Player source)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			List<Inventory> inventory = player.getCharInventory(player.char_current);
 			List<Weapons> weapons = player.getCharWeapons(player.char_current);
 			int money = player.Money;
@@ -260,7 +262,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveMoney([FromSource]Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			player.Money += (amount);
 		}
 
@@ -268,7 +270,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (amount != 0)
 			{
-				var player = ServerEntrance.PlayerList[source.Handle];
+				var player = Server.PlayerList[source.Handle];
 				player.Money -= amount;
 			}
 			else
@@ -277,64 +279,64 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveBank([FromSource]Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			player.Bank += amount;
 		}
 
 		public static void RemoveBank([FromSource]Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirty([FromSource]Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirty([FromSource]Player source, int amount)
 		{
-			var player = ServerEntrance.PlayerList[source.Handle];
+			var player = Server.PlayerList[source.Handle];
 			player.DirtyMoney -= amount;
 		}
 
 		public static void AddInventory([FromSource]Player source, string item, int amount, float peso)
 		{
-			ServerEntrance.PlayerList[source.Handle].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Server.PlayerList[source.Handle].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventory([FromSource]Player source, string item, int amount)
 		{
-			ServerEntrance.PlayerList[source.Handle].removeInventoryItem(item, amount);
+			Server.PlayerList[source.Handle].removeInventoryItem(item, amount);
 		}
 
 		public static void AddWeapon([FromSource]Player source, string weaponName, int ammo)
 		{
-			ServerEntrance.PlayerList[source.Handle].addWeapon(weaponName, ammo);
+			Server.PlayerList[source.Handle].addWeapon(weaponName, ammo);
 		}
 
 		public static void RemoveWeapon([FromSource]Player source, string weaponName)
 		{
-			ServerEntrance.PlayerList[source.Handle].removeWeapon(weaponName);
+			Server.PlayerList[source.Handle].removeWeapon(weaponName);
 		}
 
 		public static void AddWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
 		{
-			ServerEntrance.PlayerList[source.Handle].addWeaponComponent(weaponName, weaponComponent);
+			Server.PlayerList[source.Handle].addWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void RemoveWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
 		{
-			ServerEntrance.PlayerList[source.Handle].removeWeaponComponent(weaponName, weaponComponent);
+			Server.PlayerList[source.Handle].removeWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void AddWeaponTint([FromSource]Player source, string weaponName, int tint)
 		{
-			ServerEntrance.PlayerList[source.Handle].addWeaponTint(weaponName, tint);
+			Server.PlayerList[source.Handle].addWeaponTint(weaponName, tint);
 		}
 
 		public static void GetPlayers(NetworkCallbackDelegate CB)
 		{
-			CB.Invoke(JsonConvert.SerializeObject(ServerEntrance.PlayerList));
+			CB.Invoke(JsonConvert.SerializeObject(Server.PlayerList));
 		}
 
 		public static async void GetDBPlayers(NetworkCallbackDelegate CB)
@@ -346,7 +348,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveMoneyToChar(string target, int charId, int amount)
 		{
-			var player = ServerEntrance.PlayerList[target];
+			var player = Server.PlayerList[target];
 			player.Money += (amount);
 		}
 
@@ -354,65 +356,65 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (amount != 0)
 			{
-				var player = ServerEntrance.PlayerList[target];
+				var player = Server.PlayerList[target];
 				player.Money -= amount;
 			}
 		}
 
 		public static void GiveBankToChar(string target, int charId, int amount)
 		{
-			var player = ServerEntrance.PlayerList[target];
+			var player = Server.PlayerList[target];
 			player.Bank += amount;
 		}
 
 		public static void RemoveBankToChar(string target, int charId, int amount)
 		{
-			var player = ServerEntrance.PlayerList[target];
+			var player = Server.PlayerList[target];
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirtyToChar(string target, int charId, int amount)
 		{
-			var player = ServerEntrance.PlayerList[target];
+			var player = Server.PlayerList[target];
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirtyToChar(string target, int charId, int amount)
 		{
-			var player = ServerEntrance.PlayerList[target];
+			var player = Server.PlayerList[target];
 			player.DirtyMoney -= amount;
 		}
 
 		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
 		{
-			ServerEntrance.PlayerList[target].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Server.PlayerList[target].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventoryToChar(string target, int charId, string item, int amount)
 		{
-			ServerEntrance.PlayerList[target].removeInventoryItem(item, amount);
+			Server.PlayerList[target].removeInventoryItem(item, amount);
 		}
 
 		public static void AddWeaponToChar(string target, int charId, string weaponName, int ammo)
 		{
-			ServerEntrance.PlayerList[target].addWeapon(weaponName, ammo);
+			Server.PlayerList[target].addWeapon(weaponName, ammo);
 		}
 		public static void RemoveWeaponToChar(string target, int charId, string weaponName)
 		{
-			ServerEntrance.PlayerList[target].removeWeapon(weaponName);
+			Server.PlayerList[target].removeWeapon(weaponName);
 		}
 
 		public static void AddWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
 		{
-			ServerEntrance.PlayerList[target].addWeaponComponent(weaponName, weaponComponent);
+			Server.PlayerList[target].addWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void RemoveWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
 		{
-			ServerEntrance.PlayerList[target].removeWeaponComponent(weaponName, weaponComponent);
+			Server.PlayerList[target].removeWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void AddWeaponTintToChar(string target, int charId, string weaponName, int tint)
 		{
-			ServerEntrance.PlayerList[target].addWeaponTint(weaponName, tint);
+			Server.PlayerList[target].addWeaponTint(weaponName, tint);
 		}
 
 		private static async void BannaPlayer(string target, string motivazione, long tempodiban, int banner)
@@ -445,27 +447,32 @@ namespace NuovaGM.Server.gmPrincipale
 
 		private static async void GiveLicense([FromSource] Player source, string license)
 		{
-			User player = ServerEntrance.PlayerList[source.Handle];
+			User player = Server.PlayerList[source.Handle];
 
 		}
 
 		private static async void GiveLicenseToChar([FromSource] Player source, int target, string license)
 		{
-			User player = ServerEntrance.PlayerList[source.Handle];
+			User player = Server.PlayerList[source.Handle];
 
 		}
 
 		private static async void RemoveLicense([FromSource] Player source, string license)
 		{
-			User player = ServerEntrance.PlayerList[source.Handle];
+			User player = Server.PlayerList[source.Handle];
 
 		}
 
 		private static async void RemoveLicenseToChar([FromSource] Player source, int target, string license)
 		{
-			User player = ServerEntrance.PlayerList[source.Handle];
+			User player = Server.PlayerList[source.Handle];
 
 		}
 
+		private static async void AggiornaAmmo([FromSource] Player source, string weaponName, int ammo)
+		{
+			User user = Server.PlayerList[source.Handle];
+			user.updateWeaponAmmo(weaponName, ammo);
+		}
 	}
 }

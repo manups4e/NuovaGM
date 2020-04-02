@@ -8,6 +8,7 @@ using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {

@@ -11,7 +11,7 @@ namespace NuovaGM.Server.manager
 		}
 		public static void getDecorandSendBack([FromSource] Player p)
 		{
-			BaseScript.TriggerClientEvent(p, "lprp:setDecor", "NuovaGM2019fighissimo!yeah", 146254368);
+			p.TriggerEvent("lprp:setDecor", "NuovaGM2019fighissimo!yeah", 146254368);
 		}
 	}
 }

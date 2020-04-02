@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Banking
 {

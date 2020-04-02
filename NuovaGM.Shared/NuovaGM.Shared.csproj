@@ -68,9 +68,10 @@
     <Compile Include="gmPrincipale\SharedScript.cs" />
     <Compile Include="Lavori\Whitelistati\JobGrade.cs" />
     <Compile Include="Lavori\Whitelistati\Veicoli.cs" />
+    <Compile Include="Meteo\SharedMeteo.cs" />
+    <Compile Include="ObjectHash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Veicoli\VeicoliShared.cs" />
-    <Compile Include="Weather\SharedMeteo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

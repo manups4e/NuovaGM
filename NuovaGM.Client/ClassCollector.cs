@@ -60,7 +60,7 @@ namespace NuovaGM.Client
 			Interactions.Spazzatura.Init();
 			Interactions.Docce.Init();
 			Interactions.Letti.Init();
-
+			Interactions.PickupsClient.Init();
 			Interactions.DivaniEPosizioniSedute.Init();
 
 			TickController.Init();

@@ -78,15 +78,28 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			decorName = _name;
 			decorInt = _int;
-			DecorRegister(decorName, (int)DecorationType.Int);
-			DecorRegister(FuelClient.DecorName, (int)DecorationType.Float);
-			DecorRegister("VeicoloPolizia", (int)DecorationType.Int);
-			DecorRegister("VeicoloMedici", (int)DecorationType.Int);
-			DecorRegisterLock();
+			EntityDecoration.RegisterProperty(decorName, DecorationType.Int);
+			EntityDecoration.RegisterProperty(FuelClient.DecorName, DecorationType.Float);
+			EntityDecoration.RegisterProperty("VeicoloPolizia", DecorationType.Int);
+			EntityDecoration.RegisterProperty("VeicoloMedici", DecorationType.Int);
+			EntityDecoration.RegisterProperty("PickupOggetto", DecorationType.Int);
+			EntityDecoration.RegisterProperty("PickupAccount", DecorationType.Int);
+			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
+			EntityDecoration.LockProperties();
 		}
 
 		public static void Init()
 		{
+			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
+			SetMapZoomDataLevel(1, 2.8f, 0.9f, 0.08f, 0.0f, 0.0f);
+			SetMapZoomDataLevel(2, 8.0f, 0.9f, 0.08f, 0.0f, 0.0f);
+			SetMapZoomDataLevel(3, 11.3f, 0.9f, 0.08f, 0.0f, 0.0f);
+			SetMapZoomDataLevel(4, 16f, 0.9f, 0.08f, 0.0f, 0.0f);
+			SetMapZoomDataLevel(5, 55f, 0f, 0.1f, 2.0f, 1.0f);
+			SetMapZoomDataLevel(6, 450f, 0f, 0f, 0.1f, 0.1f);
+			SetMapZoomDataLevel(7, 4.5f, 0f, 0f, 0f, 0f);
+			SetMapZoomDataLevel(8, 11f, 0f, 0f, 2.0f, 3.0f);
+
 			Client.GetInstance.RegisterTickHandler(Istanza);
 			Client.GetInstance.RegisterTickHandler(AFK);
 			Client.GetInstance.RegisterTickHandler(HUD.Menus);
@@ -101,7 +114,6 @@ namespace NuovaGM.Client.gmPrincipale
 			Client.GetInstance.RegisterEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
 			SetNuiFocus(false, false);
 			BaseScript.TriggerServerEvent("lprp:getDecor");
-			BaseScript.TriggerServerEvent("lprp:giostre:spawna");
 			Screen.Fading.FadeOut(800);
 		}
 		
@@ -645,7 +657,15 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async Task Armi()
 		{
-			// aggiornare come su esx
+			if (IsDead) await BaseScript.Delay(500);
+			else {
+				if (Game.PlayerPed.IsShooting)
+				{
+					Weapon weap = Game.PlayerPed.Weapons.Current;
+					int ammo = weap.Ammo;
+					BaseScript.TriggerServerEvent("lprp:aggiornaAmmo", weap.Hash, ammo);
+				}
+  			} 
 		}
 	}
 

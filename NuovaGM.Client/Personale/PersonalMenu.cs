@@ -356,6 +356,8 @@ namespace NuovaGM.Client.Personale
 						}
 						if (SharedScript.ItemList[item.item].give.give)
 						{
+							UIMenuItem giveButton = new UIMenuItem(SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description, Colors.Cyan, Colors.DarkCyan);
+							newItemMenu.AddItem(giveButton);
 							bool found = false;
 							List<Ped> players = new List<Ped>();
 							foreach (Player p in Client.GetInstance.GetPlayers.ToList())
@@ -377,17 +379,19 @@ namespace NuovaGM.Client.Personale
 							List<dynamic> amountino = new List<dynamic>();
 							for (int j = 0; j < item.amount; j++)
 							{
-								amountino.Add(j+1.ToString());
+								amountino.Add((j+1).ToString());
 							}
 
-							UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description);
+							UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
+							newItemMenu.AddItem(dropButton);
 							newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
 							{
 								if (_listItem == dropButton)
 								{
-									SharedScript.ItemList[item.item].ButtaOggettoEvent(int.Parse(_listItem.Text));
-									BaseScript.TriggerServerEvent("lprp:removeInventoryItem", Eventi.Player.source, item.item, int.Parse(_listItem.Text));
-									newItemMenu.RefreshIndex();
+									Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+									BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", item.item, int.Parse(amountino[_listItem.Index]));
+									_menu.ParentMenu.RefreshIndex();
+									_menu.GoBack();
 								}
 							};
 						}
@@ -443,11 +447,19 @@ namespace NuovaGM.Client.Personale
 							}
 						}
 					}
-					else
+					/* CODICE PER DARE UN ARMA E SI AGGIUNGERE ANCHE LE MUNIZIONI
+					UIMenuItem giveButton = new UIMenuItem($"Dai {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.Cyan, Colors.DarkCyan);
+					arma.AddItem(giveButton);
+					*/
+					UIMenuItem dropButton = new UIMenuItem($"Gettare {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.RedLight, Colors.Red);
+					arma.AddItem(dropButton);
+					dropButton.Activated += async (menu, item) =>
 					{
-						UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
-						arma.AddItem(noItemsButton);
-					}
+						Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+						BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.name);
+						menu.ParentMenu.RefreshIndex();
+						menu.GoBack();
+					};
 				}
 			}
 			else

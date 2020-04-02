@@ -313,9 +313,9 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			string name = player.Name;
 			string handle = player.Handle;
-			if (ServerEntrance.PlayerList.ContainsKey(handle))
+			if (Server.PlayerList.ContainsKey(handle))
 			{
-				var ped = ServerEntrance.PlayerList[handle];
+				var ped = Server.PlayerList[handle];
 				if (ped.status.spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);
@@ -327,9 +327,9 @@ namespace NuovaGM.Server.gmPrincipale
 					Server.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 				}
-				ServerEntrance.PlayerList.Remove(handle);
+				Server.PlayerList.Remove(handle);
 			}
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(ServerEntrance.PlayerList));
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 			await Task.FromResult(0);
 		}
 	}

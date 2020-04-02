@@ -4,6 +4,7 @@ using NuovaGM.Server.banking;
 using NuovaGM.Server.Businesses;
 using NuovaGM.Server.Clothestores;
 using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Server.Interactions;
 using NuovaGM.Server.Lavori.Whitelistati;
 using NuovaGM.Server.manager;
 using NuovaGM.Server.Meteo_New;
@@ -36,6 +37,7 @@ namespace NuovaGM.Server
 			Meteo.Init();
 			Orario.Init();
 			Telefoni.TelefonoMainServer.Init();
+			PickupsServer.Init();
 //			Coda.Init();
 			NuovaCoda.Init();
 		}

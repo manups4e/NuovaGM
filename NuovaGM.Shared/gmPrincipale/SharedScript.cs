@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CitizenFX.Core;
+using System.Collections.Generic;
 // ReSharper disable All
 
 namespace NuovaGM.Shared
@@ -12,57 +13,57 @@ namespace NuovaGM.Shared
 	public class SharedScript
 	{
 
-		public static Dictionary<string, List<Char_data>> Personaggi = new Dictionary<string, List<Char_data>>();
 		public static Dictionary<string, Item> ItemList = new Dictionary<string, Item>()
 		{
-			["cannadapescabase"] = new Item("Una canna da pesca per principianti", "Ottima per iniziare", 1f, 100, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca base", "Per i principianti", true)),
-			["cannadapescamedia"] = new Item("Una canna da pesca per intermedi", "Per pescatori mediamente bravi", 1f, 300, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca intermedia", "Per i principianti", true)),
-			["cannadapescaavanzata"] = new Item("Una canna da pesca per avanzati", "Per pescatori avanzati", 1f, 500, 100, 100, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca avanzata", "Per i principianti", true)),
-			["esca"] = new Item("Esca", "Verme per pescare", 1f, 2, 100, 100, new Use("Usa un'esca", "", false), new Give("Dai un'esca", "A chi vuoi tu!!", true), new Drop("Getta via un'esca", "", true), new Sell("", "", false), new Buy("Compra un'esca", "", false)),
-			
+			["cannadapescabase"] = new Item("Una canna da pesca per principianti", "Ottima per iniziare", 1f, 100, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca base", "Per i principianti", true)),
+			["cannadapescamedia"] = new Item("Una canna da pesca per intermedi", "Per pescatori mediamente bravi", 1f, 300, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca intermedia", "Per i principianti", true)),
+			["cannadapescaavanzata"] = new Item("Una canna da pesca per avanzati", "Per pescatori avanzati", 1f, 500, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca avanzata", "Per i principianti", true)),
+			//["esca"] = new Item("Esca", "Verme per pescare", 1f, 2, 100, 100, new Use("Usa un'esca", "", false), new Give("Dai un'esca", "A chi vuoi tu!!", true), new Drop("Getta via un'esca", "", true), new Sell("", "", false), new Buy("Compra un'esca", "", false)),
+
 			// prezzi in base anche alle skill e alle canne da pesca
 
 			// acqua salata
-			["branzino"] = new Item("Branzino", "Pesce di mare", 1f, 0, 32, 100, new Use("", "", false), new Give("Dai un branzino", "A chi vuoi tu!!", true), new Drop("Getta via un branzino", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["sgombro"] = new Item("Sgombro", "Pesce di mare", 1f, 0, 40, 100, new Use("", "", false), new Give("Dai uno sgombro", "A chi vuoi tu!!", true), new Drop("Getta via uno sgombro", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["sogliola"] = new Item("Sogliola", "Pesce di mare", 1f, 0, 25, 100, new Use("", "", false), new Give("Dai una sogliola", "A chi vuoi tu!!", true), new Drop("Getta via una sogliola", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["orata"] = new Item("Orata", "Pesce di mare", 1f, 0, 100, 30, new Use("", "", false), new Give("Dai un'orata", "A chi vuoi tu!!", true), new Drop("Getta via un'orata", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["tonno"] = new Item("Tonno", "Pesce di mare", 1f, 0, 100, 50, new Use("", "", false), new Give("Dai un tonno", "A chi vuoi tu!!", true), new Drop("Getta via un tonno", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["salmone"] = new Item("Salmone", "Pesce di mare", 1f, 0, 26, 100, new Use("", "", false), new Give("Dai un salmone", "A chi vuoi tu!!", true), new Drop("Getta via un salmone", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["merluzzo"] = new Item("Merluzzo", "Pesce di mare", 1f, 0, 45, 100, new Use("", "", false), new Give("Dai un merluzzo", "A chi vuoi tu!!", true), new Drop("Getta via un merluzzo", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["pescespada"] = new Item("Pesce Spada", "Pesce di mare", 1f, 0, 56, 100, new Use("", "", false), new Give("Dai un pesce spada", "A chi vuoi tu!!", true), new Drop("Getta via un pesce spada", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["squalo"] = new Item("Squalo", "Pesce di mare", 1f, 0, 120, 100, new Use("", "", false), new Give("Dai uno squalo", "A chi vuoi tu!!", true), new Drop("Getta via uno squalo", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["branzino"] = new Item("Branzino", "Pesce di mare", 1f, 0, 32, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un branzino", "A chi vuoi tu!!", true), new Drop("Getta via un branzino", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["sgombro"] = new Item("Sgombro", "Pesce di mare", 1f, 0, 40, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai uno sgombro", "A chi vuoi tu!!", true), new Drop("Getta via uno sgombro", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["sogliola"] = new Item("Sogliola", "Pesce di mare", 1f, 0, 25, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una sogliola", "A chi vuoi tu!!", true), new Drop("Getta via una sogliola", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["orata"] = new Item("Orata", "Pesce di mare", 1f, 0, 100, 30, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un'orata", "A chi vuoi tu!!", true), new Drop("Getta via un'orata", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["tonno"] = new Item("Tonno", "Pesce di mare", 1f, 0, 100, 50, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un tonno", "A chi vuoi tu!!", true), new Drop("Getta via un tonno", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["salmone"] = new Item("Salmone", "Pesce di mare", 1f, 0, 26, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un salmone", "A chi vuoi tu!!", true), new Drop("Getta via un salmone", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["merluzzo"] = new Item("Merluzzo", "Pesce di mare", 1f, 0, 45, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un merluzzo", "A chi vuoi tu!!", true), new Drop("Getta via un merluzzo", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["pescespada"] = new Item("Pesce Spada", "Pesce di mare", 1f, 0, 56, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un pesce spada", "A chi vuoi tu!!", true), new Drop("Getta via un pesce spada", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["squalo"] = new Item("Squalo", "Pesce di mare", 1f, 0, 120, 100, ObjectHash.a_c_sharktiger, new Use("", "", false), new Give("Dai uno squalo", "A chi vuoi tu!!", true), new Drop("Getta via uno squalo", "", true), new Sell("", "", false), new Buy("", "", false)),
 
-			["fruttidimare"] = new Item("Frutti di mare", "", 1f, 0, 50, 100, new Use("", "", false), new Give("Dai frutti di mare", "A chi vuoi tu!!", true), new Drop("Getta via frutti di mare", "", true), new Sell("", "", false), new Buy("", "", false)),
+			//			["fruttidimare"] = new Item("Frutti di mare", "", 1f, 0, 50, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai frutti di mare", "A chi vuoi tu!!", true), new Drop("Getta via frutti di mare", "", true), new Sell("", "", false), new Buy("", "", false)),
 
 			// acqua dolce
-			["carpa"] = new Item("Carpa", "Pesce di lago/fiume", 1f, 0, 46, 100, new Use("", "", false), new Give("Dai una carpa", "A chi vuoi tu!!", true), new Drop("Getta via una carpa", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["luccio"] = new Item("Luccio", "Pesce di lago/fiume", 1f, 0, 35, 100, new Use("", "", false), new Give("Dai un luccio", "A chi vuoi tu!!", true), new Drop("Getta via un luccio", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["persico"] = new Item("Persico", "Pesce di lago/fiume", 1f, 0, 39, 100, new Use("", "", false), new Give("Dai un persico", "A chi vuoi tu!!", true), new Drop("Getta via un persico", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["pescegattocomune"] = new Item("Pesce gatto comune", "Pesce di lago/fiume", 1f, 0, 40, 100, new Use("", "", false), new Give("Dai un pesce gatto comune", "A chi vuoi tu!!", true), new Drop("Getta via un pesce gatto comune", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["pescegattopunteggiato"] = new Item("Pesce gatto punteggiato", "Pesce di lago/fiume", 1f, 0, 60, 100, new Use("", "", false), new Give("Dai un pesce gatto punteggiato", "A chi vuoi tu!!", true), new Drop("Getta via un pesce gatto punteggiato", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["spigola"] = new Item("Spigola", "Pesce di lago/fiume", 1f, 0, 49, 100, new Use("", "", false), new Give("Dai una spigola", "A chi vuoi tu!!", true), new Drop("Getta via una spigola", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["trota"] = new Item("Trota", "Pesce di lago/fiume", 1f, 0, 55, 100, new Use("", "", false), new Give("Dai una trota", "A chi vuoi tu!!", true), new Drop("Getta via una trota", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["ghiozzo"] = new Item("Ghiozzo", "Pesce di lago/fiume", 1f, 0, 60, 100, new Use("", "", false), new Give("Dai un ghiozzo", "A chi vuoi tu!!", true), new Drop("Getta via un ghiozzo", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["lucioperca"] = new Item("Lucioperca", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un lucioperca", "A chi vuoi tu!!", true), new Drop("Getta via un lucioperca", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["alborella"] = new Item("Alborella", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai una alborella", "A chi vuoi tu!!", true), new Drop("Getta via una alborella", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["carassio"] = new Item("Carassio", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un carassio", "A chi vuoi tu!!", true), new Drop("Getta via un carassio", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["carassiodorato"] = new Item("Carassio dorato", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai un carassio dorato", "A chi vuoi tu!!", true), new Drop("Getta via un carassio dorato", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["cheppia"] = new Item("Cheppia", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai una cheppia", "A chi vuoi tu!!", true), new Drop("Getta via una cheppia", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["rovella"] = new Item("Rovella", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai una rovella", "A chi vuoi tu!!", true), new Drop("Getta via una rovella", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["spinarello"] = new Item("Spinarello", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno spinarello", "A chi vuoi tu!!", true), new Drop("Getta via uno spinarello", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["storionecobice"] = new Item("Storione cobice", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione cobice", "A chi vuoi tu!!", true), new Drop("Getta via uno storione cobice", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["storionecomune"] = new Item("Storione comune", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione comune", "A chi vuoi tu!!", true), new Drop("Getta via uno storione comune", "", true), new Sell("", "", false), new Buy("", "", false)),
-			["storioneladano"] = new Item("Storione ladano", "Pesce di lago/fiume", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai uno storione ladano", "A chi vuoi tu!!", true), new Drop("Getta via uno storione ladano", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["carpa"] = new Item("Carpa", "Pesce di lago/fiume", 1f, 0, 46, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una carpa", "A chi vuoi tu!!", true), new Drop("Getta via una carpa", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["luccio"] = new Item("Luccio", "Pesce di lago/fiume", 1f, 0, 35, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un luccio", "A chi vuoi tu!!", true), new Drop("Getta via un luccio", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["persico"] = new Item("Persico", "Pesce di lago/fiume", 1f, 0, 39, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un persico", "A chi vuoi tu!!", true), new Drop("Getta via un persico", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["pescegattocomune"] = new Item("Pesce gatto comune", "Pesce di lago/fiume", 1f, 0, 40, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un pesce gatto comune", "A chi vuoi tu!!", true), new Drop("Getta via un pesce gatto comune", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["pescegattopunteggiato"] = new Item("Pesce gatto punteggiato", "Pesce di lago/fiume", 1f, 0, 60, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un pesce gatto punteggiato", "A chi vuoi tu!!", true), new Drop("Getta via un pesce gatto punteggiato", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["spigola"] = new Item("Spigola", "Pesce di lago/fiume", 1f, 0, 49, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una spigola", "A chi vuoi tu!!", true), new Drop("Getta via una spigola", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["trota"] = new Item("Trota", "Pesce di lago/fiume", 1f, 0, 55, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una trota", "A chi vuoi tu!!", true), new Drop("Getta via una trota", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["ghiozzo"] = new Item("Ghiozzo", "Pesce di lago/fiume", 1f, 0, 60, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un ghiozzo", "A chi vuoi tu!!", true), new Drop("Getta via un ghiozzo", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["lucioperca"] = new Item("Lucioperca", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un lucioperca", "A chi vuoi tu!!", true), new Drop("Getta via un lucioperca", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["alborella"] = new Item("Alborella", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una alborella", "A chi vuoi tu!!", true), new Drop("Getta via una alborella", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["carassio"] = new Item("Carassio", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un carassio", "A chi vuoi tu!!", true), new Drop("Getta via un carassio", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["carassiodorato"] = new Item("Carassio dorato", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai un carassio dorato", "A chi vuoi tu!!", true), new Drop("Getta via un carassio dorato", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["cheppia"] = new Item("Cheppia", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una cheppia", "A chi vuoi tu!!", true), new Drop("Getta via una cheppia", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["rovella"] = new Item("Rovella", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai una rovella", "A chi vuoi tu!!", true), new Drop("Getta via una rovella", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["spinarello"] = new Item("Spinarello", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai uno spinarello", "A chi vuoi tu!!", true), new Drop("Getta via uno spinarello", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["storionecobice"] = new Item("Storione cobice", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai uno storione cobice", "A chi vuoi tu!!", true), new Drop("Getta via uno storione cobice", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["storionecomune"] = new Item("Storione comune", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai uno storione comune", "A chi vuoi tu!!", true), new Drop("Getta via uno storione comune", "", true), new Sell("", "", false), new Buy("", "", false)),
+			["storioneladano"] = new Item("Storione ladano", "Pesce di lago/fiume", 1f, 0, 100, 100, ObjectHash.a_c_fish, new Use("", "", false), new Give("Dai uno storione ladano", "A chi vuoi tu!!", true), new Drop("Getta via uno storione ladano", "", true), new Sell("", "", false), new Buy("", "", false)),
 
 			// caccia
 
-			["carnecervo"] = new Item("Carne di cervo", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di cervo", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cervo", "", true), new Sell("Vendi la carne di cervo", "", true), new Buy("Compra la carne di cervo", "", true)),
-			["carnecinghiale"] = new Item("Carne di cinghiale", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di cinghiale", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cinghiale", "", true), new Sell("Vendi la carne di cinghiale", "", true), new Buy("Compra la carne di cinghiale", "", true)),
-			["carneconiglio"] = new Item("Carne di coniglio", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di coniglio", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coniglio", "", true), new Sell("Vendi la carne di coniglio", "", true), new Buy("Compra la carne di coniglio", "", true)),
-			["carnecoyote"] = new Item("Carne di coyote", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di coyote", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coyote", "", true), new Sell("Vendi la carne di coyote", "", true), new Buy("Compra la carne di coyote", "", true)),
-			["carneaquila"] = new Item("Carne di aquila", "Carne di selvaggina", 1f, 0, 100, 100, new Use("", "", false), new Give("Dai la carne di aquila", "A chi vuoi tu!!", true), new Drop("Getta via la carne di aquila", "", true), new Sell("Vendi la carne di aquila", "", true), new Buy("Compra la carne di aquila", "", true)),
+			["carnecervo"] = new Item("Carne di cervo", "Carne di selvaggina", 1f, 0, 100, 100, ObjectHash.prop_money_bag_01, new Use("", "", false), new Give("Dai la carne di cervo", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cervo", "", true), new Sell("Vendi la carne di cervo", "", true), new Buy("Compra la carne di cervo", "", true)),
+			["carnecinghiale"] = new Item("Carne di cinghiale", "Carne di selvaggina", 1f, 0, 100, 100, ObjectHash.prop_money_bag_01, new Use("", "", false), new Give("Dai la carne di cinghiale", "A chi vuoi tu!!", true), new Drop("Getta via la carne di cinghiale", "", true), new Sell("Vendi la carne di cinghiale", "", true), new Buy("Compra la carne di cinghiale", "", true)),
+			["carneconiglio"] = new Item("Carne di coniglio", "Carne di selvaggina", 1f, 0, 100, 100, ObjectHash.prop_money_bag_01, new Use("", "", false), new Give("Dai la carne di coniglio", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coniglio", "", true), new Sell("Vendi la carne di coniglio", "", true), new Buy("Compra la carne di coniglio", "", true)),
+			["carnecoyote"] = new Item("Carne di coyote", "Carne di selvaggina", 1f, 0, 100, 100, ObjectHash.prop_money_bag_01, new Use("", "", false), new Give("Dai la carne di coyote", "A chi vuoi tu!!", true), new Drop("Getta via la carne di coyote", "", true), new Sell("Vendi la carne di coyote", "", true), new Buy("Compra la carne di coyote", "", true)),
+			["carneaquila"] = new Item("Carne di aquila", "Carne di selvaggina", 1f, 0, 100, 100, ObjectHash.prop_money_bag_01, new Use("", "", false), new Give("Dai la carne di aquila", "A chi vuoi tu!!", true), new Drop("Getta via la carne di aquila", "", true), new Sell("Vendi la carne di aquila", "", true), new Buy("Compra la carne di aquila", "", true)),
 		};
+
 
 		Dictionary<uint, string> DeatReasons = new Dictionary<uint, string>()
 		{
@@ -386,9 +387,9 @@ namespace NuovaGM.Shared
 		public List<Tinte> tints;
 		public Arma(string _name, List<Components> _comp, List<Tinte> _tints)
 		{
-			this.name = _name;
-			this.components = _comp;
-			this.tints = _tints;
+			name = _name;
+			components = _comp;
+			tints = _tints;
 		}
 	}
 
@@ -400,6 +401,7 @@ namespace NuovaGM.Shared
 		public int buyPrice { get; protected set; }
 		public int sellPrice { get; protected set; }
 		public int max { get; protected set; }
+		public ObjectHash prop;
 		public Use use { get; protected set; }
 		public Give give { get; protected set; }
 		public Drop drop { get; protected set; }
@@ -438,19 +440,20 @@ namespace NuovaGM.Shared
 			Compra.Invoke(this, quantity);
 		}
 
-		public Item(string _label, string _desc, float _peso, int _buypr, int _sellpr, int _max, Use _use, Give _give, Drop _drop, Sell _sell, Buy _buy)
+		public Item(string _label, string _desc, float _peso, int _buypr, int _sellpr, int _max, ObjectHash _prop, Use _use, Give _give, Drop _drop, Sell _sell, Buy _buy)
 		{
-			this.label = _label;
-			this.description = _desc;
-			this.peso = _peso;
-			this.buyPrice = _buypr;
-			this.sellPrice = _sellpr;
-			this.max = _max;
-			this.use = _use;
-			this.give = _give;
-			this.drop = _drop;
-			this.sell = _sell;
-			this.buy = _buy;
+			label = _label;
+			description = _desc;
+			peso = _peso;
+			buyPrice = _buypr;
+			sellPrice = _sellpr;
+			max = _max;
+			prop = _prop;
+			use = _use;
+			give = _give;
+			drop = _drop;
+			sell = _sell;
+			buy = _buy;
 		}
 	}
 
@@ -522,4 +525,43 @@ namespace NuovaGM.Shared
 			this.buy = _buy;
 		}
 	}
+
+	public class OggettoRaccoglibile
+	{
+		public string type;
+		public int id;
+		public ObjectHash obj;
+		public int propObj;
+		public string label;
+		public bool inRange = false;
+		public float[] coords = new float[3];
+		public string name;
+		public int amount;
+		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, string _type = "item")
+		{
+			id = _id;
+			name = _name;
+			type = _type;
+			amount = _amount;
+			obj = _obj;
+			propObj = _propObj;
+			label = _label;
+			coords = _coords;
+		}
+	}
+
+	public class OggettoArmaRaccoglibile : OggettoRaccoglibile
+	{
+		public int ammo;
+		public List<Components> componenti = new List<Components>();
+		public int tintIndex;
+
+		public OggettoArmaRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, List<Components> _components, int _tintIndex, int _ammo) : base(_id, _name, _amount, _obj, _propObj, _label, _coords, "weapon")
+		{
+			ammo = _ammo;
+			componenti = _components;
+			tintIndex = _tintIndex;
+		}
+	}
+
 }

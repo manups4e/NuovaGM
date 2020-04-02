@@ -29,7 +29,7 @@ namespace NuovaGM.Server.Telefoni
 		{
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if ((ServerEntrance.PlayerList[p.Handle].char_current - 1) == phone_data[i].id - 1)
+				if ((Server.PlayerList[p.Handle].char_current - 1) == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			return null;

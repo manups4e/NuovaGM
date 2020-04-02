@@ -1,4 +1,4 @@
-﻿using NuovaGM.Shared.Weather;
+﻿using NuovaGM.Shared.Meteo;
 using System;
 using System.Collections.Generic;
 using System.Linq;

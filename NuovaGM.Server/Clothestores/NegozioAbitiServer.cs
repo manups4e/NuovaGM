@@ -17,15 +17,15 @@ namespace NuovaGM.Server.Clothestores
 		{
 			if (num == 1)
 			{
-				ServerEntrance.PlayerList[p.Handle].Money -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
-				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				Server.PlayerList[p.Handle].Money -= price;
+				Server.Printa(LogType.Info, $"Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 			}
 			else if (num == 2)
 			{
-				ServerEntrance.PlayerList[p.Handle].Bank -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
-				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				Server.PlayerList[p.Handle].Bank -= price;
+				Server.Printa(LogType.Info, $"Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 			}
 		}
 
@@ -33,15 +33,15 @@ namespace NuovaGM.Server.Clothestores
 		{
 			if (num == 1)
 			{
-				ServerEntrance.PlayerList[p.Handle].Money -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
-				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				Server.PlayerList[p.Handle].Money -= price;
+				Server.Printa(LogType.Info, $"Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 			}
 			else if (num == 2)
 			{
-				ServerEntrance.PlayerList[p.Handle].Bank -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
-				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {ServerEntrance.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				Server.PlayerList[p.Handle].Bank -= price;
+				Server.Printa(LogType.Info, $"Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {Server.PlayerList[p.Handle].FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 			}
 		}
 	}

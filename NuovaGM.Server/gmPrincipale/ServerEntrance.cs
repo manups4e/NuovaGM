@@ -11,7 +11,6 @@ namespace NuovaGM.Server.gmPrincipale
 	public static class ServerEntrance
 	{
 
-		public static Dictionary<string, User> PlayerList = new Dictionary<string, User>();
 		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
@@ -31,8 +30,8 @@ namespace NuovaGM.Server.gmPrincipale
 				string stringa = JsonConvert.SerializeObject(result);
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
-					PlayerList.Add(handle, new User(player, result[0]));
-					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);
+					Server.PlayerList.Add(handle, new User(player, result[0]));
+					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 				else
@@ -52,8 +51,8 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					PlayerList.Add(handle, new User(player, created[0]));
-					string playerino = JsonConvert.SerializeObject(PlayerList[handle]);
+					Server.PlayerList.Add(handle, new User(player, created[0]));
+					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 			}
@@ -79,9 +78,9 @@ namespace NuovaGM.Server.gmPrincipale
 		private static async Task PlayTime()
 		{
 			await BaseScript.Delay(60000);
-			if (PlayerList.Count > 0)
+			if (Server.PlayerList.Count > 0)
 			{
-				foreach (var user in PlayerList)
+				foreach (var user in Server.PlayerList)
 				{
 					if (user.Value.status.spawned)
 						user.Value.playTime += 60;
