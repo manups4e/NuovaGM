@@ -31,6 +31,8 @@ namespace NuovaGM.Client
 			UIMenuItem f = new UIMenuItem("ShowWeaponPurchasedMessage");
 			UIMenuItem g = new UIMenuItem("ShowMpMessageLarge");
 			UIMenuItem h = new UIMenuItem("ShowMpWastedMessage");
+			UIMenuItem i = new UIMenuItem("AmbientPickup");
+			UIMenuItem j = new UIMenuItem("Pickup");
 			Test.AddItem(b);
 			Test.AddItem(c);
 			Test.AddItem(d);
@@ -38,8 +40,10 @@ namespace NuovaGM.Client
 			Test.AddItem(f);
 			Test.AddItem(g);
 			Test.AddItem(h);
+			Test.AddItem(i);
+			Test.AddItem(j);
 
-			Test.OnItemSelect += (menu, item, index) =>
+			Test.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == b)
 					BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
@@ -55,6 +59,10 @@ namespace NuovaGM.Client
 					BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
 				else if (item == h)
 					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
+				else if (item == i)
+					await World.CreateAmbientPickup(PickupType.WeaponPistol, Game.PlayerPed.GetOffsetPosition(new Vector3(0, 2f, 0)), new Model((int)ObjectHash.w_pi_pistol), 50);
+				else if (item == j)
+					await World.CreatePickup(PickupType.WeaponPistol, Game.PlayerPed.GetOffsetPosition(new Vector3(0, 2f, 0)), new Model((int)ObjectHash.w_pi_pistol), 50);
 			};
 			Test.Visible = true;
 		}

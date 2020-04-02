@@ -19,7 +19,7 @@ namespace NuovaGM.Shared
 		public string deliverallow { get; set; }
 		public string thanksmessage { get; set; }
 		public int delivertype { get; set; }
-
+		public StationDiBenzina() { }
 		public StationDiBenzina(dynamic data)
 		{
 			identifier = data.identifier;

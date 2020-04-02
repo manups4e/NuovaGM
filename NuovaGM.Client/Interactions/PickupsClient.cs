@@ -25,8 +25,9 @@ namespace NuovaGM.Client.Interactions
 			Client.GetInstance.RegisterTickHandler(PickupsMain);
 			Client.GetInstance.RegisterEventHandler("lprp:createPickupInventory", new Action<string,string>(CreatePickupInventory));
 			Client.GetInstance.RegisterEventHandler("lprp:createPickupWeapon", new Action<string,string>(CreatePickupWeapon));
-//			Client.GetInstance.RegisterEventHandler("lprp:createPickupMoney", new Action<string,string>(CreatePickupMoney));
+			//Client.GetInstance.RegisterEventHandler("lprp:createPickupMoney", new Action<string,string>(CreatePickupMoney));
 			Client.GetInstance.RegisterEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
+			Client.GetInstance.RegisterEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
 
 		public static async Task PickupsMain()
@@ -99,7 +100,7 @@ namespace NuovaGM.Client.Interactions
 			}
 			pickupObject.SetDecor("PickupOggetto", oggetto.amount);
 			pickupObject.IsPersistent = true;
-			pickupObject.Rotation = new Vector3(0f, 90f, 0);
+			pickupObject.Rotation = new Vector3(90f, 90f, 90f);
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
 //			pickupObject.IsPositionFrozen = true;
 			oggetto.propObj = pickupObject.Handle;
@@ -129,7 +130,7 @@ namespace NuovaGM.Client.Interactions
 			}
 			pickupObject.IsPersistent = true;
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
-//			pickupObject.IsPositionFrozen = true;
+			pickupObject.IsPositionFrozen = true;
 			oggetto.propObj = pickupObject.Handle;
 			oggetto.inRange = false;
 			oggetto.coords = objectCoords.ToArray();
@@ -146,6 +147,60 @@ namespace NuovaGM.Client.Interactions
 				else
 					new Prop(pickup.propObj).Delete();
 				Pickups[id] = null;
+			}
+		}
+
+		private static async void CreaMissingPickups(string jsonPickups)
+		{
+			Pickups = JsonConvert.DeserializeObject<List<OggettoRaccoglibile>>(jsonPickups);
+			if (Pickups.Count > 0)
+			{
+				foreach (var pickup in Pickups)
+				{
+					if (pickup.type == "item")
+					{
+						Model model = new Model((int)pickup.obj);
+						model.Request();
+						Entity pickupObject;
+						if (model.Hash == (int)ObjectHash.a_c_fish)
+						{
+							pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
+						}
+						else
+						{
+							pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
+						}
+						pickupObject.SetDecor("PickupOggetto", pickup.amount);
+						pickupObject.IsPersistent = true;
+						pickupObject.Rotation = new Vector3(90f, 90f, 90f);
+						PlaceObjectOnGroundProperly(pickupObject.Handle);
+						//			pickupObject.IsPositionFrozen = true;
+						pickup.propObj = pickupObject.Handle;
+						pickup.inRange = false;
+						pickup.coords = pickupObject.Position.ToArray();
+					}
+					else if (pickup.type == "weapon")
+					{
+						OggettoArmaRaccoglibile arma = pickup as OggettoArmaRaccoglibile;
+						RequestWeaponAsset(Funzioni.HashUint(arma.name), 31, 0);
+						while (!HasWeaponAssetLoaded(Funzioni.HashUint(arma.name))) await BaseScript.Delay(0);
+						Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(arma.name), 50, arma.coords.ToVector3().X, arma.coords.ToVector3().Y, arma.coords.ToVector3().Z, true, 1.0f, 0));
+						pickupObject.SetDecor("PickupArma", arma.ammo);
+						arma.propObj = pickupObject.Handle;
+						SetWeaponObjectTintIndex(pickupObject.Handle, arma.tintIndex);
+						foreach (var comp in arma.componenti)
+						{
+							GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
+							if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+						}
+						pickupObject.IsPersistent = true;
+						PlaceObjectOnGroundProperly(pickupObject.Handle);
+						pickupObject.IsPositionFrozen = true;
+						arma.propObj = pickupObject.Handle;
+						arma.inRange = false;
+						arma.coords = pickupObject.Position.ToArray();
+					}
+				}
 			}
 		}
 	}

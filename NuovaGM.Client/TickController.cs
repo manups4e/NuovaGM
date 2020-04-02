@@ -47,6 +47,7 @@ namespace NuovaGM.Client
 			Client.GetInstance.RegisterTickHandler(StatsNeeds.Conseguenze);
 			Client.GetInstance.RegisterTickHandler(StatsNeeds.Agg);
 			Client.GetInstance.RegisterTickHandler(NegozioAbitiClient.OnTick);
+			Client.GetInstance.RegisterTickHandler(NegoziClient.OnTick);
 			Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiStatus);
 			Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiSoldi);
 			Client.GetInstance.RegisterTickHandler(BarberClient.Sedie);

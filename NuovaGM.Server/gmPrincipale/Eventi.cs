@@ -191,8 +191,9 @@ namespace NuovaGM.Server.gmPrincipale
 			BaseScript.TriggerEvent("lprp:serverLog", Server.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
-					BaseScript.TriggerClientEvent(player, "lprp:ShowNotification", "~g~" + Server.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
+					player.TriggerEvent("lprp:ShowNotification", "~g~" + Server.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+			source.TriggerEvent("lprp:createMissingPickups", JsonConvert.SerializeObject(PickupsServer.Pickups));
 		}
 
 		public static void Dropped([FromSource] Player player, string reason)

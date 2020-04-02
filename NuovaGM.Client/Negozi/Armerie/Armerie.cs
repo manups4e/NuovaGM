@@ -321,29 +321,21 @@ namespace NuovaGM.Client.Negozi
 											UIMenuItem compon = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(v.name))));
 											Arma.AddItem(compon);
 											if ((Eventi.Player.Money >= co.price) || (Eventi.Player.Bank >= co.price))
-											{
 												compon.SetRightLabel("~g~" + co.price + "$");
-											}
 											else
-											{
 												compon.SetRightLabel("~r~" + co.price + "$");
-											}
 
 											for (int k = 0; k < armi.components.Count; k++)
 											{
 												if (armi.components[k].name == v.name)
-												{
 													compon.SetRightBadge(UIMenuItem.BadgeStyle.Ammo);
-												}
 											}
 											Arma.OnItemSelect += async (_menu, _item, _index) =>
 											{
 												for (int l = 0; l < armi.components.Count; l++)
 												{
 													if (armi.components[l].name == co.name)
-													{
 														HUD.ShowNotification("Hai già acquistato questo componente!!", true);
-													}
 													else
 													{
 														if (Eventi.Player.Money >= co.price)

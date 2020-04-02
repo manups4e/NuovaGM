@@ -70,7 +70,7 @@ namespace NuovaGM.Client.CodaControl
                         $"<td>{k["Name"]}</td>" +
                         $"<td>{k["Priority"]}</td>" +
                         $"<td>{Enum.GetName(typeof(SessionState), (int)k["State"])}</td>" +
-                        $"<td><button class=button onclick=Change('{k["License"]}')>Change</button></td>" +
+                        $"<td><button class=button onclick=Change('{k["License"]}')>Modifica</button></td>" +
                         $"</tr>";
                     });
                     SendNuiMessage($@"{{ ""sessionlist"" : ""{text}"" }}");

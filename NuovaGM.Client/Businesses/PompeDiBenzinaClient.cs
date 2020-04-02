@@ -19,7 +19,7 @@ namespace NuovaGM.Client.Businesses
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:setstations", new Action<string>(SetStations));
+			Client.GetInstance.RegisterEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
 			Client.GetInstance.RegisterEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
 			Client.GetInstance.RegisterEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
 			Client.GetInstance.RegisterEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
@@ -56,17 +56,16 @@ namespace NuovaGM.Client.Businesses
 			return mstation > 0 ? playerstations[mstation] : null;
 		}
 
-		public static void SetStations(string lista)
+		public static void SetStations(string pompeBenza, string stazioniPlayer)
 		{
-			List<dynamic> newlist = JsonConvert.DeserializeObject<List<dynamic>>(lista);
 			if (stations.Count > 0)
 				stations.Clear();
 			if (playerstations.Count > 0)
 				playerstations.Clear();
-			for (int i = 0; i < newlist[0].Count; i++)
-				stations.Add(new GasStation(newlist[0][i]));
-			for (int i = 0; i < newlist[1].Count; i++)
-				playerstations.Add(new StationDiBenzina((string)newlist[1][i]["identifier"].Value, (string)newlist[1][i]["Name"], (int)newlist[1][i]["businessid"].Value, Convert.ToDateTime(newlist[1][i]["lastpaidrent"].Value), (string)newlist[1][i]["ownerchar"].Value, (int)newlist[1][i]["stationindex"].Value, (string)newlist[1][i]["stationname"].Value, (int)newlist[1][i]["cashwaiting"].Value, (int)newlist[1][i]["fuel"].Value, (int)newlist[1][i]["fuelprice"].Value, Convert.ToDateTime(newlist[1][i]["lastmanaged"].Value), Convert.ToDateTime(newlist[1][i]["lastlogin"].Value), (string)newlist[1][i]["deliverallow"].Value, (string)newlist[1][i]["thanksmessage"].Value, (int)newlist[1][i]["delivertype"].Value));
+			stations = JsonConvert.DeserializeObject<List<GasStation>>(pompeBenza);
+			playerstations = JsonConvert.DeserializeObject<List<StationDiBenzina>>(stazioniPlayer);
+			Client.Printa(LogType.Debug, JsonConvert.SerializeObject(stations));
+			Client.Printa(LogType.Debug, JsonConvert.SerializeObject(playerstations));
 		}
 
 		public static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)
@@ -80,7 +79,7 @@ namespace NuovaGM.Client.Businesses
 					foreach (string s in allow)
 						pfmtstr += " " + s;
 				SetNuiFocus(true, true);
-				string a = "{\"showManager\":\"true\",\"manageid\":\"" + manageid + "\",\"stationname\":\"" + station.stationname + "\",\"thanksmessage\":\"" + station.thanksmessage + "\",\"fuelcost\":\"" + station.fuelprice + "\",\"deltype\":\"" + station.delivertype + "\",\"funds\":\"" + funds + "\",\"deliverylist\":\"" + pfmtstr + "\"}";
+				string a = $@"{{""showManager"":""true"",""manageid"":""{manageid}"",""stationname"":""{station.stationname}"",""thanksmessage"":""{station.thanksmessage}"",""fuelcost"":""{station.fuelprice}"",""deltype"":""{station.delivertype}"",""funds"":""{funds}"",""deliverylist"":""{pfmtstr}""}}";
 				SendNuiMessage(a);
 
 			}
@@ -99,7 +98,7 @@ namespace NuovaGM.Client.Businesses
 		{
 			if (success)
 			{
-				string a = "{\"closeManager\":\"true\"}";
+				string a = $@"{{""closeManager"":""true""}}";
 				SendNuiMessage(a);
 				SetNuiFocus(false, false);
 				HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
@@ -114,7 +113,7 @@ namespace NuovaGM.Client.Businesses
 		{
 			if (success)
 			{
-				HUD.ShowNotification("Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ " + sellprice + "$~w~ sono stati spesi.", NotificationColor.GreenLight);
+				HUD.ShowNotification($"Congratulazioni nell'acquisto della tua nuova Stazione!\n~b~ {sellprice}~w~ sono stati spesi.", NotificationColor.GreenLight);
 				BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", sidx);
 			}
 			else
@@ -128,13 +127,13 @@ namespace NuovaGM.Client.Businesses
 		{
 			if (success)
 			{
-				string a = "{\"setFunds\":\"true\",\"stationmoney\":\"" + msg + "\"}";
+				string a = $@"{{""setFunds"":""true"",""stationmoney"":""{msg}""}}";
 				SendNuiMessage(a);
 			}
 			else
 			{
 				HUD.ShowNotification(msg);
-				string a = "{\"setFunds\":\"true\",\"text\":\"" + msg + "\"}";
+				string a = $@"{{""setFunds"":""true"",""text"":"" {msg}""}}";
 				SendNuiMessage(a);
 			}
 		}

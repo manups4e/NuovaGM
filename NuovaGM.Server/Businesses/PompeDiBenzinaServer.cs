@@ -36,17 +36,14 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void SendStationsUpdate()
 		{
-			List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
 			List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
-
 			dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
 			if (result.Count > 0)
 				for (int i = 0; i < result.Count; i++)
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
 				Server.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
-			List<dynamic> lista = new List<dynamic>() { stations, playerstations };
-			BaseScript.TriggerClientEvent("lprp:businesses:setstations", JsonConvert.SerializeObject(lista));
+			BaseScript.TriggerClientEvent("lprp:businesses:setstations", JsonConvert.SerializeObject(ConfigShared.SharedConfig.Main.Veicoli.gasstations), JsonConvert.SerializeObject(playerstations));
 		}
 
 		public static async void checkRent(User p)
