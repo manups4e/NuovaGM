@@ -25,7 +25,7 @@ namespace NuovaGM.Client.Interactions
 			Client.GetInstance.RegisterTickHandler(PickupsMain);
 			Client.GetInstance.RegisterEventHandler("lprp:createPickupInventory", new Action<string,string>(CreatePickupInventory));
 			Client.GetInstance.RegisterEventHandler("lprp:createPickupWeapon", new Action<string,string>(CreatePickupWeapon));
-			//Client.GetInstance.RegisterEventHandler("lprp:createPickupMoney", new Action<string,string>(CreatePickupMoney));
+			Client.GetInstance.RegisterEventHandler("lprp:createPickupAccount", new Action<string,string>(CreatePickupAccount));
 			Client.GetInstance.RegisterEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
 			Client.GetInstance.RegisterEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
@@ -39,14 +39,12 @@ namespace NuovaGM.Client.Interactions
 				if (pickup != null)
 				{
 					Prop pick = new Prop(pickup.propObj);
-					//				if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
-					//				{
 					float dist = World.GetDistance(Game.PlayerPed.Position, pick.Position);
 					if (dist < 5)
 					{
 						string label = pickup.label;
 						letSleep = false;
-						if (dist < 1)
+						if (dist < 1.5)
 						{
 							if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen())
 							{
@@ -64,11 +62,7 @@ namespace NuovaGM.Client.Interactions
 								}
 							}
 						}
-						HUD.DrawText3D(new Vector3(pickup.coords[0], pickup.coords[1], pickup.coords[2] + 0.25f), Colors.Cyan, label.StartsWith("wt") ? $"{GetLabelText(label)} [{(pickup as OggettoArmaRaccoglibile).ammo}]" : label, 1);
-						//						else if (pick.HasDecor("PickupArma"))
-						//							HUD.DrawText3D(new Vector3(pickup.coords[0], pickup.coords[1], pickup.coords[2] + 0.25f), Colors.Cyan, $"{GetLabelText(label)} [munizioni:{(pickup as OggettoArmaRaccoglibile).ammo}]" , 1);
-						//						else if (pick.HasDecor("PickupAccount"))
-
+						HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, label.StartsWith("wt") ? $"{GetLabelText(label)} [{(pickup as OggettoArmaRaccoglibile).ammo}]" : label, 1);
 					}
 					else if (pickup.inRange)
 						pickup.inRange = false;
@@ -91,18 +85,14 @@ namespace NuovaGM.Client.Interactions
 			model.Request();
 			Entity pickupObject;
 			if (model.Hash == (int)ObjectHash.a_c_fish)
-			{
 				pickupObject = await World.CreatePed(model, objectCoords);
-			}
 			else 
-			{
 				pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
-			}
 			pickupObject.SetDecor("PickupOggetto", oggetto.amount);
 			pickupObject.IsPersistent = true;
-			pickupObject.Rotation = new Vector3(90f, 90f, 90f);
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
-//			pickupObject.IsPositionFrozen = true;
+			//			pickupObject.Rotation = new Vector3(90f, 0, 0);
+			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
 			oggetto.propObj = pickupObject.Handle;
 			oggetto.inRange = false;
 			oggetto.coords = objectCoords.ToArray();
@@ -126,16 +116,38 @@ namespace NuovaGM.Client.Interactions
 			foreach (var comp in oggetto.componenti)
 			{
 				GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
-				if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+				if (comp.name.Contains("FLSH")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
 			}
 			pickupObject.IsPersistent = true;
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
-			pickupObject.IsPositionFrozen = true;
+			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
 			oggetto.propObj = pickupObject.Handle;
 			oggetto.inRange = false;
 			oggetto.coords = objectCoords.ToArray();
 			Pickups.Add(oggetto);
 		}
+
+		private static async void CreatePickupAccount(string jsonOggetto, string userId)
+		{
+			int playerId = Convert.ToInt32(userId);
+			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
+			OggettoRaccoglibile oggetto = JsonConvert.DeserializeObject<OggettoRaccoglibile>(jsonOggetto);
+			Vector3 entityCoords = playerPed.Position;
+			Vector3 forward = playerPed.ForwardVector;
+			Vector3 objectCoords = entityCoords + forward * 1.0f;
+			Model model = new Model((int)oggetto.obj);
+			model.Request();
+			Prop pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
+			pickupObject.SetDecor("PickupAccount", oggetto.amount);
+			pickupObject.IsPersistent = true;
+			PlaceObjectOnGroundProperly(pickupObject.Handle);
+			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
+			oggetto.propObj = pickupObject.Handle;
+			oggetto.inRange = false;
+			oggetto.coords = objectCoords.ToArray();
+			Pickups.Add(oggetto);
+		}
+
 
 		private static void RimuoviPickup(int id)
 		{
@@ -157,24 +169,23 @@ namespace NuovaGM.Client.Interactions
 			{
 				foreach (var pickup in Pickups)
 				{
-					if (pickup.type == "item")
+					if (pickup.type == "item" || pickup.type == "account")
 					{
 						Model model = new Model((int)pickup.obj);
 						model.Request();
 						Entity pickupObject;
 						if (model.Hash == (int)ObjectHash.a_c_fish)
-						{
 							pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
-						}
 						else
-						{
 							pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
-						}
-						pickupObject.SetDecor("PickupOggetto", pickup.amount);
+						if (pickup.type == "item")
+							pickupObject.SetDecor("PickupOggetto", pickup.amount);
+						else if (pickup.type == "account")
+							pickupObject.SetDecor("PickupAccount", pickup.amount);
 						pickupObject.IsPersistent = true;
-						pickupObject.Rotation = new Vector3(90f, 90f, 90f);
+						SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
 						PlaceObjectOnGroundProperly(pickupObject.Handle);
-						//			pickupObject.IsPositionFrozen = true;
+			//			pickupObject.IsPositionFrozen = true;
 						pickup.propObj = pickupObject.Handle;
 						pickup.inRange = false;
 						pickup.coords = pickupObject.Position.ToArray();

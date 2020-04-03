@@ -16,6 +16,7 @@ namespace NuovaGM.Server.Interactions
 		{
 			Server.Instance.RegisterEventHandler("lprp:removeInventoryItemWithPickup", new Action<Player, string, int>(RemoveInventoryItemWithPickup));
 			Server.Instance.RegisterEventHandler("lprp:removeWeaponWithPickup", new Action<Player, string>(RemoveWeaponWithPickup));
+			Server.Instance.RegisterEventHandler("lprp:removeAccountWithPickup", new Action<Player, string, int>(RemoveAccountWithPickup));
 			Server.Instance.RegisterEventHandler("lprp:onPickup", new Action<Player, int>(OnPickup));
 		}
 
@@ -33,6 +34,30 @@ namespace NuovaGM.Server.Interactions
 			BaseScript.TriggerClientEvent("lprp:createPickupWeapon", JsonConvert.SerializeObject(arma), user.p.Handle);
 		}
 
+		public static void CreatePickupAccount(string name, int count, string label, User user)
+		{
+			ObjectHash oggetto = 0;
+			switch (count) {
+				case int a when a < 101:
+				oggetto = ObjectHash.prop_cash_pile_01;
+					break;
+				case int a when a > 100 && a < 501:
+					oggetto = ObjectHash.prop_anim_cash_pile_02;
+					break;
+				case int a when a > 500 && a < 1001:
+					oggetto = ObjectHash.prop_cash_case_01;
+					break;
+				case int a when a > 1000 && a < 3001:
+					oggetto = ObjectHash.prop_cash_case_02;
+					break;
+				case int a when a > 3000:
+					oggetto = ObjectHash.prop_cash_dep_bag_01;
+					break;
+			}
+			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords.ToArray(), "account");
+			Pickups.Add(soldo);
+			BaseScript.TriggerClientEvent("lprp:createPickupAccount", JsonConvert.SerializeObject(soldo), user.p.Handle);
+		}
 
 		private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)
 		{
@@ -61,6 +86,23 @@ namespace NuovaGM.Server.Interactions
 				string label = Funzioni.GetWeaponLabel((uint)GetHashKey(weapon));
 				CreatePickupWeapon(arma.Item2, label, user);
 			}
+		}
+
+		private static void RemoveAccountWithPickup([FromSource] Player player, string name, int amount)
+		{
+			string label = "";
+			User user = Server.PlayerList[player.Handle];
+			switch (name) {
+				case "soldi":
+					user.Money -= amount;
+					label = $"Soldi contanti [{amount}]";
+					break;
+				case "soldi_sporchi":
+					user.DirtyMoney -= amount;
+					label = $"Soldi sporchi [{amount}]";
+					break;
+			}
+			CreatePickupAccount(name, amount, label, user);
 		}
 
 		private static void OnPickup([FromSource] Player source, int id)
@@ -93,6 +135,10 @@ namespace NuovaGM.Server.Interactions
 			else if (pickup.type == "account")
 			{
 				success = true;
+				if (pickup.name == "soldi")
+					user.Money += pickup.amount;
+				else if (pickup.name == "soldi_sporchi")
+					user.DirtyMoney += pickup.amount;
 			}
 
 			if (success)
@@ -100,7 +146,6 @@ namespace NuovaGM.Server.Interactions
 				Pickups[id] = null;
 				BaseScript.TriggerClientEvent("lprp:removePickup", id);
 			}
-
 		}
 	}
 }

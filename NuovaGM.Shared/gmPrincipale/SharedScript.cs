@@ -563,5 +563,4 @@ namespace NuovaGM.Shared
 			tintIndex = _tintIndex;
 		}
 	}
-
 }

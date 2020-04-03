@@ -214,9 +214,7 @@ namespace NuovaGM.Client.Personale
 			UIMenuItem nAss = new UIMenuItem("N° Assicurazione: ", "Segnatelo se vuoi");
 			UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
 			UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-			UIMenuItem money = new UIMenuItem("Soldi: ", "I suoi soldi");
 			UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-			UIMenuItem dirty = new UIMenuItem("Soldi Sporchi: ", "I soldi sporchi");
 			name.SetRightLabel(Eventi.Player.FullName);
 			dob.SetRightLabel(Eventi.Player.DOB);
 			alt.SetRightLabel("" + Eventi.Player.CurrentChar.info.height);
@@ -228,9 +226,7 @@ namespace NuovaGM.Client.Personale
 			//
 			job.SetRightLabel(Eventi.Player.CurrentChar.job.name);
 			gang.SetRightLabel(Eventi.Player.CurrentChar.gang.name);
-			money.SetRightLabel("~g~$" + Eventi.Player.Money);
 			bank.SetRightLabel("~g~$" + Eventi.Player.Bank);
-			dirty.SetRightLabel("~r~$" + Eventi.Player.DirtyMoney);
 			datiPers.AddItem(name);
 			datiPers.AddItem(dob);
 			datiPers.AddItem(alt);
@@ -238,9 +234,61 @@ namespace NuovaGM.Client.Personale
 			datiPers.AddItem(nAss);
 			datiPers.AddItem(job);
 			datiPers.AddItem(gang);
-			datiPers.AddItem(money);
+			UIMenu money = HUD.MenuPool.AddSubMenu(datiPers, "Soldi: ", "I suoi soldi");
+			money.ParentItem.SetRightLabel("~g~$" + Eventi.Player.Money);
+			money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 			datiPers.AddItem(bank);
-			datiPers.AddItem(dirty);
+			UIMenu dirty = HUD.MenuPool.AddSubMenu(datiPers, "Soldi Sporchi: ", "I soldi sporchi");
+			dirty.ParentItem.SetRightLabel("~r~$" + Eventi.Player.DirtyMoney);
+			dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+
+			UIMenuItem dai = new UIMenuItem("Dai a qualcuno", "A chi?");
+			UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
+
+			money.AddItem(dai);
+			money.AddItem(getta);
+			dirty.AddItem(dai);
+			dirty.AddItem(getta);
+
+			money.OnItemSelect += async (menu, item, index) =>
+			{
+				if(item == dai) { }
+				else if (item == getta)
+				{
+					int amount = 1;
+					do
+					{
+						await BaseScript.Delay(0);
+						amount = Convert.ToInt32(await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10));
+						if (amount < 1)
+							HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+					}
+					while (amount < 1);
+					Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+					BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi", amount);
+					menu.ParentMenu.RefreshIndex();
+					menu.GoBack();
+				}
+			};
+			dirty.OnItemSelect += async (menu, item, index) =>
+			{
+				if (item == dai) { }
+				else if (item == getta)
+				{
+					int amount = 1;
+					do
+					{
+						await BaseScript.Delay(0);
+						amount = Convert.ToInt32(await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10));
+						HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+					}
+					while (amount < 1);
+					Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+					BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi_sporchi", amount);
+					menu.ParentMenu.RefreshIndex();
+					menu.GoBack();
+				}
+			};
 
 			UIMenu salute = pool.AddSubMenu(persMenu, "Salute", "Fame, sete..", pos);
 			fa.SetRightLabel("" + Math.Round(StatsNeeds.nee.fame, 2) + "%");
@@ -267,68 +315,6 @@ namespace NuovaGM.Client.Personale
 			salute.OnMenuClose += (menu) =>
 			{
 				Client.GetInstance.DeregisterTickHandler(AggiornaSalute);
-			};
-
-
-			List<dynamic> abilit = new List<dynamic> { "Resistenza", "Forza", "Fiato Sott'acqua", "Mira", "Guida a 2 ruote", "Guida in volo", "Chimico (droga)", "Pesca" };
-			UIMenuListItem abilita = new UIMenuListItem("Abilità", abilit, 0, "Quanto a lungo puoi correre/pedalare prima di iniziare a perdere barra vitale");
-			UIMenuStatisticsPanel PanAbilita = new UIMenuStatisticsPanel();
-			abilita.AddPanel(PanAbilita);
-			PanAbilita.AddStatistics("Resistenza");
-			PanAbilita.AddStatistics("Forza");
-			PanAbilita.AddStatistics("Fiato Sott'acqua");
-			PanAbilita.AddStatistics("Mira");
-			PanAbilita.AddStatistics("Guida a 2 ruote");
-			PanAbilita.AddStatistics("Guida in volo");
-			PanAbilita.AddStatistics("Chimico (droga)");
-			PanAbilita.AddStatistics("Pesca");
-
-			PanAbilita.SetPercentage(0, Convert.ToSingle(getStat("MP0_STAMINA")));
-			PanAbilita.SetPercentage(1, Convert.ToSingle(getStat("MP0_STRENGTH")));
-			PanAbilita.SetPercentage(2, Convert.ToSingle(getStat("MP0_LUNG_CAPACITY")));
-			PanAbilita.SetPercentage(3, Convert.ToSingle(getStat("MP0_SHOOTING_ABILITY")));
-			PanAbilita.SetPercentage(4, Convert.ToSingle(getStat("MP0_WHEELIE_ABILITY")));
-			PanAbilita.SetPercentage(5, Convert.ToSingle(getStat("MP0_FLYING_ABILITY")));
-			PanAbilita.SetPercentage(6, Eventi.Player.CurrentChar.statistiche.DRUGS);
-			PanAbilita.SetPercentage(7, Eventi.Player.CurrentChar.statistiche.FISHING);
-			datiPers.AddItem(abilita);
-			datiPers.OnListChange += async (_sender, _listItem, _newIndex) =>
-			{
-				if (_listItem == abilita)
-				{
-					string item = _listItem.Items[_newIndex].ToString();
-					string desc = "";
-					switch (item)
-					{
-						case "Resistenza":
-							desc = "Quanto a lungo puoi correre/pedalare prima di iniziare a perdere barra vitale?";
-							break;
-						case "Forza":
-							desc = "Più alto il valore piu forte colpisci";
-							break;
-						case "Fiato Sott'acqua":
-							desc = "Quanto resisti sott'acqua?";
-							break;
-						case "Mira":
-							desc = "Quanto sai essere preciso??";
-							break;
-						case "Guida a 2 ruote":
-							desc = "Quanto sei bravo su 2 ruote?";
-							break;
-						case "Guida in volo":
-							desc = "Quanto sei bravo a guidare un aereo o un elicottero??";
-							break;
-						case "Chimico (droga)":
-							desc = "più sei bravo, più guadagni e meno rischi di morire";
-							break;
-						case "Pesca":
-							desc = "più sei bravo, più guadagni e più i pesci sono grossi";
-							break;
-						default: break;
-					}
-					_listItem.Description = desc;
-					_listItem.Parent.UpdateDescription();
-				}
 			};
 
 			UIMenu Inventory = pool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
