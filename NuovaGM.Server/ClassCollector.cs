@@ -16,8 +16,7 @@ namespace NuovaGM.Server
 	{
 		public static async void Init()
 		{
-			ConfigServer.Init();
-			while (Server.Impostazioni == null) await BaseScript.Delay(0);
+			await ConfigServer.Init();
 			DiscordWhitelist.Init();
 			ServerManager.Init();
 			ServerEntrance.Init();

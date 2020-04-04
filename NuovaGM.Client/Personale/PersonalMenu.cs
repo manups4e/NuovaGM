@@ -30,6 +30,7 @@ namespace NuovaGM.Client.Personale
 		public static int lockDistance = 25;
 		public static string itemgps = "nessuno";
 		public static bool salvato = false;
+		public static bool acceso = false;
 		public static bool chiuso = false;
 		public static bool attivo = false;
 		public static bool GranaCinema = false;
@@ -139,37 +140,33 @@ namespace NuovaGM.Client.Personale
 								SetWaypointOff();
 								b.ShowRoute = false;
 								Client.GetInstance.DeregisterTickHandler(routeColor);
+								HUD.ShowNotification("GPS: Destinazione rimossa.", true);
 								return;
 							}
 							else
-							{
 								HUD.ShowNotification("GPS: Nessuna destinazione impostata!!", true);
-							}
 						}
-						catch
+						catch(Exception e)
 						{
+							Client.Printa(LogType.Debug, e.ToString() + e.StackTrace);
 							HUD.ShowNotification("Nessuna destinazione impostata!!", true);
 						}
 					}
 					else
 					{
-						int blipIterator = GetBlipInfoIdIterator();
-						b = new Blip(GetFirstBlipInfoId(var));
-						while (b.Exists())
+						Blip[] test = World.GetAllBlips((BlipSprite)var);
+						HUD.ShowNotification("GPS: Calcolo..");
+						await BaseScript.Delay(1000);
+						b = test.ToList().OrderBy(x => World.GetDistance(x.Position, Game.PlayerPed.Position)).FirstOrDefault();
+						HUD.ShowNotification("GPS: Calcolo..").Hide();
+						if (b != null)
 						{
-							await BaseScript.Delay(0);
-							if (GetBlipInfoIdType(b.Handle) == 4)
-							{
-								HUD.ShowNotification("GPS: Calcolo..");
-								await BaseScript.Delay(1000);
-								HUD.ShowNotification("GPS: Calcolo..").Hide();
-								b.ShowRoute = true;
-								HUD.ShowNotification("Destinazione più vicina impostata per " + (_item as UIMenuListItem).Items[(_item as UIMenuListItem).Index]);
-								Client.GetInstance.RegisterTickHandler(routeColor);
-								break;
-							}
-							b = new Blip(GetNextBlipInfoId(blipIterator));
+							b.ShowRoute = true;
+							HUD.ShowNotification($"Destinazione più vicina impostata per {(_item as UIMenuListItem).Items[(_item as UIMenuListItem).Index]}.");
+							Client.GetInstance.RegisterTickHandler(routeColor);
 						}
+						else
+							HUD.ShowNotification("Destinazione non trovata!");
 					}
 				}
 			};
@@ -177,20 +174,66 @@ namespace NuovaGM.Client.Personale
 
 			#region Controlli Veicolo
 			UIMenu vehContr = pool.AddSubMenu(PersonalMenu, "Controlli Veicolo", "Controlla il tuo veicolo con questi comandi rapidi", pos);
+			UIMenuItem fuel = new UIMenuItem("Carburante veicolo salvato", "Facciamo il pieno?");
 			UIMenuCheckboxItem salva = new UIMenuCheckboxItem("Salva Veicolo", salvato, "Salva qui il tuo veicolo!");
 			UIMenuCheckboxItem chiudi = new UIMenuCheckboxItem("Serratura", chiuso, "Apri o chiudi il tuo veicolo (Salvalo prima!)");
 			UIMenuListItem fin = new UIMenuListItem("Alza/Abbassa finestrini", finestrini, 0, "Alza e abbassa i finestrini del veicolo");
 			UIMenuListItem port = new UIMenuListItem("Apri/Chiudi Portiere", portiere, 0, "Apri e chiudi le portiere della tua macchina");
+			UIMenuCheckboxItem motore = new UIMenuCheckboxItem("Accensione Remota", EventiPersonalMenu.saveVehicle!=null? EventiPersonalMenu.saveVehicle.IsEngineRunning:false, "Accensione del motore remota!");
+
+			vehContr.AddItem(fuel);
 			vehContr.AddItem(salva);
 			vehContr.AddItem(chiudi);
 			vehContr.AddItem(fin);
 			vehContr.AddItem(port);
+			vehContr.AddItem(motore);
+			if (!Game.PlayerPed.IsInVehicle())
+			{
+				chiudi.Enabled = false;
+				fin.Enabled = false;
+				port.Enabled = false;
+				motore.Enabled = false;
+			}
 			vehContr.OnCheckboxChange += async (_menu, _item, _checked) =>
 			{
 				if (_item == chiudi)
 					EventiPersonalMenu.Lock(_checked);
 				else if (_item == salva)
-					EventiPersonalMenu.Save(_checked);
+				{
+					if (_checked && Game.PlayerPed.IsInVehicle())
+					{
+						EventiPersonalMenu.Save(_checked);
+						if (_checked)
+						{
+							chiudi.Enabled = true;
+							fin.Enabled = true;
+							port.Enabled = true;
+							motore.Enabled = true;
+							fuel.SetRightLabel(FuelClient.vehicleFuelLevel(EventiPersonalMenu.saveVehicle) + "%");
+						}
+						else
+						{
+							chiudi.Enabled = false;
+							fin.Enabled = false;
+							port.Enabled = false;
+							motore.Enabled = false;
+							fuel.SetRightLabel("");
+						}
+					}
+					else if (!_checked)
+					{
+						EventiPersonalMenu.Save(_checked);
+						chiudi.Enabled = false;
+						fin.Enabled = false;
+						port.Enabled = false;
+						motore.Enabled = false;
+						fuel.SetRightLabel("");
+					}
+					else
+						HUD.ShowNotification("Devi essere in un veicolo per attivare la funzione di salvataggio", true);
+				}
+				else if (_item == motore)
+					EventiPersonalMenu.motore(_checked);
 			};
 
 			vehContr.OnListSelect += (_menu, _listItem, _itemIndex) =>
@@ -242,18 +285,19 @@ namespace NuovaGM.Client.Personale
 			dirty.ParentItem.SetRightLabel("~r~$" + Eventi.Player.DirtyMoney);
 			dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 
-			UIMenuItem dai = new UIMenuItem("Dai a qualcuno", "A chi?");
+			UIMenu daiMoney = HUD.MenuPool.AddSubMenu(money, "Dai a qualcuno", "A chi?");
+			UIMenu daiDirty = HUD.MenuPool.AddSubMenu(dirty, "Dai a qualcuno", "A chi?");
+			daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+			daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+
 			UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
 
-			money.AddItem(dai);
 			money.AddItem(getta);
-			dirty.AddItem(dai);
 			dirty.AddItem(getta);
 
 			money.OnItemSelect += async (menu, item, index) =>
 			{
-				if(item == dai) { }
-				else if (item == getta)
+				if (item == getta)
 				{
 					int amount = 1;
 					do
@@ -272,8 +316,7 @@ namespace NuovaGM.Client.Personale
 			};
 			dirty.OnItemSelect += async (menu, item, index) =>
 			{
-				if (item == dai) { }
-				else if (item == getta)
+				if (item == getta)
 				{
 					int amount = 1;
 					do
@@ -342,23 +385,33 @@ namespace NuovaGM.Client.Personale
 						}
 						if (SharedScript.ItemList[item.item].give.give)
 						{
-							UIMenuItem giveButton = new UIMenuItem(SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description, Colors.Cyan, Colors.DarkCyan);
-							newItemMenu.AddItem(giveButton);
-							bool found = false;
-							List<Ped> players = new List<Ped>();
-							foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+							List<dynamic> amountino = new List<dynamic>();
+							for (int j = 0; j < item.amount; j++)
 							{
-								Ped ped = new Ped(p.Handle);
-								if (World.GetDistance(Game.PlayerPed.Position, ped.Position) < 1.375)
+								amountino.Add((j + 1).ToString());
+							}
+
+							UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description);
+							giveButton.ParentItem.HighlightColor = Colors.Cyan;
+							giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
+							List<int> playerId = new List<int>();
+							var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3f);
+							if (players.Count > 0)
+							{
+								foreach (var player in players)
 								{
-									found = true;
-									players.Add(ped);
+									UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
+									playerId.Add(player.ServerId);
+									giveButton.AddItem(playerItem);
+									Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake1_a");
 								}
+								giveButton.OnListSelect += async (_menu, _listItem, _index) =>
+								{
+									BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], item.item, int.Parse(amountino[_listItem.Index]));
+								};
 							}
-							foreach (Ped p in players)
-							{
-								// aggiungere codice players (menu button per ogni player così da decidere a chi e se deciso.. passare a lui)
-							}
+							else
+								giveButton.AddItem(new UIMenuItem("Nessun player nelle vicinanze.", "Trova qualcuno!!"));
 						}
 						if (SharedScript.ItemList[item.item].drop.drop)
 						{

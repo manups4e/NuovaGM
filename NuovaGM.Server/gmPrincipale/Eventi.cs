@@ -66,7 +66,8 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.RegisterEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
 			Server.Instance.RegisterEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
 			Server.Instance.RegisterEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
-
+			Server.Instance.RegisterEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
+			Server.Instance.RegisterEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
 		}
 
 		public static void FinishChar([FromSource] Player p, string data)
@@ -475,5 +476,37 @@ namespace NuovaGM.Server.gmPrincipale
 			User user = Server.PlayerList[source.Handle];
 			user.updateWeaponAmmo(weaponName, ammo);
 		}
+		private static async void GiveItemToOtherPlayer([FromSource] Player source, int target, string itemName, int amount)
+		{
+			User player = Server.PlayerList[source.Handle];
+			User targetPlayer = Server.PlayerList[""+target];
+
+			player.removeInventoryItem(itemName, amount);
+			player.showNotification($"Hai dato {amount} di {SharedScript.ItemList[itemName].label} a {targetPlayer.FullName}");
+			targetPlayer.addInventoryItem(itemName, amount, SharedScript.ItemList[itemName].peso);
+			targetPlayer.p.TriggerEvent("lprp:riceviOggettoAnimazione");
+			targetPlayer.showNotification($"Hai ricevuto {amount} di {SharedScript.ItemList[itemName].label} da {player.FullName}");
+		}
+
+		private static async void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
+		{
+			User player = Server.PlayerList[source.Handle];
+			User targetPlayer = Server.PlayerList[""+target];
+			var weapon = player.getWeapon(weaponName);
+			var arma = weapon.Item2;
+			if (targetPlayer.hasWeapon(weaponName))
+				player.showNotification($"{player.FullName} ha già quest'arma!");
+			else
+			{
+				player.removeWeapon(weaponName);
+				player.showNotification($"Hai dato la tua arma a {targetPlayer.FullName}");
+				targetPlayer.addWeapon(weaponName, ammo);
+				foreach (var comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
+				if (arma.tint != 0) targetPlayer.addWeaponTint(weaponName, arma.tint);
+				targetPlayer.p.TriggerEvent("lprp:riceviOggettoAnimazione");
+				targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");
+			}
+		}
+
 	}
 }

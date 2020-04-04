@@ -227,7 +227,7 @@ namespace NuovaGM.Client.Manager
 			Game.EnableControlThisFrame(0, Control.LookUpOnly);
 			Game.EnableControlThisFrame(0, Control.LookLeftOnly);
 			Game.EnableControlThisFrame(0, Control.LookRightOnly);
-			string helpTextTastiera = "~INPUT_COVER~ / ~INPUT_HUD_SPECIAL~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_SPRINT~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
+			string helpTextTastiera = "~INPUT_COVER~ / ~INPUT_HUD_SPECIAL~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_FRONTEND_X~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
 			string helpTextPad = "~INPUT_FRONTEND_LT~ / ~INPUT_FRONTEND_RT~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_FRONTEND_X~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
 			if (IsInputDisabled(2))
 				HUD.ShowHelp(helpTextTastiera);
@@ -291,7 +291,7 @@ namespace NuovaGM.Client.Manager
 				veh.IsInvincible= true;
 			}
 
-			if (Input.IsDisabledControlJustPressed(Control.Sprint, PadCheck.Keyboard) || Input.IsDisabledControlJustPressed(Control.FrontendX, PadCheck.Controller))
+			if (Input.IsDisabledControlJustPressed(Control.FrontendX))
 			{
 				travelSpeed++;
 				if (travelSpeed > 6)

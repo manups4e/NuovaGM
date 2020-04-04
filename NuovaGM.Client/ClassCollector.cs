@@ -7,8 +7,7 @@ namespace NuovaGM.Client
 	{
 		public static async void Init()
 		{
-			ConfigClient.Init();
-			while (Client.Impostazioni == null) await BaseScript.Delay(0);
+			await ConfigClient.Init();
 			Meteo_new.Meteo.Init();
 			Meteo_new.Orario.Init();
 			gmPrincipale.Main.Init();

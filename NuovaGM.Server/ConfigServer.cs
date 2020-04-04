@@ -4,6 +4,7 @@ using NuovaGM.Shared;
 using NuovaGM.Shared.Meteo;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NuovaGM.Server
 {
@@ -11,11 +12,13 @@ namespace NuovaGM.Server
 	{
 		private static string ConfigClient;
 		private static string ConfigShared;
-		public static void Init()
+		public static async Task Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
 			Server.Instance.RegisterEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
 			BaseScript.TriggerEvent("lprp:chiamaConfigServer");
+			while (Server.Impostazioni == null) await BaseScript.Delay(0);
+			await Task.FromResult(0);
 		}
 
 		private static void Configurazione(dynamic JsonConfig)

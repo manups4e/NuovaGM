@@ -23,9 +23,7 @@ namespace NuovaGM.Client.Interactions
 		public static void Init()
 		{
 			Client.GetInstance.RegisterTickHandler(PickupsMain);
-			Client.GetInstance.RegisterEventHandler("lprp:createPickupInventory", new Action<string,string>(CreatePickupInventory));
-			Client.GetInstance.RegisterEventHandler("lprp:createPickupWeapon", new Action<string,string>(CreatePickupWeapon));
-			Client.GetInstance.RegisterEventHandler("lprp:createPickupAccount", new Action<string,string>(CreatePickupAccount));
+			Client.GetInstance.RegisterEventHandler("lprp:createPickup", new Action<string,string>(CreatePickup));
 			Client.GetInstance.RegisterEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
 			Client.GetInstance.RegisterEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
@@ -39,41 +37,51 @@ namespace NuovaGM.Client.Interactions
 				if (pickup != null)
 				{
 					Prop pick = new Prop(pickup.propObj);
-					float dist = World.GetDistance(Game.PlayerPed.Position, pick.Position);
-					if (dist < 5)
+					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						string label = pickup.label;
-						letSleep = false;
-						if (dist < 1.5)
+						float dist = World.GetDistance(Game.PlayerPed.Position, pick.Position);
+						if (dist < 5)
 						{
-							if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen())
+							string label = pickup.label;
+							letSleep = false;
+							if (dist < 1.5)
 							{
-								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
-								if (Input.IsControlJustPressed(Control.Context))
+								if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen())
 								{
-									if ((closest.Item2 == -1 || closest.Item2 > 3) && !pickup.inRange)
+									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
+									if (Input.IsControlJustPressed(Control.Context))
 									{
-										pickup.inRange = true;
-										Game.PlayerPed.Task.PlayAnimation("pickup_object", "pickup_low");
-										await BaseScript.Delay(1000);
-										BaseScript.TriggerServerEvent("lprp:onPickup", pickup.id);
-										Game.PlaySound("PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET");
+										if (closest.Item2 != -1 && closest.Item2 <= 3)
+											HUD.ShowNotification("Non puoi con qualcuno nelle vicinanze");
+										else
+										{
+											if (!pickup.inRange)
+											{
+												pickup.inRange = true;
+												Game.PlayerPed.Task.PlayAnimation("pickup_object", "pickup_low");
+												await BaseScript.Delay(1000);
+												BaseScript.TriggerServerEvent("lprp:onPickup", pickup.id);
+												Game.PlaySound("PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET");
+											}
+										}
 									}
 								}
 							}
+							if (!pick.HasDecor("PickupArma"))
+								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, label, 1);
+							else 
+								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", 1);
 						}
-						HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, label.StartsWith("wt") ? $"{GetLabelText(label)} [{(pickup as OggettoArmaRaccoglibile).ammo}]" : label, 1);
+						else if (pickup.inRange) pickup.inRange = false;
 					}
-					else if (pickup.inRange)
-						pickup.inRange = false;
-					//				}
+					else pick.Delete();
 				}
 			}
 			if(letSleep)
 				await BaseScript.Delay(500);
 		}
 
-		private static async void CreatePickupInventory(string jsonOggetto, string userId)
+		private static async void CreatePickup(string jsonOggetto, string userId)
 		{
 			int playerId = Convert.ToInt32(userId);
 			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
@@ -83,40 +91,36 @@ namespace NuovaGM.Client.Interactions
 			Vector3 objectCoords = entityCoords + forward * 1.0f;
 			Model model = new Model((int)oggetto.obj);
 			model.Request();
-			Entity pickupObject;
-			if (model.Hash == (int)ObjectHash.a_c_fish)
-				pickupObject = await World.CreatePed(model, objectCoords);
-			else 
-				pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
-			pickupObject.SetDecor("PickupOggetto", oggetto.amount);
-			pickupObject.IsPersistent = true;
-			PlaceObjectOnGroundProperly(pickupObject.Handle);
-			//			pickupObject.Rotation = new Vector3(90f, 0, 0);
-			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
-			oggetto.propObj = pickupObject.Handle;
-			oggetto.inRange = false;
-			oggetto.coords = objectCoords.ToArray();
-			Pickups.Add(oggetto);
-		}
-
-		private static async void CreatePickupWeapon(string jsonWeapon, string userId)
-		{
-			int playerId = Convert.ToInt32(userId);
-			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
-			OggettoArmaRaccoglibile oggetto = JsonConvert.DeserializeObject<OggettoArmaRaccoglibile>(jsonWeapon);
-			Vector3 entityCoords = playerPed.Position;
-			Vector3 forward = playerPed.ForwardVector;
-			Vector3 objectCoords = entityCoords + forward * 1.0f;
-			RequestWeaponAsset(Funzioni.HashUint(oggetto.name), 31, 0);
-			while (!HasWeaponAssetLoaded(Funzioni.HashUint(oggetto.name))) await BaseScript.Delay(0);
-			Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(oggetto.name), 50, objectCoords.X, objectCoords.Y, objectCoords.Z, true, 1.0f, 0));
-			pickupObject.SetDecor("PickupArma", oggetto.ammo);
-			oggetto.propObj = pickupObject.Handle;
-			SetWeaponObjectTintIndex(pickupObject.Handle, oggetto.tintIndex);
-			foreach (var comp in oggetto.componenti)
+			Entity pickupObject = null;
+			switch (oggetto.type)
 			{
-				GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
-				if (comp.name.Contains("FLSH")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+				case "item":
+					if (model.Hash == (int)ObjectHash.a_c_fish)
+						pickupObject = await World.CreatePed(model, objectCoords);
+					else
+						pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
+					pickupObject.SetDecor("PickupOggetto", oggetto.amount);
+					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupOggetto")}");
+					break;
+				case "weapon":
+					RequestWeaponAsset(Funzioni.HashUint(oggetto.name), 31, 0);
+					while (!HasWeaponAssetLoaded(Funzioni.HashUint(oggetto.name))) await BaseScript.Delay(0);
+					pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(oggetto.name), 50, objectCoords.X, objectCoords.Y, objectCoords.Z, true, 1.0f, 0));
+					pickupObject.SetDecor("PickupArma", oggetto.amount);
+					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupArma")}");
+					oggetto.propObj = pickupObject.Handle;
+					SetWeaponObjectTintIndex(pickupObject.Handle, oggetto.tintIndex);
+					foreach (var comp in oggetto.componenti)
+					{
+						GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
+						if (comp.name.Contains("FLSH")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+					}
+					break;
+				case "account":
+					pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
+					pickupObject.SetDecor("PickupAccount", oggetto.amount);
+					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupAccount")}");
+					break;
 			}
 			pickupObject.IsPersistent = true;
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
@@ -126,28 +130,6 @@ namespace NuovaGM.Client.Interactions
 			oggetto.coords = objectCoords.ToArray();
 			Pickups.Add(oggetto);
 		}
-
-		private static async void CreatePickupAccount(string jsonOggetto, string userId)
-		{
-			int playerId = Convert.ToInt32(userId);
-			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
-			OggettoRaccoglibile oggetto = JsonConvert.DeserializeObject<OggettoRaccoglibile>(jsonOggetto);
-			Vector3 entityCoords = playerPed.Position;
-			Vector3 forward = playerPed.ForwardVector;
-			Vector3 objectCoords = entityCoords + forward * 1.0f;
-			Model model = new Model((int)oggetto.obj);
-			model.Request();
-			Prop pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
-			pickupObject.SetDecor("PickupAccount", oggetto.amount);
-			pickupObject.IsPersistent = true;
-			PlaceObjectOnGroundProperly(pickupObject.Handle);
-			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
-			oggetto.propObj = pickupObject.Handle;
-			oggetto.inRange = false;
-			oggetto.coords = objectCoords.ToArray();
-			Pickups.Add(oggetto);
-		}
-
 
 		private static void RimuoviPickup(int id)
 		{
@@ -169,48 +151,38 @@ namespace NuovaGM.Client.Interactions
 			{
 				foreach (var pickup in Pickups)
 				{
+					Entity pickupObject = null;
 					if (pickup.type == "item" || pickup.type == "account")
 					{
 						Model model = new Model((int)pickup.obj);
 						model.Request();
-						Entity pickupObject;
 						if (model.Hash == (int)ObjectHash.a_c_fish)
 							pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
 						else
 							pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
-						if (pickup.type == "item")
-							pickupObject.SetDecor("PickupOggetto", pickup.amount);
-						else if (pickup.type == "account")
-							pickupObject.SetDecor("PickupAccount", pickup.amount);
-						pickupObject.IsPersistent = true;
-						SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
-						PlaceObjectOnGroundProperly(pickupObject.Handle);
-			//			pickupObject.IsPositionFrozen = true;
-						pickup.propObj = pickupObject.Handle;
-						pickup.inRange = false;
-						pickup.coords = pickupObject.Position.ToArray();
+						if (pickup.type == "item") pickupObject.SetDecor("PickupOggetto", pickup.amount);
+						else if (pickup.type == "account") pickupObject.SetDecor("PickupAccount", pickup.amount);
 					}
 					else if (pickup.type == "weapon")
 					{
-						OggettoArmaRaccoglibile arma = pickup as OggettoArmaRaccoglibile;
-						RequestWeaponAsset(Funzioni.HashUint(arma.name), 31, 0);
-						while (!HasWeaponAssetLoaded(Funzioni.HashUint(arma.name))) await BaseScript.Delay(0);
-						Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(arma.name), 50, arma.coords.ToVector3().X, arma.coords.ToVector3().Y, arma.coords.ToVector3().Z, true, 1.0f, 0));
-						pickupObject.SetDecor("PickupArma", arma.ammo);
-						arma.propObj = pickupObject.Handle;
-						SetWeaponObjectTintIndex(pickupObject.Handle, arma.tintIndex);
-						foreach (var comp in arma.componenti)
+						RequestWeaponAsset(Funzioni.HashUint(pickup.name), 31, 0);
+						while (!HasWeaponAssetLoaded(Funzioni.HashUint(pickup.name))) await BaseScript.Delay(0);
+						pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, true, 1.0f, 0));
+						pickupObject.SetDecor("PickupArma", pickup.amount);
+						SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
+						foreach (var comp in pickup.componenti)
 						{
 							GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
 							if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
 						}
-						pickupObject.IsPersistent = true;
-						PlaceObjectOnGroundProperly(pickupObject.Handle);
-						pickupObject.IsPositionFrozen = true;
-						arma.propObj = pickupObject.Handle;
-						arma.inRange = false;
-						arma.coords = pickupObject.Position.ToArray();
 					}
+					pickup.propObj = pickupObject.Handle;
+					pickupObject.IsPersistent = true;
+					PlaceObjectOnGroundProperly(pickupObject.Handle);
+					pickupObject.IsPositionFrozen = true;
+					pickup.propObj = pickupObject.Handle;
+					pickup.inRange = false;
+					pickup.coords = pickupObject.Position.ToArray();
 				}
 			}
 		}

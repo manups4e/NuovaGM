@@ -15,7 +15,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 	{
 		public static PlayerChar Player;
 		public static Dictionary<string, PlayerChar> GiocatoriOnline = new Dictionary<string, PlayerChar>();
-
+		//
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
@@ -40,8 +40,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Client.GetInstance.RegisterEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
 			Client.GetInstance.RegisterEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
 			Client.GetInstance.RegisterEventHandler("lprp:aggiornaPlayers", new Action<string>(AggiornaPlayers));
+			Client.GetInstance.RegisterEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
 			Client.GetInstance.RegisterEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
 			//			Client.GetInstance.RegisterTickHandler(Mappina);
+		}
+
+		private static void AnimazioneRiceviOggetto()
+		{
+			Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake2_a");
 		}
 
 		public static async void AggiornaPlayers(string jsonPlayers)

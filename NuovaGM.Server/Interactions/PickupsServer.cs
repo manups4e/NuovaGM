@@ -20,21 +20,21 @@ namespace NuovaGM.Server.Interactions
 			Server.Instance.RegisterEventHandler("lprp:onPickup", new Action<Player, int>(OnPickup));
 		}
 
-		public static void CreatePickupItem(Inventory oggetto, int count, string label, User user)
+		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
 		{
 			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, SharedScript.ItemList[oggetto.item].prop, 0, label, user.getCoords.ToArray());
 			Pickups.Add(pickup);
-			BaseScript.TriggerClientEvent("lprp:createPickupInventory", JsonConvert.SerializeObject(pickup), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(pickup), user.p.Handle);
 		}
 
-		public static void CreatePickupWeapon(Weapons oggetto, string label, User user)
+		public static void CreatePickup(Weapons oggetto, string label, User user)
 		{
-			OggettoArmaRaccoglibile arma = new OggettoArmaRaccoglibile(Pickups.Count, oggetto.name, 1, (ObjectHash)0, 0, label, user.getCoords.ToArray(), oggetto.components, oggetto.tint, oggetto.ammo);
+			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords.ToArray(), "weapon", oggetto.components, oggetto.tint);
 			Pickups.Add(arma);
-			BaseScript.TriggerClientEvent("lprp:createPickupWeapon", JsonConvert.SerializeObject(arma), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(arma), user.p.Handle);
 		}
 
-		public static void CreatePickupAccount(string name, int count, string label, User user)
+		public static void CreatePickup(string name, int count, string label, User user)
 		{
 			ObjectHash oggetto = 0;
 			switch (count) {
@@ -56,7 +56,7 @@ namespace NuovaGM.Server.Interactions
 			}
 			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords.ToArray(), "account");
 			Pickups.Add(soldo);
-			BaseScript.TriggerClientEvent("lprp:createPickupAccount", JsonConvert.SerializeObject(soldo), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(soldo), user.p.Handle);
 		}
 
 		private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)
@@ -69,7 +69,7 @@ namespace NuovaGM.Server.Interactions
 				{
 					user.removeInventoryItem(item, count);
 					string label = $"{oggetto.Item2.item} [{count}]";
-					CreatePickupItem(oggetto.Item2, count, label, user);
+					CreatePickup(oggetto.Item2, count, label, user);
 				}
 				else
 					user.showNotification("Non hai oggetti come questo nell'inventario!");
@@ -84,7 +84,7 @@ namespace NuovaGM.Server.Interactions
 				Tuple<int, Weapons> arma = user.getWeapon(weapon);
 				user.removeWeapon(weapon);
 				string label = Funzioni.GetWeaponLabel((uint)GetHashKey(weapon));
-				CreatePickupWeapon(arma.Item2, label, user);
+				CreatePickup(arma.Item2, label, user);
 			}
 		}
 
@@ -102,7 +102,7 @@ namespace NuovaGM.Server.Interactions
 					label = $"Soldi sporchi [{amount}]";
 					break;
 			}
-			CreatePickupAccount(name, amount, label, user);
+			CreatePickup(name, amount, label, user);
 		}
 
 		private static void OnPickup([FromSource] Player source, int id)
@@ -110,37 +110,35 @@ namespace NuovaGM.Server.Interactions
 			User user = Server.PlayerList[source.Handle];
 			var pickup = Pickups[id];
 			bool success = false;
-			if (pickup.type == "item")
+			switch (pickup.type)
 			{
-				//aggiungere controllo se può portarlo
-				user.addInventoryItem(pickup.name, pickup.amount, SharedScript.ItemList[pickup.name].peso);
-				success = true;
-			}
-			else if (pickup.type == "weapon")
-			{
-				var arma = pickup as OggettoArmaRaccoglibile;
-				if (user.hasWeapon(arma.name))
-					user.showNotification("Hai già quest'arma!!!");
-				else
-				{
+				case "item":
+					//aggiungere controllo se può portarlo
+					user.addInventoryItem(pickup.name, pickup.amount, SharedScript.ItemList[pickup.name].peso);
 					success = true;
-					user.addWeapon(arma.name, arma.ammo);
-					if(arma.tintIndex != 0)
-						user.addWeaponTint(arma.name, arma.tintIndex);
-					foreach (var comp in arma.componenti)
-						user.addWeaponComponent(arma.name, comp.name);
+					break;
+				case "weapon":
+					if (user.hasWeapon(pickup.name))
+						user.showNotification("Hai già quest'arma!");
+					else
+					{
+						success = true;
+						user.addWeapon(pickup.name, pickup.amount);
+						if (pickup.tintIndex != 0)
+							user.addWeaponTint(pickup.name, pickup.tintIndex);
+						foreach (var comp in pickup.componenti)
+							user.addWeaponComponent(pickup.name, comp.name);
 
-				}
+					}
+					break;
+				case "account":
+					success = true;
+					if (pickup.name == "soldi")
+						user.Money += pickup.amount;
+					else if (pickup.name == "soldi_sporchi")
+						user.DirtyMoney += pickup.amount;
+					break;
 			}
-			else if (pickup.type == "account")
-			{
-				success = true;
-				if (pickup.name == "soldi")
-					user.Money += pickup.amount;
-				else if (pickup.name == "soldi_sporchi")
-					user.DirtyMoney += pickup.amount;
-			}
-
 			if (success)
 			{
 				Pickups[id] = null;

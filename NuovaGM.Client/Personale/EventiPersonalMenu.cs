@@ -16,7 +16,7 @@ namespace NuovaGM.Client.Personale
 		public static bool WindowsGiu = false;
 		public static bool MostraStatus = true;
 		public static bool MostraSoldi = true;
-		static Vehicle saveVehicle = null;
+		public static Vehicle saveVehicle = null;
 		public static float CinematicaHeight = 0;
 		public static bool DoHideHud = false;
 		static List<HudComponent> hideComponents = new List<HudComponent>()
@@ -265,11 +265,19 @@ namespace NuovaGM.Client.Personale
 				{
 					saveVehicle = Game.PlayerPed.CurrentVehicle;
 					saveVehicle.AttachBlip();
+					saveVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
 					saveVehicle.AttachedBlip.Color = BlipColor.Green;
 					HUD.ShowNotification("Questa ~y~" + saveVehicle.LocalizedName + "~w~ è stata~g~ salvata ~w~e non verrà eliminata se ti allontani.", NotificationColor.GreenDark);
 					PersonalMenu.salvato = true;
 				}
 			}
+		}
+
+		public static async void motore(bool toggle)
+		{
+			Vehicle vehicle = saveVehicle;
+			vehicle.IsEngineRunning = toggle;
+			vehicle.IsDriveable = toggle;
 		}
 
 		public static async void Lock(bool toggle)

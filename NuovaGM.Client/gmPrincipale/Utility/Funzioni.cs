@@ -647,15 +647,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area)
 		{
-			List<Player> PlayersInArea = new List<Player>();
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
-			{
-				Player target = p;
-				if (World.GetDistance(target.Character.Position, coords) <= area)
-				{
-					PlayersInArea.Add(target);
-				}
-			}
+			List<Player> PlayersInArea = Client.GetInstance.GetPlayers.ToList().FindAll(p => p.Character.Position.DistanceToSquared(coords) <= area && p != Game.Player);
 			return PlayersInArea;
 		}
 

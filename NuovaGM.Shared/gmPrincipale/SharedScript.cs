@@ -536,8 +536,12 @@ namespace NuovaGM.Shared
 		public bool inRange = false;
 		public float[] coords = new float[3];
 		public string name;
-		public int amount;
-		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, string _type = "item")
+		public int amount; 
+		public List<Components> componenti = new List<Components>();
+		public int tintIndex;
+
+
+		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, string _type = "item", List<Components> _components = null, int _tintIndex = 0)
 		{
 			id = _id;
 			name = _name;
@@ -547,18 +551,6 @@ namespace NuovaGM.Shared
 			propObj = _propObj;
 			label = _label;
 			coords = _coords;
-		}
-	}
-
-	public class OggettoArmaRaccoglibile : OggettoRaccoglibile
-	{
-		public int ammo;
-		public List<Components> componenti = new List<Components>();
-		public int tintIndex;
-
-		public OggettoArmaRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, List<Components> _components, int _tintIndex, int _ammo) : base(_id, _name, _amount, _obj, _propObj, _label, _coords, "weapon")
-		{
-			ammo = _ammo;
 			componenti = _components;
 			tintIndex = _tintIndex;
 		}

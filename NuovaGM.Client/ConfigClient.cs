@@ -8,16 +8,18 @@ using NuovaGM.Shared;
 using NuovaGM.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace NuovaGM.Client
 {
 	static class ConfigClient
 	{
-		public static void Init()
+		public static async Task Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:ConfigurazioneClient", new Action<string, string>(Configurazione));
 			BaseScript.TriggerServerEvent("lprp:riavvioApp");
+			while (Client.Impostazioni == null) await BaseScript.Delay(0);
+			await Task.FromResult(0);
 		}
 
 		public static void Configurazione(string JsonMain, string JsonShared)

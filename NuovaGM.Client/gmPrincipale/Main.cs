@@ -74,22 +74,37 @@ namespace NuovaGM.Client.gmPrincipale
 		public static bool LoadoutLoaded = false;
 		private static bool passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
 		public static int SecondsBeforeKick = Client.Impostazioni.Main.AFKCheckTime;
-		public static void SetDecor(string _name, int _int)
+
+		public static void Init()
 		{
-			decorName = _name;
-			decorInt = _int;
-			EntityDecoration.RegisterProperty(decorName, DecorationType.Int);
-			EntityDecoration.RegisterProperty(FuelClient.DecorName, DecorationType.Float);
+			LoadMain();
+			Client.GetInstance.RegisterTickHandler(Istanza);
+			Client.GetInstance.RegisterTickHandler(AFK);
+			Client.GetInstance.RegisterTickHandler(HUD.Menus);
+			Client.GetInstance.RegisterTickHandler(Entra);
+			Client.GetInstance.RegisterTickHandler(Connesso);
+			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.GetInstance.RegisterEventHandler("playerSpawned", new Action(playerSpawned));
+			Client.GetInstance.RegisterEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
+			Client.GetInstance.RegisterEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
+			Client.GetInstance.RegisterEventHandler("lprp:getHost", new Action<int>(GetHost));
+			Client.GetInstance.RegisterEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
+			Screen.Fading.FadeOut(800);
+		}
+
+		private static void LoadMain()
+		{
+			SetNuiFocus(false, false);
+			EntityDecoration.RegisterProperty("NuovaGM2019fighissimo!yeah!", DecorationType.Int);
+			EntityDecoration.RegisterProperty("lprp_fuel", DecorationType.Float);
 			EntityDecoration.RegisterProperty("VeicoloPolizia", DecorationType.Int);
 			EntityDecoration.RegisterProperty("VeicoloMedici", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupOggetto", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupAccount", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
-			EntityDecoration.LockProperties();
-		}
 
-		public static void Init()
-		{
+			Client.Printa(LogType.Debug, $"DecorIsRegisteredAsType(\"PickupOggetto\", 3) = {DecorIsRegisteredAsType("PickupOggetto", 3)}");
+			EntityDecoration.LockProperties();
 			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
 			SetMapZoomDataLevel(1, 2.8f, 0.9f, 0.08f, 0.0f, 0.0f);
 			SetMapZoomDataLevel(2, 8.0f, 0.9f, 0.08f, 0.0f, 0.0f);
@@ -99,24 +114,8 @@ namespace NuovaGM.Client.gmPrincipale
 			SetMapZoomDataLevel(6, 450f, 0f, 0f, 0.1f, 0.1f);
 			SetMapZoomDataLevel(7, 4.5f, 0f, 0f, 0f, 0f);
 			SetMapZoomDataLevel(8, 11f, 0f, 0f, 2.0f, 3.0f);
-
-			Client.GetInstance.RegisterTickHandler(Istanza);
-			Client.GetInstance.RegisterTickHandler(AFK);
-			Client.GetInstance.RegisterTickHandler(HUD.Menus);
-			Client.GetInstance.RegisterTickHandler(Entra);
-			Client.GetInstance.RegisterTickHandler(Connesso);
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
-			Client.GetInstance.RegisterEventHandler("playerSpawned", new Action(playerSpawned));
-			Client.GetInstance.RegisterEventHandler("lprp:setDecor", new Action<string, int>(SetDecor));
-			Client.GetInstance.RegisterEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
-			Client.GetInstance.RegisterEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
-			Client.GetInstance.RegisterEventHandler("lprp:getHost", new Action<int>(GetHost));
-			Client.GetInstance.RegisterEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
-			SetNuiFocus(false, false);
-			BaseScript.TriggerServerEvent("lprp:getDecor");
-			Screen.Fading.FadeOut(800);
 		}
-		
+
 		private static async void OnClientResourceStart(string resourceName)
 		{
 			if (resourceName == "config")
