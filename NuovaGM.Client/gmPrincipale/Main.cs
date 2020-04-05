@@ -102,8 +102,6 @@ namespace NuovaGM.Client.gmPrincipale
 			EntityDecoration.RegisterProperty("PickupOggetto", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupAccount", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
-
-			Client.Printa(LogType.Debug, $"DecorIsRegisteredAsType(\"PickupOggetto\", 3) = {DecorIsRegisteredAsType("PickupOggetto", 3)}");
 			EntityDecoration.LockProperties();
 			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
 			SetMapZoomDataLevel(1, 2.8f, 0.9f, 0.08f, 0.0f, 0.0f);

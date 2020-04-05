@@ -100,14 +100,12 @@ namespace NuovaGM.Client.Interactions
 					else
 						pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
 					pickupObject.SetDecor("PickupOggetto", oggetto.amount);
-					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupOggetto")}");
 					break;
 				case "weapon":
 					RequestWeaponAsset(Funzioni.HashUint(oggetto.name), 31, 0);
 					while (!HasWeaponAssetLoaded(Funzioni.HashUint(oggetto.name))) await BaseScript.Delay(0);
 					pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(oggetto.name), 50, objectCoords.X, objectCoords.Y, objectCoords.Z, true, 1.0f, 0));
 					pickupObject.SetDecor("PickupArma", oggetto.amount);
-					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupArma")}");
 					oggetto.propObj = pickupObject.Handle;
 					SetWeaponObjectTintIndex(pickupObject.Handle, oggetto.tintIndex);
 					foreach (var comp in oggetto.componenti)
@@ -119,7 +117,6 @@ namespace NuovaGM.Client.Interactions
 				case "account":
 					pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
 					pickupObject.SetDecor("PickupAccount", oggetto.amount);
-					Client.Printa(LogType.Debug, $"Decor sull'oggetto = {pickupObject.GetDecor<int>("PickupAccount")}");
 					break;
 			}
 			pickupObject.IsPersistent = true;

@@ -7,6 +7,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.Personale;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -82,7 +83,6 @@ namespace NuovaGM.Client.Veicoli
 			Client.GetInstance.RegisterEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
 			Client.GetInstance.RegisterEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
 			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			//			Client.GetInstance.RegisterTickHandler(FuelCount);
 		}
 
 		public static void Spawnato()
@@ -102,20 +102,14 @@ namespace NuovaGM.Client.Veicoli
 			List<char> charset = new List<char>();
 			Random random = new Random(GetGameTimer());
 			for (int i = 65; i < 90; i++)
-			{
 				charset.Add((char)i);
-			}
 
 			for (int i = 97; i < 122; i++)
-			{
 				charset.Add((char)i);
-			}
 
 			string rndstr = "";
 			for (int i = 1; i < 6; i++)
-			{
 				rndstr += charset[random.Next(1, charset.Count)];
-			}
 
 			return rndstr;
 		}
@@ -132,9 +126,6 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async void CaricaBlipStazioni()
 		{
-			while (ConfigShared.SharedConfig.Main.Veicoli.gasstations == null)
-				await BaseScript.Delay(1000);
-
 			foreach (GasStation p in ConfigShared.SharedConfig.Main.Veicoli.gasstations)
 			{
 				Blip blip = new Blip(AddBlipForCoord(p.pos[0], p.pos[1], p.pos[2]))
@@ -167,13 +158,15 @@ namespace NuovaGM.Client.Veicoli
 		{
 			foreach (Vector3 v in refuelspots)
 			{
-				Blip blip = new Blip(AddBlipForCoord(v.X, v.Y, v.Z));
-				blip.Sprite = BlipSprite.JerryCan;
+				Blip blip = new Blip(AddBlipForCoord(v.X, v.Y, v.Z))
+				{
+					Sprite = BlipSprite.JerryCan,
+					Scale = 0.85f,
+					Color = (BlipColor)35,
+					IsShortRange = true,
+					Name = "Stazione rifornimento Cisterne"
+				};
 				SetBlipDisplay(blip.Handle, 4);
-				blip.Scale = 0.85f;
-				blip.Color = (BlipColor)35;
-				blip.IsShortRange = true;
-				blip.Name = "Stazione rifornimento Cisterne";
 				refuelBlips.Add(blip);
 			}
 		}
@@ -181,10 +174,7 @@ namespace NuovaGM.Client.Veicoli
 		public static async void HideRefuelBlips()
 		{
 			for (int i = 0; i < refuelBlips.Count; i++)
-			{
 				refuelBlips[i].Delete();
-			}
-
 			refuelBlips.Clear();
 		}
 
@@ -195,34 +185,22 @@ namespace NuovaGM.Client.Veicoli
 			return (Funzioni.GetRandomFloat(1.0f) * (max - min)) + min;
 		}
 
-		public static async void setVehicleFuelLevel(Vehicle veh, float fuel)
+		public static async void SetVehicleFuelLevel(this Vehicle veh, float fuel)
 		{
 			float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (fuel > maxfuel)
-			{
 				fuel = maxfuel;
-			}
 
 			veh.FuelLevel = fuel;
 			veh.SetDecor(DecorName, fuel);
 		}
 
-		public static async void SetVehicleFuelLevel(this Vehicle veh, float fuel)
-		{
-			setVehicleFuelLevel(veh, fuel);
-		}
-
 		public static async void AddFuelToVeh(bool success, string msg, int fuelval)
 		{
 			if (success)
-			{
-				setVehicleFuelLevel(LastVehicle, fuelval);
-			}
-
+				SetVehicleFuelLevel(LastVehicle, fuelval);
 			if (msg != null)
-			{
 				HUD.ShowNotification(msg, true);
-			}
 		}
 
 		public static async void initFuel(Vehicle veh)
@@ -230,10 +208,7 @@ namespace NuovaGM.Client.Veicoli
 			curVehInit = true;
 			float fuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (!veh.HasDecor(DecorName))
-			{
 				veh.SetDecor(DecorName, RandomFuelLevel(fuelCapacity));
-			}
-
 			veh.FuelLevel = veh.GetDecor<float>(DecorName);
 		}
 
@@ -257,11 +232,8 @@ namespace NuovaGM.Client.Veicoli
 				fuel -= veh.Acceleration * FuelAccelImpact;
 				fuel -= veh.MaxTraction * FuelTractionImpact;
 				if (fuel < 0.0f)
-				{
 					fuel = 0f;
-				}
-
-				setVehicleFuelLevel(veh, fuel);
+				SetVehicleFuelLevel(veh, fuel);
 			}
 		}
 
@@ -283,11 +255,8 @@ namespace NuovaGM.Client.Veicoli
 
 		public static bool withinDist(Vector3 pos, Entity ent)
 		{
-
 			Vector3 epos = ent.Position;
-
 			float dist = World.GetDistance(pos, epos);
-
 			return dist <= 2.05f ? true : false;
 		}
 
@@ -298,15 +267,11 @@ namespace NuovaGM.Client.Veicoli
 
 			Model truck = new Model(rnd);
 			if (!truck.IsLoaded)
-			{
 				await truck.Request(3000); // for when you stream resources.
-			}
 
 			Model trailer = new Model(tanker);
 			if (!trailer.IsLoaded)
-			{
 				await trailer.Request(3000); // for when you stream resources.
-			}
 
 			jobTruck = await World.CreateVehicle(truck, spot.pos, spot.heading);
 			jobTruck.PlaceOnGround();
@@ -327,7 +292,7 @@ namespace NuovaGM.Client.Veicoli
 		{
 			if (Game.PlayerPed.IsInVehicle())
 			{
-				setVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+				SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
 			}
 		}
@@ -335,22 +300,17 @@ namespace NuovaGM.Client.Veicoli
 		public static async void FuelLevel(float level)
 		{
 			if (level > Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity)
-			{
 				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
-			}
 			else if (level < 0f)
-			{
 				level = 0f;
-			}
-
-			setVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, level);
+			SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, level);
 			HUD.ShowNotification("Carburante settato, Usalo SOLO in caso di ~r~EMERGENZA~w~!");
 		}
 
 		public static async void FillTankForVeh(int veh)
 		{
 			Vehicle vehicle = new Vehicle(veh);
-			setVehicleFuelLevel(vehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+			SetVehicleFuelLevel(vehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 		}
 
 		public static async void DepositFuel(bool success, string tankerful, string stationfuel, string overflow)
@@ -360,20 +320,14 @@ namespace NuovaGM.Client.Veicoli
 				int over = Convert.ToInt32(overflow);
 				int stationf = Convert.ToInt32(stationfuel);
 				if (over > 0)
-				{
 					tankerfuel = over;
-				}
 				else
-				{
 					tankerfuel = 0;
-				}
 
 				HUD.ShowNotification($"Hai consegnato ~b~{tankerful}~w~ litri di carburante. La stazione ora ha ~b~{stationf}~b~ litri.\nLa tua cisterna ha ~b~{tankerfuel}~w~ litri di carburante rimanenti.");
 			}
 			else
-			{
 				HUD.ShowNotification(tankerful);
-			}
 
 			canUnloadFuel = true;
 			ShowRefuelBlips();
@@ -419,9 +373,7 @@ namespace NuovaGM.Client.Veicoli
 			if (pickupBlip.Count > 0)
 			{
 				foreach (Blip b in pickupBlip)
-				{
 					b.Delete();
-				}
 
 				pickupBlip.Clear();
 			}
@@ -441,10 +393,7 @@ namespace NuovaGM.Client.Veicoli
 				HUD.ShowNotification("La cisterna è stata riempita di carburante.");
 			}
 			else
-			{
 				HUD.ShowNotification(msg);
-			}
-
 			canBuyFuel = true;
 		}
 
@@ -524,11 +473,10 @@ namespace NuovaGM.Client.Veicoli
 			{
 				if (Game.PlayerPed.IsInVehicle())
 				{
-					veh = Game.PlayerPed.CurrentVehicle;
+					if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
+						veh = Game.PlayerPed.CurrentVehicle;
 					if (Game.PlayerPed.LastVehicle != null)
-					{
 						lastveh = Game.PlayerPed.LastVehicle;
-					}
 				}
 
 				if (Game.PlayerPed.IsInVehicle() && veh.Driver == Game.PlayerPed && modelValid(veh) && !veh.IsDead)
@@ -539,22 +487,19 @@ namespace NuovaGM.Client.Veicoli
 						curVehInit = false;
 					}
 					if (!curVehInit)
-					{
 						initFuel(veh);
-					}
 
 					ConsumeFuel(veh);
-					RenderUi(veh.FuelLevel, FuelCapacity);
-					if (vehicleFuelLevel(veh) < 1)
+					if(!EventiPersonalMenu.DoHideHud)
+						RenderUi(veh.FuelLevel, FuelCapacity);
+					if (vehicleFuelLevel(veh) < 0.99f)
 					{
 						veh.IsEngineRunning = false;
 						veh.IsDriveable = false;
 					}
 				}
 				else
-				{
 					curVehInit = false;
-				}
 
 				if (veh.Exists() || lastveh.Exists())
 				{
@@ -594,6 +539,12 @@ namespace NuovaGM.Client.Veicoli
 										{
 											if (!LastVehicle.IsEngineRunning)
 											{
+												if (!IsEntityPlayingAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 3))
+												{
+													TaskTurnPedToFaceEntity(PlayerPedId(), LastVehicle.Handle, 1000);
+													await BaseScript.Delay(1000);
+													await Game.PlayerPed.Task.PlayAnimation("timetable@gardener@filling_can", "gar_ig_5_filling_can", 2f, 8f, -1, (AnimationFlags)50, 0);
+												}
 												if (LastVehicle.FuelLevel < 100)
 												{
 													justPumped = true;
@@ -614,6 +565,8 @@ namespace NuovaGM.Client.Veicoli
 										}
 										if (Input.IsControlJustReleased(Control.Context) || Input.IsDisabledControlJustReleased(Control.Context))
 										{
+											if (IsEntityPlayingAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 3))
+												Game.PlayerPed.Task.ClearAll();
 											if (justPumped)
 											{
 												justPumped = false;
@@ -624,9 +577,7 @@ namespace NuovaGM.Client.Veicoli
 										}
 									}
 									else
-									{
 										HUD.ShowNotification("Questa stazione di rifornimento è a secco di carburante. Provane un'altra.", true);
-									}
 								}
 							}
 						}
@@ -650,14 +601,9 @@ namespace NuovaGM.Client.Veicoli
 						float max = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 						float fuel = vehicleFuelLevel(lastVehicle);
 						if (max - fuel < 0.5)
-						{
 							HUD.ShowNotification("Il serbatoio è già pieno.");
-						}
 						else
-						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per riempire il serbatoio con la tanica");
-						}
-
 						if (Input.IsControlPressed( Control.Context))
 						{
 							if (animState == 3)
@@ -677,13 +623,9 @@ namespace NuovaGM.Client.Veicoli
 							{
 								RenderUi(fuel, max);
 								if (fuel + 0.1 >= max)
-								{
-									setVehicleFuelLevel(lastVehicle, max);
-								}
+									SetVehicleFuelLevel(lastVehicle, max);
 								else
-								{
-									setVehicleFuelLevel(lastVehicle, fuel + 0.2f);
-								}
+									SetVehicleFuelLevel(lastVehicle, fuel + 0.2f);
 							}
 						}
 						if (Input.IsControlJustReleased(Control.Context))
@@ -711,7 +653,7 @@ namespace NuovaGM.Client.Veicoli
 					float dist = World.GetDistance(Game.PlayerPed.Position, registrySpots[i]);
 					if (dist < 80)
 					{
-						World.DrawMarker(MarkerType.TruckSymbol, new Vector3(registrySpots[i].X, registrySpots[i].Y, registrySpots[i].Z), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 0, 255), false, false, true);
+						World.DrawMarker(MarkerType.TruckSymbol, registrySpots[i], new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 0, 255), false, false, true);
 						if (dist < 1.15)
 						{
 							if (canRegisterForTanker)
@@ -725,19 +667,18 @@ namespace NuovaGM.Client.Veicoli
 									if (pickupBlip.Count > 0)
 									{
 										foreach (Blip a in pickupBlip)
-										{
 											a.Delete();
-										}
-
 										pickupBlip.Clear();
 									}
-									Blip b = new Blip(AddBlipForCoord(tankerSpots[curRegPickup].pos.X, tankerSpots[curRegPickup].pos.Y, tankerSpots[curRegPickup].pos.Z));
-									b.Sprite = (BlipSprite)67;
+									Blip b = new Blip(AddBlipForCoord(tankerSpots[curRegPickup].pos.X, tankerSpots[curRegPickup].pos.Y, tankerSpots[curRegPickup].pos.Z))
+									{
+										Sprite = (BlipSprite)67,
+										Scale = 0.85f,
+										Color = (BlipColor)14,
+										IsShortRange = true,
+										Name = "Raccolta Cisterna"
+									};
 									SetBlipDisplay(b.Handle, 4);
-									b.Scale = 0.85f;
-									SetBlipColour(b.Handle, 14);
-									b.IsShortRange = true;
-									b.Name = "Raccolta Cisterna";
 									pickupBlip.Add(b);
 									HUD.ShowNotification("Il punto di raccolta della cisterna è stato impostato sul tuo ~b~GPS~w~.");
 								}
@@ -811,13 +752,9 @@ namespace NuovaGM.Client.Veicoli
 								int fuel = 500;
 								int maxfuel = maxtankerfuel;
 								if ((tankerfuel + fuel) <= maxfuel)
-								{
 									maxfuel = fuel;
-								}
 								else
-								{
 									maxfuel = maxtankerfuel - tankerfuel;
-								}
 
 								if (maxfuel > 0)
 								{
@@ -832,9 +769,7 @@ namespace NuovaGM.Client.Veicoli
 									}
 								}
 								else
-								{
 									HUD.ShowNotification("La tua cisterna è gia piena!");
-								}
 							}
 						}
 					}
@@ -881,9 +816,7 @@ namespace NuovaGM.Client.Veicoli
 						jobTruck = new Vehicle(0);
 						jobTrailer = new Vehicle(0);
 						if (plate != "")
-						{
 							BaseScript.TriggerServerEvent("lprp:vehicles:unregisterJobVehicle", plate);
-						}
 
 						HUD.ShowNotification("Hai perso il tuo camion o la tua cisterna. La consegna è stata cancellata.", NotificationColor.Red);
 						curRegPickup = 0;

@@ -38,7 +38,7 @@ namespace NuovaGM.Server.Veicoli
 				player.Money -= price;
 				Server.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
-				BaseScript.TriggerClientEvent(p, "lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
+				p.TriggerEvent("lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
 				BaseScript.TriggerEvent("lprp:businesses:addmoneytostation", sidx, price);
 				BaseScript.TriggerEvent("lprp:businesses:removefuelfromstation", stationindex, addedfuel);
 			}
@@ -54,9 +54,7 @@ namespace NuovaGM.Server.Veicoli
 					BaseScript.TriggerEvent("lprp:businesses:removefuelfromstation", stationindex, addedfuel);
 				}
 				else
-				{
 					BaseScript.TriggerClientEvent(p, "lprp:fuel:addfueltovehicle", false, "Non hai abbastanza soldi nel portafoglio o in banca per fare carburante.");
-				}
 			}
 		}
 

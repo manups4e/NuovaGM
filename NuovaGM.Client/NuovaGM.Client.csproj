@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.props" Condition="Exists('..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core.Client, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2297\lib\net45\CitizenFX.Core.Client.dll</HintPath>
+      <HintPath>..\packages\CitizenFX.Core.Client.1.0.2324\lib\net45\CitizenFX.Core.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -276,11 +277,12 @@
     <PostBuildEvent>copy /y $(OutDir)\NuovaGM.Client.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\
 </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets" Condition="Exists('..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Questo progetto fa riferimento a uno o più pacchetti NuGet che non sono presenti in questo computer. Usare lo strumento di ripristino dei pacchetti NuGet per scaricarli. Per altre informazioni, vedere http://go.microsoft.com/fwlink/?LinkID=322105. Il file mancante è {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Confuser.MSBuild.1.3.1\build\Confuser.MSBuild.targets'))" />
+    <Error Condition="!Exists('..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.props'))" />
+    <Error Condition="!Exists('..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.targets'))" />
   </Target>
+  <Import Project="..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.targets" Condition="Exists('..\packages\Confuser.MSBuild.2.0.0-alpha-0191\build\Confuser.MSBuild.targets')" />
 </Project>
