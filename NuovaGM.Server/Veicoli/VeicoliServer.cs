@@ -22,6 +22,7 @@ namespace NuovaGM.Server.Veicoli
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)
 		{
+			await BaseScript.Delay(0);
 			if (p.Handle == "1")
 			{
 				Debug.WriteLine("train timeout activated.");
@@ -38,19 +39,19 @@ namespace NuovaGM.Server.Veicoli
 		public static void activateTrain() => BaseScript.TriggerClientEvent("lprp:spawntrain");
 
 
-		private static async void AddRear(int veh) 
+		private static void AddRear(int veh) 
 		{ 
 			BaseScript.TriggerClientEvent("cBrakes:add_rear", veh); 
 		}
-		private static async void AddFront(int veh) 
+		private static void AddFront(int veh) 
 		{ 
 			BaseScript.TriggerClientEvent("cBrakes:add_front", veh);
 		}
-		private static async void RemRear(int veh) 
+		private static void RemRear(int veh) 
 		{ 
 			BaseScript.TriggerClientEvent("cBrakes:rem_rear", veh);
 		}
-		private static async void RemFront(int veh) 
+		private static void RemFront(int veh) 
 		{ 
 			BaseScript.TriggerClientEvent("cBrakes:rem_front", veh);
 		}

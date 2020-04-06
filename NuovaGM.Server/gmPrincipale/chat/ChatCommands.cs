@@ -470,6 +470,7 @@ namespace NuovaGM.Server.gmPrincipale
 		// SETGROUP
 		public static async void SetGroup(int sender, List<dynamic> args, string rawCommand)
 		{
+			await BaseScript.Delay(0);
 			var now = DateTime.Now;
 			if (Convert.ToInt32(args[0]) > 0)
 			{
@@ -604,8 +605,9 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
-		public static async void Salvatutti(int sender, List<dynamic> args, string rawCommand)
+		private static async void Salvatutti(int sender, List<dynamic> args, string rawCommand)
 		{
+			await BaseScript.Delay(0);
 			try
 			{
 				var now = DateTime.Now;
@@ -876,7 +878,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
-		private static async void DaiLicenza(int sender, List<dynamic> args, string rawCommand)
+		private static void DaiLicenza(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender == 0)
 				Server.Printa(LogType.Error, $"Comando permesso solo in game");
@@ -898,7 +900,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		}
 
-		private static async void RimuoviLicenza(int sender, List<dynamic> args, string rawCommand)
+		private static void RimuoviLicenza(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender == 0)
 				Server.Printa(LogType.Error, $"Comando permesso solo in game");

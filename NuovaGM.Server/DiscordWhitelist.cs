@@ -17,6 +17,7 @@ namespace NuovaGM.Server
 
 		public static async void Init()
 		{
+			await BaseScript.Delay(0);
 			while (Server.Impostazioni.Main.DiscordToken == null) await BaseScript.Delay(0);
 			GuildId = Server.Impostazioni.Main.GuildId;
 			DiscordToken += Server.Impostazioni.Main.DiscordToken;
@@ -27,6 +28,7 @@ namespace NuovaGM.Server
 		{
 			try
 			{
+				await BaseScript.Delay(0);
 				RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);
 				if (connessione.status != System.Net.HttpStatusCode.OK)
 				{
@@ -52,6 +54,7 @@ namespace NuovaGM.Server
 
 		public static async void SendWebhookMessageCoda(ConcurrentDictionary<string, string> idents, string name, string hook, string Flag, string Info)
 		{
+			await BaseScript.Delay(0);
 			string Webhook = hook;
 			var IdentList = idents;
 			string SteamHex = IdentList["steam"];
@@ -121,6 +124,7 @@ namespace NuovaGM.Server
 
 		public static async void SendWebhookMessage(Player Source, string hook, string Flag, string Info)
 		{
+			await BaseScript.Delay(0);
 			string Webhook = hook;
 			var IdentList = Source.Identifiers;
 			string SteamHex = Source.Identifiers["steam"];

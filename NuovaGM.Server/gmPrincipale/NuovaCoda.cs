@@ -525,6 +525,7 @@ namespace NuovaGM.Server.gmPrincipale
 
         private static async void StopHardcap()
         {
+            await BaseScript.Delay(0);
             try
             {
                 ExecuteCommand($"sets lprp:coda Enabled");

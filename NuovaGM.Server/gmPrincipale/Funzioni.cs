@@ -21,7 +21,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			foreach (Player p in Server.Instance.GetPlayers.ToList())
 			{
-				if (p.Handle == "" + id)
+				if (p.Handle == id.ToString())
 					return p;
 			}
 			return null;
@@ -285,6 +285,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void SalvaPersonaggio(Player player)
 		{
+			await BaseScript.Delay(0);
 			var ped = GetUserFromPlayerId(player.Handle);
 			await Server.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
 			{

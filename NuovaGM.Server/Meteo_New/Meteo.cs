@@ -30,12 +30,12 @@ namespace NuovaGM.Server.Meteo_New
 			rainTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
 		}
 
-		private static async void CambiaMeteoPerMe([FromSource]Player p, bool startup)
+		private static void CambiaMeteoPerMe([FromSource]Player p, bool startup)
 		{
 			p.TriggerEvent("lprp:getMeteo", currentWeather, blackout, startup);
 		}
 
-		private static async void CambiaMeteoConParams(int meteo, bool black, bool startup)
+		private static void CambiaMeteoConParams(int meteo, bool black, bool startup)
 		{
 			currentWeather = meteo;
 			weatherTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
@@ -43,13 +43,13 @@ namespace NuovaGM.Server.Meteo_New
 			BaseScript.TriggerClientEvent("lprp:getMeteo", currentWeather, blackout, startup);
 		}
 
-		private static async void CambiaMeteoDinamico(bool dynamic)
+		private static void CambiaMeteoDinamico(bool dynamic)
 		{
 			Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic;
 			BaseScript.TriggerClientEvent("CambiaMeteoDinamicoPerTutti", dynamic);
 		}
 
-		private static async void CambiaMeteo(bool startup)
+		private static void CambiaMeteo(bool startup)
 		{
 			BaseScript.TriggerClientEvent("lprp:getMeteo", currentWeather, blackout, startup);
 		}
@@ -72,7 +72,7 @@ namespace NuovaGM.Server.Meteo_New
 				rainPossible = true;
 		}
 
-		private static async void PushNextWeather()
+		private static void PushNextWeather()
 		{
 			bool reduced;
 			int reducedW;

@@ -80,10 +80,7 @@ namespace NuovaGM.Server
 		/// <param name="query">Testo della query</param>
 		/// <param name="parameters">Parametri da passare</param>
 		/// <returns>dynamic List if more than one or a dynamic object if only one</returns>
-		public async Task<dynamic> Query(string query, object parameters = null)
-		{
-			return await MySQL.QueryAsync(query, parameters);
-		}
+		public async Task<dynamic> Query(string query, object parameters = null) => await MySQL.QueryAsync(query, parameters);
 
 		/// <summary>
 		/// Esegue una query sul db modificandone il contenuto
@@ -104,13 +101,13 @@ namespace NuovaGM.Server
 		/// Registra una funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public async void RegisterTickHandler(Func<Task> onTick) => Tick += onTick;
+		public void RegisterTickHandler(Func<Task> onTick) => Tick += onTick;
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public async void DeregisterTickHandler(Func<Task> onTick) => Tick -= onTick;
+		public void DeregisterTickHandler(Func<Task> onTick) => Tick -= onTick;
 
 
 		/// <summary>

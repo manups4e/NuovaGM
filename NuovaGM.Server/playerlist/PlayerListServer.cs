@@ -21,6 +21,7 @@ namespace FivemPlayerlistServer
 
 		private static async void ReturnMaxPlayers([FromSource] Player source)
 		{
+			await BaseScript.Delay(0);
 			source.TriggerEvent("lprp:fs:setMaxPlayers", int.Parse(GetConvar("sv_maxClients", "30").ToString()));
 			foreach (Player p in Server.Instance.GetPlayers.ToList())
 			{

@@ -21,7 +21,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			Server.Instance.RegisterEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
 		}
 
-		private static async void PlayerMorto([FromSource] Player player)
+		private static void PlayerMorto([FromSource] Player player)
 		{
 			if (!Morti.Contains(Convert.ToInt32(player.Handle)))
 			{
@@ -30,7 +30,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			}
 		}
 
-		private static async void PlayerVivo([FromSource] Player player)
+		private static void PlayerVivo([FromSource] Player player)
 		{
 			if (Morti.ToList().Contains(Convert.ToInt32(player.Handle)))
 			{
@@ -39,7 +39,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			}
 		}
 
-		private static async void Spawnato([FromSource] Player player)
+		private static void Spawnato([FromSource] Player player)
 		{
 			for (int i=0; i<Morti.Count; i++)
 				player.TriggerEvent("lprp:medici:aggiungiPlayerAiMorti", Morti[i]);

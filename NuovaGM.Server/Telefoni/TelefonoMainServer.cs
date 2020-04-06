@@ -22,6 +22,7 @@ namespace NuovaGM.Server.Telefoni
 
 		private static async void SetupPhone([FromSource] Player player)
 		{
+			await BaseScript.Delay(0);
 			try
 			{
 				dynamic result = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });

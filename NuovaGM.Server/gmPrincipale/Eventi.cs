@@ -217,6 +217,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void SalvaPlayer([FromSource] Player player)
 		{
+			await BaseScript.Delay(0);
 			string name = player.Name;
 			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
@@ -343,6 +344,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void GetDBPlayers(NetworkCallbackDelegate CB)
 		{
+			await BaseScript.Delay(0);
 			dynamic result = await Server.Instance.Query($"SELECT * FROM `users`");
 			CB.Invoke(JsonConvert.SerializeObject(result));
 		}
@@ -421,6 +423,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		private static async void BannaPlayer(string target, string motivazione, long tempodiban, int banner)
 		{
+			await BaseScript.Delay(0);
 			DateTime TempoBan = new DateTime(tempodiban);
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Banner = Funzioni.GetPlayerFromId(banner);
@@ -438,7 +441,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {Banner.Name}"); // modificare con introduzione in stile anticheat
 		}
 
-		private static async void Kick(string target, string motivazione, int kicker)
+		private static void Kick(string target, string motivazione, int kicker)
 		{
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Kicker = Funzioni.GetPlayerFromId(kicker);
@@ -447,36 +450,36 @@ namespace NuovaGM.Server.gmPrincipale
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}
 
-		private static async void GiveLicense([FromSource] Player source, string license)
+		private static void GiveLicense([FromSource] Player source, string license)
 		{
 			User player = Server.PlayerList[source.Handle];
 
 		}
 
-		private static async void GiveLicenseToChar([FromSource] Player source, int target, string license)
+		private static void GiveLicenseToChar([FromSource] Player source, int target, string license)
 		{
 			User player = Server.PlayerList[source.Handle];
 
 		}
 
-		private static async void RemoveLicense([FromSource] Player source, string license)
+		private static void RemoveLicense([FromSource] Player source, string license)
 		{
 			User player = Server.PlayerList[source.Handle];
 
 		}
 
-		private static async void RemoveLicenseToChar([FromSource] Player source, int target, string license)
+		private static void RemoveLicenseToChar([FromSource] Player source, int target, string license)
 		{
 			User player = Server.PlayerList[source.Handle];
 
 		}
 
-		private static async void AggiornaAmmo([FromSource] Player source, string weaponName, int ammo)
+		private static void AggiornaAmmo([FromSource] Player source, string weaponName, int ammo)
 		{
 			User user = Server.PlayerList[source.Handle];
 			user.updateWeaponAmmo(weaponName, ammo);
 		}
-		private static async void GiveItemToOtherPlayer([FromSource] Player source, int target, string itemName, int amount)
+		private static void GiveItemToOtherPlayer([FromSource] Player source, int target, string itemName, int amount)
 		{
 			User player = Server.PlayerList[source.Handle];
 			User targetPlayer = Server.PlayerList[""+target];
@@ -488,7 +491,7 @@ namespace NuovaGM.Server.gmPrincipale
 			targetPlayer.showNotification($"Hai ricevuto {amount} di {SharedScript.ItemList[itemName].label} da {player.FullName}");
 		}
 
-		private static async void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
+		private static  void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
 		{
 			User player = Server.PlayerList[source.Handle];
 			User targetPlayer = Server.PlayerList[""+target];

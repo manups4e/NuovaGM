@@ -31,7 +31,7 @@ namespace NuovaGM.Server
 			Shared.ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(ConfigShared);
 		}
 
-		private static async void InviaAlClient([FromSource] Player p)
+		private static void InviaAlClient([FromSource] Player p)
 		{
 			p.TriggerEvent("lprp:ConfigurazioneClient", ConfigClient, ConfigShared);
 			BaseScript.TriggerEvent("lprp:caricaStazioniGasServer");

@@ -9,7 +9,7 @@ namespace NuovaGM.Server.Veicoli
 {
 	static class GiostreServer
 	{
-		public static async void Init()
+		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:syncState", new Action<Player, string, int>(SyncRuotaPan));
 			Server.Instance.RegisterEventHandler("lprp:ruotapanoramica:RuotaFerma", new Action<bool>(FermaRuota));

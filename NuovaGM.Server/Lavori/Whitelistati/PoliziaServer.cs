@@ -71,28 +71,28 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			}
 		}
 
-		private static async void AggiungiVehPolizia(string jsonVeicolo)
+		private static void AggiungiVehPolizia(string jsonVeicolo)
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (!Polizia.Contains(agg))
 				Polizia.Add(agg);
 		}
 
-		private static async void RimuoviVehPolizia(string jsonVeicolo)
+		private static void RimuoviVehPolizia(string jsonVeicolo)
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (Polizia.Contains(agg))
 				Polizia.Remove(agg);
 		}
 
-		private static async void AggiungiVehMedici(string jsonVeicolo)
+		private static void AggiungiVehMedici(string jsonVeicolo)
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (!Medici.Contains(agg))
 				Medici.Add(agg);
 		}
 
-		private static async void RimuoviVehMedici(string jsonVeicolo)
+		private static void RimuoviVehMedici(string jsonVeicolo)
 		{
 			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
 			if (Medici.Contains(agg))
@@ -103,6 +103,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		static bool firstTick = true;
 		public static async Task AggiornamentoClient()
 		{
+			await BaseScript.Delay(0);
 			if (firstTick)
 			{
 				firstTick = false;
@@ -114,7 +115,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			await BaseScript.Delay(60000);
 		}
 
-		public static async void AmmanettaSmanetta([FromSource] Player p, int target)
+		public static void AmmanettaSmanetta([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
 			User player = Funzioni.GetUserFromPlayerId(p.Handle);

@@ -25,6 +25,7 @@ namespace NuovaGM.Server.Veicoli
 
 		public static async void PayForFuel([FromSource] Player p, int stationindex, float addedfuel, float fuelval)
 		{
+			await BaseScript.Delay(0);
 			User player = Server.PlayerList[p.Handle];
 			int sidx = stationindex;
 			float fuelCost;

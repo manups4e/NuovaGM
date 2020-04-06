@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Shared;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
@@ -9,7 +10,7 @@ namespace NuovaGM.Server.gmPrincipale
 {
 	static class ChatMain
 	{
-		public static Dictionary<string, int> commands = new Dictionary<string, int>()
+		public static ConcurrentDictionary<string, int> commands = new ConcurrentDictionary<string, int>()
 		{
 			["annuncio"] = 2,
 			["givemoney"] = 2,
@@ -65,7 +66,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.RegisterEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
 		}
 
-		public static async void chatMessage(int id, string name, string message)
+		public static void chatMessage(int id, string name, string message)
 		{
 			if (Server.PlayerList[id.ToString()].group_level > -1)
 			{
@@ -80,7 +81,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
-		public static async void chatCommandEntered(Player sender, string input)
+		public static void chatCommandEntered(Player sender, string input)
 		{
 			var data = DateTime.Now;
 			string fullCommand = input.Replace("/", "");

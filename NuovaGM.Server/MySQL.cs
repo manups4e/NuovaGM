@@ -13,6 +13,7 @@ namespace NuovaGM.Server
 
 		public static async Task<dynamic> QueryAsync(string query, object parameters = null)
 		{
+			await Server.Delay(0);
 			try
 			{
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))
@@ -30,6 +31,7 @@ namespace NuovaGM.Server
 
 		public static async Task ExecuteAsync(string query, object parameters)
 		{
+			await Server.Delay(0);
 			try
 			{
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))

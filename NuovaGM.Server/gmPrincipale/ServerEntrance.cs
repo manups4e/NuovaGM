@@ -20,6 +20,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void setupUser([FromSource] Player player)
 		{
+			await BaseScript.Delay(0);
 			string handle = player.Handle;
 			dynamic result = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @disc", new
 			{
@@ -61,6 +62,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void EntratoMaProprioSulSerio(Player player)
 		{
+			await BaseScript.Delay(0);
 			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = License.GetLicense(player, Identifier.Discord) });
 		}
 

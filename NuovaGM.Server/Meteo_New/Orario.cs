@@ -32,7 +32,7 @@ namespace NuovaGM.Server.Meteo_New
 			BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, true);
 		}
 
-		private static async void FreezeTime(bool freeze) => frozen = freeze;
+		private static void FreezeTime(bool freeze) => frozen = freeze;
 
 		public static async Task SetTime()
 		{
