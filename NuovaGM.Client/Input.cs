@@ -58,7 +58,7 @@ namespace NuovaGM.Client
                 ControlModifier BitMask = 0;
                 ModifierFlagToKeyCode.ToList().ForEach(w =>
                 {
-                    if (Game.IsControlPressed(defaultControlGroup, (Control)w.Value))
+                    if (Game.IsControlPressed(defaultControlGroup, (Control)w.Value) && IsInputDisabled(2))
                         BitMask |= w.Key;
                 });
                 if (BitMask == modifier)

@@ -666,30 +666,30 @@ namespace NuovaGM.Client.Negozi
 			};
 			#endregion
 			#region	ON_ITEM_SELECT
-			MenuPrincipale.OnItemSelect += async (menu, item, itemindex) =>
+			MenuPrincipale.OnListSelect += async (menu, _listItem, itemindex) =>
 			 {
-				 if (item == Capelli)
+				 if (_listItem == Capelli)
 				 {
 					 Capigliature obj = new Capigliature();
 					 if (NomeNegozio == "Kuts")
 					 {
-						 obj = Tipo.capelli.kuts[(item as UIMenuListItem).Index];
+						 obj = Tipo.capelli.kuts[(_listItem).Index];
 					 }
 					 else if (NomeNegozio == "Hawick")
 					 {
-						 obj = Tipo.capelli.hawick[(item as UIMenuListItem).Index];
+						 obj = Tipo.capelli.hawick[(_listItem).Index];
 					 }
 					 else if (NomeNegozio == "Osheas")
 					 {
-						 obj = Tipo.capelli.osheas[(item as UIMenuListItem).Index];
+						 obj = Tipo.capelli.osheas[(_listItem).Index];
 					 }
 					 else if (NomeNegozio == "Combo")
 					 {
-						 obj = Tipo.capelli.beach[(item as UIMenuListItem).Index];
+						 obj = Tipo.capelli.beach[(_listItem).Index];
 					 }
 					 else if (NomeNegozio == "Mulet")
 					 {
-						 obj = Tipo.capelli.mulet[(item as UIMenuListItem).Index];
+						 obj = Tipo.capelli.mulet[(_listItem).Index];
 					 }
 
 					 if (obj.var == 0 && obj.var == capAttuali)
@@ -737,9 +737,9 @@ namespace NuovaGM.Client.Negozi
 						 }
 					 }
 				 }
-				 else if (item == Sopracciglia)
+				 else if (_listItem == Sopracciglia)
 				 {
-					 Capigliature obj = Tipo.sopr[(item as UIMenuListItem).Index];
+					 Capigliature obj = Tipo.sopr[(_listItem).Index];
 
 					 if (obj.var == -1 && obj.var == soprAtt)
 					 {
@@ -790,9 +790,9 @@ namespace NuovaGM.Client.Negozi
 						 }
 					 }
 				 }
-				 else if (item == Barba)
+				 else if (_listItem == Barba)
 				 {
-					 Capigliature obj = Tipo.barba[(item as UIMenuListItem).Index];
+					 Capigliature obj = Tipo.barba[(_listItem).Index];
 					 if (obj.var == -1 && obj.var == brbAtt)
 					 {
 						 HUD.ShowNotification("Non puoi rasare la barba 2 volte!!", NotificationColor.Red, true);
@@ -842,9 +842,9 @@ namespace NuovaGM.Client.Negozi
 						 }
 					 }
 				 }
-				 else if (item == Trucco)
+				 else if (_listItem == Trucco)
 				 {
-					 Capigliature obj = Tipo.trucco[(item as UIMenuListItem).Index];
+					 Capigliature obj = Tipo.trucco[(_listItem).Index];
 					 if (obj.var == -1 && obj.var == brbAtt)
 					 {
 						 HUD.ShowNotification("Non puoi rimuovere il trucco 2 volte!!", NotificationColor.Red, true);
@@ -886,9 +886,9 @@ namespace NuovaGM.Client.Negozi
 						 }
 					 }
 				 }
-				 else if (item == Rossetto)
+				 else if (_listItem == Rossetto)
 				 {
-					 Capigliature obj = Tipo.ross[(item as UIMenuListItem).Index];
+					 Capigliature obj = Tipo.ross[(_listItem).Index];
 					 if (obj.var == -1 && obj.var == rossAttuali)
 					 {
 						 HUD.ShowNotification("Non puoi rimuovere lo stesso rossetto 2 volte!!", NotificationColor.Red, true);
@@ -938,7 +938,7 @@ namespace NuovaGM.Client.Negozi
 						 }
 					 }
 				 }
-				 //				else if (item == )
+				 //				else if (_listItem == )
 				 //				{
 				 //				}
 			 };

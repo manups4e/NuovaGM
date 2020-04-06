@@ -12,13 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2324" />
-    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00681" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00681" />
-    <PackageReference Include="HSNXT.DSharpPlus.Extended.Emoji" Version="3.0.198" />
+    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2325" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>

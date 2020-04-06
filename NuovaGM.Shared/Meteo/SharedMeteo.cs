@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace NuovaGM.Shared.Meteo
 		public int ss_weather_timer;
 		public bool ss_reduce_rain_chance;
 		public int ss_rain_timeout;
-		public Dictionary<int, List<int>> ss_weather_Transition = new Dictionary<int, List<int>>();
-		public Dictionary<int, float> ss_wind_speed_Mult = new Dictionary<int, float>();
+		public ConcurrentDictionary<int, List<int>> ss_weather_Transition = new ConcurrentDictionary<int, List<int>>();
+		public ConcurrentDictionary<int, float> ss_wind_speed_Mult = new ConcurrentDictionary<int, float>();
 	}
 }

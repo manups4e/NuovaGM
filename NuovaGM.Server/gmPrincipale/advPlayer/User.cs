@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace NuovaGM.Server.gmPrincipale

@@ -35,6 +35,7 @@ namespace NuovaGM.Client.Personale
 		public static bool attivo = false;
 		public static bool GranaCinema = false;
 		static bool aperto = false;
+		private static float fuelint = 0;
 
 		public static List<dynamic> gps = new List<dynamic>()
 		{
@@ -209,7 +210,7 @@ namespace NuovaGM.Client.Personale
 							fin.Enabled = true;
 							port.Enabled = true;
 							motore.Enabled = true;
-							fuel.SetRightLabel(FuelClient.vehicleFuelLevel(EventiPersonalMenu.saveVehicle) + "%");
+							fuel.SetRightLabel(fuelint + "%");
 						}
 						else
 						{
@@ -217,7 +218,7 @@ namespace NuovaGM.Client.Personale
 							fin.Enabled = false;
 							port.Enabled = false;
 							motore.Enabled = false;
-							fuel.SetRightLabel("");
+							fuel.SetRightLabel("nessun veicolo salvato");
 						}
 					}
 					else if (!_checked)
@@ -227,7 +228,7 @@ namespace NuovaGM.Client.Personale
 						fin.Enabled = false;
 						port.Enabled = false;
 						motore.Enabled = false;
-						fuel.SetRightLabel("");
+						fuel.SetRightLabel("nessun veicolo salvato");
 					}
 					else
 						HUD.ShowNotification("Devi essere in un veicolo per attivare la funzione di salvataggio", true);
@@ -1449,6 +1450,8 @@ namespace NuovaGM.Client.Personale
 		static int aa = 0;
 		public static async Task attiva()
 		{
+			if (EventiPersonalMenu.saveVehicle != null)
+				fuelint = (int)Math.Floor(FuelClient.vehicleFuelLevel(EventiPersonalMenu.saveVehicle) / 65f * 100);
 			bool tasto = await Input.WaitForKeyRelease(Control.InteractionMenu);
 			if (tasto)
 /*				++aa;

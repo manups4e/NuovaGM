@@ -1,4 +1,4 @@
-﻿using CitizenFX.Core;
+﻿/*using CitizenFX.Core;
 using Newtonsoft.Json;
 using NuovaGM.Shared;
 using System;
@@ -182,9 +182,7 @@ namespace NuovaGM.Server.gmPrincipale
 										#region PER LA WHITELIST VIA DISCORD DECOMMENTARE QUI DENTRO
 
 										// PER LA WHITELIST VIA DISCORD QUANDO CI SARA DI NUOVO!
-										/*
-											puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], Server.Impostazioni.Main.RuoloWhitelistato);
-										*/
+										//	puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(player.Identifiers["discord"], Server.Impostazioni.Main.RuoloWhitelistato);
 
 										#endregion
 
@@ -327,10 +325,11 @@ namespace NuovaGM.Server.gmPrincipale
 					Server.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 				}
-				Server.PlayerList.Remove(handle);
+				Server.PlayerList.TryRemove(handle, out ped);
 			}
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 			await Task.FromResult(0);
 		}
 	}
 }
+*/

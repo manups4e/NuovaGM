@@ -663,6 +663,10 @@ namespace NuovaGM.Shared
 		public string name { get; set; }
 		public bool active { get; set; }
 		public Components() { }
+		public Components(string _name)
+		{
+			name = _name;
+		}
 		public Components(string _name, bool _ac)
 		{
 			this.name = _name;

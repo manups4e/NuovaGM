@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NuovaGM.Shared;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace NuovaGM.Server
 			}
 		}
 
-		public static async void SendWebhookMessageCoda(Dictionary<string, string> idents, string name, string hook, string Flag, string Info)
+		public static async void SendWebhookMessageCoda(ConcurrentDictionary<string, string> idents, string name, string hook, string Flag, string Info)
 		{
 			string Webhook = hook;
 			var IdentList = idents;
@@ -108,8 +109,8 @@ namespace NuovaGM.Server
 			jsonbuilder.Embeds.Add(data);
 
 			var userData = JsonConvert.SerializeObject(jsonbuilder);
-			Dictionary<string, string> headers = new Dictionary<string, string>();
-			headers.Add("Content-Type", "application/json");
+			ConcurrentDictionary<string, string> headers = new ConcurrentDictionary<string, string>();
+			headers.TryAdd("Content-Type", "application/json");
 
 			if (Webhook != "none")
 			{
@@ -175,8 +176,8 @@ namespace NuovaGM.Server
 			jsonbuilder.Embeds.Add(data);
 
 			var userData = JsonConvert.SerializeObject(jsonbuilder);
-			Dictionary<string, string> headers = new Dictionary<string, string>();
-			headers.Add("Content-Type", "application/json");
+			ConcurrentDictionary<string, string> headers = new ConcurrentDictionary<string, string>();
+			headers.TryAdd("Content-Type", "application/json");
 
 			if (Webhook != "none")
 			{
@@ -188,7 +189,7 @@ namespace NuovaGM.Server
 		public static async Task<RequestResponse> DiscordConnection(string endpoint, string method = "GET", string jsondata = "")
 		{
 			Request r = new Request();
-			RequestResponse response = await r.Http("https://discordapp.com/api/" + endpoint, method, jsondata, new Dictionary<string, string> { ["Content-Type"] = "application/json", ["Authorization"] = DiscordToken }).ConfigureAwait(true);
+			RequestResponse response = await r.Http("https://discordapp.com/api/" + endpoint, method, jsondata, new ConcurrentDictionary<string, string> { ["Content-Type"] = "application/json", ["Authorization"] = DiscordToken }).ConfigureAwait(true);
 			return response;
 		}
 

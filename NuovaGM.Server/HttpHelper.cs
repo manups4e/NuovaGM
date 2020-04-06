@@ -6,6 +6,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace NuovaGM.Server
 {
@@ -26,25 +27,25 @@ namespace NuovaGM.Server
 
 	public class RequestInternal : BaseScript
 	{
-		public Dictionary<int, Dictionary<string, dynamic>> responseDictionary;
+		public ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>> responseDictionary;
 
 		public RequestInternal()
 		{
-			responseDictionary = new Dictionary<int, Dictionary<string, dynamic>>();
+			responseDictionary = new ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>>();
 			EventHandlers["__cfx_internal:httpResponse"] += new Action<int, int, string, dynamic>(Response);
-			Exports.Add("HttpRequest", new Func<string, string, string, string, Task<Dictionary<string, dynamic>>>(Http));
+			Exports.Add("HttpRequest", new Func<string, string, string, string, Task<ConcurrentDictionary<string, dynamic>>>(Http));
 		}
 
 		public void Response(int token, int status, string text, dynamic header)
 		{
-			Dictionary<string, dynamic> response = new Dictionary<string, dynamic>();
+			ConcurrentDictionary<string, dynamic> response = new ConcurrentDictionary<string, dynamic>();
 			response["headers"] = header;
 			response["status"] = status;
 			response["content"] = text;
 			responseDictionary[token] = response;
 		}
 
-		public async Task<Dictionary<string, dynamic>> Http(string url, string method, string data, dynamic headers)
+		public async Task<ConcurrentDictionary<string, dynamic>> Http(string url, string method, string data, dynamic headers)
 		{
 			RequestDataInternal requestData = new RequestDataInternal();
 			requestData.url = url;
@@ -57,17 +58,17 @@ namespace NuovaGM.Server
 			{
 				await Delay(0);
 			}
-			Dictionary<string, dynamic> res = responseDictionary[token];
-			responseDictionary.Remove(token);
+			ConcurrentDictionary<string, dynamic> res = responseDictionary[token];
+			responseDictionary.TryRemove(token, out res);
 			return res;
 		}
 	}
 
 	public class Request : BaseScript
 	{
-		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", Dictionary<string, string> headers = null)
+		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", ConcurrentDictionary<string, string> headers = null)
 		{
-			headers = (headers == null) ? new Dictionary<string, string>() : headers;
+			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
 			return ParseRequestResponseInternal(
 					await Exports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
 				);

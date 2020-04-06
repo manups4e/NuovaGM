@@ -172,6 +172,36 @@ namespace NuovaGM.Client.Veicoli
 						}
 					}
 
+					if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard))
+					{
+						if ((GetEntitySpeed(GetVehiclePedIsUsing(PlayerPedId())) < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
+							engine();
+						else
+						{
+							if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))))
+								HUD.ShowNotification("Le Biciclette non hanno motore!");
+							else
+								HUD.ShowNotification("Non puoi spegnere il motore a questa velocità!");
+						}
+					}
+
+					if (Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller))
+					{
+						Game.DisableControlThisFrame(0, Control.VehicleDuck);
+						if (Input.IsDisabledControlJustPressed(Control.VehicleDuck))
+						{
+							if ((Game.PlayerPed.CurrentVehicle.Speed < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
+								engine();
+							else
+							{
+								if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))))
+									HUD.ShowNotification("Le Biciclette non hanno motore!");
+								else
+									HUD.ShowNotification("Non puoi spegnere il motore a questa velocità!");
+							}
+						}
+					}
+
 					if (veh.ClassType != VehicleClass.Boats && veh.ClassType != VehicleClass.Helicopters && veh.ClassType != VehicleClass.Planes && veh.ClassType != VehicleClass.Trains)
 					{
 						if (!Game.IsPaused)
@@ -336,9 +366,7 @@ namespace NuovaGM.Client.Veicoli
 							BaseScript.TriggerServerEvent("lprp:lvc_TogIndicState_s", state_indic[veh]);
 						}
 						else
-						{
 							count_bcast_timer = count_bcast_timer + 1;
-						}
 					}
 				}
 			}
@@ -414,47 +442,6 @@ namespace NuovaGM.Client.Veicoli
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
-				if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard))
-				{
-					if ((GetEntitySpeed(GetVehiclePedIsUsing(PlayerPedId())) < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
-					{
-						engine();
-					}
-					else
-					{
-						if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))))
-						{
-							HUD.ShowNotification("Le Biciclette non hanno motore!");
-						}
-						else
-						{
-							HUD.ShowNotification("Non puoi spegnere il motore a questa velocità!");
-						}
-					}
-				}
-				if (IsControlPressed(2, 205) && (!IsInputDisabled(2)))
-				{
-					Game.DisableControlThisFrame(2, Control.VehicleDuck);
-					if (Input.IsDisabledControlJustPressed(Control.VehicleDuck, PadCheck.Controller))
-					{
-						if ((GetEntitySpeed(GetVehiclePedIsUsing(PlayerPedId())) < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
-						{
-							engine();
-						}
-						else
-						{
-							if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))))
-							{
-								HUD.ShowNotification("Le Biciclette non hanno motore!");
-							}
-							else
-							{
-								HUD.ShowNotification("Non puoi spegnere il motore a questa velocità!");
-							}
-						}
-					}
-				}
-
 				if (Game.PlayerPed.IsInVehicle())
 				{
 					Vehicle veh = Game.PlayerPed.CurrentVehicle;

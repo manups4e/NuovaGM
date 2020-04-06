@@ -30,7 +30,7 @@ namespace NuovaGM.Server.gmPrincipale
 				string stringa = JsonConvert.SerializeObject(result);
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
-					Server.PlayerList.Add(handle, new User(player, result[0]));
+					Server.PlayerList.TryAdd(handle, new User(player, result[0]));
 					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
@@ -51,7 +51,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					Server.PlayerList.Add(handle, new User(player, created[0]));
+					Server.PlayerList.TryAdd(handle, new User(player, created[0]));
 					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}

@@ -249,7 +249,7 @@ namespace NuovaGM.Client.Veicoli
 			SetTextOutline();
 			SetTextCentre(false);
 			BeginTextCommandDisplayText("STRING");
-			AddTextComponentSubstringPlayerName(string.Format("Carburante: {0}%", Math.Round(Math.Floor((fuel / fuelCap) * 100), 2)));
+			AddTextComponentSubstringPlayerName(string.Format("Carburante: {0}%", (int)Math.Floor((fuel / fuelCap) * 100)));
 			EndTextCommandDisplayText(0.15f, 0.96f);
 		}
 

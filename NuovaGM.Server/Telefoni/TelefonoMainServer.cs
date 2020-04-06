@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace NuovaGM.Server.Telefoni
 {
 	static class TelefonoMainServer
 	{
-		public static Dictionary<string, Phone> Phones = new Dictionary<string, Phone>();
+		public static ConcurrentDictionary<string, Phone> Phones = new ConcurrentDictionary<string, Phone>();
 
 		public static void Init()
 		{

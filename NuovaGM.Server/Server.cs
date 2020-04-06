@@ -7,6 +7,7 @@ using Console = Colorful.Console;
 using System.Globalization;
 using NuovaGM.Server.gmPrincipale;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 // ReSharper disable All
 
 namespace NuovaGM.Server
@@ -22,7 +23,7 @@ namespace NuovaGM.Server
 	
 	public class Server : BaseScript
 	{
-		public static Dictionary<string, User> PlayerList = new Dictionary<string, User>();
+		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }

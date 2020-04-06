@@ -34,7 +34,7 @@ namespace NuovaGM.Server.gmPrincipale
 		private static ConcurrentQueue<string> newQueue = new ConcurrentQueue<string>();
 		private static ConcurrentQueue<string> pQueue = new ConcurrentQueue<string>();
 		private static ConcurrentQueue<string> newPQueue = new ConcurrentQueue<string>();
-		private static Dictionary<string, string> messages = new Dictionary<string, string>();
+		private static ConcurrentDictionary<string, string> messages = new ConcurrentDictionary<string, string>();
 		private static ConcurrentDictionary<string, SessionState> session = new ConcurrentDictionary<string, SessionState>();
 		private static ConcurrentDictionary<string, int> index = new ConcurrentDictionary<string, int>();
 		private static ConcurrentDictionary<string, DateTime> timer = new ConcurrentDictionary<string, DateTime>();
@@ -79,7 +79,8 @@ namespace NuovaGM.Server.gmPrincipale
             Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
             Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
             StopHardcap();
-            Server.Instance.RegisterTickHandler(QueueCycle);
+            Task.Run(QueueCycle);
+//            Server.Instance.RegisterTickHandler(QueueCycle);
             serverQueueReady = true;
         }
 
@@ -726,13 +727,16 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                inPriorityQueue = PriorityQueueCount();
-                await BaseScript.Delay(100);
-                inQueue = QueueCount();
-                await BaseScript.Delay(100);
-                UpdateHostName();
-                UpdateStates();
-                await BaseScript.Delay(1000);
+                while (true)
+                {
+                    inPriorityQueue = PriorityQueueCount();
+                    await BaseScript.Delay(100);
+                    inQueue = QueueCount();
+                    await BaseScript.Delay(100);
+                    UpdateHostName();
+                    UpdateStates();
+                    await BaseScript.Delay(1000);
+                }
             }
             catch (Exception)
             {

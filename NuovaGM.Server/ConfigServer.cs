@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NuovaGM.Shared;
 using NuovaGM.Shared.Meteo;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -68,7 +69,7 @@ namespace NuovaGM.Server
 
 	public class ConfigCoda
 	{
-		public Dictionary<string, string> messages = new Dictionary<string, string>();
+		public ConcurrentDictionary<string, string> messages = new ConcurrentDictionary<string, string>();
 		public bool whitelistonly;
 		public int loadTime;
 		public int graceTime;

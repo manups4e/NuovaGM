@@ -146,7 +146,7 @@ namespace NuovaGM.Client.Negozi
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context))
-						Armerie.ArmeriaMenu();
+						Armerie.NuovaArmeria();/*ArmeriaMenu*/
 				}
 			}
 			await Task.FromResult(0);

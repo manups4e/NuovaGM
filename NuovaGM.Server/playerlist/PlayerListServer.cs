@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
@@ -10,7 +11,7 @@ namespace FivemPlayerlistServer
 	public static class FPLServer
 	{
 
-		private static Dictionary<int, dynamic[]> list = new Dictionary<int, dynamic[]>();
+		private static ConcurrentDictionary<int, dynamic[]> list = new ConcurrentDictionary<int, dynamic[]>();
 		public static void Init()
 		{
 			Server.Instance.RegisterEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));

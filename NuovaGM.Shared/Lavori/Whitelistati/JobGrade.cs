@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace NuovaGM.Shared
 {
@@ -51,9 +52,9 @@ namespace NuovaGM.Shared
 
 	public class WhiteListed
 	{
-		public Dictionary<string, JobGrade> Polizia = new Dictionary<string, JobGrade>();
-		public Dictionary<string, JobGrade> Medico = new Dictionary<string, JobGrade>();
-		public Dictionary<string, JobGrade> Meccanico = new Dictionary<string, JobGrade>();
+		public ConcurrentDictionary<string, JobGrade> Polizia = new ConcurrentDictionary<string, JobGrade>();
+		public ConcurrentDictionary<string, JobGrade> Medico = new ConcurrentDictionary<string, JobGrade>();
+		public ConcurrentDictionary<string, JobGrade> Meccanico = new ConcurrentDictionary<string, JobGrade>();
 
 	}
 
