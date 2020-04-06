@@ -33,6 +33,7 @@ namespace NuovaGM.Server
 
 		public static async Task ForEachAsync<T>(this List<T> list, Func<T, Task> Funzioni)
 		{
+			await BaseScript.Delay(0);
 			foreach (var value in list)
 			{
 				await Funzioni(value);

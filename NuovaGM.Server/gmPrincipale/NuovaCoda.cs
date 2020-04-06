@@ -724,8 +724,9 @@ namespace NuovaGM.Server.gmPrincipale
             }
         }
 
-        private static  async Task QueueCycle()
+        private static async Task QueueCycle()
         {
+            await BaseScript.Delay(0);
             try
             {
                 while (true)

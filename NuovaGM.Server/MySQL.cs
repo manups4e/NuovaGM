@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 using NuovaGM.Shared;
+using CitizenFX.Core;
 
 namespace NuovaGM.Server
 {
@@ -13,7 +14,7 @@ namespace NuovaGM.Server
 
 		public static async Task<dynamic> QueryAsync(string query, object parameters = null)
 		{
-			await Server.Delay(0);
+			await BaseScript.Delay(0);
 			try
 			{
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))
@@ -31,7 +32,7 @@ namespace NuovaGM.Server
 
 		public static async Task ExecuteAsync(string query, object parameters)
 		{
-			await Server.Delay(0);
+			await BaseScript.Delay(0);
 			try
 			{
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))

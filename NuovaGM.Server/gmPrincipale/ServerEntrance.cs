@@ -69,6 +69,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public static long starttick = GetGameTimer();
 		public static async Task Orario()
 		{
+			await BaseScript.Delay(0);
 			long tick = GetGameTimer();
 			double uptimeDay = Math.Floor((double)(tick - starttick) / 86400000);
 			double uptimeHour = Math.Floor((double)(tick - starttick) / 3600000) % 24;

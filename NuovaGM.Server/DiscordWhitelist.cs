@@ -26,9 +26,9 @@ namespace NuovaGM.Server
 
 		public async static Task connessioneDiscord()
 		{
+			await BaseScript.Delay(0);
 			try
 			{
-				await BaseScript.Delay(0);
 				RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);
 				if (connessione.status != System.Net.HttpStatusCode.OK)
 				{
