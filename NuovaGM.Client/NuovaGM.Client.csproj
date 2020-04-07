@@ -134,8 +134,6 @@
     <Compile Include="Lavori\Generici\Rimozione\RimozioneClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MediciMainClient.cs" />
     <Compile Include="Lavori\Whitelistati\Medici\MenuMedici.cs" />
-    <Compile Include="Meteo_new\Meteo.cs" />
-    <Compile Include="Meteo_new\Orario.cs" />
     <Compile Include="Proprietà\Hotel\Hotel.cs" />
     <Compile Include="Proprietà\Hotel\Hotels.cs" />
     <Compile Include="ClassCollector.cs" />
@@ -241,6 +239,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interactions\Prostitute.cs" />
     <Compile Include="Sport\Yoga.cs" />
+    <Compile Include="TimeWeather\Meteo.cs" />
     <Compile Include="Veicoli\AffittoBarche.cs" />
     <Compile Include="Veicoli\Assicurazione.cs" />
     <Compile Include="Veicoli\Bagagliaio.cs" />

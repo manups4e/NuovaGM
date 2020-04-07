@@ -726,7 +726,6 @@ namespace NuovaGM.Server.gmPrincipale
 
         private static async Task QueueCycle()
         {
-            await BaseScript.Delay(0);
             try
             {
                 while (true)
@@ -762,9 +761,7 @@ namespace NuovaGM.Server.gmPrincipale
                 }
                 string steamHex = string.Empty;
                 while (hex.Count != 0)
-                {
                     steamHex = string.Concat(steamHex, hex.Pop().ToString("x"));
-                }
                 Debug.WriteLine($"{steamHex}");
             }
             catch (Exception)

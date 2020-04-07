@@ -247,9 +247,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						Game.PlayerPed.IsVisible = true;
 						Game.PlayerPed.IsCollisionEnabled = true;
 						NetworkClearClockTimeOverride();
-						AdvanceClockTimeTo(Meteo_new.Orario.h, Meteo_new.Orario.m, Meteo_new.Orario.s);
+						//AdvanceClockTimeTo(Meteo_new.Orario.h, Meteo_new.Orario.m, Meteo_new.Orario.s);
 						await BaseScript.Delay(7000);
-						Client.GetInstance.RegisterTickHandler(Meteo_new.Orario.AggiornaTempo);
+//						Client.GetInstance.RegisterTickHandler(Meteo_new.Orario.AggiornaTempo);
 						BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 						await BaseScript.Delay(5000);
 						if (Screen.LoadingPrompt.IsActive) 
@@ -321,7 +321,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			CharSelection.AddItem(esci);
 			Screen.Fading.FadeIn(1000);
 			CharSelection.Visible = true;
-			Meteo_new.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
+//			Meteo_new.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			ShutdownLoadingScreenNui();
 		}

@@ -8,8 +8,6 @@ namespace NuovaGM.Client
 		public static async void Init()
 		{
 			await ConfigClient.Init();
-			Meteo_new.Meteo.Init();
-			Meteo_new.Orario.Init();
 			gmPrincipale.Main.Init();
 
 			Banking.BankingClient.Init();

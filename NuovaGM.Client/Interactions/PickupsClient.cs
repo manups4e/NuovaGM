@@ -17,7 +17,6 @@ namespace NuovaGM.Client.Interactions
 	{
 
 		// raccogliere pickup random@domestic", "pickup_low"
-
 		public static List<OggettoRaccoglibile> Pickups = new List<OggettoRaccoglibile>();
 
 		public static void Init()
@@ -148,38 +147,41 @@ namespace NuovaGM.Client.Interactions
 			{
 				foreach (var pickup in Pickups)
 				{
-					Entity pickupObject = null;
-					if (pickup.type == "item" || pickup.type == "account")
+					if (pickup != null)
 					{
-						Model model = new Model((int)pickup.obj);
-						model.Request();
-						if (model.Hash == (int)ObjectHash.a_c_fish)
-							pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
-						else
-							pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
-						if (pickup.type == "item") pickupObject.SetDecor("PickupOggetto", pickup.amount);
-						else if (pickup.type == "account") pickupObject.SetDecor("PickupAccount", pickup.amount);
-					}
-					else if (pickup.type == "weapon")
-					{
-						RequestWeaponAsset(Funzioni.HashUint(pickup.name), 31, 0);
-						while (!HasWeaponAssetLoaded(Funzioni.HashUint(pickup.name))) await BaseScript.Delay(0);
-						pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, true, 1.0f, 0));
-						pickupObject.SetDecor("PickupArma", pickup.amount);
-						SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
-						foreach (var comp in pickup.componenti)
+						Entity pickupObject = null;
+						if (pickup.type == "item" || pickup.type == "account")
 						{
-							GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
-							if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+							Model model = new Model((int)pickup.obj);
+							model.Request();
+							if (model.Hash == (int)ObjectHash.a_c_fish)
+								pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
+							else
+								pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
+							if (pickup.type == "item") pickupObject.SetDecor("PickupOggetto", pickup.amount);
+							else if (pickup.type == "account") pickupObject.SetDecor("PickupAccount", pickup.amount);
 						}
+						else if (pickup.type == "weapon")
+						{
+							RequestWeaponAsset(Funzioni.HashUint(pickup.name), 31, 0);
+							while (!HasWeaponAssetLoaded(Funzioni.HashUint(pickup.name))) await BaseScript.Delay(0);
+							pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, true, 1.0f, 0));
+							pickupObject.SetDecor("PickupArma", pickup.amount);
+							SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
+							foreach (var comp in pickup.componenti)
+							{
+								GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
+								if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
+							}
+						}
+						pickup.propObj = pickupObject.Handle;
+						pickupObject.IsPersistent = true;
+						PlaceObjectOnGroundProperly(pickupObject.Handle);
+						pickupObject.IsPositionFrozen = true;
+						pickup.propObj = pickupObject.Handle;
+						pickup.inRange = false;
+						pickup.coords = pickupObject.Position.ToArray();
 					}
-					pickup.propObj = pickupObject.Handle;
-					pickupObject.IsPersistent = true;
-					PlaceObjectOnGroundProperly(pickupObject.Handle);
-					pickupObject.IsPositionFrozen = true;
-					pickup.propObj = pickupObject.Handle;
-					pickup.inRange = false;
-					pickup.coords = pickupObject.Position.ToArray();
 				}
 			}
 		}

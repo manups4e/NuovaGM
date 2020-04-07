@@ -20,7 +20,9 @@ namespace NuovaGM.Server
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
-					return await _conn.QueryAsync<dynamic>(def);
+					var result = await _conn.QueryAsync<dynamic>(def);
+					await _conn.CloseAsync();
+					return result;
 				}
 			}
 			catch (Exception ex)
@@ -39,7 +41,7 @@ namespace NuovaGM.Server
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
 					await _conn.ExecuteAsync(def);
-					_conn.CloseAsync();
+					await _conn.CloseAsync();
 				}
 			}
 			catch (Exception ex)

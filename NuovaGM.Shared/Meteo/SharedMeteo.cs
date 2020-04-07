@@ -18,7 +18,7 @@ namespace NuovaGM.Shared.Meteo
 		public int ss_weather_timer;
 		public bool ss_reduce_rain_chance;
 		public int ss_rain_timeout;
-		public ConcurrentDictionary<int, List<int>> ss_weather_Transition = new ConcurrentDictionary<int, List<int>>();
-		public ConcurrentDictionary<int, float> ss_wind_speed_Mult = new ConcurrentDictionary<int, float>();
+		public List<float> ss_wind_speed_Mult = new List<float>();
+		public List<List<int>> ss_weather_Transition = new List<List<int>>();
 	}
 }

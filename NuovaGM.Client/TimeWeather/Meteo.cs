@@ -1,30 +1,32 @@
-﻿using System;
-using System.Threading.Tasks;
-using CitizenFX.Core;
+﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NuovaGM.Shared;
 
-namespace NuovaGM.Client.Meteo_new
+namespace NuovaGM.Client.TimeWeather
 {
-	public static class Meteo
+	static class Meteo
 	{
 		public static int CurrentWeather;
 		public static int OldWeather;
 		public static bool Transitioning = false;
 		public static bool BlackOut = false;
 		private static float _windCostantDirectRad = 51.4285714286f;
-
 		private static float RandomWindDirection { get { return Funzioni.GetRandomInt(0, 359) / _windCostantDirectRad; } }
 
 		public static void Init()
 		{
 			Client.GetInstance.RegisterEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
 			Client.GetInstance.RegisterEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
-			CurrentWeather = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
 		}
-		public static async void SetDynamic(bool dynamic)
+		public static void SetDynamic(bool dynamic)
 		{
-			Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic;
+			ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic;
 		}
 
 		public static async void SetMeteo(int newWeather, bool blackout, bool startup)
@@ -66,8 +68,8 @@ namespace NuovaGM.Client.Meteo_new
 
 			SetBlackout(BlackOut);
 			SetWindDirection(RandomWindDirection);
-			SetWind(Shared.ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_Mult[newWeather] + 0.1f * Shared.ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_max);
-			SetWindSpeed(Shared.ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_Mult[newWeather] + 0.1f * Shared.ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_max);
+			SetWind(ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_Mult[newWeather] + 0.1f * ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_max);
+			SetWindSpeed(ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_Mult[newWeather] + 0.1f * ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_max);
 		}
 
 		public static async Task PulisciVeicolo()

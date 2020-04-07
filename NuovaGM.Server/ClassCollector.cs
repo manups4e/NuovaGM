@@ -7,7 +7,6 @@ using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Server.Interactions;
 using NuovaGM.Server.Lavori.Whitelistati;
 using NuovaGM.Server.manager;
-using NuovaGM.Server.Meteo_New;
 using NuovaGM.Server.Veicoli;
 
 namespace NuovaGM.Server
@@ -34,9 +33,9 @@ namespace NuovaGM.Server
 			FuelServer.Init();
 			VeicoliServer.Init();
 			GiostreServer.Init();
-			Meteo.Init();
-			Orario.Init();
 			Telefoni.TelefonoMainServer.Init();
+			TimeWeather.Meteo.Init();
+			TimeWeather.Orario.Init();
 			PickupsServer.Init();
 //			Coda.Init();
 			NuovaCoda.Init();

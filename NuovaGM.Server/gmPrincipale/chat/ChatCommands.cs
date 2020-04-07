@@ -748,8 +748,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void FreezeTime(int sender, List<dynamic> args, string rawCommand)
 		{
-			int h = (int)Math.Floor(Meteo_New.Orario.secondOfDay / 3600f);
-			int m = (int)Math.Floor((Meteo_New.Orario.secondOfDay - (h * 3600)) / 60f);
+/*			int h = (int)Math.Floor(TimeWeather.Orario.secondOfDay / 3600f);
+			int m = (int)Math.Floor((TimeWeather.Orario.secondOfDay - (h * 3600)) / 60f);
 			bool freeze = false;
 			if (args[0] == "true" || args[0] == "1")
 				freeze = true;
@@ -772,107 +772,90 @@ namespace NuovaGM.Server.gmPrincipale
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
 				}
 			}
-		}
+*/		}
 
 		public static void Weather(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender == 0)
 			{
-				bool validWeatherType = false;
 				if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 				{
-					Server.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + Meteo_New.Meteo.currentWeather);
+					Server.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.currentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 					return;
 				}
 				else
 				{
-					var tableKeys = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition.Keys;
-					foreach (var p in tableKeys)
-						if (p == Convert.ToInt32(args[0]))
-							validWeatherType = true;
-					if (validWeatherType)
-					{
-						Meteo_New.Meteo.currentWeather = Convert.ToInt32(args[0]);
-						Meteo_New.Meteo.weatherTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-						BaseScript.TriggerEvent("changeWeather", false);
-					}
-					else
-						Server.Printa(LogType.Error, "Errore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+					TimeWeather.Meteo.currentWeather = Convert.ToInt32(args[0]);
+					Server.Printa(LogType.Debug, TimeWeather.Meteo.currentWeather + "");
+					TimeWeather.Meteo.weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+					BaseScript.TriggerEvent("changeWeather", false);
 				}
 			}
 			else
 			{
 				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmeteo"]))
 				{
-					bool validWeatherType = false;
 					if (args.Count < 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO weather] = ", "Errore weather, argomenti disponibili: ~n~0 = EXTRASUNNY, 1 = CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, ~n~9 = NEUTRAL, 10 = SNOW, 11 = BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN!" }, color = new[] { 255, 0, 0 } });
 					else
 					{
-						var tableKeys = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition.Keys;
-						foreach (var p in tableKeys)
-							if (p == Convert.ToInt32(args[0]))
-								validWeatherType = true;
-						if (validWeatherType)
+						TimeWeather.Meteo.currentWeather = Convert.ToInt32(args[0]);
+						TimeWeather.Meteo.weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+						BaseScript.TriggerEvent("changeWeather", false);
+						string meteo = "";
+						int a = Convert.ToInt32(args[0]);
+						switch (a)
 						{
-							Meteo_New.Meteo.currentWeather = Convert.ToInt32(args[0]);
-							Meteo_New.Meteo.weatherTimer = Shared.ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-							BaseScript.TriggerEvent("changeWeather", false);
-							string meteo = "";
-							int a = Convert.ToInt32(args[0]);
-							switch (a)
-							{
-								case 0:
-									meteo = "Super Soleggiato";
-									break;
-								case 1:
-									meteo = "Cielo Sgombro";
-									break;
-								case 2:
-									meteo = "Nuvoloso";
-									break;
-								case 3:
-									meteo = "Smog";
-									break;
-								case 4:
-									meteo = "Nebbioso";
-									break;
-								case 5:
-									meteo = "Nuvoloso";
-									break;
-								case 6:
-									meteo = "Piovoso";
-									break;
-								case 7:
-									meteo = "Tempestoso";
-									break;
-								case 8:
-									meteo = "Sereno";
-									break;
-								case 9:
-									meteo = "Neutrale";
-									break;
-								case 10:
-									meteo = "Nevoso";
-									break;
-								case 11:
-									meteo = "Bufera di neve";
-									break;
-								case 12:
-									meteo = "Nevoso con Nebbia";
-									break;
-								case 13:
-									meteo = "Natalizio";
-									break;
-								case 14:
-									meteo = "Halloween";
-									break;
-								default:
-									meteo = "Sconosciuto?";
-									break;
-							}
-							Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
+							case 0:
+								meteo = "Super Soleggiato";
+								break;
+							case 1:
+								meteo = "Cielo Sgombro";
+								break;
+							case 2:
+								meteo = "Nuvoloso";
+								break;
+							case 3:
+								meteo = "Smog";
+								break;
+							case 4:
+								meteo = "Nebbioso";
+								break;
+							case 5:
+								meteo = "Nuvoloso";
+								break;
+							case 6:
+								meteo = "Piovoso";
+								break;
+							case 7:
+								meteo = "Tempestoso";
+								break;
+							case 8:
+								meteo = "Sereno";
+								break;
+							case 9:
+								meteo = "Neutrale";
+								break;
+							case 10:
+								meteo = "Nevoso";
+								break;
+							case 11:
+								meteo = "Bufera di neve";
+								break;
+							case 12:
+								meteo = "Nevoso con Nebbia";
+								break;
+							case 13:
+								meteo = "Natalizio";
+								break;
+							case 14:
+								meteo = "Halloween";
+								break;
+							default:
+								meteo = "Sconosciuto?";
+								break;
 						}
+						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
 					}
 				}
 			}

@@ -380,10 +380,10 @@ namespace NuovaGM.Client.Manager
 
 			#region Meteo
 			UIMenu metei = HUD.MenuPool.AddSubMenu(Meteo, "Seleziona Meteo");
-			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, Meteo_new.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
-			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
-			Meteo.AddItem(blackout);
-			Meteo.AddItem(dinamico);
+//			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, Meteo_new.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
+//			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+//			Meteo.AddItem(blackout);
+//			Meteo.AddItem(dinamico);
 			UIMenuItem Soleggiato = new UIMenuItem("Super Soleggiato");
 			UIMenuItem CSgombro = new UIMenuItem("Cielo Sgombro");
 			UIMenuItem Nuvoloso = new UIMenuItem("Nuvoloso");
@@ -415,7 +415,7 @@ namespace NuovaGM.Client.Manager
 			metei.AddItem(NNebbia);
 			metei.AddItem(Natalizio);
 			metei.AddItem(Halloween);
-
+/*
 			Meteo.OnCheckboxChange += async (menu, item, _checked) =>
 			{
 				if (item == blackout)
@@ -429,10 +429,10 @@ namespace NuovaGM.Client.Manager
 					HUD.ShowNotification("Meteo dinamico ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
 				}
 			};
-
+*/
 			metei.OnItemSelect += async (menu, item, index) =>
 			{
-				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, Meteo_new.Meteo.BlackOut, false);
+//				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, Meteo_new.Meteo.BlackOut, false);
 				string m = "";
 				switch (index)
 				{
