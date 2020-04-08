@@ -79,12 +79,13 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pol"]))
 				{
-					if (Server.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "polizia")
+					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+					if (user.CurrentChar.job.name.ToLower() == "polizia")
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
 							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + Server.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, msg } });
 					}
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -99,12 +100,13 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pil"]))
 				{
-					if (Server.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "pilota")
+					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+					if (user.CurrentChar.job.name.ToLower() == "pilota")
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
 							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + Server.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, msg } });
 					}
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -119,12 +121,13 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["med"]))
 				{
-					if (Server.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "medico")
+					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+					if (user.CurrentChar.job.name.ToLower() == "medico")
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
 							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + Server.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, msg } });
 					}
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -139,12 +142,13 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["mec"]))
 				{
-					if (Server.PlayerList["" + sender].CurrentChar.job.name.ToLower() == "meccanico")
+					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+					if (user.CurrentChar.job.name.ToLower() == "meccanico")
 					{
 						string msg = "";
 						for (int i = 0; i < args.Count; i++)
 							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + Server.PlayerList[sender.ToString()].FullName, msg } });
+						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, msg } });
 					}
 				}
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -199,7 +203,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
-							User player = Server.PlayerList[args[0]];
+							User player = Funzioni.GetUserFromPlayerId(args[0]);
 							string item = "" + args[1];
 							player.addInventoryItem(item, Convert.ToInt32(args[2]), Shared.SharedScript.ItemList[item].peso);
 						}
@@ -226,7 +230,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
-							User player = Server.PlayerList[args[0]];
+							User player = Funzioni.GetUserFromPlayerId(args[0]);
 							player.removeInventoryItem(args[1], Convert.ToInt32(args[2]));
 						}
 						else
@@ -251,7 +255,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
-							User player = Server.PlayerList[args[0]];
+							User player = Funzioni.GetUserFromPlayerId(args[0]);
 							player.addWeapon(args[1].ToUpper(), Convert.ToInt32(args[2]));
 						}
 						else
@@ -276,7 +280,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
-							User player = Server.PlayerList[args[0]];
+							User player = Funzioni.GetUserFromPlayerId(args[0]);
 							player.removeWeapon(args[1].ToUpper());
 						}
 						else
@@ -393,7 +397,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 					{
-						var player = Server.PlayerList[args[0]];
+						var player = Funzioni.GetUserFromPlayerId(args[0]);
 						if (args[1] == "soldi")
 						{
 							player.Money -= player.Money;
@@ -520,8 +524,9 @@ namespace NuovaGM.Server.gmPrincipale
 						groupL = group_level,
 						disc = License.GetLicense(ricevitore, Identifier.Discord)
 					});
-					Server.PlayerList[ricevitore.Handle].group = group;
-					Server.PlayerList[ricevitore.Handle].group_level = group_level;
+					var user = Funzioni.GetUserFromPlayerId(ricevitore.Handle);
+					user.group = group;
+					user.group_level = group_level;
 					Server.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + $" --  Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 				}
@@ -665,7 +670,7 @@ namespace NuovaGM.Server.gmPrincipale
 					Player p = Funzioni.GetPlayerFromId(args[0]);
 					if (Server.PlayerList.ContainsKey(p.Handle))
 					{
-						User pers = Server.PlayerList[p.Handle];
+						User pers = Funzioni.GetUserFromPlayerId(p.Handle);
 						if (pers.status.spawned)
 							pers.SetJob(args[1], Convert.ToInt32(args[2]));
 						else
@@ -687,7 +692,7 @@ namespace NuovaGM.Server.gmPrincipale
 					Player p = Funzioni.GetPlayerFromId(args[0]);
 					if (Server.PlayerList.ContainsKey(p.Handle))
 					{
-						User pers = Server.PlayerList[p.Handle];
+						User pers = Funzioni.GetUserFromPlayerId(p.Handle);
 						if (pers.status.spawned)
 							pers.SetGang(args[1], Convert.ToInt32(args[2]));
 						else

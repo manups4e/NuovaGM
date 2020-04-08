@@ -313,7 +313,7 @@ namespace NuovaGM.Server.gmPrincipale
 			string handle = player.Handle;
 			if (Server.PlayerList.ContainsKey(handle))
 			{
-				var ped = Server.PlayerList[handle];
+				var ped = Server.PlayerList.TryGetValue(handle];
 				if (ped.status.spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);

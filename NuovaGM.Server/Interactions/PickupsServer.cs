@@ -61,7 +61,7 @@ namespace NuovaGM.Server.Interactions
 
 		private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)
 		{
-			User user = Server.PlayerList[player.Handle];
+			User user = player.GetCurrentChar();
 			Tuple<bool, Inventory> oggetto = user.getInventoryItem(item);
 			if (oggetto.Item1)
 			{
@@ -78,7 +78,7 @@ namespace NuovaGM.Server.Interactions
 
 		private static void RemoveWeaponWithPickup([FromSource] Player player, string weapon)
 		{
-			User user = Server.PlayerList[player.Handle];
+			User user = player.GetCurrentChar();
 			if (user.hasWeapon(weapon))
 			{
 				Tuple<int, Weapons> arma = user.getWeapon(weapon);
@@ -91,7 +91,7 @@ namespace NuovaGM.Server.Interactions
 		private static void RemoveAccountWithPickup([FromSource] Player player, string name, int amount)
 		{
 			string label = "";
-			User user = Server.PlayerList[player.Handle];
+			User user = player.GetCurrentChar();
 			switch (name) {
 				case "soldi":
 					user.Money -= amount;
@@ -107,7 +107,7 @@ namespace NuovaGM.Server.Interactions
 
 		private static void OnPickup([FromSource] Player source, int id)
 		{
-			User user = Server.PlayerList[source.Handle];
+			User user = source.GetCurrentChar();
 			var pickup = Pickups[id];
 			bool success = false;
 			switch (pickup.type)

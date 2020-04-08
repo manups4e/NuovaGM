@@ -18,17 +18,17 @@ namespace NuovaGM.Server.banking
 
 		public static void SendMoney([FromSource]Player player, string name, int amount)
 		{
-			User user = Server.PlayerList[player.Handle];
+			User user = player.GetCurrentChar();
 			if (user.Bank >= amount)
 			{
 				foreach (Player p in Server.Instance.GetPlayers.ToList())
 				{
-					if (Server.PlayerList[p.Handle].FullName.ToLower() == name.ToLower())
+					if (user.FullName.ToLower() == name.ToLower())
 					{
 						user.Bank -= amount;
-						Server.PlayerList[p.Handle].Bank += amount;
+						user.Bank += amount;
 						BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", true, user.Bank.ToString());
-						BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(player.Handle)}] ha inviato ${amount} a '{Server.PlayerList[p.Handle].FullName}' [{GetPlayerName(p.Handle)}]");
+						BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(player.Handle)}] ha inviato ${amount} a '{user.FullName}' [{GetPlayerName(p.Handle)}]");
 					}
 					else
 					{
@@ -46,7 +46,7 @@ namespace NuovaGM.Server.banking
 		{
 			if (amount > 0)
 			{
-				User user = Server.PlayerList[p.Handle];
+				User user = p.GetCurrentChar();
 				int bal = user.Bank;
 				int newamt = bal - amount;
 				Debug.WriteLine("bal = " + bal);
@@ -73,7 +73,7 @@ namespace NuovaGM.Server.banking
 		{
 			if (amount > 0)
 			{
-				User user = Server.PlayerList[p.Handle];
+				User user = p.GetCurrentChar();
 				int money = user.Money;
 				int bankmoney = user.Bank;
 				int newamt = bankmoney + amount;

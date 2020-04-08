@@ -103,7 +103,6 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		static bool firstTick = true;
 		public static async Task AggiornamentoClient()
 		{
-			await BaseScript.Delay(0);
 			if (firstTick)
 			{
 				firstTick = false;

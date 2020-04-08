@@ -8,6 +8,7 @@ using NuovaGM.Server.Interactions;
 using NuovaGM.Server.Lavori.Whitelistati;
 using NuovaGM.Server.manager;
 using NuovaGM.Server.Veicoli;
+using System;
 
 namespace NuovaGM.Server
 {
@@ -15,7 +16,6 @@ namespace NuovaGM.Server
 	{
 		public static async void Init()
 		{
-			await BaseScript.Delay(0);
 			await ConfigServer.Init();
 			DiscordWhitelist.Init();
 			ServerManager.Init();

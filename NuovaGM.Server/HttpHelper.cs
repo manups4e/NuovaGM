@@ -47,7 +47,6 @@ namespace NuovaGM.Server
 
 		public async Task<ConcurrentDictionary<string, dynamic>> Http(string url, string method, string data, dynamic headers)
 		{
-			await Delay(0);
 			RequestDataInternal requestData = new RequestDataInternal();
 			requestData.url = url;
 			requestData.method = method;
@@ -69,7 +68,6 @@ namespace NuovaGM.Server
 	{
 		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", ConcurrentDictionary<string, string> headers = null)
 		{
-			await Delay(0);
 			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
 			return ParseRequestResponseInternal(
 					await Exports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NuovaGM.Server": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

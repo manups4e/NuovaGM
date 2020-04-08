@@ -301,30 +301,36 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async Task Salvataggio()
 		{
-			await BaseScript.Delay(0);
-			if (Server.PlayerList.Count > 0)
+			try
 			{
-				await BaseScript.Delay(Server.Impostazioni.Main.SalvataggioTutti * 60000);
-				foreach (Player player in Server.Instance.GetPlayers.ToList())
+				if (Server.PlayerList.Count > 0)
 				{
-					string name = player.Name;
-					if (Server.PlayerList.ContainsKey(player.Handle))
+					await BaseScript.Delay(Server.Impostazioni.Main.SalvataggioTutti * 60000);
+					foreach (Player player in Server.Instance.GetPlayers.ToList())
 					{
-						var ped = Server.PlayerList[player.Handle];
-						if (ped.status.spawned)
+						string name = player.Name;
+						if (Server.PlayerList.ContainsKey(player.Handle))
 						{
-							BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
-							SalvaPersonaggio(player);
-							Server.Printa(LogType.Info, "Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + Server.PlayerList[player.Handle].identifiers.discord);
-							BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + Server.PlayerList[player.Handle].identifiers.discord);
-							await Task.FromResult(0);
+							var ped = Funzioni.GetUserFromPlayerId(player.Handle);
+							if (ped.status.spawned)
+							{
+								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
+								SalvaPersonaggio(player);
+								Server.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
+								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
+								await Task.FromResult(0);
+							}
 						}
 					}
+					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 				}
-				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+				else
+					await BaseScript.Delay(10000);
 			}
-			else
-				await BaseScript.Delay(10000);
+			catch (Exception e)
+			{
+				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+			}
 		}
 
 		public static bool IsPlayerAndHasPermission(int player, int level)
@@ -354,7 +360,26 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static User GetUserFromPlayerId(string id)
 		{
-			return Server.PlayerList[id];
+			User user;
+			if (Server.PlayerList.TryGetValue(id, out user))
+				return user;
+			return null;
+		}
+
+		public static User GetUserFromPlayerId(int id)
+		{
+			User user;
+			if (Server.PlayerList.TryGetValue(id.ToString(), out user))
+				return user;
+			return null;
+		}
+
+		public static User GetCurrentChar(this Player player)
+		{
+			User user;
+			if (Server.PlayerList.TryGetValue(player.Handle, out user))
+				return user;
+			return null;
 		}
 
 		private static Random random = new Random();

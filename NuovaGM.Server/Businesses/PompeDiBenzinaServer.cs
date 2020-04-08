@@ -104,7 +104,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void GetStationCash([FromSource] Player p, int sidx)
 		{
 			await BaseScript.Delay(0);
-			User user = Server.PlayerList[p.Handle];
+			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = License.GetLicense(p, Identifier.Discord) });
 			if (result.Count > 0)
 			{
@@ -167,12 +167,13 @@ namespace NuovaGM.Server.Businesses
 			{
 				foreach (Player a in Server.Instance.GetPlayers.ToList())
 				{
-					if (Server.PlayerList[a.Handle].FullName == name)
+					User user = Funzioni.GetUserFromPlayerId(a.Handle);
+					if (user.FullName == name)
 					{
 						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier` = @id, ownerchar = @owner WHERE stationindex = @idx", new
 						{
-							id = Server.PlayerList[a.Handle].identifiers.discord,
-							owner = Server.PlayerList[a.Handle].FullName,
+							id = user.identifiers.discord,
+							owner = user.FullName,
 							idx = manageid
 						});
 						SendStationsUpdate();
@@ -189,7 +190,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void DepositFuel([FromSource]Player p, int Index, int fuelfortank)
 		{
 			await BaseScript.Delay(0);
-			User user = Server.PlayerList[p.Handle];
+			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			int index = Index;
 			int tankerfuel = fuelfortank;
 			if (index > 0 && tankerfuel > 0)
@@ -324,7 +325,7 @@ namespace NuovaGM.Server.Businesses
 			await BaseScript.Delay(0);
 			if (sidx > 0)
 			{
-				User user = Server.PlayerList[p.Handle];
+				User user = Funzioni.GetUserFromPlayerId(p.Handle);
 				List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
 				GasStation station = stations[sidx];
 				int bankmoney = user.Bank;
@@ -427,7 +428,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void AddStationFunds([FromSource] Player p, int manageid, int amount)
 		{
 			await BaseScript.Delay(0);
-			User user = Server.PlayerList[p.Handle];
+			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			int money = user.Money;
 			if (money >= amount)
 			{
@@ -461,7 +462,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void RemStationFunds([FromSource] Player p, int manageid, int amount)
 		{
 			await BaseScript.Delay(0);
-			User user = Server.PlayerList[p.Handle];
+			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
 			if (result.Count > 0)
 			{

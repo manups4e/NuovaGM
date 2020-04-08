@@ -15,10 +15,8 @@ namespace NuovaGM.Server
 		private static string sputtanabot = "https://discordapp.com/api/webhooks/686884834337095732/sXSQKCYdh6xTc__QJ8tE3RnWlfdDvBwyTC5N-GbC6SY4zDA7hViYW5kBGZpuRTWrijE3";
 		public static bool ConnessoADiscord = false;
 
-		public static async void Init()
+		public static void Init()
 		{
-			await BaseScript.Delay(0);
-			while (Server.Impostazioni.Main.DiscordToken == null) await BaseScript.Delay(0);
 			GuildId = Server.Impostazioni.Main.GuildId;
 			DiscordToken += Server.Impostazioni.Main.DiscordToken;
 			Server.Instance.RegisterTickHandler(connessioneDiscord);
@@ -26,7 +24,6 @@ namespace NuovaGM.Server
 
 		public async static Task connessioneDiscord()
 		{
-			await BaseScript.Delay(0);
 			try
 			{
 				RequestResponse connessione = await DiscordConnection("guilds/" + GuildId);

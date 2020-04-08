@@ -16,14 +16,14 @@ namespace NuovaGM.Server.TimeWeather
 
 		public static void Init()
 		{
+			currentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
+			weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+			rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
 			Server.Instance.RegisterEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
 			Server.Instance.RegisterEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
 			Server.Instance.RegisterEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
 			Server.Instance.RegisterEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
 			Server.Instance.RegisterTickHandler(Conteggio);
-			currentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
-			weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-			rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
 		}
 
 		private static void CambiaMeteoPerMe([FromSource]Player p, bool startup)
@@ -53,36 +53,43 @@ namespace NuovaGM.Server.TimeWeather
 
 		public static async Task Conteggio()
 		{
-			await BaseScript.Delay(1000);
-			weatherTimer--;
-			if (rainPossible) rainTimer = -1;
-			else rainTimer--;
-			if (weatherTimer == 0)
+			try
 			{
-				if (ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather)
+				await BaseScript.Delay(1000);
+				weatherTimer--;
+				if (rainPossible) rainTimer = -1;
+				else rainTimer--;
+				if (weatherTimer == 0)
 				{
-					List<int> currentOptions = ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition[currentWeather];
-					currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
-					if (ConfigShared.SharedConfig.Main.Meteo.ss_reduce_rain_chance)
-						foreach (var p in currentOptions)
-							if (p == 7 || p == 8)
+					if (ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather)
+					{
+						List<int> currentOptions = ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition[currentWeather];
+						currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
+						if (ConfigShared.SharedConfig.Main.Meteo.ss_reduce_rain_chance)
+							foreach (var p in currentOptions)
+								if (p == 7 || p == 8)
+									currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
+
+						if (rainPossible == false)
+							while (currentWeather == 7 || currentWeather == 8)
 								currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
 
-					if (rainPossible == false)
-						while (currentWeather == 7 || currentWeather == 8)
-							currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
-
-					if (currentWeather == 7 || currentWeather == 8)
-					{
-						rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
-						rainPossible = false;
+						if (currentWeather == 7 || currentWeather == 8)
+						{
+							rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
+							rainPossible = false;
+						}
+						BaseScript.TriggerEvent("changeWeather", false);
+						weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 					}
-					BaseScript.TriggerEvent("changeWeather", false);
-					weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 				}
+				if (rainTimer == 0)
+					rainPossible = true;
 			}
-			if (rainTimer == 0)
-				rainPossible = true;
+			catch (Exception e)
+			{
+				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+			}
 		}
 	}
 }

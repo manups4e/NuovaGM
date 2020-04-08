@@ -31,8 +31,9 @@ namespace NuovaGM.Server.gmPrincipale
 				string stringa = JsonConvert.SerializeObject(result);
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
-					Server.PlayerList.TryAdd(handle, new User(player, result[0]));
-					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
+					User user = new User(player, result[0]);
+					Server.PlayerList.TryAdd(handle, user);
+					string playerino = JsonConvert.SerializeObject(user);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 				else
@@ -52,8 +53,9 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					Server.PlayerList.TryAdd(handle, new User(player, created[0]));
-					string playerino = JsonConvert.SerializeObject(Server.PlayerList[handle]);
+					User user = new User(player, result[0]);
+					Server.PlayerList.TryAdd(handle, user);
+					string playerino = JsonConvert.SerializeObject(user);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 			}
@@ -69,25 +71,38 @@ namespace NuovaGM.Server.gmPrincipale
 		public static long starttick = GetGameTimer();
 		public static async Task Orario()
 		{
-			await BaseScript.Delay(0);
-			long tick = GetGameTimer();
-			double uptimeDay = Math.Floor((double)(tick - starttick) / 86400000);
-			double uptimeHour = Math.Floor((double)(tick - starttick) / 3600000) % 24;
-			double uptimeMinute = Math.Floor((double)(tick - starttick) / 60000) % 60;
-			ExecuteCommand($"sets Attivo \"{uptimeDay} giorni {uptimeHour} Ore {uptimeMinute} Minuti \"");
-			await BaseScript.Delay(60000);
+			try
+			{
+				long tick = GetGameTimer();
+				double uptimeDay = Math.Floor((double)(tick - starttick) / 86400000);
+				double uptimeHour = Math.Floor((double)(tick - starttick) / 3600000) % 24;
+				double uptimeMinute = Math.Floor((double)(tick - starttick) / 60000) % 60;
+				ExecuteCommand($"sets Attivo \"{uptimeDay} giorni {uptimeHour} Ore {uptimeMinute} Minuti \"");
+				await BaseScript.Delay(60000);
+			}
+			catch (Exception e)
+			{
+				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+			}
 		}
 
 		private static async Task PlayTime()
 		{
-			await BaseScript.Delay(60000);
-			if (Server.PlayerList.Count > 0)
+			try
 			{
-				foreach (var user in Server.PlayerList)
+				await BaseScript.Delay(60000);
+				if (Server.PlayerList.Count > 0)
 				{
-					if (user.Value.status.spawned)
-						user.Value.playTime += 60;
+					foreach (var user in Server.PlayerList)
+					{
+						if (user.Value.status.spawned)
+							user.Value.playTime += 60;
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 	}

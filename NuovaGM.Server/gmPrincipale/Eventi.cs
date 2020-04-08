@@ -75,7 +75,8 @@ namespace NuovaGM.Server.gmPrincipale
 			try
 			{
 				Char_data Char = JsonConvert.DeserializeObject<Char_data>(data);
-				Server.PlayerList[p.Handle].char_data.Add(Char);
+				User user = Funzioni.GetUserFromPlayerId(p.Handle);
+				user.char_data.Add(Char);
 			}
 			catch (Exception e)
 			{
@@ -104,74 +105,75 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void UpdateChar([FromSource] Player player, string type, dynamic data, float h)
 		{
+			User user = Funzioni.GetUserFromPlayerId(player.Handle);
 			if (type == "char_current")
 			{
-				Server.PlayerList[player.Handle].char_current = (int)data;
+				user.char_current = (int)data;
 			}
 			else if (type == "char_data")
 			{
-				Server.PlayerList[player.Handle].char_data = JsonConvert.DeserializeObject<List<Char_data>>(data);
+				user.char_data = JsonConvert.DeserializeObject<List<Char_data>>(data);
 			}
 			else if (type == "status")
 			{
-				Server.PlayerList[player.Handle].status.spawned = (bool)data;
+				user.status.spawned = (bool)data;
 			}
 			else if (type == "charlocation")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.location.x = data.X;
-				Server.PlayerList[player.Handle].CurrentChar.location.y = data.Y;
-				Server.PlayerList[player.Handle].CurrentChar.location.z = data.Z;
-				Server.PlayerList[player.Handle].CurrentChar.location.h = h;
+				user.CurrentChar.location.x = data.X;
+				user.CurrentChar.location.y = data.Y;
+				user.CurrentChar.location.z = data.Z;
+				user.CurrentChar.location.h = h;
 			}
 			else if (type == "skin")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.skin = JsonConvert.DeserializeObject<Skin>(data);
+				user.CurrentChar.skin = JsonConvert.DeserializeObject<Skin>(data);
 			}
 			else if (type == "needs")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.needs = JsonConvert.DeserializeObject<Needs>(data);
+				user.CurrentChar.needs = JsonConvert.DeserializeObject<Needs>(data);
 			}
 			else if (type == "skill")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.statistiche = JsonConvert.DeserializeObject<Statistiche>(data);
+				user.CurrentChar.statistiche = JsonConvert.DeserializeObject<Statistiche>(data);
 			}
 			else if (type == "chardressing")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.dressing = JsonConvert.DeserializeObject<Dressing>(data);
+				user.CurrentChar.dressing = JsonConvert.DeserializeObject<Dressing>(data);
 			}
 			else if (type == "weapons")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.weapons = JsonConvert.DeserializeObject<List<Weapons>>(data);
+				user.CurrentChar.weapons = JsonConvert.DeserializeObject<List<Weapons>>(data);
 			}
 			else if (type == "job")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.job = JsonConvert.DeserializeObject<Job>(data);
+				user.CurrentChar.job = JsonConvert.DeserializeObject<Job>(data);
 			}
 			else if (type == "gang")
 			{
-				Server.PlayerList[player.Handle].CurrentChar.gang = JsonConvert.DeserializeObject<Gang>(data);
+				user.CurrentChar.gang = JsonConvert.DeserializeObject<Gang>(data);
 			}
 			else if (type == "group")
 			{
-				Server.PlayerList[player.Handle].group = data;
+				user.group = data;
 			}
 			else if (type == "groupL")
 			{
-				Server.PlayerList[player.Handle].group_level = data;
+				user.group_level = data;
 			}
-			string _char_data = JsonConvert.SerializeObject(Server.PlayerList[player.Handle].char_data);
-			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, Server.PlayerList[player.Handle].char_current, Server.PlayerList[player.Handle].group);
+			string _char_data = JsonConvert.SerializeObject(user.char_data);
+			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, user.char_current, user.group);
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)
 		{
-			Server.PlayerList[source.Handle].DeathStatus = value;
+			Funzioni.GetUserFromPlayerId(source.Handle).DeathStatus = value;
 		}
 
 		public static void PayFine([FromSource] Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			if (amount == EarlyRespawnFineAmount)
 			{
 				player.Money -= EarlyRespawnFineAmount;
@@ -188,11 +190,12 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Spawnato([FromSource] Player source)
 		{
-			Server.Printa(LogType.Info, Server.PlayerList[source.Handle].FullName + "(" + source.Name + ") e' entrato in citta'");
-			BaseScript.TriggerEvent("lprp:serverLog", Server.PlayerList[source.Handle].FullName + "(" + source.Name + ") è entrato in città");
+			var user = Funzioni.GetUserFromPlayerId(source.Handle);
+			Server.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
+			BaseScript.TriggerEvent("lprp:serverLog",user.FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
-					player.TriggerEvent("lprp:ShowNotification", "~g~" + Server.PlayerList[source.Handle].FullName + " (" + source.Name + ")~w~ è entrato in città");
+					player.TriggerEvent("lprp:ShowNotification", "~g~" +user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 			source.TriggerEvent("lprp:createMissingPickups", JsonConvert.SerializeObject(PickupsServer.Pickups));
 		}
@@ -221,13 +224,13 @@ namespace NuovaGM.Server.gmPrincipale
 			string name = player.Name;
 			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
-				var ped = Server.PlayerList[player.Handle];
+				var ped = Funzioni.GetUserFromPlayerId(player.Handle);
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
 					Funzioni.SalvaPersonaggio(player);
-					Server.Printa(LogType.Info, "Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' tramite telefono");
-					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + Server.PlayerList[player.Handle].FullName + "' appartenente a '" + name + "' - " + Server.PlayerList[player.Handle].identifiers.discord + ", tramite telefono");
+					Server.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord + ", tramite telefono");
 				}
 			}
 			await Task.FromResult(0);
@@ -243,7 +246,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void removeItemsDeath([FromSource] Player source)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			List<Inventory> inventory = player.getCharInventory(player.char_current);
 			List<Weapons> weapons = player.getCharWeapons(player.char_current);
 			int money = player.Money;
@@ -265,7 +268,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveMoney([FromSource]Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Money += (amount);
 		}
 
@@ -273,7 +276,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (amount != 0)
 			{
-				var player = Server.PlayerList[source.Handle];
+				var player = Funzioni.GetUserFromPlayerId(source.Handle);
 				player.Money -= amount;
 			}
 			else
@@ -282,59 +285,59 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveBank([FromSource]Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank += amount;
 		}
 
 		public static void RemoveBank([FromSource]Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirty([FromSource]Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirty([FromSource]Player source, int amount)
 		{
-			var player = Server.PlayerList[source.Handle];
+			var player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney -= amount;
 		}
 
 		public static void AddInventory([FromSource]Player source, string item, int amount, float peso)
 		{
-			Server.PlayerList[source.Handle].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Funzioni.GetUserFromPlayerId(source.Handle).addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventory([FromSource]Player source, string item, int amount)
 		{
-			Server.PlayerList[source.Handle].removeInventoryItem(item, amount);
+			Funzioni.GetUserFromPlayerId(source.Handle).removeInventoryItem(item, amount);
 		}
 
 		public static void AddWeapon([FromSource]Player source, string weaponName, int ammo)
 		{
-			Server.PlayerList[source.Handle].addWeapon(weaponName, ammo);
+			Funzioni.GetUserFromPlayerId(source.Handle).addWeapon(weaponName, ammo);
 		}
 
 		public static void RemoveWeapon([FromSource]Player source, string weaponName)
 		{
-			Server.PlayerList[source.Handle].removeWeapon(weaponName);
+			Funzioni.GetUserFromPlayerId(source.Handle).removeWeapon(weaponName);
 		}
 
 		public static void AddWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
 		{
-			Server.PlayerList[source.Handle].addWeaponComponent(weaponName, weaponComponent);
+			Funzioni.GetUserFromPlayerId(source.Handle).addWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void RemoveWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
 		{
-			Server.PlayerList[source.Handle].removeWeaponComponent(weaponName, weaponComponent);
+			Funzioni.GetUserFromPlayerId(source.Handle).removeWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void AddWeaponTint([FromSource]Player source, string weaponName, int tint)
 		{
-			Server.PlayerList[source.Handle].addWeaponTint(weaponName, tint);
+			Funzioni.GetUserFromPlayerId(source.Handle).addWeaponTint(weaponName, tint);
 		}
 
 		public static void GetPlayers(NetworkCallbackDelegate CB)
@@ -352,7 +355,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void GiveMoneyToChar(string target, int charId, int amount)
 		{
-			var player = Server.PlayerList[target];
+			var player = Funzioni.GetUserFromPlayerId(target);
 			player.Money += (amount);
 		}
 
@@ -360,65 +363,65 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			if (amount != 0)
 			{
-				var player = Server.PlayerList[target];
+				var player = Funzioni.GetUserFromPlayerId(target);
 				player.Money -= amount;
 			}
 		}
 
 		public static void GiveBankToChar(string target, int charId, int amount)
 		{
-			var player = Server.PlayerList[target];
+			var player = Funzioni.GetUserFromPlayerId(target);
 			player.Bank += amount;
 		}
 
 		public static void RemoveBankToChar(string target, int charId, int amount)
 		{
-			var player = Server.PlayerList[target];
+			var player = Funzioni.GetUserFromPlayerId(target);
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirtyToChar(string target, int charId, int amount)
 		{
-			var player = Server.PlayerList[target];
+						var player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirtyToChar(string target, int charId, int amount)
 		{
-			var player = Server.PlayerList[target];
+						var player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney -= amount;
 		}
 
 		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
 		{
-			Server.PlayerList[target].addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
 		}
 
 		public static void RemoveInventoryToChar(string target, int charId, string item, int amount)
 		{
-			Server.PlayerList[target].removeInventoryItem(item, amount);
+			Funzioni.GetUserFromPlayerId(target).removeInventoryItem(item, amount);
 		}
 
 		public static void AddWeaponToChar(string target, int charId, string weaponName, int ammo)
 		{
-			Server.PlayerList[target].addWeapon(weaponName, ammo);
+			Funzioni.GetUserFromPlayerId(target).addWeapon(weaponName, ammo);
 		}
 		public static void RemoveWeaponToChar(string target, int charId, string weaponName)
 		{
-			Server.PlayerList[target].removeWeapon(weaponName);
+			Funzioni.GetUserFromPlayerId(target).removeWeapon(weaponName);
 		}
 
 		public static void AddWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
 		{
-			Server.PlayerList[target].addWeaponComponent(weaponName, weaponComponent);
+			Funzioni.GetUserFromPlayerId(target).addWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void RemoveWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
 		{
-			Server.PlayerList[target].removeWeaponComponent(weaponName, weaponComponent);
+			Funzioni.GetUserFromPlayerId(target).removeWeaponComponent(weaponName, weaponComponent);
 		}
 		public static void AddWeaponTintToChar(string target, int charId, string weaponName, int tint)
 		{
-			Server.PlayerList[target].addWeaponTint(weaponName, tint);
+			Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint);
 		}
 
 		private static async void BannaPlayer(string target, string motivazione, long tempodiban, int banner)
@@ -452,37 +455,37 @@ namespace NuovaGM.Server.gmPrincipale
 
 		private static void GiveLicense([FromSource] Player source, string license)
 		{
-			User player = Server.PlayerList[source.Handle];
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 
 		}
 
 		private static void GiveLicenseToChar([FromSource] Player source, int target, string license)
 		{
-			User player = Server.PlayerList[source.Handle];
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 
 		}
 
 		private static void RemoveLicense([FromSource] Player source, string license)
 		{
-			User player = Server.PlayerList[source.Handle];
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 
 		}
 
 		private static void RemoveLicenseToChar([FromSource] Player source, int target, string license)
 		{
-			User player = Server.PlayerList[source.Handle];
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 
 		}
 
 		private static void AggiornaAmmo([FromSource] Player source, string weaponName, int ammo)
 		{
-			User user = Server.PlayerList[source.Handle];
+			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			user.updateWeaponAmmo(weaponName, ammo);
 		}
 		private static void GiveItemToOtherPlayer([FromSource] Player source, int target, string itemName, int amount)
 		{
-			User player = Server.PlayerList[source.Handle];
-			User targetPlayer = Server.PlayerList[""+target];
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User targetPlayer = Funzioni.GetUserFromPlayerId(""+target);
 
 			player.removeInventoryItem(itemName, amount);
 			player.showNotification($"Hai dato {amount} di {SharedScript.ItemList[itemName].label} a {targetPlayer.FullName}");
@@ -493,8 +496,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		private static  void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
 		{
-			User player = Server.PlayerList[source.Handle];
-			User targetPlayer = Server.PlayerList[""+target];
+			User player = source.GetCurrentChar();
+			User targetPlayer = Funzioni.GetPlayerFromId(target).GetCurrentChar();
 			var weapon = player.getWeapon(weaponName);
 			var arma = weapon.Item2;
 			if (targetPlayer.hasWeapon(weaponName))
