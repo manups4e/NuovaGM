@@ -228,38 +228,38 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 				{
 					if (item == armi)
 					{
-						if ((Eventi.Player.hasWeapon(DaFuoco) || affittatoFuoco) && (Eventi.Player.hasWeapon(Bianca) || affittatoBianca))
+						if ((Game.Player.GetPlayerData().hasWeapon(DaFuoco) || affittatoFuoco) && (Game.Player.GetPlayerData().hasWeapon(Bianca) || affittatoBianca))
 						{
 							HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
 							return;
 						}
 						int prezzo = 0;
-						if (!Eventi.Player.hasWeapon(DaFuoco))
+						if (!Game.Player.GetPlayerData().hasWeapon(DaFuoco))
 						{
-							if (Eventi.Player.Money >= 250 || Eventi.Player.Bank >= 250)
+							if (Game.Player.GetPlayerData().Money >= 250 || Game.Player.GetPlayerData().Bank >= 250)
 							{
 								Game.PlayerPed.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
 								prezzo += 250;
 								affittatoFuoco = true;
 							}
 						}
-						if (!Eventi.Player.hasWeapon(Bianca))
+						if (!Game.Player.GetPlayerData().hasWeapon(Bianca))
 						{
-							if (Eventi.Player.Money >= 50 || Eventi.Player.Bank >= 50)
+							if (Game.Player.GetPlayerData().Money >= 50 || Game.Player.GetPlayerData().Bank >= 50)
 							{
 								Game.PlayerPed.Weapons.Give(WeaponHash.Knife, 1, false, true);
 								prezzo += 50;
 								affittatoBianca = true;
 							}
 						}
-						if (Eventi.Player.Money >= prezzo)
+						if (Game.Player.GetPlayerData().Money >= prezzo)
 						{
 							BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 							HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= prezzo)
+							if (Game.Player.GetPlayerData().Bank >= prezzo)
 							{
 								BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
@@ -270,7 +270,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 					}
 					else if (item == inizia)
 					{
-						if (Eventi.Player.hasLicense("Caccia"))
+						if (Game.Player.GetPlayerData().hasLicense("Caccia"))
 						{
 							StaCacciando = true;
 							AreadiCaccia = World.CreateBlip(Cacciatore.zonaDiCaccia.ToVector3(), Cacciatore.limiteArea);

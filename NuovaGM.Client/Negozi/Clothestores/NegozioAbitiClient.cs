@@ -103,7 +103,7 @@ namespace NuovaGM.Client.Negozi
 							Game.PlayerPed.Task.AchieveHeading(v.Vestiti.W);
 							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f) await BaseScript.Delay(0);
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
 							else
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
@@ -119,7 +119,7 @@ namespace NuovaGM.Client.Negozi
 							Game.PlayerPed.Task.AchieveHeading(v.Scarpe.W);
 							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f) await BaseScript.Delay(0);
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
 							else
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
@@ -134,7 +134,7 @@ namespace NuovaGM.Client.Negozi
 											if (Input.IsControlJustPressed(Control.Context))
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
-												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
@@ -156,7 +156,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
 							}
@@ -180,7 +180,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
 							}
@@ -204,9 +204,9 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
-								if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+								if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								{
 									MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
 								}
@@ -234,7 +234,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
 							}
@@ -258,7 +258,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
 							}
@@ -277,7 +277,7 @@ namespace NuovaGM.Client.Negozi
 											if (Input.IsControlJustPressed(Control.Context))
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
-												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
@@ -299,7 +299,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
 							}
@@ -323,7 +323,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
 							}
@@ -347,7 +347,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
 							}
@@ -374,7 +374,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
 							}
@@ -398,7 +398,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
 							}
@@ -417,7 +417,7 @@ namespace NuovaGM.Client.Negozi
 											if (Input.IsControlJustPressed(Control.Context))
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
-												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
@@ -439,7 +439,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
 							}
@@ -463,7 +463,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
 							}
@@ -487,7 +487,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
 							}
@@ -514,7 +514,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
 							}
@@ -538,7 +538,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
 							}
@@ -557,7 +557,7 @@ namespace NuovaGM.Client.Negozi
 											if (Input.IsControlJustPressed(Control.Context))
 											{
 												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
-												if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
 												else
@@ -579,7 +579,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
 							}
@@ -603,7 +603,7 @@ namespace NuovaGM.Client.Negozi
 								await BaseScript.Delay(0);
 							}
 
-							if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							{
 								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
 							}

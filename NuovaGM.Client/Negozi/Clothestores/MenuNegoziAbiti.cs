@@ -508,13 +508,13 @@ namespace NuovaGM.Client.Negozi
 			{
 				UIMenuItem vest = new UIMenuItem(completi[i].Name, completi[i].Description);
 				MenuVest.AddItem(vest);
-				if (Eventi.Player.Money >= completi[i].Price)
+				if (Game.Player.GetPlayerData().Money >= completi[i].Price)
 				{
 					vest.SetRightLabel("~g~$" + completi[i].Price);
 				}
 				else
 				{
-					if (Eventi.Player.Bank >= completi[i].Price)
+					if (Game.Player.GetPlayerData().Bank >= completi[i].Price)
 					{
 						vest.SetRightLabel("~g~$" + completi[i].Price);
 					}
@@ -523,7 +523,7 @@ namespace NuovaGM.Client.Negozi
 						vest.SetRightLabel("~r~$" + completi[i].Price);
 					}
 				}
-				if (completi[i].Name == Eventi.Player.CurrentChar.dressing.Name)
+				if (completi[i].Name == Game.Player.GetPlayerData().CurrentChar.dressing.Name)
 				{
 					vest.SetRightBadge(UIMenuItem.BadgeStyle.Clothes); // cambiare con la collezione di abiti
 					ciao = vest;
@@ -537,17 +537,17 @@ namespace NuovaGM.Client.Negozi
 			};
 			MenuVest.OnItemSelect += async (_menu, _item, _index) =>
 			{
-				if (Eventi.Player.CurrentChar.dressing.Name == completi[_index].Name && Eventi.Player.CurrentChar.dressing.Description == completi[_index].Description)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.Name == completi[_index].Name && Game.Player.GetPlayerData().CurrentChar.dressing.Description == completi[_index].Description)
 				{
 					HUD.ShowNotification("Possiedi già quest'abito!", true);
 				}
 				else
 				{
-					if (Eventi.Player.Money >= completi[_index].Price)
+					if (Game.Player.GetPlayerData().Money >= completi[_index].Price)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(completi[_index]));
-						Eventi.Player.CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
+						Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 						ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 						ciao = _item;
 						ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -555,11 +555,11 @@ namespace NuovaGM.Client.Negozi
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= completi[_index].Price)
+						if (Game.Player.GetPlayerData().Bank >= completi[_index].Price)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(completi[_index]));
-							Eventi.Player.CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
+							Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = _item;
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -574,7 +574,7 @@ namespace NuovaGM.Client.Negozi
 			};
 			MenuVest.OnMenuClose += async (_menu) =>
 			{
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				Client.GetInstance.DeregisterTickHandler(CameraVest);
 			};
@@ -627,13 +627,13 @@ namespace NuovaGM.Client.Negozi
 						money = v.Price + (v.Text.IndexOf(texture) * 89);
 					}
 
-					if (Eventi.Player.Money >= money)
+					if (Game.Player.GetPlayerData().Money >= money)
 					{
 						pant.SetRightLabel("~g~$" + money);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= money)
+						if (Game.Player.GetPlayerData().Bank >= money)
 						{
 							pant.SetRightLabel("~g~$" + money);
 						}
@@ -642,7 +642,7 @@ namespace NuovaGM.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 						}
 					}
-					if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Pantaloni == v.Modello && Eventi.Player.CurrentChar.dressing.ComponentTextures.Pantaloni == texture)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Pantaloni == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni == texture)
 					{
 						Pant.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 						ciao = Pant.ParentItem;
@@ -669,11 +669,11 @@ namespace NuovaGM.Client.Negozi
 				};
 				Pant.OnMenuClose += async (_menu) =>
 				{
-					await UpdateDress(Eventi.Player.CurrentChar.dressing);
+					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				};
 				Pant.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Pantaloni == mod && Eventi.Player.CurrentChar.dressing.ComponentTextures.Pantaloni == text)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Pantaloni == mod && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni == text)
 					{
 						HUD.ShowNotification("Hai già acquistato questo pantalone!!", true);
 						return;
@@ -696,14 +696,14 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
-							Eventi.Player.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni = text;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -714,14 +714,14 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
-								Eventi.Player.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
+								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni = text;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -742,7 +742,7 @@ namespace NuovaGM.Client.Negozi
 			{
 				await BaseScript.Delay(100);
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				Client.GetInstance.DeregisterTickHandler(CameraVest);
 			};
@@ -797,13 +797,13 @@ namespace NuovaGM.Client.Negozi
 						money = v.Price + (v.Text.IndexOf(texture) * 89);
 					}
 
-					if (Eventi.Player.Money >= money)
+					if (Game.Player.GetPlayerData().Money >= money)
 					{
 						pant.SetRightLabel("~g~$" + money);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= money)
+						if (Game.Player.GetPlayerData().Bank >= money)
 						{
 							pant.SetRightLabel("~g~$" + money);
 						}
@@ -812,7 +812,7 @@ namespace NuovaGM.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 						}
 					}
-					if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Scarpe == v.Modello && Eventi.Player.CurrentChar.dressing.ComponentTextures.Scarpe == texture)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Scarpe == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe == texture)
 					{
 						Scarp.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 						ciao = Scarp.ParentItem;
@@ -838,11 +838,11 @@ namespace NuovaGM.Client.Negozi
 				};
 				Scarp.OnMenuClose += async (_menu) =>
 				{
-					await UpdateDress(Eventi.Player.CurrentChar.dressing);
+					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				};
 				Scarp.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Scarpe == mod && Eventi.Player.CurrentChar.dressing.ComponentTextures.Scarpe == text)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Scarpe == mod && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe == text)
 					{
 						HUD.ShowNotification("Hai già acquistato queste scarpe!!", true);
 						return;
@@ -865,14 +865,14 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
-							Eventi.Player.CurrentChar.dressing.ComponentTextures.Scarpe = text;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe = text;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -883,14 +883,14 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
-								Eventi.Player.CurrentChar.dressing.ComponentTextures.Scarpe = text;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
+								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe = text;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -911,7 +911,7 @@ namespace NuovaGM.Client.Negozi
 			{
 				await BaseScript.Delay(100);
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				Client.GetInstance.DeregisterTickHandler(CameraVest);
 			};
@@ -966,13 +966,13 @@ namespace NuovaGM.Client.Negozi
 						money = v.Price + (v.Text.IndexOf(texture) * 89);
 					}
 
-					if (Eventi.Player.Money >= money)
+					if (Game.Player.GetPlayerData().Money >= money)
 					{
 						pant.SetRightLabel("~g~$" + money);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= money)
+						if (Game.Player.GetPlayerData().Bank >= money)
 						{
 							pant.SetRightLabel("~g~$" + money);
 						}
@@ -981,7 +981,7 @@ namespace NuovaGM.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 						}
 					}
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == v.Modello && Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie == texture)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie == texture)
 					{
 						Scarp.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 						ciao = Scarp.ParentItem;
@@ -1007,11 +1007,11 @@ namespace NuovaGM.Client.Negozi
 				};
 				Scarp.OnMenuClose += async (_menu) =>
 				{
-					await UpdateDress(Eventi.Player.CurrentChar.dressing);
+					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				};
 				Scarp.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == mod && Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie == text)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == mod && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie == text)
 					{
 						HUD.ShowNotification("Hai già acquistato questi occhiali!!", true);
 						return;
@@ -1034,14 +1034,14 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = mod;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = text;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = mod;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = text;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1052,14 +1052,14 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = mod;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = text;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = mod;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = text;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1080,7 +1080,7 @@ namespace NuovaGM.Client.Negozi
 			{
 				await BaseScript.Delay(100);
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				Client.GetInstance.DeregisterTickHandler(CameraVest);
 			};
@@ -1124,8 +1124,8 @@ namespace NuovaGM.Client.Negozi
 			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
 			await Game.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			int money = 0;
-			int IntorecAtt = Eventi.Player.CurrentChar.skin.ears.style;
-			int IntcoloOreccAtt = Eventi.Player.CurrentChar.skin.ears.color;
+			int IntorecAtt = Game.Player.GetPlayerData().CurrentChar.skin.ears.style;
+			int IntcoloOreccAtt = Game.Player.GetPlayerData().CurrentChar.skin.ears.color;
 			int IntOrolAtt = GetPedPropIndex(PlayerPedId(), 6);
 			int IntOrolMod = GetPedPropTextureIndex(PlayerPedId(), 6);
 			int IntBraccAtt = GetPedPropIndex(PlayerPedId(), 7);
@@ -1173,13 +1173,13 @@ namespace NuovaGM.Client.Negozi
 			{
 				money = borsa.Price;
 				UIMenuItem bors = new UIMenuItem(borsa.Title, borsa.Description);
-				if (Eventi.Player.Money >= money)
+				if (Game.Player.GetPlayerData().Money >= money)
 				{
 					bors.SetRightLabel("~g~$" + money);
 				}
 				else
 				{
-					if (Eventi.Player.Bank >= money)
+					if (Game.Player.GetPlayerData().Bank >= money)
 					{
 						bors.SetRightLabel("~g~$" + money);
 					}
@@ -1189,7 +1189,7 @@ namespace NuovaGM.Client.Negozi
 					}
 				}
 				Borse.AddItem(bors);
-				if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == borsa.Modello)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == borsa.Modello)
 				{
 					bors.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 					BorsAtt = bors;
@@ -1202,10 +1202,10 @@ namespace NuovaGM.Client.Negozi
 				SetPedComponentVariation(PlayerPedId(), 5, IntBors, 0, 2);
 				await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 			};
-			Borse.OnMenuClose += async (menu) => { await UpdateDress(Eventi.Player.CurrentChar.dressing); };
+			Borse.OnMenuClose += async (menu) => { await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing); };
 			Borse.OnItemSelect += async (_menu, _item, _index) =>
 			{
-				if (Eventi.Player.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == IntBors)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == IntBors)
 				{
 					HUD.ShowNotification("Hai già acquistato questa borsa!!", true);
 					return;
@@ -1228,14 +1228,14 @@ namespace NuovaGM.Client.Negozi
 						val = int.Parse(m);
 					}
 
-					if (Eventi.Player.Money >= val)
+					if (Game.Player.GetPlayerData().Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						Eventi.Player.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-						Eventi.Player.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
-						Eventi.Player.CurrentChar.dressing.Name = null;
-						Eventi.Player.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+						Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
+						Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1243,14 +1243,14 @@ namespace NuovaGM.Client.Negozi
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= val)
+						if (Game.Player.GetPlayerData().Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							Eventi.Player.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-							Eventi.Player.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
+							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1283,12 +1283,12 @@ namespace NuovaGM.Client.Negozi
 					Capp.AddItem(CappRim);
 					CappRim.SetRightLabel("~g~$0");
 				}
-				if (Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
 				{
 					CappRim.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 					CappAtt = CappRim;
 				}
-				if (Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere != -1 && Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere != -1 && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
 				{
 					capelino.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 					CappAtt = CappRim;
@@ -1314,13 +1314,13 @@ namespace NuovaGM.Client.Negozi
 						money = cappellino.Price + (cappellino.Text.IndexOf(texture) * 89);
 					}
 
-					if (Eventi.Player.Money >= money)
+					if (Game.Player.GetPlayerData().Money >= money)
 					{
 						newCap.SetRightLabel("~g~$" + money);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= money)
+						if (Game.Player.GetPlayerData().Bank >= money)
 						{
 							newCap.SetRightLabel("~g~$" + money);
 						}
@@ -1329,7 +1329,7 @@ namespace NuovaGM.Client.Negozi
 							newCap.SetRightLabel("~r~$" + money);
 						}
 					}
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello && Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere == texture)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere == texture)
 					{
 						newCap.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 						CappAtt1 = newCap;
@@ -1345,7 +1345,7 @@ namespace NuovaGM.Client.Negozi
 				};
 				Capelino.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere == IntCappAtt && Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere == IntCappAttMod)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == IntCappAtt && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere == IntCappAttMod)
 					{
 						HUD.ShowNotification("Non puoi acquistare lo stesso cappello che hai già! Prova a cambiare modello!");
 					}
@@ -1366,14 +1366,14 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1384,14 +1384,14 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1411,14 +1411,14 @@ namespace NuovaGM.Client.Negozi
 				Capelino.OnMenuClose += async (menu) =>
 				{
 					PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-					await UpdateDress(Eventi.Player.CurrentChar.dressing);
+					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				};
 			}
 			Capp.OnItemSelect += async (_menu, _item, _index) =>
 			{
 				if (_item == CappRim)
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
 					{
 						HUD.ShowNotification("Non puoi rimuovere 2 volte un Cappello!!", true);
 					}
@@ -1439,14 +1439,14 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1454,14 +1454,14 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1479,7 +1479,7 @@ namespace NuovaGM.Client.Negozi
 			Orecc.OnListChange += (_menu, _listItem, _newIndex) =>
 			{
 				string ActiveItem = _listItem.Items[_newIndex].ToString();
-				if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
 				{
 //					_listItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 				}
@@ -1495,41 +1495,41 @@ namespace NuovaGM.Client.Negozi
 			};
 			Orecc.OnItemSelect += (_menu, _listItem, _listIndex) =>
 			{
-				if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == -1)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte gli orecchini!!", true);
 				}
-				else if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie != -1)
+				else if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie != -1)
 				{
 					HUD.ShowNotification("Non puoi acquistare di nuovo gli orecchini che hai già!");
 				}
 				else
 				{
 					int val = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Price;
-					if (Eventi.Player.Money >= val)
+					if (Game.Player.GetPlayerData().Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = 0;
-						Eventi.Player.CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						Eventi.Player.CurrentChar.skin.ears.color = 0;
-						Eventi.Player.CurrentChar.dressing.Name = null;
-						Eventi.Player.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+						Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = 0;
+						Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= val)
+						if (Game.Player.GetPlayerData().Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = 0;
-							Eventi.Player.CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							Eventi.Player.CurrentChar.skin.ears.color = 0;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = 0;
+							Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1543,13 +1543,13 @@ namespace NuovaGM.Client.Negozi
 			foreach (var aurico in Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList())
 			{
 				UIMenuItem auricolari = new UIMenuItem(aurico.Title, aurico.Description);
-				if (Eventi.Player.Money >= aurico.Price)
+				if (Game.Player.GetPlayerData().Money >= aurico.Price)
 				{
 					auricolari.SetRightLabel("~g~$" + aurico.Price);
 				}
 				else
 				{
-					if (Eventi.Player.Bank >= aurico.Price)
+					if (Game.Player.GetPlayerData().Bank >= aurico.Price)
 					{
 						auricolari.SetRightLabel("~g~$" + aurico.Price);
 					}
@@ -1578,37 +1578,37 @@ namespace NuovaGM.Client.Negozi
 			{
 				if (_index != 0)
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == -1)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == -1)
 						HUD.ShowNotification("Non puoi rimuovere 2 volte l'auricolare!!", true);
-					else if (Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie != -1)
+					else if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie != -1)
 						HUD.ShowNotification("Non puoi acquistare l'auricolare che hai già!");
 					else
 					{
 						int val = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_index - 1].Price;
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = 0;
-							Eventi.Player.CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-							Eventi.Player.CurrentChar.skin.ears.color = 0;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = 0;
+							Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+							Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Orecchie = 0;
-								Eventi.Player.CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-								Eventi.Player.CurrentChar.skin.ears.color = 0;
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = 0;
+								Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+								Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1633,13 +1633,13 @@ namespace NuovaGM.Client.Negozi
 				{
 					NoOrol = new UIMenuItem(orologio.Title, orologio.Description);
 					Orol.AddItem(NoOrol);
-					if (Eventi.Player.Money >= orologio.Price)
+					if (Game.Player.GetPlayerData().Money >= orologio.Price)
 					{
 						NoOrol.SetRightLabel("~g~$" + orologio.Price);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= orologio.Price)
+						if (Game.Player.GetPlayerData().Bank >= orologio.Price)
 						{
 							NoOrol.SetRightLabel("~g~$" + orologio.Price);
 						}
@@ -1671,7 +1671,7 @@ namespace NuovaGM.Client.Negozi
 						money = orologio.Price + (orologio.Text.IndexOf(v) * 89);
 					}
 
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orologi == orologio.Modello && Eventi.Player.CurrentChar.dressing.PropTextures.Orologi == v)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi == orologio.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi == v)
 					{
 						if (orologio.Modello == -1)
 						{
@@ -1687,13 +1687,13 @@ namespace NuovaGM.Client.Negozi
 						OrolMod = NewOrol;
 					}
 
-					if (Eventi.Player.Money >= money)
+					if (Game.Player.GetPlayerData().Money >= money)
 					{
 						NewOrol.SetRightLabel("~g~$" + money);
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= money)
+						if (Game.Player.GetPlayerData().Bank >= money)
 						{
 							NewOrol.SetRightLabel("~g~$" + money);
 						}
@@ -1717,7 +1717,7 @@ namespace NuovaGM.Client.Negozi
 				}
 				Orologino.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orologi == IntOrolAtt && Eventi.Player.CurrentChar.dressing.PropTextures.Orologi == IntOrolMod)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi == IntOrolAtt && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi == IntOrolMod)
 					{
 						HUD.ShowNotification("Non puoi acquistare lo stesso orologio che hai già! Prova a cambiare modello!", true);
 					}
@@ -1738,19 +1738,19 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
-							Eventi.Player.CurrentChar.dressing.Description = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
 							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							if (val > 0)
 							{
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1758,20 +1758,20 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
 								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
 								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 								OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 								OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								if (val > 0)
 								{
 									HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1796,7 +1796,7 @@ namespace NuovaGM.Client.Negozi
 			{
 				if (_item == NoOrol)
 				{
-					if (Eventi.Player.CurrentChar.dressing.PropIndices.Orologi == -1 && IntOrolAtt == -1)
+					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi == -1 && IntOrolAtt == -1)
 					{
 						HUD.ShowNotification("Non puoi rimuovere 2 volte un orologio!!", true);
 					}
@@ -1817,17 +1817,17 @@ namespace NuovaGM.Client.Negozi
 							val = int.Parse(m);
 						}
 
-						if (Eventi.Player.Money >= val)
+						if (Game.Player.GetPlayerData().Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Orologi = -1;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Orologi = -1;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = -1;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = -1;
 							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
 							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							Eventi.Player.CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							if (val > 0)
 							{
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1835,17 +1835,17 @@ namespace NuovaGM.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Bank >= val)
+							if (Game.Player.GetPlayerData().Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								Eventi.Player.CurrentChar.dressing.PropIndices.Orologi = -1;
-								Eventi.Player.CurrentChar.dressing.PropTextures.Orologi = -1;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = -1;
+								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = -1;
 								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
 								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								Eventi.Player.CurrentChar.dressing.Name = null;
-								Eventi.Player.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 								if (val > 0)
 								{
 									HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1880,37 +1880,37 @@ namespace NuovaGM.Client.Negozi
 			};
 			Brac.OnItemSelect += (_menu, _listItem, _listIndex) =>
 			{
-				if (Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali == -1)
+				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte un bracciale!!", true);
 				}
-				else if (Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali != -1)
+				else if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali != -1)
 				{
 					HUD.ShowNotification("Non puoi acquistare di nuovo il braccialetto che hai già!");
 				}
 				else
 				{
 					int val = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Price;
-					if (Eventi.Player.Money >= val)
+					if (Game.Player.GetPlayerData().Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						Eventi.Player.CurrentChar.dressing.PropTextures.Bracciali = 0;
-						Eventi.Player.CurrentChar.dressing.Name = null;
-						Eventi.Player.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+						Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Bracciali = 0;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
 					{
-						if (Eventi.Player.Bank >= val)
+						if (Game.Player.GetPlayerData().Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							Eventi.Player.CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							Eventi.Player.CurrentChar.dressing.PropTextures.Bracciali = 0;
-							Eventi.Player.CurrentChar.dressing.Name = null;
-							Eventi.Player.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Eventi.Player.CurrentChar.dressing));
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Bracciali = 0;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
+							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1933,7 +1933,7 @@ namespace NuovaGM.Client.Negozi
 				PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
 				float newheading = Game.PlayerPed.Heading + 180f;
 				Game.PlayerPed.Task.AchieveHeading(newheading, 1000);
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 			};
 			Orecc.OnMenuOpen += async (menu) =>
 			{
@@ -1966,7 +1966,7 @@ namespace NuovaGM.Client.Negozi
 
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				} while (fov < 45f);
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				Game.PlayerPed.Task.LookAt(NegozioAbitiClient.camm.Position);
 			};
 
@@ -2012,7 +2012,7 @@ namespace NuovaGM.Client.Negozi
 						return;
 				}
 				PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				StartAnim(anim, "try_shirt_base");
 			};
 			Brac.OnMenuOpen += async (menu) =>
@@ -2022,7 +2022,7 @@ namespace NuovaGM.Client.Negozi
 			Brac.OnMenuClose += async (menu) =>
 			{
 				PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				StartAnim(anim, "try_shirt_base");
 			};
 			Polso.OnMenuClose += async (menu) =>
@@ -2039,7 +2039,7 @@ namespace NuovaGM.Client.Negozi
 					NegozioAbitiClient.camm.FieldOfView = fov;
 				} while (fov < 45f);
 				StartAnim(anim, "try_shirt_base");
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 			};
 			MenuAccessori.OnMenuClose += async (_menu) =>
 			{
@@ -2048,7 +2048,7 @@ namespace NuovaGM.Client.Negozi
 				for (int i = 0; i < SubMenusPolso.Count; i++) if (SubMenusPolso[i].Visible) return;
 				if (Borse.Visible || Orecc.Visible || Brac.Visible || Polso.Visible || Orol.Visible || Capp.Visible || Orologino.Visible)
 					return;
-				await UpdateDress(Eventi.Player.CurrentChar.dressing);
+				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				AccessoriAttivo = false;
 				Client.GetInstance.DeregisterTickHandler(CameraAcc);

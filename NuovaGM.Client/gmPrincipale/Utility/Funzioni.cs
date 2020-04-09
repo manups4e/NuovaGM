@@ -37,6 +37,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return null;
 		}
 
+		public static PlayerChar GetPlayerData(this Player player)
+		{
+			return player == Game.Player ? Eventi.Player : GetPlayerCharFromServerId(player.ServerId);
+		}
+
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
 		{
 			var players = GetPlayersInArea(coord, radius);
@@ -133,9 +138,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// </summary>
 		/// <param name="ped"></param>
 		/// <returns></returns>
-		public static async Task<Tuple<int, string>> GetPedMugshotAsync(Ped ped)
+		public static async Task<Tuple<int, string>> GetPedMugshotAsync(Ped ped, bool transparent = false)
 		{
-			var mugshot = RegisterPedheadshot(ped.Handle);
+			int mugshot;
+			if (transparent)
+				mugshot = RegisterPedheadshotTransparent(ped.Handle);
+			mugshot = RegisterPedheadshot(ped.Handle);
 			while (!IsPedheadshotReady(mugshot))
 				await BaseScript.Delay(1);
 			string Txd = GetPedheadshotTxdString(mugshot);

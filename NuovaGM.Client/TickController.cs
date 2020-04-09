@@ -154,7 +154,7 @@ namespace NuovaGM.Client
 
 		private static async void ControlloLavori()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "polizia")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "polizia")
 			{
 				if (Medici)
 				{
@@ -177,7 +177,7 @@ namespace NuovaGM.Client
 					Polizia = true;
 				}
 			}
-			else if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			else if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Polizia)
 				{
@@ -194,7 +194,7 @@ namespace NuovaGM.Client
 					Medici = true;
 				}
 			}
-			else if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" && Eventi.Player.CurrentChar.job.name.ToLower() != "polizia")
+			else if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "medico" && Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "polizia")
 			{
 				if (Polizia)
 				{

@@ -125,7 +125,7 @@ namespace NuovaGM.Client.Telefono.Apps
 					if (MenuContatti[SelectedItem].Name == "Scrivi un Messaggio")
 					{
 						var msg = await HUD.GetUserInput("Inserisci un Messaggio", "", 100);
-						BaseScript.TriggerServerEvent("phone_server:receiveMessage", CurrentSubMenu.TelephoneNumber, Eventi.Player.FullName, GetPlayerName(PlayerId()), msg, GetPlayerServerId(Convert.ToInt32(Eventi.Player.source)));
+						BaseScript.TriggerServerEvent("phone_server:receiveMessage", CurrentSubMenu.TelephoneNumber, Game.Player.GetPlayerData().FullName, GetPlayerName(PlayerId()), msg, GetPlayerServerId(Convert.ToInt32(Game.Player.GetPlayerData().source)));
 					}
 					if (MenuContatti[SelectedItem].Name == "Chiama")
 						BaseScript.TriggerServerEvent("phoneServer:Chiama", CurrentSubMenu.TelephoneNumber);

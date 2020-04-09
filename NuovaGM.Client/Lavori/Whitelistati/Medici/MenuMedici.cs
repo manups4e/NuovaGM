@@ -26,7 +26,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			if (!Eventi.Player.InServizio)
+			if (!Game.Player.GetPlayerData().InServizio)
 				cambio = new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.");
 			else
 				cambio = new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
@@ -37,14 +37,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
-				Eventi.Player.Stanziato = true;
-				if (!Eventi.Player.InServizio) 
+				Game.Player.GetPlayerData().Stanziato = true;
+				if (!Game.Player.GetPlayerData().InServizio) 
 				{
 					foreach (var Grado in Client.Impostazioni.Lavori.Medici.Gradi)
 					{
-						if (Grado.Value.Id == Eventi.Player.CurrentChar.job.grade)
+						if (Grado.Value.Id == Game.Player.GetPlayerData().CurrentChar.job.grade)
 						{
-							switch (Eventi.Player.CurrentChar.skin.sex)
+							switch (Game.Player.GetPlayerData().CurrentChar.skin.sex)
 							{
 								case "Maschio":
 									CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -55,16 +55,16 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							}
 						}
 					}
-					Eventi.Player.InServizio = true;
+					Game.Player.GetPlayerData().InServizio = true;
 				}
 				else
 				{
-					Eventi.Player.InServizio = false;
-					await Funzioni.UpdateDress(Eventi.Player.CurrentChar.dressing);
+					Game.Player.GetPlayerData().InServizio = false;
+					await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				}
 				await BaseScript.Delay(500);
 				Screen.Fading.FadeIn(800);
-				Eventi.Player.Stanziato = false;
+				Game.Player.GetPlayerData().Stanziato = false;
 			};
 			spogliatoio.Visible = true;
 		}
@@ -140,15 +140,15 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		private static bool InGarage = false;
 		public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
 		{
-			Eventi.Player.Stanziato = true;
+			Game.Player.GetPlayerData().Stanziato = true;
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
 			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
 			Game.PlayerPed.Heading = 85.162f;
 			InGarage = true;
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)) <= 10)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade)) <= 10)
 			{
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)); i++)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -175,7 +175,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		{
 			foreach (var veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
 			for (int i = 0; i < LivelloGarageAttuali; i++)
 			{
@@ -195,7 +195,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		private static async Task ControlloGarage()
 		{
-			if (Eventi.Player.Stanziato)
+			if (Game.Player.GetPlayerData().Stanziato)
 			{
 				if (InGarage)
 				{
@@ -245,7 +245,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Eventi.Player.Stanziato = false;
+								Game.Player.GetPlayerData().Stanziato = false;
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.GetInstance.DeregisterTickHandler(ControlloGarage);
@@ -262,7 +262,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 			{
@@ -291,7 +291,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Eventi.Player.Stanziato = false;
+						Game.Player.GetPlayerData().Stanziato = false;
 						veicoliParcheggio.Clear();
 						Client.GetInstance.DeregisterTickHandler(ControlloGarage);
 					}

@@ -170,17 +170,17 @@ namespace NuovaGM.Client.gmPrincipale
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
 //          BaseScript.TriggerEvent("lprp:toggleCompass", true);
-			Eventi.Player.Stanziato = false;
+			Game.Player.GetPlayerData().Stanziato = false;
 			Game.PlayerPed.IsVisible = true;
 			spawned = true;
-			Eventi.Player.status.spawned = true;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Eventi.Player.CurrentChar.id);
+			Game.Player.GetPlayerData().status.spawned = true;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().CurrentChar.id);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
-			if (Eventi.Player.DeathStatus)
+			if (Game.Player.GetPlayerData().DeathStatus)
 			{
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				var now = DateTime.Now;
-				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Eventi.Player.FullName + " e' spawnato morto poiché è sloggato da morto");
+				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Game.Player.GetPlayerData().FullName + " e' spawnato morto poiché è sloggato da morto");
 				Game.PlayerPed.Health = -100;
 			}
 			Peds();
@@ -205,7 +205,7 @@ namespace NuovaGM.Client.gmPrincipale
 				Game.PlayerPed.Style.SetDefaultClothes();
 				Game.PlayerPed.SetDecor(Main.decorName, Main.decorInt);
 				Game.PlayerPed.IsVisible = false;
-				Eventi.Player.Stanziato = true;
+				Game.Player.GetPlayerData().Stanziato = true;
 				Game.PlayerPed.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
@@ -533,7 +533,7 @@ namespace NuovaGM.Client.gmPrincipale
 		public static async Task AFK()
 		{
 			await BaseScript.Delay(wait);
-			if (Eventi.Player.group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if (Game.Player.GetPlayerData().group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 				currentPosition = Game.PlayerPed.Position;
 				if (World.GetDistance(currentPosition, previousPosition) < .8f && !abort)
@@ -594,9 +594,9 @@ namespace NuovaGM.Client.gmPrincipale
 
 		private static async Task Istanza()
 		{
-			if (Eventi.Player != null)
+			if (Game.Player.GetPlayerData() != null)
 			{
-				if (Eventi.Player.Stanziato) Funzioni.ConcealAllPlayers();
+				if (Game.Player.GetPlayerData().Stanziato) Funzioni.ConcealAllPlayers();
 				else Funzioni.RevealAllPlayers();
 			}
 			await BaseScript.Delay(10000);

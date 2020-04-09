@@ -71,9 +71,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		{
 			MenuPool.ProcessMenus();
 			if (TimerBarPool.TimerBars.Count > 0)
-			{
 				TimerBarPool.Draw();
-			}
 			await Task.FromResult(0);
 		}
 
@@ -106,9 +104,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			string[] strings = Screen.StringToArray(msg);
 			BeginTextCommandThefeedPost("CELL_EMAIL_BCON");
 			foreach (string s in strings)
-			{
 				AddTextComponentSubstringPlayerName(s);
-			}
 			ThefeedNextPostBackgroundColor((int)color);
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
@@ -124,9 +120,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 				string[] strings = Screen.StringToArray(helpText);
 				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
 				foreach (string s in strings)
-				{
 					AddTextComponentSubstringPlayerName(s);
-				}
 				EndTextCommandDisplayHelp(0, false, true, 1);
 			}
 		}

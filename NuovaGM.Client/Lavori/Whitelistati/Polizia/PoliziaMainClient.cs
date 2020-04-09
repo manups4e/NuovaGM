@@ -43,14 +43,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			Eventi.Player.ammanettato = !Eventi.Player.ammanettato;
+			Game.Player.GetPlayerData().ammanettato = !Game.Player.GetPlayerData().ammanettato;
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
-			if (Eventi.Player.ammanettato)
+			if (Game.Player.GetPlayerData().ammanettato)
 			{
 				Game.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), true);
-				if (Eventi.Player.CurrentChar.skin.sex == "Femmina")
+				if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Femmina")
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 25, 0, 0);
 				else
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 41, 0, 0);
@@ -61,13 +61,13 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				Game.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
-				SetPedComponentVariation(Game.PlayerPed.Handle, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Accessori, Eventi.Player.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetPedComponentVariation(Game.PlayerPed.Handle, Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Accessori, Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
 			}
 		}
 
 		public static async Task MarkersPolizia()
 		{
-			if (Eventi.Player.CurrentChar.job.name == "Polizia")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name == "Polizia")
 			{
 				for (int stazione=0; stazione < Client.Impostazioni.Lavori.Polizia.Config.Stazioni.Count; stazione++)
 				{
@@ -178,7 +178,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							}
 						}
 					}
-					if (Eventi.Player.CurrentChar.job.grade == Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1)
+					if (Game.Player.GetPlayerData().CurrentChar.job.grade == Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1)
 					{
 						for (int boss = 0; boss < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo.Count; boss++)
 						{
@@ -330,7 +330,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MainTickPolizia()
 		{
-			if (Eventi.Player.CurrentChar.job.name == "Polizia")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name == "Polizia")
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen())
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);

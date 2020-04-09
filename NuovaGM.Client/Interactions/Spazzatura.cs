@@ -87,13 +87,13 @@ namespace NuovaGM.Client.Interactions
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 				{
-					if (Eventi.Player.getCharInventory(Eventi.Player.char_current).Count > 0)
+					if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
 					{
 						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");
 						HUD.MenuPool.Add(GettaMenu);
-						for (int i = 0; i < Eventi.Player.getCharInventory(Eventi.Player.char_current).Count; i++)
+						for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
 						{
-							Inventory item = Eventi.Player.getCharInventory(Eventi.Player.char_current)[i];
+							Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
 							if (item.amount > 0)
 							{
 								if (SharedScript.ItemList[item.item].drop.drop)

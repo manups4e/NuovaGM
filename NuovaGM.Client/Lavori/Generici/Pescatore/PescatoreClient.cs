@@ -116,7 +116,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 		{
 			if (Main.spawned)
 			{
-				if (PerVendereIlPesce.Any(o => Eventi.Player.getInventoryItem(o).Item1))
+				if (PerVendereIlPesce.Any(o => Game.Player.GetPlayerData().getInventoryItem(o).Item1))
 				{
 					if (!mostrablip)
 					{
@@ -186,7 +186,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			{
 				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
 				HUD.MenuPool.Add(venditaPesce);
-				List<Inventory> inventario = Eventi.Player.CurrentChar.inventory;
+				List<Inventory> inventario = Game.Player.GetPlayerData().CurrentChar.inventory;
 				foreach (var inv in inventario)
 				{
 					foreach (string s in PerVendereIlPesce)
@@ -225,7 +225,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 								else if (Convert.ToInt32(quantita) > 99)
 									perc = 20;
 
-								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10))) / 100;
+								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Game.Player.GetPlayerData().CurrentChar.statistiche.FISHING / 10))) / 100;
 								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 								BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
 							};
@@ -371,7 +371,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				HUD.MenuPool.CloseAllMenus();
 				if (veh.Exists()) veh.Delete();
 				Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
-				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(PuntiPesca.Barche[index], newveh.Mods.LicensePlate, newveh.Model.Hash, newveh.Handle, Eventi.Player.FullName);
+				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(PuntiPesca.Barche[index], newveh.Mods.LicensePlate, newveh.Model.Hash, newveh.Handle, Game.Player.GetPlayerData().FullName);
 				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", JsonConvert.SerializeObject(vehlav));
 			};
 			Barche.Visible = true;

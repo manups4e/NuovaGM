@@ -48,7 +48,7 @@ namespace NuovaGM.Client.Interactions
 					HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
 					if (Input.IsControlJustPressed(Control.VehicleHorn))
 					{
-						if (Eventi.Player.Money > 5f)
+						if (Game.Player.GetPlayerData().Money > 5f)
 						{
 							if (Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Boats
 							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Cycles

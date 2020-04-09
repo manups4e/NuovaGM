@@ -14,7 +14,6 @@ namespace NuovaGM.Server.TimeWeather
 //		private static int m;
 //		private static int s;
 		public static int secondOfDay = (new Random().Next(0, 23) * 3600) + (new Random().Next(0, 59) * 60) + new Random().Next(0, 59);
-
 		public static bool frozen = false;
 
 		public static void Init()

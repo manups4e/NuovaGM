@@ -67,22 +67,22 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			UIMenuItem Uniforme = new UIMenuItem("");
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
-			if (!Eventi.Player.InServizio && !PoliziaMainClient.InServizioDaPilota)
+			if (!Game.Player.GetPlayerData().InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (!Eventi.Player.InServizio && PoliziaMainClient.InServizioDaPilota)
+			else if (!Game.Player.GetPlayerData().InServizio && PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Rimuovi la tuta da Pilota", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 			}
-			else if (Eventi.Player.InServizio && !PoliziaMainClient.InServizioDaPilota)
+			else if (Game.Player.GetPlayerData().InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Rimuovi l'uniforme", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (Eventi.Player.InServizio || PoliziaMainClient.InServizioDaPilota)
+			else if (Game.Player.GetPlayerData().InServizio || PoliziaMainClient.InServizioDaPilota)
 			{
 				if (Game.PlayerPed.Armor < 1)
 					Giubbotto = new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita");
@@ -97,18 +97,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
-				Eventi.Player.Stanziato = true;
+				Game.Player.GetPlayerData().Stanziato = true;
 				if (item == Uniforme)
 				{
-					if (!Eventi.Player.InServizio)
+					if (!Game.Player.GetPlayerData().InServizio)
 					{
 						foreach (var Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
 						{
-							if (Eventi.Player.CurrentChar.job.name == "Polizia")
+							if (Game.Player.GetPlayerData().CurrentChar.job.name == "Polizia")
 							{
-								if (Grado.Value.Id == Eventi.Player.CurrentChar.job.grade)
+								if (Grado.Value.Id == Game.Player.GetPlayerData().CurrentChar.job.grade)
 								{
-									switch (Eventi.Player.CurrentChar.skin.sex)
+									switch (Game.Player.GetPlayerData().CurrentChar.skin.sex)
 									{
 										case "Maschio":
 											CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -120,17 +120,17 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								}
 							}
 						}
-						Eventi.Player.InServizio = true;
+						Game.Player.GetPlayerData().InServizio = true;
 					}
 					else
 					{
-						await Funzioni.UpdateDress(Eventi.Player.CurrentChar.dressing);
-						Eventi.Player.InServizio = false;
+						await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+						Game.Player.GetPlayerData().InServizio = false;
 					}
 				}
 				else if (item == Pilota)
 				{
-					switch (Eventi.Player.CurrentChar.skin.sex)
+					switch (Game.Player.GetPlayerData().CurrentChar.skin.sex)
 					{
 						case "Maschio":
 							CambiaVestito(new AbitiLav() 
@@ -166,7 +166,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					}
 
 				}
-				Eventi.Player.Stanziato = false;
+				Game.Player.GetPlayerData().Stanziato = false;
 				await BaseScript.Delay(500);
 				Screen.Fading.FadeIn(800);
 				menu.RefreshIndex();
@@ -257,15 +257,15 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						UIMenuItem dDN = new UIMenuItem("Data di Nascita");
 						dDN.SetRightLabel(player.DOB);
 						UIMenuItem sesso = new UIMenuItem("Sesso");
-						sesso.SetRightLabel(player.CurrentChar.skin.sex);
+						sesso.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.skin.sex);
 						UIMenuItem altezza = new UIMenuItem("Altezza");
-						altezza.SetRightLabel(player.CurrentChar.info.height + "cm");
+						altezza.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.info.height + "cm");
 						UIMenuItem job = new UIMenuItem("Occupazione Attuale");
-						job.SetRightLabel(player.CurrentChar.job.name);
+						job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
 						UIMenuItem telefono = new UIMenuItem("N° di Telefono");
-						telefono.SetRightLabel("" + player.CurrentChar.info.phoneNumber);
+						telefono.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
 						UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
-						assicurazione.SetRightLabel("" + player.CurrentChar.info.insurance);
+						assicurazione.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
 						UIMenuItem nomePlayer = new UIMenuItem("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
 						nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
 						DatiPlayer.AddItem(nomeCognome);
@@ -302,11 +302,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					float distance = Player_Distance.Item2;
 					if (distance < 3f)
 					{
-						if (Eventi.Player.getCharInventory(Eventi.Player.char_current).Count > 0)
+						if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
 						{
-							for (int i = 0; i < Eventi.Player.getCharInventory(Eventi.Player.char_current).Count; i++)
+							for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
 							{
-								Inventory item = Eventi.Player.getCharInventory(Eventi.Player.char_current)[i];
+								Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
 								if (item.amount > 0)
 								{
 									UIMenuItem oggetto = new UIMenuItem(item.item);
@@ -791,15 +791,15 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		private static bool InGarage = false;
 		public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
 		{
-			Eventi.Player.Stanziato = true;
+			Game.Player.GetPlayerData().Stanziato = true;
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
 			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
 			Game.PlayerPed.Heading = 85.162f;
 			InGarage = true;
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)) <= 10)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade)) <= 10)
 			{
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade)); i++)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -826,7 +826,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		{
 			foreach (var veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage*10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
 			for (int i = 0; i < LivelloGarageAttuali; i++)
 			{
@@ -852,7 +852,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloGarageNew()
 		{
-			if (Eventi.Player.Stanziato)
+			if (Game.Player.GetPlayerData().Stanziato)
 			{
 				if (InGarage)
 				{
@@ -902,7 +902,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Eventi.Player.Stanziato = false;
+								Game.Player.GetPlayerData().Stanziato = false;
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
@@ -919,7 +919,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Eventi.Player.CurrentChar.job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Game.Player.GetPlayerData().CurrentChar.job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto+1; i++)
 			{
@@ -951,7 +951,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Eventi.Player.Stanziato = false;
+						Game.Player.GetPlayerData().Stanziato = false;
 						veicoliParcheggio.Clear();
 						Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
 					}

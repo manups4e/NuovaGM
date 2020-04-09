@@ -396,32 +396,32 @@ namespace NuovaGM.Client.Personale
 					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
-						if (Eventi.Player.CurrentChar.needs.fame > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.fame > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.fame > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
+						if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 
-						if (Eventi.Player.CurrentChar.needs.sete > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.sete > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.sete > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
+						if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 
-						if (Eventi.Player.CurrentChar.needs.stanchezza > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.stanchezza > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-						else if (Eventi.Player.CurrentChar.needs.stanchezza > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
+						if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+						else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 					}
 					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 						Game.PlayerPed.Task.ClearAll();
@@ -440,8 +440,8 @@ namespace NuovaGM.Client.Personale
 					if (Input.IsControlPressed(Control.FrontendLeft, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterMichael, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendRight);
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Eventi.Player.CurrentChar.finance.cash + "$");
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "Soldi Sporchi = ~r~" + Eventi.Player.CurrentChar.finance.dirtyCash + "$");
+						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Game.Player.GetPlayerData().CurrentChar.finance.cash + "$");
+						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "Soldi Sporchi = ~r~" + Game.Player.GetPlayerData().CurrentChar.finance.dirtyCash + "$");
 					}
 				}
 			}

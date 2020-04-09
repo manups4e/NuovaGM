@@ -104,7 +104,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			{
 				if (EarlyRespawnFine)
 				{
-					if (Eventi.Player.Money >= EarlyRespawnFineAmount)
+					if (Game.Player.GetPlayerData().Money >= EarlyRespawnFineAmount)
 					{
 						canPayFine = true;
 					}

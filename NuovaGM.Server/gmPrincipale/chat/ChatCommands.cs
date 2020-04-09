@@ -753,7 +753,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void FreezeTime(int sender, List<dynamic> args, string rawCommand)
 		{
-/*			int h = (int)Math.Floor(TimeWeather.Orario.secondOfDay / 3600f);
+			int h = (int)Math.Floor(TimeWeather.Orario.secondOfDay / 3600f);
 			int m = (int)Math.Floor((TimeWeather.Orario.secondOfDay - (h * 3600)) / 60f);
 			bool freeze = false;
 			if (args[0] == "true" || args[0] == "1")
@@ -777,7 +777,7 @@ namespace NuovaGM.Server.gmPrincipale
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
 				}
 			}
-*/		}
+		}
 
 		public static void Weather(int sender, List<dynamic> args, string rawCommand)
 		{

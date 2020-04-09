@@ -62,7 +62,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async void LoadModel()
 		{
-			uint hash = (uint)GetHashKey(Player.CurrentChar.skin.model);
+			uint hash = (uint)GetHashKey(Game.Player.GetPlayerData().CurrentChar.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash))
 			{
@@ -70,8 +70,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 
 			SetPlayerModel(PlayerId(), hash);
-			await Funzioni.UpdateFace(Player.CurrentChar.skin);
-			await Funzioni.UpdateDress(Player.CurrentChar.dressing);
+			await Funzioni.UpdateFace(Game.Player.GetPlayerData().CurrentChar.skin);
+			await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 			BaseScript.TriggerEvent("lprp:restoreWeapons");
 			BaseScript.TriggerEvent("lprp:StartLocationSave");
 		}
@@ -80,7 +80,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Player = JsonConvert.DeserializeObject<PlayerChar>(data);
 			DisplayRadar(false);
-			Eventi.Player.Stanziato = true;
+			Player.Stanziato = true;
 			Main.charSelect();
 		}
 
@@ -330,7 +330,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static void RestoreWeapons()
 		{
 			Dictionary<int, bool> ammoTypes = new Dictionary<int, bool>();
-			if (Player.CurrentChar.weapons.Count > 0)
+			if (Game.Player.GetPlayerData().CurrentChar.weapons.Count > 0)
 			{
 				Game.PlayerPed.Weapons.RemoveAll();
 				for (int i = 0; i < Player.getCharWeapons(Player.char_current).Count; i++)

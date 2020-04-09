@@ -169,13 +169,13 @@ namespace NuovaGM.Client.Manager
 		public static async Task AC()
 		{
 			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen())
-				ManagerMenu.AdminMenu(Eventi.Player.group_level);
-			if (Eventi.Player != null && Eventi.Player.group_level > 1)
+				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
+			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
 			{
 				if (Input.IsControlJustPressed(Control.SaveReplayClip, PadCheck.Keyboard))
 					TeleportToMarker();
 			}
-			if (Eventi.Player != null && Eventi.Player.group_level > 3)
+			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 3)
 			{
 				if (Input.IsControlJustPressed(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard))
 				{

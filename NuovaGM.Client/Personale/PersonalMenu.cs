@@ -259,18 +259,18 @@ namespace NuovaGM.Client.Personale
 			UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
 			UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
 			UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-			name.SetRightLabel(Eventi.Player.FullName);
-			dob.SetRightLabel(Eventi.Player.DOB);
-			alt.SetRightLabel("" + Eventi.Player.CurrentChar.info.height);
-			nTel.SetRightLabel("" + Eventi.Player.CurrentChar.info.phoneNumber);
-			nAss.SetRightLabel("" + Eventi.Player.CurrentChar.info.insurance);
+			name.SetRightLabel(Game.Player.GetPlayerData().FullName);
+			dob.SetRightLabel(Game.Player.GetPlayerData().DOB);
+			alt.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.height);
+			nTel.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
+			nAss.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
 			//
-			//job.Label = SharedScript.Jobs[Eventi.Player.CurrentChar.job.name].label;
-			//gang.Label = SharedScript.Gangs[Eventi.Player.CurrentChar.job.name].label;
+			//job.Label = SharedScript.Jobs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
+			//gang.Label = SharedScript.Gangs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
 			//
-			job.SetRightLabel(Eventi.Player.CurrentChar.job.name);
-			gang.SetRightLabel(Eventi.Player.CurrentChar.gang.name);
-			bank.SetRightLabel("~g~$" + Eventi.Player.Bank);
+			job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
+			gang.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.gang.name);
+			bank.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Bank);
 			datiPers.AddItem(name);
 			datiPers.AddItem(dob);
 			datiPers.AddItem(alt);
@@ -279,11 +279,11 @@ namespace NuovaGM.Client.Personale
 			datiPers.AddItem(job);
 			datiPers.AddItem(gang);
 			UIMenu money = HUD.MenuPool.AddSubMenu(datiPers, "Soldi: ", "I suoi soldi");
-			money.ParentItem.SetRightLabel("~g~$" + Eventi.Player.Money);
+			money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
 			money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 			datiPers.AddItem(bank);
 			UIMenu dirty = HUD.MenuPool.AddSubMenu(datiPers, "Soldi Sporchi: ", "I soldi sporchi");
-			dirty.ParentItem.SetRightLabel("~r~$" + Eventi.Player.DirtyMoney);
+			dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
 			dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 
 			UIMenu daiMoney = HUD.MenuPool.AddSubMenu(money, "Dai a qualcuno", "A chi?");
@@ -363,11 +363,11 @@ namespace NuovaGM.Client.Personale
 
 			UIMenu Inventory = pool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
 			int rimozione = 5;
-			if (Eventi.Player.getCharInventory(Eventi.Player.char_current).Count > 0)
+			if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
 			{
-				for (int i = 0; i < Eventi.Player.getCharInventory(Eventi.Player.char_current).Count; i++)
+				for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
 				{
-					Inventory item = Eventi.Player.getCharInventory(Eventi.Player.char_current)[i];
+					Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
 					if (item.amount > 0)
 					{
 						UIMenu newItemMenu = pool.AddSubMenu(Inventory, SharedScript.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + SharedScript.ItemList[item.item].description);
@@ -445,11 +445,11 @@ namespace NuovaGM.Client.Personale
 			}
 
 			UIMenu weapMenu = pool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
-			if (Eventi.Player.getCharWeapons(Eventi.Player.char_current).Count > 0)
+			if (Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count > 0)
 			{
-				for (int i = 0; i < Eventi.Player.getCharWeapons(Eventi.Player.char_current).Count; i++)
+				for (int i = 0; i < Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count; i++)
 				{
-					Weapons armi = Eventi.Player.getCharWeapons(Eventi.Player.char_current)[i];
+					Weapons armi = Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current)[i];
 					UIMenu arma = pool.AddSubMenu(weapMenu, GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Munizioni: " + armi.ammo);
 					if (armi.components.Count > 0)
 					{
@@ -470,7 +470,7 @@ namespace NuovaGM.Client.Personale
 										List<Weapons> armiAgg = new List<Weapons>();
 										List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 										armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
-										Eventi.Player.CurrentChar.weapons = armiAgg;
+										Game.Player.GetPlayerData().CurrentChar.weapons = armiAgg;
 										BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
 										if (_checked)
 										{
@@ -1308,7 +1308,7 @@ namespace NuovaGM.Client.Personale
 
 			#region Gangs
 			UIMenu bandeCriminali = pool.AddSubMenu(PersonalMenu, "Bande criminali", "Fonda e gestisti la tua banda criminale!");
-			if (Eventi.Player.CurrentChar.gang.name == "Incensurato")
+			if (Game.Player.GetPlayerData().CurrentChar.gang.name == "Incensurato")
 			{
 				UIMenuItem diventaBoss = new UIMenuItem("Diventa Boss di una Banda!", "Baciamo le mani.");
 				List<dynamic> lavoro = new List<dynamic>() { "No", "Si" };
@@ -1320,7 +1320,7 @@ namespace NuovaGM.Client.Personale
 
 				diventaBoss.Activated += async (menu, item) =>
 				{
-					if (Eventi.Player.Bank > 5000)
+					if (Game.Player.GetPlayerData().Bank > 5000)
 					{
 						if (Main.GangsAttive.Count < 3)
 						{
@@ -1340,7 +1340,7 @@ namespace NuovaGM.Client.Personale
 			}
 			else
 			{
-				if (Eventi.Player.CurrentChar.gang.grade > 4)
+				if (Game.Player.GetPlayerData().CurrentChar.gang.grade > 4)
 				{
 					UIMenu assumi = pool.AddSubMenu(bandeCriminali, "Assumi membri");
 					UIMenu gestione = pool.AddSubMenu(bandeCriminali, "Gestione banda");
@@ -1350,8 +1350,8 @@ namespace NuovaGM.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						Main.GangsAttive.Remove(Eventi.Player.CurrentChar.gang);
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{Eventi.Player.CurrentChar.gang.name}~w~.");
+						Main.GangsAttive.Remove(Game.Player.GetPlayerData().CurrentChar.gang);
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", JsonConvert.SerializeObject(new Gang("Incensurato", 0)));
 					};
@@ -1363,7 +1363,7 @@ namespace NuovaGM.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{Eventi.Player.CurrentChar.gang.name}~w~.");
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", JsonConvert.SerializeObject(new Gang("Incensurato", 0)));
 					};
@@ -1383,7 +1383,7 @@ namespace NuovaGM.Client.Personale
 				switch (var) 
 				{
 					case "Medicine":
-						if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill");
 						else
 							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill_fp");
@@ -1391,7 +1391,7 @@ namespace NuovaGM.Client.Personale
 					case "Pistola":
 						Game.PlayerPed.Weapons.Give(WeaponHash.Pistol, 1, true, true);
 						string anim = "";
-						if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
+						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							anim = "PISTOL";
 						else
 							anim = "PISTOL_FP";
@@ -1412,34 +1412,34 @@ namespace NuovaGM.Client.Personale
 
 		private static async Task AggiornaSalute()
 		{
-			if (Eventi.Player.CurrentChar.needs.fame > 30f)
-				fa.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.fame > 60f)
-				fa.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.fame > 90f)
-				fa.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
+			if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 30f)
+				fa.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 60f)
+				fa.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 90f)
+				fa.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 			else
-				fa.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.fame, 2) + "%");
+				fa.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 
-			if (Eventi.Player.CurrentChar.needs.sete > 30f)
-				se.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.sete > 60f)
-				se.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.sete > 90f)
-				se.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
+			if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 30f)
+				se.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 60f)
+				se.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 90f)
+				se.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 			else
-				se.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.sete, 2) + "%");
+				se.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 
-			if (Eventi.Player.CurrentChar.needs.stanchezza > 30f)
-				st.SetRightLabel("~y~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.stanchezza > 60f)
-				st.SetRightLabel("~o~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
-			else if (Eventi.Player.CurrentChar.needs.stanchezza > 90f)
-				st.SetRightLabel("~r~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
+			if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
+				st.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
+				st.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
+				st.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 			else
-				st.SetRightLabel("~g~" + Math.Round(Eventi.Player.CurrentChar.needs.stanchezza, 2) + "%");
+				st.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 
-			if (Eventi.Player.CurrentChar.needs.malattia)
+			if (Game.Player.GetPlayerData().CurrentChar.needs.malattia)
 				ma.SetRightLabel("~r~In malattia");
 			else
 				ma.SetRightLabel("~g~In Salute");

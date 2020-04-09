@@ -76,11 +76,11 @@ namespace NuovaGM.Client.Proprietà.Hotel
 			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
-			stanzaPiccola.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola || Eventi.Player.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
+			stanzaPiccola.SetRightLabel((Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaPiccola || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
 			UIMenuItem stanzaMedia = new UIMenuItem("Stanza Media", "Costa un po' di più.. ed è un po' più confortevole");
-			stanzaMedia.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.StanzaMedia || Eventi.Player.Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
+			stanzaMedia.SetRightLabel((Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaMedia || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
 			UIMenuItem appartamento = new UIMenuItem("Appartamento", "Vorresti viverci.. ma prima o poi dovrai andartene!");
-			appartamento.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.Appartamento || Eventi.Player.Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
+			appartamento.SetRightLabel((Game.Player.GetPlayerData().Money >= hotel.Prezzi.Appartamento || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
 			HotelMenu.AddItem(stanzaPiccola);
 			HotelMenu.AddItem(stanzaMedia);
 			HotelMenu.AddItem(appartamento);	
@@ -90,9 +90,9 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				Vector3 pos = new Vector3(0);
 				if (item == stanzaPiccola)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola || Eventi.Player.Bank >= hotel.Prezzi.StanzaPiccola)
+					if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaPiccola || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.StanzaPiccola)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola)
+						if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaPiccola)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaPiccola);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaPiccola);
@@ -104,9 +104,9 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				}
 				else if (item == stanzaMedia)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia || Eventi.Player.Bank >= hotel.Prezzi.StanzaMedia)
+					if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaMedia || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.StanzaMedia)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia)
+						if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.StanzaMedia)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaMedia);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaMedia);
@@ -118,9 +118,9 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				}
 				else if (item == appartamento)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.Appartamento || Eventi.Player.Bank >= hotel.Prezzi.Appartamento)
+					if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.Appartamento || Game.Player.GetPlayerData().Bank >= hotel.Prezzi.Appartamento)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.Appartamento)
+						if (Game.Player.GetPlayerData().Money >= hotel.Prezzi.Appartamento)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.Appartamento);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.Appartamento);
@@ -138,8 +138,8 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
-				Eventi.Player.Stanziato = true;
-				Eventi.Player.InCasa = true;
+				Game.Player.GetPlayerData().Stanziato = true;
+				Game.Player.GetPlayerData().InCasa = true;
 				Screen.Fading.FadeIn(800);
 				Client.GetInstance.RegisterTickHandler(GestioneHotel);
 			};
@@ -165,8 +165,8 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							Eventi.Player.InCasa = false;
-							Eventi.Player.Stanziato = false;
+							Game.Player.GetPlayerData().InCasa = false;
+							Game.Player.GetPlayerData().Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -187,8 +187,8 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							Eventi.Player.InCasa = false;
-							Eventi.Player.Stanziato = false;
+							Game.Player.GetPlayerData().InCasa = false;
+							Game.Player.GetPlayerData().Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -209,8 +209,8 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							Eventi.Player.InCasa = false;
-							Eventi.Player.Stanziato = false;
+							Game.Player.GetPlayerData().InCasa = false;
+							Game.Player.GetPlayerData().Stanziato = false;
 							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

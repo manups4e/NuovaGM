@@ -514,7 +514,7 @@ namespace NuovaGM.Client.Manager
 			};
 			#endregion
 
-			if (Eventi.Player.group_level < 2)
+			if (Game.Player.GetPlayerData().group_level < 2)
 			{
 				Meteo.ParentItem.Enabled = false;
 				Meteo.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
@@ -528,7 +528,7 @@ namespace NuovaGM.Client.Manager
 				Meteo.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
 				Orario.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
 			}
-			if (Eventi.Player.group_level < 5)
+			if (Game.Player.GetPlayerData().group_level < 5)
 			{
 				Oggetti.ParentItem.Enabled = false;
 				Oggetti.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";

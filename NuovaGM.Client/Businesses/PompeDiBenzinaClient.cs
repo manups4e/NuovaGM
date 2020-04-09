@@ -196,7 +196,7 @@ namespace NuovaGM.Client.Businesses
 					World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(stations[i].ppos[0], stations[i].ppos[1], stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 					if (dist < 1.3f)
 					{
-						if (stationinfo.ownerchar.ToLower() == Eventi.Player.FullName.ToLower())
+						if (stationinfo.ownerchar.ToLower() == Game.Player.GetPlayerData().FullName.ToLower())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 							if (!interactWait)

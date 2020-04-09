@@ -44,7 +44,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		private static async void Aggiungi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
 				pl.Character.AttachBlip();
 				pl.Character.AttachedBlip.Sprite = BlipSprite.Deathmatch;
@@ -59,7 +59,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		private static async void Rimuovi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Morti.ContainsKey(pl.Character))
 				{
@@ -77,7 +77,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersMedici()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -243,7 +243,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersNonMedici()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" || Eventi.Player.CurrentChar.job.name.ToLower() != "medici")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "medico" || Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "medici")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -393,9 +393,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 
 		public static async Task BlipMorti()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Eventi.Player.InServizio)
+				if (Game.Player.GetPlayerData().InServizio)
 					foreach(var morto in Morti)
 						morto.Value.Alpha = 255;
 				else
