@@ -70,8 +70,8 @@ namespace NuovaGM.Server
 		{
 			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
 			return ParseRequestResponseInternal(
-					await Exports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
-				);
+				await Exports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
+			);
 		}
 
 		private WebHeaderCollection ParseHeadersInternal(dynamic headerDyn)

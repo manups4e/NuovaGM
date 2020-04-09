@@ -240,6 +240,7 @@
     <Compile Include="Interactions\Prostitute.cs" />
     <Compile Include="Sport\Yoga.cs" />
     <Compile Include="TimeWeather\Meteo.cs" />
+    <Compile Include="TimeWeather\Orario.cs" />
     <Compile Include="Veicoli\AffittoBarche.cs" />
     <Compile Include="Veicoli\Assicurazione.cs" />
     <Compile Include="Veicoli\Bagagliaio.cs" />

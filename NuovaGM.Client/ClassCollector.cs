@@ -24,6 +24,9 @@ namespace NuovaGM.Client
 			gmPrincipale.Voice.Init();
 			gmPrincipale.Discord.Init();
 
+			TimeWeather.Meteo.Init();
+			TimeWeather.Orario.Init();
+
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
 			Lavori.Generici.Pescatore.PescatoreClient.Init();

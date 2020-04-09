@@ -8,6 +8,7 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Personale;
+using System.Linq;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -198,7 +199,11 @@ namespace NuovaGM.Client.Veicoli
 		public static async void AddFuelToVeh(bool success, string msg, int fuelval)
 		{
 			if (success)
+			{
 				SetVehicleFuelLevel(LastVehicle, fuelval);
+				if(LastVehicle.PassengerCount > 0)
+					LastVehicle.Passengers.ToList().ForEach(x => SetVehicleFuelLevel(x.CurrentVehicle, fuelval));
+			}
 			if (msg != null)
 				HUD.ShowNotification(msg, true);
 		}

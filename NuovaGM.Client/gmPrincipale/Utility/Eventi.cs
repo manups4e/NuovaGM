@@ -177,7 +177,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async void SpawnVehicle(string model)
 		{
 			Vector3 coords = Game.PlayerPed.Position;
-			await Funzioni.SpawnVehicle(model, coords, Game.PlayerPed.Heading);
+			var Veh = await Funzioni.SpawnVehicle(model, coords, Game.PlayerPed.Heading);
+			Veh.PreviouslyOwnedByPlayer = true;
 		}
 
 		public static void DeleteVehicle()
