@@ -50,6 +50,14 @@ namespace NuovaGM.Shared
 		public float limiteArea;
 	}
 
+	public class Towing
+	{
+		public float[] InizioLavoro = new float[3];
+		public List<float[]> PuntiDespawn = new List<float[]>();
+		public List<string> VeicoliDaRimorchiare = new List<string>();
+		public List<float[]> SpawnVeicoli = new List<float[]>();
+	}
+
 	public class WhiteListed
 	{
 		public ConcurrentDictionary<string, JobGrade> Polizia = new ConcurrentDictionary<string, JobGrade>();

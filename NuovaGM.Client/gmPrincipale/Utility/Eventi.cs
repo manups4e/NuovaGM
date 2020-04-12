@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.Negozi;
@@ -7,7 +8,6 @@ using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
@@ -178,7 +178,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Vector3 coords = Game.PlayerPed.Position;
 			var Veh = await Funzioni.SpawnVehicle(model, coords, Game.PlayerPed.Heading);
-			Veh.PreviouslyOwnedByPlayer = true;
+			if (Veh != null)
+				Veh.PreviouslyOwnedByPlayer = true;
 		}
 
 		public static void DeleteVehicle()

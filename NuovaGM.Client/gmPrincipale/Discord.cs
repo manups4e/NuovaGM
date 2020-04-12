@@ -29,7 +29,7 @@ namespace NuovaGM.Client.gmPrincipale
 			string NomeAngolo = GetStreetNameFromHashKey(StreetAngolo);
 			if (!Main.spawned)
 			{
-				if (Menus.CharSelection.Visible)
+				if (NuovoIngresso.NuovoIngresso.guiEnabled)
 					SetRichPresence("Sta selezionando un personaggio");
 				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
 					SetRichPresence("Sta creando un personaggio");

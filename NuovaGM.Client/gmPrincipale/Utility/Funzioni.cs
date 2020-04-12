@@ -27,6 +27,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return null;
 		}
 
+		public static void SendNuiMessage(object message)
+		{
+			API.SendNuiMessage(JsonConvert.SerializeObject(message));
+		}
 		public static PlayerChar GetPlayerCharFromServerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)

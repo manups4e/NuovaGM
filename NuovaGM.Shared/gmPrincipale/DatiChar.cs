@@ -61,7 +61,7 @@ namespace NuovaGM.Shared
 			info.height = data["info"].Value<int>("height");
 			info.phoneNumber = data["info"].Value<long>("phoneNumber");
 			info.insurance = data["info"].Value<long>("insurance");
-			finance.cash = data["finance"].Value<int>("cash");
+			finance.money = data["finance"].Value<int>("cash");
 			finance.bank = data["finance"].Value<int>("bank");
 			finance.dirtyCash = data["finance"].Value<int>("dirtyCash");
 			job.name = data["job"].Value<string>("name");
@@ -349,7 +349,7 @@ namespace NuovaGM.Shared
 
 	public class Finance
 	{
-		public int cash { get; set; } = 1000;
+		public int money { get; set; } = 1000;
 		public int bank { get; set; } = 3000;
 		public int dirtyCash { get; set; } = 0;
 
@@ -357,7 +357,7 @@ namespace NuovaGM.Shared
 
 		public Finance(int cash, int bank, int dirtyCash)
 		{
-			this.cash = cash;
+			this.money = cash;
 			this.bank = bank;
 			this.dirtyCash = dirtyCash;
 		}

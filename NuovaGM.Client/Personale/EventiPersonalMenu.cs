@@ -440,8 +440,8 @@ namespace NuovaGM.Client.Personale
 					if (Input.IsControlPressed(Control.FrontendLeft, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterMichael, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendRight);
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Game.Player.GetPlayerData().CurrentChar.finance.cash + "$");
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "Soldi Sporchi = ~r~" + Game.Player.GetPlayerData().CurrentChar.finance.dirtyCash + "$");
+						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Game.Player.GetPlayerData().Money + "$");
+						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "Soldi Sporchi = ~r~" + Game.Player.GetPlayerData().DirtyMoney + "$");
 					}
 				}
 			}

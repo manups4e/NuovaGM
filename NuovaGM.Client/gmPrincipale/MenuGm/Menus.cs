@@ -109,16 +109,19 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static Camera cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 		static Scaleform board_scalep1 = new Scaleform("mugshot_board_01");
 		static int handle1;
+		static string a;
+		static string b;
+		static string c;
+		static string d;
 		static Char_data data;
 		static Camera ncam;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.GetInstance.RegisterEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
 			Client.GetInstance.RegisterEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
-			Client.GetInstance.RegisterTickHandler(Controllo);
 			Client.GetInstance.RegisterTickHandler(Scaleform);
 			Client.GetInstance.RegisterTickHandler(TastiMenu);
+			sub_8d2b2();
 		}
 
 		private static async void AggiornaModel(string JsonData)
@@ -137,10 +140,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		}
 
 		#region Selezione
-		public static UIMenu CharSelection = new UIMenu("Nuova GM", "Seleziona Personaggio", new Point(50, 200));
+/*		public static UIMenu CharSelection = new UIMenu("Nuova GM", "Seleziona Personaggio", new Point(50, 200));
 		public static async void CharSelectionMenu()
 		{
-			sub_8d2b2();
 			RequestModel(femmina);
 			while (!HasModelLoaded(femmina))
 			{
@@ -192,7 +194,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					dob.SetRightLabel(pers.info.dateOfBirth);
 					job.SetRightLabel(pers.job.name);
 					gang.SetRightLabel(pers.gang.name);
-					money.SetRightLabel("~g~$" + pers.finance.cash);
+					money.SetRightLabel("~g~$" + pers.finance.money);
 					bank.SetRightLabel("~g~$" + pers.finance.bank);
 					dirty.SetRightLabel("~r~$" + pers.finance.dirtyCash);
 					isdead.SetRightLabel(morto);
@@ -324,7 +326,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 //			Meteo_new.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			ShutdownLoadingScreenNui();
-		}
+		}*/
 
 		#endregion
 		#region Creazione
@@ -332,39 +334,36 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static uint femmina = (uint)PedHash.FreemodeFemale01;
 		static Ped generico;
 		#region PRE CREAZIONE
-		public static async void CharCreationMenu()
+		public static async void CharCreationMenu(string nome, string cognome, string dob, string sesso)
 		{
 			try
 			{
+				Client.GetInstance.RegisterTickHandler(Controllo);
+				a = nome;
+				b = cognome;
+				c = dob;
+				d = sesso;
+				selezionato = sesso;
 				Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
 				RequestModel(maschio);
-				while (!HasModelLoaded(maschio))
-				{
-					await BaseScript.Delay(1);
-				}
+				while (!HasModelLoaded(maschio)) await BaseScript.Delay(1);
 
-				RequestModel(femmina);
-				while (!HasModelLoaded(femmina))
-				{
-					await BaseScript.Delay(1);
-				}
+				RequestModel(femmina); 
+				while (!HasModelLoaded(femmina)) await BaseScript.Delay(1);
 
 				generico = new Ped(CreatePed(26, femmina, Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z - 10, 0, true, false));
-				dataMaschio = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info("Nuovo", "Personaggio", "01/12/199cambiami", 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), Funzioni.GetRandomLong(100000000000000, 999999999999999)), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin("Maschio", "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
-				dataFemmina = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info("Nuovo", "Personaggio", "01/12/199cambiami", 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), Funzioni.GetRandomLong(100000000000000, 999999999999999)), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin("Femmina", "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
-				int a = Funzioni.GetRandomInt(1, 2);
-				if (a == 1)
-				{
+				dataMaschio = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), Funzioni.GetRandomLong(100000000000000, 999999999999999)), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+				dataFemmina = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), Funzioni.GetRandomLong(100000000000000, 999999999999999)), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+
+				if (selezionato == "Maschio")
 					data = dataMaschio;
-					selezionato = "Maschio";
-				}
 				else
 				{
 					data = dataFemmina;
-					selezionato = "Femmina";
 					SetPlayerModel(PlayerId(), femmina);
 					Game.PlayerPed.Style.SetDefaultClothes();
 				}
+
 				Game.PlayerPed.Position = spawna;
 				Game.PlayerPed.Heading = Main.charCreateCoords.W;
 				Game.PlayerPed.IsVisible = true;
@@ -390,7 +389,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Screen.Fading.FadeIn(800);
 				await BaseScript.Delay(5000);
 				cam.Delete();
-				MenuCreazione();
+				if(!Creazione.Visible)
+					MenuCreazione(nome, cognome, dob, sesso);
 			}
 			catch (Exception ex)
 			{
@@ -421,7 +421,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static UIMenuListItem Collo = new UIMenuListItem("Collo", arcSop, 0);
 		#endregion
 		#region CREZIONEVERA
-		public static async void MenuCreazione()
+		public static void MenuCreazione(string nome, string cognome, string datadinascita, string sesso)
 		{
 			try
 			{
@@ -480,11 +480,11 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 				#region Info
 				UIMenuItem Nome = new UIMenuItem("Nome", "Nome Personaggio");
-				Nome.SetRightLabel("Nuovo");
+				Nome.SetRightLabel(nome);
 				UIMenuItem Cognome = new UIMenuItem("Cognome", "Cognome Personaggio");
-				Cognome.SetRightLabel("Personaggio");
+				Cognome.SetRightLabel(cognome);
 				UIMenuItem DDN = new UIMenuItem("Data di Nascita", "Data di nascita Personaggio");
-				DDN.SetRightLabel("01/12/199Cambiami");
+				DDN.SetRightLabel(datadinascita);
 				UIMenuItem Altezza = new UIMenuItem("Altezza", "Altezza Personaggio");
 				Altezza.SetRightLabel("" + data.info.height);
 				Info.AddItem(Nome);
@@ -1725,12 +1725,12 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			if (p1.Exists())
 				p1.Heading += 1f;
 
-			if (CharSelection.Visible && CharSelection.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
+/*			if (CharSelection.Visible && CharSelection.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
 				Esci();
 			}
-			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
+*/			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
 				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio e la creazione verrà annullata", 16392, "lprp:sceltaCharCreation");
@@ -1741,20 +1741,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static void Esci()
 		{
 			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
-		}
-
-		public static async void Scelta(string param)
-		{
-			if (param == "select")
-			{
-				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
-			}
-			else
-			{
-				Screen.Fading.FadeOut(0);
-				await BaseScript.Delay(100);
-				CharSelectionMenu();
-			}
 		}
 
 		public static async void SceltaCreatoreAsync(string param)
@@ -1769,7 +1755,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			{
 				Screen.Fading.FadeOut(0);
 				await BaseScript.Delay(100);
-				MenuCreazione();
+				MenuCreazione(a,b,c,d);
 			}
 		}
 
@@ -1894,11 +1880,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			SetPedHairColor(p.Handle, skin.hair.color[0], skin.hair.color[1]);
 			SetPedPropIndex(p.Handle, 2, skin.ears.style, skin.ears.color, false);
 			for (int i = 0; i < skin.face.tratti.Length; i++)
-			{
 				SetPedFaceFeature(p.Handle, i, skin.face.tratti[i]);
-			}
-
-			await Task.FromResult(0);
 		}
 
 		public static async Task UpdateDress(Ped p, dynamic dress)
@@ -1950,8 +1932,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			if (dress.PropIndices.Unk_8 == -1)
 				ClearPedProp(PlayerPedId(), 8);
 			SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
-
-			await Task.FromResult(0);
 		}
 
 		static void sub_8d2b2()

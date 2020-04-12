@@ -71,6 +71,7 @@ namespace NuovaGM.Client
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 				AttivaMenu();
+
 		}
 	}
 }

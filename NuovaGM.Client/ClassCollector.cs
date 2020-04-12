@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Client.IPLs;
+using System.Threading.Tasks;
 
 namespace NuovaGM.Client
 {
@@ -8,6 +9,7 @@ namespace NuovaGM.Client
 		public static async void Init()
 		{
 			await ConfigClient.Init();
+			await DecorationClass.DichiaraDecor();
 			gmPrincipale.Main.Init();
 
 			Banking.BankingClient.Init();
@@ -24,6 +26,9 @@ namespace NuovaGM.Client
 			gmPrincipale.Voice.Init();
 			gmPrincipale.Discord.Init();
 
+			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
+
+
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 
@@ -31,6 +36,7 @@ namespace NuovaGM.Client
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
 			Lavori.Generici.Pescatore.PescatoreClient.Init();
 			Lavori.Generici.Cacciatore.CacciatoreClient.Init();
+			Lavori.Generici.Rimozione.RimozioneClient.Init();
 //			Lavori.JobManager.Init();
 
 			Manager.ClientManager.Init();

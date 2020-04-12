@@ -85,17 +85,17 @@ namespace NuovaGM.Server.gmPrincipale
 		[JsonIgnore]
 		public int Money
 		{
-			get { return CurrentChar.finance.cash; }
+			get { return CurrentChar.finance.money; }
 			set
 			{
-				int var = value - CurrentChar.finance.cash;
-				CurrentChar.finance.cash += var;
+				int var = value - CurrentChar.finance.money;
+				CurrentChar.finance.money += var;
 				if (var > 0)
 					p.TriggerEvent("lprp:ShowNotification", "~g~$" + var + " ~w~ricevuti!");
 				else if (var < 0)
 				{
-					if (CurrentChar.finance.cash < 0)
-						CurrentChar.finance.cash = 0;
+					if (CurrentChar.finance.money < 0)
+						CurrentChar.finance.money = 0;
 					p.TriggerEvent("lprp:ShowNotification", "~r~$" + (var * -1) + " ~w~rimossi!");
 				}
 				p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
@@ -349,6 +349,7 @@ namespace NuovaGM.Server.gmPrincipale
 			*/
 		}
 
+		[JsonIgnore]
 		public Vector3 getCoords { get { return new Vector3(CurrentChar.location.x, CurrentChar.location.y, CurrentChar.location.z); } }
 
 		public void giveLicense(string license, string mittente)

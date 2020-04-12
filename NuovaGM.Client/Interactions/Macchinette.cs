@@ -59,7 +59,7 @@ namespace NuovaGM.Client.Interactions
 			{
 				if (!Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.IsDead && !HUD.MenuPool.IsAnyMenuOpen())
 				{
-					if (Game.Player.GetPlayerData().CurrentChar.finance.cash > 5)
+					if (Game.Player.GetPlayerData().Money > 5)
 					{
 						if (VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_01 || VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_02)
 						{

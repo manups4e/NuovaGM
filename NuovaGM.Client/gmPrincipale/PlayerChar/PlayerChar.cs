@@ -92,7 +92,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public bool DeathStatus { get { return CurrentChar.is_dead; } }
 
 		[JsonIgnore]
-		public int Money { get { return CurrentChar.finance.cash; } }
+		public int Money { get { return CurrentChar.finance.money; } }
 
 		[JsonIgnore]
 		public int Bank { get { return CurrentChar.finance.bank; } }
