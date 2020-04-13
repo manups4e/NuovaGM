@@ -251,89 +251,103 @@ namespace NuovaGM.Client.Personale
 
 			UIMenu persMenu = pool.AddSubMenu(PersonalMenu, "Personaggio Attuale");
 			UIMenu datiPers = pool.AddSubMenu(persMenu, "Dati Personaggio", "Imparati");
-			UIMenuItem name = new UIMenuItem("Nome: ", "Il suo nome");
-			UIMenuItem dob = new UIMenuItem("Data di Nascita: ", "La sua Data di nascita");
-			UIMenuItem alt = new UIMenuItem("Altezza: ", "La sua Altezza");
-			UIMenuItem nTel = new UIMenuItem("N° Telefono: ", "Segnatelo se vuoi");
-			UIMenuItem nAss = new UIMenuItem("N° Assicurazione: ", "Segnatelo se vuoi");
-			UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
-			UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-			UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-			name.SetRightLabel(Game.Player.GetPlayerData().FullName);
-			dob.SetRightLabel(Game.Player.GetPlayerData().DOB);
-			alt.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.height);
-			nTel.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
-			nAss.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
-			//
-			//job.Label = SharedScript.Jobs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
-			//gang.Label = SharedScript.Gangs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
-			//
-			job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
-			gang.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.gang.name);
-			bank.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Bank);
-			datiPers.AddItem(name);
-			datiPers.AddItem(dob);
-			datiPers.AddItem(alt);
-			datiPers.AddItem(nTel);
-			datiPers.AddItem(nAss);
-			datiPers.AddItem(job);
-			datiPers.AddItem(gang);
-			UIMenu money = HUD.MenuPool.AddSubMenu(datiPers, "Soldi: ", "I suoi soldi");
-			money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
-			money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
-			datiPers.AddItem(bank);
-			UIMenu dirty = HUD.MenuPool.AddSubMenu(datiPers, "Soldi Sporchi: ", "I soldi sporchi");
-			dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
-			dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
-
-			UIMenu daiMoney = HUD.MenuPool.AddSubMenu(money, "Dai a qualcuno", "A chi?");
-			UIMenu daiDirty = HUD.MenuPool.AddSubMenu(dirty, "Dai a qualcuno", "A chi?");
-			daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
-			daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
-
-			UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
-
-			money.AddItem(getta);
-			dirty.AddItem(getta);
-
-			money.OnItemSelect += async (menu, item, index) =>
+			datiPers.OnMenuOpen += async (_menu) =>
 			{
-				if (item == getta)
-				{
-					int amount = 1;
-					do
-					{
-						await BaseScript.Delay(0);
-						amount = Convert.ToInt32(await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10));
-						if (amount < 1)
-							HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-					}
-					while (amount < 1);
-					Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-					BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi", amount);
-					menu.ParentMenu.RefreshIndex();
-					menu.GoBack();
-				}
-			};
-			dirty.OnItemSelect += async (menu, item, index) =>
-			{
-				if (item == getta)
-				{
-					int amount = 1;
-					do
-					{
-						await BaseScript.Delay(0);
-						amount = Convert.ToInt32(await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10));
-						HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-					}
-					while (amount < 1);
-					Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-					BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi_sporchi", amount);
-					menu.ParentMenu.RefreshIndex();
-					menu.GoBack();
-				}
-			};
+				datiPers.Clear();
+				UIMenuItem name = new UIMenuItem("Nome: ", "Il suo nome");
+				UIMenuItem dob = new UIMenuItem("Data di Nascita: ", "La sua Data di nascita");
+				UIMenuItem alt = new UIMenuItem("Altezza: ", "La sua Altezza");
+				UIMenuItem nTel = new UIMenuItem("N° Telefono: ", "Segnatelo se vuoi");
+				UIMenuItem nAss = new UIMenuItem("N° Assicurazione: ", "Segnatelo se vuoi");
+				UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
+				UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
+				UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
+				name.SetRightLabel(Game.Player.GetPlayerData().FullName);
+				dob.SetRightLabel(Game.Player.GetPlayerData().DOB);
+				alt.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.height);
+				nTel.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
+				nAss.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
+				//
+				//job.Label = SharedScript.Jobs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
+				//gang.Label = SharedScript.Gangs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
+				//
+				job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
+				gang.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.gang.name);
+				bank.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Bank);
+				datiPers.AddItem(name);
+				datiPers.AddItem(dob);
+				datiPers.AddItem(alt);
+				datiPers.AddItem(nTel);
+				datiPers.AddItem(nAss);
+				datiPers.AddItem(job);
+				datiPers.AddItem(gang);
+				UIMenu money = HUD.MenuPool.AddSubMenu(datiPers, "Soldi: ", "I suoi soldi");
+				money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
+				money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+				datiPers.AddItem(bank);
+				UIMenu dirty = HUD.MenuPool.AddSubMenu(datiPers, "Soldi Sporchi: ", "I soldi sporchi");
+				dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
+				dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 
+				UIMenu daiMoney = HUD.MenuPool.AddSubMenu(money, "Dai a qualcuno", "A chi?");
+				UIMenu daiDirty = HUD.MenuPool.AddSubMenu(dirty, "Dai a qualcuno", "A chi?");
+				daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+				daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+
+				UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
+
+				money.AddItem(getta);
+				dirty.AddItem(getta);
+
+				money.OnItemSelect += async (menu, item, index) =>
+				{
+					if (item == getta)
+					{
+						int amount = -1;
+						do
+						{
+							await BaseScript.Delay(0);
+							string am = await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10);
+							if (string.IsNullOrEmpty(am))
+								break;
+							amount = Convert.ToInt32(am);
+							if (amount < 1 || amount > Game.Player.GetPlayerData().Money)
+								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+						}
+						while (amount <= 1);
+						if (amount == -1) return;
+						Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+						BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi", amount);
+						await BaseScript.Delay(1000);
+						menu.GoBack();
+						datiPers.RefreshIndex();
+					}
+				};
+				dirty.OnItemSelect += async (menu, item, index) =>
+				{
+					if (item == getta)
+					{
+						int amount = -1;
+						do
+						{
+							await BaseScript.Delay(0);
+							string am = await HUD.GetUserInput("Quanto vuoi buttare?", "0", 10);
+							if (string.IsNullOrEmpty(am))
+								break;
+							amount = Convert.ToInt32(am);
+							if (amount < 1 || amount > Game.Player.GetPlayerData().DirtyMoney)
+								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+						}
+						while (amount < 1);
+						if (amount == -1) return;
+						Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+						BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi_sporchi", amount);
+						await BaseScript.Delay(1000);
+						menu.GoBack();
+						datiPers.RefreshIndex();
+					}
+				};
+			};
 			UIMenu salute = pool.AddSubMenu(persMenu, "Salute", "Fame, sete..", pos);
 			fa.SetRightLabel("" + Math.Round(StatsNeeds.nee.fame, 2) + "%");
 			se.SetRightLabel("" + Math.Round(StatsNeeds.nee.sete, 2) + "%");
@@ -362,151 +376,162 @@ namespace NuovaGM.Client.Personale
 			};
 
 			UIMenu Inventory = pool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
-			int rimozione = 5;
-			if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
+			Inventory.OnMenuOpen += async (menu) =>
 			{
-				for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
+				Inventory.Clear();
+				int rimozione = 5;
+				if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
 				{
-					Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
-					if (item.amount > 0)
+					for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
 					{
-						UIMenu newItemMenu = pool.AddSubMenu(Inventory, SharedScript.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + SharedScript.ItemList[item.item].description);
-						if (SharedScript.ItemList[item.item].use.use)
+						Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
+						if (item.amount > 0)
 						{
-							UIMenuItem useButton = new UIMenuItem(SharedScript.ItemList[item.item].use.label, SharedScript.ItemList[item.item].use.description, Colors.GreenLight, Colors.Green);
-							newItemMenu.AddItem(useButton);
-							newItemMenu.OnItemSelect += (_menu, _item, _index) =>
+							UIMenu newItemMenu = pool.AddSubMenu(Inventory, SharedScript.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + SharedScript.ItemList[item.item].description);
+							if (SharedScript.ItemList[item.item].use.use)
 							{
-								/*
-								 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
-								 *///DA GESTIRE 
-								if (_item == useButton)
-									SharedScript.ItemList[item.item].UsaOggettoEvent(1);
-							};
-						}
-						if (SharedScript.ItemList[item.item].give.give)
-						{
-							List<dynamic> amountino = new List<dynamic>();
-							for (int j = 0; j < item.amount; j++)
-							{
-								amountino.Add((j + 1).ToString());
-							}
-
-							UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description);
-							giveButton.ParentItem.HighlightColor = Colors.Cyan;
-							giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
-							List<int> playerId = new List<int>();
-							var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3f);
-							if (players.Count > 0)
-							{
-								foreach (var player in players)
+								UIMenuItem useButton = new UIMenuItem(SharedScript.ItemList[item.item].use.label, SharedScript.ItemList[item.item].use.description, Colors.GreenLight, Colors.Green);
+								newItemMenu.AddItem(useButton);
+								newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 								{
-									UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
-									playerId.Add(player.ServerId);
-									giveButton.AddItem(playerItem);
-									Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake1_a");
-								}
-								giveButton.OnListSelect += async (_menu, _listItem, _index) =>
-								{
-									BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], item.item, int.Parse(amountino[_listItem.Index]));
+									/*
+									 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
+									 *///DA GESTIRE 
+									if (_item == useButton)
+										SharedScript.ItemList[item.item].UsaOggettoEvent(1);
 								};
 							}
-							else
-								giveButton.AddItem(new UIMenuItem("Nessun player nelle vicinanze.", "Trova qualcuno!!"));
-						}
-						if (SharedScript.ItemList[item.item].drop.drop)
-						{
-							List<dynamic> amountino = new List<dynamic>();
-							for (int j = 0; j < item.amount; j++)
+							if (SharedScript.ItemList[item.item].give.give)
 							{
-								amountino.Add((j+1).ToString());
-							}
-
-							UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
-							newItemMenu.AddItem(dropButton);
-							newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
-							{
-								if (_listItem == dropButton)
+								List<dynamic> amountino = new List<dynamic>();
+								for (int j = 0; j < item.amount; j++)
 								{
-									Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-									BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", item.item, int.Parse(amountino[_listItem.Index]));
-									_menu.ParentMenu.RefreshIndex();
-									_menu.GoBack();
+									amountino.Add((j + 1).ToString());
 								}
-							};
-						}
-					}
-				}
-			}
-			else
-			{
-				UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
-				Inventory.AddItem(noItemsButton);
-			}
 
-			UIMenu weapMenu = pool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
-			if (Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count > 0)
-			{
-				for (int i = 0; i < Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count; i++)
-				{
-					Weapons armi = Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current)[i];
-					UIMenu arma = pool.AddSubMenu(weapMenu, GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Munizioni: " + armi.ammo);
-					if (armi.components.Count > 0)
-					{
-						UIMenu componenti = pool.AddSubMenu(arma, "Componenti " + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Scegli qui quali abilitare tra quelli che hai!");
-						for (int j = 0; j < armi.components.Count; j++)
-						{
-							Components comp = armi.components[j];
-							bool attivo = comp.active;
-							if (GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) != "Caricatore standard")
-							{
-								UIMenuCheckboxItem componente = new UIMenuCheckboxItem(GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))), comp.active, "Attiva/Disattiva questo componente!");
-								componenti.AddItem(componente);
-								componenti.OnCheckboxChange += (_menu, _item, _checked) =>
+								UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description);
+								giveButton.ParentItem.HighlightColor = Colors.Cyan;
+								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
+								List<int> playerId = new List<int>();
+								var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3f);
+								if (players.Count > 0)
 								{
-									if (_item.Text == GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))))
+									foreach (var player in players)
 									{
-										uint componentHash = (uint)GetHashKey(comp.name);
-										List<Weapons> armiAgg = new List<Weapons>();
-										List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
-										armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
-										Game.Player.GetPlayerData().CurrentChar.weapons = armiAgg;
-										BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
-										if (_checked)
-										{
-											GiveWeaponComponentToPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
-											HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Attivato/a.", true);
-										}
-										else if (!_checked)
-										{
-											RemoveWeaponComponentFromPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
-											HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Disattivato/a.");
-										}
+										UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
+										playerId.Add(player.ServerId);
+										giveButton.AddItem(playerItem);
+										Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake1_a");
+									}
+									giveButton.OnListSelect += async (_menu, _listItem, _index) =>
+									{
+										BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], item.item, int.Parse(amountino[_listItem.Index]));
+									};
+								}
+								else
+									giveButton.AddItem(new UIMenuItem("Nessun player nelle vicinanze.", "Trova qualcuno!!"));
+							}
+							if (SharedScript.ItemList[item.item].drop.drop)
+							{
+								List<dynamic> amountino = new List<dynamic>();
+								for (int j = 0; j < item.amount; j++)
+								{
+									amountino.Add((j + 1).ToString());
+								}
+
+								UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
+								newItemMenu.AddItem(dropButton);
+								newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
+								{
+									if (_listItem == dropButton)
+									{
+										Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+										BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", item.item, int.Parse(amountino[_listItem.Index]));
+										await BaseScript.Delay(1000);
+//										Inventory.RemoveItemAt(Inventory.MenuItems.IndexOf(newItemMenu.ParentItem));
+										_menu.GoBack();
+										Inventory.RefreshIndex();
 									}
 								};
 							}
 						}
 					}
-					/* CODICE PER DARE UN ARMA E SI AGGIUNGERE ANCHE LE MUNIZIONI
-					UIMenuItem giveButton = new UIMenuItem($"Dai {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.Cyan, Colors.DarkCyan);
-					arma.AddItem(giveButton);
-					*/
-					UIMenuItem dropButton = new UIMenuItem($"Gettare {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.RedLight, Colors.Red);
-					arma.AddItem(dropButton);
-					dropButton.Activated += async (menu, item) =>
-					{
-						Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-						BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.name);
-						menu.ParentMenu.RefreshIndex();
-						menu.GoBack();
-					};
 				}
-			}
-			else
+				else
+				{
+					UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
+					Inventory.AddItem(noItemsButton);
+				}
+			};
+			UIMenu weapMenu = pool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
+			weapMenu.OnMenuOpen += async (menu) =>
 			{
-				UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
-				weapMenu.AddItem(noItemsButton);
-			}
+				weapMenu.Clear();
+				if (Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count > 0)
+				{
+					for (int i = 0; i < Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count; i++)
+					{
+						Weapons armi = Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current)[i];
+						UIMenu arma = pool.AddSubMenu(weapMenu, GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Munizioni: " + armi.ammo);
+						if (armi.components.Count > 0)
+						{
+							UIMenu componenti = pool.AddSubMenu(arma, "Componenti " + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Scegli qui quali abilitare tra quelli che hai!");
+							for (int j = 0; j < armi.components.Count; j++)
+							{
+								Components comp = armi.components[j];
+								bool attivo = comp.active;
+								if (GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) != "Caricatore standard")
+								{
+									UIMenuCheckboxItem componente = new UIMenuCheckboxItem(GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))), comp.active, "Attiva/Disattiva questo componente!");
+									componenti.AddItem(componente);
+									componenti.OnCheckboxChange += (_menu, _item, _checked) =>
+									{
+										if (_item.Text == GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))))
+										{
+											uint componentHash = (uint)GetHashKey(comp.name);
+											List<Weapons> armiAgg = new List<Weapons>();
+											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
+											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
+											Game.Player.GetPlayerData().CurrentChar.weapons = armiAgg;
+											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
+											if (_checked)
+											{
+												GiveWeaponComponentToPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
+												HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Attivato/a.", true);
+											}
+											else if (!_checked)
+											{
+												RemoveWeaponComponentFromPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
+												HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Disattivato/a.");
+											}
+										}
+									};
+								}
+							}
+						}
+						/* CODICE PER DARE UN ARMA E SI AGGIUNGERE ANCHE LE MUNIZIONI
+						UIMenuItem giveButton = new UIMenuItem($"Dai {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.Cyan, Colors.DarkCyan);
+						arma.AddItem(giveButton);
+						*/
+						UIMenuItem dropButton = new UIMenuItem($"Gettare {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.RedLight, Colors.Red);
+						arma.AddItem(dropButton);
+						dropButton.Activated += async (_menu, item) =>
+						{
+							Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+							BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.name);
+							await BaseScript.Delay(1000);
+//							weapMenu.RemoveItemAt(weapMenu.MenuItems.IndexOf(arma.ParentItem));
+							_menu.GoBack();
+							weapMenu.RefreshIndex();
+						};
+					}
+				}
+				else
+				{
+					UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
+					weapMenu.AddItem(noItemsButton);
+				}
+			};
 			#endregion
 
 			#region Modalità Cinema

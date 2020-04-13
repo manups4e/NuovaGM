@@ -203,10 +203,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		{
 			ClearKeyboard(windowTitle, defaultText, maxLength);
 			while (UpdateOnscreenKeyboard() == 0)
-			{
 				await BaseScript.Delay(0);
-			}
-
 			return GetOnscreenKeyboardResult();
 		}
 		private static void ClearKeyboard(string windowTitle, string defaultText, int maxLength)

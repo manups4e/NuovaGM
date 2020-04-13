@@ -115,7 +115,30 @@ namespace NuovaGM.Client
 	{
 		public ConfigNegoziAbiti Abiti = new ConfigNegoziAbiti();
 		public ConfigNegoziBarbieri Barbieri = new ConfigNegoziBarbieri();
+		public ConfigNegoziGenerici NegoziGenerici = new ConfigNegoziGenerici();
 	}
+
+	public class ConfigNegoziGenerici
+	{
+		public List<float[]> tfs = new List<float[]>();
+		public List<float[]> rq = new List<float[]>();
+		public List<float[]> ltd = new List<float[]>();
+		public List<float[]> armerie = new List<float[]>();
+		public OggettiDaVendere OggettiDaVendere;
+	}
+	public class OggettiDaVendere
+	{
+		public List<OggettoVendita> shared = new List<OggettoVendita>();
+		public List<OggettoVendita> tfs = new List<OggettoVendita>();
+		public List<OggettoVendita> rq = new List<OggettoVendita>();
+		public List<OggettoVendita> ltd = new List<OggettoVendita>();
+	}
+	public class OggettoVendita
+	{
+		public string oggetto;
+		public int prezzo;
+	}
+
 	public class ConfigNegoziAbiti
 	{
 		public Abiti Femmina = new Abiti();
