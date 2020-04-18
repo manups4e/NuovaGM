@@ -576,11 +576,11 @@ namespace NuovaGM.Client.Negozi
 			{
 				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.GetInstance.DeregisterTickHandler(CameraVest);
+				Client.Instance.RemoveTick(CameraVest);
 			};
 
 			MenuVest.Visible = true;
-			Client.GetInstance.RegisterTickHandler(CameraVest);
+			Client.Instance.AddTick(CameraVest);
 		}
 		#endregion
 
@@ -744,10 +744,10 @@ namespace NuovaGM.Client.Negozi
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
 				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.GetInstance.DeregisterTickHandler(CameraVest);
+				Client.Instance.RemoveTick(CameraVest);
 			};
 			MenuPant.Visible = true;
-			Client.GetInstance.RegisterTickHandler(CameraVest);
+			Client.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -913,11 +913,11 @@ namespace NuovaGM.Client.Negozi
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
 				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.GetInstance.DeregisterTickHandler(CameraVest);
+				Client.Instance.RemoveTick(CameraVest);
 			};
 
 			MenuScarpe.Visible = true;
-			Client.GetInstance.RegisterTickHandler(CameraVest);
+			Client.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -1082,11 +1082,11 @@ namespace NuovaGM.Client.Negozi
 				for (int i = 0; i < _menuVestiti.Count; i++) if (_menuVestiti[i].Visible) return;
 				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.GetInstance.DeregisterTickHandler(CameraVest);
+				Client.Instance.RemoveTick(CameraVest);
 			};
 
 			MenuOcchiali.Visible = true;
-			Client.GetInstance.RegisterTickHandler(CameraVest);
+			Client.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -2051,10 +2051,10 @@ namespace NuovaGM.Client.Negozi
 				await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
 				AccessoriAttivo = false;
-				Client.GetInstance.DeregisterTickHandler(CameraAcc);
+				Client.Instance.RemoveTick(CameraAcc);
 			};
 			MenuAccessori.Visible = true;
-			Client.GetInstance.RegisterTickHandler(CameraAcc);
+			Client.Instance.AddTick(CameraAcc);
 		}
 		#endregion
 

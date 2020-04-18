@@ -31,7 +31,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			CaricaTutto();
 		}
 
@@ -43,8 +43,8 @@ namespace NuovaGM.Client.Interactions
 
 		private static async void Spawnato()
 		{
-			Client.GetInstance.RegisterTickHandler(VendingMachines);
-			Client.GetInstance.RegisterTickHandler(ControlloMachines);
+			Client.Instance.AddTick(VendingMachines);
+			Client.Instance.AddTick(ControlloMachines);
 		}
 
 		private static async Task ControlloMachines()

@@ -12,8 +12,9 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Generici.Pescatore
 {
@@ -78,7 +79,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 			RequestAnimDict(AnimDict);
 			RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			PuntiPesca = Client.Impostazioni.Lavori.Generici.Pescatore;
-			Client.GetInstance.RegisterTickHandler(ControlloPesca);
+			Client.Instance.AddTick(ControlloPesca);
 
 			SharedScript.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
@@ -88,7 +89,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 0;
-				Client.GetInstance.RegisterTickHandler(Pesca);
+				Client.Instance.AddTick(Pesca);
 			};
 			SharedScript.ItemList["cannadapescamedia"].Usa += async (item, index) =>
 			{
@@ -98,7 +99,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 1;
-				Client.GetInstance.RegisterTickHandler(Pesca);
+				Client.Instance.AddTick(Pesca);
 			};
 			SharedScript.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
 			{
@@ -108,7 +109,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 2;
-				Client.GetInstance.RegisterTickHandler(Pesca);
+				Client.Instance.AddTick(Pesca);
 			};
 		}
 
@@ -264,7 +265,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				if (Input.IsDisabledControlJustPressed(Control.FrontendY))
 				{
 					CannaDaPesca.Delete();
-					Client.GetInstance.DeregisterTickHandler(Pesca);
+					Client.Instance.RemoveTick(Pesca);
 					Game.PlayerPed.Task.ClearAll();
 					CannaInMano = false;
 					TipoCanna = -1;

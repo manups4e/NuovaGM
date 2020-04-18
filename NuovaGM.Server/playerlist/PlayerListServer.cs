@@ -14,9 +14,9 @@ namespace FivemPlayerlistServer
 		private static ConcurrentDictionary<int, dynamic[]> list = new ConcurrentDictionary<int, dynamic[]>();
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
+			Server.Instance.AddEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
 			Server.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
-			Server.Instance.RegisterEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+			Server.Instance.AddEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
 		}
 
 		private static async void ReturnMaxPlayers([FromSource] Player source)

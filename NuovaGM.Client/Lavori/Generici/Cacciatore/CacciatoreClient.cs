@@ -12,9 +12,10 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Status;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 {
@@ -41,8 +42,8 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static void Spawnato()
@@ -55,7 +56,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 			caccia.Name = "Zona di Caccia";
 			caccia.IsShortRange = true;
 			SetBlipDisplay(caccia.Handle, 4);
-			Client.GetInstance.RegisterTickHandler(ControlloCaccia);
+			Client.Instance.AddTick(ControlloCaccia);
 		}
 
 		public static async Task ControlloCaccia()
@@ -86,8 +87,8 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 					Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
 				animaliUccisi.Clear();
 				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
-				Client.GetInstance.DeregisterTickHandler(ControlloBordi);
-				Client.GetInstance.DeregisterTickHandler(ControlloUccisi);
+				Client.Instance.RemoveTick(ControlloBordi);
+				Client.Instance.RemoveTick(ControlloUccisi);
 			}
 			await BaseScript.Delay(1000);
 		}
@@ -279,8 +280,8 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							AreadiCaccia.Color = BlipColor.TrevorOrange;
 							foreach(string s in animalGroups)
 								Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Dislike, true);
-							Client.GetInstance.RegisterTickHandler(ControlloBordi);
-							Client.GetInstance.RegisterTickHandler(ControlloUccisi);
+							Client.Instance.AddTick(ControlloBordi);
+							Client.Instance.AddTick(ControlloUccisi);
 							SetBlipDisplay(AreadiCaccia.Handle, 4);
 							HUD.MenuPool.CloseAllMenus();
 							await BaseScript.Delay(10000);
@@ -307,7 +308,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 						BaseScript.TriggerServerEvent("lprp:removeWeapon", DaFuoco);
 					HUD.ShowNotification("Grazie di aver scelto il nostro servizio di gestione caccia!\nTorna presto!", NotificationColor.GreenDark);
 					StaCacciando = false;
-					Client.GetInstance.DeregisterTickHandler(ControlloBordi);
+					Client.Instance.RemoveTick(ControlloBordi);
 					if (AreadiCaccia.Exists())
 						AreadiCaccia.Delete();
 					foreach (string s in animalGroups)

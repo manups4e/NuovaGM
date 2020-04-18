@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NuovaGM.Client.Telefono;
 using NuovaGM.Client.Telefono.Models;
-using NuovaGM.Shared;
+
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using CitizenFX.Core;
@@ -22,7 +22,7 @@ namespace NuovaGM.Client.Telefono.Apps
 		private bool MessaggioAperto = false;
 		public Messages(Phone phone) : base("Messaggi", 2, phone)   // 8
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:riceviMessaggio", new Action<int, string>(RiceviMessaggio));
+			Client.Instance.AddEventHandler("lprp:riceviMessaggio", new Action<int, string>(RiceviMessaggio));
 			this.phone = phone;
 		}
 

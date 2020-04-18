@@ -24,10 +24,10 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
-			Client.GetInstance.RegisterEventHandler("cBrakes:add_front", new Action<int>(AddFront));
-			Client.GetInstance.RegisterEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
-			Client.GetInstance.RegisterEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
+			Client.Instance.AddEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
+			Client.Instance.AddEventHandler("cBrakes:add_front", new Action<int>(AddFront));
+			Client.Instance.AddEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
+			Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
 		}
 
 		private static async void AddRear(int NetVeh)

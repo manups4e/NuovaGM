@@ -7,7 +7,7 @@ using NuovaGM.Client.IPLs.dlc_bikers;
 using NuovaGM.Client.IPLs.dlc_finance;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

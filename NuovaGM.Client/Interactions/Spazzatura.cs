@@ -8,8 +8,9 @@ using CitizenFX.Core.Native;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.gmPrincipale.Status;
-using NuovaGM.Shared;
+
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -64,14 +65,14 @@ namespace NuovaGM.Client.Interactions
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 //			CaricaTutto();
 		}
 
 		private static async void Spawnato()
 		{
-			Client.GetInstance.RegisterTickHandler(CestiSpazzatura);
-			Client.GetInstance.RegisterTickHandler(ControlloSpazzatura);
+			Client.Instance.AddTick(CestiSpazzatura);
+			Client.Instance.AddTick(ControlloSpazzatura);
 		}
 
 		private static async Task ControlloSpazzatura()

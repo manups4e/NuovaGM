@@ -20,8 +20,8 @@ namespace NuovaGM.Client.TimeWeather
 		private static bool Cambio = false;
 		public static async void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
-			Client.GetInstance.RegisterTickHandler(AggiornaTempo);
+			Client.Instance.AddEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
+			Client.Instance.AddTick(AggiornaTempo);
 		}
 
 		public static void SetTime(int serverSecondOfDay, long serverDate, bool isTimeFrozen, bool cambio = false)

@@ -7,13 +7,14 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Personale
 {
@@ -140,7 +141,7 @@ namespace NuovaGM.Client.Personale
 							{
 								SetWaypointOff();
 								b.ShowRoute = false;
-								Client.GetInstance.DeregisterTickHandler(routeColor);
+								Client.Instance.RemoveTick(routeColor);
 								HUD.ShowNotification("GPS: Destinazione rimossa.", true);
 								return;
 							}
@@ -164,7 +165,7 @@ namespace NuovaGM.Client.Personale
 						{
 							b.ShowRoute = true;
 							HUD.ShowNotification($"Destinazione più vicina impostata per {(_item as UIMenuListItem).Items[(_item as UIMenuListItem).Index]}.");
-							Client.GetInstance.RegisterTickHandler(routeColor);
+							Client.Instance.AddTick(routeColor);
 						}
 						else
 							HUD.ShowNotification("Destinazione non trovata!");
@@ -368,11 +369,11 @@ namespace NuovaGM.Client.Personale
 
 			salute.OnMenuOpen += (menu) =>
 			{
-				Client.GetInstance.RegisterTickHandler(AggiornaSalute);
+				Client.Instance.AddTick(AggiornaSalute);
 			};
 			salute.OnMenuClose += (menu) =>
 			{
-				Client.GetInstance.DeregisterTickHandler(AggiornaSalute);
+				Client.Instance.RemoveTick(AggiornaSalute);
 			};
 
 			UIMenu Inventory = pool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
@@ -551,12 +552,12 @@ namespace NuovaGM.Client.Personale
 					if (attiva)
 					{
 						EventiPersonalMenu.DoHideHud = true;
-						Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.CinematicMode);
+						Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
 					}
 					else
 					{
 						EventiPersonalMenu.DoHideHud = false;
-						Client.GetInstance.DeregisterTickHandler(EventiPersonalMenu.CinematicMode);
+						Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
 						Screen.Hud.IsRadarVisible = true;
 					}
 				}
@@ -1521,7 +1522,7 @@ namespace NuovaGM.Client.Personale
 			{
 				HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
 				b.ShowRoute = false;
-				Client.GetInstance.DeregisterTickHandler(routeColor);
+				Client.Instance.RemoveTick(routeColor);
 			}
 			await Task.FromResult(0);
 		}

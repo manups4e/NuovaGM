@@ -31,11 +31,11 @@ namespace NuovaGM.Client.ListaPlayers
 		public static void Init()
 		{
 			BaseScript.TriggerServerEvent("lprp:fs:getMaxPlayers");
-			Client.GetInstance.RegisterTickHandler(ShowScoreboard);
-			Client.GetInstance.RegisterTickHandler(DisplayController);
-			Client.GetInstance.RegisterTickHandler(BackupTimer);
-			Client.GetInstance.RegisterEventHandler("lprp:fs:setMaxPlayers", new Action<int>(SetMaxPlayers));
-			Client.GetInstance.RegisterEventHandler("lprp:fs:setPlayerConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+			Client.Instance.AddTick(ShowScoreboard);
+			Client.Instance.AddTick(DisplayController);
+			Client.Instance.AddTick(BackupTimer);
+			Client.Instance.AddEventHandler("lprp:fs:setMaxPlayers", new Action<int>(SetMaxPlayers));
+			Client.Instance.AddEventHandler("lprp:fs:setPlayerConfig", new Action<int, string, int, bool>(SetPlayerConfig));
 		}
 
 
@@ -85,7 +85,7 @@ namespace NuovaGM.Client.ListaPlayers
 		/// </summary>
 		private static void UpdateMaxPages()
 		{
-			maxPages = (int)Math.Ceiling((double)Client.GetInstance.GetPlayers.ToList().Count() / 16.0);
+			maxPages = (int)Math.Ceiling((double)Client.Instance.GetPlayers.ToList().Count() / 16.0);
 		}
 
 		/// <summary>
@@ -279,7 +279,7 @@ namespace NuovaGM.Client.ListaPlayers
 			}
 
 			var amount = 0;
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				if (IsRowSupposedToShow(amount))
 				{

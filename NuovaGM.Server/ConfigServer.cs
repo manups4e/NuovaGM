@@ -15,8 +15,8 @@ namespace NuovaGM.Server
 		public static async Task Init()
 		{
 			await BaseScript.Delay(0);
-			Server.Instance.RegisterEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
-			Server.Instance.RegisterEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
+			Server.Instance.AddEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
+			Server.Instance.AddEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
 			BaseScript.TriggerEvent("lprp:chiamaConfigServer");
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);
 			await Task.FromResult(0);

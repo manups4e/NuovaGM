@@ -26,8 +26,8 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterTickHandler(OnTick);
-			Client.GetInstance.RegisterTickHandler(OnTick2);
+			Client.Instance.AddTick(OnTick);
+			Client.Instance.AddTick(OnTick2);
 		}
 
 		public static void SendVoiceToPlayer(Player player, bool Send)
@@ -37,7 +37,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static void UpdateVoices()
 		{
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped otherPed = new Ped(p.Handle);
 				int serverID = GetPlayerServerId(p.Handle);
@@ -104,7 +104,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			if (FirstTick)
 			{
-				foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+				foreach (Player p in Client.Instance.GetPlayers.ToList())
 					SendVoiceToPlayer(p, false);
 				NetworkSetTalkerProximity(-1000.0f);
 				FirstTick = false;
@@ -118,7 +118,7 @@ namespace NuovaGM.Client.gmPrincipale
 			else if (!sendVoice && shouldReset)
 			{
 				shouldReset = false;
-				foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+				foreach (Player p in Client.Instance.GetPlayers.ToList())
 				{
 					SendVoiceToPlayer(p, false);
 				}
@@ -185,7 +185,7 @@ namespace NuovaGM.Client.gmPrincipale
 						notif = true;
 					}
 					Permesso = false;
-					foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{
 						Ped otherPed = new Ped(p.Handle);
 						if (CanPedBeListened(Game.PlayerPed, otherPed))

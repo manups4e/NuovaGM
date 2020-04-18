@@ -76,8 +76,8 @@ namespace NuovaGM.Client.Veicoli
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:spawntrain", new Action(SpawnTrain));
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:spawntrain", new Action(SpawnTrain));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static async void Spawnato()

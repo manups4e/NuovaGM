@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Personale;
 using System.Linq;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -68,22 +69,22 @@ namespace NuovaGM.Client.Veicoli
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:fuelLevel", new Action<float>(FuelLevel));
-			Client.GetInstance.RegisterEventHandler("frfuel:filltankForVeh", new Action<int>(FillTankForVeh));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:depositfuel", new Action<bool, string, string, string>(DepositFuel));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:depositfuelnotowned", new Action<bool, string, string, string, string>(DepositFuelNotOwned));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:buytanker", new Action<bool, string>(BuyTanker));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:stationnotowned", new Action(StationNotOwned));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:buyfuelfortanker", new Action<bool, string>(BuyFuelForTanker));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:settankerfuel", new Action<int>(SetTankerFuel));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
-			Client.GetInstance.RegisterEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
+			Client.Instance.AddEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
+			Client.Instance.AddEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
+			Client.Instance.AddEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:fuelLevel", new Action<float>(FuelLevel));
+			Client.Instance.AddEventHandler("frfuel:filltankForVeh", new Action<int>(FillTankForVeh));
+			Client.Instance.AddEventHandler("lprp:fuel:depositfuel", new Action<bool, string, string, string>(DepositFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:depositfuelnotowned", new Action<bool, string, string, string, string>(DepositFuelNotOwned));
+			Client.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<bool, string>(BuyTanker));
+			Client.Instance.AddEventHandler("lprp:fuel:stationnotowned", new Action(StationNotOwned));
+			Client.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<bool, string>(BuyFuelForTanker));
+			Client.Instance.AddEventHandler("lprp:fuel:settankerfuel", new Action<int>(SetTankerFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
+			Client.Instance.AddEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Spawnato()

@@ -44,8 +44,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-			Client.GetInstance.RegisterEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 		}
 		
 		public static async void Eccolo()
@@ -340,10 +340,10 @@ namespace NuovaGM.Client.gmPrincipale.Status
 						SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 						HUD.ShowNotification("Sei svenuto perche eri troppo stanco.. Se sopravvivi trova un posto per riposare!!");
 						Game.PlayerPed.Task.PlayAnimation("rcmnigel2", "die_horn", 4f, -1, AnimationFlags.StayInEndFrame);
-						Client.GetInstance.RegisterTickHandler(Horn);
+						Client.Instance.AddTick(Horn);
 						await BaseScript.Delay(30000);
 						Game.PlayerPed.CancelRagdoll();
-						Client.GetInstance.DeregisterTickHandler(Horn);
+						Client.Instance.RemoveTick(Horn);
 					}
 				}
 				await BaseScript.Delay(600000);

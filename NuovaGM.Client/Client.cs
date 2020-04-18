@@ -17,14 +17,14 @@ namespace NuovaGM.Client
 
 	public class Client : BaseScript
 	{
-		public static Client GetInstance { get; protected set; }
+		public static Client Instance { get; protected set; }
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
 
 		public Client()
 		{
-			GetInstance = this;
+			Instance = this;
 			ClassCollector.Init();
 		}
 
@@ -33,7 +33,7 @@ namespace NuovaGM.Client
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void RegisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
+		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
 
 		/// <summary>
 		/// Manda in console un messaggio colorato in base alla gravità della situazione
@@ -77,7 +77,7 @@ namespace NuovaGM.Client
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void DeregisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
+		public void DeAddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
 
 		/// <summary>
 		/// Registra un evento NUI/CEF 
@@ -89,7 +89,7 @@ namespace NuovaGM.Client
 			try
 			{
 				API.RegisterNuiCallbackType(name);
-				RegisterEventHandler(string.Concat("__cfx_nui:", name), action);
+				AddEventHandler(string.Concat("__cfx_nui:", name), action);
 			}
 			catch (Exception ex)
 			{
@@ -101,13 +101,13 @@ namespace NuovaGM.Client
 		/// Registra una funzione OnTick
 		/// </summary>
 		/// <param name="onTick"></param>
-		public void RegisterTickHandler(Func<Task> onTick) => Tick += onTick;
+		public void AddTick(Func<Task> onTick) => Tick += onTick;
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
 		/// <param name="onTick"></param>
-		public void DeregisterTickHandler(Func<Task> onTick) => Tick -= onTick;
+		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
 
 
 		/// <summary>

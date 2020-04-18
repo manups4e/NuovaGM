@@ -8,8 +8,8 @@ namespace NuovaGM.Client
 	{
 		public static async void Init()
 		{
-			await ConfigClient.Init();
 			await DecorationClass.DichiaraDecor();
+			await ConfigClient.Init();
 			gmPrincipale.Main.Init();
 
 			Banking.BankingClient.Init();
@@ -25,8 +25,9 @@ namespace NuovaGM.Client
 			gmPrincipale.Status.StatsNeeds.Init();
 			gmPrincipale.Voice.Init();
 			gmPrincipale.Discord.Init();
-
 			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
+
+
 
 
 			TimeWeather.Meteo.Init();
@@ -36,7 +37,7 @@ namespace NuovaGM.Client
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
 			Lavori.Generici.Pescatore.PescatoreClient.Init();
 			Lavori.Generici.Cacciatore.CacciatoreClient.Init();
-			Lavori.Generici.Rimozione.RimozioneClient.Init();
+//			Lavori.Generici.Rimozione.RimozioneClient.Init();
 //			Lavori.JobManager.Init();
 
 			Manager.ClientManager.Init();
@@ -68,6 +69,7 @@ namespace NuovaGM.Client
 			Interactions.Letti.Init();
 			Interactions.PickupsClient.Init();
 			Interactions.DivaniEPosizioniSedute.Init();
+			Interactions.OggettiGenerici.Init();
 
 			TickController.Init();
 			DamageEvents.Init();

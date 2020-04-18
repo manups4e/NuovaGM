@@ -117,10 +117,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static Camera ncam;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
-			Client.GetInstance.RegisterEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
-			Client.GetInstance.RegisterTickHandler(Scaleform);
-			Client.GetInstance.RegisterTickHandler(TastiMenu);
+			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
+			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
+			Client.Instance.AddTick(Scaleform);
+			Client.Instance.AddTick(TastiMenu);
 			sub_8d2b2();
 		}
 
@@ -135,8 +135,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			}
 
 			SetPlayerModel(PlayerId(), hash);
-			await UpdateFace(Game.PlayerPed, plpl.skin);
-			await UpdateDress(Game.PlayerPed, plpl.dressing);
+			UpdateFace(Game.PlayerPed, plpl.skin);
+			UpdateDress(Game.PlayerPed, plpl.dressing);
 		}
 
 		#region Selezione
@@ -251,7 +251,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						NetworkClearClockTimeOverride();
 						//AdvanceClockTimeTo(Meteo_new.Orario.h, Meteo_new.Orario.m, Meteo_new.Orario.s);
 						await BaseScript.Delay(7000);
-//						Client.GetInstance.RegisterTickHandler(Meteo_new.Orario.AggiornaTempo);
+//						Client.Instance.AddTick(Meteo_new.Orario.AggiornaTempo);
 						BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 						await BaseScript.Delay(5000);
 						if (Screen.LoadingPrompt.IsActive) 
@@ -261,9 +261,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 						BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 						BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
-						Client.GetInstance.DeregisterTickHandler(Controllo);
-						Client.GetInstance.DeregisterTickHandler(Scaleform);
-						Client.GetInstance.DeregisterTickHandler(TastiMenu);
+						Client.Instance.RemoveTick(Controllo);
+						Client.Instance.RemoveTick(Scaleform);
+						Client.Instance.RemoveTick(TastiMenu);
 					};
 
 					Personaggio.OnMenuOpen += async (menu) =>
@@ -338,7 +338,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			try
 			{
-				Client.GetInstance.RegisterTickHandler(Controllo);
+				Client.Instance.AddTick(Controllo);
 				a = nome;
 				b = cognome;
 				c = dob;
@@ -368,8 +368,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Game.PlayerPed.Heading = Main.charCreateCoords.W;
 				Game.PlayerPed.IsVisible = true;
 				await BaseScript.Delay(50);
-				await UpdateDress(Game.PlayerPed, data.dressing);
-				await UpdateFace(Game.PlayerPed, data.skin);
+				UpdateDress(Game.PlayerPed, data.dressing);
+				UpdateFace(Game.PlayerPed, data.skin);
 				ped_cre_board(data);
 				TaskHoldBoard();
 				Game.PlayerPed.BlockPermanentEvents = true;
@@ -1093,9 +1093,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", JsonConvert.SerializeObject(data));
 					Game.Player.GetPlayerData().char_current = data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-					Client.GetInstance.DeregisterTickHandler(Controllo);
-					Client.GetInstance.DeregisterTickHandler(Scaleform);
-					Client.GetInstance.DeregisterTickHandler(TastiMenu);
+					Client.Instance.RemoveTick(Controllo);
+					Client.Instance.RemoveTick(Scaleform);
+					Client.Instance.RemoveTick(TastiMenu);
 					CamerasFirstTime.FirstTimeTransition(data.id == 1);
 				};
 				#endregion
@@ -1582,7 +1582,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataMaschio = data;
 					}
 
-					await UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(Game.PlayerPed, data.skin);
 				}
 			}
 			await Task.FromResult(0);
@@ -1858,7 +1858,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		}
 
 
-		public static async Task UpdateFace(Ped p, Skin skin)
+		public static void UpdateFace(Ped p, Skin skin)
 		{
 			SetPedHeadBlendData(p.Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
 			SetPedHeadOverlay(p.Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
@@ -1883,7 +1883,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				SetPedFaceFeature(p.Handle, i, skin.face.tratti[i]);
 		}
 
-		public static async Task UpdateDress(Ped p, dynamic dress)
+		public static void UpdateDress(Ped p, dynamic dress)
 		{
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
@@ -1899,39 +1899,48 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 			if (dress.PropIndices.Cappelli_Maschere == -1)
 				ClearPedProp(PlayerPedId(), 0);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
 
 			if (dress.PropIndices.Orecchie == -1)
 				ClearPedProp(PlayerPedId(), 2);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
 
 			if (dress.PropIndices.Occhiali_Occhi == -1)
 				ClearPedProp(PlayerPedId(), 1);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
 
 			if (dress.PropIndices.Unk_3 == -1)
 				ClearPedProp(PlayerPedId(), 3);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
 
 			if (dress.PropIndices.Unk_4 == -1)
 				ClearPedProp(PlayerPedId(), 4);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
 
 			if (dress.PropIndices.Unk_5 == -1)
 				ClearPedProp(PlayerPedId(), 5);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
 
 			if (dress.PropIndices.Orologi == -1)
 				ClearPedProp(PlayerPedId(), 6);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
 
 			if (dress.PropIndices.Bracciali == -1)
 				ClearPedProp(PlayerPedId(), 7);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
 
 			if (dress.PropIndices.Unk_8 == -1)
 				ClearPedProp(PlayerPedId(), 8);
-			SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
+			else
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
 		}
 
 		static void sub_8d2b2()

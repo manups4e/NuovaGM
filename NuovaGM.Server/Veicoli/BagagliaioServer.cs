@@ -12,7 +12,7 @@ namespace NuovaGM.Server.Veicoli
 		public static ConcurrentDictionary<string, string> BagagliaiGenerici = new ConcurrentDictionary<string, string>();
 		public static void Init()
 		{
-		//	Server.Instance.RegisterEventHandler("lprp:bagagliaio:getTrunksContents", new Action<Player, string>(GestisciBagagliaio));
+		//	Server.Instance.AddEventHandler("lprp:bagagliaio:getTrunksContents", new Action<Player, string>(GestisciBagagliaio));
 		}
 
 	}

@@ -14,7 +14,7 @@ namespace NuovaGM.Client.Negozi
 		public static Camera camm = new Camera(0);
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static async void Spawnato()

@@ -55,7 +55,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				};
 			}
 
-			Client.GetInstance.RegisterTickHandler(ControlloHotel);
+			Client.Instance.AddTick(ControlloHotel);
 		}
 
 		public static async Task ControlloHotel()
@@ -130,7 +130,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 					else
 						HUD.ShowNotification("Non hai abbastanza fondi!", NotificationColor.Red, true);
 				}
-				Client.GetInstance.DeregisterTickHandler(Eventi.LocationSave);
+				Client.Instance.RemoveTick(Eventi.LocationSave);
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
@@ -141,7 +141,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				Game.Player.GetPlayerData().Stanziato = true;
 				Game.Player.GetPlayerData().InCasa = true;
 				Screen.Fading.FadeIn(800);
-				Client.GetInstance.RegisterTickHandler(GestioneHotel);
+				Client.Instance.AddTick(GestioneHotel);
 			};
 			HotelMenu.Visible = true;
 		}
@@ -167,7 +167,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							IsInPiccola = false;
 							Game.Player.GetPlayerData().InCasa = false;
 							Game.Player.GetPlayerData().Stanziato = false;
-							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
+							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
@@ -189,7 +189,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							IsInMedia = false;
 							Game.Player.GetPlayerData().InCasa = false;
 							Game.Player.GetPlayerData().Stanziato = false;
-							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
+							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
@@ -211,7 +211,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							IsInAppartamento = false;
 							Game.Player.GetPlayerData().InCasa = false;
 							Game.Player.GetPlayerData().Stanziato = false;
-							Client.GetInstance.DeregisterTickHandler(GestioneHotel);
+							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}

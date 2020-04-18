@@ -7,9 +7,10 @@ using System;
 using System.Collections.Generic;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Shared;
+
 using System.Drawing;
 using System.Linq;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Manager
 {

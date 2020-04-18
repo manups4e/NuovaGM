@@ -21,8 +21,8 @@ namespace NuovaGM.Client.TimeWeather
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
-			Client.GetInstance.RegisterEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
+			Client.Instance.AddEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
+			Client.Instance.AddEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
 		}
 		public static void SetDynamic(bool dynamic)
 		{

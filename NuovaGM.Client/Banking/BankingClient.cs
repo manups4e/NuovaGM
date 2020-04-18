@@ -133,13 +133,13 @@ namespace NuovaGM.Client.Banking
 		public static bool InterfacciaAperta = false;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
-			Client.GetInstance.RegisterEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 		}
 
 		static public async void onPlayerSpawn()
 		{
-			Client.GetInstance.RegisterTickHandler(ControlloATM);
+			Client.Instance.AddTick(ControlloATM);
 		}
 
 		public static async Task ControlloATM()
@@ -380,8 +380,8 @@ namespace NuovaGM.Client.Banking
 			MenuAttuale = 0;
 			currentSelection = 0;
 			TryBankingNew(true, 0);
-			Client.GetInstance.RegisterTickHandler(ControlliBank);
-			Client.GetInstance.RegisterTickHandler(AtmDisegna);
+			Client.Instance.AddTick(ControlliBank);
+			Client.Instance.AddTick(AtmDisegna);
 			InterfacciaAperta = true;
 		}
 
@@ -854,8 +854,8 @@ namespace NuovaGM.Client.Banking
 				if (MenuAttuale == 0)
 				{
 					Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
-					Client.GetInstance.DeregisterTickHandler(AtmDisegna);
-					Client.GetInstance.DeregisterTickHandler(ControlliBank);
+					Client.Instance.RemoveTick(AtmDisegna);
+					Client.Instance.RemoveTick(ControlliBank);
 					atm.Dispose();
 					StopAudioScene("ATM_PLAYER_SCENE");
 					InterfacciaAperta = false;

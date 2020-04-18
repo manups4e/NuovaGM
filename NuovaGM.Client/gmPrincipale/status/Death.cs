@@ -33,12 +33,12 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
-			Client.GetInstance.RegisterEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
-			Client.GetInstance.RegisterEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
-			Client.GetInstance.RegisterEventHandler("lprp:fineConteggio", new Action(endConteggio));
-//			Client.GetInstance.RegisterTickHandler(Injuried);
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
+			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
+			Client.Instance.AddEventHandler("lprp:fineConteggio", new Action(endConteggio));
+//			Client.Instance.AddTick(Injuried);
 		}
 
 		public static void Spawnato()
@@ -112,17 +112,17 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 				if (earlySpawnTimer > 0 && Main.IsDead)
 				{
-					Client.GetInstance.RegisterTickHandler(conteggioSangue);
+					Client.Instance.AddTick(conteggioSangue);
 				}
 			}
 			else
 			{
 				if (bleedoutTimer > 0 && Main.IsDead)
 				{
-					Client.GetInstance.RegisterTickHandler(conteggioMorte);
+					Client.Instance.AddTick(conteggioMorte);
 				}
 			}
-			Client.GetInstance.RegisterTickHandler(Testo);
+			Client.Instance.AddTick(Testo);
 		}
 
 		static string text = "";
@@ -138,7 +138,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			text = "Avrai possibilità di respawnare in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~";
 			if (earlySpawnTimer < 1)
 			{
-				Client.GetInstance.RegisterTickHandler(conteggioMorte);
+				Client.Instance.AddTick(conteggioMorte);
 			}
 
 			await Task.FromResult(0);
@@ -163,9 +163,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					text = text + "Tieni premuto [~b~E~s~] per respawnare";
 					if (await Input.WaitForKeyRelease(Control.Context))
 					{
-						Client.GetInstance.DeregisterTickHandler(conteggioSangue);
-						Client.GetInstance.DeregisterTickHandler(conteggioMorte);
-						Client.GetInstance.DeregisterTickHandler(Testo);
+						Client.Instance.RemoveTick(conteggioSangue);
+						Client.Instance.RemoveTick(conteggioMorte);
+						Client.Instance.RemoveTick(Testo);
 						RemoveItemsAfterRPDeath();
 						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
 						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
@@ -179,9 +179,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					if (await Input.WaitForKeyRelease(Control.Context))
 					{
 						BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-						Client.GetInstance.DeregisterTickHandler(conteggioSangue);
-						Client.GetInstance.DeregisterTickHandler(conteggioMorte);
-						Client.GetInstance.DeregisterTickHandler(Testo);
+						Client.Instance.RemoveTick(conteggioSangue);
+						Client.Instance.RemoveTick(conteggioMorte);
+						Client.Instance.RemoveTick(Testo);
 						RemoveItemsAfterRPDeath();
 						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
 						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
@@ -206,9 +206,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 			if (bleedoutTimer < 1 && Main.IsDead)
 			{
-				Client.GetInstance.DeregisterTickHandler(conteggioSangue);
-				Client.GetInstance.DeregisterTickHandler(conteggioMorte);
-				Client.GetInstance.DeregisterTickHandler(Testo);
+				Client.Instance.RemoveTick(conteggioSangue);
+				Client.Instance.RemoveTick(conteggioMorte);
+				Client.Instance.RemoveTick(Testo);
 				RemoveItemsAfterRPDeath();
 				earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
 				bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
@@ -227,7 +227,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				timeHeld = 0;
 
 			if (earlyRespawn && earlySpawnTimer < 1)
-				Client.GetInstance.DeregisterTickHandler(conteggioSangue);
+				Client.Instance.RemoveTick(conteggioSangue);
 
 			HUD.DrawText(text);
 			await Task.FromResult(0);
@@ -235,9 +235,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static async void endConteggio()
 		{
-			Client.GetInstance.DeregisterTickHandler(conteggioSangue);
-			Client.GetInstance.DeregisterTickHandler(conteggioMorte);
-			Client.GetInstance.DeregisterTickHandler(Testo);
+			Client.Instance.RemoveTick(conteggioSangue);
+			Client.Instance.RemoveTick(conteggioMorte);
+			Client.Instance.RemoveTick(Testo);
 			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
 			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 			text = "";

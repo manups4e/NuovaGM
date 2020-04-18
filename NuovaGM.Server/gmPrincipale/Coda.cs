@@ -1,6 +1,6 @@
 ﻿/*using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,8 +21,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("playerConnecting", new Action<Player, string, dynamic, dynamic>(PlayerConnect));
-			Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
+			Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, dynamic, dynamic>(PlayerConnect));
+			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
 		}
 
 		public static async void PlayerConnect([FromSource] Player player, string name, dynamic kickReason, dynamic deferrals)

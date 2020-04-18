@@ -74,8 +74,8 @@ namespace NuovaGM.Client.Giostre
 			};
 			SetBlipDisplay(Sopra.Handle, 4);
 			SetBlipDisplay(Sotto.Handle, 4);
-			Client.GetInstance.RegisterEventHandler("onResourceStop", new Action<string>(OnStop));
-			Client.GetInstance.RegisterEventHandler("omni:cablecar:forceState", new Action<int, string>(ForceState));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
+			Client.Instance.AddEventHandler("omni:cablecar:forceState", new Action<int, string>(ForceState));
 			CaricaTutto();
 		}
 
@@ -123,7 +123,7 @@ namespace NuovaGM.Client.Giostre
 			Cable_cars[0].State = "MOVE_TO_IDLE_TOP";
 			Cable_cars[1].State = "MOVE_TO_IDLE_TOP";
 
-			Client.GetInstance.RegisterTickHandler(UpdateCableMovement);
+			Client.Instance.AddTick(UpdateCableMovement);
 		}
 
 		static void OnStop(string name)

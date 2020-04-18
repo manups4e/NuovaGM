@@ -70,7 +70,7 @@ namespace NuovaGM.Client.Veicoli
 				tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
 			}
 
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static bool isPedDrivingAVehicle()

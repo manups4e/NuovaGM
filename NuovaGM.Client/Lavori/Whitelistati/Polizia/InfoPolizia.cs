@@ -1,4 +1,5 @@
-﻿using NuovaGM.Shared;
+﻿
+using NuovaGM.Shared;
 using System.Collections.Generic;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia

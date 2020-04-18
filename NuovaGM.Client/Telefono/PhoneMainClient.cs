@@ -32,8 +32,8 @@ namespace NuovaGM.Client.Telefono
 		public static Phone Phone;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:setupPhoneClientUser", new Action<string>(Setup));
-			Client.GetInstance.RegisterEventHandler("lprp:phone_start", new Action<string>(StartApp));
+			Client.Instance.AddEventHandler("lprp:setupPhoneClientUser", new Action<string>(Setup));
+			Client.Instance.AddEventHandler("lprp:phone_start", new Action<string>(StartApp));
 		}
 
 		private static async void Setup(string JsonTelefono) 
@@ -42,7 +42,7 @@ namespace NuovaGM.Client.Telefono
 				Phone = new Phone(JsonConvert.DeserializeObject<Phone>(JsonTelefono));
 			else
 				Phone = new Phone();
-			Client.GetInstance.RegisterTickHandler(ControlloApertura);
+			Client.Instance.AddTick(ControlloApertura);
 		}
 
 		public static async Task ControlloApertura()
@@ -122,18 +122,18 @@ namespace NuovaGM.Client.Telefono
 				if (Phone.currentApp != null)
 				{
 					Phone.currentApp.Kill();
-					Client.GetInstance.DeregisterTickHandler(Phone.currentApp.Tick);
+					Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				}
 				Phone.currentApp = Phone.mainApp;
 			}
 			else if (Phone.apps.Exists(x => x.Name == app))
 			{
-				Client.GetInstance.DeregisterTickHandler(Phone.mainApp.Tick);
+				Client.Instance.RemoveTick(Phone.mainApp.Tick);
 				Phone.currentApp = Phone.apps.FirstOrDefault(x => x.Name == app);
 			}
 
 			Phone.currentApp.Initialize(Phone);
-			Client.GetInstance.RegisterTickHandler(Phone.currentApp.Tick);
+			Client.Instance.AddTick(Phone.currentApp.Tick);
 
 			Client.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
 		}
@@ -143,7 +143,7 @@ namespace NuovaGM.Client.Telefono
 			if (Phone.currentApp != null)
 			{
 				Client.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
-				Client.GetInstance.DeregisterTickHandler(Phone.currentApp.Tick);
+				Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 
 				var lastApp = Phone.currentApp;
@@ -154,7 +154,7 @@ namespace NuovaGM.Client.Telefono
 					foreach (var app in Phone.apps)
 					{
 						app.Kill();
-						Client.GetInstance.DeregisterTickHandler(app.Tick);
+						Client.Instance.RemoveTick(app.Tick);
 					}
 					Phone.ClosePhone();
 				}

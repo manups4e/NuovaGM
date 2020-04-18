@@ -11,13 +11,13 @@ namespace NuovaGM.Server.Veicoli
 		static string lasthost = "";
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
-			Server.Instance.RegisterEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
-			Server.Instance.RegisterEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
-			Server.Instance.RegisterEventHandler("brakes:add_rear", new Action<int>(AddRear));
-			Server.Instance.RegisterEventHandler("brakes:add_front", new Action<int>(AddFront));
-			Server.Instance.RegisterEventHandler("brakes:rem_rear", new Action<int>(RemRear));
-			Server.Instance.RegisterEventHandler("brakes:rem_front", new Action<int>(RemFront));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
+			Server.Instance.AddEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
+			Server.Instance.AddEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
+			Server.Instance.AddEventHandler("brakes:add_rear", new Action<int>(AddRear));
+			Server.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
+			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
+			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
 			
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)

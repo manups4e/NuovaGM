@@ -69,12 +69,12 @@ namespace NuovaGM.Client.Giostre
 		public static async void Init()
 		{
 			func_220();
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(PlayerSale));
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:playerScende", new Action<int>(PlayerScende));
-			Client.GetInstance.RegisterEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
-			Client.GetInstance.RegisterEventHandler("onResourceStop", new Action<string>(OnStop));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(PlayerSale));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(PlayerScende));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
 			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f))
 			{
 				Sprite = BlipSprite.Fairground,
@@ -88,7 +88,7 @@ namespace NuovaGM.Client.Giostre
 		private static async Task SpawnaMontagne()
 		{
 			func_191();
-			Client.GetInstance.RegisterTickHandler(ControlloMontagne);
+			Client.Instance.AddTick(ControlloMontagne);
 			await Task.FromResult(0);
 		}
 
@@ -109,14 +109,14 @@ namespace NuovaGM.Client.Giostre
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			LoadStream("LEVIATHON_RIDE_MASTER", "");
 			await SpawnaMontagne();
-			Client.GetInstance.RegisterTickHandler(MuoveMontagneRusse);
+			Client.Instance.AddTick(MuoveMontagneRusse);
 			HUD.TimerBarPool.Add(montagna);
 
 		}
 
 		private static async void Spawnato()
 		{
-			Client.GetInstance.RegisterTickHandler(EliminaGialli);
+			Client.Instance.AddTick(EliminaGialli);
 		}
 
 		static List<ObjectHash> DaEliminare = new List<ObjectHash>()

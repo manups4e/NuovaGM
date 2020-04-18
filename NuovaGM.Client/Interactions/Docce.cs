@@ -119,7 +119,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private async static void Spawnato()

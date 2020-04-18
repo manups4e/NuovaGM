@@ -12,7 +12,7 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
 
 namespace NuovaGM.Client.Veicoli
@@ -24,7 +24,7 @@ namespace NuovaGM.Client.Veicoli
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:bagaliaio:chiudi", new Action(ChiudiBagagliaio));
+			Client.Instance.AddEventHandler("lprp:bagaliaio:chiudi", new Action(ChiudiBagagliaio));
 		}
 
 		private static async void ChiudiBagagliaio()

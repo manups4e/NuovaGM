@@ -8,7 +8,7 @@ using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client
@@ -17,12 +17,12 @@ namespace NuovaGM.Client
 	{
 		public static void Init()
 		{
-			Client.GetInstance.RegisterTickHandler(MenuMessaggi);
+			Client.Instance.AddTick(MenuMessaggi);
 		}
 
 		private static async void AttivaMenu()
 		{
-			UIMenu Test = new UIMenu("Test", "test");
+			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(1470, 500));
 			HUD.MenuPool.Add(Test);
 			UIMenuItem b = new UIMenuItem("ShowColoredShard");
 			UIMenuItem c = new UIMenuItem("ShowOldMessage");
@@ -31,8 +31,9 @@ namespace NuovaGM.Client
 			UIMenuItem f = new UIMenuItem("ShowWeaponPurchasedMessage");
 			UIMenuItem g = new UIMenuItem("ShowMpMessageLarge");
 			UIMenuItem h = new UIMenuItem("ShowMpWastedMessage");
-			UIMenuItem i = new UIMenuItem("AmbientPickup");
-			UIMenuItem j = new UIMenuItem("Pickup");
+			UIMenuItem i = new UIMenuItem("shopui_title_liqourstore");
+			UIMenuItem j = new UIMenuItem("shopui_title_liqourstore2");
+			UIMenuItem k = new UIMenuItem("shopui_title_liqourstore3");
 			Test.AddItem(b);
 			Test.AddItem(c);
 			Test.AddItem(d);
@@ -42,6 +43,7 @@ namespace NuovaGM.Client
 			Test.AddItem(h);
 			Test.AddItem(i);
 			Test.AddItem(j);
+			Test.AddItem(k);
 
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
@@ -60,9 +62,11 @@ namespace NuovaGM.Client
 				else if (item == h)
 					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
 				else if (item == i)
-					await World.CreateAmbientPickup(PickupType.WeaponPistol, Game.PlayerPed.GetOffsetPosition(new Vector3(0, 2f, 0)), new Model((int)ObjectHash.w_pi_pistol), 50);
+					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore", "shopui_title_liquorstore", menu.BannerSprite.Position, menu.BannerSprite.Size));
 				else if (item == j)
-					await World.CreatePickup(PickupType.WeaponPistol, Game.PlayerPed.GetOffsetPosition(new Vector3(0, 2f, 0)), new Model((int)ObjectHash.w_pi_pistol), 50);
+					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore2", "shopui_title_liquorstore2", menu.BannerSprite.Position, menu.BannerSprite.Size));
+				else if (item == k)
+					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore3", "shopui_title_liquorstore3", menu.BannerSprite.Position, menu.BannerSprite.Size));
 			};
 			Test.Visible = true;
 		}

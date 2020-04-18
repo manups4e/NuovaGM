@@ -1,4 +1,12 @@
-﻿namespace NuovaGM.Client.Negozi
+﻿using CitizenFX.Core;
+using NuovaGM.Client.gmPrincipale;
+using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.MenuNativo;
+using NuovaGM.Shared;
+using System.Collections.Generic;
+
+namespace NuovaGM.Client.Negozi
 {
 	static class NegoziBusiness
 	{
@@ -7,19 +15,69 @@
 
 		public static void Init()
 		{
+
 			/*
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:setstations", new Action<string, string>(SetStations));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:getstationcash", new Action<int>(GetStationCash));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:sellstation", new Action<bool, string, string>(SellStation));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:manage", new Action<dynamic>(Manage));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:sellstation", new Action<dynamic>(SellStation));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:notification", new Action<dynamic>(Notification));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:addstationfunds", new Action<dynamic>(AddStationFunds));
-			Client.GetInstance().RegisterEventHandler("lprp:negozi:remstationfunds", new Action<dynamic>(RemStationFunds));
+			Client.Instance().AddEventHandler("lprp:negozi:setstations", new Action<string, string>(SetStations));
+			Client.Instance().AddEventHandler("lprp:negozi:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
+			Client.Instance().AddEventHandler("lprp:negozi:getstationcash", new Action<int>(GetStationCash));
+			Client.Instance().AddEventHandler("lprp:negozi:sellstation", new Action<bool, string, string>(SellStation));
+			Client.Instance().AddEventHandler("lprp:negozi:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
+			Client.Instance().AddEventHandler("lprp:negozi:stationfundschange", new Action<bool, string>(StationFundsChange));
+			Client.Instance().AddEventHandler("lprp:negozi:manage", new Action<dynamic>(Manage));
+			Client.Instance().AddEventHandler("lprp:negozi:sellstation", new Action<dynamic>(SellStation));
+			Client.Instance().AddEventHandler("lprp:negozi:notification", new Action<dynamic>(Notification));
+			Client.Instance().AddEventHandler("lprp:negozi:addstationfunds", new Action<dynamic>(AddStationFunds));
+			Client.Instance().AddEventHandler("lprp:negozi:remstationfunds", new Action<dynamic>(RemStationFunds));
 			*/
+		}
+
+		public static void NegozioPubblico(string tipo)
+		{
+			var neg = Main.Textures[tipo];
+			string description = "";
+			List<OggettoVendita> oggettidaaggiungere = new List<OggettoVendita>();
+			switch (tipo)
+			{
+				case "247":
+					description = "Aperti 24/7!";
+					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs;
+					break;
+
+				case "ltd":
+					description = "Non è mica infinita!";
+					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd;
+					break;
+
+				case "rq":
+					description = "I liquori migliori!";
+					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq;
+					break;
+			}
+			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
+			HUD.MenuPool.Add(Negozio);
+
+			foreach (var ogg in Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared)
+			{
+				UIMenuItem oggetto = new UIMenuItem(SharedScript.ItemList[ogg.oggetto].label, "");
+				if (Game.Player.GetPlayerData().Money >= ogg.prezzo || Game.Player.GetPlayerData().Bank >= ogg.prezzo)
+					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
+				else
+					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
+				Negozio.AddItem(oggetto);
+			}
+
+			foreach (var ogg in oggettidaaggiungere)
+			{
+				UIMenuItem oggetto = new UIMenuItem(SharedScript.ItemList[ogg.oggetto].label, "");
+				if (Game.Player.GetPlayerData().Money >= ogg.prezzo || Game.Player.GetPlayerData().Bank >= ogg.prezzo)
+					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
+				else
+					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
+				Negozio.AddItem(oggetto);
+			}
+
+			Negozio.Visible = true;
+
 		}
 
 		/*

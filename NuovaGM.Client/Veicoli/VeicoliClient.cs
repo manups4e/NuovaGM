@@ -120,9 +120,9 @@ namespace NuovaGM.Client.Veicoli
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
-			Client.GetInstance.RegisterEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
+			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 		}
 
 		public static async Task Lux()
@@ -532,7 +532,7 @@ namespace NuovaGM.Client.Veicoli
 			if (previewedVehicle.Exists())
 			{
 				previewedVehicle.Delete();
-				Client.GetInstance.DeregisterTickHandler(previewHeading);
+				Client.Instance.RemoveTick(previewHeading);
 			}
 
 			if (Funzioni.IsSpawnPointClear(coords, 1f))
@@ -547,7 +547,7 @@ namespace NuovaGM.Client.Veicoli
 				previewedVehicle.DirtLevel = 0f;
 				previewedVehicle.PlaceOnGround();
 				garageCam.PointAt(previewedVehicle);
-				Client.GetInstance.RegisterTickHandler(previewHeading);
+				Client.Instance.AddTick(previewHeading);
 			}
 		}
 

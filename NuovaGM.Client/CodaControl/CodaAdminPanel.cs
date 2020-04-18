@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,12 @@ namespace NuovaGM.Client.CodaControl
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-            Client.GetInstance.RegisterEventHandler("lprp:coda: sessionResponse", new Action<ExpandoObject>(SessionResponse));
-            Client.GetInstance.RegisterNuiEventHandler("ClosePanel", new Action<ExpandoObject>(ClosePanel));
-            Client.GetInstance.RegisterNuiEventHandler("RefreshPanel", new Action<ExpandoObject>(RefreshPanel));
-            Client.GetInstance.RegisterNuiEventHandler("KickUser", new Action<ExpandoObject>(KickUser));
-            Client.GetInstance.RegisterNuiEventHandler("ChangePriority", new Action<ExpandoObject>(ChangePriority));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
+            Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<ExpandoObject>(SessionResponse));
+            Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<ExpandoObject>(ClosePanel));
+            Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<ExpandoObject>(RefreshPanel));
+            Client.Instance.RegisterNuiEventHandler("KickUser", new Action<ExpandoObject>(KickUser));
+            Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<ExpandoObject>(ChangePriority));
 
         }
 
@@ -73,7 +74,8 @@ namespace NuovaGM.Client.CodaControl
                         $"<td><button class=button onclick=Change('{k["License"]}')>Modifica</button></td>" +
                         $"</tr>";
                     });
-                    SendNuiMessage($@"{{ ""sessionlist"" : ""{text}"" }}");
+                    Funzioni.SendNuiMessage(new {sessionlist = text});
+                    Debug.WriteLine(text);
                     SetNuiFocus(true, true);
                     pannelloCodaAperto = true;
                 }
@@ -91,7 +93,7 @@ namespace NuovaGM.Client.CodaControl
             try
             {
                 SetNuiFocus(false, false);
-                SendNuiMessage($@"{{ ""panel"" : ""close"" }}");
+                Funzioni.SendNuiMessage(new { panel = "close" });
                 pannelloCodaAperto = false;
             }
             catch (Exception)
@@ -104,9 +106,8 @@ namespace NuovaGM.Client.CodaControl
         {
             try
             {
-                SetNuiFocus(false, false);
-                SendNuiMessage($@"{{ ""panel"" : ""close"" }}");
-                ExecuteCommand("q_session");
+                ClosePanel("");
+                ExecuteCommand("sessione");
             }
             catch (Exception)
             {
@@ -118,7 +119,7 @@ namespace NuovaGM.Client.CodaControl
         {
             try
             {
-                ExecuteCommand($"q_kick {data.License}");
+                ExecuteCommand($"ckick {data.License}");
             }
             catch (Exception)
             {
@@ -132,13 +133,11 @@ namespace NuovaGM.Client.CodaControl
             {
                 if (data.Value == "False")
                 {
-                    ExecuteCommand($"q_removepriority {data.License}");
+                    ExecuteCommand($"rimuovipriorita {data.License}");
                     return;
                 }
                 else
-                {
-                    ExecuteCommand($"q_addpriority {data.License} {int.Parse(data.Value.ToString())}");
-                }
+                    ExecuteCommand($"daipriorita {data.License} {int.Parse(data.Value.ToString())}");
 
             }
             catch (Exception)

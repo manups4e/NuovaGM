@@ -7,9 +7,10 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Generici.Rimozione
 {
@@ -28,7 +29,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
 			RequestAnimDict("oddjobs@towing");
 			Client.Printa(LogType.Debug, Newtonsoft.Json.JsonConvert.SerializeObject(Rimozione));
-			Client.GetInstance.RegisterTickHandler(InizioLavoro);
+			Client.Instance.AddTick(InizioLavoro);
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
 			//GetEntityAttachedToTowTruck(int towtruck);
@@ -62,7 +63,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
 				if (World.GetDistance(Game.PlayerPed.Position, Rimozione.InizioLavoro.ToVector3()) < 1.375)
 				{
-					HUD.ShowHelp("Vuoi lavorare nel magico mondo della rimozione forzata?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
+					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Game.Player.GetPlayerData().CurrentChar.job.name = "Rimozione forzata";
@@ -72,14 +73,15 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						VeicoloLavorativo.PlaceOnGround();
 						VeicoloLavorativo.PreviouslyOwnedByPlayer = true;
 						VeicoloLavorativo.Repair();
-						Client.GetInstance.RegisterTickHandler(LavoroRimozioneForzata);
-						Client.GetInstance.DeregisterTickHandler(InizioLavoro);
+						Client.Instance.AddTick(LavoroRimozioneForzata);
+						Client.Instance.AddTick(ControlloRimozione);
+						Client.Instance.RemoveTick(InizioLavoro);
+
 					}
 				}
 			}
 			await Task.FromResult(0);
 		}
-
 
 		public static async Task ControlloRimozione()
 		{
@@ -96,16 +98,36 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
 						VeicoloLavorativo.Delete();
 						VeicoloLavorativo = null;
-						Client.GetInstance.DeregisterTickHandler(LavoroRimozioneForzata);
-						Client.GetInstance.RegisterTickHandler(InizioLavoro);
+						Client.Instance.RemoveTick(LavoroRimozioneForzata);
+						Client.Instance.RemoveTick(ControlloRimozione);
+						Client.Instance.AddTick(InizioLavoro);
 					}
 				}
 			}
 		}
 
+
+
 		public static async Task LavoroRimozioneForzata()
 		{
+			await BaseScript.Delay(new Random().Next(60000));
+			puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
 
+			if (VeicoloDaRimuovere == null)
+			{
+				uint streename = 0;
+				uint crossing = 0;
+				GetStreetNameAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z, ref streename, ref crossing);
+				string str = GetStreetNameFromHashKey(streename);
+				string veicolo = Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
+				RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
+				VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(veicolo, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
+				VeicoloDaRimuovere.PlaceOnGround();
+				VeicoloDaRimuovere.PreviouslyOwnedByPlayer = true;
+				VeicoloDaRimuovere.Repair();
+				VeicoloDaRimuovere.LockStatus = VehicleLockStatus.Locked;
+				HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
+			}
 			await Task.FromResult(0);
 		}
 

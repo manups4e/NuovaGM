@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+
 using System;
 
 namespace NuovaGM.Server.Clothestores
@@ -9,8 +9,8 @@ namespace NuovaGM.Server.Clothestores
 	{
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:abiti:compra", new Action<Player, int, int>(Compra));
-			Server.Instance.RegisterEventHandler("lprp:barbiere:compra", new Action<Player, int, int>(CompraBrb));
+			Server.Instance.AddEventHandler("lprp:abiti:compra", new Action<Player, int, int>(Compra));
+			Server.Instance.AddEventHandler("lprp:barbiere:compra", new Action<Player, int, int>(CompraBrb));
 		}
 
 		private static void Compra([FromSource] Player p, int price, int num)

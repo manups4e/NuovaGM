@@ -12,8 +12,9 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 {
@@ -243,7 +244,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			DatiPlayer.OnMenuOpen += async (menu) =>
 			{
 				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
+				if (Client.Instance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -293,7 +294,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			Perquisizione.OnMenuOpen += async (menu) =>
 			{
 				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
+				if (Client.Instance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -336,7 +337,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			InterazioneCivile.OnItemSelect += async (menu, item, index) =>
 			{
-				if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
+				if (Client.Instance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -483,7 +484,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
 						{
 							int source = 0;
-							foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+							foreach (Player p in Client.Instance.GetPlayers.ToList())
 							{
 								if (p.Name == pers.Key)
 								{
@@ -507,7 +508,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							Personaggio.AddItem(bank);
 							Pos = new UIMenuItem("Ultima Posizione conosciuta");
 							if (source != 0)
-								GetStreetNameAtCoord(Client.GetInstance.GetPlayers[source].Character.Position.X, Client.GetInstance.GetPlayers[source].Character.Position.Y, Client.GetInstance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
+								GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
 							else
 								GetStreetNameAtCoord(data.location.x, data.location.y, data.location.z, ref StreetA, ref StreetB);
 							Pos.Description = GetStreetNameFromHashKey(StreetA);
@@ -528,14 +529,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			MenuPoliziaPrincipale.OnMenuOpen += (menu) =>
 			{
 				if (menu == MenuPoliziaPrincipale)
-					Client.GetInstance.RegisterTickHandler(ControlloMenu);
+					Client.Instance.AddTick(ControlloMenu);
 			};
 
 
 			MenuPoliziaPrincipale.OnMenuClose += (menu) =>
 			{
 				if (menu == MenuPoliziaPrincipale)
-					Client.GetInstance.DeregisterTickHandler(ControlloMenu);
+					Client.Instance.RemoveTick(ControlloMenu);
 			};
 
 			MenuPoliziaPrincipale.Visible = true;
@@ -568,7 +569,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				PreviewVehicle.IsDriveable = false;
 				PreviewVehicle.IsSirenActive = true;
 				PreviewVehicle.IsSirenSilent = true;
-				Client.GetInstance.RegisterTickHandler(Heading);
+				Client.Instance.AddTick(Heading);
 				cam.PointAt(PreviewVehicle);
 				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
 			};
@@ -635,7 +636,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			{
 				CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				Client.GetInstance.DeregisterTickHandler(Heading);
+				Client.Instance.RemoveTick(Heading);
 				cam.IsActive = false;
 				RenderScriptCams(false, false, 0, false, false);
 				await BaseScript.Delay(1000);
@@ -679,7 +680,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				PreviewHeli.IsInvincible = true;
 				PreviewHeli.IsEngineRunning = true;
 				PreviewHeli.IsDriveable = false;
-				Client.GetInstance.RegisterTickHandler(Heading);
+				Client.Instance.AddTick(Heading);
 				HeliCam.PointAt(PreviewHeli);
 				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
 				RenderScriptCams(true, false, 0, false, false);
@@ -755,7 +756,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			{
 				CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				Client.GetInstance.DeregisterTickHandler(Heading);
+				Client.Instance.RemoveTick(Heading);
 				HeliCam.IsActive = false;
 				RenderScriptCams(false, false, 0, false, false);
 				await BaseScript.Delay(1000);
@@ -820,7 +821,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			}
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeIn(800);
-			Client.GetInstance.RegisterTickHandler(ControlloGarageNew);
+			Client.Instance.AddTick(ControlloGarageNew);
 		}
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
 		{
@@ -905,7 +906,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								Game.Player.GetPlayerData().Stanziato = false;
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
-								Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
+								Client.Instance.RemoveTick(ControlloGarageNew);
 							}
 						}
 					}
@@ -953,7 +954,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						PuntoAttuale = null;
 						Game.Player.GetPlayerData().Stanziato = false;
 						veicoliParcheggio.Clear();
-						Client.GetInstance.DeregisterTickHandler(ControlloGarageNew);
+						Client.Instance.RemoveTick(ControlloGarageNew);
 					}
 					else
 					{
@@ -1039,7 +1040,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					ControlliVeicoloRemoto.ParentItem.Description = ControlliVeicoloRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
 				}
 			}
-			if (Client.GetInstance.GetPlayers.ToList().Count() > 1)
+			if (Client.Instance.GetPlayers.ToList().Count() > 1)
 			{
 				Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 				float distance = Player_Distance.Item2;

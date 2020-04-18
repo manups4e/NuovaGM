@@ -26,7 +26,7 @@ namespace NuovaGM.Client.Negozi
 		static bool CreatoCombo = false;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static async void Spawnato()
@@ -948,11 +948,11 @@ namespace NuovaGM.Client.Negozi
 				ClearPedTasks(PlayerPedId());
 				await Funzioni.UpdateFace(skin);
 				RenderScriptCams(false, true, 1000, true, false);
-				Client.GetInstance.DeregisterTickHandler(NuovaCam);
+				Client.Instance.RemoveTick(NuovaCam);
 			};
 			#endregion
 			MenuPrincipale.Visible = true;
-			Client.GetInstance.RegisterTickHandler(NuovaCam);
+			Client.Instance.AddTick(NuovaCam);
 		}
 
 		static float fov = 0;

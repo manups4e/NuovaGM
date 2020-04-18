@@ -4,7 +4,7 @@ using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using static NuovaGM.Shared.Veicoli.Modifiche;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
@@ -56,7 +57,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void ConcealAllPlayers()
 		{
-			Client.GetInstance.GetPlayers.ToList().ForEach(pl => { if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, true, true); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, true, true); } });
 		}
 
 		public static void RevealPlayersNearby(Vector3 coord, float radius)
@@ -69,7 +70,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void RevealAllPlayers()
 		{
-			Client.GetInstance.GetPlayers.ToList().ForEach(pl => { if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, false, false); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, false, false); } });
 		}
 
 
@@ -589,6 +590,20 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				return null;
 		}
 
+		/// <summary>
+		/// Spawns a <see cref="Ped"/> of the given <see cref="Model"/> at the position and heading specified.
+		/// </summary>
+		/// <param name="model">The <see cref="Model"/> of the <see cref="Ped"/>.</param>
+		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
+		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
+		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
+		public static async Task<Ped> CreatePedLocally(Model model, Vector3 position, float heading = 0f)
+		{
+			if (!model.IsPed || !await model.Request(3000))
+				return null;
+			return new Ped(CreatePed(26, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
+		}
+
 		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
@@ -659,7 +674,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area)
 		{
-			List<Player> PlayersInArea = Client.GetInstance.GetPlayers.ToList().FindAll(p => p.Character.Position.DistanceToSquared(coords) <= area && p != Game.Player);
+			List<Player> PlayersInArea = Client.Instance.GetPlayers.ToList().FindAll(p => p.Character.Position.DistanceToSquared(coords) <= area && p != Game.Player);
 			return PlayersInArea;
 		}
 
@@ -672,7 +687,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area)
 		{
 			List<Ped> PlayersPedsInArea = new List<Ped>();
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				if (World.GetDistance(target.Position, coords) <= area)
@@ -749,7 +764,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static Player GetPlayerFromPed(Ped ped)
 		{
-			foreach (Player pl in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player pl in Client.Instance.GetPlayers.ToList())
 				if (pl.Character.Handle == ped.Handle)
 					return pl;
 			return null;
@@ -764,7 +779,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Player closestPlayer = null;
 			Vector3 Coords = Game.PlayerPed.Position;
 
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				if (p != Game.Player)
@@ -805,7 +820,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			float closestDistance = -1;
 			Player closestPlayer = null;
 
-			foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
 				Vector3 targetCoords = target.Position;
@@ -1258,7 +1273,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		static WorldProbe()
 		{
-			Client.GetInstance.RegisterTickHandler(new Func<Task>(() => { CrosshairRaycastThisTick = null; return Task.FromResult(0); }));
+			Client.Instance.AddTick(new Func<Task>(() => { CrosshairRaycastThisTick = null; return Task.FromResult(0); }));
 		}
 
 		public static CitizenFX.Core.Vehicle GetVehicleInFrontOfPlayer(float distance = 5f)

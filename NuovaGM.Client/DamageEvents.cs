@@ -12,10 +12,10 @@ namespace NuovaGM.Client
 		public const string eventName = "DamageEvents";
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("gameEventTriggered", new Action<string, List<Object>>(GameEventTriggered));
+			Client.Instance.AddEventHandler("gameEventTriggered", new Action<string, List<Object>>(GameEventTriggered));
 			if (GetResourceMetadata(GetCurrentResourceName(), "enable_debug_prints_for_events", 0).ToLower() == "true")
 			{
-				Client.GetInstance.RegisterEventHandler(eventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
+				Client.Instance.AddEventHandler(eventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
 					Client.Printa(LogType.Debug, "event: VehicleDestroyed");
 					Client.Printa(LogType.Debug,$"vehicle: {a}");
@@ -24,13 +24,13 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
+				Client.Instance.AddEventHandler(eventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
 				{
 					Client.Printa(LogType.Debug,"event: PedKilledByVehicle");
 					Client.Printa(LogType.Debug,$"victim: {a}");
 					Client.Printa(LogType.Debug,$"vehicle: {b}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
+				Client.Instance.AddEventHandler(eventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
 					Client.Printa(LogType.Debug,"event: PedKilledByPlayer");
 					Client.Printa(LogType.Debug,$"victim: {a}");
@@ -38,7 +38,7 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"weapon hash: {c}");
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
+				Client.Instance.AddEventHandler(eventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
 					Client.Printa(LogType.Debug,"event: PedKilledByPed");
 					Client.Printa(LogType.Debug,$"victim: {a}");
@@ -46,7 +46,7 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"weapon hash: {c}");
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
+				Client.Instance.AddEventHandler(eventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
 					Client.Printa(LogType.Debug,"event: PedDied");
 					Client.Printa(LogType.Debug,$"victim: {a}");
@@ -54,7 +54,7 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"weapon hash: {c}");
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
+				Client.Instance.AddEventHandler(eventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
 					Client.Printa(LogType.Debug,"event: EntityKilled");
 					Client.Printa(LogType.Debug,$"victim: {a}");
@@ -62,7 +62,7 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"weapon hash: {c}");
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
+				Client.Instance.AddEventHandler(eventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
 					Client.Printa(LogType.Debug,"event: VehicleDamaged");
 					Client.Printa(LogType.Debug,$"vehicle: {a}");
@@ -71,7 +71,7 @@ namespace NuovaGM.Client
 					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
 					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
-				Client.GetInstance.RegisterEventHandler(eventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
+				Client.Instance.AddEventHandler(eventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
 					Client.Printa(LogType.Debug,"event: EntityDamaged");
 					Client.Printa(LogType.Debug,$"victim: {a}");

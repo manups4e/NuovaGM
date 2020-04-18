@@ -23,7 +23,7 @@ namespace NuovaGM.Client.Manager
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
+			Client.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
 		}
 
 		public static void Sviluppatore(bool toggle)
@@ -31,12 +31,12 @@ namespace NuovaGM.Client.Manager
 			if (toggle)
 			{
 				if (Main.spawned)
-					Client.GetInstance.RegisterTickHandler(OnTickSviluppo);
+					Client.Instance.AddTick(OnTickSviluppo);
 				else
 					HUD.ShowNotification("Devi essere spawnato prima! Scegli un personaggio!!");
 			}
 			else
-				Client.GetInstance.DeregisterTickHandler(OnTickSviluppo);
+				Client.Instance.RemoveTick(OnTickSviluppo);
 		}
 
 		public static async Task OnTickSviluppo()

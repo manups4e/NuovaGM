@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using static CitizenFX.Core.Native.API;
@@ -12,10 +12,10 @@ namespace NuovaGM.Server.Veicoli
 	{
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
-			Server.Instance.RegisterEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
-			Server.Instance.RegisterEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
-			Server.Instance.RegisterEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
+			Server.Instance.AddEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
+			Server.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
+			Server.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
+			Server.Instance.AddEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
 		}
 
 		public static void RespondDecor([FromSource]Player p)

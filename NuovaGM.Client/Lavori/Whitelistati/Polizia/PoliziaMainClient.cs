@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
 using CitizenFX.Core.UI;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 {
@@ -21,8 +22,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		public static bool InServizioDaPilota = false;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:polizia:ammanetta/smanetta", new Action(AmmanettaSmanetta));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:polizia:ammanetta/smanetta", new Action(AmmanettaSmanetta));
 		}
 
 		public static async void Spawnato()
@@ -324,7 +325,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			}
 			else
 			{
-				Client.GetInstance.DeregisterTickHandler(AbilitaBlipVolanti);
+				Client.Instance.RemoveTick(AbilitaBlipVolanti);
 			}
 		}
 

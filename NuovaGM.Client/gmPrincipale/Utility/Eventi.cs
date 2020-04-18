@@ -4,10 +4,11 @@ using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.Negozi;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
@@ -18,31 +19,31 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		//
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
-			Client.GetInstance.RegisterEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-			Client.GetInstance.RegisterEventHandler("lprp:sendUserInfo", new Action<string, int, string>(sendUserInfo));
-			Client.GetInstance.RegisterEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
-			Client.GetInstance.RegisterEventHandler("lprp:ShowNotification", new Action<string>(notification));
-			Client.GetInstance.RegisterEventHandler("lprp:death", new Action(death));
-			Client.GetInstance.RegisterEventHandler("lprp:announce", new Action<string>(announce));
-			Client.GetInstance.RegisterEventHandler("lprp:reviveChar", new Action(Revive));
-			Client.GetInstance.RegisterEventHandler("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
-			Client.GetInstance.RegisterEventHandler("lprp:deleteVehicle", new Action(DeleteVehicle));
-			Client.GetInstance.RegisterEventHandler("lprp:mostrasalvataggio", new Action(Salva));
-			Client.GetInstance.RegisterEventHandler("lprp:StartLocationSave", new Action(StartLocationSave));
-			Client.GetInstance.RegisterEventHandler("lprp:addWeapon", new Action<string, int>(AddWeapon));
-			Client.GetInstance.RegisterEventHandler("lprp:removeWeapon", new Action<string>(RemoveWeapon));
-			Client.GetInstance.RegisterEventHandler("lprp:possiediArma", new Action<string, string>(PossiediArma));
-			Client.GetInstance.RegisterEventHandler("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
-			Client.GetInstance.RegisterEventHandler("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
-			Client.GetInstance.RegisterEventHandler("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
-			Client.GetInstance.RegisterEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
-			Client.GetInstance.RegisterEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
-			Client.GetInstance.RegisterEventHandler("lprp:aggiornaPlayers", new Action<string>(AggiornaPlayers));
-			Client.GetInstance.RegisterEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
-			Client.GetInstance.RegisterEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
-			//			Client.GetInstance.RegisterTickHandler(Mappina);
+			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
+			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
+			Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
+			Client.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, int, string>(sendUserInfo));
+			Client.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
+			Client.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
+			Client.Instance.AddEventHandler("lprp:death", new Action(death));
+			Client.Instance.AddEventHandler("lprp:announce", new Action<string>(announce));
+			Client.Instance.AddEventHandler("lprp:reviveChar", new Action(Revive));
+			Client.Instance.AddEventHandler("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
+			Client.Instance.AddEventHandler("lprp:deleteVehicle", new Action(DeleteVehicle));
+			Client.Instance.AddEventHandler("lprp:mostrasalvataggio", new Action(Salva));
+			Client.Instance.AddEventHandler("lprp:StartLocationSave", new Action(StartLocationSave));
+			Client.Instance.AddEventHandler("lprp:addWeapon", new Action<string, int>(AddWeapon));
+			Client.Instance.AddEventHandler("lprp:removeWeapon", new Action<string>(RemoveWeapon));
+			Client.Instance.AddEventHandler("lprp:possiediArma", new Action<string, string>(PossiediArma));
+			Client.Instance.AddEventHandler("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
+			Client.Instance.AddEventHandler("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
+			Client.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
+			Client.Instance.AddEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
+			Client.Instance.AddEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
+			Client.Instance.AddEventHandler("lprp:aggiornaPlayers", new Action<string>(AggiornaPlayers));
+			Client.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
+			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
+			//			Client.Instance.AddTick(Mappina);
 		}
 
 		private static void AnimazioneRiceviOggetto()
@@ -266,7 +267,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async void StartLocationSave()
 		{
-			Client.GetInstance.RegisterTickHandler(LocationSave);
+			Client.Instance.AddTick(LocationSave);
 		}
 
 		public static async Task LocationSave()

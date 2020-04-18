@@ -112,7 +112,7 @@ namespace NuovaGM.Client.Interactions
 				SetTvVolume(-4f);
 				EnableMovieSubtitles(true);
 				Scaleform = false;
-				Client.GetInstance.RegisterTickHandler(DrawTV);
+				Client.Instance.AddTick(DrawTV);
 			}
 		}
 
@@ -291,7 +291,7 @@ namespace NuovaGM.Client.Interactions
 					FakeTV.Delete();
 					int intnum = -1;
 					uint something = (uint)intnum;
-					Client.GetInstance.DeregisterTickHandler(DrawTV);
+					Client.Instance.RemoveTick(DrawTV);
 				}
 			}
 		}

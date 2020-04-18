@@ -16,7 +16,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			divMultiplier = Client.Impostazioni.Main.divMultiplier;
 			LastCheck = World.CurrentDayTime;
 			SetDensity();
-			Client.GetInstance.RegisterTickHandler(Check);
+			Client.Instance.AddTick(Check);
 		}
 
 		public static async Task Check()

@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
+			Server.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
 		}
 
 		public static void chatMessage(int id, string name, string message)

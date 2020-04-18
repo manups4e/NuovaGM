@@ -7,7 +7,7 @@ using CitizenFX.Core;
 using static NuovaGM.Shared.Veicoli.Modifiche;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+
 
 namespace NuovaGM.Server.Lavori.Whitelistati
 {
@@ -16,9 +16,9 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 		private static List<int> Morti = new List<int>();
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
-			Server.Instance.RegisterEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
-			Server.Instance.RegisterEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
+			Server.Instance.AddEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
 		}
 
 		private static void PlayerMorto([FromSource] Player player)

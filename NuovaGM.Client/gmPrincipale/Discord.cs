@@ -14,7 +14,7 @@ namespace NuovaGM.Client.gmPrincipale
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			SetDiscordRichPresenceAssetText("Discord.gg/n4ep9Fq");
-			Client.GetInstance.RegisterTickHandler(RichPresence);
+			Client.Instance.AddTick(RichPresence);
 		}
 
 		private static async Task RichPresence()

@@ -72,7 +72,7 @@ namespace NuovaGM.Server
 		/// </summary>
 		/// <param name="name">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void RegisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
+		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
 
 		/// <summary>
 		/// Chiama il db ed esegue una Query con risultato dynamic
@@ -91,23 +91,16 @@ namespace NuovaGM.Server
 		public async Task Execute(string query, object parameters = null) => await MySQL.ExecuteAsync(query, parameters);
 
 		/// <summary>
-		/// Rimuove un evento client (TriggerEvent)
-		/// </summary>
-		/// <param name="name">Nome evento</param>
-		/// <param name="action">Azione legata all'evento</param>
-		public void DeregisterEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
-
-		/// <summary>
 		/// Registra una funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public void RegisterTickHandler(Func<Task> onTick) => Tick += onTick;
+		public void AddTick(Func<Task> onTick) => Tick += onTick;
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public void DeregisterTickHandler(Func<Task> onTick) => Tick -= onTick;
+		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
 
 
 		/// <summary>

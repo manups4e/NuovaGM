@@ -12,8 +12,9 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 {
@@ -169,7 +170,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			}
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeIn(800);
-			Client.GetInstance.RegisterTickHandler(ControlloGarage);
+			Client.Instance.AddTick(ControlloGarage);
 		}
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
 		{
@@ -248,7 +249,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 								Game.Player.GetPlayerData().Stanziato = false;
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
-								Client.GetInstance.DeregisterTickHandler(ControlloGarage);
+								Client.Instance.RemoveTick(ControlloGarage);
 							}
 						}
 					}
@@ -293,7 +294,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						PuntoAttuale = null;
 						Game.Player.GetPlayerData().Stanziato = false;
 						veicoliParcheggio.Clear();
-						Client.GetInstance.DeregisterTickHandler(ControlloGarage);
+						Client.Instance.RemoveTick(ControlloGarage);
 					}
 					else
 					{
@@ -336,7 +337,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				PreviewHeli.IsInvincible = true;
 				PreviewHeli.IsEngineRunning = true;
 				PreviewHeli.IsDriveable = false;
-				Client.GetInstance.RegisterTickHandler(Heading);
+				Client.Instance.AddTick(Heading);
 				HeliCam.PointAt(PreviewHeli);
 				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
 				RenderScriptCams(true, false, 0, false, false);
@@ -410,7 +411,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			{
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				Client.GetInstance.DeregisterTickHandler(Heading);
+				Client.Instance.RemoveTick(Heading);
 				HeliCam.IsActive = false;
 				RenderScriptCams(false, false, 0, false, false);
 				await BaseScript.Delay(1000);

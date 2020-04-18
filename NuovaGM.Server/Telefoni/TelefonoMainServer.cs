@@ -16,8 +16,8 @@ namespace NuovaGM.Server.Telefoni
 
 		public static void Init()
 		{
-			//Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(SetupPhone));
-			Server.Instance.RegisterEventHandler("lprp:onPlayerSpawn", new Action<Player>(SetupPhone));
+			//Server.Instance.AddEventHandler("lprp:setupUser", new Action<Player>(SetupPhone));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(SetupPhone));
 		}
 
 		private static async void SetupPhone([FromSource] Player player)

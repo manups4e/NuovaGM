@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace NuovaGM.Server
 		{
 			GuildId = Server.Impostazioni.Main.GuildId;
 			DiscordToken += Server.Impostazioni.Main.DiscordToken;
-			Server.Instance.RegisterTickHandler(connessioneDiscord);
+			Server.Instance.AddTick(connessioneDiscord);
 		}
 
 		public async static Task connessioneDiscord()

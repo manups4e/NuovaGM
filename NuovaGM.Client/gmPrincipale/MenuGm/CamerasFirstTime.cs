@@ -22,7 +22,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
+			Client.Instance.AddEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
 			PrepareMusicEvent("GLOBAL_KILL_MUSIC");
 			PrepareMusicEvent("FM_INTRO_START");
 			PrepareMusicEvent("FM_INTRO_END");
@@ -57,8 +57,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			TriggerMusicEvent("FM_INTRO_START");
 			Game.PlayerPed.Detach();
-			Client.GetInstance.RegisterTickHandler(Controllo);
-			Client.GetInstance.RegisterTickHandler(Crediti);
+			Client.Instance.AddTick(Controllo);
+			Client.Instance.AddTick(Crediti);
 			Game.PlayerPed.IsPositionFrozen = true;
 			Game.PlayerPed.IsVisible = false;
 			Game.Player.GetPlayerData().Stanziato = true;
@@ -188,15 +188,15 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();
-			Client.GetInstance.DeregisterTickHandler(Controllo);
-			Client.GetInstance.DeregisterTickHandler(Crediti);
+			Client.Instance.RemoveTick(Controllo);
+			Client.Instance.RemoveTick(Crediti);
 			SiContinua(Cam8);
 		}
 
 		public static async void SiContinua(Camera Cam)
 		{
-			Client.GetInstance.RegisterTickHandler(Controllo);
-			Client.GetInstance.RegisterTickHandler(Crediti);
+			Client.Instance.AddTick(Controllo);
+			Client.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -213,7 +213,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(-640.411f, -525.006f, 25.331f), 2f);
 				foreach (Vehicle v in vehs)
 				{
-					foreach (Player p in Client.GetInstance.GetPlayers.ToList())
+					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{
 						if (v.Driver != new Ped(GetPlayerPed(p.Handle)))
 						{
@@ -262,7 +262,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			sub_11f32("scrlead", 0.16f);
 			await BaseScript.Delay(4000);
 			sub_11f01("scrlead", 0.16f);
-			Client.GetInstance.DeregisterTickHandler(Crediti);
+			Client.Instance.RemoveTick(Crediti);
 
 			Camera cam10 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
@@ -295,10 +295,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Game.PlayerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
-//			Client.GetInstance.RegisterTickHandler(Meteo_new.Orario.AggiornaTempo);
+//			Client.Instance.AddTick(Meteo_new.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 			Screen.Fading.FadeIn(800);
-			Client.GetInstance.DeregisterTickHandler(Controllo);
+			Client.Instance.RemoveTick(Controllo);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 		}

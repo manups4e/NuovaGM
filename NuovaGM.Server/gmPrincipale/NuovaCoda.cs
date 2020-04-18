@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -67,20 +67,20 @@ namespace NuovaGM.Server.gmPrincipale
         public static void Init()
         {
             LoadConfigs();
-//            Server.Instance.RegisterEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-            Server.Instance.RegisterEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
-            Server.Instance.RegisterEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
-            Server.Instance.RegisterEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
+//            Server.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
+            Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
+            Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
+            Server.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
             Server.Instance.AddCommand("sessione", new Action<int, List<object>, string>(QueueSession), true);
             Server.Instance.AddCommand("cambiamax", new Action<int, List<object>, string>(QueueChangeMax), true);
             Server.Instance.AddCommand("ricaricaconfig", new Action<int, List<object>, string>(ReloadConfig), true);
-            Server.Instance.AddCommand("kick", new Action<int, List<object>, string>(Kick), true);
+            Server.Instance.AddCommand("ckick", new Action<int, List<object>, string>(Kick), true);
             Server.Instance.AddCommand("steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), true);
             Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
             Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
             StopHardcap();
             Task.Run(QueueCycle);
-//            Server.Instance.RegisterTickHandler(QueueCycle);
+//            Server.Instance.AddTick(QueueCycle);
             serverQueueReady = true;
         }
 
@@ -820,8 +820,8 @@ namespace NuovaGM.Server.gmPrincipale
                 {
                     newwhitelist = JsonConvert.DeserializeObject<List<PriorityAccount>>(File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString());
                 }
-                RegisterCommand("q_addpriority", new Action<int, List<object>, string>(Add), true);
-                RegisterCommand("q_removepriority", new Action<int, List<object>, string>(Remove), true);
+                RegisterCommand("daipriorita", new Action<int, List<object>, string>(Add), true);
+                RegisterCommand("rimuovipriorita", new Action<int, List<object>, string>(Remove), true);
                 NuovaCoda.priorityReady = true;
             }
             catch (Exception)

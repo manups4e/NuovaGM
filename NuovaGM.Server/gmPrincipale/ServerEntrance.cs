@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,9 +13,9 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:setupUser", new Action<Player>(setupUser));
-			Server.Instance.RegisterTickHandler(Orario);
-			Server.Instance.RegisterTickHandler(PlayTime);
+			Server.Instance.AddEventHandler("lprp:setupUser", new Action<Player>(setupUser));
+			Server.Instance.AddTick(Orario);
+			Server.Instance.AddTick(PlayTime);
 		}
 
 		public static async void setupUser([FromSource] Player player)

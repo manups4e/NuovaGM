@@ -12,17 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2332" />
+    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2363" />
     <PackageReference Include="Flurl.Http" Version="3.0.0-pre3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
     <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NuovaGM.Shared\NuovaGM.Shared.csproj" />
+    <Compile Include="..\NuovaGM.Shared\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,8 +32,9 @@
     <Reference Include="MySqlConnector">
       <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\MySqlConnector.dll</HintPath>
     </Reference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
       <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\System.Buffers.dll</HintPath>
@@ -53,12 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Lavori\Generici\" />
     <Folder Include="Properties\" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.* F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\&#xD;&#xA;" />
-  </Target>
 
 </Project>

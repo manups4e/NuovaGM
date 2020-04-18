@@ -18,10 +18,10 @@ namespace NuovaGM.Server.TimeWeather
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("freezeTime", new Action<bool>(FreezeTime));
-			Server.Instance.RegisterEventHandler("UpdateFromCommandTime", new Action<int>(Update));
-			Server.Instance.RegisterTickHandler(SetTime);
-			Server.Instance.RegisterTickHandler(UpdateTime);
+			Server.Instance.AddEventHandler("freezeTime", new Action<bool>(FreezeTime));
+			Server.Instance.AddEventHandler("UpdateFromCommandTime", new Action<int>(Update));
+			Server.Instance.AddTick(SetTime);
+			Server.Instance.AddTick(UpdateTime);
 		}
 
 		private static void Update(int time)

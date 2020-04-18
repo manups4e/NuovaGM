@@ -74,8 +74,8 @@ namespace NuovaGM.Client.Manager
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
-			Client.GetInstance.RegisterTickHandler(AC);
+			Client.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
+			Client.Instance.AddTick(AC);
 		}
 
 
@@ -89,7 +89,7 @@ namespace NuovaGM.Client.Manager
 			AddTextEntry("warning_message_second_line", sub);
 			instructionalKey = key;
 			event1 = evento1;
-			Client.GetInstance.RegisterTickHandler(WarningMessageTick);
+			Client.Instance.AddTick(WarningMessageTick);
 			await Task.FromResult(0);
 		}
 
@@ -100,7 +100,7 @@ namespace NuovaGM.Client.Manager
 			AddTextEntry("QM_NO_3", sub2);
 			instructionalKey = key;
 			event1 = evento1;
-			Client.GetInstance.RegisterTickHandler(FrontendAlertTick);
+			Client.Instance.AddTick(FrontendAlertTick);
 			await Task.FromResult(0);
 		}
 
@@ -111,19 +111,19 @@ namespace NuovaGM.Client.Manager
 			DrawFrontendAlert("FACES_WARNH2", "QM_NO_0", 3, 3, "QM_NO_3", 2, -1, 0, "FM_NXT_RAC", "QM_NO_1", true, 10);
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
-				Client.GetInstance.DeregisterTickHandler(FrontendAlertTick);
+				Client.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "select");
 				instructionalKey = 0;
 			}
 			else if (IsControlJustPressed(2, 202) || IsDisabledControlJustPressed(2, 202))
 			{
-				Client.GetInstance.DeregisterTickHandler(FrontendAlertTick);
+				Client.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "back");
 				instructionalKey = 0;
 			}
 			else if (Game.IsControlPressed(2, Control.FrontendX) || Game.IsDisabledControlJustPressed(2, Control.FrontendX))
 			{
-				Client.GetInstance.DeregisterTickHandler(FrontendAlertTick);
+				Client.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "alternative");
 				instructionalKey = 0;
 			}
@@ -138,19 +138,19 @@ namespace NuovaGM.Client.Manager
 			SetWarningMessage("warning_message_first_line", instructionalKey, "warning_message_second_line", true, -1, ref bg, ref p6, true, 0);
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
-				Client.GetInstance.DeregisterTickHandler(WarningMessageTick);
+				Client.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "select");
 				instructionalKey = 0;
 			}
 			else if (IsControlJustPressed(2, 202) || IsDisabledControlJustPressed(2, 202))
 			{
-				Client.GetInstance.DeregisterTickHandler(WarningMessageTick);
+				Client.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "back");
 				instructionalKey = 0;
 			}
 			else if (Game.IsControlPressed(2, Control.FrontendX) || Game.IsDisabledControlJustPressed(2, Control.FrontendX))
 			{
-				Client.GetInstance.DeregisterTickHandler(WarningMessageTick);
+				Client.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "alternative");
 				instructionalKey = 0;
 			}
@@ -188,7 +188,7 @@ namespace NuovaGM.Client.Manager
 						curHeading = Game.PlayerPed.Heading;
 						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 						Game.PlayerPed.Rotation = new Vector3(0);
-						Client.GetInstance.RegisterTickHandler(noClip);
+						Client.Instance.AddTick(noClip);
 						NoClip = true;
 					}
 					else
@@ -206,7 +206,7 @@ namespace NuovaGM.Client.Manager
 							Vehicle veh = Game.PlayerPed.CurrentVehicle;
 							veh.IsInvincible = false;
 						}
-						Client.GetInstance.DeregisterTickHandler(noClip);
+						Client.Instance.RemoveTick(noClip);
 						ClearAllHelpMessages();
 						NoClip = false;
 					}

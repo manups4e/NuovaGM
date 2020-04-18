@@ -17,21 +17,21 @@ namespace NuovaGM.Server.Businesses
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:caricaStazioniGasServer", new Action(SendStationsUpdate));
-			Server.Instance.RegisterEventHandler("lprp:businesses:checkcanmanage", new Action<Player, int>(CheckCanManage));
-			Server.Instance.RegisterEventHandler("lprp:businesses:getstationcash", new Action<Player, int>(GetStationCash));
-			Server.Instance.RegisterEventHandler("lprp:businesses:changestation", new Action<Player, string, string, int, int, int, string>(ChangeStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:sellstation", new Action<Player, string, int>(SellStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:depositfuel", new Action<Player, int, int>(DepositFuel));
-			Server.Instance.RegisterEventHandler("lprp:businesses:checkfuelforstation", new Action<Player, int>(CheckFuelStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:removefuelfromstation", new Action<Player, int, int>(RemoveFuelStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:purchasestation", new Action<Player, int>(PurchaseStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:addmoneytostation", new Action<Player, int, int>(AddMoneyToStation));
-			Server.Instance.RegisterEventHandler("lprp:businesses:saddfuel", new Action<Player, int, int>(SAddFuel));
-			Server.Instance.RegisterEventHandler("lprp:businesses:saddmoney", new Action<Player, int, int>(SAddMoney));
-			Server.Instance.RegisterEventHandler("lprp:businesses:sresetmanage", new Action<Player, int>(SResetManage));
-			Server.Instance.RegisterEventHandler("lprp:businesses:addstationfunds", new Action<Player, int, int>(AddStationFunds));
-			Server.Instance.RegisterEventHandler("lprp:businesses:remstationfunds", new Action<Player, int, int>(RemStationFunds));
+			Server.Instance.AddEventHandler("lprp:caricaStazioniGasServer", new Action(SendStationsUpdate));
+			Server.Instance.AddEventHandler("lprp:businesses:checkcanmanage", new Action<Player, int>(CheckCanManage));
+			Server.Instance.AddEventHandler("lprp:businesses:getstationcash", new Action<Player, int>(GetStationCash));
+			Server.Instance.AddEventHandler("lprp:businesses:changestation", new Action<Player, string, string, int, int, int, string>(ChangeStation));
+			Server.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<Player, string, int>(SellStation));
+			Server.Instance.AddEventHandler("lprp:businesses:depositfuel", new Action<Player, int, int>(DepositFuel));
+			Server.Instance.AddEventHandler("lprp:businesses:checkfuelforstation", new Action<Player, int>(CheckFuelStation));
+			Server.Instance.AddEventHandler("lprp:businesses:removefuelfromstation", new Action<Player, int, int>(RemoveFuelStation));
+			Server.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<Player, int>(PurchaseStation));
+			Server.Instance.AddEventHandler("lprp:businesses:addmoneytostation", new Action<Player, int, int>(AddMoneyToStation));
+			Server.Instance.AddEventHandler("lprp:businesses:saddfuel", new Action<Player, int, int>(SAddFuel));
+			Server.Instance.AddEventHandler("lprp:businesses:saddmoney", new Action<Player, int, int>(SAddMoney));
+			Server.Instance.AddEventHandler("lprp:businesses:sresetmanage", new Action<Player, int>(SResetManage));
+			Server.Instance.AddEventHandler("lprp:businesses:addstationfunds", new Action<Player, int, int>(AddStationFunds));
+			Server.Instance.AddEventHandler("lprp:businesses:remstationfunds", new Action<Player, int, int>(RemStationFunds));
 		}
 
 		public static async void SendStationsUpdate()

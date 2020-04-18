@@ -67,6 +67,9 @@ namespace NuovaGM.Client.gmPrincipale
 			["Osheas"] = new KeyValuePair<string, string>("shopui_title_barber3", "shopui_title_barber3"),
 			["Combo"] = new KeyValuePair<string, string>("shopui_title_barber2", "shopui_title_barber2"),
 			["Mulet"] = new KeyValuePair<string, string>("shopui_title_highendsalon", "shopui_title_highendsalon"),
+			["247"] = new KeyValuePair<string, string>("shopui_title_conveniencestore", "shopui_title_conveniencestore"),
+			["ltd"] = new KeyValuePair<string, string>("shopui_title_gasstation", "shopui_title_gasstation"),
+			["rq"] = new KeyValuePair<string, string>("shopui_title_liquorstore2", "shopui_title_liquorstore2"),
 		};
 
 		public static bool IsDead = false;
@@ -78,17 +81,17 @@ namespace NuovaGM.Client.gmPrincipale
 		public static void Init()
 		{
 			LoadMain();
-			Client.GetInstance.RegisterTickHandler(Istanza);
-			Client.GetInstance.RegisterTickHandler(AFK);
-			Client.GetInstance.RegisterTickHandler(HUD.Menus);
-			Client.GetInstance.RegisterTickHandler(Entra);
-			Client.GetInstance.RegisterTickHandler(Connesso);
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
-			Client.GetInstance.RegisterEventHandler("playerSpawned", new Action(playerSpawned));
-			Client.GetInstance.RegisterEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
-			Client.GetInstance.RegisterEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
-			Client.GetInstance.RegisterEventHandler("lprp:getHost", new Action<int>(GetHost));
-			Client.GetInstance.RegisterEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
+			Client.Instance.AddTick(Istanza);
+			Client.Instance.AddTick(AFK);
+			Client.Instance.AddTick(HUD.Menus);
+			Client.Instance.AddTick(Entra);
+			Client.Instance.AddTick(Connesso);
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
+			Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
+			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
+			Client.Instance.AddEventHandler("lprp:getHost", new Action<int>(GetHost));
+			Client.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
 			Screen.Fading.FadeOut(800);
 		}
 
@@ -140,7 +143,7 @@ namespace NuovaGM.Client.gmPrincipale
 			NetworkSetTalkerProximity(0f);
 			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
 			Game.PlayerPed.Heading = charSelectCoords.W;
-			Client.GetInstance.GetExports["spawnmanager"].setAutoSpawn(false);
+			Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
 			Screen.Hud.IsRadarVisible = false;
 			SetEnablePedEnveffScale(PlayerPedId(), true);
 			SetPlayerTargetingMode(2);
@@ -195,7 +198,7 @@ namespace NuovaGM.Client.gmPrincipale
 			if (Game.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
 			{
 				Game.PlayerPed.Style.SetDefaultClothes();
-				Game.PlayerPed.SetDecor(Main.decorName, Main.decorInt);
+				Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
 				Game.PlayerPed.IsVisible = false;
 				Game.Player.GetPlayerData().Stanziato = true;
 				Game.PlayerPed.IsPositionFrozen = true;
@@ -239,7 +242,7 @@ namespace NuovaGM.Client.gmPrincipale
 			if (NetworkIsSessionStarted())
 			{
 				BaseScript.TriggerServerEvent("lprp:setupUser");
-				Client.GetInstance.DeregisterTickHandler(Entra);
+				Client.Instance.RemoveTick(Entra);
 			}
 		}
 
@@ -345,7 +348,7 @@ namespace NuovaGM.Client.gmPrincipale
 				}
 				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 				SendNuiMessage($@"{{ ""resname"" : ""{GetCurrentResourceName()}""}}");
-				Client.GetInstance.DeregisterTickHandler(Connesso);
+				Client.Instance.RemoveTick(Connesso);
 			}
 			catch (Exception)
 			{

@@ -11,6 +11,7 @@ namespace NuovaGM.Client
 		public static async Task DichiaraDecor()
 		{
 			EntityDecoration.RegisterProperty("NuovaGM2019fighissimo!yeah!", DecorationType.Int);
+			EntityDecoration.RegisterProperty("Testdecor", DecorationType.Int);
 			EntityDecoration.RegisterProperty("lprp_fuel", DecorationType.Float);
 			EntityDecoration.RegisterProperty("VeicoloPolizia", DecorationType.Int);
 			EntityDecoration.RegisterProperty("VeicoloMedici", DecorationType.Int);

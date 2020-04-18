@@ -34,32 +34,32 @@ namespace NuovaGM.Client
 		private static bool Medici = false;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static async void Spawnato()
 		{
-			Client.GetInstance.RegisterTickHandler(KingOfAllTicks);
-			Client.GetInstance.RegisterTickHandler(BankingClient.Markers);
-			Client.GetInstance.RegisterTickHandler(PompeDiBenzinaClient.BusinessesPumps);
-			Client.GetInstance.RegisterTickHandler(Death.Injuried);
-			Client.GetInstance.RegisterTickHandler(StatsNeeds.Aggiornamento);
-			Client.GetInstance.RegisterTickHandler(StatsNeeds.Conseguenze);
-			Client.GetInstance.RegisterTickHandler(StatsNeeds.Agg);
-			Client.GetInstance.RegisterTickHandler(NegozioAbitiClient.OnTick);
-			Client.GetInstance.RegisterTickHandler(NegoziClient.OnTick);
-			Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiStatus);
-			Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiSoldi);
-			Client.GetInstance.RegisterTickHandler(BarberClient.Sedie);
-			Client.GetInstance.RegisterTickHandler(VeicoliClient.MostraMenuAffitto);
-			Client.GetInstance.RegisterTickHandler(Main.NewTick);
-			Client.GetInstance.RegisterTickHandler(Main.MainTick);
-			Client.GetInstance.RegisterTickHandler(Main.Armi);
-			Client.GetInstance.RegisterTickHandler(Main.Recoil);
-			Client.GetInstance.RegisterTickHandler(PersonalMenu.attiva);
-			Client.GetInstance.RegisterTickHandler(FuelClient.FuelCount);
-			Client.GetInstance.RegisterTickHandler(FuelClient.FuelTruck);
-			Client.GetInstance.RegisterTickHandler(MediciMainClient.MarkersNonMedici);
+			Client.Instance.AddTick(KingOfAllTicks);
+			Client.Instance.AddTick(BankingClient.Markers);
+			Client.Instance.AddTick(PompeDiBenzinaClient.BusinessesPumps);
+			Client.Instance.AddTick(Death.Injuried);
+			Client.Instance.AddTick(StatsNeeds.Aggiornamento);
+			Client.Instance.AddTick(StatsNeeds.Conseguenze);
+			Client.Instance.AddTick(StatsNeeds.Agg);
+			Client.Instance.AddTick(NegozioAbitiClient.OnTick);
+			Client.Instance.AddTick(NegoziClient.OnTick);
+			Client.Instance.AddTick(EventiPersonalMenu.MostramiStatus);
+			Client.Instance.AddTick(EventiPersonalMenu.MostramiSoldi);
+			Client.Instance.AddTick(BarberClient.Sedie);
+			Client.Instance.AddTick(VeicoliClient.MostraMenuAffitto);
+			Client.Instance.AddTick(Main.NewTick);
+			Client.Instance.AddTick(Main.MainTick);
+			Client.Instance.AddTick(Main.Armi);
+			Client.Instance.AddTick(Main.Recoil);
+			Client.Instance.AddTick(PersonalMenu.attiva);
+			Client.Instance.AddTick(FuelClient.FuelCount);
+			Client.Instance.AddTick(FuelClient.FuelTruck);
+			Client.Instance.AddTick(MediciMainClient.MarkersNonMedici);
 		}
 
 		private static async Task KingOfAllTicks()
@@ -69,21 +69,21 @@ namespace NuovaGM.Client
 			{
 				if (!InUnVeicolo)
 				{
-					Client.GetInstance.RegisterTickHandler(VehicleDamage.OnTick);
+					Client.Instance.AddTick(VehicleDamage.OnTick);
 					if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode)
-						Client.GetInstance.RegisterTickHandler(VehicleDamage.IfNeeded);
-					Client.GetInstance.RegisterTickHandler(VeicoliClient.Lux);
-					Client.GetInstance.RegisterTickHandler(VeicoliClient.gestioneVeh);
-					Client.GetInstance.RegisterTickHandler(Prostitute.LoopProstitute);
-					Client.GetInstance.RegisterTickHandler(Prostitute.ControlloProstitute);
+						Client.Instance.AddTick(VehicleDamage.IfNeeded);
+					Client.Instance.AddTick(VeicoliClient.Lux);
+					Client.Instance.AddTick(VeicoliClient.gestioneVeh);
+					Client.Instance.AddTick(Prostitute.LoopProstitute);
+					Client.Instance.AddTick(Prostitute.ControlloProstitute);
 
-					Client.GetInstance.RegisterTickHandler(EffettiRuote.ControlloRuote);
-					Client.GetInstance.RegisterTickHandler(EffettiRuote.WheelGlow);
+					Client.Instance.AddTick(EffettiRuote.ControlloRuote);
+					Client.Instance.AddTick(EffettiRuote.WheelGlow);
 
-					Client.GetInstance.DeregisterTickHandler(NegozioAbitiClient.OnTick);
-					Client.GetInstance.DeregisterTickHandler(BarberClient.Sedie);
-					Client.GetInstance.DeregisterTickHandler(NegoziClient.OnTick);
-					Client.GetInstance.DeregisterTickHandler(VeicoliClient.MostraMenuAffitto);
+					Client.Instance.RemoveTick(NegozioAbitiClient.OnTick);
+					Client.Instance.RemoveTick(BarberClient.Sedie);
+					Client.Instance.RemoveTick(NegoziClient.OnTick);
+					Client.Instance.RemoveTick(VeicoliClient.MostraMenuAffitto);
 					InUnVeicolo = true;
 				}
 			}
@@ -91,22 +91,22 @@ namespace NuovaGM.Client
 			{
 				if (InUnVeicolo)
 				{
-					Client.GetInstance.DeregisterTickHandler(VehicleDamage.OnTick);
+					Client.Instance.RemoveTick(VehicleDamage.OnTick);
 					if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode)
-						Client.GetInstance.DeregisterTickHandler(VehicleDamage.IfNeeded);
-					Client.GetInstance.DeregisterTickHandler(VeicoliClient.Lux);
-					Client.GetInstance.DeregisterTickHandler(VeicoliClient.gestioneVeh);
-					Client.GetInstance.DeregisterTickHandler(Prostitute.LoopProstitute);
-					Client.GetInstance.DeregisterTickHandler(Prostitute.ControlloProstitute);
+						Client.Instance.RemoveTick(VehicleDamage.IfNeeded);
+					Client.Instance.RemoveTick(VeicoliClient.Lux);
+					Client.Instance.RemoveTick(VeicoliClient.gestioneVeh);
+					Client.Instance.RemoveTick(Prostitute.LoopProstitute);
+					Client.Instance.RemoveTick(Prostitute.ControlloProstitute);
 
-					Client.GetInstance.DeregisterTickHandler(EffettiRuote.ControlloRuote);
-					Client.GetInstance.DeregisterTickHandler(EffettiRuote.WheelGlow);
+					Client.Instance.RemoveTick(EffettiRuote.ControlloRuote);
+					Client.Instance.RemoveTick(EffettiRuote.WheelGlow);
 
-					Client.GetInstance.RegisterTickHandler(NegozioAbitiClient.OnTick);
-					Client.GetInstance.RegisterTickHandler(BarberClient.Sedie);
-					Client.GetInstance.RegisterTickHandler(BankingClient.Markers);
-					Client.GetInstance.RegisterTickHandler(NegoziClient.OnTick);
-					Client.GetInstance.RegisterTickHandler(VeicoliClient.MostraMenuAffitto);
+					Client.Instance.AddTick(NegozioAbitiClient.OnTick);
+					Client.Instance.AddTick(BarberClient.Sedie);
+					Client.Instance.AddTick(BankingClient.Markers);
+					Client.Instance.AddTick(NegoziClient.OnTick);
+					Client.Instance.AddTick(VeicoliClient.MostraMenuAffitto);
 					InUnVeicolo = false;
 				}
 			}
@@ -114,8 +114,8 @@ namespace NuovaGM.Client
 			{
 				if (!HideHud)
 				{
-					Client.GetInstance.DeregisterTickHandler(EventiPersonalMenu.MostramiStatus);
-					Client.GetInstance.DeregisterTickHandler(EventiPersonalMenu.MostramiSoldi);
+					Client.Instance.RemoveTick(EventiPersonalMenu.MostramiStatus);
+					Client.Instance.RemoveTick(EventiPersonalMenu.MostramiSoldi);
 					HideHud = true;
 				}
 			}
@@ -123,8 +123,8 @@ namespace NuovaGM.Client
 			{
 				if (HideHud)
 				{
-					Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiStatus);
-					Client.GetInstance.RegisterTickHandler(EventiPersonalMenu.MostramiSoldi);
+					Client.Instance.AddTick(EventiPersonalMenu.MostramiStatus);
+					Client.Instance.AddTick(EventiPersonalMenu.MostramiSoldi);
 					HideHud = false;
 				}
 			}
@@ -132,10 +132,10 @@ namespace NuovaGM.Client
 			{
 				if (!InAppartamento)
 				{
-					Client.GetInstance.RegisterTickHandler(DivaniEPosizioniSedute.DivaniCasa);
-					Client.GetInstance.RegisterTickHandler(Docce.ControlloDocceVicino);
-					Client.GetInstance.RegisterTickHandler(Docce.Docceeee);
-					Client.GetInstance.RegisterTickHandler(Letti.Letto);
+					Client.Instance.AddTick(DivaniEPosizioniSedute.DivaniCasa);
+					Client.Instance.AddTick(Docce.ControlloDocceVicino);
+					Client.Instance.AddTick(Docce.Docceeee);
+					Client.Instance.AddTick(Letti.Letto);
 					InAppartamento = true;
 				}
 			}
@@ -143,10 +143,10 @@ namespace NuovaGM.Client
 			{
 				if (InAppartamento)
 				{
-					Client.GetInstance.DeregisterTickHandler(DivaniEPosizioniSedute.DivaniCasa);
-					Client.GetInstance.DeregisterTickHandler(Docce.ControlloDocceVicino);
-					Client.GetInstance.DeregisterTickHandler(Docce.Docceeee);
-					Client.GetInstance.DeregisterTickHandler(Letti.Letto);
+					Client.Instance.RemoveTick(DivaniEPosizioniSedute.DivaniCasa);
+					Client.Instance.RemoveTick(Docce.ControlloDocceVicino);
+					Client.Instance.RemoveTick(Docce.Docceeee);
+					Client.Instance.RemoveTick(Letti.Letto);
 					InAppartamento = false;
 				}
 			}
@@ -158,22 +158,22 @@ namespace NuovaGM.Client
 			{
 				if (Medici)
 				{
-					Client.GetInstance.DeregisterTickHandler(MediciMainClient.MarkersMedici);
+					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
 					foreach (var morto in MediciMainClient.Morti)
 						morto.Value.Delete();
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
-						Client.GetInstance.DeregisterTickHandler(MediciMainClient.BlipMorti);
+						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
 					Medici = false;
 				}
 				if (!Polizia)
 				{
-					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MarkersPolizia);
-					Client.GetInstance.RegisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
 					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.GetInstance.RegisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+						Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = true;
 				}
 			}
@@ -181,16 +181,16 @@ namespace NuovaGM.Client
 			{
 				if (Polizia)
 				{
-					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
-					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
 					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+						Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = false;
 				}
 				if (!Medici)
 				{
-					Client.GetInstance.RegisterTickHandler(MediciMainClient.MarkersMedici);
-					Client.GetInstance.RegisterTickHandler(MediciMainClient.BlipMorti);
+					Client.Instance.AddTick(MediciMainClient.MarkersMedici);
+					Client.Instance.AddTick(MediciMainClient.BlipMorti);
 					Medici = true;
 				}
 			}
@@ -198,21 +198,21 @@ namespace NuovaGM.Client
 			{
 				if (Polizia)
 				{
-					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MarkersPolizia);
-					Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.MainTickPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
 					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.GetInstance.DeregisterTickHandler(PoliziaMainClient.AbilitaBlipVolanti);
+						Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					Polizia = false;
 				}
 				if (Medici)
 				{
-					Client.GetInstance.DeregisterTickHandler(MediciMainClient.MarkersMedici);
+					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
 					foreach (var morto in MediciMainClient.Morti)
 						morto.Value.Delete();
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
-						Client.GetInstance.DeregisterTickHandler(MediciMainClient.BlipMorti);
+						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
 					Medici = false;
 				}

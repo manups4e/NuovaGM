@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+
 using System;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
@@ -11,9 +11,9 @@ namespace NuovaGM.Server.banking
 	{
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:banking:sendMoney", new Action<Player, string, int>(SendMoney));
-			Server.Instance.RegisterEventHandler("lprp:banking:atmwithdraw", new Action<Player, int>(Ritira));
-			Server.Instance.RegisterEventHandler("lprp:banking:atmdeposit", new Action<Player, int>(Deposita));
+			Server.Instance.AddEventHandler("lprp:banking:sendMoney", new Action<Player, string, int>(SendMoney));
+			Server.Instance.AddEventHandler("lprp:banking:atmwithdraw", new Action<Player, int>(Ritira));
+			Server.Instance.AddEventHandler("lprp:banking:atmdeposit", new Action<Player, int>(Deposita));
 		}
 
 		public static void SendMoney([FromSource]Player player, string name, int amount)

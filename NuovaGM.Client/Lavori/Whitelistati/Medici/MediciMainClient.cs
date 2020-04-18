@@ -9,8 +9,9 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
 using CitizenFX.Core.UI;
-using NuovaGM.Shared;
+
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 {
@@ -22,9 +23,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		public static Dictionary<Ped, Blip> Morti = new Dictionary<Ped, Blip>();
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.GetInstance.RegisterEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
-			Client.GetInstance.RegisterEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
+			Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}
 
 		private static async void Spawnato()
@@ -388,7 +389,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				}
 			}
 			else
-				Client.GetInstance.DeregisterTickHandler(AbilitaBlipVolanti);
+				Client.Instance.RemoveTick(AbilitaBlipVolanti);
 		}
 
 		public static async Task BlipMorti()

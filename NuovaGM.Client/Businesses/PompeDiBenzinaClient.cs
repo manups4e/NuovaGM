@@ -19,18 +19,18 @@ namespace NuovaGM.Client.Businesses
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
-			Client.GetInstance.RegisterEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.GetInstance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<dynamic>(Manage));
-			Client.GetInstance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<dynamic>(SellStation));
-			Client.GetInstance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<dynamic>(Notification));
-			Client.GetInstance.RegisterNuiEventHandler("menuclosed", new Action<dynamic>(MenuClosed));
-			Client.GetInstance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<dynamic>(AddStationFunds));
-			Client.GetInstance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<dynamic>(RemStationFunds));
+			Client.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
+			Client.Instance.AddEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
+			Client.Instance.AddEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
+			Client.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
+			Client.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
+			Client.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<dynamic>(Manage));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<dynamic>(SellStation));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<dynamic>(Notification));
+			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action<dynamic>(MenuClosed));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<dynamic>(AddStationFunds));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<dynamic>(RemStationFunds));
 		}
 
 		public static StationDiBenzina GetStationInfo(int index)
@@ -77,9 +77,7 @@ namespace NuovaGM.Client.Businesses
 					foreach (string s in allow)
 						pfmtstr += " " + s;
 				SetNuiFocus(true, true);
-				string a = $@"{{""showManager"":""true"",""manageid"":""{manageid}"",""stationname"":""{station.stationname}"",""thanksmessage"":""{station.thanksmessage}"",""fuelcost"":""{station.fuelprice}"",""deltype"":""{station.delivertype}"",""funds"":""{funds}"",""deliverylist"":""{pfmtstr}""}}";
-				SendNuiMessage(a);
-
+				Funzioni.SendNuiMessage(new { showManager = true, manageid = manageid, stationname = station.stationname, thanksmessage = station.thanksmessage, fuelcost = station.fuelprice, deltype = station.delivertype, funds = funds, deliverylist = pfmtstr});
 			}
 			else
 				HUD.ShowNotification("Puoi gestire la stazione una volta ogni 24 ore.~n~Torna domani alle ore ~r~" + managetime + "~w~.", NotificationColor.RedDifferent);
@@ -96,15 +94,12 @@ namespace NuovaGM.Client.Businesses
 		{
 			if (success)
 			{
-				string a = $@"{{""closeManager"":""true""}}";
-				SendNuiMessage(a);
+				Funzioni.SendNuiMessage(new { closeManager = true });
 				SetNuiFocus(false, false);
 				HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
 			}
 			else
-			{
 				HUD.ShowNotification(msg, NotificationColor.Red);
-			}
 		}
 
 		public static void PurchaseStation(bool success, string msg, int sidx, int sellprice)
@@ -123,17 +118,15 @@ namespace NuovaGM.Client.Businesses
 
 		public static void StationFundsChange(bool success, string msg)
 		{
+			object a = null;
 			if (success)
-			{
-				string a = $@"{{""setFunds"":""true"",""stationmoney"":""{msg}""}}";
-				SendNuiMessage(a);
-			}
+				a = new {setFunds = true, stationmoney = msg};
 			else
 			{
 				HUD.ShowNotification(msg);
-				string a = $@"{{""setFunds"":""true"",""text"":"" {msg}""}}";
-				SendNuiMessage(a);
+				a = new { setFunds = true, stationmoney = msg };
 			}
+			Funzioni.SendNuiMessage(a);
 		}
 
 		private static void Manage(dynamic data)

@@ -18,17 +18,17 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		public static void Init()
 		{
-			Server.Instance.RegisterEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
-			Server.Instance.RegisterEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
-			Server.Instance.RegisterEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
-			Server.Instance.RegisterEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
-			Server.Instance.RegisterEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
-			Server.Instance.RegisterEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
-			Server.Instance.RegisterEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
-			Server.Instance.RegisterEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
-			Server.Instance.RegisterEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
+			Server.Instance.AddEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
+			Server.Instance.AddEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
+			Server.Instance.AddEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
+			Server.Instance.AddEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
+			Server.Instance.AddEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
+			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
+			Server.Instance.AddEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
+			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
+			Server.Instance.AddEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
 
-			//Server.Instance.RegisterTickHandler(AggiornamentoClient);
+			//Server.Instance.AddTick(AggiornamentoClient);
 
 		}
 

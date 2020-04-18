@@ -12,7 +12,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati
 		private static bool Medici = false;
 		public static void Init()
 		{
-//			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+//			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 	}
 }

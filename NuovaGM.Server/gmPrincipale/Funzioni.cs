@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace NuovaGM.Server.gmPrincipale
 	{
 		public static void Init()
 		{
-			Server.Instance.RegisterTickHandler(Salvataggio);
+			Server.Instance.AddTick(Salvataggio);
 		}
 
 		public static Player GetPlayerFromId(int id)

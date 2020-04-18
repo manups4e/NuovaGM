@@ -1,8 +1,9 @@
 ﻿using CitizenFX.Core;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NuovaGM.Shared;
+
 
 namespace NuovaGM.Server.TimeWeather
 {
@@ -19,11 +20,11 @@ namespace NuovaGM.Server.TimeWeather
 			currentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
 			weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 			rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
-			Server.Instance.RegisterEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-			Server.Instance.RegisterEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-			Server.Instance.RegisterEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
-			Server.Instance.RegisterEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
-			Server.Instance.RegisterTickHandler(Conteggio);
+			Server.Instance.AddEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+			Server.Instance.AddEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
+			Server.Instance.AddEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
+			Server.Instance.AddEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
+			Server.Instance.AddTick(Conteggio);
 		}
 
 		private static void CambiaMeteoPerMe([FromSource]Player p, bool startup)

@@ -14,10 +14,10 @@ namespace NuovaGM.Server.Interactions
 		public static List<OggettoRaccoglibile> Pickups = new List<OggettoRaccoglibile>();
 		public static void Init()									  
 		{
-			Server.Instance.RegisterEventHandler("lprp:removeInventoryItemWithPickup", new Action<Player, string, int>(RemoveInventoryItemWithPickup));
-			Server.Instance.RegisterEventHandler("lprp:removeWeaponWithPickup", new Action<Player, string>(RemoveWeaponWithPickup));
-			Server.Instance.RegisterEventHandler("lprp:removeAccountWithPickup", new Action<Player, string, int>(RemoveAccountWithPickup));
-			Server.Instance.RegisterEventHandler("lprp:onPickup", new Action<Player, int>(OnPickup));
+			Server.Instance.AddEventHandler("lprp:removeInventoryItemWithPickup", new Action<Player, string, int>(RemoveInventoryItemWithPickup));
+			Server.Instance.AddEventHandler("lprp:removeWeaponWithPickup", new Action<Player, string>(RemoveWeaponWithPickup));
+			Server.Instance.AddEventHandler("lprp:removeAccountWithPickup", new Action<Player, string, int>(RemoveAccountWithPickup));
+			Server.Instance.AddEventHandler("lprp:onPickup", new Action<Player, int>(OnPickup));
 		}
 
 		public static void CreatePickup(Inventory oggetto, int count, string label, User user)

@@ -16,7 +16,7 @@ namespace NuovaGM.Client
 	{
 		public static async Task Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:ConfigurazioneClient", new Action<string, string>(Configurazione));
+			Client.Instance.AddEventHandler("lprp:ConfigurazioneClient", new Action<string, string>(Configurazione));
 			BaseScript.TriggerServerEvent("lprp:riavvioApp");
 			while (Client.Impostazioni == null) await BaseScript.Delay(0);
 			await Task.FromResult(0);

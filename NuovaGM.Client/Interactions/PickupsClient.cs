@@ -3,13 +3,14 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -21,10 +22,10 @@ namespace NuovaGM.Client.Interactions
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterTickHandler(PickupsMain);
-			Client.GetInstance.RegisterEventHandler("lprp:createPickup", new Action<string,string>(CreatePickup));
-			Client.GetInstance.RegisterEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
-			Client.GetInstance.RegisterEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
+			Client.Instance.AddTick(PickupsMain);
+			Client.Instance.AddEventHandler("lprp:createPickup", new Action<string,string>(CreatePickup));
+			Client.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
+			Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
 
 		public static async Task PickupsMain()

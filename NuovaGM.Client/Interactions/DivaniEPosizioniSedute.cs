@@ -71,7 +71,7 @@ namespace NuovaGM.Client.Interactions
 									SetPedConfigFlag(PlayerPedId(), 414, true);
 									TaskUseNearestScenarioToCoord(PlayerPedId(), Divani[i][j].X, Divani[i][j].Y, Divani[i][j].Z, 2f, 5000);
 									Seduto = true;
-									Client.GetInstance.RegisterTickHandler(Televisione);
+									Client.Instance.AddTick(Televisione);
 								}
 							}
 						}
@@ -89,7 +89,7 @@ namespace NuovaGM.Client.Interactions
 					HUD.ShowHelp(GetLabelText("MPTV_SEAT"));
 					if (Input.IsControlJustPressed(Control.Context))
 					{
-						Client.GetInstance.RegisterTickHandler(Televisioni.ControllaTV);
+						Client.Instance.AddTick(Televisioni.ControllaTV);
 						stato = true;
 					}
 					else if (IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
@@ -100,7 +100,7 @@ namespace NuovaGM.Client.Interactions
 				}
 				else if (stato && IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
 				{
-					Client.GetInstance.DeregisterTickHandler(Televisioni.ControllaTV);
+					Client.Instance.RemoveTick(Televisioni.ControllaTV);
 					stato = false;
 				}
 			}

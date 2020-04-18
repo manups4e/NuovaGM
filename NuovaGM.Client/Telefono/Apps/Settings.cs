@@ -7,7 +7,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.Telefono;
 using NuovaGM.Client.Telefono.Models;
-using NuovaGM.Shared;
+
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 

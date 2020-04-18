@@ -352,7 +352,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 			ClubHouse.ClubName.Init();
 			ClubHouse.Emblem.Init();
 			ClubHouse.MissionWall.Init();
-			Client.GetInstance.RegisterTickHandler(BikerGangTick);
+			Client.Instance.AddTick(BikerGangTick);
 		}
 
 		public static async Task BikerGangTick()

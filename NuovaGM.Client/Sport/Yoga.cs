@@ -29,14 +29,14 @@ namespace NuovaGM.Client.Sport
 
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			CaricaTutto();
 		}
 
 		private static void Spawnato()
 		{
 			Materasso = new Prop(CreateObject(GetHashKey(MaterassoYoga), Coords.X, Coords.Y, Coords.Z, false, false, false));
-	//		Client.GetInstance.RegisterTickHandler(Materassino);
+	//		Client.Instance.AddTick(Materassino);
 		}
 
 		private static async void CaricaTutto()

@@ -42,13 +42,13 @@ namespace NuovaGM.Client.Giostre
 	};
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("onResourceStop", new Action<string>(OnStop));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:forceState", new Action<string>(ForceState));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(PlayerSale));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(PlayerScende));
-			Client.GetInstance.RegisterEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:forceState", new Action<string>(ForceState));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(PlayerSale));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(PlayerScende));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
 			Blip Ferris = new Blip(AddBlipForCoord(-1663.97f, -1126.7f, 30.7f))
 			{
 
@@ -113,8 +113,8 @@ namespace NuovaGM.Client.Giostre
 			RequestScriptAudioBank("SCRIPT\\FERRIS_WHALE_02", false);
 			RequestScriptAudioBank("THE_FERRIS_WHALE_SOUNDSET", false);
 			await SpawnaRuota();
-			Client.GetInstance.RegisterTickHandler(MuoviRuota);
-			Client.GetInstance.RegisterTickHandler(ControlloPlayer);
+			Client.Instance.AddTick(MuoviRuota);
+			Client.Instance.AddTick(ControlloPlayer);
 		}
 
 		private static async Task MuoviRuota()
@@ -349,7 +349,7 @@ namespace NuovaGM.Client.Giostre
 				Cam1.PointAt(Ruota.Entity);
 				func_79();
 				Cam1.IsActive = true;
-				Client.GetInstance.DeregisterTickHandler(Cam2Controller);
+				Client.Instance.RemoveTick(Cam2Controller);
 				if (IsInputDisabled(2))
 				{
 					Cam2Tastiera.CamEntity.Delete();
@@ -415,7 +415,7 @@ namespace NuovaGM.Client.Giostre
 					func_110(Cam2GamePad, true);
 					func_109(Cam2GamePad, 0, 3000);
 				}
-				Client.GetInstance.RegisterTickHandler(Cam2Controller);
+				Client.Instance.AddTick(Cam2Controller);
 				Cam1.Delete();
 			}
 			RenderScriptCams(true, false, 3000, true, false);

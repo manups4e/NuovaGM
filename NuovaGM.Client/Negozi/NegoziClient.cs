@@ -14,7 +14,7 @@ namespace NuovaGM.Client.Negozi
 		private static ConfigNegoziGenerici NegoziGenerici;
 		public static void Init()
 		{
-			Client.GetInstance.RegisterEventHandler("lprp:onPlayerSpawn", new Action(NegoziSpawn));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(NegoziSpawn));
 			NegoziGenerici = Client.Impostazioni.Negozi.NegoziGenerici;
 		}
 
@@ -28,7 +28,7 @@ namespace NuovaGM.Client.Negozi
 				bliptfs.Scale = 1f;
 				bliptfs.Color = BlipColor.Green;
 				bliptfs.IsShortRange = true;
-				bliptfs.Name = "Negozio";
+				bliptfs.Name = "24/7";
 			}
 			foreach (float[] v in NegoziGenerici.rq)
 			{
@@ -38,7 +38,7 @@ namespace NuovaGM.Client.Negozi
 				bliptrq.Scale = 1f;
 				bliptrq.Color = BlipColor.Green;
 				bliptrq.IsShortRange = true;
-				bliptrq.Name = "Negozio";
+				bliptrq.Name = "Robs Liquor";
 			}
 			foreach (float[] v in NegoziGenerici.ltd)
 			{
@@ -48,7 +48,7 @@ namespace NuovaGM.Client.Negozi
 				blipltd.Scale = 1f;
 				blipltd.Color = BlipColor.Green;
 				blipltd.IsShortRange = true;
-				blipltd.Name = "Negozio";
+				blipltd.Name = "Limited Gasoline";
 			}
 			foreach (float[] v in NegoziGenerici.armerie)
 			{
@@ -69,10 +69,8 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context))
-					{
-						HUD.ShowNotification("Placeholder negozi");
-					}
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						NegoziBusiness.NegozioPubblico("247");
 				}
 			}
 			foreach (float[] v in NegoziGenerici.rq)
@@ -80,10 +78,8 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context))
-					{
-						HUD.ShowNotification("Placeholder negozi");
-					}
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						NegoziBusiness.NegozioPubblico("rq");
 				}
 			}
 			foreach (float[] v in NegoziGenerici.ltd)
@@ -91,10 +87,8 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context))
-					{
-						HUD.ShowNotification("Placeholder negozi");
-					}
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						NegoziBusiness.NegozioPubblico("ltd");
 				}
 			}
 			foreach (float[] v in NegoziGenerici.armerie)
@@ -102,7 +96,7 @@ namespace NuovaGM.Client.Negozi
 				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context))
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 						Armerie.NuovaArmeria();/*ArmeriaMenu*/
 				}
 			}

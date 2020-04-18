@@ -1,13 +1,13 @@
 ﻿using CitizenFX.Core;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace NuovaGM.Client
 {
-	static class Extensions
+	public static class Extensions
 	{
 		public static T Clamp<T>(T value, T min, T max)
 			where T : System.IComparable<T>
