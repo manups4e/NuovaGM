@@ -27,26 +27,6 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public List<Char_data> char_data = new List<Char_data>();
 		public dynamic data;
 		public PlayerChar() { }
-		public PlayerChar(JObject result)
-		{
-			char_current = result.Value<int>("char_current");
-			lastConnection = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss");
-			source = 0;
-			group = result.Value<string>("group");
-			group_level = result.Value<int>("group_level");
-			playTime = result.Value<long>("playTime");
-			data = JsonConvert.DeserializeObject<JContainer>(result.Value<string>("char_data"));
-			status = new Status();
-			ammanettato = false;
-			InCasa = false;
-			InServizio = false;
-			Stanziato = false;
-			playerId = Game.Player.Handle;
-			for (int i = 0; i < data.Count; i++)
-			{
-				char_data.Add(new Char_data(data[i] as JContainer));
-			}
-		}
 		public PlayerChar(dynamic result)
 		{
 			char_current = result.char_current;
@@ -55,13 +35,8 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			group = result.group;
 			group_level = result.group_level;
 			playTime = result.playTime;
-			data = JsonConvert.DeserializeObject<JContainer>(result.char_data);
+			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
 			status = new Status();
-
-			for (int i = 0; i < data.Count; i++)
-			{
-				char_data.Add(new Char_data(data[i] as JContainer));
-			}
 		}
 
 		public Char_data CurrentChar

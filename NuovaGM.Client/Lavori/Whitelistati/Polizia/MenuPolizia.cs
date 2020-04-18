@@ -510,7 +510,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							if (source != 0)
 								GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
 							else
-								GetStreetNameAtCoord(data.location.x, data.location.y, data.location.z, ref StreetA, ref StreetB);
+								GetStreetNameAtCoord(data.location.position.X, data.location.position.Y, data.location.position.Z, ref StreetA, ref StreetB);
 							Pos.Description = GetStreetNameFromHashKey(StreetA);
 							if (StreetB != 0)
 								Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);

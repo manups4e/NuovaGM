@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CitizenFX.Core;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,143 +52,6 @@ namespace NuovaGM.Shared
 		public Needs needs = new Needs();
 		public Statistiche statistiche = new Statistiche();
 		public Char_data() { }
-		public Char_data(JContainer data)
-		{
-			id = data.Value<int>("id");
-			is_dead = data.Value<bool>("is_dead");
-			info.firstname = data["info"].Value<string>("firstname");
-			info.lastname = data["info"].Value<string>("lastname");
-			info.dateOfBirth = data["info"].Value<string>("dateOfBirth");
-			info.height = data["info"].Value<int>("height");
-			info.phoneNumber = data["info"].Value<long>("phoneNumber");
-			info.insurance = data["info"].Value<long>("insurance");
-			finance.money = data["finance"].Value<int>("cash");
-			finance.bank = data["finance"].Value<int>("bank");
-			finance.dirtyCash = data["finance"].Value<int>("dirtyCash");
-			job.name = data["job"].Value<string>("name");
-			job.grade = data["job"].Value<int>("grade");
-			gang.name = data["gang"].Value<string>("name");
-			gang.grade = data["gang"].Value<int>("grade");
-			needs.fame = data["needs"].Value<float>("fame");
-			needs.sete = data["needs"].Value<float>("sete");
-			needs.stanchezza = data["needs"].Value<float>("stanchezza");
-			needs.malattia = data["needs"].Value<bool>("malattia");
-			location.x = data["location"].Value<float>("x");
-			location.y = data["location"].Value<float>("y");
-			location.z = data["location"].Value<float>("z");
-			location.h = data["location"].Value<float>("h");
-
-			dressing.ComponentDrawables.Faccia = data["dressing"]["ComponentDrawables"].Value<int>("Faccia");
-			dressing.ComponentDrawables.Maschera = data["dressing"]["ComponentDrawables"].Value<int>("Maschera");
-			dressing.ComponentDrawables.Torso = data["dressing"]["ComponentDrawables"].Value<int>("Torso");
-			dressing.ComponentDrawables.Pantaloni = data["dressing"]["ComponentDrawables"].Value<int>("Pantaloni");
-			dressing.ComponentDrawables.Borsa_Paracadute = data["dressing"]["ComponentDrawables"].Value<int>("Borsa_Paracadute");
-			dressing.ComponentDrawables.Scarpe = data["dressing"]["ComponentDrawables"].Value<int>("Scarpe");
-			dressing.ComponentDrawables.Accessori = data["dressing"]["ComponentDrawables"].Value<int>("Accessori");
-			dressing.ComponentDrawables.Sottomaglia = data["dressing"]["ComponentDrawables"].Value<int>("Sottomaglia");
-			dressing.ComponentDrawables.Kevlar = data["dressing"]["ComponentDrawables"].Value<int>("Kevlar");
-			dressing.ComponentDrawables.Badge = data["dressing"]["ComponentDrawables"].Value<int>("Badge");
-			dressing.ComponentDrawables.Torso_2 = data["dressing"]["ComponentDrawables"].Value<int>("Torso_2");
-
-			dressing.ComponentTextures.Faccia = data["dressing"]["ComponentTextures"].Value<int>("Faccia");
-			dressing.ComponentTextures.Maschera = data["dressing"]["ComponentTextures"].Value<int>("Maschera");
-			dressing.ComponentTextures.Torso = data["dressing"]["ComponentTextures"].Value<int>("Torso");
-			dressing.ComponentTextures.Pantaloni = data["dressing"]["ComponentTextures"].Value<int>("Pantaloni");
-			dressing.ComponentTextures.Borsa_Paracadute = data["dressing"]["ComponentTextures"].Value<int>("Borsa_Paracadute");
-			dressing.ComponentTextures.Scarpe = data["dressing"]["ComponentTextures"].Value<int>("Scarpe");
-			dressing.ComponentTextures.Accessori = data["dressing"]["ComponentTextures"].Value<int>("Accessori");
-			dressing.ComponentTextures.Sottomaglia = data["dressing"]["ComponentTextures"].Value<int>("Sottomaglia");
-			dressing.ComponentTextures.Kevlar = data["dressing"]["ComponentTextures"].Value<int>("Kevlar");
-			dressing.ComponentTextures.Badge = data["dressing"]["ComponentTextures"].Value<int>("Badge");
-			dressing.ComponentTextures.Torso_2 = data["dressing"]["ComponentTextures"].Value<int>("Torso_2");
-
-			dressing.PropIndices.Cappelli_Maschere = data["dressing"]["PropIndices"].Value<int>("Cappelli_Maschere");
-			dressing.PropIndices.Orecchie = data["dressing"]["PropIndices"].Value<int>("Orecchie");
-			dressing.PropIndices.Occhiali_Occhi = data["dressing"]["PropIndices"].Value<int>("Occhiali_Occhi");
-			dressing.PropIndices.Unk_3 = data["dressing"]["PropIndices"].Value<int>("Unk_3");
-			dressing.PropIndices.Unk_4 = data["dressing"]["PropIndices"].Value<int>("Unk_4");
-			dressing.PropIndices.Unk_5 = data["dressing"]["PropIndices"].Value<int>("Unk_5");
-			dressing.PropIndices.Orologi = data["dressing"]["PropIndices"].Value<int>("Orologi");
-			dressing.PropIndices.Bracciali = data["dressing"]["PropIndices"].Value<int>("Bracciali");
-			dressing.PropIndices.Unk_8 = data["dressing"]["PropIndices"].Value<int>("Unk_8");
-
-			dressing.PropTextures.Cappelli_Maschere = data["dressing"]["PropTextures"].Value<int>("Cappelli_Maschere");
-			dressing.PropTextures.Orecchie = data["dressing"]["PropTextures"].Value<int>("Orecchie");
-			dressing.PropTextures.Occhiali_Occhi = data["dressing"]["PropTextures"].Value<int>("Occhiali_Occhi");
-			dressing.PropTextures.Unk_3 = data["dressing"]["PropTextures"].Value<int>("Unk_3");
-			dressing.PropTextures.Unk_4 = data["dressing"]["PropTextures"].Value<int>("Unk_4");
-			dressing.PropTextures.Unk_5 = data["dressing"]["PropTextures"].Value<int>("Unk_5");
-			dressing.PropTextures.Orologi = data["dressing"]["PropTextures"].Value<int>("Orologi");
-			dressing.PropTextures.Bracciali = data["dressing"]["PropTextures"].Value<int>("Bracciali");
-			dressing.PropTextures.Unk_8 = data["dressing"]["PropTextures"].Value<int>("Unk_8");
-
-			statistiche.STAMINA = data["statistiche"].Value<float>("STAMINA");
-			statistiche.STRENGTH = data["statistiche"].Value<float>("STRENGTH");
-			statistiche.LUNG_CAPACITY = data["statistiche"].Value<float>("LUNG_CAPACITY");
-			statistiche.FLYING_ABILITY = data["statistiche"].Value<float>("FLYING_ABILITY");
-			statistiche.SHOOTING_ABILITY = data["statistiche"].Value<float>("SHOOTING_ABILITY");
-			statistiche.WHEELIE_ABILITY = data["statistiche"].Value<float>("WHEELIE_ABILITY");
-			statistiche.DRUGS = data["statistiche"].Value<float>("DRUGS");
-			statistiche.FISHING = data["statistiche"].Value<float>("FISHING");
-			statistiche.HUNTING = data["statistiche"].Value<float>("HUNTING");
-			if (data["inventory"].HasValues)
-				for (int i = 0; i < data["inventory"].Count(); i++)
-					inventory.Add(new Inventory(data["inventory"][i].Value<string>("item"), data["inventory"][i].Value<int>("amount"), data["inventory"][i].Value<float>("weight")));
-
-			if (data["licenze"].HasValues)
-				for (int i = 0; i < data["licenze"].Count(); i++)
-					licenze.Add(new Licenses(data["licenze"][i].Value<string>("name"), data["licenze"][i].Value<string>("dataDiPossesso")));
-
-
-			if (data["weapons"].HasValues)
-				for (int i = 0; i < data["weapons"].Count(); i++)
-					weapons.Add(new Weapons(data["weapons"][i].Value<string>("name"), data["weapons"][i].Value<int>("ammo"), data["weapons"][i]["components"], data["weapons"][i].Value<int>("tint")));
-
-			skin.sex = data["skin"].Value<string>("sex");
-			skin.model = data["skin"].Value<string>("model");
-			skin.resemblance = data["skin"].Value<float>("resemblance");
-			skin.skinmix = data["skin"].Value<float>("skinmix");
-			skin.face.mom = data["skin"]["face"].Value<int>("mom");
-			skin.face.dad = data["skin"]["face"].Value<int>("dad");
-
-			for (int i = 0; i < 20; i++)
-				skin.face.tratti[i] = data["skin"]["face"]["tratti"].Value<float>(i);
-
-			skin.ageing.style = data["skin"]["ageing"].Value<int>("style");
-			skin.ageing.opacity = data["skin"]["ageing"].Value<float>("opacity");
-			skin.makeup.style = data["skin"]["makeup"].Value<int>("style");
-			skin.makeup.opacity = data["skin"]["makeup"].Value<float>("opacity");
-			skin.blemishes.style = data["skin"]["blemishes"].Value<int>("style");
-			skin.blemishes.opacity = data["skin"]["blemishes"].Value<float>("opacity");
-			skin.complexion.style = data["skin"]["complexion"].Value<int>("style");
-			skin.complexion.opacity = data["skin"]["complexion"].Value<float>("opacity");
-			skin.skinDamage.style = data["skin"]["skinDamage"].Value<int>("style");
-			skin.skinDamage.opacity = data["skin"]["skinDamage"].Value<float>("opacity");
-			skin.freckles.style = data["skin"]["freckles"].Value<int>("style");
-			skin.freckles.opacity = data["skin"]["freckles"].Value<float>("opacity");
-			skin.eye.style = data["skin"]["eye"].Value<int>("style");
-			skin.ears.style = data["skin"]["ears"].Value<int>("style");
-			skin.ears.color = data["skin"]["ears"].Value<int>("color");
-			skin.facialHair.beard.style = data["skin"]["facialHair"]["beard"].Value<int>("style");
-			skin.facialHair.beard.opacity = data["skin"]["facialHair"]["beard"].Value<float>("opacity");
-			skin.facialHair.beard.color[0] = data["skin"]["facialHair"]["beard"]["color"].Value<int>(0);
-			skin.facialHair.beard.color[1] = data["skin"]["facialHair"]["beard"]["color"].Value<int>(1);
-			skin.facialHair.eyebrow.style = data["skin"]["facialHair"]["eyebrow"].Value<int>("style");
-			skin.facialHair.eyebrow.opacity = data["skin"]["facialHair"]["eyebrow"].Value<float>("opacity");
-			skin.facialHair.eyebrow.color[0] = data["skin"]["facialHair"]["eyebrow"]["color"].Value<int>(0);
-			skin.facialHair.eyebrow.color[1] = data["skin"]["facialHair"]["eyebrow"]["color"].Value<int>(1);
-			skin.hair.style = data["skin"]["hair"].Value<int>("style");
-			skin.hair.color[0] = data["skin"]["hair"]["color"].Value<int>(0);
-			skin.hair.color[1] = data["skin"]["hair"]["color"].Value<int>(1);
-			skin.lipstick.style = data["skin"]["lipstick"].Value<int>("style");
-			skin.lipstick.opacity = data["skin"]["lipstick"].Value<float>("opacity");
-			skin.lipstick.color[0] = data["skin"]["lipstick"]["color"].Value<int>(0);
-			skin.lipstick.color[1] = data["skin"]["lipstick"]["color"].Value<int>(1);
-			skin.blusher.style = data["skin"]["blusher"].Value<int>("style");
-			skin.blusher.opacity = data["skin"]["blusher"].Value<float>("opacity");
-			skin.blusher.color[0] = data["skin"]["blusher"]["color"].Value<int>(0);
-			skin.blusher.color[1] = data["skin"]["blusher"]["color"].Value<int>(1);
-		}
 
 		public Char_data(int id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
@@ -357,7 +221,7 @@ namespace NuovaGM.Shared
 
 		public Finance(int cash, int bank, int dirtyCash)
 		{
-			this.money = cash;
+			money = cash;
 			this.bank = bank;
 			this.dirtyCash = dirtyCash;
 		}
@@ -366,9 +230,7 @@ namespace NuovaGM.Shared
 
 	public class Location
 	{
-		public float x { get; set; }
-		public float y { get; set; }
-		public float z { get; set; }
+		public Vector3 position = new Vector3();
 		public float h { get; set; }
 	}
 

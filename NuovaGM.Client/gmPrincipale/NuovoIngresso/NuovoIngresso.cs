@@ -127,10 +127,10 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot+1);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
-			if (Data.location.x != 0.0 && Data.location.y != 0.0 && Data.location.z != 0.0)
+			if (Data.location.position.X != 0.0 && Data.location.position.Y != 0.0 && Data.location.position.Z != 0.0)
 			{
-				RequestCollisionAtCoord(Data.location.x, Data.location.y, Data.location.z);
-				Game.PlayerPed.Position = new Vector3(Data.location.x, Data.location.y, Data.location.z + 1f);
+				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
+				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, Data.location.position.Z + 1f);
 				Game.PlayerPed.Heading = Data.location.h;
 			}
 			else

@@ -54,4 +54,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm&#xD;&#xA;copy /y $(OutDir)\NuovaGM.Server.net.pdb F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm" />
+  </Target>
+
 </Project>

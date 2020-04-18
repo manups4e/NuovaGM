@@ -21,4 +21,8 @@
     <Compile Include="..\NuovaGM.Shared\**\*.cs" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
+  </Target>
+
 </Project>

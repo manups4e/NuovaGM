@@ -120,9 +120,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			else if (type == "charlocation")
 			{
-				user.CurrentChar.location.x = data.X;
-				user.CurrentChar.location.y = data.Y;
-				user.CurrentChar.location.z = data.Z;
+				user.CurrentChar.location.position = data;
 				user.CurrentChar.location.h = h;
 			}
 			else if (type == "skin")

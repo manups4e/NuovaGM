@@ -863,7 +863,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				{
 					if (parsedPlayers[i]["char_data"].Value != "{}")
 					{
-						personaggi.Add((string)parsedPlayers[i]["Name"].Value, new PlayerChar(parsedPlayers[i] as JObject));
+						personaggi.Add((string)parsedPlayers[i]["Name"].Value, new PlayerChar(parsedPlayers[i]));
 					}
 				}
 			}));

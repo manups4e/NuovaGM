@@ -39,10 +39,8 @@ namespace NuovaGM.Server.gmPrincipale
 			group_level = result.group_level;
 			playTime = result.playTime;
 			p = player;
-			data = JsonConvert.DeserializeObject<JContainer>(result.char_data);
+			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
 
-			for (int i = 0; i < data.Count; i++)
-				char_data.Add(new Char_data(data[i] as JContainer));
 		}
 
 		[JsonIgnore]
@@ -351,7 +349,7 @@ namespace NuovaGM.Server.gmPrincipale
 		}
 
 		[JsonIgnore]
-		public Vector3 getCoords { get { return new Vector3(CurrentChar.location.x, CurrentChar.location.y, CurrentChar.location.z); } }
+		public Vector3 getCoords { get { return CurrentChar.location.position; } }
 
 		public void giveLicense(string license, string mittente)
 		{
