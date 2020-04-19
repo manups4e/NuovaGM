@@ -9,7 +9,10 @@ namespace NuovaGM.Shared.Lavori.Generici
 {
 	public class RimozioneShared
 	{
-		//public Vehicle VehicleHandle;
+	}
 
+	public class VeicoliRimozione 
+	{
+		public Vehicle veicolo;
 	}
 }

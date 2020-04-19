@@ -23,7 +23,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		static Blip PuntoDiConsegna;
 		static Vector4 puntoDiSpawn;
 		static Vector3 puntoDiDespawn;
-
+		static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
+		static int tempo;
 		public static void Init()
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
@@ -76,7 +77,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						Client.Instance.AddTick(LavoroRimozioneForzata);
 						Client.Instance.AddTick(ControlloRimozione);
 						Client.Instance.RemoveTick(InizioLavoro);
-
 					}
 				}
 			}
@@ -106,13 +106,17 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			}
 		}
 
-
-
 		public static async Task LavoroRimozioneForzata()
 		{
 			await BaseScript.Delay(new Random().Next(60000));
 			puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
+			while (Funzioni.GetVehiclesInArea(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), 3f).ToList().FirstOrDefault(x => x.HasDecor("VeicoloRimozione")) != null)
+			{
+				await BaseScript.Delay(0);
+				puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
+			}
 
+			Client.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
 			if (VeicoloDaRimuovere == null)
 			{
 				uint streename = 0;
@@ -122,33 +126,46 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				string veicolo = Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
 				RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
 				VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(veicolo, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
+				VeicoloDaRimuovere.IsPersistent = true;
 				VeicoloDaRimuovere.PlaceOnGround();
 				VeicoloDaRimuovere.PreviouslyOwnedByPlayer = true;
 				VeicoloDaRimuovere.Repair();
 				VeicoloDaRimuovere.LockStatus = VehicleLockStatus.Locked;
-				HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
+				VeicoloDaRimuovere.SetDecor("VeicoloRimozione", VeicoloDaRimuovere.Handle);
+				HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"{VeicoloDaRimuovere.LocalizedName} con targa {VeicoloDaRimuovere.Mods.LicensePlate} da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
+				BlipVeicoloDaRimuovere = VeicoloDaRimuovere.AttachBlip();
+				BlipVeicoloDaRimuovere.Sprite = BlipSprite.TowTruck;
+				if (World.GetDistance(VeicoloDaRimuovere.Position, Game.PlayerPed.Position) < 1000)
+					tempo = Funzioni.GetRandomInt(60, 120);
+				else
+					tempo = Funzioni.GetRandomInt(120, 240);
+				HUD.TimerBarPool.Add(timerVeicolo);
+				Client.Instance.AddTick(TimerVeicolo);
 			}
 			await Task.FromResult(0);
 		}
 
-		/*
-		puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
-		while (Funzioni.GetVehiclesInArea(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), 2.5f).ToList().FirstOrDefault(x => x.HasDecor("VeicoloRimozione")) != null)
-		puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
-		Client.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
-		*/
-		/*
-		VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)], new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
-		Client.Printa(LogType.Debug, "Targa = " + VeicoloDaRimuovere.Mods.LicensePlate);
-		VeicoloDaRimuovere.LockStatus = VehicleLockStatus.CannotBeTriedToEnter;
-		VeicoloDaRimuovere.IsPersistent = true;
-		VeicoloDaRimuovere.PlaceOnGround();
-		VeicoloDaRimuovere.SetDecor("VeicoloRimozione", VeicoloDaRimuovere.Handle);
-		*/
-
-
-
-
+		private static async Task TimerVeicolo()
+		{
+			while (tempo > 0)
+			{
+				timerVeicolo.TextTimerBar.Caption = tempo > 59 ? $"{(int)Math.Floor(tempo / 60f)}:{tempo - (int)Math.Floor(tempo / 60f)}" : $"{tempo}"; ;
+				await BaseScript.Delay(1000);
+				tempo--;
+				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == VeicoloDaRimuovere.Handle)
+				{
+					HUD.TimerBarPool.Remove(timerVeicolo);
+					Client.Instance.RemoveTick(TimerVeicolo);
+					break; 
+				}
+			}
+			HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", NotificationColor.Red, true);
+			VeicoloDaRimuovere.Delete();
+			VeicoloDaRimuovere = null;
+			BlipVeicoloDaRimuovere.Delete();
+			BlipVeicoloDaRimuovere = null;
+			Client.Instance.RemoveTick(TimerVeicolo);
+		}
 	}
 }
  

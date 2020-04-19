@@ -275,12 +275,8 @@ namespace NuovaGM.Shared
 			this.ammo = _ammo;
 			this.tint = _tint;
 			if (data.Count > 0)
-			{
 				foreach (Components d in data)
-				{
 					components.Add(new Components(d.name, d.active));
-				}
-			}
 		}
 	}
 

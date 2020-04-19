@@ -1,19 +1,15 @@
-﻿namespace NuovaGM.Shared
+﻿using CitizenFX.Core;
+
+namespace NuovaGM.Shared
 {
 	public class VeicoloLavorativoEAffitto
 	{
-		public string Name;
-		public string Targa;
-		public int Model;
-		public int Handle;
+		public Vehicle veicolo;
 		public string Proprietario;
 
-		public VeicoloLavorativoEAffitto(string name, string targa, int model, int handle, string proprietario)
+		public VeicoloLavorativoEAffitto(Vehicle veh, string proprietario)
 		{
-			Name = name;
-			Targa = targa;
-			Model = model;
-			Handle = handle;
+			veicolo = veh;
 			Proprietario = proprietario;
 		}
 	}
