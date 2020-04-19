@@ -181,12 +181,21 @@ namespace NuovaGM.Client.Manager
 				{
 					if (!NoClip)
 					{
-						RequestAnimDict(noclip_ANIM_A);
-						while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-						curLocation = Game.PlayerPed.Position;
-						curRotation = Game.PlayerPed.Rotation;
-						curHeading = Game.PlayerPed.Heading;
-						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
+						if (!Game.PlayerPed.IsInVehicle())
+						{
+							RequestAnimDict(noclip_ANIM_A);
+							while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
+							curLocation = Game.PlayerPed.Position;
+							curRotation = Game.PlayerPed.Rotation;
+							curHeading = Game.PlayerPed.Heading;
+							TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
+						}
+						else
+						{
+							curLocation = Game.PlayerPed.CurrentVehicle.Position;
+							curRotation = Game.PlayerPed.CurrentVehicle.Rotation;
+							curHeading = Game.PlayerPed.CurrentVehicle.Heading;
+						}
 						Game.PlayerPed.Rotation = new Vector3(0);
 						Client.Instance.AddTick(noClip);
 						NoClip = true;

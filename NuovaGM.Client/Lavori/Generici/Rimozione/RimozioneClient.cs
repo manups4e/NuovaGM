@@ -132,16 +132,13 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				string veicolo = Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
 				RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
 				HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
-				TempoRimozione = Funzioni.GetRandomInt(120, 240);
-				/*
-				if (World.GetDistance(VeicoloDaRimuovere.Position, Game.PlayerPed.Position) < 1000)
-					tempo = Funzioni.GetRandomInt(60, 120);
+				if (World.GetDistance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Game.PlayerPed.Position) < 1000)
+					TempoRimozione = Funzioni.GetRandomInt(60, 120);
 				else
-					tempo = Funzioni.GetRandomInt(120, 240);
-				*/
+					TempoRimozione = Funzioni.GetRandomInt(120, 240);
 				HUD.TimerBarPool.Add(timerVeicolo);
 				Client.Instance.AddTick(TimerVeicolo);
-				while (World.GetDistance(Game.PlayerPed.Position, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z)) < 100 && TempoRimozione > 0) await BaseScript.Delay(0);
+				while (World.GetDistance(Game.PlayerPed.Position, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z)) > 100 && TempoRimozione > 0) await BaseScript.Delay(0);
 				if (TempoRimozione > 0)
 				{
 					VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(veicolo, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
@@ -156,8 +153,23 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
 					HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello {VeicoloDaRimuovere.LocalizedName} con targa {VeicoloDaRimuovere.Mods.LicensePlate}", "CHAR_CALL911", IconType.DollarIcon);
 				}
-//				while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) < 5 && TempoRimozione > 0) await BaseScript.Delay(0);
-//				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
+				while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0) await BaseScript.Delay(0);
+				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
+					HUD.ShowNotification("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
+				while (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle) await BaseScript.Delay(0);
+				PuntoDiConsegna = World.CreateBlip(Rimozione.PuntiDespawn[Funzioni.GetRandomInt(Rimozione.PuntiDespawn.Count - 1)].ToVector3());
+				PuntoDiConsegna.ShowRoute = true;
+				while (World.GetDistance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) < 4) await BaseScript.Delay(0);
+				HUD.ShowNotification("Premi ~INPUT_CONTEXT~ per depositare il veicolo");
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					VeicoloDaRimuovere.Delete();
+					VeicoloDaRimuovere = null;
+					BlipVeicoloDaRimuovere.Delete();
+					BlipVeicoloDaRimuovere = null;
+					PuntoDiConsegna.Delete();
+					PuntoDiConsegna = null;
+				}
 			}
 			await Task.FromResult(0);
 		}
@@ -176,7 +188,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					break; 
 				}
 			}
-			if (TempoRimozione == 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
+			if (TempoRimozione == 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0 && World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 50)
 			{
 				HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", NotificationColor.Red, true);
 				VeicoloDaRimuovere.Delete();
@@ -185,6 +197,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				BlipVeicoloDaRimuovere = null;
 				Client.Instance.RemoveTick(TimerVeicolo);
 			}
+			else Client.Instance.RemoveTick(TimerVeicolo);
 		}
 	}
 }

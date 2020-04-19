@@ -52,9 +52,7 @@ namespace NuovaGM.Client.Manager
 			{
 				int entity = 0;
 				if (GetEntityPlayerIsFreeAimingAt(PlayerId(), ref entity))
-				{
 					HUD.DrawText3D(GetEntityCoords(entity, true), Colors.DarkSeaGreen, "Hash = " + GetEntityModel(entity));
-				}
 			}
 			if (Game.PlayerPed.IsInVehicle())
 			{
