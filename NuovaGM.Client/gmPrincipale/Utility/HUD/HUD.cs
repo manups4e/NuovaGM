@@ -138,11 +138,20 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 				string[] strings = Screen.StringToArray(helpText);
 				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
 				foreach (string s in strings)
-				{
 					AddTextComponentSubstringPlayerName(s);
-				}
 				EndTextCommandDisplayHelp(0, false, true, tempo);
 			}
+		}
+
+		public static void ShowFloatingHelpNotification(string msg, Vector3 coords)
+		{
+			SetFloatingHelpTextWorldPosition(1, coords.X, coords.Y, coords.Z);
+			SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0);
+			string[] strings = Screen.StringToArray(msg);
+			BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
+			foreach (string s in strings)
+				AddTextComponentSubstringPlayerName(s);
+			EndTextCommandDisplayHelp(2, false, false, -1);
 		}
 
 		public static async void ShowStatNotification(int value, string title)

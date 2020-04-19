@@ -76,6 +76,9 @@ namespace NuovaGM.Client
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 				AttivaMenu();
 
+			if (Input.IsControlPressed(Control.Context))
+				HUD.ShowFloatingHelpNotification("BBBBBBBBBBBBBBBBBBBBBBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAAAAAAJBNIKJBKJBBKJHBDFJUIBJKFBNDJKBDKJBDFJKDBJKDB?", Game.PlayerPed.Position);
+
 		}
 	}
 }

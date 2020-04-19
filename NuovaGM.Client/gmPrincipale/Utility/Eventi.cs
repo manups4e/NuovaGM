@@ -3,8 +3,8 @@ using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Personaggio;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Negozi;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -219,7 +219,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					await BaseScript.Delay(100);
 				}
 		*/
-		static int time = 7000;
+		static int time = 3000;
 		static int nbrDisplaying = 1;
 		public static void TriggerProximtyDisplay(int id, string title, string text, int a, int b, int c)
 		{
@@ -251,7 +251,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				{
 					await BaseScript.Delay(0);
 					Vector3 coordsMe = GetEntityCoords(GetPlayerPed(MePlayer), false);
-					HUD.HUD.DrawText3D(new Vector3(coordsMe.X, coordsMe.Y, coordsMe.Z + offset), System.Drawing.Color.FromArgb(a, b, c), title + " " + text, 0);
+					HUD.HUD.ShowFloatingHelpNotification(title + " " + text, coordsMe + new Vector3(0, 0, offset));
+//					HUD.HUD.DrawText3D(new Vector3(coordsMe.X, coordsMe.Y, coordsMe.Z + offset), System.Drawing.Color.FromArgb(a, b, c), title + " " + text, 0);
 				}
 				nbrDisplaying -= 1;
 			}
