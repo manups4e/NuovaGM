@@ -632,8 +632,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					PreviouslyOwnedByPlayer = true
 				};
 				vehicle.PlaceOnGround();
-				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
-				vehicle.MarkAsNoLongerNeeded();
+				//vehicle.MarkAsNoLongerNeeded();
 				return vehicle;
 			}
 			else
