@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using NuovaGM.Server.gmPrincipale;
 
 using System;
@@ -54,7 +55,7 @@ namespace NuovaGM.Server.banking
 				if (bal >= amount)
 				{
 					user.Money += amount;
-					Server.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
+					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					user.Bank -= amount;
 					BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", true, newamt.ToString());
@@ -80,7 +81,7 @@ namespace NuovaGM.Server.banking
 				if (amount <= money)
 				{
 					user.Money -= amount;
-					Server.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
+					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					BaseScript.TriggerEvent("lprp:serverLog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio '{user.FullName}' [{GetPlayerName(p.Handle)}] ha depositato {amount}$");
 					user.Bank += amount;
 					BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", true, newamt.ToString());

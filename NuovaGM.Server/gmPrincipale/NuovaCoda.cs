@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
+using Logger;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -100,10 +101,10 @@ namespace NuovaGM.Server.gmPrincipale
 
         private static void QueueCheck(int source, List<object> args, string raw)
         {
-            Server.Printa(LogType.Info, $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
+            Log.Printa(LogType.Info, $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
             session.Where(k => k.Value == SessionState.Coda).ToList().ForEach(j =>
             {
-                Server.Printa(LogType.Info, $"{j.Key} in coda. Timer: {timer.TryGetValue(j.Key, out DateTime oldTimer)} Priorita: {priority.TryGetValue(j.Key, out int oldPriority)}");
+                Log.Printa(LogType.Info, $"{j.Key} in coda. Timer: {timer.TryGetValue(j.Key, out DateTime oldTimer)} Priorita: {priority.TryGetValue(j.Key, out int oldPriority)}");
             });
         }
 
@@ -124,7 +125,7 @@ namespace NuovaGM.Server.gmPrincipale
             try
             {
                 if (source == 0)
-                    Server.Printa(LogType.Error, $"Questo non è un comando da console");
+                    Log.Printa(LogType.Error, $"Questo non è un comando da console");
                 else
                 {
                     Player player = Server.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
@@ -134,7 +135,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                NuovaGM.Server.Server.Printa(LogType.Error, $"[{resourceName}] - ExitSession()");
+                Log.Printa(LogType.Error, $"[{resourceName}] - ExitSession()");
             }
         }
 
@@ -144,23 +145,23 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 if (args.Count != 1)
                 {
-                    Server.Printa(LogType.Error, $"Questo comando richiede 1 argomento. <Discord> O <License>");
+                    Log.Printa(LogType.Error, $"Questo comando richiede 1 argomento. <Discord> O <License>");
                     return;
                 }
                 string identifier = args[0].ToString();
                 Player player = Server.Instance.GetPlayers.FirstOrDefault(k => k.Identifiers["license"] == identifier || k.Identifiers["discord"] == identifier);
                 if (player == null)
                 {
-                    Server.Printa(LogType.Warning, $"Nessun riscontro in sessione per l'ID {identifier}, usa il comando di sessione per vedere gli ID.");
+                    Log.Printa(LogType.Warning, $"Nessun riscontro in sessione per l'ID {identifier}, usa il comando di sessione per vedere gli ID.");
                     return;
                 }
                 RemoveFrom(player.Identifiers["license"], true, true, true, true, true, true);
                 player.Drop("Kicked");
-                Server.Printa(LogType.Warning, $"{identifier} è stato kickato.");
+                Log.Printa(LogType.Warning, $"{identifier} è stato kickato.");
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{resourceName}] - Kick()");
+                Log.Printa(LogType.Error, $"[{resourceName}] - Kick()");
             }
         }
 
@@ -188,7 +189,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{resourceName}] - UpdateHostName()");
+                Log.Printa(LogType.Error, $"[{resourceName}] - UpdateHostName()");
             }
         }
 
@@ -204,7 +205,7 @@ namespace NuovaGM.Server.gmPrincipale
                     if (IsTimeUp(license, queueGraceTime))
                     {
                         RemoveFrom(license, true, true, true, true, true, true);
-                        if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}"); }
+                        if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}"); }
                         continue;
                     }
                     if (priority.TryGetValue(license, out int priorityAdded))
@@ -234,7 +235,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{resourceName}] - QueueCount()"); return queue.Count;
+                Log.Printa(LogType.Error, $"[{resourceName}] - QueueCount()"); return queue.Count;
             }
         }
 
@@ -249,7 +250,7 @@ namespace NuovaGM.Server.gmPrincipale
                     if (IsTimeUp(license, queueGraceTime))
                     {
                         RemoveFrom(license, true, true, true, true, true, true);
-                        if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}"); }
+                        if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}"); }
                         continue;
                     }
                     if (!priority.TryGetValue(license, out int priorityNum))
@@ -279,7 +280,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - PriorityQueueCount()"); return pQueue.Count;
+                Log.Printa(LogType.Error,$"[{resourceName}] - PriorityQueueCount()"); return pQueue.Count;
             }
         }
 
@@ -293,7 +294,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - Loading()"); return false;
+                Log.Printa(LogType.Error,$"[{resourceName}] - Loading()"); return false;
             }
         }
 
@@ -311,12 +312,12 @@ namespace NuovaGM.Server.gmPrincipale
                         slotTaken.TryUpdate(license, slotType, oldSlotType);
                     }
                     session.TryUpdate(license, SessionState.Caricamento, oldState);
-                    if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}"); }
+                    if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}"); }
                 }
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - NewLoading()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - NewLoading()");
             }
         }
 
@@ -329,7 +330,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - IsTimeUp()"); return false;
+                Log.Printa(LogType.Error,$"[{resourceName}] - IsTimeUp()"); return false;
             }
         }
 
@@ -345,7 +346,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - UpdatePlace()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - UpdatePlace()");
             }
         }
 
@@ -361,7 +362,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - UpdateTimer()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - UpdateTimer()");
             }
         }
 
@@ -390,7 +391,7 @@ namespace NuovaGM.Server.gmPrincipale
                                 session.TryGetValue(license, out SessionState oldState);
                                 session.TryUpdate(license, SessionState.Grazia, oldState);
                                 UpdateTimer(license);
-                                if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: CARICAMENTO -> GRAZIA -> {license}"); }
+                                if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: CARICAMENTO -> GRAZIA -> {license}"); }
                             }
                             else
                             {
@@ -420,7 +421,7 @@ namespace NuovaGM.Server.gmPrincipale
                                 else
                                 {
                                     RemoveFrom(license, true, true, true, true, true, true);
-                                    if (stateChangeMessages) { Server.Printa(LogType.Info,$"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}"); }
+                                    if (stateChangeMessages) { Log.Printa(LogType.Info,$"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}"); }
                                 }
                             }
                             break;
@@ -429,7 +430,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - UpdateStates()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - UpdateStates()");
             }
         }
 
@@ -446,7 +447,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - RemoveFrom()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - RemoveFrom()");
             }
         }
 
@@ -456,12 +457,12 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 if (args.Count != 0)
                 {
-                    Server.Printa(LogType.Error, $"Questo comando non ha argomenti.");
+                    Log.Printa(LogType.Error, $"Questo comando non ha argomenti.");
                     return;
                 }
                 if (session.Count == 0)
                 {
-                    Server.Printa(LogType.Error, $"Nessun player in sessione");
+                    Log.Printa(LogType.Error, $"Nessun player in sessione");
                     return;
                 }
                 if (source == 0)
@@ -499,7 +500,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - QueueSession()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - QueueSession()");
             }
             await BaseScript.Delay(0);
         }
@@ -508,9 +509,9 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                if (args.Count != 1) { Server.Printa(LogType.Error, $"Il comando vuole 1 argomento. Esempio: changemax 32"); return; }
+                if (args.Count != 1) { Log.Printa(LogType.Error, $"Il comando vuole 1 argomento. Esempio: changemax 32"); return; }
                 int newMax = int.Parse(args[0].ToString());
-                if (newMax <= 0 || newMax > 128) { Server.Printa(LogType.Warning, $"changemax DEVE essere tra 1 e 128"); return; }
+                if (newMax <= 0 || newMax > 128) { Log.Printa(LogType.Warning, $"changemax DEVE essere tra 1 e 128"); return; }
                 while (!queueCycleComplete)
                 {
                     await BaseScript.Delay(0);
@@ -519,7 +520,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - QueueChangeMax()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - QueueChangeMax()");
             }
         }
 
@@ -545,7 +546,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - StopHardcap()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - StopHardcap()");
             }
         }
 
@@ -561,13 +562,13 @@ namespace NuovaGM.Server.gmPrincipale
                 if (hasState && oldState != SessionState.Coda)
                 {
                     session.TryUpdate(license, SessionState.Grazia, oldState);
-                    if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> GRACE -> {license}"); }
+                    if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> GRACE -> {license}"); }
                     UpdateTimer(license);
                 }
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - PlayerDropped()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - PlayerDropped()");
             }
         }
 
@@ -583,11 +584,11 @@ namespace NuovaGM.Server.gmPrincipale
                 }
                 session.TryGetValue(license, out SessionState oldState);
                 session.TryUpdate(license, SessionState.Attivo, oldState);
-                if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> ACTIVE -> {license}"); }
+                if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> ACTIVE -> {license}"); }
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - PlayerActivated()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - PlayerActivated()");
             }
         }
 
@@ -658,12 +659,12 @@ namespace NuovaGM.Server.gmPrincipale
                         if (!priority.ContainsKey(license))
                         {
                             newQueue.Enqueue(license);
-                            if (stateChangeMessages) { Server.Printa(LogType.Info, $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Pubblico) {license}"); }
+                            if (stateChangeMessages) { Log.Printa(LogType.Info, $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Pubblico) {license}"); }
                         }
                         else
                         {
                             newPQueue.Enqueue(license);
-                            if (stateChangeMessages) { Server.Printa(LogType.Info,$"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {license}"); }
+                            if (stateChangeMessages) { Log.Printa(LogType.Info,$"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {license}"); }
                         }
                         string inCoda = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0: Accesso consentito, attendi...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/ezgif.com-resize-1887cbdf86515eeeb.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
                         deferrals.presentCard(inCoda);
@@ -676,7 +677,7 @@ namespace NuovaGM.Server.gmPrincipale
                         session.TryGetValue(license, out SessionState oldState);
                         session.TryUpdate(license, SessionState.Caricamento, oldState);
                         deferrals.done();
-                        if (stateChangeMessages) { Server.Printa(LogType.Info,$"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> CARICAMENTO -> (Grace) {license}"); }
+                        if (stateChangeMessages) { Log.Printa(LogType.Info,$"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> CARICAMENTO -> (Grace) {license}"); }
                         return;
                     }
 
@@ -698,7 +699,7 @@ namespace NuovaGM.Server.gmPrincipale
                         {
                             UpdateTimer(license);
                             deferrals.done($"{messages["Canceled"]}");
-                            if (stateChangeMessages) { Server.Printa(LogType.Info,$"[{resourceName}]: IN CODA -> CANCELLATO -> {license}"); }
+                            if (stateChangeMessages) { Log.Printa(LogType.Info,$"[{resourceName}]: IN CODA -> CANCELLATO -> {license}"); }
                             return;
                         }
                         RemoveFrom(license, false, false, true, false, false, false);
@@ -741,7 +742,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - QueueCycle()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - QueueCycle()");
             }
         }
 
@@ -749,7 +750,7 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                if (args.Count != 1) { Server.Printa(LogType.Error, $"Il comando richiede un argomento. <Discord Community Profile Number>"); }
+                if (args.Count != 1) { Log.Printa(LogType.Error, $"Il comando richiede un argomento. <Discord Community Profile Number>"); }
                 long SteamCommunityId = long.Parse(args[0].ToString());
                 long quotient = Math.DivRem(SteamCommunityId, 16, out long remainder);
                 Stack<long> hex = new Stack<long>();
@@ -766,7 +767,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error,$"[{resourceName}] - DiscordProfileToHex()");
+                Log.Printa(LogType.Error,$"[{resourceName}] - DiscordProfileToHex()");
             }
         }
     }
@@ -826,7 +827,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Start()");
+                Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Start()");
             }
         }
 
@@ -836,7 +837,7 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 if (args.Count != 2)
                 {
-                    Server.Printa(LogType.Warning, $"Questo comando richiede 2 argomenti. <Discord> O <License> & <Priorità> (1 <- 100)");
+                    Log.Printa(LogType.Warning, $"Questo comando richiede 2 argomenti. <Discord> O <License> & <Priorità> (1 <- 100)");
                     return;
                 }
                 string identifier = args[0].ToString();
@@ -854,11 +855,11 @@ namespace NuovaGM.Server.gmPrincipale
                     }
                     string path = $"{directory}/{account.License}-{account.Discord}.json";
                     File.WriteAllText(path, JsonConvert.SerializeObject(account));
-                    Server.Printa(LogType.Info, $"{identifier} è stato settato in priorità {priority}.");
+                    Log.Printa(LogType.Info, $"{identifier} è stato settato in priorità {priority}.");
                 }
                 else
                 {
-                    Server.Printa(LogType.Warning, $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
+                    Log.Printa(LogType.Warning, $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
                     newwhitelist.Add(new PriorityAccount(identifier, identifier, priority));
                     string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
                     File.WriteAllText(path, JsonConvert.SerializeObject(newwhitelist));
@@ -866,7 +867,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Add()");
+                Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Add()");
             }
             return;
         }
@@ -877,7 +878,7 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 if (args.Count != 1)
                 {
-                    Server.Printa(LogType.Warning, $"Questo comando richiede 1 argomento. <Discord> OR <License>");
+                    Log.Printa(LogType.Warning, $"Questo comando richiede 1 argomento. <Discord> OR <License>");
                     return;
                 }
                 string identifier = args[0].ToString();
@@ -894,11 +895,11 @@ namespace NuovaGM.Server.gmPrincipale
                     accounts.Remove(j);
                 });
                 NuovaCoda.priority.TryRemove(identifier, out int oldPriority);
-                Server.Printa(LogType.Info, $"{identifier} rimosso dalla lista priorità.");
+                Log.Printa(LogType.Info, $"{identifier} rimosso dalla lista priorità.");
             }
             catch (Exception)
             {
-                NuovaGM.Server.Server.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Remove()");
+                Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Remove()");
             }
             return;
         }
@@ -913,11 +914,11 @@ namespace NuovaGM.Server.gmPrincipale
                 newwhitelist.RemoveAll(k => k.License == account.License || k.Discord == account.Discord);
                 path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
                 File.WriteAllText(path, JsonConvert.SerializeObject(newwhitelist));
-                Server.Printa(LogType.Info, $"{account.License}-{account.Discord} prioritizzato automaticamente.");
+                Log.Printa(LogType.Info, $"{account.License}-{account.Discord} prioritizzato automaticamente.");
             }
             catch (Exception)
             {
-                Server.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.AutoWhitelist()");
+                Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.AutoWhitelist()");
             }
         }
     }

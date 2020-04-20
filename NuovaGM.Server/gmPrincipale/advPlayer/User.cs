@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -363,7 +364,7 @@ namespace NuovaGM.Server.gmPrincipale
 			foreach (var licen in CurrentChar.licenze)
 				if (licen.name == license)
 					CurrentChar.licenze.Remove(licen);
-				else Server.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
+				else Log.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
 

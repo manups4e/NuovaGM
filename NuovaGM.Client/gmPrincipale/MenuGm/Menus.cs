@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
@@ -394,7 +395,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, "CharCreationMenu = " + ex);
+				Log.Printa(LogType.Error, "CharCreationMenu = " + ex);
 			}
 		}
 
@@ -1045,7 +1046,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
 				{
-					Client.Printa(LogType.Debug, $"{index}");
+					Log.Printa(LogType.Debug, $"{index}");
 					if (data.skin.sex == "Maschio")
 					{
 						var dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
@@ -1104,7 +1105,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			}
 			catch
 			{
-				Client.Printa(LogType.Error, "MenuCreazione");
+				Log.Printa(LogType.Error, "MenuCreazione");
 			}
 		}
 		#endregion

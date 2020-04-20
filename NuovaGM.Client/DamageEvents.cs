@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using static CitizenFX.Core.Native.API;
 
@@ -17,67 +18,67 @@ namespace NuovaGM.Client
 			{
 				Client.Instance.AddEventHandler(eventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
-					Client.Printa(LogType.Debug, "event: VehicleDestroyed");
-					Client.Printa(LogType.Debug,$"vehicle: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
-					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
+					Log.Printa(LogType.Debug, "event: VehicleDestroyed");
+					Log.Printa(LogType.Debug,$"vehicle: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
 				{
-					Client.Printa(LogType.Debug,"event: PedKilledByVehicle");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"vehicle: {b}");
+					Log.Printa(LogType.Debug,"event: PedKilledByVehicle");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"vehicle: {b}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Client.Printa(LogType.Debug,"event: PedKilledByPlayer");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"player: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,"event: PedKilledByPlayer");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"player: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Client.Printa(LogType.Debug,"event: PedKilledByPed");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,"event: PedKilledByPed");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Client.Printa(LogType.Debug,"event: PedDied");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,"event: PedDied");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Client.Printa(LogType.Debug,"event: EntityKilled");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,"event: EntityKilled");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 				{
-					Client.Printa(LogType.Debug,"event: VehicleDamaged");
-					Client.Printa(LogType.Debug,$"vehicle: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
-					Client.Printa(LogType.Debug,$"vehicle damage flag: {e}");
+					Log.Printa(LogType.Debug,"event: VehicleDamaged");
+					Log.Printa(LogType.Debug,$"vehicle: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,$"vehicle damage flag: {e}");
 				}));
 				Client.Instance.AddEventHandler(eventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
 				{
-					Client.Printa(LogType.Debug,"event: EntityDamaged");
-					Client.Printa(LogType.Debug,$"victim: {a}");
-					Client.Printa(LogType.Debug,$"attacker: {b}");
-					Client.Printa(LogType.Debug,$"weapon hash: {c}");
-					Client.Printa(LogType.Debug,$"was melee damage?: {d}");
+					Log.Printa(LogType.Debug,"event: EntityDamaged");
+					Log.Printa(LogType.Debug,$"victim: {a}");
+					Log.Printa(LogType.Debug,$"attacker: {b}");
+					Log.Printa(LogType.Debug,$"weapon hash: {c}");
+					Log.Printa(LogType.Debug,$"was melee damage?: {d}");
 				}));
 			}
 		}
@@ -194,7 +195,7 @@ namespace NuovaGM.Client
 				uint weaponHash = (uint)int.Parse(data[4].ToString());
 				bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
 				int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
-				Client.Printa(LogType.Debug,"Dati Json = " + JsonConvert.SerializeObject(data));
+				Log.Printa(LogType.Debug,"Dati Json = " + JsonConvert.SerializeObject(data));
 
 				if (victim != null && attacker != null)
 				{

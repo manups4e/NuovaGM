@@ -8,6 +8,8 @@ using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.gmPrincipale.Utility;
 using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale;
+using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.Proprietà.Hotel
 {
@@ -21,7 +23,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 		{
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
-				Client.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
+				Log.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
 			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
 			{
@@ -41,7 +43,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
 				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, true, 1.0f, 0));
 
-				Client.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
+				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
 			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
 			{

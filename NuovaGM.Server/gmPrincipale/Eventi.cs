@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.Interactions;
 using NuovaGM.Shared;
@@ -80,7 +81,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, $"{ e.Message}");
+				Log.Printa(LogType.Error, $"{ e.Message}");
 			}
 
 		}
@@ -179,7 +180,7 @@ namespace NuovaGM.Server.gmPrincipale
 			else
 			{
 				var now = DateTime.Now;
-				Server.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
+				Log.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + "--il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				DropPlayer(source.Handle, "LastPlanet Shield [Sospetto Modding]: entra in discord a chiarire perfavore!");
 				// AGGIUNGERE AVVISO DISCORD! ;)
@@ -189,7 +190,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public static void Spawnato([FromSource] Player source)
 		{
 			var user = Funzioni.GetUserFromPlayerId(source.Handle);
-			Server.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
+			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
 			BaseScript.TriggerEvent("lprp:serverLog",user.FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
@@ -211,7 +212,7 @@ namespace NuovaGM.Server.gmPrincipale
 				else
 					text = player.Name + " si e' disconnesso: " + reason;
 			}
-			Server.Printa(LogType.Info, text);
+			Log.Printa(LogType.Info, text);
 			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
@@ -227,7 +228,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
 					Funzioni.SalvaPersonaggio(player);
-					Server.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord + ", tramite telefono");
 				}
 			}
@@ -437,7 +438,7 @@ namespace NuovaGM.Server.gmPrincipale
 				banner = Banner.Name,
 				motivation = motivazione
 			});
-			Server.Printa(LogType.Warning, $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
+			Log.Printa(LogType.Warning, $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 			Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {Banner.Name}"); // modificare con introduzione in stile anticheat
 		}
@@ -446,7 +447,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Kicker = Funzioni.GetPlayerFromId(kicker);
-			Server.Printa(LogType.Warning, $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
+			Log.Printa(LogType.Warning, $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}

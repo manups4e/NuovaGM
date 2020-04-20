@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -138,8 +139,8 @@ namespace NuovaGM.Client.Businesses
 			int deltype = Convert.ToInt32(data.deltype);
 			string deliverylist = data.deliverylist;
 
-			Client.Printa(LogType.Debug, name);
-			Client.Printa(LogType.Debug, thks);
+			Log.Printa(LogType.Debug, name);
+			Log.Printa(LogType.Debug, thks);
 
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);

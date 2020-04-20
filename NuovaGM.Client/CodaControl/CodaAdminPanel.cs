@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -49,7 +50,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - OnResourceStop()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - OnResourceStop()");
             }
         }
 
@@ -84,7 +85,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - SessionResponse()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - SessionResponse()");
             }
         }
 
@@ -98,7 +99,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ClosePanel()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ClosePanel()");
             }
         }
 
@@ -111,7 +112,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - RefreshPanel()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - RefreshPanel()");
             }
         }
 
@@ -123,7 +124,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - KickUser()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - KickUser()");
             }
         }
 
@@ -142,7 +143,7 @@ namespace NuovaGM.Client.CodaControl
             }
             catch (Exception)
             {
-                Client.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ChangePriority()");
+                Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ChangePriority()");
             }
         }
 

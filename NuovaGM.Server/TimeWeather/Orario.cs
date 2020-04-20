@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,7 +34,7 @@ namespace NuovaGM.Server.TimeWeather
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 
@@ -68,7 +69,7 @@ namespace NuovaGM.Server.TimeWeather
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 	}

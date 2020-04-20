@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
@@ -94,7 +95,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void onPlayerDeath(dynamic data)
 		{
-			Client.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
+			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			BaseScript.TriggerEvent("lprp:iniziaConteggio");

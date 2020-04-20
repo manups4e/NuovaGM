@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -136,7 +137,7 @@ namespace NuovaGM.Client.Giostre
 			}
 			catch(Exception e)
 			{
-				Client.Printa(LogType.Error, "errore montagne\n" +e.ToString() +"\n" + e.StackTrace);
+				Log.Printa(LogType.Error, "errore montagne\n" +e.ToString() +"\n" + e.StackTrace);
 			}
 			await BaseScript.Delay(500);
 		}
@@ -251,7 +252,7 @@ namespace NuovaGM.Client.Giostre
 			}
 			catch
 			{
-				Client.Printa(LogType.Error, "Problema Movimento Montagne Russe");
+				Log.Printa(LogType.Error, "Problema Movimento Montagne Russe");
 			}
 		}
 
@@ -277,7 +278,7 @@ namespace NuovaGM.Client.Giostre
 					HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
 					return;
 			}
-			Client.Printa(LogType.Debug, "Posto = " + Posto);
+			Log.Printa(LogType.Debug, "Posto = " + Posto);
 			TaskGoStraightToCoord(personaggio.Handle, Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
 			await BaseScript.Delay(1000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
@@ -300,8 +301,8 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerScende(int playernetid)
 		{
-			Client.Printa(LogType.Debug, "playernetid = " + playernetid);
-			Client.Printa(LogType.Debug, "game.playerped.networkdid = " + Game.PlayerPed.NetworkId);
+			Log.Printa(LogType.Debug, "playernetid = " + playernetid);
+			Log.Printa(LogType.Debug, "game.playerped.networkdid = " + Game.PlayerPed.NetworkId);
 
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio != null)

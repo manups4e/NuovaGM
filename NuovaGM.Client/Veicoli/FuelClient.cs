@@ -10,6 +10,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Personale;
 using System.Linq;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -646,7 +647,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 			catch (Exception e)
 			{
-				Client.Printa(LogType.Error, "Errore in fuelClient = " + e);
+				Log.Printa(LogType.Error, "Errore in fuelClient = " + e);
 			}
 		}
 

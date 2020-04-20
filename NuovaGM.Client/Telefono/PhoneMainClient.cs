@@ -13,6 +13,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
+using Logger;
 
 namespace NuovaGM.Client.Telefono
 {
@@ -135,14 +136,14 @@ namespace NuovaGM.Client.Telefono
 			Phone.currentApp.Initialize(Phone);
 			Client.Instance.AddTick(Phone.currentApp.Tick);
 
-			Client.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
+			Log.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
 		}
 
 		public static async Task KillApp()
 		{
 			if (Phone.currentApp != null)
 			{
-				Client.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
+				Log.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
 				Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 

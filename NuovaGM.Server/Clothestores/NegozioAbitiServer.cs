@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using NuovaGM.Server.gmPrincipale;
 
 using System;
@@ -20,13 +21,13 @@ namespace NuovaGM.Server.Clothestores
 			if (num == 1)
 			{
 				user.Money -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				Log.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 			}
 			else if (num == 2)
 			{
 				user.Bank -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+				Log.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 			}
 		}
@@ -38,13 +39,13 @@ namespace NuovaGM.Server.Clothestores
 			if (num == 1)
 			{
 				user.Money -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				Log.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 			}
 			else if (num == 2)
 			{
 				user.Bank -= price;
-				Server.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+				Log.Printa(LogType.Info, $"Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")} - Il personaggio {user.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 			}
 		}

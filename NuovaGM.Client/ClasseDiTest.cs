@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -18,6 +19,7 @@ namespace NuovaGM.Client
 		public static void Init()
 		{
 			Client.Instance.AddTick(MenuMessaggi);
+			Log.Printa(LogType.Info, "Ci siamo finalmente");
 		}
 
 		private static async void AttivaMenu()
@@ -75,10 +77,6 @@ namespace NuovaGM.Client
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 				AttivaMenu();
-
-			if (Input.IsControlPressed(Control.Context))
-				HUD.ShowFloatingHelpNotification("BBBBBBBBBBBBBBBBBBBBBBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAAAAAAJBNIKJBKJBBKJHBDFJUIBJKFBNDJKBDKJBDFJKDBJKDB?", Game.PlayerPed.Position);
-
 		}
 	}
 }

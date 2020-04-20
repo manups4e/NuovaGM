@@ -1,20 +1,11 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Logger;
 using System;
 using System.Threading.Tasks;
-// ReSharper disable All
 
 namespace NuovaGM.Client
 {
-	public enum LogType
-	{
-		Info,
-		Debug,
-		Warning,
-		Error,
-		Fatal
-	}
-
 	public class Client : BaseScript
 	{
 		public static Client Instance { get; protected set; }
@@ -34,43 +25,6 @@ namespace NuovaGM.Client
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
 		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
-
-		/// <summary>
-		/// Manda in console un messaggio colorato in base alla gravità della situazione
-		/// </summary>
-		/// <param name="tipo">La gravità della situazione</param>
-		/// <param name="text">Testo del messaggio</param>
-		public static void Printa(LogType tipo, string text)
-		{
-			string err = "-- [INFO] -- ";
-			string incipit = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss")}";
-			string colore = "^2";
-			switch (tipo)
-			{
-				case LogType.Info:
-					err = "-- [INFO] -- ";
-					colore = "^2";
-					break;
-				case LogType.Debug:
-					err = "-- [DEBUG] -- ";
-					colore = "^5";
-					break;
-				case LogType.Warning:
-					err = "-- [ATTENZIONE] --";
-					colore = "^3";
-					break;
-				case LogType.Error:
-					err = "-- [ERRORE] --";
-					colore = "^1";
-					break;
-				case LogType.Fatal:
-					err = "-- [FATALE] --";
-					colore = "^9";
-					break;
-			}
-			Debug.WriteLine($"^4{incipit} {colore}{err} {text}.^7");
-		}
-
 
 		/// <summary>
 		/// Rimuove un evento client (TriggerEvent)
@@ -93,7 +47,7 @@ namespace NuovaGM.Client
 			}
 			catch (Exception ex)
 			{
-				Printa(LogType.Error, ex.ToString());
+				Log.Printa(LogType.Error, ex.ToString());
 			}
 		}
 

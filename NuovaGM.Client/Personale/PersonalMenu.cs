@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.Personale
 {
@@ -150,7 +151,7 @@ namespace NuovaGM.Client.Personale
 						}
 						catch(Exception e)
 						{
-							Client.Printa(LogType.Debug, e.ToString() + e.StackTrace);
+							Log.Printa(LogType.Debug, e.ToString() + e.StackTrace);
 							HUD.ShowNotification("Nessuna destinazione impostata!!", true);
 						}
 					}

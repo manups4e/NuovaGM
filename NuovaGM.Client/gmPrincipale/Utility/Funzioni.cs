@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static NuovaGM.Shared.Veicoli.Modifiche;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
@@ -173,7 +174,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"{ex.Message}");
+				Log.Printa(LogType.Error, $"{ex.Message}");
 			}
 			return null;
 		}
@@ -187,7 +188,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(Vehicle);
 		}
@@ -312,7 +313,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -338,7 +339,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -352,7 +353,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -366,7 +367,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(RaycastResult);
 		}
@@ -434,7 +435,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(_RaycastResult);
 		}
@@ -460,7 +461,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
 			return "UNK";
 		}
@@ -484,7 +485,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
 			await Task.FromResult(0);
 			return result;
@@ -907,32 +908,38 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static int GetRandomInt(int end)
 		{
-			return GetRandomIntInRange(0, end);
+			Random rand = new Random(GetGameTimer());
+			return rand.Next(end);
 		}
 
 		public static int GetRandomInt(int start, int end)
 		{
-			return GetRandomIntInRange(start, end);
+			Random rand = new Random(GetGameTimer());
+			return rand.Next(start, end);
 		}
 
 		public static long GetRandomLong(long start, long end)
 		{
-			return new Random(GetGameTimer()).NextLong(start, end);
+			Random rand = new Random(GetGameTimer());
+			return rand.NextLong(start, end);
 		}
 
 		public static long GetRandomLong(long end)
 		{
-			return new Random(GetGameTimer()).NextLong(0, end);
+			Random rand = new Random(GetGameTimer());
+			return rand.NextLong(end);
 		}
 
 		public static float GetRandomFloat(float end)
 		{
-			return (float)Math.Round(GetRandomFloatInRange(0, end), 2);
+			Random rand = new Random(GetGameTimer());
+			return (float)Math.Round(rand.NextDouble(0, end), 3);
 		}
 
 		public static float GetRandomFloat(float start, float end)
 		{
-			return (float)Math.Round(GetRandomFloatInRange(start, end), 2);
+			Random rand = new Random(GetGameTimer());
+			return (float)Math.Round(rand.NextFloat(start, end), 3);
 		}
 
 		public static Tuple<int, int> secondsToClock(int Seconds)
@@ -1195,7 +1202,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			else
 			{
-				Client.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 			}
 
 			return "WT_INVALID";
@@ -1284,7 +1291,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -1301,7 +1308,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"[WORLDPROBE] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 			return default(CitizenFX.Core.Vehicle);
 		}
@@ -1327,7 +1334,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -1341,7 +1348,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 			return default(Vector3);
 		}
@@ -1355,7 +1362,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(RaycastResult);
 		}
@@ -1421,7 +1428,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
 			}
 			return default(_RaycastResult);
 		}
@@ -1447,7 +1454,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
 			return "UNK";
 		}
@@ -1472,63 +1479,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			catch (Exception ex)
 			{
-				Client.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
 			return result;
-		}
-	}
-
-	public static class RandomExtensionMethods
-	{
-		/// <summary>
-		/// Returns a random long from min (inclusive) to max (exclusive)
-		/// </summary>
-		/// <param name="random">The given random instance</param>
-		/// <param name="min">The inclusive minimum bound</param>
-		/// <param name="max">The exclusive maximum bound.  Must be greater than min</param>
-		public static long NextLong(this Random random, long min, long max)
-		{
-			if (max <= min)
-			{
-				throw new ArgumentOutOfRangeException("max", "max must be > min!");
-			}
-
-			//Working with ulong so that modulo works correctly with values > long.MaxValue
-			ulong uRange = (ulong)(max - min);
-
-			//Prevent a modolo bias; see https://stackoverflow.com/a/10984975/238419
-			//for more information.
-			//In the worst case, the expected number of calls is 2 (though usually it's
-			//much closer to 1) so this loop doesn't really hurt performance at all.
-			ulong ulongRand;
-			do
-			{
-				byte[] buf = new byte[8];
-				random.NextBytes(buf);
-				ulongRand = (ulong)BitConverter.ToInt64(buf, 0);
-			} while (ulongRand > ulong.MaxValue - ((ulong.MaxValue % uRange) + 1) % uRange);
-
-			return (long)(ulongRand % uRange) + min;
-		}
-
-		/// <summary>
-		/// Returns a random long from 0 (inclusive) to max (exclusive)
-		/// </summary>
-		/// <param name="random">The given random instance</param>
-		/// <param name="max">The exclusive maximum bound.  Must be greater than 0</param>
-		public static long NextLong(this Random random, long max)
-		{
-			return random.NextLong(0, max);
-		}
-
-		/// <summary>
-		/// Returns a random long over all possible values of long (except long.MaxValue, similar to
-		/// random.Next())
-		/// </summary>
-		/// <param name="random">The given random instance</param>
-		public static long NextLong(this Random random)
-		{
-			return random.NextLong(long.MinValue, long.MaxValue);
 		}
 	}
 }

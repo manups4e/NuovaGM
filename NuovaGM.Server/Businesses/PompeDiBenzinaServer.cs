@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Shared;
@@ -43,7 +44,7 @@ namespace NuovaGM.Server.Businesses
 				for (int i = 0; i < result.Count; i++)
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
-				Server.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
+				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
 			BaseScript.TriggerClientEvent("lprp:businesses:setstations", JsonConvert.SerializeObject(ConfigShared.SharedConfig.Main.Veicoli.gasstations), JsonConvert.SerializeObject(playerstations));
 		}
 
@@ -96,7 +97,7 @@ namespace NuovaGM.Server.Businesses
 			}
 			else
 			{
-				Server.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
+				Log.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
 				BaseScript.TriggerClientEvent(p, "lprp:businesses:checkcanmanage", false);
 			}
 		}
@@ -123,7 +124,7 @@ namespace NuovaGM.Server.Businesses
 					p.TriggerEvent("lprp:ShowNotification", "Non ci sono fondi disponibili per questa stazione.");
 			}
 			else
-				Server.Printa(LogType.Error, "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
+				Log.Printa(LogType.Error, "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
 		}
 
 		public static async void ChangeStation([FromSource]Player p, string stationname, string thanksmessage, int fuelCost, int Manageid, int Deltype, string Deliverylist)
@@ -288,7 +289,7 @@ namespace NuovaGM.Server.Businesses
 						if (pay > 0)
 						{
 							user.Bank += pay;
-							Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
+							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} è stato pagato {2}$ per una consegna di carburante (stazione non posseduta).", user.FullName, GetPlayerName(p.Handle), pay);
 						}
 						BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuelnotowned", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), pay.ToString(), overflow.ToString());
@@ -298,7 +299,7 @@ namespace NuovaGM.Server.Businesses
 				}
 			}
 			else
-				Server.Printa(LogType.Error, "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
+				Log.Printa(LogType.Error, "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
 		}
 
 		public static async void CheckFuelStation([FromSource] Player p, int index)
@@ -348,7 +349,7 @@ namespace NuovaGM.Server.Businesses
 							idx = sidx
 						});
 						user.Bank -= sellprice;
-						Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
+						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
 						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha pagato {2} per una Stazione di Rifornimento.", user.FullName, GetPlayerName(p.Handle), sellprice);
 						SendStationsUpdate();
 						BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", true, "", sidx, sellprice);
@@ -443,7 +444,7 @@ namespace NuovaGM.Server.Businesses
 						else
 						{
 							user.Money -= amount;
-							Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
+							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha depositato {2}$ nella sua stazione di rifornimento.", user.FullName, GetPlayerName(p.Handle), amount.ToString());
 							await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx", new
 							{
@@ -473,7 +474,7 @@ namespace NuovaGM.Server.Businesses
 					{
 						samount = (int)result[0].cashwaiting - amount;
 						user.Money += amount;
-						Server.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
+						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
 						BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} has ritirato {2}$ dalla sua stazione di rifornimento", user.FullName, GetPlayerName(p.Handle), amount.ToString());
 						await Server.Instance.Execute($"UPDATE businesses SET cashwaiting = @cash  WHERE stationindex = @idx", new
 						{

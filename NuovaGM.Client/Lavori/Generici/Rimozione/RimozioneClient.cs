@@ -11,6 +11,7 @@ using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.Lavori.Generici.Rimozione
 {
@@ -29,7 +30,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
 			RequestAnimDict("oddjobs@towing");
-			Client.Printa(LogType.Debug, Newtonsoft.Json.JsonConvert.SerializeObject(Rimozione));
+			Log.Printa(LogType.Debug, Newtonsoft.Json.JsonConvert.SerializeObject(Rimozione));
 			Client.Instance.AddTick(InizioLavoro);
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
@@ -79,7 +80,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						VeicoloLavorativo.PlaceOnGround();
 						VeicoloLavorativo.PreviouslyOwnedByPlayer = true;
 						VeicoloLavorativo.Repair();
-						Client.Printa(LogType.Debug, "valore = " + GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle));
+						Log.Printa(LogType.Debug, "valore = " + GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle));
 						Client.Instance.AddTick(LavoroRimozioneForzata);
 						Client.Instance.AddTick(ControlloRimozione);
 						Client.Instance.RemoveTick(InizioLavoro);
@@ -125,7 +126,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
 				}
 
-				Client.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
+				Log.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
 				uint streename = 0;
 				uint crossing = 0;
 				GetStreetNameAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z, ref streename, ref crossing);

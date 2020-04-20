@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 
 using System;
@@ -82,7 +83,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 
@@ -102,7 +103,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 	}

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 
 using CitizenFX.Core;
+using Logger;
 
 namespace NuovaGM.Server
 {
@@ -26,7 +27,7 @@ namespace NuovaGM.Server
 			}
 			catch (Exception ex)
 			{
-				Server.Printa(LogType.Fatal, ex.ToString());
+				Log.Printa(LogType.Fatal, ex.ToString());
 				return null;
 			}
 		}
@@ -44,7 +45,7 @@ namespace NuovaGM.Server
 			}
 			catch (Exception ex)
 			{
-				Server.Printa(LogType.Fatal, ex.ToString());
+				Log.Printa(LogType.Fatal, ex.ToString());
 			}
 		}
 	}

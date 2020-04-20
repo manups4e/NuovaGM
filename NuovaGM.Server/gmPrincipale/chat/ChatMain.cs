@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-
+using Logger;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -101,13 +101,13 @@ namespace NuovaGM.Server.gmPrincipale
 				string msg = "";
 				for (int i = 0; i < command.Length; i++)
 					msg += " " + command[i];
-				Server.Printa(LogType.Info, "Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
+				Log.Printa(LogType.Info, "Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
 				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comando: /" + cmd + " invocato da " + sender.Name + " con testo:" + msg + ".");
 			}
 			else
 			{
 				BaseScript.TriggerClientEvent(sender, "lprp:ShowNotification", "Non hai i permessi per usare questo comando!");
-				Server.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
+				Log.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
 				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + sender.Name + " ha provato a usare il comando " + cmd + ".");
 			}
 		}

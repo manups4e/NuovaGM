@@ -2,6 +2,7 @@
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

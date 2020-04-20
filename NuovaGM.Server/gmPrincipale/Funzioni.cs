@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using Logger;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -277,7 +278,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			else
 			{
-				Server.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 			}
 
 			return "WT_INVALID";
@@ -316,7 +317,7 @@ namespace NuovaGM.Server.gmPrincipale
 							{
 								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
 								SalvaPersonaggio(player);
-								Server.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
+								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
 								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
 								await Task.FromResult(0);
 							}
@@ -329,7 +330,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception e)
 			{
-				Server.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 

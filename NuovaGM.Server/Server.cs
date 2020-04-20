@@ -12,15 +12,6 @@ using System.Collections.Concurrent;
 
 namespace NuovaGM.Server
 {
-	public enum LogType
-	{
-		Info,
-		Debug,
-		Warning,
-		Error,
-		Fatal
-	}
-	
 	public class Server : BaseScript
 	{
 		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
@@ -34,37 +25,6 @@ namespace NuovaGM.Server
 			EventHandlers["onResourceStop"] += new Action<string>(OnResourceStop);
 			Instance = this;
 			ClassCollector.Init();
-		}
-
-		public static void Printa(LogType tipo, string text)
-		{
-			string err = "-- [INFO] -- ";
-			string incipit = $"{DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss", new CultureInfo("it-IT"))}";
-			Color colore = Color.LimeGreen;
-			switch (tipo)
-			{
-				case LogType.Info:
-					err = "-- [INFO] -- ";
-					colore = Color.LimeGreen;
-					break;
-				case LogType.Debug:
-					err = "-- [DEBUG] -- ";
-					colore = Color.Cyan;
-					break;
-				case LogType.Warning:
-					err = "-- [ATTENZIONE] --";
-					colore = Color.DarkOrange;
-					break;
-				case LogType.Error:
-					err = "-- [ERRORE] --";
-					colore = Color.OrangeRed;
-					break;
-				case LogType.Fatal:
-					err = "-- [FATALE] --";
-					colore = Color.Yellow;
-					break;
-			}
-			Console.WriteLine($"{incipit} {err} {text}", colore);
 		}
 
 		/// <summary>

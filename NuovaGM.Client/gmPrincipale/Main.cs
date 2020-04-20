@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.MenuGm;
 using NuovaGM.Client.gmPrincipale.Utility;
@@ -352,7 +353,7 @@ namespace NuovaGM.Client.gmPrincipale
 			}
 			catch (Exception)
 			{
-				Client.Printa(LogType.Error, $"[{GetCurrentResourceName()} - Client_Queue] - Connesso()");
+				Log.Printa(LogType.Error, $"[{GetCurrentResourceName()} - Client_Queue] - Connesso()");
 			}
 		}
 

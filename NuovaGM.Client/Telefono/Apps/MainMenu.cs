@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using NuovaGM.Client.Telefono.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace NuovaGM.Client.Telefono.Apps
         {
             AllApps = allApps;
 
-            Client.Printa(LogType.Debug, $"Apps totali {AllApps.Count}");
+            Log.Printa(LogType.Debug, $"Apps totali {AllApps.Count}");
         }
 
         public override async Task Tick()
@@ -103,7 +104,7 @@ namespace NuovaGM.Client.Telefono.Apps
             }
             catch (Exception e)
             {
-                Client.Printa(LogType.Error, $"{e.Message} : Exception thrown on Apps.Main.Tick()");
+                Log.Printa(LogType.Error, $"{e.Message} : Exception thrown on Apps.Main.Tick()");
             }
 
             await Task.FromResult(0);

@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Shared;
 using System;
@@ -70,7 +71,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Pol(int sender, List<dynamic> args, string rawCommand)
@@ -91,7 +92,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Pil(int sender, List<dynamic> args, string rawCommand)
@@ -112,7 +113,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Med(int sender, List<dynamic> args, string rawCommand)
@@ -133,7 +134,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Mec(int sender, List<dynamic> args, string rawCommand)
@@ -154,7 +155,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Me(int sender, List<dynamic> args, string rawCommand)
@@ -171,7 +172,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		public static void Do(int sender, List<dynamic> args, string rawCommand)
@@ -188,7 +189,7 @@ namespace NuovaGM.Server.gmPrincipale
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
-				Server.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
+				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
 		}
 
 		// FINE CHAT
@@ -456,7 +457,7 @@ namespace NuovaGM.Server.gmPrincipale
 						if (GetPlayerName(args[0]) != ".")
 						{
 							Player p = Server.Instance.GetPlayers[Convert.ToInt32(args[0])];
-							Server.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
+							Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
 							BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
 							BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
 						}
@@ -485,7 +486,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					if (sender != 0)
 					{
-						Server.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
+						Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
 						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
 					}
 					if (args[1] == "normal")
@@ -527,7 +528,7 @@ namespace NuovaGM.Server.gmPrincipale
 					var user = Funzioni.GetUserFromPlayerId(ricevitore.Handle);
 					user.group = group;
 					user.group_level = group_level;
-					Server.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
+					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + $" --  Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 				}
 				else
@@ -535,7 +536,7 @@ namespace NuovaGM.Server.gmPrincipale
 					if (sender != 0)
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 					else
-						Server.Printa(LogType.Error, "Il player con ID" + args[0] + " non è online!");
+						Log.Printa(LogType.Error, "Il player con ID" + args[0] + " non è online!");
 				}
 			}
 			else
@@ -543,7 +544,7 @@ namespace NuovaGM.Server.gmPrincipale
 				if (sender != 0)
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgroup] = ", "errore nel comando setgroup.. riprova" }, color = new[] { 255, 0, 0 } });
 				else
-					Server.Printa(LogType.Error, "errore nel comando setgroup..riprova");
+					Log.Printa(LogType.Error, "errore nel comando setgroup..riprova");
 			}
 			if (sender != 0)
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -622,7 +623,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
 						Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
-						Server.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
+						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
 						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
 						await Task.FromResult(0);
 					}
@@ -631,7 +632,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			catch (Exception ex)
 			{
-				Server.Printa(LogType.Fatal, "" + ex);
+				Log.Printa(LogType.Fatal, "" + ex);
 			}
 			if(sender!=0)
 				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
@@ -731,10 +732,10 @@ namespace NuovaGM.Server.gmPrincipale
 				if (args != null && args.Count > 0 && args.Count < 3)
 				{
 					BaseScript.TriggerEvent("UpdateFromCommandTime", Tempo);
-					Server.Printa(LogType.Info, $"Time -- Orario server impostato alle ore {h}:{m}");
+					Log.Printa(LogType.Info, $"Time -- Orario server impostato alle ore {h}:{m}");
 				}
 				else
-					Server.Printa(LogType.Error, $"Time -- Devi impostare almeno l'ora");
+					Log.Printa(LogType.Error, $"Time -- Devi impostare almeno l'ora");
 			}
 			else
 			{
@@ -762,9 +763,9 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				BaseScript.TriggerEvent("freezeTime", freeze);
 				if (freeze)
-					Server.Printa(LogType.Info, $"Orario di gioco bloccato alle ore {h}:{m}");
+					Log.Printa(LogType.Info, $"Orario di gioco bloccato alle ore {h}:{m}");
 				else
-					Server.Printa(LogType.Info, $"Orario di gioco sbloccato dalle ore {h}:{m}");
+					Log.Printa(LogType.Info, $"Orario di gioco sbloccato dalle ore {h}:{m}");
 			}
 			else
 			{
@@ -785,13 +786,13 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 				{
-					Server.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.currentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+					Log.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.currentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 					return;
 				}
 				else
 				{
 					TimeWeather.Meteo.currentWeather = Convert.ToInt32(args[0]);
-					Server.Printa(LogType.Debug, TimeWeather.Meteo.currentWeather + "");
+					Log.Printa(LogType.Debug, TimeWeather.Meteo.currentWeather + "");
 					TimeWeather.Meteo.weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 					BaseScript.TriggerEvent("changeWeather", false);
 				}
@@ -869,7 +870,7 @@ namespace NuovaGM.Server.gmPrincipale
 		private static void DaiLicenza(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender == 0)
-				Server.Printa(LogType.Error, $"Comando permesso solo in game");
+				Log.Printa(LogType.Error, $"Comando permesso solo in game");
 			else
 			{
 				if (!string.IsNullOrEmpty(args[0] as string))
@@ -891,7 +892,7 @@ namespace NuovaGM.Server.gmPrincipale
 		private static void RimuoviLicenza(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender == 0)
-				Server.Printa(LogType.Error, $"Comando permesso solo in game");
+				Log.Printa(LogType.Error, $"Comando permesso solo in game");
 			else
 			{
 				if (!string.IsNullOrEmpty(args[0] as string))

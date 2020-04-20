@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -320,8 +321,8 @@ namespace NuovaGM.Client.Negozi
 								{
 									ArmiLicenza arm = componenti.FirstOrDefault(x => GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name))) == _item.Text);
 
-									Client.Printa(LogType.Debug, "Prezzo = " + arm.price);
-									Client.Printa(LogType.Debug, "name = " + arm.name);
+									Log.Printa(LogType.Debug, "Prezzo = " + arm.price);
+									Log.Printa(LogType.Debug, "name = " + arm.name);
 									if (Game.Player.GetPlayerData().Money >= arm.price)
 									{
 										BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
@@ -809,7 +810,7 @@ namespace NuovaGM.Client.Negozi
 							}
 							catch (Exception e)
 							{
-								Client.Printa(LogType.Error, "Da segnalare allo scripter!!\nMessaggio NegoziClient.cs:607 = " + e.Message);
+								Log.Printa(LogType.Error, "Da segnalare allo scripter!!\nMessaggio NegoziClient.cs:607 = " + e.Message);
 							}
 						};
 					}
