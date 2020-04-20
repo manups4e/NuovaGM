@@ -156,6 +156,8 @@ namespace NuovaGM.Client.Giostre
 							await BaseScript.Delay(1000);
 							tempo--;
 							montagna.TextTimerBar.Caption = tempo + "sec.";
+							if (Montagna.State != "ATTESA")
+								return;
 						}
 						await BaseScript.Delay(6000);
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "PARTENZA");
