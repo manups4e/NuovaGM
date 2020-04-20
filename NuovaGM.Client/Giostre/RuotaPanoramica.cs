@@ -77,8 +77,10 @@ namespace NuovaGM.Client.Giostre
 			};
 			if (!IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
 				StartAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
-			for (int i = 0; i < 16; i++)
+			int i = 0;
+			while (i < 16)
 			{
+				await BaseScript.Delay(0);
 				Cabine[i].Entity = new Prop(CreateObject(GetHashKey("prop_ferris_car_01"), 0f, 1f, 2f, false, false, false))
 				{
 					IsInvincible = true,
@@ -87,6 +89,7 @@ namespace NuovaGM.Client.Giostre
 					IsPositionFrozen = true,
 				};
 				Cabine[i].Index = i;
+				i++;
 			}
 			await Task.FromResult(0);
 		}
@@ -148,7 +151,7 @@ namespace NuovaGM.Client.Giostre
 					if (Math.Abs(Ruota.Rotazione - cab.Gradient) < 0.05f)
 					{
 						Ruota.Gradient = cab.Index + 1 > 15 ? 0 : cab.Index + 1;
-						if (NetworkIsHost() && cab.Index == 15 || cab.Index == 7)
+						if (Client.Instance.GetPlayers.ToList().OrderBy(x => x.ServerId).FirstOrDefault() == Game.Player)
 							BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
 						switch (Ruota.State)
 						{
@@ -169,6 +172,7 @@ namespace NuovaGM.Client.Giostre
 				Ruota.Entity.Rotation = pitch;
 
 				Cabine.ToList().ForEach(o => func_145(Cabine.ToList().IndexOf(o)));
+				SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", Game.PlayerPed.Position.Z - 13f);
 /*
 				int i;
 				for (i = 0; i < 16; i++)
