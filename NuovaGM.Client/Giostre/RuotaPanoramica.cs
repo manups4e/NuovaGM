@@ -187,6 +187,9 @@ namespace NuovaGM.Client.Giostre
 			CabinaPan Cabina = Cabine[cabina];
 			if (IsEntityAtCoord(Personaggio.Handle, -1661.95f, -1127.011f, 12.6973f, 1f, 1f, 1f, false, true, 0))
 			{
+				if (Personaggio.NetworkId != Game.PlayerPed.NetworkId)
+					if (!NetworkHasControlOfNetworkId(player))
+						while (!NetworkRequestControlOfNetworkId(player)) await BaseScript.Delay(0);
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", true);
 				Ruota.Ferma = true;
 				await BaseScript.Delay(100);
@@ -250,6 +253,20 @@ namespace NuovaGM.Client.Giostre
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:RuotaFerma", false);
 				Ruota.State = "IDLE";
 				CabinaAttuale = null;
+			}
+			else
+			{
+				if (Personaggio.NetworkId != Game.PlayerPed.NetworkId)
+					if (!NetworkHasControlOfNetworkId(player))
+						while (!NetworkRequestControlOfNetworkId(player)) await BaseScript.Delay(0);
+				Vector3 offset = GetOffsetFromEntityInWorldCoords(Cabina.Entity.Handle, 0f, 0f, 0f);
+				int uLocal_377 = NetworkCreateSynchronisedScene(offset.X, offset.Y, offset.Z, 0f, 0f, 0f, 2, false, false, 1065353216, 0, 1065353216);
+				NetworkAddPedToSynchronisedScene(Personaggio.Handle, uLocal_377, "anim@mp_ferris_wheel", "exit_player_one", 8f, -8f, 131072, 0, 1148846080, 0);
+				NetworkStartSynchronisedScene(uLocal_377);
+				Personaggio.Detach();
+				await BaseScript.Delay(5000);
+				Cabina.NPlayer = 0;
+				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 			}
 		}
 

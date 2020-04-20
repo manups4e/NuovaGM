@@ -261,7 +261,11 @@ namespace NuovaGM.Client.Giostre
 		private static async void PlayerSale(int playernetid, int index, int carrellonetid)
 		{
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
+			if (personaggio.NetworkId != Game.PlayerPed.NetworkId)
+				if (!NetworkHasControlOfNetworkId(playernetid))
+					while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
 			Prop Carrello = (Prop)Entity.FromNetworkId(carrellonetid);
+
 			if (Carrello == null)
 				Carrello = Montagna.Carrelli[index].Entity;
 			switch (Montagna.Carrelli[index].Occupato)
@@ -307,6 +311,9 @@ namespace NuovaGM.Client.Giostre
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio != null)
 			{
+				if (personaggio.NetworkId != Game.PlayerPed.NetworkId)
+					if (!NetworkHasControlOfNetworkId(playernetid))
+						while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
 				if (personaggio.IsAttached())
 					personaggio.Detach();
 				if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
