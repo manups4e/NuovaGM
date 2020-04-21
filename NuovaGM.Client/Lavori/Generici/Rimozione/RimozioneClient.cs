@@ -193,6 +193,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					HUD.ShowHelp("Sgancia il veicolo per depositarlo!");
 					if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
 					{
+						var money = 200 + VeicoloDaRimuovere.BodyHealth / 10;
+						BaseScript.TriggerServerEvent("lprp:giveBank", money);
 						VeicoloDaRimuovere.MarkAsNoLongerNeeded();
 						VeicoloDaRimuovere = null;
 						BlipVeicoloDaRimuovere.Delete();
