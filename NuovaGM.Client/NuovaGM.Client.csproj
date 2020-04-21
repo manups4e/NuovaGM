@@ -8,6 +8,11 @@
     <AssemblyName>NuovaGM.Client</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client" Version="1.0.2363" />
 

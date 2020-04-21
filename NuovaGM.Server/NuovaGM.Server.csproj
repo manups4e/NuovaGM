@@ -9,6 +9,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>SERVER</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
