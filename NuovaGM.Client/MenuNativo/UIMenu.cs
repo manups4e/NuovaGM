@@ -1899,18 +1899,15 @@ namespace NuovaGM.Client.MenuNativo
 			_background.Position = new PointF(_background.Position.X, 144 + Offset.Y - 37 + _extraYOffset + CinematicHeight);
 			if (BannerSprite != null)
 			{
-				_glareScaleform.CallFunction("SET_DATA_SLOT", API.GetGameplayCamRelativeHeading());
+				_glareScaleform.CallFunction("SET_DATA_SLOT", GameplayCamera.RelativeHeading);
 				var res = ScreenTools.ResolutionMaintainRatio;
-				float width = 1.0f;
-				float height = 1.054f;
+				SizeF _glareSize = new SizeF(1.0f, 1.054f);
+				PointF gl = new PointF(
+					(Offset.X / res.Width) + 0.4491f,
+					(Offset.Y / res.Height) + 0.475f 
+					);
 
-				float x = BannerSprite.Position.X / res.Width + Safe.X / 53.211f + 0.4485f;
-				float y = BannerSprite.Position.Y / res.Height + Safe.Y / 33.195020746888f + 0.475f;
-				Logger.Log.Printa(Logger.LogType.Debug, "Bounds = " + Safe);
-				Logger.Log.Printa(Logger.LogType.Debug, $"Coordinate Glare = {{X = {x}, Y = {y}}}");
-
-
-				API.DrawScaleformMovie(_glareScaleform.Handle, x, y, width, height, 255, 255, 255, 255, 0);
+				API.DrawScaleformMovie(_glareScaleform.Handle, gl.X, gl.Y, _glareSize.Width, _glareSize.Height, 255, 255, 255, 255, 0);
 			}
 			ReDraw = true;
 			_mainMenu.Draw();

@@ -24,7 +24,7 @@ namespace NuovaGM.Client
 
 		private static async void AttivaMenu()
 		{
-			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(1470, 500));
+			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
 			UIMenuItem b = new UIMenuItem("ShowColoredShard");
 			UIMenuItem c = new UIMenuItem("ShowOldMessage");
