@@ -2,11 +2,7 @@
 using CitizenFX.Core.Native;
 using System;
 using System.Threading.Tasks;
-using System.Drawing;
-using Console = Colorful.Console;
-using System.Globalization;
 using NuovaGM.Server.gmPrincipale;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 // ReSharper disable All
 

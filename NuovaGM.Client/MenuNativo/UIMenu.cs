@@ -1115,7 +1115,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// Returns the safezone bounds in pixel, relative to the 1080pixel based system.
 		/// </summary>
 		[Obsolete("Use ScreenTools.SafezoneBounds instead.", true)]
-		public static Point GetSafezoneBounds() => ScreenTools.SafezoneBounds;
+		public static PointF GetSafezoneBounds() => ScreenTools.SafezoneBounds;
 
 		#endregion
 
@@ -1900,12 +1900,15 @@ namespace NuovaGM.Client.MenuNativo
 			if (BannerSprite != null)
 			{
 				_glareScaleform.CallFunction("SET_DATA_SLOT", API.GetGameplayCamRelativeHeading());
-				float x;
-				float y;
+				var res = ScreenTools.ResolutionMaintainRatio;
 				float width = 1.0f;
 				float height = 1.054f;
-				x = BannerSprite.Position.X / 1920 + Safe.X / 53.211f + 0.4485f;
-				y = BannerSprite.Position.Y / 1080 + Safe.Y / 33.195020746888f + 0.475f;
+
+				float x = BannerSprite.Position.X / res.Width + Safe.X / 53.211f + 0.4485f;
+				float y = BannerSprite.Position.Y / res.Height + Safe.Y / 33.195020746888f + 0.475f;
+				Logger.Log.Printa(Logger.LogType.Debug, "Bounds = " + Safe);
+				Logger.Log.Printa(Logger.LogType.Debug, $"Coordinate Glare = {{X = {x}, Y = {y}}}");
+
 
 				API.DrawScaleformMovie(_glareScaleform.Handle, x, y, width, height, 255, 255, 255, 255, 0);
 			}

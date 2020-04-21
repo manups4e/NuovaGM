@@ -68,7 +68,7 @@ namespace NuovaGM.Client.MenuNativo
 
 		private async void Functions()
 		{
-			Point safezoneOffset = ScreenTools.SafezoneBounds;
+			PointF safezoneOffset = ScreenTools.SafezoneBounds;
 			if (ScreenTools.IsMouseInBounds(new PointF(Grid.Position.X + 20f + safezoneOffset.X, Grid.Position.Y + 20f + safezoneOffset.Y), new SizeF(Grid.Size.Width - 40f, Grid.Size.Height - 40f)))
 			{
 				if (API.IsDisabledControlPressed(0, 24))

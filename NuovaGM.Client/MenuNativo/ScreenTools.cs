@@ -108,7 +108,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Safezone bounds relative to the 1080pixel based resolution.
 		/// </summary>
-		public static Point SafezoneBounds
+		public static PointF SafezoneBounds
 		{
 			get
 			{
@@ -128,7 +128,7 @@ namespace NuovaGM.Client.MenuNativo
 				float wmp = ratio * 5.4f;
 
 				// Finally, return a new point with the correct resolution
-				return new Point((int)Math.Round(g * wmp), (int)Math.Round(g * 5.4f));
+				return new PointF((float)g * wmp, (float)g * 5.4f);
 			}
 		}
 

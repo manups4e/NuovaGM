@@ -1,4 +1,5 @@
 using CitizenFX.Core;
+using Logger;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -462,7 +463,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				////Log.Printa(LogType.Error, $"ToColor exception: {ex.Data}");
+				Log.Printa(LogType.Error, $"ToColor exception: {ex.Data}");
 			}
 			return Color.FromArgb(255, 255, 255, 255);
 		}
@@ -475,7 +476,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -488,7 +489,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -501,7 +502,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
 			}
 			return null;
 		}
@@ -514,7 +515,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToVector2 exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToVector2 exception: {ex.Data}");
 			}
 			return Vector2.Zero;
 		}
@@ -527,7 +528,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
 			}
 			return Vector3.Zero;
 		}
@@ -540,7 +541,7 @@ namespace NuovaGM.Shared
 			}
 			catch (Exception ex)
 			{
-				//Log.Printa(LogType.Debug, $"ToVector4 exception: {ex.Data}");
+				Log.Printa(LogType.Debug, $"ToVector4 exception: {ex.Data}");
 			}
 			return Vector4.Zero;
 		}

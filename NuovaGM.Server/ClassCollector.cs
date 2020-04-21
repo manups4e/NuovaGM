@@ -17,7 +17,6 @@ namespace NuovaGM.Server
 		public static async void Init()
 		{
 			await ConfigServer.Init();
-			DiscordWhitelist.Init();
 			ServerManager.Init();
 			ServerEntrance.Init();
 			Eventi.Init();
@@ -39,6 +38,7 @@ namespace NuovaGM.Server
 			PickupsServer.Init();
 //			Coda.Init();
 			NuovaCoda.Init();
+			DiscordWhitelist.Init();
 		}
 	}
 }
