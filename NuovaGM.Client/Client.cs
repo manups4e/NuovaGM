@@ -75,8 +75,8 @@ namespace NuovaGM.Client
 		/// registra un comando di chat
 		/// </summary>
 		/// <param name="commandName">Nome comando</param>
-		/// <param name="handler">Una nuova Action<int source, List<dynamic> args, string rawCommand</param>
+		/// <param name="handler">Una nuova Action<int source, List<dynamic> args, string rawCommand></param>
 		/// <param name="restricted">tutti o solo chi può?</param>
-		public void AddCommand(string commandName, InputArgument handler, bool restricted) => API.RegisterCommand(commandName, handler, restricted);
+		public void AddCommand(string commandName, InputArgument handler) => API.RegisterCommand(commandName, handler, false);
 	}
 }

@@ -19,7 +19,7 @@ namespace NuovaGM.Client
 		public static void Init()
 		{
 			Client.Instance.AddTick(MenuMessaggi);
-			Log.Printa(LogType.Info, "Ci siamo finalmente");
+			Client.Instance.AddCommand("participants", new Action<int, List<dynamic>, string>(partecipanti));
 		}
 
 		private static async void AttivaMenu()
@@ -78,5 +78,18 @@ namespace NuovaGM.Client
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 				AttivaMenu();
 		}
+
+		private static void partecipanti(int source, List<dynamic> args, string rawcommand)
+		{
+			Log.Printa(LogType.Debug, "NumParticipants = " + NetworkGetNumParticipants());
+			Log.Printa(LogType.Debug, "ParticipantId = " + ParticipantId());
+			Log.Printa(LogType.Debug, $"sono io host? = {NetworkIsHost()} ");
+			
+			foreach (var player in Client.Instance.GetPlayers)
+			{
+				Log.Printa(LogType.Debug, $"Nome = {player.Name}, PlayerId = {player.Handle}, IsPlayerAParticipant = {NetworkIsPlayerAParticipant(IntToParticipantindex(player.Handle))}");
+			}
+		}
+
 	}
 }
