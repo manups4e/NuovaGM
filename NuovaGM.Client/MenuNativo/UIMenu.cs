@@ -1905,7 +1905,7 @@ namespace NuovaGM.Client.MenuNativo
 				PointF gl = new PointF(
 					(Offset.X / res.Width) + 0.4491f,
 					(Offset.Y / res.Height) + 0.475f 
-					);
+				);
 
 				API.DrawScaleformMovie(_glareScaleform.Handle, gl.X, gl.Y, _glareSize.Width, _glareSize.Height, 255, 255, 255, 255, 0);
 			}
