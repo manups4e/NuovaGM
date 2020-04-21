@@ -12,6 +12,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Shared;
 using Logger;
+using NuovaGM.Client.Veicoli;
 
 namespace NuovaGM.Client.Lavori.Generici.Rimozione
 {
@@ -80,6 +81,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						VeicoloLavorativo.PlaceOnGround();
 						VeicoloLavorativo.PreviouslyOwnedByPlayer = true;
 						VeicoloLavorativo.Repair();
+						VeicoloLavorativo.SetVehicleFuelLevel(100f);
 						Log.Printa(LogType.Debug, "valore = " + GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle));
 						Client.Instance.AddTick(LavoroRimozioneForzata);
 						Client.Instance.AddTick(ControlloRimozione);
