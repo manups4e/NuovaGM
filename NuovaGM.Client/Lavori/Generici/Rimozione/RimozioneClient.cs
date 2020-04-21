@@ -186,17 +186,20 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					PuntoDiConsegna = null;
 				}
 			}
-			if (World.GetDistance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) < 8)
+			if (World.GetDistance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) < 15)
 			{
-				HUD.ShowHelp("Sgancia il veicolo per depositarlo!");
-				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
+				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == VeicoloDaRimuovere.Handle)
 				{
-					VeicoloDaRimuovere.MarkAsNoLongerNeeded();
-					VeicoloDaRimuovere = null;
-					BlipVeicoloDaRimuovere.Delete();
-					BlipVeicoloDaRimuovere = null;
-					PuntoDiConsegna.Delete();
-					PuntoDiConsegna = null;
+					HUD.ShowHelp("Sgancia il veicolo per depositarlo!");
+					if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
+					{
+						VeicoloDaRimuovere.MarkAsNoLongerNeeded();
+						VeicoloDaRimuovere = null;
+						BlipVeicoloDaRimuovere.Delete();
+						BlipVeicoloDaRimuovere = null;
+						PuntoDiConsegna.Delete();
+						PuntoDiConsegna = null;
+					}
 				}
 			}
 			await Task.FromResult(0);
