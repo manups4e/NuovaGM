@@ -77,7 +77,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						Game.Player.GetPlayerData().CurrentChar.job.name = "Rimozione forzata";
 						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
 						VeicoloLavorativo = await Funzioni.SpawnVehicle("towtruck", new Vector3(401.55f, -1631.309f, 29.3f), 140);
-						//VeicoloLavorativo.SetDecor("VeicoloLavorativo", );
+						VeicoloLavorativo.SetDecor("VeicoloLavorativo", VeicoloLavorativo.Handle);
 						VeicoloLavorativo.PlaceOnGround();
 						VeicoloLavorativo.PreviouslyOwnedByPlayer = true;
 						VeicoloLavorativo.Repair();
