@@ -64,11 +64,11 @@ namespace NuovaGM.Client
 			Proprietà.Hotel.Hotels.Init();
 
 			Interactions.Macchinette.Init();
-			Interactions.Spazzatura.Init();
+			//Interactions.Spazzatura.Init();
 			Interactions.Docce.Init();
 			Interactions.Letti.Init();
 			Interactions.PickupsClient.Init();
-			Interactions.DivaniEPosizioniSedute.Init();
+			//Interactions.DivaniEPosizioniSedute.Init();
 			Interactions.OggettiGenerici.Init();
 
 			TickController.Init();

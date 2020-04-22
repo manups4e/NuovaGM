@@ -63,19 +63,7 @@ namespace NuovaGM.Client.Interactions
 		static float TrashRange = 0.8f;
 		static Prop BinClosest;
 
-		public static void Init()
-		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-//			CaricaTutto();
-		}
-
-		private static async void Spawnato()
-		{
-			Client.Instance.AddTick(CestiSpazzatura);
-			Client.Instance.AddTick(ControlloSpazzatura);
-		}
-
-		private static async Task ControlloSpazzatura()
+		public static async Task ControlloSpazzatura()
 		{
 			BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * TrashRange, 2));
 			await BaseScript.Delay(500);

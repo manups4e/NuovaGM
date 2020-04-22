@@ -56,7 +56,6 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 			caccia.Name = "Zona di Caccia";
 			caccia.IsShortRange = true;
 			SetBlipDisplay(caccia.Handle, 4);
-			Client.Instance.AddTick(ControlloCaccia);
 		}
 
 		public static async Task ControlloCaccia()
@@ -227,58 +226,58 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 				affittoArmi.OnItemSelect += async (menu, item, index) =>
 				{
-					if (item == armi)
+					if (Game.Player.GetPlayerData().hasLicense("Caccia"))
 					{
-						if ((Game.Player.GetPlayerData().hasWeapon(DaFuoco) || affittatoFuoco) && (Game.Player.GetPlayerData().hasWeapon(Bianca) || affittatoBianca))
+						if (item == armi)
 						{
-							HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
-							return;
-						}
-						int prezzo = 0;
-						if (!Game.Player.GetPlayerData().hasWeapon(DaFuoco))
-						{
-							if (Game.Player.GetPlayerData().Money >= 250 || Game.Player.GetPlayerData().Bank >= 250)
+							if ((Game.Player.GetPlayerData().hasWeapon(DaFuoco) || affittatoFuoco) && (Game.Player.GetPlayerData().hasWeapon(Bianca) || affittatoBianca))
 							{
-								Game.PlayerPed.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
-								prezzo += 250;
-								affittatoFuoco = true;
+								HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
+								return;
 							}
-						}
-						if (!Game.Player.GetPlayerData().hasWeapon(Bianca))
-						{
-							if (Game.Player.GetPlayerData().Money >= 50 || Game.Player.GetPlayerData().Bank >= 50)
+							int prezzo = 0;
+							if (!Game.Player.GetPlayerData().hasWeapon(DaFuoco))
 							{
-								Game.PlayerPed.Weapons.Give(WeaponHash.Knife, 1, false, true);
-								prezzo += 50;
-								affittatoBianca = true;
+								if (Game.Player.GetPlayerData().Money >= 250 || Game.Player.GetPlayerData().Bank >= 250)
+								{
+									Game.PlayerPed.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
+									prezzo += 250;
+									affittatoFuoco = true;
+								}
 							}
-						}
-						if (Game.Player.GetPlayerData().Money >= prezzo)
-						{
-							BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
-							HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
-						}
-						else
-						{
-							if (Game.Player.GetPlayerData().Bank >= prezzo)
+							if (!Game.Player.GetPlayerData().hasWeapon(Bianca))
 							{
-								BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
+								if (Game.Player.GetPlayerData().Money >= 50 || Game.Player.GetPlayerData().Bank >= 50)
+								{
+									Game.PlayerPed.Weapons.Give(WeaponHash.Knife, 1, false, true);
+									prezzo += 50;
+									affittatoBianca = true;
+								}
+							}
+							if (Game.Player.GetPlayerData().Money >= prezzo)
+							{
+								BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 							}
 							else
-								HUD.ShowNotification("Non hai i soldi necessari ad affittare le armi!");
+							{
+								if (Game.Player.GetPlayerData().Bank >= prezzo)
+								{
+									BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
+									HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
+								}
+								else
+									HUD.ShowNotification("Non hai i soldi necessari ad affittare le armi!");
+							}
 						}
-					}
-					else if (item == inizia)
-					{
-						if (Game.Player.GetPlayerData().hasLicense("Caccia"))
+						else if (item == inizia)
 						{
 							StaCacciando = true;
 							AreadiCaccia = World.CreateBlip(Cacciatore.zonaDiCaccia.ToVector3(), Cacciatore.limiteArea);
 							AreadiCaccia.Name = "Zona di caccia";
 							AreadiCaccia.Alpha = 25;
 							AreadiCaccia.Color = BlipColor.TrevorOrange;
-							foreach(string s in animalGroups)
+							foreach (string s in animalGroups)
 								Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Dislike, true);
 							Client.Instance.AddTick(ControlloBordi);
 							Client.Instance.AddTick(ControlloUccisi);
@@ -289,9 +288,9 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							await BaseScript.Delay(10000);
 							HUD.ShowHelp("Puoi cacciare gli animali che trovi nell'area, se hai il coltello e ti avvicini all'animale ucciso, puoi prenderne la carne!", 5000);
 						}
-						else
-							HUD.ShowNotification("Non hai una licenza di caccia!", NotificationColor.Red, true);
 					}
+					else
+						HUD.ShowNotification("Non hai una licenza di caccia!", NotificationColor.Red, true);
 				};
 			}
 			else

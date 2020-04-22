@@ -31,29 +31,17 @@ namespace NuovaGM.Client.Interactions
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			CaricaTutto();
-		}
-
-		private static async void CaricaTutto()
-		{
 			RequestAmbientAudioBank(AudioBank, false);
 			RequestAnimDict(anim);
 		}
 
-		private static async void Spawnato()
-		{
-			Client.Instance.AddTick(VendingMachines);
-			Client.Instance.AddTick(ControlloMachines);
-		}
-
-		private static async Task ControlloMachines()
+		public static async Task ControlloMachines()
 		{
 			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * MachineRange, 2));
 			await BaseScript.Delay(200);
 		}
 
-		private static async Task VendingMachines()
+		public static async Task VendingMachines()
 		{
 			if (VendingMachineClosest != null)
 			{

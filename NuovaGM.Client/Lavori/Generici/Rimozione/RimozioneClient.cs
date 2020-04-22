@@ -31,7 +31,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
 			RequestAnimDict("oddjobs@towing");
-			Client.Instance.AddTick(InizioLavoro);
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
 			//GetEntityAttachedToTowTruck(int towtruck);

@@ -295,7 +295,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Game.PlayerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
-//			Client.Instance.AddTick(Meteo_new.Orario.AggiornaTempo);
+			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 			Screen.Fading.FadeIn(800);
 			Client.Instance.RemoveTick(Controllo);

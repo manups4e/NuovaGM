@@ -14,9 +14,6 @@ namespace NuovaGM.Client.Interactions
 	{
 		public static bool Seduto = false;
 		private static bool stato = false;
-		public static void Init()
-		{
-		}
 
 		private static List<Vector3[]> Divani = new List<Vector3[]>()
 		{

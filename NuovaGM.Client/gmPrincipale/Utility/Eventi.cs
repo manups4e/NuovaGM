@@ -267,7 +267,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Screen.LoadingPrompt.Hide();
 		}
 
-		public static async void StartLocationSave()
+		public static void StartLocationSave()
 		{
 			Client.Instance.AddTick(LocationSave);
 		}

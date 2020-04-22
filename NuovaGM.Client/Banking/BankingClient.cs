@@ -128,7 +128,6 @@ namespace NuovaGM.Client.Banking
 			ObjectHash.prop_fleeca_atm
 		};
 
-		private static bool isNearATM = false;
 		private static Prop ClosestATM;
 		public static bool InterfacciaAperta = false;
 		public static void Init()
@@ -144,9 +143,7 @@ namespace NuovaGM.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			isNearATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
-			if (isNearATM)
-				ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
+			ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
 			await BaseScript.Delay(200);
 		}
 
@@ -170,7 +167,7 @@ namespace NuovaGM.Client.Banking
 				}
 			}
 */
-			if (isNearATM && !InterfacciaAperta)
+			if (ClosestATM != null && !InterfacciaAperta)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
 				if (Input.IsControlJustPressed(Control.Context))

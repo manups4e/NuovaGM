@@ -84,9 +84,8 @@ namespace NuovaGM.Client.gmPrincipale
 			LoadMain();
 			Client.Instance.AddTick(Istanza);
 			Client.Instance.AddTick(AFK);
-			Client.Instance.AddTick(HUD.Menus);
 			Client.Instance.AddTick(Entra);
-			Client.Instance.AddTick(Connesso);
+			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
 			Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
@@ -243,6 +242,9 @@ namespace NuovaGM.Client.gmPrincipale
 			if (NetworkIsSessionStarted())
 			{
 				BaseScript.TriggerServerEvent("lprp:setupUser");
+				while (!NetworkIsPlayerActive(PlayerId())) await BaseScript.Delay(1000);
+				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
+				SendNuiMessage($@"{{ ""resname"" : ""{GetCurrentResourceName()}""}}");
 				Client.Instance.RemoveTick(Entra);
 			}
 		}
@@ -336,24 +338,6 @@ namespace NuovaGM.Client.gmPrincipale
 						return 1.0f;
 					default: return 0;
 				}
-			}
-		}
-
-		private static async Task Connesso()
-		{
-			try
-			{
-				while (!NetworkIsPlayerActive(PlayerId()))
-				{
-					await BaseScript.Delay(1000);
-				}
-				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-				SendNuiMessage($@"{{ ""resname"" : ""{GetCurrentResourceName()}""}}");
-				Client.Instance.RemoveTick(Connesso);
-			}
-			catch (Exception)
-			{
-				Log.Printa(LogType.Error, $"[{GetCurrentResourceName()} - Client_Queue] - Connesso()");
 			}
 		}
 

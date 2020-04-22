@@ -56,8 +56,6 @@ namespace NuovaGM.Client.Proprietà.Hotel
 					Name = "Hotel"
 				};
 			}
-
-			Client.Instance.AddTick(ControlloHotel);
 		}
 
 		public static async Task ControlloHotel()

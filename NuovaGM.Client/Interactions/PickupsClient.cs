@@ -22,7 +22,6 @@ namespace NuovaGM.Client.Interactions
 
 		public static void Init()
 		{
-			Client.Instance.AddTick(PickupsMain);
 			Client.Instance.AddEventHandler("lprp:createPickup", new Action<string,string>(CreatePickup));
 			Client.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
 			Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
