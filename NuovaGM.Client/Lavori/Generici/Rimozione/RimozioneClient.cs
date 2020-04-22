@@ -97,9 +97,10 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			{
 				if (Game.PlayerPed.LastVehicle == VeicoloLavorativo)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, VeicoloLavorativo.Position) > 60)
-						HUD.ShowNotification("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!", true);
-					if (World.GetDistance(Game.PlayerPed.Position, VeicoloLavorativo.Position) > 100)
+					float dist = World.GetDistance(Game.PlayerPed.Position, VeicoloLavorativo.Position);
+					if (dist > 48 && dist < 80)
+						HUD.ShowHelp("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!");
+					if (dist > 80)
 					{
 						HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
 						Game.Player.GetPlayerData().CurrentChar.job.name = "Disoccupato";
