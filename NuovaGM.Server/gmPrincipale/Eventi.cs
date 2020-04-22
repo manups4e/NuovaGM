@@ -346,8 +346,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void GetDBPlayers(NetworkCallbackDelegate CB)
 		{
-			await BaseScript.Delay(0);
-			dynamic result = await Server.Instance.Query($"SELECT * FROM `users`");
+			dynamic result = await Server.Instance.Query($"SELECT * FROM users");
 			CB.Invoke(JsonConvert.SerializeObject(result));
 		}
 
