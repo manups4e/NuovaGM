@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="..\NuovaGM.Shared\Lavori\Generici\RimozioneShared.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Colorful.Console">
       <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\Colorful.Console.dll</HintPath>
     </Reference>

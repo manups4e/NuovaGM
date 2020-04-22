@@ -33,9 +33,6 @@ namespace NuovaGM.Client
 			UIMenuItem f = new UIMenuItem("ShowWeaponPurchasedMessage");
 			UIMenuItem g = new UIMenuItem("ShowMpMessageLarge");
 			UIMenuItem h = new UIMenuItem("ShowMpWastedMessage");
-			UIMenuItem i = new UIMenuItem("shopui_title_liqourstore");
-			UIMenuItem j = new UIMenuItem("shopui_title_liqourstore2");
-			UIMenuItem k = new UIMenuItem("shopui_title_liqourstore3");
 			Test.AddItem(b);
 			Test.AddItem(c);
 			Test.AddItem(d);
@@ -43,9 +40,6 @@ namespace NuovaGM.Client
 			Test.AddItem(f);
 			Test.AddItem(g);
 			Test.AddItem(h);
-			Test.AddItem(i);
-			Test.AddItem(j);
-			Test.AddItem(k);
 
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
@@ -63,12 +57,6 @@ namespace NuovaGM.Client
 					BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
 				else if (item == h)
 					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
-				else if (item == i)
-					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore", "shopui_title_liquorstore", menu.BannerSprite.Position, menu.BannerSprite.Size));
-				else if (item == j)
-					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore2", "shopui_title_liquorstore2", menu.BannerSprite.Position, menu.BannerSprite.Size));
-				else if (item == k)
-					menu.SetBannerType(new MenuNativo.Sprite("shopui_title_liquorstore3", "shopui_title_liquorstore3", menu.BannerSprite.Position, menu.BannerSprite.Size));
 			};
 			Test.Visible = true;
 		}
@@ -90,6 +78,5 @@ namespace NuovaGM.Client
 				Log.Printa(LogType.Debug, $"Nome = {player.Name}, PlayerId = {player.Handle}, IsPlayerAParticipant = {NetworkIsPlayerAParticipant(IntToParticipantindex(player.Handle))}");
 			}
 		}
-
 	}
 }
