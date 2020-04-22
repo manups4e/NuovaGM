@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.MenuNativo;
-
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Shared;
+﻿using CitizenFX.Core;
 using Logger;
+using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
+using NuovaGM.Shared;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client.Lavori.Generici.Rimozione
 {
@@ -237,7 +233,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			while (TempoRimozione > 0)
 			{
-				string tempo = TempoRimozione > 59 ? TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60 < 10? $"{(int)Math.Floor(TempoRimozione / 60f)}:0{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : $"{(int)Math.Floor(TempoRimozione / 60f)}:{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : TempoRimozione>9? $"{TempoRimozione}" : $"0{TempoRimozione}";
+				string tempo = TempoRimozione > 59 ? TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60 < 10 ? $"{(int)Math.Floor(TempoRimozione / 60f)}:0{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : $"{(int)Math.Floor(TempoRimozione / 60f)}:{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : TempoRimozione > 9 ? $"{TempoRimozione}" : $"0{TempoRimozione}";
 				timerVeicolo.TextTimerBar.Caption = tempo;
 				await BaseScript.Delay(1000);
 				TempoRimozione--;
@@ -245,7 +241,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				{
 					HUD.TimerBarPool.Remove(timerVeicolo);
 					Client.Instance.RemoveTick(TimerVeicolo);
-					break; 
+					break;
 				}
 				if ((VeicoloLavorativo != null && !VeicoloLavorativo.Exists()) || VeicoloLavorativo == null)
 				{
@@ -274,4 +270,3 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		}
 	}
 }
- 
