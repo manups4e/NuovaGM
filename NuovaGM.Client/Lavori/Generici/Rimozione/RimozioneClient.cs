@@ -31,7 +31,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
 			RequestAnimDict("oddjobs@towing");
-			Log.Printa(LogType.Debug, Newtonsoft.Json.JsonConvert.SerializeObject(Rimozione));
 			Client.Instance.AddTick(InizioLavoro);
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
@@ -107,6 +106,21 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
 						VeicoloLavorativo.Delete();
 						VeicoloLavorativo = null;
+						if (VeicoloDaRimuovere != null && VeicoloDaRimuovere.Exists())
+						{
+							VeicoloDaRimuovere.Delete();
+							VeicoloDaRimuovere = null;
+							if (BlipVeicoloDaRimuovere != null && BlipVeicoloDaRimuovere.Exists())
+							{
+								BlipVeicoloDaRimuovere.Delete();
+								BlipVeicoloDaRimuovere = null;
+							}
+							if (PuntoDiConsegna != null && PuntoDiConsegna.Exists())
+							{
+								PuntoDiConsegna.Delete();
+								PuntoDiConsegna = null;
+							}
+						}
 						Client.Instance.RemoveTick(LavoroRimozioneForzata);
 						Client.Instance.RemoveTick(ControlloRimozione);
 						Client.Instance.AddTick(InizioLavoro);
@@ -136,9 +150,9 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				string veicolo = Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
 				RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
 				HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
-				BlipVeicoloDaRimuovere = World.CreateBlip(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z));
-				BlipVeicoloDaRimuovere.Sprite = BlipSprite.TowTruck;
-				BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
+				Blip p = World.CreateBlip(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z));
+				p.Sprite = BlipSprite.TowTruck;
+				p.Name = "Veicolo da Rimorchiare";
 				if (World.GetDistance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Game.PlayerPed.Position) < 1000)
 					TempoRimozione = Funzioni.GetRandomInt(60, 120);
 				else
@@ -155,6 +169,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					VeicoloDaRimuovere.Repair();
 					VeicoloDaRimuovere.LockStatus = VehicleLockStatus.Locked;
 					VeicoloDaRimuovere.SetDecor("VeicoloRimozione", VeicoloDaRimuovere.Handle);
+					if (p.Exists()) p.Delete();
 					BlipVeicoloDaRimuovere = VeicoloDaRimuovere.AttachBlip();
 					BlipVeicoloDaRimuovere.Sprite = BlipSprite.TowTruck;
 					BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
@@ -196,7 +211,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
 					{
 						var money = 200 + VeicoloDaRimuovere.BodyHealth / 10;
-						BaseScript.TriggerServerEvent("lprp:giveBank", money);
+						BaseScript.TriggerServerEvent("lprp:givebank", money);
 						VeicoloDaRimuovere.MarkAsNoLongerNeeded();
 						VeicoloDaRimuovere = null;
 						BlipVeicoloDaRimuovere.Delete();
