@@ -181,7 +181,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
 					BlipVeicoloDaRimuovere.Color = BlipColor.Red;
 					BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
-					HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello {VeicoloDaRimuovere.LocalizedName} con targa {VeicoloDaRimuovere.Mods.LicensePlate}", "CHAR_CALL911", IconType.DollarIcon);
+					HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello ~y~{VeicoloDaRimuovere.LocalizedName}~w~ con targa ~y~{VeicoloDaRimuovere.Mods.LicensePlate}~w~", "CHAR_CALL911", IconType.DollarIcon);
 				}
 			}
 			if (VeicoloLavorativo == null) return;
