@@ -142,7 +142,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			}
 			Eventi.LoadModel();
 			Game.PlayerPed.IsPositionFrozen = false;
-			Game.Player.GetPlayerData().Stanziato = false;
+			Game.PlayerPed.SetDecor("PlayerStanziato", false);
 			Game.PlayerPed.IsVisible = true;
 			Game.PlayerPed.IsCollisionEnabled = true;
 			NetworkClearClockTimeOverride();

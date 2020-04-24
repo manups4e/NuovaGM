@@ -21,7 +21,6 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public bool ammanettato;
 		public bool InCasa;
 		public bool InServizio;
-		public bool Stanziato;
 		public string lastConnection;
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();

@@ -65,6 +65,7 @@ namespace NuovaGM.Client
 			TickGenerici.Add(PersonalMenu.attiva);
 			TickGenerici.Add(Main.Recoil);
 
+
 			// TICK A PIEDI \\
 			TickAPiedi.Add(BankingClient.Markers);
 			TickAPiedi.Add(PompeDiBenzinaClient.BusinessesPumps);

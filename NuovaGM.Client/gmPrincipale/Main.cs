@@ -83,7 +83,6 @@ namespace NuovaGM.Client.gmPrincipale
 		public static void Init()
 		{
 			LoadMain();
-			Client.Instance.AddTick(Istanza);
 			Client.Instance.AddTick(AFK);
 			Client.Instance.AddTick(Entra);
 			//Client.Instance.AddTick(Connesso);
@@ -166,7 +165,7 @@ namespace NuovaGM.Client.gmPrincipale
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
 //          BaseScript.TriggerEvent("lprp:toggleCompass", true);
-			Game.Player.GetPlayerData().Stanziato = false;
+			Game.PlayerPed.SetDecor("PlayerStanziato", false);
 			Game.PlayerPed.IsVisible = true;
 			spawned = true;
 			Game.Player.GetPlayerData().status.spawned = true;
@@ -201,7 +200,7 @@ namespace NuovaGM.Client.gmPrincipale
 				Game.PlayerPed.Style.SetDefaultClothes();
 				Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
 				Game.PlayerPed.IsVisible = false;
-				Game.Player.GetPlayerData().Stanziato = true;
+				Game.PlayerPed.SetDecor("PlayerStanziato", true);
 				Game.PlayerPed.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
@@ -437,7 +436,9 @@ namespace NuovaGM.Client.gmPrincipale
 				}
 			}
 			if (Game.IsPaused)
-				HUD.DrawText3D(Game.PlayerPed.Bones[Bone.SKEL_Head].Position.X, Game.PlayerPed.Bones[Bone.SKEL_Head].Position.Y, Game.PlayerPed.Bones[Bone.SKEL_Head].Position.Z + .85f, Colors.White, "IN PAUSA");
+				Game.PlayerPed.SetDecor("PlayerInPausa", true);
+			else
+				Game.PlayerPed.SetDecor("PlayerInPausa", false);
 
 			for (int i = 0; i < pickupList.Count; i++) 
 				RemoveAllPickupsOfType((uint)GetHashKey(pickupList[i]));
@@ -575,16 +576,6 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			if (!HashInTable((uint)weapon.Hash))
 				Screen.Hud.HideComponentThisFrame(HudComponent.Reticle);
-		}
-
-		private static async Task Istanza()
-		{
-			if (Game.Player.GetPlayerData() != null)
-			{
-				if (Game.Player.GetPlayerData().Stanziato) Funzioni.ConcealAllPlayers();
-				else Funzioni.RevealAllPlayers();
-			}
-			await BaseScript.Delay(10000);
 		}
 
 		public static void RespawnPed(Vector3 coords)

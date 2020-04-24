@@ -82,7 +82,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Player = JsonConvert.DeserializeObject<PlayerChar>(data);
 			DisplayRadar(false);
-			Player.Stanziato = true;
+			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Main.charSelect();
 		}
 
