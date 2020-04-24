@@ -908,14 +908,17 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static int GetRandomInt(int end)
 		{
-			Random rand = new Random(GetGameTimer());
-			return rand.Next(end);
+			return new Random(GetGameTimer()).Next(end);
 		}
 
 		public static int GetRandomInt(int start, int end)
 		{
-			Random rand = new Random(GetGameTimer());
-			return rand.Next(start, end);
+			return new Random(GetGameTimer()).Next(start, end);
+		}
+
+		public static long GetRandomLong(long end)
+		{
+			return GetRandomLong(0, end);
 		}
 
 		public static long GetRandomLong(long start, long end)
@@ -924,16 +927,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return rand.NextLong(start, end);
 		}
 
-		public static long GetRandomLong(long end)
-		{
-			Random rand = new Random(GetGameTimer());
-			return rand.NextLong(end);
-		}
-
 		public static float GetRandomFloat(float end)
 		{
-			Random rand = new Random(GetGameTimer());
-			return (float)Math.Round(rand.NextFloat(0, end), 3);
+			return GetRandomFloat(0, end);
 		}
 
 		public static float GetRandomFloat(float start, float end)
