@@ -56,7 +56,6 @@ namespace NuovaGM.Client
 			TickHUD.Add(EventiPersonalMenu.MostramiSoldi);
 
 			// TICK GENERICI \\
-			TickGenerici.Add(KingOfAllTicks);
 			TickGenerici.Add(StatsNeeds.Aggiornamento);
 			TickGenerici.Add(StatsNeeds.Conseguenze);
 			TickGenerici.Add(StatsNeeds.Agg);
@@ -118,6 +117,10 @@ namespace NuovaGM.Client
 
 		private static async void Spawnato()
 		{
+
+			TickGenerici.ForEach(x => Client.Instance.AddTick(x));
+			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
+			TickHUD.ForEach(x => Client.Instance.AddTick(x));
 			Client.Instance.AddTick(KingOfAllTicks);
 			/*
 			Client.Instance.AddTick(BankingClient.Markers);

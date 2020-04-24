@@ -5,6 +5,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Shared;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NuovaGM.Client.Negozi
 {
@@ -35,36 +36,27 @@ namespace NuovaGM.Client.Negozi
 		{
 			var neg = Main.Textures[tipo];
 			string description = "";
-			List<OggettoVendita> oggettidaaggiungere = new List<OggettoVendita>();
+			List<OggettoVendita> oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared;
+
 			switch (tipo)
 			{
 				case "247":
 					description = "Aperti 24/7!";
-					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs;
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettidaaggiungere.Add(x));
 					break;
 
 				case "ltd":
 					description = "Non è mica infinita!";
-					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd;
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettidaaggiungere.Add(x));
 					break;
 
 				case "rq":
 					description = "I liquori migliori!";
-					oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq;
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettidaaggiungere.Add(x));
 					break;
 			}
 			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
 			HUD.MenuPool.Add(Negozio);
-
-			foreach (var ogg in Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared)
-			{
-				UIMenuItem oggetto = new UIMenuItem(SharedScript.ItemList[ogg.oggetto].label, "");
-				if (Game.Player.GetPlayerData().Money >= ogg.prezzo || Game.Player.GetPlayerData().Bank >= ogg.prezzo)
-					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
-				else
-					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
-				Negozio.AddItem(oggetto);
-			}
 
 			foreach (var ogg in oggettidaaggiungere)
 			{
@@ -75,6 +67,30 @@ namespace NuovaGM.Client.Negozi
 					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
 				Negozio.AddItem(oggetto);
 			}
+
+			Negozio.OnItemSelect += (menu, item, index) =>
+			{
+				string nome = SharedScript.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
+				if (!string.IsNullOrEmpty(nome)) 
+				{
+					OggettoVendita ogg = oggettidaaggiungere.FirstOrDefault(x => x.oggetto == nome);
+					if (Game.Player.GetPlayerData().Money >= ogg.prezzo)
+					{
+						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
+						BaseScript.TriggerServerEvent("lprp:giveintentoryitem", ogg.oggetto);
+					}
+					else
+					{
+						if (Game.Player.GetPlayerData().Bank >= ogg.prezzo)
+						{
+							BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
+							BaseScript.TriggerServerEvent("lprp:giveintentoryitem", ogg.oggetto);
+						}
+						else
+							HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
+					}
+				}
+			};
 
 			Negozio.Visible = true;
 
