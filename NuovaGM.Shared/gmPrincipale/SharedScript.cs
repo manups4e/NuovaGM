@@ -71,7 +71,7 @@ namespace NuovaGM.Shared
 		};
 
 
-		ConcurrentDictionary<uint, string> DeatReasons = new ConcurrentDictionary<uint, string>()
+		public static ConcurrentDictionary<uint, string> DeatReasons = new ConcurrentDictionary<uint, string>()
 		{
 			[2460120199] = "Daga di cavalleria antica",
 			[2508868239] = "Mazza da Baseball",

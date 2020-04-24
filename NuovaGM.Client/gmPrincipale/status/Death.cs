@@ -1,7 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +39,11 @@ namespace NuovaGM.Client.gmPrincipale.Status
 //			Client.Instance.AddEventHandler("DamageEvent:PedKilledByPed", new Action<int, List<dynamic>>(pedKilledByPed));
 			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(pedKilledByPlayer));
 //			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, dynamic>(pedDied));
+			
 
-			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
-			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+
+//			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
+//			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
 			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
 			Client.Instance.AddEventHandler("lprp:fineConteggio", new Action(endConteggio));
 //			Client.Instance.AddTick(Injuried);
@@ -55,30 +59,21 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
 		}
 
-		private static void pedKilledByPlayer(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
+		private static void pedKilledByPlayer(int ped, int attackerPlayer, uint weaponHash, bool isMeleeDamage)
 		{
-			Ped pers = new Ped(ped);
-			Ped killer = new Ped(attackerPed);
-			
-		}
+			Player victimPlayer = new Player(NetworkGetPlayerIndexFromPed(ped));
+			Player killerPlayer = new Player(attackerPlayer);
 
-		public static void playerDied(int tipo, List<dynamic> Coords)
-		{
-			int playerPed = PlayerPedId();
-			List<dynamic> data = new List<dynamic>();
-			bool killed = false;
-			int killerType = tipo;
-			Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
-			int deathCause = GetPedCauseOfDeath(playerPed);
-			data.Add(killed);
-			data.Add(killerType);
-			data.Add(deathCoords);
-			data.Add(deathCause);
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+			if (NetworkIsPlayerActive(killerPlayer.Handle))
+			{
+				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
+				Vector3 victimCoords = victimPlayer.Character.Position;
+				string causeofdeath = SharedScript.DeatReasons[weaponHash];
+				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
+				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
+			}
 		}
-
+/*
 		public static void playerKilled(int killerId, dynamic Data)
 		{
 			int playerPed = PlayerPedId();
@@ -110,7 +105,23 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 		}
 
-
+		public static void playerDied(int tipo, List<dynamic> Coords)
+		{
+			int playerPed = PlayerPedId();
+			List<dynamic> data = new List<dynamic>();
+			bool killed = false;
+			int killerType = tipo;
+			Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
+			int deathCause = GetPedCauseOfDeath(playerPed);
+			data.Add(killed);
+			data.Add(killerType);
+			data.Add(deathCoords);
+			data.Add(deathCause);
+			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+		}
+*/
 		static int timeHeld = 0;
 		public static async void StartDeathTimer()
 		{
