@@ -27,20 +27,28 @@ namespace NuovaGM.Client
 				{
 					if (player.Character.GetDecor<bool>("PlayerStanziato") && player != Game.Player)
 					{
-						if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0)
+						if (!player.Character.HasDecor("PlayerStanziatoInIstanza"))
 						{
-							if (!player.Character.HasDecor("PlayerStanziatoInIstanza") || (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.PlayerPed.Handle && Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.Character.Handle))
+							if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0)
 							{
-								if (!NetworkIsPlayerConcealed(player.Handle))
-									NetworkConcealPlayer(player.Handle, true, true);
+								if ((player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.PlayerPed.Handle && Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.Character.Handle))
+								{
+									if (!NetworkIsPlayerConcealed(player.Handle))
+										NetworkConcealPlayer(player.Handle, true, true);
+								}
+								else
+								{
+									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.PlayerPed.Handle || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.Character.Handle)
+									{
+										if (NetworkIsPlayerConcealed(player.Handle))
+											NetworkConcealPlayer(player.Handle, false, false);
+									}
+								}
 							}
 							else
 							{
-								if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.PlayerPed.Handle || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.Character.Handle)
-								{
-									if (NetworkIsPlayerConcealed(player.Handle))
-										NetworkConcealPlayer(player.Handle, false, false);
-								}
+								if (!NetworkIsPlayerConcealed(player.Handle))
+									NetworkConcealPlayer(player.Handle, true, true);
 							}
 						}
 						else
