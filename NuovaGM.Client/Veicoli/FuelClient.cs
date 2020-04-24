@@ -245,22 +245,6 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static void RenderUi(float fuel, float fuelCap)
-		{
-			SetTextFont(4);
-			SetTextProportional(false);
-			SetTextScale(0.42f, 0.42f);
-			SetTextColour(135, 206, 250, 255);
-			SetTextDropshadow(25, 25, 112, 0, 255);
-			SetTextEdge(1, 0, 0, 0, 255);
-			SetTextDropShadow();
-			SetTextOutline();
-			SetTextCentre(false);
-			BeginTextCommandDisplayText("STRING");
-			AddTextComponentSubstringPlayerName($"Carburante: {(int)Math.Floor(fuel / fuelCap * 100)}% ");
-			EndTextCommandDisplayText(0.15f, 0.96f);
-		}
-
 		public static bool withinDist(Vector3 pos, Entity ent)
 		{
 			Vector3 epos = ent.Position;
@@ -453,22 +437,6 @@ namespace NuovaGM.Client.Veicoli
 				else
 					HUD.ShowNotification("Nessuna stazione di rifornimento nelle vicinanze.");
 			}
-		}
-
-		public static void drawTankerFuelText(string text)
-		{
-			SetTextFont(0);
-			SetTextProportional(false);
-			SetTextScale(0.32f, 0.32f);
-			SetTextColour(135, 206, 235, 255);
-			SetTextDropshadow(0, 0, 0, 0, 255);
-			SetTextEdge(1, 0, 0, 0, 255);
-			SetTextDropShadow();
-			SetTextOutline();
-			SetTextCentre(false);
-			SetTextEntry("STRING");
-			AddTextComponentString(text);
-			DrawText(0.9f, 0.935f);
 		}
 
 		static Vehicle veh = new Vehicle(0);
