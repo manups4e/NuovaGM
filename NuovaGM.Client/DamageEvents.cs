@@ -195,7 +195,6 @@ namespace NuovaGM.Client
 				uint weaponHash = (uint)int.Parse(data[4].ToString());
 				bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
 				int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
-				Log.Printa(LogType.Debug,"Dati Json = " + JsonConvert.SerializeObject(data));
 
 				if (victim != null && attacker != null)
 				{
