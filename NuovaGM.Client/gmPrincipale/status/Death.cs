@@ -63,6 +63,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			data.Add(killerType);
 			data.Add(deathCoords);
 			data.Add(deathCause);
+			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
 			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
 		}
@@ -85,6 +86,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
 			}
 			else
 			{
@@ -93,6 +95,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				List<dynamic> data = new List<dynamic>() { killed, deathCause };
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
 			}
 		}
 

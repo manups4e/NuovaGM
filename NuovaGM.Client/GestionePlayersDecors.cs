@@ -13,7 +13,6 @@ namespace NuovaGM.Client
 {
 	static class GestionePlayersDecors
 	{
-
 		public async static Task GestioneDecors()
 		{
 			foreach (var player in Client.Instance.GetPlayers)

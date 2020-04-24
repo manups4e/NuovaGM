@@ -30,7 +30,8 @@ namespace NuovaGM.Client
 			EntityDecoration.RegisterProperty("PlayerInPausa", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerStanziato", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerStanziatoInIstanza", DecorationType.Int);
-			//EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
+			EntityDecoration.RegisterProperty("PlayerAmmanettato", DecorationType.Bool);
+			EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
 
 
 			/* DECOR LOCK */

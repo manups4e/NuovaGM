@@ -202,6 +202,12 @@ namespace NuovaGM.Client.Manager
 					}
 					else
 					{
+						Client.Instance.RemoveTick(noClip);
+						while (Game.PlayerPed.IsInvincible)
+						{
+							Game.PlayerPed.IsInvincible = false;
+							await BaseScript.Delay(0);
+						}
 						if (!Game.PlayerPed.IsInVehicle())
 						{
 							ClearPedTasksImmediately(PlayerPedId());
@@ -215,7 +221,6 @@ namespace NuovaGM.Client.Manager
 							Vehicle veh = Game.PlayerPed.CurrentVehicle;
 							veh.IsInvincible = false;
 						}
-						Client.Instance.RemoveTick(noClip);
 						ClearAllHelpMessages();
 						NoClip = false;
 					}
