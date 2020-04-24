@@ -73,8 +73,6 @@ namespace NuovaGM.Client
 			TickAPiedi.Add(NegoziClient.OnTick);
 			TickAPiedi.Add(BarberClient.Sedie);
 			TickAPiedi.Add(VeicoliClient.MostraMenuAffitto);
-			TickAPiedi.Add(FuelClient.FuelCount);
-			TickAPiedi.Add(FuelClient.FuelTruck);
 			TickAPiedi.Add(MediciMainClient.MarkersNonMedici);
 			TickAPiedi.Add(RimozioneClient.InizioLavoro);
 			TickAPiedi.Add(Macchinette.VendingMachines);
@@ -96,6 +94,8 @@ namespace NuovaGM.Client
 			TickVeicolo.Add(Prostitute.ControlloProstitute);
 			TickVeicolo.Add(EffettiRuote.ControlloRuote);
 			TickVeicolo.Add(EffettiRuote.WheelGlow);
+			TickVeicolo.Add(FuelClient.FuelCount);
+			TickVeicolo.Add(FuelClient.FuelTruck);
 
 			// TICK APPARTAMENTO \\
 			TickAppartamento.Add(DivaniEPosizioniSedute.DivaniCasa);
