@@ -92,7 +92,7 @@ namespace NuovaGM.Shared
 			[2484171525] = "Stecca da biliardo",
 			[940833800] = "Accetta di pietra",
 			[453432689] = "Pistola",
-			[3219281620] = "Pistol MK2",
+			[3219281620] = "Pistola MK2",
 			[1593441988] = "Pistola da Combattimento",
 			[584646201] = "Pistola AP",
 			[911657153] = "Tazer",
@@ -335,7 +335,8 @@ namespace NuovaGM.Shared
 			return false;
 		}
 
-		public static List<Arma> Armi = new List<Arma>(){
+		public static List<Arma> Armi = new List<Arma>()
+		{
 			new Arma("WEAPON_KNIFE", new List<Components>(), new List<Tinte>()),
 			new Arma("WEAPON_NIGHTSTICK", new List<Components>(), new List<Tinte>()),
 			new Arma("WEAPON_HAMMER", new List<Components>(), new List<Tinte>()),
