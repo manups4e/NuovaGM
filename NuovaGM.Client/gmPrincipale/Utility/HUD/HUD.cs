@@ -326,6 +326,21 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			EndTextCommandDisplayText(x, y);
 		}
 
+		public static void DrawText(float x, float y, string text, Color color)
+		{
+			SetTextFont(4);
+			SetTextProportional(false);
+			SetTextScale(0.0f, 0.5f);
+			SetTextColour(color.R, color.G, color.B, color.A);
+			SetTextDropshadow(0, 0, 0, 0, 255);
+			SetTextEdge(1, 0, 0, 0, 255);
+			SetTextDropShadow();
+			SetTextOutline();
+			SetTextCentre(true);
+			SetTextEntry("STRING");
+			AddTextComponentSubstringPlayerName(text);
+			EndTextCommandDisplayText(x, y);
+		}
 	}
 
 

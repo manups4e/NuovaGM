@@ -11,6 +11,7 @@ using NuovaGM.Client.Personale;
 using System.Linq;
 using NuovaGM.Shared;
 using Logger;
+using System.Drawing;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -117,17 +118,17 @@ namespace NuovaGM.Client.Veicoli
 			return rndstr;
 		}
 
-		public static async void checkfuel(int fuel, int price)
+		public static void checkfuel(int fuel, int price)
 		{
 			lastStationFuel = new StazioneSingola(fuel, price);
 		}
 
-		public static async void FuelSpawn()
+		public static void FuelSpawn()
 		{
 			CaricaBlipStazioni();
 		}
 
-		public static async void CaricaBlipStazioni()
+		public static void CaricaBlipStazioni()
 		{
 			foreach (GasStation p in ConfigShared.SharedConfig.Main.Veicoli.gasstations)
 			{
@@ -157,7 +158,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void ShowRefuelBlips()
+		public static void ShowRefuelBlips()
 		{
 			foreach (Vector3 v in refuelspots)
 			{
@@ -174,7 +175,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void HideRefuelBlips()
+		public static void HideRefuelBlips()
 		{
 			for (int i = 0; i < refuelBlips.Count; i++)
 				refuelBlips[i].Delete();
@@ -188,7 +189,7 @@ namespace NuovaGM.Client.Veicoli
 			return (new Random(GetGameTimer()).NextFloat() * (max - min)) + min;
 		}
 
-		public static async void SetVehicleFuelLevel(this Vehicle veh, float fuel)
+		public static void SetVehicleFuelLevel(this Vehicle veh, float fuel)
 		{
 			float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (fuel > maxfuel)
@@ -198,7 +199,7 @@ namespace NuovaGM.Client.Veicoli
 			veh.SetDecor(DecorName, fuel);
 		}
 
-		public static async void AddFuelToVeh(bool success, string msg, int fuelval)
+		public static void AddFuelToVeh(bool success, string msg, int fuelval)
 		{
 			if (success)
 			{
@@ -210,7 +211,7 @@ namespace NuovaGM.Client.Veicoli
 				HUD.ShowNotification(msg, true);
 		}
 
-		public static async void initFuel(Vehicle veh)
+		public static void initFuel(Vehicle veh)
 		{
 			curVehInit = true;
 			float fuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
@@ -229,7 +230,7 @@ namespace NuovaGM.Client.Veicoli
 			return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 		}
 
-		public static async Task ConsumeFuel(Vehicle veh)
+		public static void ConsumeFuel(Vehicle veh)
 		{
 			float fuel = vehicleFuelLevel(veh);
 			if (fuel > 0 && veh.IsEngineRunning)
@@ -244,7 +245,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async Task RenderUi(float fuel, float fuelCap)
+		public static void RenderUi(float fuel, float fuelCap)
 		{
 			SetTextFont(4);
 			SetTextProportional(false);
@@ -256,7 +257,7 @@ namespace NuovaGM.Client.Veicoli
 			SetTextOutline();
 			SetTextCentre(false);
 			BeginTextCommandDisplayText("STRING");
-			AddTextComponentSubstringPlayerName(string.Format("Carburante: {0}%", (int)Math.Floor((fuel / fuelCap) * 100)));
+			AddTextComponentSubstringPlayerName($"Carburante: {(int)Math.Floor(fuel / fuelCap * 100)}% ");
 			EndTextCommandDisplayText(0.15f, 0.96f);
 		}
 
@@ -295,7 +296,7 @@ namespace NuovaGM.Client.Veicoli
 			hasTanker = true;
 		}
 
-		public static async void FillFuel()
+		public static void FillFuel()
 		{
 			if (Game.PlayerPed.IsInVehicle())
 			{
@@ -304,7 +305,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void FuelLevel(float level)
+		public static void FuelLevel(float level)
 		{
 			if (level > Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity)
 				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
@@ -314,13 +315,12 @@ namespace NuovaGM.Client.Veicoli
 			HUD.ShowNotification("Carburante settato, Usalo SOLO in caso di ~r~EMERGENZA~w~!");
 		}
 
-		public static async void FillTankForVeh(int veh)
+		public static void FillTankForVeh(int veh)
 		{
-			Vehicle vehicle = new Vehicle(veh);
-			SetVehicleFuelLevel(vehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+			SetVehicleFuelLevel(new Vehicle(veh), Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 		}
 
-		public static async void DepositFuel(bool success, string tankerful, string stationfuel, string overflow)
+		public static void DepositFuel(bool success, string tankerful, string stationfuel, string overflow)
 		{
 			if (success)
 			{
@@ -340,7 +340,7 @@ namespace NuovaGM.Client.Veicoli
 			ShowRefuelBlips();
 		}
 
-		public static async void DepositFuelNotOwned(bool success, string tankerful, string stationfuel, string pay, string overflow)
+		public static void DepositFuelNotOwned(bool success, string tankerful, string stationfuel, string pay, string overflow)
 		{
 			if (success)
 			{
@@ -363,7 +363,7 @@ namespace NuovaGM.Client.Veicoli
 			ShowRefuelBlips();
 		}
 
-		public static async void BuyTanker(bool success, string JSON)
+		public static void BuyTanker(bool success, string JSON)
 		{
 			if (success)
 			{
@@ -386,13 +386,13 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void StationNotOwned()
+		public static void StationNotOwned()
 		{
 			canUnloadFuel = true;
 			HUD.ShowNotification("Questa stazione non è di nessuno. Forse dovresti considerare la possibilità di acquistarla...");
 		}
 
-		public static async void BuyFuelForTanker(bool success, string msg)
+		public static void BuyFuelForTanker(bool success, string msg)
 		{
 			if (success)
 			{
@@ -404,13 +404,13 @@ namespace NuovaGM.Client.Veicoli
 			canBuyFuel = true;
 		}
 
-		public static async void SetTankerFuel(int level)
+		public static void SetTankerFuel(int level)
 		{
 			tankerfuel = level;
 			HUD.ShowNotification("Cisterna di carburante aggiornata.");
 		}
 
-		public static async void SAddFuel(int amount)
+		public static void SAddFuel(int amount)
 		{
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
@@ -425,7 +425,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void SAddMoney(int amount)
+		public static void SAddMoney(int amount)
 		{
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
@@ -440,7 +440,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async void SResetManage(int amount)
+		public static void SResetManage(int amount)
 		{
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
@@ -455,7 +455,7 @@ namespace NuovaGM.Client.Veicoli
 			}
 		}
 
-		public static async Task drawTankerFuelText(string text)
+		public static void drawTankerFuelText(string text)
 		{
 			SetTextFont(0);
 			SetTextProportional(false);
@@ -497,8 +497,8 @@ namespace NuovaGM.Client.Veicoli
 						initFuel(veh);
 
 					ConsumeFuel(veh);
-					if(!EventiPersonalMenu.DoHideHud)
-						RenderUi(veh.FuelLevel, FuelCapacity);
+					if (!EventiPersonalMenu.DoHideHud)
+						HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(veh.FuelLevel / FuelCapacity * 100)}%", Color.FromArgb(255, 135, 206, 250));
 					if (vehicleFuelLevel(veh) < 0.99f)
 					{
 						veh.IsEngineRunning = false;
@@ -561,7 +561,7 @@ namespace NuovaGM.Client.Veicoli
 													if (afuel <= maxfuel)
 													{
 														addedFuel += 0.1f;
-														RenderUi(fuel + addedFuel, maxfuel);
+														HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(fuel + addedFuel / maxfuel * 100)}%", Color.FromArgb(255, 135, 206, 250));
 													}
 												}
 												else
@@ -628,7 +628,7 @@ namespace NuovaGM.Client.Veicoli
 							}
 							if (fuel < max)
 							{
-								RenderUi(fuel, max);
+								HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(fuel / max * 100)}%", Color.FromArgb(255, 135, 206, 250));
 								if (fuel + 0.1 >= max)
 									SetVehicleFuelLevel(lastVehicle, max);
 								else
@@ -719,7 +719,7 @@ namespace NuovaGM.Client.Veicoli
 				Vehicle vehicle = Game.PlayerPed.CurrentVehicle;
 				if (vehicle == jobTruck && IsVehicleAttachedToTrailer(jobTruck.Handle))
 				{
-					drawTankerFuelText("Carburante Cisterna: " + tankerfuel.ToString());
+					HUD.DrawText(0.9f, 0.935f, $"Carburante Cisterna: {tankerfuel}", Color.FromArgb(255, 135, 206, 235));
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
 						float dis = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
