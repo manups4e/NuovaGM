@@ -933,7 +933,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static float GetRandomFloat(float end)
 		{
 			Random rand = new Random(GetGameTimer());
-			return (float)Math.Round(rand.NextDouble(0, end), 3);
+			return (float)Math.Round(rand.NextFloat(0, end), 3);
 		}
 
 		public static float GetRandomFloat(float start, float end)
