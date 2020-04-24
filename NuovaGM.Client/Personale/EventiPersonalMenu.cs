@@ -46,12 +46,10 @@ namespace NuovaGM.Client.Personale
 		static public async Task CinematicMode()
 		{
 			hideComponents.ForEach(c => Screen.Hud.HideComponentThisFrame(c));
-			Screen.Hud.IsRadarVisible = false;
-			DisplayRadar(false);
 			if (CinematicaHeight > 0f)
 			{
-				DrawRect(0.5f, (CinematicaHeight / 1000) / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
-				DrawRect(0.5f, 1 - (CinematicaHeight / 1000) / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
+				DrawRect(0.5f, CinematicaHeight / 1000 / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
+				DrawRect(0.5f, 1 - CinematicaHeight / 1000 / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
 			}
 			await Task.FromResult(0);
 		}

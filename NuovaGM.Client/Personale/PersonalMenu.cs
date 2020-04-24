@@ -550,17 +550,12 @@ namespace NuovaGM.Client.Personale
 				if (item == attivaCinematica)
 				{
 
+					Screen.Hud.IsRadarVisible = !attiva;
+					EventiPersonalMenu.DoHideHud = attiva;
 					if (attiva)
-					{
-						EventiPersonalMenu.DoHideHud = true;
 						Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
-					}
 					else
-					{
-						EventiPersonalMenu.DoHideHud = false;
 						Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
-						Screen.Hud.IsRadarVisible = true;
-					}
 				}
 			};
 			Cinematic.OnProgressSliderChange += async (menu, item, index) =>

@@ -6,6 +6,7 @@ using NuovaGM.Client.gmPrincipale.MenuGm;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using NuovaGM.Client.Personale;
 using NuovaGM.Client.Veicoli;
 using NuovaGM.Shared;
 using System;
@@ -423,14 +424,17 @@ namespace NuovaGM.Client.gmPrincipale
 				SetTaskPropertyBool(Game.PlayerPed.Handle, "isBlocked", blocked);
 				SetTaskPropertyBool(Game.PlayerPed.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
-			if (!Game.PlayerPed.IsInVehicle() && (!IsPauseMenuActive()))
-				DisableRadarThisFrame();
-			if (Game.PlayerPed.IsInVehicle())
+			if (!EventiPersonalMenu.DoHideHud)
 			{
-				Vehicle veh = Game.PlayerPed.CurrentVehicle;
-				if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
-//				if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAJetski((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAQuadbike((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) && (!GetIsVehicleEngineRunning(GetVehiclePedIsIn(PlayerPedId(), false))))
+				if (!Game.PlayerPed.IsInVehicle() && (!IsPauseMenuActive()))
 					DisableRadarThisFrame();
+				if (Game.PlayerPed.IsInVehicle())
+				{
+					Vehicle veh = Game.PlayerPed.CurrentVehicle;
+					if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
+						//				if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAJetski((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAQuadbike((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) && (!GetIsVehicleEngineRunning(GetVehiclePedIsIn(PlayerPedId(), false))))
+						DisableRadarThisFrame();
+				}
 			}
 			if (Game.IsPaused)
 				HUD.DrawText3D(Game.PlayerPed.Bones[Bone.SKEL_Head].Position.X, Game.PlayerPed.Bones[Bone.SKEL_Head].Position.Y, Game.PlayerPed.Bones[Bone.SKEL_Head].Position.Z + .85f, Colors.White, "IN PAUSA");
