@@ -185,7 +185,7 @@ namespace NuovaGM.Client.Veicoli
 		{
 			float min = cap / 3.0f;
 			float max = cap - (cap / 4);
-			return (Funzioni.GetRandomFloat(1.0f) * (max - min)) + min;
+			return (new Random(GetGameTimer()).NextFloat() * (max - min)) + min;
 		}
 
 		public static async void SetVehicleFuelLevel(this Vehicle veh, float fuel)
