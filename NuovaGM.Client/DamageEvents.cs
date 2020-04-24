@@ -204,9 +204,7 @@ namespace NuovaGM.Client
 
 						// vehicle destroyed
 						if (victim.Model.IsVehicle)
-						{
 							VehicleDestroyed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
-						}
 						// other entity died
 						else
 						{
@@ -214,9 +212,7 @@ namespace NuovaGM.Client
 							if (victim is Ped ped)
 							{
 								if (attacker is Vehicle veh)
-								{
 									PedKilledByVehicle(victim.Handle, attacker.Handle);
-								}
 								else if (attacker is Ped p)
 								{
 									if (p.IsPlayer)
@@ -225,33 +221,23 @@ namespace NuovaGM.Client
 										PedKilledByPlayer(victim.Handle, player, weaponHash, isMeleeDamage);
 									}
 									else
-									{
 										PedKilledByPed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-									}
 								}
 								else
-								{
 									PedDied(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-								}
 							}
 							// victim is not a ped
 							else
-							{
 								EntityKilled(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-							}
 						}
 					}
 					else
 					{
 						// only damaged
 						if (!victim.Model.IsVehicle)
-						{
 							EntityDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-						}
 						else
-						{
 							VehicleDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
-						}
 					}
 				}
 			}

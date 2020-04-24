@@ -34,6 +34,10 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+//			Client.Instance.AddEventHandler("DamageEvent:PedKilledByPed", new Action<int, List<dynamic>>(pedKilledByPed));
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(pedKilledByPlayer));
+//			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, dynamic>(pedDied));
+
 			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
 			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
@@ -49,6 +53,13 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			earlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
 			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
 			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
+		}
+
+		private static void pedKilledByPlayer(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
+		{
+			Ped pers = new Ped(ped);
+			Ped killer = new Ped(attackerPed);
+			
 		}
 
 		public static void playerDied(int tipo, List<dynamic> Coords)
