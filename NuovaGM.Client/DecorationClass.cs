@@ -33,11 +33,9 @@ namespace NuovaGM.Client
 			//EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
 
 
-
-
-
 			/* DECOR LOCK */
 			EntityDecoration.LockProperties();
+			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}
 	}

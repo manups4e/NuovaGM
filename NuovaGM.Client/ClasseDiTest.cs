@@ -72,10 +72,18 @@ namespace NuovaGM.Client
 			Log.Printa(LogType.Debug, "NumParticipants = " + NetworkGetNumParticipants());
 			Log.Printa(LogType.Debug, "ParticipantId = " + ParticipantId());
 			Log.Printa(LogType.Debug, $"sono io host? = {NetworkIsHost()} ");
-			
+			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerStanziato") ? $"decor PlayerStanziato = {Game.PlayerPed.GetDecor<bool>("PlayerStanziato")} " : "decor PlayerStanziato NON settato");
+			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerStanziatoInIstanza") ? $"decor PlayerStanziatoInIstanza = {Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza")} " : "decor PlayerStanziatoInIstanza NON settato");
+			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerInPausa") ? $"decor PlayerInPausa = {Game.PlayerPed.GetDecor<bool>("PlayerInPausa")} " : "decor PlayerInPausa NON settato");
+			Debug.WriteLine();
+
 			foreach (var player in Client.Instance.GetPlayers)
 			{
 				Log.Printa(LogType.Debug, $"Nome = {player.Name}, PlayerId = {player.Handle}, IsPlayerAParticipant = {NetworkIsPlayerAParticipant(IntToParticipantindex(player.Handle))}");
+				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerStanziato") ? $"decor PlayerStanziato = {player.Character.GetDecor<bool>("PlayerStanziato")} " : "decor PlayerStanziato NON settato");
+				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerStanziatoInIstanza") ? $"decor PlayerStanziatoInIstanza = {player.Character.GetDecor<int>("PlayerStanziatoInIstanza")} " : "decor PlayerStanziatoInIstanza NON settato");
+				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerInPausa") ? $"decor PlayerInPausa = {player.Character.GetDecor<bool>("PlayerInPausa")} " : "decor PlayerInPausa NON settato");
+				Debug.WriteLine();
 			}
 		}
 	}

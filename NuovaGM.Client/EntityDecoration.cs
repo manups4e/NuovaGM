@@ -19,7 +19,7 @@ namespace NuovaGM.Client
 		internal static Type boolType = typeof(bool);
 		internal static Type intType = typeof(int);
 
-		public static bool ExistOn(Entity entity, string propertyName)
+		private static bool ExistOn(Entity entity, string propertyName)
 		{
 			return DecorExistOn(entity.Handle, propertyName);
 		}

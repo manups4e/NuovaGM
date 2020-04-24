@@ -71,13 +71,13 @@ namespace NuovaGM.Client
 			//Interactions.DivaniEPosizioniSedute.Init();
 			Interactions.OggettiGenerici.Init();
 
-			TickController.Init();
 			DamageEvents.Init();
 
 			Telefono.PhoneMainClient.Init();
 
 			ClasseDiTest.Init(); // da rimouvere
 			CodaControl.CodaAdminPanel.Init();
+			TickController.Init();
 		}
 	}
 }
