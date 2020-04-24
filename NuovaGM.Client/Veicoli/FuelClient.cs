@@ -466,7 +466,7 @@ namespace NuovaGM.Client.Veicoli
 
 					ConsumeFuel(veh);
 					if (!EventiPersonalMenu.DoHideHud)
-						HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(veh.FuelLevel / FuelCapacity * 100)}%", Color.FromArgb(255, 135, 206, 250));
+						HUD.DrawText(0.195f, 0.96f, $"Carburante: {(int)Math.Floor(veh.FuelLevel / FuelCapacity * 100)}%", Color.FromArgb(255, 135, 206, 250));
 					if (vehicleFuelLevel(veh) < 0.99f)
 					{
 						veh.IsEngineRunning = false;
@@ -529,7 +529,7 @@ namespace NuovaGM.Client.Veicoli
 													if (afuel <= maxfuel)
 													{
 														addedFuel += 0.1f;
-														HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(fuel + addedFuel / maxfuel * 100)}%", Color.FromArgb(255, 135, 206, 250));
+														HUD.DrawText(0.195f, 0.96f, $"Carburante: {(int)Math.Floor(fuel + addedFuel / maxfuel * 100)}%", Color.FromArgb(255, 135, 206, 250));
 													}
 												}
 												else
@@ -596,7 +596,7 @@ namespace NuovaGM.Client.Veicoli
 							}
 							if (fuel < max)
 							{
-								HUD.DrawText(0.15f, 0.96f, $"Carburante: {(int)Math.Floor(fuel / max * 100)}%", Color.FromArgb(255, 135, 206, 250));
+								HUD.DrawText(0.195f, 0.96f, $"Carburante: {(int)Math.Floor(fuel / max * 100)}%", Color.FromArgb(255, 135, 206, 250));
 								if (fuel + 0.1 >= max)
 									SetVehicleFuelLevel(lastVehicle, max);
 								else
