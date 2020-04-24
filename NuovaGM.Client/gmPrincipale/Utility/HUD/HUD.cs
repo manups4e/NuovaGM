@@ -237,7 +237,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			}
 		}
 
-		public static async void DrawText3D(float x, float y, float z, Color c, string text)
+		public static void DrawText3D(float x, float y, float z, Color c, string text)
 		{
 			SetTextScale(0.45f, 0.45f);
 			SetTextFont(4);
@@ -253,10 +253,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
-			await Task.FromResult(0);
 		}
 
-		public static async void DrawText3D(Vector3 coord, Color c, string text)
+		public static void DrawText3D(Vector3 coord, Color c, string text)
 		{
 			SetTextScale(0.45f, 0.45f);
 			SetTextFont(4);
@@ -272,10 +271,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
-			await Task.FromResult(0);
 		}
 
-		public static async void DrawText3D(Vector3 coord, Color c, string text, int font)
+		public static void DrawText3D(Vector3 coord, Color c, string text, int font)
 		{
 			SetTextScale(0.45f, 0.45f);
 			SetTextFont(font);
@@ -291,7 +289,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
-			await Task.FromResult(0);
 		}
 
 		public static void DrawText(string text)
@@ -338,6 +335,75 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			SetTextOutline();
 			SetTextCentre(true);
 			SetTextEntry("STRING");
+			AddTextComponentSubstringPlayerName(text);
+			EndTextCommandDisplayText(x, y);
+		}
+
+		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font)
+		{
+			SetTextFont((int)font);
+			SetTextScale(0.0f, 0.5f);
+			SetTextColour(color.R, color.G, color.B, color.A);
+			SetTextDropShadow();
+			SetTextOutline();
+			SetTextCentre(true);
+			SetTextEntry("jamyfafi");
+			AddTextComponentSubstringPlayerName(text);
+			EndTextCommandDisplayText(x, y);
+		}
+		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font, Alignment TextAlignment)
+		{
+			SetTextFont((int)font);
+			SetTextScale(0.0f, 0.5f);
+			SetTextColour(color.R, color.G, color.B, color.A);
+			SetTextDropShadow();
+			SetTextOutline();
+			switch (TextAlignment)
+			{
+				case Alignment.Center:
+					SetTextCentre(true);
+					break;
+				case Alignment.Right:
+					SetTextRightJustify(true);
+					SetTextWrap(0, x);
+					break;
+			}
+			SetTextEntry("jamyfafi");
+			AddTextComponentSubstringPlayerName(text);
+			EndTextCommandDisplayText(x, y);
+		}
+
+		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font, Alignment TextAlignment, bool Shadow = false, bool Outline = false, float Wrap = 0)
+		{
+			int screenw = Screen.Resolution.Width;
+			int screenh = Screen.Resolution.Height;
+			const float height = 1080f;
+			float ratio = (float)screenw / screenh;
+			var width = height * ratio;
+
+			SetTextFont((int)font);
+			SetTextScale(0.0f, 0.5f);
+			SetTextColour(color.R, color.G, color.B, color.A);
+			if (Shadow)
+				API.SetTextDropShadow();
+			if (Outline)
+				API.SetTextOutline();
+			if (Wrap != 0)
+			{
+				float xsize = (x + Wrap) / width;
+				API.SetTextWrap(x, xsize);
+			}
+			switch (TextAlignment)
+			{
+				case Alignment.Center:
+					SetTextCentre(true);
+					break;
+				case Alignment.Right:
+					SetTextRightJustify(true);
+					SetTextWrap(0, x);
+					break;
+			}
+			SetTextEntry("jamyfafi");
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
 		}
