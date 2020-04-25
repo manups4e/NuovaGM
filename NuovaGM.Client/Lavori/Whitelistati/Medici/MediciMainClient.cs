@@ -396,7 +396,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		{
 			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Game.Player.GetPlayerData().InServizio)
+				if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
 					foreach(var morto in Morti)
 						morto.Value.Alpha = 255;
 				else

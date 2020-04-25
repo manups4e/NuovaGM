@@ -68,22 +68,22 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			UIMenuItem Uniforme = new UIMenuItem("");
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
-			if (!Game.Player.GetPlayerData().InServizio && !PoliziaMainClient.InServizioDaPilota)
+			if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (!Game.Player.GetPlayerData().InServizio && PoliziaMainClient.InServizioDaPilota)
+			else if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Rimuovi la tuta da Pilota", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 			}
-			else if (Game.Player.GetPlayerData().InServizio && !PoliziaMainClient.InServizioDaPilota)
+			else if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Rimuovi l'uniforme", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (Game.Player.GetPlayerData().InServizio || PoliziaMainClient.InServizioDaPilota)
+			else if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio") || PoliziaMainClient.InServizioDaPilota)
 			{
 				if (Game.PlayerPed.Armor < 1)
 					Giubbotto = new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita");
@@ -101,7 +101,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				Game.PlayerPed.SetDecor("PlayerStanziato", true);
 				if (item == Uniforme)
 				{
-					if (!Game.Player.GetPlayerData().InServizio)
+					if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
 					{
 						foreach (var Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
 						{
@@ -121,12 +121,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								}
 							}
 						}
-						Game.Player.GetPlayerData().InServizio = true;
+						Game.PlayerPed.SetDecor("PlayerInServizio", true);
 					}
 					else
 					{
 						await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
-						Game.Player.GetPlayerData().InServizio = false;
+						Game.PlayerPed.SetDecor("PlayerInServizio", false);
 					}
 				}
 				else if (item == Pilota)
@@ -352,12 +352,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								BaseScript.TriggerServerEvent("lprp:polizia:ammanetta/smanetta", playerServerId);
 								break;
 							case UIMenuItem i when i == accompagna:
-								if (player.ammanettato)
+								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 									ClosestPed.Task.FollowToOffsetFromEntity(Game.PlayerPed, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
 							case UIMenuItem i when i == mettiVeicolo:
-								if (player.ammanettato)
+								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 									if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.LeftRear))
 										ClosestPed.Task.EnterVehicle(Game.PlayerPed.LastVehicle, VehicleSeat.LeftRear);
 									else if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.RightRear))
@@ -367,7 +367,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
 							case UIMenuItem i when i == togliVeicolo:
-								if (player.ammanettato)
+								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 									if (ClosestPed.IsInVehicle())
 										ClosestPed.Task.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
 									else

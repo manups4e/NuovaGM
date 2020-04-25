@@ -27,7 +27,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			if (!Game.Player.GetPlayerData().InServizio)
+			if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
 				cambio = new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.");
 			else
 				cambio = new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
@@ -39,7 +39,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
 				Game.PlayerPed.SetDecor("PlayerStanziato", true);
-				if (!Game.Player.GetPlayerData().InServizio) 
+				if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio")) 
 				{
 					foreach (var Grado in Client.Impostazioni.Lavori.Medici.Gradi)
 					{
@@ -56,11 +56,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 							}
 						}
 					}
-					Game.Player.GetPlayerData().InServizio = true;
+					Game.PlayerPed.SetDecor("PlayerInServizio", true);
 				}
 				else
 				{
-					Game.Player.GetPlayerData().InServizio = false;
+					Game.PlayerPed.SetDecor("PlayerInServizio", false);
 					await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				}
 				await BaseScript.Delay(500);

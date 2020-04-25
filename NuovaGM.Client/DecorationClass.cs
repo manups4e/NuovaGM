@@ -31,6 +31,8 @@ namespace NuovaGM.Client
 			EntityDecoration.RegisterProperty("PlayerStanziato", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerStanziatoInIstanza", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PlayerAmmanettato", DecorationType.Bool);
+			EntityDecoration.RegisterProperty("PlayerInCasa", DecorationType.Bool);
+			EntityDecoration.RegisterProperty("PlayerInServizio", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
 
 

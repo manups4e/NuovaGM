@@ -44,10 +44,10 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			Game.Player.GetPlayerData().ammanettato = !Game.Player.GetPlayerData().ammanettato;
+			Game.PlayerPed.SetDecor("PlayerAmmanettato", !Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"));
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
-			if (Game.Player.GetPlayerData().ammanettato)
+			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 			{
 				Game.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), true);

@@ -139,7 +139,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
 				Game.PlayerPed.SetDecor("PlayerStanziato", true);
-				Game.Player.GetPlayerData().InCasa = true;
+				Game.PlayerPed.SetDecor("PlayerInCasa", true);
 				Screen.Fading.FadeIn(800);
 				Client.Instance.AddTick(GestioneHotel);
 			};
@@ -165,7 +165,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							Game.Player.GetPlayerData().InCasa = false;
+							Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.PlayerPed.SetDecor("PlayerStanziato", false);
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
@@ -187,7 +187,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							Game.Player.GetPlayerData().InCasa = false;
+							Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.PlayerPed.SetDecor("PlayerStanziato", false);
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
@@ -209,7 +209,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							Game.Player.GetPlayerData().InCasa = false;
+							Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.PlayerPed.SetDecor("PlayerStanziato", false);
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");

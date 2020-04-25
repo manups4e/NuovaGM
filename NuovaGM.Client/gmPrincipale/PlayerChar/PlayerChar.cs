@@ -18,9 +18,6 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public int char_current;
 		public long playTime;
 		public Identifiers identifiers;
-		public bool ammanettato;
-		public bool InCasa;
-		public bool InServizio;
 		public string lastConnection;
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();

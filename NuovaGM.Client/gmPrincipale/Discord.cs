@@ -116,7 +116,7 @@ namespace NuovaGM.Client.gmPrincipale
 					SetRichPresence("Sta esplorando i fondali in un sottomarino");
 				else if (Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 					SetRichPresence("E' in uno scontro a fuoco");
-				else if (Game.Player.GetPlayerData().ammanettato)
+				else if (Game.PlayerPed.HasDecor("PlayerAmmanettato") && Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 					SetRichPresence("Legato o ammanettato");
 				else if (Main.IsDead)
 					SetRichPresence("Sta morendo");
