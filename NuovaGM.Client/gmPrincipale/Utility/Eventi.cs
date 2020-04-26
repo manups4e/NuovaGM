@@ -82,13 +82,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Player = JsonConvert.DeserializeObject<PlayerChar>(data);
 			DisplayRadar(false);
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			Game.PlayerPed.SetDecor("PlayerInPausa", false);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
-			Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
-			Game.PlayerPed.SetDecor("PlayerInCasa", false);
-			Game.PlayerPed.SetDecor("PlayerInServizio", false);
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
 			Main.charSelect();
 		}
 

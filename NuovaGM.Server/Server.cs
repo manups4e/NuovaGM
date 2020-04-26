@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using NuovaGM.Server.gmPrincipale;
 using System.Collections.Concurrent;
+using Newtonsoft.Json;
 // ReSharper disable All
 
 namespace NuovaGM.Server
@@ -21,6 +22,13 @@ namespace NuovaGM.Server
 			EventHandlers["onResourceStop"] += new Action<string>(OnResourceStop);
 			Instance = this;
 			ClassCollector.Init();
+		}
+
+		
+		public async Task InviaAlBot(object data)
+		{
+			Request r = new Request();
+			await r.Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
 		}
 
 		/// <summary>

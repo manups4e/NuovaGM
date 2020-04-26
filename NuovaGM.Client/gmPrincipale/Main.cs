@@ -199,8 +199,14 @@ namespace NuovaGM.Client.gmPrincipale
 			{
 				Game.PlayerPed.Style.SetDefaultClothes();
 				Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
-				Game.PlayerPed.IsVisible = false;
 				Game.PlayerPed.SetDecor("PlayerStanziato", true);
+				Game.PlayerPed.SetDecor("PlayerInPausa", false);
+				Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
+				Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
+				Game.PlayerPed.SetDecor("PlayerInCasa", false);
+				Game.PlayerPed.SetDecor("PlayerInServizio", false);
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
+				Game.PlayerPed.IsVisible = false;
 				Game.PlayerPed.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));

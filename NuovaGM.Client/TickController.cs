@@ -55,7 +55,7 @@ namespace NuovaGM.Client
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 			TickHUD.Add(EventiPersonalMenu.MostramiSoldi);
 
-			// TICK GENERICI \\
+			// TICK GENERICI \\ ATTIVI SEMPRE
 			TickGenerici.Add(StatsNeeds.Aggiornamento);
 			TickGenerici.Add(StatsNeeds.Conseguenze);
 			TickGenerici.Add(StatsNeeds.Agg);
@@ -64,6 +64,7 @@ namespace NuovaGM.Client
 			TickGenerici.Add(Main.Armi);
 			TickGenerici.Add(PersonalMenu.attiva);
 			TickGenerici.Add(Main.Recoil);
+			TickGenerici.Add(FuelClient.FuelCount);
 
 
 			// TICK A PIEDI \\
@@ -95,7 +96,6 @@ namespace NuovaGM.Client
 			TickVeicolo.Add(Prostitute.ControlloProstitute);
 			TickVeicolo.Add(EffettiRuote.ControlloRuote);
 			TickVeicolo.Add(EffettiRuote.WheelGlow);
-			TickVeicolo.Add(FuelClient.FuelCount);
 			TickVeicolo.Add(FuelClient.FuelTruck);
 
 			// TICK APPARTAMENTO \\
