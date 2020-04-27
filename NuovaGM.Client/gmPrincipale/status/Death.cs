@@ -36,11 +36,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-//			Client.Instance.AddEventHandler("DamageEvent:PedKilledByPed", new Action<int, List<dynamic>>(pedKilledByPed));
+			Client.Instance.AddEventHandler("DamageEvent:PedKilledByPed", new Action<int, int, uint, bool>(pedKilledByPed));
 			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(pedKilledByPlayer));
 //			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, dynamic>(pedDied));
-			
-
 
 //			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 //			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
@@ -63,8 +61,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		{
 			Player victimPlayer = new Player(NetworkGetPlayerIndexFromPed(ped));
 			Player killerPlayer = new Player(attackerPlayer);
-
-			if (NetworkIsPlayerActive(killerPlayer.Handle))
+			if (victimPlayer == Game.Player)
 			{
 				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
 				Vector3 victimCoords = victimPlayer.Character.Position;
@@ -73,55 +70,69 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
 			}
 		}
-/*
-		public static void playerKilled(int killerId, dynamic Data)
+		private static void pedKilledByPed(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
 		{
-			int playerPed = PlayerPedId();
-			int killer = GetPlayerFromServerId(killerId);
-			if (NetworkIsPlayerActive(killer))
+			Player victimPlayer = new Player(NetworkGetPlayerIndexFromPed(ped));
+			Ped attakcerPed = new Ped(attackerPed);
+			if(victimPlayer == Game.Player)
 			{
-				Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
-				int weaponHash = Data.weaponhash;
-				Data.killerpos = null;
-				Data.weaponhash = null;
-				int deathCause = GetPedCauseOfDeath(playerPed);
-				int killerPed = GetPlayerPed(killer);
-				Vector3 killerCoords = GetEntityCoords(killerPed, true);
-				float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
-				bool killed = true;
-				List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-			}
-			else
-			{
-				bool killed = false;
-				int deathCause = GetPedCauseOfDeath(playerPed);
-				List<dynamic> data = new List<dynamic>() { killed, deathCause };
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
+				Vector3 victimCoords = victimPlayer.Character.Position;
+				string causeofdeath = SharedScript.DeatReasons[weaponHash];
+				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
+				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
 			}
 		}
 
-		public static void playerDied(int tipo, List<dynamic> Coords)
-		{
-			int playerPed = PlayerPedId();
-			List<dynamic> data = new List<dynamic>();
-			bool killed = false;
-			int killerType = tipo;
-			Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
-			int deathCause = GetPedCauseOfDeath(playerPed);
-			data.Add(killed);
-			data.Add(killerType);
-			data.Add(deathCoords);
-			data.Add(deathCause);
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-		}
-*/
+		/*
+				public static void playerKilled(int killerId, dynamic Data)
+				{
+					int playerPed = PlayerPedId();
+					int killer = GetPlayerFromServerId(killerId);
+					if (NetworkIsPlayerActive(killer))
+					{
+						Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
+						int weaponHash = Data.weaponhash;
+						Data.killerpos = null;
+						Data.weaponhash = null;
+						int deathCause = GetPedCauseOfDeath(playerPed);
+						int killerPed = GetPlayerPed(killer);
+						Vector3 killerCoords = GetEntityCoords(killerPed, true);
+						float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
+						bool killed = true;
+						List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
+						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+						Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+					}
+					else
+					{
+						bool killed = false;
+						int deathCause = GetPedCauseOfDeath(playerPed);
+						List<dynamic> data = new List<dynamic>() { killed, deathCause };
+						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+						Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+					}
+				}
+
+				public static void playerDied(int tipo, List<dynamic> Coords)
+				{
+					int playerPed = PlayerPedId();
+					List<dynamic> data = new List<dynamic>();
+					bool killed = false;
+					int killerType = tipo;
+					Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
+					int deathCause = GetPedCauseOfDeath(playerPed);
+					data.Add(killed);
+					data.Add(killerType);
+					data.Add(deathCoords);
+					data.Add(deathCause);
+					Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+					BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+					BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				}
+		*/
 		static int timeHeld = 0;
 		public static async void StartDeathTimer()
 		{

@@ -39,22 +39,24 @@ namespace NuovaGM.Server.gmPrincipale
 				}
 				else
 				{
-					await Server.Instance.Execute($"INSERT INTO users (discord, license, Name, group, playTime, last_connection, char_current, char_data) VALUES (@disc, @lice, @name, @group, @time, @last, @current, @data)", new
+					await Server.Instance.Execute($"INSERT INTO `users` VALUES (@disc, @lice, @name, @group, @level, @time, @last, @current, @data)", new
 					{
 						disc = License.GetLicense(player, Identifier.Discord),
 						lice = License.GetLicense(player, Identifier.License),
 						name = GetPlayerName(handle),
 						group = "normal",
+						level = 0,
 						time = 0,
 						last = DateTime.Now,
 						current = 0,
-						data = "{}"
+						data = JsonConvert.SerializeObject(new object[] { })
 					});
+
 					dynamic created = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @discord", new
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
-					User user = new User(player, result[0]);
+					User user = new User(player, created[0]);
 					Server.PlayerList.TryAdd(handle, user);
 					string playerino = JsonConvert.SerializeObject(user);
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
