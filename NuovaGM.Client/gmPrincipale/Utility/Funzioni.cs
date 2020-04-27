@@ -150,8 +150,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			if (transparent)
 				mugshot = RegisterPedheadshotTransparent(ped.Handle);
 			mugshot = RegisterPedheadshot(ped.Handle);
-			while (!IsPedheadshotReady(mugshot))
-				await BaseScript.Delay(1);
+			while (!IsPedheadshotReady(mugshot)) await BaseScript.Delay(1);
 			string Txd = GetPedheadshotTxdString(mugshot);
 			return new Tuple<int, string>(mugshot, Txd);
 		}
@@ -1212,10 +1211,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			OutputArgument OutArgEntity = new OutputArgument();
 			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_VEHICLE")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_VEHICLE")), handle, OutArgEntity))
-			{
+			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_VEHICLE")), handle, OutArgEntity)) 
 				yield return OutArgEntity.GetResult<int>();
-			}
 			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_VEHICLE")), handle);
 		}
 
@@ -1233,9 +1230,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_PED")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
 			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_PED")), handle, OutArgEntity))
-			{
 				yield return OutArgEntity.GetResult<int>();
-			}
 			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_PED")), handle);
 		}
 
@@ -1253,9 +1248,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_OBJECT")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
 			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_OBJECT")), handle, OutArgEntity))
-			{
 				yield return OutArgEntity.GetResult<int>();
-			}
 			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_OBJECT")), handle);
 		}
 

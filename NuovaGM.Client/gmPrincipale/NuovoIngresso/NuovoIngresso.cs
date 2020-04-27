@@ -61,10 +61,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			guiEnabled = true;
 			Screen.Fading.FadeIn(1000);
 			RequestModel((uint)PedHash.FreemodeFemale01);
-			while (!HasModelLoaded((uint)PedHash.FreemodeFemale01))
-			{
-				await BaseScript.Delay(1);
-			}
+			while (!HasModelLoaded((uint)PedHash.FreemodeFemale01))await BaseScript.Delay(1);
 
 			femmi = new Ped(CreatePed(26, (uint)PedHash.FreemodeFemale01, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, 199f, 0, true, false));
 			femmi.IsPositionFrozen = true;

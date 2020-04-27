@@ -193,7 +193,7 @@ namespace NuovaGM.Client.gmPrincipale
 			Game.PlayerPed.Heading = charSelectCoords.W;
 			await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
 			Game.PlayerPed.Style.SetDefaultClothes();
-			while (!await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) { await BaseScript.Delay(50); }
+			while (!await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
 
 			if (Game.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
 			{
@@ -464,6 +464,7 @@ namespace NuovaGM.Client.gmPrincipale
 					{
 						do
 						{
+							await BaseScript.Delay(0);
 							SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.1f, 0.2f);
 							tv += 0.1f;
 							await BaseScript.Delay(0);
@@ -597,11 +598,7 @@ namespace NuovaGM.Client.gmPrincipale
 		private static async void Peds()
 		{
 			await BaseScript.Delay(30000);
-			while (Client.Impostazioni.Main.stripClub == null)
-			{
-				await BaseScript.Delay(0);
-			}
-
+			while (Client.Impostazioni.Main.stripClub == null) await BaseScript.Delay(0);
 			foreach (var stripper in Client.Impostazioni.Main.stripClub)
 			{
 				Ped ped = await World.CreatePed(new Model(GetHashKey(stripper.model)), new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);

@@ -273,10 +273,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			List<float> coords = new List<float>();
 			Screen.Fading.FadeOut(800);
-			while (!Screen.Fading.IsFadedOut)
-			{
-				await BaseScript.Delay(10);
-			}
+			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(10);
 
 			BaseScript.TriggerServerEvent("lprp:removeItemsDeath");
 			Vector3 pedCoords = GetEntityCoords(PlayerPedId(), false);
@@ -294,10 +291,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					Vector3 pos = new Vector3(hospitals[i].X, hospitals[i].Y, hospitals[i].Z);
 					Main.RespawnPed(pos);
 				}
-				while (!IsPedStill(PlayerPedId()))
-				{
-					await BaseScript.Delay(50);
-				}
+				while (!IsPedStill(PlayerPedId())) await BaseScript.Delay(50);
 
 				Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 				Screen.Fading.FadeIn(800);

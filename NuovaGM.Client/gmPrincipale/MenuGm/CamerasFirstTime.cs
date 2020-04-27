@@ -70,10 +70,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			};
 			Cam1.IsActive = true;
 			Cam1.PointAt(new Vector3(657.620f, 906.617f, 276.418f));
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-			{
-				await BaseScript.Delay(1000);
-			}
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1000);
 			Camera Cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -93,10 +90,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			Game.PlayerPed.Position = new Vector3(-241.502f, -534.627f, 148.902f);
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-			{
-				await BaseScript.Delay(1000);
-			}
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1000);
 
 			Cam1.IsActive = false;
 			Cam2.IsActive = false;
@@ -130,11 +124,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Cam3.Delete();
 			Cam4.Delete();
 			Game.PlayerPed.Position = new Vector3(-1604.552f, -1048.718f, 17.027f);
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-			{
-				await BaseScript.Delay(1000);
-			}
-
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1000);
 			Camera Cam5 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -161,11 +151,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			Game.PlayerPed.Position = new Vector3(-552.468f, -513.632f, 30.427f);
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-			{
-				await BaseScript.Delay(1000);
-			}
-
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1000);
 			Cam5.Delete();
 			Cam6.Delete();
 			Camera Cam7 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -203,10 +189,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			};
 			Model tassista = new Model(PedHash.Stlat01AMY);
 			tassista.Request();
-			while (!tassista.IsLoaded)
-			{
-				await tassista.Request(1);
-			}
+			while (!tassista.IsLoaded) await tassista.Request(1); 
 
 			if (!Funzioni.IsSpawnPointClear(new Vector3(-640.411f, -525.006f, 25.331f), 2f))
 			{

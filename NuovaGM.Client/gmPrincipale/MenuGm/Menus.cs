@@ -130,10 +130,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Char_data plpl = JsonConvert.DeserializeObject<Char_data>(JsonData);
 			uint hash = (uint)GetHashKey(plpl.skin.model);
 			RequestModel(hash);
-			while (!HasModelLoaded(hash))
-			{
-				await BaseScript.Delay(1);
-			}
+			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
 			UpdateFace(Game.PlayerPed, plpl.skin);

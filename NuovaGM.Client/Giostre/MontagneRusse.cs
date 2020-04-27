@@ -402,7 +402,7 @@ namespace NuovaGM.Client.Giostre
 			Vector3 vVar2;
 			for (iVar0=0; iVar0 < Montagna.Carrelli.Length; iVar0++)
 			{
-				iVar1 = func_138((Montagna.Velocità - (2.55f * (iVar0))), ValoreIndiceSconosciuto);
+				iVar1 = await func_138((Montagna.Velocità - (2.55f * (iVar0))), ValoreIndiceSconosciuto);
 				vVar2 = func_50((Montagna.Velocità - (2.55f * (iVar0))), iVar1);
 				if (iVar0 == 0)
 					Montagna.Carrelli[0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car"), func_51(1).X, func_51(1).Y, func_51(1).Z, false, false, false));
@@ -430,7 +430,7 @@ namespace NuovaGM.Client.Giostre
 
 			for (iVar0 = 0; iVar0 < Montagna.Carrelli.Length; iVar0++)
 			{
-				iVar1 = func_138(Montagna.Velocità - (2.55f * iVar0), ValoreIndiceSconosciuto);
+				iVar1 = await func_138(Montagna.Velocità - (2.55f * iVar0), ValoreIndiceSconosciuto);
 				vVar2 = func_50(Montagna.Velocità - (2.55f * iVar0), iVar1);
 				SetEntityCoordsNoOffset(Montagna.Carrelli[iVar0].Entity.Handle, vVar2.X, vVar2.Y, vVar2.Z, true, false, false);
 				func_134(iVar0, iVar1, Montagna.Velocità - (2.55f * iVar0));
@@ -482,6 +482,7 @@ namespace NuovaGM.Client.Giostre
 				iVar2 = func_48(ValoreIndiceSconosciuto);
 				while (!bVar1)
 				{
+					await BaseScript.Delay(0);
 					if (Montagna.Velocità < Montagna.Valore3[iVar2 /*5*/])
 					{
 						bVar1 = true;
@@ -503,6 +504,7 @@ namespace NuovaGM.Client.Giostre
 				iVar2 = ValoreIndiceSconosciuto;
 				while (!bVar1)
 				{
+					await BaseScript.Delay(0);
 					if (Montagna.Valore3[iVar2 /*5*/] < Montagna.Velocità)
 					{
 						bVar1 = true;
@@ -680,7 +682,7 @@ namespace NuovaGM.Client.Giostre
 			return vParam0;
 		}
 
-		static int func_138(float fParam0, int iParam1)
+		static async Task<int> func_138(float fParam0, int iParam1)
 		{
 			int iVar0;
 
@@ -692,6 +694,7 @@ namespace NuovaGM.Client.Giostre
 			iVar0 = iParam1;
 			while (iVar0 >= 0)
 			{
+				await BaseScript.Delay(0);
 				if (Montagna.Valore3[iVar0 /*5*/] < fParam0)
 					return iVar0;
 				iVar0 = (iVar0 + -1);

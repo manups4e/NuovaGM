@@ -69,10 +69,7 @@ namespace NuovaGM.Client.Negozi
 		{
 			Model model = new Model(ped.Model);
 			model.Request();
-			while (!model.IsLoaded)
-			{
-				await BaseScript.Delay(1);
-			}
+			while (!model.IsLoaded) await BaseScript.Delay(1);
 
 			Ped barber = new Ped(CreatePed(4, (uint)model.Hash, ped.Coords.X, ped.Coords.Y, ped.Coords.Z, ped.Coords.W, false, false));
 			barber.BlockPermanentEvents = true;
@@ -85,10 +82,7 @@ namespace NuovaGM.Client.Negozi
 
 		public static async void Controlla(Vector3 S, float Ch, Vector3 C, string Menu)
 		{
-			while (World.GetDistance(Game.PlayerPed.Position, S) > 1f)
-			{
-				await BaseScript.Delay(100);
-			}
+			while (World.GetDistance(Game.PlayerPed.Position, S) > 1f) await BaseScript.Delay(100);
 
 			if (World.GetDistance(Game.PlayerPed.Position, S) < 1f && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
 			{

@@ -71,13 +71,9 @@ namespace NuovaGM.Client.ListaPlayers
 			var timer = GetGameTimer();
 			var oldPage = currentPage;
 			while (GetGameTimer() - timer < 8000 && currentPage > 0 && currentPage == oldPage)
-			{
 				await BaseScript.Delay(0);
-			}
 			if (oldPage == currentPage)
-			{
 				currentPage = 0;
-			}
 		}
 
 		/// <summary>
@@ -259,9 +255,7 @@ namespace NuovaGM.Client.ListaPlayers
 		{
 			var headshotHandle = RegisterPedheadshot(ped);
 			while (!IsPedheadshotReady(headshotHandle))
-			{
 				await BaseScript.Delay(0);
-			}
 			return GetPedheadshotTxdString(headshotHandle) ?? "";
 		}
 

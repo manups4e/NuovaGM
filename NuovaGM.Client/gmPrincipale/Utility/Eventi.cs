@@ -66,10 +66,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			uint hash = (uint)GetHashKey(Game.Player.GetPlayerData().CurrentChar.skin.model);
 			RequestModel(hash);
-			while (!HasModelLoaded(hash))
-			{
-				await BaseScript.Delay(1);
-			}
+			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
 			await Funzioni.UpdateFace(Game.Player.GetPlayerData().CurrentChar.skin);
@@ -157,10 +154,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async void Revive()
 		{
 			Screen.Fading.FadeOut(800);
-			while (Screen.Fading.IsFadingOut)
-			{
-				await BaseScript.Delay(50);
-			}
+			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
 
 			Main.RespawnPed(Game.PlayerPed.Position);
 			Status.StatsNeeds.nee.fame = 0.0f;
