@@ -148,7 +148,7 @@ namespace NuovaGM.Client.gmPrincipale
 			SetEnablePedEnveffScale(PlayerPedId(), true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
-			SetCanAttackFriendly(Game.PlayerPed.Handle, true, false);
+			SetCanAttackFriendly(Game.PlayerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
 		}
 
