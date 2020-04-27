@@ -3,6 +3,7 @@ using FivemPlayerlistServer;
 using NuovaGM.Server.banking;
 using NuovaGM.Server.Businesses;
 using NuovaGM.Server.Clothestores;
+using NuovaGM.Server.Discord;
 using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Server.Interactions;
 using NuovaGM.Server.Lavori.Whitelistati;
@@ -38,6 +39,8 @@ namespace NuovaGM.Server
 			PickupsServer.Init();
 //			Coda.Init();
 			NuovaCoda.Init();
+			//DiscordWhitelist.Init();
+			BotDiscordHandler.Init();
 		}
 	}
 }

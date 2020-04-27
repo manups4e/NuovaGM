@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using Logger;
+using NuovaGM.Server.Discord;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -624,7 +625,7 @@ namespace NuovaGM.Server.gmPrincipale
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await DiscordWhitelist.DoesPlayerHaveRole(discord, Server.Impostazioni.Main.RuoloWhitelistato);
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Main.RuoloWhitelistato);
                 await BaseScript.Delay(1000);
 
                 if (puoentrare)
@@ -718,7 +719,7 @@ namespace NuovaGM.Server.gmPrincipale
                             object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var };
                             deferrals.done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
                                 "resta aggiornato sul nostro server discord con invito https://discord.gg/n4ep9Fq !");
-                            await Server.Instance.InviaAlBot(dati);
+                            await BotDiscordHandler.InviaAlBot(dati);
                         }));
                         //deferrals.done($"{messages["Whitelist"]}");
                         return;

@@ -24,17 +24,6 @@ namespace NuovaGM.Server
 			ClassCollector.Init();
 		}
 
-		
-		public async Task InviaAlBot(object data)
-		{
-			await new Request().Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
-		}
-
-		public async Task<RequestResponse> InviaAlBotERicevi(object data)
-		{
-			return await new Request().Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
-		}
-
 		/// <summary>
 		/// registra un evento client (TriggerEvent)
 		/// </summary>

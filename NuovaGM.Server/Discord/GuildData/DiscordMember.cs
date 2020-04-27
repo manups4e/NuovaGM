@@ -14,7 +14,7 @@ namespace NuovaGM.Server.Discord.GuildData
 		public string discriminator;
 		public string avatar;
 		public bool bot;
-		public int public_flags;
-		public long id;
+		public int? public_flags;
+		public ulong? id;
 	}
 }
