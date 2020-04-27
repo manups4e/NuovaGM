@@ -27,8 +27,12 @@ namespace NuovaGM.Server
 		
 		public async Task InviaAlBot(object data)
 		{
-			Request r = new Request();
-			await r.Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
+			await new Request().Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
+		}
+
+		public async Task<RequestResponse> InviaAlBotERicevi(object data)
+		{
+			return await new Request().Http("localhost:1337", "GET", JsonConvert.SerializeObject(data));
 		}
 
 		/// <summary>

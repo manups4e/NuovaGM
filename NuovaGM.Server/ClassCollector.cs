@@ -38,7 +38,6 @@ namespace NuovaGM.Server
 			PickupsServer.Init();
 //			Coda.Init();
 			NuovaCoda.Init();
-			DiscordWhitelist.Init();
 		}
 	}
 }

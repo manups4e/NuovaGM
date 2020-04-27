@@ -716,10 +716,9 @@ namespace NuovaGM.Server.gmPrincipale
                     {
                         deferrals.presentCard(TestCard, new Action<dynamic>(async (var) => {
                             object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var };
-                            Log.Printa(LogType.Debug, JsonConvert.SerializeObject(var));
-                            await Server.Instance.InviaAlBot(dati);
-                            deferrals.Done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
+                            deferrals.done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
                                 "resta aggiornato sul nostro server discord con invito https://discord.gg/n4ep9Fq !");
+                            await Server.Instance.InviaAlBot(dati);
                         }));
                         //deferrals.done($"{messages["Whitelist"]}");
                         return;
