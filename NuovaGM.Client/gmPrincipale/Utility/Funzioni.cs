@@ -2,13 +2,10 @@
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NuovaGM.Client.gmPrincipale.Personaggio;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using static NuovaGM.Shared.Veicoli.Modifiche;
@@ -917,7 +914,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static long GetRandomLong(long end)
 		{
-			return GetRandomLong(0, end);
+			Random rand = new Random(GetGameTimer());
+			return rand.NextLong(end);
 		}
 
 		public static long GetRandomLong(long start, long end)

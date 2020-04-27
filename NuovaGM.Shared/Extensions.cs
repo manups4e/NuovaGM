@@ -20,9 +20,9 @@ namespace NuovaGM.Shared
 		public static double NextDouble(this Random rand, double minValue, double maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (maxValue - minValue) * rand.NextDouble() + minValue;
 		}
 
@@ -34,7 +34,7 @@ namespace NuovaGM.Shared
 		public static float NextFloat(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (float)rand.NextDouble();
 		}
 
@@ -48,9 +48,9 @@ namespace NuovaGM.Shared
 		public static float NextFloat(this Random rand, float minValue, float maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (float)rand.NextDouble(minValue, maxValue);
 		}
 
@@ -62,7 +62,7 @@ namespace NuovaGM.Shared
 		public static decimal NextDecimal(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			var d = Enumerable.Range(0, 29).Select(x => rand.Next(10).ToString());
 			var result = decimal.Parse($"0.{string.Join(string.Empty, d)}");
 			return result / 1.000000000000000000000000000000000m;
@@ -78,9 +78,9 @@ namespace NuovaGM.Shared
 		public static decimal NextDecimal(this Random rand, decimal minValue, decimal maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (maxValue - minValue) * rand.NextDecimal() + minValue;
 		}
 
@@ -92,7 +92,7 @@ namespace NuovaGM.Shared
 		public static byte NextByte(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (byte)rand.Next(byte.MaxValue);
 		}
 
@@ -105,7 +105,7 @@ namespace NuovaGM.Shared
 		public static byte NextByte(this Random rand, byte maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (byte)rand.Next(maxValue);
 		}
 
@@ -119,9 +119,9 @@ namespace NuovaGM.Shared
 		public static byte NextByte(this Random rand, byte minValue, byte maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (byte)rand.Next(minValue, maxValue);
 		}
 
@@ -133,7 +133,7 @@ namespace NuovaGM.Shared
 		public static sbyte NextSByte(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (sbyte)rand.Next(sbyte.MaxValue);
 		}
 
@@ -146,9 +146,9 @@ namespace NuovaGM.Shared
 		public static sbyte NextSByte(this Random rand, sbyte maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (maxValue < 0)
-				throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, $"'{nameof(maxValue)}' must be greater than 0.");
+				throw new MinMaggioreDiMax();
 			return (sbyte)rand.Next(maxValue);
 		}
 
@@ -162,9 +162,9 @@ namespace NuovaGM.Shared
 		public static sbyte NextSByte(this Random rand, sbyte minValue, sbyte maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (sbyte)rand.Next(minValue, maxValue);
 		}
 
@@ -176,7 +176,7 @@ namespace NuovaGM.Shared
 		public static short NextShort(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (short)rand.Next(short.MaxValue);
 		}
 
@@ -189,9 +189,9 @@ namespace NuovaGM.Shared
 		public static short NextShort(this Random rand, short maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (maxValue < 0)
-				throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, $"'{nameof(maxValue)}' must be greater than 0.");
+				throw new MinMaggioreDiMax();
 			return (short)rand.Next(maxValue);
 		}
 
@@ -205,9 +205,9 @@ namespace NuovaGM.Shared
 		public static short NextShort(this Random rand, short minValue, short maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (short)rand.Next(minValue, maxValue);
 		}
 
@@ -219,7 +219,7 @@ namespace NuovaGM.Shared
 		public static ushort NextUShort(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (ushort)rand.Next(ushort.MaxValue);
 		}
 
@@ -232,7 +232,7 @@ namespace NuovaGM.Shared
 		public static ushort NextUShort(this Random rand, ushort maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			return (ushort)rand.Next(maxValue);
 		}
 
@@ -246,9 +246,9 @@ namespace NuovaGM.Shared
 		public static ushort NextUShort(this Random rand, ushort minValue, ushort maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			return (ushort)rand.Next(minValue, maxValue);
 		}
 
@@ -260,7 +260,7 @@ namespace NuovaGM.Shared
 		public static uint NextUInt(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			byte[] buffer = new byte[4];
 			rand.NextBytes(buffer);
 			return BitConverter.ToUInt32(buffer, 0);
@@ -287,9 +287,9 @@ namespace NuovaGM.Shared
 		public static uint NextUInt(this Random rand, uint minValue, uint maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			else if (minValue == maxValue)
 				return minValue;
 			uint range = maxValue - minValue;
@@ -322,7 +322,7 @@ namespace NuovaGM.Shared
 		public static long NextLong(this Random rand, long maxValue)
 		{
 			if (maxValue < 0)
-				throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, $"'{nameof(maxValue)}' must be greater than 0.");
+				throw new MinMaggioreDiMax();
 			return (long)rand.NextULong((ulong)maxValue);
 		}
 
@@ -336,9 +336,9 @@ namespace NuovaGM.Shared
 		public static long NextLong(this Random rand, long minValue, long maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
+				throw new MinMaggioreDiMax();
 			else if (minValue == maxValue)
 				return minValue;
 			ulong umin = minValue < 0 ?
@@ -361,7 +361,7 @@ namespace NuovaGM.Shared
 		public static ulong NextULong(this Random rand)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			byte[] buffer = new byte[8];
 			rand.NextBytes(buffer);
 			return BitConverter.ToUInt64(buffer, 0);
@@ -388,10 +388,10 @@ namespace NuovaGM.Shared
 		public static ulong NextULong(this Random rand, ulong minValue, ulong maxValue)
 		{
 			if (rand is null)
-				throw new ArgumentNullException(nameof(rand));
+				rand = new Random();
 			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
-			else if (minValue == maxValue)
+				throw new MinMaggioreDiMax();
+			/*else*/ if (minValue == maxValue)
 				return minValue;
 			ulong range = maxValue - minValue;
 			ulong bias = ulong.MaxValue - ulong.MaxValue % range;
@@ -587,4 +587,6 @@ namespace NuovaGM.Shared
 			return inside;
 		}
 	}
+
+	public class MinMaggioreDiMax : Exception { }
 }

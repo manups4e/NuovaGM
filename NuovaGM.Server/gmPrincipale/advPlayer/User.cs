@@ -28,7 +28,6 @@ namespace NuovaGM.Server.gmPrincipale
 		public Player p;
 		public User(Player player, dynamic result)
 		{
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(result));
 			identifiers.steam = License.GetLicense(player, Identifier.Steam);
 			identifiers.license = License.GetLicense(player, Identifier.License);
 			identifiers.discord = License.GetLicense(player, Identifier.Discord);
