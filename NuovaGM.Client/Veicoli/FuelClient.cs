@@ -474,7 +474,7 @@ namespace NuovaGM.Client.Veicoli
 				}
 				else if(Game.PlayerPed.IsInVehicle() && veh.Driver != Game.PlayerPed && modelValid(veh) && !veh.IsDead)
 				{
-					veh.FuelLevel = veh.HasDecor(DecorName)? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
 				}
 
