@@ -17,6 +17,8 @@ namespace NuovaGM.Client
 		{
 			foreach (var player in Client.Instance.GetPlayers)
 			{
+				if (!player.Character.HasDecor("PlayerStanziatoInIstanza"))
+					player.Character.SetDecor("PlayerStanziatoInIstanza", 0);
 				if (player.Character.HasDecor("PlayerStanziato"))
 				{
 					if (player.Character.GetDecor<bool>("PlayerStanziato") && player != Game.Player)
@@ -60,7 +62,7 @@ namespace NuovaGM.Client
 				if (player.Character.HasDecor("PlayerInPausa"))
 				{
 					if (player.Character.GetDecor<bool>("PlayerInPausa"))
-						HUD.DrawText3D(Game.PlayerPed.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+						HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 				}
 
 			}
