@@ -1346,7 +1346,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Go up the menu if the number of items is more than maximum items on screen.
 		/// </summary>
-		public void GoUpOverflow()
+		public async void GoUpOverflow()
 		{
 			if (Size <= MaxItemsOnScreen + 1) return;
 			if (_activeItem % MenuItems.Count <= _minItem)
@@ -1377,13 +1377,14 @@ namespace NuovaGM.Client.MenuNativo
 			}
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go up the menu if the number of items is less than or equal to the maximum items on screen.
 		/// </summary>
-		public void GoUp()
+		public async void GoUp()
 		{
 			if (Size > MaxItemsOnScreen + 1) return;
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
@@ -1391,13 +1392,14 @@ namespace NuovaGM.Client.MenuNativo
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go down the menu if the number of items is more than maximum items on screen.
 		/// </summary>
-		public void GoDownOverflow()
+		public async void GoDownOverflow()
 		{
 			if (Size <= MaxItemsOnScreen + 1) return;
 			if (_activeItem % MenuItems.Count >= _maxItem)
@@ -1427,13 +1429,14 @@ namespace NuovaGM.Client.MenuNativo
 			}
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go up the menu if the number of items is less than or equal to the maximum items on screen.
 		/// </summary>
-		public void GoDown()
+		public async void GoDown()
 		{
 			if (Size > MaxItemsOnScreen + 1) return;
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
@@ -1441,13 +1444,14 @@ namespace NuovaGM.Client.MenuNativo
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go left on a UIMenuListItem & UIMenuSliderItem.
 		/// </summary>
-		public void GoLeft()
+		public async void GoLeft()
 		{
 			if (!MenuItems[CurrentSelection].Enabled)
 			{
@@ -1493,6 +1497,7 @@ namespace NuovaGM.Client.MenuNativo
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 				ProgressChange(it, it.Index);
 			}
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
@@ -1500,7 +1505,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Go right on a UIMenuListItem & UIMenuSliderItem.
 		/// </summary>
-		public void GoRight()
+		public async void GoRight()
 		{
 			if (!MenuItems[CurrentSelection].Enabled)
 			{
@@ -1546,6 +1551,7 @@ namespace NuovaGM.Client.MenuNativo
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 				ProgressChange(it, it.Index);
 			}
+			await BaseScript.Delay(175); // a little delay to lower overflow
 		}
 
 
@@ -2133,9 +2139,7 @@ namespace NuovaGM.Client.MenuNativo
 			}
 
 			if (HasControlJustBeenReleaseed(MenuControls.Back, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-			{
 				GoBack();
-			}
 			if (MenuItems.Count == 0) return;
 			if (IsControlBeingPressed(MenuControls.Up, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 			{
@@ -2154,21 +2158,14 @@ namespace NuovaGM.Client.MenuNativo
 			}
 
 			else if (IsControlBeingPressed(MenuControls.Left, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-			{
 				GoLeft();
-			}
-
 			else if (IsControlBeingPressed(MenuControls.Right, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-			{
 				GoRight();
-			}
 
 			else if (HasControlJustBeenPressed(MenuControls.Select, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-			{
 				SelectItem();
-			}
+
 			UpdateScaleform();
-			await BaseScript.Delay(375); // a little delay to lower overflow
 		}
 
 		/// <summary>

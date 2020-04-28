@@ -633,15 +633,11 @@ namespace NuovaGM.Server.gmPrincipale
                     if (!allowSymbols && !ValidName(playerName)) { deferrals.done($"{messages["Symbols"]}"); return; }
 
                     if (sentLoading.ContainsKey(license))
-                    {
                         sentLoading.TryRemove(license, out Player oldPlayer);
-                    }
                     sentLoading.TryAdd(license, source);
 
                     if (Server_Priority.newwhitelist.Exists(k => k.License == license || k.Discord == discord))
-                    {
                         Server_Priority.AutoWhitelist(new PriorityAccount(license, discord, Server_Priority.newwhitelist.FirstOrDefault(k => k.License == license || k.Discord == discord).Priority));
-                    }
                     if (Server_Priority.accounts.Exists(k => k.License == license))
                     {
                         if (!priority.TryAdd(license, Server_Priority.accounts.FirstOrDefault(k => k.License == license).Priority))

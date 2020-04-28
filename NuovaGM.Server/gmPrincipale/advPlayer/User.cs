@@ -41,7 +41,6 @@ namespace NuovaGM.Server.gmPrincipale
 			playTime = result.playTime;
 			p = player;
 			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
-
 		}
 
 		[JsonIgnore]
