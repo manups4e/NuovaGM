@@ -74,26 +74,23 @@ namespace NuovaGM.Client
 			}
 
 			Type genericType = typeof(T);
-			Hash nativeMethod;
 
 			if (genericType == floatType)
 			{
-				nativeMethod = Hash._DECOR_GET_FLOAT;
+				return (T)(object)DecorGetFloat(entity.Handle, propertyName);
 			}
 			else if (genericType == intType)
 			{
-				nativeMethod = Hash.DECOR_GET_INT;
+				return (T)(object)DecorGetInt(entity.Handle, propertyName);
 			}
 			else if (genericType == boolType)
 			{
-				nativeMethod = Hash.DECOR_GET_BOOL;
+				return (T)(object)DecorGetBool(entity.Handle, propertyName);
 			}
 			else
 			{
 				throw new EntityDecorationUndefinedTypeException();
 			}
-
-			return (T)Function.Call<T>(nativeMethod, entity.NativeValue, propertyName);
 		}
 
 		public static T GetDecor<T>(this Entity ent, string propertyName)
