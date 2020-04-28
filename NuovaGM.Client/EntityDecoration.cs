@@ -67,9 +67,7 @@ namespace NuovaGM.Client
 		}
 
 		public static T GetDecor<T>(this Entity ent, string propertyName)
-		{
-			return Get<T>(ent, propertyName);
-		}
+			=> Get<T>(ent, propertyName);
 	}
 
 	public class EntityDecorationUnregisteredPropertyException : Exception { }
