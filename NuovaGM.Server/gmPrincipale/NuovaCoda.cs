@@ -625,7 +625,7 @@ namespace NuovaGM.Server.gmPrincipale
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Main.RuoloWhitelistato);
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, new List<string>() { "Admin", "Regina", "Tester", "Founder", "Fidanzata" });
                 await BaseScript.Delay(1000);
 
                 if (puoentrare)
@@ -651,9 +651,7 @@ namespace NuovaGM.Server.gmPrincipale
                         }
                     }
                     else
-                    {
                         RemoveFrom(license, false, false, false, true, false, false);
-                    }
 
                     if (session.TryAdd(license, SessionState.Coda))
                     {

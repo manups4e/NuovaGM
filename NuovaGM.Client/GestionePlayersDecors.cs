@@ -64,7 +64,6 @@ namespace NuovaGM.Client
 					if (player.Character.GetDecor<bool>("PlayerInPausa"))
 						HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 				}
-
 			}
 		}
 	}
