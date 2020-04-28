@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using CitizenFX.Core;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using Control = CitizenFX.Core.Control;
 
 namespace NuovaGM.Client.MenuNativo
@@ -144,7 +146,7 @@ namespace NuovaGM.Client.MenuNativo
         /// <summary>
         /// Processes all of your visible menus' controls.
         /// </summary>
-        public void ProcessControl()
+        public async Task ProcessControl()
         {
             /*foreach (var menu in _menuList.Where(menu => menu.Visible)) // foreach works slower with List. Also why make a new enumerable every tick
             {
@@ -155,7 +157,7 @@ namespace NuovaGM.Client.MenuNativo
             for (int i = 0; i < count; i++)
             {
                 if (_menuList[i].Visible)
-                    _menuList[i].ProcessControl();
+                  await _menuList[i].ProcessControl();
             }
         }
 
@@ -227,13 +229,17 @@ namespace NuovaGM.Client.MenuNativo
             return _menuList.Any(menu => menu.Visible);
         }
 
-
+        bool firstTick = true;
         /// <summary>
         /// Process all of your menus' functions. Call this in a tick event.
         /// </summary>
         public void ProcessMenus()
         {
-            ProcessControl();
+            if (firstTick)
+            {
+                Client.Instance.AddTick(ProcessControl);
+                firstTick = false;
+            }
             ProcessMouse();
             Draw();
         }

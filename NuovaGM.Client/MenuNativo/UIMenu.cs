@@ -1346,7 +1346,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Go up the menu if the number of items is more than maximum items on screen.
 		/// </summary>
-		public async void GoUpOverflow()
+		public async Task GoUpOverflow()
 		{
 			if (Size <= MaxItemsOnScreen + 1) return;
 			if (_activeItem % MenuItems.Count <= _minItem)
@@ -1377,14 +1377,14 @@ namespace NuovaGM.Client.MenuNativo
 			}
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go up the menu if the number of items is less than or equal to the maximum items on screen.
 		/// </summary>
-		public async void GoUp()
+		public async Task GoUp()
 		{
 			if (Size > MaxItemsOnScreen + 1) return;
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
@@ -1392,14 +1392,14 @@ namespace NuovaGM.Client.MenuNativo
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go down the menu if the number of items is more than maximum items on screen.
 		/// </summary>
-		public async void GoDownOverflow()
+		public async Task GoDownOverflow()
 		{
 			if (Size <= MaxItemsOnScreen + 1) return;
 			if (_activeItem % MenuItems.Count >= _maxItem)
@@ -1429,14 +1429,14 @@ namespace NuovaGM.Client.MenuNativo
 			}
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go up the menu if the number of items is less than or equal to the maximum items on screen.
 		/// </summary>
-		public async void GoDown()
+		public async Task GoDown()
 		{
 			if (Size > MaxItemsOnScreen + 1) return;
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
@@ -1444,14 +1444,14 @@ namespace NuovaGM.Client.MenuNativo
 			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
 			Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 			IndexChange(CurrentSelection);
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
 		/// <summary>
 		/// Go left on a UIMenuListItem & UIMenuSliderItem.
 		/// </summary>
-		public async void GoLeft()
+		public async Task GoLeft()
 		{
 			if (!MenuItems[CurrentSelection].Enabled)
 			{
@@ -1497,7 +1497,7 @@ namespace NuovaGM.Client.MenuNativo
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 				ProgressChange(it, it.Index);
 			}
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
@@ -1505,7 +1505,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Go right on a UIMenuListItem & UIMenuSliderItem.
 		/// </summary>
-		public async void GoRight()
+		public async Task GoRight()
 		{
 			if (!MenuItems[CurrentSelection].Enabled)
 			{
@@ -1551,7 +1551,7 @@ namespace NuovaGM.Client.MenuNativo
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 				ProgressChange(it, it.Index);
 			}
-			await BaseScript.Delay(175); // a little delay to lower overflow
+			await BaseScript.Delay(75); // a little delay to lower overflow
 		}
 
 
@@ -2129,7 +2129,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// <summary>
 		/// Process control-stroke. Call this in the OnTick event.
 		/// </summary>
-		public async void ProcessControl(Keys key = Keys.None)
+		public async Task ProcessControl(Keys key = Keys.None)
 		{
 			if (!Visible) return;
 			if (_justOpened)
@@ -2144,23 +2144,23 @@ namespace NuovaGM.Client.MenuNativo
 			if (IsControlBeingPressed(MenuControls.Up, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 			{
 				if (Size > MaxItemsOnScreen + 1)
-					GoUpOverflow();
+					await GoUpOverflow();
 				else
-					GoUp();
+					await GoUp();
 			}
 
 			else if (IsControlBeingPressed(MenuControls.Down, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 			{
 				if (Size > MaxItemsOnScreen + 1)
-					GoDownOverflow();
+					await GoDownOverflow();
 				else
-					GoDown();
+					await GoDown();
 			}
 
 			else if (IsControlBeingPressed(MenuControls.Left, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-				GoLeft();
+				await GoLeft();
 			else if (IsControlBeingPressed(MenuControls.Right, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-				GoRight();
+				await GoRight();
 
 			else if (HasControlJustBeenPressed(MenuControls.Select, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 				SelectItem();
