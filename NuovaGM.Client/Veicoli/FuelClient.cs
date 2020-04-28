@@ -472,8 +472,11 @@ namespace NuovaGM.Client.Veicoli
 						veh.IsDriveable = false;
 					}
 				}
-				else
+				else if(Game.PlayerPed.IsInVehicle() && veh.Driver != Game.PlayerPed && modelValid(veh) && !veh.IsDead)
+				{
+					veh.FuelLevel = veh.HasDecor(DecorName)? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
+				}
 
 				if (veh.Exists() || lastveh.Exists())
 				{
