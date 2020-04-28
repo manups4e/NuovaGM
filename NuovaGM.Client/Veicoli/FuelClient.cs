@@ -27,7 +27,7 @@ namespace NuovaGM.Client.Veicoli
 		public static float FuelTractionImpact;
 		public static float addedFuel = 0.0f;
 		public static int lastStation = 0;
-		public static readonly string DecorName = "lprp_fuel";
+		private static readonly string DecorName = "lprp_fuel";
 		public static Vehicle jobTruck = new Vehicle(0);
 		public static Vehicle jobTrailer = new Vehicle(0);
 		public static Vehicle lastVehicle = new Vehicle(0);
@@ -192,11 +192,10 @@ namespace NuovaGM.Client.Veicoli
 		public static void SetVehicleFuelLevel(this Vehicle veh, float fuel)
 		{
 			float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
-			if (fuel > maxfuel)
-				fuel = maxfuel;
+			if (fuel > maxfuel) fuel = maxfuel;
 
-			veh.FuelLevel = fuel;
 			veh.SetDecor(DecorName, fuel);
+			veh.FuelLevel = veh.GetDecor<float>(DecorName);
 		}
 
 		public static void AddFuelToVeh(bool success, string msg, int fuelval)
