@@ -34,6 +34,7 @@ namespace NuovaGM.Client
 			EntityDecoration.RegisterProperty("PlayerInCasa", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerInServizio", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
+			EntityDecoration.RegisterProperty("AdminSpecta", DecorationType.Int);
 
 
 			/* DECOR LOCK */

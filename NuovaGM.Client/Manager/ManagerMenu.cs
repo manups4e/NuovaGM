@@ -11,6 +11,7 @@ using NuovaGM.Client.gmPrincipale.Personaggio;
 using System.Drawing;
 using System.Linq;
 using NuovaGM.Shared;
+using System.Threading.Tasks;
 
 namespace NuovaGM.Client.Manager
 {
@@ -48,20 +49,24 @@ namespace NuovaGM.Client.Manager
 
 					UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
 					UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
-
+					UIMenuItem Specta = new UIMenuItem("Specta Player");
 					Giocatore.AddItem(Teletrasportami);
 					Giocatore.AddItem(Teletrasportalo);
+					Giocatore.AddItem(Specta);
 
 					Giocatore.OnItemSelect += async (menu, item, index) =>
 					{
 						Player p = new Player(GetPlayerFromServerId(player.Value.source));
 						if (item == Teletrasportami)
-						{
 							Game.PlayerPed.Position = p.Character.Position;
-						}
 						else if (item == Teletrasportalo)
-						{
 							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.PlayerPed.Position);
+						else if (item == Specta)
+						{
+							Game.PlayerPed.SetDecor("AdminSpecta", p.Handle);
+							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
+							NetworkSetInSpectatorMode(true, p.Character.Handle);
+							Client.Instance.AddTick(SpectatorMode);
 						}
 					};
 
@@ -538,6 +543,25 @@ namespace NuovaGM.Client.Manager
 				Oggetti.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
 			}
 			AdminMenu.Visible = true;
+		}
+
+		private static async Task SpectatorMode()
+		{
+			if (Game.PlayerPed.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
+			{
+				Game.DisableControlThisFrame(0, Control.Context);
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di spectare");
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					Player p = new Player(Game.PlayerPed.GetDecor<int>("AdminSpecta"));
+					NetworkSetInSpectatorMode(false, p.Character.Model);
+					Game.PlayerPed.SetDecor("AdminSpecta", 0);
+					Client.Instance.RemoveTick(SpectatorMode);
+				}
+			}
+			else
+				NetworkSetOverrideSpectatorMode(false);
+			await Task.FromResult(0);
 		}
 	}
 }
