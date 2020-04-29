@@ -230,7 +230,7 @@ namespace NuovaGM.Shared
 
 	public class Location
 	{
-		public Vector3 position = new Vector3();
+		public Vector3 position;
 		public float h { get; set; }
 	}
 

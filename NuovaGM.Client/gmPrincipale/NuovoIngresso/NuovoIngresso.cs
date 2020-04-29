@@ -13,6 +13,7 @@ using NuovaGM.Client.gmPrincipale.MenuGm;
 
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
+using Logger;
 
 namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 {
@@ -121,10 +122,12 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			await BaseScript.Delay(4000);
 			Game.PlayerPed.IsInvincible = false;
 			await BaseScript.Delay(1000);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot+1);
+			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
-			if (Data.location.position.X != 0.0 && Data.location.position.Y != 0.0 && Data.location.position.Z != 0.0)
+			Log.Printa(LogType.Debug, $"Slot = {Game.Player.GetPlayerData().char_current}, {Convert.ToInt32(data.slot) + 1}");
+			Log.Printa(LogType.Debug, $"CharData = {JsonConvert.SerializeObject(Data)}");
+			if (!Data.location.position.IsZero)
 			{
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
 				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, Data.location.position.Z + 1f);
