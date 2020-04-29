@@ -26,7 +26,7 @@ namespace NuovaGM.Server.gmPrincipale
 			["removeweapon"] = 2,
 			["setjob"] = 2,
 			["setgang"] = 2,
-			["revive"] = 2,
+			["revive"] = 0, // perché non esistono i medici
 			["tp"] = 2,
 			["tpalplayer"] = 2,
 			["jail"] = 2,
