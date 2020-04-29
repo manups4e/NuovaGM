@@ -63,6 +63,7 @@ namespace NuovaGM.Client.Manager
 							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.PlayerPed.Position);
 						else if (item == Specta)
 						{
+							if (p == Game.Player) return;
 							Game.PlayerPed.SetDecor("AdminSpecta", p.Handle);
 							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 							NetworkSetInSpectatorMode(true, p.Character.Handle);
