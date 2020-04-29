@@ -40,6 +40,7 @@ namespace NuovaGM.Server
 //			Coda.Init();
 			NuovaCoda.Init();
 			//DiscordWhitelist.Init();
+			ServerManager.Init();
 			BotDiscordHandler.Init();
 		}
 	}

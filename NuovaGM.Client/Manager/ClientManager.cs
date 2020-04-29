@@ -75,9 +75,14 @@ namespace NuovaGM.Client.Manager
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
+			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
 			Client.Instance.AddTick(AC);
 		}
 
+		private static void TippaDaMe(Vector3 coords)
+		{
+			Game.PlayerPed.Position = coords;
+		}
 
 		// SUGGERISCO 16384 (PERMETTE SOLO IL TASTO CONTINUA)
 		// 16392 (permette continua e indietro)
