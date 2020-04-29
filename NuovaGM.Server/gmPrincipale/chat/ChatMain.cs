@@ -31,8 +31,8 @@ namespace NuovaGM.Server.gmPrincipale
 			["tpalplayer"] = 2,
 			["jail"] = 2,
 			["unjail"] = 2,
-			["car"] = 2,
-			["dv"] = 2,
+			["car"] = 0, // perché non esistono le auto personali
+			["dv"] = 0, // perché non esistono le auto personali
 			["suicidati"] = 2,
 			["spawnped"] = 2,
 			["spawnobject"] = 2,
