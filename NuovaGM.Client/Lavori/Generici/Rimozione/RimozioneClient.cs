@@ -168,6 +168,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				if (TempoRimozione > 0)
 				{
 					VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(veicolo, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
+					while (VeicoloDaRimuovere == null) await BaseScript.Delay(0);
 					VeicoloDaRimuovere.IsPersistent = true;
 					VeicoloDaRimuovere.PlaceOnGround();
 					VeicoloDaRimuovere.PreviouslyOwnedByPlayer = true;
