@@ -201,8 +201,9 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void Dropped([FromSource] Player player, string reason)
 		{
-			string name = player.Name;
-			string handle = player.Handle;
+			Player p = player;
+			string name = p.Name;
+			string handle = p.Handle;
 			var now = DateTime.Now;
 			string text = name + " e' uscito.";
 			if (reason != "")
@@ -220,7 +221,7 @@ namespace NuovaGM.Server.gmPrincipale
 				Server.PlayerList.TryGetValue(handle, out ped);
 				if (ped.status.spawned)
 				{
-					await Funzioni.SalvaPersonaggio(player);
+					await Funzioni.SalvaPersonaggio(p);
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 				}
@@ -247,7 +248,7 @@ namespace NuovaGM.Server.gmPrincipale
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
-					Funzioni.SalvaPersonaggio(player);
+					await Funzioni.SalvaPersonaggio(player);
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord + ", tramite telefono");
 				}
