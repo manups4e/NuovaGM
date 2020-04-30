@@ -266,20 +266,14 @@ namespace NuovaGM.Server.gmPrincipale
 		public static void removeItemsDeath([FromSource] Player source)
 		{
 			var player = Funzioni.GetUserFromPlayerId(source.Handle);
-			List<Inventory> inventory = player.getCharInventory(player.char_current);
-			List<Weapons> weapons = player.getCharWeapons(player.char_current);
 			int money = player.Money;
 			int dirty = player.DirtyMoney;
 
-			for (int i = 0; i < inventory.Count; i++)
-			{
-				player.removeInventoryItem(inventory[i].item, inventory[i].amount);
-			}
+			foreach(var inv in player.CurrentChar.inventory)
+				player.removeInventoryItem(inv.item, inv.amount);
 
-			for (int i = 0; i < weapons.Count; i++)
-			{
-				player.removeWeapon(weapons[i].name);
-			}
+			foreach (var inv in player.CurrentChar.weapons)
+				player.removeWeapon(inv.name);
 
 			player.Money -= money;
 			player.DirtyMoney -= dirty;
