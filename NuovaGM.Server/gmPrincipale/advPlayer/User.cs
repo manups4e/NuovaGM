@@ -196,10 +196,10 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				checkedItem.amount -= amount;
 				if (checkedItem.amount <= 0)
-					CurrentChar.inventory.Remove(checkedItem);
+					CurrentChar.inventory.ToList().Remove(checkedItem);
 			}
 			else
-				CurrentChar.inventory.Remove(checkedItem);
+				CurrentChar.inventory.ToList().Remove(checkedItem);
 
 			p.TriggerEvent("lprp:ShowNotification", amount + " " + SharedScript.ItemList[item].label + " ti sono stati rimossi/e!");
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
@@ -238,7 +238,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
 			if (weapon != null)
-				CurrentChar.weapons.Remove(weapon);
+				CurrentChar.weapons.ToList().Remove(weapon);
 			p.TriggerEvent("lprp:removeWeapon", weaponName);
 			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 		}
