@@ -567,13 +567,14 @@ namespace NuovaGM.Client.Personale
 			#endregion
 
 			#region Lavoro
+			/*
 			UIMenu WorkMenu = pool.AddSubMenu(PersonalMenu, "Menu Lavoro", "Menu dei Lavori", pos);
 			for (int i = 0; i < 20; i++)
 			{
 				WorkMenu.AddItem(new UIMenuItem("Fregati!"));
 			}
 			#endregion
-
+			*/
 			#region animazioni e stile
 			List<dynamic> umori = new List<dynamic>() { "Determinato", "Triste", "Depresso", "Annoiato", "Impaziente", "Timido", "Lunatico", "Stressato", "Pigro" };
 			List<dynamic> attegg = new List<dynamic>() { "Fiero", "Cattivo", "Gangster", "Freddo", "Vuoto Dentro", "Borioso", "Perso", "Intimidatorio", "Ricco", "Aggressivo", "Imponente", "Esibizionista" };
