@@ -145,15 +145,15 @@ namespace NuovaGM.Client.gmPrincipale
 			Game.PlayerPed.Heading = charSelectCoords.W;
 			Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
 			Screen.Hud.IsRadarVisible = false;
+		}
+
+		public static async void onPlayerSpawn()
+		{
 			SetEnablePedEnveffScale(PlayerPedId(), true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
 			SetCanAttackFriendly(Game.PlayerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
-		}
-
-		public static async void onPlayerSpawn()
-		{
 			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
 			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
 			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
