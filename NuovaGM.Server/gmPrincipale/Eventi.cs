@@ -199,22 +199,42 @@ namespace NuovaGM.Server.gmPrincipale
 			source.TriggerEvent("lprp:createMissingPickups", JsonConvert.SerializeObject(PickupsServer.Pickups));
 		}
 
-		public static void Dropped([FromSource] Player player, string reason)
+		public static async void Dropped([FromSource] Player player, string reason)
 		{
+			string name = player.Name;
+			string handle = player.Handle;
 			var now = DateTime.Now;
-			string text = player.Name + " e' uscito.";
+			string text = name + " e' uscito.";
 			if (reason != "")
 			{
 				if (reason == "Timed out after 10 seconds.")
-					text = GetPlayerName(player.Handle) + " e' crashato.";
+					text = name + " e' crashato.";
 				else if (reason == "Disconnected." || reason == "Exited.")
-					text = player.Name + " si e' disconnesso.";
+					text = name + " si e' disconnesso.";
 				else
-					text = player.Name + " si e' disconnesso: " + reason;
+					text = name + " si e' disconnesso: " + reason;
+			}
+			if (Server.PlayerList.ContainsKey(handle))
+			{
+				User ped;
+				Server.PlayerList.TryGetValue(handle, out ped);
+				if (ped.status.spawned)
+				{
+					await Funzioni.SalvaPersonaggio(player);
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
+				}
+				else
+				{
+					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
+				}
+				Server.PlayerList.TryRemove(handle, out ped);
 			}
 			Log.Printa(LogType.Info, text);
 			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
 		}
 
 		public static async void SalvaPlayer([FromSource] Player player)

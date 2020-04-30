@@ -441,7 +441,7 @@ namespace NuovaGM.Server.gmPrincipale
                                     if (stateChangeMessages) 
                                     {
                                         var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-                                        Log.Printa(LogType.Info,$"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}"); 
+                                        Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}"); 
                                     }
                                 }
                             }

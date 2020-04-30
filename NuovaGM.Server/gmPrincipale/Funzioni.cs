@@ -284,9 +284,8 @@ namespace NuovaGM.Server.gmPrincipale
 			return "WT_INVALID";
 		}
 
-		public static async void SalvaPersonaggio(Player player)
+		public static async Task SalvaPersonaggio(Player player)
 		{
-			await BaseScript.Delay(0);
 			var ped = GetUserFromPlayerId(player.Handle);
 			await Server.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
 			{
@@ -298,6 +297,7 @@ namespace NuovaGM.Server.gmPrincipale
 				data = JsonConvert.SerializeObject(ped.char_data),
 				id = ped.identifiers.discord
 			});
+			await Task.FromResult(0);
 		}
 
 		public static async Task Salvataggio()
