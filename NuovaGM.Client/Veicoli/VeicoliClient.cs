@@ -634,8 +634,8 @@ namespace NuovaGM.Client.Veicoli
 		public static DateTime Affitto;
 		public static async Task AffittoInCorso()
 		{
-//			await BaseScript.Delay(1200000);
-			await BaseScript.Delay(10000);
+			await BaseScript.Delay(1200000);
+//			await BaseScript.Delay(10000);
 			if (MenuAffittoVeicoli.veicoloInAffitto != null)
 			{
 				if (Game.Player.GetPlayerData().Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
