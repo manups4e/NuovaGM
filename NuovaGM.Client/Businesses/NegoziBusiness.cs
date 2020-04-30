@@ -77,14 +77,14 @@ namespace NuovaGM.Client.Negozi
 					if (Game.Player.GetPlayerData().Money >= ogg.prezzo)
 					{
 						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
-						BaseScript.TriggerServerEvent("lprp:giveintentoryitem", ogg.oggetto);
+						BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
 					}
 					else
 					{
 						if (Game.Player.GetPlayerData().Bank >= ogg.prezzo)
 						{
 							BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
-							BaseScript.TriggerServerEvent("lprp:giveintentoryitem", ogg.oggetto);
+							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
 						}
 						else
 							HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
