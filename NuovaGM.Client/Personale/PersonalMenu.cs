@@ -573,8 +573,8 @@ namespace NuovaGM.Client.Personale
 			{
 				WorkMenu.AddItem(new UIMenuItem("Fregati!"));
 			}
-			#endregion
 			*/
+			#endregion
 			#region animazioni e stile
 			List<dynamic> umori = new List<dynamic>() { "Determinato", "Triste", "Depresso", "Annoiato", "Impaziente", "Timido", "Lunatico", "Stressato", "Pigro" };
 			List<dynamic> attegg = new List<dynamic>() { "Fiero", "Cattivo", "Gangster", "Freddo", "Vuoto Dentro", "Borioso", "Perso", "Intimidatorio", "Ricco", "Aggressivo", "Imponente", "Esibizionista" };
