@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
@@ -26,7 +27,10 @@ namespace NuovaGM.Server.Veicoli
 
 		private static void AggiornaGradient([FromSource] Player player, int gradient)
 		{
-			BaseScript.TriggerClientEvent("lprp:ruotapanoramica:aggiornaGradient", gradient);
+			if (Server.Instance.GetPlayers.ToList().OrderBy(x => x.Handle).FirstOrDefault() == player)
+			{
+				BaseScript.TriggerClientEvent("lprp:ruotapanoramica:aggiornaGradient", gradient);
+			}
 		}
 
 		public static void SyncFunivia([FromSource] Player p, int index, string state)
@@ -36,12 +40,18 @@ namespace NuovaGM.Server.Veicoli
 
 		public static void SyncRuotaPan([FromSource] Player p, string state, int Player)
 		{
-			BaseScript.TriggerClientEvent("lprp:ruotapanoramica:forceState", state);
+			if (Server.Instance.GetPlayers.ToList().OrderBy(x => x.Handle).FirstOrDefault() == p)
+			{
+				BaseScript.TriggerClientEvent("lprp:ruotapanoramica:forceState", state);
+			}
 		}
 
 		public static void SyncMontagne([FromSource] Player p, string state)
 		{
-			BaseScript.TriggerClientEvent("lprp:montagnerusse:forceState", state);
+			if(Server.Instance.GetPlayers.ToList().OrderBy(x => x.Handle).FirstOrDefault() == p)
+			{
+				BaseScript.TriggerClientEvent("lprp:montagnerusse:forceState", state);
+			}
 		}
 
 		public static void AggiornaCabine(int cabina, int player) => BaseScript.TriggerClientEvent("lprp:ruotapanoramica:aggiornaCabine", cabina, player);

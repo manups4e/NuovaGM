@@ -89,7 +89,7 @@ namespace NuovaGM.Client.Giostre
 		private static async Task SpawnaMontagne()
 		{
 			func_191();
-			Client.Instance.AddTick(ControlloMontagne);
+			//Client.Instance.AddTick(ControlloMontagne);
 			await Task.FromResult(0);
 		}
 

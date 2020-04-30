@@ -117,7 +117,7 @@ namespace NuovaGM.Client.Giostre
 			RequestScriptAudioBank("THE_FERRIS_WHALE_SOUNDSET", false);
 			await SpawnaRuota();
 			Client.Instance.AddTick(MuoviRuota);
-			Client.Instance.AddTick(ControlloPlayer);
+			//Client.Instance.AddTick(ControlloPlayer);
 		}
 
 		private static async Task MuoviRuota()
@@ -151,8 +151,7 @@ namespace NuovaGM.Client.Giostre
 					if (Math.Abs(Ruota.Rotazione - cab.Gradient) < 0.05f)
 					{
 						Ruota.Gradient = cab.Index + 1 > 15 ? 0 : cab.Index + 1;
-						if (Client.Instance.GetPlayers.ToList().OrderBy(x => x.ServerId).FirstOrDefault() == Game.Player)
-							BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
+						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
 						switch (Ruota.State)
 						{
 							case "FACCIO_SALIRE":
