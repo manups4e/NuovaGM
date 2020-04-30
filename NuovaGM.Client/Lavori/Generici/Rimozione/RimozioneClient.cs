@@ -97,6 +97,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						HUD.ShowHelp("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!");
 					if (dist > 80)
 					{
+						if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo))
+							HUD.TimerBarPool.Remove(timerVeicolo);
 						HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
 						Game.Player.GetPlayerData().CurrentChar.job.name = "Disoccupato";
 						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
@@ -254,6 +256,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
 				{
 					HUD.TimerBarPool.Remove(timerVeicolo);
+					timerVeicolo = null;
 					HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", NotificationColor.Red, true);
 					if (VeicoloDaRimuovere != null)
 					{
