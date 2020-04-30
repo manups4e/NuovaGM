@@ -65,6 +65,7 @@ namespace NuovaGM.Client
 			TickGenerici.Add(PersonalMenu.attiva);
 			TickGenerici.Add(Main.Recoil);
 			TickGenerici.Add(FuelClient.FuelCount);
+			TickGenerici.Add(FuelClient.FuelTruck);
 
 
 			// TICK A PIEDI \\
@@ -96,7 +97,6 @@ namespace NuovaGM.Client
 			TickVeicolo.Add(Prostitute.ControlloProstitute);
 			TickVeicolo.Add(EffettiRuote.ControlloRuote);
 			TickVeicolo.Add(EffettiRuote.WheelGlow);
-			TickVeicolo.Add(FuelClient.FuelTruck);
 
 			// TICK APPARTAMENTO \\
 			TickAppartamento.Add(DivaniEPosizioniSedute.DivaniCasa);
