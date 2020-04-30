@@ -9,6 +9,7 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using Logger;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -24,7 +25,6 @@ namespace NuovaGM.Client.Interactions
 		public static async void Init()
 		{
 			RequestAnimDict("mp_bedmid");
-			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(1);
 		}
 
 		public static async Task Letto()
@@ -212,6 +212,10 @@ namespace NuovaGM.Client.Interactions
 				SetSynchronizedSceneLooped(uLocal_332, true);
 				ALetto = true;
 			}
+			else
+			{
+				HUD.ShowNotification("errore nello script letti\"LettoMid\", segnalalo allo scripter", NotificationColor.Red, true);
+			}
 		}
 
 		public override async void ScendiDalLetto()
@@ -277,6 +281,10 @@ namespace NuovaGM.Client.Interactions
 				SetSynchronizedSceneLooped(uLocal_331, true);
 				ALetto = true;
 
+			}
+			else
+			{
+				HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", NotificationColor.Red, true);
 			}
 		}
 
