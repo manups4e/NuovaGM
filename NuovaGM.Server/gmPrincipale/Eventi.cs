@@ -31,9 +31,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:removemoney", new Action<Player, int>(RemoveMoney));
 			Server.Instance.AddEventHandler("lprp:givebank", new Action<Player, int>(GiveBank));
 			Server.Instance.AddEventHandler("lprp:removebank", new Action<Player, int>(RemoveBank));
-			Server.Instance.AddEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
 			Server.Instance.AddEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
-			Server.Instance.AddEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
 			Server.Instance.AddEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
 			Server.Instance.AddEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
 			Server.Instance.AddEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));

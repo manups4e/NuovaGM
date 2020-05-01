@@ -25,11 +25,18 @@ namespace NuovaGM.Server
 		}
 
 		/// <summary>
-		/// registra un evento client (TriggerEvent)
+		/// registra un evento (TriggerEvent)
 		/// </summary>
 		/// <param name="name">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
 		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
+
+		/// <summary>
+		/// registra un evento (TriggerEvent)
+		/// </summary>
+		/// <param name="name">Nome evento</param>
+		/// <param name="action">Azione legata all'evento</param>
+		public void DeAddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
 
 		/// <summary>
 		/// Chiama il db ed esegue una Query con risultato dynamic
