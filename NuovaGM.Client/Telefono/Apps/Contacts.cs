@@ -160,13 +160,9 @@ namespace NuovaGM.Client.Telefono.Apps
 				}
 			}
 			else
-			{
 				navigated = false;
-			}
 			if (navigated)
-			{
 				Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
-			}
 			await Task.FromResult(0);
 		}
 

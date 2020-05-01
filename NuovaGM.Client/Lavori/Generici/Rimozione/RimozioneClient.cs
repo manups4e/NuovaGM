@@ -129,7 +129,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 
 		public static async Task LavoroRimozioneForzata()
 		{
-			await BaseScript.Delay(0);
 			if (VeicoloDaRimuovere == null)
 			{
 				await BaseScript.Delay(10000);

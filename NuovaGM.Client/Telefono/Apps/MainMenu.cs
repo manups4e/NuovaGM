@@ -27,24 +27,15 @@ namespace NuovaGM.Client.Telefono.Apps
             try
             {
                 if (Phone.Scaleform == null || AllApps == null)
-                {
                     return;
-                }
 
                 for (int i = 0; i < 9; i++)
                 {
                     var thirdParam = 3;
-
                     if (i < AllApps.Count)
-                    {
                         if (AllApps[i].Icon != 0)
-                        {
                             thirdParam = AllApps[i].Icon;
-                        }
-                    }
-
                     Phone.Scaleform.CallFunction("SET_DATA_SLOT", 1, i, thirdParam);
-
                 }
 
                 Phone.Scaleform.CallFunction("DISPLAY_VIEW", 1, SelectedItem);
@@ -52,12 +43,8 @@ namespace NuovaGM.Client.Telefono.Apps
 
                 var appName = "";
                 if (SelectedItem < AllApps.Count)
-                {
                     if (!String.IsNullOrEmpty(AllApps[SelectedItem].Name))
-                    {
                         appName = AllApps[SelectedItem].Name;
-                    }
-                }
 
                 Phone.Scaleform.CallFunction("SET_HEADER", appName);
 
@@ -106,8 +93,6 @@ namespace NuovaGM.Client.Telefono.Apps
             {
                 Log.Printa(LogType.Error, $"{e.Message} : Exception thrown on Apps.Main.Tick()");
             }
-
-            await Task.FromResult(0);
         }
 
         public override void Initialize(Phone phone)

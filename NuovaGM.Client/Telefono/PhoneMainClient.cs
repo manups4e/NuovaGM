@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.MenuGm;
-using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using CitizenFX.Core.Native;
-using Newtonsoft.Json.Linq;
 using Logger;
 
 namespace NuovaGM.Client.Telefono
@@ -37,18 +29,18 @@ namespace NuovaGM.Client.Telefono
 			Client.Instance.AddEventHandler("lprp:phone_start", new Action<string>(StartApp));
 		}
 
-		private static async void Setup(string JsonTelefono) 
+		private static void Setup(string JsonTelefono) 
 		{
 			if (JsonTelefono != "{\"phone_data\":[]}")
 				Phone = new Phone(JsonConvert.DeserializeObject<Phone>(JsonTelefono));
 			else
 				Phone = new Phone();
-			Client.Instance.AddTick(ControlloApertura);
+			//Client.Instance.AddTick(ControlloApertura);
 		}
 
 		public static async Task ControlloApertura()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen() && !Game.IsPaused && !Banking.BankingClient.InterfacciaAperta && !Game.Player.IsAiming && (!Game.PlayerPed.IsAiming || !Game.PlayerPed.IsAimingFromCover))
+			if (!HUD.MenuPool.IsAnyMenuOpen() && !Game.IsPaused && !Banking.BankingClient.InterfacciaAperta && !(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover))
 			{
 				if (!Phone.Visible)
 				{
@@ -58,13 +50,16 @@ namespace NuovaGM.Client.Telefono
 				else
 				{
 					if (Phone.currentApp == null) { return; }
+					if (Input.IsControlJustPressed(Control.PhoneCancel))
+					{
+						if (Phone.IsBackOverriddenByApp)
+							Phone.IsBackOverriddenByApp = false;
+						else
+							KillApp();
+					}
 					if (IsPedRunningMobilePhoneTask(Game.PlayerPed.Handle))
 					{
 						Game.DisableControlThisFrame(0, Control.Sprint);
-
-						SetMobilePhonePosition(60f, -21f - Phone.VisibleAnimProgress, -60f);
-						if(Phone.currentApp.Name != "Messaggi")
-							SetMobilePhoneRotation(-90f, Phone.VisibleAnimProgress * 2f, 0f, 0);
 
 						if (Phone.VisibleAnimProgress > 0)
 							Phone.VisibleAnimProgress -= 3;
@@ -79,7 +74,6 @@ namespace NuovaGM.Client.Telefono
 						var playerPos = Game.PlayerPed.Position;
 						Phone.Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
-
 						if (GetFollowPedCamViewMode() == 4)
 							Phone.Scale = 0f;
 						else
@@ -90,36 +84,27 @@ namespace NuovaGM.Client.Telefono
 						SetTextRenderId(renderId);
 						DrawScaleformMovie(Phone.Scaleform.Handle, 0.0998f, 0.1775f, 0.1983f, 0.364f, 255, 255, 255, 255, 0);
 						SetTextRenderId(1);
-						if (Phone.currentApp.OverrideBack)
+						if (Phone.currentApp != null)
 						{
-							Phone.IsBackOverriddenByApp = true;
-						}
-						else
-						{
-							Phone.IsBackOverriddenByApp = false;
-						}
-
-						if (Input.IsControlJustPressed(Control.PhoneCancel))
-						{
-							if (Phone.IsBackOverriddenByApp)
-							{
-								Phone.IsBackOverriddenByApp = false;
-							}
+							if (Phone.currentApp.OverrideBack)
+								Phone.IsBackOverriddenByApp = true;
 							else
-							{
-								await KillApp();
-							}
+								Phone.IsBackOverriddenByApp = false;
+							if (Phone.currentApp.Name != "Messaggi")
+								SetMobilePhoneRotation(-90f, Phone.VisibleAnimProgress * 2f, 0f, 0);
+							else
+								SetMobilePhonePosition(60f, -21f - Phone.VisibleAnimProgress, -60f);
 						}
 					}
 				}
 			}	
 		}
 
-		public static async void StartApp(string app)
+		public static void StartApp(string app)
 		{
 			if (app == "Main")
 			{
-				await KillApp();
+				KillApp();
 				if (Phone.currentApp != null)
 				{
 					Phone.currentApp.Kill();
@@ -139,7 +124,7 @@ namespace NuovaGM.Client.Telefono
 			Log.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
 		}
 
-		public static async Task KillApp()
+		public static void KillApp()
 		{
 			if (Phone.currentApp != null)
 			{
@@ -165,8 +150,6 @@ namespace NuovaGM.Client.Telefono
 					StartApp("Main");
 				}
 			}
-
-			await Task.FromResult(0);
 		}
 
 	}

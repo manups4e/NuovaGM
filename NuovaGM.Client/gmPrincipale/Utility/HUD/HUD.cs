@@ -201,14 +201,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
         };
         */
 
-			/// <summary>
-			/// Attiva l'attesa di inserimento testo da parte del giocatore
-			/// </summary>
-			/// <param name="windowTitle">Titolo della finestra</param>
-			/// <param name="defaultText">Test di default se c'è</param>
-			/// <param name="maxLength">Lunghezza dell'input</param>
-			/// <returns></returns>
-			public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
+		/// <summary>
+		/// Attiva l'attesa di inserimento testo da parte del giocatore
+		/// </summary>
+		/// <param name="windowTitle">Titolo della finestra</param>
+		/// <param name="defaultText">Test di default se c'è</param>
+		/// <param name="maxLength">Lunghezza dell'input</param>
+		/// <returns></returns>
+		public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
 		{
 			ClearKeyboard(windowTitle, defaultText, maxLength);
 			while (UpdateOnscreenKeyboard() == 0)
