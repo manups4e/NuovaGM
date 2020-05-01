@@ -493,7 +493,8 @@ namespace NuovaGM.Server.gmPrincipale
                     {
                         Player player = Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
                         if (player == null)
-                        { sentLoading.TryGetValue(j.Key, out player); }
+                            sentLoading.TryGetValue(j.Key, out player);
+
                         if (!priority.TryGetValue(j.Key, out int oldPriority)) { oldPriority = 0; }
                         if (!reserved.TryGetValue(j.Key, out Reserved oldReserved)) { oldReserved = Reserved.Public; }
                         if (!slotTaken.TryGetValue(j.Key, out Reserved oldSlot)) { oldSlot = Reserved.Public; }
