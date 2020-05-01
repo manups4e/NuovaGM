@@ -166,6 +166,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			BaseScript.TriggerEvent("lprp:fineConteggio");
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
+			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
 			Screen.Fading.FadeIn(800);
 		}
 

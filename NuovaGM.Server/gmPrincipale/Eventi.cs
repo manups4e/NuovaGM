@@ -268,10 +268,10 @@ namespace NuovaGM.Server.gmPrincipale
 			int money = player.Money;
 			int dirty = player.DirtyMoney;
 
-			foreach(var inv in player.CurrentChar.inventory)
+			foreach(var inv in player.CurrentChar.inventory.ToList())
 				player.removeInventoryItem(inv.item, inv.amount);
 
-			foreach (var inv in player.CurrentChar.weapons)
+			foreach (var inv in player.CurrentChar.weapons.ToList())
 				player.removeWeapon(inv.name);
 
 			player.Money -= money;

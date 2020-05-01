@@ -177,6 +177,7 @@ namespace NuovaGM.Client.gmPrincipale
 				var now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Game.Player.GetPlayerData().FullName + " e' spawnato morto poiché è sloggato da morto");
 				Game.PlayerPed.Health = -100;
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
 			}
 			Peds();
 			for (int i = 0; i < tipi.Count; i++)

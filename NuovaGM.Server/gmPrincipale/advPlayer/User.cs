@@ -196,7 +196,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				checkedItem.amount -= amount;
 				if (checkedItem.amount <= 0)
-					CurrentChar.inventory.ToList().Remove(checkedItem);
+					CurrentChar.inventory.Remove(checkedItem);
 			}
 			else
 				CurrentChar.inventory.ToList().Remove(checkedItem);
@@ -236,11 +236,14 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public void removeWeapon(string weaponName)
 		{
-			Weapons weapon = getWeapon(weaponName).Item2;
-			if (weapon != null)
-				CurrentChar.weapons.ToList().Remove(weapon);
-			p.TriggerEvent("lprp:removeWeapon", weaponName);
-			p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
+			Log.Printa(LogType.Debug, "index = " + getWeapon(weaponName).Item1);
+			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(getWeapon(weaponName).Item2));
+			if (hasWeapon(weaponName))
+			{
+				CurrentChar.weapons.Remove(getWeapon(weaponName).Item2);
+				p.TriggerEvent("lprp:removeWeapon", weaponName);
+				p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
+			}
 		}
 
 		public void addWeaponComponent(string weaponName, string weaponComponent)
@@ -306,10 +309,11 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
-			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-				if (CurrentChar.weapons[i].name == weaponName)
-					return new Tuple<int, Weapons>(i, CurrentChar.weapons[i]);
-			return new Tuple<int, Weapons>(0, null);
+			var weapon = CurrentChar.weapons.FirstOrDefault(x => x.name == weaponName);
+			if(weapon != null)
+				return new Tuple<int, Weapons>(CurrentChar.weapons.IndexOf(weapon), weapon);
+			else
+				return new Tuple<int, Weapons>(0, null);
 		}
 
 		public bool hasWeaponTint(string weaponName, int tint)
