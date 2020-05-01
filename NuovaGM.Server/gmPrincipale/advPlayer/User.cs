@@ -13,6 +13,7 @@ namespace NuovaGM.Server.gmPrincipale
 {
 	public class User
 	{
+		[JsonIgnore]
 		public string source;
 		public string group;
 		public int group_level;
@@ -22,7 +23,6 @@ namespace NuovaGM.Server.gmPrincipale
 		public Identifiers identifiers = new Identifiers();
 		public Status status = new Status();
 		public List<Char_data> char_data = new List<Char_data>();
-		public JContainer data;
 		public User() { }
 		[JsonIgnore]
 		public Player p;
@@ -40,6 +40,18 @@ namespace NuovaGM.Server.gmPrincipale
 			group_level = result.group_level;
 			playTime = result.playTime;
 			p = player;
+			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
+		}
+
+		public User(dynamic result)
+		{
+			lastConnection = DateTime.Now;
+			//source = player.Handle;
+			char_current = result.char_current;
+			group = result.group;
+			group_level = result.group_level;
+			playTime = result.playTime;
+			//p = player;
 			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
 		}
 

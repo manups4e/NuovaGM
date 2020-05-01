@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using NuovaGM.Server.Interactions;
 using NuovaGM.Shared;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace NuovaGM.Server.gmPrincipale
 	static class Eventi
 	{
 		static int EarlyRespawnFineAmount = 5000;
+		static NetworkMethod<ConcurrentDictionary<string, User>> getPlayersOnline;
+		static NetworkMethod<ConcurrentDictionary<string, User>> getPlayersFromDB;
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
@@ -43,8 +46,6 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:removeItemsDeath", new Action<Player>(removeItemsDeath));
 			Server.Instance.AddEventHandler("lprp:serverlog", new Action<string>(ServerLog));
 			Server.Instance.AddEventHandler("lprp:salvaPlayer", new Action<Player>(SalvaPlayer));
-			Server.Instance.AddEventHandler("lprp:getPlayers", new Action<NetworkCallbackDelegate>(GetPlayers));
-			Server.Instance.AddEventHandler("lprp:getDBPlayers", new Action<NetworkCallbackDelegate>(GetDBPlayers));
 			Server.Instance.AddEventHandler("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
 			Server.Instance.AddEventHandler("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
 			Server.Instance.AddEventHandler("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
@@ -67,7 +68,40 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
+
+			getPlayersOnline = new NetworkMethod<ConcurrentDictionary<string, User>>("ChiamaPlayersOnline", GetPlayersOnline);
+			getPlayersFromDB = new NetworkMethod<ConcurrentDictionary<string, User>>("ChiamaPlayersDB", GetPlayersFromDB);
 		}
+
+		private static void GetPlayersOnline(Player player, ConcurrentDictionary<string, User> unused)
+		{
+			getPlayersOnline.Invoke(player, Server.PlayerList);
+		}
+
+		private static async void GetPlayersFromDB(Player player, ConcurrentDictionary<string, User> unused)
+		{
+			try
+			{
+				dynamic result = await Server.Instance.Query($"SELECT * FROM users");
+				ConcurrentDictionary<string, User> personaggi = new ConcurrentDictionary<string, User>();
+				for (int i = 0; i < result.Count; i++)
+				{
+					Log.Printa(LogType.Debug, "" + result[i].char_data);
+					if (result[i].char_data != "[]")
+					{
+						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
+					}
+				}
+
+				getPlayersFromDB.Invoke(player, personaggi);
+			}
+			catch(Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+			}
+
+		}
+
 
 		public static void FinishChar([FromSource] Player p, string data)
 		{
@@ -351,18 +385,6 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Funzioni.GetUserFromPlayerId(source.Handle).addWeaponTint(weaponName, tint);
 		}
-
-		public static void GetPlayers(NetworkCallbackDelegate CB)
-		{
-			CB.Invoke(JsonConvert.SerializeObject(Server.PlayerList));
-		}
-
-		public static async void GetDBPlayers(NetworkCallbackDelegate CB)
-		{
-			dynamic result = await Server.Instance.Query($"SELECT * FROM users");
-			CB.Invoke(JsonConvert.SerializeObject(result));
-		}
-
 
 		public static void GiveMoneyToChar(string target, int charId, int amount)
 		{

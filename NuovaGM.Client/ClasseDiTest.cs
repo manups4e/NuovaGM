@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
+using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -16,10 +18,10 @@ namespace NuovaGM.Client
 {
 	static class ClasseDiTest
 	{
+		static NetworkMethod<Dictionary<string, PlayerChar>> chiamaPlayers;
 		public static void Init()
 		{
 			Client.Instance.AddTick(MenuMessaggi);
-			Client.Instance.AddCommand("participants", new Action<int, List<dynamic>, string>(partecipanti));
 		}
 
 		private static async void AttivaMenu()
@@ -65,26 +67,6 @@ namespace NuovaGM.Client
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 				AttivaMenu();
-		}
-
-		private static void partecipanti(int source, List<dynamic> args, string rawcommand)
-		{
-			Log.Printa(LogType.Debug, "NumParticipants = " + NetworkGetNumParticipants());
-			Log.Printa(LogType.Debug, "ParticipantId = " + ParticipantId());
-			Log.Printa(LogType.Debug, $"sono io host? = {NetworkIsHost()} ");
-			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerStanziato") ? $"decor PlayerStanziato = {Game.PlayerPed.GetDecor<bool>("PlayerStanziato")} " : "decor PlayerStanziato NON settato");
-			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerStanziatoInIstanza") ? $"decor PlayerStanziatoInIstanza = {Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza")} " : "decor PlayerStanziatoInIstanza NON settato");
-			Log.Printa(LogType.Debug, Game.PlayerPed.HasDecor("PlayerInPausa") ? $"decor PlayerInPausa = {Game.PlayerPed.GetDecor<bool>("PlayerInPausa")} " : "decor PlayerInPausa NON settato");
-			Debug.WriteLine();
-
-			foreach (var player in Client.Instance.GetPlayers)
-			{
-				Log.Printa(LogType.Debug, $"Nome = {player.Name}, PlayerId = {player.Handle}, IsPlayerAParticipant = {NetworkIsPlayerAParticipant(IntToParticipantindex(player.Handle))}");
-				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerStanziato") ? $"decor PlayerStanziato = {player.Character.GetDecor<bool>("PlayerStanziato")} " : "decor PlayerStanziato NON settato");
-				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerStanziatoInIstanza") ? $"decor PlayerStanziatoInIstanza = {player.Character.GetDecor<int>("PlayerStanziatoInIstanza")} " : "decor PlayerStanziatoInIstanza NON settato");
-				Log.Printa(LogType.Debug, player.Character.HasDecor("PlayerInPausa") ? $"decor PlayerInPausa = {player.Character.GetDecor<bool>("PlayerInPausa")} " : "decor PlayerInPausa NON settato");
-				Debug.WriteLine();
-			}
 		}
 	}
 }

@@ -16,6 +16,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 {
 	static class Funzioni
 	{
+		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersOnline;
+		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersFromDB;
 		public static PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
@@ -834,14 +836,16 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
 		/// </summary>
 		/// <returns></returns>
-		public static Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
+		public static async Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
 		{
-			var personaggi = new TaskCompletionSource<Dictionary<string, PlayerChar>>();
-			BaseScript.TriggerServerEvent("lprp:getPlayers", new Action<object>((arg) =>
+			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
+			PlayersOnline = new NetworkMethod<Dictionary<string, PlayerChar>>("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((variable) =>
 			{
-				personaggi.SetResult(JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(arg as string));
+				players = variable;
 			}));
-			return personaggi.Task;
+			PlayersOnline.InvokeNoArgs();
+			while (players.Count == 0) await BaseScript.Delay(0);
+			return players;
 		}
 
 		/// <summary>
@@ -850,8 +854,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, PlayerChar>> GetAllPlayersAndTheirData()
 		{
-			Dictionary<string, PlayerChar> personaggi = new Dictionary<string, PlayerChar>();
-
+			/*
 			BaseScript.TriggerServerEvent("lprp:getDBPlayers", new Action<object>((arg) =>
 			{
 				dynamic parsedPlayers = JsonConvert.DeserializeObject(arg as string);
@@ -865,7 +868,15 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}));
 
 			while (JsonConvert.SerializeObject(personaggi) == "{}") await BaseScript.Delay(0);
-			return personaggi;
+			*/
+			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
+			PlayersFromDB = new NetworkMethod<Dictionary<string, PlayerChar>>("ChiamaPlayersDB", new Action<Dictionary<string, PlayerChar>>((variable) =>
+			{
+				players = variable;
+			}));
+			PlayersFromDB.InvokeNoArgs();
+			while (players.Count == 0) await BaseScript.Delay(0);
+			return players;
 		}
 
 		public static Vehicle[] GetVehiclesInArea(Vector3 Coords, float Radius)

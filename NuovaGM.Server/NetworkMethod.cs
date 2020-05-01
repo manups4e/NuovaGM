@@ -44,7 +44,7 @@ namespace NuovaGM.Server
         protected void InvokeInternal(Player target, params object[] args)
         {
             if (target != null)
-                BaseScript.TriggerClientEvent(target, "fm:S2C:" + EventName, args);
+                target.TriggerEvent("fm:S2C:" + EventName, args);
             else
                 BaseScript.TriggerClientEvent("fm:S2C:" + EventName, args);
         }
