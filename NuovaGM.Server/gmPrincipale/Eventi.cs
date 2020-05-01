@@ -85,14 +85,8 @@ namespace NuovaGM.Server.gmPrincipale
 				dynamic result = await Server.Instance.Query($"SELECT * FROM users");
 				ConcurrentDictionary<string, User> personaggi = new ConcurrentDictionary<string, User>();
 				for (int i = 0; i < result.Count; i++)
-				{
-					Log.Printa(LogType.Debug, "" + result[i].char_data);
 					if (result[i].char_data != "[]")
-					{
 						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
-					}
-				}
-
 				getPlayersFromDB.Invoke(player, personaggi);
 			}
 			catch(Exception e)
