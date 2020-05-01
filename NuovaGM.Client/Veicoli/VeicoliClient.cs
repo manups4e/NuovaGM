@@ -206,7 +206,7 @@ namespace NuovaGM.Client.Veicoli
 					{
 						if (!Game.IsPaused)
 						{
-							if (Input.IsControlJustPressed(Control.ReplayBack, PadCheck.Keyboard))
+							if (Input.IsControlJustPressed(Control.ReplayAdvance, PadCheck.Keyboard))
 							{
 								int cstate = state_indic[veh];
 								if (cstate == ind_state_l)
@@ -225,7 +225,7 @@ namespace NuovaGM.Client.Veicoli
 								count_ind_timer = 0;
 								count_bcast_timer = delay_bcast_timer;
 							}
-							else if (Input.IsControlJustPressed(Control.ReplayAdvance, PadCheck.Keyboard))
+							else if (Input.IsControlJustPressed(Control.ReplayBack, PadCheck.Keyboard))
 							{
 								int cstate = state_indic[veh];
 								if (cstate == ind_state_r)
