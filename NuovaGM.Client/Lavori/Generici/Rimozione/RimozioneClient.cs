@@ -23,6 +23,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		static Vector3 puntoDiDespawn;
 		static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
 		static int TempoRimozione;
+		static bool distwarn = false;
+
 		public static void Init()
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
@@ -90,39 +92,41 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			if (VeicoloLavorativo != null)
 			{
-				if (Game.PlayerPed.LastVehicle == VeicoloLavorativo)
-				{
-					float dist = World.GetDistance(Game.PlayerPed.Position, VeicoloLavorativo.Position);
-					if (dist > 48 && dist < 80)
-						HUD.ShowHelp("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!");
-					if (dist > 80)
+				float dist = World.GetDistance(Game.PlayerPed.Position, VeicoloLavorativo.Position);
+				if (dist > 48 && dist < 80)
+					if (!distwarn)
 					{
-						if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo))
-							HUD.TimerBarPool.Remove(timerVeicolo);
-						HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
-						Game.Player.GetPlayerData().CurrentChar.job.name = "Disoccupato";
-						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
-						VeicoloLavorativo.Delete();
-						VeicoloLavorativo = null;
-						if (BlipVeicoloDaRimuovere != null)
-						{
-							BlipVeicoloDaRimuovere.Delete();
-							BlipVeicoloDaRimuovere = null;
-						}
-						if (PuntoDiConsegna != null)
-						{
-							PuntoDiConsegna.Delete();
-							PuntoDiConsegna = null;
-						}
-						if (VeicoloDaRimuovere != null && VeicoloDaRimuovere.Exists())
-						{
-							VeicoloDaRimuovere.Delete();
-							VeicoloDaRimuovere = null;
-						}
-						Client.Instance.RemoveTick(LavoroRimozioneForzata);
-						Client.Instance.RemoveTick(ControlloRimozione);
-						Client.Instance.AddTick(InizioLavoro);
+						HUD.ShowHelp("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!");
+						distwarn = true;
 					}
+				if (dist > 80)
+				{
+					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo))
+						HUD.TimerBarPool.Remove(timerVeicolo);
+					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
+					Game.Player.GetPlayerData().CurrentChar.job.name = "Disoccupato";
+					Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
+					VeicoloLavorativo.Delete();
+					VeicoloLavorativo = null;
+					if (BlipVeicoloDaRimuovere != null)
+					{
+						BlipVeicoloDaRimuovere.Delete();
+						BlipVeicoloDaRimuovere = null;
+					}
+					if (PuntoDiConsegna != null)
+					{
+						PuntoDiConsegna.Delete();
+						PuntoDiConsegna = null;
+					}
+					if (VeicoloDaRimuovere != null && VeicoloDaRimuovere.Exists())
+					{
+						VeicoloDaRimuovere.Delete();
+						VeicoloDaRimuovere = null;
+					}
+					distwarn = false;
+					Client.Instance.RemoveTick(LavoroRimozioneForzata);
+					Client.Instance.RemoveTick(ControlloRimozione);
+					Client.Instance.AddTick(InizioLavoro);
 				}
 			}
 		}
