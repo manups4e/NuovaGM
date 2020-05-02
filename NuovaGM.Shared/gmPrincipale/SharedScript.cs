@@ -16,6 +16,9 @@ namespace NuovaGM.Shared
 
 		public static ConcurrentDictionary<string, Item> ItemList = new ConcurrentDictionary<string, Item>()
 		{
+			//Generici
+			["materassinoyoga"] = new Item("Materassino da yoga", "Namasté", 1f, 0, 0, ObjectHash.prop_yoga_mat_03, new Use("Piazza materassino", "", true), new Give("Dai materassino", "A chi vuoi tu!!", true), new Drop("Getta via materassino", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra materassino", "", true)),
+
 			["cannadapescabase"] = new Item("Una canna da pesca per principianti", "Ottima per iniziare", 1f, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca base", "Per i principianti", true)),
 			["cannadapescamedia"] = new Item("Una canna da pesca per intermedi", "Per pescatori mediamente bravi", 1f, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca intermedia", "Per i principianti", true)),
 			["cannadapescaavanzata"] = new Item("Una canna da pesca per avanzati", "Per pescatori avanzati", 1f, 100, 100, ObjectHash.prop_fishing_rod_01, new Use("Usa la canna da pesca", "Per pescare!", true), new Give("Dai una canna da pesca", "A chi vuoi tu!!", true), new Drop("Getta via la canna da pesca", "non ti serve piu?", true), new Sell("", "", false), new Buy("Compra una canna da pesca avanzata", "Per i principianti", true)),

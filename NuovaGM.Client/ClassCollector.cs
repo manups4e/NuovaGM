@@ -73,6 +73,8 @@ namespace NuovaGM.Client
 
 			DamageEvents.Init();
 
+			Sport.Yoga.Init();
+
 			Telefono.PhoneMainClient.Init();
 
 			ClasseDiTest.Init(); // da rimouvere
