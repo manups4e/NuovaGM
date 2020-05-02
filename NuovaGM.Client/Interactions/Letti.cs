@@ -27,14 +27,15 @@ namespace NuovaGM.Client.Interactions
 			RequestAnimDict("mp_bedmid");
 		}
 
-		public static async Task Letto()
+		public static async Task ControlloLetti()
 		{
+
 			if (!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_r_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
-					!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_r_bighouse", 2))
+				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_r_bighouse", 2))
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, LettoMid.vLocal_338) < 3f)
+				if (World.GetDistance(Game.PlayerPed.Position, LettoMid.vLocal_338) < 1.3f)
 				{
 					if (!LettoMid.ALetto)
 					{
@@ -48,10 +49,10 @@ namespace NuovaGM.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoMid.ScendiDalLetto();
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Cambia personaggio");
+							HUD.ShowNotification("Attualmente non implementato :D <3");
 					}
 				}
-				if (World.GetDistance(Game.PlayerPed.Position, LettoLow.vLocal_343) < 3f)
+				if (World.GetDistance(Game.PlayerPed.Position, LettoLow.vLocal_343) < 1.3f)
 				{
 					if (!LettoLow.ALetto)
 					{
@@ -65,7 +66,7 @@ namespace NuovaGM.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoLow.ScendiDalLetto();
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Cambia personaggio");
+							HUD.ShowNotification("Attualmente non implementato :D <3");
 					}
 				}
 
@@ -97,7 +98,7 @@ namespace NuovaGM.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoHigh.ScendiDalLetto(new Vector3[2] { coord, rot }, LettoHigh.ALettoDestra ? true : false);
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Cambia personaggio");
+							HUD.ShowNotification("Attualmente non implementato :D <3");
 					}
 				}
 			}
@@ -123,7 +124,7 @@ namespace NuovaGM.Client.Interactions
 				int i;
 				for (i = 0; i <= 7; i++)
 					if (!peds[i].IsInjured)
-						if (IsEntityInAngledArea(peds[i].Handle, n1.X, n1.Y, n1.Z, n2.X, n2.Y, n2.Z, 2f, false, true, 0))
+						if (IsEntityInAngledArea(peds[i].Handle, n1.X, n1.Y, n1.Z, n2.X, n2.Y, n2.Z, 2f, false, true, 0) && peds[i].Handle != Game.PlayerPed.Handle)
 							return false;
 			}
 			return true;
@@ -146,14 +147,16 @@ namespace NuovaGM.Client.Interactions
 				fParam6 = 0f;
 			if (!bParam7)
 			{
-				if (Absf(vParam0.X - vParam3.X) <= fParam6)
-					if (Absf(vParam0.Y - vParam3.Y) <= fParam6)
-						if (Absf(vParam0.Z - vParam3.Z) <= fParam6)
+				if (Math.Abs(vParam0.X - vParam3.X) <= fParam6)
+					if (Math.Abs(vParam0.Y - vParam3.Y) <= fParam6)
+						if (Math.Abs(vParam0.Z - vParam3.Z) <= fParam6)
 							return true;
 			}
-			else if (Absf(vParam0.X - vParam3.X) <= fParam6)
-				if (Absf(vParam0.Y - vParam3.Y) <= fParam6)
+			else if (Math.Abs(vParam0.X - vParam3.X) <= fParam6)
+			{
+				if (Math.Abs(vParam0.Y - vParam3.Y) <= fParam6)
 					return true;
+			}
 			return false;
 		}
 	}
@@ -269,7 +272,7 @@ namespace NuovaGM.Client.Interactions
 
 				await BaseScript.Delay(1000);
 
-				uLocal_331 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_331);
+				uLocal_331 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_330);
 
 				while (GetSynchronizedScenePhase(uLocal_331) < 0.9f) await BaseScript.Delay(1);
 
@@ -277,15 +280,12 @@ namespace NuovaGM.Client.Interactions
 				NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_330, sLocal_333, sLocal_335, 8f, -2f, 261, 0, 1148846080, 0);
 				NetworkStartSynchronisedScene(uLocal_330);
 
-				uLocal_331 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_331);
+				uLocal_331 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_330);
 				SetSynchronizedSceneLooped(uLocal_331, true);
 				ALetto = true;
-
 			}
 			else
-			{
 				HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", NotificationColor.Red, true);
-			}
 		}
 
 		public async void ScendiDalLetto()
@@ -300,7 +300,6 @@ namespace NuovaGM.Client.Interactions
 
 			ALetto = false;
 		}
-
 	}
 
 	internal class LettoHigh : LettoBase

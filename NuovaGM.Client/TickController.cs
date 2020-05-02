@@ -101,7 +101,7 @@ namespace NuovaGM.Client
 			TickAppartamento.Add(DivaniEPosizioniSedute.DivaniCasa);
 			TickAppartamento.Add(Docce.ControlloDocceVicino);
 			TickAppartamento.Add(Docce.Docceeee);
-			TickAppartamento.Add(Letti.Letto);
+			TickAppartamento.Add(Letti.ControlloLetti);
 
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
