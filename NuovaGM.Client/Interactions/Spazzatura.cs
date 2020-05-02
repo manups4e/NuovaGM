@@ -60,7 +60,7 @@ namespace NuovaGM.Client.Interactions
 			ObjectHash.v_serv_tc_bin3_,
 			ObjectHash.zprop_bin_01a_old
 		};
-		static float TrashRange = 0.8f;
+		static float TrashRange = 0.6f;
 		static Prop BinClosest;
 
 		public static async Task ControlloSpazzatura()
