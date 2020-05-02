@@ -73,7 +73,7 @@ namespace NuovaGM.Client
 
 			DamageEvents.Init();
 
-			Sport.Yoga.Init();
+			//Sport.Yoga.Init();
 
 			Telefono.PhoneMainClient.Init();
 

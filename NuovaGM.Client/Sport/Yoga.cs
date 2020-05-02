@@ -46,6 +46,7 @@ namespace NuovaGM.Client.Sport
 			RequestAnimDict(YogaAnim);
 			RequestAnimDict(YogaAnimUnknown);
 			RequestAnimDict("missfam5_yoga");
+			RequestAdditionalText("YOGA", 3);
 			//Materasso = new Prop(CreateObject(GetHashKey(MaterassoYoga), Coords.X, Coords.Y, Coords.Z, false, false, false));
 			Client.Instance.AddTick(Materassino);
 		}
@@ -69,6 +70,7 @@ namespace NuovaGM.Client.Sport
 				}
 			}
 		}
+
 		private static void func_351(int iParam1)
 		{
 			int uVar0 = 0;
