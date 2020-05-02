@@ -66,10 +66,10 @@ namespace NuovaGM.Client
 			TickGenerici.Add(Main.Recoil);
 			TickGenerici.Add(FuelClient.FuelCount);
 			TickGenerici.Add(FuelClient.FuelTruck);
+			TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
 
 			// TICK A PIEDI \\
 			TickAPiedi.Add(BankingClient.Markers);
-			TickAPiedi.Add(PompeDiBenzinaClient.BusinessesPumps);
 			TickAPiedi.Add(Death.Injuried);
 			TickAPiedi.Add(NegozioAbitiClient.OnTick);
 			TickAPiedi.Add(NegoziClient.OnTick);

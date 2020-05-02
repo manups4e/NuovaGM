@@ -17,7 +17,7 @@ namespace NuovaGM.Client.Businesses
 		static bool interactWait = false;
 		static List<GasStation> stations = new List<GasStation>();
 		static List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
-
+		static Scaleform info = new Scaleform("mp_mission_name_freemode");
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
@@ -190,33 +190,36 @@ namespace NuovaGM.Client.Businesses
 					World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(stations[i].ppos[0], stations[i].ppos[1], stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 					if (dist < 1.3f)
 					{
-						if (stationinfo.ownerchar.ToLower() == Game.Player.GetPlayerData().FullName.ToLower())
+						if (!Game.PlayerPed.IsInVehicle())
 						{
-							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
-							if (!interactWait)
+							if (stationinfo.ownerchar.ToLower() == Game.Player.GetPlayerData().FullName.ToLower())
 							{
-								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
+								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
+								if (!interactWait)
 								{
-									interactWait = true;
-									BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
+									if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
+									{
+										interactWait = true;
+										BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
+									}
 								}
 							}
-						}
-						else if (stationinfo.ownerchar == "")
-						{
-							HUD.ShowHelp("Questa stazione è in vendita a ~g~" + stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
-							if (!interactWait)
+							else if (stationinfo.ownerchar == "")
 							{
-								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
+								HUD.ShowHelp("Questa stazione è in vendita a ~g~" + stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
+								if (!interactWait)
 								{
-									interactWait = true;
-									BaseScript.TriggerServerEvent("lprp:businesses:purchasestation", i + 1);
+									if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
+									{
+										interactWait = true;
+										BaseScript.TriggerServerEvent("lprp:businesses:purchasestation", i + 1);
+									}
 								}
 							}
 						}
 					}
-					Scaleform info = new Scaleform("mp_mission_name_freemode");
-					while (!info.IsLoaded) await BaseScript.Delay(0);
+					info = new Scaleform("mp_mission_name_freemode");
+					while (!info.IsLoaded) await BaseScript.Delay(10);
 					if (stationinfo.ownerchar == null || stationinfo.ownerchar == "")
 						info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
 					else
