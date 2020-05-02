@@ -20,7 +20,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		static Blip BlipVeicoloDaRimuovere;
 		static Blip PuntoDiConsegna;
 		static Vector4 puntoDiSpawn;
-		static Vector3 puntoDiDespawn;
 		static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
 		static int TempoRimozione;
 		static bool distwarn = false;
