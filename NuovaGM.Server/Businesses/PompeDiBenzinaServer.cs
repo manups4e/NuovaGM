@@ -343,7 +343,7 @@ namespace NuovaGM.Server.Businesses
 						p.TriggerEvent("lprp:businesses:purchasestation", true, "", sidx, sellprice);
 					}
 					else
-						p.TriggerEvent("lprp:businesses:purchasestation", false, "Non hai abbastanza solti in banca per coprire il costo.");
+						p.TriggerEvent("lprp:businesses:purchasestation", false, "Non hai abbastanza soldi in banca per coprire il costo.");
 				}
 			}
 		}
