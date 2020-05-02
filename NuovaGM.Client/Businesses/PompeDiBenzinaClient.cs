@@ -124,8 +124,8 @@ namespace NuovaGM.Client.Businesses
 				a = new {setFunds = true, stationmoney = msg};
 			else
 			{
-				HUD.ShowNotification(msg);
-				a = new { setFunds = true, stationmoney = msg };
+				//HUD.ShowNotification(msg);
+				a = new { setStatus = true, text = msg };
 			}
 			Funzioni.SendNuiMessage(a);
 		}
@@ -139,8 +139,9 @@ namespace NuovaGM.Client.Businesses
 			int deltype = Convert.ToInt32(data.deltype);
 			string deliverylist = data.deliverylist;
 
-			Log.Printa(LogType.Debug, name);
-			Log.Printa(LogType.Debug, thks);
+			Log.Printa(LogType.Debug, $"name = {name}");
+			Log.Printa(LogType.Debug, $"thanks = {thks}");
+			Log.Printa(LogType.Debug, $"manageid = {manageid}");
 
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);
@@ -168,6 +169,8 @@ namespace NuovaGM.Client.Businesses
 		{
 			int amount = Convert.ToInt32(data.amount);
 			int manageid = Convert.ToInt32(data.manageid);
+			Log.Printa(LogType.Debug, $"amount = {amount}");
+			Log.Printa(LogType.Debug, $"manageid = {manageid}");
 			BaseScript.TriggerServerEvent("lprp:businesses:addstationfunds", manageid, amount);
 		}
 
@@ -176,6 +179,8 @@ namespace NuovaGM.Client.Businesses
 		{
 			int amount = Convert.ToInt32(data.amount);
 			int manageid = Convert.ToInt32(data.manageid);
+			Log.Printa(LogType.Debug, $"amount = {amount}");
+			Log.Printa(LogType.Debug, $"manageid = {manageid}");
 			BaseScript.TriggerServerEvent("lprp:businesses:remstationfunds", manageid, amount);
 		}
 

@@ -37,7 +37,6 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void SendStationsUpdate()
 		{
-			await BaseScript.Delay(0);
 			List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
 			dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
 			if (result.Count > 0)
@@ -50,7 +49,6 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void checkRent(User p)
 		{
-			await BaseScript.Delay(0);
 			dynamic result = await Server.Instance.Query($"SELECT lastpaidrent, ownerchar, stationindex FROM businesses WHERE ownerchar = @charname", new { charname = p.FullName });
 			if (result.Count > 0)
 			{
@@ -82,7 +80,6 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void CheckCanManage([FromSource] Player p, int sidx)
 		{
-			await BaseScript.Delay(0);
 			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = License.GetLicense(p, Identifier.Discord) });
 			if (result != null)
 			{
@@ -93,18 +90,17 @@ namespace NuovaGM.Server.Businesses
 				string owner = result[0].ownerchar;
 				if (!canmanage)
 					managetime = lastmanaged.ToString("HH:mm");
-				BaseScript.TriggerClientEvent(p, "lprp:businesses:checkcanmanage", canmanage, sidx, managetime, result[0].cashwaiting);
+				p.TriggerEvent("lprp:businesses:checkcanmanage", canmanage, sidx, managetime, result[0].cashwaiting);
 			}
 			else
 			{
 				Log.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
-				BaseScript.TriggerClientEvent(p, "lprp:businesses:checkcanmanage", false);
+				p.TriggerEvent("lprp:businesses:checkcanmanage", false);
 			}
 		}
 
 		public static async void GetStationCash([FromSource] Player p, int sidx)
 		{
-			await BaseScript.Delay(0);
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = License.GetLicense(p, Identifier.Discord) });
 			if (result.Count > 0)
@@ -118,7 +114,7 @@ namespace NuovaGM.Server.Businesses
 						idx = sidx,
 						id = License.GetLicense(p, Identifier.Discord)
 					});
-					BaseScript.TriggerClientEvent(p, "lprp:businesses:getstationcash", payout);
+					p.TriggerEvent("lprp:businesses:getstationcash", payout);
 				}
 				else
 					p.TriggerEvent("lprp:ShowNotification", "Non ci sono fondi disponibili per questa stazione.");
@@ -129,7 +125,6 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void ChangeStation([FromSource]Player p, string stationname, string thanksmessage, int fuelCost, int Manageid, int Deltype, string Deliverylist)
 		{
-			await BaseScript.Delay(0);
 			string name = stationname;
 			string thanks = thanksmessage;
 			int fuelcost = (int)fuelCost;
@@ -155,13 +150,12 @@ namespace NuovaGM.Server.Businesses
 					id = License.GetLicense(p, Identifier.Discord)
 				});
 				SendStationsUpdate();
-				BaseScript.TriggerClientEvent(p, "lprp:ShowNotification", "Le impostazioni della tua stazione sono state aggiornate.");
+				p.TriggerEvent("lprp:ShowNotification", "Le impostazioni della tua stazione sono state aggiornate.");
 			}
 		}
 
 		public static async void SellStation([FromSource] Player p, string sellname, int Manageid)
 		{
-			await BaseScript.Delay(0);
 			string name = sellname;
 			int manageid = (int)Manageid;
 			if (name != null)
@@ -178,26 +172,23 @@ namespace NuovaGM.Server.Businesses
 							idx = manageid
 						});
 						SendStationsUpdate();
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:sellstation", true, name);
+						p.TriggerEvent("lprp:businesses:sellstation", true, name);
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:sellstation", false, "La persona a cui tenti di vendere la stazione non esiste o non è online.");
+						p.TriggerEvent("lprp:businesses:sellstation", false, "La persona a cui tenti di vendere la stazione non esiste o non è online.");
 				}
 			}
 			else
-				BaseScript.TriggerClientEvent(p, "lprp:businesses:sellstation", false, "La persona a cui tenti di vendere la stazione non esiste o non è online.");
+				p.TriggerEvent("lprp:businesses:sellstation", false, "La persona a cui tenti di vendere la stazione non esiste o non è online.");
 		}
 
 		public static async void DepositFuel([FromSource]Player p, int Index, int fuelfortank)
 		{
-			await BaseScript.Delay(0);
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			int index = Index;
 			int tankerfuel = fuelfortank;
 			if (index > 0 && tankerfuel > 0)
 			{
-				List<GasStation> stations = ConfigShared.SharedConfig.Main.Veicoli.gasstations;
-
 				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
 				if (result[0].identifier != "" && result[0].identifier != null && result[0].ownerchar != "" && result[0].ownerchar != null)
 				{
@@ -254,16 +245,16 @@ namespace NuovaGM.Server.Businesses
 									idx = index
 								});
 								user.Bank += payout;
-								BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuel", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), overflow.ToString());
+								p.TriggerEvent("lprp:fuel:depositfuel", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), overflow.ToString());
 							}
 							else
-								BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuel", false, "Questa stazione accetta consegne solo da personale con contratto.");
+								p.TriggerEvent("lprp:fuel:depositfuel", false, "Questa stazione accetta consegne solo da personale con contratto.");
 						}
 						else
-							BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuel", false, "Questa stazione non ha abbastanza denaro per pagarti.");
+							p.TriggerEvent("lprp:fuel:depositfuel", false, "Questa stazione non ha abbastanza denaro per pagarti.");
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuel", false, "Questa stazione è gia al massimo della capienza di carburante.");
+						p.TriggerEvent("lprp:fuel:depositfuel", false, "Questa stazione è gia al massimo della capienza di carburante.");
 				}
 				else
 				{
@@ -292,10 +283,10 @@ namespace NuovaGM.Server.Businesses
 							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} è stato pagato {2}$ per una consegna di carburante (stazione non posseduta).", user.FullName, GetPlayerName(p.Handle), pay);
 						}
-						BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuelnotowned", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), pay.ToString(), overflow.ToString());
+						p.TriggerEvent("lprp:fuel:depositfuelnotowned", true, (tankerfuel - overflow).ToString(), stationfuel.ToString(), pay.ToString(), overflow.ToString());
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:fuel:depositfuelnotowned", false, "Questa stazione è già alla massima capienza.");
+						p.TriggerEvent("lprp:fuel:depositfuelnotowned", false, "Questa stazione è già alla massima capienza.");
 				}
 			}
 			else
@@ -304,17 +295,15 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void CheckFuelStation([FromSource] Player p, int index)
 		{
-			await BaseScript.Delay(0);
 			if (index > 0)
 			{
 				dynamic result = await Server.Instance.Query($"SELECT `fuel`, `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
-				BaseScript.TriggerClientEvent(p, "lprp:fuel:checkfuelforstation", result[0].fuel, result[0].fuelprice);
+				p.TriggerEvent("lprp:fuel:checkfuelforstation", result[0].fuel, result[0].fuelprice);
 			}
 		}
 
 		public static async void RemoveFuelStation([FromSource]Player p, int stationindex, int addedfuel)
 		{
-			await BaseScript.Delay(0);
 			dynamic result = await Server.Instance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = stationindex });
 			int fuel = result[0].fuel;
 			fuel -= addedfuel;
@@ -323,7 +312,6 @@ namespace NuovaGM.Server.Businesses
 
 		public static async void PurchaseStation([FromSource] Player p, int sidx)
 		{
-			await BaseScript.Delay(0);
 			if (sidx > 0)
 			{
 				User user = Funzioni.GetUserFromPlayerId(p.Handle);
@@ -332,7 +320,7 @@ namespace NuovaGM.Server.Businesses
 				int bankmoney = user.Bank;
 				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
 				if ((result[0].identifier != "" && result[0].ownerchar != "") && (result[0].identifier != null && result[0].ownerchar != null))
-					BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", false, "Questa stazione è già posseduta.");
+					p.TriggerEvent("lprp:businesses:purchasestation", false, "Questa stazione è già posseduta.");
 				else
 				{
 					int sellprice = station.sellprice;
@@ -352,17 +340,16 @@ namespace NuovaGM.Server.Businesses
 						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
 						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha pagato {2} per una Stazione di Rifornimento.", user.FullName, GetPlayerName(p.Handle), sellprice);
 						SendStationsUpdate();
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", true, "", sidx, sellprice);
+						p.TriggerEvent("lprp:businesses:purchasestation", true, "", sidx, sellprice);
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:purchasestation", false, "Non hai abbastanza solti in banca per coprire il costo.");
+						p.TriggerEvent("lprp:businesses:purchasestation", false, "Non hai abbastanza solti in banca per coprire il costo.");
 				}
 			}
 		}
 
 		public static async void AddMoneyToStation([FromSource] Player p, int stationindex, int Amount)
 		{
-			await BaseScript.Delay(0);
 			int sidx = stationindex;
 			int amount = Amount;
 			int oldamount = 0;
@@ -378,7 +365,6 @@ namespace NuovaGM.Server.Businesses
 		#region COMANDI ADMIN
 		public static async void SAddMoney([FromSource] Player p, int closest, int Amount)
 		{
-			await BaseScript.Delay(0);
 			int index = closest;
 			int amount = Amount;
 			if (index > 0 && Amount > -1)
@@ -387,13 +373,12 @@ namespace NuovaGM.Server.Businesses
 				int oldm = result[0].cashwaiting;
 				int newm = oldm + amount;
 				await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx ", new { cash = newm, idx = index });
-				BaseScript.TriggerClientEvent(p, "lprp:ShowNotification", "Aggiunti soldi alla stazione. Nuovo saldo: {0}", newm.ToString());
+				p.TriggerEvent("lprp:ShowNotification", "Aggiunti soldi alla stazione. Nuovo saldo: {0}", newm.ToString());
 			}
 		}
 
 		public static async void SAddFuel([FromSource] Player p, int closest, int Amount)
 		{
-			await BaseScript.Delay(0);
 			int index = closest;
 			int amount = Amount;
 			if (index > 0 && Amount > -1)
@@ -406,14 +391,13 @@ namespace NuovaGM.Server.Businesses
 					fuel = newf,
 					idx = index
 				});
-				BaseScript.TriggerClientEvent(p, "lprp:ShowNotification", "Carburante aggiunto. Nuovo livello settato a {0}", newf.ToString());
+				p.TriggerEvent("lprp:ShowNotification", "Carburante aggiunto. Nuovo livello settato a {0}", newf.ToString());
 			}
 		}
 		#endregion
 
 		public static async void SResetManage([FromSource] Player p, int closest)
 		{
-			await BaseScript.Delay(0);
 			int index = closest;
 			if (index > 0)
 			{
@@ -422,25 +406,24 @@ namespace NuovaGM.Server.Businesses
 					last = DateTime.MinValue.ToString(),
 					idx = index
 				});
-				BaseScript.TriggerClientEvent(p, "lprp:ShowNotification", "Data di gestione resettata.");
+				p.TriggerEvent("lprp:ShowNotification", "Data di gestione resettata.");
 			}
 		}
 
 		public static async void AddStationFunds([FromSource] Player p, int manageid, int amount)
 		{
-			await BaseScript.Delay(0);
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			int money = user.Money;
-			if (money >= amount)
+			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
+			if (result.Count > 0)
 			{
-				dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
-				if (result.Count > 0)
+				if (result[0].ownerchar.ToLower() == user.FullName.ToLower())
 				{
-					if (result[0].ownerchar.ToLower() == user.FullName.ToLower())
+					if (money >= amount)
 					{
 						int smoney = (int)result[0].cashwaiting + amount;
 						if (smoney > 50000)
-							BaseScript.TriggerClientEvent(p, "lprp:businesses:stationfundschange", false, "Non puoi depositare soldi se il tuo saldo è maggiore di ~b~$50,000~w~. Porta un po' di denaro in banca!");
+							p.TriggerEvent("lprp:businesses:stationfundschange", false, "Non puoi depositare soldi se il tuo saldo è maggiore di $50,000. Porta un po' di denaro in banca!");
 						else
 						{
 							user.Money -= amount;
@@ -451,18 +434,18 @@ namespace NuovaGM.Server.Businesses
 								cash = smoney,
 								idx = manageid
 							});
-							BaseScript.TriggerClientEvent(p, "lprp:businesses:stationfundschange", true, smoney.ToString());
+							p.TriggerEvent("lprp:businesses:stationfundschange", true, smoney.ToString());
 						}
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:stationfundschange", false, "Non hai abbastanza soldi per coprire questa transazione.");
+						p.TriggerEvent("lprp:businesses:stationfundschange", false, "Non hai abbastanza soldi da depositare nella stazione.");
 				}
 			}
+
 		}
 
 		public static async void RemStationFunds([FromSource] Player p, int manageid, int amount)
 		{
-			await BaseScript.Delay(0);
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
 			if (result.Count > 0)
@@ -481,10 +464,10 @@ namespace NuovaGM.Server.Businesses
 							cash = samount,
 							idx = manageid
 						});
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:stationfundschange", true, samount.ToString());
+						p.TriggerEvent("lprp:businesses:stationfundschange", true, samount.ToString());
 					}
 					else
-						BaseScript.TriggerClientEvent(p, "lprp:businesses:stationfundschange", false, "Non hai abbastanza soldi per ritirare quella cifra.");
+						p.TriggerEvent("lprp:businesses:stationfundschange", false, "La stazione non ha fondi a sufficienza.");
 				}
 			}
 		}
