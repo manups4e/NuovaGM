@@ -55,7 +55,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			Blip Rim = World.CreateBlip(Rimozione.InizioLavoro.ToVector3());
 			Rim.Sprite = BlipSprite.TowTruck;
 			Rim.Name = "Soccorso Stradale";
-
+			Rim.IsShortRange = true;
+			SetBlipDisplay(Rim.Handle, 4);
 		}
 
 
@@ -101,6 +102,9 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					}
 				if (dist > 80)
 				{
+					Client.Instance.RemoveTick(LavoroRimozioneForzata);
+					Client.Instance.RemoveTick(ControlloRimozione);
+					Client.Instance.AddTick(InizioLavoro);
 					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo))
 						HUD.TimerBarPool.Remove(timerVeicolo);
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
@@ -124,9 +128,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						VeicoloDaRimuovere = null;
 					}
 					distwarn = false;
-					Client.Instance.RemoveTick(LavoroRimozioneForzata);
-					Client.Instance.RemoveTick(ControlloRimozione);
-					Client.Instance.AddTick(InizioLavoro);
 				}
 			}
 		}
@@ -232,7 +233,6 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					VeicoloDaRimuovere = null;
 				}
 			}
-			await Task.FromResult(0);
 		}
 
 		private static async Task TimerVeicolo()
