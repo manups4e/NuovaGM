@@ -114,7 +114,7 @@ namespace NuovaGM.Client
         }
 
         /// <summary>
-        /// Aspetta finchè un tasto non è stato rilasciato
+        /// Aspetta finchè un tasto non è stato rilasciato e ritorna vero se il tasto è ancora premuto
         /// </summary>
         /// <param name="control">Il <see cref="Control"/> che si vuole aspettare</param>
         /// <param name="keyboardOnly">Solo tastiera, solo GamePad o entrambi?</param>

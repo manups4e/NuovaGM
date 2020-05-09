@@ -36,15 +36,12 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.Instance.AddEventHandler("DamageEvent:PedKilledByPed", new Action<int, int, uint, bool>(pedKilledByPed));
-			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(pedKilledByPlayer));
-//			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, dynamic>(pedDied));
 
-//			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
-//			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
+			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
 			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
 			Client.Instance.AddEventHandler("lprp:fineConteggio", new Action(endConteggio));
-//			Client.Instance.AddTick(Injuried);
+			Client.Instance.AddTick(Injuried);
 		}
 
 		public static void Spawnato()
@@ -84,79 +81,69 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			}
 		}
 
-		/*
-				public static void playerKilled(int killerId, dynamic Data)
-				{
-					int playerPed = PlayerPedId();
-					int killer = GetPlayerFromServerId(killerId);
-					if (NetworkIsPlayerActive(killer))
-					{
-						Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
-						int weaponHash = Data.weaponhash;
-						Data.killerpos = null;
-						Data.weaponhash = null;
-						int deathCause = GetPedCauseOfDeath(playerPed);
-						int killerPed = GetPlayerPed(killer);
-						Vector3 killerCoords = GetEntityCoords(killerPed, true);
-						float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
-						bool killed = true;
-						List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
-						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-					}
-					else
-					{
-						bool killed = false;
-						int deathCause = GetPedCauseOfDeath(playerPed);
-						List<dynamic> data = new List<dynamic>() { killed, deathCause };
-						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-					}
-				}
+		public static void playerKilled(int killerId, dynamic Data)
+		{
+			int playerPed = PlayerPedId();
+			int killer = GetPlayerFromServerId(killerId);
+			if (NetworkIsPlayerActive(killer))
+			{
+				Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
+				int weaponHash = Data.weaponhash;
+				Data.killerpos = null;
+				Data.weaponhash = null;
+				int deathCause = GetPedCauseOfDeath(playerPed);
+				int killerPed = GetPlayerPed(killer);
+				Vector3 killerCoords = GetEntityCoords(killerPed, true);
+				float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
+				bool killed = true;
+				List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
+				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+			}
+			else
+			{
+				bool killed = false;
+				int deathCause = GetPedCauseOfDeath(playerPed);
+				List<dynamic> data = new List<dynamic>() { killed, deathCause };
+				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+			}
+		}
 
-				public static void playerDied(int tipo, List<dynamic> Coords)
-				{
-					int playerPed = PlayerPedId();
-					List<dynamic> data = new List<dynamic>();
-					bool killed = false;
-					int killerType = tipo;
-					Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
-					int deathCause = GetPedCauseOfDeath(playerPed);
-					data.Add(killed);
-					data.Add(killerType);
-					data.Add(deathCoords);
-					data.Add(deathCause);
-					Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
-					BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-					BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				}
-		*/
-		static int timeHeld = 0;
+		public static void playerDied(int tipo, List<dynamic> Coords)
+		{
+			int playerPed = PlayerPedId();
+			List<dynamic> data = new List<dynamic>();
+			bool killed = false;
+			int killerType = tipo;
+			Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
+			int deathCause = GetPedCauseOfDeath(playerPed);
+			data.Add(killed);
+			data.Add(killerType);
+			data.Add(deathCoords);
+			data.Add(deathCause);
+			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+		}
+
 		public static async void StartDeathTimer()
 		{
 			if (earlyRespawn)
 			{
 				if (EarlyRespawnFine)
-				{
 					if (Game.Player.GetPlayerData().Money >= EarlyRespawnFineAmount)
-					{
 						canPayFine = true;
-					}
-				}
 
 				if (earlySpawnTimer > 0 && Main.IsDead)
-				{
 					Client.Instance.AddTick(conteggioSangue);
-				}
 			}
 			else
 			{
 				if (bleedoutTimer > 0 && Main.IsDead)
-				{
 					Client.Instance.AddTick(conteggioMorte);
-				}
 			}
 			Client.Instance.AddTick(Testo);
 		}
@@ -166,17 +153,12 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		{
 			await BaseScript.Delay(1000);
 			if (earlySpawnTimer > 0)
-			{
 				--earlySpawnTimer;
-			}
 
 			int mins = Funzioni.secondsToClock(earlySpawnTimer).Item1; int secs = Funzioni.secondsToClock(earlySpawnTimer).Item2;
 			text = "Avrai possibilità di respawnare in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~";
 			if (earlySpawnTimer < 1)
-			{
 				Client.Instance.AddTick(conteggioMorte);
-			}
-
 			await Task.FromResult(0);
 		}
 
@@ -188,15 +170,13 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			if (earlyRespawn && earlySpawnTimer < 1)
 			{
 				if (bleedoutTimer > 0)
-				{
 					--bleedoutTimer;
-				}
 
 				int mins = Funzioni.secondsToClock(bleedoutTimer).Item1; int secs = Funzioni.secondsToClock(bleedoutTimer).Item2;
 				text = "Morirai dissanguato in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~\n";
 				if (!EarlyRespawnFine)
 				{
-					text = text + "Tieni premuto [~b~E~s~] per respawnare";
+					text += "Tieni premuto [~b~E~s~] per respawnare";
 					if (await Input.WaitForKeyRelease(Control.Context))
 					{
 						Client.Instance.RemoveTick(conteggioSangue);
@@ -233,9 +213,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			else
 			{
 				if (bleedoutTimer > 0)
-				{
 					--bleedoutTimer;
-				}
 
 				int mins = Funzioni.secondsToClock(bleedoutTimer).Item1; int secs = Funzioni.secondsToClock(bleedoutTimer).Item2;
 				text = "Morirai dissanguato in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~\n";
@@ -257,11 +235,6 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static async Task Testo()
 		{
-			if (Input.IsControlPressed(Control.Context) && earlyRespawn)
-				++timeHeld;
-			else
-				timeHeld = 0;
-
 			if (earlyRespawn && earlySpawnTimer < 1)
 				Client.Instance.RemoveTick(conteggioSangue);
 
