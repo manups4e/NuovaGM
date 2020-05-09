@@ -17,6 +17,7 @@ namespace NuovaGM.Client
 			Businesses.PompeDiBenzinaClient.Init();
 
 			gmPrincipale.Utility.Eventi.Init();
+			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
 			gmPrincipale.Utility.HUD.HUD.Init();
 			gmPrincipale.Utility.PublicTraffic.Init();
 			gmPrincipale.MenuGm.Menus.Init();
@@ -25,10 +26,6 @@ namespace NuovaGM.Client
 			gmPrincipale.Status.StatsNeeds.Init();
 			gmPrincipale.Voice.Init();
 			gmPrincipale.Discord.Init();
-			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
-
-
-
 
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
@@ -64,16 +61,14 @@ namespace NuovaGM.Client
 			Proprietà.Hotel.Hotels.Init();
 
 			Interactions.Macchinette.Init();
-			//Interactions.Spazzatura.Init();
 			Interactions.Docce.Init();
 			Interactions.Letti.Init();
 			Interactions.PickupsClient.Init();
-			//Interactions.DivaniEPosizioniSedute.Init();
 			Interactions.OggettiGenerici.Init();
 
 			DamageEvents.Init();
 
-			//Sport.Yoga.Init();
+			Sport.Yoga.Init();
 
 			Telefono.PhoneMainClient.Init();
 
