@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Shared;
 using System;

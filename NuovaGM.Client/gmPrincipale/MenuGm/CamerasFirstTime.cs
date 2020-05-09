@@ -32,13 +32,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			Game.PlayerPed.Detach();
 			if (FirstChar)
-			{
 				await SiComincia();
-			}
 			else
-			{
-				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi saltare la Presentazione?", "Potrai usare direttamente il nuovo personaggio.", 34, "lprp:sceltaSalta");
-			}
+				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", 34, "lprp:sceltaSalta");
 		}
 
 		public static async void SceltaSalta(string scelta)

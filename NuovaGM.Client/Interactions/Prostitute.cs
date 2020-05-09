@@ -3,7 +3,6 @@ using static CitizenFX.Core.Native.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;

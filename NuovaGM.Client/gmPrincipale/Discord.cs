@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Client.gmPrincipale.MenuGm;
-using NuovaGM.Client.gmPrincipale.Utility;
 using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;

@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
 using Logger;
 
 namespace NuovaGM.Client.Interactions

@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;

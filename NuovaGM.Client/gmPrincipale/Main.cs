@@ -5,13 +5,10 @@ using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.MenuGm;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Personale;
-using NuovaGM.Client.Veicoli;
 using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 

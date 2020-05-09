@@ -3,7 +3,6 @@ using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Negozi;
 using System;
 using System.Collections.Generic;

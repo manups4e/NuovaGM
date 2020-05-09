@@ -4,11 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CitizenFX.Core.Native;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.gmPrincipale.Status;
-
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
 

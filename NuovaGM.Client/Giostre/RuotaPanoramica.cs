@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;

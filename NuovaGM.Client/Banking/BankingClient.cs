@@ -1,15 +1,11 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
 using System;
 using static CitizenFX.Core.Native.API;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using CitizenFX.Core.Native;
 using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Banking

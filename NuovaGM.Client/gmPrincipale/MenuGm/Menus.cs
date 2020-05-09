@@ -3,7 +3,6 @@ using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -11,7 +10,6 @@ using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 

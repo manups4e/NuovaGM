@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions

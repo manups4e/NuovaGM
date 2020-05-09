@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.MenuGm;
-
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
 using Logger;

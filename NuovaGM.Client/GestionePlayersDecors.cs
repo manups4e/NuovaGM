@@ -1,12 +1,7 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NuovaGM.Client
