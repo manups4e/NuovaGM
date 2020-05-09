@@ -337,6 +337,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			try
 			{
 				Client.Instance.AddTick(Controllo);
+				Game.PlayerPed.SetDecor("PlayerStanziato", true);
 				a = nome;
 				b = cognome;
 				c = dob;
@@ -1762,19 +1763,13 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			int handle = 0;
 			if (!IsNamedRendertargetRegistered(name))
-			{
 				RegisterNamedRendertarget(name, false);
-			}
 
 			if (!IsNamedRendertargetLinked(model))
-			{
 				LinkNamedRendertarget(model);
-			}
 
 			if (IsNamedRendertargetRegistered(name))
-			{
 				handle = GetNamedRendertargetRenderId(name);
-			}
 
 			return handle;
 		}
@@ -1783,17 +1778,11 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			string v_3 = sub_7ce29(4);
 			if (AreStringsEqual(v_3, "mood_smug_1"))
-			{
 				v_3 = "mood_Happy_1";
-			}
 			if (AreStringsEqual(v_3, "mood_sulk_1"))
-			{
 				v_3 = "mood_Angry_1";
-			}
 			if (!Game.PlayerPed.IsInjured)
-			{
 				SetFacialIdleAnimOverride(Game.PlayerPed.Handle, v_3, "0");
-			}
 		}
 		public static string sub_7ce29(int a_0)
 		{
@@ -1827,31 +1816,19 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					if (AltAn == 0)
 					{
 						if (Sex == "Maschio")
-						{
 							return "mp_character_creation@lineup@male_b";
-						}
 						else
-						{
 							return "mp_character_creation@lineup@female_b";
-						}
 					}
 					else if (Sex == "Maschio")
-					{
 						return "mp_character_creation@lineup@male_a";
-					}
 					else
-					{
 						return "mp_character_creation@lineup@female_a";
-					}
 				case 1:
 					if (Sex == "Maschio")
-					{
 						return "mp_character_creation@customise@male_a";
-					}
 					else
-					{
 						return "mp_character_creation@customise@female_a";
-					}
 			}
 			return "mp_character_creation@lineup@male_a";
 		}
