@@ -1,7 +1,6 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

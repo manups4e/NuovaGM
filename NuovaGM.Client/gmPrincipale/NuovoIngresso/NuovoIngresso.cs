@@ -127,7 +127,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			if (!Data.location.position.IsZero)
 			{
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
-				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, Data.location.position.Z + 1f);
+				Game.PlayerPed.Position = Data.location.position;
 				Game.PlayerPed.Heading = Data.location.h;
 			}
 			else
@@ -135,7 +135,6 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 				Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
-
 			}
 			Eventi.LoadModel();
 			Game.PlayerPed.IsPositionFrozen = false;

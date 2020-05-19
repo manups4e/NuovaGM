@@ -28,10 +28,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return null;
 		}
 
-		public static void SendNuiMessage(object message)
-		{
-			API.SendNuiMessage(JsonConvert.SerializeObject(message));
-		}
 		public static PlayerChar GetPlayerCharFromServerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
@@ -45,6 +41,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static PlayerChar GetPlayerData(this Player player)
 		{
 			return player == Game.Player ? Eventi.Player : GetPlayerCharFromServerId(player.ServerId);
+		}
+
+		public static void SendNuiMessage(object message)
+		{
+			API.SendNuiMessage(JsonConvert.SerializeObject(message));
 		}
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
