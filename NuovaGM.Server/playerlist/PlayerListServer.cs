@@ -51,6 +51,5 @@ namespace FivemPlayerlistServer
 					showJobPointsIcon != null ? showJobPointsIcon : false);
 			}
 		}
-
 	}
 }

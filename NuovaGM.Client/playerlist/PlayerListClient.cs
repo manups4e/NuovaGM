@@ -267,10 +267,8 @@ namespace NuovaGM.Client.ListaPlayers
 		{
 			List<PlayerRow> rows = new List<PlayerRow>();
 
-			for (var x = 0; x < 150; x++) // cleaning up in case of a reload, this frees up all ped headshot handles :)
-			{
+			for (var x = 0; x < 128; x++) // cleaning up in case of a reload, this frees up all ped headshot handles :)
 				UnregisterPedheadshot(x);
-			}
 
 			var amount = 0;
 			foreach (Player p in Client.Instance.GetPlayers.ToList())

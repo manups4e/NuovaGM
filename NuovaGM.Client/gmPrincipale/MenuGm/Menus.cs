@@ -136,200 +136,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			UpdateDress(Game.PlayerPed, plpl.dressing);
 		}
 
-		#region Selezione
-/*		public static UIMenu CharSelection = new UIMenu("Nuova GM", "Seleziona Personaggio", new Point(50, 200));
-		public static async void CharSelectionMenu()
-		{
-			RequestModel(femmina);
-			while (!HasModelLoaded(femmina))
-			{
-				await BaseScript.Delay(1);
-			}
-
-			Ped femmi = new Ped(CreatePed(26, femmina, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, 199f, 0, true, false));
-			femmi.IsPositionFrozen = true;
-			femmi.IsVisible = false;
-			femmi.IsCollisionEnabled = false;
-			CharSelection = new UIMenu("Nuova GM", "Seleziona Personaggio", new Point(50, 200));
-			HUD.MenuPool.Add(CharSelection);
-			CharSelection.Clear();
-			if (Game.Player.GetPlayerData().char_data.Count > 0)
-			{
-				for (int i = 0; i < Game.Player.GetPlayerData().char_data.Count; i++)
-				{
-					Char_data pers = Game.Player.GetPlayerData().char_data[i];
-					UIMenu Personaggio = HUD.MenuPool.AddSubMenu(CharSelection, Game.Player.GetPlayerData().char_data[i].info.firstname + " " + Game.Player.GetPlayerData().char_data[i].info.lastname);
-					string morto = "";
-					if (!pers.is_dead)
-					{
-						morto = "~g~Vivo e vegeto";
-					}
-					else
-					{
-						morto = "~r~In Punto di Morte";
-					}
-
-					UIMenuItem name = new UIMenuItem("Nome: ", "Il suo nome");
-					UIMenuItem dob = new UIMenuItem("Data di Nascita: ", "La sua data di nascita");
-					UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
-					UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-					UIMenuItem money = new UIMenuItem("Soldi: ", "I suoi soldi");
-					UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-					UIMenuItem dirty = new UIMenuItem("Soldi Sporchi: ", "I soldi sporchi");
-					UIMenuItem isdead = new UIMenuItem("Stato di Salute: ", "");
-					UIMenuItem seleziona = new UIMenuItem("Entra in Gioco", "Pronti... SI PARTE!");
-					Personaggio.AddItem(name);
-					Personaggio.AddItem(dob);
-					Personaggio.AddItem(job);
-					Personaggio.AddItem(gang);
-					Personaggio.AddItem(money);
-					Personaggio.AddItem(bank);
-					Personaggio.AddItem(dirty);
-					Personaggio.AddItem(isdead);
-					Personaggio.AddItem(seleziona);
-					name.SetRightLabel(pers.info.firstname + " " + pers.info.lastname);
-					dob.SetRightLabel(pers.info.dateOfBirth);
-					job.SetRightLabel(pers.job.name);
-					gang.SetRightLabel(pers.gang.name);
-					money.SetRightLabel("~g~$" + pers.finance.money);
-					bank.SetRightLabel("~g~$" + pers.finance.bank);
-					dirty.SetRightLabel("~r~$" + pers.finance.dirtyCash);
-					isdead.SetRightLabel(morto);
-					seleziona.SetRightBadge(UIMenuItem.BadgeStyle.Star);
-
-					seleziona.Activated += async (menu, item) =>
-					{
-						Screen.Fading.FadeOut(800);
-						await BaseScript.Delay(1000);
-						HUD.MenuPool.CloseAllMenus();
-						if (femmi.Exists())
-						{
-							femmi.Delete();
-						}
-
-						await BaseScript.Delay(2000);
-						if (p1.Exists())
-						{
-							p1.Delete();
-						}
-
-						Screen.LoadingPrompt.Show("Caricamento del Personaggio", LoadingSpinnerType.Clockwise1);
-						await BaseScript.Delay(3000);
-						SwitchOutPlayer(PlayerPedId(), 0, 1);
-						DestroyAllCams(true);
-						EnableGameplayCam(true);
-						await BaseScript.Delay(5000);
-						RenderScriptCams(false, false, 0, false, false);
-						Screen.Fading.FadeIn(800);
-						await BaseScript.Delay(4000);
-						Game.PlayerPed.IsInvincible = false;
-						await BaseScript.Delay(1000);
-						Game.Player.GetPlayerData().char_current = pers.id;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-						Char_data Data = Game.Player.GetPlayerData().CurrentChar;
-						if (Data.location.x != 0.0 && Data.location.y != 0.0 && Data.location.z != 0.0)
-						{
-							RequestCollisionAtCoord(Data.location.x, Data.location.y, Data.location.z);
-							Game.PlayerPed.Position = new Vector3(Data.location.x, Data.location.y, Data.location.z + 1f);
-							Game.PlayerPed.Heading = Data.location.h;
-						}
-						else
-						{
-							RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
-							Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
-							Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
-
-						}
-						Eventi.LoadModel();
-						Game.PlayerPed.IsPositionFrozen = false;
-						Game.Player.GetPlayerData().Stanziato = false;
-						Game.PlayerPed.IsVisible = true;
-						Game.PlayerPed.IsCollisionEnabled = true;
-						NetworkClearClockTimeOverride();
-						//AdvanceClockTimeTo(Meteo_new.Orario.h, Meteo_new.Orario.m, Meteo_new.Orario.s);
-						await BaseScript.Delay(7000);
-//						Client.Instance.AddTick(Meteo_new.Orario.AggiornaTempo);
-						BaseScript.TriggerServerEvent("changeWeatherForMe", true);
-						await BaseScript.Delay(5000);
-						if (Screen.LoadingPrompt.IsActive) 
-							Screen.LoadingPrompt.Hide();
-						SwitchInPlayer(Game.PlayerPed.Handle);
-						await BaseScript.Delay(1000);
-						Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
-						BaseScript.TriggerEvent("lprp:onPlayerSpawn");
-						BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
-						Client.Instance.RemoveTick(Controllo);
-						Client.Instance.RemoveTick(Scaleform);
-						Client.Instance.RemoveTick(TastiMenu);
-					};
-
-					Personaggio.OnMenuOpen += async (menu) =>
-					 {
-						 if (pers.skin.sex == "Maschio")
-						 {
-							 RequestModel(maschio);
-							 while (!HasModelLoaded(maschio)) await BaseScript.Delay(0);
-							 p1 = new Ped(CreatePed(26, maschio, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, Game.PlayerPed.Position.Z - 1, 0, false, false));
-						 }
-						 else
-						 {
-							 RequestModel(femmina);
-							 while (!HasModelLoaded(femmina)) await BaseScript.Delay(0);
-							 p1 = new Ped(CreatePed(26, femmina, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, Game.PlayerPed.Position.Z - 1, 0, false, false));
-						 }
-						 await UpdateDress(p1, pers.dressing);
-						 await UpdateFace(p1, pers.skin);
-						 p1.IsPositionFrozen = true;
-						 p1.BlockPermanentEvents = true;
-						 string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
-						 p1.Task.StartScenario(scena, p1.Position);
-					 };
-					Personaggio.OnMenuClose += async (menu) =>
-					{
-						p1.Delete();
-					};
-				}
-			}
-			if (Game.Player.GetPlayerData().char_data.Count >= 0 && Game.Player.GetPlayerData().char_data.Count < 3)
-			{
-				UIMenuItem NewChar = new UIMenuItem("Crea Personaggio", "Crea un nuovo personaggio!", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
-				NewChar.SetRightBadge(UIMenuItem.BadgeStyle.Tick);
-				CharSelection.AddItem(NewChar);
-				NewChar.Activated += async (menu, item) =>
-				{
-					Screen.Fading.FadeOut(800);
-					while (Screen.Fading.IsFadingOut)
-					{
-						await BaseScript.Delay(100);
-					}
-
-					RenderScriptCams(false, true, 0, false, false);
-					EnableGameplayCam(true);
-					HUD.MenuPool.CloseAllMenus();
-					if (femmi.Exists())
-					{
-						femmi.Delete();
-					}
-
-					CharCreationMenu();
-				};
-			}
-			UIMenuItem esci = new UIMenuItem("Disconnettiti", "Esci senza entrare in città!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
-			esci.SetRightBadge(UIMenuItem.BadgeStyle.Tick);
-			esci.Activated += (menu, item) => { Esci(); if (femmi.Exists()) { femmi.Delete(); } };
-			CharSelection.AddItem(esci);
-			Screen.Fading.FadeIn(1000);
-			CharSelection.Visible = true;
-//			Meteo_new.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
-			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
-			ShutdownLoadingScreenNui();
-		}*/
-
-		#endregion
 		#region Creazione
 		static uint maschio = (uint)PedHash.FreemodeMale01;
 		static uint femmina = (uint)PedHash.FreemodeFemale01;
-		static Ped generico;
+		static Ped genericPed;
 		#region PRE CREAZIONE
 		public static async void CharCreationMenu(string nome, string cognome, string dob, string sesso)
 		{
@@ -350,7 +160,17 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				RequestModel(femmina); 
 				while (!HasModelLoaded(femmina)) await BaseScript.Delay(1);
 
-				generico = new Ped(CreatePed(26, femmina, Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z - 10, 0, true, false));
+				if (IsValidInterior(94722)) LoadInterior(94722);
+				while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
+				ShutdownLoadingScreen();
+				ShutdownLoadingScreenNui();
+				sub_8d2b2();
+				Game.PlayerPed.SetDecor("PlayerStanziato", true);
+
+
+				genericPed = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), new Vector3(0));
+				genericPed.IsPositionFrozen = true;
+				genericPed.IsVisible = false;
 				dataMaschio = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 				dataFemmina = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 
@@ -363,32 +183,46 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					Game.PlayerPed.Style.SetDefaultClothes();
 				}
 
-				Game.PlayerPed.Position = spawna;
-				Game.PlayerPed.Heading = Main.charCreateCoords.W;
-				Game.PlayerPed.IsVisible = true;
+				Game.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
+				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1);
 				await BaseScript.Delay(50);
 				UpdateDress(Game.PlayerPed, data.dressing);
 				UpdateFace(Game.PlayerPed, data.skin);
-				ped_cre_board(data);
-				TaskHoldBoard();
+				Game.PlayerPed.IsVisible = true;
+				Game.PlayerPed.IsPositionFrozen = false;
 				Game.PlayerPed.BlockPermanentEvents = true;
+				ped_cre_board(data);
+				if (selezionato == "Maschio")
+					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Maschio"));
+				else
+					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Femmina"));
 				await BaseScript.Delay(2000);
 				RenderScriptCams(true, true, 0, false, false);
 				cam2.Delete();
 				ncam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 				ncam.IsActive = true;
-				ncam.Position = new Vector3(403.012f, -1000.240f, -98.7f);
-				ncam.PointAt(new Vector3(402.958f, -997.585f, -98.7f));
-				ncam.FieldOfView = 40f;
+				ncam.Position = new Vector3(402.7553f, -1000.622f, -98.48412f);
+				ncam.Rotation = new Vector3(-6.716503f, 0f, -0.276376f);
+				ncam.FieldOfView = 36.95373f;
+				ncam.StopShaking();
+				N_0xf55e4046f6f831dc(ncam.Handle, 3f);
+				N_0xe111a7c0d200cbc5(ncam.Handle, 1f);
+				SetCamDofFnumberOfLens(ncam.Handle, 1.2f);
+				SetCamDofMaxNearInFocusDistanceBlendLevel(ncam.Handle, 1f);
 				Camera cam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
-				cam.Position = new Vector3(402.897f, -1004.684f, -99.3f);
-				cam.PointAt(new Vector3(402.791f, -1000.684f, -99.3f));
-				cam.IsActive = true;
-				cam.InterpTo(ncam, 5000, 0, 0);
+				cam.Position = new Vector3(402.7391f, -1003.981f, -98.43439f);
+				cam.Rotation = new Vector3(-3.589798f, 0f, -0.276381f);
+				cam.FieldOfView = 36.95373f;
+				cam.StopShaking();
+				N_0xf55e4046f6f831dc(cam.Handle, 7f);
+				N_0xe111a7c0d200cbc5(cam.Handle, 1f);
+				SetCamDofFnumberOfLens(cam.Handle, 1.2f);
+				SetCamDofMaxNearInFocusDistanceBlendLevel(cam.Handle, 1f);
+				cam.InterpTo(ncam, 5000, 1, 1);
 				Screen.Fading.FadeIn(800);
 				await BaseScript.Delay(5000);
 				cam.Delete();
-				if(!Creazione.Visible)
+				if (!Creazione.Visible)
 					MenuCreazione(nome, cognome, dob, sesso);
 			}
 			catch (Exception ex)
@@ -409,15 +243,15 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static UIMenuListItem arcSopr = new UIMenuListItem("Arcate Sopraccigliari", arcSop, 0);
 		static UIMenuListItem Occhi = new UIMenuListItem("Occhi", occ, 0, "Guarda bene le palpebre!");
 		static UIMenuListItem Naso = new UIMenuListItem("Naso", nas, 0);
-		static UIMenuListItem NasoPro = new UIMenuListItem("Profilo del Naso", nas, 0);
-		static UIMenuListItem NasoPun = new UIMenuListItem("Punta del Naso", nas, 0);
-		static UIMenuListItem Zigo = new UIMenuListItem("Zigomi", arcSop, 0);
-		static UIMenuListItem Guance = new UIMenuListItem("Guance", arcSop, 0);
-		static UIMenuListItem Labbra = new UIMenuListItem("Labbra", arcSop, 0);
-		static UIMenuListItem Masce = new UIMenuListItem("Mascella", arcSop, 0);
-		static UIMenuListItem MentoPro = new UIMenuListItem("Profilo del mento", arcSop, 0);
-		static UIMenuListItem MentoFor = new UIMenuListItem("Forma del mento", arcSop, 0);
-		static UIMenuListItem Collo = new UIMenuListItem("Collo", arcSop, 0);
+		static UIMenuListItem NasoPro = new UIMenuListItem("Profilo del Naso", new List<dynamic>() { "Standard", "Breve", "Lungo" }, 0);
+		static UIMenuListItem NasoPun = new UIMenuListItem("Punta del Naso", new List<dynamic>() { "Standard", "Punta su", "Punta giù" }, 0);
+		static UIMenuListItem Zigo = new UIMenuListItem("Zigomi", new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
+		static UIMenuListItem Guance = new UIMenuListItem("Guance", new List<dynamic>() { "Standard", "Magre", "Paffute" }, 0);
+		static UIMenuListItem Labbra = new UIMenuListItem("Labbra", new List<dynamic>() { "Standard", "Sottili", "Carnose" }, 0);
+		static UIMenuListItem Masce = new UIMenuListItem("Mascella", new List<dynamic>() { "Standard", "Stretta", "Larga" }, 0);
+		static UIMenuListItem MentoPro = new UIMenuListItem("Profilo del mento", new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
+		static UIMenuListItem MentoFor = new UIMenuListItem("Forma del mento", new List<dynamic>() { "Standard", "Squadrato", "A punta" }, 0);
+		static UIMenuListItem Collo = new UIMenuListItem("Collo", new List<dynamic>() { "Standard", "Stretto", "Largo" }, 0);
 		#endregion
 		#region CREZIONEVERA
 		public static void MenuCreazione(string nome, string cognome, string datadinascita, string sesso)
@@ -618,10 +452,15 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				#region Sesso
 				Sesso.OnListChanged += async (item, _newIndex) =>
 				{
+					pool.CloseAllMenus();
+					Screen.Effects.Start(ScreenEffect.MpCelebWin);
+					await BaseScript.Delay(1000);
+					Screen.Fading.FadeOut(1000);
+					await BaseScript.Delay(1000);
+					Screen.Effects.Stop(ScreenEffect.MpCelebWin);
 					if (_newIndex == 0)
 					{
 						dataFemmina = data;
-						data = null;
 						data = dataMaschio;
 						board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
 						selezionato = "Maschio";
@@ -629,7 +468,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					else if (_newIndex == 1)
 					{
 						dataMaschio = data;
-						data = null;
 						data = dataFemmina;
 						board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
 						selezionato = "Femmina";
@@ -642,11 +480,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							obj.Delete();
 						}
 					}
-					ped_cre_board(data);
-					TaskHoldBoard();
 					Nome.SetRightLabel(data.info.firstname);
 					Cognome.SetRightLabel(data.info.lastname);
 					DDN.SetRightLabel(data.info.dateOfBirth);
+					CharCreationMenu(data.info.firstname, data.info.lastname, data.info.dateOfBirth, selezionato);
 				};
 				#endregion
 
@@ -868,48 +705,72 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == Barba)
 					{
-						data.skin.facialHair.beard.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.facialHair.beard.style = 255;
+						else
+							data.skin.facialHair.beard.style = _newIndex - 1;
 						data.skin.facialHair.beard.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
 						data.skin.facialHair.beard.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
 						data.skin.facialHair.beard.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == Blusher)
 					{
-						data.skin.blusher.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.blusher.style = 255;
+						else
+							data.skin.blusher.style = _newIndex - 1;
 						data.skin.blusher.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
 						data.skin.blusher.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
 						data.skin.blusher.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == LipStick)
 					{
-						data.skin.lipstick.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.lipstick.style = 255;
+						else
+							data.skin.lipstick.style = _newIndex - 1;
 						data.skin.lipstick.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
 						data.skin.lipstick.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
 						data.skin.lipstick.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == SkinBlemishes)
 					{
-						data.skin.blemishes.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.blemishes.style = 255;
+						else
+							data.skin.blemishes.style = _newIndex - 1;
 						data.skin.blemishes.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == SkinAgeing)
 					{
-						data.skin.ageing.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.ageing.style = 255;
+						else
+							data.skin.ageing.style = _newIndex - 1;
 						data.skin.ageing.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == SkinComplexion)
 					{
-						data.skin.complexion.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.complexion.style = 255;
+						else
+							data.skin.complexion.style = _newIndex - 1;
 						data.skin.complexion.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == SkinMoles)
 					{
-						data.skin.freckles.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.freckles.style = 255;
+						else
+							data.skin.freckles.style = _newIndex - 1;
 						data.skin.freckles.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == SkinDamage)
 					{
-						data.skin.skinDamage.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.skinDamage.style = 255;
+						else
+							data.skin.skinDamage.style = _newIndex - 1;
 						data.skin.skinDamage.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 					if (_listItem == EyeColor)
@@ -918,18 +779,12 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == EyeMakup)
 					{
-						data.skin.makeup.style = _newIndex;
+						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
+							data.skin.makeup.style = 255;
+						else
+							data.skin.makeup.style = _newIndex - 1;
 						data.skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
-					if (data.skin.sex == "Maschio")
-					{
-						dataMaschio = data;
-					}
-					else
-					{
-						dataFemmina = data;
-					}
-
 					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				#endregion
@@ -939,81 +794,252 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				{
 					if (_listItem == arcSopr)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Alte":
+								data.skin.face.tratti[6] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
+								break;
+							case "Basse":
+								data.skin.face.tratti[6] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
+								break;
+							case "Standard":
+								data.skin.face.tratti[6] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[7] = (var.X * 2f) - 1f;
 						data.skin.face.tratti[6] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == Occhi)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Grandi":
+								data.skin.face.tratti[11] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Stretti":
+								data.skin.face.tratti[11] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[11] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[11] = ((var.X * 2f) - 1f) / -1;
 					}
 					if (_listItem == Naso)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Piccolo":
+								data.skin.face.tratti[0] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Grande":
+								data.skin.face.tratti[0] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[0] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[0] = (var.X * 2f) - 1f;
 						data.skin.face.tratti[1] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == NasoPro)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Breve":
+								data.skin.face.tratti[2] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Lungo":
+								data.skin.face.tratti[2] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[2] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						data.skin.face.tratti[3] = ((var.X * 2f) - 1f) / 1;
-						data.skin.face.tratti[2] = (var.Y * 2f) - 1f;
+						data.skin.face.tratti[3] = ((var.Y * 2f) - 1f) / 1;
+						data.skin.face.tratti[2] = (var.X * 2f) - 1f;
 					}
 					if (_listItem == NasoPun)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Punta su":
+								data.skin.face.tratti[5] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
+								break;
+							case "Punta giù":
+								data.skin.face.tratti[5] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
+								break;
+							case "Standard":
+								data.skin.face.tratti[5] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[5] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[4] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == Zigo)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "In dentro":
+								data.skin.face.tratti[8] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "In fuori":
+								data.skin.face.tratti[8] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[8] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[9] = (var.X * 2f) - 1f;
 						data.skin.face.tratti[8] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == Guance)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Paffute":
+								data.skin.face.tratti[10] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Magre":
+								data.skin.face.tratti[10] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[10] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[10] = (var.X * 2f) - 1f;
 					}
 					if (_listItem == Collo)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Stretto":
+								data.skin.face.tratti[19] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Largo":
+								data.skin.face.tratti[19] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[19] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[19] = ((var.X * 2f) - 1f);
 					}
 					if (_listItem == Labbra)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Sottili":
+								data.skin.face.tratti[12] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Carnose":
+								data.skin.face.tratti[12] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[12] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[12] = ((var.X * 2f) - 1f) / -1;
 					}
 					if (_listItem == Masce)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Stretta":
+								data.skin.face.tratti[14] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Larga":
+								data.skin.face.tratti[14] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[14] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[13] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[14] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == MentoPro)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "In dentro":
+								data.skin.face.tratti[15] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "In fuori":
+								data.skin.face.tratti[15] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[15] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[16] = (var.X * 2f) - 1f;
 						data.skin.face.tratti[15] = (var.Y * 2f) - 1f;
 					}
 					if (_listItem == MentoFor)
 					{
+						switch (_listItem.Items[_newIndex])
+						{
+							case "Squadrato":
+								data.skin.face.tratti[17] = (0.00001f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "A punta":
+								data.skin.face.tratti[17] = (0.999999f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+							case "Standard":
+								data.skin.face.tratti[17] = (0.5f * 2f) - 1f;
+								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+								break;
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[18] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[17] = (var.Y * 2f) - 1f;
 					}
-					if (data.skin.sex == "Maschio")
-					{
-						dataMaschio = data;
-					}
-					else
-					{
-						dataFemmina = data;
-					}
-
 					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				#endregion
@@ -1021,9 +1047,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				#region VESTITI
 				Apparel.OnMenuOpen += async (menu) =>
 				{
-					if (data.skin.sex == "Maschio")
+					TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+					if (selezionato == "Maschio")
 					{
-						TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, "Maschio"));
 						for (int i = 0; i < CompletiMaschio.Count; i++)
 						{
 							UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
@@ -1033,7 +1059,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					else
 					{
-						TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, "Femmina"));
 						for (int i = 0; i < CompletiFemmina.Count; i++)
 						{
 							UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
@@ -1058,6 +1083,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 					UpdateDress(Game.PlayerPed, data.dressing);
+					TaskProvaClothes(Game.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
 				};
 				#endregion
 				#endregion
@@ -1068,12 +1094,11 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					if (_newMenu == Info || _newMenu == Genitori || _newMenu == Dettagli || _newMenu == Apparenze && _forward)
 						AnimateGameplayCamZoom(true, ncam);
 				};
-				Creazione.OnMenuClose += async (menu) => { generico.Delete(); };
 				Info.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Genitori.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Dettagli.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Apparenze.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskHoldBoard(); };
+				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato)); };
 				#endregion
 
 				#region CREA_BUTTON_FINISH
@@ -1108,49 +1133,51 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		}
 		#endregion
 		#region Controllo tasti
-		static float fov = 11f;
+		static float fov = 10.00255f;
 		static float CoordX;
+		static bool left = false;
+		static bool right = false;
 		static float CoordY;
 		public static async Task TastiMenu()
 		{
-			if (Creazione.Visible)
+			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
-				if (IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205) && IsInputDisabled(2) || IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205) && !IsInputDisabled(2))
+				if (((IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205)) && IsInputDisabled(2)) || ((IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205)) && !IsInputDisabled(2)))
 				{
-					TaskLookAtCoord(Game.PlayerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
+					if (!left)
+					{
+						left = true;
+						TaskLookLeft(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(Game.PlayerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
+					}
 				}
-				else if (IsControlPressed(0, 206) || IsDisabledControlPressed(0, 206) && IsInputDisabled(2) || IsControlPressed(2, 206) || IsDisabledControlPressed(2, 206) && !IsInputDisabled(2))
+				else if (((IsControlPressed(0, 206) || IsDisabledControlPressed(0, 206)) && IsInputDisabled(2)) || ((IsControlPressed(2, 206) || IsDisabledControlPressed(2, 206)) && !IsInputDisabled(2)))
 				{
-					TaskLookAtCoord(Game.PlayerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
+					if (!right)
+					{
+						right = true;
+						TaskLookRight(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(Game.PlayerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
+					}
 				}
 				else
 				{
-					TaskClearLookAt(Game.PlayerPed.Handle);
+					if (right)
+						TaskStopLookRight(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+					else if (left)
+						TaskStopLookLeft(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+					right = false;
+					left = false;
+					//TaskClearLookAt(Game.PlayerPed.Handle);
 				}
 			}
-			if (Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
+			else if ((Dettagli.Visible || Apparenze.Visible || Genitori.Visible) && !Creazione.Visible)
 			{
-				if (IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205) && IsInputDisabled(2) || IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205) && !IsInputDisabled(2))
-				{
-					TaskLookAtCoord(Game.PlayerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
-				}
-				else if (IsControlPressed(0, 206) || IsDisabledControlPressed(0, 206) && IsInputDisabled(2) || IsControlPressed(2, 206) || IsDisabledControlPressed(2, 206) && !IsInputDisabled(2))
-				{
-					TaskLookAtCoord(Game.PlayerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
-				}
-				else
-				{
-					TaskClearLookAt(Game.PlayerPed.Handle);
-				}
-
 				if (IsDisabledControlPressed(0, 207) && IsInputDisabled(2) || (IsDisabledControlPressed(2, 207) && (!IsInputDisabled(2))) || IsControlPressed(0, 207) && IsInputDisabled(2) || (IsControlPressed(2, 207) && (!IsInputDisabled(2))))
 				{
 					fov -= .3f;
 					if (fov < 8.0f)
-					{
 						fov = 8.0f;
-					}
-
 					ncamm.FieldOfView = fov;
 				}
 				if (IsDisabledControlJustReleased(0, 207) || (IsControlJustReleased(0, 207)))
@@ -1159,13 +1186,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					{
 						await BaseScript.Delay(0);
 						fov += .3f;
-						if (fov > 11f)
-						{
-							fov = 11f;
-						}
-
+						if (fov > 10.00255f)
+							fov = 10.00255f;
 						ncamm.FieldOfView = fov;
-					} while (fov < 11f && !IsDisabledControlJustReleased(0, 207) && !(IsControlJustReleased(0, 207)));
+					} while (fov < 10.00255f && !IsDisabledControlJustReleased(0, 207) && !(IsControlJustReleased(0, 207)));
 				}
 			}
 			if (!IsInputDisabled(2))
@@ -1596,17 +1620,25 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			if (toggle)
 			{
 				ncamm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
-				Vector3 c = new Vector3(ncam.Position.X, ncam.Position.Y, ncam.Position.Z + 0.3f);
-				ncamm.Position = c;
-				ncamm.PointAt(Game.PlayerPed.Bones[31086], new Vector3(0.0f, 0.0f, 0.05f));
-				ncamm.FieldOfView = 11f;
+				ncamm.Position = new Vector3(402.6746f, -1000.129f, -98.46554f);
+				ncamm.Rotation = new Vector3(0.861356f, 0f, -2.348183f);
+				Game.PlayerPed.IsVisible = true;
+				ncamm.FieldOfView = 10.00255f;
 				ncamm.IsActive = true;
-				ncam.InterpTo(ncamm, 800, false, false);
+				N_0xf55e4046f6f831dc(ncamm.Handle, 4f);
+				N_0xe111a7c0d200cbc5(ncamm.Handle, 1f);
+				SetCamDofFnumberOfLens(ncamm.Handle, 1.2f);
+				SetCamDofMaxNearInFocusDistanceBlendLevel(ncamm.Handle, 1f);
+				ncam.InterpTo(ncamm, 300, 1, 1);
+				Game.PlaySound("Zoom_In", "MUGSHOT_CHARACTER_CREATION_SOUNDS");
+				while (ncam.IsInterpolating) await BaseScript.Delay(0);
 			}
 			else
 			{
-				ncamm.InterpTo(ncam, 800, false, false);
+				ncamm.InterpTo(ncam, 300, 1, 1);
 				ncamm.Delete();
+				Game.PlaySound("Zoom_Out", "MUGSHOT_CHARACTER_CREATION_SOUNDS");
+				while (ncam.IsInterpolating) await BaseScript.Delay(0);
 			}
 			await Task.FromResult(0);
 		}
@@ -1940,8 +1972,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			int sequence = 0;
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnim(p.Handle, an, "Profile_L_Intro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
-			TaskPlayAnim(p.Handle, an, "Profile_L_Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_L_Intro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_L_Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
 			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
@@ -1951,8 +1983,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			int sequence = 0;
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnim(p.Handle, an, "Profile_R_Intro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
-			TaskPlayAnim(p.Handle, an, "Profile_R_Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_R_Intro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_R_Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
 			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
@@ -1963,8 +1995,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 			int sequence = 0;
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnim(p.Handle, an, "Profile_L_Outro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
-			TaskPlayAnim(p.Handle, an, "Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_L_Outro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
 			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
@@ -1974,39 +2006,53 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			int sequence = 0;
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnim(p.Handle, an, "Profile_R_Outro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
-			TaskPlayAnim(p.Handle, an, "Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnim(0, an, "Profile_R_Outro", 4.0f, -4.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "Loop", 4.0f, -4.0f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
 			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
 		}
 
+		static void TaskCreaClothes(Ped p, string an)
+		{
+			int sequence = 0;
+			OpenSequenceTask(ref sequence);
+			TaskPlayAnim(0, an, "DROP_INTRO", 8.0f, -8.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "DROP_LOOP", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			CloseSequenceTask(sequence);
+			TaskPerformSequence(p.Handle, sequence);
+			ClearSequenceTask(ref sequence);
+		}
 
-		static async Task TaskCreaClothes(Ped p, string an)
+		static void TaskProvaClothes(Ped p, string an)
 		{
 			string anim = "";
 			int a = GetRandomIntInRange(0, 2);
 			if (a == 0)
-			{
 				anim = "DROP_CLOTHES_A";
-			}
 			else if (a == 1)
-			{
 				anim = "DROP_CLOTHES_B";
-			}
 			else if (a == 2)
-			{
 				anim = "DROP_CLOTHES_C";
-			}
 
 			int sequence = 0;
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnim(Game.PlayerPed.Handle, an, anim, 4.0f, -4.0f, -1, 512, 0, false, false, false);
-			TaskPlayAnim(Game.PlayerPed.Handle, an, "DROP_LOOP", 4.0f, -4.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnim(0, an, anim, 8.0f, -8.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "DROP_LOOP", 8.0f, -8.0f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
-			TaskPerformSequence(Game.PlayerPed.Handle, sequence);
+			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
-			await Task.FromResult(0);
+		}
+
+		static void TaskClothesALoop(Ped p, string an)
+		{
+			int sequence = 0;
+			OpenSequenceTask(ref sequence);
+			TaskPlayAnim(0, an, "DROP_OUTRO", 8.0f, -8.0f, -1, 512, 0, false, false, false);
+			TaskPlayAnim(0, an, "Loop", 8.0f, -8.0f, -1, 513, 0, false, false, false);
+			CloseSequenceTask(sequence);
+			TaskPerformSequence(p.Handle, sequence);
+			ClearSequenceTask(ref sequence);
 		}
 
 		static async Task TaskPlayOutro(Ped p, string an)
@@ -2055,17 +2101,17 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			ClearSequenceTask(ref sequence);
 		}
 
-		static async Task TaskWalkInToRoom(Ped p, string an, Vector3 coo)
+		public static async Task TaskWalkInToRoom(Ped p, string an)
 		{
-
 			int sequence = 0;
-			Vector3 pos = coo;
+			Vector3 pos = new Vector3(404.834f, -997.838f, -97.841f);
 			OpenSequenceTask(ref sequence);
-			TaskPlayAnimAdvanced(-1, an, "Intro", pos.X, pos.Y, pos.Z - 1f, 0.0f, 0.0f, -40.0f, 8.0f, -8.0f, -1, 4608, 0f, 2, 0);
-			TaskPlayAnim(0, an, "Loop", 8.0f, -8.0f, -1, 513, 0, false, false, false);
+			TaskPlayAnimAdvanced(0, an, "Intro", pos.X, pos.Y, pos.Z - 1f, 0.0f, 0.0f, -40.0f, 8.0f, -8.0f, -1, 4608, 0f, 2, 0);
+			TaskPlayAnim(0, an, "Loop", 8f, -4f, -1, 513, 0, false, false, false);
 			CloseSequenceTask(sequence);
 			TaskPerformSequence(p.Handle, sequence);
 			ClearSequenceTask(ref sequence);
+			await Task.FromResult(0);
 		}
 	}
 
