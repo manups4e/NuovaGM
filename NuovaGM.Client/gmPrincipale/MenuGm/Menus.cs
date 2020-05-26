@@ -1319,14 +1319,14 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 								if (CoordX > 1f)
 									CoordX = 1f;
 							}
-							data.skin.face.tratti[19] = ((CoordX * 2f) - 1f) / -1;
+							data.skin.face.tratti[19] = ((CoordX * 2f) - 1f);
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && (!IsInputDisabled(2)))
 							{
 								CoordX -= 0.03f;
 								if (CoordX < 0)
 									CoordX = 0;
 							}
-							data.skin.face.tratti[19] = ((CoordX * 2f) - 1f) / -1;
+							data.skin.face.tratti[19] = ((CoordX * 2f) - 1f);
 							(Collo.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
