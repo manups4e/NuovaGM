@@ -147,12 +147,12 @@ namespace NuovaGM.Client.Banking
 		{
 /*			for (int i = 0; i < atmpos.Count; i++)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 100f)
+				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 100f)
 				{
 					World.DrawMarker(MarkerType.DollarSign, atmpos[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 0.8f, 1.0f), Color.FromArgb(160, 0, 255, 190), false, false, true);
 				}
 
-				if (World.GetDistance(Game.PlayerPed.Position, atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen() && !InterfacciaAperta)
+				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen() && !InterfacciaAperta)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -173,9 +173,9 @@ namespace NuovaGM.Client.Banking
 			}
 			/*          foreach (Vector3 b in bankCoords)
 						{
-							if (World.GetDistance(Game.PlayerPed.Position, b) < 30f)
+							if (Game.PlayerPed.IsInRangeOf(b, 30f))
 								World.DrawMarker(MarkerType.DollarSign, b, new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 1.1f, 1.6f), Color.FromArgb(160, 0, 255, 190), false, false, true);
-							if (World.GetDistance(Game.PlayerPed.Position, b) < 1.375f)
+							if (Game.PlayerPed.IsInRangeOf(b, 1.375f))
 							{
 								Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il tuo conto bancario");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -187,12 +187,12 @@ namespace NuovaGM.Client.Banking
 			*/
 			for (int i = 0; i < cleanspotcoords.Count; i++)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, cleanspotcoords[i]) < 60f)
+				if (Game.PlayerPed.IsInRangeOf(cleanspotcoords[i], 60f))
 				{
 					World.DrawMarker(MarkerType.DollarSign, cleanspotcoords[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.5f, 1.5f, 1.6f), System.Drawing.Color.FromArgb(120, 255, 0, 0), false, false, true);
 				}
 
-				if (World.GetDistance(Game.PlayerPed.Position, cleanspotcoords[i]) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(cleanspotcoords[i], 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per pulire i soldi");
 					if (Input.IsControlJustPressed(Control.Context))

@@ -95,7 +95,7 @@ namespace NuovaGM.Client.Negozi
 			{
 				foreach (var v in ConfigClothes.Binco)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z)) < 0.8f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -111,7 +111,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -128,7 +128,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z)) < 0.8f)
+					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
@@ -145,7 +145,7 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -162,7 +162,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -179,7 +179,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -199,7 +199,7 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Discount)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z)) < 0.8f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -216,7 +216,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -233,7 +233,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z)) < 0.8f)
+					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
@@ -250,7 +250,7 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -267,7 +267,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -284,7 +284,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -304,7 +304,7 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Suburban)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z)) < 0.8f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -321,7 +321,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -338,7 +338,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z)) < 0.8f)
+					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
@@ -355,7 +355,7 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -372,7 +372,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -389,7 +389,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -409,7 +409,7 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Ponsombys)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z)) < 0.8f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -426,7 +426,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -443,7 +443,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z)) < 0.8f)
+					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
@@ -460,7 +460,7 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -477,7 +477,7 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z)) < 0.8f)
+					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))

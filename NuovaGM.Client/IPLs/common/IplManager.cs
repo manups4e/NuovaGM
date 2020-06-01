@@ -1,10 +1,6 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.Interactions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -17,9 +13,7 @@ namespace NuovaGM.Client.IPLs
 		public static void EnableIpl(List<string> ipls, bool activate)
 		{
 			foreach (string s in ipls)
-			{
 				_enableIPL(s, activate);
-			}
 		}
 
 		public static void EnableIpl(string ipls, bool activate)
@@ -55,7 +49,7 @@ namespace NuovaGM.Client.IPLs
 
 		private static void _enableIPL(string s, bool activate)
 		{
-			if (activate) 
+			if (activate)
 			{
 				if (!IsIplActive(s))
 					RequestIpl(s);

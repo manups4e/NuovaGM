@@ -200,7 +200,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			{
 				if (InGarage)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(240.317f, -1004.901f, -99f)) < 3f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiare piano");
 						if (Input.IsControlJustPressed(Control.Context))

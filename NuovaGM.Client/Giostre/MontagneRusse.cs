@@ -335,7 +335,7 @@ namespace NuovaGM.Client.Giostre
 		{
 			foreach (var v in ingressi)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v) < 1.3f && Montagna.State == "ATTESA" && tempo > 0)
+				if (Game.PlayerPed.IsInRangeOf(v,  1.3f) && Montagna.State == "ATTESA" && tempo > 0)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulle montagne russe");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -361,7 +361,7 @@ namespace NuovaGM.Client.Giostre
 					LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS");
 			}
 
-			if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1646.863f, -1125.135f, 17.338f)) < 30f)
+			if (Game.PlayerPed.IsInRangeOf(new Vector3(-1646.863f, -1125.135f, 17.338f), 30f))
 			{
 				if (Montagna.State == "ATTESA" && tempo > 0)
 					montagna.Enabled = true;
@@ -616,7 +616,7 @@ namespace NuovaGM.Client.Giostre
 			}
 			SlerpNearQuaternion(fVar4, uVar5[0], uVar5[1], uVar5[2], uVar5[3], uVar6[0], uVar6[1], uVar6[2], uVar6[3], ref uVar7[0], ref uVar7[1], ref uVar7[2], ref uVar7[3]);
 			SetEntityQuaternion(Montagna.Carrelli[iParam0].Entity.Handle, uVar7[0], uVar7[1], uVar7[2], uVar7[3]);
-			if (World.GetDistance(Game.PlayerPed.Position, Montagna.Carrelli[0].Entity.Position) < 50f)
+			if (Game.PlayerPed.IsInRangeOf(Montagna.Carrelli[0].Entity.Position, 50f))
 				if (iParam0 == 0 && iVar0 % 3 == 0)
 					SetPadShake(0, 32, 32);
 		}

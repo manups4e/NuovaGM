@@ -30,7 +30,7 @@ namespace NuovaGM.Client.Interactions
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_r_bighouse", 2))
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, LettoMid.vLocal_338) < 1.3f)
+				if (Game.PlayerPed.IsInRangeOf(LettoMid.vLocal_338, 1.3f))
 				{
 					if (!LettoMid.ALetto)
 					{
@@ -47,7 +47,7 @@ namespace NuovaGM.Client.Interactions
 							HUD.ShowNotification("Attualmente non implementato :D <3");
 					}
 				}
-				if (World.GetDistance(Game.PlayerPed.Position, LettoLow.vLocal_343) < 1.3f)
+				if (Game.PlayerPed.IsInRangeOf(LettoLow.vLocal_343, 1.3f))
 				{
 					if (!LettoLow.ALetto)
 					{
@@ -67,7 +67,7 @@ namespace NuovaGM.Client.Interactions
 
 				for (int i = 0; i < LettoHigh.Lista.Count; i++)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[i].Destra1) < 2f && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					if (Game.PlayerPed.IsInRangeOf(LettoHigh.Lista[i].Destra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
 					{
 						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticDestra;
 						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticDestra;
@@ -77,7 +77,7 @@ namespace NuovaGM.Client.Interactions
 						if (Input.IsControlJustPressed(Control.Context))
 							LettoHigh.Sdraiati(LettoHigh.Lista[i], true);
 					}
-					else if (World.GetDistance(Game.PlayerPed.Position, LettoHigh.Lista[i].Sinistra1) < 2f && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					else if (Game.PlayerPed.IsInRangeOf(LettoHigh.Lista[i].Sinistra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
 					{
 						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticSinistra;
 						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticSinistra;

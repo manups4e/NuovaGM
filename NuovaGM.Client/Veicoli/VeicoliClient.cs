@@ -619,7 +619,7 @@ namespace NuovaGM.Client.Veicoli
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, carGarageSpots[i]) < 1.375f)
+					if (Game.PlayerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())

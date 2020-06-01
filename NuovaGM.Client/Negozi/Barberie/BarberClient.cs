@@ -82,9 +82,9 @@ namespace NuovaGM.Client.Negozi
 
 		public static async void Controlla(Vector3 S, float Ch, Vector3 C, string Menu)
 		{
-			while (World.GetDistance(Game.PlayerPed.Position, S) > 1f) await BaseScript.Delay(100);
+			while (!Game.PlayerPed.IsInRangeOf(S, 1f)) await BaseScript.Delay(100);
 
-			if (World.GetDistance(Game.PlayerPed.Position, S) < 1f && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
+			if (Game.PlayerPed.IsInRangeOf(S, 1f) && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
@@ -111,7 +111,7 @@ namespace NuovaGM.Client.Negozi
 			Vector3 pos = Game.PlayerPed.Position;
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
-				if (World.GetDistance(pos, ConfigBarbieri.Kuts[i].Coord) < 50f && !CreatoKuts)
+				if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
 				{
 					S1 = ConfigBarbieri.Kuts[i].Sedia1;
 					S2 = ConfigBarbieri.Kuts[i].Sedia2;
@@ -119,7 +119,7 @@ namespace NuovaGM.Client.Negozi
 					CurrentBarber = await CreateBarber(ConfigBarbieri.Kuts[i].Model);
 					CreatoKuts = true;
 				}
-				else if (World.GetDistance(pos, ConfigBarbieri.Kuts[i].Coord) > 50)
+				else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
 				{
 					if (CreatoKuts)
 					{
@@ -127,7 +127,7 @@ namespace NuovaGM.Client.Negozi
 						CreatoKuts = false;
 					}
 				}
-				else if (World.GetDistance(pos, CurrentBarber.Position) < 2f)
+				else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -161,12 +161,12 @@ namespace NuovaGM.Client.Negozi
 					}
 				}
 			}
-			if (World.GetDistance(pos, ConfigBarbieri.Hawick.Coord) < 50 && !CreatoHawick)
+			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Hawick.Model);
 				CreatoHawick = true;
 			}
-			else if (World.GetDistance(pos, ConfigBarbieri.Hawick.Coord) > 50)
+			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50))
 			{
 				if (CreatoHawick)
 				{
@@ -174,7 +174,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoHawick = false;
 				}
 			}
-			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
+			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -208,13 +208,13 @@ namespace NuovaGM.Client.Negozi
 				}
 			}
 
-			if (World.GetDistance(pos, ConfigBarbieri.Osheas.Coord) < 50 && !CreatoOsheas)
+			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50) && !CreatoOsheas)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Osheas.Model);
 				CreatoOsheas = true;
 			}
 
-			else if (World.GetDistance(pos, ConfigBarbieri.Osheas.Coord) > 50)
+			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
 			{
 				if (CreatoOsheas)
 				{
@@ -222,7 +222,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoOsheas = false;
 				}
 			}
-			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
+			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -255,12 +255,12 @@ namespace NuovaGM.Client.Negozi
 					}
 				}
 			}
-			if (World.GetDistance(pos, ConfigBarbieri.Combo.Coord) < 50 && !CreatoCombo)
+			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Combo.Model);
 				CreatoCombo = true;
 			}
-			else if (World.GetDistance(pos, ConfigBarbieri.Combo.Coord) > 50)
+			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50))
 			{
 				if (CreatoCombo)
 				{
@@ -268,7 +268,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoCombo = false;
 				}
 			}
-			else if (World.GetDistance(pos, CurrentBarber.Position) < 2)
+			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))

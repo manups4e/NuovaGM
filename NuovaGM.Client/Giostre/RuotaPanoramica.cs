@@ -274,12 +274,12 @@ namespace NuovaGM.Client.Giostre
 
 		private static async Task ControlloPlayer()
 		{
-			if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1661.95f, -1127.011f, 12.6973f)) < 20f)
+			if (Game.PlayerPed.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 20f))
 			{
 				if (!IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
 					StartAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 
-				if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1661.95f, -1127.011f, 12.6973f)) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulla prima gondola libera");
 					if (Input.IsControlJustPressed(Control.Context))

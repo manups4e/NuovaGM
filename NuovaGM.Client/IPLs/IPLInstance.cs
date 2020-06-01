@@ -295,6 +295,10 @@ namespace NuovaGM.Client.IPLs
 
 			API.RequestIpl("canyonriver01_lod");
 
+			// Ferris wheel
+
+			//API.RequestIpl("ferris_finale_anim");
+
 			/*
 			 2 Car Garage	173.2903 -1003.600 -99.65707
 	 		 6 Car Garage	197.8153 -1002.293 -99.65749

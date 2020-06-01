@@ -60,7 +60,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloCaccia()
 		{
-			if (World.GetDistance(Game.PlayerPed.Position, Cacciatore.inizioCaccia.ToVector3()) < 1.375f)
+			if (Game.PlayerPed.IsInRangeOf(Cacciatore.inizioCaccia.ToVector3(), 1.375f))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -71,7 +71,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			if(World.GetDistance(Game.PlayerPed.Position, Cacciatore.zonaDiCaccia.ToVector3()) > Cacciatore.limiteArea)
+			if(Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia.ToVector3(), Cacciatore.limiteArea))
 			{
 				if (affittatoBianca)
 					Game.PlayerPed.Weapons.Remove(WeaponHash.Knife);
@@ -140,7 +140,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 		{
 			foreach (var anim in animaliUccisi)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, anim.Value.Entity.Position) < 2 && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)
+				if (Game.PlayerPed.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)
 				{
 					if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Knife))
 					{

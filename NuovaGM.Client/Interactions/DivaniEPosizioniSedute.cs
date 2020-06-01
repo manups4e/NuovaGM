@@ -54,7 +54,7 @@ namespace NuovaGM.Client.Interactions
 				{
 					for (int j = 0; j < Divani[i].Length; j++)
 					{
-						if (World.GetDistance(pedpos, Divani[i][j]) < 1.5f)
+						if (Game.PlayerPed.IsInRangeOf(Divani[i][j], 1.5f))
 						{
 							HUD.ShowHelp(GetLabelText("MPTV_WALK"));
 							if (Input.IsControlJustPressed(Control.Context))

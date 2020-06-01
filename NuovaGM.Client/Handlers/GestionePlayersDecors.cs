@@ -12,13 +12,11 @@ namespace NuovaGM.Client
 		{
 			foreach (var player in Client.Instance.GetPlayers)
 			{
-				if (!player.Character.HasDecor("PlayerStanziatoInIstanza"))
-					player.Character.SetDecor("PlayerStanziatoInIstanza", 0);
 				if (player.Character.HasDecor("PlayerStanziato"))
 				{
 					if (player.Character.GetDecor<bool>("PlayerStanziato") && player != Game.Player)
 					{
-						if (!player.Character.HasDecor("PlayerStanziatoInIstanza"))
+						if (player.Character.HasDecor("PlayerStanziatoInIstanza"))
 						{
 							if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0)
 							{
@@ -38,8 +36,8 @@ namespace NuovaGM.Client
 							}
 							else
 							{
-								if (!NetworkIsPlayerConcealed(player.Handle))
-									NetworkConcealPlayer(player.Handle, true, true);
+								if (NetworkIsPlayerConcealed(player.Handle))
+									NetworkConcealPlayer(player.Handle, false, false);
 							}
 						}
 						else
@@ -56,8 +54,9 @@ namespace NuovaGM.Client
 				}
 				if (player.Character.HasDecor("PlayerInPausa"))
 				{
-					if (player.Character.GetDecor<bool>("PlayerInPausa"))
-						HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+					if (player.Character.GetDecor<bool>("PlayerInPausa") && player != Game.Player)
+						if (player.Character.IsInRangeOf(Game.PlayerPed.Position, 30))
+							HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 				}
 			}
 		}

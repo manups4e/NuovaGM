@@ -689,7 +689,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
-				if (World.GetDistance(target.Position, coords) <= area)
+				if (target.IsInRangeOf(coords, area))
 				{
 					PlayersPedsInArea.Add(target);
 				}
@@ -887,8 +887,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			foreach (Vehicle v in vehs)
 			{
 				Vector3 vehcoords = v.Position;
-				float distance = World.GetDistance(vehcoords, Coords);
-				if (distance <= Radius)
+				if(v.IsInRangeOf(Coords, Radius))
 					vehiclesInArea.Add(v);
 			}
 			return vehiclesInArea.ToArray();

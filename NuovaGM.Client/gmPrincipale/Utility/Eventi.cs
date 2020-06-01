@@ -219,14 +219,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			float offset = 1 + (nbrDisplaying * 0.14f);
 			int source = PlayerId();
-			int target = GetPlayerFromServerId(id);
-			if (World.GetDistance(Game.PlayerPed.Position, GetEntityCoords(GetPlayerPed(target), true)) < 19f)
+			Player target = new Player(GetPlayerFromServerId(id));
+			if (Game.PlayerPed.IsInRangeOf(target.Character.Position, 19f))
 			{
 				Display(target, title, text, a, b, c, offset);
 			}
 		}
 
-		public static async void Display(int MePlayer, string title, string text, int a, int b, int c, float offset)
+		public static async void Display(Player MePlayer, string title, string text, int a, int b, int c, float offset)
 		{
 
 			bool displaying = true;
@@ -244,7 +244,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				while (displaying)
 				{
 					await BaseScript.Delay(0);
-					Vector3 coordsMe = GetEntityCoords(GetPlayerPed(MePlayer), false);
+					Vector3 coordsMe = MePlayer.Character.Position;
 					HUD.HUD.ShowFloatingHelpNotification(title + " " + text, coordsMe + new Vector3(0, 0, offset));
 //					HUD.HUD.DrawText3D(new Vector3(coordsMe.X, coordsMe.Y, coordsMe.Z + offset), System.Drawing.Color.FromArgb(a, b, c), title + " " + text, 0);
 				}

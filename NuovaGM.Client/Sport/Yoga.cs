@@ -154,7 +154,7 @@ namespace NuovaGM.Client.Sport
 		{
 			if (Materasso != null && Materasso.Exists())
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, Materasso.Position) < 1.2f)
+				if (Game.PlayerPed.IsInRangeOf(Materasso.Position, 1.2f))
 				{
 					HUD.ShowHelp("~INPUT_CONTEXT~ per praticare lo Yoga\n~INPUT_FRONTEND_CANCEL~ per ritirare il materassino");
 					if (Input.IsControlJustPressed(Control.Context))

@@ -121,7 +121,7 @@ namespace NuovaGM.Client
 			TickGenerici.ForEach(x => Client.Instance.AddTick(x));
 			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
 			TickHUD.ForEach(x => Client.Instance.AddTick(x));
-			Client.Instance.AddTick(KingOfAllTicks);
+			Client.Instance.AddTick(TickHandler);
 			/*
 			Client.Instance.AddTick(BankingClient.Markers);
 			Client.Instance.AddTick(PompeDiBenzinaClient.BusinessesPumps);
@@ -146,7 +146,7 @@ namespace NuovaGM.Client
 			*/
 		}
 
-		private static async Task KingOfAllTicks()
+		private static async Task TickHandler()
 		{
 			if (Game.PlayerPed.IsInVehicle())
 			{

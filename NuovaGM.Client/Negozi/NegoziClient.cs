@@ -67,7 +67,7 @@ namespace NuovaGM.Client.Negozi
 		{
 			foreach (float[] v in NegoziGenerici.tfs)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -76,7 +76,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (float[] v in NegoziGenerici.rq)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -85,7 +85,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (float[] v in NegoziGenerici.ltd)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -94,7 +94,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (float[] v in NegoziGenerici.armerie)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, v.ToVector3()) < 1.375f)
+				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())

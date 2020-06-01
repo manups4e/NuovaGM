@@ -63,9 +63,9 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			if (Game.Player.GetPlayerData().CurrentChar.job.name != "Rimozione forzata")
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, Rimozione.InizioLavoro.ToVector3()) < 50)
+				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro.ToVector3(), 50))
 					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
-				if (World.GetDistance(Game.PlayerPed.Position, Rimozione.InizioLavoro.ToVector3()) < 1.375)
+				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro.ToVector3(), 1.375f))
 				{
 					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -187,9 +187,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				}
 			}
 			if (VeicoloLavorativo == null) return;
-			if (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0)
-				while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0) await BaseScript.Delay(0);
-			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) < 10)
+			while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0) await BaseScript.Delay(0);
+			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Game.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10))
 				HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
 			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle)
 				HUD.ShowHelp("Hai agganciato il veicolo sbagliato!");
@@ -209,13 +208,13 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			}
 			else
 			{
-				if (PuntoDiConsegna != null && PuntoDiConsegna.Exists() && World.GetDistance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) > 25)
+				if (PuntoDiConsegna != null && PuntoDiConsegna.Exists() && !VeicoloDaRimuovere.IsInRangeOf(PuntoDiConsegna.Position, 25))
 				{
 					PuntoDiConsegna.Delete();
 					PuntoDiConsegna = null;
 				}
 			}
-			if (PuntoDiConsegna != null && World.GetDistance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) < 25)
+			if (PuntoDiConsegna != null && VeicoloDaRimuovere.IsInRangeOf(PuntoDiConsegna.Position, 25))
 			{
 				if (IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloDaRimuovere.Handle))
 					HUD.DrawText3D(PuntoDiConsegna.Position, Colors.WhiteSmoke, "Sgancia qui il veicolo per depositarlo!");

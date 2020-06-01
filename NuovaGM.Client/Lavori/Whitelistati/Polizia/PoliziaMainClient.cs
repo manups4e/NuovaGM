@@ -75,7 +75,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					for (int spoglio = 0; spoglio < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio.Count; spoglio++)
 					{
 						World.DrawMarker(MarkerType.HorizontalCircleSkinny, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(Game.PlayerPed.Position, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3()) < 1.375f)
+						if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio].ToVector3(), 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -93,7 +93,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					for (int veh = 0; veh< Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli.Count; veh++)
 					{
 						World.DrawMarker(MarkerType.CarSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
+						if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu.ToVector3(),  1.375f) && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -108,7 +108,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							if (Game.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.CarSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 1.375f && Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
+								if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del].ToVector3(), 1.375f) && Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
@@ -132,7 +132,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					for (int eli = 0; eli < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri.Count; eli++)
 					{
 						World.DrawMarker(MarkerType.HelicopterSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
-						if (World.GetDistance(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), Game.PlayerPed.Position) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen())
+						if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu.ToVector3(), 1.375f) && !HUD.MenuPool.IsAnyMenuOpen())
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -158,7 +158,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							if (Game.PlayerPed.IsInHeli)
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (World.GetDistance(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), Game.PlayerPed.Position) < 3.375f && Game.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen())
+								if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del].ToVector3(), 3.375f) && Game.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))

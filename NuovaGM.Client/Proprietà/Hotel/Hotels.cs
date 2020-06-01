@@ -62,7 +62,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 		{
 			for (int i=0; i< Client.Impostazioni.Proprieta.hotels.Count; i++)
 			{
-				if (World.GetDistance(Game.PlayerPed.Position, Client.Impostazioni.Proprieta.hotels[i].Coords.ToVector3()) < 3f && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.hotels[i].Coords.ToVector3(), 3f) && !HUD.MenuPool.IsAnyMenuOpen())
 				{
 					HUD.ShowHelp($"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -152,7 +152,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 			{
 				if (IsInPiccola)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(266.094f, -1007.487f, -101.800f)) < 1.3f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -174,7 +174,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				}
 				if (IsInMedia)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(346.493f, -1013.031f, -99.196f)) < 1.3f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(346.493f, -1013.031f, -99.196f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -196,7 +196,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				}
 				if (IsInAppartamento)
 				{
-					if (World.GetDistance(Game.PlayerPed.Position, new Vector3(-1452.164f, -540.640f, 74.044f)) < 1.3f)
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(-1452.164f, -540.640f, 74.044f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'appartamento");
 						if (Input.IsControlJustPressed(Control.Context))
