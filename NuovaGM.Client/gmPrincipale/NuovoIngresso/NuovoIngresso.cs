@@ -57,7 +57,6 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		private static async void Attiva()
 		{
 			guiEnabled = true;
-			Screen.Fading.FadeIn(1000);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			while (!HasModelLoaded((uint)PedHash.FreemodeFemale01))await BaseScript.Delay(1);
 
@@ -67,14 +66,17 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			femmi.IsCollisionEnabled = false;
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
+			SetManualShutdownLoadingScreenNui(true);
+			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
+			Screen.Fading.FadeIn(1000);
 			await BaseScript.Delay(1000);
 			ToggleMenu(true, "charloading");
 		}
 		private static void ToggleMenu(bool menuOpen, string menu)
 		{
 			if (menuOpen)
-				Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu = menu, data = JsonConvert.SerializeObject(Game.Player.GetPlayerData().char_data) });
+				Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = JsonConvert.SerializeObject(Game.Player.GetPlayerData().char_data) });
 			DisplayHud(!menuOpen);
 			DisplayRadar(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
