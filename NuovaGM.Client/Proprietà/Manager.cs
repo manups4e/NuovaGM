@@ -9,16 +9,30 @@ using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Proprietà
 {
 	static class Manager
 	{
+		private static ConfigProprieta Proprietà;
 		public static void Init()
 		{
+			Proprietà = Client.Impostazioni.Proprieta;
 			// CREO OGGETTO NEI DATI DEL PERSONAGGIO DEL PLAYER... COSI POSSO GESTIRLO IN BASE AL PERSONAGGIO :)
 
-//			Client.Instance.AddEventHandler("lprp:appartamenti:carica", new Action<string>(CaricaLeMieProprieta));
+			//			Client.Instance.AddEventHandler("lprp:appartamenti:carica", new Action<string>(CaricaLeMieProprieta));
+		}
+
+		public static async Task MarkerBlipHandler()
+		{
+			foreach (var app in Proprietà.Appartamenti.LowEnd) 
+			{
+				if(Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata.ToVector3(), 1.375f))
+				{
+
+				}
+			}
 		}
 	}
 }

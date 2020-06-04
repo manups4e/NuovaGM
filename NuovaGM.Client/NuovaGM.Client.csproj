@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Appartamenti\Case\" />
-    <Folder Include="Appartamenti\Garage\" />
+    <Folder Include="Proprietà\Appartamenti\Case\" />
+    <Folder Include="Proprietà\Appartamenti\Garage\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

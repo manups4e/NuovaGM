@@ -152,6 +152,8 @@ namespace NuovaGM.Client
 	public class ConfigProprieta
 	{
 		public List<Hotel> hotels = new List<Hotel>();
+		public ConfigAppartamenti Appartamenti = new ConfigAppartamenti();
+		public ConfigGarages Garages = new ConfigGarages();
 	}
 
 	public class BarbieriTesta
@@ -244,4 +246,49 @@ namespace NuovaGM.Client
 		public int price;
 	}
 
+	public class ConfigAppartamenti
+	{
+		public Dictionary<string, ConfigCase> LowEnd = new Dictionary<string, ConfigCase>();
+		public Dictionary<string, ConfigCase> MidEnd = new Dictionary<string, ConfigCase>();
+		public Dictionary<string, ConfigCase> HighEnd = new Dictionary<string, ConfigCase>();
+	}
+
+	public class ConfigGarages
+	{
+		public ConfigGarage LowEnd = new ConfigGarage();
+		public ConfigGarage MidEnd4 = new ConfigGarage();
+		public ConfigGarage MidEnd6 = new ConfigGarage();
+		public ConfigGarage HighEnd = new ConfigGarage();
+		// aggiungere uffici
+	}
+
+	public class ConfigGarage
+	{
+		public float[] Pos = new float[3];
+		public int NVehs;
+		public float[] OutMarker = new float[4];
+		public float[] ModifyMarker = new float[4];
+		public float[,] ModifyCam = new float[2, 3];
+		public float[] SpawnInLocation = new float[4];
+		public List<float> PosVehs = new List<float>();
+	}
+
+	public class ConfigCase
+	{
+		public string Label;
+		public int VehCapacity;
+		public float[] MarkerEntrata = new float[3];
+		public float[] MarkerUscita = new float[3];
+		public float[] SpawnDentro = new float[3];
+		public float[] SpawnFuori = new float[3];
+		public List<string> Ipls = new List<string>();
+		public string Gateway;
+		public bool Is_single;
+		public bool Is_room;
+		public bool Is_gateway;
+		public bool GarageIncluso;
+		public float[] GarageMarker = new float[3];
+		[JsonIgnore]
+		public int Price;
+	}
 }
