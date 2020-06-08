@@ -137,10 +137,10 @@ namespace NuovaGM.Client.Veicoli
 					rearvehicles.Remove(veh);
 				else
 				{
-					UseParticleFxAssetNextCall("core");
+					UseParticleFxAsset("core");
 					var disc_LR = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_lr"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_LR, true);
-					UseParticleFxAssetNextCall("core");
+					UseParticleFxAsset("core");
 					var disc_RR = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_rr"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_RR, true);
 				}
@@ -151,10 +151,10 @@ namespace NuovaGM.Client.Veicoli
 					frontvehicles.Remove(veh);
 				else
 				{
-					UseParticleFxAssetNextCall("core");
+					UseParticleFxAsset("core");
 					var disc_LF = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_lf"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_LF, true);
-					UseParticleFxAssetNextCall("core");
+					UseParticleFxAsset("core");
 					var disc_RF = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_rf"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_RF, true);
 				}

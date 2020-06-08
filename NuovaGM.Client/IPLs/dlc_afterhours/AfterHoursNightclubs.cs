@@ -211,7 +211,7 @@ namespace NuovaGM.Client.IPLs.dlc_afterhours
 						while (!API.HasNamedPtfxAssetLoaded("scr_ba_club")) await BaseScript.Delay(0);
 						foreach (var emitter in Emitters)
 						{
-							API.UseParticleFxAssetNextCall("scr_ba_club");
+							API.UseParticleFxAsset("scr_ba_club");
 							API.StartParticleFxLoopedAtCoord("scr_ba_club_smoke_machine", emitter.Item1.X, emitter.Item1.Y, emitter.Item1.Z, emitter.Item2.X, emitter.Item2.Y, emitter.Item2.Z, Scale, false, false, false, true);
 						}
 					}

@@ -219,9 +219,9 @@ namespace NuovaGM.Client.Interactions
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_22) await BaseScript.Delay(0);
 
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, Global_2499242_f_25, "MP_APARTMENT_SHOWER_MASTER", PlayerPedId(), 0, 0, 0);
-						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
+						UseParticleFxAsset("scr_fm_mp_missioncreator");
 						uLocal_433 = StartParticleFxLoopedAtCoord("ent_amb_shower", attuale.FxDocciaCoord.X, attuale.FxDocciaCoord.Y, attuale.FxDocciaCoord.Z, attuale.FxDocciaRot.X, attuale.FxDocciaRot.Y, attuale.FxDocciaRot.Z, 1f, false, false, false, true);
-						UseParticleFxAssetNextCall("scr_fm_mp_missioncreator");
+						UseParticleFxAsset("scr_fm_mp_missioncreator");
 						uLocal_434 = StartParticleFxLoopedAtCoord("ent_amb_shower_steam", attuale.FxVaporeCoord.X, attuale.FxVaporeCoord.Y, attuale.FxVaporeCoord.Z, attuale.FxVaporeRot.X, attuale.FxVaporeRot.Y, attuale.FxVaporeRot.Z, 1f, false, false, false, true);
 
 						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(1);

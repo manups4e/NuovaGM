@@ -19,9 +19,6 @@ namespace NuovaGM.Client.Proprietà
 		public static void Init()
 		{
 			Proprietà = Client.Impostazioni.Proprieta;
-			// CREO OGGETTO NEI DATI DEL PERSONAGGIO DEL PLAYER... COSI POSSO GESTIRLO IN BASE AL PERSONAGGIO :)
-
-			//			Client.Instance.AddEventHandler("lprp:appartamenti:carica", new Action<string>(CaricaLeMieProprieta));
 		}
 
 		public static async Task MarkerBlipHandler()

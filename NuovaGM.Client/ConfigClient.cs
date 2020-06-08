@@ -164,7 +164,7 @@ namespace NuovaGM.Client
 		public List<Capigliature> barba = new List<Capigliature>();
 		public List<Capigliature> ross = new List<Capigliature>();
 	}
-
+ 
 	public class Capelli
 	{
 		public List<Capigliature> kuts = new List<Capigliature>();
