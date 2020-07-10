@@ -209,6 +209,7 @@ namespace NuovaGM.Client.Giostre
 				await BaseScript.Delay(7000);
 				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Entity.Handle, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
 				AttachEntityToEntity(Personaggio.Handle, Cabina.Entity.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Game.PlayerPed.Heading, false, false, false, false, 2, true);
+				N_0x267c78c60e806b9a(Personaggio.Handle, true);
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 				if (Personaggio.Handle == PlayerPedId())
 					GiroFinito = false;

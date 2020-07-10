@@ -299,6 +299,7 @@ namespace NuovaGM.Client.Giostre
 			await BaseScript.Delay(5000);
 			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
 			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 2, true);
+			N_0x267c78c60e806b9a(personaggio.Handle, true);
 			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
 				SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
