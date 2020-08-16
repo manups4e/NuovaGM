@@ -746,7 +746,9 @@ namespace NuovaGM.Server.gmPrincipale
             catch (Exception e)
             {
                 Log.Printa(LogType.Error, e.ToString());
-                deferrals.done($"{messages["Error"]}"); return;
+                string card = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.3\",\"body\": [{\"type\": \"ColumnSet\",\"columns\": [{\"type\": \"Column\",\"width\": 2,\"items\": [{\"type\": \"TextBlock\",\"text\": \"Errore sconosciuto\",\"weight\": \"Bolder\",\"size\": \"Medium\"},{\"type\": \"TextBlock\",\"text\": \"Siamo spiacenti, l'accesso al server o la comunicazione con il bot ha subito un errore imprevisto!\",\"isSubtle\": true,\"wrap\": true},{\"type\": \"TextBlock\",\"text\": \"Per farci perdonare, ecco qui l'immagine di un gattino su di un unicorno!\",\"isSubtle\": true,\"wrap\": true,\"size\": \"Small\"}]},{\"type\": \"Column\",\"width\": 1,\"items\": [{\"type\": \"Image\",\"url\": \"https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg\",\"size\": \"auto\"}]}]}]}";
+                deferrals.presentCard(card);
+               // deferrals.done($"{messages["Error"]}"); return;
             }
         }
 

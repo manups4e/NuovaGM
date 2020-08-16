@@ -12,7 +12,6 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Status;
 using NuovaGM.Shared;

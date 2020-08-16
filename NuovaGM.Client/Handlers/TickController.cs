@@ -122,28 +122,6 @@ namespace NuovaGM.Client
 			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
 			TickHUD.ForEach(x => Client.Instance.AddTick(x));
 			Client.Instance.AddTick(TickHandler);
-			/*
-			Client.Instance.AddTick(BankingClient.Markers);
-			Client.Instance.AddTick(PompeDiBenzinaClient.BusinessesPumps);
-			Client.Instance.AddTick(Death.Injuried);
-			Client.Instance.AddTick(NegozioAbitiClient.OnTick);
-			Client.Instance.AddTick(NegoziClient.OnTick);
-			Client.Instance.AddTick(BarberClient.Sedie);
-			Client.Instance.AddTick(VeicoliClient.MostraMenuAffitto);
-			Client.Instance.AddTick(Main.NewTick);
-			Client.Instance.AddTick(Main.MainTick);
-			Client.Instance.AddTick(Main.Armi);
-			Client.Instance.AddTick(Main.Recoil);
-			Client.Instance.AddTick(PersonalMenu.attiva);
-			Client.Instance.AddTick(FuelClient.FuelCount);
-			Client.Instance.AddTick(FuelClient.FuelTruck);
-			Client.Instance.AddTick(MediciMainClient.MarkersNonMedici);
-			Client.Instance.AddTick(StatsNeeds.Aggiornamento);
-			Client.Instance.AddTick(StatsNeeds.Conseguenze);
-			Client.Instance.AddTick(StatsNeeds.Agg);
-			Client.Instance.AddTick(EventiPersonalMenu.MostramiStatus);
-			Client.Instance.AddTick(EventiPersonalMenu.MostramiSoldi);
-			*/
 		}
 
 		private static async Task TickHandler()

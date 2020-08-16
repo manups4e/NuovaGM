@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -111,6 +112,7 @@ namespace NuovaGM.Client.Giostre
 			await SpawnaMontagne();
 			Client.Instance.AddTick(MuoveMontagneRusse);
 			HUD.TimerBarPool.Add(montagna);
+			Client.Instance.AddTick(ControlloMontagne);
 
 		}
 
@@ -283,7 +285,6 @@ namespace NuovaGM.Client.Giostre
 					HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
 					return;
 			}
-			Log.Printa(LogType.Debug, "Posto = " + Posto);
 			TaskGoStraightToCoord(personaggio.Handle, Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
 			await BaseScript.Delay(1000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
@@ -298,8 +299,8 @@ namespace NuovaGM.Client.Giostre
 			}
 			await BaseScript.Delay(5000);
 			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
-			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 2, true);
-			N_0x267c78c60e806b9a(personaggio.Handle, true);
+			Function.Call((Hash)0x267c78c60e806b9a, personaggio.Handle, true);
+			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 0, true);
 			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
 				SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
@@ -307,9 +308,6 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerScende(int playernetid)
 		{
-			Log.Printa(LogType.Debug, "playernetid = " + playernetid);
-			Log.Printa(LogType.Debug, "game.playerped.networkdid = " + Game.PlayerPed.NetworkId);
-
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio != null)
 			{

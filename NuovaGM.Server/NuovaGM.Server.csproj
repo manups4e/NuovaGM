@@ -19,6 +19,7 @@
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Flurl.Http" Version="3.0.0-pre3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MySqlConnector" Version="0.69.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
@@ -36,9 +37,6 @@
     </Reference>
     <Reference Include="Dapper">
       <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="MySqlConnector">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\MySqlConnector.dll</HintPath>
     </Reference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">

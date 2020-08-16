@@ -37,15 +37,23 @@ namespace NuovaGM.Client.Manager
 			MenuPlayers.OnMenuOpen += async (_menu) =>
 			{
 				MenuPlayers.Clear();
-				foreach (KeyValuePair<string, PlayerChar> player in Eventi.GiocatoriOnline)
+				foreach (var p in Client.Instance.GetPlayers)
 				{
+					if (p == Game.Player) continue;
+					if(Client.Instance.GetPlayers.Count() == 1)
+					{
+						UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
+						_menu.AddItem(nessuno);
+						return;
+					}
+					var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
-					if (player.Value.char_data.Count == 1)
+					if (player.char_data.Count == 1)
 						charscount = "1 personaggio";
 					else
-						charscount = player.Value.char_data.Count + " personaggi";
+						charscount = player.char_data.Count + " personaggi";
 
-					UIMenu Giocatore = HUD.MenuPool.AddSubMenu(MenuPlayers, GetPlayerName(GetPlayerFromServerId(player.Value.source)), charscount);
+					UIMenu Giocatore = HUD.MenuPool.AddSubMenu(MenuPlayers, p.Name, charscount);
 
 					UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
 					UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
@@ -56,7 +64,6 @@ namespace NuovaGM.Client.Manager
 
 					Giocatore.OnItemSelect += async (menu, item, index) =>
 					{
-						Player p = new Player(GetPlayerFromServerId(player.Value.source));
 						if (item == Teletrasportami)
 							Game.PlayerPed.Position = p.Character.Position;
 						else if (item == Teletrasportalo)
@@ -115,7 +122,7 @@ namespace NuovaGM.Client.Manager
 							menu.UpdateDescription();
 						}
 						else if (item == Banna)
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", player.Key, Motivazione, TempoDiBan.Ticks, Game.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, TempoDiBan.Ticks, Game.Player.ServerId);
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
 					};
 
@@ -202,14 +209,14 @@ namespace NuovaGM.Client.Manager
 							motivazioneKick.SetRightLabel(motivazionekick.Substring(0, 15) + "...");
 						}
 						else if (item == Kicka)
-							BaseScript.TriggerServerEvent("lprp:kickPlayer", player.Key, motivazionekick, Game.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Game.Player.ServerId);
 					};
 					#endregion
 
 					UIMenu Personaggi = HUD.MenuPool.AddSubMenu(Giocatore, "~b~Gestione Personaggi~w~", charscount);
 
 
-					foreach (Shared.Char_data chars in player.Value.char_data)
+					foreach (Shared.Char_data chars in player.char_data)
 					{
 						UIMenu Character = HUD.MenuPool.AddSubMenu(Personaggi, chars.info.firstname + " " + chars.info.lastname);
 
@@ -267,7 +274,7 @@ namespace NuovaGM.Client.Manager
 										{
 											int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 											if (quantita < 99 && quantita > 0)
-												BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", player.Key, chars.id, item.item, quantita);
+												BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
 											else
 												HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 										}
@@ -275,7 +282,7 @@ namespace NuovaGM.Client.Manager
 										{
 											int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 											if (quantita < 99 && quantita > 0)
-												BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", player.Key, chars.id, item.item, quantita);
+												BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
 											else
 												HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 										}
@@ -289,7 +296,7 @@ namespace NuovaGM.Client.Manager
 							string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
 							int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 							if (quantita < 99 && quantita > 0)
-								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", player.Key, chars.id, oggetto, quantita);
+								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, oggetto, quantita);
 							else
 								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 							menu.RefreshIndex();
