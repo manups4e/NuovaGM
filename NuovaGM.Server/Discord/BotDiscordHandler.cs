@@ -12,9 +12,9 @@ namespace NuovaGM.Server.Discord
 	static class BotDiscordHandler
 	{
 		public static Guild TheLastServer;
-		public static void Init()
+		public static async void Init()
 		{
-			Server.Instance.AddTick(ConnessioneAlBot);
+			await ConnessioneAlBot();
 		}
 
 		private static async Task ConnessioneAlBot()
@@ -22,16 +22,14 @@ namespace NuovaGM.Server.Discord
 			RequestResponse risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
 			while (risposta.status != System.Net.HttpStatusCode.OK)
 			{
-				Log.Printa(LogType.Warning, "Connessione al server discord non riuscita, nuovo tentativo ogni 5 secondi...");
-				await BaseScript.Delay(5000);
 				risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
+				await BaseScript.Delay(5000);
 			}
 			if (risposta.status == System.Net.HttpStatusCode.OK) 
 			{
 				TheLastServer = JsonConvert.DeserializeObject<Guild>(risposta.content);
 				Log.Printa(LogType.Info, $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
 			}
-			await BaseScript.Delay(300000);
 		}
 
 		public static async Task InviaAlBot(object data)
