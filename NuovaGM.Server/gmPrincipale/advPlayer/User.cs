@@ -391,14 +391,15 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public async void CaricaAppartamenti()
 		{
-			try {
-				//			dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @discord AND Personaggio = @pers", new
-				//			{ identifiers.discord, pers = FullName });
-				//			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(result));
+			try 
+			{
+				dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @discord AND Personaggio = @pers", new
+				{ identifiers.discord, pers = FullName });
+				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(result));
 			}
 			catch(Exception e)
 			{
-				Log.Printa(LogType.Debug, "appartamenti user:401");
+				Log.Printa(LogType.Debug, e.ToString());
 			}
 		}
 	}

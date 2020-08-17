@@ -55,7 +55,7 @@ namespace NuovaGM.Client
 
 			Giostre.MontagneRusse.Init();
 			Giostre.RuotaPanoramica.Init();
-//			Giostre.Funivia.Init();
+			Giostre.Funivia.Init();
 
 			IPLInstance.Init();
 			Proprietà.Hotel.Hotels.Init();
@@ -67,7 +67,7 @@ namespace NuovaGM.Client
 
 			DamageEvents.Init();
 
-//			Sport.Yoga.Init();
+			Sport.Yoga.Init();
 
 			Telefono.PhoneMainClient.Init();
 

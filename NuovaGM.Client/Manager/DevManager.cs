@@ -97,22 +97,13 @@ namespace NuovaGM.Client.Manager
 			{
 				foreach (var p in World.GetAllProps())
 					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f))
-					{
-						World.DrawLine(Game.PlayerPed.Position, p.Position, Colors.Blue);
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
-					}
 				foreach (var p in World.GetAllPeds())
 					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f) && p != Game.PlayerPed)
-					{
-						World.DrawLine(Game.PlayerPed.Position, p.Position, Colors.Blue);
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
-					}
 				foreach (var p in World.GetAllVehicles())
 					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f))
-					{
-						World.DrawLine(Game.PlayerPed.Position, p.Position, Colors.Blue);
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
-					}
 			}
 			await Task.FromResult(0);
 		}
