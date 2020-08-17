@@ -17,7 +17,7 @@ namespace NuovaGM.Client.Sport
 
 		private static async void CaricaTutto()
 		{
-			RequestAnimDict("mini@arm_wrestling"); //"ref_intro"
+			//RequestAnimDict("mini@arm_wrestling"); //"ref_intro"
 		}
 
 

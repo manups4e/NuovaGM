@@ -62,7 +62,6 @@ namespace NuovaGM.Client
 
 			Interactions.Macchinette.Init();
 			Interactions.Docce.Init();
-			Interactions.Letti.Init();
 			Interactions.PickupsClient.Init();
 			Interactions.OggettiGenerici.Init();
 

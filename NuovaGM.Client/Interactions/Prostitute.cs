@@ -24,10 +24,12 @@ namespace NuovaGM.Client.Interactions
 
 		private static void CaricaTutto()
 		{
+			/* DA CARICARE QUANDO SERVONO E RemoveAnimDict quando finito!!
 			RequestAnimDict("mini@prostitutes@sexlow_veh");
 			RequestAnimDict("mini@prostitutes@sexnorm_veh");
 			RequestAnimDict("mini@prostitutes@sexlow_veh_first_person");
 			RequestAnimDict("mini@prostitutes@sexnorm_veh_first_person");
+			*/
 		}
 
 		public static async Task ControlloProstitute()

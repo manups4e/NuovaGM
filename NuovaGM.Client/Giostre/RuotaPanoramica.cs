@@ -109,8 +109,6 @@ namespace NuovaGM.Client.Giostre
 			while (!HasModelLoaded((uint)GetHashKey("prop_ld_ferris_wheel"))) await BaseScript.Delay(100);
 			RequestModel((uint)GetHashKey("prop_ferris_car_01"));
 			while (!HasModelLoaded((uint)GetHashKey("prop_ferris_car_01"))) await BaseScript.Delay(100);
-			RequestAnimDict("anim@mp_ferris_wheel");
-			while (!HasAnimDictLoaded("anim@mp_ferris_wheel")) await BaseScript.Delay(100);
 			RequestScriptAudioBank("SCRIPT\\FERRIS_WHALE_01", false);
 			RequestScriptAudioBank("SCRIPT\\FERRIS_WHALE_02", false);
 			RequestScriptAudioBank("THE_FERRIS_WHALE_SOUNDSET", false);
@@ -185,6 +183,8 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerSale(int player, int cabina)
 		{
+			RequestAnimDict("anim@mp_ferris_wheel");
+			while (!HasAnimDictLoaded("anim@mp_ferris_wheel")) await BaseScript.Delay(100);
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
 			CabinaPan Cabina = Cabine[cabina];
 			if (IsEntityAtCoord(Personaggio.Handle, -1661.95f, -1127.011f, 12.6973f, 1f, 1f, 1f, false, true, 0))
@@ -225,11 +225,14 @@ namespace NuovaGM.Client.Giostre
 				PlaySoundFromEntity(iLocal_298, "CARRIAGE", Cabine[1].Entity.Handle, "THE_FERRIS_WHALE_SOUNDSET", false, 0);
 				if (Personaggio.Handle == PlayerPedId())
 					CreaCam();
+				RemoveAnimDict("anim@mp_ferris_wheel");
 			}
 		}
 
 		private static async void PlayerScende(int player, int cabina)
 		{
+			RequestAnimDict("anim@mp_ferris_wheel");
+			while (!HasAnimDictLoaded("anim@mp_ferris_wheel")) await BaseScript.Delay(100);
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
 			CabinaPan Cabina = Cabine[cabina];
 			if (Personaggio == Game.PlayerPed)
@@ -271,6 +274,7 @@ namespace NuovaGM.Client.Giostre
 				Cabina.NPlayer = 0;
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 			}
+			RemoveAnimDict("anim@mp_ferris_wheel");
 		}
 
 		private static async Task ControlloPlayer()

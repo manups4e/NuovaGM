@@ -17,11 +17,6 @@ namespace NuovaGM.Client.Interactions
 		private static Vector3 coord = new Vector3();
 		private static Vector3 rot = new Vector3();
 
-		public static async void Init()
-		{
-			RequestAnimDict("mp_bedmid");
-		}
-
 		public static async Task ControlloLetti()
 		{
 
@@ -174,6 +169,8 @@ namespace NuovaGM.Client.Interactions
 
 		public override async void Sdraiati()
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Vector3 vVar0 = new Vector3(1.5f);
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)
@@ -209,6 +206,7 @@ namespace NuovaGM.Client.Interactions
 				uLocal_332 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_331);
 				SetSynchronizedSceneLooped(uLocal_332, true);
 				ALetto = true;
+				RemoveAnimDict("mp_bedmid");
 			}
 			else
 			{
@@ -218,6 +216,8 @@ namespace NuovaGM.Client.Interactions
 
 		public override async void ScendiDalLetto()
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			uLocal_331 = NetworkCreateSynchronisedScene(vLocal_348.X, vLocal_348.Y, vLocal_348.Z, vLocal_351.X, vLocal_351.Y, vLocal_351.Z, 2, false, true, 1065353216, 0, 1065353216);
 			NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_331, sLocal_334, sLocal_336, 8f, -2f, 261, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(uLocal_331);
@@ -227,6 +227,7 @@ namespace NuovaGM.Client.Interactions
 			NetworkStartSynchronisedScene(uLocal_331);
 
 			ALetto = false;
+			RemoveAnimDict("mp_bedmid");
 		}
 	}
 
@@ -248,6 +249,8 @@ namespace NuovaGM.Client.Interactions
 
 		public async void Sdraiati()
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			Vector3 vVar0 = new Vector3(1.5f);
 			Vector3 vVar3;
@@ -278,6 +281,7 @@ namespace NuovaGM.Client.Interactions
 				uLocal_331 = NetworkConvertSynchronisedSceneToSynchronizedScene(uLocal_330);
 				SetSynchronizedSceneLooped(uLocal_331, true);
 				ALetto = true;
+				RemoveAnimDict("mp_bedmid");
 			}
 			else
 				HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", NotificationColor.Red, true);
@@ -285,6 +289,8 @@ namespace NuovaGM.Client.Interactions
 
 		public async void ScendiDalLetto()
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			uLocal_330 = NetworkCreateSynchronisedScene(vLocal_347.X, vLocal_347.Y, vLocal_347.Z, vLocal_350.X, vLocal_350.Y, vLocal_350.Z, 2, false, false, 1065353216, 0, 1065353216);
 			NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_330, sLocal_333, sLocal_336, 2f, -2f, 261, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(uLocal_330);
@@ -294,6 +300,7 @@ namespace NuovaGM.Client.Interactions
 			NetworkStartSynchronisedScene(uLocal_330);
 
 			ALetto = false;
+			RemoveAnimDict("mp_bedmid");
 		}
 	}
 
@@ -749,6 +756,8 @@ namespace NuovaGM.Client.Interactions
 		public async override void Sdraiati() { }
 		public async void Sdraiati(LettiCoordsAnim lato, bool destra)
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Vector3 var0 = lato.CoordAnim;
 			Vector3 var1 = lato.RotAnim;
 
@@ -781,11 +790,14 @@ namespace NuovaGM.Client.Interactions
 			SetSynchronizedSceneLooped(lato.uLocal_409, true);
 			ALettoDestra = destra;
 			ALettoSinistra = !destra;
+			RemoveAnimDict("mp_bedmid");
 		}
 
 		public async override void ScendiDalLetto() { }
 		public async void ScendiDalLetto(Vector3[] coords, bool destra)
 		{
+			RequestAnimDict("mp_bedmid");
+			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			int uLocal_410 = NetworkCreateSynchronisedScene(coords[0].X, coords[0].Y, coords[0].Z, coords[1].X, coords[1].Y, coords[1].Z, 2, false, false, 1065353216, 0, 1065353216);
 			NetworkAddPedToSynchronisedScene(PlayerPedId(), uLocal_410, sLocal_413, func_9(destra), 2f, -2f, 261, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(uLocal_410);
@@ -796,6 +808,7 @@ namespace NuovaGM.Client.Interactions
 
 			ALettoDestra = false;
 			ALettoSinistra = false;
+			RemoveAnimDict("mp_bedmid");
 		}
 	}
 }

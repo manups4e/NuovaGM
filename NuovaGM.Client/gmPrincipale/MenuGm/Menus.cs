@@ -1121,6 +1121,12 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					Client.Instance.RemoveTick(Scaleform);
 					Client.Instance.RemoveTick(TastiMenu);
 					CamerasFirstTime.FirstTimeTransition(data.id == 1);
+					RemoveAnimDict("mp_character_creation@lineup@male_a");
+					RemoveAnimDict("mp_character_creation@lineup@male_b");
+					RemoveAnimDict("mp_character_creation@lineup@female_a");
+					RemoveAnimDict("mp_character_creation@lineup@female_b");
+					RemoveAnimDict("mp_character_creation@customise@male_a");
+					RemoveAnimDict("mp_character_creation@customise@female_a");
 				};
 				#endregion
 

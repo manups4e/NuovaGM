@@ -106,8 +106,6 @@ namespace NuovaGM.Client.Giostre
 			while (!HasModelLoaded((uint)GetHashKey("ind_prop_dlc_roller_car"))) await BaseScript.Delay(100);
 			RequestModel((uint)GetHashKey("ind_prop_dlc_roller_car_02"));
 			while (!HasModelLoaded((uint)GetHashKey("ind_prop_dlc_roller_car_02"))) await BaseScript.Delay(100);
-			RequestAnimDict(RollerAnim);
-			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			LoadStream("LEVIATHON_RIDE_MASTER", "");
 			await SpawnaMontagne();
 			Client.Instance.AddTick(MuoveMontagneRusse);
@@ -166,12 +164,15 @@ namespace NuovaGM.Client.Giostre
 					case "PARTENZA":
 						if (!Attivato)
 						{
+							RequestAnimDict(RollerAnim);
+							while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 							Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_enter_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
 							PlaySoundFromEntity(-1, "Bar_Lower_And_Lock", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Posto per entrare
 							if (SonoSeduto)
 							{
 								TaskPlayAnim(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto, 8f, -8f, -1, 2, 0, false, false, false);
 								while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto) < 0.2f) await BaseScript.Delay(0);
+								RemoveAnimDict(RollerAnim);
 							}
 							else await BaseScript.Delay(5000);
 							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "VIAGGIO");
@@ -187,6 +188,8 @@ namespace NuovaGM.Client.Giostre
 								UpdateTasti();
 								StartAudioScene("FAIRGROUND_RIDES_LEVIATHAN");
 								PlayStreamFromPed(PlayerPedId());
+								RequestAnimDict(RollerAnim);
+								while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 								if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3))
 									Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 								if (Input.IsControlJustPressed(Control.FrontendX))
@@ -204,6 +207,7 @@ namespace NuovaGM.Client.Giostre
 										Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 									}
 								}
+								RemoveAnimDict(RollerAnim);
 							}
 							else
 								PlayStreamFromObject(Montagna.Carrelli[2].Entity.Handle);
@@ -235,7 +239,10 @@ namespace NuovaGM.Client.Giostre
 							if (Attivato)
 							{
 								await BaseScript.Delay(1000);
+								RequestAnimDict(RollerAnim);
+								while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 								Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_exit_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
+								RemoveAnimDict(RollerAnim);
 								PlaySoundFromEntity(-1, "Bar_Unlock_And_Raise", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Postoper entrare
 								if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Game.PlayerPed.NetworkId);
 								Montagna.Carrelli.ToList().ForEach(o => o.Occupato = 0);
@@ -263,6 +270,8 @@ namespace NuovaGM.Client.Giostre
 
 		private static async void PlayerSale(int playernetid, int index, int carrellonetid)
 		{
+			RequestAnimDict(RollerAnim);
+			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio.NetworkId != Game.PlayerPed.NetworkId)
 				if (!NetworkHasControlOfNetworkId(playernetid))
@@ -304,10 +313,13 @@ namespace NuovaGM.Client.Giostre
 			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
 				SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
+			RemoveAnimDict(RollerAnim);
 		}
 
 		private static async void PlayerScende(int playernetid)
 		{
+			RequestAnimDict(RollerAnim);
+			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio != null)
 			{
@@ -327,6 +339,7 @@ namespace NuovaGM.Client.Giostre
 				NetworkStartSynchronisedScene(iLocal_1442);
 				await BaseScript.Delay(7000);
 				personaggio.Task.ClearAll();
+				RemoveAnimDict(RollerAnim);
 			}
 		}
 
@@ -415,7 +428,10 @@ namespace NuovaGM.Client.Giostre
 			}
 			Montagna.Velocità = Montagna.Valore3[1 /*5*/];
 			func_46(false);
+			RequestAnimDict(RollerAnim);
+			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "idle_a_roller_car", RollerAnim, 8f, true, false, false, 0f, 0));
+			RemoveAnimDict(RollerAnim);
 			iLocal_715 = 0;
 			func_133();
 		}

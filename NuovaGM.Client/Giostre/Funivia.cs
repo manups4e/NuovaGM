@@ -87,8 +87,6 @@ namespace NuovaGM.Client.Giostre
 			while (!HasModelLoaded((uint)GetHashKey("p_cablecar_s_door_l"))) await BaseScript.Delay(100);
 			RequestModel((uint)GetHashKey("p_cablecar_s_door_r"));
 			while (!HasModelLoaded((uint)GetHashKey("p_cablecar_s_door_r"))) await BaseScript.Delay(100);
-			RequestAnimDict("p_cablecar_s");
-			while (!HasAnimDictLoaded("p_cablecar_s")) await BaseScript.Delay(100);
 
 			RequestScriptAudioBank("CABLE_CAR", false);
 			RequestScriptAudioBank("CABLE_CAR_SOUNDS", false);
@@ -193,7 +191,10 @@ namespace NuovaGM.Client.Giostre
 						}
 						Prev = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient];
 						Next = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient + 1];
+						RequestAnimDict("p_cablecar_s");
+						while (!HasAnimDictLoaded("p_cablecar_s")) await BaseScript.Delay(100);
 						UpdateCablecarGradient(Cable_cars[i]);
+						RemoveAnimDict("p_cablecar_s");
 					}
 					else
 					{
@@ -246,7 +247,10 @@ namespace NuovaGM.Client.Giostre
 						}
 						Prev = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient];
 						Next = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient - 1];
+						RequestAnimDict("p_cablecar_s");
+						while (!HasAnimDictLoaded("p_cablecar_s")) await BaseScript.Delay(100);
 						UpdateCablecarGradient(Cable_cars[i]);
+						RemoveAnimDict("p_cablecar_s");
 					}
 					else
 					{

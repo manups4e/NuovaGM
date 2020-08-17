@@ -289,6 +289,7 @@ namespace NuovaGM.Client.Interactions
 						Game.PlayerPed.Task.ClearAll();
 
 						InDoccia = false;
+						RemoveAnimDict(sLocal_436);
 					}
 				}
 			}

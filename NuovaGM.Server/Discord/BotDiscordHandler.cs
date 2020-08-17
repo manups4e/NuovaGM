@@ -45,8 +45,7 @@ namespace NuovaGM.Server.Discord
 		public static async Task<bool> DoesPlayerHaveRole(string discordId, List<string> Ruoli)
 		{
 			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli} });
-			bool ruolo = JsonConvert.DeserializeObject<bool>(response.content);
-			return ruolo;
+			return JsonConvert.DeserializeObject<bool>(response.content); 
 		}
 
 	}

@@ -27,7 +27,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		public static void Init()
 		{
 			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
-			RequestAnimDict("oddjobs@towing");
+			//RequestAnimDict("oddjobs@towing");
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
 			//GetEntityAttachedToTowTruck(int towtruck);

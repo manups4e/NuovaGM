@@ -32,7 +32,6 @@ namespace NuovaGM.Client.Interactions
 		public static void Init()
 		{
 			RequestAmbientAudioBank(AudioBank, false);
-			RequestAnimDict(anim);
 		}
 
 		public static async Task ControlloMachines()
@@ -57,6 +56,8 @@ namespace NuovaGM.Client.Interactions
 								HUD.ShowHelp("~g~Sprunk The Essence of Life!~w~~n~~INPUT_DETONATE~ per ~b~metterla via~w~.~n~~INPUT_CONTEXT~ per ~b~berla subito~w~.");
 							if (Input.IsControlJustPressed(Control.Context))
 							{
+								RequestAnimDict(anim);
+								while (!HasAnimDictLoaded(anim)) await BaseScript.Delay(0);
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);
 								Game.PlayerPed.Task.LookAt(VendingMachineClosest);
@@ -86,9 +87,12 @@ namespace NuovaGM.Client.Interactions
 								Can.Detach();
 								Can.ApplyForce(new Vector3(6f, 10f, 2f), new Vector3(0), ForceType.MaxForceRot);
 								Can.MarkAsNoLongerNeeded();
+								RemoveAnimDict(anim);
 							}
 							else if (Input.IsControlJustPressed(Control.Detonate))
 							{
+								RequestAnimDict(anim);
+								while (!HasAnimDictLoaded(anim)) await BaseScript.Delay(0);
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);
 								Game.PlayerPed.Task.LookAt(VendingMachineClosest);
@@ -110,6 +114,7 @@ namespace NuovaGM.Client.Interactions
 								Can.Detach();
 								Can.Delete();
 								Game.PlayerPed.Task.ClearAll();
+								RemoveAnimDict(anim);
 							}
 						}
 						else if (VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_coffe_01)
