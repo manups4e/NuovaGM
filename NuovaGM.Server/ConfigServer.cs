@@ -70,6 +70,7 @@ namespace NuovaGM.Server
 	public class ConfigCoda
 	{
 		public ConcurrentDictionary<string, string> messages = new ConcurrentDictionary<string, string>();
+		public List<string> permessi = new List<string>();
 		public bool whitelistonly;
 		public int loadTime;
 		public int graceTime;

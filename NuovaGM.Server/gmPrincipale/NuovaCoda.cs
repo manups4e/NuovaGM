@@ -646,7 +646,7 @@ namespace NuovaGM.Server.gmPrincipale
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, new List<string>() { /*"Admin", "Regina", "Tester", "Founder",*/ "Fidanzata" });
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.permessi);
                 await BaseScript.Delay(1000);
 
                 if (puoentrare)
