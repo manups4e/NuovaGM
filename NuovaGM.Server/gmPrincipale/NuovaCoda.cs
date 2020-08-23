@@ -65,7 +65,7 @@ namespace NuovaGM.Server.gmPrincipale
         internal static bool priorityReady = false;
         private static bool puoentrare = false;
         internal static string notWhitelisted = "";
-        //private static string TestCard = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://upload.wikimedia.org/wikipedia/commons/b/b2/Diver_Silhouette%2C_Great_Barrier_Reef.jpg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
+        private static string TestCard = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
         public static void Init()
         {
             LoadConfigs();
@@ -646,7 +646,7 @@ namespace NuovaGM.Server.gmPrincipale
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, new List<string>() { "Admin", "Regina", "Tester", "Founder", "Fidanzata" });
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, new List<string>() { /*"Admin", "Regina", "Tester", "Founder",*/ "Fidanzata" });
                 await BaseScript.Delay(1000);
 
                 if (puoentrare)
@@ -730,15 +730,13 @@ namespace NuovaGM.Server.gmPrincipale
                     RemoveFrom(license, false, false, false, false, true, true);
                     if (whitelistonly)
                     {
-                        /*
                         deferrals.presentCard(TestCard, new Action<dynamic>(async (var) => {
-                            object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var };
+                            object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var, items = source.Identifiers.ToList(), nome = source.Name};
                             deferrals.done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
-                                "resta aggiornato sul nostro server discord con invito https://discord.gg/n4ep9Fq !");
+                                "Resta aggiornato sul mio server discord con invito https://discord.gg/n4ep9Fq!");
                             await BotDiscordHandler.InviaAlBot(dati);
                         }));
-                        */
-                        deferrals.done($"{messages["Whitelist"]}");
+//                        deferrals.done($"{messages["Whitelist"]}");
                         return;
                     }
                 }

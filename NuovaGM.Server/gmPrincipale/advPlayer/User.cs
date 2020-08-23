@@ -395,7 +395,6 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @discord AND Personaggio = @pers", new
 				{ identifiers.discord, pers = FullName });
-				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(result));
 			}
 			catch(Exception e)
 			{

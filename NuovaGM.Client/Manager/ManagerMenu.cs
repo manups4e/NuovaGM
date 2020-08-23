@@ -26,7 +26,7 @@ namespace NuovaGM.Client.Manager
 		{
 			UIMenu AdminMenu = new UIMenu("Admin menu", "Il menu di chi comanda!", new PointF(1439, 50));
 			HUD.MenuPool.Add(AdminMenu);
-			UIMenu MenuPlayers = HUD.MenuPool.AddSubMenu(AdminMenu, "Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi). ~o~FAI ATTENZIONE!~w~");
+			UIMenu MenuPlayers = HUD.MenuPool.AddSubMenu(AdminMenu, "Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
 			UIMenu MenuVehicles = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Veicoli");
 			UIMenu Oggetti = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Oggetti");
 			UIMenu MenuArmi = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Armi");
@@ -39,13 +39,13 @@ namespace NuovaGM.Client.Manager
 				MenuPlayers.Clear();
 				foreach (var p in Client.Instance.GetPlayers)
 				{
-					if (p == Game.Player) continue;
-					if(Client.Instance.GetPlayers.Count() == 1)
+					if (Client.Instance.GetPlayers.Count() == 1)
 					{
 						UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
 						_menu.AddItem(nessuno);
 						return;
 					}
+					if (p == Game.Player) continue;
 					var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
 					if (player.char_data.Count == 1)

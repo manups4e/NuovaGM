@@ -764,7 +764,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static Player GetPlayerFromPed(Ped ped)
 		{
 			foreach (Player pl in Client.Instance.GetPlayers.ToList())
-				if (pl.Character.Handle == ped.Handle)
+				if (pl.Character.NetworkId == ped.NetworkId)
 					return pl;
 			return null;
 		}
