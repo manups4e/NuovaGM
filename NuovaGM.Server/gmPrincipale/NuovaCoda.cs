@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -81,7 +80,7 @@ namespace NuovaGM.Server.gmPrincipale
             Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
             Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
             StopHardcap();
-            Task.Run(QueueCycle);
+            Server.Instance.AddTick(QueueCycle);
 //            Server.Instance.AddTick(QueueCycle);
             serverQueueReady = true;
         }
@@ -754,16 +753,13 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                while (true)
-                {
-                    inPriorityQueue = PriorityQueueCount();
-                    await BaseScript.Delay(100);
-                    inQueue = QueueCount();
-                    await BaseScript.Delay(100);
-                    UpdateHostName();
-                    UpdateStates();
-                    await BaseScript.Delay(1000);
-                }
+                inPriorityQueue = PriorityQueueCount();
+                await BaseScript.Delay(100);
+                inQueue = QueueCount();
+                await BaseScript.Delay(100);
+                UpdateHostName();
+                UpdateStates();
+                await BaseScript.Delay(1000);
             }
             catch (Exception e)
             {
@@ -811,7 +807,7 @@ namespace NuovaGM.Server.gmPrincipale
         }
     }
 
-    class Server_Priority : BaseScript
+    class Server_Priority
     {
         static readonly string directory = $"{NuovaCoda.resourcePath}/JSON/Priority";
         static List<FileInfo> files = new List<FileInfo>();

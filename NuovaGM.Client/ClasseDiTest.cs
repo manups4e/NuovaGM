@@ -65,8 +65,20 @@ namespace NuovaGM.Client
 
 		public static async Task MenuMessaggi()
 		{
+			ShowHudComponentThisFrame(3);
+			ShowHudComponentThisFrame(4);
+			ShowHudComponentThisFrame(13);
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
-				AttivaMenu();
+			{
+				DisplayCash(false);
+				SetMultiplayerHudCash(Game.Player.GetPlayerData().Money, 0);
+				StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
+				SetMultiplayerWalletCash();
+				SetMultiplayerBankCash();
+				SetPlayerCashChange(0, 1);
+				N_0x170f541e1cadd1de(true);
+				SetPlayerCashChange(0, Game.Player.GetPlayerData().Bank);
+			}
 		}
 	}
 }

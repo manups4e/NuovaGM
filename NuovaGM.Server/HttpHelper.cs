@@ -25,18 +25,18 @@ namespace NuovaGM.Server
 		public dynamic headers;
 	}
 
-	public class RequestInternal : BaseScript
+	public static class RequestInternal
 	{
-		public ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>> responseDictionary;
+		public static ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>> responseDictionary;
 
-		public RequestInternal()
+		public static void Init()
 		{
 			responseDictionary = new ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>>();
-			EventHandlers["__cfx_internal:httpResponse"] += new Action<int, int, string, dynamic>(Response);
-			Exports.Add("HttpRequest", new Func<string, string, string, string, Task<ConcurrentDictionary<string, dynamic>>>(Http));
+			Server.Instance.AddEventHandler("__cfx_internal:httpResponse", new Action<int, int, string, dynamic>(Response));
+			Server.Instance.GetExports.Add("HttpRequest", new Func<string, string, string, string, Task<ConcurrentDictionary<string, dynamic>>>(Http));
 		}
 
-		public void Response(int token, int status, string text, dynamic header)
+		public static void Response(int token, int status, string text, dynamic header)
 		{
 			ConcurrentDictionary<string, dynamic> response = new ConcurrentDictionary<string, dynamic>();
 			response["headers"] = header;
@@ -45,7 +45,7 @@ namespace NuovaGM.Server
 			responseDictionary[token] = response;
 		}
 
-		public async Task<ConcurrentDictionary<string, dynamic>> Http(string url, string method, string data, dynamic headers)
+		public static async Task<ConcurrentDictionary<string, dynamic>> Http(string url, string method, string data, dynamic headers)
 		{
 			RequestDataInternal requestData = new RequestDataInternal();
 			requestData.url = url;
@@ -56,7 +56,7 @@ namespace NuovaGM.Server
 			int token = API.PerformHttpRequestInternal(json, Encoding.UTF8.GetByteCount(json));
 			while (!responseDictionary.ContainsKey(token))
 			{
-				await Delay(0);
+				await BaseScript.Delay(0);
 			}
 			ConcurrentDictionary<string, dynamic> res = responseDictionary[token];
 			responseDictionary.TryRemove(token, out res);
@@ -64,13 +64,13 @@ namespace NuovaGM.Server
 		}
 	}
 
-	public class Request : BaseScript
+	public class Request
 	{
 		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", ConcurrentDictionary<string, string> headers = null)
 		{
 			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
 			return ParseRequestResponseInternal(
-				await Exports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
+				await Server.Instance.GetExports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
 			);
 		}
 

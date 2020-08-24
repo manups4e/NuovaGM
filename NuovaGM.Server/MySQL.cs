@@ -1,11 +1,11 @@
 ﻿using System;
 using Dapper;
-using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 
 using CitizenFX.Core;
 using Logger;
+using MySqlConnector;
 
 namespace NuovaGM.Server
 {
