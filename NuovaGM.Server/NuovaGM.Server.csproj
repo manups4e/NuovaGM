@@ -17,47 +17,17 @@
     <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2882" />
     <PackageReference Include="Colorful.Console" Version="1.2.11" />
     <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Flurl.Http" Version="3.0.0-pre3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySqlConnector" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-    <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
     <Compile Include="..\NuovaGM.Shared\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="..\NuovaGM.Shared\Lavori\Generici\RimozioneShared.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Colorful.Console">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\Colorful.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\Dapper.dll</HintPath>
-    </Reference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Buffers">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
