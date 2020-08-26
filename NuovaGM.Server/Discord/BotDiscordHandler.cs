@@ -20,6 +20,7 @@ namespace NuovaGM.Server.Discord
 		private static async Task ConnessioneAlBot()
 		{
 			RequestResponse risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
+			await BaseScript.Delay(0);
 			while (risposta.status != System.Net.HttpStatusCode.OK)
 			{
 				risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });

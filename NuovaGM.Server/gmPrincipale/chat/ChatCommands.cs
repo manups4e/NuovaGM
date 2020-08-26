@@ -622,7 +622,7 @@ namespace NuovaGM.Server.gmPrincipale
 					if (player.Value.status.spawned)
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
-						Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
+						await Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
 						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
 						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
 						await Task.FromResult(0);

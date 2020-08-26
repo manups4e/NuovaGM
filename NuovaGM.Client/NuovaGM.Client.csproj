@@ -11,6 +11,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

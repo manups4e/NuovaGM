@@ -456,27 +456,27 @@ namespace NuovaGM.Shared
 		public event VendiOggetto Vendi;
 		public event CompraOggetto Compra;
 
-		public async void UsaOggettoEvent(int quantity)
+		public void UsaOggettoEvent(int quantity)
 		{
 			Usa.Invoke(this, quantity);
 		}
 
-		public async void DaiOggettoEvent(int quantity)
+		public void DaiOggettoEvent(int quantity)
 		{
 			Dai.Invoke(this, quantity);
 		}
 
-		public async void ButtaOggettoEvent(int quantity)
+		public void ButtaOggettoEvent(int quantity)
 		{
 			Butta.Invoke(this, quantity);
 		}
 
-		public async void VendiOggettoEvent(int quantity)
+		public void VendiOggettoEvent(int quantity)
 		{
 			Vendi.Invoke(this, quantity);
 		}
 
-		public async void CompraOggettoEvent(int quantity)
+		public void CompraOggettoEvent(int quantity)
 		{
 			Compra.Invoke(this, quantity);
 		}

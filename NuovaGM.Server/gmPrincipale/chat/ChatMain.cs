@@ -88,7 +88,6 @@ namespace NuovaGM.Server.gmPrincipale
 			string fullCommand = input.Replace("/", "");
 			string[] command = fullCommand.Split(' ');
 			string cmd = command[0];
-			bool goodArgument = false;
 			int adminLevel = 0;
 			command = command.Where(o => o != cmd).ToArray();
 			cmd = cmd.ToLower();

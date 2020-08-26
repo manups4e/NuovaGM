@@ -54,10 +54,7 @@ namespace NuovaGM.Server
 			requestData.headers = headers;
 			string json = JsonConvert.SerializeObject(requestData);
 			int token = API.PerformHttpRequestInternal(json, Encoding.UTF8.GetByteCount(json));
-			while (!responseDictionary.ContainsKey(token))
-			{
-				await BaseScript.Delay(0);
-			}
+			while (!responseDictionary.ContainsKey(token)) await BaseScript.Delay(0);
 			ConcurrentDictionary<string, dynamic> res = responseDictionary[token];
 			responseDictionary.TryRemove(token, out res);
 			return res;

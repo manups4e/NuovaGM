@@ -19,7 +19,6 @@ namespace NuovaGM.Server
 
 		public Server()
 		{
-			EventHandlers["onResourceStop"] += new Action<string>(OnResourceStop);
 			Instance = this;
 			ClassCollector.Init();
 		}
@@ -68,17 +67,11 @@ namespace NuovaGM.Server
 
 
 		/// <summary>
-		/// registra un export, Registered exports still have to be defined in the __resource.lua file
+		/// registra un export, Registered exports still have to be defined in the fxmanifest.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>
 		public void RegisterExport(string name, Delegate action) => Exports.Add(name, action);
-
-		private void OnResourceStop(string resourceName)
-		{
-			if (API.GetCurrentResourceName() != resourceName) return;
-			API.ExecuteCommand("restart config");
-		}
 
 		/// <summary>
 		/// registra un comando di chat

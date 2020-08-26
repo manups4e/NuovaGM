@@ -38,9 +38,7 @@ namespace NuovaGM.Server
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			PickupsServer.Init();
-//			Coda.Init();
 			NuovaCoda.Init();
-			//DiscordWhitelist.Init();
 			ServerManager.Init();
 			BotDiscordHandler.Init();
 		}
