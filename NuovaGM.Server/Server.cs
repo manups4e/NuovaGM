@@ -67,7 +67,7 @@ namespace NuovaGM.Server
 
 
 		/// <summary>
-		/// registra un export, Registered exports still have to be defined in the fxmanifest.lua file
+		/// registra un export, Registered exports still have to be defined in the __resource.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>

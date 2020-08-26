@@ -67,6 +67,7 @@ namespace NuovaGM.Server.gmPrincipale
         private static string TestCard = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
         public static void Init()
         {
+            Server_Priority.Server_Priority_Init();
             LoadConfigs();
 //            Server.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
             Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
@@ -633,14 +634,15 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 deferrals.defer();
                 await BaseScript.Delay(500);
-                while (!IsEverythingReady()) { await BaseScript.Delay(0); }
+                while (!IsEverythingReady()) {await BaseScript.Delay(0); }
                 string license = source.Identifiers["license"];
                 string discord = source.Identifiers["discord"];
                 string steam = source.Identifiers["steam"];
                 if (discord == null) { deferrals.done($"{messages["Discord"]}"); return; }
                 if (license == null) { deferrals.done($"{messages["License"]}"); return; }
                 //if (discord == null) { deferrals.done($"{messages["Discord"]}"); return; }
-                string ControlloLicenza = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"" + messages["Gathering"] + "\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/ezgif.com-resize-1887cbdf86515eeeb.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+                string ControlloLicenza = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"" + messages["Gathering"] + "\"}],\"backgroundImage\": {\"url\": \"https://s7.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+                /*\"https://s5.gifyu.com/images/ezgif.com-resize-1887cbdf86515eeeb.gif\"*/
                 /*https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif */
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
@@ -681,9 +683,9 @@ namespace NuovaGM.Server.gmPrincipale
                             newPQueue.Enqueue(license);
                             if (stateChangeMessages) { Log.Printa(LogType.Info,$"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {playerName}, {discord}"); }
                         }
-                        string inCoda = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0: Accesso consentito, attendi...\"}],\"backgroundImage\": {\"url\": \"https://s5.gifyu.com/images/ezgif.com-resize-1887cbdf86515eeeb.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
+                        string inCoda = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0: Accesso consentito, attendi...\"}],\"backgroundImage\": {\"url\": \"https://s7.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
                         deferrals.presentCard(inCoda);
-                        await BaseScript.Delay(2000);
+                        await BaseScript.Delay(5000);
                     }
 
                     if (!session[license].Equals(SessionState.Coda))
@@ -814,7 +816,7 @@ namespace NuovaGM.Server.gmPrincipale
         internal static List<PriorityAccount> accounts = new List<PriorityAccount>();
         internal static List<PriorityAccount> newwhitelist = new List<PriorityAccount>();
 
-        public Server_Priority()
+        public static void Server_Priority_Init()
         {
             try
             {
@@ -852,7 +854,7 @@ namespace NuovaGM.Server.gmPrincipale
             }
         }
 
-        internal void Add(int source, List<object> args, string raw)
+        internal static void Add(int source, List<object> args, string raw)
         {
             try
             {

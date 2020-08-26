@@ -19,6 +19,7 @@ namespace NuovaGM.Server
 		{
 			RequestInternal.Init();
 			await ConfigServer.Init();
+			while (Server.Impostazioni == null) await BaseScript.Delay(0);
 			ServerManager.Init();
 			ServerEntrance.Init();
 			Eventi.Init();

@@ -14,12 +14,15 @@ namespace NuovaGM.Server
 		private static string ConfigShared;
 		public static async Task Init()
 		{
-			await BaseScript.Delay(0);
 			Server.Instance.AddEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
 			Server.Instance.AddEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
 			BaseScript.TriggerEvent("lprp:chiamaConfigServer");
-			while (Server.Impostazioni == null) await BaseScript.Delay(0);
-			await Task.FromResult(0);
+			await BaseScript.Delay(1000);
+			while (Server.Impostazioni == null)
+			{
+				BaseScript.TriggerEvent("lprp:chiamaConfigServer");
+				await BaseScript.Delay(5000);
+			}
 		}
 
 		private static void Configurazione(dynamic JsonConfig)
