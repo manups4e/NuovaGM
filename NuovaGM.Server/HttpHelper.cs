@@ -66,9 +66,7 @@ namespace NuovaGM.Server
 		public async Task<RequestResponse> Http(string url, string method = "GET", string data = "", ConcurrentDictionary<string, string> headers = null)
 		{
 			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
-			return ParseRequestResponseInternal(
-				await Server.Instance.GetExports[API.GetCurrentResourceName()].HttpRequest(url, method, data, headers)
-			);
+			return ParseRequestResponseInternal(await RequestInternal.Http(url, method, data, headers));
 		}
 
 		private WebHeaderCollection ParseHeadersInternal(dynamic headerDyn)
@@ -76,9 +74,7 @@ namespace NuovaGM.Server
 			WebHeaderCollection headers = new WebHeaderCollection();
 			IDictionary<string, object> headerDict = (IDictionary<string, object>)headerDyn;
 			foreach (KeyValuePair<string, object> entry in headerDict)
-			{
 				headers.Add(entry.Key, entry.Value.ToString());
-			}
 			return headers;
 		}
 

@@ -12,17 +12,18 @@ namespace NuovaGM.Server.Discord
 	static class BotDiscordHandler
 	{
 		public static Guild TheLastServer;
-		public static async void Init()
+		public static void Init()
 		{
-			await ConnessioneAlBot();
+			ConnessioneAlBot();
 		}
 
-		private static async Task ConnessioneAlBot()
+		private static async void ConnessioneAlBot()
 		{
 			RequestResponse risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
 			await BaseScript.Delay(0);
 			while (risposta.status != System.Net.HttpStatusCode.OK)
 			{
+				await BaseScript.Delay(0);
 				risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
 				await BaseScript.Delay(5000);
 			}

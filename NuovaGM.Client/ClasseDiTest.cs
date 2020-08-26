@@ -65,9 +65,6 @@ namespace NuovaGM.Client
 
 		public static async Task MenuMessaggi()
 		{
-			ShowHudComponentThisFrame(3);
-			ShowHudComponentThisFrame(4);
-			ShowHudComponentThisFrame(13);
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
 				DisplayCash(false);

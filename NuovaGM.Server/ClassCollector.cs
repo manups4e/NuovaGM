@@ -35,7 +35,7 @@ namespace NuovaGM.Server
 			FuelServer.Init();
 			VeicoliServer.Init();
 			GiostreServer.Init();
-//			Telefoni.TelefonoMainServer.Init();
+			//			Telefoni.TelefonoMainServer.Init();
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			PickupsServer.Init();
