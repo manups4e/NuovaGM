@@ -188,7 +188,7 @@ namespace NuovaGM.Client.Businesses
 		{
 			for (int i = 0; i < stations.Count; i++)
 			{ 
-				float dist = World.GetDistance(Game.PlayerPed.Position, stations[i].ppos.ToVector3());
+				float dist = World.GetDistance(Game.PlayerPed.Position, stations[i].ppos);
 				if (dist < 80)
 				{
 					StationDiBenzina stationinfo = GetStationInfo(i + 1);
@@ -229,7 +229,7 @@ namespace NuovaGM.Client.Businesses
 						info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
 					else
 						info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: " + stationinfo.ownerchar, "", "", "", "", "", "", "", "");
-					info.Render3D(stations[i].ppos.ToVector3(), GetGameplayCamRot(0), new Vector3(2.0f, 2.0f, 2.0f));
+					info.Render3D(stations[i].ppos, GetGameplayCamRot(0), new Vector3(2.0f, 2.0f, 2.0f));
 				}
 			}
 			await Task.FromResult(0);

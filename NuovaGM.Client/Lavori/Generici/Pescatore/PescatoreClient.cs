@@ -145,10 +145,10 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 
 					foreach (var punto in PuntiPesca.LuoghiVendita)
 					{
-						if (Game.PlayerPed.IsInRangeOf(punto.ToVector3(), 80))
+						if (Game.PlayerPed.IsInRangeOf(punto, 80))
 						{
-							World.DrawMarker(MarkerType.DollarSign, punto.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 2.0f), Colors.DarkSeaGreen, false, false, true);
-							if (Game.PlayerPed.IsInRangeOf(punto.ToVector3(), 2))
+							World.DrawMarker(MarkerType.DollarSign, punto, new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 2.0f), Colors.DarkSeaGreen, false, false, true);
+							if (Game.PlayerPed.IsInRangeOf(punto, 2))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
 								if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -174,7 +174,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				}
 
 
-				/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca.ToVector3()) < 2f && !Game.PlayerPed.IsInVehicle())
+				/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
 								if (Input.IsControlJustPressed(Control.Context))

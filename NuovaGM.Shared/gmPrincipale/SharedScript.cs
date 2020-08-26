@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using CitizenFX.Core;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 // ReSharper disable All
 
@@ -574,14 +575,14 @@ namespace NuovaGM.Shared
 		public int propObj;
 		public string label;
 		public bool inRange = false;
-		public float[] coords = new float[3];
+		public Vector3 coords;
 		public string name;
 		public int amount; 
 		public List<Components> componenti = new List<Components>();
 		public int tintIndex;
 
 
-		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, float[] _coords, string _type = "item", List<Components> _components = null, int _tintIndex = 0)
+		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, Vector3 _coords, string _type = "item", List<Components> _components = null, int _tintIndex = 0)
 		{
 			id = _id;
 			name = _name;

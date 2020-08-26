@@ -62,7 +62,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 		{
 			for (int i=0; i< Client.Impostazioni.Proprieta.hotels.Count; i++)
 			{
-				if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.hotels[i].Coords.ToVector3(), 3f) && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.hotels[i].Coords, 3f) && !HUD.MenuPool.IsAnyMenuOpen())
 				{
 					HUD.ShowHelp($"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.");
 					if (Input.IsControlJustPressed(Control.Context))

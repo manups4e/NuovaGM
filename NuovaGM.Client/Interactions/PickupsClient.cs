@@ -120,7 +120,7 @@ namespace NuovaGM.Client.Interactions
 			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
 			oggetto.propObj = pickupObject.Handle;
 			oggetto.inRange = false;
-			oggetto.coords = objectCoords.ToArray();
+			oggetto.coords = objectCoords;
 			Pickups.Add(oggetto);
 		}
 
@@ -152,9 +152,9 @@ namespace NuovaGM.Client.Interactions
 							Model model = new Model((int)pickup.obj);
 							model.Request();
 							if (model.Hash == (int)ObjectHash.a_c_fish)
-								pickupObject = await World.CreatePed(model, pickup.coords.ToVector3());
+								pickupObject = await World.CreatePed(model, pickup.coords);
 							else
-								pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, false, false, true));
+								pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, false, false, true));
 							if (pickup.type == "item") pickupObject.SetDecor("PickupOggetto", pickup.amount);
 							else if (pickup.type == "account") pickupObject.SetDecor("PickupAccount", pickup.amount);
 						}
@@ -162,7 +162,7 @@ namespace NuovaGM.Client.Interactions
 						{
 							RequestWeaponAsset(Funzioni.HashUint(pickup.name), 31, 0);
 							while (!HasWeaponAssetLoaded(Funzioni.HashUint(pickup.name))) await BaseScript.Delay(0);
-							pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.ToVector3().X, pickup.coords.ToVector3().Y, pickup.coords.ToVector3().Z, true, 1.0f, 0));
+							pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, true, 1.0f, 0));
 							pickupObject.SetDecor("PickupArma", pickup.amount);
 							SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
 							foreach (var comp in pickup.componenti)
@@ -177,7 +177,7 @@ namespace NuovaGM.Client.Interactions
 						pickupObject.IsPositionFrozen = true;
 						pickup.propObj = pickupObject.Handle;
 						pickup.inRange = false;
-						pickup.coords = pickupObject.Position.ToArray();
+						pickup.coords = pickupObject.Position;
 					}
 				}
 			}

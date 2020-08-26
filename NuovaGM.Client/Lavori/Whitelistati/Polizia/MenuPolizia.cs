@@ -606,18 +606,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				RenderScriptCams(false, false, 0, false, false);
 				for (int i = 0; i < Punto.SpawnPoints.Count; i++)
 				{
-					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords.ToVector3(), 2f))
+					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
 					{
 						continue;
 					}
-					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords.ToVector3(), 2f))
+					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
 					{
-						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[i].Coords.ToVector3(), Punto.SpawnPoints[i].Heading);
+						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[i].Coords, Punto.SpawnPoints[i].Heading);
 						break;
 					}
 					else
 					{
-						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[0].Coords.ToVector3(), Punto.SpawnPoints[0].Heading);
+						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[0].Coords, Punto.SpawnPoints[0].Heading);
 						break;
 					}
 				}
@@ -724,18 +724,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				RenderScriptCams(false, false, 0, false, false);
 				for (int i = 0; i < Punto.SpawnPoints.Count; i++)
 				{
-					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords.ToVector3(), 2f))
+					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
 					{
 						continue;
 					}
-					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords.ToVector3(), 2f))
+					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
 					{
-						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[i].Coords.ToVector3(), Punto.SpawnPoints[i].Heading);
+						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[i].Coords, Punto.SpawnPoints[i].Heading);
 						break;
 					}
 					else
 					{
-						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[0].Coords.ToVector3(), Punto.SpawnPoints[0].Heading);
+						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[0].Coords, Punto.SpawnPoints[0].Heading);
 						break;
 					}
 				}
@@ -879,16 +879,16 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								veicoliParcheggio.Clear();
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
 								{
-									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), 2f))
+									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
 										continue;
-									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), 2f))
+									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
 									{
-										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords.ToVector3(), PuntoAttuale.SpawnPoints[i].Heading);
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords, PuntoAttuale.SpawnPoints[i].Heading);
 										break;
 									}
 									else
 									{
-										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords.ToVector3(), PuntoAttuale.SpawnPoints[0].Heading);
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords, PuntoAttuale.SpawnPoints[0].Heading);
 										break;
 									}
 								}
@@ -948,7 +948,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					await BaseScript.Delay(1000);
 					if (item == esci)
 					{
-						Game.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu.ToVector3();
+						Game.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;

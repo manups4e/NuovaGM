@@ -32,7 +32,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 		{
 			foreach (var ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 			{
-				Blip blip = World.CreateBlip(ospedale.Blip.Coords.ToVector3());
+				Blip blip = World.CreateBlip(ospedale.Blip.Coords);
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
 				blip.Scale = ospedale.Blip.Scale;
 				blip.Color = (BlipColor)ospedale.Blip.Color;
@@ -82,9 +82,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (float[] vettore in osp.Spogliatoio)
+					foreach (var vettore in osp.Spogliatoio)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(),2f))
+						if (Game.PlayerPed.IsInRangeOf(vettore,2f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -94,9 +94,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (float[] vettore in osp.Farmacia)
+					foreach (var vettore in osp.Farmacia)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(),1.5f))
+						if (Game.PlayerPed.IsInRangeOf(vettore,1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -106,9 +106,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (float[] vettore in osp.IngressoVisitatori)
+					foreach (var vettore in osp.IngressoVisitatori)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(),1.375f))
+						if (Game.PlayerPed.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -127,18 +127,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (float[] vettore in osp.UscitaVisitatori)
+					foreach (var vettore in osp.UscitaVisitatori)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(),1.375f))
+						if (Game.PlayerPed.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
-									pos = osp.IngressoVisitatori[0].ToVector3();
+									pos = osp.IngressoVisitatori[0];
 								else
-									pos = osp.IngressoVisitatori[2].ToVector3();
+									pos = osp.IngressoVisitatori[2];
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
@@ -152,8 +152,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					{
 						if (!Game.PlayerPed.IsInVehicle())
 						{
-							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-							if (Game.PlayerPed.IsInRangeOf(vehicle.SpawnerMenu.ToVector3(), 1.5f))
+							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
+							if (Game.PlayerPed.IsInRangeOf(vehicle.SpawnerMenu, 1.5f))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -166,14 +166,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 						for (int i = 0; i < vehicle.Deleters.Count; i++)
 						{
-							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i].ToVector3(), 2f))
-								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i].ToVector3(), 2f))
+							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i], 2f))
+								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
-								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (Game.PlayerPed.IsInRangeOf(vehicle.Deleters[i].ToVector3(), 2f))
+								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								if (Game.PlayerPed.IsInRangeOf(vehicle.Deleters[i], 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
@@ -198,8 +198,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					foreach (var heli in osp.Elicotteri)
 					{
 						if (!Game.PlayerPed.IsInVehicle())
-							World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-						if (Game.PlayerPed.IsInRangeOf(heli.SpawnerMenu.ToVector3(), 1.5f))
+							World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
+						if (Game.PlayerPed.IsInRangeOf(heli.SpawnerMenu, 1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -211,14 +211,14 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 						for (int i = 0; i < heli.Deleters.Count; i++)
 						{
-							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i].ToVector3(), 2f))
-								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i].ToVector3(), 2f))
+							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i], 2f))
+								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (Game.PlayerPed.IsInVehicle())
 							{
-								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i].ToVector3(), new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
-								if (Game.PlayerPed.IsInRangeOf(heli.Deleters[i].ToVector3(), 2f))
+								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
+								if (Game.PlayerPed.IsInRangeOf(heli.Deleters[i], 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
@@ -248,9 +248,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (float[] vettore in osp.IngressoVisitatori)
+					foreach (var vettore in osp.IngressoVisitatori)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(),1.375f))
+						if (Game.PlayerPed.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -269,18 +269,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (float[] vettore in osp.UscitaVisitatori)
+					foreach (var vettore in osp.UscitaVisitatori)
 					{
-						if (Game.PlayerPed.IsInRangeOf(vettore.ToVector3(), 1.375f))
+						if (Game.PlayerPed.IsInRangeOf(vettore, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
 							{
 								Vector3 pos;
 								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
-									pos = osp.IngressoVisitatori[0].ToVector3();
+									pos = osp.IngressoVisitatori[0];
 								else
-									pos = osp.IngressoVisitatori[2].ToVector3();
+									pos = osp.IngressoVisitatori[2];
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);

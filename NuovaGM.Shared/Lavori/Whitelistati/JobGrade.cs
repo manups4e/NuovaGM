@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using CitizenFX.Core;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace NuovaGM.Shared
@@ -29,9 +30,9 @@ namespace NuovaGM.Shared
 		public int TempoFisso;
 		public int PrezzoVenditaPesce;
 		public int PrezzoVenditaAltro;
-		public List<float[]> LuoghiVendita = new List<float[]>();
+		public List<Vector3> LuoghiVendita = new List<Vector3>();
 		//public float[] AffittoBarca = new float[3];
-		public float[] SpawnBarca = new float[4];
+		public Vector4 SpawnBarca;
 		public List<string> Barche = new List<string>();
 		public PesciPescati Pesci = new PesciPescati();
 	}
@@ -45,17 +46,17 @@ namespace NuovaGM.Shared
 
 	public class Cacciatori
 	{
-		public float[] inizioCaccia = new float[3];
-		public float[] zonaDiCaccia = new float[3];
+		public Vector3 inizioCaccia;
+		public Vector3 zonaDiCaccia;
 		public float limiteArea;
 	}
 
 	public class Towing
 	{
-		public float[] InizioLavoro = new float[3];
-		public List<float[]> PuntiDespawn = new List<float[]>();
+		public Vector3 InizioLavoro;
+		public List<Vector3> PuntiDespawn = new List<Vector3>();
 		public List<string> VeicoliDaRimorchiare = new List<string>();
-		public List<float[]> SpawnVeicoli = new List<float[]>();
+		public List<Vector4> SpawnVeicoli = new List<Vector4>();
 	}
 
 	public class WhiteListed
@@ -102,33 +103,33 @@ namespace NuovaGM.Shared
 	public class StazioniDiPolizia
 	{
 		public BlipLavoro Blip = new BlipLavoro();
-		public List<float[]> Spogliatoio = new List<float[]>();
-		public List<float[]> Armerie = new List<float[]>();
+		public List<Vector3> Spogliatoio = new List<Vector3>();
+		public List<Vector3> Armerie = new List<Vector3>();
 		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
 		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
 		public List<Autorizzati> ArmiAutorizzate = new List<Autorizzati>();
 		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
 		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
-		public List<float[]> AzioniCapo = new List<float[]>();
+		public List<Vector3> AzioniCapo = new List<Vector3>();
 	}
 
 	public class Ospedale
 	{
 		public BlipLavoro Blip = new BlipLavoro();
-		public List<float[]> Spogliatoio = new List<float[]>();
-		public List<float[]> Farmacia = new List<float[]>();
-		public List<float[]> IngressoVisitatori = new List<float[]>();
-		public List<float[]> UscitaVisitatori = new List<float[]>();
+		public List<Vector3> Spogliatoio = new List<Vector3>();
+		public List<Vector3> Farmacia = new List<Vector3>();
+		public List<Vector3> IngressoVisitatori = new List<Vector3>();
+		public List<Vector3> UscitaVisitatori = new List<Vector3>();
 		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
 		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
 		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
 		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
-		public List<float[]> AzioniCapo = new List<float[]>();
+		public List<Vector3> AzioniCapo = new List<Vector3>();
 	}
 
 	public class BlipLavoro
 	{
-		public float[] Coords = new float[3];
+		public Vector3 Coords;
 		public int Sprite;
 		public int Display;
 		public float Scale;
@@ -137,14 +138,14 @@ namespace NuovaGM.Shared
 	}
 	public class SpawnerSpawn
 	{
-		public float[] SpawnerMenu = new float[3];
+		public Vector3 SpawnerMenu;
 		public List<SpawnPoints> SpawnPoints = new List<SpawnPoints>();
-		public List<float[]> Deleters = new List<float[]>();
+		public List<Vector3> Deleters = new List<Vector3>();
 	}
 
 	public class SpawnPoints
 	{
-		public float[] Coords = new float[3];
+		public Vector3 Coords;
 		public float Heading;
 		public float Radius;
 	}

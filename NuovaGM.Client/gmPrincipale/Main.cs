@@ -645,7 +645,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 	public class GenericPeds
 	{
-		public float[] coords = new float[3];
+		public Vector3 coords;
 		public string animDict;
 		public string animName;
 		public string model;
@@ -653,7 +653,7 @@ namespace NuovaGM.Client.gmPrincipale
 		public string scenario;
 
 		public GenericPeds() { }
-		public GenericPeds(float[] _c, string _ad, string _an, string _ml, float _h)
+		public GenericPeds(Vector3 _c, string _ad, string _an, string _ml, float _h)
 		{
 			this.coords = _c;
 			this.animDict = _ad;

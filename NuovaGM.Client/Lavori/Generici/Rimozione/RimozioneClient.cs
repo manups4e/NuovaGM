@@ -51,7 +51,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			// cercare "hint" per le telecamere.. fiiiiiigo
 
 
-			Blip Rim = World.CreateBlip(Rimozione.InizioLavoro.ToVector3());
+			Blip Rim = World.CreateBlip(Rimozione.InizioLavoro);
 			Rim.Sprite = BlipSprite.TowTruck;
 			Rim.Name = "Soccorso Stradale";
 			Rim.IsShortRange = true;
@@ -63,9 +63,9 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 		{
 			if (Game.Player.GetPlayerData().CurrentChar.job.name != "Rimozione forzata")
 			{
-				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro.ToVector3(), 50))
-					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro.ToVector3(), new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
-				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro.ToVector3(), 1.375f))
+				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro, 50))
+					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
+				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro, 1.375f))
 				{
 					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -136,11 +136,11 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			if (VeicoloDaRimuovere == null)
 			{
 				await BaseScript.Delay(10000);
-				puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
+				puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
 				while (Funzioni.GetVehiclesInArea(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), 3f).ToList().FirstOrDefault(x => x.HasDecor("VeicoloRimozione")) != null)
 				{
 					await BaseScript.Delay(0);
-					puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)].ToVector4();
+					puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
 				}
 
 				// DEBUG
@@ -202,7 +202,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					VeicoloDaRimuovere.CanTiresBurst = false;
 					SetEntityLoadCollisionFlag(VeicoloDaRimuovere.Handle, true);
 					VeicoloDaRimuovere.IsAxlesStrong = true;
-					PuntoDiConsegna = World.CreateBlip(Rimozione.PuntiDespawn[Funzioni.GetRandomInt(Rimozione.PuntiDespawn.Count - 1)].ToVector3());
+					PuntoDiConsegna = World.CreateBlip(Rimozione.PuntiDespawn[Funzioni.GetRandomInt(Rimozione.PuntiDespawn.Count - 1)]);
 					PuntoDiConsegna.ShowRoute = true;
 				}
 			}

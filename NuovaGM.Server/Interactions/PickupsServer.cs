@@ -22,14 +22,14 @@ namespace NuovaGM.Server.Interactions
 
 		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
 		{
-			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, SharedScript.ItemList[oggetto.item].prop, 0, label, user.getCoords.ToArray());
+			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, SharedScript.ItemList[oggetto.item].prop, 0, label, user.getCoords);
 			Pickups.Add(pickup);
 			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(pickup), user.p.Handle);
 		}
 
 		public static void CreatePickup(Weapons oggetto, string label, User user)
 		{
-			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords.ToArray(), "weapon", oggetto.components, oggetto.tint);
+			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords, "weapon", oggetto.components, oggetto.tint);
 			Pickups.Add(arma);
 			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(arma), user.p.Handle);
 		}
@@ -54,7 +54,7 @@ namespace NuovaGM.Server.Interactions
 					oggetto = ObjectHash.prop_cash_dep_bag_01;
 					break;
 			}
-			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords.ToArray(), "account");
+			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords, "account");
 			Pickups.Add(soldo);
 			BaseScript.TriggerClientEvent("lprp:createPickup", JsonConvert.SerializeObject(soldo), user.p.Handle);
 		}

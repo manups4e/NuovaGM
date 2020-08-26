@@ -48,7 +48,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 		private static void Spawnato()
 		{
 			Cacciatore = Client.Impostazioni.Lavori.Generici.Cacciatore;
-			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia.ToVector3());
+			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia);
 			caccia.Sprite = BlipSprite.Hunting;
 			caccia.Color = BlipColor.TrevorOrange;
 			caccia.Scale = 1.0f;
@@ -59,7 +59,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloCaccia()
 		{
-			if (Game.PlayerPed.IsInRangeOf(Cacciatore.inizioCaccia.ToVector3(), 1.375f))
+			if (Game.PlayerPed.IsInRangeOf(Cacciatore.inizioCaccia, 1.375f))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
@@ -70,7 +70,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			if(Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia.ToVector3(), Cacciatore.limiteArea))
+			if(Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
 			{
 				if (affittatoBianca)
 					Game.PlayerPed.Weapons.Remove(WeaponHash.Knife);
@@ -272,7 +272,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 						else if (item == inizia)
 						{
 							StaCacciando = true;
-							AreadiCaccia = World.CreateBlip(Cacciatore.zonaDiCaccia.ToVector3(), Cacciatore.limiteArea);
+							AreadiCaccia = World.CreateBlip(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea);
 							AreadiCaccia.Name = "Zona di caccia";
 							AreadiCaccia.Alpha = 25;
 							AreadiCaccia.Color = BlipColor.TrevorOrange;

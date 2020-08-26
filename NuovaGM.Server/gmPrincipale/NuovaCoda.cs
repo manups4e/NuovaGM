@@ -67,23 +67,30 @@ namespace NuovaGM.Server.gmPrincipale
         private static string TestCard = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
         public static void Init()
         {
-            Server_Priority.Server_Priority_Init();
-            LoadConfigs();
-//            Server.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-            Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
-            Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
-            Server.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
-            Server.Instance.AddCommand("sessione", new Action<int, List<object>, string>(QueueSession), true);
-            Server.Instance.AddCommand("cambiamax", new Action<int, List<object>, string>(QueueChangeMax), true);
-            Server.Instance.AddCommand("ricaricaconfig", new Action<int, List<object>, string>(ReloadConfig), true);
-            Server.Instance.AddCommand("ckick", new Action<int, List<object>, string>(Kick), true);
-            Server.Instance.AddCommand("steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), true);
-            Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
-            Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
-            StopHardcap();
-            Server.Instance.AddTick(QueueCycle);
-//            Server.Instance.AddTick(QueueCycle);
-            serverQueueReady = true;
+            try
+            {
+                Server_Priority.Server_Priority_Init();
+                LoadConfigs();
+//              Server.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
+                Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
+                Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
+                Server.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
+                Server.Instance.AddCommand("sessione", new Action<int, List<object>, string>(QueueSession), true);
+                Server.Instance.AddCommand("cambiamax", new Action<int, List<object>, string>(QueueChangeMax), true);
+                Server.Instance.AddCommand("ricaricaconfig", new Action<int, List<object>, string>(ReloadConfig), true);
+                Server.Instance.AddCommand("ckick", new Action<int, List<object>, string>(Kick), true);
+                Server.Instance.AddCommand("steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), true);
+                Server.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), false);
+                Server.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), false);
+                StopHardcap();
+                Task.Run(QueueCycle);
+                //            Server.Instance.AddTick(QueueCycle);
+                serverQueueReady = true;
+			}
+            catch(Exception e)
+			{
+                Log.Printa(LogType.Error, e.ToString());
+			}
         }
 
         private static void LoadConfigs()
@@ -755,13 +762,16 @@ namespace NuovaGM.Server.gmPrincipale
         {
             try
             {
-                inPriorityQueue = PriorityQueueCount();
-                await BaseScript.Delay(100);
-                inQueue = QueueCount();
-                await BaseScript.Delay(100);
-                UpdateHostName();
-                UpdateStates();
-                await BaseScript.Delay(1000);
+                while (true)
+                {
+                    inPriorityQueue = PriorityQueueCount();
+                    await BaseScript.Delay(100);
+                    inQueue = QueueCount();
+                    await BaseScript.Delay(100);
+                    UpdateHostName();
+                    UpdateStates();
+                    await BaseScript.Delay(1000);
+                }
             }
             catch (Exception e)
             {

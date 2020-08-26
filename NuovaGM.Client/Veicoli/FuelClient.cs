@@ -398,7 +398,7 @@ namespace NuovaGM.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
+				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -413,7 +413,7 @@ namespace NuovaGM.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
+				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -428,7 +428,7 @@ namespace NuovaGM.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
+				float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -482,7 +482,7 @@ namespace NuovaGM.Client.Veicoli
 				{
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
+						float dist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 						if (dist <= 80f)
 						{
 							lastStation = i + 1;
@@ -496,14 +496,14 @@ namespace NuovaGM.Client.Veicoli
 								if (Game.PlayerPed.IsInVehicle())
 								{
 									if (veh.ClassType == VehicleClass.Industrial || lastveh.ClassType == VehicleClass.Industrial || veh.ClassType == VehicleClass.Commercial || lastveh.ClassType == VehicleClass.Commercial)
-										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
+										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
 									else if (veh.Model.IsCar || lastveh.Model.IsCar)
-										World.DrawMarker(MarkerType.CarSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
+										World.DrawMarker(MarkerType.CarSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
 									else if (veh.Model.IsBike || lastveh.Model.IsBike)
-										World.DrawMarker(MarkerType.BikeSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3().Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
+										World.DrawMarker(MarkerType.BikeSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
 								}
 
-								float pdist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].ToVector3());
+								float pdist = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
 								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Game.PlayerPed.Position, LastVehicle) && !Game.PlayerPed.IsInVehicle())
 								{
@@ -560,7 +560,7 @@ namespace NuovaGM.Client.Veicoli
 						}
 						if (lastStation > 0)
 						{
-							float dista = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos.ToVector3());
+							float dista = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos);
 							if (dista > 80f)
 							{
 								lastStation = 0;
@@ -692,10 +692,10 @@ namespace NuovaGM.Client.Veicoli
 					HUD.DrawText(0.9f, 0.935f, $"Carburante Cisterna: {tankerfuel}", Color.FromArgb(255, 135, 206, 235));
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dis = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3());
+						float dis = World.GetDistance(Game.PlayerPed.Position, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 						if (dis < 80)
 						{
-							World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3().X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3().Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.ToVector3().Z - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(10.1f, 10.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
+							World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.Z - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(10.1f, 10.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 							if (dis < 10.1)
 							{
 								if (tankerfuel > 0)

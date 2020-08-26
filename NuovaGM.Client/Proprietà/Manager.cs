@@ -25,7 +25,7 @@ namespace NuovaGM.Client.Proprietà
 		{
 			foreach (var app in Proprietà.Appartamenti.LowEnd) 
 			{
-				if(Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata.ToVector3(), 1.375f))
+				if(Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
 				{
 
 				}

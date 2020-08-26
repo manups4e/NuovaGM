@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CitizenFX.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 	public class Hotel
 	{
 		public string Name;
-		public float[] Coords = new float[3];
+		public Vector3 Coords;
 		public PrezzoHotel Prezzi = new PrezzoHotel();
 	}
 

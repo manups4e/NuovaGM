@@ -33,7 +33,6 @@ namespace NuovaGM.Server
 		{
 			responseDictionary = new ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>>();
 			Server.Instance.AddEventHandler("__cfx_internal:httpResponse", new Action<int, int, string, dynamic>(Response));
-			Server.Instance.GetExports.Add("HttpRequest", new Func<string, string, string, string, Task<ConcurrentDictionary<string, dynamic>>>(Http));
 		}
 
 		public static void Response(int token, int status, string text, dynamic header)

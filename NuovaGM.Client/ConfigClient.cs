@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Personaggio;
@@ -46,7 +47,7 @@ namespace NuovaGM.Client
 		public bool PassengerDriveBy;
 		public bool KickWarning;
 		public int AFKCheckTime;
-		public float[] Firstcoords = new float[4];
+		public Vector4 Firstcoords;
 		public int ReviveReward;
 		public bool EarlyRespawn;
 		public bool EarlyRespawnFine;
@@ -120,10 +121,10 @@ namespace NuovaGM.Client
 
 	public class ConfigNegoziGenerici
 	{
-		public List<float[]> tfs = new List<float[]>();
-		public List<float[]> rq = new List<float[]>();
-		public List<float[]> ltd = new List<float[]>();
-		public List<float[]> armerie = new List<float[]>();
+		public List<Vector3> tfs = new List<Vector3>();
+		public List<Vector3> rq = new List<Vector3>();
+		public List<Vector3> ltd = new List<Vector3>();
+		public List<Vector3> armerie = new List<Vector3>();
 		public OggettiDaVendere OggettiDaVendere;
 	}
 	public class OggettiDaVendere
@@ -264,30 +265,30 @@ namespace NuovaGM.Client
 
 	public class ConfigGarage
 	{
-		public float[] Pos = new float[3];
+		public Vector3 Pos;
 		public int NVehs;
-		public float[] OutMarker = new float[4];
-		public float[] ModifyMarker = new float[4];
-		public float[,] ModifyCam = new float[2, 3];
-		public float[] SpawnInLocation = new float[4];
-		public List<float> PosVehs = new List<float>();
+		public Vector4 OutMarker;
+		public Vector4 ModifyMarker;
+		public Vector3[] ModifyCam = new Vector3[2];
+		public Vector4 SpawnInLocation;
+		public List<Vector4> PosVehs = new List<Vector4>();
 	}
 
 	public class ConfigCase
 	{
 		public string Label;
 		public int VehCapacity;
-		public float[] MarkerEntrata = new float[3];
-		public float[] MarkerUscita = new float[3];
-		public float[] SpawnDentro = new float[3];
-		public float[] SpawnFuori = new float[3];
+		public Vector3 MarkerEntrata;
+		public Vector3 MarkerUscita;
+		public Vector3 SpawnDentro;
+		public Vector3 SpawnFuori;
 		public List<string> Ipls = new List<string>();
 		public string Gateway;
 		public bool Is_single;
 		public bool Is_room;
 		public bool Is_gateway;
 		public bool GarageIncluso;
-		public float[] GarageMarker = new float[3];
+		public Vector3 GarageMarker;
 		[JsonIgnore]
 		public int Price;
 	}

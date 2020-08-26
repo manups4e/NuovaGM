@@ -21,9 +21,9 @@ namespace NuovaGM.Client.Negozi
 
 		public static void NegoziSpawn()
 		{
-			foreach (float[] v in NegoziGenerici.tfs)
+			foreach (var v in NegoziGenerici.tfs)
 			{
-				Blip bliptfs = World.CreateBlip(v.ToVector3());
+				Blip bliptfs = World.CreateBlip(v);
 				bliptfs.Sprite = BlipSprite.Store;
 				SetBlipDisplay(bliptfs.Handle, 4);
 				bliptfs.Scale = 1f;
@@ -31,9 +31,9 @@ namespace NuovaGM.Client.Negozi
 				bliptfs.IsShortRange = true;
 				bliptfs.Name = "24/7";
 			}
-			foreach (float[] v in NegoziGenerici.rq)
+			foreach (var v in NegoziGenerici.rq)
 			{
-				Blip bliptrq = World.CreateBlip(v.ToVector3());
+				Blip bliptrq = World.CreateBlip(v);
 				bliptrq.Sprite = BlipSprite.Store;
 				SetBlipDisplay(bliptrq.Handle, 4);
 				bliptrq.Scale = 1f;
@@ -41,9 +41,9 @@ namespace NuovaGM.Client.Negozi
 				bliptrq.IsShortRange = true;
 				bliptrq.Name = "Robs Liquor";
 			}
-			foreach (float[] v in NegoziGenerici.ltd)
+			foreach (var v in NegoziGenerici.ltd)
 			{
-				Blip blipltd = World.CreateBlip(v.ToVector3());
+				Blip blipltd = World.CreateBlip(v);
 				blipltd.Sprite = BlipSprite.Store;
 				SetBlipDisplay(blipltd.Handle, 4);
 				blipltd.Scale = 1f;
@@ -51,9 +51,9 @@ namespace NuovaGM.Client.Negozi
 				blipltd.IsShortRange = true;
 				blipltd.Name = "Limited Gasoline";
 			}
-			foreach (float[] v in NegoziGenerici.armerie)
+			foreach (var v in NegoziGenerici.armerie)
 			{
-				Blip bliparmi = World.CreateBlip(v.ToVector3());
+				Blip bliparmi = World.CreateBlip(v);
 				bliparmi.Sprite = BlipSprite.AmmuNation;
 				SetBlipDisplay(bliparmi.Handle, 4);
 				bliparmi.Scale = 1f;
@@ -65,36 +65,36 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task OnTick()
 		{
-			foreach (float[] v in NegoziGenerici.tfs)
+			foreach (var v in NegoziGenerici.tfs)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
+				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 						NegoziBusiness.NegozioPubblico("247");
 				}
 			}
-			foreach (float[] v in NegoziGenerici.rq)
+			foreach (var v in NegoziGenerici.rq)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
+				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 						NegoziBusiness.NegozioPubblico("rq");
 				}
 			}
-			foreach (float[] v in NegoziGenerici.ltd)
+			foreach (var v in NegoziGenerici.ltd)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
+				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
 						NegoziBusiness.NegozioPubblico("ltd");
 				}
 			}
-			foreach (float[] v in NegoziGenerici.armerie)
+			foreach (var v in NegoziGenerici.armerie)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v.ToVector3(), 1.375f))
+				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
