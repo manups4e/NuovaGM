@@ -128,7 +128,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			await BaseScript.Delay(100);
 			Screen.Hud.HideComponentThisFrame(HudComponent.CashChange);
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().Bank, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
 			await BaseScript.Delay(100);
 
 			if (!Data.location.position.IsZero)
