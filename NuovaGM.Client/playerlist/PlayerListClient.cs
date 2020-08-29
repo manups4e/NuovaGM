@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -92,6 +93,8 @@ namespace NuovaGM.Client.ListaPlayers
 		{
 			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
+				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash))
+					Banking.BankingClient.MostraMoney();
 				UpdateMaxPages();
 				if (ScaleSetup)
 				{
@@ -99,6 +102,8 @@ namespace NuovaGM.Client.ListaPlayers
 					if (currentPage > maxPages)
 					{
 						currentPage = 0;
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash))
+							Banking.BankingClient.NascondiMoney();
 					}
 					await LoadScale();
 					var timer = GetGameTimer();
@@ -123,11 +128,15 @@ namespace NuovaGM.Client.ListaPlayers
 						else
 						{
 							currentPage = 0;
+							if (Screen.Hud.IsComponentActive(HudComponent.MpCash))
+								Banking.BankingClient.NascondiMoney();
 						}
 					}
 					else
 					{
 						currentPage = 0;
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash))
+							Banking.BankingClient.NascondiMoney();
 					}
 				}
 			}
@@ -164,13 +173,14 @@ namespace NuovaGM.Client.ListaPlayers
 					float y = 50f;
 					y -= change * 50f;
 
-					var width = 400f;
+					var width = 350f;
 					var height = 490f;
 					if (scale != null)
 					{
 						if (scale.IsLoaded)
 						{
-							scale.Render2DScreenSpace(new System.Drawing.PointF(x, y), new System.Drawing.PointF(width, height));
+							DrawScaleformMovie(scale.Handle, 0.122f, 0.3f, 0.28f, 0.6f, 255, 255, 255, 255, 0);
+							//scale.Render2DScreenSpace(new System.Drawing.PointF(x, y), new System.Drawing.PointF(width, height));
 						}
 					}
 				}
@@ -291,7 +301,7 @@ namespace NuovaGM.Client.ListaPlayers
 							rightText = $"{p.ServerId}",
 							serverId = p.ServerId,
 						};
-						row.textureString = await GetHeadshotImage(GetPlayerPed(p.Handle));
+						row.textureString = (await Funzioni.GetPedMugshotAsync(p.Character)).Item2;
 						rows.Add(row);
 					}
 					else
@@ -309,7 +319,7 @@ namespace NuovaGM.Client.ListaPlayers
 							rightText = $"{p.ServerId}",
 							serverId = p.ServerId,
 						};
-						row.textureString = await GetHeadshotImage(GetPlayerPed(p.Handle));
+						row.textureString = (await Funzioni.GetPedMugshotAsync(p.Character)).Item2;
 						rows.Add(row);
 					}
 				}

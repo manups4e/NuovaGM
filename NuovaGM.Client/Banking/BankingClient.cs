@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NuovaGM.Shared;
+using CitizenFX.Core.UI;
+using NuovaGM.Client.MenuNativo;
+using Logger;
 
 namespace NuovaGM.Client.Banking
 {
@@ -130,6 +133,35 @@ namespace NuovaGM.Client.Banking
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
+			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
+			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
+			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
+			AddTextEntry("HUD_CASH", "€~1~");
+			AddTextEntry("HUD_CASH_S", "€~a~");
+		}
+		private static async void AggMon(int mon)
+		{
+			var mone = Game.Player.GetPlayerData().Money + mon;
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), mone, true);
+		}
+		private static async void AggDirty(int mon)
+		{
+			var mone = Game.Player.GetPlayerData().DirtyMoney + mon;
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), mone, true);
+		}
+
+		public static async void MostraMoney()
+		{
+			N_0x170f541e1cadd1de(true);
+			SetMultiplayerWalletCash();
+			SetMultiplayerBankCash();
+			N_0x170f541e1cadd1de(false);
+		}
+
+		public static void NascondiMoney()
+		{
+			RemoveMultiplayerWalletCash();
+			RemoveMultiplayerBankCash();
 		}
 
 		static public async void onPlayerSpawn()
@@ -140,7 +172,7 @@ namespace NuovaGM.Client.Banking
 		public static async Task ControlloATM()
 		{
 			ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
-			await BaseScript.Delay(200);
+			await BaseScript.Delay(500);
 		}
 
 		static public async Task Markers()
@@ -380,6 +412,7 @@ namespace NuovaGM.Client.Banking
 
 		private static async Task AtmDisegna()
 		{
+
 			if (atm.IsLoaded)
 				atm.Render2D(); // qui si mostra nel suo splendore!
 		}

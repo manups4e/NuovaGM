@@ -102,14 +102,12 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				int var = value - CurrentChar.finance.money;
 				CurrentChar.finance.money += var;
-				if (var > 0)
-					p.TriggerEvent("lprp:ShowNotification", "~g~$" + var + " ~w~ricevuti!");
-				else if (var < 0)
+				if (var < 0)
 				{
 					if (CurrentChar.finance.money < 0)
 						CurrentChar.finance.money = 0;
-					p.TriggerEvent("lprp:ShowNotification", "~r~$" + (var * -1) + " ~w~rimossi!");
 				}
+				p.TriggerEvent("lprp:changeMoney", var);
 				p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 			}
 		}
@@ -122,10 +120,8 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				int var = value - CurrentChar.finance.bank;
 				CurrentChar.finance.bank += var;
-				if (var > 0)
-					p.TriggerEvent("lprp:ShowNotification", "~g~$" + var + " ~w~ricevuti in banca!");
-				else if (var < 0)
-					p.TriggerEvent("lprp:ShowNotification", "~r~$" + (var * -1) + " ~w~rimossi dalla banca!");
+				if (var < 0)
+					p.TriggerEvent("lprp:rimuoviBank", var);
 				p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 			}
 		}
@@ -138,14 +134,12 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				int var = value - CurrentChar.finance.dirtyCash;
 				CurrentChar.finance.dirtyCash += var;
-				if (var > 0)
-					p.TriggerEvent("lprp:ShowNotification", "~g~$" + var + " ~w~sporchi ricevuti!");
-				else if (var < 0)
+				if (var < 0)
 				{
 					if (CurrentChar.finance.dirtyCash < 0)
 						CurrentChar.finance.dirtyCash = 0;
-					p.TriggerEvent("lprp:ShowNotification", "~r~$" + (var * -1) + " ~w~ sporchi rimossi!");
 				}
+				p.TriggerEvent("lprp:changeDirty", var);
 				p.TriggerEvent("lprp:sendUserInfo", JsonConvert.SerializeObject(char_data), char_current, group);
 			}
 		}

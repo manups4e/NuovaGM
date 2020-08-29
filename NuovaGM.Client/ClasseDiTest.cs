@@ -67,14 +67,14 @@ namespace NuovaGM.Client
 		{
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				DisplayCash(false);
-				SetMultiplayerHudCash(Game.Player.GetPlayerData().Money, 0);
-				StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
+				N_0x170f541e1cadd1de(true);
 				SetMultiplayerWalletCash();
 				SetMultiplayerBankCash();
-				SetPlayerCashChange(0, 1);
-				N_0x170f541e1cadd1de(true);
-				SetPlayerCashChange(0, Game.Player.GetPlayerData().Bank);
+				N_0x170f541e1cadd1de(false);
+
+				await BaseScript.Delay(5000);
+				RemoveMultiplayerWalletCash();
+				RemoveMultiplayerBankCash();
 			}
 		}
 	}

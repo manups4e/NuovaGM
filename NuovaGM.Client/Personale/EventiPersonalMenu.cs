@@ -428,21 +428,5 @@ namespace NuovaGM.Client.Personale
 
 			await Task.FromResult(0);
 		}
-
-		public static async Task MostramiSoldi()
-		{
-			if (!HUD.MenuPool.IsAnyMenuOpen() && !IsHelpMessageBeingDisplayed())
-			{
-				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
-				{
-					if (Input.IsControlPressed(Control.FrontendLeft, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterMichael, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
-					{
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "Portafoglio = ~g~" + Game.Player.GetPlayerData().Money + "$");
-						HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(-0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "Soldi Sporchi = ~r~" + Game.Player.GetPlayerData().DirtyMoney + "$");
-					}
-				}
-			}
-			await Task.FromResult(0);
-		}
 	}
 }

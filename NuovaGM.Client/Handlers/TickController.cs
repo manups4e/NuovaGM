@@ -53,7 +53,6 @@ namespace NuovaGM.Client
 			// TICK HUD \\
 
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
-			TickHUD.Add(EventiPersonalMenu.MostramiSoldi);
 
 			// TICK GENERICI \\ ATTIVI SEMPRE
 			TickGenerici.Add(StatsNeeds.Aggiornamento);

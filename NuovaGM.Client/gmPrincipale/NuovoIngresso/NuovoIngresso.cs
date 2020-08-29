@@ -124,8 +124,13 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
-			Log.Printa(LogType.Debug, $"Slot = {Game.Player.GetPlayerData().char_current}, {Convert.ToInt32(data.slot) + 1}");
-			Log.Printa(LogType.Debug, $"CharData = {JsonConvert.SerializeObject(Data)}");
+
+			await BaseScript.Delay(100);
+			Screen.Hud.HideComponentThisFrame(HudComponent.CashChange);
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().Bank, true);
+			await BaseScript.Delay(100);
+
 			if (!Data.location.position.IsZero)
 			{
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
