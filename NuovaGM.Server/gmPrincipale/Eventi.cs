@@ -68,6 +68,8 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
+			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
+			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
 
 			getPlayersOnline = new NetworkMethod<ConcurrentDictionary<string, User>>("ChiamaPlayersOnline", GetPlayersOnline);
 			getPlayersFromDB = new NetworkMethod<ConcurrentDictionary<string, User>>("ChiamaPlayersDB", GetPlayersFromDB);
@@ -541,5 +543,20 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
+		private static void Istanzia([FromSource] Player p, bool stanziato, int netIdProp, bool isprop, string instance)
+		{
+			p.GetCurrentChar().Istanza.Stanziato = stanziato;
+			p.GetCurrentChar().Istanza.NetIdProprietario = netIdProp;
+			p.GetCurrentChar().Istanza.IsProprietario = isprop;
+			p.GetCurrentChar().Istanza.Instance = instance;
+		}
+
+		private static void RimuoviIstanza([FromSource] Player p)
+		{
+			p.GetCurrentChar().Istanza.Stanziato = false;
+			p.GetCurrentChar().Istanza.NetIdProprietario = 0;
+			p.GetCurrentChar().Istanza.IsProprietario = false;
+			p.GetCurrentChar().Istanza.Instance = null;
+		}
 	}
 }

@@ -43,7 +43,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Client.Instance.AddEventHandler("lprp:aggiornaPlayers", new Action<string>(AggiornaPlayers));
 			Client.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
 			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
-			//			Client.Instance.AddTick(Mappina);
+			Client.Instance.AddEventHandler("lprp:istanzia", new Action<bool, int, bool, string>(Istanzia));
+			Client.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action(RimuoviIstanza));
+			//Client.Instance.AddTick(Mappina);
 		}
 
 		private static void AnimazioneRiceviOggetto()
@@ -359,5 +361,22 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			Main.LoadoutLoaded = true;
 		}
+
+		private static void Istanzia(bool stanziato, int netIdProp, bool isprop, string instance)
+		{
+			Game.Player.GetPlayerData().Istanza.Stanziato = stanziato;
+			Game.Player.GetPlayerData().Istanza.NetIdProprietario = netIdProp;
+			Game.Player.GetPlayerData().Istanza.IsProprietario = isprop;
+			Game.Player.GetPlayerData().Istanza.Instance = instance;
+		}
+
+		private static void RimuoviIstanza()
+		{
+			Game.Player.GetPlayerData().Istanza.Stanziato = false;
+			Game.Player.GetPlayerData().Istanza.NetIdProprietario = 0;
+			Game.Player.GetPlayerData().Istanza.IsProprietario = false;
+			Game.Player.GetPlayerData().Istanza.Instance = null;
+		}
+
 	}
 }

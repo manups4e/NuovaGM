@@ -199,6 +199,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			NetIdProprietario = Game.PlayerPed.NetworkId;
 			IsProprietario = true;
 			Instance = "null";
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, NetIdProprietario, IsProprietario, Instance);
 		}
 		/// <summary>
 		/// Istanza generica specificando quale Istanza
@@ -211,6 +212,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			NetIdProprietario = Game.PlayerPed.NetworkId;
 			IsProprietario = true;
 			this.Instance = Instance;
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, NetIdProprietario, IsProprietario, this.Instance);
 		}
 		/// <summary>
 		/// Istanza specifica
@@ -224,6 +226,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			this.NetIdProprietario = NetIdProprietario;
 			IsProprietario = false;
 			this.Instance = Instance;
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, this.NetIdProprietario, IsProprietario, this.Instance);
 		}
 
 		/// <summary>
@@ -237,6 +240,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			NetIdProprietario = 0;
 			IsProprietario = false;
 			Instance = null;
+			BaseScript.TriggerServerEvent("lprp:rimuoviIstanza");
 		}
 	}
 }

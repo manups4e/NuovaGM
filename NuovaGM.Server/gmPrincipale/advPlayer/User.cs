@@ -22,6 +22,7 @@ namespace NuovaGM.Server.gmPrincipale
 		public DateTime lastConnection;
 		public Identifiers identifiers = new Identifiers();
 		public Status status = new Status();
+		public stanziato Istanza = new stanziato();
 		public List<Char_data> char_data = new List<Char_data>();
 		public User() { }
 		[JsonIgnore]
@@ -396,5 +397,13 @@ namespace NuovaGM.Server.gmPrincipale
 	{
 		public bool connected = true;
 		public bool spawned = false;
+	}
+
+	public class stanziato
+	{
+		public bool Stanziato;
+		public int NetIdProprietario;
+		public bool IsProprietario;
+		public string Instance;
 	}
 }
