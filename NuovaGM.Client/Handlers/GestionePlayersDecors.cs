@@ -20,14 +20,14 @@ namespace NuovaGM.Client
 						{
 							if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0)
 							{
-								if ((player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.PlayerPed.Handle && Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.Character.Handle))
+								if ((player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.PlayerPed.NetworkId && Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.Character.NetworkId))
 								{
 									if (!NetworkIsPlayerConcealed(player.Handle))
 										NetworkConcealPlayer(player.Handle, true, true);
 								}
 								else
 								{
-									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.PlayerPed.Handle || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.Character.Handle)
+									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.PlayerPed.NetworkId || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.Character.NetworkId)
 									{
 										if (NetworkIsPlayerConcealed(player.Handle))
 											NetworkConcealPlayer(player.Handle, false, false);
