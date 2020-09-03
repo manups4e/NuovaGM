@@ -84,8 +84,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static void teleportCoords(float x, float y, float z)
 		{
 			Vector3 pos = new Vector3(x, y, z);
-			RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
-			Game.PlayerPed.Position = pos;
+			Funzioni.Teleport(PlayerPedId(), pos);
 		}
 
 		public static void onPlayerDeath(dynamic data)

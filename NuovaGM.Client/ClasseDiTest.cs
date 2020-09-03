@@ -7,11 +7,12 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale.NuovoIngresso;
 using NuovaGM.Client.gmPrincipale.Personaggio;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
-
+using NuovaGM.Client.MenuNativo.PauseMenu;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client
@@ -21,11 +22,13 @@ namespace NuovaGM.Client
 		static NetworkMethod<Dictionary<string, PlayerChar>> chiamaPlayers;
 		public static void Init()
 		{
-			Client.Instance.AddTick(MenuMessaggi);
+			Client.Instance.AddTick(TabsPauseMenu);
+			TriggerScreenblurFadeOut(1);
 		}
 
 		private static async void AttivaMenu()
 		{
+			/*
 			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
 			UIMenuItem b = new UIMenuItem("ShowColoredShard");
@@ -61,20 +64,42 @@ namespace NuovaGM.Client
 					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
 			};
 			Test.Visible = true;
+			*/
 		}
 
-		public static async Task MenuMessaggi()
+		/*
+		static TabView b = new TabView("New");
+		static List<UIMenuItem> Players = new List<UIMenuItem>()
+				{
+					new UIMenuItem(Game.Player.Name)
+				};
+		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", Players);
+		*/
+		public static async Task TabsPauseMenu()
 		{
+			/*
+			b.ProcessControls();
+			b.Update();
+			item2.ProcessControls();
+			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				N_0x170f541e1cadd1de(true);
-				SetMultiplayerWalletCash();
-				SetMultiplayerBankCash();
-				N_0x170f541e1cadd1de(false);
-
-				await BaseScript.Delay(5000);
-				RemoveMultiplayerWalletCash();
-				RemoveMultiplayerBankCash();
+				/*
+				b.Tabs.Clear();
+				TabItem item1 = new TabItem("Item 1");
+				List<MissionInformation> missions = new List<MissionInformation>()
+				{
+					new MissionInformation("Mission Info", new List<Tuple<string, string>>()
+					{
+						new Tuple<string, string>("Mission title", "Mission subtitle")
+					})
+				};
+				TabMissionSelectItem item3 = new TabMissionSelectItem("Mission control to Major Tom", missions);
+				b.AddTab(item1);
+				b.AddTab(item2);
+				b.AddTab(item3);
+				b.Visible = true;
+				*/
 			}
 		}
 	}

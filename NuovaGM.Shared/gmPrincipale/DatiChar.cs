@@ -46,6 +46,7 @@ namespace NuovaGM.Shared
 		public List<Weapons> weapons = new List<Weapons>();
 		public List<Licenses> licenze = new List<Licenses>();
 		public List<Inventory> inventory = new List<Inventory>();
+		public List<string> Proprietà = new List<string>();
 		public Dressing dressing = new Dressing();
 		public Needs needs = new Needs();
 		public Statistiche statistiche = new Statistiche();
@@ -501,7 +502,6 @@ namespace NuovaGM.Shared
 			if (result["messaggi"].HasValues)
 				for (int i = 0; i < result["messaggi"].Count; i++)
 					messaggi.Add(new Message(result["messaggi"]["From"].Value, result["messaggi"]["Title"].Value, result["messaggi"]["Messaggio"].Value, (DateTime)result["messaggi"]["Data"].Value));
-
 		}
 	}
 

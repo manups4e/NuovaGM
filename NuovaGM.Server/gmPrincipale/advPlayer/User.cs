@@ -41,7 +41,6 @@ namespace NuovaGM.Server.gmPrincipale
 			playTime = result.playTime;
 			p = player;
 			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
-			CaricaAppartamenti();
 		}
 
 		public User(dynamic result)
@@ -381,19 +380,6 @@ namespace NuovaGM.Server.gmPrincipale
 		public void showNotification(string text)
 		{
 			p.TriggerEvent("lprp:showNotification", text);
-		}
-
-		public async void CaricaAppartamenti()
-		{
-			try 
-			{
-				dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @discord AND Personaggio = @pers", new
-				{ identifiers.discord, pers = FullName });
-			}
-			catch(Exception e)
-			{
-				Log.Printa(LogType.Debug, e.ToString());
-			}
 		}
 	}
 

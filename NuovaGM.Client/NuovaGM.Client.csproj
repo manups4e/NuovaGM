@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Proprietà\Appartamenti\Case\" />
     <Folder Include="Proprietà\Appartamenti\Garage\" />
   </ItemGroup>
 

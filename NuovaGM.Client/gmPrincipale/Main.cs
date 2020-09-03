@@ -161,8 +161,7 @@ namespace NuovaGM.Client.gmPrincipale
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-//          BaseScript.TriggerEvent("lprp:toggleCompass", true);
-			Game.PlayerPed.SetDecor("PlayerStanziato", false);
+			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 			Game.PlayerPed.IsVisible = true;
 			spawned = true;
 			Game.Player.GetPlayerData().status.spawned = true;
@@ -184,6 +183,8 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void charSelect()
 		{
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
 			int a = Funzioni.GetRandomInt(SelectFirstCoords.Count-1);
 			charSelectCoords = SelectFirstCoords[a];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
@@ -197,9 +198,8 @@ namespace NuovaGM.Client.gmPrincipale
 			{
 				Game.PlayerPed.Style.SetDefaultClothes();
 				Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
-				Game.PlayerPed.SetDecor("PlayerStanziato", true);
+				Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
 				Game.PlayerPed.SetDecor("PlayerInPausa", false);
-				Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
 				Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
 				Game.PlayerPed.SetDecor("PlayerInCasa", false);
 				Game.PlayerPed.SetDecor("PlayerInServizio", false);
@@ -221,6 +221,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void charCreate()
 		{
+			NetworkFadeInEntity(PlayerPedId(), true);
 			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 			SetEntityCoords(PlayerPedId(), charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
 			SetEntityHeading(PlayerPedId(), charCreateCoords.W);

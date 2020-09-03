@@ -98,7 +98,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
-				Game.PlayerPed.SetDecor("PlayerStanziato", true);
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
 				if (item == Uniforme)
 				{
 					if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
@@ -167,7 +167,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					}
 
 				}
-				Game.PlayerPed.SetDecor("PlayerStanziato", false);
+				NetworkFadeInEntity(PlayerPedId(), true);
 				await BaseScript.Delay(500);
 				Screen.Fading.FadeIn(800);
 				menu.RefreshIndex();
@@ -792,7 +792,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		private static bool InGarage = false;
 		public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
 		{
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
+			Game.Player.GetPlayerData().Istanza.Istanzia("SceltaVeicoliPolizia");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
 			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -853,7 +853,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloGarageNew()
 		{
-			if (Game.PlayerPed.GetDecor<bool>("PlayerStanziato"))
+			if (Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
 				if (InGarage)
 				{
@@ -903,7 +903,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Game.PlayerPed.SetDecor("PlayerStanziato", false);
+								Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.Instance.RemoveTick(ControlloGarageNew);
@@ -952,7 +952,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Game.PlayerPed.SetDecor("PlayerStanziato", false);
+						Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
 						Client.Instance.RemoveTick(ControlloGarageNew);
 					}

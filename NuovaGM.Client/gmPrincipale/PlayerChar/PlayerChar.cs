@@ -19,6 +19,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public Identifiers identifiers;
 		public string lastConnection;
 		public Status status = new Status();
+		public stanziato Istanza = new stanziato();
 		public List<Char_data> char_data = new List<Char_data>();
 		public dynamic data;
 		public PlayerChar() { }
@@ -179,5 +180,63 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 	{
 		public bool connected = true;
 		public bool spawned = false;
+	}
+
+	public class stanziato
+	{
+		public bool Stanziato;
+		public int NetIdProprietario;
+		public bool IsProprietario;
+		public string Instance;
+		/// <summary>
+		/// Istanza generica
+		/// </summary>
+		public void Istanzia()
+		{
+			Game.PlayerPed.SetDecor("PlayerStanziato", true);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
+			Stanziato = true;
+			NetIdProprietario = Game.PlayerPed.NetworkId;
+			IsProprietario = true;
+			Instance = "null";
+		}
+		/// <summary>
+		/// Istanza generica specificando quale Istanza
+		/// </summary>
+		public void Istanzia(string Instance)
+		{
+			Game.PlayerPed.SetDecor("PlayerStanziato", true);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
+			Stanziato = true;
+			NetIdProprietario = Game.PlayerPed.NetworkId;
+			IsProprietario = true;
+			this.Instance = Instance;
+		}
+		/// <summary>
+		/// Istanza specifica
+		/// </summary>
+		public void Istanzia(int NetIdProprietario, string Instance)
+		{
+			Game.PlayerPed.SetDecor("PlayerStanziato", true);
+			Stanziato = true;
+			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Character.NetworkId == NetIdProprietario).Character;
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", propr.NetworkId);
+			this.NetIdProprietario = NetIdProprietario;
+			IsProprietario = false;
+			this.Instance = Instance;
+		}
+
+		/// <summary>
+		/// Rimuovi da istanza
+		/// </summary>
+		public void RimuoviIstanza()
+		{
+			Game.PlayerPed.SetDecor("PlayerStanziato", false);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
+			Stanziato = false;
+			NetIdProprietario = 0;
+			IsProprietario = false;
+			Instance = null;
+		}
 	}
 }

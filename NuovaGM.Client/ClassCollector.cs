@@ -40,6 +40,8 @@ namespace NuovaGM.Client
 			Manager.ClientManager.Init();
 			Manager.DevManager.Init();
 
+			Proprietà.Manager.Init();
+
 			Negozi.BarberClient.Init();
 			Negozi.NegozioAbitiClient.Init();
 			Negozi.NegoziBusiness.Init();

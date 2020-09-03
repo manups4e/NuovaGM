@@ -146,7 +146,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			try
 			{
 				Client.Instance.AddTick(Controllo);
-				Game.PlayerPed.SetDecor("PlayerStanziato", true);
 				a = nome;
 				b = cognome;
 				c = dob;
@@ -165,7 +164,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				ShutdownLoadingScreen();
 				ShutdownLoadingScreenNui();
 				sub_8d2b2();
-				Game.PlayerPed.SetDecor("PlayerStanziato", true);
+				Game.Player.GetPlayerData().Istanza.Istanzia("CreazionePersonaggio");
 
 
 				genericPed = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), new Vector3(0));

@@ -131,25 +131,76 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
 			await BaseScript.Delay(100);
 
+			int tempTimer = GetGameTimer();
 			if (!Data.location.position.IsZero)
 			{
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
+				NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z, 50f, 0);
+
+				// Wait for the new scene to be loaded.
+				while (IsNetworkLoadingScene())
+				{
+					// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+					if (GetGameTimer() - tempTimer > 1000)
+					{
+						Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+						break;
+					}
+					await BaseScript.Delay(0);
+				}
+
 				Game.PlayerPed.Position = Data.location.position;
 				Game.PlayerPed.Heading = Data.location.h;
+				tempTimer = GetGameTimer();
+
+				// Wait for the collision to be loaded around the entity in this new location.
+				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+				{
+					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+					if (GetGameTimer() - tempTimer > 1000)
+					{
+						Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+						break;
+					}
+					await BaseScript.Delay(0);
+				}
 			}
 			else
 			{
 				RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+				NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, 50f, 0);
 				Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
+				tempTimer = GetGameTimer();
+
+				// Wait for the collision to be loaded around the entity in this new location.
+				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+				{
+					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+					if (GetGameTimer() - tempTimer > 1000)
+					{
+						Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+						break;
+					}
+					await BaseScript.Delay(0);
+				}
 			}
 			Eventi.LoadModel();
-			Game.PlayerPed.IsPositionFrozen = false;
-			Game.PlayerPed.SetDecor("PlayerStanziato", false);
-			Game.PlayerPed.IsVisible = true;
-			Game.PlayerPed.IsCollisionEnabled = true;
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
+			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+			Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
+			Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
+			Game.PlayerPed.SetDecor("PlayerInPausa", false);
+			Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
+			Game.PlayerPed.SetDecor("PlayerInCasa", false);
+			Game.PlayerPed.SetDecor("PlayerInServizio", false);
+			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
+			Game.PlayerPed.IsPositionFrozen = false;
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
 			await BaseScript.Delay(7000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
@@ -157,16 +208,22 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
 			SwitchInPlayer(Game.PlayerPed.Handle);
+			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
+			Client.Instance.RemoveTick(Controllo);
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
 			await BaseScript.Delay(1000);
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
-			Client.Instance.RemoveTick(Controllo);
+			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
+			Game.PlayerPed.IsVisible = true;
+			Game.PlayerPed.IsCollisionEnabled = true;
 //			Client.Instance.RemoveTick(Scaleform);
 //			Client.Instance.RemoveTick(TastiMenu);
 		}
 
-		private static void SetSkinAndClothes(Ped p, Char_data data)
+		public static void SetSkinAndClothes(Ped p, Char_data data)
 		{
 			SetPedHeadBlendData(p.Handle, data.skin.face.mom, data.skin.face.dad, 0, data.skin.face.mom, data.skin.face.dad, 0, data.skin.resemblance, data.skin.skinmix, 0f, false);
 			SetPedHeadOverlay(p.Handle, 0, data.skin.blemishes.style, data.skin.blemishes.opacity);
