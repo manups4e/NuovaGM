@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using FivemPlayerlistServer;
+using NuovaGM.Server.Appartamenti;
 using NuovaGM.Server.banking;
 using NuovaGM.Server.Businesses;
 using NuovaGM.Server.Clothestores;
@@ -32,6 +33,7 @@ namespace NuovaGM.Server
 			PoliziaServer.Init();
 			MediciServer.Init();
 			FPLServer.Init();
+			AppartamentiServer.Init();
 			FuelServer.Init();
 			VeicoliServer.Init();
 			GiostreServer.Init();

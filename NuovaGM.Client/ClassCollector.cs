@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Client.IPLs;
+using NuovaGM.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
 
 namespace NuovaGM.Client
@@ -41,7 +42,7 @@ namespace NuovaGM.Client
 			Manager.DevManager.Init();
 
 			Proprietà.Manager.Init();
-
+			AppartamentiClient.Init();
 			Negozi.BarberClient.Init();
 			Negozi.NegozioAbitiClient.Init();
 			Negozi.NegoziBusiness.Init();

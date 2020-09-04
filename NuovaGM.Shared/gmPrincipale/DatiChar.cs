@@ -541,10 +541,4 @@ namespace NuovaGM.Shared
 			this.Player = player;
 		}
 	}
-
-
-	public class Proprieta
-	{
-
-	}
 }

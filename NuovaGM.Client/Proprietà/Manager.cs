@@ -21,30 +21,19 @@ namespace NuovaGM.Client.Proprietà
 		public static void Init()
 		{
 			Proprietà = Client.Impostazioni.Proprieta;
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Proprietà.Garages));
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Proprietà.Appartamenti));
-			Client.Instance.AddTick(MarkerBlipHandler);
 		}
 
-		public static async Task MarkerBlipHandler()
+		public static async Task MarkerFuori()
 		{
-			foreach (var app in Proprietà.Appartamenti.LowEnd) 
+			foreach (var app in Proprietà.Appartamenti)
 			{
 				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare o citofonare~w~.");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
-						AppartamentiMain.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
+						AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
 				}
-
-				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerUscita, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
-						AppartamentiMain.EsciMenu(app); // da fare e agg. controllo se è casa mia o no per il menu e per il garage
-				}
-
-				if (Game.PlayerPed.IsInRangeOf(app.Value.GarageMarker, 3f))
+				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
 				{
 					if (Game.PlayerPed.IsInVehicle())
 					{
@@ -56,6 +45,26 @@ namespace NuovaGM.Client.Proprietà
 					{
 						// codice per entrare a piedi
 					}
+				}
+			}
+		}
+
+		public static async Task MarkerDentro()
+		{
+			if (Game.Player.GetPlayerData().Istanza.Stanziato)
+			{
+				var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance];
+				if (Game.PlayerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
+				{
+					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						AppartamentiClient.EsciMenu(app);
+				}
+				if (Game.PlayerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
+				{
+					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						AppartamentiClient.EsciMenu(app, inGarage: true);
 				}
 			}
 		}

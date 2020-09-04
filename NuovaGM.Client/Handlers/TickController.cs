@@ -84,6 +84,7 @@ namespace NuovaGM.Client
 			TickAPiedi.Add(CacciatoreClient.ControlloCaccia);
 			TickAPiedi.Add(PescatoreClient.ControlloPesca);
 			TickAPiedi.Add(Hotels.ControlloHotel);
+			TickAPiedi.Add(Proprietà.Manager.MarkerFuori);
 
 			// TICK NEL VEICOLO \\
 			TickVeicolo.Add(VehicleDamage.OnTick);
@@ -101,6 +102,7 @@ namespace NuovaGM.Client
 			TickAppartamento.Add(Docce.ControlloDocceVicino);
 			TickAppartamento.Add(Docce.Docceeee);
 			TickAppartamento.Add(Letti.ControlloLetti);
+			TickAppartamento.Add(Proprietà.Manager.MarkerDentro);
 
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
@@ -159,7 +161,7 @@ namespace NuovaGM.Client
 					HideHud = false;
 				}
 			}
-			if (CheckAppartamento(GetInteriorFromGameplayCam()))
+			if (Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
 				if (!InAppartamento)
 				{

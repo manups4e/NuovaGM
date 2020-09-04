@@ -153,7 +153,7 @@ namespace NuovaGM.Client
 	public class ConfigProprieta
 	{
 		public List<Hotel> hotels = new List<Hotel>();
-		public ConfigAppartamenti Appartamenti = new ConfigAppartamenti();
+		public Dictionary<string, ConfigCase> Appartamenti = new Dictionary<string, ConfigCase>();
 		public ConfigGarages Garages = new ConfigGarages();
 	}
 
@@ -278,6 +278,7 @@ namespace NuovaGM.Client
 	{
 		public string Label;
 		public int VehCapacity;
+		public int Tipo;
 		public Vector3 MarkerEntrata;
 		public Vector3 MarkerUscita;
 		public Vector3 SpawnDentro;
@@ -288,8 +289,13 @@ namespace NuovaGM.Client
 		public bool Is_single;
 		public bool Is_room;
 		public bool Is_gateway;
+		public bool TettoIncluso;
+		public Vector3 MarkerTetto;
+		public Vector3 SpawnTetto;
 		public bool GarageIncluso;
-		public Vector3 GarageMarker;
+		public Vector3 MarkerGarageEsterno;
+		public Vector3 MarkerGarageInterno;
+		public Vector3 SpawnGarageAPiedi;
 		[JsonIgnore]
 		public int Price;
 	}

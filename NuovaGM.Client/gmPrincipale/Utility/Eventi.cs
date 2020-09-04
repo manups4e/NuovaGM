@@ -269,6 +269,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task LocationSave()
 		{
 			await BaseScript.Delay(10000);
+			if (Game.Player.GetPlayerData().Istanza.Stanziato) return;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Game.PlayerPed.Position, Game.PlayerPed.Heading);
 			await Task.FromResult(0);
 		}
