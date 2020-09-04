@@ -59,6 +59,8 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					}
 					RequestCollisionAtCoord(app.Value.SpawnDentro.X, app.Value.SpawnDentro.Y, app.Value.SpawnDentro.Z);
 					Game.PlayerPed.Position = app.Value.SpawnDentro;
+					while (!HasCollisionLoadedAroundEntity(PlayerPedId())) await BaseScript.Delay(1000);
+					await BaseScript.Delay(2000);
 					Screen.Fading.FadeIn(500);
 					NetworkFadeInEntity(PlayerPedId(), true);
 				};
@@ -166,6 +168,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					Funzioni.Teleport(PlayerPedId(), app.SpawnTetto);
 					Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 				}
+				await BaseScript.Delay(2000);
 				Screen.Fading.FadeIn(500);
 				NetworkFadeInEntity(PlayerPedId(), true);
 			};
