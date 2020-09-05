@@ -39,6 +39,7 @@ namespace NuovaGM.Server.Businesses
 		{
 			List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
 			dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
+			await BaseScript.Delay(0);
 			if (result.Count > 0)
 				for (int i = 0; i < result.Count; i++)
 					playerstations.Add(new StationDiBenzina(result[i]));
@@ -50,6 +51,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void checkRent(User p)
 		{
 			dynamic result = await Server.Instance.Query($"SELECT lastpaidrent, ownerchar, stationindex FROM businesses WHERE ownerchar = @charname", new { charname = p.FullName });
+			await BaseScript.Delay(0);
 			if (result.Count > 0)
 			{
 				for (int i = 0; i < result.Count; i++)
@@ -81,6 +83,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void CheckCanManage([FromSource] Player p, int sidx)
 		{
 			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = License.GetLicense(p, Identifier.Discord) });
+			await BaseScript.Delay(0);
 			if (result != null)
 			{
 				DateTime lastmanaged = Convert.ToDateTime(result[0].lastmanaged);
@@ -103,6 +106,7 @@ namespace NuovaGM.Server.Businesses
 		{
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = License.GetLicense(p, Identifier.Discord) });
+			await BaseScript.Delay(0);
 			if (result.Count > 0)
 			{
 				int payout = (int)Math.Ceiling(result[0].cashwaiting);
@@ -190,6 +194,7 @@ namespace NuovaGM.Server.Businesses
 			if (index > 0 && tankerfuel > 0)
 			{
 				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				await BaseScript.Delay(0);
 				if (result[0].identifier != "" && result[0].identifier != null && result[0].ownerchar != "" && result[0].ownerchar != null)
 				{
 					int stationfuel = result[0].fuel;
@@ -298,6 +303,7 @@ namespace NuovaGM.Server.Businesses
 			if (index > 0)
 			{
 				dynamic result = await Server.Instance.Query($"SELECT `fuel`, `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				await BaseScript.Delay(0);
 				p.TriggerEvent("lprp:fuel:checkfuelforstation", result[0].fuel, result[0].fuelprice);
 			}
 		}
@@ -305,6 +311,7 @@ namespace NuovaGM.Server.Businesses
 		public static async void RemoveFuelStation([FromSource]Player p, int stationindex, int addedfuel)
 		{
 			dynamic result = await Server.Instance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = stationindex });
+			await BaseScript.Delay(0);
 			int fuel = result[0].fuel;
 			fuel -= addedfuel;
 			await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fu WHERE `stationindex` = @idx", new { fu = fuel, idx = stationindex });
@@ -319,6 +326,7 @@ namespace NuovaGM.Server.Businesses
 				GasStation station = stations[sidx];
 				int bankmoney = user.Bank;
 				dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+				await BaseScript.Delay(0);
 				if ((result[0].identifier != "" && result[0].ownerchar != "") && (result[0].identifier != null && result[0].ownerchar != null))
 					p.TriggerEvent("lprp:businesses:purchasestation", false, "Questa stazione è già posseduta.");
 				else
@@ -356,6 +364,7 @@ namespace NuovaGM.Server.Businesses
 			int newamount = 0;
 
 			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+			await BaseScript.Delay(0);
 			oldamount = result[0].cashwaiting;
 			newamount = oldamount + amount;
 			await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE stationindex = @idx", new { cash = newamount, idx = sidx });
@@ -370,6 +379,7 @@ namespace NuovaGM.Server.Businesses
 			if (index > 0 && Amount > -1)
 			{
 				dynamic result = await Server.Instance.Query($"SELECT `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				await BaseScript.Delay(0);
 				int oldm = result[0].cashwaiting;
 				int newm = oldm + amount;
 				await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx ", new { cash = newm, idx = index });
@@ -384,6 +394,7 @@ namespace NuovaGM.Server.Businesses
 			if (index > 0 && Amount > -1)
 			{
 				dynamic result = await Server.Instance.Query($"SELECT `fuel` FROM `businesses` WHERE `stationindex` = @idx", new { idx = index });
+				await BaseScript.Delay(0);
 				int oldf = result[0].fuel;
 				int newf = oldf + amount;
 				await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new
@@ -415,6 +426,7 @@ namespace NuovaGM.Server.Businesses
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			int money = user.Money;
 			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
+			await BaseScript.Delay(0);
 			if (result.Count > 0)
 			{
 				if (result[0].ownerchar.ToLower() == user.FullName.ToLower())
@@ -448,6 +460,7 @@ namespace NuovaGM.Server.Businesses
 		{
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
 			dynamic result = await Server.Instance.Query($"SELECT `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx", new { idx = manageid });
+			await BaseScript.Delay(0);
 			if (result.Count > 0)
 			{
 				if (result[0].ownerchar.ToLower() == user.FullName.ToLower())

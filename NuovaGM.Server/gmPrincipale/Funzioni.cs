@@ -297,6 +297,7 @@ namespace NuovaGM.Server.gmPrincipale
 				data = JsonConvert.SerializeObject(ped.char_data),
 				id = ped.identifiers.discord
 			});
+			await BaseScript.Delay(0);
 			await Task.FromResult(0);
 		}
 

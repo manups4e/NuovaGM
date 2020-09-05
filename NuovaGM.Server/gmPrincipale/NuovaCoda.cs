@@ -531,7 +531,6 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 Log.Printa(LogType.Error,$"[{resourceName}] - QueueSession()\n {e}");
             }
-            await BaseScript.Delay(0);
         }
 
         private static  async void QueueChangeMax(int source, List<object> args, string raw)
@@ -555,7 +554,6 @@ namespace NuovaGM.Server.gmPrincipale
 
         private static async void StopHardcap()
         {
-            await BaseScript.Delay(0);
             try
             {
                 ExecuteCommand($"sets lprp:coda Enabled");

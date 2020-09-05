@@ -85,6 +85,7 @@ namespace NuovaGM.Server.gmPrincipale
 			try
 			{
 				dynamic result = await Server.Instance.Query($"SELECT * FROM users");
+				await BaseScript.Delay(0);
 				ConcurrentDictionary<string, User> personaggi = new ConcurrentDictionary<string, User>();
 				for (int i = 0; i < result.Count; i++)
 					if (result[i].char_data != "[]")

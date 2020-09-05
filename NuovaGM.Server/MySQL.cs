@@ -22,6 +22,7 @@ namespace NuovaGM.Server
 					CommandDefinition def = new CommandDefinition(query, parameters);
 					var result = await _conn.QueryAsync<dynamic>(def);
 					await _conn.CloseAsync();
+					await BaseScript.Delay(0);
 					return result;
 				}
 			}
@@ -40,7 +41,9 @@ namespace NuovaGM.Server
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
 					await _conn.ExecuteAsync(def);
+					await BaseScript.Delay(0);
 					await _conn.CloseAsync();
+					await BaseScript.Delay(0);
 				}
 			}
 			catch (Exception ex)

@@ -26,6 +26,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				disc = License.GetLicense(player, Identifier.Discord)
 			});
+			await BaseScript.Delay(0);
 			if (result != null)
 			{
 				string stringa = JsonConvert.SerializeObject(result);
@@ -50,11 +51,13 @@ namespace NuovaGM.Server.gmPrincipale
 						current = 0,
 						data = JsonConvert.SerializeObject(new object[] { })
 					});
+					await BaseScript.Delay(0);
 
 					dynamic created = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @discord", new
 					{
 						discord = License.GetLicense(player, Identifier.Discord)
 					});
+					await BaseScript.Delay(0);
 					User user = new User(player, created[0]);
 					Server.PlayerList.TryAdd(handle, user);
 					string playerino = JsonConvert.SerializeObject(user);
@@ -66,8 +69,8 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await BaseScript.Delay(0);
 			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = License.GetLicense(player, Identifier.Discord) });
+			await BaseScript.Delay(0);
 		}
 
 		public static long starttick = GetGameTimer();

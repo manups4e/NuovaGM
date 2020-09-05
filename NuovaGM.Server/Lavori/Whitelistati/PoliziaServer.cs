@@ -107,6 +107,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			{
 				firstTick = false;
 				dynamic result = await Server.Instance.Query($"SELECT * FROM veicolipersonali");
+				await BaseScript.Delay(0);
 				for (int i = 0; i < result.Count; i++)
 					Personali.Add(new VeicoloPersonale(result[i].IsVehicleStored, result[i].CharOwner, result[i].identifier, result[i].vehiclename, result[i].plate, result[i].NameOwner, result[i].NAssicurazione, JsonConvert.DeserializeObject<VehProp>(result[i].mods)));
 			}

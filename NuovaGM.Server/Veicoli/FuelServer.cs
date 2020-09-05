@@ -26,11 +26,11 @@ namespace NuovaGM.Server.Veicoli
 
 		public static async void PayForFuel([FromSource] Player p, int stationindex, float addedfuel, float fuelval)
 		{
-			await BaseScript.Delay(0);
 			User player = p.GetCurrentChar();
 			int sidx = stationindex;
 			float fuelCost;
 			dynamic result = await Server.Instance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+			await BaseScript.Delay(0);
 			int money = player.Money;
 			int bank = player.Bank;
 			fuelCost = result[0].fuelprice;

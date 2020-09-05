@@ -26,6 +26,7 @@ namespace NuovaGM.Server.Telefoni
 			try
 			{
 				dynamic result = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
+				await BaseScript.Delay(0);
 				string valore = JsonConvert.SerializeObject(result);
 				if (valore != "[]" && valore != "{}" && valore != null)
 				{
@@ -41,7 +42,9 @@ namespace NuovaGM.Server.Telefoni
 						name = player.Name,
 						data = "{}"
 					});
+					await BaseScript.Delay(0);
 					dynamic Newresult = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
+					await BaseScript.Delay(0);
 					Phones[player.Handle] = new Phone(player, Newresult[0]);
 					string datiphone = JsonConvert.SerializeObject(Phones[player.Handle]);
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
