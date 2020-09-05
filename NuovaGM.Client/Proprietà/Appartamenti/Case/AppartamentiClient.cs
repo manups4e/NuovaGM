@@ -161,7 +161,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 				}
 				else if (_item == garage)
 				{
-					Funzioni.Teleport(PlayerPedId(), app.SpawnGarageAPiedi);
+					Funzioni.Teleport(PlayerPedId(), app.SpawnGarageAPiediDentro);
 				}
 				else if (_item == tetto)
 				{

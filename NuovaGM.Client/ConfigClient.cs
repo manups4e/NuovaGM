@@ -295,7 +295,8 @@ namespace NuovaGM.Client
 		public bool GarageIncluso;
 		public Vector3 MarkerGarageEsterno;
 		public Vector3 MarkerGarageInterno;
-		public Vector3 SpawnGarageAPiedi;
+		public Vector3 SpawnGarageAPiediDentro;
+		public Vector4 SpawnGarageInVehFuori;
 		[JsonIgnore]
 		public int Price;
 	}
