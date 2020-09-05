@@ -43,12 +43,11 @@ namespace NuovaGM.Client.Manager
 		public static async Task OnTickSviluppo()
 		{
 
-			HUD.DrawText(0.4f, 0.925f, $"Posizione: X = {Math.Round(Game.PlayerPed.Position.X, 3)}, Y = {Math.Round(Game.PlayerPed.Position.Y, 3)}, Z = {Math.Round(Game.PlayerPed.Position.Z, 3)}, Heading = {Math.Round(Game.PlayerPed.Heading, 3)}");
-			HUD.DrawText(0.4f, 0.95f, $"Rotazione: X = {Math.Round(GetEntityRotation(PlayerPedId(), 2).X, 3)}, Y = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Y, 3)}, Z = {Math.Round(GetEntityRotation(PlayerPedId(), 2).Z, 3)}");
+			HUD.DrawText(0.4f, 0.925f, $"Posizione: {Game.PlayerPed.Position}");
+			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {GetEntityRotation(PlayerPedId(), 2)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
-			float height = 0;
-			bool eccolo = GetWaterHeightNoWaves(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, ref height);
-			HUD.DrawText(0.7f, 0.90f, $"GetWaterHeightNoWaves = {height}, {eccolo}");
+			HUD.DrawText(0.7f, 0.90f, $"GamePlayCam punta a = {Funzioni.CrosshairRaycast(100).HitPosition}");
+			HUD.DrawText(0.7f, 0.925f, $"GamePlayCam Posizione = {GameplayCamera.Position}");
 			if (Game.PlayerPed.IsAiming)
 			{
 				int entity = 0;

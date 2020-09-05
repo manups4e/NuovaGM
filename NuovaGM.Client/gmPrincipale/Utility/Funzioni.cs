@@ -402,7 +402,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static _RaycastResult CrosshairRaycast(float distance = 1000f)
 		{
-			return CrosshairRaycast(CitizenFX.Core.Game.PlayerPed);
+			return CrosshairRaycast(Game.PlayerPed);
 		}
 
 
@@ -418,19 +418,16 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				// Uncomment these to potentially save on raycasts (don't think they're ridiculously costly, but there's a # limit per tick)
 				//if(CrosshairRaycastThisTick != null && distance == 1000f) return (_RaycastResult) CrosshairRaycastThisTick;
 
-				Vector3 start = CitizenFX.Core.GameplayCamera.Position;
-				Vector3 end = CitizenFX.Core.GameplayCamera.Position + distance * GameplayCamForwardVector();
+				Vector3 start = GameplayCamera.Position;
+				Vector3 end = GameplayCamera.Position + distance * GameplayCamForwardVector();
 				int raycastHandle = Function.Call<int>(Hash._START_SHAPE_TEST_RAY, start.X, start.Y, start.Z, end.X, end.Y, end.Z, IntersectOptions.Everything, ignore.Handle, 0);
-				OutputArgument DitHit = new OutputArgument();
-				OutputArgument HitPosition = new OutputArgument();
-				OutputArgument SurfaceNormal = new OutputArgument();
-				OutputArgument HitEntity = new OutputArgument();
-				Function.Call<int>(Hash.GET_SHAPE_TEST_RESULT, raycastHandle, DitHit, HitPosition, SurfaceNormal, HitEntity);
-
-				var result = new _RaycastResult(DitHit.GetResult<bool>(), HitPosition.GetResult<Vector3>(), SurfaceNormal.GetResult<Vector3>(), HitEntity.GetResult<int>(), raycastHandle);
-
+				bool DitHit = false;
+				Vector3 HitPosition = new Vector3(0);
+				Vector3 SurfaceNormal = new Vector3(0);
+				int HitEntity = 0;
+				GetShapeTestResult(raycastHandle, ref DitHit, ref HitPosition, ref SurfaceNormal, ref HitEntity);
 				//if(distance == 1000f) CrosshairRaycastThisTick = result;
-				return result;
+				return new _RaycastResult(DitHit, HitPosition, SurfaceNormal, HitEntity, raycastHandle); ;
 			}
 			catch (Exception ex)
 			{
@@ -445,18 +442,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				if (Function.Call<bool>(Hash.IS_ENTITY_A_PED, entityHandle))
-				{
+				if (IsEntityAPed(entityHandle))
 					return "PED";
-				}
-				else if (Function.Call<bool>(Hash.IS_ENTITY_A_VEHICLE, entityHandle))
-				{
+				else if (IsEntityAVehicle(entityHandle))
 					return "VEH";
-				}
-				else if (Function.Call<bool>(Hash.IS_ENTITY_AN_OBJECT, entityHandle))
-				{
+				else if (IsEntityAnObject(entityHandle))
 					return "OBJ";
-				}
 			}
 			catch (Exception ex)
 			{
