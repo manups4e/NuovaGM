@@ -362,7 +362,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				return World.Raycast(CitizenFX.Core.Game.PlayerPed.Position, CitizenFX.Core.Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, CitizenFX.Core.Game.PlayerPed);
+				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{
@@ -1247,11 +1247,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public IEnumerator<int> GetEnumerator()
 		{
 			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_VEHICLE")), OutArgEntity);
+			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_VEHICLE")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_VEHICLE")), handle, OutArgEntity)) 
+			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_VEHICLE")), handle, OutArgEntity)) 
 				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_VEHICLE")), handle);
+			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_VEHICLE")), handle);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -1265,11 +1265,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public IEnumerator<int> GetEnumerator()
 		{
 			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_PED")), OutArgEntity);
+			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_PED")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_PED")), handle, OutArgEntity))
+			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_PED")), handle, OutArgEntity))
 				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_PED")), handle);
+			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_PED")), handle);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -1283,11 +1283,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public IEnumerator<int> GetEnumerator()
 		{
 			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_FIRST_OBJECT")), OutArgEntity);
+			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_OBJECT")), OutArgEntity);
 			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("FIND_NEXT_OBJECT")), handle, OutArgEntity))
+			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_OBJECT")), handle, OutArgEntity))
 				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)CitizenFX.Core.Game.GenerateHash("END_FIND_OBJECT")), handle);
+			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_OBJECT")), handle);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -1385,7 +1385,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				return World.Raycast(CitizenFX.Core.Game.PlayerPed.Position, CitizenFX.Core.Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, CitizenFX.Core.Game.PlayerPed);
+				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{
@@ -1425,7 +1425,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static _RaycastResult CrosshairRaycast(float distance = 1000f)
 		{
-			return CrosshairRaycast(CitizenFX.Core.Game.PlayerPed);
+			return CrosshairRaycast(Game.PlayerPed);
 		}
 
 		/// <summary>
@@ -1439,8 +1439,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				// Uncomment these to potentially save on raycasts (don't think they're ridiculously costly, but there's a # limit per tick)
 				//if(CrosshairRaycastThisTick != null && distance == 1000f) return (_RaycastResult) CrosshairRaycastThisTick;
 
-				Vector3 start = CitizenFX.Core.GameplayCamera.Position;
-				Vector3 end = CitizenFX.Core.GameplayCamera.Position + distance * WorldProbe.GameplayCamForwardVector();
+				Vector3 start = GameplayCamera.Position;
+				Vector3 end = GameplayCamera.Position + distance * WorldProbe.GameplayCamForwardVector();
 				int raycastHandle = Function.Call<int>(Hash._START_SHAPE_TEST_RAY, start.X, start.Y, start.Z, end.X, end.Y, end.Z, IntersectOptions.Everything, ignore.Handle, 0);
 				OutputArgument DitHit = new OutputArgument();
 				OutputArgument HitPosition = new OutputArgument();
