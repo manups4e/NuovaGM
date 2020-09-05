@@ -46,7 +46,7 @@ namespace NuovaGM.Client.Manager
 			HUD.DrawText(0.4f, 0.925f, $"Posizione: {Game.PlayerPed.Position}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {GetEntityRotation(PlayerPedId(), 2)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
-			HUD.DrawText(0.7f, 0.90f, $"GamePlayCam punta a = {Funzioni.CrosshairRaycast(100).HitPosition}");
+			HUD.DrawText(0.7f, 0.90f, $"GamePlayCam punta a = {Funzioni._CrosshairRaycast().HitPosition}");
 			HUD.DrawText(0.7f, 0.925f, $"GamePlayCam Posizione = {GameplayCamera.Position}");
 			if (Game.PlayerPed.IsAiming)
 			{

@@ -347,7 +347,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				Vector3 rotation = (float)(Math.PI / 180.0) * Function.Call<Vector3>(Hash.GET_GAMEPLAY_CAM_ROT, 2);
+				Vector3 rotation = (float)(Math.PI / 180.0) * GetGameplayCamRot(2);
 				return Vector3.Normalize(new Vector3((float)-Math.Sin(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Cos(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Sin(rotation.X)));
 			}
 			catch (Exception ex)
@@ -358,11 +358,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		}
 
 
-		public static RaycastResult _CrosshairRaycast()
+		public static RaycastResult _CrosshairRaycast(float distance = 1000)
 		{
 			try
 			{
-				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
+				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{
