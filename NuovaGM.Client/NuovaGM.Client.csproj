@@ -6,6 +6,7 @@
     <TargetName>$(AssemblyName).net</TargetName>
     <DefineConstants>CLIENT</DefineConstants>
     <AssemblyName>NuovaGM.Client</AssemblyName>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,7 +37,9 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
+    <Exec Command="xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\" />
+    <Exec Command="xcopy /e /y $(ProjectDir)html\ F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\html\" />
+    <Exec Command="xcopy /y $(ProjectDir)fxmanifest.lua F:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
   </Target>
-
 </Project>
