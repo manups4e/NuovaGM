@@ -43,11 +43,11 @@ namespace NuovaGM.Client.Manager
 		public static async Task OnTickSviluppo()
 		{
 
-			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {Game.PlayerPed.Position}");
-			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {GetEntityRotation(PlayerPedId(), 2)}");
+			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Position : Game.PlayerPed.Position)} H:{(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Heading : Game.PlayerPed.Heading)}");
+			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Rotation:Game.PlayerPed.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
-			HUD.DrawText(0.7f, 0.925f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
-			HUD.DrawText(0.7f, 0.90f, $"~r~GamePlayCam punta a~w~ = {Funzioni._CrosshairRaycast().HitPosition}");
+			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
+			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Funzioni._CrosshairRaycast().HitPosition}");
 			if (Game.PlayerPed.IsAiming)
 			{
 				int entity = 0;
