@@ -1,7 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NuovaGM.Client
@@ -12,12 +15,32 @@ namespace NuovaGM.Client
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
-
+		private static Dictionary<int, Delegate> ServerCallbacks = new Dictionary<int, Delegate>();
+		private static int CurrentRequestId = 0;
 		public Client()
 		{
+			EventHandlers.Add("lprp:serverCallBack", new Action<int, dynamic>(returnCallback));
 			Instance = this;
 			ClassCollector.Init();
 		}
+
+		#region ServerCallbacks
+		public async void TriggerServerCallback(string eventName, Delegate callback, params object[] args)
+		{
+			ServerCallbacks.Add(CurrentRequestId, callback);
+			TriggerServerEvent("lprp:serverCallbacks", eventName, CurrentRequestId, args);
+			if (CurrentRequestId < 65535)
+				CurrentRequestId++;
+			else
+				CurrentRequestId = 0;
+		}
+
+		private void returnCallback(int reqId, dynamic args)
+		{
+			ServerCallbacks[reqId].DynamicInvoke(args);
+			ServerCallbacks.ToList().RemoveAt(reqId);
+		}
+		#endregion
 
 		/// <summary>
 		/// registra un evento client (TriggerEvent)

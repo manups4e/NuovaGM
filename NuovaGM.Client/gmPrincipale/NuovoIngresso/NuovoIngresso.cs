@@ -216,6 +216,9 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
+			var pp = await Funzioni.GetOnlinePlayersAndTheirData();
+			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(pp["1"]));
+			//Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((res) => Log.Printa(LogType.Debug, res)));
 			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
 			Game.PlayerPed.IsVisible = true;
 			Game.PlayerPed.IsCollisionEnabled = true;

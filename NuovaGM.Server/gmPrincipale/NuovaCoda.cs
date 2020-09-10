@@ -421,7 +421,8 @@ namespace NuovaGM.Server.gmPrincipale
                             {
                                 if (sentLoading.ContainsKey(license) && Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license) != null)
                                 {
-                                    BaseScript.TriggerEvent("lprp:coda: newloading", sentLoading[license]);
+                                    Player value = null;
+                                    BaseScript.TriggerEvent("lprp:coda: newloading", sentLoading.TryGetValue(license, out value));
                                     sentLoading.TryRemove(license, out Player oldPlayer);
                                 }
                             }

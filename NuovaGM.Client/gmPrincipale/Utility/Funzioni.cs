@@ -18,6 +18,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 	{
 		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersOnline;
 		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersFromDB;
+
 		public static PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
@@ -869,11 +870,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
 		{
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			PlayersOnline = new NetworkMethod<Dictionary<string, PlayerChar>>("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((variable) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((result) =>
 			{
-				players = variable;
+				players = JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(result);
 			}));
-			PlayersOnline.InvokeNoArgs();
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;
 		}
@@ -884,27 +884,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, PlayerChar>> GetAllPlayersAndTheirData()
 		{
-			/*
-			BaseScript.TriggerServerEvent("lprp:getDBPlayers", new Action<object>((arg) =>
-			{
-				dynamic parsedPlayers = JsonConvert.DeserializeObject(arg as string);
-				for (int i = 0; i < parsedPlayers.Count; i++)
-				{
-					if (parsedPlayers[i]["char_data"].Value != "{}")
-					{
-						personaggi.Add((string)parsedPlayers[i]["Name"].Value, new PlayerChar(parsedPlayers[i]));
-					}
-				}
-			}));
-
-			while (JsonConvert.SerializeObject(personaggi) == "{}") await BaseScript.Delay(0);
-			*/
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			PlayersFromDB = new NetworkMethod<Dictionary<string, PlayerChar>>("ChiamaPlayersDB", new Action<Dictionary<string, PlayerChar>>((variable) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<dynamic>((result) =>
 			{
-				players = variable;
+				players = JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(result);
 			}));
-			PlayersFromDB.InvokeNoArgs();
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;
 		}

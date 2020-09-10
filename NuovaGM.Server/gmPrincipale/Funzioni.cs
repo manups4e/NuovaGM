@@ -1,7 +1,6 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +15,12 @@ namespace NuovaGM.Server.gmPrincipale
 		public static void Init()
 		{
 			Server.Instance.AddTick(Salvataggio);
+		}
+
+		private static void test(int source, Delegate cb)
+		{
+			Log.Printa(LogType.Debug, "testServer");
+			cb.DynamicInvoke("test per il client fighissimo");
 		}
 
 		public static Player GetPlayerFromId(int id)

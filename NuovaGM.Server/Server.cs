@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using NuovaGM.Server.gmPrincipale;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
+using Logger;
+using System.Collections.Generic;
+using System.Resources;
 // ReSharper disable All
 
 namespace NuovaGM.Server
@@ -16,18 +19,34 @@ namespace NuovaGM.Server
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
-
+		private static Dictionary<string, Delegate> ServerCallbacks = new Dictionary<string, Delegate>();
 		public Server()
 		{
+			EventHandlers.Add("lprp:serverCallbacks", new Action<Player, string, int, List<object>>(callbacks));
 			Instance = this;
 			ClassCollector.Init();
 		}
 
+		public void RegisterServerCallback(string eventName, Delegate action)
+		{
+			ServerCallbacks[eventName] = action;
+		}
+		
+		private void callbacks([FromSource] Player p, string eventName, int reqId, List<object> args)
+		{
+			if (!ServerCallbacks.ContainsKey(eventName))
+			{
+				Log.Printa(LogType.Error, "non ci sono callbacks col nome: \"" + eventName + "\"");
+				return;
+			}
+			ServerCallbacks[eventName].DynamicInvoke(p, new Action<dynamic>(value => p.TriggerEvent("lprp:serverCallBack", reqId, value)), args);
+		}
+
 		/// <summary>
-		/// registra un evento (TriggerEvent)
-		/// </summary>
-		/// <param name="name">Nome evento</param>
-		/// <param name="action">Azione legata all'evento</param>
+		 /// registra un evento (TriggerEvent)
+		 /// </summary>
+		 /// <param name="name">Nome evento</param>
+		 /// <param name="action">Azione legata all'evento</param>
 		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
 
 		/// <summary>
