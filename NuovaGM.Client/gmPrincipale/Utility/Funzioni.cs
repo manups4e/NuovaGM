@@ -870,9 +870,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
 		{
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((result) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((result) =>
 			{
-				players = JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(result);
+				players = result;
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;
@@ -885,9 +885,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Dictionary<string, PlayerChar>> GetAllPlayersAndTheirData()
 		{
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<dynamic>((result) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<Dictionary<string, PlayerChar>>((result) =>
 			{
-				players = JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(result);
+				players = result;
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;

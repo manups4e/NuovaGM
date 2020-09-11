@@ -71,8 +71,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
 			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
 			Server.Instance.RegisterServerCallback<ConcurrentDictionary<string, User>>("ChiamaPlayersOnline", new Action<Player, ConcurrentDictionary<string, User>>(GetPlayersOnline));
-			//Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
-			Server.Instance.RegisterServerCallback("char", new Action<Player, List<Char_data>>(cchar));
+			Server.Instance.RegisterServerCallback< ConcurrentDictionary < string, User>>("ChiamaPlayersDB", new Action<Player, ConcurrentDictionary<string, User>>(GetPlayersFromDB));
 		}
 
 		private static async void cchar(Player p, dynamic _)
@@ -85,7 +84,7 @@ namespace NuovaGM.Server.gmPrincipale
 			(Server.Networks["ChiamaPlayersOnline"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(p, Server.PlayerList);
 		}
 
-		private static async void GetPlayersFromDB(Player player, Delegate cb, dynamic _)
+		private static async void GetPlayersFromDB(Player player, dynamic _)
 		{
 			try
 			{
@@ -95,12 +94,12 @@ namespace NuovaGM.Server.gmPrincipale
 				for (int i = 0; i < result.Count; i++)
 					if (result[i].char_data != "[]")
 						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
-				cb.DynamicInvoke(JsonConvert.SerializeObject(personaggi));
+				(Server.Networks["ChiamaPlayersDB"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(player, personaggi);
 			}
 			catch(Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
-				cb.DynamicInvoke(JsonConvert.SerializeObject(new ConcurrentDictionary<string, User>()));
+				(Server.Networks["ChiamaPlayersDB"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(player, new ConcurrentDictionary<string, User>());
 			}
 
 		}
