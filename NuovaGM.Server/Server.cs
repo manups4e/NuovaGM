@@ -20,18 +20,21 @@ namespace NuovaGM.Server
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
 		private static Dictionary<string, Delegate> ServerCallbacks = new Dictionary<string, Delegate>();
+		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public Server()
 		{
-			EventHandlers.Add("lprp:serverCallbacks", new Action<Player, string, int, List<object>>(callbacks));
 			Instance = this;
 			ClassCollector.Init();
 		}
 
-		public void RegisterServerCallback(string eventName, Delegate action)
+		#region ServerCallbacks
+		public void RegisterServerCallback<T1>(string eventName, Action<Player, T1> action)
 		{
-			ServerCallbacks[eventName] = action;
+			NetworkMethod<T1> net = new NetworkMethod<T1>(eventName, action);
+			Networks.Add(eventName, net);
+			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Server.Networks));
 		}
-		
+
 		private void callbacks([FromSource] Player p, string eventName, int reqId, List<object> args)
 		{
 			if (!ServerCallbacks.ContainsKey(eventName))
@@ -41,12 +44,13 @@ namespace NuovaGM.Server
 			}
 			ServerCallbacks[eventName].DynamicInvoke(p, new Action<dynamic>(value => p.TriggerEvent("lprp:serverCallBack", reqId, value)), args);
 		}
+		#endregion
 
 		/// <summary>
-		 /// registra un evento (TriggerEvent)
-		 /// </summary>
-		 /// <param name="name">Nome evento</param>
-		 /// <param name="action">Azione legata all'evento</param>
+		/// registra un evento (TriggerEvent)
+		/// </summary>
+		/// <param name="name">Nome evento</param>
+		/// <param name="action">Azione legata all'evento</param>
 		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
 
 		/// <summary>

@@ -17,12 +17,6 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddTick(Salvataggio);
 		}
 
-		private static void test(int source, Delegate cb)
-		{
-			Log.Printa(LogType.Debug, "testServer");
-			cb.DynamicInvoke("test per il client fighissimo");
-		}
-
 		public static Player GetPlayerFromId(int id)
 		{
 			foreach (Player p in Server.Instance.GetPlayers.ToList())

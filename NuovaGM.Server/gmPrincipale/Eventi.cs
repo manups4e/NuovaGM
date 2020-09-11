@@ -70,13 +70,19 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
 			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, dynamic>(GetPlayersOnline));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
+			Server.Instance.RegisterServerCallback<ConcurrentDictionary<string, User>>("ChiamaPlayersOnline", new Action<Player, ConcurrentDictionary<string, User>>(GetPlayersOnline));
+			//Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
+			Server.Instance.RegisterServerCallback("char", new Action<Player, List<Char_data>>(cchar));
 		}
 
-		private static void GetPlayersOnline(Player p, Delegate cb, dynamic _)
+		private static async void cchar(Player p, dynamic _)
 		{
-			cb.DynamicInvoke(JsonConvert.SerializeObject(Server.PlayerList));
+			(Server.Networks["char"] as NetworkMethod<List<Char_data>>).Invoke(p, p.GetCurrentChar().char_data);
+		}
+
+		private static void GetPlayersOnline(Player p, dynamic _)
+		{
+			(Server.Networks["ChiamaPlayersOnline"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(p, Server.PlayerList);
 		}
 
 		private static async void GetPlayersFromDB(Player player, Delegate cb, dynamic _)

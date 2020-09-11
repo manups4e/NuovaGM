@@ -17,7 +17,7 @@ namespace NuovaGM.Client
             RegisteredCallback = GetRegisterCallback();
             if (callback != null)
             {
-                Client.Instance.AddEventHandler("fm:S2C:" + eventName, RegisteredCallback);
+                Client.Instance.AddEventHandler("lprp:serverCallBack:" + eventName, RegisteredCallback);
             }
         }
 
@@ -43,7 +43,7 @@ namespace NuovaGM.Client
 
         protected void InvokeInternal(params object[] args)
         {
-            BaseScript.TriggerServerEvent("fm:C2S:" + EventName, args);
+            BaseScript.TriggerServerEvent("lprp:serverCallBack:" + EventName, args);
         }
 
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace NuovaGM.Client
         {
             if (Callback != null)
             {
-                Client.Instance.DeAddEventHandler("fm:S2C:" + EventName, RegisteredCallback);
+                Client.Instance.DeAddEventHandler("lprp:serverCallBack:" + EventName, RegisteredCallback);
                 Callback = null;
             }
             GC.SuppressFinalize(this);

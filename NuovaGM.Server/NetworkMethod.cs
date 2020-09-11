@@ -17,7 +17,7 @@ namespace NuovaGM.Server
             EventName = eventName;
             Callback = callback;
             RegisteredCallback = GetRegisterCallback();
-            Server.Instance.AddEventHandler("fm:C2S:" + EventName, RegisteredCallback);
+            Server.Instance.AddEventHandler("lprp:serverCallBack:" + EventName, RegisteredCallback);
         }
 
         ~NetworkMethod()
@@ -44,9 +44,9 @@ namespace NuovaGM.Server
         protected void InvokeInternal(Player target, params object[] args)
         {
             if (target != null)
-                target.TriggerEvent("fm:S2C:" + EventName, args);
+                target.TriggerEvent("lprp:serverCallBack:" + EventName, args);
             else
-                BaseScript.TriggerClientEvent("fm:S2C:" + EventName, args);
+                BaseScript.TriggerClientEvent("lprp:serverCallBack:" + EventName, args);
         }
 
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace NuovaGM.Server
         {
             if (Callback != null)
             {
-                Server.Instance.DeAddEventHandler("fm:S2C:" + EventName, RegisteredCallback);
+                Server.Instance.DeAddEventHandler("lprp:serverCallBack:" + EventName, RegisteredCallback);
                 Callback = null;
             }
             GC.SuppressFinalize(this);

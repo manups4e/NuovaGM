@@ -2,6 +2,7 @@
 using CitizenFX.Core.Native;
 using Logger;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,27 +20,67 @@ namespace NuovaGM.Client
 		private static int CurrentRequestId = 0;
 		public Client()
 		{
-			EventHandlers.Add("lprp:serverCallBack", new Action<int, dynamic>(returnCallback));
 			Instance = this;
 			ClassCollector.Init();
 		}
 
 		#region ServerCallbacks
-		public async void TriggerServerCallback(string eventName, Delegate callback, params object[] args)
+
+		protected static string SerializeObject(object o)
 		{
-			ServerCallbacks.Add(CurrentRequestId, callback);
-			TriggerServerEvent("lprp:serverCallbacks", eventName, CurrentRequestId, args);
-			if (CurrentRequestId < 65535)
-				CurrentRequestId++;
-			else
-				CurrentRequestId = 0;
+			if (o == null)
+				return null;
+
+			return JsonConvert.SerializeObject(o);
+		}
+		protected static T DeserializeObject<T>(string text)
+		{
+			if (text == null)
+				return default(T);
+
+			return JsonConvert.DeserializeObject<T>(text);
 		}
 
-		private void returnCallback(int reqId, dynamic args)
+		public void TriggerServerCallback<T1>(string eventName, Action<T1> callBack)
 		{
-			ServerCallbacks[reqId].DynamicInvoke(args);
-			ServerCallbacks.ToList().RemoveAt(reqId);
+			NetworkMethod<T1> net = new NetworkMethod<T1>(eventName, callBack);
+			net.InvokeNoArgs();
 		}
+		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack)
+		{
+			NetworkMethod<T1, T2> net = new NetworkMethod<T1, T2>(eventName, callBack);
+			net.InvokeNoArgs();
+		}
+		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack)
+		{
+			NetworkMethod<T1, T2, T3> net = new NetworkMethod<T1, T2, T3>(eventName, callBack);
+			net.InvokeNoArgs();
+		}
+		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack)
+		{
+			NetworkMethod<T1, T2, T3, T4> net = new NetworkMethod<T1, T2, T3, T4>(eventName, callBack);
+			net.InvokeNoArgs();
+
+		}
+		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack, T1 val1, T2 val2)
+		{
+			NetworkMethod<T1, T2> net = new NetworkMethod<T1, T2>(eventName, callBack);
+			net.Invoke(val1, val2);
+
+		}
+		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack, T1 val1, T2 val2, T3 val3)
+		{
+			NetworkMethod<T1, T2, T3> net = new NetworkMethod<T1, T2, T3>(eventName, callBack);
+			net.Invoke(val1, val2, val3);
+
+		}
+		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack, T1 val1, T2 val2, T3 val3, T4 val4)
+		{
+			NetworkMethod<T1, T2, T3, T4> net = new NetworkMethod<T1, T2, T3, T4>(eventName, callBack);
+			net.Invoke(val1, val2, val3, val4);
+
+		}
+
 		#endregion
 
 		/// <summary>
