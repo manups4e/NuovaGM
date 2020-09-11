@@ -16,9 +16,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 {
 	static class Funzioni
 	{
-		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersOnline;
-		private static NetworkMethod<Dictionary<string, PlayerChar>> PlayersFromDB;
-
 		public static PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)

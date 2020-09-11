@@ -16,7 +16,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 	{
 		public static PlayerChar Player;
 		public static Dictionary<string, PlayerChar> GiocatoriOnline = new Dictionary<string, PlayerChar>();
-		//
+
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
@@ -40,7 +40,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Client.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
 			Client.Instance.AddEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
 			Client.Instance.AddEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
-			Client.Instance.AddEventHandler("lprp:aggiornaPlayers", new Action<string>(AggiornaPlayers));
 			Client.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
 			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
 			Client.Instance.AddEventHandler("lprp:istanzia", new Action<bool, int, bool, string>(Istanzia));
@@ -53,13 +52,13 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake2_a");
 		}
 
-		public static async void AggiornaPlayers(string jsonPlayers)
+		public static async void AggiornaPlayers()
 		{
 			GiocatoriOnline.Clear();
-			BaseScript.TriggerServerEvent("lprp:getPlayers", new Action<object>((arg) =>
-			{
-				GiocatoriOnline = JsonConvert.DeserializeObject<Dictionary<string, PlayerChar>>(arg as string);
-			}));
+			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((arg) =>
+ 		    {
+			   GiocatoriOnline = arg;
+		    }));
 			while (JsonConvert.SerializeObject(GiocatoriOnline) == "{}") await BaseScript.Delay(0);
 		}
 

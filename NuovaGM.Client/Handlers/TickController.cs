@@ -66,6 +66,11 @@ namespace NuovaGM.Client
 			TickGenerici.Add(FuelClient.FuelCount);
 			TickGenerici.Add(FuelClient.FuelTruck);
 			TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
+			TickGenerici.Add(new Func<Task>(async () =>
+			{
+				await BaseScript.Delay(5000);
+				Eventi.AggiornaPlayers();
+			}));
 
 			// TICK A PIEDI \\
 			TickAPiedi.Add(BankingClient.Markers);
