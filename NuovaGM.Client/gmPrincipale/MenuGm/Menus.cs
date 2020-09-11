@@ -1068,7 +1068,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
 				{
-					Log.Printa(LogType.Debug, $"{index}");
 					if (data.skin.sex == "Maschio")
 					{
 						var dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);

@@ -454,20 +454,21 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return "UNK";
 		}
 
-		public static async Task<float?> FindGroundZ(Vector2 position)
+		[Obsolete("Obsoleto.. usare la versione in estensione al vettore stesso.. Vector().FindGroundZ()")]
+		public static async Task<float> FindGroundZ(Vector2 position)
 		{
-			float? result = null;
+			float result = -199f;
 			try
 			{
-				float[] groundCheckHeight = new float[] { 100.0f, 150.0f, 50.0f, 0.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
+				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
 
 				foreach (float h in groundCheckHeight)
 				{
-					//await BaseScript.BaseScript.Delay(0);
-					OutputArgument z = new OutputArgument();
-					if (Function.Call<bool>(Hash.GET_GROUND_Z_FOR_3D_COORD, position.X, position.Y, (float)h, z, false))
+					await BaseScript.Delay(1);
+					float z = 0;
+					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
 					{
-						result = z.GetResult<float>();
+						result = z;
 					}
 				}
 			}

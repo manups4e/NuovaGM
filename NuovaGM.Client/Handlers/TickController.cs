@@ -27,6 +27,8 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.Lavori.Generici.Cacciatore;
 using NuovaGM.Client.Lavori.Generici.Pescatore;
 using NuovaGM.Client.Proprietà.Hotel;
+using Logger;
+using Newtonsoft.Json;
 
 namespace NuovaGM.Client
 {
@@ -66,11 +68,7 @@ namespace NuovaGM.Client
 			TickGenerici.Add(FuelClient.FuelCount);
 			TickGenerici.Add(FuelClient.FuelTruck);
 			TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
-			TickGenerici.Add(new Func<Task>(async () =>
-			{
-				await BaseScript.Delay(5000);
-				Eventi.AggiornaPlayers();
-			}));
+			TickGenerici.Add(aggiornaPl);
 
 			// TICK A PIEDI \\
 			TickAPiedi.Add(BankingClient.Markers);
@@ -295,6 +293,12 @@ namespace NuovaGM.Client
 					return true;
 			}
 			return false;
+		}
+
+		private static async Task aggiornaPl()
+		{
+			await BaseScript.Delay(5000);
+			await Eventi.AggiornaPlayers();
 		}
 	}
 }

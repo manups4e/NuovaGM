@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-
+#if CLIENT
+using static CitizenFX.Core.Native.API;
+#endif
 namespace NuovaGM.Shared
 {
 	public static class RandomExtensionSuperMethod
@@ -432,6 +434,83 @@ namespace NuovaGM.Shared
 				await Funzioni(value);
 			}
 		}
+
+#if CLIENT
+		public static async Task<float> FindGroundZ(this Vector2 position)
+		{
+			float result = -199f;
+			try
+			{
+				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
+
+				foreach (float h in groundCheckHeight)
+				{
+					await BaseScript.Delay(1);
+					float z = 0;
+					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
+					{
+						result = z;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+			}
+			await Task.FromResult(0);
+			return result;
+		}
+
+		public static async Task<float> FindGroundZ(this Vector3 position)
+		{
+			float result = -199f;
+			try
+			{
+				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
+
+				foreach (float h in groundCheckHeight)
+				{
+					await BaseScript.Delay(1);
+					float z = 0;
+					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
+					{
+						result = z;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+			}
+			await Task.FromResult(0);
+			return result;
+		}
+
+		public static async Task<float> FindGroundZ(this Vector4 position)
+		{
+			float result = -199f;
+			try
+			{
+				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
+
+				foreach (float h in groundCheckHeight)
+				{
+					await BaseScript.Delay(1);
+					float z = 0;
+					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
+					{
+						result = z;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+			}
+			await Task.FromResult(0);
+			return result;
+		}
+#endif
 
 		public static PointF Add(this PointF c1, PointF c2)
 		{

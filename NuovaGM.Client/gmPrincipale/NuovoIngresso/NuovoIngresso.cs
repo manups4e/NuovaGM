@@ -134,16 +134,16 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			int tempTimer = GetGameTimer();
 			if (!Data.location.position.IsZero)
 			{
+				float z = await Data.location.position.FindGroundZ();
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
 				NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z, 50f, 0);
-
 				// Wait for the new scene to be loaded.
 				while (IsNetworkLoadingScene())
 				{
 					// If this takes longer than 1 second, just abort. It's not worth waiting that long.
-					if (GetGameTimer() - tempTimer > 1000)
+					if (GetGameTimer() - tempTimer > 10000)
 					{
-						Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+						Log.Printa(LogType.Debug, "146: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
 						break;
 					}
 					await BaseScript.Delay(0);
@@ -157,9 +157,9 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
 				{
 					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
-					if (GetGameTimer() - tempTimer > 1000)
+					if (GetGameTimer() - tempTimer > 10000)
 					{
-						Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+						Log.Printa(LogType.Debug, "162: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
 						break;
 					}
 					await BaseScript.Delay(0);
@@ -177,9 +177,9 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
 				{
 					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
-					if (GetGameTimer() - tempTimer > 1000)
+					if (GetGameTimer() - tempTimer > 10000)
 					{
-						Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+						Log.Printa(LogType.Debug, "182: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
 						break;
 					}
 					await BaseScript.Delay(0);
@@ -216,9 +216,6 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
-			var pp = await Funzioni.GetOnlinePlayersAndTheirData();
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(pp["1"]));
-			//Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((res) => Log.Printa(LogType.Debug, res)));
 			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
 			Game.PlayerPed.IsVisible = true;
 			Game.PlayerPed.IsCollisionEnabled = true;

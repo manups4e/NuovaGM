@@ -52,7 +52,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake2_a");
 		}
 
-		public static async void AggiornaPlayers()
+		public static async Task AggiornaPlayers()
 		{
 			GiocatoriOnline.Clear();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((arg) =>
