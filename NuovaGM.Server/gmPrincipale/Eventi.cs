@@ -70,21 +70,16 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
 			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
-			Server.Instance.RegisterServerCallback<ConcurrentDictionary<string, User>>("ChiamaPlayersOnline", new Action<Player, ConcurrentDictionary<string, User>>(GetPlayersOnline));
-			Server.Instance.RegisterServerCallback< ConcurrentDictionary < string, User>>("ChiamaPlayersDB", new Action<Player, ConcurrentDictionary<string, User>>(GetPlayersFromDB));
+			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, ConcurrentDictionary<string, User>>(GetPlayersOnline));
+			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, ConcurrentDictionary<string, User>>(GetPlayersFromDB));
 		}
 
-		private static async void cchar(Player p, dynamic _)
+		private static void GetPlayersOnline(Player player, Delegate cb, object _)
 		{
-			(Server.Networks["char"] as NetworkMethod<List<Char_data>>).Invoke(p, p.GetCurrentChar().char_data);
+			cb.DynamicInvoke(player, Server.PlayerList);
 		}
 
-		private static void GetPlayersOnline(Player p, dynamic _)
-		{
-			(Server.Networks["ChiamaPlayersOnline"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(p, Server.PlayerList);
-		}
-
-		private static async void GetPlayersFromDB(Player player, dynamic _)
+		private static async void GetPlayersFromDB(Player player, Delegate cb, object _)
 		{
 			try
 			{
@@ -94,12 +89,12 @@ namespace NuovaGM.Server.gmPrincipale
 				for (int i = 0; i < result.Count; i++)
 					if (result[i].char_data != "[]")
 						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
-				(Server.Networks["ChiamaPlayersDB"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(player, personaggi);
+				cb.DynamicInvoke(player, personaggi);
 			}
 			catch(Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
-				(Server.Networks["ChiamaPlayersDB"] as NetworkMethod<ConcurrentDictionary<string, User>>).Invoke(player, new ConcurrentDictionary<string, User>());
+				cb.DynamicInvoke(player, new ConcurrentDictionary<string, User>());
 			}
 
 		}

@@ -81,38 +81,38 @@ namespace NuovaGM.Server
 
     public class NetworkMethod<T1> : NetworkMethod
     {
-        public NetworkMethod(string eventName, Action<Player, T1> callback = null) : base(eventName, callback) { }
+        public NetworkMethod(string eventName, Action<Player, Delegate, T1> callback = null) : base(eventName, callback) { }
         public void Invoke(Player target, T1 value1) => InvokeInternal(target, TypeCache<T1>.IsSimpleType ? (object)value1 : SerializeObject(value1));
-        protected override Delegate GetRegisterCallback() => new Action<Player, object>(SerializedCallback);
-        private void SerializedCallback([FromSource] Player player, object val1) => Callback.DynamicInvoke(player, TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1));
+        protected override Delegate GetRegisterCallback() => new Action<Player, Delegate, object>(SerializedCallback);
+        private void SerializedCallback([FromSource] Player player, Delegate cb, object val1) => Callback.DynamicInvoke(player, new Action<Player, T1>((p, value1)=> { Invoke(p, value1); }), TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1));
     }
     public class NetworkMethod<T1, T2> : NetworkMethod
     {
-        public NetworkMethod(string eventName, Action<Player, T1, T2> callback = null) : base(eventName, callback) { }
+        public NetworkMethod(string eventName, Action<Player, Delegate, T1, T2> callback = null) : base(eventName, callback) { }
         public void Invoke(Player target, T1 value1, T2 value2) => InvokeInternal(target, TypeCache<T1>.IsSimpleType ? (object)value1 : SerializeObject(value1), TypeCache<T2>.IsSimpleType ? (object)value2 : SerializeObject(value2));
-        protected override Delegate GetRegisterCallback() => new Action<Player, object, object>(SerializedCallback);
-        private void SerializedCallback([FromSource] Player player, object val1, object val2) => Callback.DynamicInvoke(player, TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2));
+        protected override Delegate GetRegisterCallback() => new Action<Player, Delegate, object, object>(SerializedCallback);
+        private void SerializedCallback([FromSource] Player player, Delegate cb, object val1, object val2) => Callback.DynamicInvoke(player, new Action<Player, T1, T2>((p, value1, value2) => { Invoke(p, value1, value2); }), TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2));
     }
     public class NetworkMethod<T1, T2, T3> : NetworkMethod
     {
-        public NetworkMethod(string eventName, Action<Player, T1, T2, T3> callback = null) : base(eventName, callback) { }
+        public NetworkMethod(string eventName, Action<Player, Delegate, T1, T2, T3> callback = null) : base(eventName, callback) { }
         public void Invoke(Player target, T1 value1, T2 value2, T3 value3) => InvokeInternal(target, TypeCache<T1>.IsSimpleType ? (object)value1 : SerializeObject(value1), TypeCache<T2>.IsSimpleType ? (object)value2 : SerializeObject(value2), TypeCache<T3>.IsSimpleType ? (object)value3 : SerializeObject(value3));
-        protected override Delegate GetRegisterCallback() => new Action<Player, object, object, object>(SerializedCallback);
-        private void SerializedCallback([FromSource] Player player, object val1, object val2, object val3) => Callback.DynamicInvoke(player, TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3));
+        protected override Delegate GetRegisterCallback() => new Action<Player, Delegate, object, object, object>(SerializedCallback);
+        private void SerializedCallback([FromSource] Player player, Delegate cb, object val1, object val2, object val3) => Callback.DynamicInvoke(player, new Action<Player, T1, T2, T3>((p, value1, value2, value3) => { Invoke(p, value1, value2, value3); }), TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3));
     }
     public class NetworkMethod<T1, T2, T3, T4> : NetworkMethod
     {
-        public NetworkMethod(string eventName, Action<Player, T1, T2, T3, T4> callback = null) : base(eventName, callback) { }
+        public NetworkMethod(string eventName, Action<Player, Delegate, T1, T2, T3, T4> callback = null) : base(eventName, callback) { }
         public void Invoke(Player target, T1 value1, T2 value2, T3 value3, T4 value4) => InvokeInternal(target, TypeCache<T1>.IsSimpleType ? (object)value1 : SerializeObject(value1), TypeCache<T2>.IsSimpleType ? (object)value2 : SerializeObject(value2), TypeCache<T3>.IsSimpleType ? (object)value3 : SerializeObject(value3), TypeCache<T4>.IsSimpleType ? (object)value4 : SerializeObject(value4));
-        protected override Delegate GetRegisterCallback() => new Action<Player, object, object, object, object>(SerializedCallback);
-        private void SerializedCallback([FromSource] Player player, object val1, object val2, object val3, object val4) => Callback.DynamicInvoke(player, TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3), TypeCache<T4>.IsSimpleType ? (T4)val4 : DeserializeObject<T4>((string)val4));
+        protected override Delegate GetRegisterCallback() => new Action<Player, Delegate, object, object, object, object>(SerializedCallback);
+        private void SerializedCallback([FromSource] Player player, Delegate cb, object val1, object val2, object val3, object val4) => Callback.DynamicInvoke(player, new Action<Player, T1, T2, T3, T4>((p, value1, value2, value3, value4) => { Invoke(p, value1, value2, value3, value4); }), TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3), TypeCache<T4>.IsSimpleType ? (T4)val4 : DeserializeObject<T4>((string)val4));
     }
     public class NetworkMethod<T1, T2, T3, T4, T5> : NetworkMethod
     {
-        public NetworkMethod(string eventName, Action<Player, T1, T2, T3, T4, T5> callback = null) : base(eventName, callback) { }
+        public NetworkMethod(string eventName, Action<Player, Delegate, T1, T2, T3, T4, T5> callback = null) : base(eventName, callback) { }
         public void Invoke(Player target, T1 value1, T2 value2, T3 value3, T4 value4, T5 value5) => InvokeInternal(target, TypeCache<T1>.IsSimpleType ? (object)value1 : SerializeObject(value1), TypeCache<T2>.IsSimpleType ? (object)value2 : SerializeObject(value2), TypeCache<T3>.IsSimpleType ? (object)value3 : SerializeObject(value3), TypeCache<T4>.IsSimpleType ? (object)value4 : SerializeObject(value4), TypeCache<T5>.IsSimpleType ? (object)value5 : SerializeObject(value5));
-        protected override Delegate GetRegisterCallback() => new Action<Player, object, object, object, object, object>(SerializedCallback);
-        private void SerializedCallback([FromSource] Player player, object val1, object val2, object val3, object val4, object val5) => Callback.DynamicInvoke(player, TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3), TypeCache<T4>.IsSimpleType ? (T4)val4 : DeserializeObject<T4>((string)val4), TypeCache<T5>.IsSimpleType ? (T5)val5 : DeserializeObject<T5>((string)val5));
+        protected override Delegate GetRegisterCallback() => new Action<Player, Delegate, object, object, object, object, object>(SerializedCallback);
+        private void SerializedCallback([FromSource] Player player, Delegate cb, object val1, object val2, object val3, object val4, object val5) => Callback.DynamicInvoke(player, new Action<Player, T1, T2, T3, T4, T5>((p, value1, value2, value3, value4, value5) => { Invoke(p, value1, value2, value3, value4, value5); }), TypeCache<T1>.IsSimpleType ? (T1)val1 : DeserializeObject<T1>((string)val1), TypeCache<T2>.IsSimpleType ? (T2)val2 : DeserializeObject<T2>((string)val2), TypeCache<T3>.IsSimpleType ? (T3)val3 : DeserializeObject<T3>((string)val3), TypeCache<T4>.IsSimpleType ? (T4)val4 : DeserializeObject<T4>((string)val4), TypeCache<T5>.IsSimpleType ? (T5)val5 : DeserializeObject<T5>((string)val5));
     }
     public class NetworkMethod<T1, T2, T3, T4, T5, T6> : NetworkMethod
     {

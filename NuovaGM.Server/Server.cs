@@ -19,7 +19,6 @@ namespace NuovaGM.Server
 		public ExportDictionary GetExports { get { return Exports; } }
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
-		private static Dictionary<string, Delegate> ServerCallbacks = new Dictionary<string, Delegate>();
 		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public Server()
 		{
@@ -28,13 +27,13 @@ namespace NuovaGM.Server
 		}
 
 		#region ServerCallbacks
-		public void RegisterServerCallback<T1>(string eventName, Action<Player, T1> action)
-		{
-			NetworkMethod<T1> net = new NetworkMethod<T1>(eventName, action);
-			Networks.Add(eventName, net);
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Server.Networks));
-		}
+		public void RegisterServerCallback<T1>(string eventName, Action<Player, Delegate, T1> action) => new NetworkMethod<T1>(eventName, action);
 
+		public void RegisterServerCallback<T1, T2>(string eventName, Action<Player, Delegate, T1, T2> action) => new NetworkMethod<T1, T2>(eventName, action);
+
+		public void RegisterServerCallback<T1, T2, T3>(string eventName, Action<Player, Delegate, T1, T2, T3> action) => new NetworkMethod<T1, T2, T3>(eventName, action);
+
+		/*
 		private void callbacks([FromSource] Player p, string eventName, int reqId, List<object> args)
 		{
 			if (!ServerCallbacks.ContainsKey(eventName))
@@ -44,6 +43,7 @@ namespace NuovaGM.Server
 			}
 			ServerCallbacks[eventName].DynamicInvoke(p, new Action<dynamic>(value => p.TriggerEvent("lprp:serverCallBack", reqId, value)), args);
 		}
+		*/
 		#endregion
 
 		/// <summary>
