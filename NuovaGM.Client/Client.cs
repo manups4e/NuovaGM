@@ -26,60 +26,81 @@ namespace NuovaGM.Client
 
 		#region ServerCallbacks
 
-		protected static string SerializeObject(object o)
-		{
-			if (o == null)
-				return null;
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1>(string eventName, Action<T1> callBack) => new NetworkMethod<T1>(eventName, callBack).InvokeNoArgs();
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack) => new NetworkMethod<T1, T2>(eventName, callBack).InvokeNoArgs();
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T3">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack) => new NetworkMethod<T1, T2, T3>(eventName, callBack).InvokeNoArgs();
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T3">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T4">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack) => new NetworkMethod<T1, T2, T3, T4>(eventName, callBack).InvokeNoArgs();
 
-			return JsonConvert.SerializeObject(o);
-		}
-		protected static T DeserializeObject<T>(string text)
-		{
-			if (text == null)
-				return default(T);
-
-			return JsonConvert.DeserializeObject<T>(text);
-		}
-
-		public void TriggerServerCallback<T1>(string eventName, Action<T1> callBack)
-		{
-			NetworkMethod<T1> net = new NetworkMethod<T1>(eventName, callBack);
-			net.InvokeNoArgs();
-		}
-		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack)
-		{
-			NetworkMethod<T1, T2> net = new NetworkMethod<T1, T2>(eventName, callBack);
-			net.InvokeNoArgs();
-		}
-		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack)
-		{
-			NetworkMethod<T1, T2, T3> net = new NetworkMethod<T1, T2, T3>(eventName, callBack);
-			net.InvokeNoArgs();
-		}
-		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack)
-		{
-			NetworkMethod<T1, T2, T3, T4> net = new NetworkMethod<T1, T2, T3, T4>(eventName, callBack);
-			net.InvokeNoArgs();
-
-		}
-		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack, T1 val1, T2 val2)
-		{
-			NetworkMethod<T1, T2> net = new NetworkMethod<T1, T2>(eventName, callBack);
-			net.Invoke(val1, val2);
-
-		}
-		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack, T1 val1, T2 val2, T3 val3)
-		{
-			NetworkMethod<T1, T2, T3> net = new NetworkMethod<T1, T2, T3>(eventName, callBack);
-			net.Invoke(val1, val2, val3);
-
-		}
-		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack, T1 val1, T2 val2, T3 val3, T4 val4)
-		{
-			NetworkMethod<T1, T2, T3, T4> net = new NetworkMethod<T1, T2, T3, T4>(eventName, callBack);
-			net.Invoke(val1, val2, val3, val4);
-
-		}
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1>(string eventName, Action<T1> callBack, T1 val1) => new NetworkMethod<T1>(eventName, callBack).Invoke(val1);
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2>(string eventName, Action<T1, T2> callBack, T1 val1, T2 val2) => new NetworkMethod<T1, T2>(eventName, callBack).Invoke(val1, val2);
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T3">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2, T3>(string eventName, Action<T1, T2, T3> callBack, T1 val1, T2 val2, T3 val3) => new NetworkMethod<T1, T2, T3>(eventName, callBack).Invoke(val1, val2, val3);
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T2">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T3">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <typeparam name="T4">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
+		public void TriggerServerCallback<T1, T2, T3, T4>(string eventName, Action<T1, T2, T3, T4> callBack, T1 val1, T2 val2, T3 val3, T4 val4) => new NetworkMethod<T1, T2, T3, T4>(eventName, callBack).Invoke(val1, val2, val3, val4);
+		/// <summary>
+		/// Triggera un callback che va dichiarato anche lato server
+		/// </summary>
+		/// <typeparam name="T1">Tipo di parametro che ritornerà dal server</typeparam>
+		/// <param name="eventName">Nome del callback</param>
+		/// <param name="callBack">Un nuovo Action<>() da eseguire</param>
 
 		#endregion
 

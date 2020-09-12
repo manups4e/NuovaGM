@@ -149,7 +149,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 					await BaseScript.Delay(0);
 				}
 
-				Game.PlayerPed.Position = Data.location.position;
+				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Heading = Data.location.h;
 				tempTimer = GetGameTimer();
 
@@ -167,9 +167,10 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			}
 			else
 			{
-				RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
-				NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, 50f, 0);
-				Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+				float z = await Main.firstSpawnCoords.FindGroundZ();
+				RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z);
+				NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, 50f, 0);
+				Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z);
 				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
 				tempTimer = GetGameTimer();
 
