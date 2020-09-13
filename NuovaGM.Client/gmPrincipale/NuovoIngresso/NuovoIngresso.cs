@@ -117,24 +117,20 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
+			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
+			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
+			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
 			Game.PlayerPed.IsInvincible = false;
 			await BaseScript.Delay(1000);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
-
-			await BaseScript.Delay(100);
-			Screen.Hud.HideComponentThisFrame(HudComponent.CashChange);
-			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
-			await BaseScript.Delay(100);
 
 			int tempTimer = GetGameTimer();
 			if (!Data.location.position.IsZero)
 			{
-				float z = await Data.location.position.FindGroundZ();
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
 				NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z, 50f, 0);
 				// Wait for the new scene to be loaded.
@@ -148,7 +144,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 					}
 					await BaseScript.Delay(0);
 				}
-
+				float z = await Data.location.position.FindGroundZ();
 				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Heading = Data.location.h;
 				tempTimer = GetGameTimer();
