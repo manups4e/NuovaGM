@@ -79,12 +79,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <returns></returns>
 		public static Notifica ShowNotification(string msg, bool blink = false)
 		{
-			string[] strings = Screen.StringToArray(msg);
-			BeginTextCommandThefeedPost("CELL_EMAIL_BCON");
-			foreach (string s in strings)
-			{
-				AddTextComponentSubstringPlayerName(s);
-			}
+			AddTextEntry("LprpNotification", msg);
+			//string[] strings = Screen.StringToArray(msg);
+			BeginTextCommandThefeedPost("LprpNotification");
+			//foreach (string s in strings)
+			//	AddTextComponentSubstringPlayerName(s);
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
@@ -97,10 +96,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <returns></returns>
 		public static Notifica ShowNotification(string msg, NotificationColor color, bool blink = false)
 		{
-			string[] strings = Screen.StringToArray(msg);
-			BeginTextCommandThefeedPost("CELL_EMAIL_BCON");
-			foreach (string s in strings)
-				AddTextComponentSubstringPlayerName(s);
+			AddTextEntry("LprpNotification", msg);
+			//string[] strings = Screen.StringToArray(msg);
+			BeginTextCommandThefeedPost("LprpNotification");
+			//foreach (string s in strings)
+			//	AddTextComponentSubstringPlayerName(s);
 			ThefeedNextPostBackgroundColor((int)color);
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
@@ -113,11 +113,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		{
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
 			{
-				string[] strings = Screen.StringToArray(helpText);
-				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
-				foreach (string s in strings)
-					AddTextComponentSubstringPlayerName(s);
-				EndTextCommandDisplayHelp(0, false, true, 1);
+				AddTextEntry("LastPlanetHelpText", helpText);
+				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
 			}
 		}
 
@@ -131,22 +128,26 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			if (tempo > 5000) tempo = 5000;
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
 			{
-				string[] strings = Screen.StringToArray(helpText);
-				BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
-				foreach (string s in strings)
-					AddTextComponentSubstringPlayerName(s);
+				AddTextEntry("LastPlanetHelpText", helpText);
+				//string[] strings = Screen.StringToArray(helpText);
+				BeginTextCommandDisplayHelp("LastPlanetHelpText");
+				//foreach (string s in strings)
+				//	AddTextComponentSubstringPlayerName(s);
 				EndTextCommandDisplayHelp(0, false, true, tempo);
 			}
 		}
 
 		public static void ShowFloatingHelpNotification(string msg, Vector3 coords)
 		{
+			if (IsFloatingHelpTextOnScreen(0)) ClearFloatingHelp(0, true);
+			if (IsFloatingHelpTextOnScreen(1)) ClearFloatingHelp(1, true);
+			AddTextEntry("LprpFloatingHelpText", msg);
 			SetFloatingHelpTextWorldPosition(1, coords.X, coords.Y, coords.Z);
 			SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0);
-			string[] strings = Screen.StringToArray(msg);
-			BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
-			foreach (string s in strings)
-				AddTextComponentSubstringPlayerName(s);
+			//string[] strings = Screen.StringToArray(msg);
+			BeginTextCommandDisplayHelp("LprpFloatingHelpText");
+			//foreach (string s in strings)
+			//	AddTextComponentSubstringPlayerName(s);
 			EndTextCommandDisplayHelp(2, false, false, -1);
 		}
 
