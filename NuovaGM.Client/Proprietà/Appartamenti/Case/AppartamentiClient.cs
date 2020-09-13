@@ -40,8 +40,8 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			Citofona.Title.Scale = 0.9f;
 			UIMenuItem entra;
 
-//			if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
-//			{
+			if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
+			{
 				entra = new UIMenuItem("Entra in casa");
 				casa.AddItem(entra);
 				entra.Activated += async (_submenu, _subitem) =>
@@ -64,7 +64,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					Screen.Fading.FadeIn(500);
 					NetworkFadeInEntity(PlayerPedId(), true);
 				};
-//			}
+			}
 			Citofona.OnMenuOpen += async (_menu) =>
 			{
 				_menu.Clear();
