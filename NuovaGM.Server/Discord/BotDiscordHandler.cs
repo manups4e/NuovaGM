@@ -11,6 +11,8 @@ namespace NuovaGM.Server.Discord
 {
 	static class BotDiscordHandler
 	{
+		//private static string serverUrl = "http://45.14.185.37:1337";
+		private static string serverUrl = "http://localhost:1337";
 		public static Guild TheLastServer;
 		public static void Init()
 		{
@@ -36,12 +38,12 @@ namespace NuovaGM.Server.Discord
 
 		public static async Task InviaAlBot(object data)
 		{
-			await new Request().Http("http://45.14.185.37:1337", "GET", JsonConvert.SerializeObject(data));
+			await new Request().Http(serverUrl, "GET", JsonConvert.SerializeObject(data));
 		}
 
 		public static async Task<RequestResponse> InviaAlBotERicevi(object data)
 		{
-			return await new Request().Http("http://45.14.185.37:1337", "GET", JsonConvert.SerializeObject(data));
+			return await new Request().Http(serverUrl, "GET", JsonConvert.SerializeObject(data));
 		}
 
 		public static async Task<bool> DoesPlayerHaveRole(string discordId, List<string> Ruoli)
