@@ -45,7 +45,7 @@ namespace NuovaGM.Server.Businesses
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
 				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
-			BaseScript.TriggerClientEvent("lprp:businesses:setstations", JsonConvert.SerializeObject(ConfigShared.SharedConfig.Main.Veicoli.gasstations), JsonConvert.SerializeObject(playerstations));
+			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.Serialize(), playerstations.Serialize());
 		}
 
 		public static async void checkRent(User p)
@@ -149,7 +149,7 @@ namespace NuovaGM.Server.Businesses
 					thx = thanks,
 					last = lastmanaged.ToString("yyyy-MM-dd HH:mm:ss"),
 					deliver = deltype,
-					allow = JsonConvert.SerializeObject(deliverylist),
+					allow = deliverylist.Serialize(),
 					idx = manageid,
 					id = License.GetLicense(p, Identifier.Discord)
 				});

@@ -628,7 +628,7 @@ namespace NuovaGM.Server.gmPrincipale
 						await Task.FromResult(0);
 					}
 				}
-				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 			}
 			catch (Exception ex)
 			{

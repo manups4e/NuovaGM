@@ -546,7 +546,7 @@ namespace NuovaGM.Client.Negozi
 					if (Game.Player.GetPlayerData().Money >= completi[_index].Price)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(completi[_index]));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
 						Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 						ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 						ciao = _item;
@@ -558,7 +558,7 @@ namespace NuovaGM.Client.Negozi
 						if (Game.Player.GetPlayerData().Bank >= completi[_index].Price)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(completi[_index]));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
 							Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = _item;
@@ -703,7 +703,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni = text;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -721,7 +721,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni = text;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -872,7 +872,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe = text;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -890,7 +890,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe = text;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1041,7 +1041,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = text;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1059,7 +1059,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie = text;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1235,7 +1235,7 @@ namespace NuovaGM.Client.Negozi
 						Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1250,7 +1250,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1373,7 +1373,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1391,7 +1391,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1446,7 +1446,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1461,7 +1461,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
 								CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
@@ -1515,7 +1515,7 @@ namespace NuovaGM.Client.Negozi
 						Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1529,7 +1529,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1594,7 +1594,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1608,7 +1608,7 @@ namespace NuovaGM.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.skin.ears.color = 0;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1750,7 +1750,7 @@ namespace NuovaGM.Client.Negozi
 							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.None);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							if (val > 0)
 							{
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1771,7 +1771,7 @@ namespace NuovaGM.Client.Negozi
 								OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								if (val > 0)
 								{
 									HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1827,7 +1827,7 @@ namespace NuovaGM.Client.Negozi
 							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 							Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							if (val > 0)
 							{
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1845,7 +1845,7 @@ namespace NuovaGM.Client.Negozi
 								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 								if (val > 0)
 								{
 									HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1898,7 +1898,7 @@ namespace NuovaGM.Client.Negozi
 						Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Bracciali = 0;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1910,7 +1910,7 @@ namespace NuovaGM.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Bracciali = 0;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", JsonConvert.SerializeObject(Game.Player.GetPlayerData().CurrentChar.dressing));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else

@@ -12,6 +12,7 @@ using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using CitizenFX.Core.UI;
 using Logger;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 {
@@ -94,7 +95,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 						it.Activated += (_submenu, _subitem) =>
 						{
 							Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-							BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, JsonConvert.SerializeObject(app)); // params: personaincasa.serverid, fromsource chi suona
+							BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.Serialize()); // params: personaincasa.serverid, fromsource chi suona
 							HUD.MenuPool.CloseAllMenus();
 						};
 					}

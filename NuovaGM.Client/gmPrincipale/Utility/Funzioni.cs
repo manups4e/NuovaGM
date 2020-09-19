@@ -43,7 +43,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void SendNuiMessage(object message)
 		{
-			API.SendNuiMessage(JsonConvert.SerializeObject(message));
+			API.SendNuiMessage(message.Serialize());
 		}
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)

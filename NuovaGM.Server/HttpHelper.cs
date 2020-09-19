@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Server
 {
@@ -51,7 +52,7 @@ namespace NuovaGM.Server
 			requestData.method = method;
 			requestData.data = data;
 			requestData.headers = headers;
-			string json = JsonConvert.SerializeObject(requestData);
+			string json = requestData.Serialize();
 			int token = API.PerformHttpRequestInternal(json, Encoding.UTF8.GetByteCount(json));
 			while (!responseDictionary.ContainsKey(token)) await BaseScript.Delay(0);
 			ConcurrentDictionary<string, dynamic> res = responseDictionary[token];

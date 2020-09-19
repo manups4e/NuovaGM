@@ -746,7 +746,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					SetVehicleLivery(Game.PlayerPed.CurrentVehicle.Handle, 0);
 				Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 				VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", JsonConvert.SerializeObject(veh));
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.Serialize());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();
@@ -898,7 +898,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
 								Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 								VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", JsonConvert.SerializeObject(veh));
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.Serialize());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;

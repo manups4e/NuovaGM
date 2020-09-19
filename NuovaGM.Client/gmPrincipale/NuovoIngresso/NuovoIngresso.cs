@@ -76,7 +76,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		private static void ToggleMenu(bool menuOpen, string menu)
 		{
 			if (menuOpen)
-				Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = JsonConvert.SerializeObject(Game.Player.GetPlayerData().char_data) });
+				Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Game.Player.GetPlayerData().char_data.Serialize() });
 			DisplayHud(!menuOpen);
 			DisplayRadar(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);

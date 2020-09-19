@@ -668,7 +668,7 @@ namespace NuovaGM.Shared
 		}
 
 		public static string Serialize(this object param) => JsonConvert.SerializeObject(param);
-		public static void Deserialize<T>(this string param) => JsonConvert.DeserializeObject<T>(param);
+		public static T Deserialize<T>(this string param) => JsonConvert.DeserializeObject<T>(param);
 	}
 
 	public class MinMaggioreDiMax : Exception { }

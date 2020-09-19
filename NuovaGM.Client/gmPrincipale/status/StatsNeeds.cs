@@ -455,8 +455,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static async Task Agg()
 		{
 			await BaseScript.Delay(60000);
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", JsonConvert.SerializeObject(nee));
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", JsonConvert.SerializeObject(skill));
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.Serialize());
 		}
 	}
 }

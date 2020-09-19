@@ -59,7 +59,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
  		    {
 			   GiocatoriOnline = arg;
 		    }));
-			while (JsonConvert.SerializeObject(GiocatoriOnline) == "{}") await BaseScript.Delay(0);
+			while (GiocatoriOnline.Serialize() == "{}") await BaseScript.Delay(0);
 		}
 
 		public static async void LoadModel()
@@ -90,7 +90,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void onPlayerDeath(dynamic data)
 		{
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
+			Log.Printa(LogType.Debug, data.Serialize());
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			BaseScript.TriggerEvent("lprp:iniziaConteggio");
@@ -160,7 +160,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Status.StatsNeeds.nee.sete = 0.0f;
 			Status.StatsNeeds.nee.stanchezza = 0.0f;
 			Status.StatsNeeds.nee.malattia = false;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", JsonConvert.SerializeObject(Status.StatsNeeds.nee));
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", Status.StatsNeeds.nee.Serialize());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			BaseScript.TriggerEvent("lprp:fineConteggio");

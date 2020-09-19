@@ -2,7 +2,7 @@
 using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
-
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using static CitizenFX.Core.Native.API;
@@ -70,7 +70,7 @@ namespace NuovaGM.Server.Veicoli
 				user.Money -= amount;
 				Log.Printa(LogType.Info, "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
-				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, JsonConvert.SerializeObject(t));
+				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, t.Serialize());
 			}
 			else
 			{

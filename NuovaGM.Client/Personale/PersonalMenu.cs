@@ -494,7 +494,7 @@ namespace NuovaGM.Client.Personale
 											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
 											Game.Player.GetPlayerData().CurrentChar.weapons = armiAgg;
-											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", JsonConvert.SerializeObject(armiAgg));
+											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.Serialize());
 											if (_checked)
 											{
 												GiveWeaponComponentToPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
@@ -1350,7 +1350,7 @@ namespace NuovaGM.Client.Personale
 							pool.CloseAllMenus();
 							BigMessageThread.MessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", JsonConvert.SerializeObject(new Gang(gname, 5)));
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", (new Gang(gname, 5)).Serialize());
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
 						}
 						else
@@ -1375,7 +1375,7 @@ namespace NuovaGM.Client.Personale
 						Main.GangsAttive.Remove(Game.Player.GetPlayerData().CurrentChar.gang);
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", JsonConvert.SerializeObject(new Gang("Incensurato", 0)));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", (new Gang("Incensurato", 0)).Serialize());
 					};
 				}
 				else
@@ -1387,7 +1387,7 @@ namespace NuovaGM.Client.Personale
 						pool.CloseAllMenus();
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", JsonConvert.SerializeObject(new Gang("Incensurato", 0)));
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", (new Gang("Incensurato", 0)).Serialize());
 					};
 				}
 			}

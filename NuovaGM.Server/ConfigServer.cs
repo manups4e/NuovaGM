@@ -27,9 +27,9 @@ namespace NuovaGM.Server
 
 		private static void Configurazione(dynamic JsonConfig)
 		{
-			ConfigShared = JsonConvert.SerializeObject(JsonConfig.Shared);
-			ConfigClient = JsonConvert.SerializeObject(JsonConfig.Client);
-			string ConfigServer = JsonConvert.SerializeObject(JsonConfig.Server);
+			ConfigShared = JsonConfig.Shared.Serialize();
+			ConfigClient = JsonConfig.Client.Serialize();
+			string ConfigServer = JsonConfig.Server.Serialize();
 			Server.Impostazioni = JsonConvert.DeserializeObject<Configurazione>(ConfigServer);
 			Shared.ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(ConfigShared);
 		}

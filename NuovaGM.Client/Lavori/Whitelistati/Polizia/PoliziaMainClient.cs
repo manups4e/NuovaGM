@@ -116,7 +116,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
 											VeicoloPol vehicle = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", JsonConvert.SerializeObject(vehicle));
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.Serialize());
 											Game.PlayerPed.CurrentVehicle.Delete();
 											VeicoloAttuale = new Vehicle(0);
 										}
@@ -166,7 +166,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 										if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
 											VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", JsonConvert.SerializeObject(veh));
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.Serialize());
 											Game.PlayerPed.CurrentVehicle.Delete();
 											ElicotteroAttuale = new Vehicle(0);
 										}

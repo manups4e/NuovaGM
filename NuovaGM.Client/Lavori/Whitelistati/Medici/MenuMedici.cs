@@ -241,7 +241,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 								Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
 								Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
 								VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", JsonConvert.SerializeObject(veh));
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;
@@ -401,7 +401,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 				if (Game.PlayerPed.CurrentVehicle.Model.Hash == 353883353)
 					SetVehicleLivery(Game.PlayerPed.CurrentVehicle.Handle, 1);
 				VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", JsonConvert.SerializeObject(veh));
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();

@@ -11,6 +11,7 @@ using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using Logger;
 using NuovaGM.Server.Discord;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -525,7 +526,7 @@ namespace NuovaGM.Server.gmPrincipale
                         sessionReturn.Add(temp);
                     });
                     Player requested = Server.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
-                    requested.TriggerEvent("lprp:coda: sessionResponse", JsonConvert.SerializeObject(sessionReturn));
+                    requested.TriggerEvent("lprp:coda: sessionResponse", sessionReturn.Serialize());
                 }
             }
             catch (Exception e)
@@ -845,7 +846,7 @@ namespace NuovaGM.Server.gmPrincipale
                     {
                         k.Priority = 100;
                         string path = $"{directory}/{k.License}-{k.Discord}.json";
-                        File.WriteAllText(path, JsonConvert.SerializeObject(k));
+                        File.WriteAllText(path, k.Serialize());
                     }
                     NuovaCoda.priority.TryAdd(k.License, k.Priority);
                 });
@@ -886,7 +887,7 @@ namespace NuovaGM.Server.gmPrincipale
                         NuovaCoda.priority.TryUpdate(account.License, priority, oldPriority);
                     }
                     string path = $"{directory}/{account.License}-{account.Discord}.json";
-                    File.WriteAllText(path, JsonConvert.SerializeObject(account));
+                    File.WriteAllText(path, account.Serialize());
                     Log.Printa(LogType.Info, $"{identifier} è stato settato in priorità {priority}.");
                 }
                 else
@@ -894,7 +895,7 @@ namespace NuovaGM.Server.gmPrincipale
                     Log.Printa(LogType.Warning, $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
                     newwhitelist.Add(new PriorityAccount(identifier, identifier, priority));
                     string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-                    File.WriteAllText(path, JsonConvert.SerializeObject(newwhitelist));
+                    File.WriteAllText(path, newwhitelist.Serialize());
                 }
             }
             catch (Exception)
@@ -919,7 +920,7 @@ namespace NuovaGM.Server.gmPrincipale
                     newwhitelist.Remove(j);
                 });
                 string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(newwhitelist));
+                File.WriteAllText(path, newwhitelist.Serialize());
                 accounts.Where(k => k.License == identifier || k.Discord == identifier).ToList().ForEach(j =>
                 {
                     path = $"{directory}/{j.License}-{j.Discord}.json";
@@ -942,10 +943,10 @@ namespace NuovaGM.Server.gmPrincipale
             {
                 accounts.Add(account);
                 string path = $"{directory}/{account.License}-{account.Discord}.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(account));
+                File.WriteAllText(path, account.Serialize());
                 newwhitelist.RemoveAll(k => k.License == account.License || k.Discord == account.Discord);
                 path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(newwhitelist));
+                File.WriteAllText(path, newwhitelist.Serialize());
                 Log.Printa(LogType.Info, $"{account.License}-{account.Discord} prioritizzato automaticamente.");
             }
             catch (Exception)

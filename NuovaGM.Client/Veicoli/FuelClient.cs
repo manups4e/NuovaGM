@@ -679,7 +679,7 @@ namespace NuovaGM.Client.Veicoli
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							canPickupTanker = false;
-							BaseScript.TriggerServerEvent("lprp:fuel:buytanker", JsonConvert.SerializeObject(info));
+							BaseScript.TriggerServerEvent("lprp:fuel:buytanker", info.Serialize());
 						}
 					}
 				}

@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,12 +30,12 @@ namespace NuovaGM.Server.gmPrincipale
 			await BaseScript.Delay(0);
 			if (result != null)
 			{
-				string stringa = JsonConvert.SerializeObject(result);
+				string stringa = result.Serialize();
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
 					User user = new User(player, result[0]);
 					Server.PlayerList.TryAdd(handle, user);
-					string playerino = JsonConvert.SerializeObject(user);
+					string playerino = user.Serialize();
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 				else
@@ -49,7 +50,7 @@ namespace NuovaGM.Server.gmPrincipale
 						time = 0,
 						last = DateTime.Now,
 						current = 0,
-						data = JsonConvert.SerializeObject(new object[] { })
+						data = (new object[] { }).Serialize()
 					});
 					await BaseScript.Delay(0);
 
@@ -60,7 +61,7 @@ namespace NuovaGM.Server.gmPrincipale
 					await BaseScript.Delay(0);
 					User user = new User(player, created[0]);
 					Server.PlayerList.TryAdd(handle, user);
-					string playerino = JsonConvert.SerializeObject(user);
+					string playerino = user.Serialize();
 					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
 				}
 			}

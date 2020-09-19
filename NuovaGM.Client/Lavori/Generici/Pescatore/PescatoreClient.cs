@@ -379,7 +379,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				if (veh.Exists()) veh.Delete();
 				Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
 				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, Game.Player.GetPlayerData().FullName);
-				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", JsonConvert.SerializeObject(vehlav));
+				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.Serialize());
 			};
 			Barche.Visible = true;
 		}

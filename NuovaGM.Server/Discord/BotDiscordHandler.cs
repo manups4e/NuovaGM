@@ -2,6 +2,7 @@
 using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.Discord.GuildData;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,12 +39,12 @@ namespace NuovaGM.Server.Discord
 
 		public static async Task InviaAlBot(object data)
 		{
-			await new Request().Http(serverUrl, "GET", JsonConvert.SerializeObject(data));
+			await new Request().Http(serverUrl, "GET", data.Serialize());
 		}
 
 		public static async Task<RequestResponse> InviaAlBotERicevi(object data)
 		{
-			return await new Request().Http(serverUrl, "GET", JsonConvert.SerializeObject(data));
+			return await new Request().Http(serverUrl, "GET", data.Serialize());
 		}
 
 		public static async Task<bool> DoesPlayerHaveRole(string discordId, List<string> Ruoli)

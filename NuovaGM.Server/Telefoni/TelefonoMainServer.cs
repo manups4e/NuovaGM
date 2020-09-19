@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -27,11 +28,11 @@ namespace NuovaGM.Server.Telefoni
 			{
 				dynamic result = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 				await BaseScript.Delay(0);
-				string valore = JsonConvert.SerializeObject(result);
+				string valore = result.Serialize();
 				if (valore != "[]" && valore != "{}" && valore != null)
 				{
 					Phones[player.Handle] = new Phone(player, result[0]);
-					string datiphone = JsonConvert.SerializeObject(Phones[player.Handle]);
+					string datiphone = (Phones[player.Handle]).Serialize();
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
 				}
 				else
@@ -46,7 +47,7 @@ namespace NuovaGM.Server.Telefoni
 					dynamic Newresult = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 					await BaseScript.Delay(0);
 					Phones[player.Handle] = new Phone(player, Newresult[0]);
-					string datiphone = JsonConvert.SerializeObject(Phones[player.Handle]);
+					string datiphone = (Phones[player.Handle]).Serialize();
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
 				}
 			}

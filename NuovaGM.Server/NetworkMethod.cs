@@ -67,7 +67,7 @@ namespace NuovaGM.Server
             if (text == null)
                 return default(T);
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text);
+            return text.Deserialize<T>();
         }
 
         protected static string SerializeObject(object o)
@@ -75,7 +75,7 @@ namespace NuovaGM.Server
             if (o == null)
                 return null;
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(o);
+            return o.Serialize();
         }
     }
 

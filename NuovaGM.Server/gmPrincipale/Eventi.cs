@@ -189,9 +189,9 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				user.group_level = data;
 			}
-			string _char_data = JsonConvert.SerializeObject(user.char_data);
+			string _char_data = user.char_data.Serialize();
 			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, user.char_current, user.group);
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)
@@ -224,8 +224,8 @@ namespace NuovaGM.Server.gmPrincipale
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
 					player.TriggerEvent("lprp:ShowNotification", "~g~" +user.FullName + " (" + source.Name + ")~w~ è entrato in città");
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
-			source.TriggerEvent("lprp:createMissingPickups", JsonConvert.SerializeObject(PickupsServer.Pickups));
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
+			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.Serialize());
 		}
 
 		public static async void Dropped([FromSource] Player player, string reason)
@@ -264,7 +264,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Log.Printa(LogType.Info, text);
 			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 		}
 
 		public static async void SalvaPlayer([FromSource] Player player)

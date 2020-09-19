@@ -706,7 +706,7 @@ namespace NuovaGM.Client.Negozi
 							 capAttuali = obj.var;
 							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						 }
 						 else
@@ -721,7 +721,7 @@ namespace NuovaGM.Client.Negozi
 								 capAttuali = obj.var;
 								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							 }
 							 else
@@ -757,7 +757,7 @@ namespace NuovaGM.Client.Negozi
 							 soprOpAtt = soprOp.Percentage;
 							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						 }
 						 else
@@ -774,7 +774,7 @@ namespace NuovaGM.Client.Negozi
 								 soprOpAtt = soprOp.Percentage;
 								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							 }
 							 else
@@ -809,7 +809,7 @@ namespace NuovaGM.Client.Negozi
 							 brbAttOp = beardOp.Percentage;
 							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						 }
 						 else
@@ -826,7 +826,7 @@ namespace NuovaGM.Client.Negozi
 								 brbAttOp = beardOp.Percentage;
 								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							 }
 							 else
@@ -857,7 +857,7 @@ namespace NuovaGM.Client.Negozi
 							 trcOpAtt = trOp.Percentage;
 							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						 }
 						 else
@@ -870,7 +870,7 @@ namespace NuovaGM.Client.Negozi
 								 trcOpAtt = trOp.Percentage;
 								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							 }
 							 else
@@ -905,7 +905,7 @@ namespace NuovaGM.Client.Negozi
 							 rossAttualiO = rossOp.Percentage;
 							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						 }
 						 else
@@ -922,7 +922,7 @@ namespace NuovaGM.Client.Negozi
 								 rossAttualiO = rossOp.Percentage;
 								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", JsonConvert.SerializeObject(skin));
+								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
 								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							 }
 							 else

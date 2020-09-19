@@ -471,7 +471,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						board_scalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, data.id, 0);
 						selezionato = "Femmina";
 					}
-					BaseScript.TriggerEvent("lprp:aggiornaModel", JsonConvert.SerializeObject(data));
+					BaseScript.TriggerEvent("lprp:aggiornaModel", data.Serialize());
 					foreach (Prop obj in World.GetAllProps())
 					{
 						if (obj.Model.Hash == GetHashKey("prop_police_id_board") || obj.Model.Hash == GetHashKey("prop_police_id_text"))
@@ -1112,7 +1112,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					BD1.Detach();
 					BD1.Delete();
 					Game.PlayerPed.Detach();
-					BaseScript.TriggerServerEvent("lprp:finishCharServer", JsonConvert.SerializeObject(data));
+					BaseScript.TriggerServerEvent("lprp:finishCharServer", data.Serialize());
 					Game.Player.GetPlayerData().char_current = data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 					Client.Instance.RemoveTick(Controllo);

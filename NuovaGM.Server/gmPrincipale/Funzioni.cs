@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using Logger;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -293,7 +294,7 @@ namespace NuovaGM.Server.gmPrincipale
 				level = ped.group_level,
 				time = ped.playTime,
 				current = ped.char_current,
-				data = JsonConvert.SerializeObject(ped.char_data),
+				data = ped.char_data.Serialize(),
 				id = ped.identifiers.discord
 			});
 			await BaseScript.Delay(0);
@@ -323,7 +324,7 @@ namespace NuovaGM.Server.gmPrincipale
 							}
 						}
 					}
-					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", JsonConvert.SerializeObject(Server.PlayerList));
+					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 				}
 				else
 					await BaseScript.Delay(10000);
