@@ -13,24 +13,25 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.MenuNativo.PauseMenu;
+using NuovaGM.Shared;
 using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client
 {
 	static class ClasseDiTest
 	{
-		static NetworkMethod<Dictionary<string, PlayerChar>> chiamaPlayers;
 		public static void Init()
 		{
 			Client.Instance.AddTick(TabsPauseMenu);
-			TriggerScreenblurFadeOut(1);
 		}
 
 		private static async void AttivaMenu()
 		{
-			/*
 			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
+			UIMenuItem m = new UIMenuItem("dettagli veicolo");
+			Test.AddItem(m);
+/*
 			UIMenuItem b = new UIMenuItem("ShowColoredShard");
 			UIMenuItem c = new UIMenuItem("ShowOldMessage");
 			UIMenuItem d = new UIMenuItem("ShowSimpleShard");
@@ -45,10 +46,16 @@ namespace NuovaGM.Client
 			Test.AddItem(f);
 			Test.AddItem(g);
 			Test.AddItem(h);
+*/
 
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
-				if (item == b)
+				if(item == m)
+				{
+					var p = Funzioni.GetVehicleProperties(Game.PlayerPed.CurrentVehicle);
+					Log.Printa(LogType.Debug, p.Serialize());
+				}
+/*				if (item == b)
 					BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
 				else if (item == c)
 					BigMessageThread.MessageInstance.ShowOldMessage("Test1");
@@ -62,9 +69,10 @@ namespace NuovaGM.Client
 					BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
 				else if (item == h)
 					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
+*/
+
 			};
 			Test.Visible = true;
-			*/
 		}
 
 		/*

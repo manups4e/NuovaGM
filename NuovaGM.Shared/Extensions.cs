@@ -1,5 +1,6 @@
 using CitizenFX.Core;
 using Logger;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -665,6 +666,8 @@ namespace NuovaGM.Shared
 			}
 			return inside;
 		}
+
+		public static string Serialize(this object param) => JsonConvert.SerializeObject(param);
 	}
 
 	public class MinMaggioreDiMax : Exception { }
