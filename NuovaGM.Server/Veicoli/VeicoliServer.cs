@@ -64,7 +64,7 @@ namespace NuovaGM.Server.Veicoli
 		{
 			try
 			{
-				dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc, char_id = @pers", new
+				dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc and char_id = @pers", new
 				{
 					disc = License.GetLicense(p, Identifier.Discord),
 					pers = p.GetCurrentChar().CurrentChar.id
