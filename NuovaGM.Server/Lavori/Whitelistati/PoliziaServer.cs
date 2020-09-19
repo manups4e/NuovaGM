@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using static NuovaGM.Shared.Veicoli.Modifiche;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Shared;
@@ -12,7 +11,6 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 	static class PoliziaServer
 	{
 		static List<VeicoloLavorativoEAffitto> NonPersonali = new List<VeicoloLavorativoEAffitto>();
-		static List<VeicoloPersonale> Personali = new List<VeicoloPersonale>();
 		static List<VeicoloPol> Polizia = new List<VeicoloPol>();
 		static List<VeicoloPol> Medici = new List<VeicoloPol>();
 
@@ -57,11 +55,12 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		public static void RegistraVeicoloPersonale(string jsonVeicolo)
 		{
-			Personali.Add(JsonConvert.DeserializeObject<VeicoloPersonale>(jsonVeicolo));
+			//Personali.Add(JsonConvert.DeserializeObject<VeicoloPersonale>(jsonVeicolo));
 		}
 
 		private static void RimuoviVeicoloPersonale(string jsonVeicolo)
 		{
+			/*
 			foreach (var veicolo in Personali)
 			{
 				if (veicolo == JsonConvert.DeserializeObject<VeicoloPersonale>(jsonVeicolo))
@@ -69,6 +68,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 					Personali.Remove(veicolo);
 				}
 			}
+			*/
 		}
 
 		private static void AggiungiVehPolizia(string jsonVeicolo)
@@ -99,7 +99,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 				Medici.Remove(agg);
 		}
 
-
+/*
 		static bool firstTick = true;
 		public static async Task AggiornamentoClient()
 		{
@@ -114,7 +114,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			BaseScript.TriggerClientEvent("lprp:police:aggiornaListe", JsonConvert.SerializeObject(NonPersonali), JsonConvert.SerializeObject(Personali));
 			await BaseScript.Delay(60000);
 		}
-
+*/
 		public static void AmmanettaSmanetta([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);

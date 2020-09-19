@@ -119,6 +119,8 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			RenderScriptCams(false, false, 0, false, false);
 			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
+			BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
+			BaseScript.TriggerServerEvent("lprp:caricaVeicoli");
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);

@@ -47,6 +47,16 @@ namespace NuovaGM.Client.Proprietà
 					}
 				}
 			}
+			foreach (var gar in Proprietà.Garages.Garages)
+			{
+				if(Game.PlayerPed.IsInRangeOf(gar.SpawnDentro, 1.5f))
+				{
+					if (Game.PlayerPed.IsOnFoot)
+					{
+
+					}
+				}
+			}
 		}
 
 		public static async Task MarkerDentro()

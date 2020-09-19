@@ -260,6 +260,7 @@ namespace NuovaGM.Client
 		public ConfigGarage MidEnd4 = new ConfigGarage();
 		public ConfigGarage MidEnd6 = new ConfigGarage();
 		public ConfigGarage HighEnd = new ConfigGarage();
+		public List<Garages> Garages = new List<Garages>();
 		// aggiungere uffici
 	}
 
@@ -272,6 +273,20 @@ namespace NuovaGM.Client
 		public Vector3[] ModifyCam = new Vector3[2];
 		public Vector4 SpawnInLocation;
 		public List<Vector4> PosVehs = new List<Vector4>();
+	}
+
+	public class Garages
+	{
+		public string Label;
+		public int tipo;
+		public int VehCapacity;
+		public Vector3 MarkerEntrata;
+		public Vector3 MarkerUscita;
+		public Vector3 SpawnDentro;
+		public Vector3 SpawnFuori;
+		public ConfigCaseCamExt TelecameraFuori = new ConfigCaseCamExt();
+		public ConfigCaseCamExt TelecameraModificaDentro = new ConfigCaseCamExt();
+		public int Price;
 	}
 
 	public class ConfigCase

@@ -1,5 +1,8 @@
 ﻿using System;
 using CitizenFX.Core;
+using Newtonsoft.Json;
+using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
 
@@ -18,7 +21,7 @@ namespace NuovaGM.Server.Veicoli
 			Server.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
 			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
 			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
-			
+			Server.Instance.AddEventHandler("lprp:caricaVeicoli", new Action<Player>(CaricaVeicoli));
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)
 		{
@@ -54,6 +57,18 @@ namespace NuovaGM.Server.Veicoli
 		private static void RemFront(int veh) 
 		{ 
 			BaseScript.TriggerClientEvent("cBrakes:rem_front", veh);
+		}
+
+		private static async void CaricaVeicoli([FromSource] Player p)
+		{
+			dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc, char_id = @pers", new
+			{
+				disc = License.GetLicense(p, Identifier.Discord),
+				pers = p.GetCurrentChar().char_current
+			});
+			if(vehs.Count > 0)
+				foreach(var veh in vehs)
+					p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, JsonConvert.DeserializeObject<VehicleData>(veh.vehicle_data), veh.in_garage, veh.stato));
 		}
 	}
 }

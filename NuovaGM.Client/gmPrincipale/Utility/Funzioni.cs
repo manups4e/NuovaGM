@@ -8,9 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static NuovaGM.Shared.Veicoli.Modifiche;
 using NuovaGM.Shared;
 using Logger;
+using NuovaGM.Shared.Veicoli;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
