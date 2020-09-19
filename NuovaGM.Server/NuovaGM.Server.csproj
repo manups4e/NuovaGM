@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2915" />
+    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.2949" />
     <PackageReference Include="Colorful.Console" Version="1.2.11" />
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

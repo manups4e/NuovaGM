@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
@@ -52,24 +53,31 @@ namespace NuovaGM.Client
 			{
 				if(item == m)
 				{
-					var p = Funzioni.GetVehicleProperties(Game.PlayerPed.CurrentVehicle);
+					var p = await Game.PlayerPed.CurrentVehicle.GetVehicleProperties();
 					Log.Printa(LogType.Debug, p.Serialize());
+					await BaseScript.Delay(1000);
+					Game.PlayerPed.CurrentVehicle.Mods.InstallModKit();
+					await BaseScript.Delay(1000);
+					Game.PlayerPed.CurrentVehicle.Mods[VehicleModType.Spoilers].Index = 1;
+					int i = (int)Game.PlayerPed.CurrentVehicle.Mods[VehicleModType.Spoilers].ModType;
+					var pippo = await Game.PlayerPed.CurrentVehicle.GetVehicleProperties();
+					Log.Printa(LogType.Debug, pippo.Serialize());
 				}
-/*				if (item == b)
-					BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
-				else if (item == c)
-					BigMessageThread.MessageInstance.ShowOldMessage("Test1");
-				else if (item == d)
-					BigMessageThread.MessageInstance.ShowSimpleShard("Test1", "Test2");
-				else if (item == e)
-					BigMessageThread.MessageInstance.ShowRankupMessage("Test1", "Test2", 15);
-				else if (item == f)
-					BigMessageThread.MessageInstance.ShowWeaponPurchasedMessage("Test1", "WEAPON_PISTOL", WeaponHash.Pistol);
-				else if (item == g)
-					BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
-				else if (item == h)
-					BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
-*/
+				/*				if (item == b)
+									BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
+								else if (item == c)
+									BigMessageThread.MessageInstance.ShowOldMessage("Test1");
+								else if (item == d)
+									BigMessageThread.MessageInstance.ShowSimpleShard("Test1", "Test2");
+								else if (item == e)
+									BigMessageThread.MessageInstance.ShowRankupMessage("Test1", "Test2", 15);
+								else if (item == f)
+									BigMessageThread.MessageInstance.ShowWeaponPurchasedMessage("Test1", "WEAPON_PISTOL", WeaponHash.Pistol);
+								else if (item == g)
+									BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
+								else if (item == h)
+									BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
+				*/
 
 			};
 			Test.Visible = true;
@@ -92,6 +100,7 @@ namespace NuovaGM.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
+				AttivaMenu();
 				/*
 				b.Tabs.Clear();
 				TabItem item1 = new TabItem("Item 1");

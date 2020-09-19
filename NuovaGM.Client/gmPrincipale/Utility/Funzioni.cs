@@ -201,99 +201,87 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		}
 
 
-		public static VehProp GetVehicleProperties(Vehicle veh)
+		public static async Task<VehProp> GetVehicleProperties(this Vehicle veh)
 		{
-			int vehicle = veh.Handle;
-			int Color1 = 0;
-			int Color2 = 0;
-			int perl = 0;
-			int wheel = 0;
-			int neonColorR = 0;
-			int neonColorG = 0;
-			int neonColorB = 0;
-			int tyreSmokeColorR = 0;
-			int tyreSmokeColorG = 0;
-			int tyreSmokeColorB = 0;
-			GetVehicleColours(vehicle, ref Color1, ref Color2);
-			GetVehicleExtraColours(vehicle, ref perl, ref wheel);
-			GetVehicleNeonLightsColour(vehicle, ref neonColorR, ref neonColorG, ref neonColorB);
-			GetVehicleTyreSmokeColor(vehicle, ref tyreSmokeColorR, ref tyreSmokeColorG, ref tyreSmokeColorB);
-			List<bool> neon = new List<bool>{
-				IsVehicleNeonLightEnabled(vehicle, 0),
-				IsVehicleNeonLightEnabled(vehicle, 1),
-				IsVehicleNeonLightEnabled(vehicle, 2),
-				IsVehicleNeonLightEnabled(vehicle, 3)
-			};
-			List<bool> extras = new List<bool>();
-			for (int id = 0; id < 13; id++)
+			bool[] extras = new bool[13];
+			for (int i = 0; i < 13; i++) extras[i] = veh.IsExtraOn(i);
+
+			List<VehMod> mods = new List<VehMod>();
+			foreach(var mod in veh.Mods.GetAllMods())
 			{
-				extras.Add(IsVehicleExtraTurnedOn(vehicle, id));
+				mods.Add(new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName));
 			}
 
 			VehProp vehi = new VehProp(
 			veh.Model,
-			GetVehicleNumberPlateText(vehicle),
-			GetVehicleNumberPlateTextIndex(vehicle),
-			GetVehicleBodyHealth(vehicle),
-			GetVehicleEngineHealth(vehicle),
-			GetVehicleDirtLevel(vehicle),
+			veh.Mods.LicensePlate,
+			(int)veh.Mods.LicensePlateStyle,
+			veh.BodyHealth,
+			veh.EngineHealth,
+			veh.DirtLevel,
 
-			Color1, Color2,
-			perl, wheel,
+			(int)veh.Mods.PrimaryColor, (int)veh.Mods.SecondaryColor,
+			veh.Mods.CustomPrimaryColor, veh.Mods.CustomSecondaryColor,
+			veh.Mods.IsPrimaryColorCustom, veh.Mods.IsSecondaryColorCustom,
+			(int)veh.Mods.PearlescentColor, (int)veh.Mods.RimColor,
+			(int)veh.Mods.WheelType,
+			(int)veh.Mods.WindowTint,
 
-			GetVehicleWheelType(vehicle),
-			GetVehicleWindowTint(vehicle),
-
-			neon,
+			new bool[4] { veh.Mods.HasNeonLight(VehicleNeonLight.Left), veh.Mods.HasNeonLight(VehicleNeonLight.Right), veh.Mods.HasNeonLight(VehicleNeonLight.Front), veh.Mods.HasNeonLight(VehicleNeonLight.Back) },
 			extras,
-			neonColorR, neonColorG, neonColorB,
-			tyreSmokeColorR, tyreSmokeColorG, tyreSmokeColorB,
+			veh.Mods.NeonLightsColor,
+			veh.Mods.TireSmokeColor,
 
-			GetVehicleMod(vehicle, 0),
-			GetVehicleMod(vehicle, 1),
-			GetVehicleMod(vehicle, 2),
-			GetVehicleMod(vehicle, 3),
-			GetVehicleMod(vehicle, 4),
-			GetVehicleMod(vehicle, 5),
-			GetVehicleMod(vehicle, 6),
-			GetVehicleMod(vehicle, 7),
-			GetVehicleMod(vehicle, 8),
-			GetVehicleMod(vehicle, 9),
-			GetVehicleMod(vehicle, 10),
-			GetVehicleMod(vehicle, 11),
-			GetVehicleMod(vehicle, 12),
-			GetVehicleMod(vehicle, 13),
-			GetVehicleMod(vehicle, 14),
-			GetVehicleMod(vehicle, 15),
-			GetVehicleMod(vehicle, 16),
-			IsToggleModOn(vehicle, 18),
-			IsToggleModOn(vehicle, 20),
-			IsToggleModOn(vehicle, 22),
-			GetVehicleMod(vehicle, 23),
-			GetVehicleMod(vehicle, 24),
-			GetVehicleMod(vehicle, 25),
-			GetVehicleMod(vehicle, 26),
-			GetVehicleMod(vehicle, 27),
-			GetVehicleMod(vehicle, 28),
-			GetVehicleMod(vehicle, 29),
-			GetVehicleMod(vehicle, 30),
-			GetVehicleMod(vehicle, 31),
-			GetVehicleMod(vehicle, 32),
-			GetVehicleMod(vehicle, 33),
-			GetVehicleMod(vehicle, 34),
-			GetVehicleMod(vehicle, 35),
-			GetVehicleMod(vehicle, 36),
-			GetVehicleMod(vehicle, 37),
-			GetVehicleMod(vehicle, 38),
-			GetVehicleMod(vehicle, 39),
-			GetVehicleMod(vehicle, 40),
-			GetVehicleMod(vehicle, 41),
-			GetVehicleMod(vehicle, 42),
-			GetVehicleMod(vehicle, 43),
-			GetVehicleMod(vehicle, 44),
-			GetVehicleMod(vehicle, 45),
-			GetVehicleMod(vehicle, 46),
-			GetVehicleLivery(vehicle)
+			//veh.Mods.GetAllMods()
+			/*
+						GetVehicleMod(vehicle, 0),
+						GetVehicleMod(vehicle, 1),
+						GetVehicleMod(vehicle, 2),
+						GetVehicleMod(vehicle, 3),
+						GetVehicleMod(vehicle, 4),
+						GetVehicleMod(vehicle, 5),
+						GetVehicleMod(vehicle, 6),
+						GetVehicleMod(vehicle, 7),
+						GetVehicleMod(vehicle, 8),
+						GetVehicleMod(vehicle, 9),
+						GetVehicleMod(vehicle, 10),
+						GetVehicleMod(vehicle, 11),
+						GetVehicleMod(vehicle, 12),
+						GetVehicleMod(vehicle, 13),
+						GetVehicleMod(vehicle, 14),
+						GetVehicleMod(vehicle, 15),
+						GetVehicleMod(vehicle, 16),
+						IsToggleModOn(vehicle, 18),
+						IsToggleModOn(vehicle, 20),
+						IsToggleModOn(vehicle, 22),
+						GetVehicleMod(vehicle, 23),
+						GetVehicleMod(vehicle, 24),
+						GetVehicleMod(vehicle, 25),
+						GetVehicleMod(vehicle, 26),
+						GetVehicleMod(vehicle, 27),
+						GetVehicleMod(vehicle, 28),
+						GetVehicleMod(vehicle, 29),
+						GetVehicleMod(vehicle, 30),
+						GetVehicleMod(vehicle, 31),
+						GetVehicleMod(vehicle, 32),
+						GetVehicleMod(vehicle, 33),
+						GetVehicleMod(vehicle, 34),
+						GetVehicleMod(vehicle, 35),
+						GetVehicleMod(vehicle, 36),
+						GetVehicleMod(vehicle, 37),
+						GetVehicleMod(vehicle, 38),
+						GetVehicleMod(vehicle, 39),
+						GetVehicleMod(vehicle, 40),
+						GetVehicleMod(vehicle, 41),
+						GetVehicleMod(vehicle, 42),
+						GetVehicleMod(vehicle, 43),
+						GetVehicleMod(vehicle, 44),
+						GetVehicleMod(vehicle, 45),
+						GetVehicleMod(vehicle, 46),
+			*/
+			!(GetVehicleModKit(veh.Handle) == 65535),
+			mods,
+			veh.Mods.Livery
 			);
 			return vehi;
 		}

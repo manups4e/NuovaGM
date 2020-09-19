@@ -57,7 +57,7 @@ namespace NuovaGM.Client.Manager
 			if (Game.PlayerPed.IsInVehicle())
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
-				VehProp props = Funzioni.GetVehicleProperties(veicolo);
+				VehProp props = await veicolo.GetVehicleProperties();
 				var entityPos = veicolo.Position;
 				var pos = Funzioni.WorldToScreen(entityPos);
 				if (pos.X <= 0f || pos.Y <= 0f || pos.X >= 1f || pos.Y >= 1f) pos = DefaultPos;
