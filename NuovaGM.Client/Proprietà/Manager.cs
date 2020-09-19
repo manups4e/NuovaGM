@@ -49,7 +49,7 @@ namespace NuovaGM.Client.Proprietà
 			}
 			foreach (var gar in Proprietà.Garages.Garages)
 			{
-				if(Game.PlayerPed.IsInRangeOf(gar.SpawnDentro, 1.5f))
+				if(Game.PlayerPed.IsInRangeOf(gar.Value.SpawnDentro, 1.5f))
 				{
 					if (Game.PlayerPed.IsOnFoot)
 					{

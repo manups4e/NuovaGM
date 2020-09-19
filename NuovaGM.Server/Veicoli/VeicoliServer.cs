@@ -1,5 +1,6 @@
 ﻿using System;
 using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Shared.Veicoli;
@@ -61,14 +62,21 @@ namespace NuovaGM.Server.Veicoli
 
 		private static async void CaricaVeicoli([FromSource] Player p)
 		{
-			dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc, char_id = @pers", new
+			try
 			{
-				disc = License.GetLicense(p, Identifier.Discord),
-				pers = p.GetCurrentChar().char_current
-			});
-			if(vehs.Count > 0)
-				foreach(var veh in vehs)
-					p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, JsonConvert.DeserializeObject<VehicleData>(veh.vehicle_data), veh.in_garage, veh.stato));
+				dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc, char_id = @pers", new
+				{
+					disc = License.GetLicense(p, Identifier.Discord),
+					pers = p.GetCurrentChar().CurrentChar.id
+				});
+				if (vehs != null && vehs.Count > 0)
+					foreach (var veh in vehs)
+						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, JsonConvert.DeserializeObject<VehicleData>(veh.vehicle_data), veh.in_garage, veh.stato));
+			}
+			catch(Exception e)
+			{
+				Log.Printa(LogType.Error, "Errore per il player " + p.Name + "\n" + e.ToString());
+			}
 		}
 	}
 }

@@ -260,7 +260,7 @@ namespace NuovaGM.Client
 		public ConfigGarage MidEnd4 = new ConfigGarage();
 		public ConfigGarage MidEnd6 = new ConfigGarage();
 		public ConfigGarage HighEnd = new ConfigGarage();
-		public List<Garages> Garages = new List<Garages>();
+		public Dictionary<string, Garages> Garages = new Dictionary<string, Garages>();
 		// aggiungere uffici
 	}
 
