@@ -41,7 +41,7 @@ namespace NuovaGM.Server.gmPrincipale
 			group_level = result.group_level;
 			playTime = result.playTime;
 			p = player;
-			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
+			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
 		}
 
 		public User(dynamic result)
@@ -53,7 +53,7 @@ namespace NuovaGM.Server.gmPrincipale
 			group_level = result.group_level;
 			playTime = result.playTime;
 			//p = player;
-			char_data = JsonConvert.DeserializeObject<List<Char_data>>(result.char_data);
+			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
 		}
 
 		[JsonIgnore]

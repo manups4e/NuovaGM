@@ -25,8 +25,8 @@ namespace NuovaGM.Client
 
 		public static void Configurazione(string JsonMain, string JsonShared)
 		{
-			Client.Impostazioni = JsonConvert.DeserializeObject<Configurazione>(JsonMain);
-			ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(JsonShared);
+			Client.Impostazioni = JsonMain.Deserialize<Configurazione>();
+			ConfigShared.SharedConfig = JsonShared.Deserialize<SharedConfig>();
 		}
 	}
 

@@ -126,7 +126,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		private static async void AggiornaModel(string JsonData)
 		{
-			Char_data plpl = JsonConvert.DeserializeObject<Char_data>(JsonData);
+			Char_data plpl = JsonData.Deserialize<Char_data>();
 			uint hash = (uint)GetHashKey(plpl.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);

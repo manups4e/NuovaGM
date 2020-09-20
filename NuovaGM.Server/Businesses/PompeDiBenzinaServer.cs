@@ -230,7 +230,7 @@ namespace NuovaGM.Server.Businesses
 							}
 							else if (deltype == 3)
 							{
-								string[] allowList = JsonConvert.DeserializeObject<string[]>(result[0].deliveryallow);
+								string[] allowList = (result[0].deliveryallow as string).Deserialize<string[]>();
 								foreach (string s in allowList)
 								{
 									if (user.FullName == s)

@@ -63,8 +63,8 @@ namespace NuovaGM.Client.Businesses
 				stations.Clear();
 			if (playerstations.Count > 0)
 				playerstations.Clear();
-			stations = JsonConvert.DeserializeObject<List<GasStation>>(pompeBenza);
-			playerstations = JsonConvert.DeserializeObject<List<StationDiBenzina>>(stazioniPlayer);
+			stations = pompeBenza.Deserialize<List<GasStation>>();
+			playerstations = stazioniPlayer.Deserialize<List<StationDiBenzina>>();
 		}
 
 		public static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)

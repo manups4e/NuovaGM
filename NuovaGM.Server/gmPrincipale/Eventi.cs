@@ -104,7 +104,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			try
 			{
-				Char_data Char = JsonConvert.DeserializeObject<Char_data>(data);
+				Char_data Char = data.Deserialize<Char_data>();
 				User user = Funzioni.GetUserFromPlayerId(p.Handle);
 				user.char_data.Add(Char);
 			}
@@ -142,7 +142,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			else if (type == "char_data")
 			{
-				user.char_data = JsonConvert.DeserializeObject<List<Char_data>>(data);
+				user.char_data = (data as string).Deserialize<List<Char_data>>();
 			}
 			else if (type == "status")
 			{
@@ -155,31 +155,31 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 			else if (type == "skin")
 			{
-				user.CurrentChar.skin = JsonConvert.DeserializeObject<Skin>(data);
+				user.CurrentChar.skin = (data as string).Deserialize<Skin>();
 			}
 			else if (type == "needs")
 			{
-				user.CurrentChar.needs = JsonConvert.DeserializeObject<Needs>(data);
+				user.CurrentChar.needs = (data as string).Deserialize<Needs>();
 			}
 			else if (type == "skill")
 			{
-				user.CurrentChar.statistiche = JsonConvert.DeserializeObject<Statistiche>(data);
+				user.CurrentChar.statistiche = (data as string).Deserialize<Statistiche>();
 			}
 			else if (type == "chardressing")
 			{
-				user.CurrentChar.dressing = JsonConvert.DeserializeObject<Dressing>(data);
+				user.CurrentChar.dressing = (data as string).Deserialize<Dressing>();
 			}
 			else if (type == "weapons")
 			{
-				user.CurrentChar.weapons = JsonConvert.DeserializeObject<List<Weapons>>(data);
+				user.CurrentChar.weapons = (data as string).Deserialize<List<Weapons>>();
 			}
 			else if (type == "job")
 			{
-				user.CurrentChar.job = JsonConvert.DeserializeObject<Job>(data);
+				user.CurrentChar.job = (data as string).Deserialize<Job>();
 			}
 			else if (type == "gang")
 			{
-				user.CurrentChar.gang = JsonConvert.DeserializeObject<Gang>(data);
+				user.CurrentChar.gang = (data as string).Deserialize<Gang>();
 			}
 			else if (type == "group")
 			{

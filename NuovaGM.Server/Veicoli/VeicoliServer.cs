@@ -3,6 +3,7 @@ using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
+using NuovaGM.Shared;
 using NuovaGM.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
@@ -71,7 +72,7 @@ namespace NuovaGM.Server.Veicoli
 				});
 				if (vehs != null && vehs.Count > 0)
 					foreach (var veh in vehs)
-						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, JsonConvert.DeserializeObject<VehicleData>(veh.vehicle_data), veh.in_garage, veh.stato));
+						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, (veh.vehicle_data as string).Deserialize<VehicleData>(), veh.in_garage, veh.stato));
 			}
 			catch(Exception e)
 			{

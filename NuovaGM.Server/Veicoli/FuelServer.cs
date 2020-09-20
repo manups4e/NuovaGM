@@ -63,7 +63,7 @@ namespace NuovaGM.Server.Veicoli
 		public static void BuyTanker([FromSource] Player p, string Json)
 		{
 			User user = p.GetCurrentChar();
-			Tanker t = JsonConvert.DeserializeObject<Tanker>(Json);
+			Tanker t = Json.Deserialize<Tanker>();
 			int amount = (int)Math.Ceiling(t.ppu * t.fuelForTanker);
 			if (user.Money >= amount)
 			{

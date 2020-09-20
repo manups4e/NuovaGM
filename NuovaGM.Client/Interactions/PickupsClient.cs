@@ -81,7 +81,7 @@ namespace NuovaGM.Client.Interactions
 		{
 			int playerId = Convert.ToInt32(userId);
 			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
-			OggettoRaccoglibile oggetto = JsonConvert.DeserializeObject<OggettoRaccoglibile>(jsonOggetto);
+			OggettoRaccoglibile oggetto = jsonOggetto.Deserialize<OggettoRaccoglibile>();
 			Vector3 entityCoords = playerPed.Position;
 			Vector3 forward = playerPed.ForwardVector;
 			Vector3 objectCoords = entityCoords + forward * 1.0f;
@@ -139,7 +139,7 @@ namespace NuovaGM.Client.Interactions
 
 		private static async void CreaMissingPickups(string jsonPickups)
 		{
-			Pickups = JsonConvert.DeserializeObject<List<OggettoRaccoglibile>>(jsonPickups);
+			Pickups = jsonPickups.Deserialize<List<OggettoRaccoglibile>>();
 			if (Pickups.Count > 0)
 			{
 				foreach (var pickup in Pickups)

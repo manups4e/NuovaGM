@@ -28,7 +28,7 @@ namespace NuovaGM.Server.Telefoni
 			{
 				dynamic result = await Server.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 				await BaseScript.Delay(0);
-				string valore = result.Serialize();
+				string valore = JsonConvert.SerializeObject(result);
 				if (valore != "[]" && valore != "{}" && valore != null)
 				{
 					Phones[player.Handle] = new Phone(player, result[0]);

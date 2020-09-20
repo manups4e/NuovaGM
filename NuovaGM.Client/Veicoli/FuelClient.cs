@@ -350,7 +350,7 @@ namespace NuovaGM.Client.Veicoli
 		{
 			if (success)
 			{
-				Tanker t = JsonConvert.DeserializeObject<Tanker>(JSON);
+				Tanker t = JSON.Deserialize<Tanker>();
 				tankerfuel = t.fuelForTanker;
 				spawnTanker(t, getRandomPlate());
 				HUD.ShowNotification("Hai comprato una cisterna piena di carburante.");

@@ -30,7 +30,7 @@ namespace NuovaGM.Server.gmPrincipale
 			await BaseScript.Delay(0);
 			if (result != null)
 			{
-				string stringa = result.Serialize();
+				string stringa = JsonConvert.SerializeObject(result);
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
 					User user = new User(player, result[0]);

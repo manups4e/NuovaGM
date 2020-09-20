@@ -39,14 +39,14 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		public static void RegistraVeicoloLavoroEAffitto(string jsonVeicolo)
 		{
-			NonPersonali.Add(JsonConvert.DeserializeObject<VeicoloLavorativoEAffitto>(jsonVeicolo));
+			NonPersonali.Add(jsonVeicolo.Deserialize<VeicoloLavorativoEAffitto>());
 		}
 
 		private static void RimuoviVeicoloLavoroEAffitto(string jsonVeicolo)
 		{
 			foreach (var veicolo in NonPersonali)
 			{
-				if (veicolo == JsonConvert.DeserializeObject<VeicoloLavorativoEAffitto>(jsonVeicolo))
+				if (veicolo == jsonVeicolo.Deserialize<VeicoloLavorativoEAffitto>())
 				{
 					NonPersonali.Remove(veicolo);
 				}
@@ -73,28 +73,28 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		private static void AggiungiVehPolizia(string jsonVeicolo)
 		{
-			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			VeicoloPol agg = jsonVeicolo.Deserialize<VeicoloPol>();
 			if (!Polizia.Contains(agg))
 				Polizia.Add(agg);
 		}
 
 		private static void RimuoviVehPolizia(string jsonVeicolo)
 		{
-			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			VeicoloPol agg = jsonVeicolo.Deserialize<VeicoloPol>();
 			if (Polizia.Contains(agg))
 				Polizia.Remove(agg);
 		}
 
 		private static void AggiungiVehMedici(string jsonVeicolo)
 		{
-			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			VeicoloPol agg = jsonVeicolo.Deserialize<VeicoloPol>();
 			if (!Medici.Contains(agg))
 				Medici.Add(agg);
 		}
 
 		private static void RimuoviVehMedici(string jsonVeicolo)
 		{
-			VeicoloPol agg = JsonConvert.DeserializeObject<VeicoloPol>(jsonVeicolo);
+			VeicoloPol agg = jsonVeicolo.Deserialize<VeicoloPol>();
 			if (Medici.Contains(agg))
 				Medici.Remove(agg);
 		}

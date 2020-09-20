@@ -27,11 +27,11 @@ namespace NuovaGM.Server
 
 		private static void Configurazione(dynamic JsonConfig)
 		{
-			ConfigShared = JsonConfig.Shared.Serialize();
-			ConfigClient = JsonConfig.Client.Serialize();
-			string ConfigServer = JsonConfig.Server.Serialize();
-			Server.Impostazioni = JsonConvert.DeserializeObject<Configurazione>(ConfigServer);
-			Shared.ConfigShared.SharedConfig = JsonConvert.DeserializeObject<SharedConfig>(ConfigShared);
+			ConfigShared = JsonConvert.SerializeObject(JsonConfig.Shared);
+			ConfigClient = JsonConvert.SerializeObject(JsonConfig.Client);
+			string ConfigServer = JsonConvert.SerializeObject(JsonConfig.Server);
+			Server.Impostazioni = ConfigServer.Deserialize<Configurazione>();
+			Shared.ConfigShared.SharedConfig = ConfigShared.Deserialize<SharedConfig>();
 		}
 
 		private static void InviaAlClient([FromSource] Player p)

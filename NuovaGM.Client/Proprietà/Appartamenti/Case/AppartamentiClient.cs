@@ -217,7 +217,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 		}
 		public static void PuoiEntrare(int serverIdInCasa, string appartamento)
 		{
-			KeyValuePair<string, ConfigCase> app = JsonConvert.DeserializeObject<KeyValuePair<string, ConfigCase>>(appartamento);
+			KeyValuePair<string, ConfigCase> app = appartamento.Deserialize<KeyValuePair<string, ConfigCase>>();
 			var InCasa = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
 			if(InCasa != null)
 			{

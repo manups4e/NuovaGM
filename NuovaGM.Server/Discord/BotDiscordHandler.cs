@@ -32,7 +32,7 @@ namespace NuovaGM.Server.Discord
 			}
 			if (risposta.status == System.Net.HttpStatusCode.OK) 
 			{
-				TheLastServer = JsonConvert.DeserializeObject<Guild>(risposta.content);
+				TheLastServer = risposta.content.Deserialize<Guild>();
 				Log.Printa(LogType.Info, $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
 			}
 		}
@@ -51,7 +51,7 @@ namespace NuovaGM.Server.Discord
 		{
 			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli} });
 			if(response.status == System.Net.HttpStatusCode.OK)
-				return JsonConvert.DeserializeObject<bool>(response.content); 
+				return response.content.Deserialize<bool>(); 
 			else
 				return false;
 		}

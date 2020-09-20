@@ -77,7 +77,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void setupClientUser(string data)
 		{
-			Player = JsonConvert.DeserializeObject<PlayerChar>(data);
+			Player = data.Deserialize<PlayerChar>();
 			DisplayRadar(false);
 			Main.charSelect();
 		}
@@ -90,7 +90,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void onPlayerDeath(dynamic data)
 		{
-			Log.Printa(LogType.Debug, data.Serialize());
+			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			BaseScript.TriggerEvent("lprp:iniziaConteggio");
@@ -99,7 +99,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static void sendUserInfo(string _char_data, int _char_current, string _group)
 		{
-			List<Char_data> data = JsonConvert.DeserializeObject<List<Char_data>>(_char_data);
+			List<Char_data> data = _char_data.Deserialize<List<Char_data>>();
 			Player.char_data.Clear();
 			Player.char_data = data;
 			Player.char_current = _char_current;

@@ -3,6 +3,7 @@ using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -57,7 +58,7 @@ namespace NuovaGM.Client.CodaControl
             {
                 if (!pannelloCodaAperto)
                 {
-                    List<dynamic> sessionAccounts = JsonConvert.DeserializeObject<List<dynamic>>(session);
+                    List<dynamic> sessionAccounts = (session as string).Deserialize<List<dynamic>>();
                     string text = "";
                     sessionAccounts.ForEach(k =>
                     {

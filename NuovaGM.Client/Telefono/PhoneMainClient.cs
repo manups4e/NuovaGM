@@ -6,6 +6,7 @@ using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using Logger;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Telefono
 {
@@ -32,7 +33,7 @@ namespace NuovaGM.Client.Telefono
 		private static void Setup(string JsonTelefono) 
 		{
 			if (JsonTelefono != "{\"phone_data\":[]}")
-				Phone = new Phone(JsonConvert.DeserializeObject<Phone>(JsonTelefono));
+				Phone = new Phone(JsonTelefono.Deserialize<Phone>());
 			else
 				Phone = new Phone();
 			//Client.Instance.AddTick(ControlloApertura);

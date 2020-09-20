@@ -838,7 +838,7 @@ namespace NuovaGM.Server.gmPrincipale
                 files = di.GetFiles("*.json").ToList();
                 files.ForEach(k =>
                 {
-                    accounts.Add(JsonConvert.DeserializeObject<PriorityAccount>(File.ReadAllText(k.FullName).ToString()));
+                    accounts.Add(File.ReadAllText(k.FullName).ToString().Deserialize<PriorityAccount>());
                 });
                 accounts.ForEach(k =>
                 {
@@ -852,7 +852,7 @@ namespace NuovaGM.Server.gmPrincipale
                 });
                 if (File.Exists($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json"))
                 {
-                    newwhitelist = JsonConvert.DeserializeObject<List<PriorityAccount>>(File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString());
+                    newwhitelist = File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString().Deserialize<List<PriorityAccount>>();
                 }
                 RegisterCommand("daipriorita", new Action<int, List<object>, string>(Add), true);
                 RegisterCommand("rimuovipriorita", new Action<int, List<object>, string>(Remove), true);
