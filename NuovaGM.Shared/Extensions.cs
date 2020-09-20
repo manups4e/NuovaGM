@@ -548,45 +548,6 @@ namespace NuovaGM.Shared
 			return Color.FromArgb(255, 255, 255, 255);
 		}
 
-		public static float[] ToArray(this Vector2 vector)
-		{
-			try
-			{
-				return new float[] { vector.X, vector.Y };
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
-			}
-			return null;
-		}
-
-		public static float[] ToArray(this Vector3 vector)
-		{
-			try
-			{
-				return new float[] { vector.X, vector.Y, vector.Z };
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
-			}
-			return null;
-		}
-
-		public static float[] ToArray(this Vector4 vector)
-		{
-			try
-			{
-				return new float[] { vector.X, vector.Y, vector.Z, vector.W };
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Debug, $"ToArray exception: {ex.Data}");
-			}
-			return null;
-		}
-
 		public static Vector2 ToVector2(this float[] xyArray)
 		{
 			try
