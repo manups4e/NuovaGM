@@ -713,24 +713,154 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return PlayersPedsInArea;
 		}
 
-		public static Tuple<Vehicle, float> GetClosestVehicle(Vector3 Coords)
+		#region Closest Methodi
+
+		#region Veicoli
+
+		public static Vehicle GetClosestVehicle(this Entity entity)
 		{
-			Vehicle[] vehs = World.GetAllVehicles();
-			float closestDistance = -1f;
-			Vehicle closestVehicle = null;
-			foreach (Vehicle v in vehs)
-			{
-				Vector3 vehcoords = v.Position;
-				float distance = World.GetDistance(vehcoords, Coords);
-				if (closestDistance == -1 || closestDistance > distance)
-				{
-					closestVehicle = v;
-					closestDistance = distance;
-				}
-			}
-			return new Tuple<Vehicle, float>(closestVehicle, closestDistance);
+			return World.GetClosest(entity.Position, World.GetAllVehicles());
 		}
 
+		public static Vehicle GetClosestVehicle(this Entity entity, string model)
+		{
+			return GetClosestVehicle(entity, new Model(model));
+		}
+
+		public static Vehicle GetClosestVehicle(this Entity entity, Model model)
+		{
+			if (model.IsValid && model.IsVehicle)
+				return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == model.Hash).ToArray());
+			else
+				return null;
+		}
+
+		public static Vehicle GetClosestVehicle(this Entity entity, VehicleHash hash)
+		{
+			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => (VehicleHash)x.Model.Hash == hash).ToArray());
+		}
+
+		public static Vehicle GetClosestVehicle(this Entity entity, List<VehicleHash> hashes)
+		{
+			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => hashes.Contains((VehicleHash)x.Model.Hash)).ToArray());
+		}
+
+		public static Vehicle GetClosestVehicle(this Entity entity, List<string> models)
+		{
+			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
+		}
+
+		public static Vehicle GetClosestVehicle(this Entity entity, List<Model> models)
+		{
+			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => models.Contains(x.Model)).ToArray());
+		}
+
+		public static Tuple<Vehicle, float> GetClosestVehicle(this Ped entity)
+		{
+			var veh = World.GetClosest(entity.Position, World.GetAllVehicles());
+			float dist = entity.Position.DistanceToSquared(veh.Position);
+			return new Tuple<Vehicle, float>(veh, dist);
+		}
+		#endregion
+
+		#region Peds
+		public static Ped GetClosestPed(this Entity entity)
+		{
+			return World.GetClosest(entity.Position, World.GetAllPeds());
+		}
+
+		public static Ped GetClosestPed(this Entity entity, string model)
+		{
+			return GetClosestPed(entity, new Model(model));
+		}
+
+		public static Ped GetClosestPed(this Entity entity, Model model)
+		{
+			if (model.IsValid && model.IsPed)
+				return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => x.Model.Hash == model.Hash).ToArray());
+			else
+				return null;
+		}
+
+		public static Ped GetClosestPed(this Entity entity, PedHash hash)
+		{
+			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => (PedHash)x.Model.Hash == hash).ToArray());
+		}
+
+		public static Ped GetClosestPed(this Entity entity, List<PedHash> hashes)
+		{
+			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => hashes.Contains((PedHash)x.Model.Hash)).ToArray());
+		}
+
+		public static Ped GetClosestPed(this Entity entity, List<string> models)
+		{
+			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
+		}
+
+		public static Ped GetClosestPed(this Entity entity, List<Model> models)
+		{
+			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => models.Contains(x.Model)).ToArray());
+		}
+
+		public static Tuple<Ped, float> GetClosestPed(this Ped entity)
+		{
+			Ped ped = World.GetClosest(entity.Position, World.GetAllPeds());
+			float dist = entity.Position.DistanceToSquared(ped.Position);
+			return new Tuple<Ped, float>(ped, dist);
+		}
+		#endregion
+
+		#region Props
+		public static Prop GetClosestProp(this Entity entity)
+		{
+			return World.GetClosest(entity.Position, World.GetAllProps());
+		}
+
+		public static Prop GetClosestProp(this Entity entity, string model)
+		{
+			return GetClosestProp(entity, new Model(model));
+		}
+
+		public static Prop GetClosestProp(this Entity entity, Model model)
+		{
+			if (model.IsValid && model.IsProp)
+				return World.GetClosest(entity.Position, World.GetAllProps().Where(x => x.Model.Hash == model.Hash).ToArray());
+			else
+				return null;
+		}
+
+		public static Prop GetClosestProp(this Entity entity, ObjectHash hash)
+		{
+			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => (ObjectHash)x.Model.Hash == hash).ToArray());
+		}
+
+		public static Prop GetClosestProp(this Entity entity, List<ObjectHash> hashes)
+		{
+			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => hashes.Contains((ObjectHash)x.Model.Hash)).ToArray());
+		}
+
+		public static Prop GetClosestProp(this Entity entity, List<string> models)
+		{
+			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
+		}
+
+		public static Prop GetClosestProp(this Entity entity, List<Model> models)
+		{
+			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => models.Contains(x.Model)).ToArray());
+		}
+
+		public static Tuple<Prop, float> GetClosestProp(this Prop entity)
+		{
+			Prop ped = World.GetClosest(entity.Position, World.GetAllProps());
+			float dist = entity.Position.DistanceToSquared(ped.Position);
+			return new Tuple<Prop, float>(ped, dist);
+		}
+		#endregion
+
+		#endregion
 		public static float Rad2deg(float rad)
 		{
 			return rad * (180.0f / (float)Math.PI);
@@ -739,42 +869,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static float Deg2rad(float deg)
 		{
 			return deg * ((float)Math.PI / 180.0f);
-		}
-
-		public static Tuple<Ped, float> GetClosestPed()
-		{
-			Ped[] Peds = World.GetAllPeds();
-			float closestDistance = -1f;
-			Ped closestPed = null;
-			foreach (Ped v in Peds)
-			{
-				Vector3 pedcoords = v.Position;
-				float distance = World.GetDistance(pedcoords, Game.PlayerPed.Position);
-				if (closestDistance == -1 || closestDistance > distance)
-				{
-					closestPed = v;
-					closestDistance = distance;
-				}
-			}
-			return new Tuple<Ped, float>(closestPed, closestDistance);
-		}
-
-		public static Tuple<Ped, float> GetClosestPed(Vector3 Coords)
-		{
-			Ped[] Peds = World.GetAllPeds();
-			float closestDistance = -1f;
-			Ped closestPed = null;
-			foreach (Ped v in Peds)
-			{
-				Vector3 pedcoords = v.Position;
-				float distance = World.GetDistance(pedcoords, Coords);
-				if (closestDistance == -1 || closestDistance > distance)
-				{
-					closestPed = v;
-					closestDistance = distance;
-				}
-			}
-			return new Tuple<Ped, float>(closestPed, closestDistance);
 		}
 
 		public static Player GetPlayerFromPed(Ped ped)
