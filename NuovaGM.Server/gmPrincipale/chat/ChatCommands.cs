@@ -206,7 +206,7 @@ namespace NuovaGM.Server.gmPrincipale
 						{
 							User player = Funzioni.GetUserFromPlayerId(args[0]);
 							string item = "" + args[1];
-							player.addInventoryItem(item, Convert.ToInt32(args[2]), Shared.SharedScript.ItemList[item].peso);
+							player.addInventoryItem(item, Convert.ToInt32(args[2]), Shared.ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
 						}
 						else
 							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Il player con ID \"" + args[0] + "\" non è online!" }, color = new[] { 255, 0, 0 } });

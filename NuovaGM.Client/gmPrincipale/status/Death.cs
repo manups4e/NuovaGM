@@ -62,7 +62,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			{
 				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
 				Vector3 victimCoords = victimPlayer.Character.Position;
-				string causeofdeath = SharedScript.DeatReasons[weaponHash];
+				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
 			}
@@ -75,7 +75,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			{
 				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
 				Vector3 victimCoords = victimPlayer.Character.Position;
-				string causeofdeath = SharedScript.DeatReasons[weaponHash];
+				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
 			}

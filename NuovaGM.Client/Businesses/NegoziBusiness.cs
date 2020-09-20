@@ -60,7 +60,7 @@ namespace NuovaGM.Client.Negozi
 
 			foreach (var ogg in oggettidaaggiungere)
 			{
-				UIMenuItem oggetto = new UIMenuItem(SharedScript.ItemList[ogg.oggetto].label, "");
+				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
 				if (Game.Player.GetPlayerData().Money >= ogg.prezzo || Game.Player.GetPlayerData().Bank >= ogg.prezzo)
 					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
 				else
@@ -70,7 +70,7 @@ namespace NuovaGM.Client.Negozi
 
 			Negozio.OnItemSelect += (menu, item, index) =>
 			{
-				string nome = SharedScript.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
+				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
 				if (!string.IsNullOrEmpty(nome)) 
 				{
 					OggettoVendita ogg = oggettidaaggiungere.FirstOrDefault(x => x.oggetto == nome);

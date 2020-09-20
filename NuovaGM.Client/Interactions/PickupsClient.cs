@@ -64,7 +64,7 @@ namespace NuovaGM.Client.Interactions
 								}
 							}
 							if (!pick.HasDecor("PickupArma"))
-								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, label, 1);
+								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, 1);
 							else 
 								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", 1);
 						}

@@ -181,16 +181,16 @@ namespace NuovaGM.Server.gmPrincipale
 			if (vero)
 			{
 				checkedItem.amount += amount;
-				if (checkedItem.amount == SharedScript.ItemList[item].max)
+				if (checkedItem.amount == ConfigShared.SharedConfig.Main.Generici.ItemList[item].max)
 				{
-					checkedItem.amount = SharedScript.ItemList[item].max;
-					p.TriggerEvent("lprp:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + SharedScript.ItemList[item].label + "~w~!");
+					checkedItem.amount = ConfigShared.SharedConfig.Main.Generici.ItemList[item].max;
+					p.TriggerEvent("lprp:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "~w~!");
 
 				}
 			}
 			else
 				CurrentChar.inventory.Add(new Inventory(item, amount, weight));
-			p.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + SharedScript.ItemList[item].label + "!");
+			p.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
 			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
 		}
 
@@ -208,7 +208,7 @@ namespace NuovaGM.Server.gmPrincipale
 			else
 				CurrentChar.inventory.ToList().Remove(checkedItem);
 
-			p.TriggerEvent("lprp:ShowNotification", amount + " " + SharedScript.ItemList[item].label + " ti sono stati rimossi/e!");
+			p.TriggerEvent("lprp:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
 			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
 		}
 

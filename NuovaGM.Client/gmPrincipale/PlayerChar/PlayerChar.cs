@@ -77,7 +77,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			{
 				if (CurrentChar.inventory[i].item == item)
 				{
-					return new Tuple<bool, Inventory, Item>(true, CurrentChar.inventory[i], SharedScript.ItemList[item]);
+					return new Tuple<bool, Inventory, Item>(true, CurrentChar.inventory[i], ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
 				}
 			}
 			return new Tuple<bool, Inventory, Item>(false, null, null);

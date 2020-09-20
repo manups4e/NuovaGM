@@ -262,7 +262,7 @@ namespace NuovaGM.Client.Manager
 								Inventory item = chars.inventory[i];
 								if (item.amount > 0)
 								{
-									UIMenu newItemMenu = HUD.MenuPool.AddSubMenu(Inventario, SharedScript.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + SharedScript.ItemList[item.item].description);
+									UIMenu newItemMenu = HUD.MenuPool.AddSubMenu(Inventario, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
 									UIMenuItem add = new UIMenuItem("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
 									UIMenuItem rem = new UIMenuItem("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
 									newItemMenu.AddItem(add);

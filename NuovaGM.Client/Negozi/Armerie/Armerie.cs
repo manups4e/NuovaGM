@@ -643,9 +643,9 @@ namespace NuovaGM.Client.Negozi
 				{
 					foreach (Weapons armi in Game.Player.GetPlayerData().CurrentChar.weapons)
 					{
-						for (int j = 0; j < SharedScript.Armi.Count; j++)
+						foreach(var ar in ConfigShared.SharedConfig.Main.Generici.Armi)
 						{
-							if ((SharedScript.Armi[j].name == armi.name) && (SharedScript.Armi[j].components.Count > 0))
+							if ((ar.Key == armi.name) && (ar.Value.components.Count > 0))
 							{
 								Arma = pool.AddSubMenu(component, GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))), "Vedi qui i componenti acquistabili per la tua arma");
 							}
@@ -653,11 +653,11 @@ namespace NuovaGM.Client.Negozi
 
 						foreach (ArmiLicenza co in componenti)
 						{
-							for (int j = 0; j < SharedScript.Armi.Count; j++)
+							foreach (var ar in ConfigShared.SharedConfig.Main.Generici.Armi)
 							{
-								if (SharedScript.Armi[j].name == armi.name)
+								if (ar.Key == armi.name)
 								{
-									foreach (Components v in SharedScript.Armi[j].components)
+									foreach (Components v in ar.Value.components)
 									{
 										if (v.name == co.name)
 										{
@@ -727,9 +727,9 @@ namespace NuovaGM.Client.Negozi
 				{
 					foreach (Weapons armi in Game.Player.GetPlayerData().CurrentChar.weapons)
 					{
-						for (int j = 0; j < SharedScript.Armi.Count; j++)
+						foreach (var ar in ConfigShared.SharedConfig.Main.Generici.Armi)
 						{
-							if (SharedScript.Armi[j].name == armi.name && GetWeaponDamageType(Funzioni.HashUint(armi.name)) == 3)
+							if (ar.Key == armi.name && GetWeaponDamageType(Funzioni.HashUint(armi.name)) == 3)
 							{
 								Tnt = pool.AddSubMenu(Tinte, GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))), "Vedi qui i colori acquistabili per la tua arma");
 							}
@@ -737,13 +737,13 @@ namespace NuovaGM.Client.Negozi
 
 						foreach (ArmiLicenza tin in tinte)
 						{
-							for (int j = 0; j < SharedScript.Armi.Count; j++)
+							foreach (var ar in ConfigShared.SharedConfig.Main.Generici.Armi)
 							{
-								if (SharedScript.Armi[j].name == armi.name)
+								if (ar.Key == armi.name)
 								{
-									for (int l = 0; l < SharedScript.Armi[j].tints.Count; l++)
+									for (int l = 0; l < ar.Value.tints.Count; l++)
 									{
-										if (SharedScript.Armi[j].tints[l].name == tin.name)
+										if (ar.Value.tints[l].name == tin.name)
 										{
 											UIMenuItem tintina = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name))));
 											Tnt.AddItem(tintina);
@@ -756,7 +756,7 @@ namespace NuovaGM.Client.Negozi
 												tintina.SetRightLabel("~r~" + tin.price + "$");
 											}
 
-											if (armi.tint == SharedScript.Armi[j].tints[l].value)
+											if (armi.tint == ar.Value.tints[l].value)
 											{
 												tintina.SetRightBadge(UIMenuItem.BadgeStyle.Ammo);
 												attTi = tintina;

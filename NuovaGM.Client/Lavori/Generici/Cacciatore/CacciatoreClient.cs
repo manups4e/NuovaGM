@@ -201,7 +201,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							Screen.Fading.FadeIn(500);
 							await BaseScript.Delay(501);
 							Game.PlayerPed.Task.ClearAll();
-							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{SharedScript.ItemList[carne].label}~w~.", NotificationColor.GreenDark, true);
+							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generici.ItemList[carne].label}~w~.", NotificationColor.GreenDark, true);
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", carne, 2, 0.5f);
 						}
 					}

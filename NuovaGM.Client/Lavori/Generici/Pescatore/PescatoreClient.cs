@@ -78,7 +78,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 		{
 			PuntiPesca = Client.Impostazioni.Lavori.Generici.Pescatore;
 
-			SharedScript.ItemList["cannadapescabase"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
 				RequestAnimDict(AnimDict);
 				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -91,7 +91,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				Client.Instance.AddTick(Pesca);
 				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			};
-			SharedScript.ItemList["cannadapescamedia"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescamedia"].Usa += async (item, index) =>
 			{
 				RequestAnimDict(AnimDict);
 				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -104,7 +104,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				Client.Instance.AddTick(Pesca);
 				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			};
-			SharedScript.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
 			{
 				RequestAnimDict(AnimDict);
 				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
@@ -205,7 +205,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 							{
 								amountino.Add((j + 1).ToString());
 							}
-							UIMenuListItem pesce = new UIMenuListItem(SharedScript.ItemList[inv.item].label, amountino, 0, SharedScript.ItemList[inv.item].description);
+							UIMenuListItem pesce = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].description);
 							venditaPesce.AddItem(pesce);
 							pesce.OnListSelected += async (item, index) =>
 							{
@@ -232,7 +232,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 								else if (Convert.ToInt32(quantita) > 99)
 									perc = 20;
 
-								int valoreAggiunto = SharedScript.ItemList[inv.item].sellPrice + (SharedScript.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Game.Player.GetPlayerData().CurrentChar.statistiche.FISHING / 10))) / 100;
+								int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + (ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Game.Player.GetPlayerData().CurrentChar.statistiche.FISHING / 10))) / 100;
 								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 								BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
 							};
@@ -340,8 +340,8 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 						pesce = PuntiPesca.Pesci.medio[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.medio.Count - 1)];
 					else if (TipoCanna == 2)
 						pesce = PuntiPesca.Pesci.avanzato[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.avanzato.Count - 1)];
-					float peso = Funzioni.GetRandomFloat(0f, SharedScript.ItemList[pesce].peso);
-					HUD.ShowNotification($"Hai pescato un bell'esemplare di {SharedScript.ItemList[pesce].label}, dal peso di {peso}Kg");
+					float peso = Funzioni.GetRandomFloat(0f, ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].peso);
+					HUD.ShowNotification($"Hai pescato un bell'esemplare di {ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].label}, dal peso di {peso}Kg");
 					BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1, peso);
 				}
 				else

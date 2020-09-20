@@ -67,7 +67,7 @@ namespace NuovaGM.Client.Sport
 		public static async void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			SharedScript.ItemList["materassinoyoga"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
 			{
 				Materasso = await World.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), true, true);
 				//rimuovere da inventario

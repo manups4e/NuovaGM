@@ -11,7 +11,7 @@ namespace NuovaGM.Client.Interactions
 		public static void Init()
 		{
 
-			SharedScript.ItemList["hamburger"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
 			{
 				RequestAnimDict("mp_player_inteat@burger");
 				while (!HasAnimDictLoaded("mp_player_inteat@burger")) await BaseScript.Delay(0);
@@ -38,7 +38,7 @@ namespace NuovaGM.Client.Interactions
 				RemoveAnimDict("mp_player_inteat@burger");
 			};
 
-			SharedScript.ItemList["acqua"].Usa += async (item, index) =>
+			ConfigShared.SharedConfig.Main.Generici.ItemList["acqua"].Usa += async (item, index) =>
 			{
 				RequestAnimDict("mp_player_intdrink");
 				while (!HasAnimDictLoaded("mp_player_intdrink")) await BaseScript.Delay(0);

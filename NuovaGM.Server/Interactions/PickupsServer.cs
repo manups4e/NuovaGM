@@ -22,7 +22,7 @@ namespace NuovaGM.Server.Interactions
 
 		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
 		{
-			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, SharedScript.ItemList[oggetto.item].prop, 0, label, user.getCoords);
+			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.item].prop, 0, label, user.getCoords);
 			Pickups.Add(pickup);
 			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.Serialize(), user.p.Handle);
 		}
@@ -114,7 +114,7 @@ namespace NuovaGM.Server.Interactions
 			{
 				case "item":
 					//aggiungere controllo se può portarlo
-					user.addInventoryItem(pickup.name, pickup.amount, SharedScript.ItemList[pickup.name].peso);
+					user.addInventoryItem(pickup.name, pickup.amount, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].peso);
 					success = true;
 					break;
 				case "weapon":

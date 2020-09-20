@@ -352,7 +352,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void AddInventory([FromSource]Player source, string item, int amount, float peso)
 		{
-			Funzioni.GetUserFromPlayerId(source.Handle).addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Funzioni.GetUserFromPlayerId(source.Handle).addInventoryItem(item, amount, peso>0?peso:ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
 		}
 
 		public static void RemoveInventory([FromSource]Player source, string item, int amount)
@@ -424,7 +424,7 @@ namespace NuovaGM.Server.gmPrincipale
 
 		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
 		{
-			Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount, peso>0?peso:SharedScript.ItemList[item].peso);
+			Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount, peso>0?peso:ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
 		}
 
 		public static void RemoveInventoryToChar(string target, int charId, string item, int amount)
@@ -518,10 +518,10 @@ namespace NuovaGM.Server.gmPrincipale
 			User targetPlayer = Funzioni.GetUserFromPlayerId(""+target);
 
 			player.removeInventoryItem(itemName, amount);
-			player.showNotification($"Hai dato {amount} di {SharedScript.ItemList[itemName].label} a {targetPlayer.FullName}");
-			targetPlayer.addInventoryItem(itemName, amount, SharedScript.ItemList[itemName].peso);
+			player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
+			targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].peso);
 			targetPlayer.p.TriggerEvent("lprp:riceviOggettoAnimazione");
-			targetPlayer.showNotification($"Hai ricevuto {amount} di {SharedScript.ItemList[itemName].label} da {player.FullName}");
+			targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
 		}
 
 		private static  void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)

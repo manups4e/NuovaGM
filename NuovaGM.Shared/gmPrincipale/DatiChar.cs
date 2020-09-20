@@ -448,6 +448,7 @@ namespace NuovaGM.Shared
 		public Components(string _name)
 		{
 			name = _name;
+			active = false;
 		}
 		public Components(string _name, bool _ac)
 		{
@@ -460,6 +461,7 @@ namespace NuovaGM.Shared
 	{
 		public string name { get; set; }
 		public int value { get; set; }
+		public Tinte() { }
 		public Tinte(string _name, int _value)
 		{
 			this.name = _name;

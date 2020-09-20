@@ -77,6 +77,8 @@ namespace NuovaGM.Client.Personale
 
 		public static async void menuPersonal()
 		{
+			Log.Printa(LogType.Debug, ConfigShared.SharedConfig.Main.Generici.Serialize(Formatting.Indented));
+
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
@@ -388,21 +390,21 @@ namespace NuovaGM.Client.Personale
 						Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
 						if (item.amount > 0)
 						{
-							UIMenu newItemMenu = pool.AddSubMenu(Inventory, SharedScript.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + SharedScript.ItemList[item.item].description);
-							if (SharedScript.ItemList[item.item].use.use)
+							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.use)
 							{
-								UIMenuItem useButton = new UIMenuItem(SharedScript.ItemList[item.item].use.label, SharedScript.ItemList[item.item].use.description, Colors.GreenLight, Colors.Green);
+								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.description, Colors.GreenLight, Colors.Green);
 								newItemMenu.AddItem(useButton);
 								newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 								{
 									/*
-									 * BaseScript.TriggerServerEvent("lprp:useItem", SharedScript.ItemList[item.item]);
+									 * BaseScript.TriggerServerEvent("lprp:useItem", ConfigShared.SharedConfig.Main.Generici.ItemList[item.item]);
 									 *///DA GESTIRE 
 									if (_item == useButton)
-										SharedScript.ItemList[item.item].UsaOggettoEvent(1);
+										ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].UsaOggettoEvent(1);
 								};
 							}
-							if (SharedScript.ItemList[item.item].give.give)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.give)
 							{
 								List<dynamic> amountino = new List<dynamic>();
 								for (int j = 0; j < item.amount; j++)
@@ -410,7 +412,7 @@ namespace NuovaGM.Client.Personale
 									amountino.Add((j + 1).ToString());
 								}
 
-								UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, SharedScript.ItemList[item.item].give.label, SharedScript.ItemList[item.item].give.description);
+								UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.description);
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();
@@ -432,7 +434,7 @@ namespace NuovaGM.Client.Personale
 								else
 									giveButton.AddItem(new UIMenuItem("Nessun player nelle vicinanze.", "Trova qualcuno!!"));
 							}
-							if (SharedScript.ItemList[item.item].drop.drop)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.drop)
 							{
 								List<dynamic> amountino = new List<dynamic>();
 								for (int j = 0; j < item.amount; j++)
@@ -440,7 +442,7 @@ namespace NuovaGM.Client.Personale
 									amountino.Add((j + 1).ToString());
 								}
 
-								UIMenuListItem dropButton = new UIMenuListItem(SharedScript.ItemList[item.item].drop.label, amountino, 0, SharedScript.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
+								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
 								newItemMenu.AddItem(dropButton);
 								newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
 								{

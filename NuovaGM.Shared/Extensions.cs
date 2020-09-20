@@ -667,7 +667,7 @@ namespace NuovaGM.Shared
 			return inside;
 		}
 
-		public static string Serialize(this object param) => JsonConvert.SerializeObject(param);
+		public static string Serialize(this object param, Formatting format = Formatting.None) => JsonConvert.SerializeObject(param, format);
 		public static T Deserialize<T>(this string param) => JsonConvert.DeserializeObject<T>(param);
 	}
 

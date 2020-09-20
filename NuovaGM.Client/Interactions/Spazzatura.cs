@@ -83,7 +83,7 @@ namespace NuovaGM.Client.Interactions
 							Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
 							if (item.amount > 0)
 							{
-								if (SharedScript.ItemList[item.item].drop.drop)
+								if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.drop)
 								{
 									List<dynamic> list = new List<dynamic>();
 									for (int obj = 1; obj < item.amount+1; obj++) list.Add(obj);

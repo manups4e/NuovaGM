@@ -27,6 +27,7 @@ namespace NuovaGM.Client
 		{
 			Client.Impostazioni = JsonMain.Deserialize<Configurazione>();
 			ConfigShared.SharedConfig = JsonShared.Deserialize<SharedConfig>();
+			Log.Printa(LogType.Debug, ConfigShared.SharedConfig.Main.Generici.ItemList.Serialize(Formatting.Indented));
 		}
 	}
 
