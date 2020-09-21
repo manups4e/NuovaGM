@@ -884,41 +884,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// </summary>
 		public static Tuple<Player, float> GetClosestPlayer()
 		{
-			float closestDistance = -1;
-			Player closestPlayer = null;
-			Vector3 Coords = Game.PlayerPed.Position;
-
-			foreach (Player p in Client.Instance.GetPlayers.ToList())
-			{
-				Ped target = p.Character;
-				if (p != Game.Player)
-				{
-					Vector3 targetCoords = target.Position;
-					float distance = World.GetDistance(Coords, targetCoords);
-
-					if (closestDistance == -1 || closestDistance > distance)
-					{
-						closestPlayer = p;
-						closestDistance = distance;
-					}
-				}
-			}
-			return new Tuple<Player, float>(closestPlayer, closestDistance);
+			return GetClosestPlayer(Game.PlayerPed.Position);
 		}
-
-		/// <summary>
-		/// GetHashKey uint
-		/// </summary>
-		/// <param name="str"></param>
-		/// <returns></returns>
-		public static uint HashUint(string str) => (uint)GetHashKey(str);
-
-		/// <summary>
-		/// GetHashKey int
-		/// </summary>
-		/// <param name="str"></param>
-		/// <returns></returns>
-		public static int HashInt(string str) => GetHashKey(str);
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
@@ -942,6 +909,20 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			return new Tuple<Player, float>(closestPlayer, closestDistance);
 		}
+			
+		/// <summary>
+		/// GetHashKey uint
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		public static uint HashUint(string str) => (uint)GetHashKey(str);
+
+		/// <summary>
+		/// GetHashKey int
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		public static int HashInt(string str) => GetHashKey(str);
 
 		/// <summary>
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
