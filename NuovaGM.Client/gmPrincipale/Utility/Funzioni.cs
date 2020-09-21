@@ -737,7 +737,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static Vehicle GetClosestVehicle(this Entity entity, VehicleHash hash)
 		{
-			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => (VehicleHash)x.Model.Hash == hash).ToArray());
+			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == (int)hash).ToArray());
 		}
 
 		public static Vehicle GetClosestVehicle(this Entity entity, List<VehicleHash> hashes)
