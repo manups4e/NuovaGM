@@ -1,14 +1,14 @@
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 #if CLIENT
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.MenuNativo;
 using static CitizenFX.Core.Native.API;
 #endif
 namespace NuovaGM.Shared
