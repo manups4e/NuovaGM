@@ -1,6 +1,8 @@
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Client.MenuNativo;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -437,6 +439,25 @@ namespace NuovaGM.Shared
 		}
 
 #if CLIENT
+
+		public static UIMenu AddSubMenu(this UIMenu menu, string text)
+		{
+			return HUD.MenuPool.AddSubMenu(menu, text);
+		}
+
+		public static UIMenu AddSubMenu(this UIMenu menu, string text, string description)
+		{
+			return HUD.MenuPool.AddSubMenu(menu, text, description);
+		}
+		public static UIMenu AddSubMenu(this UIMenu menu, string text, PointF offset)
+		{
+			return HUD.MenuPool.AddSubMenu(menu, text, offset);
+		}
+		public static UIMenu AddSubMenu(this UIMenu menu, string text, string description, PointF offset)
+		{
+			return HUD.MenuPool.AddSubMenu(menu, text, description, offset);
+		}
+
 		public static async Task<float> FindGroundZ(this Vector2 position)
 		{
 			float result = -199f;

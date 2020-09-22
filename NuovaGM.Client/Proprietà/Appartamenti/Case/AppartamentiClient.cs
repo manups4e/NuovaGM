@@ -37,7 +37,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti");
 			casa.Title.Scale = 0.9f;
 			HUD.MenuPool.Add(casa);
-			UIMenu Citofona = HUD.MenuPool.AddSubMenu(casa, "Citofona ai residenti");
+			UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
 			Citofona.Title.Scale = 0.9f;
 			UIMenuItem entra;
 

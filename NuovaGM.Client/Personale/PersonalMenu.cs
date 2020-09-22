@@ -284,16 +284,16 @@ namespace NuovaGM.Client.Personale
 				datiPers.AddItem(nAss);
 				datiPers.AddItem(job);
 				datiPers.AddItem(gang);
-				UIMenu money = HUD.MenuPool.AddSubMenu(datiPers, "Soldi: ", "I suoi soldi");
+				UIMenu money = datiPers.AddSubMenu("Soldi: ", "I suoi soldi");
 				money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
 				money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 				datiPers.AddItem(bank);
-				UIMenu dirty = HUD.MenuPool.AddSubMenu(datiPers, "Soldi Sporchi: ", "I soldi sporchi");
+				UIMenu dirty = datiPers.AddSubMenu("Soldi Sporchi: ", "I soldi sporchi");
 				dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
 				dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 
-				UIMenu daiMoney = HUD.MenuPool.AddSubMenu(money, "Dai a qualcuno", "A chi?");
-				UIMenu daiDirty = HUD.MenuPool.AddSubMenu(dirty, "Dai a qualcuno", "A chi?");
+				UIMenu daiMoney = money.AddSubMenu("Dai a qualcuno", "A chi?");
+				UIMenu daiDirty = dirty.AddSubMenu("Dai a qualcuno", "A chi?");
 				daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 				daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
 
@@ -412,7 +412,7 @@ namespace NuovaGM.Client.Personale
 									amountino.Add((j + 1).ToString());
 								}
 
-								UIMenu giveButton = HUD.MenuPool.AddSubMenu(newItemMenu, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.description);
+								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.description);
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();

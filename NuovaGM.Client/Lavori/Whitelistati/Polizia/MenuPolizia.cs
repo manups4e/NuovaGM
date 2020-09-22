@@ -216,25 +216,25 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		{
 			MenuPoliziaPrincipale = new UIMenu("Menu Polizia", "IO SONO LA LEGGE!", new Point(50, 200));
 			HUD.MenuPool.Add(MenuPoliziaPrincipale);
-			InterazioneCivile = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "Interazioni col Cittadino", "Mi faccia vedere i dati!");
-			InterazioneVeicolo = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "Interazioni col Veicolo", "Mi faccia controllare il veicolo!");
-			ControlliPersonaRemoto = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "S.O.C.P.", "Sistema Online di Controllo Persone!");
-			ControlliVeicoloRemoto = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "S.O.C.T.", "Sistema Online di Controllo Veicoli!");
+			InterazioneCivile = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Cittadino", "Mi faccia vedere i dati!");
+			InterazioneVeicolo = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Veicolo", "Mi faccia controllare il veicolo!");
+			ControlliPersonaRemoto = MenuPoliziaPrincipale.AddSubMenu("S.O.C.P.", "Sistema Online di Controllo Persone!");
+			ControlliVeicoloRemoto = MenuPoliziaPrincipale.AddSubMenu("S.O.C.T.", "Sistema Online di Controllo Veicoli!");
 			Oggetti = HUD.MenuPool.AddSubMenu(MenuPoliziaPrincipale, "Posa a terra un oggetto", "Abbiamo anche le bande chiodate!");
 
 			#region CIVILE
 
-			UIMenu DatiPlayer = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Carta d'identità", "Controllino");
-			UIMenu Perquisizione = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Perquisisci", "Controllino");
+			UIMenu DatiPlayer = InterazioneCivile.AddSubMenu("Carta d'identità", "Controllino");
+			UIMenu Perquisizione = InterazioneCivile.AddSubMenu("Perquisisci", "Controllino");
 			UIMenuItem ammanetta = new UIMenuItem("Ammanetta / Smanetta"); // CON ANIMAZIONE
 			UIMenuItem accompagna = new UIMenuItem("Accompagna"); // SE RIESCO FACENDO ANCHE CAMMINARE IL PED DELLA PERSONA
-			UIMenu FedinaPenale = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Controllo Fedina");
+			UIMenu FedinaPenale = InterazioneCivile.AddSubMenu("Controllo Fedina");
 			UIMenuItem mettiVeicolo = new UIMenuItem("Fai sedere nel veicolo");
 			UIMenuItem togliVeicolo = new UIMenuItem("Fai uscire dal veicolo"); // FAI USCIRE FAI ENTRARE CON ANIMAZIONE
-			UIMenu multa = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Fai una Multa"); // CREARE SISTEMA MULTE e aggiungere multa personalizzata
-			UIMenu fatture = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Controllo pagamenti in Sospeso"); // SALVATAGGIO FATTURE IN DB
+			UIMenu multa = InterazioneCivile.AddSubMenu("Fai una Multa"); // CREARE SISTEMA MULTE e aggiungere multa personalizzata
+			UIMenu fatture = InterazioneCivile.AddSubMenu("Controllo pagamenti in Sospeso"); // SALVATAGGIO FATTURE IN DB
 			UIMenuItem incarcera = new UIMenuItem("Incarcera"); //DEVI ESSERE VICINO ALLA CELLA!
-			UIMenu Licenze = HUD.MenuPool.AddSubMenu(InterazioneCivile, "Controlla Licenze");
+			UIMenu Licenze = InterazioneCivile.AddSubMenu("Controlla Licenze");
 			InterazioneCivile.AddItem(ammanetta);
 			InterazioneCivile.AddItem(accompagna);
 			InterazioneCivile.AddItem(mettiVeicolo);
@@ -390,7 +390,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			#region VEICOLO
 
-			UIMenu Controllo = HUD.MenuPool.AddSubMenu(InterazioneVeicolo, "Controlla stato veicolo");
+			UIMenu Controllo = InterazioneVeicolo.AddSubMenu("Controlla stato veicolo");
 			UIMenuItem PickLock = new UIMenuItem("Apri veicolo chiuso", "Qualcuno lo ha chiuso?");
 			UIMenuItem requisizione = new UIMenuItem("Requisisci Veicolo");
 			InterazioneVeicolo.AddItem(PickLock);
@@ -434,7 +434,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			ControlliPersonaRemoto.AddItem(cercaCognome);
 			ControlliPersonaRemoto.AddItem(cercaNTelefono);
 
-			CercaPers = HUD.MenuPool.AddSubMenu(ControlliPersonaRemoto, "Effettua ricerca");
+			CercaPers = ControlliPersonaRemoto.AddSubMenu("Effettua ricerca");
 
 			UIMenuItem cercaModello = new UIMenuItem("Cerca per Modello");
 			UIMenuItem cercaTarga = new UIMenuItem("Cerca per Targa");
@@ -491,7 +491,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 									source = p.ServerId;
 								}
 							}
-							UIMenu Personaggio = HUD.MenuPool.AddSubMenu(CercaPers, data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
+							UIMenu Personaggio = CercaPers.AddSubMenu(data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
 							UIMenuItem NomeCognome = new UIMenuItem("Nome:", "Il suo Nome");
 							NomeCognome.SetRightLabel(data.info.firstname + " " + data.info.lastname);
 							Personaggio.AddItem(NomeCognome);
@@ -515,8 +515,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 							if (StreetB != 0)
 								Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
 							Personaggio.AddItem(Pos);
-							UIMenu fedinaPenale = HUD.MenuPool.AddSubMenu(Personaggio, "Fedina Penale");
-							UIMenu Fatture = HUD.MenuPool.AddSubMenu(Personaggio, "Multe / Insoluti");
+							UIMenu fedinaPenale = Personaggio.AddSubMenu("Fedina Penale");
+							UIMenu Fatture = Personaggio.AddSubMenu("Multe / Insoluti");
 						}
 					}
 				}

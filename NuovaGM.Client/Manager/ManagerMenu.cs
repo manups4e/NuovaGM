@@ -26,12 +26,12 @@ namespace NuovaGM.Client.Manager
 		{
 			UIMenu AdminMenu = new UIMenu("Admin menu", "Il menu di chi comanda!", new PointF(1439, 50));
 			HUD.MenuPool.Add(AdminMenu);
-			UIMenu MenuPlayers = HUD.MenuPool.AddSubMenu(AdminMenu, "Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
-			UIMenu MenuVehicles = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Veicoli");
-			UIMenu Oggetti = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Oggetti");
-			UIMenu MenuArmi = HUD.MenuPool.AddSubMenu(AdminMenu, "Menu Armi");
-			UIMenu Meteo = HUD.MenuPool.AddSubMenu(AdminMenu, "Cambia Meteo");
-			UIMenu Orario = HUD.MenuPool.AddSubMenu(AdminMenu, "Cambia Ora del Server");
+			UIMenu MenuPlayers = AdminMenu.AddSubMenu("Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
+			UIMenu MenuVehicles = AdminMenu.AddSubMenu("Menu Veicoli");
+			UIMenu Oggetti = AdminMenu.AddSubMenu("Menu Oggetti");
+			UIMenu MenuArmi = AdminMenu.AddSubMenu("Menu Armi");
+			UIMenu Meteo = AdminMenu.AddSubMenu("Cambia Meteo");
+			UIMenu Orario = AdminMenu.AddSubMenu("Cambia Ora del Server");
 
 			#region Players
 			MenuPlayers.OnMenuOpen += async (_menu) =>
@@ -53,7 +53,7 @@ namespace NuovaGM.Client.Manager
 					else
 						charscount = player.char_data.Count + " personaggi";
 
-					UIMenu Giocatore = HUD.MenuPool.AddSubMenu(MenuPlayers, p.Name, charscount);
+					UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Name, charscount);
 
 					UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
 					UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
@@ -103,7 +103,7 @@ namespace NuovaGM.Client.Manager
 						"1 anno",
 						"100 anni (Perma-ban)",
 					};
-					UIMenu Ban = HUD.MenuPool.AddSubMenu(Giocatore, "~r~Banna Player~w~");
+					UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
 
 					UIMenuItem motivazioneBan = new UIMenuItem("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
 					UIMenuListItem TempoBan = new UIMenuListItem("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
@@ -194,7 +194,7 @@ namespace NuovaGM.Client.Manager
 
 					#region Kick
 					string motivazionekick = "";
-					UIMenu Kick = HUD.MenuPool.AddSubMenu(Giocatore, "~y~Kicka Player~w~");
+					UIMenu Kick = Giocatore.AddSubMenu("~y~Kicka Player~w~");
 					UIMenuItem motivazioneKick = new UIMenuItem("Motivazione");
 					UIMenuItem Kicka = new UIMenuItem("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
 					Kick.AddItem(motivazioneKick);
@@ -213,20 +213,20 @@ namespace NuovaGM.Client.Manager
 					};
 					#endregion
 
-					UIMenu Personaggi = HUD.MenuPool.AddSubMenu(Giocatore, "~b~Gestione Personaggi~w~", charscount);
+					UIMenu Personaggi = Giocatore.AddSubMenu("~b~Gestione Personaggi~w~", charscount);
 
 
 					foreach (Shared.Char_data chars in player.char_data)
 					{
-						UIMenu Character = HUD.MenuPool.AddSubMenu(Personaggi, chars.info.firstname + " " + chars.info.lastname);
+						UIMenu Character = Personaggi.AddSubMenu(chars.info.firstname + " " + chars.info.lastname);
 
-						UIMenu DatiPersonali = HUD.MenuPool.AddSubMenu(Character, "Dati Personali", "Nome, cognome, lavoro, gangs");
-						UIMenu Inventario = HUD.MenuPool.AddSubMenu(Character, "Inventario");
-						UIMenu Armi = HUD.MenuPool.AddSubMenu(Character, "Armi");
-						UIMenu Finanze = HUD.MenuPool.AddSubMenu(Character, "Finanze");
-						UIMenu VeicoliPersonali = HUD.MenuPool.AddSubMenu(Character, "Veicoli Personali");
-						UIMenu Immobili = HUD.MenuPool.AddSubMenu(Character, "Proprietà Possedute");
-						UIMenu DatiGenerici = HUD.MenuPool.AddSubMenu(Character, "Dati Generici", "Fedina Penale, Multe..");
+						UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
+						UIMenu Inventario = Character.AddSubMenu("Inventario");
+						UIMenu Armi = Character.AddSubMenu("Armi");
+						UIMenu Finanze = Character.AddSubMenu("Finanze");
+						UIMenu VeicoliPersonali = Character.AddSubMenu("Veicoli Personali");
+						UIMenu Immobili = Character.AddSubMenu("Proprietà Possedute");
+						UIMenu DatiGenerici = Character.AddSubMenu("Dati Generici", "Fedina Penale, Multe..");
 
 						#region Dati Personali
 						UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
@@ -262,7 +262,7 @@ namespace NuovaGM.Client.Manager
 								Inventory item = chars.inventory[i];
 								if (item.amount > 0)
 								{
-									UIMenu newItemMenu = HUD.MenuPool.AddSubMenu(Inventario, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
+									UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
 									UIMenuItem add = new UIMenuItem("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
 									UIMenuItem rem = new UIMenuItem("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
 									newItemMenu.AddItem(add);
@@ -326,7 +326,7 @@ namespace NuovaGM.Client.Manager
 			#region Veicoli
 			UIMenuItem NomeVeh = new UIMenuItem("Nome veicolo da spawnare");
 			MenuVehicles.AddItem(NomeVeh);
-			UIMenu VehOptions = HUD.MenuPool.AddSubMenu(MenuVehicles, "Opzioni di spawn");
+			UIMenu VehOptions = MenuVehicles.AddSubMenu("Opzioni di spawn");
 
 			UIMenuCheckboxItem spawn = new UIMenuCheckboxItem("Spawna nel veicolo", UIMenuCheckboxStyle.Tick, SpawnaNelVeicolo, "");
 			UIMenuCheckboxItem deletepreviousveh = new UIMenuCheckboxItem("Cancella vecchio veicolo", UIMenuCheckboxStyle.Tick, CancellaVecchioVeh, "");
@@ -398,7 +398,7 @@ namespace NuovaGM.Client.Manager
 			#endregion
 
 			#region Meteo
-			UIMenu metei = HUD.MenuPool.AddSubMenu(Meteo, "Seleziona Meteo");
+			UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
 			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
 			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, Shared.ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
 			Meteo.AddItem(blackout);

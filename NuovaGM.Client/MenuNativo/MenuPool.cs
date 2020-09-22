@@ -122,7 +122,6 @@ namespace NuovaGM.Client.MenuNativo
 			Add(submenu);
 			menu.BindMenuToItem(submenu, item);
 			return submenu;
-
 		}
 
 		/// <summary>
