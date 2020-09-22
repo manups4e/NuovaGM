@@ -24,6 +24,12 @@ namespace NuovaGM.Shared
 		public List<Ospedale> Ospedali = new List<Ospedale>();
 	}
 
+	public class ConfigurazioneVendAuto
+	{
+		public Vector3 BossActions;
+		public Vector3 MenuVendita;
+	}
+
 	public class Pescatori
 	{
 		public bool TempoPescaDinamico;

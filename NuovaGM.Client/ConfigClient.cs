@@ -104,6 +104,7 @@ namespace NuovaGM.Client
 	{
 		public ConfigPolizia Polizia = new ConfigPolizia();
 		public ConfigMedici Medici = new ConfigMedici();
+		public ConfigVenditoriAuto VenditoriAuto = new ConfigVenditoriAuto();
 		public LavoriGenerici Generici = new LavoriGenerici();
 	}
 

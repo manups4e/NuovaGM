@@ -76,6 +76,9 @@ namespace NuovaGM.Client
 
 			ClasseDiTest.Init(); // da rimouvere
 			CodaControl.CodaAdminPanel.Init();
+
+			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
+
 			TickController.Init();
 		}
 	}
