@@ -954,57 +954,17 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return players;
 		}
 
-		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)
-		{
-			Vehicle[] vehs = GetVehiclesInArea(pos, Radius);
-			return vehs.Length < 1 ? true : false;
-		}
-
-		public static bool IsSpawnObjPointClear(this Vector3 pos, float Radius)
-		{
-			Prop[] vehs = GetPropsInArea(pos, Radius);
-			return vehs.Length < 1 ? true : false;
-		}
-		public static bool IsSpawnPedPointClear(this Vector3 pos, float Radius)
-		{
-			Ped[] vehs = GetPedsInArea(pos, Radius);
-			return vehs.Length < 1 ? true : false;
-		}
-
-		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius)
+		public static Vehicle[] GetVehiclesInArea(Vector3 Coords, float Radius)
 		{
 			Vehicle[] vehs = World.GetAllVehicles();
 			List<Vehicle> vehiclesInArea = new List<Vehicle>();
 			foreach (Vehicle v in vehs)
 			{
-				if (v.IsInRangeOf(Coords, Radius))
+				Vector3 vehcoords = v.Position;
+				if(v.IsInRangeOf(Coords, Radius))
 					vehiclesInArea.Add(v);
 			}
 			return vehiclesInArea.ToArray();
-		}
-
-		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius)
-		{
-			Prop[] props = World.GetAllProps();
-			List<Prop> propsInArea = new List<Prop>();
-			foreach (Prop v in props)
-			{
-				if (v.IsInRangeOf(Coords, Radius))
-					propsInArea.Add(v);
-			}
-			return propsInArea.ToArray();
-		}
-
-		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius)
-		{
-			Ped[] peds = World.GetAllPeds();
-			List<Ped> pedsInArea = new List<Ped>();
-			foreach (Ped v in peds)
-			{
-				if (v.IsInRangeOf(Coords, Radius))
-					pedsInArea.Add(v);
-			}
-			return pedsInArea.ToArray();
 		}
 
 		public static Vector2 WorldToScreen(Vector3 position)
@@ -1014,6 +974,12 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return !Function.Call<bool>(Hash._WORLD3D_TO_SCREEN2D, position.X, position.Y, position.Z, screenX, screenY) ?
 				Vector2.Zero :
 				new Vector2(screenX.GetResult<float>(), screenY.GetResult<float>());
+		}
+
+		public static bool IsSpawnPointClear(Vector3 Coords, float Radius)
+		{
+			Vehicle[] vehs = GetVehiclesInArea(Coords, Radius);
+			return vehs.Length < 1 ? true : false;
 		}
 
 		public static void StartScenario(Ped ped, string scenario)
