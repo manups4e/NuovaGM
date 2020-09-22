@@ -187,7 +187,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public bool Stanziato;
 		public int NetIdProprietario;
 		public bool IsProprietario;
-		public string Instance;
+		public string Instance = "";
 		/// <summary>
 		/// Istanza generica
 		/// </summary>
