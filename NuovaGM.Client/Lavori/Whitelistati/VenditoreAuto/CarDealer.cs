@@ -72,10 +72,9 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 				string txt = "";
 				foreach (var t in texts) txt = t + "~n~";
-				Log.Printa(LogType.Debug, texts.Aggregate("", (current, s) => current + (s + "~n~")));
 				UIMenuItem mostraTutti = new UIMenuItem("Mostra a tutti", $"{texts.Aggregate("", (current, s) => current + (s + "~n~"))}");
+				mostraCatalogo.AddItem(mostraTutti);
 				UIMenu mostraCatalogoAlcuni = mostraCatalogo.AddSubMenu("Mostra a scelta");
-				_menu.AddItem(mostraTutti);
 				if (players.Count == 0)
 				{
 					mostraCatalogoAlcuni.ParentItem.Enabled = false;
@@ -87,7 +86,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				{
 					BaseScript.TriggerServerEvent("lprp:cardealer:attivaCatalogoTutti", players.Select(x => x.ServerId).ToList());
 				};
-				mostraCatalogo.OnMenuOpen += async (_submenu) =>
+				mostraCatalogoAlcuni.OnMenuOpen += async (_submenu) =>
 				{
 					_submenu.Clear();
 					List<int> persone = new List<int>();
@@ -112,7 +111,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 							return;
 						}
 						BaseScript.TriggerEvent("lprp:cardealer:attivaCatalogoAlcuni", persone);
-
 					};
 				};
 			};

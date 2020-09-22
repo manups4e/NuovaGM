@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace NuovaGM.Client
 {
 	static class ClasseDiTest
 	{
-		public static void Init()
+		public static async void Init()
 		{
 			Client.Instance.AddTick(TabsPauseMenu);
 		}
