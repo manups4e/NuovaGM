@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +25,7 @@ namespace NuovaGM.Client
 		{
 			Client.Instance.AddTick(TabsPauseMenu);
 		}
+
 
 		/*
 		 		/// <summary>
@@ -118,12 +118,6 @@ namespace NuovaGM.Client
 		{
 			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
-			UIMenuItem m = new UIMenuItem("dettagli veicolo");
-			Test.AddItem(m);
-			Model mod = new Model();
-			List<string> models = new List<string>();
-			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
-			World.GetClosest<Vehicle>(Game.PlayerPed.Position, World.GetAllVehicles().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
 
 			/*
 						UIMenuItem b = new UIMenuItem("ShowColoredShard");
@@ -144,9 +138,6 @@ namespace NuovaGM.Client
 
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
-				if(item == m)
-				{
-				}
 				/*				if (item == b)
 									BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
 								else if (item == c)
@@ -182,13 +173,6 @@ namespace NuovaGM.Client
 			b.Update();
 			item2.ProcessControls();
 			*/
-			RaycastResult raycast = World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + 5f * Game.PlayerPed.ForwardVector, IntersectOptions.Everything);
-			if (raycast.DitHitEntity)
-			{
-				Log.Printa(LogType.Debug, $"Handle {raycast.HitEntity.Handle}, Model {raycast.HitEntity.Model.Hash}");
-				Log.Printa(LogType.Debug, $"Player Handle {Game.PlayerPed.Handle}, Model {Game.PlayerPed.Model.Hash}");
-			}
-
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
 				AttivaMenu();
