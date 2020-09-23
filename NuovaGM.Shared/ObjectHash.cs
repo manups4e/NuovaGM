@@ -7623,6 +7623,7 @@
 		vfx_wall_wave_02 = 949524510,
 		vfx_wall_wave_03 = 1917946759,
 		v_club_officechair = 867556671,
+		v_club_stagechair = 603897027,
 		v_club_roc_cab1 = 697460999,
 		v_club_roc_cab2 = -1075407439,
 		v_club_roc_cab3 = -854249458,

@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
+using System.Linq;
+using System;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -10,6 +13,120 @@ namespace NuovaGM.Client.Interactions
 	{
 		public static bool Seduto = false;
 		private static bool stato = false;
+		private static Prop SediaClosest;
+		private static List<ObjectHash> Sedie = new List<ObjectHash>()
+		{
+			ObjectHash.prop_bench_01a,
+			ObjectHash.prop_bench_01b,
+			ObjectHash.prop_bench_01c,
+			ObjectHash.prop_bench_02,
+			ObjectHash.prop_bench_03,
+			ObjectHash.prop_bench_04,
+			ObjectHash.prop_bench_05,
+			ObjectHash.prop_bench_06,
+			ObjectHash.prop_bench_05,
+			ObjectHash.prop_bench_08,
+			ObjectHash.prop_bench_09,
+			ObjectHash.prop_bench_10,
+			ObjectHash.prop_bench_11,
+			ObjectHash.prop_fib_3b_bench,
+			ObjectHash.prop_ld_bench01,
+			ObjectHash.prop_wait_bench_01,
+			ObjectHash.hei_prop_heist_off_chair,
+			ObjectHash.hei_prop_hei_skid_chair,
+			ObjectHash.prop_chair_01a,
+			ObjectHash.prop_chair_01b,
+			ObjectHash.prop_chair_02,
+			ObjectHash.prop_chair_03,
+			ObjectHash.prop_chair_04a,
+			ObjectHash.prop_chair_04b,
+			ObjectHash.prop_chair_05,
+			ObjectHash.prop_chair_06,
+			ObjectHash.prop_chair_05,
+			ObjectHash.prop_chair_08,
+			ObjectHash.prop_chair_09,
+			ObjectHash.prop_chair_10,
+			ObjectHash.v_club_stagechair,
+			ObjectHash.prop_chateau_chair_01,
+			ObjectHash.prop_clown_chair,
+			ObjectHash.prop_cs_office_chair,
+			ObjectHash.prop_direct_chair_01,
+			ObjectHash.prop_direct_chair_02,
+			ObjectHash.prop_gc_chair02,
+			ObjectHash.prop_off_chair_01,
+			ObjectHash.prop_off_chair_03,
+			ObjectHash.prop_off_chair_04,
+			ObjectHash.prop_off_chair_04b,
+			ObjectHash.prop_off_chair_04_s,
+			ObjectHash.prop_off_chair_05,
+			ObjectHash.prop_old_deck_chair,
+			ObjectHash.prop_old_wood_chair,
+			ObjectHash.prop_rock_chair_01,
+			ObjectHash.prop_skid_chair_01,
+			ObjectHash.prop_skid_chair_02,
+			ObjectHash.prop_skid_chair_03,
+			ObjectHash.prop_sol_chair,
+			ObjectHash.prop_wheelchair_01,
+			ObjectHash.prop_wheelchair_01_s,
+			ObjectHash.p_armchair_01_s,
+			ObjectHash.p_clb_officechair_s,
+			ObjectHash.p_dinechair_01_s,
+			ObjectHash.p_ilev_p_easychair_s,
+			ObjectHash.p_soloffchair_s,
+			ObjectHash.p_yacht_chair_01_s,
+			ObjectHash.v_club_officechair,
+			ObjectHash.v_corp_bk_chair3,
+			ObjectHash.v_corp_cd_chair,
+			ObjectHash.v_corp_offchair,
+			ObjectHash.v_ilev_chair02_ped,
+			ObjectHash.v_ilev_hd_chair,
+			ObjectHash.v_ilev_p_easychair,
+			ObjectHash.v_ret_gc_chair03,
+			ObjectHash.prop_ld_farm_chair01,
+			ObjectHash.prop_table_04_chr,
+			ObjectHash.prop_table_05_chr,
+			ObjectHash.prop_table_06_chr,
+			ObjectHash.v_ilev_leath_chr,
+			ObjectHash.prop_table_01_chr_a,
+			ObjectHash.prop_table_01_chr_b,
+			ObjectHash.prop_table_02_chr,
+			ObjectHash.prop_table_03b_chr,
+			ObjectHash.prop_table_03_chr,
+			ObjectHash.prop_torture_ch_01,
+			ObjectHash.v_ilev_fh_dineeamesa,
+			ObjectHash.v_ilev_fh_kitchenstool,
+			ObjectHash.v_ilev_tort_stool,
+			ObjectHash.v_ilev_fh_kitchenstool,
+			ObjectHash.v_ilev_fh_kitchenstool,
+			ObjectHash.v_ilev_fh_kitchenstool,
+			ObjectHash.v_ilev_fh_kitchenstool,
+			ObjectHash.hei_prop_yah_seat_01,
+			ObjectHash.hei_prop_yah_seat_02,
+			ObjectHash.hei_prop_yah_seat_03,
+			ObjectHash.prop_waiting_seat_01,
+			ObjectHash.prop_yacht_seat_01,
+			ObjectHash.prop_yacht_seat_02,
+			ObjectHash.prop_yacht_seat_03,
+			ObjectHash.prop_hobo_seat_01,
+			ObjectHash.prop_rub_couch01,
+			ObjectHash.miss_rub_couch_01,
+			ObjectHash.prop_ld_farm_couch01,
+			ObjectHash.prop_ld_farm_couch02,
+			ObjectHash.prop_rub_couch02,
+			ObjectHash.prop_rub_couch03,
+			ObjectHash.prop_rub_couch04,
+			ObjectHash.p_lev_sofa_s,
+			ObjectHash.p_res_sofa_l_s,
+			ObjectHash.p_v_med_p_sofa_s,
+			ObjectHash.p_yacht_sofa_01_s,
+			ObjectHash.v_ilev_m_sofa,
+			ObjectHash.v_res_tre_sofa_s,
+			ObjectHash.v_tre_sofa_mess_a_s,
+			ObjectHash.v_tre_sofa_mess_b_s,
+			ObjectHash.v_tre_sofa_mess_c_s,
+			ObjectHash.prop_roller_car_01,
+			ObjectHash.prop_roller_car_02,
+		};
 
 		private static List<Vector3[]> Divani = new List<Vector3[]>()
 		{
@@ -45,7 +162,6 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task DivaniCasa()
 		{
-			Vector3 pedpos = Game.PlayerPed.Position;
 			if (!Seduto)
 			{
 				for (int i = 0; i < Divani.Count; i++)
@@ -97,6 +213,20 @@ namespace NuovaGM.Client.Interactions
 					SetPedConfigFlag(PlayerPedId(), 414, false);
 				}
 			}
+		}
+
+		private static async Task CheckSedia()
+		{
+			SediaClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.PlayerPed.Position) < 1.375f);
+			await BaseScript.Delay(200);
+
+		}
+		public static async Task SedieSiedi()
+		{
+			if(SediaClosest != null)
+			{
+
+			}	
 		}
 	}
 }
