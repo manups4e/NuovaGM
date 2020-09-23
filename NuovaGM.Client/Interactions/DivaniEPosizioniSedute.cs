@@ -43,8 +43,6 @@ namespace NuovaGM.Client.Interactions
 			new Vector3[6]{new Vector3(-600.517944f, -1060.37878f, 161.15f), new Vector3(-599.7778f, -1059.94092f, 161.15f), new Vector3(-598.997864f, -1059.49182f, 161.15f), new Vector3(-597.819f, -1060.036f, 161.16f), new Vector3(-597.3898f, -1060.78113f, 161.16f), new Vector3(-596.9741f, -1061.52283f, 161.16f)},
 		};
 
-		static List<Vector3[]> Test = new List<Vector3[]>();
-
 		public static async Task DivaniCasa()
 		{
 			Vector3 pedpos = Game.PlayerPed.Position;
@@ -89,12 +87,14 @@ namespace NuovaGM.Client.Interactions
 					{
 						Game.PlayerPed.Task.ClearAll();
 						Seduto = false;
+						SetPedConfigFlag(PlayerPedId(), 414, false);
 					}
 				}
 				else if (stato && IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
 				{
 					Client.Instance.RemoveTick(Televisioni.ControllaTV);
 					stato = false;
+					SetPedConfigFlag(PlayerPedId(), 414, false);
 				}
 			}
 		}
