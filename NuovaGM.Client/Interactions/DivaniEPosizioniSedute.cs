@@ -6,6 +6,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
 using System.Linq;
 using System;
+using NuovaGM.Client.gmPrincipale.Utility;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -215,7 +216,7 @@ namespace NuovaGM.Client.Interactions
 			}
 		}
 
-		private static async Task CheckSedia()
+		public static async Task CheckSedia()
 		{
 			SediaClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.PlayerPed.Position) < 1.375f);
 			await BaseScript.Delay(200);
@@ -225,8 +226,54 @@ namespace NuovaGM.Client.Interactions
 		{
 			if(SediaClosest != null)
 			{
+				if(Game.PlayerPed.IsInRangeOf(SediaClosest.Position, 1.375f))
+				{
+					SediaClosest.IsPositionFrozen = true;
+					if (!Seduto)
+					{
+						var ped = SediaClosest.GetClosestPed();
+						if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f) {
+							if (!IsPedActiveInScenario(ped.Handle))
+							{
+								if (!Game.PlayerPed.IsDead && !(Game.PlayerPed.Health < 1) && !Game.PlayerPed.IsInVehicle())
+								{
+									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per sederti");
+									{
+										if (Input.IsControlJustPressed(Control.Context))
+										{
+											if (DoesScenarioExistInArea(SediaClosest.Position.X, SediaClosest.Position.Y, SediaClosest.Position.Z, 2f, true))
+											{
+												SetPedConfigFlag(PlayerPedId(), 414, true);
+												TaskUseNearestScenarioToCoord(PlayerPedId(), SediaClosest.Position.X, SediaClosest.Position.Y, SediaClosest.Position.Z, 1.375f, 10800000);
+												Seduto = true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					if(SediaClosest.IsPositionFrozen)
+						SediaClosest.IsPositionFrozen = false;
+				}
 
-			}	
+				if (Seduto) 
+				{
+					if (IsPedActiveInScenario(PlayerPedId()))
+					{
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per alzarti");
+						if (Input.IsControlJustPressed(Control.Context))
+						{
+							Seduto = false;
+							SetPedConfigFlag(PlayerPedId(), 414, false);
+							Game.PlayerPed.Task.ClearAll();
+						}
+					}
+				}
+			}
 		}
 	}
 }
