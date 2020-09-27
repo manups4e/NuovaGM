@@ -564,6 +564,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				vehicle.PlaceOnGround();
 				Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
+				vehicleModel.MarkAsNoLongerNeeded();
 				vehicle.MarkAsNoLongerNeeded();
 				return Game.PlayerPed.CurrentVehicle;
 			}
@@ -599,6 +600,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				};
 				vehicle.PlaceOnGround();
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
+				vehicleModel.MarkAsNoLongerNeeded();
 				//SetVehicleEngineOn(vehicle.Handle, false, true, true);
 				return vehicle;
 			}
