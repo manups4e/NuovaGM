@@ -85,20 +85,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 				string txt = "";
 				foreach (var t in texts) txt = t + "~n~";
-				UIMenuItem mostraTutti = new UIMenuItem("Mostra a tutti", $"{texts.Aggregate("", (current, s) => current + (s + "~n~"))}");
-				mostraCatalogo.AddItem(mostraTutti);
 				UIMenu mostraCatalogoAlcuni = mostraCatalogo.AddSubMenu("Mostra a scelta");
 				if (players.Count == 0)
 				{
 					mostraCatalogoAlcuni.ParentItem.Enabled = false;
 					mostraCatalogoAlcuni.ParentItem.Description = "Non hai persone vicino!";
-					mostraTutti.Enabled = false;
-					mostraTutti.Description = "Non hai persone vicino!";
 				}
-				mostraTutti.Activated += (_submenu, _subitem) =>
-				{
-					BaseScript.TriggerServerEvent("lprp:cardealer:attivaCatalogoTutti", players.Select(x => x.ServerId).ToList());
-				};
 				mostraCatalogoAlcuni.OnMenuOpen += async (_submenu) =>
 				{
 					_submenu.Clear();
