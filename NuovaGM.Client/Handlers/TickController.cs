@@ -29,6 +29,7 @@ using NuovaGM.Client.Lavori.Generici.Pescatore;
 using NuovaGM.Client.Proprietà.Hotel;
 using Logger;
 using Newtonsoft.Json;
+using NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto;
 
 namespace NuovaGM.Client
 {
@@ -88,6 +89,11 @@ namespace NuovaGM.Client
 			TickAPiedi.Add(PescatoreClient.ControlloPesca);
 			TickAPiedi.Add(Hotels.ControlloHotel);
 			TickAPiedi.Add(Proprietà.Manager.MarkerFuori);
+			TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);
+			TickAPiedi.Add(DivaniEPosizioniSedute.SedieSiedi);
+			TickAPiedi.Add(CarDealer.Markers);
+
+
 
 			// TICK NEL VEICOLO \\
 			TickVeicolo.Add(VehicleDamage.OnTick);
