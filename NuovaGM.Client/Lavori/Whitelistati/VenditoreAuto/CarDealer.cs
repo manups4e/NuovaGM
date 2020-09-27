@@ -228,10 +228,40 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 					List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
 					foreach (var i in p.Value.OrderBy(x => x.price))
 					{
-						UIMenuItem vah = new UIMenuItem(Game.GetGXTEntry(i.name), i.description);
-						vah.SetRightLabel("~g~$" + i.price);
-						sezione.AddItem(vah);
+						UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
+						vah.ParentItem.SetRightLabel("~g~$" + i.price);
 						vehs.Add(i);
+						foreach(var pl in players)
+						{
+							var user = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
+							UIMenu player = vah.AddSubMenu(user.GetPlayerData().FullName);
+							if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+							{
+								List<string> prop = new List<string>();
+								foreach(var gar in user.GetPlayerData().CurrentChar.Proprietà)
+								{
+									if (Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(gar)) 
+									{
+										UIMenuItem posto = new UIMenuItem(Client.Impostazioni.Proprieta.Garages.Garages[gar].Label);
+										player.AddItem(posto);
+									}
+									else if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(gar) && Client.Impostazioni.Proprieta.Appartamenti[gar].GarageIncluso)
+									{
+										UIMenuItem posto = new UIMenuItem(Client.Impostazioni.Proprieta.Appartamenti[gar].Label);
+										player.AddItem(posto);
+									}
+									player.OnItemSelect += async (menu, item, index) =>
+									{
+										BaseScript.TriggerServerEvent("lprp:carDealer:vendi", user.ServerId, item.Text); // fare controllo lato server sulla proprietà (se è un garage o un appartamento)
+									};
+								}
+							}
+							else
+							{
+								player.ParentItem.Enabled = false;
+								player.ParentItem.Description = "Questa persona non ha proprietà con garage!";
+							}
+						}
 					}
 					sezione.OnIndexChange += async (menu, index) =>
 					{
