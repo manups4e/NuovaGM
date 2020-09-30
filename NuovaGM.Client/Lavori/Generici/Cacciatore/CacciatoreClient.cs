@@ -70,7 +70,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			if(Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
+			if(!Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
 			{
 				if (affittatoBianca)
 					Game.PlayerPed.Weapons.Remove(WeaponHash.Knife);
