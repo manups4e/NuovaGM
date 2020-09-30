@@ -263,7 +263,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				var offset = new Point(50, 50);
 				pool.MouseEdgeEnabled = false;
 				InstructionalButton gzmgp = new InstructionalButton(Control.FrontendLt, "ZOOM");
-				Creazione = new UIMenu("NGM Creator", "Crea un nuovo Personaggio", offset);
+				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
+				Creazione.Title.Scale = 0.9f;
 				Creazione.ControlDisablingEnabled = true;
 				pool.Add(Creazione);
 				UIMenuListItem Sesso;
@@ -1811,7 +1812,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		static void sub_7cddb()
 		{
-			string v_3 = sub_7ce29(4);
+			string v_3 = sub_7ce29(Funzioni.GetRandomInt(0, 7));
 			if (AreStringsEqual(v_3, "mood_smug_1"))
 				v_3 = "mood_Happy_1";
 			if (AreStringsEqual(v_3, "mood_sulk_1"))
