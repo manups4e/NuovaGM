@@ -11,9 +11,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Logger;
+using NuovaGM.Shared.Veicoli;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 {
+	// void func_747(int iParam0) in carmod_shop.c
 	static class CarDealer
 	{
 		private static ConfigVenditoriAuto carDealer;
@@ -144,21 +146,29 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
 
 			UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
-			catalogo.Title.Scale = 0.9f;
 			HUD.MenuPool.Add(catalogo);
 			Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 			foreach(var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 			{
 				UIMenu sezione = catalogo.AddSubMenu(p.Key);
-				sezione.Title.Scale = 0.9f;
 				sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 				List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
 				foreach(var i in p.Value.OrderBy(x => x.price))
 				{
-					UIMenuItem vah = new UIMenuItem(Game.GetGXTEntry(i.name), i.description);
-					vah.SetRightLabel("~g~$" + i.price);
-					sezione.AddItem(vah);
+					UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
+					vah.ParentItem.SetRightLabel("~g~$" + i.price);
 					vehs.Add(i);
+					UIMenu colore1 = vah.AddSubMenu("Colore primario");
+					UIMenu colore2 = vah.AddSubMenu("Colore secondario");
+
+					for (int l=0; l<Enum.GetValues(typeof(VehicleColor)).Length; l++)
+					{
+						UIMenuItem colo = new UIMenuItem(Funzioni.GetVehColorLabel(l));
+						colore1.AddItem(colo);
+						colore2.AddItem(colo);
+					}
+
+
 				}
 				sezione.OnIndexChange += async (menu, index) =>
 				{
@@ -171,11 +181,26 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 					PreviewVeh.IsLeftIndicatorLightOn = true;
 					PreviewVeh.IsRightIndicatorLightOn = true;
 				};
+				sezione.OnItemSelect += async (menu, item, index) =>
+				{
+
+					var veh = vehs[index].name;
+					if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+					{
+						string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
+						OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false),true, "Normale");
+						BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
+					}
+				};
 				sezione.OnMenuClose += async (menu) =>
 				{
-					Client.Instance.RemoveTick(RuotaVeh);
-					PreviewVeh.Delete();
-					cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
+					await BaseScript.Delay(100);
+					if (catalogo.Visible)
+					{
+						Client.Instance.RemoveTick(RuotaVeh);
+						PreviewVeh.Delete();
+						cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
+					}
 				};
 			}
 
@@ -209,13 +234,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			if (venditore)
 			{
 				UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
-				catalogo.Title.Scale = 0.9f;
 				HUD.MenuPool.Add(catalogo);
 				Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 				foreach (var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 				{
 					UIMenu sezione = catalogo.AddSubMenu(p.Key);
-					sezione.Title.Scale = 0.9f;
 					sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 					List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
 					foreach (var i in p.Value.OrderBy(x => x.price))

@@ -20,7 +20,15 @@ namespace NuovaGM.Shared.Veicoli
 		public string Stato;
 
 		public OwnedVehicle() { }
-		public OwnedVehicle(string targa, VehicleData data, bool garage, string stato) 
+		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, bool garage, string stato)
+		{
+			Vehicle = veh;
+			Targa = targa;
+			DatiVeicolo = data;
+			InGarage = garage;
+			Stato = stato;
+		}
+		public OwnedVehicle(string targa, VehicleData data, bool garage, string stato)
 		{
 			Targa = targa;
 			DatiVeicolo = data;
@@ -34,11 +42,19 @@ namespace NuovaGM.Shared.Veicoli
 		public long Assicurazione;
 		public VehProp props = new VehProp();
 		public bool Rubato;
+		public VehicleData() { }
+		public VehicleData(long insurance, VehProp dati, bool stolen) 
+		{
+			Assicurazione = insurance;
+			props = dati;
+			Rubato = stolen;
+		}
 	}
 
 	public class VehProp
 	{
 		public int Model;
+		public string Name;
 		public string Plate;
 		public int PlateIndex;
 		public float BodyHealth;
@@ -62,9 +78,10 @@ namespace NuovaGM.Shared.Veicoli
 		public bool ModKitInstalled;
 		public int ModLivery;
 		public VehProp() { }
-		public VehProp(int model, string plate, int plateIndex, float bodyHealth, float engineHealth, float dirtLevel, int color1, int color2, Color custom1, Color custom2, bool hasCustom1, bool hasCustom2, int pearlescentColor, int wheelColor, int wheels, int windowTint, bool[] neonEnabled, bool[] extras, Color neonColor, Color tyreSmokeColor, bool modkit, List<VehMod> mods, int modLivery)
+		public VehProp(int model, string name, string plate, int plateIndex, float bodyHealth, float engineHealth, float dirtLevel, int color1, int color2, Color custom1, Color custom2, bool hasCustom1, bool hasCustom2, int pearlescentColor, int wheelColor, int wheels, int windowTint, bool[] neonEnabled, bool[] extras, Color neonColor, Color tyreSmokeColor, bool modkit, List<VehMod> mods, int modLivery)
 		{
 			Model = model;
+			Name = name;
 			Plate = plate;
 			PlateIndex = plateIndex;
 			BodyHealth = bodyHealth;
