@@ -30,6 +30,7 @@ namespace NuovaGM.Server
 			BankingServer.Init();
 			PompeDiBenzinaServer.Init();
 			NegozioAbitiServer.Init();
+			CarDealerServer.Init();
 			PoliziaServer.Init();
 			MediciServer.Init();
 			FPLServer.Init();

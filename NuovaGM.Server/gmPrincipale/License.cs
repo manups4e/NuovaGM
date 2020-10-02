@@ -12,7 +12,7 @@ namespace NuovaGM.Server.gmPrincipale
 	}
 	public static class License
 	{
-		public static string GetLicense(Player player, Identifier identifier)
+		public static string GetLicense(this Player player, Identifier identifier)
 		{
 
 			switch (identifier)

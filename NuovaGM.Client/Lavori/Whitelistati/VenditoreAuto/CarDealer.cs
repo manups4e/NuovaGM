@@ -148,7 +148,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
 			HUD.MenuPool.Add(catalogo);
 			Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
-			foreach(var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
+			string SelectedVeh = "";
+			foreach (var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 			{
 				UIMenu sezione = catalogo.AddSubMenu(p.Key);
 				sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
@@ -167,8 +168,26 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 						colore1.AddItem(colo);
 						colore2.AddItem(colo);
 					}
-
-
+					colore1.OnIndexChange += async (menu, index) =>
+					{
+						PreviewVeh.Mods.PrimaryColor = (VehicleColor)index;
+					};
+					colore2.OnIndexChange += async (menu, index) =>
+					{
+						PreviewVeh.Mods.SecondaryColor = (VehicleColor)index;
+					};
+					UIMenuItem prendi = new UIMenuItem("Prendi");
+					vah.AddItem(prendi);
+					prendi.Activated += async (menu, item) =>
+					{
+						//if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+						//{
+							string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
+							PreviewVeh.Mods.LicensePlate = plate;
+							OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), true, "Normale");
+							BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
+						//}
+					};
 				}
 				sezione.OnIndexChange += async (menu, index) =>
 				{
@@ -183,14 +202,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				};
 				sezione.OnItemSelect += async (menu, item, index) =>
 				{
-
-					var veh = vehs[index].name;
-					if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
-					{
-						string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
-						OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false),true, "Normale");
-						BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
-					}
+					SelectedVeh = vehs[index].name;
+				};
+				sezione.OnMenuOpen += (menu) =>
+				{
+					Client.Instance.AddTick(RuotaVeh);
 				};
 				sezione.OnMenuClose += async (menu) =>
 				{
@@ -217,7 +233,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				}
 			};
 			Screen.Fading.FadeIn(800);
-			Client.Instance.AddTick(RuotaVeh);
 			catalogo.Visible = true;
 		}
 
