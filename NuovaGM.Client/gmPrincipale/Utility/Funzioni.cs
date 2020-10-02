@@ -153,6 +153,15 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return new Tuple<int, string>(mugshot, Txd);
 		}
 
+		public static string GetRandomString(int maxChars)
+		{
+			string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+			string result = "";
+			for (int i = 0; i < maxChars; i++)
+				result += chars.PickOneChar();
+			return result;
+		}
+
 		public static RaycastResult GetEntityInFrontOfPed(Ped ped, float maxDistance = 5.0f)
 		{
 			Vector3 offset = GetOffsetFromEntityInWorldCoords(ped.Handle, 0.0f, 5.0f, 0.0f);
@@ -214,6 +223,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 			VehProp vehi = new VehProp(
 			veh.Model,
+			veh.LocalizedName,
 			veh.Mods.LicensePlate,
 			(int)veh.Mods.LicensePlateStyle,
 			veh.BodyHealth,
@@ -1321,6 +1331,222 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 			return "WT_INVALID";
 		}
+
+		public static string GetVehColorLabel(int color)
+		{
+			switch (color)
+			{
+				case 0:
+					return Game.GetGXTEntry("BLACK");
+				case 1:
+					return Game.GetGXTEntry("GRAPHITE");
+				case 2:
+					return Game.GetGXTEntry("BLACK_STEEL");
+				case 3:
+					return Game.GetGXTEntry("DARK_SILVER");
+				case 4:
+					return Game.GetGXTEntry("SILVER");
+				case 5:
+					return Game.GetGXTEntry("BLUE_SILVER");
+				case 6:
+					return Game.GetGXTEntry("ROLLED_STEEL");
+				case 7:
+					return Game.GetGXTEntry("SHADOW_SILVER");
+				case 8:
+					return Game.GetGXTEntry("STONE_SILVER");
+				case 9:
+					return Game.GetGXTEntry("MIDNIGHT_SILVER");
+				case 10:
+					return Game.GetGXTEntry("CAST_IRON_SIL");
+				case 11:
+					return Game.GetGXTEntry("ANTHR_BLACK");
+				case 12:
+					return Game.GetGXTEntry("BLACK");
+				case 13:
+					return Game.GetGXTEntry("GREY");
+				case 14:
+					return Game.GetGXTEntry("LIGHT_GREY");
+				case 15:
+					return Game.GetGXTEntry("BLACK");
+				case 16:
+					return Game.GetGXTEntry("FMMC_COL1_1");
+				case 27:
+					return Game.GetGXTEntry("RED");
+				case 28:
+					return Game.GetGXTEntry("TORINO_RED");
+				case 29:
+					return Game.GetGXTEntry("FORMULA_RED");
+				case 30:
+					return Game.GetGXTEntry("BLAZE_RED");
+				case 31:
+					return Game.GetGXTEntry("GRACE_RED");
+				case 32:
+					return Game.GetGXTEntry("GARNET_RED");
+				case 33:
+					return Game.GetGXTEntry("SUNSET_RED");
+				case 34:
+					return Game.GetGXTEntry("CABERNET_RED");
+				case 35:
+					return Game.GetGXTEntry("CANDY_RED");
+				case 36:
+					return Game.GetGXTEntry("SUNRISE_ORANGE");
+				case 37:
+					return Game.GetGXTEntry("GOLD");
+				case 38:
+					return Game.GetGXTEntry("ORANGE");
+				case 39:
+					return Game.GetGXTEntry("RED");
+				case 40:
+					return Game.GetGXTEntry("DARK_RED");
+				case 41:
+					return Game.GetGXTEntry("ORANGE");
+				case 42:
+					return Game.GetGXTEntry("YELLOW");
+				case 49:
+					return Game.GetGXTEntry("DARK_GREEN");
+				case 50:
+					return Game.GetGXTEntry("RACING_GREEN");
+				case 51:
+					return Game.GetGXTEntry("SEA_GREEN");
+				case 52:
+					return Game.GetGXTEntry("OLIVE_GREEN");
+				case 53:
+					return Game.GetGXTEntry("BRIGHT_GREEN");
+				case 54:
+					return Game.GetGXTEntry("PETROL_GREEN");
+				case 55:
+					return Game.GetGXTEntry("LIME_GREEN");
+				case 61:
+					return Game.GetGXTEntry("GALAXY_BLUE");
+				case 62:
+					return Game.GetGXTEntry("DARK_BLUE");
+				case 63:
+					return Game.GetGXTEntry("SAXON_BLUE");
+				case 64:
+					return Game.GetGXTEntry("BLUE");
+				case 65:
+					return Game.GetGXTEntry("MARINER_BLUE");
+				case 66:
+					return Game.GetGXTEntry("HARBOR_BLUE");
+				case 67:
+					return Game.GetGXTEntry("DIAMOND_BLUE");
+				case 68:
+					return Game.GetGXTEntry("SURF_BLUE");
+				case 69:
+					return Game.GetGXTEntry("NAUTICAL_BLUE");
+				case 70:
+					return Game.GetGXTEntry("ULTRA_BLUE");
+				case 71:
+					return Game.GetGXTEntry("PURPLE");
+				case 72:
+					return Game.GetGXTEntry("SPIN_PURPLE");
+				case 73:
+					return Game.GetGXTEntry("RACING_BLUE");
+				case 74:
+					return Game.GetGXTEntry("LIGHT_BLUE");
+				case 82:
+					return Game.GetGXTEntry("DARK_BLUE");
+				case 83:
+					return Game.GetGXTEntry("BLUE");
+				case 84:
+					return Game.GetGXTEntry("MIDNIGHT_BLUE");
+				case 88:
+					return Game.GetGXTEntry("YELLOW");
+				case 89:
+					return Game.GetGXTEntry("RACE_YELLOW");
+				case 90:
+					return Game.GetGXTEntry("BRONZE");
+				case 91:
+					return Game.GetGXTEntry("FLUR_YELLOW");
+				case 92:
+					return Game.GetGXTEntry("LIME_GREEN");
+				case 94:
+					return Game.GetGXTEntry("UMBER_BROWN");
+				case 95:
+					return Game.GetGXTEntry("CREEK_BROWN");
+				case 96:
+					return Game.GetGXTEntry("CHOCOLATE_BROWN");
+				case 97:
+					return Game.GetGXTEntry("MAPLE_BROWN");
+				case 98:
+					return Game.GetGXTEntry("SADDLE_BROWN");
+				case 99:
+					return Game.GetGXTEntry("STRAW_BROWN");
+				case 100:
+					return Game.GetGXTEntry("MOSS_BROWN");
+				case 101:
+					return Game.GetGXTEntry("BISON_BROWN");
+				case 102:
+					return Game.GetGXTEntry("WOODBEECH_BROWN");
+				case 103:
+					return Game.GetGXTEntry("BEECHWOOD_BROWN");
+				case 104:
+					return Game.GetGXTEntry("SIENNA_BROWN");
+				case 105:
+					return Game.GetGXTEntry("SANDY_BROWN");
+				case 106:
+					return Game.GetGXTEntry("BLEECHED_BROWN");
+				case 107:
+					return Game.GetGXTEntry("CREAM");
+				case 111:
+					return Game.GetGXTEntry("WHITE");
+				case 112:
+					return Game.GetGXTEntry("FROST_WHITE");
+				case 117:
+					return Game.GetGXTEntry("BR_STEEL");
+				case 118:
+					return Game.GetGXTEntry("BR BLACK_STEEL");
+				case 119:
+					return Game.GetGXTEntry("BR_ALUMINIUM");
+				case 120:
+					return Game.GetGXTEntry("CHROME");
+				case 128:
+					return Game.GetGXTEntry("GREEN");
+				case 131:
+					return Game.GetGXTEntry("WHITE");
+				case 135:
+					return Game.GetGXTEntry("HOT PINK");
+				case 136:
+					return Game.GetGXTEntry("SALMON_PINK");
+				case 137:
+					return Game.GetGXTEntry("PINK");
+				case 138:
+					return Game.GetGXTEntry("BRIGHT_ORANGE");
+				case 141:
+					return Game.GetGXTEntry("MIDNIGHT_BLUE");
+				case 143:
+					return Game.GetGXTEntry("WINE_RED");
+				case 145:
+					return Game.GetGXTEntry("BRIGHT_PURPLE");
+				case 146:
+					return Game.GetGXTEntry("MIGHT_PURPLE");
+				case 147:
+					return Game.GetGXTEntry("BLACK_GRAPHITE");
+				case 148:
+					return Game.GetGXTEntry("Purple");
+				case 149:
+					return Game.GetGXTEntry("MIGHT_PURPLE");
+				case 150:
+					return Game.GetGXTEntry("LAVA_RED");
+				case 151:
+					return Game.GetGXTEntry("MATTE_FOR");
+				case 152:
+					return Game.GetGXTEntry("MATTE_OD");
+				case 153:
+					return Game.GetGXTEntry("MATTE_DIRT");
+				case 154:
+					return Game.GetGXTEntry("MATTE_DESERT");
+				case 155:
+					return Game.GetGXTEntry("MATTE_FOIL");
+				case 158:
+					return Game.GetGXTEntry("GOLD_P");
+				case 159:
+					return Game.GetGXTEntry("GOLD_S");
+
+				default:
+					return "Nome colore non trovato";
+			}
+		}
 	}
 
 	public class VehicleList : IEnumerable<int>
@@ -1375,7 +1601,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			return GetEnumerator();
 		}
-
 	}
 
 
