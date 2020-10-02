@@ -264,7 +264,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				pool.MouseEdgeEnabled = false;
 				InstructionalButton gzmgp = new InstructionalButton(Control.FrontendLt, "ZOOM");
 				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
-				Creazione.Title.Scale = 0.9f;
 				Creazione.ControlDisablingEnabled = true;
 				pool.Add(Creazione);
 				UIMenuListItem Sesso;

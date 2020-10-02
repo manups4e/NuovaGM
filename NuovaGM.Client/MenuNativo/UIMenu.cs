@@ -1038,7 +1038,7 @@ namespace NuovaGM.Client.MenuNativo
 
 			_mainMenu = new Container(new PointF(0, 0), new SizeF(700, 500), Color.FromArgb(0, 0, 0, 0));
 			BannerSprite = new Sprite(spriteLibrary, spriteName, new PointF(0 + Offset.X, 0 + Offset.Y), new SizeF(431, 100));
-			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 1.05f, Colors.White, Font.HouseScript, Alignment.Center));
+			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 0.9f, Colors.White, Font.HouseScript, Alignment.Center));
 			if (!String.IsNullOrWhiteSpace(subtitle))
 			{
 				_mainMenu.Items.Add(new UIResRectangle(new PointF(0 + offset.X, 100 + Offset.Y), new SizeF(431, 37), Colors.Black));

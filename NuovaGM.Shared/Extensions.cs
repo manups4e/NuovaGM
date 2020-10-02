@@ -60,6 +60,28 @@ namespace NuovaGM.Shared
 		}
 
 		/// <summary>
+		/// Picks a random char of the string passed
+		/// </summary>
+		/// <param name="chars">the string containing all the chars</param>
+		/// <param name="rnd"> the Random() instance</param>
+		/// <returns></returns>
+		public static char PickOneChar(this string chars, Random rnd)
+		{
+			return chars[rnd.Next(chars.Length)];
+		}
+
+		/// <summary>
+		/// Picks a random char of the string passed
+		/// </summary>
+		/// <param name="chars"></param>
+		/// <returns></returns>
+		public static char PickOneChar(this string chars)
+		{
+			return chars.PickOneChar(new Random(DateTime.Now.Millisecond));
+	    }
+
+
+		/// <summary>
 		/// Returns a random decimal number that is greater than or equal to 0.0m, and less than 1.0m.
 		/// </summary>
 		/// <param name="rand">A random number generator.</param>

@@ -35,10 +35,8 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			RenderScriptCams(true, true, 1500, true, false);
 			dummycam.InterpTo(cam, 1500, 1, 1);
 			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti");
-			casa.Title.Scale = 0.9f;
 			HUD.MenuPool.Add(casa);
 			UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
-			Citofona.Title.Scale = 0.9f;
 			UIMenuItem entra;
 
 			if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
@@ -123,7 +121,6 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 		{
 			UIMenu esci = new UIMenu(app.Label, "Appartamenti");
 			HUD.MenuPool.Add(esci);
-			esci.Title.Scale = 0.9f;
 			UIMenuItem escisci = new UIMenuItem("Esci dall'appartamento");
 			esci.AddItem(escisci);
 			UIMenuItem garage = new UIMenuItem("", "");
