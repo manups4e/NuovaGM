@@ -176,17 +176,21 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 					{
 						PreviewVeh.Mods.SecondaryColor = (VehicleColor)index;
 					};
-					UIMenuItem prendi = new UIMenuItem("Prendi");
-					vah.AddItem(prendi);
-					prendi.Activated += async (menu, item) =>
+					UIMenu prendi = vah.AddSubMenu("Prendi");
+					prendi.OnMenuOpen += async (menu) =>
 					{
-						//if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
-						//{
+						if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+						{
 							string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
 							PreviewVeh.Mods.LicensePlate = plate;
-							OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), true, "Normale");
+							OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), new VehGarage(true, "", 0), "Normale");
 							BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
-						//}
+						}
+						else
+						{
+							UIMenuItem no = new UIMenuItem("Non hai appartamenti o garage!!");
+							prendi.AddItem(no);
+						}
 					};
 				}
 				sezione.OnIndexChange += async (menu, index) =>

@@ -28,7 +28,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 				plate = veh.Targa,
 				vehN = veh.DatiVeicolo.props.Name,
 				data = veh.DatiVeicolo.Serialize(),
-				garage = veh.InGarage,
+				garage = veh.Garage.Serialize(),
 				state = veh.Stato,
 			});
 		}

@@ -14,26 +14,61 @@ namespace NuovaGM.Shared.Veicoli
 		public string Targa;
 		[JsonProperty("vehicle_data")]
 		public VehicleData DatiVeicolo = new VehicleData();
-		[JsonProperty("in_garage")]
-		public bool InGarage;
+		[JsonProperty("garage")]
+		public VehGarage Garage;
 		[JsonProperty("stato")]
 		public string Stato;
 
 		public OwnedVehicle() { }
-		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, bool garage, string stato)
+		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, VehGarage garage, string stato)
 		{
 			Vehicle = veh;
 			Targa = targa;
 			DatiVeicolo = data;
-			InGarage = garage;
+			Garage = garage;
 			Stato = stato;
 		}
-		public OwnedVehicle(string targa, VehicleData data, bool garage, string stato)
+		public OwnedVehicle(string targa, VehicleData data, VehGarage garage, string stato)
 		{
 			Targa = targa;
 			DatiVeicolo = data;
-			InGarage = garage;
+			Garage = garage;
 			Stato = stato;
+		}
+		public OwnedVehicle(string targa, string data, string garage, string stato)
+		{
+			Targa = targa;
+			DatiVeicolo = data.Deserialize<VehicleData>(); ;
+			Garage = garage.Deserialize<VehGarage>();
+			Stato = stato;
+		}
+
+		public OwnedVehicle(dynamic data)
+		{
+			Targa = data.targa;
+			DatiVeicolo = (data.vehicle_data as string).Deserialize<VehicleData>();
+			Garage = (data.garage as string).Deserialize<VehGarage>();
+			Stato = data.stato;
+		}
+	}
+
+	public class VehGarage
+	{
+		public bool InGarage;
+		public string Garage;
+		public int Posto;
+		public VehGarage() { }
+		public VehGarage(bool ingarage, string garageName, int posto)
+		{
+			InGarage = ingarage;
+			Garage = garageName;
+			Posto = posto;
+		}
+		public VehGarage(dynamic data)
+		{
+			InGarage = data.ingarage;
+			Garage = data.garageName;
+			Posto = data.posto;
 		}
 	}
 
