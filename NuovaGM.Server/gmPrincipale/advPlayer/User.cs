@@ -8,6 +8,8 @@ using System.Collections.Concurrent;
 using System.Linq;
 using NuovaGM.Shared;
 using Logger;
+using NuovaGM.Shared.Veicoli;
+using System.Threading.Tasks;
 
 namespace NuovaGM.Server.gmPrincipale
 {
@@ -345,18 +347,7 @@ namespace NuovaGM.Server.gmPrincipale
 			Weapons weapon = getWeapon(weaponName).Item2;
 			if (weapon == null)
 				return false;
-
 			return weapon.components.Any(x => x.name == weaponComponent);
-			/*
-			for (int i = 0; i < weapon.components.Count; i++)
-			{
-				if (weapon.components[i].name == weaponComponent)
-				{
-					return true;
-				}
-			}
-			return false;
-			*/
 		}
 
 		[JsonIgnore]
@@ -376,6 +367,24 @@ namespace NuovaGM.Server.gmPrincipale
 					CurrentChar.licenze.Remove(licen);
 				else Log.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
 			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+		}
+
+		public async Task loadVehicles()
+		{
+			dynamic result = await Server.Instance.Query("Select * from owned_vehicles where discord = @dis and char_id = @id", new
+			{
+				dis = p.GetLicense(Identifier.Discord),
+				id = FullName
+			});
+			if (result.Count > 0) 
+				foreach (var veh in result)
+					CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
+			await Task.FromResult(0);
+		}
+
+		public List<OwnedVehicle> GetCharVehicles()
+		{
+			return CurrentChar.Veicoli;
 		}
 
 		public void showNotification(string text)

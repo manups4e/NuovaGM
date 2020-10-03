@@ -16,8 +16,6 @@ namespace NuovaGM.Server.gmPrincipale
 	static class Eventi
 	{
 		static int EarlyRespawnFineAmount = 5000;
-		static NetworkMethod<ConcurrentDictionary<string, User>> getPlayersOnline;
-		static NetworkMethod<ConcurrentDictionary<string, User>> getPlayersFromDB;
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
@@ -216,7 +214,7 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
-		public static void Spawnato([FromSource] Player source)
+		public static async void Spawnato([FromSource] Player source)
 		{
 			var user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
@@ -226,6 +224,7 @@ namespace NuovaGM.Server.gmPrincipale
 					player.TriggerEvent("lprp:ShowNotification", "~g~" +user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.Serialize());
+			await user.loadVehicles();
 		}
 
 		public static async void Dropped([FromSource] Player player, string reason)
