@@ -185,7 +185,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 	public class stanziato
 	{
 		public bool Stanziato;
-		public int NetIdProprietario;
+		public int ServerId;
 		public bool IsProprietario;
 		public string Instance = "";
 		/// <summary>
@@ -196,10 +196,10 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
 			Stanziato = true;
-			NetIdProprietario = Game.PlayerPed.NetworkId;
+			ServerId = Game.PlayerPed.NetworkId;
 			IsProprietario = true;
 			Instance = "null";
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, NetIdProprietario, IsProprietario, Instance);
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, Instance);
 		}
 		/// <summary>
 		/// Istanza generica specificando quale Istanza
@@ -209,24 +209,24 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
 			Stanziato = true;
-			NetIdProprietario = Game.PlayerPed.NetworkId;
+			ServerId = Game.PlayerPed.NetworkId;
 			IsProprietario = true;
 			this.Instance = Instance;
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, NetIdProprietario, IsProprietario, this.Instance);
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, this.Instance);
 		}
 		/// <summary>
 		/// Istanza specifica
 		/// </summary>
-		public void Istanzia(int NetIdProprietario, string Instance)
+		public void Istanzia(int ServerId, string Instance)
 		{
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Stanziato = true;
-			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Character.NetworkId == NetIdProprietario).Character;
+			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Character.NetworkId == ServerId).Character;
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", propr.NetworkId);
-			this.NetIdProprietario = NetIdProprietario;
+			this.ServerId = ServerId;
 			IsProprietario = false;
 			this.Instance = Instance;
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, this.NetIdProprietario, IsProprietario, this.Instance);
+			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, this.ServerId, IsProprietario, this.Instance);
 		}
 
 		/// <summary>
@@ -237,10 +237,31 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			Game.PlayerPed.SetDecor("PlayerStanziato", false);
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
 			Stanziato = false;
-			NetIdProprietario = 0;
+			ServerId = 0;
 			IsProprietario = false;
 			Instance = null;
 			BaseScript.TriggerServerEvent("lprp:rimuoviIstanza");
+		}
+
+		/// <summary>
+		/// Cambia Istanza con una nuova (es. casa e garage)
+		/// </summary>
+		/// <param name="instance">Specifica quale istanza</param>
+		public void CambiaIstanza(string instance)
+		{
+			if(Stanziato)
+				if(Instance != instance)
+					Instance = instance;
+		}
+		/// <summary>
+		/// Cambia Proprietario dell'istanza
+		/// </summary>
+		/// <param name="netId">networkId del proprietario</param>
+		public void CambiaIstanza(int netId)
+		{
+			if (Stanziato)
+				if(ServerId != netId)
+					ServerId = netId;
 		}
 	}
 }

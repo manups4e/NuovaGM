@@ -62,7 +62,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			}
 		}
 
-
 		private static async void MenuVenditore()
 		{
 			UIMenu menuVenditore = new UIMenu("Menu Venditore", "Tutto l'occorrente a portata di click");

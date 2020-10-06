@@ -479,7 +479,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		}
 
 
-		public static async void Teleport(int entity, Vector3 coords)
+		public static async void Teleport(Vector3 coords)
 		{
 			ClearPedTasksImmediately(Game.PlayerPed.Handle);
 			Game.PlayerPed.IsPositionFrozen = true;
@@ -502,7 +502,51 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				}
 				await BaseScript.Delay(0);
 			}
-			SetEntityCoords(entity, coords.X, coords.Y, coords.Z, false, false, false, false);
+			SetEntityCoords(PlayerPedId(), coords.X, coords.Y, coords.Z, false, false, false, false);
+			tempTimer = GetGameTimer();
+
+			// Wait for the collision to be loaded around the entity in this new location.
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+			{
+				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+				if (GetGameTimer() - tempTimer > 1000)
+				{
+					Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+					break;
+				}
+				await BaseScript.Delay(0);
+			}
+
+			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
+			Game.PlayerPed.IsPositionFrozen = false;
+			DoScreenFadeIn(500);
+			SetGameplayCamRelativePitch(0.0f, 1.0f);
+		}
+
+		public static async void TeleportConVeh(Vector3 coords)
+		{
+			ClearPedTasksImmediately(Game.PlayerPed.Handle);
+			Game.PlayerPed.IsPositionFrozen = true;
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(PlayerPedId(), true, false);
+			DoScreenFadeOut(500);
+			while (!IsScreenFadedOut()) await BaseScript.Delay(0);
+			RequestCollisionAtCoord(coords.X, coords.Y, coords.Z);
+			NewLoadSceneStart(coords.X, coords.Y, coords.Z, coords.X, coords.Y, coords.Z, 50f, 0);
+			int tempTimer = GetGameTimer();
+
+			// Wait for the new scene to be loaded.
+			while (IsNetworkLoadingScene())
+			{
+				// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+				if (GetGameTimer() - tempTimer > 1000)
+				{
+					Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+					break;
+				}
+				await BaseScript.Delay(0);
+			}
+			SetPedCoordsKeepVehicle(PlayerPedId(), coords.X, coords.Y, coords.Z);
 			tempTimer = GetGameTimer();
 
 			// Wait for the collision to be loaded around the entity in this new location.

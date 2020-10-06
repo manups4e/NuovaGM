@@ -32,10 +32,6 @@
     <Compile Remove="..\NuovaGM.Shared\Lavori\Generici\RimozioneShared.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Proprietà\Appartamenti\Garage\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
     <Exec Command="xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\" />

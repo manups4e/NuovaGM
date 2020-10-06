@@ -29,6 +29,15 @@ namespace NuovaGM.Shared
 		public Vector3 BossActions;
 		public Vector3 MenuVendita;
 	}
+	public class ConfigurazioneVendCase
+	{
+		public Vector3 BossActions;
+		public Vector3 Ingresso;
+		public Vector3 Uscita;
+		public Vector3 Dentro;
+		public Vector3 Fuori;
+		public Vector3 Actions;
+	}
 
 	public class Pescatori
 	{

@@ -85,7 +85,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static void teleportCoords(float x, float y, float z)
 		{
 			Vector3 pos = new Vector3(x, y, z);
-			Funzioni.Teleport(PlayerPedId(), pos);
+			Funzioni.Teleport(pos);
 		}
 
 		public static void onPlayerDeath(dynamic data)
@@ -362,10 +362,10 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Main.LoadoutLoaded = true;
 		}
 
-		private static void Istanzia(bool stanziato, int netIdProp, bool isprop, string instance)
+		private static void Istanzia(bool stanziato, int serverId, bool isprop, string instance)
 		{
 			Game.Player.GetPlayerData().Istanza.Stanziato = stanziato;
-			Game.Player.GetPlayerData().Istanza.NetIdProprietario = netIdProp;
+			Game.Player.GetPlayerData().Istanza.ServerId = serverId;
 			Game.Player.GetPlayerData().Istanza.IsProprietario = isprop;
 			Game.Player.GetPlayerData().Istanza.Instance = instance;
 		}
@@ -373,7 +373,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		private static void RimuoviIstanza()
 		{
 			Game.Player.GetPlayerData().Istanza.Stanziato = false;
-			Game.Player.GetPlayerData().Istanza.NetIdProprietario = 0;
+			Game.Player.GetPlayerData().Istanza.ServerId = 0;
 			Game.Player.GetPlayerData().Istanza.IsProprietario = false;
 			Game.Player.GetPlayerData().Istanza.Instance = null;
 		}

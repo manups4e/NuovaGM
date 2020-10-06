@@ -150,20 +150,20 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 				if (_item == escisci)
 				{
-					Funzioni.Teleport(PlayerPedId(), app.SpawnFuori);
+					Funzioni.Teleport(app.SpawnFuori);
 					Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 				}
 				else if (_item == casa)
 				{
-					Funzioni.Teleport(PlayerPedId(), app.SpawnDentro);
+					Funzioni.Teleport(app.SpawnDentro);
 				}
 				else if (_item == garage)
 				{
-					Funzioni.Teleport(PlayerPedId(), app.SpawnGarageAPiediDentro);
+					Funzioni.Teleport(app.SpawnGarageAPiediDentro);
 				}
 				else if (_item == tetto)
 				{
-					Funzioni.Teleport(PlayerPedId(), app.SpawnTetto);
+					Funzioni.Teleport(app.SpawnTetto);
 					Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 				}
 				await BaseScript.Delay(2000);
@@ -222,8 +222,8 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 				{
 					if(!Game.Player.GetPlayerData().Istanza.Stanziato)
 					{
-						Game.Player.GetPlayerData().Istanza.Istanzia(InCasa.Character.NetworkId, app.Key);
-						Funzioni.Teleport(PlayerPedId(), app.Value.SpawnDentro);
+						Game.Player.GetPlayerData().Istanza.Istanzia(InCasa.ServerId, app.Key);
+						Funzioni.Teleport(app.Value.SpawnDentro);
 					}
 				}
 			}
