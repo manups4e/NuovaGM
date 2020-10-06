@@ -2,6 +2,7 @@
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,13 +61,33 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 
 			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
 			{
-				if (Game.PlayerPed.IsInRangeOf(house.Config.Actions, 1.375f))// verrà cambiato con il sedersi alla scrivania
+				// verrà cambiato con il sedersi alla scrivania
+				if (Game.PlayerPed.IsInRangeOf(house.Config.Actions, 1.375f))
 				{
 					HUD.ShowHelp("~INPUT_CONTEXT~ Apri il menu di vendita");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						VenditoreCase();
+						MenuVenditoreCase();
 				}
 			}
+		}
+
+		private static async void MenuVenditoreCase()
+		{
+			UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!");
+			HUD.MenuPool.Add(venditore);
+			Dictionary<string, ConfigCase> Appartamenti = Client.Impostazioni.Proprieta.Appartamenti;
+			Dictionary<string, Garages> Garages = Client.Impostazioni.Proprieta.Garages.Garages;
+			UIMenu appart = venditore.AddSubMenu("Appartamenti");
+			UIMenu gara = venditore.AddSubMenu("Garages");
+			foreach (var app in Appartamenti)
+			{
+				UIMenu appartamento = appart.AddSubMenu(app.Value.Label);
+			}
+			foreach (var gar in Garages)
+			{
+				UIMenu garage = gara.AddSubMenu(gar.Value.Label);
+			}
+			venditore.Visible = true;
 		}
 
 		private static void Spawnato()
