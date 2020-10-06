@@ -49,7 +49,8 @@ namespace NuovaGM.Client.MenuNativo
         /// <param name="menu"></param>
         public void Add(UIMenu menu)
         {
-            _menuList.Add(menu);
+            if (!_menuList.Contains(menu))
+                _menuList.Add(menu);
         }
 
         /// <summary>

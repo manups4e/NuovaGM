@@ -63,18 +63,21 @@ namespace NuovaGM.Client.Proprietà
 		{
 			if (Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
-				var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance];
-				if (Game.PlayerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
+				if (Proprietà.Appartamenti.ContainsKey(Game.Player.GetPlayerData().Istanza.Instance))
 				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						AppartamentiClient.EsciMenu(app);
-				}
-				if (Game.PlayerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						AppartamentiClient.EsciMenu(app, inGarage: true);
+					var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance];
+					if (Game.PlayerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
+					{
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
+						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
+							AppartamentiClient.EsciMenu(app);
+					}
+					if (Game.PlayerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
+					{
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
+						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
+							AppartamentiClient.EsciMenu(app, inGarage: true);
+					}
 				}
 			}
 		}

@@ -93,7 +93,6 @@ namespace NuovaGM.Client.Negozi
 			};
 
 			Negozio.Visible = true;
-
 		}
 
 		/*
