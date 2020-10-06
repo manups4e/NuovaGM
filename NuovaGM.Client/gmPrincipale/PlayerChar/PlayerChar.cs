@@ -194,9 +194,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public void Istanzia()
 		{
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
 			Stanziato = true;
-			ServerId = Game.PlayerPed.NetworkId;
+			ServerId = Game.Player.ServerId;
 			IsProprietario = true;
 			Instance = "null";
 			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, Instance);
@@ -207,9 +207,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public void Istanzia(string Instance)
 		{
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.PlayerPed.NetworkId);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
 			Stanziato = true;
-			ServerId = Game.PlayerPed.NetworkId;
+			ServerId = Game.Player.ServerId;
 			IsProprietario = true;
 			this.Instance = Instance;
 			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, this.Instance);
