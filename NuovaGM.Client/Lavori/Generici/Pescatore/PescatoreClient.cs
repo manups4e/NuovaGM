@@ -151,7 +151,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 							if (Game.PlayerPed.IsInRangeOf(punto, 2))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
-								if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+								if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									ApriMenuVenditaPesce();
 								}

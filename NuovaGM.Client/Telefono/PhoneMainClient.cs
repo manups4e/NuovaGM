@@ -41,7 +41,7 @@ namespace NuovaGM.Client.Telefono
 
 		public static async Task ControlloApertura()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen() && !Game.IsPaused && !Banking.BankingClient.InterfacciaAperta && !(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover))
+			if (!HUD.MenuPool.IsAnyMenuOpen && !Game.IsPaused && !Banking.BankingClient.InterfacciaAperta && !(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover))
 			{
 				if (!Phone.Visible)
 				{

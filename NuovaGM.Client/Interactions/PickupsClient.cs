@@ -42,7 +42,7 @@ namespace NuovaGM.Client.Interactions
 							letSleep = false;
 							if (dist < 1.5)
 							{
-								if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen())
+								if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
 									if (Input.IsControlJustPressed(Control.Context))

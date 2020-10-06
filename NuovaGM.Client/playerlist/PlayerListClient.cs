@@ -91,7 +91,7 @@ namespace NuovaGM.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task DisplayController()
 		{
-			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen() && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
 				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash))
 					Banking.BankingClient.MostraMoney();

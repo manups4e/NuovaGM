@@ -24,6 +24,14 @@ namespace NuovaGM.Client.Lavori
 		public Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 	}
 
+	public class ConfigVenditoriCase
+	{
+		public ConfigurazioneVendCase Config = new ConfigurazioneVendCase();
+		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
+	}
+
+
+
 	public class VeicoloCatalogoVenditore
 	{
 		public string name;

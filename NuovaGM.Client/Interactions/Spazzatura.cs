@@ -69,10 +69,10 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task CestiSpazzatura()
 		{
-			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen())
+			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
-				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
 					{
@@ -102,7 +102,7 @@ namespace NuovaGM.Client.Interactions
 					else
 						HUD.ShowNotification("Non hai oggetti nell'inventario!!", NotificationColor.Red, true);
 				}
-				else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen())
+				else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					Vector3 offset = GetOffsetFromEntityInWorldCoords(BinClosest.Handle, 0f, -0.97f, 0.05f);
 					Game.PlayerPed.Task.LookAt(BinClosest);

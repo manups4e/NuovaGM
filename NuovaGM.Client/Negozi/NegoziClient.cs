@@ -70,7 +70,7 @@ namespace NuovaGM.Client.Negozi
 				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						NegoziBusiness.NegozioPubblico("247");
 				}
 			}
@@ -79,7 +79,7 @@ namespace NuovaGM.Client.Negozi
 				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						NegoziBusiness.NegozioPubblico("rq");
 				}
 			}
@@ -88,7 +88,7 @@ namespace NuovaGM.Client.Negozi
 				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						NegoziBusiness.NegozioPubblico("ltd");
 				}
 			}
@@ -97,7 +97,7 @@ namespace NuovaGM.Client.Negozi
 				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						Armerie.NuovaArmeria();/*ArmeriaMenu*/
 				}
 			}

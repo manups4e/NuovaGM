@@ -615,14 +615,14 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task MostraMenuAffitto()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen())
+			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)
 				{
 					if (Game.PlayerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
-						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							MenuAffittoVeicoli.MenuAffitto(i);
 						}

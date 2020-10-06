@@ -91,7 +91,7 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task OnTick()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen())
+			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				foreach (var v in ConfigClothes.Binco)
 				{

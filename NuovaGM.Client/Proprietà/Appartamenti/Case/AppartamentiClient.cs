@@ -106,7 +106,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			casa.OnMenuClose += async (_menu) =>
 			{
 				await BaseScript.Delay(100);
-				if (HUD.MenuPool.IsAnyMenuOpen()) return;
+				if (HUD.MenuPool.IsAnyMenuOpen) return;
 				if(cam.IsActive)
 					RenderScriptCams(false, true, 1500, true, false);
 				dummycam.Delete();

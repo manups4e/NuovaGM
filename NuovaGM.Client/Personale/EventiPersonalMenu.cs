@@ -387,7 +387,7 @@ namespace NuovaGM.Client.Personale
 
 		public static async Task MostramiStatus()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen() && !IsHelpMessageBeingDisplayed() && !DoHideHud)
+			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !DoHideHud)
 			{
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{

@@ -30,7 +30,7 @@ namespace NuovaGM.Client.Proprietà
 				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare o citofonare~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
 				}
 				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
@@ -67,13 +67,13 @@ namespace NuovaGM.Client.Proprietà
 				if (Game.PlayerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						AppartamentiClient.EsciMenu(app);
 				}
 				if (Game.PlayerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						AppartamentiClient.EsciMenu(app, inGarage: true);
 				}
 			}

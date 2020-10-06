@@ -111,7 +111,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		/// <param name="helpText">Testo da mostrare</param>
 		public static void ShowHelp(string helpText)
 		{
-			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
@@ -126,7 +126,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		public static void ShowHelp(string helpText, int tempo)
 		{
 			if (tempo > 5000) tempo = 5000;
-			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen())
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
 				//string[] strings = Screen.StringToArray(helpText);

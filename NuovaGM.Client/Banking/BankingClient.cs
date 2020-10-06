@@ -184,7 +184,7 @@ namespace NuovaGM.Client.Banking
 					World.DrawMarker(MarkerType.DollarSign, atmpos[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 0.8f, 1.0f), Color.FromArgb(160, 0, 255, 190), false, false, true);
 				}
 
-				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen() && !InterfacciaAperta)
+				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen && !InterfacciaAperta)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
 					if (Input.IsControlJustPressed(Control.Context))

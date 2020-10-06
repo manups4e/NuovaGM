@@ -44,7 +44,7 @@ namespace NuovaGM.Client.Interactions
 		{
 			if (VendingMachineClosest != null)
 			{
-				if (!Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.IsDead && !HUD.MenuPool.IsAnyMenuOpen())
+				if (!Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					if (Game.Player.GetPlayerData().Money > 5)
 					{

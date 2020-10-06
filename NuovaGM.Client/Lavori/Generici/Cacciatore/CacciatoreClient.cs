@@ -62,7 +62,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 			if (Game.PlayerPed.IsInRangeOf(Cacciatore.inizioCaccia, 1.375f))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
-				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 					ApriMenuAffittoArmi();
 			}
 			await Task.FromResult(0);

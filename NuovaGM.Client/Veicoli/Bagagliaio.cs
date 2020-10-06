@@ -49,7 +49,7 @@ namespace NuovaGM.Client.Veicoli
 					// da rimuovere
 					World.DrawMarker(MarkerType.ChevronUpx1, bonepos, new Vector3(0), new Vector3(0), new Vector3(0.5f, 0.5f, 1f), Colors.Cyan, false, false, true);
 
-					if (!trunkOpen && !Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen())
+					if (!trunkOpen && !Game.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il bagagliaio");
 						if (Input.IsControlJustPressed(Control.Context))

@@ -173,7 +173,7 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task AC()
 		{
-			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen())
+			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
 				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
 			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
 			{

@@ -223,9 +223,9 @@ namespace NuovaGM.Client.MenuNativo
         /// Checks if any menu is currently visible.
         /// </summary>
         /// <returns>true if at least one menu is visible, false if not.</returns>
-        public bool IsAnyMenuOpen()
+        public bool IsAnyMenuOpen
         {
-            return _menuList.Any(menu => menu.Visible);
+            get { return _menuList.Any(menu => menu.Visible); }
         }
 
         bool firstTick = true;

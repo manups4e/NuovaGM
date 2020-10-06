@@ -46,7 +46,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				if(Game.PlayerPed.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu del venditore");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						MenuVenditore();
 				}
 			}
@@ -56,7 +56,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				if(Game.PlayerPed.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu boss");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen())
+					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						MenuBoss();
 				}
 			}
@@ -226,7 +226,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			catalogo.OnMenuClose += async (menu) =>
 			{
 				await BaseScript.Delay(100);
-				if (!HUD.MenuPool.IsAnyMenuOpen())
+				if (!HUD.MenuPool.IsAnyMenuOpen)
 				{
 					Screen.Fading.FadeOut(800);
 					await BaseScript.Delay(1000);
@@ -311,7 +311,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 				catalogo.OnMenuClose += async (menu) =>
 				{
 					await BaseScript.Delay(100);
-					if (!HUD.MenuPool.IsAnyMenuOpen())
+					if (!HUD.MenuPool.IsAnyMenuOpen)
 					{
 						Screen.Fading.FadeOut(800);
 						await BaseScript.Delay(1000);

@@ -78,6 +78,7 @@ namespace NuovaGM.Client
 			CodaControl.CodaAdminPanel.Init();
 
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
+			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 
 			TickController.Init();
 		}
