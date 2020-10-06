@@ -193,9 +193,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		/// </summary>
 		public void Istanzia()
 		{
+			Stanziato = true;
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
-			Stanziato = true;
 			ServerId = Game.Player.ServerId;
 			IsProprietario = true;
 			Instance = "null";
@@ -206,9 +206,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		/// </summary>
 		public void Istanzia(string Instance)
 		{
+			Stanziato = true;
 			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
-			Stanziato = true;
 			ServerId = Game.Player.ServerId;
 			IsProprietario = true;
 			this.Instance = Instance;
@@ -219,10 +219,10 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		/// </summary>
 		public void Istanzia(int ServerId, string Instance)
 		{
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
 			Stanziato = true;
-			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Character.NetworkId == ServerId).Character;
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", propr.NetworkId);
+			Game.PlayerPed.SetDecor("PlayerStanziato", true);
+			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == ServerId);
+			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", propr.ServerId);
 			this.ServerId = ServerId;
 			IsProprietario = false;
 			this.Instance = Instance;
