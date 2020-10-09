@@ -743,9 +743,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <param name="coords"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
-		public static List<Player> GetPlayersInArea(Vector3 coords, float area)
+		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> PlayersInArea = Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Subtract(p.Character.Position, coords).LengthSquared() < area * area && p != Game.Player);
+			List<Player> PlayersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area) && p != Game.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area));
 			return PlayersInArea;
 		}
 

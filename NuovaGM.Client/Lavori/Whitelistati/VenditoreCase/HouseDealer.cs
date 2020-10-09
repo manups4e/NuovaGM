@@ -1,4 +1,6 @@
 ﻿using CitizenFX.Core;
+using static CitizenFX.Core.Native.API;
+using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logger;
 
 namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 {
@@ -82,6 +85,59 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 			foreach (var app in Appartamenti)
 			{
 				UIMenu appartamento = appart.AddSubMenu(app.Value.Label);
+				appartamento.OnMenuOpen += async (menu) =>
+				{
+					menu.Clear();
+					var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3.5f, false);
+					foreach(var p in players)
+					{
+						UIMenu persona = menu.AddSubMenu(p.GetPlayerData().FullName);
+						UIMenuListItem mostra = new UIMenuListItem("Mostra Appartamento", new List<dynamic>() { "Nulla", "Esterno", "Interno", "Bagno", "Garage" }, 0);
+						UIMenuItem affitta = new UIMenuItem("Affitta");
+						UIMenuItem vendi = new UIMenuItem("Vendi");
+						persona.AddItem(mostra);
+						persona.AddItem(affitta);
+						persona.AddItem(vendi);
+						mostra.OnListChanged += async (_item, _index) =>
+						{
+							Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, 45f);
+							switch (_index)
+							{
+								case 0:
+									Screen.Fading.FadeOut(800);
+									await BaseScript.Delay(1000);
+									RenderScriptCams(false, false, 1000, false, false);
+									cam.Delete();
+									Screen.Fading.FadeIn(800);
+									break;
+								case 1:
+									RequestCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
+									RequestAdditionalCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
+									Screen.Fading.FadeOut(800);
+									await BaseScript.Delay(1000);
+									NewLoadSceneStart(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, 50f, 0);
+									int tempTimer = GetGameTimer();
+									while (IsNetworkLoadingScene())
+									{
+										// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+										if (GetGameTimer() - tempTimer > 3000) break;
+										await BaseScript.Delay(0);
+									}
+									cam.Position = app.Value.TelecameraFuori.pos;
+									cam.PointAt(app.Value.TelecameraFuori.guarda);
+									RenderScriptCams(true, false, 1000, false, false);
+									Screen.Fading.FadeIn(800);
+									break;
+								case 2:
+									break;
+								case 3:
+									break;
+								case 4:
+									break;
+							}
+						};
+					}
+				};
 			}
 			foreach (var gar in Garages)
 			{
