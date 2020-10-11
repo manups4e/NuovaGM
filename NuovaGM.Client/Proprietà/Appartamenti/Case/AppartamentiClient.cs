@@ -159,7 +159,56 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 				}
 				else if (_item == garage)
 				{
-					Funzioni.Teleport(app.SpawnGarageAPiediDentro);
+					ClearPedTasksImmediately(Game.PlayerPed.Handle);
+					Game.PlayerPed.IsPositionFrozen = true;
+					if (Game.PlayerPed.IsVisible)
+						NetworkFadeOutEntity(PlayerPedId(), true, false);
+					DoScreenFadeOut(500);
+					while (!IsScreenFadedOut()) await BaseScript.Delay(0);
+					RequestCollisionAtCoord(app.SpawnGarageAPiediDentro.X, app.SpawnGarageAPiediDentro.Y, app.SpawnGarageAPiediDentro.Z);
+					NewLoadSceneStart(app.SpawnGarageAPiediDentro.X, app.SpawnGarageAPiediDentro.Y, app.SpawnGarageAPiediDentro.Z, app.SpawnGarageAPiediDentro.X, app.SpawnGarageAPiediDentro.Y, app.SpawnGarageAPiediDentro.Z, 50f, 0);
+					int tempTimer = GetGameTimer();
+
+					// Wait for the new scene to be loaded.
+					while (IsNetworkLoadingScene())
+					{
+						// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+						if (GetGameTimer() - tempTimer > 1000)
+						{
+							Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+							break;
+						}
+						await BaseScript.Delay(0);
+					}
+					SetEntityCoords(PlayerPedId(), app.SpawnGarageAPiediDentro.X, app.SpawnGarageAPiediDentro.Y, app.SpawnGarageAPiediDentro.Z, false, false, false, false);
+					tempTimer = GetGameTimer();
+
+					// Wait for the collision to be loaded around the entity in this new location.
+					while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+					{
+						// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+						if (GetGameTimer() - tempTimer > 1000)
+						{
+							Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+							break;
+						}
+						await BaseScript.Delay(0);
+					}
+					foreach (var veh in Game.Player.GetPlayerData().CurrentChar.Veicoli)
+					{
+						if(veh.Garage.Garage == Game.Player.GetPlayerData().Istanza.Instance)
+						{
+							if (veh.Garage.InGarage) 
+							{
+								var veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+								await veic.SetVehicleProperties(veh.DatiVeicolo.props);
+							}
+						}
+					}
+					NetworkFadeInEntity(Game.PlayerPed.Handle, true);
+					Game.PlayerPed.IsPositionFrozen = false;
+					DoScreenFadeIn(500);
+					SetGameplayCamRelativePitch(0.0f, 1.0f);
 				}
 				else if (_item == tetto)
 				{
