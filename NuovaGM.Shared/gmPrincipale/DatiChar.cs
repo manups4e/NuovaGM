@@ -48,7 +48,7 @@ namespace NuovaGM.Shared
 		public List<Licenses> licenze = new List<Licenses>();
 		public List<Inventory> inventory = new List<Inventory>();
 		public List<string> Proprietà = new List<string>();
-		public List<OwnedVehicle> Veicoli = new List<OwnedVehicle>();
+		public List<string> Veicoli = new List<string>();
 		public Dressing dressing = new Dressing();
 		public Needs needs = new Needs();
 		public Statistiche statistiche = new Statistiche();
