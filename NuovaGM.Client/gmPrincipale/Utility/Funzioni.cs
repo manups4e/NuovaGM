@@ -16,6 +16,45 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 {
 	static class Funzioni
 	{
+		/// <summary>
+		/// Salva clientside dei dati arbitrari
+		/// </summary>
+		public static void SalvaKVPString(string key, string value) => SetResourceKvp(key, value);
+		/// <summary>
+		/// Salva clientside dei dati arbitrari
+		/// </summary>
+		public static void SalvaKVP(string key, object value) => SetResourceKvp(key, JsonConvert.SerializeObject(value));
+
+		/// <summary>
+		/// Salva clientside dei dati arbitrari
+		/// </summary>
+		public static void SalvaKVPInt(string key, int value) => SetResourceKvpInt(key, value);
+
+		/// <summary>
+		/// Salva clientside dei dati arbitrari
+		/// </summary>
+		public static void SalvaKVPFloat(string key, float value) => SetResourceKvpFloat(key, value);
+
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static int CaricaKVPInt(string key) => GetResourceKvpInt(key);
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static float CaricaKVPFloat(string key) => GetResourceKvpFloat(key);
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static string CaricaKVPString(string key) => GetResourceKvpString(key);
+
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static T CaricaKVP<T>(string key) => JsonConvert.DeserializeObject<T>(GetResourceKvpString(key));
+
+
+
 		public static PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
@@ -216,7 +255,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			for (int i = 0; i < 13; i++) extras[i] = veh.IsExtraOn(i);
 
 			List<VehMod> mods = new List<VehMod>();
-			foreach(var mod in veh.Mods.GetAllMods())
+			foreach (var mod in veh.Mods.GetAllMods())
 			{
 				mods.Add(new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName));
 			}
@@ -294,6 +333,38 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			veh.Mods.Livery
 			);
 			return vehi;
+		}
+
+		public static async Task SetVehicleProperties(this Vehicle veh, VehProp props)
+		{
+			veh.Mods.LicensePlate = props.Plate;
+			if (props.ModKitInstalled)
+				veh.Mods.InstallModKit();
+			veh.Mods.LicensePlateStyle = (LicensePlateStyle)props.PlateIndex;
+			veh.BodyHealth = props.BodyHealth;
+			veh.EngineHealth = props.EngineHealth;
+			veh.DirtLevel = props.DirtLevel;
+
+			veh.Mods.PrimaryColor = (VehicleColor)props.PrimaryColor;
+			veh.Mods.SecondaryColor = (VehicleColor)props.SecondaryColor;
+			veh.Mods.CustomPrimaryColor = props.CustomPrimaryColor;
+			veh.Mods.CustomSecondaryColor = props.CustomSecondaryColor;
+			//veh.Mods.IsPrimaryColorCustom = props.HasCustomPrimaryColor;
+			//veh.Mods.IsSecondaryColorCustom = props.HasCustomSecondaryColor;
+			veh.Mods.PearlescentColor = (VehicleColor)props.PearlescentColor; 
+			veh.Mods.RimColor = (VehicleColor)props.WheelColor;
+			veh.Mods.WheelType = (VehicleWheelType)props.Wheels;
+			veh.Mods.WindowTint = (VehicleWindowTint)props.WindowTint;
+			for (int i = 0; i < props.NeonEnabled.Length; i++)
+				veh.Mods.SetNeonLightsOn((VehicleNeonLight)i, props.NeonEnabled[i]);
+			for(int i=0; i<13; i++)
+				veh.ToggleExtra(i, props.Extras[i]);
+			veh.Mods.NeonLightsColor = props.NeonColor;
+			veh.Mods.TireSmokeColor = props.TireSmokeColor;
+			var mods = veh.Mods.GetAllMods();
+			foreach (var mod in props.Mods)
+				SetVehicleMod(veh.Handle, mod.ModIndex, mod.Value, mods.ToList().FirstOrDefault(x=>(int)x.ModType == mod.ModIndex).Variation);
+			veh.Mods.Livery = props.ModLivery;
 		}
 
 		public static Vehicle GetVehicleInFrontOfPlayer(Entity source, Entity ignore, float distance = 5f)
@@ -965,7 +1036,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 			return new Tuple<Player, float>(closestPlayer, closestDistance);
 		}
-			
+
 		/// <summary>
 		/// GetHashKey uint
 		/// </summary>
