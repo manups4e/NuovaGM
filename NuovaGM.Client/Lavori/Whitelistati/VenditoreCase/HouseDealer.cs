@@ -45,7 +45,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				if (Game.Player.GetPlayerData().Istanza.Instance == "VenditoreCase")
 				{
-					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
+					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 					if (Game.PlayerPed.IsInRangeOf(house.Config.Uscita, 1.375f))
 					{
 						if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
@@ -82,9 +82,10 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 			Dictionary<string, Garages> Garages = Client.Impostazioni.Proprieta.Garages.Garages;
 			UIMenu appart = venditore.AddSubMenu("Appartamenti");
 			UIMenu gara = venditore.AddSubMenu("Garages");
-			foreach (var app in Appartamenti)
+			foreach (var app in Appartamenti.OrderBy(x=>x.Value.Price))
 			{
 				UIMenu appartamento = appart.AddSubMenu(app.Value.Label);
+				appartamento.ParentItem.SetRightLabel("Rif. ~g~$" + app.Value.Price);
 				appartamento.OnMenuOpen += async (menu) =>
 				{
 					menu.Clear();
@@ -98,42 +99,133 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 						persona.AddItem(mostra);
 						persona.AddItem(affitta);
 						persona.AddItem(vendi);
+						Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, GameplayCamera.FieldOfView);
+						persona.OnMenuOpen += async (_menu) =>
+						{
+							cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, GameplayCamera.FieldOfView);
+						};
 						mostra.OnListChanged += async (_item, _index) =>
 						{
-							Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, 45f);
 							switch (_index)
 							{
 								case 0:
 									Screen.Fading.FadeOut(800);
 									await BaseScript.Delay(1000);
+									cam.Position = Vector3.Zero;
+									cam.Rotation = Vector3.Zero;
 									RenderScriptCams(false, false, 1000, false, false);
-									cam.Delete();
-									Screen.Fading.FadeIn(800);
+									Screen.Fading.FadeIn(500);
 									break;
 								case 1:
+									Screen.Fading.FadeOut(500);
+									await BaseScript.Delay(600);
 									RequestCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
 									RequestAdditionalCollisionAtCoord(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z);
-									Screen.Fading.FadeOut(800);
-									await BaseScript.Delay(1000);
 									NewLoadSceneStart(app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, app.Value.TelecameraFuori.pos.X, app.Value.TelecameraFuori.pos.Y, app.Value.TelecameraFuori.pos.Z, 50f, 0);
-									int tempTimer = GetGameTimer();
+									int tempTimer0 = GetGameTimer();
 									while (IsNetworkLoadingScene())
 									{
-										// If this takes longer than 1 second, just abort. It's not worth waiting that long.
-										if (GetGameTimer() - tempTimer > 3000) break;
+										if (GetGameTimer() - tempTimer0 > 3000) break;
 										await BaseScript.Delay(0);
 									}
 									cam.Position = app.Value.TelecameraFuori.pos;
 									cam.PointAt(app.Value.TelecameraFuori.guarda);
 									RenderScriptCams(true, false, 1000, false, false);
-									Screen.Fading.FadeIn(800);
+									Screen.Fading.FadeIn(500);
 									break;
 								case 2:
+									Screen.Fading.FadeOut(500);
+									await BaseScript.Delay(600);
+									RequestCollisionAtCoord(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z);
+									RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z);
+									NewLoadSceneStart(app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z, app.Value.TelecameraDentro.Interno.pos.X, app.Value.TelecameraDentro.Interno.pos.Y, app.Value.TelecameraDentro.Interno.pos.Z, 50f, 0);
+									int tempTimer1 = GetGameTimer();
+									while (IsNetworkLoadingScene())
+									{
+										if (GetGameTimer() - tempTimer1 > 3000) break;
+										await BaseScript.Delay(0);
+									}
+									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Interno.pos, new Vector3(0, 0, 1f));
+									cam.PointAt(app.Value.TelecameraDentro.Interno.guarda);
+									Screen.Fading.FadeIn(500);
 									break;
 								case 3:
+									Screen.Fading.FadeOut(500);
+									await BaseScript.Delay(600);
+									RequestCollisionAtCoord(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z);
+									RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z);
+									NewLoadSceneStart(app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z, app.Value.TelecameraDentro.Bagno.pos.X, app.Value.TelecameraDentro.Bagno.pos.Y, app.Value.TelecameraDentro.Bagno.pos.Z, 50f, 0);
+									int tempTimer2 = GetGameTimer();
+									while (IsNetworkLoadingScene())
+									{
+										if (GetGameTimer() - tempTimer2 > 3000) break;
+										await BaseScript.Delay(0);
+									}
+									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Bagno.pos, new Vector3(0, 0, 1f));
+									cam.PointAt(app.Value.TelecameraDentro.Bagno.guarda);
+									RenderScriptCams(true, false, 1000, false, false);
+									Screen.Fading.FadeIn(500);
 									break;
 								case 4:
+									Screen.Fading.FadeOut(500);
+									await BaseScript.Delay(600);
+									RequestCollisionAtCoord(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z);
+									RequestAdditionalCollisionAtCoord(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z);
+									NewLoadSceneStart(app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z, app.Value.TelecameraDentro.Garage.pos.X, app.Value.TelecameraDentro.Garage.pos.Y, app.Value.TelecameraDentro.Garage.pos.Z, 50f, 0);
+									int tempTimer3 = GetGameTimer();
+									while (IsNetworkLoadingScene())
+									{
+										if (GetGameTimer() - tempTimer3 > 3000) break;
+										await BaseScript.Delay(0);
+									}
+									cam.Position = app.Value.TelecameraDentro.Garage.pos;
+									cam.PointAt(app.Value.TelecameraDentro.Garage.guarda);
+									RenderScriptCams(true, false, 1000, false, false);
+									Screen.Fading.FadeIn(500);
 									break;
+							}
+						};
+						affitta.Activated += async (_menu, _item) =>
+						{
+							string res = await HUD.GetUserInput("Inserisci prezzo d'affitto", "" + app.Value.Price, 10);
+							if(string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
+							{
+								HUD.ShowNotification("Devi inserire almeno un valore!", NotificationColor.Red, true);
+								return;
+							}
+							int aff = Convert.ToInt32(res);
+							if (aff <= 0)
+							{
+								HUD.ShowNotification("Devi inserire un valore positivo!", NotificationColor.Red, true);
+								return;
+							}
+							BaseScript.TriggerServerEvent("housedealer:vendi", false, p.ServerId, app.Serialize(), aff);
+						};
+						vendi.Activated += async (_menu, _item) =>
+						{
+							string res = await HUD.GetUserInput("Inserisci prezzo di vendita", "" + app.Value.Price, 10);
+							if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
+							{
+								HUD.ShowNotification("Devi inserire almeno un valore!", NotificationColor.Red, true);
+								return;
+							}
+							int aff = Convert.ToInt32(res);
+							if (aff <= 0)
+							{
+								HUD.ShowNotification("Devi inserire un valore positivo!", NotificationColor.Red, true);
+								return;
+							}
+							BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.Serialize(), aff);
+						};
+						persona.OnMenuClose += async (_menu) =>
+						{
+							if (cam.IsActive && GetRenderingCam() == cam.Handle || cam.Position != Vector3.Zero)
+							{
+								Screen.Fading.FadeOut(800);
+								await BaseScript.Delay(1000);
+								RenderScriptCams(false, false, 1000, false, false);
+								cam.Delete();
+								Screen.Fading.FadeIn(500);
 							}
 						};
 					}

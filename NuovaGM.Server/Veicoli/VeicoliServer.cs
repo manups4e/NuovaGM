@@ -67,12 +67,12 @@ namespace NuovaGM.Server.Veicoli
 			{
 				dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc and char_id = @pers", new
 				{
-					disc = License.GetLicense(p, Identifier.Discord),
+					disc = p.GetLicense(Identifier.Discord),
 					pers = p.GetCurrentChar().CurrentChar.id
 				});
 				if (vehs != null && vehs.Count > 0)
 					foreach (var veh in vehs)
-						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh.targa, (veh.vehicle_data as string).Deserialize<VehicleData>(), veh.in_garage, veh.stato));
+						p.GetCurrentChar().CurrentChar.Veicoli.Add(veh.targa);
 			}
 			catch(Exception e)
 			{

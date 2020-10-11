@@ -301,6 +301,7 @@ namespace NuovaGM.Client
 		public Vector3 SpawnDentro;
 		public Vector3 SpawnFuori;
 		public ConfigCaseCamExt TelecameraFuori = new ConfigCaseCamExt();
+		public ConfigCaseCamInt TelecameraDentro = new ConfigCaseCamInt();
 		public List<string> Ipls = new List<string>();
 		public string Gateway;
 		public bool Is_single;
@@ -314,8 +315,14 @@ namespace NuovaGM.Client
 		public Vector3 MarkerGarageInterno;
 		public Vector3 SpawnGarageAPiediDentro;
 		public Vector4 SpawnGarageInVehFuori;
-		[JsonIgnore]
 		public int Price;
+	}
+	public class ConfigCaseCamInt
+	{
+		public ConfigCaseCamExt Interno = new ConfigCaseCamExt();
+		public ConfigCaseCamExt Bagno = new ConfigCaseCamExt();
+		public ConfigCaseCamExt Garage = new ConfigCaseCamExt();
+
 	}
 	public class ConfigCaseCamExt
 	{

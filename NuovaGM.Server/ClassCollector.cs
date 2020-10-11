@@ -31,6 +31,7 @@ namespace NuovaGM.Server
 			PompeDiBenzinaServer.Init();
 			NegozioAbitiServer.Init();
 			CarDealerServer.Init();
+			HouseDealerServer.Init();
 			PoliziaServer.Init();
 			MediciServer.Init();
 			FPLServer.Init();

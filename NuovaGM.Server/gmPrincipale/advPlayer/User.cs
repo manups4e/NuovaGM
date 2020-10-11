@@ -378,11 +378,11 @@ namespace NuovaGM.Server.gmPrincipale
 			});
 			if (result.Count > 0) 
 				foreach (var veh in result)
-					CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
+					CurrentChar.Veicoli.Add(veh.targa);
 			await Task.FromResult(0);
 		}
 
-		public List<OwnedVehicle> GetCharVehicles()
+		public List<string> GetCharVehicles()
 		{
 			return CurrentChar.Veicoli;
 		}
