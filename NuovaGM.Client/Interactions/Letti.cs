@@ -247,7 +247,7 @@ namespace NuovaGM.Client.Interactions
 		public int uLocal_331 = 0;
 		public bool ALetto = false;
 
-		public async void Sdraiati()
+		public async override void Sdraiati()
 		{
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
@@ -287,7 +287,7 @@ namespace NuovaGM.Client.Interactions
 				HUD.ShowNotification("errore nello script letti \"LettoLow\", segnalalo allo scripter", NotificationColor.Red, true);
 		}
 
-		public async void ScendiDalLetto()
+		public async override void ScendiDalLetto()
 		{
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
