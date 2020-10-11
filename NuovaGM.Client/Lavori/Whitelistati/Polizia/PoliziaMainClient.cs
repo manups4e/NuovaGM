@@ -26,7 +26,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			Client.Instance.AddEventHandler("lprp:polizia:ammanetta/smanetta", new Action(AmmanettaSmanetta));
 		}
 
-		public static async void Spawnato()
+		public static void Spawnato()
 		{
 			foreach (var stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
 			{
