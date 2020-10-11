@@ -53,7 +53,7 @@ namespace NuovaGM.Client.Proprietà
 				{
 					if (Game.PlayerPed.IsOnFoot)
 					{
-
+						// ENTRARE NEI GARAGES
 					}
 				}
 			}
@@ -81,5 +81,7 @@ namespace NuovaGM.Client.Proprietà
 				}
 			}
 		}
+
+
 	}
 }

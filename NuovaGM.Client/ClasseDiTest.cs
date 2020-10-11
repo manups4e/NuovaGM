@@ -24,7 +24,14 @@ namespace NuovaGM.Client
 	{
 		public static async void Init()
 		{
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			Client.Instance.AddTick(TabsPauseMenu);
+		}
+
+		private static void Eccolo()
+		{
+			Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Proprietà.Serialize());
+			Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Veicoli.Serialize());
 		}
 
 
