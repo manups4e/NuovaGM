@@ -178,12 +178,30 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 					UIMenu prendi = vah.AddSubMenu("Prendi");
 					prendi.OnMenuOpen += async (menu) =>
 					{
-						if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+						if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
 						{
-							string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
-							PreviewVeh.Mods.LicensePlate = plate;
-							OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), new VehGarage(true, "", 0), "Normale");
-							BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
+							foreach (var pro in Client.Impostazioni.Proprieta.Appartamenti)
+							{
+								if (pro.Value.GarageIncluso)
+								{
+									foreach (var a in Game.Player.GetPlayerData().CurrentChar.Proprietà)
+									{
+										if (a == pro.Key)
+										{
+											UIMenuItem c = new UIMenuItem(pro.Value.Label);
+											c.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count + "/"+ Client.Impostazioni.Proprieta.Appartamenti[pro.Key].VehCapacity);
+											prendi.AddItem(c);
+											c.Activated += async (_menu_, _item_)=>
+											{
+												string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
+												PreviewVeh.Mods.LicensePlate = plate;
+												OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), new VehGarage(true, "", 0), "Normale");
+												BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
+											};
+										}
+									}
+								}
+							}
 						}
 						else
 						{
@@ -237,6 +255,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			};
 			Screen.Fading.FadeIn(800);
 			catalogo.Visible = true;
+		}
+
+		private static void C_Activated(UIMenu sender, UIMenuItem selectedItem)
+		{
+			throw new NotImplementedException();
 		}
 
 		private static async void CatalogoAlcuni(bool venditore, List<int> players)
