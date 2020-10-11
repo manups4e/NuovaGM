@@ -66,7 +66,6 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			femmi.IsCollisionEnabled = false;
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
-			SetManualShutdownLoadingScreenNui(true);
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
 			Screen.Fading.FadeIn(1000);
