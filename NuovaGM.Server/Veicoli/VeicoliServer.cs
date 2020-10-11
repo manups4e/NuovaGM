@@ -65,16 +65,23 @@ namespace NuovaGM.Server.Veicoli
 		{
 			try
 			{
-				dynamic vehs = await Server.Instance.Query("Select * from owned_vehicles where discord = @disc and char_id = @pers", new
+				dynamic vehs = await Server.Instance.Query("SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers", new
 				{
 					disc = p.GetLicense(Identifier.Discord),
-					pers = p.GetCurrentChar().CurrentChar.id
+					pers = p.GetCurrentChar().FullName
 				});
-				if (vehs != null && vehs.Count > 0)
+				if (vehs.Count > 0)
+				{
+					Log.Printa(LogType.Debug, JsonConvert.SerializeObject(vehs));
 					foreach (var veh in vehs)
-						p.GetCurrentChar().CurrentChar.Veicoli.Add(veh.targa);
+					{
+						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
+					}
+				}
+				Log.Printa(LogType.Debug, p.GetCurrentChar().CurrentChar.Veicoli.Serialize());
+				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, "Errore per il player " + p.Name + "\n" + e.ToString());
 			}

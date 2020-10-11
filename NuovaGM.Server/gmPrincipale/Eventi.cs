@@ -224,7 +224,6 @@ namespace NuovaGM.Server.gmPrincipale
 					player.TriggerEvent("lprp:ShowNotification", "~g~" +user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.Serialize());
-			await user.loadVehicles();
 		}
 
 		public static async void Dropped([FromSource] Player player, string reason)

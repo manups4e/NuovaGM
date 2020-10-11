@@ -15,6 +15,7 @@ namespace NuovaGM.Server.Proprietà
 		public int Prezzo;
 		public string Name;
 		public string Label;
+		public string Garage;
 		public string Guardaroba;
 		public string Inventario;
 		public string Armeria;
@@ -24,7 +25,7 @@ namespace NuovaGM.Server.Proprietà
 		public DateTime Acquisto;
 
 		public SoldProperty() { }
-		public SoldProperty(string discord, string personaggio, string tipo, bool affitto, int prezzo, string nome, string label, string guardaroba, string inventario, string armeria, DateTime bollette, DateTime acquisto)
+		public SoldProperty(string discord, string personaggio, string tipo, bool affitto, int prezzo, string nome, string label, string garage, string guardaroba, string inventario, string armeria, DateTime bollette, DateTime acquisto)
 		{
 			DiscordId = discord;
 			Personaggio = personaggio;
@@ -33,6 +34,7 @@ namespace NuovaGM.Server.Proprietà
 			Prezzo = prezzo;
 			Name = nome;
 			Label = label;
+			Garage = garage;
 			Guardaroba = guardaroba;
 			Inventario = inventario;
 			Armeria = armeria;

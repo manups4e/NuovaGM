@@ -11,13 +11,13 @@ namespace NuovaGM.Shared.Veicoli
 		[JsonIgnore]
 		Vehicle Vehicle = null;
 		[JsonProperty("targa")]
-		public string Targa;
+		public string Targa { internal get; set; }
 		[JsonProperty("vehicle_data")]
-		public VehicleData DatiVeicolo = new VehicleData();
+		public VehicleData DatiVeicolo { internal get; set; }
 		[JsonProperty("garage")]
-		public VehGarage Garage;
+		public VehGarage Garage { internal get; set; }
 		[JsonProperty("stato")]
-		public string Stato;
+		public string Stato { internal get; set; }
 
 		public OwnedVehicle() { }
 		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, VehGarage garage, string stato)
@@ -108,7 +108,7 @@ namespace NuovaGM.Shared.Veicoli
 		public bool[] NeonEnabled = new bool[4];
 		public bool[] Extras = new bool[13];
 		public Color NeonColor;
-		public Color TyreSmokeColor;
+		public Color TireSmokeColor;
 		public List<VehMod> Mods = new List<VehMod>();
 		public bool ModKitInstalled;
 		public int ModLivery;
@@ -131,7 +131,7 @@ namespace NuovaGM.Shared.Veicoli
 			NeonEnabled = neonEnabled;
 			Extras = extras;
 			NeonColor = neonColor;
-			TyreSmokeColor = tyreSmokeColor;
+			TireSmokeColor = tyreSmokeColor;
 			ModKitInstalled = modkit;
 			Mods = mods;
 			ModLivery = modLivery;

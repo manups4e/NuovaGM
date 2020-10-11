@@ -77,7 +77,7 @@ namespace NuovaGM.Shared
 		/// <returns></returns>
 		public static char PickOneChar(this string chars)
 		{
-			return chars.PickOneChar(new Random(DateTime.Now.Millisecond));
+			return chars.PickOneChar(new Random(new Random().Next(99999)));
 	    }
 
 

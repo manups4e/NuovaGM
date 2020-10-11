@@ -369,27 +369,14 @@ namespace NuovaGM.Server.gmPrincipale
 			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
 		}
 
-		public async Task loadVehicles()
-		{
-			dynamic result = await Server.Instance.Query("Select * from owned_vehicles where discord = @dis and char_id = @id", new
-			{
-				dis = p.GetLicense(Identifier.Discord),
-				id = FullName
-			});
-			if (result.Count > 0) 
-				foreach (var veh in result)
-					CurrentChar.Veicoli.Add(veh.targa);
-			await Task.FromResult(0);
-		}
-
-		public List<string> GetCharVehicles()
+		public List<OwnedVehicle> GetCharVehicles()
 		{
 			return CurrentChar.Veicoli;
 		}
 
 		public void showNotification(string text)
 		{
-			p.TriggerEvent("lprp:showNotification", text);
+			p.TriggerEvent("lprp:ShowNotification", text);
 		}
 	}
 
