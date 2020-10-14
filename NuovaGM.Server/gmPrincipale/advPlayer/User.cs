@@ -110,7 +110,7 @@ namespace NuovaGM.Server.gmPrincipale
 						CurrentChar.finance.money = 0;
 				}
 				p.TriggerEvent("lprp:changeMoney", var);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -124,7 +124,7 @@ namespace NuovaGM.Server.gmPrincipale
 				CurrentChar.finance.bank += var;
 				if (var < 0)
 					p.TriggerEvent("lprp:rimuoviBank", var);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -142,7 +142,7 @@ namespace NuovaGM.Server.gmPrincipale
 						CurrentChar.finance.dirtyCash = 0;
 				}
 				p.TriggerEvent("lprp:changeDirty", var);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -150,14 +150,14 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			CurrentChar.job.name = job;
 			CurrentChar.job.grade = grade;
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public void SetGang(string job, int grade)
 		{
 			CurrentChar.gang.name = job;
 			CurrentChar.gang.grade = grade;
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public Tuple<bool, Inventory> getInventoryItem(string item)
@@ -193,7 +193,7 @@ namespace NuovaGM.Server.gmPrincipale
 			else
 				CurrentChar.inventory.Add(new Inventory(item, amount, weight));
 			p.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public void removeInventoryItem(string item, int amount)
@@ -211,7 +211,7 @@ namespace NuovaGM.Server.gmPrincipale
 				CurrentChar.inventory.ToList().Remove(checkedItem);
 
 			p.TriggerEvent("lprp:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public List<Weapons> getCharWeapons(int charId)
@@ -232,7 +232,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				CurrentChar.weapons.Add(new Weapons(weaponName, ammo, new List<Components>(), 0));
 				p.TriggerEvent("lprp:addWeapon", weaponName, ammo);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -251,7 +251,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				CurrentChar.weapons.Remove(getWeapon(weaponName).Item2);
 				p.TriggerEvent("lprp:removeWeapon", weaponName);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -264,7 +264,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				CurrentChar.weapons[num].components.Add(new Components(weaponComponent, true));
 				p.TriggerEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
-				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+				p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -279,7 +279,7 @@ namespace NuovaGM.Server.gmPrincipale
 					{
 						CurrentChar.weapons[num].components.RemoveAt(i);
 						p.TriggerEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
-						p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+						p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 					}
 				}
 			}
@@ -296,7 +296,7 @@ namespace NuovaGM.Server.gmPrincipale
 				{
 					CurrentChar.weapons[num].tint = tint;
 					p.TriggerEvent("lprp:addWeaponTint", weaponName, tint);
-					p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+					p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 				}
 			}
 		}
@@ -357,7 +357,7 @@ namespace NuovaGM.Server.gmPrincipale
 		{
 			Licenses licenza = new Licenses(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
 			CurrentChar.licenze.Add(licenza);
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public void removeLicense(string license)
@@ -366,7 +366,7 @@ namespace NuovaGM.Server.gmPrincipale
 				if (licen.name == license)
 					CurrentChar.licenze.Remove(licen);
 				else Log.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");
-			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(), char_current, group);
+			p.TriggerEvent("lprp:sendUserInfo", char_data.Serialize(includeEverything: true), char_current, group);
 		}
 
 		public List<OwnedVehicle> GetCharVehicles()

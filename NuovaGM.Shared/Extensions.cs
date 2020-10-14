@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
 #if CLIENT
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
@@ -671,8 +672,37 @@ namespace NuovaGM.Shared
 			return inside;
 		}
 
-		public static string Serialize(this object param, Formatting format = Formatting.None) => JsonConvert.SerializeObject(param, format);
-		public static T Deserialize<T>(this string param) => JsonConvert.DeserializeObject<T>(param);
+		public static string Serialize(this object param, Formatting format = Formatting.None, bool includeEverything = false)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings();
+			settings.Formatting = format;
+
+			if (includeEverything)
+				settings.ContractResolver = new IgnoreJsonAttributesResolver();
+			return JsonConvert.SerializeObject(param, format, settings);
+		}
+		public static T Deserialize<T>(this string param, bool includeEverything = false)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings();
+			if (includeEverything)
+				settings.ContractResolver = new IgnoreJsonAttributesResolver();
+			return JsonConvert.DeserializeObject<T>(param, settings);
+		}
+	}
+
+	class IgnoreJsonAttributesResolver : DefaultContractResolver
+	{
+		protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+		{
+			IList<JsonProperty> props = base.CreateProperties(type, memberSerialization);
+			foreach (var prop in props)
+			{
+				prop.Ignored = false;   // Ignore [JsonIgnore]
+				//prop.Converter = null;  // Ignore [JsonConverter]
+				//prop.PropertyName = prop.UnderlyingName;  // Use original property name instead of [JsonProperty] name
+			}
+			return props;
+		}
 	}
 
 	public class MinMaggioreDiMax : Exception { }

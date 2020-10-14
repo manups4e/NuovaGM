@@ -40,7 +40,7 @@ namespace NuovaGM.Server.Appartamenti
 			if (result.Count > 0)
 				foreach (var ap in result)
 					p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);
-			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 	}
 }

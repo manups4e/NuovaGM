@@ -684,14 +684,63 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsEngineStarting = false,
 					IsEngineRunning = false,
 					IsDriveable = false,
+					IsPersistent = true,
 					PreviouslyOwnedByPlayer = true
 				};
 				vehicle.PlaceOnGround();
 				Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
-				vehicle.MarkAsNoLongerNeeded();
+				bool ready = false;
+				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool, int>((ok, _) => { ready = ok; }), true, vehicle.NetworkId);
+				while (!ready) await BaseScript.Delay(0);
 				return Game.PlayerPed.CurrentVehicle;
+			}
+			else
+			{
+				BaseScript.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO car] = ", "nome modello non corretto!" }, color = new[] { 255, 0, 0 } });
+				return null;
+			}
+		}
+
+		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
+		{
+			Model vehicleModel = new Model(modelName);
+			if (vehicleModel.IsValid)
+			{
+				if (!vehicleModel.IsLoaded)
+				{
+					await vehicleModel.Request(3000); //for when you stream resources.
+				}
+
+				if (!IsSpawnPointClear(coords, 2f))
+				{
+					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
+					foreach (Vehicle v in vehs)
+					{
+						v.Delete();
+					}
+				}
+				Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false))
+				{
+					NeedsToBeHotwired = false,
+					RadioStation = RadioStation.RadioOff,
+					IsEngineStarting = false,
+					IsEngineRunning = false,
+					IsDriveable = false,
+					PreviouslyOwnedByPlayer = true
+				};
+				vehicle.PlaceOnGround();
+				//vehicle.MarkAsNoLongerNeeded();
+				bool ready = false;
+				int netid = vehicle.NetworkId;
+				Client.Instance.TriggerServerCallback("cullingEntity", new Action<dynamic>((ok) => 
+				{ 
+					Log.Printa(LogType.Debug, JsonConvert.SerializeObject(ok));  
+					ready = ok; 
+				}), vehicle.NetworkId);
+				while (!ready) await BaseScript.Delay(0);
+				return vehicle;
 			}
 			else
 			{
@@ -747,43 +796,50 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return new Ped(CreatePed(26, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
 		}
 
-		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
+		/// <summary>
+		/// Spawns a <see cref="Ped"/> of the given <see cref="Model"/> at the position and heading specified.
+		/// </summary>
+		/// <param name="model">The <see cref="Model"/> of the <see cref="Ped"/>.</param>
+		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
+		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
+		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
+		public static async Task<Ped> SpawnPed(dynamic model, Vector3 position, float heading = 0f)
 		{
-			Model vehicleModel = new Model(modelName);
-			if (vehicleModel.IsValid)
+			var pedModel = new Model(model);
+			if (pedModel.IsValid)
 			{
-				if (!vehicleModel.IsLoaded)
-				{
-					await vehicleModel.Request(3000); //for when you stream resources.
-				}
+				if (!pedModel.IsLoaded)
+					await pedModel.Request(3000); // for when you stream resources.
 
-				if (!IsSpawnPointClear(coords, 2f))
+				if (!IsSpawnPedPointClear(position, 2f))
 				{
-					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs)
-					{
-						v.Delete();
-					}
+					Ped[] vehs = GetPedsInArea(position, 2f);
+					foreach (Ped v in vehs)
+						if (!v.IsPlayer)
+							v.Delete();
 				}
-				Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false))
-				{
-					NeedsToBeHotwired = false,
-					RadioStation = RadioStation.RadioOff,
-					IsEngineStarting = false,
-					IsEngineRunning = false,
-					IsDriveable = false,
-					PreviouslyOwnedByPlayer = true
-				};
-				vehicle.PlaceOnGround();
-				//vehicle.MarkAsNoLongerNeeded();
-				return vehicle;
 			}
-			else
-			{
-				BaseScript.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO car] = ", "nome modello non corretto!" }, color = new[] { 255, 0, 0 } });
-				return null;
-			}
+
+			Ped p = new Ped(CreatePed(26, (uint)pedModel.Hash, position.X, position.Y, position.Z, heading, true, false));
+			bool ready = false;
+			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
+			while (!ready) await BaseScript.Delay(0);
+			p.IsPersistent = true;
+			return p;
 		}
+		/// <summary>
+		/// Spawns a <see cref="Ped"/> of a random <see cref="Model"/> at the position specified.
+		/// </summary>
+		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
+		public static async Task<Ped> SpawnRandomPed(Vector3 position)
+		{
+			Ped p = new Ped(CreateRandomPed(position.X, position.Y, position.Z));
+			bool ready = false;
+			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool, int>((ok, _) => { ready = ok; }), true, p.NetworkId);
+			while (!ready) await BaseScript.Delay(0);
+			return p;
+		}
+
 
 		public static void spectatePlayer(int targetPed, int targetId, string name, bool enableSpectate)
 		{
@@ -1058,9 +1114,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
 		{
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<Dictionary<string, PlayerChar>>((result) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((result) =>
 			{
-				players = result;
+				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;
@@ -1073,9 +1129,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Dictionary<string, PlayerChar>> GetAllPlayersAndTheirData()
 		{
 			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
-			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<Dictionary<string, PlayerChar>>((result) =>
+			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<dynamic>((result) =>
 			{
-				players = result;
+				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 			return players;

@@ -68,16 +68,24 @@ namespace NuovaGM.Server.gmPrincipale
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
 			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, ConcurrentDictionary<string, User>>(GetPlayersOnline));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, ConcurrentDictionary<string, User>>(GetPlayersFromDB));
+			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, dynamic>(GetPlayersOnline));
+			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
+			Server.Instance.RegisterServerCallback("cullingEntity", new Action<Player, Delegate, dynamic>(CullVehicleServer));
 		}
 
-		private static void GetPlayersOnline(Player player, Delegate cb, object _)
+		private static void CullVehicleServer(Player p, Delegate cb, dynamic NetId)
 		{
-			cb.DynamicInvoke(player, Server.PlayerList);
+			Log.Printa(LogType.Debug, $"{NetId[0]}");
+			int entity = NetworkGetEntityFromNetworkId(NetId[0]);
+			SetEntityDistanceCullingRadius(entity, 10000f);
+			cb.DynamicInvoke(true);
+		}
+		private static void GetPlayersOnline(Player player, Delegate cb, dynamic _)
+		{
+			cb.DynamicInvoke(Server.PlayerList.Serialize());
 		}
 
-		private static async void GetPlayersFromDB(Player player, Delegate cb, object _)
+		private static async void GetPlayersFromDB(Player player, Delegate cb, dynamic _)
 		{
 			try
 			{
@@ -87,12 +95,12 @@ namespace NuovaGM.Server.gmPrincipale
 				for (int i = 0; i < result.Count; i++)
 					if (result[i].char_data != "[]")
 						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
-				cb.DynamicInvoke(player, personaggi);
+				cb.DynamicInvoke(personaggi.Serialize());
 			}
 			catch(Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
-				cb.DynamicInvoke(player, new ConcurrentDictionary<string, User>());
+				cb.DynamicInvoke(new ConcurrentDictionary<string, User>().Serialize());
 			}
 
 		}
@@ -187,7 +195,7 @@ namespace NuovaGM.Server.gmPrincipale
 			{
 				user.group_level = data;
 			}
-			string _char_data = user.char_data.Serialize();
+			string _char_data = user.char_data.Serialize(includeEverything: true);
 			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, user.char_current, user.group);
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 		}

@@ -31,7 +31,7 @@ namespace NuovaGM.Client
 		private static void Eccolo()
 		{
 			Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Proprietà.Serialize());
-			Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Veicoli.Serialize());
+			Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Veicoli.Serialize(includeEverything: true));
 		}
 
 
@@ -187,21 +187,27 @@ namespace NuovaGM.Client
 				float heading = 0;
 				var c = Game.PlayerPed.Position;
 				GetClosestVehicleNodeWithHeading(c.X + 500, c.Y + 500, c.Z, ref pos, ref heading, 1, 3, 0);
-				var veh = await World.CreateVehicle(new Model("zentorno"), pos, heading);
+				var veh = await Funzioni.SpawnVehicleNoPlayerInside("zentorno", pos, heading);
+				Ped ped = await Funzioni.SpawnPed(PedHash.Michael, veh.Position, 0);
 				SetEntityAsMissionEntity(veh.Handle, true, true);
 				veh.IsEngineRunning = true;
 				veh.CanEngineDegrade = false;
 				veh.IsDriveable = true;
 				veh.IsRadioEnabled = false;
 				veh.RadioStation = RadioStation.RadioOff;
-				veh.PlaceOnGround();
-				Ped ped = await veh.CreatePedOnSeat(VehicleSeat.Driver, new Model(PedHash.Doorman01SMY));
+				ped.Task.WarpIntoVehicle(veh, VehicleSeat.Driver);
 				ped.BlockPermanentEvents = true;
+				ped.IsPersistent = true;
+				while (ped.IsInVehicle(veh)) await BaseScript.Delay(0);
 				ped.Task.DriveTo(veh, new Vector3(829.409f, -2608.958f, 52.407f), 3.0f, 20f, 786603);
 				Blip p = veh.AttachBlip();
 				p.Sprite = BlipSprite.PersonalVehicleCar;
 				p.Color = BlipColor.Red;
 				p.Name = "veicolo random";
+				Blip pl = ped.AttachBlip();
+				pl.Sprite = BlipSprite.Friend;
+				pl.Color = BlipColor.Blue;
+				pl.Name = "veicolo random";
 
 				/*
 				b.Tabs.Clear();

@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Logger;
 using System.Collections.Generic;
 using System.Resources;
+using NuovaGM.Shared;
+using System.Reflection;
 // ReSharper disable All
 
 namespace NuovaGM.Server
@@ -20,20 +22,21 @@ namespace NuovaGM.Server
 		public PlayerList GetPlayers { get { return Players; } }
 		public static Configurazione Impostazioni = null;
 		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
+		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
+
 		public Server()
 		{
+			EventHandlers.Add("lprp:serverCallbacks", new Action<Player, string, int, List<object>>(callbacks));
 			Instance = this;
 			ClassCollector.Init();
 		}
 
 		#region ServerCallbacks
-		public void RegisterServerCallback<T1>(string eventName, Action<Player, Delegate, T1> action) => new NetworkMethod<T1>(eventName, action);
+		public void RegisterServerCallback(string eventName, Action<Player, Delegate, dynamic> action)
+		{
+			ServerCallbacks[eventName] = action;
+		}
 
-		public void RegisterServerCallback<T1, T2>(string eventName, Action<Player, Delegate, T1, T2> action) => new NetworkMethod<T1, T2>(eventName, action);
-
-		public void RegisterServerCallback<T1, T2, T3>(string eventName, Action<Player, Delegate, T1, T2, T3> action) => new NetworkMethod<T1, T2, T3>(eventName, action);
-
-		/*
 		private void callbacks([FromSource] Player p, string eventName, int reqId, List<object> args)
 		{
 			if (!ServerCallbacks.ContainsKey(eventName))
@@ -43,7 +46,6 @@ namespace NuovaGM.Server
 			}
 			ServerCallbacks[eventName].DynamicInvoke(p, new Action<dynamic>(value => p.TriggerEvent("lprp:serverCallBack", reqId, value)), args);
 		}
-		*/
 		#endregion
 
 		/// <summary>
