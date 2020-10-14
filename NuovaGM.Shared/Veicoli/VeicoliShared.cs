@@ -11,13 +11,13 @@ namespace NuovaGM.Shared.Veicoli
 		[JsonIgnore]
 		Vehicle Vehicle = null;
 		[JsonProperty("targa")]
-		public string Targa { internal get; set; }
+		public string Targa;
 		[JsonProperty("vehicle_data")]
-		public VehicleData DatiVeicolo { internal get; set; }
+		public VehicleData DatiVeicolo;
 		[JsonProperty("garage")]
-		public VehGarage Garage { internal get; set; }
+		public VehGarage Garage;
 		[JsonProperty("stato")]
-		public string Stato { internal get; set; }
+		public string Stato;
 
 		public OwnedVehicle() { }
 		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, VehGarage garage, string stato)
@@ -38,16 +38,16 @@ namespace NuovaGM.Shared.Veicoli
 		public OwnedVehicle(string targa, string data, string garage, string stato)
 		{
 			Targa = targa;
-			DatiVeicolo = data.Deserialize<VehicleData>(); ;
-			Garage = garage.Deserialize<VehGarage>();
+			DatiVeicolo = data.Deserialize<VehicleData>(true);
+			Garage = garage.Deserialize<VehGarage>(true);
 			Stato = stato;
 		}
 
 		public OwnedVehicle(dynamic data)
 		{
 			Targa = data.targa;
-			DatiVeicolo = (data.vehicle_data as string).Deserialize<VehicleData>();
-			Garage = (data.garage as string).Deserialize<VehGarage>();
+			DatiVeicolo = (data.vehicle_data as string).Deserialize<VehicleData>(true);
+			Garage = (data.garage as string).Deserialize<VehGarage>(true);
 			Stato = data.stato;
 		}
 	}
@@ -74,11 +74,13 @@ namespace NuovaGM.Shared.Veicoli
 
 	public class VehicleData
 	{
+		[JsonIgnore]
 		public long Assicurazione;
+		[JsonIgnore]
 		public VehProp props = new VehProp();
 		public bool Rubato;
 		public VehicleData() { }
-		public VehicleData(long insurance, VehProp dati, bool stolen) 
+		public VehicleData(long insurance, VehProp dati, bool stolen)
 		{
 			Assicurazione = insurance;
 			props = dati;

@@ -11,6 +11,7 @@ using NuovaGM.Client.gmPrincipale.MenuGm;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Shared;
 using Logger;
+using NuovaGM.Shared.Veicoli;
 
 namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 {
@@ -118,9 +119,8 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			RenderScriptCams(false, false, 0, false, false);
 			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-			await BaseScript.Delay(500);
-			BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
-			BaseScript.TriggerServerEvent("lprp:caricaVeicoli");
+			//await BaseScript.Delay(500);
+			//BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
@@ -206,6 +206,11 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
+			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
+			{
+				Game.Player.GetPlayerData().CurrentChar.Veicoli.Clear();
+				Game.Player.GetPlayerData().CurrentChar.Veicoli = (vehs as string).Deserialize<List<OwnedVehicle>>(true);
+			}));
 			SwitchInPlayer(Game.PlayerPed.Handle);
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			Client.Instance.RemoveTick(Controllo);

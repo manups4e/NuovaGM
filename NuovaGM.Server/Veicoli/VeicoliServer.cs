@@ -23,7 +23,7 @@ namespace NuovaGM.Server.Veicoli
 			Server.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
 			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
 			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
-			Server.Instance.AddEventHandler("lprp:caricaVeicoli", new Action<Player>(CaricaVeicoli));
+			Server.Instance.RegisterServerCallback("caricaVeicoli", new Action<Player, Delegate, dynamic>(CaricaVeicoli));
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)
 		{
@@ -61,7 +61,7 @@ namespace NuovaGM.Server.Veicoli
 			BaseScript.TriggerClientEvent("cBrakes:rem_front", veh);
 		}
 
-		private static async void CaricaVeicoli([FromSource] Player p)
+		private static async void CaricaVeicoli([FromSource] Player p, Delegate cb, dynamic _)
 		{
 			try
 			{
@@ -72,18 +72,19 @@ namespace NuovaGM.Server.Veicoli
 				});
 				if (vehs.Count > 0)
 				{
-					Log.Printa(LogType.Debug, JsonConvert.SerializeObject(vehs));
+					p.GetCurrentChar().CurrentChar.Veicoli.Clear();
 					foreach (var veh in vehs)
 					{
 						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
 					}
 				}
-				Log.Printa(LogType.Debug, p.GetCurrentChar().CurrentChar.Veicoli.Serialize());
-				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+				cb.DynamicInvoke(p.GetCurrentChar().CurrentChar.Veicoli.Serialize(includeEverything: true));
 			}
 			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, "Errore per il player " + p.Name + "\n" + e.ToString());
+				cb.DynamicInvoke("");
 			}
 		}
 	}
