@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
@@ -23,6 +24,7 @@ namespace NuovaGM.Server.Veicoli
 			Server.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
 			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
 			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
+			Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool>(InGarage));
 			Server.Instance.RegisterServerCallback("caricaVeicoli", new Action<Player, Delegate, dynamic>(CaricaVeicoli));
 		}
 		public static async void onPlayerSpawn([FromSource] Player p)
@@ -86,6 +88,17 @@ namespace NuovaGM.Server.Veicoli
 				Log.Printa(LogType.Error, "Errore per il player " + p.Name + "\n" + e.ToString());
 				cb.DynamicInvoke("");
 			}
+		}
+
+		private static async void InGarage([FromSource] Player p, string plate, bool inGarage)
+		{
+			p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.InGarage = false;
+			await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new
+			{
+				gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(includeEverything: true),
+				t = plate
+			});
+			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 	}
 }

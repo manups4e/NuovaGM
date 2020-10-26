@@ -285,7 +285,7 @@ namespace NuovaGM.Client
 		public Vector3 MarkerEntrata;
 		public Vector3 MarkerUscita;
 		public Vector3 SpawnDentro;
-		public Vector3 SpawnFuori;
+		public Vector4 SpawnFuori;
 		public ConfigCaseCamExt TelecameraFuori = new ConfigCaseCamExt();
 		public ConfigCaseCamExt TelecameraModificaDentro = new ConfigCaseCamExt();
 		public int Price;

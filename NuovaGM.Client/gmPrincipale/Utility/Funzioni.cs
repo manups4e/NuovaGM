@@ -11,9 +11,43 @@ using System.Threading.Tasks;
 using NuovaGM.Shared;
 using Logger;
 using NuovaGM.Shared.Veicoli;
+using NuovaGM.Client.Veicoli;
 
 namespace NuovaGM.Client.gmPrincipale.Utility
 {
+	enum PedTypes
+	{
+		Player0,// michael  
+		Player1,// franklin  
+		MPPlayer,    // mp character  
+		Player2,// trevor  
+		CivMale,
+		CivFemale,
+		Cop,
+		GangAlbanian,
+		GangBiker,
+		GangBiker2,
+		GangItalian,
+		GangRussian,
+		GangRussian2,
+		GangIrish,
+		GangJamaican,
+		GangAfricanAmerican,
+		GangKorean,
+		GangChineseJapanese,
+		GangPuertorican,
+		Dealer,
+		Medic,
+		Fireman,
+		Criminal,
+		Bum,
+		Prostitute,
+		Special,
+		Mission,
+		Swat,
+		Animal,
+		Army
+	};
 	static class Funzioni
 	{
 		/// <summary>
@@ -267,6 +301,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			(int)veh.Mods.LicensePlateStyle,
 			veh.BodyHealth,
 			veh.EngineHealth,
+			veh.FuelLevel,
 			veh.DirtLevel,
 
 			(int)veh.Mods.PrimaryColor, (int)veh.Mods.SecondaryColor,
@@ -343,8 +378,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			veh.Mods.LicensePlateStyle = (LicensePlateStyle)props.PlateIndex;
 			veh.BodyHealth = props.BodyHealth;
 			veh.EngineHealth = props.EngineHealth;
+			veh.SetVehicleFuelLevel(props.FuelLevel);
 			veh.DirtLevel = props.DirtLevel;
-
 			veh.Mods.PrimaryColor = (VehicleColor)props.PrimaryColor;
 			veh.Mods.SecondaryColor = (VehicleColor)props.SecondaryColor;
 			veh.Mods.CustomPrimaryColor = props.CustomPrimaryColor;
@@ -692,7 +727,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
 				bool ready = false;
-				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool, int>((ok, _) => { ready = ok; }), true, vehicle.NetworkId);
+				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
 				return Game.PlayerPed.CurrentVehicle;
 			}
@@ -734,11 +769,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				//vehicle.MarkAsNoLongerNeeded();
 				bool ready = false;
 				int netid = vehicle.NetworkId;
-				Client.Instance.TriggerServerCallback("cullingEntity", new Action<dynamic>((ok) => 
-				{ 
-					Log.Printa(LogType.Debug, JsonConvert.SerializeObject(ok));  
-					ready = ok; 
-				}), vehicle.NetworkId);
+				Client.Instance.TriggerServerCallback("cullingEntity", new Action<dynamic>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
 				return vehicle;
 			}
@@ -789,11 +820,13 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
 		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
-		public static async Task<Ped> CreatePedLocally(Model model, Vector3 position, float heading = 0f)
+		public static async Task<Ped> CreatePedLocally(Model model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
 			if (!model.IsPed || !await model.Request(3000))
 				return null;
-			return new Ped(CreatePed(26, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
+			Ped p = new Ped(CreatePed((int)PedType, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
+			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
+			return p;
 		}
 
 		/// <summary>
@@ -803,7 +836,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
 		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
-		public static async Task<Ped> SpawnPed(dynamic model, Vector3 position, float heading = 0f)
+		public static async Task<Ped> SpawnPed(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
 			var pedModel = new Model(model);
 			if (pedModel.IsValid)
@@ -820,8 +853,9 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				}
 			}
 
-			Ped p = new Ped(CreatePed(26, (uint)pedModel.Hash, position.X, position.Y, position.Z, heading, true, false));
+			Ped p = new Ped(CreatePed((int)PedType, (uint)pedModel.Hash, position.X, position.Y, position.Z, heading, true, false));
 			bool ready = false;
+			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
 			while (!ready) await BaseScript.Delay(0);
 			p.IsPersistent = true;
@@ -835,7 +869,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			Ped p = new Ped(CreateRandomPed(position.X, position.Y, position.Z));
 			bool ready = false;
-			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool, int>((ok, _) => { ready = ok; }), true, p.NetworkId);
+			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
+			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
 			while (!ready) await BaseScript.Delay(0);
 			return p;
 		}

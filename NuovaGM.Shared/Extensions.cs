@@ -618,6 +618,19 @@ namespace NuovaGM.Shared
 			return Vector3.Zero;
 		}
 
+		public static Vector3 ToVector3(this Vector4 vector)
+		{
+			try
+			{
+				return new Vector3(vector.X, vector.Y, vector.Z);
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
+			}
+			return Vector3.Zero;
+		}
+
 		public static Vector4 ToVector4(this float[] xyzwArray)
 		{
 			try

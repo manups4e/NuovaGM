@@ -212,7 +212,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Medici
 					{
 						if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
-							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
+							HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
 							if (Input.IsControlJustPressed(Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning)
 							{
 								Screen.Fading.FadeOut(800);

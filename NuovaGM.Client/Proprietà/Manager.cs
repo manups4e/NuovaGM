@@ -37,9 +37,15 @@ namespace NuovaGM.Client.Proprietà
 				{
 					if (Game.PlayerPed.IsInVehicle())
 					{
-						// controllo se il veicolo è mio
-						//CambiaCamGarage() // ed entra
-						//else errore non è il tuo veicolo
+						string plate = Game.PlayerPed.CurrentVehicle.Mods.LicensePlate;
+						var model = Game.PlayerPed.CurrentVehicle.Model.Hash;
+						if (Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Game.Player.GetPlayerData().CurrentChar.info.insurance) != null)
+						{
+							//HUD.ShowHelp() o forse no? magari appena ti avvicini entri se è tuo e non succede niente se non è tuo..
+							// è mio
+							//CambiaCamGarage() // ed entra
+						}
+						else HUD.ShowNotification("Non puoi posare un veicolo che non ti appartiene in garage!!", NotificationColor.Red, true);
 					}
 					else
 					{

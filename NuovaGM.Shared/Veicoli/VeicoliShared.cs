@@ -96,6 +96,7 @@ namespace NuovaGM.Shared.Veicoli
 		public int PlateIndex;
 		public float BodyHealth;
 		public float EngineHealth;
+		public float FuelLevel;
 		public float DirtLevel;
 		public int PrimaryColor;
 		public int SecondaryColor;
@@ -115,7 +116,7 @@ namespace NuovaGM.Shared.Veicoli
 		public bool ModKitInstalled;
 		public int ModLivery;
 		public VehProp() { }
-		public VehProp(int model, string name, string plate, int plateIndex, float bodyHealth, float engineHealth, float dirtLevel, int color1, int color2, Color custom1, Color custom2, bool hasCustom1, bool hasCustom2, int pearlescentColor, int wheelColor, int wheels, int windowTint, bool[] neonEnabled, bool[] extras, Color neonColor, Color tyreSmokeColor, bool modkit, List<VehMod> mods, int modLivery)
+		public VehProp(int model, string name, string plate, int plateIndex, float bodyHealth, float engineHealth, float fuelLevel, float dirtLevel, int color1, int color2, Color custom1, Color custom2, bool hasCustom1, bool hasCustom2, int pearlescentColor, int wheelColor, int wheels, int windowTint, bool[] neonEnabled, bool[] extras, Color neonColor, Color tyreSmokeColor, bool modkit, List<VehMod> mods, int modLivery)
 		{
 			Model = model;
 			Name = name;
@@ -123,6 +124,7 @@ namespace NuovaGM.Shared.Veicoli
 			PlateIndex = plateIndex;
 			BodyHealth = bodyHealth;
 			EngineHealth = engineHealth;
+			FuelLevel = fuelLevel;
 			DirtLevel = dirtLevel;
 			PrimaryColor = color1; SecondaryColor = color2;
 			CustomPrimaryColor = custom1; CustomSecondaryColor = custom2;

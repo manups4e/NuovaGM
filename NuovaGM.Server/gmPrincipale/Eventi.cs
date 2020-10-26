@@ -75,10 +75,16 @@ namespace NuovaGM.Server.gmPrincipale
 
 		private static void CullVehicleServer(Player p, Delegate cb, dynamic NetId)
 		{
-			Log.Printa(LogType.Debug, $"{NetId[0]}");
-			int entity = NetworkGetEntityFromNetworkId(NetId[0]);
-			SetEntityDistanceCullingRadius(entity, 10000f);
-			cb.DynamicInvoke(true);
+			try
+			{
+				int entity = NetworkGetEntityFromNetworkId(NetId[0]);
+				SetEntityDistanceCullingRadius(entity, 10000f);
+				cb.DynamicInvoke(true);
+			}
+			catch(Exception e)
+			{
+				cb.DynamicInvoke(true);
+			}
 		}
 		private static void GetPlayersOnline(Player player, Delegate cb, dynamic _)
 		{

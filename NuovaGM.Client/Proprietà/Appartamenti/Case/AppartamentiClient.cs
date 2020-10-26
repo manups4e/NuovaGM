@@ -13,11 +13,13 @@ using Newtonsoft.Json;
 using CitizenFX.Core.UI;
 using Logger;
 using NuovaGM.Shared;
+using NuovaGM.Client.Veicoli;
 
 namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 {
 	static class AppartamentiClient
 	{
+		private static List<Vehicle> VeicoliParcheggio = new List<Vehicle>();
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
@@ -26,8 +28,6 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
 		{
-			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
 			var dummycam = World.CreateCamera(GameplayCamera.Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
 			World.RenderingCamera = dummycam;
 			var cam = World.CreateCamera(app.Value.TelecameraFuori.pos, new Vector3(0), GameplayCamera.FieldOfView);
@@ -35,6 +35,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			RenderScriptCams(true, true, 1500, true, false);
 			dummycam.InterpTo(cam, 1500, 1, 1);
 			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti");
+			HUD.MenuPool.ControlDisablingEnabled = true;
 			HUD.MenuPool.Add(casa);
 			UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
 			UIMenuItem entra;
@@ -111,7 +112,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					RenderScriptCams(false, true, 1500, true, false);
 				dummycam.Delete();
 				cam.Delete();
-				NetworkFadeInEntity(PlayerPedId(), true);
+				HUD.MenuPool.ControlDisablingEnabled = true;
 			};
 			while (dummycam.IsInterpolating) await BaseScript.Delay(0);
 			while (cam.IsInterpolating) await BaseScript.Delay(0);
@@ -202,6 +203,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 							{
 								var veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 								await veic.SetVehicleProperties(veh.DatiVeicolo.props);
+								VeicoliParcheggio.Add(veic);
 							}
 						}
 					}
@@ -209,6 +211,7 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					Game.PlayerPed.IsPositionFrozen = false;
 					DoScreenFadeIn(500);
 					SetGameplayCamRelativePitch(0.0f, 1.0f);
+					Client.Instance.AddTick(Garage);
 				}
 				else if (_item == tetto)
 				{
@@ -278,5 +281,66 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 			}
 		}
 
+		public static async Task Garage()
+		{
+			if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.LowEnd.ModifyMarker.ToVector3(), 1.375f))
+			{
+				// gestire
+			}
+			if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.MidEnd4.ModifyMarker.ToVector3(), 1.375f))
+			{
+				// gestire
+			}
+			if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.MidEnd6.ModifyMarker.ToVector3(), 1.375f))
+			{
+				// gestire
+			}
+			if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.HighEnd.ModifyMarker.ToVector3(), 1.375f))
+			{
+				// gestire
+			}
+			if (Game.PlayerPed.IsInVehicle())
+			{
+				HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
+				if (Input.IsControlJustPressed(Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning)
+				{
+					Screen.Fading.FadeOut(800);
+					await BaseScript.Delay(1000);
+					string plate = Game.PlayerPed.CurrentVehicle.Mods.LicensePlate;
+					foreach (var vehicle in VeicoliParcheggio) vehicle.Delete();
+					VeicoliParcheggio.Clear();
+					var exit = Vector4.Zero;
+					if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(Game.Player.GetPlayerData().Istanza.Instance))
+						exit = Client.Impostazioni.Proprieta.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance].SpawnGarageInVehFuori;
+					else
+						exit = Client.Impostazioni.Proprieta.Garages.Garages[Game.Player.GetPlayerData().Istanza.Instance].SpawnFuori;
+					int tempo = GetGameTimer();
+					Vector3 newPos = exit.ToVector3();
+					float Head = exit.W;
+					while (!Funzioni.IsSpawnPointClear(exit.ToVector3(), 2f))
+					{
+						if (GetGameTimer() - tempo > 5000)
+						{
+							Log.Printa(LogType.Debug, "Punto di spawn fuori dal garage occupato, trovato nuovo punto");
+							break;
+						}
+						await BaseScript.Delay(0);
+					}
+					if(!Funzioni.IsSpawnPointClear(exit.ToVector3(), 2f))
+					{
+						GetClosestVehicleNodeWithHeading(exit.X, exit.Y, exit.Z, ref newPos, ref Head, 1, 3, 0);
+					}
+					var vehi = await Funzioni.SpawnVehicle(Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props.Model, newPos, Head);
+					await vehi.SetVehicleProperties(Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props);
+					Game.PlayerPed.CurrentVehicle.IsEngineRunning = true;
+					Game.PlayerPed.CurrentVehicle.IsDriveable = true;
+					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, false);
+					Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+					await BaseScript.Delay(1000);
+					Screen.Fading.FadeIn(800);
+					Client.Instance.RemoveTick(Garage);
+				}
+			}
+		}
 	}
 }
