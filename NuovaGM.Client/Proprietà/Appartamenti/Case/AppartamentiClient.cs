@@ -19,11 +19,12 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 {
 	static class AppartamentiClient
 	{
-		private static List<Vehicle> VeicoliParcheggio = new List<Vehicle>();
+		public static List<Vehicle> VeicoliParcheggio = new List<Vehicle>();
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
 			Client.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
+			Client.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
@@ -341,6 +342,61 @@ namespace NuovaGM.Client.Proprietà.Appartamenti.Case
 					Client.Instance.RemoveTick(Garage);
 				}
 			}
+		}
+
+		private static async void EntraGarageConProprietario(Vector3 pos)
+		{
+			if (Game.PlayerPed.IsVisible)
+				NetworkFadeOutEntity(Game.PlayerPed.CurrentVehicle.Handle, true, false);
+			Screen.Fading.FadeOut(500);
+			await BaseScript.Delay(1000);
+			RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
+			NewLoadSceneStart(pos.X, pos.Y, pos.Z, pos.X, pos.Y, pos.Z, 50f, 0);
+			int tempTimer = GetGameTimer();
+
+			// Wait for the new scene to be loaded.
+			while (IsNetworkLoadingScene())
+			{
+				// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+				if (GetGameTimer() - tempTimer > 1000)
+				{
+					Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+					break;
+				}
+				await BaseScript.Delay(0);
+			}
+			SetEntityCoords(PlayerPedId(), pos.X, pos.Y, pos.Z, false, false, false, false);
+			tempTimer = GetGameTimer();
+
+			// Wait for the collision to be loaded around the entity in this new location.
+			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+			{
+				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+				if (GetGameTimer() - tempTimer > 1000)
+				{
+					Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+					break;
+				}
+				await BaseScript.Delay(0);
+			}
+			foreach (var veh in Game.Player.GetPlayerData().CurrentChar.Veicoli)
+			{
+				if (veh.Garage.Garage == Game.Player.GetPlayerData().Istanza.Instance)
+				{
+					if (veh.Garage.InGarage)
+					{
+						var veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
+						AppartamentiClient.VeicoliParcheggio.Add(veic);
+					}
+				}
+			}
+			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
+			Game.PlayerPed.IsPositionFrozen = false;
+			DoScreenFadeIn(500);
+			SetGameplayCamRelativePitch(0.0f, 1.0f);
+			Client.Instance.AddTick(AppartamentiClient.Garage);
+
 		}
 	}
 }

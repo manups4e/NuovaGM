@@ -16,6 +16,7 @@ namespace NuovaGM.Server.Appartamenti
 			Server.Instance.AddEventHandler("lprp:citofonaAlPlayer", new Action<Player, int, string>(Citofono));
 			Server.Instance.AddEventHandler("lprp:citofono:puoEntrare", new Action<Player, int, string>(PuòEntrare));
 			Server.Instance.AddEventHandler("lprp:caricaAppartamenti", new Action<Player>(CaricaProprietà));
+			Server.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Player, int, Vector3>(EntraConProprietario));
 		}
 
 		private static void Citofono([FromSource] Player citofonante, int citofonatoServerId, string app)
@@ -41,6 +42,12 @@ namespace NuovaGM.Server.Appartamenti
 				foreach (var ap in result)
 					p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);
 			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+		}
+
+		private static void EntraConProprietario([FromSource] Player p, int serverId, Vector3 pos)
+		{
+			Player sd = Funzioni.GetPlayerFromId(serverId);
+			sd.TriggerEvent("lprp:entraGarageConProprietario", pos);
 		}
 	}
 }

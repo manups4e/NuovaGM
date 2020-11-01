@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using NuovaGM.Shared;
 using Logger;
 using NuovaGM.Client.Proprietà.Appartamenti.Case;
+using CitizenFX.Core.UI;
 
 namespace NuovaGM.Client.Proprietà
 {
@@ -35,27 +36,90 @@ namespace NuovaGM.Client.Proprietà
 				}
 				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
 				{
-					if (Game.PlayerPed.IsInVehicle())
+					if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
 					{
-						string plate = Game.PlayerPed.CurrentVehicle.Mods.LicensePlate;
-						var model = Game.PlayerPed.CurrentVehicle.Model.Hash;
-						if (Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Game.Player.GetPlayerData().CurrentChar.info.insurance) != null)
+						if (Game.PlayerPed.IsInVehicle())
 						{
-							//HUD.ShowHelp() o forse no? magari appena ti avvicini entri se è tuo e non succede niente se non è tuo..
-							// è mio
-							//CambiaCamGarage() // ed entra
+							string plate = Game.PlayerPed.CurrentVehicle.Mods.LicensePlate;
+							var model = Game.PlayerPed.CurrentVehicle.Model.Hash;
+							if (Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Game.Player.GetPlayerData().CurrentChar.info.insurance) != null)
+							{
+								if (Game.PlayerPed.IsVisible)
+									NetworkFadeOutEntity(Game.PlayerPed.CurrentVehicle.Handle, true, false);
+								Screen.Fading.FadeOut(500);
+								await BaseScript.Delay(1000);
+								var pr = await Game.PlayerPed.CurrentVehicle.GetVehicleProperties();
+								BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.Serialize(includeEverything: true));
+								Game.Player.GetPlayerData().Istanza.Istanzia(app.Key);
+								await BaseScript.Delay(1000);
+								if (Game.PlayerPed.CurrentVehicle.PassengerCount > 0)
+								{
+									foreach (var p in Game.PlayerPed.CurrentVehicle.Passengers)
+									{
+										var pl = Funzioni.GetPlayerFromPed(p);
+										pl.GetPlayerData().Istanza.Istanzia(Game.Player.ServerId, Game.Player.GetPlayerData().Istanza.Instance);
+										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
+									}
+								}
+								Game.PlayerPed.CurrentVehicle.Delete();
+								RequestCollisionAtCoord(app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z);
+								NewLoadSceneStart(app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z, app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z, 50f, 0);
+								int tempTimer = GetGameTimer();
+
+								// Wait for the new scene to be loaded.
+								while (IsNetworkLoadingScene())
+								{
+									// If this takes longer than 1 second, just abort. It's not worth waiting that long.
+									if (GetGameTimer() - tempTimer > 1000)
+									{
+										Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+										break;
+									}
+									await BaseScript.Delay(0);
+								}
+								SetEntityCoords(PlayerPedId(), app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z, false, false, false, false);
+								tempTimer = GetGameTimer();
+
+								// Wait for the collision to be loaded around the entity in this new location.
+								while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+								{
+									// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
+									if (GetGameTimer() - tempTimer > 1000)
+									{
+										Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+										break;
+									}
+									await BaseScript.Delay(0);
+								}
+								foreach (var veh in Game.Player.GetPlayerData().CurrentChar.Veicoli)
+								{
+									if (veh.Garage.Garage == Game.Player.GetPlayerData().Istanza.Instance)
+									{
+										if (veh.Garage.InGarage)
+										{
+											var veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+											await veic.SetVehicleProperties(veh.DatiVeicolo.props);
+											AppartamentiClient.VeicoliParcheggio.Add(veic);
+										}
+									}
+								}
+								NetworkFadeInEntity(Game.PlayerPed.Handle, true);
+								Game.PlayerPed.IsPositionFrozen = false;
+								DoScreenFadeIn(500);
+								SetGameplayCamRelativePitch(0.0f, 1.0f);
+								Client.Instance.AddTick(AppartamentiClient.Garage);
+							}
 						}
-						else HUD.ShowNotification("Non puoi posare un veicolo che non ti appartiene in garage!!", NotificationColor.Red, true);
-					}
-					else
-					{
-						// codice per entrare a piedi
+						else
+						{
+							// codice per entrare a piedi.. lo vogliamo far entrare a piedi?
+						}
 					}
 				}
 			}
 			foreach (var gar in Proprietà.Garages.Garages)
 			{
-				if(Game.PlayerPed.IsInRangeOf(gar.Value.SpawnDentro, 1.5f))
+				if(Game.PlayerPed.IsInRangeOf(gar.Value.MarkerEntrata, 1.5f))
 				{
 					if (Game.PlayerPed.IsOnFoot)
 					{

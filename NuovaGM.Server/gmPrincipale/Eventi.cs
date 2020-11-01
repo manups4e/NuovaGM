@@ -556,10 +556,10 @@ namespace NuovaGM.Server.gmPrincipale
 			}
 		}
 
-		private static void Istanzia([FromSource] Player p, bool stanziato, int netIdProp, bool isprop, string instance)
+		private static void Istanzia([FromSource] Player p, bool stanziato, int ServerIdProp, bool isprop, string instance)
 		{
 			p.GetCurrentChar().Istanza.Stanziato = stanziato;
-			p.GetCurrentChar().Istanza.NetIdProprietario = netIdProp;
+			p.GetCurrentChar().Istanza.ServerIdProprietario = ServerIdProp;
 			p.GetCurrentChar().Istanza.IsProprietario = isprop;
 			p.GetCurrentChar().Istanza.Instance = instance;
 		}
@@ -567,7 +567,7 @@ namespace NuovaGM.Server.gmPrincipale
 		private static void RimuoviIstanza([FromSource] Player p)
 		{
 			p.GetCurrentChar().Istanza.Stanziato = false;
-			p.GetCurrentChar().Istanza.NetIdProprietario = 0;
+			p.GetCurrentChar().Istanza.ServerIdProprietario = 0;
 			p.GetCurrentChar().Istanza.IsProprietario = false;
 			p.GetCurrentChar().Istanza.Instance = null;
 		}

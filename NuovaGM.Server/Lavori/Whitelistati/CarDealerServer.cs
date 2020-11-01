@@ -19,7 +19,7 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 
 		private static async void VendiAMe([FromSource] Player p, string JsonVeh)
 		{
-			OwnedVehicle veh = JsonVeh.Deserialize<OwnedVehicle>();
+			OwnedVehicle veh = JsonVeh.Deserialize<OwnedVehicle>(true);
 			await Server.Instance.Execute("INSERT INTO owned_vehicles VALUES (@disc, @name, @charname, @plate, @vehN, @data, @garage, @state)", new
 			{
 				disc = p.GetLicense(Identifier.Discord),
@@ -27,10 +27,12 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 				charname = p.GetCurrentChar().FullName,
 				plate = veh.Targa,
 				vehN = veh.DatiVeicolo.props.Name,
-				data = veh.DatiVeicolo.Serialize(),
-				garage = veh.Garage.Serialize(),
+				data = veh.DatiVeicolo.Serialize(includeEverything: true),
+				garage = veh.Garage.Serialize(includeEverything: true),
 				state = veh.Stato,
 			});
+			p.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
+			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 
 		private static void CatalogoAlcuni([FromSource] Player p, List<int> players)

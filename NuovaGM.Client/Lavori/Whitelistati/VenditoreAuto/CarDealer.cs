@@ -178,6 +178,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 					UIMenu prendi = vah.AddSubMenu("Prendi");
 					prendi.OnMenuOpen += async (menu) =>
 					{
+						prendi.Clear();
 						if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
 						{
 							foreach (var pro in Client.Impostazioni.Proprieta.Appartamenti)
@@ -193,10 +194,21 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 											prendi.AddItem(c);
 											c.Activated += async (_menu_, _item_)=>
 											{
-												string plate = Funzioni.GetRandomString(2) + " " + Funzioni.GetRandomInt(999) + Funzioni.GetRandomString(2);
+												string s1 = await Funzioni.GetRandomString(2);
+												await BaseScript.Delay(100);
+												string s2 = await Funzioni.GetRandomString(2);
+												string plate = s1 + " " + Funzioni.GetRandomInt(001,999).ToString("000") + s2;
 												PreviewVeh.Mods.LicensePlate = plate;
-												OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, await PreviewVeh.GetVehicleProperties(), false), new VehGarage(true, "", 0), "Normale");
-												BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize());
+												var prop = await PreviewVeh.GetVehicleProperties();
+												OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, Game.Player.GetPlayerData().CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
+												BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize(includeEverything: true));
+												HUD.MenuPool.CloseAllMenus();
+												HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");
+												Screen.Fading.FadeOut(800);
+												await BaseScript.Delay(1000);
+												World.RenderingCamera = null;
+												cam.Delete();
+												Screen.Fading.FadeIn(800);
 											};
 										}
 									}
@@ -255,11 +267,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			};
 			Screen.Fading.FadeIn(800);
 			catalogo.Visible = true;
-		}
-
-		private static void C_Activated(UIMenu sender, UIMenuItem selectedItem)
-		{
-			throw new NotImplementedException();
 		}
 
 		private static async void CatalogoAlcuni(bool venditore, List<int> players)

@@ -226,12 +226,16 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return new Tuple<int, string>(mugshot, Txd);
 		}
 
-		public static string GetRandomString(int maxChars)
+		public static async Task<string> GetRandomString(int maxChars)
 		{
 			string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 			string result = "";
 			for (int i = 0; i < maxChars; i++)
+			{
+				await BaseScript.Delay(1);
 				result += chars.PickOneChar();
+				await BaseScript.Delay(1);
+			}
 			return result;
 		}
 
@@ -290,9 +294,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 			List<VehMod> mods = new List<VehMod>();
 			foreach (var mod in veh.Mods.GetAllMods())
-			{
 				mods.Add(new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName));
-			}
 
 			VehProp vehi = new VehProp(
 			veh.Model,
@@ -315,58 +317,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			extras,
 			veh.Mods.NeonLightsColor,
 			veh.Mods.TireSmokeColor,
-
-			//veh.Mods.GetAllMods()
-			/*
-						GetVehicleMod(vehicle, 0),
-						GetVehicleMod(vehicle, 1),
-						GetVehicleMod(vehicle, 2),
-						GetVehicleMod(vehicle, 3),
-						GetVehicleMod(vehicle, 4),
-						GetVehicleMod(vehicle, 5),
-						GetVehicleMod(vehicle, 6),
-						GetVehicleMod(vehicle, 7),
-						GetVehicleMod(vehicle, 8),
-						GetVehicleMod(vehicle, 9),
-						GetVehicleMod(vehicle, 10),
-						GetVehicleMod(vehicle, 11),
-						GetVehicleMod(vehicle, 12),
-						GetVehicleMod(vehicle, 13),
-						GetVehicleMod(vehicle, 14),
-						GetVehicleMod(vehicle, 15),
-						GetVehicleMod(vehicle, 16),
-						IsToggleModOn(vehicle, 18),
-						IsToggleModOn(vehicle, 20),
-						IsToggleModOn(vehicle, 22),
-						GetVehicleMod(vehicle, 23),
-						GetVehicleMod(vehicle, 24),
-						GetVehicleMod(vehicle, 25),
-						GetVehicleMod(vehicle, 26),
-						GetVehicleMod(vehicle, 27),
-						GetVehicleMod(vehicle, 28),
-						GetVehicleMod(vehicle, 29),
-						GetVehicleMod(vehicle, 30),
-						GetVehicleMod(vehicle, 31),
-						GetVehicleMod(vehicle, 32),
-						GetVehicleMod(vehicle, 33),
-						GetVehicleMod(vehicle, 34),
-						GetVehicleMod(vehicle, 35),
-						GetVehicleMod(vehicle, 36),
-						GetVehicleMod(vehicle, 37),
-						GetVehicleMod(vehicle, 38),
-						GetVehicleMod(vehicle, 39),
-						GetVehicleMod(vehicle, 40),
-						GetVehicleMod(vehicle, 41),
-						GetVehicleMod(vehicle, 42),
-						GetVehicleMod(vehicle, 43),
-						GetVehicleMod(vehicle, 44),
-						GetVehicleMod(vehicle, 45),
-						GetVehicleMod(vehicle, 46),
-			*/
 			!(GetVehicleModKit(veh.Handle) == 65535),
 			mods,
 			veh.Mods.Livery
 			);
+			await Task.FromResult(0);
 			return vehi;
 		}
 

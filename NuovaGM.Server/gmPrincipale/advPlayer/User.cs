@@ -398,7 +398,7 @@ namespace NuovaGM.Server.gmPrincipale
 	public class stanziato
 	{
 		public bool Stanziato;
-		public int NetIdProprietario;
+		public int ServerIdProprietario;
 		public bool IsProprietario;
 		public string Instance;
 	}

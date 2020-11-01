@@ -68,6 +68,8 @@ namespace NuovaGM.Shared
 		/// <returns></returns>
 		public static char PickOneChar(this string chars, Random rnd)
 		{
+			if (rnd is null)
+				rnd = new Random();
 			return chars[rnd.Next(chars.Length)];
 		}
 
@@ -78,7 +80,7 @@ namespace NuovaGM.Shared
 		/// <returns></returns>
 		public static char PickOneChar(this string chars)
 		{
-			return chars.PickOneChar(new Random(new Random().Next(99999)));
+			return chars.PickOneChar(new Random(DateTime.Now.Millisecond));
 	    }
 
 
