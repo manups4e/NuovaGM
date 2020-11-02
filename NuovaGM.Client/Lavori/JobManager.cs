@@ -1,48 +1,16 @@
-﻿using Newtonsoft.Json;
-using NuovaGM.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NuovaGM.Client.Lavori
 {
-	public class ConfigPolizia
+	static class JobManager
 	{
-		public ConfigurazionePolizia Config = new ConfigurazionePolizia();
-		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-	}
+		private static void Init()
+		{
 
-	public class ConfigMedici
-	{
-		public ConfigurazioneMedici Config = new ConfigurazioneMedici();
-		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-	}
-
-	public class ConfigVenditoriAuto
-	{
-		public ConfigurazioneVendAuto Config = new ConfigurazioneVendAuto();
-		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-		public Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
-	}
-
-	public class ConfigVenditoriCase
-	{
-		public ConfigurazioneVendCase Config = new ConfigurazioneVendCase();
-		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-	}
-
-
-
-	public class VeicoloCatalogoVenditore
-	{
-		public string name;
-		public int price;
-		public string description;
-	}
-
-	public class LavoriGenerici
-	{
-		public Pescatori Pescatore = new Pescatori();
-		public Cacciatori Cacciatore = new Cacciatori();
-		public Towing Rimozione = new Towing();
+		}
 	}
 }

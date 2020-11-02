@@ -286,7 +286,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static async Task Injuried()
 		{
 			await BaseScript.Delay(1000);
-			if (((Game.PlayerPed.Health < 55) && guarito && !ferito && Game.PlayerPed.Health > 0))
+			if ((Game.PlayerPed.Health < 55) && guarito && !ferito && Game.PlayerPed.Health > 0)
 			{
 				Game.PlayerPed.MovementAnimationSet = "move_injured_generic";
 				HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", NotificationColor.Red, true);
