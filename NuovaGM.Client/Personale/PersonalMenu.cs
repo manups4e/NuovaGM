@@ -77,8 +77,6 @@ namespace NuovaGM.Client.Personale
 
 		public static async void menuPersonal()
 		{
-			Log.Printa(LogType.Debug, ConfigShared.SharedConfig.Main.Generici.Serialize(Formatting.Indented));
-
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);

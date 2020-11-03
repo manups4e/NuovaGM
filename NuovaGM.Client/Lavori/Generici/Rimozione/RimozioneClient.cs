@@ -187,7 +187,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 				}
 			}
 			if (VeicoloLavorativo == null) return;
-			while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0) await BaseScript.Delay(0);
+			while (World.GetDistance(Game.PlayerPed.Position, VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0 && VeicoloDaRimuovere != null) await BaseScript.Delay(0);
 			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Game.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10))
 				HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
 			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle)

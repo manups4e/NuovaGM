@@ -36,6 +36,7 @@ namespace NuovaGM.Client
 			Lavori.Generici.Pescatore.PescatoreClient.Init();
 			Lavori.Generici.Cacciatore.CacciatoreClient.Init();
 			Lavori.Generici.Rimozione.RimozioneClient.Init();
+			Lavori.Generici.Taxi.TaxiClient.Init();
 //			Lavori.JobManager.Init();
 
 			Manager.ClientManager.Init();

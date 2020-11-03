@@ -44,5 +44,6 @@ namespace NuovaGM.Client.Lavori
 		public Pescatori Pescatore = new Pescatori();
 		public Cacciatori Cacciatore = new Cacciatori();
 		public Towing Rimozione = new Towing();
+		public Tassisti Tassista = new Tassisti();
 	}
 }

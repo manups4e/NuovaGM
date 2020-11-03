@@ -65,6 +65,17 @@ namespace NuovaGM.Shared
 		public Vector3 zonaDiCaccia;
 		public float limiteArea;
 	}
+	public class Tassisti
+	{
+		public Vector3 PosAccettazione;
+		public Vector3 PosDepositoVeicolo;
+		public Vector3 PosRitiroVeicolo;
+		public Vector4 PosSpawnVeicolo;
+		public bool PrezzoFisso;
+		public int PrezzoAlKm;
+		public float pickupRange;
+		public List<Vector3> jobCoords;
+	}
 
 	public class Towing
 	{

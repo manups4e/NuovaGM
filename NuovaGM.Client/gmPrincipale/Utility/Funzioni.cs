@@ -677,6 +677,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsPersistent = true,
 					PreviouslyOwnedByPlayer = true
 				};
+				while (!vehicle.Exists()) await BaseScript.Delay(0);
 				vehicle.PlaceOnGround();
 				Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
@@ -720,6 +721,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsDriveable = false,
 					PreviouslyOwnedByPlayer = true
 				};
+				while (!vehicle.Exists()) await BaseScript.Delay(0);
 				vehicle.PlaceOnGround();
 				//vehicle.MarkAsNoLongerNeeded();
 				bool ready = false;
@@ -758,6 +760,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 					IsEngineRunning = false,
 					IsDriveable = false
 				};
+				while (!vehicle.Exists()) await BaseScript.Delay(0);
 				vehicle.PlaceOnGround();
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
@@ -780,6 +783,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			if (!model.IsPed || !await model.Request(3000))
 				return null;
 			Ped p = new Ped(CreatePed((int)PedType, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
+			while (!p.Exists()) await BaseScript.Delay(0);
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			return p;
 		}
@@ -809,6 +813,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			}
 
 			Ped p = new Ped(CreatePed((int)PedType, (uint)pedModel.Hash, position.X, position.Y, position.Z, heading, true, false));
+			while (!p.Exists()) await BaseScript.Delay(0);
 			bool ready = false;
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
@@ -823,6 +828,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static async Task<Ped> SpawnRandomPed(Vector3 position)
 		{
 			Ped p = new Ped(CreateRandomPed(position.X, position.Y, position.Z));
+			while (!p.Exists()) await BaseScript.Delay(0);
 			bool ready = false;
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
