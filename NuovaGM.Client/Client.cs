@@ -23,6 +23,10 @@ namespace NuovaGM.Client
 			EventHandlers.Add("lprp:serverCallBack", new Action<int, List<object>>(returnCallback));
 			Instance = this;
 			ClassCollector.Init();
+			foreach (KeyValuePair<string, EventHandlerEntry> ehd in EventHandlers)
+			{
+				Debug.WriteLine($"Found Eventhandler {ehd.Key}; resource {API.GetCurrentResourceName()}");
+			}
 		}
 
 		#region ServerCallbacks

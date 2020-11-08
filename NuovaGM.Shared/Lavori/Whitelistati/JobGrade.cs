@@ -71,8 +71,7 @@ namespace NuovaGM.Shared
 		public Vector3 PosDepositoVeicolo;
 		public Vector3 PosRitiroVeicolo;
 		public Vector4 PosSpawnVeicolo;
-		public bool PrezzoFisso;
-		public int PrezzoAlKm;
+		public float PrezzoModifier;
 		public float pickupRange;
 		public List<Vector3> jobCoords;
 	}

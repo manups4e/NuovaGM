@@ -21,7 +21,7 @@ namespace NuovaGM.Client.TimeWeather
 		public static async void Init()
 		{
 			Client.Instance.AddEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
-			Client.Instance.AddTick(AggiornaTempo);
+			//Client.Instance.AddTick(AggiornaTempo);
 		}
 
 		public static void SetTime(int serverSecondOfDay, long serverDate, bool isTimeFrozen, bool cambio = false)
@@ -49,8 +49,7 @@ namespace NuovaGM.Client.TimeWeather
 				{
 					_timeBuffer -= (int)Math.Floor(_timeBuffer);
 					secondOfDay += (int)Math.Floor(_timeBuffer);
-					if (secondOfDay > 86399)
-						secondOfDay = 0;
+					if (secondOfDay > 86399) secondOfDay = 0;
 				}
 				h = (int)Math.Floor(secondOfDay / 3600f);
 				m = (int)Math.Floor((secondOfDay - (h * 3600f)) / 60);
@@ -73,7 +72,7 @@ namespace NuovaGM.Client.TimeWeather
 				else
 					Game.PlayerPed.IsPositionFrozen = true;
 				await BaseScript.Delay(2000);
-				NetworkOverrideClockTime(h, m, s);
+				AdvanceClockTimeTo(h, m, s);
 				await BaseScript.Delay(1950);
 				if (Game.PlayerPed.IsInVehicle())
 					Game.PlayerPed.IsPositionFrozen = false;

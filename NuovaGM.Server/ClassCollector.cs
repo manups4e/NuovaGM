@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using FivemPlayerlistServer;
+using Logger;
 using NuovaGM.Server.Appartamenti;
 using NuovaGM.Server.banking;
 using NuovaGM.Server.Businesses;

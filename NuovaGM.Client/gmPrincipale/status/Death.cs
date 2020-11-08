@@ -286,16 +286,20 @@ namespace NuovaGM.Client.gmPrincipale.Status
 		public static async Task Injuried()
 		{
 			await BaseScript.Delay(1000);
-			if ((Game.PlayerPed.Health < 55) && guarito && !ferito && Game.PlayerPed.Health > 0)
+			if ((Game.PlayerPed.Health < 55 && Game.PlayerPed.Health > 0) && guarito && !ferito)
 			{
-				Game.PlayerPed.MovementAnimationSet = "move_injured_generic";
+				RequestAnimSet("move_injured_generic");
+				while (!HasAnimSetLoaded("move_injured_generic")) await BaseScript.Delay(0);
+				SetPedMovementClipset(Game.PlayerPed.Handle, "move_injured_generic", 0.25f);
+				//Game.PlayerPed.MovementAnimationSet = "move_injured_generic";
 				HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", NotificationColor.Red, true);
 				ferito = true;
 				guarito = false;
+				RemoveAnimSet("move_injured_generic");
 			}
-			else if ((Game.PlayerPed.Health > 55) && ferito && !guarito && (StatsNeeds.nee.fame < 80 && StatsNeeds.nee.sete < 80))
+			if ((Game.PlayerPed.Health > 55) && ferito && !guarito && (StatsNeeds.nee.fame < 80 && StatsNeeds.nee.sete < 80))
 			{
-				ResetPedMovementClipset(PlayerPedId(), 0.0f);
+				ResetPedMovementClipset(PlayerPedId(), 0.25f);
 				ferito = false;
 				guarito = true;
 			}

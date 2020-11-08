@@ -91,59 +91,40 @@ namespace NuovaGM.Client.Veicoli
 
 		public static float fscale(float inputValue, float originalMin, float originalMax, float newBegin, float newEnd, float curve)
 		{
-			float OriginalRange = 0.0f;
-			float NewRange = 0.0f;
-			float zeroRefCurVal = 0.0f;
-			float normalizedCurVal = 0.0f;
-			float rangedValue = 0.0f;
 			int invFlag = 0;
 			if (curve > 10.0)
-			{
 				curve = 10.0f;
-			}
 
 			if (curve < -10.0)
-			{
 				curve = -10.0f;
-			}
 
-			curve = (curve * -0.1f);
+			curve *= -0.1f;
 			curve = (float)Math.Pow(10.0f, curve);
 			if (inputValue < originalMin)
-			{
 				inputValue = originalMin;
-			}
 
 			if (inputValue > originalMax)
-			{
 				inputValue = originalMax;
-			}
 
-			OriginalRange = originalMax - originalMin;
+			float OriginalRange = originalMax - originalMin;
+			float NewRange;
 			if (newEnd > newBegin)
-			{
 				NewRange = newEnd - newBegin;
-			}
 			else
 			{
 				NewRange = newBegin - newEnd;
 				invFlag = 1;
 			}
-			zeroRefCurVal = inputValue - originalMin;
-			normalizedCurVal = zeroRefCurVal / OriginalRange;
+			float zeroRefCurVal = inputValue - originalMin;
+			float normalizedCurVal = zeroRefCurVal / OriginalRange;
 			if (originalMin > originalMax)
-			{
 				return 0;
-			}
 
+			float rangedValue;
 			if (invFlag == 0)
-			{
 				rangedValue = ((float)Math.Pow(normalizedCurVal, curve) * NewRange) + newBegin;
-			}
 			else
-			{
 				rangedValue = newBegin - ((float)Math.Pow(normalizedCurVal, curve) * NewRange);
-			}
 
 			return rangedValue;
 		}
@@ -162,32 +143,22 @@ namespace NuovaGM.Client.Veicoli
 			if (tireBurstNumber == tireBurstLuckyNumber)
 			{
 				if (vehicle.CanTiresBurst == false)
-				{
 					return;
-				}
 
 				int numWheels = GetVehicleNumberOfWheels(vehicle.Handle);
 				int affectedTire;
 				if (numWheels == 2)
-				{
 					affectedTire = (Funzioni.GetRandomInt(1, 2) - 1) * 4; // wheel 0 or 4;
-				}
 				else if (numWheels == 4)
 				{
 					affectedTire = (Funzioni.GetRandomInt(1, 4) - 1);
 					if (affectedTire > 1)
-					{
 						affectedTire += 2; // 0, 1, 4, 5
-					}
 				}
 				else if (numWheels == 6)
-				{
 					affectedTire = (Funzioni.GetRandomInt(1, 6) - 1);
-				}
 				else
-				{
 					affectedTire = 0;
-				}
 
 				if (!IsVehicleTyreBurst(vehicle.Handle, affectedTire, false))
 				{
@@ -206,14 +177,10 @@ namespace NuovaGM.Client.Veicoli
 				{
 					float factor = 1.0f;
 					if (torqueMultiplierEnabled && healthEngineNew < 900)
-					{
 						factor = (healthEngineNew + 200.0f) / 1100;
-					}
 
 					if (limpMode == true && healthEngineNew < engineSafeGuard + 5)
-					{
 						factor = limpModeMultiplier;
-					}
 
 					vehicle.EngineTorqueMultiplier = factor;
 				}
@@ -267,32 +234,24 @@ namespace NuovaGM.Client.Veicoli
 				vehicleClass = vehicle.ClassType;
 				healthEngineCurrent = vehicle.EngineHealth;
 				if (healthEngineCurrent == 1000f)
-				{
 					healthEngineLast = 1000f;
-				}
 
 				healthEngineNew = healthEngineCurrent;
 				healthEngineDelta = healthEngineLast - healthEngineCurrent;
 				healthEngineDeltaScaled = healthEngineDelta * damageFactorEngine * classDamageMultiplier[(int)vehicleClass];
 				healthBodyCurrent = vehicle.BodyHealth;
 				if (healthBodyCurrent == 1000f)
-				{
 					healthBodyLast = 1000f;
-				}
 
 				healthBodyNew = healthBodyCurrent;
 				healthBodyDelta = healthBodyLast - healthBodyCurrent;
 				healthBodyDeltaScaled = healthBodyDelta * damageFactorBody * classDamageMultiplier[(int)vehicleClass];
 				healthPetrolTankCurrent = vehicle.PetrolTankHealth;
 				if (compatibilityMode && healthPetrolTankCurrent < 1)
-				{
 					healthPetrolTankLast = healthPetrolTankCurrent;
-				}
 
 				if (healthPetrolTankCurrent == 1000f)
-				{
 					healthPetrolTankLast = 1000f;
-				}
 
 				healthPetrolTankNew = healthPetrolTankCurrent;
 				healthPetrolTankDelta = healthPetrolTankLast - healthPetrolTankCurrent;
@@ -300,13 +259,9 @@ namespace NuovaGM.Client.Veicoli
 				if (healthEngineCurrent > engineSafeGuard + 1)
 				{
 					if (vehicle.IsEngineRunning)
-					{
 						vehicle.IsDriveable = true;
-					}
 					else
-					{
 						vehicle.IsDriveable = false;
-					}
 				}
 
 				if (healthEngineCurrent <= engineSafeGuard + 1 && limpMode == false)
@@ -319,9 +274,7 @@ namespace NuovaGM.Client.Veicoli
 					}
 				}
 				if (vehicle != lastVehicle)
-				{
 					pedInSameVehicleLast = false;
-				}
 
 				if (pedInSameVehicleLast == true)
 				{
@@ -329,40 +282,26 @@ namespace NuovaGM.Client.Veicoli
 					{
 						float healthEngineCombinedDelta = Math.Max(healthEngineDeltaScaled, Math.Max(healthBodyDeltaScaled, healthPetrolTankDeltaScaled));
 						if (healthEngineCombinedDelta > (healthEngineCurrent - engineSafeGuard))
-						{
 							healthEngineCombinedDelta *= 0.7f;
-						}
 
 						if (healthEngineCombinedDelta > healthEngineCurrent)
-						{
 							healthEngineCombinedDelta = healthEngineCurrent - (cascadingFailureThreshold / 5);
-						}
 
 						healthEngineNew = healthEngineLast - healthEngineCombinedDelta;
 						if (healthEngineNew > (cascadingFailureThreshold + 5) && healthEngineNew < degradingFailureThreshold)
-						{
 							healthEngineNew -= (0.038f * degradingHealthSpeedFactor);
-						}
 
 						if (healthEngineNew < cascadingFailureThreshold)
-						{
 							healthEngineNew -= (0.1f * cascadingFailureSpeedFactor);
-						}
 
 						if (healthEngineNew < engineSafeGuard)
-						{
 							healthEngineNew = engineSafeGuard;
-						}
 
 						if (compatibilityMode == false && healthPetrolTankCurrent < 750)
-						{
 							healthPetrolTankNew = 750.0f;
-						}
 
 						if (healthBodyNew < 0)
-						{
 							healthBodyNew = 0.0f;
-						}
 					}
 				}
 				else
@@ -371,14 +310,10 @@ namespace NuovaGM.Client.Veicoli
 					fBrakeForce = GetVehicleHandlingFloat(vehicle.Handle, "CHandlingData", "fBrakeForce");
 					float newFDeformationDamageMult = (float)Math.Pow(fDeformationDamageMult, deformationExponent);
 					if (deformationMultiplier != -1)
-					{
 						SetVehicleHandlingFloat(vehicle.Handle, "CHandlingData", "fDeformationDamageMult", newFDeformationDamageMult * deformationMultiplier); //Multiply by our factor
-					}
 
 					if (weaponsDamageMultiplier != -1)
-					{
 						SetVehicleHandlingFloat(vehicle.Handle, "CHandlingData", "fWeaponDamageMult", weaponsDamageMultiplier / damageFactorBody); //Set weaponsDamageMultiplier and compensate for damageFactorBody
-					}
 
 					fCollisionDamageMult = GetVehicleHandlingFloat(vehicle.Handle, "CHandlingData", "fCollisionDamageMult");
 					float newFCollisionDamageMultiplier = (float)Math.Pow(fCollisionDamageMult, collisionDamageExponent);
@@ -387,35 +322,24 @@ namespace NuovaGM.Client.Veicoli
 					float newFEngineDamageMult = (float)Math.Pow(fEngineDamageMult, engineDamageExponent);
 					SetVehicleHandlingFloat(vehicle.Handle, "CHandlingData", "fEngineDamageMult", newFEngineDamageMult);
 					if (healthBodyCurrent < cascadingFailureThreshold)
-					{
 						healthBodyNew = cascadingFailureThreshold;
-					}
-
 					pedInSameVehicleLast = true;
 				}
 				if (healthEngineNew != healthEngineCurrent)
-				{
 					vehicle.EngineHealth = healthEngineNew;
-				}
 
 				if (healthBodyNew != healthBodyCurrent)
-				{
 					vehicle.BodyHealth = healthBodyNew;
-				}
 
 				if (healthPetrolTankNew != healthPetrolTankCurrent)
-				{
 					vehicle.PetrolTankHealth = healthPetrolTankNew;
-				}
 
 				healthEngineLast = healthEngineNew;
 				healthBodyLast = healthBodyNew;
 				healthPetrolTankLast = healthPetrolTankNew;
 				lastVehicle = vehicle;
-				if (randomTireBurstInterval != 0 && vehicle.Speed > 10)
-				{
+				if (randomTireBurstInterval != 0 && vehicle.Speed > 20)
 					tireBurstLottery();
-				}
 			}
 			else
 			{
@@ -425,15 +349,11 @@ namespace NuovaGM.Client.Veicoli
 					{
 						lastVehicle = Game.PlayerPed.LastVehicle;
 						if (deformationMultiplier != -1)
-						{
 							SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fDeformationDamageMult", fDeformationDamageMult);
-						}
 
 						SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fBrakeForce", fBrakeForce);
 						if (weaponsDamageMultiplier != -1)
-						{
 							SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fWeaponDamageMult", weaponsDamageMultiplier);
-						}
 
 						SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fCollisionDamageMult", fCollisionDamageMult);
 						SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fEngineDamageMult", fEngineDamageMult);

@@ -146,7 +146,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void onPlayerSpawn()
 		{
-			SetEnablePedEnveffScale(PlayerPedId(), true);
+			SetEnablePedEnveffScale(Game.PlayerPed.Handle, true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
 			SetCanAttackFriendly(Game.PlayerPed.Handle, true, true);
@@ -184,7 +184,7 @@ namespace NuovaGM.Client.gmPrincipale
 		public static async void charSelect()
 		{
 			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
 			int a = Funzioni.GetRandomInt(SelectFirstCoords.Count-1);
 			charSelectCoords = SelectFirstCoords[a];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
@@ -209,7 +209,7 @@ namespace NuovaGM.Client.gmPrincipale
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
 				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 				SetGameplayCamRelativeHeading(0);
-				charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0f, -2, 0);
+				charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0f, -2, 0);
 				charSelectionCam.PointAt(Game.PlayerPed);
 				charSelectionCam.IsActive = true;
 				RenderScriptCams(true, false, 0, false, false);
@@ -221,12 +221,12 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void charCreate()
 		{
-			NetworkFadeInEntity(PlayerPedId(), true);
+			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
 			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-			SetEntityCoords(PlayerPedId(), charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
-			SetEntityHeading(PlayerPedId(), charCreateCoords.W);
-			Vector3 h = GetPedBoneCoords(PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f);
-			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0f, 2.0f, 0.8f);
+			SetEntityCoords(Game.PlayerPed.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
+			SetEntityHeading(Game.PlayerPed.Handle, charCreateCoords.W);
+			Vector3 h = GetPedBoneCoords(Game.PlayerPed.Handle, 24818, 0.0f, 0.0f, 0.0f);
+			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0.0f, 2.0f, 0.8f);
 			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f)
@@ -357,6 +357,14 @@ namespace NuovaGM.Client.gmPrincipale
 				EnableControlAction(0, 38, true);
 				Game.EnableControlThisFrame(0, Control.FrontendPause);
 			}
+			if (IsPedArmed(Game.PlayerPed.Handle, 6))
+			{
+				Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
+				Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
+				Game.DisableControlThisFrame(0, Control.MeleeAttackAlternate);
+				Game.DisableControlThisFrame(0, Control.MeleeAttack1);
+				Game.DisableControlThisFrame(0, Control.MeleeAttack2);
+			}
 		}
 
 		public static async Task MainTick()
@@ -366,11 +374,10 @@ namespace NuovaGM.Client.gmPrincipale
 			if (Game.Player.WantedLevel != 0)
 				Game.Player.WantedLevel = 0;
 			DisablePlayerVehicleRewards(PlayerId());
-			SetPedMinGroundTimeForStungun(PlayerPedId(), 8000);
+			SetPedMinGroundTimeForStungun(Game.PlayerPed.Handle, 8000);
 			if (Game.PlayerPed.IsInVehicle())
 			{
-				Vehicle veh = Game.PlayerPed.CurrentVehicle;
-				if (veh.Driver == Game.PlayerPed)
+				if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
 					SetPlayerCanDoDriveBy(Game.Player.Handle, false);
 				else if (passengerDriveBy)
 					SetPlayerCanDoDriveBy(Game.Player.Handle, true);
@@ -379,14 +386,6 @@ namespace NuovaGM.Client.gmPrincipale
 			}
 			Weapon weapon = Game.PlayerPed.Weapons.Current;
 			ManageReticle(weapon);
-			if (IsPedArmed(PlayerPedId(), 6))
-			{
-				Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
-				Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
-				Game.DisableControlThisFrame(0, Control.MeleeAttackAlternate);
-				Game.DisableControlThisFrame(0, Control.MeleeAttack1);
-				Game.DisableControlThisFrame(0, Control.MeleeAttack2);
-			}
 			if(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting)
 				DisplayAmmoThisFrame(false);
 			if (Game.PlayerPed.IsShooting)
@@ -436,7 +435,7 @@ namespace NuovaGM.Client.gmPrincipale
 				{
 					Vehicle veh = Game.PlayerPed.CurrentVehicle;
 					if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
-						//				if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAJetski((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) || IsThisModelAQuadbike((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId()))) && (!GetIsVehicleEngineRunning(GetVehiclePedIsIn(PlayerPedId(), false))))
+						//				if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) || IsThisModelAJetski((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) || IsThisModelAQuadbike((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) && (!GetIsVehicleEngineRunning(GetVehiclePedIsIn(Game.PlayerPed.Handle, false))))
 						DisableRadarThisFrame();
 				}
 			}
@@ -445,8 +444,7 @@ namespace NuovaGM.Client.gmPrincipale
 			else
 				Game.PlayerPed.SetDecor("PlayerInPausa", false);
 
-			for (int i = 0; i < pickupList.Count; i++) 
-				RemoveAllPickupsOfType((uint)GetHashKey(pickupList[i]));
+			pickupList.ForEach(x => RemoveAllPickupsOfType(Funzioni.HashUint(x)));
 			for (int i = 1; i < 16; i++) EnableDispatchService(i, false);
 		}
 
@@ -570,17 +568,9 @@ namespace NuovaGM.Client.gmPrincipale
 			}
 		}
 
-		private static bool HashInTable(uint hash)
-		{
-			for (int i = 0; i < scopedWeapons.Count; i++)
-				if (hash == scopedWeapons[i])
-					return true;
-			return false;
-		}
-
 		private static void ManageReticle(Weapon weapon)
 		{
-			if (!HashInTable((uint)weapon.Hash))
+			if (!scopedWeapons.Contains((uint)weapon.Hash))
 				Screen.Hud.HideComponentThisFrame(HudComponent.Reticle);
 		}
 
@@ -633,7 +623,8 @@ namespace NuovaGM.Client.gmPrincipale
 		public static async Task Armi()
 		{
 			if (IsDead) await BaseScript.Delay(500);
-			else {
+			else 
+			{
 				if (Game.PlayerPed.IsShooting)
 				{
 					Weapon weap = Game.PlayerPed.Weapons.Current;

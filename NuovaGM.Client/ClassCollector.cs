@@ -57,9 +57,9 @@ namespace NuovaGM.Client
 			Veicoli.Treni.Init();
 			Veicoli.EffettiRuote.Init();
 
-			Giostre.MontagneRusse.Init();
-			Giostre.RuotaPanoramica.Init();
-			Giostre.Funivia.Init();
+			//Giostre.MontagneRusse.Init();
+			//Giostre.RuotaPanoramica.Init();
+			//Giostre.Funivia.Init();
 
 			IPLInstance.Init();
 			Proprietà.Hotel.Hotels.Init();

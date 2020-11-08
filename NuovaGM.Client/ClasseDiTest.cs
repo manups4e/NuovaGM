@@ -25,7 +25,7 @@ namespace NuovaGM.Client
 		public static async void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-			Client.Instance.AddTick(TabsPauseMenu);
+			//Client.Instance.AddTick(TabsPauseMenu);
 		}
 
 		private static void Eccolo()
@@ -127,40 +127,25 @@ namespace NuovaGM.Client
 			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
 
-			/*
-						UIMenuItem b = new UIMenuItem("ShowColoredShard");
-						UIMenuItem c = new UIMenuItem("ShowOldMessage");
-						UIMenuItem d = new UIMenuItem("ShowSimpleShard");
-						UIMenuItem e = new UIMenuItem("ShowRankupMessage");
-						UIMenuItem f = new UIMenuItem("ShowWeaponPurchasedMessage");
-						UIMenuItem g = new UIMenuItem("ShowMpMessageLarge");
-						UIMenuItem h = new UIMenuItem("ShowMpWastedMessage");
-						Test.AddItem(b);
-						Test.AddItem(c);
-						Test.AddItem(d);
-						Test.AddItem(e);
-						Test.AddItem(f);
-						Test.AddItem(g);
-						Test.AddItem(h);
-			*/
+			UIMenuItem b = new UIMenuItem("ResetTime");
+			UIMenuItem c = new UIMenuItem("SetTime1");
+			UIMenuItem d = new UIMenuItem("SetTime2");
+			UIMenuItem e = new UIMenuItem("SetTime3");
+			Test.AddItem(b);
+			Test.AddItem(c);
+			Test.AddItem(d);
+			Test.AddItem(e);
 
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
-				/*				if (item == b)
-									BigMessageThread.MessageInstance.ShowColoredShard("Test1", "Test2", HudColor.HUD_COLOUR_BLUELIGHT, HudColor.HUD_COLOUR_MENU_YELLOW);
-								else if (item == c)
-									BigMessageThread.MessageInstance.ShowOldMessage("Test1");
-								else if (item == d)
-									BigMessageThread.MessageInstance.ShowSimpleShard("Test1", "Test2");
-								else if (item == e)
-									BigMessageThread.MessageInstance.ShowRankupMessage("Test1", "Test2", 15);
-								else if (item == f)
-									BigMessageThread.MessageInstance.ShowWeaponPurchasedMessage("Test1", "WEAPON_PISTOL", WeaponHash.Pistol);
-								else if (item == g)
-									BigMessageThread.MessageInstance.ShowMpMessageLarge("~g~MISSIONE COMPIUTA", "Veicolo recuperato!");
-								else if (item == h)
-									BigMessageThread.MessageInstance.ShowMpWastedMessage("Test 1", "Test 2");
-				*/
+				if (item == b)
+					NetworkClearClockTimeOverride();
+				else if (item == c)
+					AdvanceClockTimeTo(23, 0, 0);
+				else if (item == d)
+					SetClockTime(15, 0, 0);
+				else if (item == e)
+					NetworkOverrideClockTime(12, 0, 0);
 
 			};
 			Test.Visible = true;
@@ -183,8 +168,6 @@ namespace NuovaGM.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				Log.Printa(LogType.Debug, Game.Player.GetPlayerData().CurrentChar.Veicoli.Serialize());
-
 				/*
 				b.Tabs.Clear();
 				TabItem item1 = new TabItem("Item 1");

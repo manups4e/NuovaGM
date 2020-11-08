@@ -165,7 +165,6 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						SetPedComponentVariation(PlayerPedId(), 9, 0, 1, 2);
 						Game.PlayerPed.Armor = 0;
 					}
-
 				}
 				NetworkFadeInEntity(PlayerPedId(), true);
 				await BaseScript.Delay(500);

@@ -27,15 +27,8 @@ namespace NuovaGM.Server.TimeWeather
 
 		private static void Update(int time)
 		{
-			try
-			{
-				secondOfDay = time;
-				BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, true);
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
-			}
+			secondOfDay = time;
+			BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, true);
 		}
 
 		private static void FreezeTime(bool freeze) => frozen = freeze;
@@ -43,33 +36,22 @@ namespace NuovaGM.Server.TimeWeather
 		public static async Task SetTime()
 		{
 			await BaseScript.Delay(1000);
+			Date = DateTime.Now;
 			BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, false);
 		}
 
 		public static async Task UpdateTime()
 		{
-			try
+			await BaseScript.Delay(33);
+			if (!frozen)
 			{
-				await BaseScript.Delay(33);
-				Date = DateTime.Now;
-				if (!frozen)
+				_timeBuffer += 0.9900f;
+				if (_timeBuffer > 1f)
 				{
-					_timeBuffer += 0.9900f;
-					if (_timeBuffer > 1f)
-					{
-						_timeBuffer -= (int)Math.Floor(_timeBuffer);
-						secondOfDay += (int)Math.Floor(_timeBuffer);
-						if (secondOfDay > 86399)
-							secondOfDay = 0;
-					}
+					secondOfDay += (int)Math.Floor(_timeBuffer);
+					_timeBuffer -= (int)Math.Floor(_timeBuffer);
+					if (secondOfDay > 86399) secondOfDay = 0;
 				}
-				//h = (int)Math.Floor(secondOfDay / 3600f);
-				//m = (int)Math.Floor((secondOfDay - (h * 3600)) / 60f);
-				//s = secondOfDay - (h * 3600) - (m * 60);
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
 			}
 		}
 	}

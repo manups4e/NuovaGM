@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using System;
@@ -132,22 +133,21 @@ namespace NuovaGM.Client.Giostre
 					Ruota.Rotazione -= 360f;
 
 				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE"))
-				{
-					Vector3 vVar1 = Game.PlayerPed.Position;
-					SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", vVar1.Z - 13f);
-				}
+					SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", Game.PlayerPed.Position.Z - 13f);
 
-/*				if (CabinaAttuale != null)
-					HUD.DrawText(0.2f, 0.925f, "CabinaAttuale = " + CabinaAttuale.Index);
-				HUD.DrawText(0.2f, 0.95f, "Ruota.Gradient = " + Ruota.Gradient);
-*/
-				foreach (var cab in Cabine)
+				/*				if (CabinaAttuale != null)
+									HUD.DrawText(0.2f, 0.925f, "CabinaAttuale = " + CabinaAttuale.Index);
+								HUD.DrawText(0.2f, 0.95f, "Ruota.Gradient = " + Ruota.Gradient);
+				*/
+				Vector3 pitch = new Vector3(-Ruota.Rotazione - (360f / 16f), 0, 0);
+				Ruota.Entity.Rotation = pitch;
+				for(int i=0; i<Cabine.Length; i++)
 				{
 //					HUD.DrawText(0.4f, 0.5f + (cab.Index * 0.025f), "Index = " + cab.Index + ", " + (Math.Abs(Ruota.Rotazione - cab.Gradient) <0.1f));
 //					HUD.DrawText(0.2f, 0.5f + (cab.Index * 0.025f), "Index = " + cab.Index + ", " + Math.Abs(Ruota.Rotazione - cab.Gradient));
-					if (Math.Abs(Ruota.Rotazione - cab.Gradient) < 0.05f)
+					if (Math.Abs(Ruota.Rotazione - Cabine[i].Gradient) < 0.05f)
 					{
-						Ruota.Gradient = cab.Index + 1 > 15 ? 0 : cab.Index + 1;
+						Ruota.Gradient = Cabine[i].Index + 1 > 15 ? 0 : Cabine[i].Index + 1;
 						BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaGradient", Ruota.Gradient);
 						switch (Ruota.State)
 						{
@@ -162,13 +162,11 @@ namespace NuovaGM.Client.Giostre
 								break;
 						}
 					}
+					func_145(i);
 				}
 
-				Vector3 pitch = new Vector3(-Ruota.Rotazione - (360f / 16f),0,0);
-				Ruota.Entity.Rotation = pitch;
 
-				Cabine.ToList().ForEach(o => func_145(Cabine.ToList().IndexOf(o)));
-				SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", Game.PlayerPed.Position.Z - 13f);
+				//Cabine.ToList().ForEach(o => func_145(Cabine.ToList().IndexOf(o)));
 /*
 				int i;
 				for (i = 0; i < 16; i++)

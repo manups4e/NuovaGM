@@ -44,22 +44,15 @@ namespace NuovaGM.Client.gmPrincipale
 				if (otherPed.Exists() && CanPedBeListened(Game.PlayerPed, otherPed))
 				{
 					if (!Listeners.ContainsKey(serverID))
-					{
 						Listeners.Add(serverID, true);
-					}
 					else if (!Listeners[serverID])
-					{
 						Listeners[serverID] = true;
-					}
-
 					SendVoiceToPlayer(p, true);
 				}
 				else
 				{
 					if (!Listeners.ContainsKey(serverID))
-					{
 						Listeners.Add(serverID, false);
-					}
 					else if (Listeners[serverID])
 					{
 						Listeners[serverID] = false;
@@ -110,19 +103,12 @@ namespace NuovaGM.Client.gmPrincipale
 				FirstTick = false;
 			}
 			await BaseScript.Delay(300);
-			bool sendVoice = ShouldSendVoice();
-			if (sendVoice && !shouldReset)
-			{
+			if (ShouldSendVoice() && !shouldReset)
 				shouldReset = true;
-			}
-			else if (!sendVoice && shouldReset)
+			else if (!ShouldSendVoice() && shouldReset)
 			{
 				shouldReset = false;
-				foreach (Player p in Client.Instance.GetPlayers.ToList())
-				{
-					SendVoiceToPlayer(p, false);
-				}
-
+				Client.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
 				SetPedTalk(PlayerPedId());
 			}
 			UpdateVoices();
@@ -160,9 +146,7 @@ namespace NuovaGM.Client.gmPrincipale
 			if (Permesso)
 			{
 				if (Game.IsControlJustPressed(1, Control.VehicleHeadlight) && Game.IsControlPressed(1, Control.Sprint) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
-				{
 					UpdateVocalMode();
-				}
 
 				if (Game.IsControlPressed(1, Control.VehicleHeadlight) && Game.IsControlPressed(1, Control.Sprint) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 				{
@@ -191,27 +175,17 @@ namespace NuovaGM.Client.gmPrincipale
 						if (CanPedBeListened(Game.PlayerPed, otherPed))
 						{
 							if (!Listeners.ContainsKey(GetPlayerServerId(p.Handle)))
-							{
 								Listeners.Add(GetPlayerServerId(p.Handle), true);
-							}
 							else
-							{
 								Listeners[GetPlayerServerId(p.Handle)] = true;
-							}
-
 							SendVoiceToPlayer(p, true);
 						}
 						else
 						{
 							if (!Listeners.ContainsKey(GetPlayerServerId(p.Handle)))
-							{
 								Listeners.Add(GetPlayerServerId(p.Handle), false);
-							}
 							else
-							{
 								Listeners[GetPlayerServerId(p.Handle)] = false;
-							}
-
 							SendVoiceToPlayer(p, false);
 						}
 					}
