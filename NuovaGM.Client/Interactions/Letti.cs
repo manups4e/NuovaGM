@@ -5,6 +5,8 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using Logger;
+using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -126,7 +128,7 @@ namespace NuovaGM.Client.Interactions
 				if (!IsPedInAnyVehicle(PlayerPedId(), false) && !IsEntityOnFire(PlayerPedId()) && IsPlayerControlOn(PlayerId()))
 					if (!IsExplosionInSphere(-1, vParam0.X, vParam0.Y, vParam0.Z, 2f))
 						if (IsGameplayCamRendering() && !IsCinematicCamRendering())
-							if (Controllo2(Game.PlayerPed.Position, vParam0, fParam3, false))
+							if (Controllo2(Game.Player.GetPlayerData().posizione.ToVector3(), vParam0, fParam3, false))
 								return true;
 			return false;
 		}

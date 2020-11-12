@@ -47,7 +47,7 @@ namespace NuovaGM.Client.Businesses
 			int mstation = 0;
 			for (int i = 0; i < stations.Count; i++)
 			{
-				float dist = World.GetDistance(Game.PlayerPed.Position, pos);
+				float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), pos);
 				if (dist < 50f)
 				{
 					mstation = i;
@@ -180,7 +180,7 @@ namespace NuovaGM.Client.Businesses
 		{
 			for (int i = 0; i < stations.Count; i++)
 			{ 
-				float dist = World.GetDistance(Game.PlayerPed.Position, stations[i].ppos);
+				float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), stations[i].ppos);
 				if (dist < 80)
 				{
 					StationDiBenzina stationinfo = GetStationInfo(i + 1);

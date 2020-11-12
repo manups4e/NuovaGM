@@ -35,7 +35,7 @@ namespace NuovaGM.Client.Interactions
 					Prop pick = new Prop(pickup.propObj);
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = World.GetDistance(Game.PlayerPed.Position, pick.Position);
+						float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), pick.Position);
 						if (dist < 5)
 						{
 							string label = pickup.label;

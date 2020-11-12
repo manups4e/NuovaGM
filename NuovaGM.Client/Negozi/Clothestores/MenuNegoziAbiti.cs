@@ -35,7 +35,7 @@ namespace NuovaGM.Client.Negozi
 
 		static private void StartScenario(string anim)
 		{
-			Game.PlayerPed.Task.StartScenario(anim, Game.PlayerPed.Position);
+			Game.PlayerPed.Task.StartScenario(anim, Game.Player.GetPlayerData().posizione.ToVector3());
 		}
 
 		public static async Task UpdateDress(dynamic dress)

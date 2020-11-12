@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
 using NuovaGM.Client.gmPrincipale.MenuGm;
+using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Shared;
 using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
@@ -20,7 +22,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
-			Vector3 PedCoords = Game.PlayerPed.Position;
+			Vector3 PedCoords = Game.Player.GetPlayerData().posizione.ToVector3();
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);
@@ -123,7 +125,7 @@ namespace NuovaGM.Client.gmPrincipale
 					SetRichPresence("In uno scontro a fuoco da veicolo");
 				else if (Game.PlayerPed.IsInParachuteFreeFall || Game.PlayerPed.ParachuteState == ParachuteState.FreeFalling)
 					SetRichPresence("Fa paracadutismo");
-				else if (IsPedStill(PlayerPedId()) || (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.Speed == 0) && Main.AFKTime < (int)Math.Round(Main.SecondsBeforeKick / 2f))
+				else if (IsPedStill(PlayerPedId()) || (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.Speed == 0) && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
 					SetRichPresence("AFK in gioco");
 				else if (Game.IsPaused)
 					SetRichPresence("In Pausa");

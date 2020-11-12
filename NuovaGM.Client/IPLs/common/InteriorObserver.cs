@@ -7,7 +7,7 @@ using NuovaGM.Client.IPLs.dlc_bikers;
 using NuovaGM.Client.IPLs.dlc_finance;
 using NuovaGM.Client.MenuNativo;
 using NuovaGM.Client.Veicoli;
-
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace NuovaGM.Client.IPLs
 	{
 		public static async Task Observer()
 		{
-			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z);
+			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z);
 			if (IplManager.Global.CurrentInteriorId == 0)
 				IplManager.Global.ResetInteriorVariables();
 			else

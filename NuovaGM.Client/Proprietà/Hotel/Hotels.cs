@@ -41,7 +41,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 			{
 				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
-				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, true, 1.0f, 0));
+				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, true, 1.0f, 0));
 
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
@@ -134,7 +134,7 @@ namespace NuovaGM.Client.Proprietà.Hotel
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				OldPos = Game.PlayerPed.Position;
+				OldPos = Game.Player.GetPlayerData().posizione.ToVector3();
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);

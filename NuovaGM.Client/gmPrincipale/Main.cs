@@ -75,7 +75,6 @@ namespace NuovaGM.Client.gmPrincipale
 		public static bool isAdmin = false;
 		public static bool LoadoutLoaded = false;
 		private static bool passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
-		public static int SecondsBeforeKick = Client.Impostazioni.Main.AFKCheckTime;
 
 		public static void Init()
 		{
@@ -154,7 +153,6 @@ namespace NuovaGM.Client.gmPrincipale
 			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
 			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
 			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
-			SecondsBeforeKick = Client.Impostazioni.Main.AFKCheckTime;
 			kickWarning = Client.Impostazioni.Main.KickWarning;
 			recoils = Client.Impostazioni.Main.recoils;
 			pickupList = Client.Impostazioni.Main.pickupList;
@@ -500,7 +498,7 @@ namespace NuovaGM.Client.gmPrincipale
 			RemoveAnimDict("anim@mp_point");
 		}
 
-		private static async void StopPointing()
+		private static void StopPointing()
 		{
 			ispointing = false;
 			N_0xd01015c7316ae176(Game.PlayerPed.Handle, "Stop");
@@ -510,62 +508,46 @@ namespace NuovaGM.Client.gmPrincipale
 				SetPedCurrentWeaponVisible(Game.PlayerPed.Handle, true, true, true, true);
 			SetPedConfigFlag(Game.PlayerPed.Handle, 36, false);
 			Game.PlayerPed.Task.ClearSecondary();
-			await Task.FromResult(0);
 		}
 
 		public static int AFKTime = 600;
-		static int wait = 2000;
 		public static bool abort = false;
 		private static bool triggerato = false;
 		private static Vector3 currentPosition;
-		private static Vector3 previousPosition;
 
 		public static async Task AFK()
 		{
-			await BaseScript.Delay(wait);
 			if (Game.Player.GetPlayerData().group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
-				currentPosition = Game.PlayerPed.Position;
-				if (World.GetDistance(currentPosition, previousPosition) < .8f && !abort)
-				{
-					if (AFKTime > 0)
-					{
-						--AFKTime;
-						if (kickWarning && AFKTime < (int)Math.Round(SecondsBeforeKick / 4f))
-						{
-							string Text = "Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra alcuni istanti!";
-							if (!triggerato)
-							{
-								BaseScript.TriggerEvent("lprp:manager:warningMessage", "Last Planet Shield 2.0", Text, 8, "lprp:AFKScelta");
-								triggerato = true;
-							}
-							BaseScript.TriggerEvent("lprp:manager:updateText", Text);
-						}
-					}
-					else
-					{
+				currentPosition = Game.Player.GetPlayerData().posizione.ToVector3();
+				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
+				if (t >= Client.Impostazioni.Main.AFKCheckTime)
+					if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), currentPosition) < 3f)
 						BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
-					}
-				}
 				else
 				{
-					if (AFKTime != SecondsBeforeKick && SecondsBeforeKick > 0)
+					if (t > (Client.Impostazioni.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 4f)))
 					{
-						AFKTime = SecondsBeforeKick;
+						if (kickWarning)
+						{
+							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {(Client.Impostazioni.Main.AFKCheckTime - t)} secondi!";
+							if (!triggerato)
+							{
+								Manager.ClientManager.WarningMessage("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {(Client.Impostazioni.Main.AFKCheckTime - t)} secondi!", 8, "lprp:AFKScelta");
+								triggerato = true;
+							}
+							Manager.ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {(Client.Impostazioni.Main.AFKCheckTime - t)} secondi!");
+							Log.Printa(LogType.Debug, Text);
+						}
 					}
 				}
 			}
-			previousPosition = currentPosition;
-			wait = 1000;
 		}
 
 		private static void AFKScelta(string scelta)
 		{
 			if (scelta == "select" || scelta == "back" || scelta == "alternative")
-			{
-				AFKTime = SecondsBeforeKick;
 				triggerato = false;
-			}
 		}
 
 		private static void ManageReticle(Weapon weapon)
@@ -577,7 +559,7 @@ namespace NuovaGM.Client.gmPrincipale
 		public static void RespawnPed(Vector3 coords)
 		{
 			IsDead = false;
-			Game.PlayerPed.PositionNoOffset = coords;
+			Game.PlayerPed.Position = coords;
 			NetworkResurrectLocalPlayer(coords.X, coords.Y, coords.Z, Game.PlayerPed.Heading, true, false);
 			Game.PlayerPed.Health = 100;
 			Game.PlayerPed.IsInvincible = false;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using NuovaGM.Shared;
+using NuovaGM.Client.gmPrincipale.Utility;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -117,7 +118,7 @@ namespace NuovaGM.Client.Interactions
 
 		private static Tuple<Vector3, Vector3> OttieniCoords(int iParam1)
 		{
-			Prop tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
+			Prop tv = new Prop(GetClosestObjectOfType(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
 			switch (iParam1)
 			{
 				case 227329:
@@ -173,10 +174,10 @@ namespace NuovaGM.Client.Interactions
 				case 143361:
 				case 144897:
 				case 145153:
-					tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.13f), tv.Rotation);
 				case 149761:
-					tv = new Prop(GetClosestObjectOfType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 5f, 2)).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.21f), tv.Rotation);
 			}
 			return new Tuple<Vector3, Vector3>(new Vector3(), new Vector3());

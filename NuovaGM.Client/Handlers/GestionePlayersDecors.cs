@@ -4,6 +4,7 @@ using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using System.Threading.Tasks;
 using NuovaGM.Client.gmPrincipale.Utility;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client
 {
@@ -56,7 +57,7 @@ namespace NuovaGM.Client
 				if (player.Character.HasDecor("PlayerInPausa"))
 				{
 					if (player.Character.GetDecor<bool>("PlayerInPausa") && player != Game.Player)
-						if (player.Character.IsInRangeOf(Game.PlayerPed.Position, 30))
+						if (player.Character.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 30))
 							HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 				}
 			}

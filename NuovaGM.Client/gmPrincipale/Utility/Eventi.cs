@@ -16,6 +16,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 	{
 		public static PlayerChar Player;
 		public static Dictionary<string, PlayerChar> GiocatoriOnline = new Dictionary<string, PlayerChar>();
+		private static int timer = 0;
 
 		public static void Init()
 		{
@@ -45,6 +46,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Client.Instance.AddEventHandler("lprp:istanzia", new Action<bool, int, bool, string>(Istanzia));
 			Client.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action(RimuoviIstanza));
 			//Client.Instance.AddTick(Mappina);
+			timer = GetGameTimer();
 		}
 
 		private static void AnimazioneRiceviOggetto()
@@ -155,7 +157,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			Screen.Fading.FadeOut(800);
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
 
-			Main.RespawnPed(Game.PlayerPed.Position);
+			Main.RespawnPed(Game.Player.GetPlayerData().posizione.ToVector3());
 			Status.StatsNeeds.nee.fame = 0.0f;
 			Status.StatsNeeds.nee.sete = 0.0f;
 			Status.StatsNeeds.nee.stanchezza = 0.0f;
@@ -171,7 +173,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async void SpawnVehicle(string model)
 		{
-			Vector3 coords = Game.PlayerPed.Position;
+			Vector3 coords = Game.Player.GetPlayerData().posizione.ToVector3();
 			var Veh = await Funzioni.SpawnVehicle(model, coords, Game.PlayerPed.Heading);
 			if (Veh != null)
 				Veh.PreviouslyOwnedByPlayer = true;
@@ -267,9 +269,14 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async Task LocationSave()
 		{
-			await BaseScript.Delay(10000);
+			await BaseScript.Delay(750);
+			Game.Player.GetPlayerData().posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
 			if (Game.Player.GetPlayerData().Istanza.Stanziato) return;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Game.PlayerPed.Position, Game.PlayerPed.Heading);
+			if (GetGameTimer() - timer >= 10000)
+			{
+				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.W);
+				timer = GetGameTimer();
+			}
 			await Task.FromResult(0);
 		}
 

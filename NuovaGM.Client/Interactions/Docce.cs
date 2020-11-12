@@ -10,6 +10,7 @@ using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
 using Newtonsoft.Json;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -178,13 +179,13 @@ namespace NuovaGM.Client.Interactions
 		{
 			if (!InDoccia)
 			{
-				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.5f, 2));
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.5f);
 				if (VicinoDoccia)
 				{
-					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.5f, 2));
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.5f);
 					if (!DocciaPorta.IsAttached())
 						DocciaPorta.IsPositionFrozen = true;
-					attuale = Coords.First(o => World.GetDistance(o.anim, DocciaPorta.Position) < 2f);
+					attuale = Coords.First(o => Vector3.Distance(o.anim, DocciaPorta.Position) < 2f);
 				}
 			}
 			await BaseScript.Delay(850);

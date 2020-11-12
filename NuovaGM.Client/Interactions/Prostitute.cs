@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 
 namespace NuovaGM.Client.Interactions
 {
@@ -34,7 +35,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task ControlloProstitute()
 		{
-			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * ProstDistance, 2));
+			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < ProstDistance);
 			await BaseScript.Delay(200);
 		}
 
@@ -64,6 +65,7 @@ namespace NuovaGM.Client.Interactions
 								{
 									if (Game.PlayerPed.CurrentVehicle.IsSeatFree(VehicleSeat.Passenger))
 									{
+										Prostituta.IsPersistent = true;
 										Prostituta.Task.EnterVehicle(Game.PlayerPed.CurrentVehicle, VehicleSeat.Passenger);
 										while (!Prostituta.IsInVehicle(Game.PlayerPed.CurrentVehicle)) await BaseScript.Delay(0);
 										SetPedInVehicleContext(Prostituta.Handle, Funzioni.HashUint("MINI_PROSTITUTE_LOW_PASSENGER"));

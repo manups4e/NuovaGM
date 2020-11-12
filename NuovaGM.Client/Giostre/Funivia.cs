@@ -162,7 +162,7 @@ namespace NuovaGM.Client.Giostre
 					Vector3 Next = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient + 1];
 					if (Cable_cars[i].Gradient_distance == 0.0f)
 					{
-						Cable_cars[i].Gradient_distance = World.GetDistance(Prev, Next);
+						Cable_cars[i].Gradient_distance = Vector3.Distance(Prev, Next);
 					}
 
 					float veraspeed;
@@ -218,7 +218,7 @@ namespace NuovaGM.Client.Giostre
 					Vector3 Next = Tracks[Cable_cars[i].Index][Cable_cars[i].Gradient - 1];
 					if (Cable_cars[i].Gradient_distance == 0.0f)
 					{
-						Cable_cars[i].Gradient_distance = World.GetDistance(Prev, Next);
+						Cable_cars[i].Gradient_distance = Vector3.Distance(Prev, Next);
 					}
 
 					float veraspeed;
@@ -450,7 +450,7 @@ namespace NuovaGM.Client.Giostre
 		static void CheckIfPlayerShouldBeKickedOut(TrenoFunivia treno)
 		{
 			Vector3 pos = Vector3.Add(treno.Position, new Vector3(0.0f, 0.0f, -5.3f));
-			float dist = World.GetDistance(pos, Game.PlayerPed.Position);
+			float dist = Vector3.Distance(pos, Game.PlayerPed.Position);
 			if (dist < 3.0f)
 			{
 				KickPlayerOutOfMyCablecar(treno);
@@ -476,7 +476,7 @@ namespace NuovaGM.Client.Giostre
 			if (!treno.Is_player_seated)
 			{
 				Vector3 plypos = Game.PlayerPed.Position;
-				float dist = World.GetDistance(pos, Game.PlayerPed.Position);
+				float dist = Vector3.Distance(pos, Game.PlayerPed.Position);
 				if (dist < 3.0f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nella funivia");

@@ -218,7 +218,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task CheckSedia()
 		{
-			SediaClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.PlayerPed.Position) < 1.375f);
+			SediaClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.Player.GetPlayerData().posizione.ToVector3()) < 1.375f);
 			await BaseScript.Delay(200);
 
 		}

@@ -159,7 +159,7 @@ namespace NuovaGM.Client.Personale
 						Blip[] test = World.GetAllBlips((BlipSprite)var);
 						HUD.ShowNotification("GPS: Calcolo..");
 						await BaseScript.Delay(1000);
-						b = test.ToList().OrderBy(x => World.GetDistance(x.Position, Game.PlayerPed.Position)).FirstOrDefault();
+						b = test.ToList().OrderBy(x => Vector3.Distance(x.Position, Game.Player.GetPlayerData().posizione.ToVector3())).FirstOrDefault();
 						HUD.ShowNotification("GPS: Calcolo..").Hide();
 						if (b != null)
 						{
@@ -414,7 +414,7 @@ namespace NuovaGM.Client.Personale
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();
-								var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3f);
+								var players = Funzioni.GetPlayersInArea(Game.Player.GetPlayerData().posizione.ToVector3(), 3f);
 								if (players.Count > 0)
 								{
 									foreach (var player in players)
@@ -757,7 +757,7 @@ namespace NuovaGM.Client.Personale
 				{
 					if (_item == item1)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item2)
 					{
@@ -765,11 +765,11 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item3)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item4)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item5)
 					{
@@ -785,7 +785,7 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item8)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item9)
 					{
@@ -898,15 +898,15 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item15)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_stand_fishing", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_stand_fishing", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item16)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_gardener_plant", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_gardener_plant", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item17)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_vehicle_mechanic", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_vehicle_mechanic", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item18)
 					{
@@ -914,7 +914,7 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item19)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item20)
 					{
@@ -922,11 +922,11 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item21)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item22)
 					{
-						Game.PlayerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item23)
 					{
@@ -942,23 +942,23 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item26)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item27)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item28)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item29)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item30)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -1009,7 +1009,7 @@ namespace NuovaGM.Client.Personale
 				{
 					if (_item == item31)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item32)
 					{
@@ -1154,27 +1154,27 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item53)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item54)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_leaning", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_leaning", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item55)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item56)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item57)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_maid_clean", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_maid_clean", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item58)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_tourist_mobile", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("world_human_tourist_mobile", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -1238,7 +1238,7 @@ namespace NuovaGM.Client.Personale
 					}
 					else if (_item == item65)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", Game.PlayerPed.Position);
+						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item66)
 					{
@@ -1503,18 +1503,18 @@ namespace NuovaGM.Client.Personale
 		public static async Task routeColor()
 		{
 
-			if (World.GetDistance(Game.PlayerPed.Position, b.Position) > 5000f)
+			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 5000f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
-			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 5000f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 4500f)
+			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 5000f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 4500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Blue);
-			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 4500f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 2500f)
+			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 4500f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 2500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 2500f && World.GetDistance(Game.PlayerPed.Position, b.Position) > 1500f)
+			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 2500f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 1500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 1500f)
+			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 1500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Green);
 
-			if (World.GetDistance(Game.PlayerPed.Position, b.Position) < 20)
+			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 20)
 			{
 				HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
 				b.ShowRoute = false;

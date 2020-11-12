@@ -108,7 +108,6 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task Sedie()
 		{
-			Vector3 pos = Game.PlayerPed.Position;
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
 				if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)

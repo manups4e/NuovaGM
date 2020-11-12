@@ -82,7 +82,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			Vector3 listenerHeadPos = otherPed.Bones[Bone.IK_Head].Position;
 			bool InSameVeh = (ped.IsInVehicle() && otherPed.IsInVehicle() && ped.CurrentVehicle == otherPed.CurrentVehicle);
-			float distance = World.GetDistance(listenerHeadPos, ped.Position);
+			float distance = Vector3.Distance(listenerHeadPos, ped.Position);
 			float CheckDistance = Distance;
 			return InSameVeh || (!OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < (Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f)) && distance < CheckDistance);
 		}

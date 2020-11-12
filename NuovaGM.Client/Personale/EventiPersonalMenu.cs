@@ -3,6 +3,7 @@ using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -131,7 +132,7 @@ namespace NuovaGM.Client.Personale
 			{
 				if (vehicle != null && vehicle.Exists())
 				{
-					float distanceToVeh = World.GetDistance(Game.PlayerPed.Position, vehicle.Position);
+					float distanceToVeh = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), vehicle.Position);
 					if (distanceToVeh <= 20f)
 					{
 						if (vehicle.Doors.HasDoor((VehicleDoorIndex)port))
@@ -284,7 +285,7 @@ namespace NuovaGM.Client.Personale
 			{
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
-				float distanceToVeh = World.GetDistance(Game.PlayerPed.Position, vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), vehicle.Position);
 				if (toggle)
 				{
 					if (vehicle.Exists())

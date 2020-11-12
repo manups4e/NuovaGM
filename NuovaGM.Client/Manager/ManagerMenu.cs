@@ -67,7 +67,7 @@ namespace NuovaGM.Client.Manager
 						if (item == Teletrasportami)
 							Game.PlayerPed.Position = p.Character.Position;
 						else if (item == Teletrasportalo)
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.PlayerPed.Position);
+							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.Player.GetPlayerData().posizione.ToVector3());
 						else if (item == Specta)
 						{
 							if (p == Game.Player) return;
@@ -352,7 +352,7 @@ namespace NuovaGM.Client.Manager
 						VeicoloSalvato.Delete();
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Game.PlayerPed.Position, Game.PlayerPed.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane)
 						SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}

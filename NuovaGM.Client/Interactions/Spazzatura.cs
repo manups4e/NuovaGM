@@ -63,7 +63,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task ControlloSpazzatura()
 		{
-			BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * TrashRange, 2));
+			BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < TrashRange);
 			await BaseScript.Delay(500);
 		}
 

@@ -249,7 +249,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				RaycastResult raycast = World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.GetOffsetPosition(new Vector3(0f, distance, 0f)), IntersectOptions.Everything);
+				RaycastResult raycast = World.Raycast(Game.Player.GetPlayerData().posizione.ToVector3(), Game.PlayerPed.GetOffsetPosition(new Vector3(0f, distance, 0f)), IntersectOptions.Everything);
 				if (raycast.DitHitEntity)
 				{
 					return (Entity)raycast.HitEntity;
@@ -419,7 +419,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		{
 			try
 			{
-				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
+				return World.Raycast(Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.ToVector3() + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{
@@ -938,7 +938,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static Tuple<Vehicle, float> GetClosestVehicle(this Ped entity)
 		{
 			var veh = World.GetClosest(entity.Position, World.GetAllVehicles());
-			float dist = entity.Position.DistanceToSquared(veh.Position);
+			float dist = Vector3.Distance(entity.Position, veh.Position);
 			return new Tuple<Vehicle, float>(veh, dist);
 		}
 		#endregion
@@ -986,7 +986,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static Tuple<Ped, float> GetClosestPed(this Ped entity)
 		{
 			Ped ped = World.GetClosest(entity.Position, World.GetAllPeds());
-			float dist = entity.Position.DistanceToSquared(ped.Position);
+			float dist = Vector3.Distance(entity.Position, ped.Position);
 			return new Tuple<Ped, float>(ped, dist);
 		}
 		#endregion
@@ -1034,7 +1034,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		public static Tuple<Prop, float> GetClosestProp(this Prop entity)
 		{
 			Prop ped = World.GetClosest(entity.Position, World.GetAllProps());
-			float dist = entity.Position.DistanceToSquared(ped.Position);
+			float dist = Vector3.Distance(entity.Position, ped.Position);
 			return new Tuple<Prop, float>(ped, dist);
 		}
 		#endregion
@@ -1063,7 +1063,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// </summary>
 		public static Tuple<Player, float> GetClosestPlayer()
 		{
-			return GetClosestPlayer(Game.PlayerPed.Position);
+			return GetClosestPlayer(Game.Player.GetPlayerData().posizione.ToVector3());
 		}
 
 		/// <summary>
@@ -1079,7 +1079,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			{
 				Ped target = p.Character;
 				Vector3 targetCoords = target.Position;
-				float distance = World.GetDistance(coords, targetCoords);
+				float distance = Vector3.Distance(coords, targetCoords);
 				if (closestDistance == -1 || closestDistance > distance)
 				{
 					closestPlayer = p;

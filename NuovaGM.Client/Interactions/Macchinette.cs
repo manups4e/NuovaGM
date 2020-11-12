@@ -36,7 +36,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task ControlloMachines()
 		{
-			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * MachineRange, 2));
+			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < MachineRange);
 			await BaseScript.Delay(200);
 		}
 

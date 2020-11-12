@@ -114,11 +114,17 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 					InServizio = !InServizio;
 					if(VeicoloServizio != null && VeicoloServizio.IsAlive && VeicoloServizio.Exists())
 						SetTaxiLights(VeicoloServizio.Handle, InServizio);
-					HUD.ShowNotification(InServizio ? "Sei entrato in servizio" : "Sei uscito dal servizio");
 					if (InServizio)
+					{
 						Client.Instance.AddTick(ServizioTaxi);
+						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
+					}
 					else
+					{
 						Client.Instance.RemoveTick(ServizioTaxi);
+						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, IconType.ChatBox);
+						VaiFuoriServizio(1);
+					}
 				}
 			}
 		}
@@ -131,7 +137,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 					if(Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
 					{
 						jobs.flag[0] = 0;
-						jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+						jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 						jobs.onJob = 1;
 					}
 				}
@@ -154,7 +160,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 								}
 								NPCPasseggero = null;
 								jobs.flag[0] = 0;
-								jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+								jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 								if(jobs.blip != null && jobs.blip.Exists())
 								{
 									jobs.blip.Delete();
@@ -180,20 +186,27 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										NPCPasseggero = null;
 										HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente si è spazientito e ha cancellato il servizio. Trovane ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
 										jobs.flag[0] = 0;
-										jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+										jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 									}
 									else
 									{
 										if (Game.PlayerPed.IsSittingInVehicle(VeicoloServizio))
 										{
-											if (Vector3.Distance(Game.PlayerPed.Position, NPCPasseggero.Position) < 8.0001f)
+											if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), NPCPasseggero.Position) < 8.0001f)
 											{
+												NPCPasseggero.IsPersistent = true;
+												NPCPasseggero.BlockPermanentEvents = true;
+												SetPedCombatAttributes(NPCPasseggero.Handle, 17, true);
 												var offs = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, 1.5f, 0.0f, 0.0f);
 												var offs2 = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, -1.5f, 0.0f, 0.0f);
 												if (Vector3.Distance(offs, NPCPasseggero.Position) < Vector3.Distance(offs2, NPCPasseggero.Position))
-													NPCPasseggero.Task.EnterVehicle(VeicoloServizio, VehicleSeat.RightRear, speed: 2.0001f);
+													TaskEnterVehicle(NPCPasseggero.Handle, VeicoloServizio.Handle, -1, 2, 1.0001f, 1, 0);
 												else
-													NPCPasseggero.Task.EnterVehicle(VeicoloServizio, VehicleSeat.LeftRear, speed: 2.0001f);
+													TaskEnterVehicle(NPCPasseggero.Handle, VeicoloServizio.Handle, -1, 1, 1.0001f, 1, 0);
+												NPCPasseggero.AlwaysKeepTask = true;
+												while (!NPCPasseggero.IsInVehicle(VeicoloServizio)) await BaseScript.Delay(0);
+												VeicoloServizio.LockStatus = VehicleLockStatus.Locked;
+												NPCPasseggero.BlockPermanentEvents = true;
 												jobs.pedentpos = NPCPasseggero.Position;
 												jobs.flag[0] = 2;
 												jobs.flag[1] = 30;
@@ -216,10 +229,10 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										NPCPasseggero.MarkAsNoLongerNeeded();
 										NPCPasseggero = null;
 										HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
-										while (VeicoloServizio.Speed > 2) await BaseScript.Delay(1000);
-										NPCPasseggero.Task.LeaveVehicle(LeaveVehicleFlags.None);
+										while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
+										NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
 										jobs.flag[0] = 0;
-										jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+										jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 									}
 									else
 									{
@@ -274,7 +287,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 											await BaseScript.Delay(8000);
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 											jobs.flag[0] = 0;
-											jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+											jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 
 										}
 									}
@@ -286,7 +299,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 							if(jobs.flag[0] > 0)
 							{
 								jobs.flag[0] = 0;
-								jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+								jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 								HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 								if (jobs.blip != null && jobs.blip.Exists())
 								{
@@ -301,7 +314,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 								{
 									if(jobs.flag[1] == 0)
 									{
-										Vector3 pos = Game.PlayerPed.Position;
+										Vector3 pos = Game.Player.GetPlayerData().posizione.ToVector3();
 										Ped rand = new Ped(GetRandomPedAtCoord(pos.X, pos.Y, pos.Z, 35f, 35f, 35f, 26));
 										if (rand.Exists())
 										{
@@ -320,7 +333,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										else
 										{
 											jobs.flag[0] = 0;
-											jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
+											jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 										}
 									}
@@ -330,7 +343,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 					}
 					else
 					{
-						if (Vector3.Distance(Game.PlayerPed.Position, VeicoloServizio.Position) > 30f)
+						if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), VeicoloServizio.Position) > 30f)
 							VaiFuoriServizio(1);
 						else
 							Screen.ShowSubtitle("Torna sulla tua auto per ~g~continuare~w~ o ~r~allontanati~w~ dal taxi per smettere di lavorare");
@@ -362,6 +375,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 						NPCPasseggero.Task.LeaveVehicle(LeaveVehicleFlags.None);
 				}
 				NPCPasseggero.MarkAsNoLongerNeeded();
+				NPCPasseggero = null;
 				if (jobs.blip != null && jobs.blip.Exists())
 				{
 					jobs.blip.Delete();

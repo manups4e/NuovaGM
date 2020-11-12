@@ -171,7 +171,7 @@ namespace NuovaGM.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 0.9f, 2));
+			ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.9f);
 			await BaseScript.Delay(500);
 		}
 

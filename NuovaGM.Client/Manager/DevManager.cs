@@ -61,7 +61,7 @@ namespace NuovaGM.Client.Manager
 				var entityPos = veicolo.Position;
 				var pos = Funzioni.WorldToScreen(entityPos);
 				if (pos.X <= 0f || pos.Y <= 0f || pos.X >= 1f || pos.Y >= 1f) pos = DefaultPos;
-				var dist = (float)Math.Sqrt(Game.PlayerPed.Position.DistanceToSquared(entityPos));
+				var dist = Vector3.Distance(Game.PlayerPed.Position, entityPos);
 				var offsetX = MathUtil.Clamp((1f - dist / 100f) * 0.1f, 0f, 0.1f);
 				pos.X += offsetX;
 				var data = new Dictionary<string, string>
@@ -95,13 +95,13 @@ namespace NuovaGM.Client.Manager
 			else
 			{
 				foreach (var p in World.GetAllProps())
-					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f))
+					if (p.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllPeds())
-					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f) && p != Game.PlayerPed)
+					if (p.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 20f) && p != Game.PlayerPed)
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllVehicles())
-					if (p.IsInRangeOf(Game.PlayerPed.Position, 20f))
+					if (p.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}
 			await Task.FromResult(0);

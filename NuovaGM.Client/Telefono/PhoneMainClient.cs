@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using Logger;
 using NuovaGM.Shared;
+using NuovaGM.Client.gmPrincipale.Utility;
 
 namespace NuovaGM.Client.Telefono
 {
@@ -72,7 +73,7 @@ namespace NuovaGM.Client.Telefono
 						Phone.Scaleform.CallFunction("SET_THEME", Phone.getCurrentCharPhone().Theme);
 						Phone.Scaleform.CallFunction("SET_BACKGROUND_IMAGE", Phone.getCurrentCharPhone().Wallpaper);
 						Phone.SetSoftKeys(2, 19);
-						var playerPos = Game.PlayerPed.Position;
+						var playerPos = Game.Player.GetPlayerData().posizione.ToVector3();
 						Phone.Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 						if (GetFollowPedCamViewMode() == 4)

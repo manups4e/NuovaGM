@@ -1,8 +1,11 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.UI;
+using Logger;
 using NuovaGM.Client.gmPrincipale;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using NuovaGM.Client.MenuNativo;
+using NuovaGM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,6 +16,9 @@ namespace NuovaGM.Client.Manager
 {
 	static class ClientManager
 	{
+		private static string title;
+		private static string sub;
+		private static string sub2;
 		public enum Tipi_Di_Bottone
 		{
 			NONE = 0,
@@ -75,6 +81,7 @@ namespace NuovaGM.Client.Manager
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
+			Client.Instance.AddEventHandler("lprp:manager:updateText", new Action<string, string>(UpdateText));
 			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
 			Client.Instance.AddTick(AC);
 		}
@@ -84,25 +91,32 @@ namespace NuovaGM.Client.Manager
 			Game.PlayerPed.Position = coords;
 		}
 
+		public static void UpdateText(string txt, string txt2)
+		{
+			sub = txt;
+			if (txt2 != null)
+				sub2 = txt2;
+		}
+
 		// SUGGERISCO 16384 (PERMETTE SOLO IL TASTO CONTINUA)
 		// 16392 (permette continua e indietro)
 		static int instructionalKey;
 		static string event1;
-		public static async void WarningMessage(string title, string sub, int key, string evento1)
+		public static async void WarningMessage(string ttl, string _sub, int key, string evento1)
 		{
-			AddTextEntry("warning_message_first_line", title);
-			AddTextEntry("warning_message_second_line", sub);
+			title = ttl;
+			sub = _sub;
 			instructionalKey = key;
 			event1 = evento1;
 			Client.Instance.AddTick(WarningMessageTick);
 			await Task.FromResult(0);
 		}
 
-		public static async void WarningMessage(string title, string sub, string sub2, int key, string evento1)
+		public static async void WarningMessage(string ttl, string _sub, string _sub2, int key, string evento1)
 		{
-			AddTextEntry("FACES_WARNH2", title);
-			AddTextEntry("QM_NO_0", sub);
-			AddTextEntry("QM_NO_3", sub2);
+			title = ttl;
+			sub = _sub;
+			sub2 = _sub2;
 			instructionalKey = key;
 			event1 = evento1;
 			Client.Instance.AddTick(FrontendAlertTick);
@@ -113,6 +127,9 @@ namespace NuovaGM.Client.Manager
 		{
 			int bg = 1;
 			int p6 = 1;
+			AddTextEntry("FACES_WARNH2", title);
+			AddTextEntry("QM_NO_0", sub);
+			AddTextEntry("QM_NO_3", sub2);
 			DrawFrontendAlert("FACES_WARNH2", "QM_NO_0", 3, 3, "QM_NO_3", 2, -1, 0, "FM_NXT_RAC", "QM_NO_1", true, 10);
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
@@ -140,6 +157,8 @@ namespace NuovaGM.Client.Manager
 		{
 			int bg = 1;
 			int p6 = 1;
+			AddTextEntry("warning_message_first_line", title);
+			AddTextEntry("warning_message_second_line", sub);
 			SetWarningMessage("warning_message_first_line", instructionalKey, "warning_message_second_line", true, -1, ref bg, ref p6, true, 0);
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
@@ -159,7 +178,6 @@ namespace NuovaGM.Client.Manager
 				BaseScript.TriggerEvent(event1, "alternative");
 				instructionalKey = 0;
 			}
-			await Task.FromResult(0);
 		}
 
 		public static bool NoClip = false;
@@ -190,9 +208,9 @@ namespace NuovaGM.Client.Manager
 						{
 							RequestAnimDict(noclip_ANIM_A);
 							while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-							curLocation = Game.PlayerPed.Position;
+							curLocation = Game.Player.GetPlayerData().posizione.ToVector3();
 							curRotation = Game.PlayerPed.Rotation;
-							curHeading = Game.PlayerPed.Heading;
+							curHeading = Game.Player.GetPlayerData().posizione.W;
 							TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 						}
 						else

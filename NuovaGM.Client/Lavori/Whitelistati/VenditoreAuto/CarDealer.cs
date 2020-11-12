@@ -82,7 +82,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			mostraCatalogo.OnMenuOpen += async (_menu) =>
 			{
 				_menu.Clear();
-				List<Player> players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3f);
+				List<Player> players = Funzioni.GetPlayersInArea(Game.Player.GetPlayerData().posizione.ToVector3(), 3f);
 				List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 				string txt = "";
 				foreach (var t in texts) txt = t + "~n~";

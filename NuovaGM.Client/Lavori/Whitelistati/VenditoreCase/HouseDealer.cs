@@ -89,7 +89,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 				appartamento.OnMenuOpen += async (menu) =>
 				{
 					menu.Clear();
-					var players = Funzioni.GetPlayersInArea(Game.PlayerPed.Position, 3.5f, false);
+					var players = Funzioni.GetPlayersInArea(Game.Player.GetPlayerData().posizione.ToVector3(), 3.5f, false);
 					foreach(var p in players)
 					{
 						UIMenu persona = menu.AddSubMenu(p.GetPlayerData().FullName);

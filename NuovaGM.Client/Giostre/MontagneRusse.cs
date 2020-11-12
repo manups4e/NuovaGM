@@ -131,7 +131,7 @@ namespace NuovaGM.Client.Giostre
 		{
 			try
 			{
-				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => o.Position.DistanceToSquared(Game.PlayerPed.Position) < Math.Pow(2 * 300f, 2));
+				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.PlayerPed.Position, o.Position) < 300f);
 				if (MRClosest != null && MRClosest.Exists()) MRClosest.Delete();
 			}
 			catch(Exception e)

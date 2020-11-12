@@ -22,6 +22,7 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		public stanziato Istanza = new stanziato();
 		public List<Char_data> char_data = new List<Char_data>();
 		public dynamic data;
+		public Vector4 posizione = Vector4.Zero;
 		public PlayerChar() { }
 		public PlayerChar(dynamic result)
 		{

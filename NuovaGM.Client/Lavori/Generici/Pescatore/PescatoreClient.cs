@@ -174,7 +174,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				}
 
 
-				/*			if (World.GetDistance(Game.PlayerPed.Position, PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
+				/*			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -256,7 +256,7 @@ namespace NuovaGM.Client.Lavori.Generici.Pescatore
 				if (Input.IsDisabledControlJustPressed(Control.FrontendX))
 				{
 					float altezza = 0;
-					if(GetWaterHeightNoWaves(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, ref altezza)) 
+					if(GetWaterHeightNoWaves(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, ref altezza)) 
 					{ 
 						Game.PlayerPed.IsPositionFrozen = true;
 						SetEnableHandcuffs(PlayerPedId(), true);
