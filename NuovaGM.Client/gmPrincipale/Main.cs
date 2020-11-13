@@ -79,7 +79,6 @@ namespace NuovaGM.Client.gmPrincipale
 		public static void Init()
 		{
 			LoadMain();
-			Client.Instance.AddTick(AFK);
 			Client.Instance.AddTick(Entra);
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
@@ -519,7 +518,10 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			if (Game.Player.GetPlayerData().group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
-				currentPosition = Game.Player.GetPlayerData().posizione.ToVector3();
+//				if (NuovoIngresso.NuovoIngresso.guiEnabled)
+//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
+
+				currentPosition = Game.Player.GetPlayerData() == null ? Game.PlayerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (t >= Client.Impostazioni.Main.AFKCheckTime)
 					if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), currentPosition) < 3f)

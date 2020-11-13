@@ -13,12 +13,14 @@ using System.Text;
 using System.Threading.Tasks;
 using NuovaGM.Client.Veicoli;
 using System.Drawing;
+using NuovaGM.Client.Interactions;
 
 namespace NuovaGM.Client.Lavori.Generici.Taxi
 {
 	static class TaxiClient
 	{
 		private static TaxiFlags jobs = new TaxiFlags();
+		private static TaxiMeter taximeter = new TaxiMeter();
 		private static Tassisti taxi;
 		private static Vehicle VeicoloServizio;
 		private static Ped NPCPasseggero;
@@ -32,6 +34,18 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 		private static void Eccolo()
 		{
 			Client.Instance.AddTick(Markers);
+			Client.Instance.AddTick(test);
+		}
+
+		private static async Task test()
+		{
+			HUD.DrawText(0.35f, 0.775f, "jobs.flag[0] = " + jobs.flag[0]);
+			HUD.DrawText(0.35f, 0.8f, "jobs.flag[1] = " + jobs.flag[1]);
+			if (InServizio)
+			{
+				taximeter.CreateTaxiMeter(VeicoloServizio);
+				taximeter.RenderMeter();
+			}
 		}
 
 		public static async Task Markers()
@@ -100,11 +114,14 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 									NetworkFadeOutEntity(Game.PlayerPed.CurrentVehicle.Handle, true, false);
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
+								taximeter.meter_entity.Delete();
 								VeicoloServizio.Delete();
 								VeicoloServizio = null;
 								Game.PlayerPed.Position = taxi.PosRitiroVeicolo;
 								NetworkFadeInEntity(PlayerPedId(), true);
 								Screen.Fading.FadeIn(500);
+								if (InServizio)
+									VaiFuoriServizio(1);
 							}
 						}
 					}
@@ -116,6 +133,9 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 						SetTaxiLights(VeicoloServizio.Handle, InServizio);
 					if (InServizio)
 					{
+						taximeter.Taximeter = new Scaleform("taxi_display");
+						while (!taximeter.Taximeter.IsLoaded) await BaseScript.Delay(0);
+							taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
 						Client.Instance.AddTick(ServizioTaxi);
 						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
 					}
@@ -152,12 +172,9 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 						{
 							if (IsPedFatallyInjured(NPCPasseggero.Handle))
 							{
-								NPCPasseggero.MarkAsNoLongerNeeded();
 								if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
-								{
-									NPCPasseggero.AttachedBlip.Sprite = (BlipSprite)2;
-									SetBlipDisplay(NPCPasseggero.AttachedBlip.Handle, 3);
-								}
+									NPCPasseggero.AttachedBlip.Delete();
+								NPCPasseggero.MarkAsNoLongerNeeded();
 								NPCPasseggero = null;
 								jobs.flag[0] = 0;
 								jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
@@ -177,10 +194,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 									if(jobs.flag[1] == 0)
 									{
 										if(NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
-										{
-											NPCPasseggero.AttachedBlip.Sprite = (BlipSprite)2;
-											SetBlipDisplay(NPCPasseggero.AttachedBlip.Handle, 3);
-										}
+											NPCPasseggero.AttachedBlip.Delete();
 										NPCPasseggero.Task.ClearAllImmediately();
 										NPCPasseggero.MarkAsNoLongerNeeded();
 										NPCPasseggero = null;
@@ -207,6 +221,8 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 												while (!NPCPasseggero.IsInVehicle(VeicoloServizio)) await BaseScript.Delay(0);
 												VeicoloServizio.LockStatus = VehicleLockStatus.Locked;
 												NPCPasseggero.BlockPermanentEvents = true;
+												if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
+													NPCPasseggero.AttachedBlip.Delete();
 												jobs.pedentpos = NPCPasseggero.Position;
 												jobs.flag[0] = 2;
 												jobs.flag[1] = 30;
@@ -221,11 +237,8 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 									if(jobs.flag[1] == 0)
 									{
 										if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
-										{
-											NPCPasseggero.AttachedBlip.Sprite = (BlipSprite)2;
-											SetBlipDisplay(NPCPasseggero.AttachedBlip.Handle, 3);
-										}
-										NPCPasseggero.Task.ClearAllImmediately();
+											NPCPasseggero.AttachedBlip.Delete();
+										NPCPasseggero.Task.ClearAll();
 										NPCPasseggero.MarkAsNoLongerNeeded();
 										NPCPasseggero = null;
 										HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
@@ -233,51 +246,80 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
 										jobs.flag[0] = 0;
 										jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+										taximeter.ClearDisplay();
 									}
 									else
 									{
 										if (Game.PlayerPed.IsSittingInVehicle(VeicoloServizio))
 										{
 											if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
-											{
-												NPCPasseggero.AttachedBlip.Sprite = (BlipSprite)2;
-												SetBlipDisplay(NPCPasseggero.AttachedBlip.Handle, 3);
-											}
+												NPCPasseggero.AttachedBlip.Delete();
 											jobs.flag[0] = 3;
 											jobs.flag[1] = Funzioni.GetRandomInt(0, 92);
-
 											uint str = 0; uint cross = 0;
 											Vector3 pos = taxi.jobCoords[jobs.flag[1]];
 											GetStreetNameAtCoord(pos.X, pos.Y, pos.Z, ref str, ref cross);
 											string street = "";
 											if(cross > 0)
-												street = $"Mi porti verso {GetStreetNameFromHashKey(str)}, vicino {GetStreetNameFromHashKey(cross)}";
+												street = $"Mi porti a {GetStreetNameFromHashKey(str)}, vicino {GetStreetNameFromHashKey(cross)}";
 											else
-												street = $"Mi porti verso {GetStreetNameFromHashKey(str)}";
+												street = $"Mi porti a {GetStreetNameFromHashKey(str)}";
 											Screen.ShowSubtitle(street, 5000);
 											float totalDist = CalculateTravelDistanceBetweenPoints(VeicoloServizio.Position.X, VeicoloServizio.Position.Y, VeicoloServizio.Position.Z, pos.X, pos.Y, pos.Z);
 											jobs.jobPay = (int)Math.Round(totalDist * taxi.PrezzoModifier);
 											jobs.blip = World.CreateBlip(pos);
 											jobs.blip.Name = GetStreetNameFromHashKey(str);
 											jobs.blip.ShowRoute = true;
+											taximeter.AddDestination(0, 2, 0, 0, 255, GetStreetNameFromHashKey(str), GetLabelText(GetNameOfZone(pos.X, pos.Y, pos.Z)), cross > 0 ? GetStreetNameFromHashKey(cross) : "", false);
+											taximeter.SetPrice(jobs.jobPay);
+											taximeter.HighlightDestination(false);
+											taximeter.ShowDestination();
 										}
 									}
 								}
 								if (jobs.flag[0] == 3)
 								{
-									if (Vector3.Distance(VeicoloServizio.Position, taxi.jobCoords[jobs.flag[1]]) > 4f)
-										World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(taxi.jobCoords[jobs.flag[1]].X, taxi.jobCoords[jobs.flag[1]].Y, taxi.jobCoords[jobs.flag[1]].Z - 1f), Vector3.Zero, Vector3.Zero, new Vector3(4f, 4f, 2f), Color.FromArgb(155, 178, 236, 93));
+									if (Vector3.Distance(VeicoloServizio.Position, taxi.jobCoords[jobs.flag[1]]) > 2f)
+									{
+										World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(taxi.jobCoords[jobs.flag[1]].X, taxi.jobCoords[jobs.flag[1]].Y, taxi.jobCoords[jobs.flag[1]].Z - 1f), Vector3.Zero, Vector3.Zero, new Vector3(4f, 4f, 2f), Colors.Gold);
+										if (VeicoloServizio.Speed > 130 * 3.6f)
+										{
+											if(jobs.flag[1] > 0)
+											{
+												await BaseScript.Delay(1000);
+												jobs.flag[1]--;
+												Screen.ShowSubtitle("Stai andando ~y~troppo veloce~w~! Rallenta o il tuo passeggero potrebbe ~r~spaventarsi~w~!", 1000);
+											}
+											if (jobs.flag[1] == 0)
+											{
+												if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
+													NPCPasseggero.AttachedBlip.Delete();
+												NPCPasseggero.Task.ClearAll();
+												NPCPasseggero.MarkAsNoLongerNeeded();
+												NPCPasseggero = null;
+												HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente non si sente al sicuro con te, fermati e fallo scendere, dovrai trovarne ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
+												while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
+												NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
+												jobs.flag[0] = 0;
+												jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+												taximeter.ClearDisplay();
+											}
+										}
+									}
 									else
 									{
-										if (VeicoloServizio.Speed < 2)
+										if (VeicoloServizio.Speed == 0)
 										{
 											if (jobs.blip != null && jobs.blip.Exists())
 											{
 												jobs.blip.Delete();
 												jobs.blip = null;
 											}
-											NPCPasseggero.Task.ClearAllImmediately();
+											if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
+												NPCPasseggero.AttachedBlip.Delete();
 											NPCPasseggero.Task.LeaveVehicle(LeaveVehicleFlags.None);
+											while (!NPCPasseggero.IsInVehicle(VeicoloServizio)) await BaseScript.Delay(0);
+											NPCPasseggero.Task.ClearAll();
 											NPCPasseggero.MarkAsNoLongerNeeded();
 											NPCPasseggero = null;
 											await BaseScript.Delay(2500);
@@ -288,9 +330,10 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 											jobs.flag[0] = 0;
 											jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
-
+											taximeter.ClearDisplay();
 										}
 									}
+
 								}
 							}
 						}
@@ -321,13 +364,14 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 											NPCPasseggero = rand;
 											jobs.flag[0] = 1;
 											jobs.flag[1] = 19 + Funzioni.GetRandomInt(21);
-											NPCPasseggero.Task.ClearAllImmediately();
+											NPCPasseggero.Task.ClearAll();
 											NPCPasseggero.BlockPermanentEvents = true;
 											NPCPasseggero.Task.StandStill(1000*jobs.flag[1]);
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Abbiamo un passeggero, vai a prenderlo.", NotificationIcon.Taxi, IconType.ChatBox);
-											Blip lblip = World.CreateBlip(NPCPasseggero.Position);
+											Blip lblip = NPCPasseggero.AttachBlip();
 											lblip.IsFriendly = true;
-											lblip.Color = (BlipColor)2;
+											lblip.Sprite = BlipSprite.Friend;
+											lblip.Color = (BlipColor)3;
 											SetBlipCategory(lblip.Handle, 3);
 										}
 										else
@@ -384,6 +428,10 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 				jobs = new TaxiFlags();
 			}
 		}
+
+
+
+
 	}
 
 	public class TaxiFlags
@@ -393,5 +441,37 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 		public Blip blip;
 		public Vector3 pedentpos;
 		public int jobPay;
+	}
+
+	internal class TaxiMeter
+	{
+		public int meter_rt = 0;
+		public Prop meter_entity;
+		public Scaleform Taximeter = new Scaleform("taxi_display");
+		public void AddDestination(int index, int blipIndex, int blipR, int blipG, int blipB, string destinationStr, string addressStr1, string addressStr2, bool isAsian)
+			 => Taximeter.CallFunction("ADD_TAXI_DESTINATION", index, blipIndex, blipR, blipG, blipB, destinationStr, addressStr1, addressStr2, false); // isasian sempre false.. tanto vale
+		public void ClearDisplay() => Taximeter.CallFunction("CLEAR_TAXI_DISPLAY");
+		public void ShowDestination() => Taximeter.CallFunction("SHOW_TAXI_DESTINATION");
+		public void SetPrice(int price) => Taximeter.CallFunction("SET_TAXI_PRICE", price.ToString(), false);
+		public void HighlightDestination(bool force) => Taximeter.CallFunction("HIGHLIGHT_DESTINATION", force);
+		public void RenderMeter()
+		{
+			SetTextRenderId(meter_rt);
+			Set_2dLayer(4);
+			SetScriptGfxDrawBehindPausemenu(true);
+			DrawScaleformMovie(Taximeter.Handle, 0.201000005f, 0.351f, 0.4f, 0.6f, 0, 0, 0, 255, 0);
+			SetTextRenderId(1);
+		}
+		public Prop CreateTaxiMeter(Vehicle veh)
+		{
+			var c = veh.Position;
+			var meter = GetClosestObjectOfType(c.X, c.Y, c.Z, 2.0f, (uint)GetHashKey("prop_taxi_meter_2"), false, false, false);
+			if (!DoesEntityExist(meter))
+			{
+				meter = CreateObject(GetHashKey("prop_taxi_meter_2"), c.X, c.Y, c.Z, true, true, false);
+				AttachEntityToEntity(meter, veh.Handle, GetEntityBoneIndexByName(veh.Handle, "Chassis"),-0.01f, 0.6f, 0.24f,-5.0f, 0.0f, 0.0f, false, false, false, false, 2, true);
+			}
+			return new Prop(meter);
+		}
 	}
 }

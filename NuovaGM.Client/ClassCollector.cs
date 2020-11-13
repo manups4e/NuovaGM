@@ -56,6 +56,7 @@ namespace NuovaGM.Client
 			Veicoli.VeicoliClient.Init();
 			Veicoli.Treni.Init();
 			Veicoli.EffettiRuote.Init();
+			Veicoli.VehHUD.Init();
 
 			//Giostre.MontagneRusse.Init();
 			//Giostre.RuotaPanoramica.Init();

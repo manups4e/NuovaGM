@@ -224,7 +224,7 @@ namespace NuovaGM.Client.Veicoli
 			return veh.Model.IsBike | veh.Model.IsCar | veh.Model.IsQuadbike;
 		}
 
-		public static float vehicleFuelLevel(Vehicle veh)
+		public static float vehicleFuelLevel(this Vehicle veh)
 		{
 			return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 		}

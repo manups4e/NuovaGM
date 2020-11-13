@@ -26,6 +26,8 @@ namespace NuovaGM.Client
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			//Client.Instance.AddTick(TabsPauseMenu);
+			RequestStreamedTextureDict("default", true);
+			while (!HasStreamedTextureDictLoaded("default")) await BaseScript.Delay(0);
 		}
 
 		private static void Eccolo()

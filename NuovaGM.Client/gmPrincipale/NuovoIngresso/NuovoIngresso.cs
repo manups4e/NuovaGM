@@ -60,7 +60,6 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			guiEnabled = true;
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			while (!HasModelLoaded((uint)PedHash.FreemodeFemale01))await BaseScript.Delay(1);
-
 			femmi = new Ped(CreatePed(26, (uint)PedHash.FreemodeFemale01, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, 199f, 0, true, false));
 			femmi.IsPositionFrozen = true;
 			femmi.IsVisible = false;
@@ -72,6 +71,9 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Screen.Fading.FadeIn(1000);
 			await BaseScript.Delay(1000);
 			ToggleMenu(true, "charloading");
+			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(50);
+			Client.Instance.AddTick(Main.AFK);
+
 		}
 		private static void ToggleMenu(bool menuOpen, string menu)
 		{
