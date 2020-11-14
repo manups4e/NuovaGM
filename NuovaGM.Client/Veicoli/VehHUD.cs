@@ -9,6 +9,7 @@ using CitizenFX.Core.UI;
 using NuovaGM.Client.gmPrincipale.Utility;
 using Logger;
 using System.Drawing;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -25,10 +26,8 @@ namespace NuovaGM.Client.Veicoli
         private static bool showDamageRed;
         private static bool showLowFuelYellow;
         private static bool showLowFuelRed;
-        private static bool showLowOil;
         private static bool showHighBeams;
         private static bool showLowBeams;
-        private static bool wasInCar;
         private static string curNeedle;
         private static string curTachometer;
         private static string curSpeedometer;
@@ -42,6 +41,13 @@ namespace NuovaGM.Client.Veicoli
         private static float FuelLevel;
         private static float MaxFuelLevel;
         private static bool IsEngineOn;
+        private static bool showBlinkerBelt;
+        private static bool UIOpen;
+        private static bool beltOn;
+        private static float[] speedBuffer = new float[2];
+        private static Vector3[] velBuffer = new Vector3[2];
+        private static Notifica a;
+
         public static async void Init()
 		{
             TickController.TickVeicolo.Add(OnTickSpeedo3);
@@ -51,8 +57,6 @@ namespace NuovaGM.Client.Veicoli
 
         public static async Task Tick1()
         {
-            SetPedConfigFlag(PlayerPedId(), 32, true);
-            SetFlyThroughWindscreenParams(35f, 40f, 17f, 10f);
             if (Game.PlayerPed.CurrentVehicle != null && Game.PlayerPed.CurrentVehicle.Exists() && !Game.PlayerPed.CurrentVehicle.IsDead && !Game.PlayerPed.IsDead)
             {
                 IsEngineOn = Game.PlayerPed.CurrentVehicle.IsEngineRunning;
@@ -219,12 +223,53 @@ namespace NuovaGM.Client.Veicoli
                         DrawSprite(cst.ytdName, curFuelGauge, cst.centerCoords.X + cst.FuelBGLoc.X, cst.centerCoords.Y + cst.FuelBGLoc.Y, cst.FuelBGLoc.Z, cst.FuelBGLoc.W, 0.0f, 255, 255, 255, curAlpha);
                         DrawSprite(cst.ytdName, curNeedle, cst.centerCoords.X + cst.FuelGaugeLoc.X, cst.centerCoords.Y + cst.FuelGaugeLoc.Y, cst.FuelGaugeLoc.Z, cst.FuelGaugeLoc.W, 80.0f + Game.PlayerPed.CurrentVehicle.FuelLevel / GetVehicleHandlingFloat(Game.PlayerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume") * 110.0f, 255, 255, 255, curAlpha);
                     }
-                    //if (!hasseatbelt && showBlinkerBelt)
-                    //    DrawSprite(cst.ytdName, "seatbelt", cst.centerCoords.X + cst.seatbeltLoc.X, cst.centerCoords.Y + cst.seatbeltLoc.Y, cst.seatbeltLoc.Z, cst.seatbeltLoc.W, 0.0f, 255, 0, 0, curAlpha);
+                    if (!beltOn && showBlinkerBelt)
+                        DrawSprite(cst.ytdName, "seatbelt", cst.centerCoords.X + cst.seatbeltLoc.X, cst.centerCoords.Y + cst.seatbeltLoc.Y, cst.seatbeltLoc.Z, cst.seatbeltLoc.W, 0.0f, 255, 0, 0, curAlpha);
+
+                    if (IsCar(Game.PlayerPed.CurrentVehicle.Handle))
+                    {
+                        if (!UIOpen)
+                        {
+                            UIOpen = true;
+                            NUIBuckled(beltOn);
+                        }
+                        if (beltOn)
+                        {
+                            Game.DisableControlThisFrame(0, Control.VehicleExit);
+                            if (Input.IsDisabledControlJustPressed(Control.VehicleExit))
+                                HUD.ShowNotification("Hai la cintura allacciata!!", NotificationColor.Red, true);
+                        }
+                        speedBuffer[1] = speedBuffer[0];
+                        speedBuffer[0] = Game.PlayerPed.CurrentVehicle.Speed;
+                        if (speedBuffer[1] > 0 && !beltOn && (GetEntitySpeedVector(Game.PlayerPed.CurrentVehicle.Handle, true).Y > 1 && speedBuffer[0] > 15) && speedBuffer[1] - speedBuffer[0] > speedBuffer[0] * 0.254999995231628f)
+                        {
+                            Vector3 coords = Game.PlayerPed.Position;
+                            float[] fw = ForwardVelocity(PlayerPedId());
+                            Game.PlayerPed.Position = new Vector3(coords.X + fw[0], coords.Y + fw[1], coords.Z - 0.469999998807907f);
+                            Game.PlayerPed.Velocity = new Vector3(velBuffer[1].X, velBuffer[1].Y, velBuffer[1].Z);
+                            await BaseScript.Delay(1);
+                            Game.PlayerPed.Ragdoll(3000, RagdollType.Normal);
+                        }
+                        velBuffer[1] = velBuffer[0];
+                        velBuffer[0] = Game.PlayerPed.CurrentVehicle.Velocity;
+                        if (Input.IsControlJustPressed(Control.ReplayTimelinePickupClip, PadCheck.Keyboard) || (Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) && Input.IsControlJustPressed(Control.FrontendX, PadCheck.Controller)))
+                        {
+                            if (a != null) a.Hide();
+                            beltOn = !beltOn;
+                            a = HUD.ShowNotification(beltOn ? "Cintura di sicurezza ~y~allacciata~w~." : "Cintura di sicurezza ~y~slacciata~w~.");
+                            NUIBuckled(beltOn);
+                        }
+                    }
+                }
+				else
+				{
+                    beltOn = false;
+                    speedBuffer[0] = speedBuffer[1] = 0.0f;
+                    if (UIOpen) UIOpen = false;
+                    NUIBuckled(beltOn);
                 }
             }
         }
-
 
         public static async Task Tick4()
         {
@@ -235,8 +280,6 @@ namespace NuovaGM.Client.Veicoli
                 showBlinker = false;
                 await BaseScript.Delay(500);
             }
-            else await BaseScript.Delay(250);
-            /*
             if (!beltOn)
             {
                 showBlinkerBelt = true;
@@ -244,7 +287,6 @@ namespace NuovaGM.Client.Veicoli
                 showBlinkerBelt = false;
                 await BaseScript.Delay(500);
             }
-            */
         }
 
         private static bool IsCar(int vehicle)
@@ -253,7 +295,20 @@ namespace NuovaGM.Client.Veicoli
             return vehicleClass >= 0 && vehicleClass <= 7 || vehicleClass >= 9 && vehicleClass <= 12 || vehicleClass >= 17 && vehicleClass <= 20;
         }
 
-        private static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = wasInCar });
+        public static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Game.PlayerPed.IsInVehicle() });
+
+        private static float[] ForwardVelocity(int ent)
+        {
+            float entityHeading = GetEntityHeading(ent);
+            if (entityHeading < 0)
+                entityHeading += 360f;
+            float num = entityHeading * 0.0174533f;
+            return new float[2]
+            {
+                 (float)Math.Cos(num) * 2f,
+                 (float)Math.Sin(num) * 2f
+            };
+        }
 
     }
 

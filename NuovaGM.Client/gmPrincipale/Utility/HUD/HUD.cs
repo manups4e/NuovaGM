@@ -26,7 +26,6 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 		{
 			RemoveNotification(_handle);
 		}
-
 	}
 
 	public enum NotificationColor
