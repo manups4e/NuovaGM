@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.UI;
 using Logger;
 using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.gmPrincipale.Utility.HUD;
@@ -70,6 +71,8 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
 					if (Input.IsControlJustPressed(Control.Context))
 					{
+						Screen.Fading.FadeOut(800);
+						await BaseScript.Delay(1000);
 						Game.Player.GetPlayerData().CurrentChar.job.name = "Rimozione forzata";
 						Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
 						VeicoloLavorativo = await Funzioni.SpawnVehicle("towtruck", new Vector3(401.55f, -1631.309f, 29.3f), 140);
@@ -82,6 +85,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						Client.Instance.AddTick(LavoroRimozioneForzata);
 						Client.Instance.AddTick(ControlloRimozione);
 						Client.Instance.RemoveTick(InizioLavoro);
+						Screen.Fading.FadeIn(800);
 					}
 				}
 			}
@@ -94,11 +98,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 			{
 				float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), VeicoloLavorativo.Position);
 				if (dist > 48 && dist < 80)
-					if (!distwarn)
-					{
-						HUD.ShowHelp("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!");
-						distwarn = true;
-					}
+					Screen.ShowSubtitle("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!", 1);
 				if (dist > 80)
 				{
 					Client.Instance.RemoveTick(LavoroRimozioneForzata);
@@ -109,14 +109,17 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
 					Game.Player.GetPlayerData().CurrentChar.job.name = "Disoccupato";
 					Game.Player.GetPlayerData().CurrentChar.job.grade = 0;
-					VeicoloLavorativo.Delete();
-					VeicoloLavorativo = null;
-					if (BlipVeicoloDaRimuovere != null)
+					if (VeicoloLavorativo != null && VeicoloLavorativo.Exists())
+					{
+						VeicoloLavorativo.Delete();
+						VeicoloLavorativo = null;
+					}
+					if (BlipVeicoloDaRimuovere != null && BlipVeicoloDaRimuovere.Exists())
 					{
 						BlipVeicoloDaRimuovere.Delete();
 						BlipVeicoloDaRimuovere = null;
 					}
-					if (PuntoDiConsegna != null)
+					if (PuntoDiConsegna != null && PuntoDiConsegna.Exists())
 					{
 						PuntoDiConsegna.Delete();
 						PuntoDiConsegna = null;
@@ -126,14 +129,13 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 						VeicoloDaRimuovere.Delete();
 						VeicoloDaRimuovere = null;
 					}
-					distwarn = false;
 				}
 			}
 		}
 
 		public static async Task LavoroRimozioneForzata()
 		{
-			if (VeicoloDaRimuovere == null)
+			if (VeicoloDaRimuovere == null && VeicoloDaRimuovere.Exists())
 			{
 				await BaseScript.Delay(10000);
 				puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
@@ -252,6 +254,7 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 					Client.Instance.RemoveTick(TimerVeicolo);
 					return;
 				}
+				await BaseScript.Delay(0);
 			}
 			if (TempoRimozione == 0)
 			{
