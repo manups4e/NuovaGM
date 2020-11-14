@@ -151,8 +151,8 @@ namespace NuovaGM.Client
 				{
 					TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
 					TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
-					InUnVeicolo = false;
 					VehHUD.NUIBuckled(false);
+					InUnVeicolo = false;
 				}
 			}
 			if (EventiPersonalMenu.DoHideHud)
