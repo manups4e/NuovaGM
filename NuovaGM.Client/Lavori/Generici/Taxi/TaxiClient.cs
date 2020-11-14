@@ -28,19 +28,11 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 		public static void Init()
 		{
 			taxi = Client.Impostazioni.Lavori.Generici.Tassista;
-			// provvisorio
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-		}
-		private static void Eccolo()
-		{
-			Client.Instance.AddTick(Markers);
-			Client.Instance.AddTick(test);
+			TickController.TickAPiedi.Add(Markers);
 		}
 
-		private static async Task test()
+		private static async Task TaximeterTick()
 		{
-			HUD.DrawText(0.35f, 0.775f, "jobs.flag[0] = " + jobs.flag[0]);
-			HUD.DrawText(0.35f, 0.8f, "jobs.flag[1] = " + jobs.flag[1]);
 			if (InServizio)
 			{
 				taximeter.CreateTaxiMeter(VeicoloServizio);
@@ -60,7 +52,8 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accettare il lavoro da tassista.");
 						if (Input.IsControlJustPressed(Control.Context)) 
 						{
-							// entra in servizio.. setta il lavoro.. insomma ci siamo capiti
+							Job tass = new Job("Taxi", 0);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", tass.Serialize());
 						}
 					}
 					else
@@ -68,7 +61,8 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di lavorare.");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							// esci dal servizio.. torna senza lavoro.. insomma ci siamo capiti
+							Job disoc = new Job("Disoccupato", 0);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", disoc.Serialize());
 						}
 					}
 				}
@@ -138,6 +132,9 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 							taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
 						Client.Instance.AddTick(ServizioTaxi);
 						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
+						if (Game.PlayerPed.IsInVehicle(VeicoloServizio))
+							Client.Instance.AddTick(TaximeterTick);
+
 					}
 					else
 					{
@@ -157,7 +154,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 					if(Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
 					{
 						jobs.flag[0] = 0;
-						jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+						jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 						jobs.onJob = 1;
 					}
 				}
@@ -177,7 +174,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 								NPCPasseggero.MarkAsNoLongerNeeded();
 								NPCPasseggero = null;
 								jobs.flag[0] = 0;
-								jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+								jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 								if(jobs.blip != null && jobs.blip.Exists())
 								{
 									jobs.blip.Delete();
@@ -200,7 +197,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										NPCPasseggero = null;
 										HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Il tuo cliente si è spazientito e ha cancellato il servizio. Trovane ~y~un altro~w.", NotificationIcon.Taxi, IconType.ChatBox);
 										jobs.flag[0] = 0;
-										jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+										jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 									}
 									else
 									{
@@ -245,7 +242,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
 										NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
 										jobs.flag[0] = 0;
-										jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+										jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 										taximeter.ClearDisplay();
 									}
 									else
@@ -301,7 +298,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 												while (VeicoloServizio.Speed > 0) await BaseScript.Delay(1000);
 												NPCPasseggero.Task.LeaveVehicle(VeicoloServizio, true);
 												jobs.flag[0] = 0;
-												jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+												jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 												taximeter.ClearDisplay();
 											}
 										}
@@ -329,7 +326,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 											await BaseScript.Delay(8000);
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 											jobs.flag[0] = 0;
-											jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+											jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 											taximeter.ClearDisplay();
 										}
 									}
@@ -342,7 +339,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 							if(jobs.flag[0] > 0)
 							{
 								jobs.flag[0] = 0;
-								jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+								jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 								HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 								if (jobs.blip != null && jobs.blip.Exists())
 								{
@@ -377,7 +374,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 										else
 										{
 											jobs.flag[0] = 0;
-											jobs.flag[1] = 10;//59 + Funzioni.GetRandomInt(1, 61);
+											jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
 											HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Guida per le strade in cerca di un passeggero.", NotificationIcon.Taxi, IconType.ChatBox);
 										}
 									}
@@ -427,6 +424,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 				}
 				jobs = new TaxiFlags();
 			}
+			Client.Instance.RemoveTick(TaximeterTick);
 		}
 
 
