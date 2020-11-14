@@ -28,7 +28,18 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 		public static void Init()
 		{
 			taxi = Client.Impostazioni.Lavori.Generici.Tassista;
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Add(Markers);
+		}
+
+		private static void Eccolo()
+		{
+			Blip Tax = World.CreateBlip(taxi.PosAccettazione);
+			Tax.Sprite = BlipSprite.PersonalVehicleCar;
+			Tax.Color = BlipColor.Yellow;
+			Tax.Name = "Taxi";
+			Tax.IsShortRange = true;
+			SetBlipDisplay(Tax.Handle, 4);
 		}
 
 		private static async Task TaximeterTick()
@@ -355,7 +366,7 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 									if(jobs.flag[1] == 0)
 									{
 										Vector3 pos = Game.Player.GetPlayerData().posizione.ToVector3();
-										Ped rand = new Ped(GetRandomPedAtCoord(pos.X, pos.Y, pos.Z, 35f, 35f, 35f, 26));
+										Ped rand = new Ped(GetRandomPedAtCoord(pos.X, pos.Y, pos.Z, taxi.pickupRange, taxi.pickupRange, taxi.pickupRange, 26));
 										if (rand.Exists())
 										{
 											NPCPasseggero = rand;
