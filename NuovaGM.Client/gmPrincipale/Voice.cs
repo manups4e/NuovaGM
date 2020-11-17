@@ -10,6 +10,12 @@ using static CitizenFX.Core.Native.API;
 
 namespace NuovaGM.Client.gmPrincipale
 {
+	public enum Mode
+	{
+		sottovoce = 0,
+		normale,
+		urla
+	}
 	static class Voice
 	{
 		static List<Modes> VoiceMode = new List<Modes>()
@@ -19,7 +25,7 @@ namespace NuovaGM.Client.gmPrincipale
 			new Modes(14, "Urli.", false),
 		};
 		static Dictionary<int, bool> Listeners = new Dictionary<int, bool>();
-		static int Mode = 1;
+		static Mode Mode = Mode.normale;
 		static float CheckDistance = 8.0f;
 		static bool OnlyVehicle = false;
 		static bool shouldReset = false;
@@ -34,7 +40,7 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static void SendVoiceToPlayer(Player player, bool Send) => NetworkOverrideSendRestrictions(player.Handle, Send);
 
-		public static void UpdateVoices()
+		public static async void UpdateVoices()
 		{
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
@@ -57,12 +63,13 @@ namespace NuovaGM.Client.gmPrincipale
 						SendVoiceToPlayer(p, false);
 					}
 				}
+				await BaseScript.Delay(10);
 			}
 		}
 		static Notifica a = null;
 		public static async void OnModeModified()
 		{
-			Modes modeData = VoiceMode[Mode];
+			Modes modeData = VoiceMode[(int)Mode];
 			if (modeData != null)
 			{
 				if (a != null) a.Hide();
@@ -103,16 +110,16 @@ namespace NuovaGM.Client.gmPrincipale
 			int nextMode = mode;
 			if (nextMode > 2 && !Game.PlayerPed.IsInVehicle())
 				nextMode = 0;
-			Mode = nextMode;
+			Mode = (Mode)nextMode;
 			OnModeModified();
 		}
 
 		public static void UpdateVocalMode()
 		{
-			int nextMode = Mode + 1;
+			int nextMode = (int)Mode + 1;
 			if (nextMode > 2)
 				nextMode = 0;
-			Mode = nextMode;
+			Mode = (Mode)nextMode;
 			OnModeModified();
 		}
 
@@ -127,7 +134,7 @@ namespace NuovaGM.Client.gmPrincipale
 					Vector3 headPos = Game.PlayerPed.Bones[Bone.IK_Head].Position;
 					World.DrawMarker(MarkerType.DebugSphere, headPos, Vector3.Zero, Vector3.Zero, new Vector3(CheckDistance), System.Drawing.Color.FromArgb(30, 20, 192, 255));
 				}
-				if (Input.IsControlJustReleased(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))
+				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift))
 					UpdateVocalMode();
 			}
 			if (Game.PlayerPed.IsInVehicle())
