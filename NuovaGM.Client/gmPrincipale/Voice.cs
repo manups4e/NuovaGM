@@ -20,7 +20,7 @@ namespace NuovaGM.Client.gmPrincipale
 		};
 		static Dictionary<int, bool> Listeners = new Dictionary<int, bool>();
 		static int Mode = 1;
-		static float Distance = 8.0f;
+		static float CheckDistance = 8.0f;
 		static bool OnlyVehicle = false;
 		static bool shouldReset = false;
 
@@ -28,20 +28,18 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			Client.Instance.AddTick(OnTick);
 			Client.Instance.AddTick(OnTick2);
+			Client.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
+			NetworkSetTalkerProximity(-1000.0f);
 		}
 
-		public static void SendVoiceToPlayer(Player player, bool Send)
-		{
-			NetworkOverrideSendRestrictions(player.Handle, Send);
-		}
+		public static void SendVoiceToPlayer(Player player, bool Send) => NetworkOverrideSendRestrictions(player.Handle, Send);
 
 		public static void UpdateVoices()
 		{
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
-				Ped otherPed = new Ped(p.Handle);
 				int serverID = GetPlayerServerId(p.Handle);
-				if (otherPed.Exists() && CanPedBeListened(Game.PlayerPed, otherPed))
+				if (CanPedBeListened(Game.PlayerPed, p.Character))
 				{
 					if (!Listeners.ContainsKey(serverID))
 						Listeners.Add(serverID, true);
@@ -67,11 +65,8 @@ namespace NuovaGM.Client.gmPrincipale
 			Modes modeData = VoiceMode[Mode];
 			if (modeData != null)
 			{
-				if (a != null)
-				{
-					a.Hide();
-				}
-				Distance = modeData.dist;
+				if (a != null) a.Hide();
+				CheckDistance = modeData.dist;
 				OnlyVehicle = modeData.veh;
 				UpdateVoices();
 				a = HUD.ShowNotification(modeData.msg);
@@ -83,25 +78,13 @@ namespace NuovaGM.Client.gmPrincipale
 			Vector3 listenerHeadPos = otherPed.Bones[Bone.IK_Head].Position;
 			bool InSameVeh = (ped.IsInVehicle() && otherPed.IsInVehicle() && ped.CurrentVehicle == otherPed.CurrentVehicle);
 			float distance = Vector3.Distance(listenerHeadPos, ped.Position);
-			float CheckDistance = Distance;
 			return InSameVeh || (!OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < (Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f)) && distance < CheckDistance);
 		}
 
-		public static bool ShouldSendVoice()
-		{
-			return NetworkIsPlayerTalking(Game.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
-		}
+		public static bool ShouldSendVoice() => NetworkIsPlayerTalking(Game.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
 
-		private static bool FirstTick = true;
 		public static async Task OnTick()
 		{
-			if (FirstTick)
-			{
-				foreach (Player p in Client.Instance.GetPlayers.ToList())
-					SendVoiceToPlayer(p, false);
-				NetworkSetTalkerProximity(-1000.0f);
-				FirstTick = false;
-			}
 			await BaseScript.Delay(300);
 			if (ShouldSendVoice() && !shouldReset)
 				shouldReset = true;
@@ -119,10 +102,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			int nextMode = mode;
 			if (nextMode > 2 && !Game.PlayerPed.IsInVehicle())
-			{
 				nextMode = 0;
-			}
-
 			Mode = nextMode;
 			OnModeModified();
 		}
@@ -131,10 +111,7 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			int nextMode = Mode + 1;
 			if (nextMode > 2)
-			{
 				nextMode = 0;
-			}
-
 			Mode = nextMode;
 			OnModeModified();
 		}
@@ -145,14 +122,13 @@ namespace NuovaGM.Client.gmPrincipale
 		{
 			if (Permesso)
 			{
-				if (Game.IsControlJustPressed(1, Control.VehicleHeadlight) && Game.IsControlPressed(1, Control.Sprint) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
-					UpdateVocalMode();
-
-				if (Game.IsControlPressed(1, Control.VehicleHeadlight) && Game.IsControlPressed(1, Control.Sprint) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+				if (Input.IsControlPressed(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))
 				{
 					Vector3 headPos = Game.PlayerPed.Bones[Bone.IK_Head].Position;
-					World.DrawMarker(MarkerType.DebugSphere, headPos, new Vector3(0), new Vector3(0), new Vector3(Distance, Distance, Distance), System.Drawing.Color.FromArgb(30, 20, 192, 255));
+					World.DrawMarker(MarkerType.DebugSphere, headPos, Vector3.Zero, Vector3.Zero, new Vector3(CheckDistance), System.Drawing.Color.FromArgb(30, 20, 192, 255));
 				}
+				if (Input.IsControlJustReleased(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))
+					UpdateVocalMode();
 			}
 			if (Game.PlayerPed.IsInVehicle())
 			{
@@ -171,21 +147,20 @@ namespace NuovaGM.Client.gmPrincipale
 					Permesso = false;
 					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{
-						Ped otherPed = new Ped(p.Handle);
-						if (CanPedBeListened(Game.PlayerPed, otherPed))
+						if (CanPedBeListened(Game.PlayerPed, p.Character))
 						{
-							if (!Listeners.ContainsKey(GetPlayerServerId(p.Handle)))
-								Listeners.Add(GetPlayerServerId(p.Handle), true);
+							if (!Listeners.ContainsKey(p.ServerId))
+								Listeners.Add(p.ServerId, true);
 							else
-								Listeners[GetPlayerServerId(p.Handle)] = true;
+								Listeners[p.ServerId] = true;
 							SendVoiceToPlayer(p, true);
 						}
 						else
 						{
-							if (!Listeners.ContainsKey(GetPlayerServerId(p.Handle)))
-								Listeners.Add(GetPlayerServerId(p.Handle), false);
+							if (!Listeners.ContainsKey(p.ServerId))
+								Listeners.Add(p.ServerId, false);
 							else
-								Listeners[GetPlayerServerId(p.Handle)] = false;
+								Listeners[p.ServerId] = false;
 							SendVoiceToPlayer(p, false);
 						}
 					}
@@ -197,10 +172,7 @@ namespace NuovaGM.Client.gmPrincipale
 				}
 			}
 			else
-			{
 				Permesso = true;
-			}
-
 			await Task.FromResult(0);
 		}
 	}
@@ -215,10 +187,6 @@ namespace NuovaGM.Client.gmPrincipale
 			dist = d;
 			msg = m;
 			veh = v;
-		}
-		public bool Veh()
-		{
-			return Game.PlayerPed.IsInVehicle();
 		}
 	}
 }
