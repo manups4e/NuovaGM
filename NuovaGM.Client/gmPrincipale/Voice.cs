@@ -83,7 +83,8 @@ namespace NuovaGM.Client.gmPrincipale
 		public static bool CanPedBeListened(Ped ped, Ped otherPed)
 		{
 			Vector3 listenerHeadPos = otherPed.Bones[Bone.IK_Head].Position;
-			bool InSameVeh = (ped.IsInVehicle() && otherPed.IsInVehicle() && ped.CurrentVehicle == otherPed.CurrentVehicle);
+//			bool InSameVeh = (ped.IsInVehicle() && otherPed.IsInVehicle() && ped.CurrentVehicle == otherPed.CurrentVehicle);
+			bool InSameVeh = ped.IsInVehicle() && otherPed.IsInVehicle(ped.CurrentVehicle);
 			float distance = Vector3.Distance(listenerHeadPos, ped.Position);
 			return InSameVeh || (!OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < (Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f)) && distance < CheckDistance);
 		}
