@@ -23,7 +23,10 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.Instance.AddEventHandler("lprp:polizia:ammanetta/smanetta", new Action(AmmanettaSmanetta));
+			Client.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
+			Client.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
+			Client.Instance.AddEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
+			Client.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
 		}
 
 		public static void Spawnato()
@@ -50,25 +53,62 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
 			{
 				Game.PlayerPed.Task.ClearAll();
+				Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 				SetEnableHandcuffs(PlayerPedId(), true);
-				if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Femmina")
+				DisablePlayerFiring(PlayerId(), true);
+				Game.PlayerPed.CanPlayGestures = false;
+				if (Game.Player.GetPlayerData().CurrentChar.skin.sex.ToLower() == "femmina")
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 25, 0, 0);
 				else
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 41, 0, 0);
-				Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+				Game.Player.CanControlCharacter = false;
+				Client.Instance.AddTick(Ammanettato);
 			}
 			else
 			{
+				Client.Instance.RemoveTick(Ammanettato);
 				Game.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
 				SetPedComponentVariation(Game.PlayerPed.Handle, Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Accessori, Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetEnableHandcuffs(PlayerPedId(), false);
+				DisablePlayerFiring(PlayerId(), false);
+				Game.PlayerPed.CanPlayGestures = true;
+				Game.Player.CanControlCharacter = true;
+			}
+		}
+
+		private static async void Accompagna(int ped)
+		{
+			Ped pol = (Ped)Entity.FromNetworkId(ped);
+			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+				Game.PlayerPed.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+		}
+		private static async void TogliVeh()
+		{
+			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			{
+				if(Game.PlayerPed.IsInVehicle())
+					Game.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.None);	
+			}
+
+		}
+		private static async void MettiVeh()
+		{
+			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			{
+				Vehicle closestVeh = Game.PlayerPed.GetClosestVehicle();
+				if(closestVeh.IsSeatFree(VehicleSeat.LeftRear))
+					Game.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
+				else if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.RightRear))
+					Game.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
 			}
 		}
 
 		public static async Task MarkersPolizia()
 		{
-			if (Game.Player.GetPlayerData().CurrentChar.job.name == "Polizia")
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "polizia")
 			{
 				for (int stazione=0; stazione < Client.Impostazioni.Lavori.Polizia.Config.Stazioni.Count; stazione++)
 				{
@@ -79,16 +119,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
 							if (Input.IsControlJustPressed(Control.Context))
-							{
 								MenuPolizia.CloakRoomMenu();
-							}
 						}
 					}
 
 					for (int arm = 0; arm < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Armerie.Count; arm++)
-					{
 						World.DrawMarker(MarkerType.HorizontalCircleSkinny, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Armerie[arm], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Red, false, false, true);
-					}
 
 					for (int veh = 0; veh< Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli.Count; veh++)
 					{
@@ -121,9 +157,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 											VeicoloAttuale = new Vehicle(0);
 										}
 										else
-										{
 											HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", NotificationColor.Red, true);
-										}
 									}
 								}
 							}
@@ -149,9 +183,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								foreach (var veh in Funzioni.GetVehiclesInArea(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 2f))
 								{
 									if (!veh.HasDecor("VeicoloPolizia"))
-									{
 										veh.Delete();
-									}
 								}
 							}
 
@@ -171,9 +203,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 											ElicotteroAttuale = new Vehicle(0);
 										}
 										else
-										{
 											HUD.ShowNotification("Il veicolo che tenti di posare non è della polizia!", NotificationColor.Red, true);
-										}
 									}
 								}
 							}
@@ -182,17 +212,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					if (Game.Player.GetPlayerData().CurrentChar.job.grade == Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1)
 					{
 						for (int boss = 0; boss < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo.Count; boss++)
-						{
 							World.DrawMarker(MarkerType.HorizontalCircleSkinny, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo[boss], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
-						}
 					}
 				}
 			}
 			else
-			{
 				await BaseScript.Delay(5000);
-			}
-
 			await Task.FromResult(0);
 		}
 
@@ -216,27 +241,17 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 									if (!CopsBlips.ContainsKey(playerPed))
 									{
 										if (playerPed.AttachedBlips.Length > 0)
-										{
 											playerPed.AttachedBlip.Delete();
-										}
 
 										Blip polblip = playerPed.AttachBlip();
 										if (playerPed.CurrentVehicle.Model.IsCar)
-										{
 											polblip.Sprite = BlipSprite.PoliceCar;
-										}
 										else if (playerPed.CurrentVehicle.Model.IsBike)
-										{
 											polblip.Sprite = BlipSprite.PersonalVehicleBike;
-										}
 										else if (playerPed.CurrentVehicle.Model.IsBoat)
-										{
 											polblip.Sprite = BlipSprite.Boat;
-										}
 										else if (playerPed.CurrentVehicle.Model.IsHelicopter)
-										{
 											polblip.Sprite = BlipSprite.PoliceHelicopter;
-										}
 
 										polblip.Scale = 0.8f;
 										SetBlipCategory(polblip.Handle, 7);
@@ -253,25 +268,17 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceHelicopter)
 											{
 												if (playerPed.CurrentVehicle.IsEngineRunning)
-												{
 													playerPed.AttachedBlip.Sprite = BlipSprite.PoliceHelicopterAnimated;
-												}
 											}
 											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceHelicopterAnimated)
 											{
 												if (playerPed.CurrentVehicle.HeightAboveGround > 5f)
-												{
 													SetBlipShowCone(playerPed.AttachedBlip.Handle, true);
-												}
 												else
-												{
 													SetBlipShowCone(playerPed.AttachedBlip.Handle, false);
-												}
 
 												if (!playerPed.CurrentVehicle.IsEngineRunning)
-												{
 													playerPed.AttachedBlip.Sprite = BlipSprite.PoliceHelicopter;
-												}
 											}
 											if (playerPed.AttachedBlip.Sprite == BlipSprite.PoliceCar || playerPed.AttachedBlip.Sprite == BlipSprite.Boat || playerPed.AttachedBlip.Sprite == BlipSprite.PersonalVehicleBike)
 											{
@@ -287,17 +294,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 												{
 													SetBlipShowCone(playerPed.AttachedBlip.Handle, false);
 													if (playerPed.CurrentVehicle.Model.IsCar)
-													{
 														playerPed.AttachedBlip.Sprite = BlipSprite.PoliceCar;
-													}
 													else if (playerPed.CurrentVehicle.Model.IsBike)
-													{
 														playerPed.AttachedBlip.Sprite = BlipSprite.PersonalVehicleBike;
-													}
 													else if (playerPed.CurrentVehicle.Model.IsBoat)
-													{
 														playerPed.AttachedBlip.Sprite = BlipSprite.Boat;
-													}
 												}
 											}
 										}
@@ -311,11 +312,8 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 									foreach (Blip b in playerPed.AttachedBlips)
 									{
 										if (b.Sprite == BlipSprite.PoliceCar || b.Sprite == BlipSprite.PoliceCarDot || b.Sprite == BlipSprite.PoliceHelicopter || b.Sprite == BlipSprite.PoliceHelicopterAnimated || b.Sprite == BlipSprite.PersonalVehicleBike || b.Sprite == BlipSprite.Boat)
-										{
 											b.Delete();
-										}
 									}
-
 									CopsBlips.Remove(playerPed);
 								}
 							}
@@ -335,6 +333,26 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);
+		}
+
+		public static async Task Ammanettato()
+		{
+			if (Game.Player.CanControlCharacter)
+				Game.Player.CanControlCharacter = false;
+			if(!Game.PlayerPed.IsCuffed)
+				SetEnableHandcuffs(PlayerPedId(), true);
+			if(Game.Player.CanControlCharacter)
+				Game.Player.CanControlCharacter = false;
+
+			if(!IsEntityPlayingAnim(PlayerPedId(), "mp_arresting", "idle", 3))
+			{
+				if(!HasAnimDictLoaded("mp_arresting"))
+				{
+					RequestAnimDict("mp_arresting");
+					while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(10);
+					Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+				}
+			}
 		}
 	}
 }

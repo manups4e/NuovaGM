@@ -90,7 +90,7 @@ namespace NuovaGM.Client
 		/// Looks for the closest <see cref="Vehicle"/> to this <see cref="Entity"/>
 		/// </summary>
 		/// <returns>The closest <see cref="Vehicle"/> to this <see cref="Entity"/> </returns>
-		public Vehicle GetClosestVehicle()
+		public Vehicle GetClosestVehicleWithDistance()
 		{
 			return World.GetClosest<Vehicle>(Position, World.GetAllVehicles());
 		}

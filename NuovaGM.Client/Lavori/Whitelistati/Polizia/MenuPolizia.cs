@@ -225,15 +225,16 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			UIMenu DatiPlayer = InterazioneCivile.AddSubMenu("Carta d'identità", "Controllino");
 			UIMenu Perquisizione = InterazioneCivile.AddSubMenu("Perquisisci", "Controllino");
-			UIMenuItem ammanetta = new UIMenuItem("Ammanetta / Smanetta"); // CON ANIMAZIONE
-			UIMenuItem accompagna = new UIMenuItem("Accompagna"); // SE RIESCO FACENDO ANCHE CAMMINARE IL PED DELLA PERSONA
+			UIMenuItem ammanetta = new UIMenuItem("Ammanetta / Smanetta"); // CON ANIMAZIONE -- testare
+			UIMenuItem accompagna = new UIMenuItem("Accompagna"); // SE RIESCO FACENDO ANCHE CAMMINARE IL PED DELLA PERSONA -- testare
 			UIMenu FedinaPenale = InterazioneCivile.AddSubMenu("Controllo Fedina");
 			UIMenuItem mettiVeicolo = new UIMenuItem("Fai sedere nel veicolo");
-			UIMenuItem togliVeicolo = new UIMenuItem("Fai uscire dal veicolo"); // FAI USCIRE FAI ENTRARE CON ANIMAZIONE
-			UIMenu multa = InterazioneCivile.AddSubMenu("Fai una Multa"); // CREARE SISTEMA MULTE e aggiungere multa personalizzata
-			UIMenu fatture = InterazioneCivile.AddSubMenu("Controllo pagamenti in Sospeso"); // SALVATAGGIO FATTURE IN DB
+			UIMenuItem togliVeicolo = new UIMenuItem("Fai uscire dal veicolo"); // FAI USCIRE FAI ENTRARE CON ANIMAZIONE -- testare
+			UIMenu multa = InterazioneCivile.AddSubMenu("Fai una Multa"); // CREARE SISTEMA MULTE e aggiungere multa personalizzata 
+			UIMenu fatture = InterazioneCivile.AddSubMenu("Controllo pagamenti in sospeso"); // SALVATAGGIO FATTURE IN DB
 			UIMenuItem incarcera = new UIMenuItem("Incarcera"); //DEVI ESSERE VICINO ALLA CELLA!
 			UIMenu Licenze = InterazioneCivile.AddSubMenu("Controlla Licenze"); // controllo licenze e patenti
+
 			InterazioneCivile.AddItem(ammanetta);
 			InterazioneCivile.AddItem(accompagna);
 			InterazioneCivile.AddItem(mettiVeicolo);
@@ -311,6 +312,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 								{
 									UIMenuItem oggetto = new UIMenuItem(it.item);
 									oggetto.SetRightLabel($"Quantità: {it.amount}");
+									menu.AddItem(oggetto);
+									oggetto.Activated += async (_menu, item) =>
+									{
+										BaseScript.TriggerServerEvent("lprp:polizia:confisca", it.item, it.amount);
+									};
 								}
 							}
 						}
@@ -324,11 +330,18 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
 			};
 
-			Perquisizione.OnItemSelect += async (newMenu, item, index) =>
+			FedinaPenale.OnMenuOpen += async (menu) =>
 			{
 
 			};
+			multa.OnMenuOpen += async (menu) =>
+			{
 
+			};
+			fatture.OnMenuOpen += async (menu) =>
+			{
+
+			};
 
 			InterazioneCivile.OnItemSelect += async (menu, item, index) =>
 			{
@@ -336,40 +349,32 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
-					int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
+					int playerServerId = Player_Distance.Item1.ServerId;
 					PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
 					float distance = Player_Distance.Item2;
-					if (distance < 3f)
+					if (distance < 3f && ClosestPed != null)
 					{
 						switch (item)
 						{
 							case UIMenuItem i when i == ammanetta:
-								BaseScript.TriggerServerEvent("lprp:polizia:ammanetta/smanetta", playerServerId);
+								BaseScript.TriggerServerEvent("lprp:polizia:ammanetta_smanetta", playerServerId);
 								break;
 							case UIMenuItem i when i == accompagna:
-								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
-									ClosestPed.Task.FollowToOffsetFromEntity(Game.PlayerPed, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato")) // rifare client-->server-->client
+									BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, Game.PlayerPed.NetworkId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
 							case UIMenuItem i when i == mettiVeicolo:
-								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
-									if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.LeftRear))
-										ClosestPed.Task.EnterVehicle(Game.PlayerPed.LastVehicle, VehicleSeat.LeftRear);
-									else if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.RightRear))
-										ClosestPed.Task.EnterVehicle(Game.PlayerPed.LastVehicle, VehicleSeat.RightRear);
-									else
-										HUD.ShowNotification("Veicolo Pieno!", NotificationColor.Red, true);
+								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato")) // rifare client-->server-->client
+									BaseScript.TriggerServerEvent("lprp:polizia:mettiVeicolo", playerServerId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
-							case UIMenuItem i when i == togliVeicolo:
-								if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
-									if (ClosestPed.IsInVehicle())
-										ClosestPed.Task.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-									else
-										HUD.ShowNotification("Non è in un veicolo!", NotificationColor.Red, true);
+							case UIMenuItem i when i == togliVeicolo: // rifare client-->server-->client
+								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato"))
+									BaseScript.TriggerServerEvent("lprp:polizia:esciVeicolo", playerServerId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
-							case UIMenuItem i when i == incarcera:
+							case UIMenuItem i when i == incarcera: 
 								break;
 						}
 					}

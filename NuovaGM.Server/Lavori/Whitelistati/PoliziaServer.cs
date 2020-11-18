@@ -24,7 +24,11 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
 			Server.Instance.AddEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
 			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
-			Server.Instance.AddEventHandler("lprp:polizia:ammanetta/smanetta", new Action<Player, int>(AmmanettaSmanetta));
+			Server.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action<Player, int>(AmmanettaSmanetta));
+			Server.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<Player, int, int>(Accompagna));
+			Server.Instance.AddEventHandler("lprp:polizia:mettiVeicolo", new Action<Player, int>(MettiVeh));
+			Server.Instance.AddEventHandler("lprp:polizia:esciVeicolo", new Action<Player, int>(TogliVeh));
+			//Server.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action<Player, int>(AmmanettaSmanetta));
 
 			//Server.Instance.AddTick(AggiornamentoClient);
 
@@ -99,30 +103,55 @@ namespace NuovaGM.Server.Lavori.Whitelistati
 				Medici.Remove(agg);
 		}
 
-/*
-		static bool firstTick = true;
-		public static async Task AggiornamentoClient()
-		{
-			if (firstTick)
-			{
-				firstTick = false;
-				dynamic result = await Server.Instance.Query($"SELECT * FROM veicolipersonali");
-				await BaseScript.Delay(0);
-				for (int i = 0; i < result.Count; i++)
-					Personali.Add(new VeicoloPersonale(result[i].IsVehicleStored, result[i].CharOwner, result[i].identifier, result[i].vehiclename, result[i].plate, result[i].NameOwner, result[i].NAssicurazione, JsonConvert.DeserializeObject<VehProp>(result[i].mods)));
-			}
-			BaseScript.TriggerClientEvent("lprp:police:aggiornaListe", JsonConvert.SerializeObject(NonPersonali), JsonConvert.SerializeObject(Personali));
-			await BaseScript.Delay(60000);
-		}
-*/
+		/*
+				static bool firstTick = true;
+				public static async Task AggiornamentoClient()
+				{
+					if (firstTick)
+					{
+						firstTick = false;
+						dynamic result = await Server.Instance.Query($"SELECT * FROM veicolipersonali");
+						await BaseScript.Delay(0);
+						for (int i = 0; i < result.Count; i++)
+							Personali.Add(new VeicoloPersonale(result[i].IsVehicleStored, result[i].CharOwner, result[i].identifier, result[i].vehiclename, result[i].plate, result[i].NameOwner, result[i].NAssicurazione, JsonConvert.DeserializeObject<VehProp>(result[i].mods)));
+					}
+					BaseScript.TriggerClientEvent("lprp:police:aggiornaListe", JsonConvert.SerializeObject(NonPersonali), JsonConvert.SerializeObject(Personali));
+					await BaseScript.Delay(60000);
+				}
+		*/
 		public static void AmmanettaSmanetta([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
-			User player = Funzioni.GetUserFromPlayerId(p.Handle);
-			if (player.CurrentChar.job.name == "Polizia")
-				targ.TriggerEvent("lprp:polizia:ammanetta/smanetta");
+			if (p.GetCurrentChar().CurrentChar.job.name.ToLower() == "polizia")
+				targ.TriggerEvent("lprp:polizia:ammanetta_smanetta");
 			else
 				p.Drop("Hai tentato di ammanettare un Player senza permesso!");
+		}
+
+		public static void Accompagna([FromSource] Player p, int target, int ped)
+		{
+			Player targ = Funzioni.GetPlayerFromId(target);
+			if (p.GetCurrentChar().CurrentChar.job.name.ToLower() == "polizia")
+				targ.TriggerEvent("lprp:polizia:accompagna", ped);
+			else
+				p.Drop("Hai tentato di trasportare un Player senza permesso!");
+		}
+
+		public static void MettiVeh([FromSource] Player p, int target)
+		{
+			Player targ = Funzioni.GetPlayerFromId(target);
+			if (p.GetCurrentChar().CurrentChar.job.name.ToLower() == "polizia")
+				targ.TriggerEvent("lprp:polizia:mettiveh");
+			else
+				p.Drop("Hai tentato di mettere un Player in un veicolo senza permesso!");
+		}
+		public static void TogliVeh([FromSource] Player p, int target)
+		{
+			Player targ = Funzioni.GetPlayerFromId(target);
+			if (p.GetCurrentChar().CurrentChar.job.name.ToLower() == "polizia")
+				targ.TriggerEvent("lprp:polizia:togliveh");
+			else
+				p.Drop("Hai tentato di togliere un Player da un veicolo senza permesso!");
 		}
 	}
 }
