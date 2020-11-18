@@ -38,7 +38,7 @@ namespace NuovaGM.Client.Veicoli
 		{
 			if (!Game.PlayerPed.IsInVehicle())
 			{
-				Tuple<Vehicle, float> closestVeh = Game.PlayerPed.GetClosestVehicle();
+				Tuple<Vehicle, float> closestVeh = Game.PlayerPed.GetClosestVehicleWithDistance();
 				Vehicle veh = closestVeh.Item1;
 				float distance = closestVeh.Item2;
 				if(distance < trunkdist)

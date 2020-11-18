@@ -935,7 +935,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => models.Contains(x.Model)).ToArray());
 		}
 
-		public static Tuple<Vehicle, float> GetClosestVehicle(this Ped entity)
+		public static Tuple<Vehicle, float> GetClosestVehicleWithDistance(this Ped entity)
 		{
 			var veh = World.GetClosest(entity.Position, World.GetAllVehicles());
 			float dist = Vector3.Distance(entity.Position, veh.Position);
@@ -983,7 +983,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => models.Contains(x.Model)).ToArray());
 		}
 
-		public static Tuple<Ped, float> GetClosestPed(this Ped entity)
+		public static Tuple<Ped, float> GetClosestPedWithDistance(this Ped entity)
 		{
 			Ped ped = World.GetClosest(entity.Position, World.GetAllPeds());
 			float dist = Vector3.Distance(entity.Position, ped.Position);
@@ -1031,7 +1031,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => models.Contains(x.Model)).ToArray());
 		}
 
-		public static Tuple<Prop, float> GetClosestProp(this Prop entity)
+		public static Tuple<Prop, float> GetClosestPropWithDistance(this Prop entity)
 		{
 			Prop ped = World.GetClosest(entity.Position, World.GetAllProps());
 			float dist = Vector3.Distance(entity.Position, ped.Position);
