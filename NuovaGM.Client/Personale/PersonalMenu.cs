@@ -381,36 +381,36 @@ namespace NuovaGM.Client.Personale
 			{
 				Inventory.Clear();
 				int rimozione = 5;
-				if (Game.Player.GetPlayerData().Inventory.Count > 0)
+				var inv = Game.Player.GetPlayerData().Inventory;
+				if (inv.Count > 0)
 				{
-					for (int i = 0; i < Game.Player.GetPlayerData().Inventory.Count; i++)
+					foreach (var it in inv)
 					{
-						Inventory item = Game.Player.GetPlayerData().Inventory[i];
-						if (item.amount > 0)
+						if (it.amount > 0)
 						{
-							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.use)
+							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].label, "[Quantità: " + it.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].description);
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.use)
 							{
-								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].use.description, Colors.GreenLight, Colors.Green);
+								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.description, Colors.GreenLight, Colors.Green);
 								newItemMenu.AddItem(useButton);
 								newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 								{
 									/*
-									 * BaseScript.TriggerServerEvent("lprp:useItem", ConfigShared.SharedConfig.Main.Generici.ItemList[item.item]);
+									 * BaseScript.TriggerServerEvent("lprp:useItem", ConfigShared.SharedConfig.Main.Generici.ItemList[it.item]);
 									 *///DA GESTIRE 
 									if (_item == useButton)
-										ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].UsaOggettoEvent(1);
+										ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].UsaOggettoEvent(1);
 								};
 							}
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.give)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.give)
 							{
 								List<dynamic> amountino = new List<dynamic>();
-								for (int j = 0; j < item.amount; j++)
+								for (int j = 0; j < it.amount; j++)
 								{
 									amountino.Add((j + 1).ToString());
 								}
 
-								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].give.description);
+								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.description);
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();
@@ -426,28 +426,28 @@ namespace NuovaGM.Client.Personale
 									}
 									giveButton.OnListSelect += async (_menu, _listItem, _index) =>
 									{
-										BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], item.item, int.Parse(amountino[_listItem.Index]));
+										BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], it.item, int.Parse(amountino[_listItem.Index]));
 									};
 								}
 								else
 									giveButton.AddItem(new UIMenuItem("Nessun player nelle vicinanze.", "Trova qualcuno!!"));
 							}
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.drop)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.drop)
 							{
 								List<dynamic> amountino = new List<dynamic>();
-								for (int j = 0; j < item.amount; j++)
+								for (int j = 0; j < it.amount; j++)
 								{
 									amountino.Add((j + 1).ToString());
 								}
 
-								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.description, Colors.RedLight, Colors.Red);
+								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.description, Colors.RedLight, Colors.Red);
 								newItemMenu.AddItem(dropButton);
 								newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
 								{
 									if (_listItem == dropButton)
 									{
 										Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-										BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", item.item, int.Parse(amountino[_listItem.Index]));
+										BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", it.item, int.Parse(amountino[_listItem.Index]));
 										await BaseScript.Delay(1000);
 //										Inventory.RemoveItemAt(Inventory.MenuItems.IndexOf(newItemMenu.ParentItem));
 										_menu.GoBack();
@@ -459,10 +459,7 @@ namespace NuovaGM.Client.Personale
 					}
 				}
 				else
-				{
-					UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
-					Inventory.AddItem(noItemsButton);
-				}
+					Inventory.AddItem(new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red));
 			};
 			UIMenu weapMenu = pool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
 			weapMenu.OnMenuOpen += async (menu) =>
