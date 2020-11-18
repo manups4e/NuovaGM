@@ -37,9 +37,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
-    <Exec Command="xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\CONFIGURAZIONE\" />
-    <Exec Command="xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\html\" />
-    <Exec Command="xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[nuova_gamemode]\nuovagm\" />
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm\" />
   </Target>
 </Project>

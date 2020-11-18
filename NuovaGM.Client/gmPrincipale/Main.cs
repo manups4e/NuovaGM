@@ -138,7 +138,7 @@ namespace NuovaGM.Client.gmPrincipale
 			NetworkSetTalkerProximity(0f);
 			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
 			Game.PlayerPed.Heading = charSelectCoords.W;
-			Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
+			//Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
 			Screen.Hud.IsRadarVisible = false;
 		}
 

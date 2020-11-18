@@ -43,7 +43,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		{
 			Client.Instance.AddEventHandler("attiva", new Action(Attiva));
 			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action(() => ToggleMenu(true, "charloading")));
-			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<dynamic>(SelezionatoPreview));
+			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>>(SelezionatoPreview));
 			Client.Instance.RegisterNuiEventHandler("char-select", new Action<dynamic>(Selezionato));
 			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<dynamic>(Disconnetti));
 			Client.Instance.RegisterNuiEventHandler("new-character", new Action<dynamic>(NuovoPersonaggio));
@@ -86,10 +86,14 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		}
 
 		static Ped p1;
-		private static async void SelezionatoPreview(dynamic data)
+		private static async void SelezionatoPreview(IDictionary<string, object> data)
 		{
-			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data.slot));
-			if (p1 != null) p1.Delete();
+			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"]));
+			if (p1 != null)
+			{
+				Client.Instance.RemoveTick(Controllo);
+				p1.Delete();
+			}
 			if (pers.skin.sex == "Maschio")
 				p1 = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeMale01), Game.PlayerPed.Position + new Vector3(0, 0.5f, -1f));
 			else
