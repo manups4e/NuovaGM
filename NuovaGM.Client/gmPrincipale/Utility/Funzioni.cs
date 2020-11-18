@@ -1072,9 +1072,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 		/// <param name="coords"></param>
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x=>Vector3.Distance(x.Character.Position, Game.PlayerPed.Position)).FirstOrDefault();
+			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(Game.PlayerPed.Position, closestPlayer.Character.Position));
+			
+			/*
 			float closestDistance = -1;
-			Player closestPlayer = null;
-
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				Ped target = p.Character;
@@ -1087,6 +1089,7 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				}
 			}
 			return new Tuple<Player, float>(closestPlayer, closestDistance);
+			*/
 		}
 
 		/// <summary>

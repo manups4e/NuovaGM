@@ -74,20 +74,20 @@ namespace NuovaGM.Client.Interactions
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
+					var inv = Game.Player.GetPlayerData().Inventory;
+					if (inv.Count > 0)
 					{
 						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");
 						HUD.MenuPool.Add(GettaMenu);
-						for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
+						foreach (var it in inv)
 						{
-							Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
-							if (item.amount > 0)
+							if (it.amount > 0)
 							{
-								if (ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].drop.drop)
+								if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.drop)
 								{
 									List<dynamic> list = new List<dynamic>();
-									for (int obj = 1; obj < item.amount+1; obj++) list.Add(obj);
-									UIMenuListItem buttavia = new UIMenuListItem(item.item, list, 0);
+									for (int obj = 1; obj < it.amount+1; obj++) list.Add(obj);
+									UIMenuListItem buttavia = new UIMenuListItem(it.item, list, 0);
 									GettaMenu.AddItem(buttavia);
 								}
 							}

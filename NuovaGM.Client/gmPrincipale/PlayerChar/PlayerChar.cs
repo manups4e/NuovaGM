@@ -72,6 +72,9 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 		[JsonIgnore]
 		public int DirtyMoney { get { return CurrentChar.finance.dirtyCash; } }
 
+		[JsonIgnore]
+		public List<Inventory> Inventory { get { return getCharInventory(); } }
+
 		public Tuple<bool, Inventory, Item> getInventoryItem(string item)
 		{
 			for (int i = 0; i < CurrentChar.inventory.Count; i++)
@@ -84,7 +87,11 @@ namespace NuovaGM.Client.gmPrincipale.Personaggio
 			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 
-		public List<Inventory> getCharInventory(int charId)
+		private List<Inventory> getCharInventory()
+		{
+			return getCharInventory(char_current);
+		}
+		private List<Inventory> getCharInventory(int charId)
 		{
 			for (int i = 0; i < char_data.Count; i++)
 			{

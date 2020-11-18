@@ -381,11 +381,11 @@ namespace NuovaGM.Client.Personale
 			{
 				Inventory.Clear();
 				int rimozione = 5;
-				if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
+				if (Game.Player.GetPlayerData().Inventory.Count > 0)
 				{
-					for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
+					for (int i = 0; i < Game.Player.GetPlayerData().Inventory.Count; i++)
 					{
-						Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
+						Inventory item = Game.Player.GetPlayerData().Inventory[i];
 						if (item.amount > 0)
 						{
 							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);

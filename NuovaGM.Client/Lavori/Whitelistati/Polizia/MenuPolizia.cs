@@ -233,7 +233,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 			UIMenu multa = InterazioneCivile.AddSubMenu("Fai una Multa"); // CREARE SISTEMA MULTE e aggiungere multa personalizzata
 			UIMenu fatture = InterazioneCivile.AddSubMenu("Controllo pagamenti in Sospeso"); // SALVATAGGIO FATTURE IN DB
 			UIMenuItem incarcera = new UIMenuItem("Incarcera"); //DEVI ESSERE VICINO ALLA CELLA!
-			UIMenu Licenze = InterazioneCivile.AddSubMenu("Controlla Licenze");
+			UIMenu Licenze = InterazioneCivile.AddSubMenu("Controlla Licenze"); // controllo licenze e patenti
 			InterazioneCivile.AddItem(ammanetta);
 			InterazioneCivile.AddItem(accompagna);
 			InterazioneCivile.AddItem(mettiVeicolo);
@@ -242,15 +242,15 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 			DatiPlayer.OnMenuOpen += async (menu) =>
 			{
-				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.Instance.GetPlayers.ToList().Count() > 1)
+				menu.Clear();
+				if (Client.Instance.GetPlayers.ToList().Count > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
 					int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
 					PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
 					float distance = Player_Distance.Item2;
-					if (distance < 3f)
+					if (distance < 3f && ClosestPed != null)
 					{
 						UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
 						nomeCognome.SetRightLabel(player.FullName);
@@ -302,30 +302,26 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 					float distance = Player_Distance.Item2;
 					if (distance < 3f)
 					{
-						if (Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count > 0)
+						var inv = Game.Player.GetPlayerData().Inventory;
+						if (inv.Count > 0)
 						{
-							for (int i = 0; i < Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current).Count; i++)
+							foreach (var it in inv)
 							{
-								Inventory item = Game.Player.GetPlayerData().getCharInventory(Game.Player.GetPlayerData().char_current)[i];
-								if (item.amount > 0)
+								if (it.amount > 0)
 								{
-									UIMenuItem oggetto = new UIMenuItem(item.item);
-									oggetto.SetRightLabel($"Quantità: {item.amount}");
+									UIMenuItem oggetto = new UIMenuItem(it.item);
+									oggetto.SetRightLabel($"Quantità: {it.amount}");
 								}
 							}
 						}
+						else
+							Perquisizione.AddItem(new UIMenuItem("Questa persona non ha oggetti con se!"));
 					}
 					else
-					{
-						UIMenuItem noPlayers = new UIMenuItem("Non ci sono Player nelle vicinanze!");
-						Perquisizione.AddItem(noPlayers);
-					}
+						Perquisizione.AddItem(new UIMenuItem("Non ci sono Player nelle vicinanze!"));
 				}
 				else
-				{
-					UIMenuItem noPlayers = new UIMenuItem("Non ci sono Players oltre te");
-					Perquisizione.AddItem(noPlayers);
-				}
+					Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
 			};
 
 			Perquisizione.OnItemSelect += async (newMenu, item, index) =>
