@@ -26,13 +26,13 @@ namespace NuovaGM.Server.gmPrincipale
 			["removeweapon"] = 2,
 			["setjob"] = 2,
 			["setgang"] = 2,
-			["revive"] = 0, // perché non esistono i medici
+			["revive"] = 2, //0 perché non esistono i medici
 			["tp"] = 2,
 			["tpalplayer"] = 2,
 			["jail"] = 2,
 			["unjail"] = 2,
-			["car"] = 0, // perché non esistono le auto personali
-			["dv"] = 0, // perché non esistono le auto personali
+			["car"] = 2, //0 perché non esistono le auto personali
+			["dv"] = 2, //0 perché non esistono le auto personali
 			["suicidati"] = 2,
 			["spawnped"] = 2,
 			["spawnobject"] = 2,

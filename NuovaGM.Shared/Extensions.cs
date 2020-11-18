@@ -689,8 +689,10 @@ namespace NuovaGM.Shared
 
 		public static string Serialize(this object param, Formatting format = Formatting.None, bool includeEverything = false)
 		{
-			JsonSerializerSettings settings = new JsonSerializerSettings();
-			settings.Formatting = format;
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				Formatting = format
+			};
 
 			if (includeEverything)
 				settings.ContractResolver = new IgnoreJsonAttributesResolver();

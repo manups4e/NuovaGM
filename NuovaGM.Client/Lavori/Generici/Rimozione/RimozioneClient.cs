@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
+
 namespace NuovaGM.Client.Lavori.Generici.Rimozione
 {
 	public class RimozioneClient
