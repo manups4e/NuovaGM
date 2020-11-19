@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Logger;
 
 namespace NuovaGM.Client.Veicoli
 {
@@ -58,76 +59,83 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task ControlloRuote()
 		{
-			Ped playerPed = Game.PlayerPed;
-			if (playerPed.IsInVehicle())
+			try
 			{
-				if (playerPed.CurrentVehicle.Driver == playerPed)
+				Ped playerPed = Game.PlayerPed;
+				if (playerPed.IsInVehicle())
 				{
-					if (playerPed.CurrentVehicle.IsHandbrakeForcedOn && playerPed.CurrentVehicle.Speed > 2f)
+					if (playerPed.CurrentVehicle.Driver == playerPed)
 					{
-						if (heat_rear < 300f) 
-							heat_rear += 2f;
-					}
-					if (playerPed.CurrentVehicle.IsInBurnout)
-					{
-						if (heat_rear < 300f)
-							heat_rear += 2f;
-					}
-					if (playerPed.CurrentVehicle.Speed > 2f && playerPed.CurrentVehicle.CurrentGear != 0)
-					{
-						if (Game.IsControlPressed(27, Control.VehicleBrake))
+						if (playerPed.CurrentVehicle.IsHandbrakeForcedOn && playerPed.CurrentVehicle.Speed > 2f)
 						{
 							if (heat_rear < 300f)
 								heat_rear += 2f;
-							if (heat_front < 300f)
-								heat_front += 2f;
 						}
+						if (playerPed.CurrentVehicle.IsInBurnout)
+						{
+							if (heat_rear < 300f)
+								heat_rear += 2f;
+						}
+						if (playerPed.CurrentVehicle.Speed > 2f && playerPed.CurrentVehicle.CurrentGear != 0)
+						{
+							if (Game.IsControlPressed(27, Control.VehicleBrake))
+							{
+								if (heat_rear < 300f)
+									heat_rear += 2f;
+								if (heat_front < 300f)
+									heat_front += 2f;
+							}
+						}
+					}
+					else
+					{
+						glow_rear = false;
+						glow_front = false;
+						heat_rear = 0f;
+						heat_front = 0f;
+					}
+				}
+				if (!glow_rear)
+				{
+					if (heat_rear > 30f)
+					{
+						glow_rear = true;
+						BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(playerPed.CurrentVehicle.Handle));
 					}
 				}
 				else
 				{
-					glow_rear = false;
-					glow_front = false;
-					heat_rear = 0f;
-					heat_front = 0f;
+					if (heat_rear < 30f)
+					{
+						glow_rear = false;
+						BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(playerPed.CurrentVehicle.Handle));
+					}
 				}
-			}
-			if (!glow_rear)
-			{
-				if(heat_rear > 30f)
+				if (!glow_front)
 				{
-					glow_rear = true;
-					BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(playerPed.CurrentVehicle.Handle));
+					if (heat_front > 30f)
+					{
+						glow_front = true;
+						BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(playerPed.CurrentVehicle.Handle));
+					}
 				}
-			}
-			else
-			{
-				if (heat_rear < 30f)
+				else
 				{
-					glow_rear = false;
-					BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(playerPed.CurrentVehicle.Handle));
+					if (heat_front < 30f)
+					{
+						glow_front = false;
+						BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(playerPed.CurrentVehicle.Handle));
+					}
 				}
+				if (heat_rear > 1)
+					heat_rear -= 1;
+				if (heat_front > 1)
+					heat_front -= 1;
 			}
-			if (!glow_front)
+			catch(Exception e)
 			{
-				if (heat_front > 30f)
-				{
-					glow_front = true;
-					BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(playerPed.CurrentVehicle.Handle));
-				}
+				Log.Printa(LogType.Warning, e.ToString());
 			}
-			else
-			{
-				if (heat_front < 30f)
-				{
-					glow_front = false;
-					BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(playerPed.CurrentVehicle.Handle));
-				}
-			}
-			if (heat_rear > 1)
-				heat_rear -= 1;
-			if (heat_front > 1)
-				heat_front -= 1;
 		}
 
 		public static async Task WheelGlow()
