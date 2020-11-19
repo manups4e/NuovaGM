@@ -131,7 +131,6 @@ namespace NuovaGM.Client.Banking
 		public static bool InterfacciaAperta = false;
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
@@ -164,59 +163,21 @@ namespace NuovaGM.Client.Banking
 			RemoveMultiplayerBankCash();
 		}
 
-		static public async void onPlayerSpawn()
-		{
-			Client.Instance.AddTick(ControlloATM);
-		}
-
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => ATMs.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.9f);
+			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.9f);
 			await BaseScript.Delay(500);
 		}
 
 		static public async Task Markers()
 		{
-/*			for (int i = 0; i < atmpos.Count; i++)
-			{
-				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 100f)
-				{
-					World.DrawMarker(MarkerType.DollarSign, atmpos[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 0.8f, 1.0f), Color.FromArgb(160, 0, 255, 190), false, false, true);
-				}
-
-				if (Game.PlayerPed.IsInRangeOf(atmpos[i]) < 1.375f && !HUD.MenuPool.IsAnyMenuOpen && !InterfacciaAperta)
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
-					if (Input.IsControlJustPressed(Control.Context))
-					{
-						AttivaBanca();
-//						BankMenu();
-					}
-				}
-			}
-*/
 			if (ClosestATM != null && !InterfacciaAperta)
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
 				if (Input.IsControlJustPressed(Control.Context))
-				{
 					AttivaBanca();
-				}
 			}
-			/*          foreach (Vector3 b in bankCoords)
-						{
-							if (Game.PlayerPed.IsInRangeOf(b, 30f))
-								World.DrawMarker(MarkerType.DollarSign, b, new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.1f, 1.1f, 1.6f), Color.FromArgb(160, 0, 255, 190), false, false, true);
-							if (Game.PlayerPed.IsInRangeOf(b, 1.375f))
-							{
-								Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il tuo conto bancario");
-								if (Input.IsControlJustPressed(Control.Context))
-								{
-									Funzioni.ShowNotification("PlaceHolder funzionante");
-								}
-							}
-						}
-			*/
+			/*
 			for (int i = 0; i < cleanspotcoords.Count; i++)
 			{
 				if (Game.PlayerPed.IsInRangeOf(cleanspotcoords[i], 60f))
@@ -233,6 +194,7 @@ namespace NuovaGM.Client.Banking
 					}
 				}
 			}
+			*/
 			await Task.FromResult(0);
 		}
 

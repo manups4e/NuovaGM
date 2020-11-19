@@ -191,6 +191,7 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task AC()
 		{
+			Ped p = Game.PlayerPed;
 			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
 				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
 			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
@@ -204,44 +205,44 @@ namespace NuovaGM.Client.Manager
 				{
 					if (!NoClip)
 					{
-						if (!Game.PlayerPed.IsInVehicle())
+						if (!p.IsInVehicle())
 						{
 							RequestAnimDict(noclip_ANIM_A);
 							while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
 							curLocation = Game.Player.GetPlayerData().posizione.ToVector3();
-							curRotation = Game.PlayerPed.Rotation;
+							curRotation = p.Rotation;
 							curHeading = Game.Player.GetPlayerData().posizione.W;
 							TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 						}
 						else
 						{
-							curLocation = Game.PlayerPed.CurrentVehicle.Position;
-							curRotation = Game.PlayerPed.CurrentVehicle.Rotation;
-							curHeading = Game.PlayerPed.CurrentVehicle.Heading;
+							curLocation = p.CurrentVehicle.Position;
+							curRotation = p.CurrentVehicle.Rotation;
+							curHeading = p.CurrentVehicle.Heading;
 						}
-						Game.PlayerPed.Rotation = new Vector3(0);
+						p.Rotation = new Vector3(0);
 						Client.Instance.AddTick(noClip);
 						NoClip = true;
 					}
 					else
 					{
 						Client.Instance.RemoveTick(noClip);
-						while (Game.PlayerPed.IsInvincible)
+						while (p.IsInvincible)
 						{
-							Game.PlayerPed.IsInvincible = false;
+							p.IsInvincible = false;
 							await BaseScript.Delay(0);
 						}
-						if (!Game.PlayerPed.IsInVehicle())
+						if (!p.IsInVehicle())
 						{
 							ClearPedTasksImmediately(PlayerPedId());
 							SetUserRadioControlEnabled(true);
-							Game.PlayerPed.IsInvincible = false;
+							p.IsInvincible = false;
 						}
 						else
 						{
 							SetUserRadioControlEnabled(true);
-							Game.PlayerPed.IsInvincible = false;
-							Vehicle veh = Game.PlayerPed.CurrentVehicle;
+							p.IsInvincible = false;
+							Vehicle veh = p.CurrentVehicle;
 							veh.IsInvincible = false;
 						}
 						ClearAllHelpMessages();
@@ -253,6 +254,7 @@ namespace NuovaGM.Client.Manager
 
 		private static async Task noClip()
 		{
+			Ped p = Game.PlayerPed;
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -309,22 +311,22 @@ namespace NuovaGM.Client.Manager
 			float xVect = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f;
 			float yVect = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading));
 
-			Entity target = Game.PlayerPed;
-			if (Game.PlayerPed.IsInVehicle())
-				target = Game.PlayerPed.CurrentVehicle;
+			Entity target = p;
+			if (p.IsInVehicle())
+				target = p.CurrentVehicle;
 
-			Game.PlayerPed.Velocity = new Vector3(0);
+			p.Velocity = new Vector3(0);
 
-			if (!Game.PlayerPed.IsInVehicle())
+			if (!p.IsInVehicle())
 			{
 				SetUserRadioControlEnabled(false);
-				Game.PlayerPed.IsInvincible = true;
+				p.IsInvincible = true;
 			}
 			else
 			{
 				SetUserRadioControlEnabled(false);
-				Game.PlayerPed.IsInvincible = true;
-				Vehicle veh = Game.PlayerPed.CurrentVehicle;
+				p.IsInvincible = true;
+				Vehicle veh = p.CurrentVehicle;
 				veh.IsInvincible= true;
 			}
 

@@ -42,10 +42,11 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void UpdateVoices()
 		{
+			Ped pl = Game.PlayerPed;
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				int serverID = GetPlayerServerId(p.Handle);
-				if (CanPedBeListened(Game.PlayerPed, p.Character))
+				if (CanPedBeListened(pl, p.Character))
 				{
 					if (!Listeners.ContainsKey(serverID))
 						Listeners.Add(serverID, true);
@@ -63,7 +64,6 @@ namespace NuovaGM.Client.gmPrincipale
 						SendVoiceToPlayer(p, false);
 					}
 				}
-				await BaseScript.Delay(10);
 			}
 		}
 		static Notifica a = null;
@@ -128,24 +128,25 @@ namespace NuovaGM.Client.gmPrincipale
 		static bool notif = false;
 		public static async Task OnTick2()
 		{
+			Ped playerPed = Game.PlayerPed;
 			if (Permesso)
 			{
 				if (Input.IsControlPressed(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))
 				{
-					Vector3 headPos = Game.PlayerPed.Bones[Bone.IK_Head].Position;
+					Vector3 headPos = playerPed.Bones[Bone.IK_Head].Position;
 					World.DrawMarker(MarkerType.DebugSphere, headPos, Vector3.Zero, Vector3.Zero, new Vector3(CheckDistance), System.Drawing.Color.FromArgb(30, 20, 192, 255));
 				}
 				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift))
 					UpdateVocalMode();
 			}
-			if (Game.PlayerPed.IsInVehicle())
+			if (playerPed.IsInVehicle())
 			{
-				if (Game.PlayerPed.CurrentVehicle.Windows.AreAllWindowsIntact && EventiPersonalMenu.WindowsGiu)
+				if (playerPed.CurrentVehicle.Windows.AreAllWindowsIntact && EventiPersonalMenu.WindowsGiu)
 				{
 					Permesso = true;
 					notif = false;
 				}
-				else if (Game.PlayerPed.CurrentVehicle.Windows.AreAllWindowsIntact && !EventiPersonalMenu.WindowsGiu)
+				else if (playerPed.CurrentVehicle.Windows.AreAllWindowsIntact && !EventiPersonalMenu.WindowsGiu)
 				{
 					if (!notif)
 					{
@@ -155,7 +156,7 @@ namespace NuovaGM.Client.gmPrincipale
 					Permesso = false;
 					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{
-						if (CanPedBeListened(Game.PlayerPed, p.Character))
+						if (CanPedBeListened(playerPed, p.Character))
 						{
 							if (!Listeners.ContainsKey(p.ServerId))
 								Listeners.Add(p.ServerId, true);
@@ -173,7 +174,7 @@ namespace NuovaGM.Client.gmPrincipale
 						}
 					}
 				}
-				else if (!Game.PlayerPed.CurrentVehicle.Windows.AreAllWindowsIntact)
+				else if (!playerPed.CurrentVehicle.Windows.AreAllWindowsIntact)
 				{
 					Permesso = true;
 					notif = false;

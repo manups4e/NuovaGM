@@ -26,42 +26,43 @@ namespace NuovaGM.Client.Proprietà
 
 		public static async Task MarkerFuori()
 		{
+			Ped playerPed = Game.PlayerPed;
 			foreach (var app in Proprietà.Appartamenti)
 			{
-				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
+				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare o citofonare~w~.");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 						AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
 				}
-				if (Game.PlayerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
+				if (playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
 				{
 					if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
 					{
-						if (Game.PlayerPed.IsInVehicle())
+						if (playerPed.IsInVehicle())
 						{
-							string plate = Game.PlayerPed.CurrentVehicle.Mods.LicensePlate;
-							var model = Game.PlayerPed.CurrentVehicle.Model.Hash;
+							string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
+							var model = playerPed.CurrentVehicle.Model.Hash;
 							if (Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Game.Player.GetPlayerData().CurrentChar.info.insurance) != null)
 							{
-								if (Game.PlayerPed.IsVisible)
-									NetworkFadeOutEntity(Game.PlayerPed.CurrentVehicle.Handle, true, false);
+								if (playerPed.IsVisible)
+									NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
 								Screen.Fading.FadeOut(500);
 								await BaseScript.Delay(1000);
-								var pr = await Game.PlayerPed.CurrentVehicle.GetVehicleProperties();
+								var pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 								BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.Serialize(includeEverything: true));
 								Game.Player.GetPlayerData().Istanza.Istanzia(app.Key);
 								await BaseScript.Delay(1000);
-								if (Game.PlayerPed.CurrentVehicle.PassengerCount > 0)
+								if (playerPed.CurrentVehicle.PassengerCount > 0)
 								{
-									foreach (var p in Game.PlayerPed.CurrentVehicle.Passengers)
+									foreach (var p in playerPed.CurrentVehicle.Passengers)
 									{
 										var pl = Funzioni.GetPlayerFromPed(p);
 										pl.GetPlayerData().Istanza.Istanzia(Game.Player.ServerId, Game.Player.GetPlayerData().Istanza.Instance);
 										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 									}
 								}
-								Game.PlayerPed.CurrentVehicle.Delete();
+								playerPed.CurrentVehicle.Delete();
 								RequestCollisionAtCoord(app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z);
 								NewLoadSceneStart(app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z, app.Value.SpawnGarageAPiediDentro.X, app.Value.SpawnGarageAPiediDentro.Y, app.Value.SpawnGarageAPiediDentro.Z, 50f, 0);
 								int tempTimer = GetGameTimer();
@@ -81,7 +82,7 @@ namespace NuovaGM.Client.Proprietà
 								tempTimer = GetGameTimer();
 
 								// Wait for the collision to be loaded around the entity in this new location.
-								while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+								while (!HasCollisionLoadedAroundEntity(playerPed.Handle))
 								{
 									// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 									if (GetGameTimer() - tempTimer > 1000)
@@ -103,8 +104,8 @@ namespace NuovaGM.Client.Proprietà
 										}
 									}
 								}
-								NetworkFadeInEntity(Game.PlayerPed.Handle, true);
-								Game.PlayerPed.IsPositionFrozen = false;
+								NetworkFadeInEntity(playerPed.Handle, true);
+								playerPed.IsPositionFrozen = false;
 								DoScreenFadeIn(500);
 								SetGameplayCamRelativePitch(0.0f, 1.0f);
 								Client.Instance.AddTick(AppartamentiClient.Garage);
@@ -119,9 +120,9 @@ namespace NuovaGM.Client.Proprietà
 			}
 			foreach (var gar in Proprietà.Garages.Garages)
 			{
-				if(Game.PlayerPed.IsInRangeOf(gar.Value.MarkerEntrata, 1.5f))
+				if(playerPed.IsInRangeOf(gar.Value.MarkerEntrata, 1.5f))
 				{
-					if (Game.PlayerPed.IsOnFoot)
+					if (playerPed.IsOnFoot)
 					{
 						// ENTRARE NEI GARAGES
 					}
@@ -131,18 +132,19 @@ namespace NuovaGM.Client.Proprietà
 
 		public static async Task MarkerDentro()
 		{
+			Ped playerPed = Game.PlayerPed;
 			if (Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
 				if (Proprietà.Appartamenti.ContainsKey(Game.Player.GetPlayerData().Istanza.Instance))
 				{
 					var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance];
-					if (Game.PlayerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
+					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 							AppartamentiClient.EsciMenu(app);
 					}
-					if (Game.PlayerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
+					if (playerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

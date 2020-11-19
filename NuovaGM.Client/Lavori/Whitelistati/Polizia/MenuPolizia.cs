@@ -853,28 +853,27 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloGarageNew()
 		{
+			Ped p = Game.PlayerPed;
 			if (Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
 				if (InGarage)
 				{
-					if (Game.PlayerPed.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
+					if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiare piano");
 						if (Input.IsControlJustPressed(Control.Context))
-						{
 							MenuPiano();
-						}
 					}
-					if (Game.PlayerPed.IsInVehicle())
+					if (p.IsInVehicle())
 					{
-						if (Game.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
+						if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
-							if (Input.IsControlJustPressed(Control.VehicleAccelerate) && Game.PlayerPed.CurrentVehicle.IsEngineRunning)
+							if (Input.IsControlJustPressed(Control.VehicleAccelerate) && p.CurrentVehicle.IsEngineRunning)
 							{
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								int model = Game.PlayerPed.CurrentVehicle.Model.Hash;
+								int model = p.CurrentVehicle.Model.Hash;
 								foreach (var vehicle in veicoliParcheggio) vehicle.Delete();
 								veicoliParcheggio.Clear();
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
@@ -892,12 +891,12 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 										break;
 									}
 								}
-								Game.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
-								Game.PlayerPed.CurrentVehicle.IsEngineRunning = true;
-								Game.PlayerPed.CurrentVehicle.IsDriveable = true;
-								Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
-								Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
-								VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+								p.CurrentVehicle.SetVehicleFuelLevel(100f);
+								p.CurrentVehicle.IsEngineRunning = true;
+								p.CurrentVehicle.IsDriveable = true;
+								p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
+								p.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+								VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
 								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.Serialize());
 								InGarage = false;
 								StazioneAttuale = null;
@@ -970,9 +969,10 @@ namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloMenu()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			Ped p = Game.PlayerPed;
+			if (p.IsInVehicle())
 			{
-				if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed && Game.PlayerPed.CurrentVehicle.Speed < 2 || Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Game.PlayerPed)
+				if (p.CurrentVehicle.Driver == Game.PlayerPed && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Game.PlayerPed)
 				{
 					if (InterazioneCivile.ParentItem.Enabled)
 					{

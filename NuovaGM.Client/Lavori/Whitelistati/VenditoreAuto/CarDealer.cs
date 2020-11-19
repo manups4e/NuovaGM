@@ -40,10 +40,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 
 		public static async Task Markers()
 		{
-			if(Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "cardealer")
+			Ped p = Game.PlayerPed;
+			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "cardealer")
 			{
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
-				if(Game.PlayerPed.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
+				if(p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu del venditore");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -53,7 +54,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
 			if(Game.Player.GetPlayerData().CurrentChar.job.grade > 1)
 			{
 				// verrà sostiuito con il sedersi alla scrivania 
-				if(Game.PlayerPed.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
+				if(p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu boss");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

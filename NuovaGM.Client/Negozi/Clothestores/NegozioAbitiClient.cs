@@ -91,17 +91,18 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task OnTick()
 		{
+			Ped p = Game.PlayerPed;
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				foreach (var v in ConfigClothes.Binco)
 				{
-					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
+					if (p.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Vestiti.W);
-							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f) await BaseScript.Delay(0);
+							p.Task.AchieveHeading(v.Vestiti.W);
+							while (p.Heading > v.Vestiti.W + 5f || p.Heading < v.Vestiti.W - 5f) await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
@@ -111,13 +112,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Scarpe.W);
-							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f) await BaseScript.Delay(0);
+							p.Task.AchieveHeading(v.Scarpe.W);
+							while (p.Heading > v.Scarpe.W + 5f || p.Heading < v.Scarpe.W - 5f) await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
@@ -128,12 +129,12 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
+					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
 											{
-												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
+												p.Task.AchieveHeading(v.Maglie.W);
 												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
@@ -145,13 +146,13 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Pantaloni.W);
-							while (Game.PlayerPed.Heading > v.Pantaloni.W + 5f || Game.PlayerPed.Heading < v.Pantaloni.W - 5f)
+							p.Task.AchieveHeading(v.Pantaloni.W);
+							while (p.Heading > v.Pantaloni.W + 5f || p.Heading < v.Pantaloni.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -162,13 +163,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Occhiali.W);
-							while (Game.PlayerPed.Heading > v.Occhiali.W + 5f || Game.PlayerPed.Heading < v.Occhiali.W - 5f)
+							p.Task.AchieveHeading(v.Occhiali.W);
+							while (p.Heading > v.Occhiali.W + 5f || p.Heading < v.Occhiali.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -179,13 +180,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Accessori.W);
-							while (Game.PlayerPed.Heading > v.Accessori.W + 5f || Game.PlayerPed.Heading < v.Accessori.W - 5f)
+							p.Task.AchieveHeading(v.Accessori.W);
+							while (p.Heading > v.Accessori.W + 5f || p.Heading < v.Accessori.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -199,13 +200,13 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Discount)
 				{
-					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
+					if (p.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Vestiti.W);
-							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f)
+							p.Task.AchieveHeading(v.Vestiti.W);
+							while (p.Heading > v.Vestiti.W + 5f || p.Heading < v.Vestiti.W - 5f)
 								await BaseScript.Delay(0);
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
@@ -216,13 +217,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Scarpe.W);
-							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f)
+							p.Task.AchieveHeading(v.Scarpe.W);
+							while (p.Heading > v.Scarpe.W + 5f || p.Heading < v.Scarpe.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -233,12 +234,12 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
+					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
 											{
-												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
+												p.Task.AchieveHeading(v.Maglie.W);
 												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
@@ -250,13 +251,13 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Pantaloni.W);
-							while (Game.PlayerPed.Heading > v.Pantaloni.W + 5f || Game.PlayerPed.Heading < v.Pantaloni.W - 5f)
+							p.Task.AchieveHeading(v.Pantaloni.W);
+							while (p.Heading > v.Pantaloni.W + 5f || p.Heading < v.Pantaloni.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -267,13 +268,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Occhiali.W);
-							while (Game.PlayerPed.Heading > v.Occhiali.W + 5f || Game.PlayerPed.Heading < v.Occhiali.W - 5f)
+							p.Task.AchieveHeading(v.Occhiali.W);
+							while (p.Heading > v.Occhiali.W + 5f || p.Heading < v.Occhiali.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -284,13 +285,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Accessori.W);
-							while (Game.PlayerPed.Heading > v.Accessori.W + 5f || Game.PlayerPed.Heading < v.Accessori.W - 5f)
+							p.Task.AchieveHeading(v.Accessori.W);
+							while (p.Heading > v.Accessori.W + 5f || p.Heading < v.Accessori.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -304,13 +305,13 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Suburban)
 				{
-					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
+					if (p.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Vestiti.W);
-							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f)
+							p.Task.AchieveHeading(v.Vestiti.W);
+							while (p.Heading > v.Vestiti.W + 5f || p.Heading < v.Vestiti.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -321,13 +322,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Scarpe.W);
-							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f)
+							p.Task.AchieveHeading(v.Scarpe.W);
+							while (p.Heading > v.Scarpe.W + 5f || p.Heading < v.Scarpe.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -338,12 +339,12 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
+					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
 											{
-												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
+												p.Task.AchieveHeading(v.Maglie.W);
 												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
@@ -355,13 +356,13 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Pantaloni.W);
-							while (Game.PlayerPed.Heading > v.Pantaloni.W + 5f || Game.PlayerPed.Heading < v.Pantaloni.W - 5f)
+							p.Task.AchieveHeading(v.Pantaloni.W);
+							while (p.Heading > v.Pantaloni.W + 5f || p.Heading < v.Pantaloni.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -372,13 +373,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Occhiali.W);
-							while (Game.PlayerPed.Heading > v.Occhiali.W + 5f || Game.PlayerPed.Heading < v.Occhiali.W - 5f)
+							p.Task.AchieveHeading(v.Occhiali.W);
+							while (p.Heading > v.Occhiali.W + 5f || p.Heading < v.Occhiali.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -389,13 +390,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Accessori.W);
-							while (Game.PlayerPed.Heading > v.Accessori.W + 5f || Game.PlayerPed.Heading < v.Accessori.W - 5f)
+							p.Task.AchieveHeading(v.Accessori.W);
+							while (p.Heading > v.Accessori.W + 5f || p.Heading < v.Accessori.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -409,13 +410,13 @@ namespace NuovaGM.Client.Negozi
 				}
 				foreach (var v in ConfigClothes.Ponsombys)
 				{
-					if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
+					if (p.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Vestiti.W);
-							while (Game.PlayerPed.Heading > v.Vestiti.W + 5f || Game.PlayerPed.Heading < v.Vestiti.W - 5f)
+							p.Task.AchieveHeading(v.Vestiti.W);
+							while (p.Heading > v.Vestiti.W + 5f || p.Heading < v.Vestiti.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -426,13 +427,13 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Scarpe.W);
-							while (Game.PlayerPed.Heading > v.Scarpe.W + 5f || Game.PlayerPed.Heading < v.Scarpe.W - 5f)
+							p.Task.AchieveHeading(v.Scarpe.W);
+							while (p.Heading > v.Scarpe.W + 5f || p.Heading < v.Scarpe.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -443,12 +444,12 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
+					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
 										{
 											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
 											if (Input.IsControlJustPressed(Control.Context))
 											{
-												Game.PlayerPed.Task.AchieveHeading(v.Maglie.W);
+												p.Task.AchieveHeading(v.Maglie.W);
 												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
 													Debug.WriteLine("Maschio");
@@ -460,13 +461,13 @@ namespace NuovaGM.Client.Negozi
 											}
 										}
 					*/
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Pantaloni.W);
-							while (Game.PlayerPed.Heading > v.Pantaloni.W + 5f || Game.PlayerPed.Heading < v.Pantaloni.W - 5f)
+							p.Task.AchieveHeading(v.Pantaloni.W);
+							while (p.Heading > v.Pantaloni.W + 5f || p.Heading < v.Pantaloni.W - 5f)
 								await BaseScript.Delay(0);
 
 							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -477,12 +478,12 @@ namespace NuovaGM.Client.Negozi
 							menu = true;
 						}
 					}
-					else if (Game.PlayerPed.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
+					else if (p.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Task.AchieveHeading(v.Accessori.W);
+							p.Task.AchieveHeading(v.Accessori.W);
 							while (Game.PlayerPed.Heading > v.Accessori.W + 5f || Game.PlayerPed.Heading < v.Accessori.W - 5f)
 								await BaseScript.Delay(0);
 
@@ -501,11 +502,12 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task Esci()
 		{
+			int id = PlayerPedId();
 			menu = false;
-			ClearPedTasks(PlayerPedId());
-			ClearPedSecondaryTask(PlayerPedId());
-			SetBlockingOfNonTemporaryEvents(PlayerPedId(), false);
-			ClearPedAlternateMovementAnim(PlayerPedId(), 0, 4.0f);
+			ClearPedTasks(id);
+			ClearPedSecondaryTask(id);
+			SetBlockingOfNonTemporaryEvents(id, false);
+			ClearPedAlternateMovementAnim(id, 0, 4.0f);
 			if (!menu)
 			{
 				RenderScriptCams(false, true, 1500, true, false);

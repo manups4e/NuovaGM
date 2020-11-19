@@ -287,7 +287,7 @@ namespace NuovaGM.Client.Interactions
 
 						while (GetSynchronizedScenePhase(Scena1) < 0.99f) await BaseScript.Delay(0);
 
-						Game.PlayerPed.Task.ClearAll();
+						ClearPedTasks(PlayerPedId());
 
 						InDoccia = false;
 						RemoveAnimDict(sLocal_436);

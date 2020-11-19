@@ -42,26 +42,26 @@ namespace NuovaGM.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
-
-			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Position : Game.PlayerPed.Position)} H:{(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Heading : Game.PlayerPed.Heading)}");
-			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Game.PlayerPed.IsInVehicle() ? Game.PlayerPed.CurrentVehicle.Rotation:Game.PlayerPed.Rotation)}");
+			Ped pl = Game.PlayerPed;
+			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
+			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
 			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Funzioni._CrosshairRaycast().HitPosition}");
-			if (Game.PlayerPed.IsAiming)
+			if (pl.IsAiming)
 			{
 				int entity = 0;
 				if (GetEntityPlayerIsFreeAimingAt(PlayerId(), ref entity))
 					HUD.DrawText3D(GetEntityCoords(entity, true), Colors.DarkSeaGreen, "Hash = " + GetEntityModel(entity));
 			}
-			if (Game.PlayerPed.IsInVehicle())
+			if (pl.IsInVehicle())
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
 				VehProp props = await veicolo.GetVehicleProperties();
 				var entityPos = veicolo.Position;
 				var pos = Funzioni.WorldToScreen(entityPos);
 				if (pos.X <= 0f || pos.Y <= 0f || pos.X >= 1f || pos.Y >= 1f) pos = DefaultPos;
-				var dist = Vector3.Distance(Game.PlayerPed.Position, entityPos);
+				var dist = Vector3.Distance(pl.Position, entityPos);
 				var offsetX = MathUtil.Clamp((1f - dist / 100f) * 0.1f, 0f, 0.1f);
 				pos.X += offsetX;
 				var data = new Dictionary<string, string>

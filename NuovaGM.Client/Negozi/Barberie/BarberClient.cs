@@ -108,9 +108,10 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task Sedie()
 		{
+			Ped p = Game.PlayerPed;
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
-				if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
+				if (p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
 				{
 					S1 = ConfigBarbieri.Kuts[i].Sedia1;
 					S2 = ConfigBarbieri.Kuts[i].Sedia2;
@@ -118,7 +119,7 @@ namespace NuovaGM.Client.Negozi
 					CurrentBarber = await CreateBarber(ConfigBarbieri.Kuts[i].Model);
 					CreatoKuts = true;
 				}
-				else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
+				else if (!p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
 				{
 					if (CreatoKuts)
 					{
@@ -126,7 +127,7 @@ namespace NuovaGM.Client.Negozi
 						CreatoKuts = false;
 					}
 				}
-				else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2f))
+				else if (p.IsInRangeOf(CurrentBarber.Position, 2f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -160,12 +161,12 @@ namespace NuovaGM.Client.Negozi
 					}
 				}
 			}
-			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
+			if (p.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Hawick.Model);
 				CreatoHawick = true;
 			}
-			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50))
+			else if (!p.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50))
 			{
 				if (CreatoHawick)
 				{
@@ -173,7 +174,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoHawick = false;
 				}
 			}
-			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -207,13 +208,13 @@ namespace NuovaGM.Client.Negozi
 				}
 			}
 
-			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50) && !CreatoOsheas)
+			if (p.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50) && !CreatoOsheas)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Osheas.Model);
 				CreatoOsheas = true;
 			}
 
-			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
+			else if (!p.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
 			{
 				if (CreatoOsheas)
 				{
@@ -221,7 +222,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoOsheas = false;
 				}
 			}
-			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -254,12 +255,12 @@ namespace NuovaGM.Client.Negozi
 					}
 				}
 			}
-			if (Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
+			if (p.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Combo.Model);
 				CreatoCombo = true;
 			}
-			else if (!Game.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50))
+			else if (!p.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50))
 			{
 				if (CreatoCombo)
 				{
@@ -267,7 +268,7 @@ namespace NuovaGM.Client.Negozi
 					CreatoCombo = false;
 				}
 			}
-			else if (Game.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -953,14 +954,14 @@ namespace NuovaGM.Client.Negozi
 		{
 			if (MenuPrincipale.Visible)
 			{
-				if (Game.IsControlPressed(0, Control.FrontendLt))
+				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= .7f;
 					if (fov <= 23f)
 						fov = 23f;
 					Camm.FieldOfView = fov;
 				}
-				else if (Game.IsControlJustReleased(0, Control.FrontendLt))
+				else if (Input.IsControlJustReleased(Control.FrontendLt))
 				{
 					do
 					{
@@ -969,7 +970,7 @@ namespace NuovaGM.Client.Negozi
 						if (fov >= 35f)
 							fov = 35f;
 						Camm.FieldOfView = fov;
-					} while ((fov != 23f) && (!Game.IsControlPressed(0, Control.FrontendLt)));
+					} while ((fov != 23f) && (!Input.IsControlPressed(Control.FrontendLt)));
 				}
 			}
 		}

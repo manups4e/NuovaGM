@@ -12,6 +12,7 @@ namespace NuovaGM.Client
 	{
 		public async static Task GestioneDecors()
 		{
+			Ped playerPed = Game.PlayerPed;
 			foreach (var player in Client.Instance.GetPlayers)
 			{
 				if (player.Character.HasDecor("PlayerStanziato"))
@@ -20,16 +21,16 @@ namespace NuovaGM.Client
 					{
 						if (player.Character.HasDecor("PlayerStanziatoInIstanza") || player.GetPlayerData().Istanza.Instance != null)
 						{
-							if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || player.GetPlayerData().Istanza.ServerId != 0 || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.Player.GetPlayerData().Istanza.ServerId != 0)
+							if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || player.GetPlayerData().Istanza.ServerId != 0 || playerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.Player.GetPlayerData().Istanza.ServerId != 0)
 							{
-								if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.Player.ServerId && Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.ServerId || player.GetPlayerData().Istanza.ServerId != Game.Player.ServerId && Game.Player.GetPlayerData().Istanza.ServerId != player.ServerId)
+								if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.Player.ServerId && playerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.ServerId || player.GetPlayerData().Istanza.ServerId != Game.Player.ServerId && Game.Player.GetPlayerData().Istanza.ServerId != player.ServerId)
 								{
 									if (!NetworkIsPlayerConcealed(player.Handle))
 										NetworkConcealPlayer(player.Handle, true, true);
 								}
 								else
 								{
-									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.Player.ServerId || Game.PlayerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.ServerId || player.GetPlayerData().Istanza.ServerId == Game.Player.ServerId || Game.Player.ServerId == player.GetPlayerData().Istanza.ServerId)
+									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.Player.ServerId || playerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.ServerId || player.GetPlayerData().Istanza.ServerId == Game.Player.ServerId || Game.Player.ServerId == player.GetPlayerData().Istanza.ServerId)
 									{
 										if (NetworkIsPlayerConcealed(player.Handle))
 											NetworkConcealPlayer(player.Handle, false, false);

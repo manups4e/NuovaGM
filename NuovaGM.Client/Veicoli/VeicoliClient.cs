@@ -127,9 +127,10 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task Lux()
 		{
-			if (Game.PlayerPed.IsInVehicle() && Main.spawned)
+			Ped playerPed = Game.PlayerPed;
+			if (playerPed.IsInVehicle() && Main.spawned)
 			{
-				Vehicle veh = Game.PlayerPed.CurrentVehicle;
+				Vehicle veh = playerPed.CurrentVehicle;
 				if (veh.Driver == Game.PlayerPed)
 				{
 					Game.DisableControlThisFrame(0, Control.VehicleSelectNextWeapon);
@@ -190,7 +191,7 @@ namespace NuovaGM.Client.Veicoli
 						Game.DisableControlThisFrame(0, Control.VehicleDuck);
 						if (Input.IsDisabledControlJustPressed(Control.VehicleDuck))
 						{
-							if ((Game.PlayerPed.CurrentVehicle.Speed < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
+							if ((playerPed.CurrentVehicle.Speed < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
 								engine();
 							else
 							{
@@ -439,12 +440,13 @@ namespace NuovaGM.Client.Veicoli
 		static float angle = 0f;
 		public static async Task gestioneVeh()
 		{
+			Ped playerPed = Game.PlayerPed;
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
-				if (Game.PlayerPed.IsInVehicle())
+				if (playerPed.IsInVehicle())
 				{
-					Vehicle veh = Game.PlayerPed.CurrentVehicle;
+					Vehicle veh = playerPed.CurrentVehicle;
 					float tangle = veh.SteeringAngle;
 					if (tangle > 10f || tangle < -10f)
 						angle = tangle;
@@ -454,17 +456,18 @@ namespace NuovaGM.Client.Veicoli
 						if (GetIsTaskActive(PlayerPedId(), 165))
 							SetPedIntoVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false), 0);
 				}
-				if (!IsPedInAnyVehicle(PlayerPedId(), false) && Game.PlayerPed.LastVehicle != null && Game.PlayerPed.LastVehicle.Exists() && !Game.PlayerPed.LastVehicle.IsEngineRunning && acceso)
-					Game.PlayerPed.LastVehicle.IsEngineRunning = true;
+				if (!IsPedInAnyVehicle(PlayerPedId(), false) && playerPed.LastVehicle != null && playerPed.LastVehicle.Exists() && !playerPed.LastVehicle.IsEngineRunning && acceso)
+					playerPed.LastVehicle.IsEngineRunning = true;
 			}
 			await Task.FromResult(0);
 		}
 
 		public static async Task engine()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			Ped playerPed = Game.PlayerPed;
+			if (playerPed.IsInVehicle())
 			{
-				Vehicle p = Game.PlayerPed.CurrentVehicle;
+				Vehicle p = playerPed.CurrentVehicle;
 				if (p.Driver == Game.PlayerPed)
 				{
 					if (p.IsEngineRunning)
@@ -615,11 +618,12 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task MostraMenuAffitto()
 		{
+			Ped playerPed = Game.PlayerPed;
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)
 				{
-					if (Game.PlayerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
+					if (playerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

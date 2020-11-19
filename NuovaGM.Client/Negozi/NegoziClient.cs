@@ -65,9 +65,10 @@ namespace NuovaGM.Client.Negozi
 
 		public static async Task OnTick()
 		{
+			Ped p = Game.PlayerPed;
 			foreach (var v in NegoziGenerici.tfs)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
+				if (p.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -76,7 +77,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (var v in NegoziGenerici.rq)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
+				if (p.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -85,7 +86,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (var v in NegoziGenerici.ltd)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
+				if (p.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -94,7 +95,7 @@ namespace NuovaGM.Client.Negozi
 			}
 			foreach (var v in NegoziGenerici.armerie)
 			{
-				if (Game.PlayerPed.IsInRangeOf(v, 1.375f))
+				if (p.IsInRangeOf(v, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

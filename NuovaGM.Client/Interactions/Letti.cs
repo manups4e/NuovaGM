@@ -22,12 +22,13 @@ namespace NuovaGM.Client.Interactions
 		public static async Task ControlloLetti()
 		{
 
+			Ped p = Game.PlayerPed;
 			if (!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_r_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_r_bighouse", 2))
 			{
-				if (Game.PlayerPed.IsInRangeOf(LettoMid.vLocal_338, 1.3f))
+				if (p.IsInRangeOf(LettoMid.vLocal_338, 1.3f))
 				{
 					if (!LettoMid.ALetto)
 					{
@@ -44,7 +45,7 @@ namespace NuovaGM.Client.Interactions
 							HUD.ShowNotification("Attualmente non implementato :D <3");
 					}
 				}
-				if (Game.PlayerPed.IsInRangeOf(LettoLow.vLocal_343, 1.3f))
+				if (p.IsInRangeOf(LettoLow.vLocal_343, 1.3f))
 				{
 					if (!LettoLow.ALetto)
 					{
@@ -64,7 +65,7 @@ namespace NuovaGM.Client.Interactions
 
 				for (int i = 0; i < LettoHigh.Lista.Count; i++)
 				{
-					if (Game.PlayerPed.IsInRangeOf(LettoHigh.Lista[i].Destra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					if (p.IsInRangeOf(LettoHigh.Lista[i].Destra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
 					{
 						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticDestra;
 						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticDestra;
@@ -74,7 +75,7 @@ namespace NuovaGM.Client.Interactions
 						if (Input.IsControlJustPressed(Control.Context))
 							LettoHigh.Sdraiati(LettoHigh.Lista[i], true);
 					}
-					else if (Game.PlayerPed.IsInRangeOf(LettoHigh.Lista[i].Sinistra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
+					else if (p.IsInRangeOf(LettoHigh.Lista[i].Sinistra1, 2f) && !LettoHigh.ALettoDestra && !LettoHigh.ALettoSinistra)
 					{
 						LettoHigh.Lista[i].RotAnim = LettoHigh.Lista[i].RotAnimStaticSinistra;
 						LettoHigh.Lista[i].CoordAnim = LettoHigh.Lista[i].CoordsAnimStaticSinistra;
@@ -116,7 +117,7 @@ namespace NuovaGM.Client.Interactions
 				int i;
 				for (i = 0; i <= 7; i++)
 					if (!peds[i].IsInjured)
-						if (IsEntityInAngledArea(peds[i].Handle, n1.X, n1.Y, n1.Z, n2.X, n2.Y, n2.Z, 2f, false, true, 0) && peds[i].Handle != Game.PlayerPed.Handle)
+						if (IsEntityInAngledArea(peds[i].Handle, n1.X, n1.Y, n1.Z, n2.X, n2.Y, n2.Z, 2f, false, true, 0) && peds[i].Handle != PlayerPedId())
 							return false;
 			}
 			return true;
@@ -171,6 +172,7 @@ namespace NuovaGM.Client.Interactions
 
 		public override async void Sdraiati()
 		{
+			Ped p = Game.PlayerPed;
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Vector3 vVar0 = new Vector3(1.5f);
@@ -180,7 +182,7 @@ namespace NuovaGM.Client.Interactions
 
 			if (Controllo1(vLocal_338, vVar0.X) && IsEntityInAngledArea(PlayerPedId(), vLocal_342.X, vLocal_342.Y, vLocal_342.Z, vLocal_345.X, vLocal_345.Y, vLocal_345.Z, 2f, false, true, 0) && NoPGVicini(vLocal_342, vLocal_345))
 			{
-				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+				p.Weapons.Select(WeaponHash.Unarmed);
 				vLocal_338 = GetAnimInitialOffsetPosition(sLocal_334, sLocal_335, vLocal_348.X, vLocal_348.Y, vLocal_348.Z, vLocal_351.X, vLocal_351.Y, vLocal_351.Z, 0, 2);
 				vVar3 = GetAnimInitialOffsetRotation(sLocal_334, sLocal_335, vLocal_348.X, vLocal_348.Y, vLocal_348.Z, vLocal_351.X, vLocal_351.Y, vLocal_351.Z, 0, 2) ;
 				fLocal_341 = vVar3.Z;
@@ -251,9 +253,10 @@ namespace NuovaGM.Client.Interactions
 
 		public async override void Sdraiati()
 		{
+			Ped p = Game.PlayerPed;
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
-			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+			p.Weapons.Select(WeaponHash.Unarmed);
 			Vector3 vVar0 = new Vector3(1.5f);
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)

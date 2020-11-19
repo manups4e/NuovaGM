@@ -63,12 +63,13 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task ControlloSpazzatura()
 		{
-			BinClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < TrashRange);
+			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < TrashRange);
 			await BaseScript.Delay(500);
 		}
 
 		public static async Task CestiSpazzatura()
 		{
+			Ped p = Game.PlayerPed;
 			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
@@ -105,7 +106,7 @@ namespace NuovaGM.Client.Interactions
 				else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					Vector3 offset = GetOffsetFromEntityInWorldCoords(BinClosest.Handle, 0f, -0.97f, 0.05f);
-					Game.PlayerPed.Task.LookAt(BinClosest);
+					p.Task.LookAt(BinClosest);
 					TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z+1, 1f, 20000, BinClosest.Heading, 0.1f);
 					TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true);
 					await BaseScript.Delay(5000);
@@ -135,7 +136,7 @@ namespace NuovaGM.Client.Interactions
 							break;
 					}
 					await BaseScript.Delay(1000);
-					Game.PlayerPed.Task.ClearAll();
+					p.Task.ClearAll();
 				}
 			}
 		}

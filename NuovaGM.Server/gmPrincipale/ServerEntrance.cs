@@ -36,7 +36,7 @@ namespace NuovaGM.Server.gmPrincipale
 					User user = new User(player, result[0]);
 					Server.PlayerList.TryAdd(handle, user);
 					string playerino = user.Serialize();
-					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
+					player.TriggerEvent("lprp:setupClientUser", playerino);
 				}
 				else
 				{
@@ -62,7 +62,7 @@ namespace NuovaGM.Server.gmPrincipale
 					User user = new User(player, created[0]);
 					Server.PlayerList.TryAdd(handle, user);
 					string playerino = user.Serialize();
-					BaseScript.TriggerClientEvent(player, "lprp:setupClientUser", playerino);
+					player.TriggerEvent("lprp:setupClientUser", playerino);
 				}
 			}
 			EntratoMaProprioSulSerio(player);

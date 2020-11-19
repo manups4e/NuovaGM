@@ -42,38 +42,39 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task LoopProstitute()
 		{
+			Ped p = Game.PlayerPed;
 			if (Prostituta != null)
 			{
 				if (Prostituta.IsPlayer) return;
-				if (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
+				if (p.IsInVehicle() && p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
 				{
 					HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
 					if (Input.IsControlJustPressed(Control.VehicleHorn))
 					{
 						if (Game.Player.GetPlayerData().Money > 5f)
 						{
-							if (Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Boats
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Cycles
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Motorcycles
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Helicopters
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Military
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Motorcycles
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Planes
-							&& Game.PlayerPed.CurrentVehicle.ClassType != VehicleClass.Trains)
+							if (p.CurrentVehicle.ClassType != VehicleClass.Boats
+							&& p.CurrentVehicle.ClassType != VehicleClass.Cycles
+							&& p.CurrentVehicle.ClassType != VehicleClass.Motorcycles
+							&& p.CurrentVehicle.ClassType != VehicleClass.Helicopters
+							&& p.CurrentVehicle.ClassType != VehicleClass.Military
+							&& p.CurrentVehicle.ClassType != VehicleClass.Motorcycles
+							&& p.CurrentVehicle.ClassType != VehicleClass.Planes
+							&& p.CurrentVehicle.ClassType != VehicleClass.Trains)
 							{
-								if (Game.PlayerPed.CurrentVehicle.Speed < 1)
+								if (p.CurrentVehicle.Speed < 1)
 								{
-									if (Game.PlayerPed.CurrentVehicle.IsSeatFree(VehicleSeat.Passenger))
+									if (p.CurrentVehicle.IsSeatFree(VehicleSeat.Passenger))
 									{
 										Prostituta.IsPersistent = true;
-										Prostituta.Task.EnterVehicle(Game.PlayerPed.CurrentVehicle, VehicleSeat.Passenger);
-										while (!Prostituta.IsInVehicle(Game.PlayerPed.CurrentVehicle)) await BaseScript.Delay(0);
+										Prostituta.Task.EnterVehicle(p.CurrentVehicle, VehicleSeat.Passenger);
+										while (!Prostituta.IsInVehicle(p.CurrentVehicle)) await BaseScript.Delay(0);
 										SetPedInVehicleContext(Prostituta.Handle, Funzioni.HashUint("MINI_PROSTITUTE_LOW_PASSENGER"));
 										Prostituta.BlockPermanentEvents = true;
 									}
 									else
 										HUD.ShowNotification("Non può salire dietro!", NotificationColor.Red, true);
-									if (Prostituta.IsInVehicle(Game.PlayerPed.CurrentVehicle))
+									if (Prostituta.IsInVehicle(p.CurrentVehicle))
 									{
 										if (!IsInputDisabled(2)) 
 											HUD.ShowHelp("Tesoro cosa desideri?~n~~INPUT_FRONTEND_RB~ + ~INPUT_CONTEXT~ per la manina.~n~~INPUT_FRONTEND_RB~ + ~INPUT_DETONATE~ per la boccuccia.~n~~INPUT_FRONTEND_RB~ + ~INPUT_FRONTEND_UP~ per darci dentro.");

@@ -228,9 +228,10 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task OnTick()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			Ped playerPed = Game.PlayerPed;
+			if (playerPed.IsInVehicle())
 			{
-				vehicle = Game.PlayerPed.CurrentVehicle;
+				vehicle = playerPed.CurrentVehicle;
 				vehicleClass = vehicle.ClassType;
 				healthEngineCurrent = vehicle.EngineHealth;
 				if (healthEngineCurrent == 1000f)
@@ -345,9 +346,9 @@ namespace NuovaGM.Client.Veicoli
 			{
 				if (pedInSameVehicleLast == true)
 				{
-					if (Game.PlayerPed.LastVehicle != null)
+					if (playerPed.LastVehicle != null)
 					{
-						lastVehicle = Game.PlayerPed.LastVehicle;
+						lastVehicle = playerPed.LastVehicle;
 						if (deformationMultiplier != -1)
 							SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fDeformationDamageMult", fDeformationDamageMult);
 

@@ -63,11 +63,12 @@ namespace NuovaGM.Client.Lavori.Generici.Rimozione
 
 		public static async Task InizioLavoro()
 		{
+			Ped p = Game.PlayerPed;
 			if (Game.Player.GetPlayerData().CurrentChar.job.name != "Rimozione forzata")
 			{
-				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro, 50))
+				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50))
 					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
-				if (Game.PlayerPed.IsInRangeOf(Rimozione.InizioLavoro, 1.375f))
+				if (p.IsInRangeOf(Rimozione.InizioLavoro, 1.375f))
 				{
 					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
 					if (Input.IsControlJustPressed(Control.Context))

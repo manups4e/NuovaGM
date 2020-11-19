@@ -148,27 +148,28 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async Task UpdateFace(Skin skin)
 		{
-			SetPedHeadBlendData(Game.PlayerPed.Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
-			SetPedHeadOverlayColor(Game.PlayerPed.Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
-			SetPedHeadOverlayColor(Game.PlayerPed.Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 3, skin.ageing.style, skin.ageing.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 4, skin.makeup.style, skin.makeup.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 5, skin.blusher.style, skin.blusher.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 6, skin.complexion.style, skin.complexion.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
-			SetPedHeadOverlayColor(Game.PlayerPed.Handle, 8, 1, skin.lipstick.color[0], skin.lipstick.color[1]);
-			SetPedHeadOverlay(Game.PlayerPed.Handle, 9, skin.freckles.style, skin.freckles.opacity);
-			SetPedEyeColor(Game.PlayerPed.Handle, skin.eye.style);
-			SetPedComponentVariation(Game.PlayerPed.Handle, 2, skin.hair.style, 0, 0);
-			SetPedHairColor(Game.PlayerPed.Handle, skin.hair.color[0], skin.hair.color[1]);
-			SetPedPropIndex(Game.PlayerPed.Handle, 2, skin.ears.style, skin.ears.color, true);
+			int id = PlayerPedId();
+			SetPedHeadBlendData(id, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
+			SetPedHeadOverlay(id, 0, skin.blemishes.style, skin.blemishes.opacity);
+			SetPedHeadOverlay(id, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
+			SetPedHeadOverlayColor(id, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
+			SetPedHeadOverlay(id, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
+			SetPedHeadOverlayColor(id, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
+			SetPedHeadOverlay(id, 3, skin.ageing.style, skin.ageing.opacity);
+			SetPedHeadOverlay(id, 4, skin.makeup.style, skin.makeup.opacity);
+			SetPedHeadOverlay(id, 5, skin.blusher.style, skin.blusher.opacity);
+			SetPedHeadOverlay(id, 6, skin.complexion.style, skin.complexion.opacity);
+			SetPedHeadOverlay(id, 7, skin.skinDamage.style, skin.skinDamage.opacity);
+			SetPedHeadOverlay(id, 8, skin.lipstick.style, skin.lipstick.opacity);
+			SetPedHeadOverlayColor(id, 8, 1, skin.lipstick.color[0], skin.lipstick.color[1]);
+			SetPedHeadOverlay(id, 9, skin.freckles.style, skin.freckles.opacity);
+			SetPedEyeColor(id, skin.eye.style);
+			SetPedComponentVariation(id, 2, skin.hair.style, 0, 0);
+			SetPedHairColor(id, skin.hair.color[0], skin.hair.color[1]);
+			SetPedPropIndex(id, 2, skin.ears.style, skin.ears.color, true);
 			for (int i = 0; i < skin.face.tratti.Length; i++)
 			{
-				SetPedFaceFeature(Game.PlayerPed.Handle, i, skin.face.tratti[i]);
+				SetPedFaceFeature(PlayerPedId(), i, skin.face.tratti[i]);
 			}
 
 			await Task.FromResult(0);
@@ -176,36 +177,37 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async Task UpdateDress(Dressing dress)
 		{
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
-			SetPedComponentVariation(PlayerPedId(), (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
+			int id = PlayerPedId();
+			SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
+			SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
 
-			if (dress.PropIndices.Cappelli_Maschere == -1) ClearPedProp(PlayerPedId(), 0);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
-			if (dress.PropIndices.Orecchie == -1) ClearPedProp(PlayerPedId(), 2);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
-			if (dress.PropIndices.Occhiali_Occhi == -1) ClearPedProp(PlayerPedId(), 1);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
-			if (dress.PropIndices.Unk_3 == -1) ClearPedProp(PlayerPedId(), 3);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
-			if (dress.PropIndices.Unk_4 == -1) ClearPedProp(PlayerPedId(), 4);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
-			if (dress.PropIndices.Unk_5 == -1) ClearPedProp(PlayerPedId(), 5);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
-			if (dress.PropIndices.Orologi == -1) ClearPedProp(PlayerPedId(), 6);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
-			if (dress.PropIndices.Bracciali == -1) ClearPedProp(PlayerPedId(), 7);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
-			if (dress.PropIndices.Unk_8 == -1) ClearPedProp(PlayerPedId(), 8);
-			SetPedPropIndex(PlayerPedId(), (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
+			if (dress.PropIndices.Cappelli_Maschere == -1) ClearPedProp(id, 0);
+			SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
+			if (dress.PropIndices.Orecchie == -1) ClearPedProp(id, 2);
+			SetPedPropIndex(id, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
+			if (dress.PropIndices.Occhiali_Occhi == -1) ClearPedProp(id, 1);
+			SetPedPropIndex(id, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+			if (dress.PropIndices.Unk_3 == -1) ClearPedProp(id, 3);
+			SetPedPropIndex(id, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
+			if (dress.PropIndices.Unk_4 == -1) ClearPedProp(id, 4);
+			SetPedPropIndex(id, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
+			if (dress.PropIndices.Unk_5 == -1) ClearPedProp(id, 5);
+			SetPedPropIndex(id, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
+			if (dress.PropIndices.Orologi == -1) ClearPedProp(id, 6);
+			SetPedPropIndex(id, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
+			if (dress.PropIndices.Bracciali == -1) ClearPedProp(id, 7);
+			SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+			if (dress.PropIndices.Unk_8 == -1) ClearPedProp(id, 8);
+			SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
 
 			await Task.FromResult(0);
 		}
@@ -542,10 +544,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 
 		public static async void Teleport(Vector3 coords)
 		{
-			ClearPedTasksImmediately(Game.PlayerPed.Handle);
-			Game.PlayerPed.IsPositionFrozen = true;
-			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+			Ped playerPed = Game.PlayerPed;
+			ClearPedTasksImmediately(playerPed.Handle);
+			playerPed.IsPositionFrozen = true;
+			if (playerPed.IsVisible)
+				NetworkFadeOutEntity(playerPed.Handle, true, false);
 			DoScreenFadeOut(500);
 			while (!IsScreenFadedOut()) await BaseScript.Delay(0);
 			RequestCollisionAtCoord(coords.X, coords.Y, coords.Z);
@@ -563,11 +566,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				}
 				await BaseScript.Delay(0);
 			}
-			SetEntityCoords(PlayerPedId(), coords.X, coords.Y, coords.Z, false, false, false, false);
+			SetEntityCoords(playerPed.Handle, coords.X, coords.Y, coords.Z, false, false, false, false);
 			tempTimer = GetGameTimer();
 
 			// Wait for the collision to be loaded around the entity in this new location.
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle))
 			{
 				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 				if (GetGameTimer() - tempTimer > 1000)
@@ -578,18 +581,19 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				await BaseScript.Delay(0);
 			}
 
-			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
-			Game.PlayerPed.IsPositionFrozen = false;
+			NetworkFadeInEntity(playerPed.Handle, true);
+			playerPed.IsPositionFrozen = false;
 			DoScreenFadeIn(500);
 			SetGameplayCamRelativePitch(0.0f, 1.0f);
 		}
 
 		public static async void TeleportConVeh(Vector3 coords)
 		{
-			ClearPedTasksImmediately(Game.PlayerPed.Handle);
-			Game.PlayerPed.IsPositionFrozen = true;
-			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+			Ped playerPed = Game.PlayerPed;
+			ClearPedTasksImmediately(playerPed.Handle);
+			playerPed.IsPositionFrozen = true;
+			if (playerPed.IsVisible)
+				NetworkFadeOutEntity(playerPed.Handle, true, false);
 			DoScreenFadeOut(500);
 			while (!IsScreenFadedOut()) await BaseScript.Delay(0);
 			RequestCollisionAtCoord(coords.X, coords.Y, coords.Z);
@@ -607,11 +611,11 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				}
 				await BaseScript.Delay(0);
 			}
-			SetPedCoordsKeepVehicle(PlayerPedId(), coords.X, coords.Y, coords.Z);
+			SetPedCoordsKeepVehicle(playerPed.Handle, coords.X, coords.Y, coords.Z);
 			tempTimer = GetGameTimer();
 
 			// Wait for the collision to be loaded around the entity in this new location.
-			while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle))
 			{
 				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 				if (GetGameTimer() - tempTimer > 1000)
@@ -622,8 +626,8 @@ namespace NuovaGM.Client.gmPrincipale.Utility
 				await BaseScript.Delay(0);
 			}
 
-			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
-			Game.PlayerPed.IsPositionFrozen = false;
+			NetworkFadeInEntity(playerPed.Handle, true);
+			playerPed.IsPositionFrozen = false;
 			DoScreenFadeIn(500);
 			SetGameplayCamRelativePitch(0.0f, 1.0f);
 		}

@@ -445,15 +445,16 @@ namespace NuovaGM.Client.Veicoli
 		{
 			try
 			{
-				if (Game.PlayerPed.IsInVehicle())
+				Ped playerPed = Game.PlayerPed;
+				if (playerPed.IsInVehicle())
 				{
-					if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
-						veh = Game.PlayerPed.CurrentVehicle;
-					if (Game.PlayerPed.LastVehicle != null)
-						lastveh = Game.PlayerPed.LastVehicle;
+					if (playerPed.CurrentVehicle.Driver == playerPed)
+						veh = playerPed.CurrentVehicle;
+					if (playerPed.LastVehicle != null)
+						lastveh = playerPed.LastVehicle;
 				}
 
-				if (Game.PlayerPed.IsInVehicle() && veh.Driver == Game.PlayerPed && modelValid(veh) && !veh.IsDead)
+				if (playerPed.IsInVehicle() && veh.Driver == playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					if (LastVehicle != veh)
 					{
@@ -472,7 +473,7 @@ namespace NuovaGM.Client.Veicoli
 						veh.IsDriveable = false;
 					}
 				}
-				else if(Game.PlayerPed.IsInVehicle() && veh.Driver != Game.PlayerPed && modelValid(veh) && !veh.IsDead)
+				else if(playerPed.IsInVehicle() && veh.Driver != playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
@@ -486,14 +487,14 @@ namespace NuovaGM.Client.Veicoli
 						if (dist <= 80f)
 						{
 							lastStation = i + 1;
-							if (fuelChecked == false && Game.PlayerPed.IsInVehicle())
+							if (fuelChecked == false && playerPed.IsInVehicle())
 							{
 								fuelChecked = true;
 								BaseScript.TriggerServerEvent("lprp:businesses:checkfuelforstation", lastStation);
 							}
 							for (int j = 0; j < ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps.Count; j++)
 							{
-								if (Game.PlayerPed.IsInVehicle())
+								if (playerPed.IsInVehicle())
 								{
 									if (veh.ClassType == VehicleClass.Industrial || lastveh.ClassType == VehicleClass.Industrial || veh.ClassType == VehicleClass.Commercial || lastveh.ClassType == VehicleClass.Commercial)
 										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
@@ -505,7 +506,7 @@ namespace NuovaGM.Client.Veicoli
 
 								float pdist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
-								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Game.Player.GetPlayerData().posizione.ToVector3(), LastVehicle) && !Game.PlayerPed.IsInVehicle())
+								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Game.Player.GetPlayerData().posizione.ToVector3(), LastVehicle) && !playerPed.IsInVehicle())
 								{
 									DisableControlAction(2, 22, true);
 									if (lastStationFuel.stationfuel > 0)
@@ -520,7 +521,7 @@ namespace NuovaGM.Client.Veicoli
 												{
 													TaskTurnPedToFaceEntity(PlayerPedId(), LastVehicle.Handle, 1000);
 													await BaseScript.Delay(1000);
-													await Game.PlayerPed.Task.PlayAnimation("timetable@gardener@filling_can", "gar_ig_5_filling_can", 2f, 8f, -1, (AnimationFlags)50, 0);
+													await playerPed.Task.PlayAnimation("timetable@gardener@filling_can", "gar_ig_5_filling_can", 2f, 8f, -1, (AnimationFlags)50, 0);
 												}
 												if (LastVehicle.FuelLevel < 100)
 												{
@@ -543,7 +544,7 @@ namespace NuovaGM.Client.Veicoli
 										if (Input.IsControlJustReleased(Control.Context) || Input.IsDisabledControlJustReleased(Control.Context))
 										{
 											if (IsEntityPlayingAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 3))
-												Game.PlayerPed.Task.ClearAll();
+												playerPed.Task.ClearAll();
 											if (justPumped)
 											{
 												justPumped = false;
@@ -569,7 +570,7 @@ namespace NuovaGM.Client.Veicoli
 						}
 					}
 				}
-				Weapon wep = Game.PlayerPed.Weapons.Current;
+				Weapon wep = playerPed.Weapons.Current;
 				if (wep.Hash == WeaponHash.PetrolCan && LastVehicle.Exists())
 				{
 					float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), LastVehicle.Position);
@@ -585,14 +586,14 @@ namespace NuovaGM.Client.Veicoli
 						{
 							if (animState == 3)
 							{
-								Game.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_intro");
+								playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_intro");
 								animState = 1;
 							}
 							else if (animState == 1)
 							{
-								if (!IsEntityPlayingAnim(Game.PlayerPed.Handle, "weapon@w_sp_jerrycan", "fire_intro", 3))
+								if (!IsEntityPlayingAnim(playerPed.Handle, "weapon@w_sp_jerrycan", "fire_intro", 3))
 								{
-									Game.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire");
+									playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire");
 									animState = 2;
 								}
 							}
@@ -607,8 +608,8 @@ namespace NuovaGM.Client.Veicoli
 						}
 						if (Input.IsControlJustReleased(Control.Context))
 						{
-							StopEntityAnim(Game.PlayerPed.Handle, "fire", "weapon@w_sp_jerrycan", 3);
-							Game.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_outro");
+							StopEntityAnim(playerPed.Handle, "fire", "weapon@w_sp_jerrycan", 3);
+							playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_outro");
 							animState = 3;
 						}
 					}

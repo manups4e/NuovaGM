@@ -135,7 +135,7 @@ namespace NuovaGM.Client.gmPrincipale
 			Game.PlayerPed.IsPositionFrozen = true;
 			Game.Player.IgnoredByPolice = true;
 			Game.Player.DispatchsCops = false;
-			NetworkSetTalkerProximity(0f);
+			NetworkSetTalkerProximity(-1000f);
 			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
 			Game.PlayerPed.Heading = charSelectCoords.W;
 			//Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
@@ -144,10 +144,11 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async void onPlayerSpawn()
 		{
-			SetEnablePedEnveffScale(Game.PlayerPed.Handle, true);
+			Ped playerPed = Game.PlayerPed;
+			SetEnablePedEnveffScale(playerPed.Handle, true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
-			SetCanAttackFriendly(Game.PlayerPed.Handle, true, true);
+			SetCanAttackFriendly(playerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
 			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
 			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
@@ -159,7 +160,7 @@ namespace NuovaGM.Client.gmPrincipale
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
 			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
-			Game.PlayerPed.IsVisible = true;
+			playerPed.IsVisible = true;
 			spawned = true;
 			Game.Player.GetPlayerData().status.spawned = true;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().CurrentChar.id);
@@ -169,8 +170,8 @@ namespace NuovaGM.Client.gmPrincipale
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				var now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Game.Player.GetPlayerData().FullName + " e' spawnato morto poiché è sloggato da morto");
-				Game.PlayerPed.Health = -100;
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+				playerPed.Health = -100;
+				playerPed.SetDecor("PlayerFinDiVita", true);
 			}
 			Peds();
 			for (int i = 0; i < tipi.Count; i++)
@@ -246,7 +247,7 @@ namespace NuovaGM.Client.gmPrincipale
 				BaseScript.TriggerServerEvent("lprp:setupUser");
 				while (!NetworkIsPlayerActive(PlayerId())) await BaseScript.Delay(1000);
 				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-				SendNuiMessage($@"{{ ""resname"" : ""{GetCurrentResourceName()}""}}");
+				Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
 				Client.Instance.RemoveTick(Entra);
 			}
 		}
@@ -366,34 +367,26 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async Task MainTick()
 		{
-			if (Game.PlayerPed.IsJumping && Input.IsControlJustPressed(Control.Jump))
-				Game.PlayerPed.Ragdoll(1);
-			if (Game.Player.WantedLevel != 0)
-				Game.Player.WantedLevel = 0;
+			Ped p = Game.PlayerPed;
+			Player pl = Game.Player;
+			if (p.IsJumping && Input.IsControlJustPressed(Control.Jump))
+				p.Ragdoll(1);
+			if (pl.WantedLevel != 0)
+				pl.WantedLevel = 0;
 			DisablePlayerVehicleRewards(PlayerId());
-			SetPedMinGroundTimeForStungun(Game.PlayerPed.Handle, 8000);
-			if (Game.PlayerPed.IsInVehicle())
+			SetPedMinGroundTimeForStungun(p.Handle, 8000);
+			if (p.IsInVehicle())
 			{
-				if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
-					SetPlayerCanDoDriveBy(Game.Player.Handle, false);
+				if (p.CurrentVehicle.Driver == p)
+					SetPlayerCanDoDriveBy(pl.Handle, false);
 				else if (passengerDriveBy)
-					SetPlayerCanDoDriveBy(Game.Player.Handle, true);
+					SetPlayerCanDoDriveBy(pl.Handle, true);
 				else
-					SetPlayerCanDoDriveBy(Game.Player.Handle, false);
-			}
-			Weapon weapon = Game.PlayerPed.Weapons.Current;
-			ManageReticle(weapon);
-			if(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting)
-				DisplayAmmoThisFrame(false);
-			if (Game.PlayerPed.IsShooting)
-			{
-				ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", OttieniShake);
-				if (weapon.Hash == WeaponHash.FireExtinguisher)
-					weapon.InfiniteAmmo = true;
+					SetPlayerCanDoDriveBy(pl.Handle, false);
 			}
 			if ((Input.IsControlJustPressed(Control.MpTextChatTeam) || Input.IsDisabledControlJustPressed(Control.MpTextChatTeam)) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 			{
-				if (!IsEntityPlayingAnim(Game.PlayerPed.Handle, "mp_arresting", "idle", 3))
+				if (!IsEntityPlayingAnim(p.Handle, "mp_arresting", "idle", 3))
 					startPointing();
 			}
 			else if (Input.IsControlJustReleased(Control.MpTextChatTeam) || Input.IsDisabledControlJustReleased(Control.MpTextChatTeam))
@@ -416,30 +409,29 @@ namespace NuovaGM.Client.gmPrincipale
 				camHeading = (camHeading + 180.0f) / 360.0f;
 				bool blocked = false;
 				int nn = 0;
-				Vector3 coords = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, (cosCamHeading * -0.2f) - (sinCamHeading * (0.4f * camHeading + 0.3f)), (sinCamHeading * -0.2f) + (cosCamHeading * (0.4f * camHeading + 0.3f)), 0.6f);
-				int ray = StartShapeTestCapsule(coords.X, coords.Y, coords.Z - 0.2f, coords.X, coords.Y, coords.Z + 0.2f, 0.4f, 95, Game.PlayerPed.Handle, 7);
+				Vector3 coords = GetOffsetFromEntityInWorldCoords(p.Handle, (cosCamHeading * -0.2f) - (sinCamHeading * (0.4f * camHeading + 0.3f)), (sinCamHeading * -0.2f) + (cosCamHeading * (0.4f * camHeading + 0.3f)), 0.6f);
+				int ray = StartShapeTestCapsule(coords.X, coords.Y, coords.Z - 0.2f, coords.X, coords.Y, coords.Z + 0.2f, 0.4f, 95, p.Handle, 7);
 				GetShapeTestResult(ray, ref blocked, ref coords, ref coords, ref nn);
-				SetTaskPropertyFloat(Game.PlayerPed.Handle, "Pitch", camPitch);
-				SetTaskPropertyFloat(Game.PlayerPed.Handle, "Heading", camHeading * -1.0f + 1.0f);
-				SetTaskPropertyBool(Game.PlayerPed.Handle, "isBlocked", blocked);
-				SetTaskPropertyBool(Game.PlayerPed.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
+				SetTaskPropertyFloat(p.Handle, "Pitch", camPitch);
+				SetTaskPropertyFloat(p.Handle, "Heading", camHeading * -1.0f + 1.0f);
+				SetTaskPropertyBool(p.Handle, "isBlocked", blocked);
+				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
 			if (!EventiPersonalMenu.DoHideHud)
 			{
-				if (!Game.PlayerPed.IsInVehicle() && (!IsPauseMenuActive()))
+				if (!p.IsInVehicle() && (!IsPauseMenuActive()))
 					DisableRadarThisFrame();
-				if (Game.PlayerPed.IsInVehicle())
+				if (p.IsInVehicle())
 				{
-					Vehicle veh = Game.PlayerPed.CurrentVehicle;
+					Vehicle veh = p.CurrentVehicle;
 					if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
-						//				if (IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) || IsThisModelAJetski((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) || IsThisModelAQuadbike((uint)GetEntityModel(GetVehiclePedIsUsing(Game.PlayerPed.Handle))) && (!GetIsVehicleEngineRunning(GetVehiclePedIsIn(Game.PlayerPed.Handle, false))))
 						DisableRadarThisFrame();
 				}
 			}
 			if (Game.IsPaused)
-				Game.PlayerPed.SetDecor("PlayerInPausa", true);
+				p.SetDecor("PlayerInPausa", true);
 			else
-				Game.PlayerPed.SetDecor("PlayerInPausa", false);
+				p.SetDecor("PlayerInPausa", false);
 
 			pickupList.ForEach(x => RemoveAllPickupsOfType(Funzioni.HashUint(x)));
 			for (int i = 1; i < 16; i++) EnableDispatchService(i, false);
@@ -447,43 +439,51 @@ namespace NuovaGM.Client.gmPrincipale
 
 		public static async Task Recoil()
 		{
-			if (Game.PlayerPed.IsShooting && !Game.PlayerPed.IsDoingDriveBy)
+			Ped p = Game.PlayerPed;
+			Weapon weapon = p.Weapons.Current;
+			ManageReticle(weapon);
+			if (p.IsAiming || p.IsAimingFromCover || p.IsShooting)
+				DisplayAmmoThisFrame(false);
+			if (p.IsShooting)
 			{
-				Weapon wep = Game.PlayerPed.Weapons.Current;
-				int ammo = wep.AmmoInClip;
-				if (recoils[(uint)wep.Hash] != 0)
+				ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", OttieniShake);
+				if (weapon.Hash == WeaponHash.FireExtinguisher)
+					weapon.InfiniteAmmo = true;
+				if (!p.IsDoingDriveBy)
 				{
-					float tv = 0;
-					if (GetFollowPedCamViewMode() != 4)
+					Weapon wep = p.Weapons.Current;
+					if (recoils[(uint)wep.Hash] != 0)
 					{
-						do
+						float tv = 0;
+						if (GetFollowPedCamViewMode() != 4)
 						{
-							await BaseScript.Delay(0);
-							SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.1f, 0.2f);
-							tv += 0.1f;
-							await BaseScript.Delay(0);
-						} while (tv < recoils[(uint)wep.Hash]);
-					}
-					else
-					{
-						do
-						{
-							await BaseScript.Delay(0);
-							if (recoils[(uint)wep.Hash] > 0.1)
+							do
 							{
-								SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.6f, 1.2f);
-								tv += 0.6f;
-							}
-							else
-							{
-								SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.016f, 0.333f);
+								await BaseScript.Delay(0);
+								SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.1f, 0.2f);
 								tv += 0.1f;
-							}
-						} while (tv < recoils[(uint)wep.Hash]);
+							} while (tv < recoils[(uint)wep.Hash]);
+						}
+						else
+						{
+							do
+							{
+								await BaseScript.Delay(0);
+								if (recoils[(uint)wep.Hash] > 0.1)
+								{
+									SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.6f, 1.2f);
+									tv += 0.6f;
+								}
+								else
+								{
+									SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.016f, 0.333f);
+									tv += 0.1f;
+								}
+							} while (tv < recoils[(uint)wep.Hash]);
+						}
 					}
 				}
 			}
-
 		}
 
 		private static async void startPointing()

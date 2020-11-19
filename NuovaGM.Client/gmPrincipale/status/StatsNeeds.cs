@@ -143,19 +143,20 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static async Task Aggiornamento()
 		{
-			if (Game.PlayerPed.IsRunning || Game.PlayerPed.IsSwimming || Game.PlayerPed.IsJumping)
+			Ped playerPed = Game.PlayerPed;
+			if (playerPed.IsRunning || playerPed.IsSwimming || playerPed.IsJumping)
 			{
 				nee.fame += 0.025f;
 				nee.sete += 0.035f;
 				nee.stanchezza += 0.005f;
 			}
-			else if (Game.PlayerPed.IsSwimmingUnderWater || Game.PlayerPed.IsSprinting)
+			else if (playerPed.IsSwimmingUnderWater || playerPed.IsSprinting)
 			{
 				nee.fame += 0.040f;
 				nee.sete += 0.055f;
 				nee.stanchezza += 0.070f;
 			}
-			else if (Game.PlayerPed.IsInMeleeCombat)
+			else if (playerPed.IsInMeleeCombat)
 			{
 				nee.fame += 0.015f;
 				nee.sete += 0.033f;
@@ -184,20 +185,20 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			else if (nee.stanchezza <= 0.0f)
 				nee.stanchezza = 0.0f;
 
-			if (Game.PlayerPed.IsSprinting || Game.PlayerPed.IsSwimmingUnderWater)
+			if (playerPed.IsSprinting || playerPed.IsSwimmingUnderWater)
 				skill.STAMINA += 0.002f;
-			else if (Game.PlayerPed.IsRunning || Game.PlayerPed.IsSwimming)
+			else if (playerPed.IsRunning || playerPed.IsSwimming)
 				skill.STAMINA += +0.001f;
 
-			if (Game.PlayerPed.IsSwimmingUnderWater)
+			if (playerPed.IsSwimmingUnderWater)
 				skill.LUNG_CAPACITY += 0.002f;
 
-			if (Game.PlayerPed.IsInMeleeCombat)
+			if (playerPed.IsInMeleeCombat)
 				skill.STRENGTH += 0.002f;
 
-			if (Game.PlayerPed.IsOnBike && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
+			if (playerPed.IsOnBike && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
 			{
-				float speed = Game.PlayerPed.CurrentVehicle.Speed * 3.6f;
+				float speed = playerPed.CurrentVehicle.Speed * 3.6f;
 				if (speed > 150f)
 					skill.WHEELIE_ABILITY += 0.003f;
 				else if (speed > 90f && speed < 150f)
@@ -205,9 +206,9 @@ namespace NuovaGM.Client.gmPrincipale.Status
 				else if (speed < 90f)
 					skill.WHEELIE_ABILITY += 0.001f;
 			}
-			else if ((Game.PlayerPed.IsInPlane || Game.PlayerPed.IsInHeli) && Game.PlayerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
+			else if ((playerPed.IsInPlane || playerPed.IsInHeli) && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
 			{
-				if (Game.PlayerPed.CurrentVehicle.HeightAboveGround >= 15)
+				if (playerPed.CurrentVehicle.HeightAboveGround >= 15)
 					skill.FLYING_ABILITY += 0.002f;
 			}
 			if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
@@ -291,6 +292,7 @@ namespace NuovaGM.Client.gmPrincipale.Status
 
 		public static async Task Conseguenze()
 		{
+			Ped playerPed = Game.PlayerPed;
 			int val = 0;
 			int val1 = 0;
 			bool bol = StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref val, -1);
@@ -320,28 +322,28 @@ namespace NuovaGM.Client.gmPrincipale.Status
 			if (nee.stanchezza >= 60.0f)
 			{
 				SetPlayerSprint(PlayerId(), false);
-				Game.PlayerPed.Accuracy = 15;
+				playerPed.Accuracy = 15;
 			}
 			if (nee.stanchezza >= 80.0f)
 			{
-				Game.PlayerPed.Accuracy = 0;
+				playerPed.Accuracy = 0;
 				if (Funzioni.GetRandomInt(100) > 85)
 				{
-					if (Game.PlayerPed.IsWalking)
+					if (playerPed.IsWalking)
 					{
-						Game.PlayerPed.Ragdoll(30000, RagdollType.Normal);
+						playerPed.Ragdoll(30000, RagdollType.Normal);
 						HUD.ShowNotification("Sei svenuto perche eri troppo stanco.. Trova un posto per riposare!!");
 						await BaseScript.Delay(30000);
-						Game.PlayerPed.CancelRagdoll();
+						playerPed.CancelRagdoll();
 					}
-					else if (Game.PlayerPed.IsInVehicle() || Game.PlayerPed.IsInFlyingVehicle)
+					else if (playerPed.IsInVehicle() || playerPed.IsInFlyingVehicle)
 					{
 						SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 						HUD.ShowNotification("Sei svenuto perche eri troppo stanco.. Se sopravvivi trova un posto per riposare!!");
-						Game.PlayerPed.Task.PlayAnimation("rcmnigel2", "die_horn", 4f, -1, AnimationFlags.StayInEndFrame);
+						playerPed.Task.PlayAnimation("rcmnigel2", "die_horn", 4f, -1, AnimationFlags.StayInEndFrame);
 						Client.Instance.AddTick(Horn);
 						await BaseScript.Delay(30000);
-						Game.PlayerPed.CancelRagdoll();
+						playerPed.CancelRagdoll();
 						Client.Instance.RemoveTick(Horn);
 					}
 				}
@@ -371,8 +373,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Stai morendo di fame! Se continui così rischi di morire!.", NotificationColor.Red, true);
 					fame80 = true;
 				}
-				Game.PlayerPed.Health -= 5;
-				Game.PlayerPed.MovementAnimationSet = "move_injured_generic";
+				playerPed.Health -= 5;
+				playerPed.MovementAnimationSet = "move_injured_generic";
 			}
 			else if (nee.fame == 100)
 			{
@@ -381,10 +383,10 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
 					fame100 = true;
 				}
-				while (Game.PlayerPed.Health > 0 && nee.fame == 100)
+				while (playerPed.Health > 0 && nee.fame == 100)
 				{
 					await BaseScript.Delay(0);
-					Game.PlayerPed.Ragdoll(-1, RagdollType.Normal);
+					playerPed.Ragdoll(-1, RagdollType.Normal);
 				}
 			}
 			else if (nee.fame < 20.0f)
@@ -419,8 +421,8 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Stai morendo di sete! Se continui così rischi di morire!.", NotificationColor.Red, true);
 					sete80 = true;
 				}
-				Game.PlayerPed.Health -= 5;
-				Game.PlayerPed.MovementAnimationSet = "move_injured_generic";
+				playerPed.Health -= 5;
+				playerPed.MovementAnimationSet = "move_injured_generic";
 			}
 			else if (nee.sete == 100)
 			{
@@ -429,10 +431,10 @@ namespace NuovaGM.Client.gmPrincipale.Status
 					HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
 					sete100 = true;
 				}
-				while (Game.PlayerPed.Health > 0 && nee.sete == 100)
+				while (playerPed.Health > 0 && nee.sete == 100)
 				{
 					await BaseScript.Delay(0);
-					Game.PlayerPed.Ragdoll(-1, RagdollType.Normal);
+					playerPed.Ragdoll(-1, RagdollType.Normal);
 				}
 			}
 			else if (nee.sete < 20.0f)

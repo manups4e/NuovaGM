@@ -126,14 +126,15 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		private static async void AggiornaModel(string JsonData)
 		{
+			Ped p = Game.PlayerPed;
 			Char_data plpl = JsonData.Deserialize<Char_data>();
 			uint hash = (uint)GetHashKey(plpl.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
-			UpdateFace(Game.PlayerPed, plpl.skin);
-			UpdateDress(Game.PlayerPed, plpl.dressing);
+			UpdateFace(p, plpl.skin);
+			UpdateDress(p, plpl.dressing);
 		}
 
 		#region Creazione
@@ -145,6 +146,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			try
 			{
+				Ped player = Game.PlayerPed;
 				Client.Instance.AddTick(Controllo);
 				a = nome;
 				b = cognome;
@@ -179,22 +181,22 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				{
 					data = dataFemmina;
 					SetPlayerModel(PlayerId(), femmina);
-					Game.PlayerPed.Style.SetDefaultClothes();
+					player.Style.SetDefaultClothes();
 				}
 
-				Game.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
-				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1);
+				player.Position = new Vector3(402.91f, -996.74f, -180.00025f);
+				while (!HasCollisionLoadedAroundEntity(player.Handle)) await BaseScript.Delay(1);
 				await BaseScript.Delay(50);
-				UpdateDress(Game.PlayerPed, data.dressing);
-				UpdateFace(Game.PlayerPed, data.skin);
-				Game.PlayerPed.IsVisible = true;
-				Game.PlayerPed.IsPositionFrozen = false;
-				Game.PlayerPed.BlockPermanentEvents = true;
+				UpdateDress(player, data.dressing);
+				UpdateFace(player, data.skin);
+				player.IsVisible = true;
+				player.IsPositionFrozen = false;
+				player.BlockPermanentEvents = true;
 				ped_cre_board(data);
 				if (selezionato == "Maschio")
-					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Maschio"));
+					TaskWalkInToRoom(player, sub_7dd83(1, 0, "Maschio"));
 				else
-					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Femmina"));
+					TaskWalkInToRoom(player, sub_7dd83(1, 0, "Femmina"));
 				await BaseScript.Delay(2000);
 				RenderScriptCams(true, true, 0, false, false);
 				cam2.Delete();
@@ -257,6 +259,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			try
 			{
+				Ped player = Game.PlayerPed;
 				#region Dichiarazione
 				#region Menu Principale
 				Screen.Fading.FadeIn(800);
@@ -581,7 +584,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(player, data.skin);
 				};
 				Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
 				{
@@ -603,7 +606,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(player, data.skin);
 				};
 				#endregion
 
@@ -784,7 +787,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							data.skin.makeup.style = _newIndex - 1;
 						data.skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(player, data.skin);
 				};
 				#endregion
 
@@ -1039,14 +1042,14 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						data.skin.face.tratti[18] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[17] = (var.Y * 2f) - 1f;
 					}
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(player, data.skin);
 				};
 				#endregion
 
 				#region VESTITI
 				Apparel.OnMenuOpen += async (menu) =>
 				{
-					TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+					TaskCreaClothes(player, sub_7dd83(1, 0, selezionato));
 					if (selezionato == "Maschio")
 					{
 						for (int i = 0; i < CompletiMaschio.Count; i++)
@@ -1054,7 +1057,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(Game.PlayerPed, CompletiMaschio[0]);
+						UpdateDress(player, CompletiMaschio[0]);
 					}
 					else
 					{
@@ -1063,7 +1066,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(Game.PlayerPed, CompletiFemmina[0]);
+						UpdateDress(player, CompletiFemmina[0]);
 					}
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
@@ -1080,8 +1083,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						data.dressing = dress;
 						dataFemmina = data;
 					}
-					UpdateDress(Game.PlayerPed, data.dressing);
-					TaskProvaClothes(Game.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
+					UpdateDress(player, data.dressing);
+					TaskProvaClothes(player, sub_7dd83(1, 0, data.skin.sex));
 				};
 				#endregion
 				#endregion
@@ -1096,7 +1099,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Genitori.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Dettagli.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Apparenze.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato)); };
+				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(player, sub_7dd83(1, 0, selezionato)); };
 				#endregion
 
 				#region CREA_BUTTON_FINISH
@@ -1111,7 +1114,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					pool.CloseAllMenus();
 					BD1.Detach();
 					BD1.Delete();
-					Game.PlayerPed.Detach();
+					player.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", data.Serialize());
 					Game.Player.GetPlayerData().char_current = data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
@@ -1144,6 +1147,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		static float CoordY;
 		public static async Task TastiMenu()
 		{
+			Ped playerPed = Game.PlayerPed;
 			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
 				if (((IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205)) && IsInputDisabled(2)) || ((IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205)) && !IsInputDisabled(2)))
@@ -1151,8 +1155,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					if (!left)
 					{
 						left = true;
-						TaskLookLeft(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
-						//TaskLookAtCoord(Game.PlayerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
+						TaskLookLeft(playerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(playerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
 					}
 				}
 				else if (((IsControlPressed(0, 206) || IsDisabledControlPressed(0, 206)) && IsInputDisabled(2)) || ((IsControlPressed(2, 206) || IsDisabledControlPressed(2, 206)) && !IsInputDisabled(2)))
@@ -1160,19 +1164,19 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					if (!right)
 					{
 						right = true;
-						TaskLookRight(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
-						//TaskLookAtCoord(Game.PlayerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
+						TaskLookRight(playerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(playerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
 					}
 				}
 				else
 				{
 					if (right)
-						TaskStopLookRight(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+						TaskStopLookRight(playerPed, sub_7dd83(1, 0, selezionato));
 					else if (left)
-						TaskStopLookLeft(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+						TaskStopLookLeft(playerPed, sub_7dd83(1, 0, selezionato));
 					right = false;
 					left = false;
-					//TaskClearLookAt(Game.PlayerPed.Handle);
+					//TaskClearLookAt(playerPed.Handle);
 				}
 			}
 			else if ((Dettagli.Visible || Apparenze.Visible || Genitori.Visible) && !Creazione.Visible)
@@ -1609,7 +1613,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataMaschio = data;
 					}
 
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(playerPed, data.skin);
 				}
 			}
 			await Task.FromResult(0);

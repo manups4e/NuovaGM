@@ -72,6 +72,7 @@ namespace NuovaGM.Client
 			TickGenerici.Add(aggiornaPl);
 
 			// TICK A PIEDI \\
+			TickAPiedi.Add(BankingClient.ControlloATM);
 			TickAPiedi.Add(BankingClient.Markers);
 			TickAPiedi.Add(Death.Injuried);
 			TickAPiedi.Add(NegozioAbitiClient.OnTick);
@@ -122,12 +123,10 @@ namespace NuovaGM.Client
 			// TICK MEDICI \\
 			TickMedici.Add(MediciMainClient.MarkersMedici);
 			TickMedici.Add(MediciMainClient.BlipMorti);
-
 		}
 
 		private static async void Spawnato()
 		{
-
 			TickGenerici.ForEach(x => Client.Instance.AddTick(x));
 			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
 			TickHUD.ForEach(x => Client.Instance.AddTick(x));

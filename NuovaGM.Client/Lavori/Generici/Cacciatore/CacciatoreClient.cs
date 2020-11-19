@@ -70,21 +70,22 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			if(!Game.PlayerPed.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
+			Ped p = Game.PlayerPed;
+			if (!p.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
 			{
 				if (affittatoBianca)
-					Game.PlayerPed.Weapons.Remove(WeaponHash.Knife);
+					p.Weapons.Remove(WeaponHash.Knife);
 				if (affittatoFuoco)
-					Game.PlayerPed.Weapons.Remove(WeaponHash.SniperRifle);
+					p.Weapons.Remove(WeaponHash.SniperRifle);
 				HUD.ShowNotification("Ti sei allontanato dalla zona di caccia senza aver restituito le armi! Pagherai una multa!", NotificationColor.Red, true);
 				StaCacciando = false;
 				BaseScript.TriggerServerEvent("lprp:removeBank", 1000);
 				if (AreadiCaccia.Exists())
 					AreadiCaccia.Delete();
 				foreach (string s in animalGroups)
-					Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
+					p.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
 				animaliUccisi.Clear();
-				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+				p.Weapons.Select(WeaponHash.Unarmed);
 				Client.Instance.RemoveTick(ControlloBordi);
 				Client.Instance.RemoveTick(ControlloUccisi);
 			}
@@ -137,16 +138,17 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloUccisi()
 		{
+			Ped p = Game.PlayerPed;
 			foreach (var anim in animaliUccisi)
 			{
-				if (Game.PlayerPed.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)
+				if (p.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)
 				{
-					if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Knife))
+					if (p.Weapons.HasWeapon(WeaponHash.Knife))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per saccheggiare il cadavere");
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Game.PlayerPed.Weapons.Select(WeaponHash.Knife);
+							p.Weapons.Select(WeaponHash.Knife);
 
 							TaskStartScenarioInPlace(PlayerPedId(), "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true); // oppure CODE_HUMAN_MEDIC_KNEEL 
 							Screen.Fading.FadeOut(2000);
@@ -200,7 +202,7 @@ namespace NuovaGM.Client.Lavori.Generici.Cacciatore
 							await BaseScript.Delay(1000);
 							Screen.Fading.FadeIn(500);
 							await BaseScript.Delay(501);
-							Game.PlayerPed.Task.ClearAll();
+							p.Task.ClearAll();
 							HUD.ShowNotification($"Hai ucciso e squoiato un~y~{msg}~w~ hai ottenuto 2 pezzi di ~b~{ConfigShared.SharedConfig.Main.Generici.ItemList[carne].label}~w~.", NotificationColor.GreenDark, true);
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", carne, 2, 0.5f);
 						}

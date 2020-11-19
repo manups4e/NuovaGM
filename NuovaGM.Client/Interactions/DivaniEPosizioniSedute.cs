@@ -163,13 +163,14 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task DivaniCasa()
 		{
+			Ped p = Game.PlayerPed;
 			if (!Seduto)
 			{
 				for (int i = 0; i < Divani.Count; i++)
 				{
 					for (int j = 0; j < Divani[i].Length; j++)
 					{
-						if (Game.PlayerPed.IsInRangeOf(Divani[i][j], 1.5f))
+						if (p.IsInRangeOf(Divani[i][j], 1.5f))
 						{
 							HUD.ShowHelp(GetLabelText("MPTV_WALK"));
 							if (Input.IsControlJustPressed(Control.Context))
@@ -190,6 +191,7 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task Televisione()
 		{
+			Ped p = Game.PlayerPed;
 			if (Seduto /*&&controllo per casa o hotel*/)
 			{
 				if (!stato)
@@ -202,7 +204,7 @@ namespace NuovaGM.Client.Interactions
 					}
 					else if (IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
 					{
-						Game.PlayerPed.Task.ClearAll();
+						p.Task.ClearAll();
 						Seduto = false;
 						SetPedConfigFlag(PlayerPedId(), 414, false);
 					}
@@ -218,15 +220,16 @@ namespace NuovaGM.Client.Interactions
 
 		public static async Task CheckSedia()
 		{
-			SediaClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.Player.GetPlayerData().posizione.ToVector3()) < 1.375f);
+			SediaClosest = World.GetAllProps().Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, Game.Player.GetPlayerData().posizione.ToVector3()) < 1.375f);
 			await BaseScript.Delay(200);
 
 		}
 		public static async Task SedieSiedi()
 		{
-			if(SediaClosest != null)
+			Ped p = Game.PlayerPed;
+			if (SediaClosest != null)
 			{
-				if(Game.PlayerPed.IsInRangeOf(SediaClosest.Position, 1.375f))
+				if(p.IsInRangeOf(SediaClosest.Position, 1.375f))
 				{
 					SediaClosest.IsPositionFrozen = true;
 					if (!Seduto)
@@ -235,7 +238,7 @@ namespace NuovaGM.Client.Interactions
 						if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f) {
 							if (!IsPedActiveInScenario(ped.Handle))
 							{
-								if (!Game.PlayerPed.IsDead && !(Game.PlayerPed.Health < 1) && !Game.PlayerPed.IsInVehicle())
+								if (!p.IsDead && !(p.Health < 1) && !p.IsInVehicle())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per sederti");
 									{
@@ -269,7 +272,7 @@ namespace NuovaGM.Client.Interactions
 						{
 							Seduto = false;
 							SetPedConfigFlag(PlayerPedId(), 414, false);
-							Game.PlayerPed.Task.ClearAll();
+							p.Task.ClearAll();
 						}
 					}
 				}

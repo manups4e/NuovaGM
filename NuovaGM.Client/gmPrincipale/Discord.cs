@@ -20,9 +20,10 @@ namespace NuovaGM.Client.gmPrincipale
 
 		private static async Task RichPresence()
 		{
+			Ped playerPed = Game.PlayerPed;
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
-			Vector3 PedCoords = Game.Player.GetPlayerData() == null ? Game.PlayerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
+			Vector3 PedCoords = Game.Player.GetPlayerData() == null ? playerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);
@@ -37,23 +38,23 @@ namespace NuovaGM.Client.gmPrincipale
 			}
 			else
 			{
-				if (Game.PlayerPed.IsOnFoot && !Game.PlayerPed.IsInWater && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+				if (playerPed.IsOnFoot && !playerPed.IsInWater && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 				{
-					if (Game.PlayerPed.IsSprinting)
+					if (playerPed.IsSprinting)
 					{
 						if (StreetAngolo != 0)
 							SetRichPresence("Sta correndo in " + NomeVia + " angolo " + NomeAngolo);
 						else
 							SetRichPresence("Sta correndo in " + NomeVia);
 					}
-					else if (Game.PlayerPed.IsRunning)
+					else if (playerPed.IsRunning)
 					{
 						if (StreetAngolo != 0)
 							SetRichPresence("E' di fretta in " + NomeVia + " angolo " + NomeAngolo);
 						else
 							SetRichPresence("E' di fretta in " + NomeVia);
 					}
-					else if (Game.PlayerPed.IsWalking)
+					else if (playerPed.IsWalking)
 					{
 						if (StreetAngolo != 0)
 							SetRichPresence("Sta passeggiando in " + NomeVia + " angolo " + NomeAngolo);
@@ -68,10 +69,10 @@ namespace NuovaGM.Client.gmPrincipale
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.IsInHeli && !Game.PlayerPed.IsInPlane && !Game.PlayerPed.IsOnFoot && !Game.PlayerPed.IsInSub && !Game.PlayerPed.IsInBoat)
+				else if (playerPed.IsInVehicle() && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
-					float KMH = (float)Math.Round(Game.PlayerPed.CurrentVehicle.Speed * 3.6, 2);
-					string VehName = Game.PlayerPed.CurrentVehicle.LocalizedName;
+					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
+					string VehName = playerPed.CurrentVehicle.LocalizedName;
 					if (KMH > 50)
 					{
 						if (StreetAngolo != 0)
@@ -94,10 +95,10 @@ namespace NuovaGM.Client.gmPrincipale
 							SetRichPresence("Parcheggiato in " + NomeVia + ", Veicolo: " + VehName);
 					}
 				}
-				else if (Game.PlayerPed.IsInHeli || Game.PlayerPed.IsInPlane)
+				else if (playerPed.IsInHeli || playerPed.IsInPlane)
 				{
-					string VehName = Game.PlayerPed.CurrentVehicle.LocalizedName;
-					if (Game.PlayerPed.CurrentVehicle.IsInAir || GetEntityHeightAboveGround(Game.PlayerPed.CurrentVehicle.Handle) > 2f)
+					string VehName = playerPed.CurrentVehicle.LocalizedName;
+					if (playerPed.CurrentVehicle.IsInAir || GetEntityHeightAboveGround(playerPed.CurrentVehicle.Handle) > 2f)
 					{
 						if (StreetAngolo != 0)
 							SetRichPresence("Sta sorvolando " + NomeVia + " angolo " + NomeAngolo + ", Veicolo: " + VehName);
@@ -105,27 +106,27 @@ namespace NuovaGM.Client.gmPrincipale
 							SetRichPresence("Atterrato in " + NomeVia + ", Veicolo: " + VehName);
 					}
 				}
-				else if (Game.PlayerPed.IsSwimming)
+				else if (playerPed.IsSwimming)
 					SetRichPresence("Sta nuotando");
-				else if (Game.PlayerPed.IsSwimmingUnderWater || Game.PlayerPed.IsDiving)
+				else if (playerPed.IsSwimmingUnderWater || playerPed.IsDiving)
 					SetRichPresence("Sta nuotando sott'acqua");
-				else if (Game.PlayerPed.IsInBoat && Game.PlayerPed.CurrentVehicle.IsInWater)
+				else if (playerPed.IsInBoat && playerPed.CurrentVehicle.IsInWater)
 				{
-					SetRichPresence("Sta navigando in barca: " + Game.PlayerPed.CurrentVehicle.LocalizedName);
+					SetRichPresence("Sta navigando in barca: " + playerPed.CurrentVehicle.LocalizedName);
 				}
-				else if (Game.PlayerPed.IsInSub && Game.PlayerPed.CurrentVehicle.IsInWater)
+				else if (playerPed.IsInSub && playerPed.CurrentVehicle.IsInWater)
 					SetRichPresence("Sta esplorando i fondali in un sottomarino");
-				else if (Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover || Game.PlayerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+				else if (playerPed.IsAiming || playerPed.IsAimingFromCover || playerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 					SetRichPresence("E' in uno scontro a fuoco");
-				else if (Game.PlayerPed.HasDecor("PlayerAmmanettato") && Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+				else if (playerPed.HasDecor("PlayerAmmanettato") && playerPed.GetDecor<bool>("PlayerAmmanettato"))
 					SetRichPresence("Legato o ammanettato");
 				else if (Main.IsDead)
 					SetRichPresence("Sta morendo");
-				else if (Game.PlayerPed.IsDoingDriveBy)
+				else if (playerPed.IsDoingDriveBy)
 					SetRichPresence("In uno scontro a fuoco da veicolo");
-				else if (Game.PlayerPed.IsInParachuteFreeFall || Game.PlayerPed.ParachuteState == ParachuteState.FreeFalling)
+				else if (playerPed.IsInParachuteFreeFall || playerPed.ParachuteState == ParachuteState.FreeFalling)
 					SetRichPresence("Fa paracadutismo");
-				else if (IsPedStill(PlayerPedId()) || (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.Speed == 0) && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Speed == 0) && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
 					SetRichPresence("AFK in gioco");
 				else if (Game.IsPaused)
 					SetRichPresence("In Pausa");

@@ -31,11 +31,11 @@ namespace NuovaGM.Client.CodaControl
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-            Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<ExpandoObject>(SessionResponse));
-            Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<ExpandoObject>(ClosePanel));
-            Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<ExpandoObject>(RefreshPanel));
-            Client.Instance.RegisterNuiEventHandler("KickUser", new Action<ExpandoObject>(KickUser));
-            Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<ExpandoObject>(ChangePriority));
+            Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<string>(SessionResponse));
+            Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>>(ClosePanel));
+            Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>>(RefreshPanel));
+            Client.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>>(KickUser));
+            Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>>(ChangePriority));
 
         }
 
@@ -52,13 +52,13 @@ namespace NuovaGM.Client.CodaControl
             }
         }
 
-        private static void SessionResponse(dynamic session)
+        private static void SessionResponse(string session)
         {
             try
             {
                 if (!pannelloCodaAperto)
                 {
-                    List<dynamic> sessionAccounts = (session as string).Deserialize<List<dynamic>>();
+                    List<dynamic> sessionAccounts = session.Deserialize<List<dynamic>>();
                     string text = "";
                     sessionAccounts.ForEach(k =>
                     {
@@ -87,7 +87,7 @@ namespace NuovaGM.Client.CodaControl
             }
         }
 
-        private static void ClosePanel(dynamic data)
+        private static void ClosePanel(IDictionary<string, object> data)
         {
             try
             {
@@ -101,11 +101,13 @@ namespace NuovaGM.Client.CodaControl
             }
         }
 
-        private static void RefreshPanel(dynamic data)
+        private static void RefreshPanel(IDictionary<string, object> data)
         {
             try
             {
-                ClosePanel("");
+                SetNuiFocus(false, false);
+                Funzioni.SendNuiMessage(new { panel = "close" });
+                pannelloCodaAperto = false;
                 ExecuteCommand("sessione");
             }
             catch (Exception)
@@ -114,11 +116,11 @@ namespace NuovaGM.Client.CodaControl
             }
         }
 
-        private static void KickUser(dynamic data)
+        private static void KickUser(IDictionary<string, object> data)
         {
             try
             {
-                ExecuteCommand($"ckick {data.License}");
+                ExecuteCommand($"ckick {data["License"]}");
             }
             catch (Exception)
             {
@@ -126,18 +128,17 @@ namespace NuovaGM.Client.CodaControl
             }
         }
 
-        private static void ChangePriority(dynamic data)
+        private static void ChangePriority(IDictionary<string, object> data)
         {
             try
             {
-                if (data.Value == "False")
+                if (data["Value"] as string == "False")
                 {
-                    ExecuteCommand($"rimuovipriorita {data.License}");
+                    ExecuteCommand($"rimuovipriorita {data["License"]}");
                     return;
                 }
                 else
-                    ExecuteCommand($"daipriorita {data.License} {int.Parse(data.Value.ToString())}");
-
+					ExecuteCommand($"daipriorita {data["License"]} {int.Parse(data["Value"].ToString())}");
             }
             catch (Exception)
             {

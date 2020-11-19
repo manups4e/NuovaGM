@@ -44,14 +44,12 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Client.Instance.AddEventHandler("attiva", new Action(Attiva));
 			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action(() => ToggleMenu(true, "charloading")));
 			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>>(SelezionatoPreview));
-			Client.Instance.RegisterNuiEventHandler("char-select", new Action<dynamic>(Selezionato));
-			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<dynamic>(Disconnetti));
-			Client.Instance.RegisterNuiEventHandler("new-character", new Action<dynamic>(NuovoPersonaggio));
+			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>>(Selezionato));
+			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>>(Disconnetti));
+			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, string>>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
-			Ped test = new Ped(CreatePed(26, (uint)PedHash.FreemodeMale01, Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y + 0.5f, Game.PlayerPed.Position.Z - 1, 0, false, false));
-			test.Delete();
 		}
 
 		static Ped femmi;
@@ -88,6 +86,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		static Ped p1;
 		private static async void SelezionatoPreview(IDictionary<string, object> data)
 		{
+			Ped ped = Game.PlayerPed;
 			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"]));
 			if (p1 != null)
 			{
@@ -95,9 +94,9 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				p1.Delete();
 			}
 			if (pers.skin.sex == "Maschio")
-				p1 = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeMale01), Game.PlayerPed.Position + new Vector3(0, 0.5f, -1f));
+				p1 = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeMale01), ped.Position + new Vector3(0, 0.5f, -1f));
 			else
-				p1 = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), Game.PlayerPed.Position + new Vector3(0, 0.5f, -1f));
+				p1 = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), ped.Position + new Vector3(0, 0.5f, -1f));
 			p1.Style.SetDefaultClothes();
 			SetSkinAndClothes(p1, pers);
 			p1.IsPositionFrozen = true;
@@ -107,7 +106,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Client.Instance.AddTick(Controllo);
 		}
 
-		private static async void Selezionato(dynamic data)
+		private static async void Selezionato(IDictionary<string, object> data)
 		{
 			guiEnabled = false;
 			if (femmi != null) if (femmi.Exists()) femmi.Delete();
@@ -123,7 +122,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data.slot) + 1;
+			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"]) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			//await BaseScript.Delay(500);
 			//BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
@@ -205,7 +204,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
 			Game.PlayerPed.IsPositionFrozen = false;
 			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(7000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
@@ -221,7 +220,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			Client.Instance.RemoveTick(Controllo);
 			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(1000);
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
@@ -270,54 +269,52 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso_2, data.dressing.ComponentDrawables.Torso_2, data.dressing.ComponentTextures.Torso_2, 2);
 
 			if (data.dressing.PropIndices.Cappelli_Maschere == -1)
-				ClearPedProp(PlayerPedId(), 0);
+				ClearPedProp(p.Handle, 0);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, data.dressing.PropIndices.Cappelli_Maschere, data.dressing.PropTextures.Cappelli_Maschere, false);
 
 			if (data.dressing.PropIndices.Orecchie == -1)
-				ClearPedProp(PlayerPedId(), 2);
+				ClearPedProp(p.Handle, 2);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, data.dressing.PropIndices.Orecchie, data.dressing.PropTextures.Orecchie, false);
 
 			if (data.dressing.PropIndices.Occhiali_Occhi == -1)
-				ClearPedProp(PlayerPedId(), 1);
+				ClearPedProp(p.Handle, 1);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, data.dressing.PropIndices.Occhiali_Occhi, data.dressing.PropTextures.Occhiali_Occhi, true);
 
 			if (data.dressing.PropIndices.Unk_3 == -1)
-				ClearPedProp(PlayerPedId(), 3);
+				ClearPedProp(p.Handle, 3);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, data.dressing.PropIndices.Unk_3, data.dressing.PropTextures.Unk_3, true);
 
 			if (data.dressing.PropIndices.Unk_4 == -1)
-				ClearPedProp(PlayerPedId(), 4);
+				ClearPedProp(p.Handle, 4);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, data.dressing.PropIndices.Unk_4, data.dressing.PropTextures.Unk_4, true);
 
 			if (data.dressing.PropIndices.Unk_5 == -1)
-				ClearPedProp(PlayerPedId(), 5);
+				ClearPedProp(p.Handle, 5);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, data.dressing.PropIndices.Unk_5, data.dressing.PropTextures.Unk_5, true);
 
 			if (data.dressing.PropIndices.Orologi == -1)
-				ClearPedProp(PlayerPedId(), 6);
+				ClearPedProp(p.Handle, 6);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, data.dressing.PropIndices.Orologi, data.dressing.PropTextures.Orologi, true);
 
 			if (data.dressing.PropIndices.Bracciali == -1)
-				ClearPedProp(PlayerPedId(), 7);
+				ClearPedProp(p.Handle, 7);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, data.dressing.PropIndices.Bracciali, data.dressing.PropTextures.Bracciali, true);
 
 			if (data.dressing.PropIndices.Unk_8 == -1)
-				ClearPedProp(PlayerPedId(), 8);
+				ClearPedProp(p.Handle, 8);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, data.dressing.PropIndices.Unk_8, data.dressing.PropTextures.Unk_8, true);
-
-
 		}
 
-		private static void Disconnetti(dynamic data)
+		private static void Disconnetti(IDictionary<string, object>data)
 		{
 			ToggleMenu(false, "close");
 			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
@@ -361,12 +358,12 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				p1.Heading += 1.2f;
 		}
 
-		private static async void NuovoPersonaggio(dynamic data)
+		private static async void NuovoPersonaggio(IDictionary<string, string>data)
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			ToggleMenu(false, "close");
-			Menus.CharCreationMenu(data.nome, data.cogn, data.dob, data.sesso);
+			Menus.CharCreationMenu(data["nome"], data["cogn"], data["dob"], data["sesso"]);
 		}
 
 		public static async void Scelta(string param)

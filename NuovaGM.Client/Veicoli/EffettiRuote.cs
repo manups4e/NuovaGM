@@ -58,21 +58,22 @@ namespace NuovaGM.Client.Veicoli
 
 		public static async Task ControlloRuote()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			Ped playerPed = Game.PlayerPed;
+			if (playerPed.IsInVehicle())
 			{
-				if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
+				if (playerPed.CurrentVehicle.Driver == playerPed)
 				{
-					if (Game.PlayerPed.CurrentVehicle.IsHandbrakeForcedOn && Game.PlayerPed.CurrentVehicle.Speed > 2f)
+					if (playerPed.CurrentVehicle.IsHandbrakeForcedOn && playerPed.CurrentVehicle.Speed > 2f)
 					{
 						if (heat_rear < 300f) 
 							heat_rear += 2f;
 					}
-					if (Game.PlayerPed.CurrentVehicle.IsInBurnout)
+					if (playerPed.CurrentVehicle.IsInBurnout)
 					{
 						if (heat_rear < 300f)
 							heat_rear += 2f;
 					}
-					if (Game.PlayerPed.CurrentVehicle.Speed > 2f && Game.PlayerPed.CurrentVehicle.CurrentGear != 0)
+					if (playerPed.CurrentVehicle.Speed > 2f && playerPed.CurrentVehicle.CurrentGear != 0)
 					{
 						if (Game.IsControlPressed(27, Control.VehicleBrake))
 						{
@@ -96,7 +97,7 @@ namespace NuovaGM.Client.Veicoli
 				if(heat_rear > 30f)
 				{
 					glow_rear = true;
-					BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(Game.PlayerPed.CurrentVehicle.Handle));
+					BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(playerPed.CurrentVehicle.Handle));
 				}
 			}
 			else
@@ -104,7 +105,7 @@ namespace NuovaGM.Client.Veicoli
 				if (heat_rear < 30f)
 				{
 					glow_rear = false;
-					BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(Game.PlayerPed.CurrentVehicle.Handle));
+					BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(playerPed.CurrentVehicle.Handle));
 				}
 			}
 			if (!glow_front)
@@ -112,7 +113,7 @@ namespace NuovaGM.Client.Veicoli
 				if (heat_front > 30f)
 				{
 					glow_front = true;
-					BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(Game.PlayerPed.CurrentVehicle.Handle));
+					BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(playerPed.CurrentVehicle.Handle));
 				}
 			}
 			else
@@ -120,7 +121,7 @@ namespace NuovaGM.Client.Veicoli
 				if (heat_front < 30f)
 				{
 					glow_front = false;
-					BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(Game.PlayerPed.CurrentVehicle.Handle));
+					BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(playerPed.CurrentVehicle.Handle));
 				}
 			}
 			if (heat_rear > 1)

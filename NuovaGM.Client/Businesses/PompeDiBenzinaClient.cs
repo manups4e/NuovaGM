@@ -26,12 +26,12 @@ namespace NuovaGM.Client.Businesses
 			Client.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
 			Client.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
 			Client.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<dynamic>(Manage));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<dynamic>(SellStation));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<dynamic>(Notification));
-			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action<dynamic>(MenuClosed));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<dynamic>(AddStationFunds));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<dynamic>(RemStationFunds));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>>(Manage));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>>(SellStation));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>>(Notification));
+			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action(MenuClosed));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>>(AddStationFunds));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>>(RemStationFunds));
 		}
 
 		public static StationDiBenzina GetStationInfo(int index)
@@ -130,49 +130,49 @@ namespace NuovaGM.Client.Businesses
 			Funzioni.SendNuiMessage(a);
 		}
 
-		private static void Manage(dynamic data)
+		private static void Manage(IDictionary<string, object> data)
 		{
-			string name = data.stationname;
-			int fuelcost = Convert.ToInt32(data.fuelcost);
-			int manageid = Convert.ToInt32(data.manageid);
-			string thks = data.thanksmessage;
-			int deltype = Convert.ToInt32(data.deltype);
-			string deliverylist = data.deliverylist;
+			string name = data["stationname"] as string;
+			int fuelcost = Convert.ToInt32(data["fuelcost"]);
+			int manageid = Convert.ToInt32(data["manageid"]);
+			string thks = data["thanksmessage"] as string;
+			int deltype = Convert.ToInt32(data["deltype"]);
+			string deliverylist = data["deliverylist"] as string;
 
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);
 		}
 
 
-		private static void SellStation(dynamic data)
+		private static void SellStation(IDictionary<string, object> data)
 		{
-			string sellname = data.sellname;
-			int manageid = Convert.ToInt32(data.manageid);
+			string sellname = data["sellname"] as string;
+			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:sellstation", sellname, manageid);
 		}
 
-		private static void Notification(dynamic data)
+		private static void Notification(IDictionary<string, object> data)
 		{
-			HUD.ShowNotification(data.text);
+			HUD.ShowNotification(data["text"] as string);
 		}
 
-		private static void MenuClosed(dynamic data)
+		private static void MenuClosed()
 		{
 			SetNuiFocus(false, false);
 		}
 
-		private static void AddStationFunds(dynamic data)
+		private static void AddStationFunds(IDictionary<string, object> data)
 		{
-			int amount = Convert.ToInt32(data.amount);
-			int manageid = Convert.ToInt32(data.manageid);
+			int amount = Convert.ToInt32(data["amount"]);
+			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:addstationfunds", manageid, amount);
 		}
 
 
-		private static void RemStationFunds(dynamic data)
+		private static void RemStationFunds(IDictionary<string, object> data)
 		{
-			int amount = Convert.ToInt32(data.amount);
-			int manageid = Convert.ToInt32(data.manageid);
+			int amount = Convert.ToInt32(data["amount"]);
+			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:remstationfunds", manageid, amount);
 		}
 

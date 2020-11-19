@@ -25,10 +25,11 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 
 		private static async Task Markers()
 		{
+			Ped p = Game.PlayerPed;
 			if (!Game.Player.GetPlayerData().Istanza.Stanziato)
 			{
 				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
-				if (Game.PlayerPed.IsInRangeOf(house.Config.Ingresso, 1.375f))
+				if (p.IsInRangeOf(house.Config.Ingresso, 1.375f))
 				{
 					if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ufficio");
@@ -46,7 +47,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 				if (Game.Player.GetPlayerData().Istanza.Instance == "VenditoreCase")
 				{
 					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
-					if (Game.PlayerPed.IsInRangeOf(house.Config.Uscita, 1.375f))
+					if (p.IsInRangeOf(house.Config.Uscita, 1.375f))
 					{
 						if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ufficio");
@@ -65,7 +66,7 @@ namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
 			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
 			{
 				// verrà cambiato con il sedersi alla scrivania
-				if (Game.PlayerPed.IsInRangeOf(house.Config.Actions, 1.375f))
+				if (p.IsInRangeOf(house.Config.Actions, 1.375f))
 				{
 					HUD.ShowHelp("~INPUT_CONTEXT~ Apri il menu di vendita");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

@@ -10,7 +10,7 @@ namespace NuovaGM.Client.Interactions
 	{
 		public static void Init()
 		{
-
+			Ped p = Game.PlayerPed;
 			ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
 			{
 				RequestAnimDict("mp_player_inteat@burger");
@@ -25,12 +25,12 @@ namespace NuovaGM.Client.Interactions
 
 				HUD.MenuPool.CloseAllMenus();
 				Prop burg = new Prop(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
-				burg.AttachTo(Game.PlayerPed.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
-				while (burg == null && !burg.Exists() && !burg.IsAttachedTo(Game.PlayerPed)) await BaseScript.Delay(0);
+				burg.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
+				while (burg == null && !burg.Exists() && !burg.IsAttachedTo(p)) await BaseScript.Delay(0);
 
-				Game.PlayerPed.Task.PerformSequence(mangia);
-				while (Game.PlayerPed.TaskSequenceProgress != 0) await BaseScript.Delay(0);
-				while (Game.PlayerPed.TaskSequenceProgress != -1) await BaseScript.Delay(0);
+				p.Task.PerformSequence(mangia);
+				while (p.TaskSequenceProgress != 0) await BaseScript.Delay(0);
+				while (p.TaskSequenceProgress != -1) await BaseScript.Delay(0);
 
 				burg.Detach();
 				burg.Delete();
@@ -45,8 +45,8 @@ namespace NuovaGM.Client.Interactions
 
 				HUD.MenuPool.CloseAllMenus();
 				Prop water = new Prop(CreateObject((int)item.prop, 0, 0, 0, true, true, true));
-				water.AttachTo(Game.PlayerPed.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
-//				AttachEntityToEntity(water.Handle, Game.PlayerPed.Handle, GetPedBoneIndex(PlayerPedId(), 18905), 0.12f, 0.028f, 0.001f, 10.0f, 175.0f, 0.0f, true, true, false, true, 1, true);
+				water.AttachTo(p.Bones[(Bone)18905], new Vector3(0.12f, 0.028f, 0.001f), new Vector3(10.0f, 175.0f, 0.0f));
+//				AttachEntityToEntity(water.Handle, p.Handle, GetPedBoneIndex(PlayerPedId(), 18905), 0.12f, 0.028f, 0.001f, 10.0f, 175.0f, 0.0f, true, true, false, true, 1, true);
 
 				while (water == null && !water.Exists()) await BaseScript.Delay(0);
 
@@ -56,10 +56,10 @@ namespace NuovaGM.Client.Interactions
 				bevi.AddTask.PlayAnimation("mp_player_intdrink", "outro_bottle");
 				bevi.Close();
 
-				Game.PlayerPed.Task.PerformSequence(bevi);
+				p.Task.PerformSequence(bevi);
 
-				while (Game.PlayerPed.TaskSequenceProgress != 0) await BaseScript.Delay(0);
-				while (Game.PlayerPed.TaskSequenceProgress != -1) await BaseScript.Delay(0);
+				while (p.TaskSequenceProgress != 0) await BaseScript.Delay(0);
+				while (p.TaskSequenceProgress != -1) await BaseScript.Delay(0);
 
 				water.Detach();
 				water.Delete();

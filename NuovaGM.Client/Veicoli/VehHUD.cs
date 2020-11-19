@@ -57,31 +57,33 @@ namespace NuovaGM.Client.Veicoli
 
         public static async Task Tick1()
         {
-            if (Game.PlayerPed.CurrentVehicle != null && Game.PlayerPed.CurrentVehicle.Exists() && !Game.PlayerPed.CurrentVehicle.IsDead && !Game.PlayerPed.IsDead)
+            Ped playerPed = Game.PlayerPed;
+            if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
             {
-                IsEngineOn = Game.PlayerPed.CurrentVehicle.IsEngineRunning;
-                engineHealth = Game.PlayerPed.CurrentVehicle.EngineHealth;
-                OilLevel = Game.PlayerPed.CurrentVehicle.OilLevel;
-                FuelLevel = Game.PlayerPed.CurrentVehicle.vehicleFuelLevel();
-                lightson = Game.PlayerPed.CurrentVehicle.AreLightsOn;
-                highbeams = Game.PlayerPed.CurrentVehicle.AreHighBeamsOn;
-                MaxFuelLevel = GetVehicleHandlingFloat(Game.PlayerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume");
+                IsEngineOn = playerPed.CurrentVehicle.IsEngineRunning;
+                engineHealth = playerPed.CurrentVehicle.EngineHealth;
+                OilLevel = playerPed.CurrentVehicle.OilLevel;
+                FuelLevel = playerPed.CurrentVehicle.vehicleFuelLevel();
+                lightson = playerPed.CurrentVehicle.AreLightsOn;
+                highbeams = playerPed.CurrentVehicle.AreHighBeamsOn;
+                MaxFuelLevel = GetVehicleHandlingFloat(playerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume");
             }
             await BaseScript.Delay(100);
         }
 
         private static async Task OnTickSpeedo3()
         {
+            Ped playerPed = Game.PlayerPed;
             if (overwriteAlpha)
                 curAlpha = 0;
-            if (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
+            if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver == Game.PlayerPed)
             {
                 if (curAlpha >= 255)
                     curAlpha = 255;
                 else
                     curAlpha += 5;
             }
-            else if (!Game.PlayerPed.IsInVehicle())
+            else if (!playerPed.IsInVehicle())
             {
                 if (curAlpha <= 0)
                     curAlpha = 0;
@@ -96,9 +98,9 @@ namespace NuovaGM.Client.Veicoli
             }
             else
             {
-                if (Game.PlayerPed.CurrentVehicle != null && Game.PlayerPed.CurrentVehicle.Exists() && !Game.PlayerPed.CurrentVehicle.IsDead && !Game.PlayerPed.IsDead)
+                if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
                 {
-                    RPM = Game.PlayerPed.CurrentVehicle.CurrentRPM;
+                    RPM = playerPed.CurrentVehicle.CurrentRPM;
                     if (!IsEngineOn)
                         RPM = 0;
                     if (RPM > 0.999f)
@@ -107,12 +109,12 @@ namespace NuovaGM.Client.Veicoli
                         RPM += Funzioni.GetRandomFloat(-2f, 2f);
                         RPM /= 100f;
                     }
-                    if (Game.PlayerPed.CurrentVehicle.Speed > 0)
-                        degree = Game.PlayerPed.CurrentVehicle.Speed * 2.036936f * cst.RotStep;
+                    if (playerPed.CurrentVehicle.Speed > 0)
+                        degree = playerPed.CurrentVehicle.Speed * 2.036936f * cst.RotStep;
                     if (degree > 290)
                         degree = 290f;
 
-                    blinkerstate = GetVehicleIndicatorLights(Game.PlayerPed.CurrentVehicle.Handle);
+                    blinkerstate = GetVehicleIndicatorLights(playerPed.CurrentVehicle.Handle);
                     if (blinkerstate == 0)
                     {
                         blinkerleft = false;
@@ -189,7 +191,7 @@ namespace NuovaGM.Client.Veicoli
                         showHighBeams = false;
                         showLowBeams = false;
                     }
-                    if (((int)Game.PlayerPed.CurrentVehicle.ClassType < 0 || (int)Game.PlayerPed.CurrentVehicle.ClassType >= 13) && (int)Game.PlayerPed.CurrentVehicle.ClassType < 17)
+                    if (((int)playerPed.CurrentVehicle.ClassType < 0 || (int)playerPed.CurrentVehicle.ClassType >= 13) && (int)playerPed.CurrentVehicle.ClassType < 17)
                         curAlpha = 0;
                     if (RPM < 0.119999997317791f || RPM == 0)
                         RPM = 0.12f;
@@ -221,12 +223,12 @@ namespace NuovaGM.Client.Veicoli
                     if (FuelLevel > -1.0f && MaxFuelLevel != 0)
                     {
                         DrawSprite(cst.ytdName, curFuelGauge, cst.centerCoords.X + cst.FuelBGLoc.X, cst.centerCoords.Y + cst.FuelBGLoc.Y, cst.FuelBGLoc.Z, cst.FuelBGLoc.W, 0.0f, 255, 255, 255, curAlpha);
-                        DrawSprite(cst.ytdName, curNeedle, cst.centerCoords.X + cst.FuelGaugeLoc.X, cst.centerCoords.Y + cst.FuelGaugeLoc.Y, cst.FuelGaugeLoc.Z, cst.FuelGaugeLoc.W, 80.0f + Game.PlayerPed.CurrentVehicle.FuelLevel / GetVehicleHandlingFloat(Game.PlayerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume") * 110.0f, 255, 255, 255, curAlpha);
+                        DrawSprite(cst.ytdName, curNeedle, cst.centerCoords.X + cst.FuelGaugeLoc.X, cst.centerCoords.Y + cst.FuelGaugeLoc.Y, cst.FuelGaugeLoc.Z, cst.FuelGaugeLoc.W, 80.0f + playerPed.CurrentVehicle.FuelLevel / GetVehicleHandlingFloat(playerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume") * 110.0f, 255, 255, 255, curAlpha);
                     }
                     if (!beltOn && showBlinkerBelt)
                         DrawSprite(cst.ytdName, "seatbelt", cst.centerCoords.X + cst.seatbeltLoc.X, cst.centerCoords.Y + cst.seatbeltLoc.Y, cst.seatbeltLoc.Z, cst.seatbeltLoc.W, 0.0f, 255, 0, 0, curAlpha);
 
-                    if (IsCar(Game.PlayerPed.CurrentVehicle.Handle))
+                    if (IsCar(playerPed.CurrentVehicle.Handle))
                     {
                         if (!UIOpen)
                         {
@@ -240,18 +242,18 @@ namespace NuovaGM.Client.Veicoli
                                 HUD.ShowNotification("Hai la cintura allacciata!!", NotificationColor.Red, true);
                         }
                         speedBuffer[1] = speedBuffer[0];
-                        speedBuffer[0] = Game.PlayerPed.CurrentVehicle.Speed;
-                        if (speedBuffer[1] > 0 && !beltOn && (GetEntitySpeedVector(Game.PlayerPed.CurrentVehicle.Handle, true).Y > 1 && speedBuffer[0] > 15) && speedBuffer[1] - speedBuffer[0] > speedBuffer[0] * 0.254999995231628f)
+                        speedBuffer[0] = playerPed.CurrentVehicle.Speed;
+                        if (speedBuffer[1] > 0 && !beltOn && (GetEntitySpeedVector(playerPed.CurrentVehicle.Handle, true).Y > 1 && speedBuffer[0] > 15) && speedBuffer[1] - speedBuffer[0] > speedBuffer[0] * 0.254999995231628f)
                         {
-                            Vector3 coords = Game.PlayerPed.Position;
+                            Vector3 coords = playerPed.Position;
                             float[] fw = ForwardVelocity(PlayerPedId());
-                            Game.PlayerPed.Position = new Vector3(coords.X + fw[0], coords.Y + fw[1], coords.Z - 0.469999998807907f);
-                            Game.PlayerPed.Velocity = new Vector3(velBuffer[1].X, velBuffer[1].Y, velBuffer[1].Z);
+                            playerPed.Position = new Vector3(coords.X + fw[0], coords.Y + fw[1], coords.Z - 0.469999998807907f);
+                            playerPed.Velocity = new Vector3(velBuffer[1].X, velBuffer[1].Y, velBuffer[1].Z);
                             await BaseScript.Delay(1);
-                            Game.PlayerPed.Ragdoll(3000, RagdollType.Normal);
+                            playerPed.Ragdoll(3000, RagdollType.Normal);
                         }
                         velBuffer[1] = velBuffer[0];
-                        velBuffer[0] = Game.PlayerPed.CurrentVehicle.Velocity;
+                        velBuffer[0] = playerPed.CurrentVehicle.Velocity;
                         if (Input.IsControlJustPressed(Control.ReplayTimelinePickupClip, PadCheck.Keyboard) || (Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) && Input.IsControlJustPressed(Control.FrontendX, PadCheck.Controller)))
                         {
                             if (a != null) a.Hide();
