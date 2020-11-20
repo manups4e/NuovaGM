@@ -126,15 +126,14 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		private static async void AggiornaModel(string JsonData)
 		{
-			Ped p = Game.PlayerPed;
 			Char_data plpl = JsonData.Deserialize<Char_data>();
 			uint hash = (uint)GetHashKey(plpl.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
-			UpdateFace(p, plpl.skin);
-			UpdateDress(p, plpl.dressing);
+			UpdateFace(Game.PlayerPed, plpl.skin);
+			UpdateDress(Game.PlayerPed, plpl.dressing);
 		}
 
 		#region Creazione
@@ -146,12 +145,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			try
 			{
-				Ped player = Game.PlayerPed;
 				Client.Instance.AddTick(Controllo);
-				a = nome;
-				b = cognome;
-				c = dob;
-				d = sesso;
 				selezionato = sesso;
 				var assicurazione = Funzioni.GetRandomLong((long)999999999999999);
 				Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
@@ -168,35 +162,38 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				sub_8d2b2();
 				Game.Player.GetPlayerData().Istanza.Istanzia("CreazionePersonaggio");
 
-
+				if (genericPed != null) genericPed.Delete();
 				genericPed = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), new Vector3(0));
 				genericPed.IsPositionFrozen = true;
 				genericPed.IsVisible = false;
+
 				dataMaschio = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 				dataFemmina = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 
-				if (selezionato == "Maschio")
+				if (selezionato.ToLower() == "maschio")
+				{
 					data = dataMaschio;
+					SetPlayerModel(PlayerId(), maschio);
+				}
 				else
 				{
 					data = dataFemmina;
 					SetPlayerModel(PlayerId(), femmina);
-					player.Style.SetDefaultClothes();
 				}
-
-				player.Position = new Vector3(402.91f, -996.74f, -180.00025f);
-				while (!HasCollisionLoadedAroundEntity(player.Handle)) await BaseScript.Delay(1);
+				Game.PlayerPed.Style.SetDefaultClothes();
+				Game.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
+				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1);
 				await BaseScript.Delay(50);
-				UpdateDress(player, data.dressing);
-				UpdateFace(player, data.skin);
-				player.IsVisible = true;
-				player.IsPositionFrozen = false;
-				player.BlockPermanentEvents = true;
+				UpdateDress(Game.PlayerPed, data.dressing);
+				UpdateFace(Game.PlayerPed, data.skin);
+				Game.PlayerPed.IsVisible = true;
+				Game.PlayerPed.IsPositionFrozen = false;
+				Game.PlayerPed.BlockPermanentEvents = true;
 				ped_cre_board(data);
 				if (selezionato == "Maschio")
-					TaskWalkInToRoom(player, sub_7dd83(1, 0, "Maschio"));
+					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Maschio"));
 				else
-					TaskWalkInToRoom(player, sub_7dd83(1, 0, "Femmina"));
+					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Femmina"));
 				await BaseScript.Delay(2000);
 				RenderScriptCams(true, true, 0, false, false);
 				cam2.Delete();
@@ -259,7 +256,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		{
 			try
 			{
-				Ped player = Game.PlayerPed;
 				#region Dichiarazione
 				#region Menu Principale
 				Screen.Fading.FadeIn(800);
@@ -476,12 +472,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					BaseScript.TriggerEvent("lprp:aggiornaModel", data.Serialize());
 					foreach (Prop obj in World.GetAllProps())
-					{
 						if (obj.Model.Hash == GetHashKey("prop_police_id_board") || obj.Model.Hash == GetHashKey("prop_police_id_text"))
-						{
-							obj.Delete();
-						}
-					}
 					Nome.SetRightLabel(data.info.firstname);
 					Cognome.SetRightLabel(data.info.lastname);
 					DDN.SetRightLabel(data.info.dateOfBirth);
@@ -584,7 +575,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(player, data.skin);
+					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
 				{
@@ -606,7 +597,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(player, data.skin);
+					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				#endregion
 
@@ -787,29 +778,49 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							data.skin.makeup.style = _newIndex - 1;
 						data.skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
-					UpdateFace(player, data.skin);
+					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				#endregion
 
 				#region Dettagli
+
+				int oldIndexarcSopr = 0;
+				int oldIndexOcchi = 0;
+				int oldIndexNaso = 0;
+				int oldIndexNasoPro = 0;
+				int oldIndexNasoPun = 0;
+				int oldIndexZigo = 0;
+				int oldIndexGuance = 0;
+				int oldIndexCollo = 0;
+				int oldIndexLabbra = 0;
+				int oldIndexMasce = 0;
+				int oldIndexMentoPro = 0;
+				int oldIndexMentoFor = 0;
 				Dettagli.OnListChange += async (_sender, _listItem, _newIndex) =>
 				{
 					if (_listItem == arcSopr)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Alte":
-								data.skin.face.tratti[6] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
-								break;
-							case "Basse":
-								data.skin.face.tratti[6] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
-								break;
-							case "Standard":
-								data.skin.face.tratti[6] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
-								break;
+							if (oldIndexarcSopr != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Alte":
+										data.skin.face.tratti[6] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
+										break;
+									case "Basse":
+										data.skin.face.tratti[6] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
+										break;
+									case "Standard":
+										data.skin.face.tratti[6] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
+										break;
+								}
+								oldIndexarcSopr = _newIndex;
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[7] = (var.X * 2f) - 1f;
@@ -817,40 +828,52 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == Occhi)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Grandi":
-								data.skin.face.tratti[11] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Stretti":
-								data.skin.face.tratti[11] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[11] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexOcchi != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Grandi":
+										data.skin.face.tratti[11] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Stretti":
+										data.skin.face.tratti[11] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[11] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[11] = ((var.X * 2f) - 1f) / -1;
 					}
 					if (_listItem == Naso)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Piccolo":
-								data.skin.face.tratti[0] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Grande":
-								data.skin.face.tratti[0] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[0] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexNaso != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Piccolo":
+										data.skin.face.tratti[0] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Grande":
+										data.skin.face.tratti[0] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[0] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[0] = (var.X * 2f) - 1f;
@@ -858,20 +881,26 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == NasoPro)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Breve":
-								data.skin.face.tratti[2] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Lungo":
-								data.skin.face.tratti[2] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[2] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexNasoPro != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Breve":
+										data.skin.face.tratti[2] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Lungo":
+										data.skin.face.tratti[2] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[2] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[3] = ((var.Y * 2f) - 1f) / 1;
@@ -879,20 +908,26 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == NasoPun)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Punta su":
-								data.skin.face.tratti[5] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
-								break;
-							case "Punta giù":
-								data.skin.face.tratti[5] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
-								break;
-							case "Standard":
-								data.skin.face.tratti[5] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
-								break;
+							if (oldIndexNasoPun != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Punta su":
+										data.skin.face.tratti[5] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
+										break;
+									case "Punta giù":
+										data.skin.face.tratti[5] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
+										break;
+									case "Standard":
+										data.skin.face.tratti[5] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[5] = ((var.X * 2f) - 1f) / -1;
@@ -900,20 +935,26 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == Zigo)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "In dentro":
-								data.skin.face.tratti[8] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "In fuori":
-								data.skin.face.tratti[8] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[8] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexZigo != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "In dentro":
+										data.skin.face.tratti[8] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "In fuori":
+										data.skin.face.tratti[8] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[8] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[9] = (var.X * 2f) - 1f;
@@ -921,80 +962,104 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == Guance)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Paffute":
-								data.skin.face.tratti[10] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Magre":
-								data.skin.face.tratti[10] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[10] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexGuance != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Paffute":
+										data.skin.face.tratti[10] = 0.00001f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Magre":
+										data.skin.face.tratti[10] = 0.999999f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[10] = 0.5f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
-						data.skin.face.tratti[10] = (var.X * 2f) - 1f;
+						data.skin.face.tratti[10] = var.X;
 					}
 					if (_listItem == Collo)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Stretto":
-								data.skin.face.tratti[19] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Largo":
-								data.skin.face.tratti[19] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[19] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexCollo != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Stretto":
+										data.skin.face.tratti[19] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Largo":
+										data.skin.face.tratti[19] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[19] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[19] = ((var.X * 2f) - 1f);
 					}
 					if (_listItem == Labbra)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Sottili":
-								data.skin.face.tratti[12] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Carnose":
-								data.skin.face.tratti[12] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[12] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexLabbra != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Sottili":
+										data.skin.face.tratti[12] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Carnose":
+										data.skin.face.tratti[12] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[12] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
 						data.skin.face.tratti[12] = ((var.X * 2f) - 1f) / -1;
 					}
 					if (_listItem == Masce)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Stretta":
-								data.skin.face.tratti[14] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Larga":
-								data.skin.face.tratti[14] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[14] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexMasce != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Stretta":
+										data.skin.face.tratti[14] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Larga":
+										data.skin.face.tratti[14] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[14] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[13] = ((var.X * 2f) - 1f) / -1;
@@ -1002,20 +1067,26 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == MentoPro)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "In dentro":
-								data.skin.face.tratti[15] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "In fuori":
-								data.skin.face.tratti[15] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[15] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexMentoPro != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "In dentro":
+										data.skin.face.tratti[15] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "In fuori":
+										data.skin.face.tratti[15] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[15] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[16] = (var.X * 2f) - 1f;
@@ -1023,33 +1094,39 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					}
 					if (_listItem == MentoFor)
 					{
-						switch (_listItem.Items[_newIndex])
+						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
 						{
-							case "Squadrato":
-								data.skin.face.tratti[17] = (0.00001f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "A punta":
-								data.skin.face.tratti[17] = (0.999999f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
-							case "Standard":
-								data.skin.face.tratti[17] = (0.5f * 2f) - 1f;
-								(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
-								break;
+							if (oldIndexMentoFor != _newIndex)
+							{
+								switch (_listItem.Items[_newIndex])
+								{
+									case "Squadrato":
+										data.skin.face.tratti[17] = (0.00001f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "A punta":
+										data.skin.face.tratti[17] = (0.999999f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+									case "Standard":
+										data.skin.face.tratti[17] = (0.5f * 2f) - 1f;
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
+										break;
+								}
+							}
 						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						data.skin.face.tratti[18] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[17] = (var.Y * 2f) - 1f;
 					}
-					UpdateFace(player, data.skin);
+					UpdateFace(Game.PlayerPed, data.skin);
 				};
 				#endregion
 
 				#region VESTITI
 				Apparel.OnMenuOpen += async (menu) =>
 				{
-					TaskCreaClothes(player, sub_7dd83(1, 0, selezionato));
+					TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
 					if (selezionato == "Maschio")
 					{
 						for (int i = 0; i < CompletiMaschio.Count; i++)
@@ -1057,7 +1134,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(player, CompletiMaschio[0]);
+						UpdateDress(Game.PlayerPed, CompletiMaschio[0]);
 					}
 					else
 					{
@@ -1066,7 +1143,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(player, CompletiFemmina[0]);
+						UpdateDress(Game.PlayerPed, CompletiFemmina[0]);
 					}
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
@@ -1083,8 +1160,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						data.dressing = dress;
 						dataFemmina = data;
 					}
-					UpdateDress(player, data.dressing);
-					TaskProvaClothes(player, sub_7dd83(1, 0, data.skin.sex));
+					UpdateDress(Game.PlayerPed, data.dressing);
+					TaskProvaClothes(Game.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
 				};
 				#endregion
 				#endregion
@@ -1099,7 +1176,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 				Genitori.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Dettagli.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
 				Apparenze.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(player, sub_7dd83(1, 0, selezionato)); };
+				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato)); };
 				#endregion
 
 				#region CREA_BUTTON_FINISH
@@ -1114,7 +1191,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					pool.CloseAllMenus();
 					BD1.Detach();
 					BD1.Delete();
-					player.Detach();
+					Game.PlayerPed.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", data.Serialize());
 					Game.Player.GetPlayerData().char_current = data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
@@ -1605,14 +1682,9 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						}
 					}
 					if (data.skin.sex == "Maschio")
-					{
 						dataFemmina = data;
-					}
 					else
-					{
 						dataMaschio = data;
-					}
-
 					UpdateFace(playerPed, data.skin);
 				}
 			}
@@ -1689,10 +1761,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			overlay1.Request();
 			while (!bd1.IsLoaded) await BaseScript.Delay(0);
 			while (!overlay1.IsLoaded) await BaseScript.Delay(0);
-			BD1 = await World.CreateProp(bd1, Game.PlayerPed.Position, true, false);
-			Overlay1 = await World.CreateProp(overlay1, Game.PlayerPed.Position, true, false);
+			BD1 = await World.CreateProp(bd1, new Vector3(402.91f, -996.74f, -180.00025f), true, false);
+			Overlay1 = await World.CreateProp(overlay1, new Vector3(402.91f, -996.74f, -180.00025f), true, false);
 			Overlay1.AttachTo(BD1);
-			BD1.AttachTo(Game.PlayerPed.Bones[Bone.PH_R_Hand], new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+			BD1.AttachTo(Game.PlayerPed.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
 			CreaScaleform_Cre(data, overlay1);
 			Overlay1.MarkAsNoLongerNeeded();
 			bd1.MarkAsNoLongerNeeded();
