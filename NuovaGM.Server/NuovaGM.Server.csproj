@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.dll L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm&#xD;&#xA;copy /y $(OutDir)\NuovaGM.Server.net.pdb L:\FiveM\ManuGamemode\resources\[local]\[gamemode]\nuovagm" />
+    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.dll L:\FiveM\ManuGamemode\resources\[local]\nuovagm&#xD;&#xA;copy /y $(OutDir)\NuovaGM.Server.net.pdb L:\FiveM\ManuGamemode\resources\[local]\nuovagm" />
   </Target>
 
 </Project>
