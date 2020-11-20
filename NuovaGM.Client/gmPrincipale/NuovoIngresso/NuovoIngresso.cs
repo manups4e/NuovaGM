@@ -46,7 +46,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>>(SelezionatoPreview));
 			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>>(Selezionato));
 			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>>(Disconnetti));
-			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, string>>(NuovoPersonaggio));
+			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
@@ -87,7 +87,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 		private static async void SelezionatoPreview(IDictionary<string, object> data)
 		{
 			Ped ped = Game.PlayerPed;
-			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"]));
+			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"] as string));
 			if (p1 != null)
 			{
 				Client.Instance.RemoveTick(Controllo);
@@ -122,7 +122,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"]) + 1;
+			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"] as string) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			//await BaseScript.Delay(500);
 			//BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
@@ -358,12 +358,12 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 				p1.Heading += 1.2f;
 		}
 
-		private static async void NuovoPersonaggio(IDictionary<string, string>data)
+		private static async void NuovoPersonaggio(IDictionary<string, object>data)
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			ToggleMenu(false, "close");
-			Menus.CharCreationMenu(data["nome"], data["cogn"], data["dob"], data["sesso"]);
+			Menus.CharCreationMenu(data["nome"] as string, data["cogn"] as string, data["dob"] as string, data["sesso"] as string);
 		}
 
 		public static async void Scelta(string param)
@@ -373,6 +373,5 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			else
 				ToggleMenu(true, "charloading");
 		}
-
 	}
 }
