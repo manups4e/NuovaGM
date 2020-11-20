@@ -134,26 +134,28 @@ namespace NuovaGM.Client.Lavori.Generici.Taxi
 				}
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard))
 				{
-					InServizio = !InServizio;
-					if(VeicoloServizio != null && VeicoloServizio.IsAlive && VeicoloServizio.Exists())
+					if (VeicoloServizio != null && VeicoloServizio.IsAlive && VeicoloServizio.Exists())
+					{
 						SetTaxiLights(VeicoloServizio.Handle, InServizio);
-					if (InServizio)
-					{
-						taximeter.Taximeter = new Scaleform("taxi_display");
-						while (!taximeter.Taximeter.IsLoaded) await BaseScript.Delay(0);
+						InServizio = !InServizio;
+						if (InServizio)
+						{
+							taximeter.Taximeter = new Scaleform("taxi_display");
+							while (!taximeter.Taximeter.IsLoaded) await BaseScript.Delay(0);
 							taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
-						Client.Instance.AddTick(ServizioTaxi);
-						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
-						if (p.IsInVehicle(VeicoloServizio))
-							Client.Instance.AddTick(TaximeterTick);
-
+							Client.Instance.AddTick(ServizioTaxi);
+							HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
+							if (p.IsInVehicle(VeicoloServizio))
+								Client.Instance.AddTick(TaximeterTick);
+						}
+						else
+						{
+							Client.Instance.RemoveTick(ServizioTaxi);
+							HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, IconType.ChatBox);
+							VaiFuoriServizio(1);
+						}
 					}
-					else
-					{
-						Client.Instance.RemoveTick(ServizioTaxi);
-						HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, IconType.ChatBox);
-						VaiFuoriServizio(1);
-					}
+					else HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Non puoi entrare in servizio senza il tuo veicolo da lavoro!.", NotificationIcon.Taxi, IconType.ChatBox);
 				}
 			}
 		}
