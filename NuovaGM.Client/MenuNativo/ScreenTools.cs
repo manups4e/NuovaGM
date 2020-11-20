@@ -39,8 +39,6 @@ namespace NuovaGM.Client.MenuNativo
 		/// <returns>true if the mouse is inside of the specified bounds, false otherwise.</returns>
 		public static bool IsMouseInBounds(Point topLeft, Size boxSize)
 		{
-			Game.EnableControlThisFrame(0, Control.CursorX);
-			Game.EnableControlThisFrame(0, Control.CursorY);
 			// Get the resolution while maintaining the ratio.
 			SizeF res = ResolutionMaintainRatio;
 			// Then, get the position of mouse on the screen while relative to the current resolution
@@ -55,8 +53,6 @@ namespace NuovaGM.Client.MenuNativo
 
 		public static bool IsMouseInBounds(PointF topLeft, SizeF boxSize)
 		{
-			Game.EnableControlThisFrame(0, Control.CursorX);
-			Game.EnableControlThisFrame(0, Control.CursorY);
 			// Get the resolution while maintaining the ratio.
 			SizeF res = ResolutionMaintainRatio;
 			// Then, get the position of mouse on the screen while relative to the current resolution
@@ -71,8 +67,6 @@ namespace NuovaGM.Client.MenuNativo
 
 		public static bool IsMouseInBounds(Point topLeft, Size boxSize, Point DrawOffset)
 		{
-			Game.EnableControlThisFrame(0, Control.CursorX);
-			Game.EnableControlThisFrame(0, Control.CursorY);
 			SizeF res = ResolutionMaintainRatio;
 
 			int mouseX = (int)Math.Round(API.GetDisabledControlNormal(0, 239) * res.Width);
@@ -87,8 +81,6 @@ namespace NuovaGM.Client.MenuNativo
 
 		public static bool IsMouseInBounds(PointF topLeft, SizeF boxSize, PointF DrawOffset)
 		{
-			Game.EnableControlThisFrame(0, Control.CursorX);
-			Game.EnableControlThisFrame(0, Control.CursorY);
 			SizeF res = ResolutionMaintainRatio;
 
 			float mouseX = GetDisabledControlNormal(0, 239) * res.Width;
