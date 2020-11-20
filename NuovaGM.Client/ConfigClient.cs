@@ -195,15 +195,9 @@ namespace NuovaGM.Client
 		public Accessori Accessori = new Accessori();
 	}
 
-	public class Completo
+	public class Completo : Dressing
 	{
-		public string Name;
-		public string Description;
 		public int Price;
-		public ComponentDrawables ComponentDrawables = new ComponentDrawables();
-		public ComponentDrawables ComponentTextures = new ComponentDrawables();
-		public PropIndices PropIndices = new PropIndices();
-		public PropIndices PropTextures = new PropIndices();
 
 		public Completo(string name, string desc, int price, ComponentDrawables componentDrawables, ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures)
 		{
