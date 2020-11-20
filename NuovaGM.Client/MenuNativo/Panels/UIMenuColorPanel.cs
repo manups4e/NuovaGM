@@ -9,6 +9,8 @@ namespace NuovaGM.Client.MenuNativo
 {
 	public class UIMenuColorPanel : UIMenuPanel
 	{
+		private readonly PointF safezoneOffset = ScreenTools.SafezoneBounds;
+		private readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
 		private ColorPanelData Data = new ColorPanelData();
 		private List<UIResRectangle> Bar = new List<UIResRectangle>();
 		private bool EnableArrow;
@@ -134,7 +136,6 @@ namespace NuovaGM.Client.MenuNativo
 
 		private void Functions()
 		{
-			PointF safezoneOffset = ScreenTools.SafezoneBounds;
 			if (ScreenTools.IsMouseInBounds(new PointF(LeftArrow.Position.X + safezoneOffset.X, LeftArrow.Position.Y + safezoneOffset.Y), LeftArrow.Size))
 				if (API.IsDisabledControlJustPressed(0, 24) || API.IsControlJustPressed(0, 24))
 					GoLeft();

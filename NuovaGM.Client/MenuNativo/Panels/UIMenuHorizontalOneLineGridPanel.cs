@@ -18,6 +18,8 @@ namespace NuovaGM.Client.MenuNativo
 		private PointF SetCirclePosition;
 		protected bool CircleLocked;
 		protected bool Pressed;
+		private readonly PointF safezoneOffset = ScreenTools.SafezoneBounds;
+		private readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
 		public PointF CirclePosition
 		{
 			get
@@ -67,32 +69,6 @@ namespace NuovaGM.Client.MenuNativo
 
 		private async void Functions()
 		{
-			PointF safezoneOffset = ScreenTools.SafezoneBounds;
-			if (ScreenTools.IsMouseInBounds(new PointF(Grid.Position.X + 20f + safezoneOffset.X, Grid.Position.Y + 20f + safezoneOffset.Y), new SizeF(Grid.Size.Width - 40f, Grid.Size.Height - 40f)))
-			{
-				if (API.IsDisabledControlPressed(0, 24))
-				{
-					if (!Pressed)
-					{
-						Pressed = true;
-						Audio.Id = API.GetSoundId();
-						API.PlaySoundFrontend(Audio.Id, Audio.Slider, Audio.Library, true);
-						while (API.IsDisabledControlPressed(0, 24) && ScreenTools.IsMouseInBounds(new PointF(Grid.Position.X + 20f + safezoneOffset.X, Grid.Position.Y + 20f + safezoneOffset.Y), new SizeF(Grid.Size.Width - 40f, Grid.Size.Height - 40f)))
-						{
-							await BaseScript.Delay(0);
-							var res = ScreenTools.ResolutionMaintainRatio;
-							float mouseX = API.GetDisabledControlNormal(0, 239) * res.Width;
-							mouseX -= (Circle.Size.Width / 2) + safezoneOffset.X;
-							Circle.Position = new PointF(mouseX > (Grid.Position.X + 10 + Grid.Size.Width - 40) ? (Grid.Position.X + 10 + Grid.Size.Width - 40) : ((mouseX < (Grid.Position.X + 20 - (Circle.Size.Width / 2))) ? (Grid.Position.X + 20 - (Circle.Size.Width / 2)) : mouseX), Circle.Position.Y);
-							var resultX = (float)Math.Round((Circle.Position.X - (Grid.Position.X + 20) + (Circle.Size.Width + 20)) / (Grid.Size.Width - 40), 2) + safezoneOffset.X;
-							UpdateParent(((resultX >= 0.0f && resultX <= 1.0f) ? resultX : ((resultX <= 0f) ? 0.0f : 1.0f) * 2f) - 1f);
-						}
-						API.StopSound(Audio.Id);
-						API.ReleaseSoundId(Audio.Id);
-						Pressed = false;
-					}
-				}
-			}
 		}
 
 		internal async override Task Draw()
@@ -104,9 +80,36 @@ namespace NuovaGM.Client.MenuNativo
 			Circle.Draw();
 			Left.Draw();
 			Right.Draw();
-			Functions();
+			if (ScreenTools.IsMouseInBounds(new PointF(Grid.Position.X + 20f + safezoneOffset.X, Grid.Position.Y + 20f + safezoneOffset.Y), new SizeF(Grid.Size.Width - 40f, Grid.Size.Height - 40f)))
+			{
+				if (API.IsDisabledControlPressed(0, 24))
+				{
+					if (!Pressed)
+					{
+						Pressed = true;
+						Audio.Id = API.GetSoundId();
+						API.PlaySoundFrontend(Audio.Id, Audio.Slider, Audio.Library, true);
+					}
+					float mouseX = API.GetDisabledControlNormal(0, 239) * res.Width;
+					mouseX -= (Circle.Size.Width / 2) + safezoneOffset.X;
+					Circle.Position = new PointF(mouseX > (Grid.Position.X + 10 + Grid.Size.Width - 40) ? (Grid.Position.X + 10 + Grid.Size.Width - 40) : ((mouseX < (Grid.Position.X + 20 - (Circle.Size.Width / 2))) ? (Grid.Position.X + 20 - (Circle.Size.Width / 2)) : mouseX), Circle.Position.Y);
+					var resultX = (float)Math.Round((Circle.Position.X - (Grid.Position.X + 20) + (Circle.Size.Width + 20)) / (Grid.Size.Width - 40), 2) + safezoneOffset.X;
+					UpdateParent(((resultX >= 0.0f && resultX <= 1.0f) ? resultX : ((resultX <= 0f) ? 0.0f : 1.0f) * 2f) - 1f);
+				}
+				if (API.IsDisabledControlJustReleased(0, 24))
+				{
+					API.StopSound(Audio.Id);
+					API.ReleaseSoundId(Audio.Id);
+					Pressed = false;
+				}
+			}
+			else
+			{
+				API.StopSound(Audio.Id);
+				API.ReleaseSoundId(Audio.Id);
+				Pressed = false;
+			}
 			await Task.FromResult(0);
 		}
 	}
-
 }
