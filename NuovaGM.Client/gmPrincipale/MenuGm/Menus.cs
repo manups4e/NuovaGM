@@ -120,7 +120,6 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
 			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
 			Client.Instance.AddTick(Scaleform);
-			Client.Instance.AddTick(TastiMenu);
 			sub_8d2b2();
 		}
 
@@ -132,60 +131,41 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
-			UpdateFace(Game.PlayerPed, plpl.skin);
-			UpdateDress(Game.PlayerPed, plpl.dressing);
+			await UpdateFace(PlayerPedId(), plpl.skin);
+			await UpdateDress(PlayerPedId(), plpl.dressing);
 		}
 
 		#region Creazione
-		static uint maschio = (uint)PedHash.FreemodeMale01;
-		static uint femmina = (uint)PedHash.FreemodeFemale01;
-		static Ped genericPed;
 		#region PRE CREAZIONE
-		public static async void CharCreationMenu(string nome, string cognome, string dob, string sesso)
+		public static async void CharCreationMenu(IDictionary<string, object> nuiData)
 		{
 			try
 			{
+				string nome = nuiData["nome"] as string;
+				string cognome = nuiData["cogn"] as string;
+				string dob = nuiData["dob"] as string;
+				string sesso = nuiData["sesso"] as string;
 				Client.Instance.AddTick(Controllo);
 				selezionato = sesso;
-				var assicurazione = Funzioni.GetRandomLong((long)999999999999999);
+				long assicurazione = Funzioni.GetRandomLong(999999999999999);
 				Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
-				RequestModel(maschio);
-				while (!HasModelLoaded(maschio)) await BaseScript.Delay(1);
 
-				RequestModel(femmina); 
-				while (!HasModelLoaded(femmina)) await BaseScript.Delay(1);
 
 				if (IsValidInterior(94722)) LoadInterior(94722);
 				while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
-				ShutdownLoadingScreen();
-				ShutdownLoadingScreenNui();
 				sub_8d2b2();
 				Game.Player.GetPlayerData().Istanza.Istanzia("CreazionePersonaggio");
-
-				if (genericPed != null) genericPed.Delete();
-				genericPed = await Funzioni.CreatePedLocally(new Model(PedHash.FreemodeFemale01), new Vector3(0));
-				genericPed.IsPositionFrozen = true;
-				genericPed.IsVisible = false;
-
 				dataMaschio = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 				dataFemmina = new Char_data(Game.Player.GetPlayerData().char_data.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 
 				if (selezionato.ToLower() == "maschio")
-				{
 					data = dataMaschio;
-					SetPlayerModel(PlayerId(), maschio);
-				}
 				else
-				{
 					data = dataFemmina;
-					SetPlayerModel(PlayerId(), femmina);
-				}
-				Game.PlayerPed.Style.SetDefaultClothes();
+				BaseScript.TriggerEvent("lprp:aggiornaModel", data.Serialize());
+				await BaseScript.Delay(1000);
 				Game.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
 				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1);
-				await BaseScript.Delay(50);
-				UpdateDress(Game.PlayerPed, data.dressing);
-				UpdateFace(Game.PlayerPed, data.skin);
 				Game.PlayerPed.IsVisible = true;
 				Game.PlayerPed.IsPositionFrozen = false;
 				Game.PlayerPed.BlockPermanentEvents = true;
@@ -476,7 +456,14 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					Nome.SetRightLabel(data.info.firstname);
 					Cognome.SetRightLabel(data.info.lastname);
 					DDN.SetRightLabel(data.info.dateOfBirth);
-					CharCreationMenu(data.info.firstname, data.info.lastname, data.info.dateOfBirth, selezionato);
+					IDictionary<string, object> a = new Dictionary<string, object>
+					{
+						["nome"] = data.info.firstname,
+						["cogn"] = data.info.lastname,
+						["dob"] = data.info.dateOfBirth,
+						["sesso"] = selezionato
+					};
+					CharCreationMenu(a);
 				};
 				#endregion
 
@@ -575,7 +562,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(PlayerPedId(), data.skin);
 				};
 				Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
 				{
@@ -597,7 +584,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					}
 
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(PlayerPedId(), data.skin);
 				};
 				#endregion
 
@@ -778,7 +765,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							data.skin.makeup.style = _newIndex - 1;
 						data.skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(PlayerPedId(), data.skin);
 				};
 				#endregion
 
@@ -1119,7 +1106,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						data.skin.face.tratti[18] = ((var.X * 2f) - 1f) / -1;
 						data.skin.face.tratti[17] = (var.Y * 2f) - 1f;
 					}
-					UpdateFace(Game.PlayerPed, data.skin);
+					UpdateFace(PlayerPedId(), data.skin);
 				};
 				#endregion
 
@@ -1134,7 +1121,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(Game.PlayerPed, CompletiMaschio[0]);
+						UpdateDress(PlayerPedId(), CompletiMaschio[0]);
 					}
 					else
 					{
@@ -1143,7 +1130,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 							UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
 							Apparel.AddItem(abito);
 						}
-						UpdateDress(Game.PlayerPed, CompletiFemmina[0]);
+						UpdateDress(PlayerPedId(), CompletiFemmina[0]);
 					}
 				};
 				Apparel.OnIndexChange += async (sender, index) =>
@@ -1160,7 +1147,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						data.dressing = dress;
 						dataFemmina = data;
 					}
-					UpdateDress(Game.PlayerPed, data.dressing);
+					UpdateDress(PlayerPedId(), data.dressing);
 					TaskProvaClothes(Game.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
 				};
 				#endregion
@@ -1207,8 +1194,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 					RemoveAnimDict("mp_character_creation@customise@female_a");
 				};
 				#endregion
-
 				Creazione.Visible = true;
+				Client.Instance.AddTick(TastiMenu);
 			}
 			catch
 			{
@@ -1685,7 +1672,7 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 						dataFemmina = data;
 					else
 						dataMaschio = data;
-					UpdateFace(playerPed, data.skin);
+					UpdateFace(playerPed.Handle, data.skin);
 				}
 			}
 			await Task.FromResult(0);
@@ -1761,8 +1748,10 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 			overlay1.Request();
 			while (!bd1.IsLoaded) await BaseScript.Delay(0);
 			while (!overlay1.IsLoaded) await BaseScript.Delay(0);
-			BD1 = await World.CreateProp(bd1, new Vector3(402.91f, -996.74f, -180.00025f), true, false);
-			Overlay1 = await World.CreateProp(overlay1, new Vector3(402.91f, -996.74f, -180.00025f), true, false);
+			BD1 = new Prop(CreateObject(bd1.Hash, 402.91f, -996.74f, -180.00025f, false, true, true));
+			Overlay1 = new Prop(CreateObject(overlay1.Hash, 402.91f, -996.74f, -180.00025f, false, true, false));
+			while (!BD1.Exists()) await BaseScript.Delay(0);
+			while (!Overlay1.Exists()) await BaseScript.Delay(0);
 			Overlay1.AttachTo(BD1);
 			BD1.AttachTo(Game.PlayerPed.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
 			CreaScaleform_Cre(data, overlay1);
@@ -1799,40 +1788,8 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 
 		public static async Task Controllo()
 		{
-			Game.DisableAllControlsThisFrame(0);
-			Game.DisableAllControlsThisFrame(1);
-			Game.DisableAllControlsThisFrame(2);
-			Game.DisableAllControlsThisFrame(3);
-			Game.DisableAllControlsThisFrame(4);
-			Game.DisableAllControlsThisFrame(5);
-			Game.DisableAllControlsThisFrame(6);
-			Game.DisableAllControlsThisFrame(7);
-			Game.DisableAllControlsThisFrame(8);
-			Game.DisableAllControlsThisFrame(9);
-			Game.DisableAllControlsThisFrame(10);
-			Game.DisableAllControlsThisFrame(11);
-			Game.DisableAllControlsThisFrame(12);
-			Game.DisableAllControlsThisFrame(13);
-			Game.DisableAllControlsThisFrame(14);
-			Game.DisableAllControlsThisFrame(15);
-			Game.DisableAllControlsThisFrame(16);
-			Game.DisableAllControlsThisFrame(17);
-			Game.DisableAllControlsThisFrame(18);
-			Game.DisableAllControlsThisFrame(19);
-			Game.DisableAllControlsThisFrame(20);
-			Game.DisableAllControlsThisFrame(21);
-			Game.DisableAllControlsThisFrame(22);
-			Game.DisableAllControlsThisFrame(23);
-			Game.DisableAllControlsThisFrame(24);
-			Game.DisableAllControlsThisFrame(25);
-			Game.DisableAllControlsThisFrame(26);
-			Game.DisableAllControlsThisFrame(27);
-			Game.DisableAllControlsThisFrame(28);
-			Game.DisableAllControlsThisFrame(29);
-			Game.DisableAllControlsThisFrame(30);
-			Game.DisableAllControlsThisFrame(31);
-
-
+			for(int i=0; i<32; i++)
+				Game.DisableAllControlsThisFrame(i);
 			if (p1.Exists())
 				p1.Heading += 1f;
 
@@ -1945,89 +1902,91 @@ namespace NuovaGM.Client.gmPrincipale.MenuGm
 		}
 
 
-		public static void UpdateFace(Ped p, Skin skin)
+		public static async Task UpdateFace(int Handle, Skin skin)
 		{
-			SetPedHeadBlendData(p.Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
-			SetPedHeadOverlay(p.Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
-			SetPedHeadOverlay(p.Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
-			SetPedHeadOverlayColor(p.Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
-			SetPedHeadOverlay(p.Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
-			SetPedHeadOverlayColor(p.Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
-			SetPedHeadOverlay(p.Handle, 3, skin.ageing.style, skin.ageing.opacity);
-			SetPedHeadOverlay(p.Handle, 4, skin.makeup.style, skin.makeup.opacity);
-			SetPedHeadOverlay(p.Handle, 5, skin.blusher.style, skin.blusher.opacity);
-			SetPedHeadOverlayColor(p.Handle, 5, 2, skin.blusher.color[0], skin.blusher.color[1]);
-			SetPedHeadOverlay(p.Handle, 6, skin.complexion.style, skin.complexion.opacity);
-			SetPedHeadOverlay(p.Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
-			SetPedHeadOverlay(p.Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
-			SetPedHeadOverlayColor(p.Handle, 8, 2, skin.lipstick.color[0], skin.lipstick.color[1]);
-			SetPedHeadOverlay(p.Handle, 9, skin.freckles.style, skin.freckles.opacity);
-			SetPedEyeColor(p.Handle, skin.eye.style);
-			SetPedComponentVariation(p.Handle, 2, skin.hair.style, 0, 0);
-			SetPedHairColor(p.Handle, skin.hair.color[0], skin.hair.color[1]);
-			SetPedPropIndex(p.Handle, 2, skin.ears.style, skin.ears.color, false);
+			SetPedHeadBlendData(Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
+			SetPedHeadOverlay(Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
+			SetPedHeadOverlay(Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
+			SetPedHeadOverlayColor(Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
+			SetPedHeadOverlay(Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
+			SetPedHeadOverlayColor(Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
+			SetPedHeadOverlay(Handle, 3, skin.ageing.style, skin.ageing.opacity);
+			SetPedHeadOverlay(Handle, 4, skin.makeup.style, skin.makeup.opacity);
+			SetPedHeadOverlay(Handle, 5, skin.blusher.style, skin.blusher.opacity);
+			SetPedHeadOverlayColor(Handle, 5, 2, skin.blusher.color[0], skin.blusher.color[1]);
+			SetPedHeadOverlay(Handle, 6, skin.complexion.style, skin.complexion.opacity);
+			SetPedHeadOverlay(Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
+			SetPedHeadOverlay(Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
+			SetPedHeadOverlayColor(Handle, 8, 2, skin.lipstick.color[0], skin.lipstick.color[1]);
+			SetPedHeadOverlay(Handle, 9, skin.freckles.style, skin.freckles.opacity);
+			SetPedEyeColor(Handle, skin.eye.style);
+			SetPedComponentVariation(Handle, 2, skin.hair.style, 0, 0);
+			SetPedHairColor(Handle, skin.hair.color[0], skin.hair.color[1]);
+			SetPedPropIndex(Handle, 2, skin.ears.style, skin.ears.color, false);
 			for (int i = 0; i < skin.face.tratti.Length; i++)
-				SetPedFaceFeature(p.Handle, i, skin.face.tratti[i]);
+				SetPedFaceFeature(Handle, i, skin.face.tratti[i]);
+			await Task.FromResult(0);
 		}
 
-		public static void UpdateDress(Ped p, dynamic dress)
+		public static async Task UpdateDress(int Handle, Dressing dress)
 		{
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
+			SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
 
 			if (dress.PropIndices.Cappelli_Maschere == -1)
-				ClearPedProp(PlayerPedId(), 0);
+				ClearPedProp(Handle, 0);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
+				SetPedPropIndex(Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
 
 			if (dress.PropIndices.Orecchie == -1)
-				ClearPedProp(PlayerPedId(), 2);
+				ClearPedProp(Handle, 2);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
+				SetPedPropIndex(Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
 
 			if (dress.PropIndices.Occhiali_Occhi == -1)
-				ClearPedProp(PlayerPedId(), 1);
+				ClearPedProp(Handle, 1);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
 
 			if (dress.PropIndices.Unk_3 == -1)
-				ClearPedProp(PlayerPedId(), 3);
+				ClearPedProp(Handle, 3);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
 
 			if (dress.PropIndices.Unk_4 == -1)
-				ClearPedProp(PlayerPedId(), 4);
+				ClearPedProp(Handle, 4);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
 
 			if (dress.PropIndices.Unk_5 == -1)
-				ClearPedProp(PlayerPedId(), 5);
+				ClearPedProp(Handle, 5);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
 
 			if (dress.PropIndices.Orologi == -1)
-				ClearPedProp(PlayerPedId(), 6);
+				ClearPedProp(Handle, 6);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
 
 			if (dress.PropIndices.Bracciali == -1)
-				ClearPedProp(PlayerPedId(), 7);
+				ClearPedProp(Handle, 7);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
 
 			if (dress.PropIndices.Unk_8 == -1)
-				ClearPedProp(PlayerPedId(), 8);
+				ClearPedProp(Handle, 8);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
+			await Task.FromResult(0);
 		}
 
 		static void sub_8d2b2()

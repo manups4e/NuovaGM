@@ -363,7 +363,7 @@ namespace NuovaGM.Client.gmPrincipale.NuovoIngresso
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			ToggleMenu(false, "close");
-			Menus.CharCreationMenu(data["nome"] as string, data["cogn"] as string, data["dob"] as string, data["sesso"] as string);
+			Menus.CharCreationMenu(data);
 		}
 
 		public static async void Scelta(string param)
