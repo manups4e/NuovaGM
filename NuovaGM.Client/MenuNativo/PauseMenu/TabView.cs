@@ -35,25 +35,88 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
         public event EventHandler OnMenuClose;
 
-        public bool Visible
+        public bool IsVisible
         {
             get { return _visible; }
-            set
+        }
+
+        public void Visible(bool value)
+        {
+            _visible = value;
+            if (value)
             {
-                _visible = value;
+                API.SetPauseMenuActive(true);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+                API.TransitionToBlurred(700);
 
-                if (value)
+            }
+            else
+            {
+                API.SetPauseMenuActive(false);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+                API.TransitionFromBlurred(400);
+            }
+            if (Tabs.Count > 0)
+            {
+                Tabs[0].Active = true;
+                Tabs[0].Focused = true;
+            }
+        }
+        public void Visible(bool value, TabItem focused)
+        {
+            _visible = value;
+            if (value)
+            {
+                API.SetPauseMenuActive(true);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+                API.TransitionToBlurred(700);
+
+            }
+            else
+            {
+                API.SetPauseMenuActive(false);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+                API.TransitionFromBlurred(400);
+            }
+            if (Tabs.Contains(focused))
+            {
+                focused.Visible = true;
+                focused.Focused = true;
+            }
+            else
+            {
+                Tabs[0].Active = true;
+                Tabs[0].Focused = true;
+            }
+        }
+
+        public void Visible(bool value, int focused)
+        {
+            _visible = value;
+            if (value)
+            {
+                API.SetPauseMenuActive(true);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+                API.TransitionToBlurred(700);
+
+            }
+            else
+            {
+                API.SetPauseMenuActive(false);
+                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+                API.TransitionFromBlurred(400);
+            }
+            if (Tabs.Count > 0)
+            {
+                if (Tabs.Count > focused)
                 {
-                    API.SetPauseMenuActive(true);
-                    Screen.Effects.Start(ScreenEffect.FocusOut, 800);
-                    API.TransitionToBlurred(700);
-
+                    Tabs[focused].Active = true;
+                    Tabs[focused].Focused = true;
                 }
                 else
                 {
-                    API.SetPauseMenuActive(false);
-                    Screen.Effects.Start(ScreenEffect.FocusOut, 500);
-                    API.TransitionFromBlurred(400);
+                    Tabs[0].Active = true;
+                    Tabs[0].Focused = true;
                 }
             }
         }
@@ -94,7 +157,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
         public void ProcessControls()
         {
-            if (!Visible || TemporarilyHidden) return;
+            if (!IsVisible || TemporarilyHidden) return;
             API.DisableAllControlActions(0);
 
             if (Input.IsControlJustPressed(Control.PhoneLeft) && FocusLevel == 0)
@@ -151,7 +214,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
             {
-                Visible = false;
+                Visible(false);
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
 
                 OnMenuClose?.Invoke(this, EventArgs.Empty);
@@ -212,7 +275,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
         public void Update()
         {
-            if (!Visible || TemporarilyHidden) return;
+            if (!IsVisible || TemporarilyHidden) return;
             ShowInstructionalButtons();
             API.HideHudAndRadarThisFrame();
             API.ShowCursorThisFrame();
