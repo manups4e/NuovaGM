@@ -22,7 +22,6 @@ namespace NuovaGM.Client.MenuNativo
 		{
 			get
 			{
-				var res = ScreenTools.ResolutionMaintainRatio;
 				float progress = (float)Math.Round(API.GetDisabledControlNormal(0, 239) * res.Width) - ActiveBar.Position.X;
 				return (float)Math.Round(((progress >= 0 && progress <= 413) ? progress : ((progress < 0) ? 0 : 413)) / Background.Size.Width, 2);
 			}
@@ -79,7 +78,6 @@ namespace NuovaGM.Client.MenuNativo
 						while (API.IsDisabledControlPressed(0, 24) && ScreenTools.IsMouseInBounds(new PointF(BackgroundBar.Position.X + safezoneOffset.X, BackgroundBar.Position.Y - 4f + safezoneOffset.Y), new SizeF(BackgroundBar.Size.Width, BackgroundBar.Size.Height + 8f)))
 						{
 							await BaseScript.Delay(0);
-							var res = ScreenTools.ResolutionMaintainRatio;
 							float Progress = API.GetDisabledControlNormal(0, 239) * res.Width;
 							Progress -= ActiveBar.Position.X + safezoneOffset.X;
 							ActiveBar.Size = new SizeF(Progress >= 0 && Progress <= 413 ? Progress : (Progress < 0 ? 0 : 413), ActiveBar.Size.Height);

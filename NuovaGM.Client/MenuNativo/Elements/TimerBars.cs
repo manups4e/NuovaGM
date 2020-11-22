@@ -10,6 +10,7 @@ namespace NuovaGM.Client.MenuNativo
     public abstract class TimerBarBase
     {
         public string Label { get; set; }
+        protected readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
 
         public TimerBarBase(string label)
         {
@@ -18,7 +19,6 @@ namespace NuovaGM.Client.MenuNativo
 
         public virtual void Draw(int interval)
         {
-            SizeF res = ScreenTools.ResolutionMaintainRatio;
             PointF safe = ScreenTools.SafezoneBounds;
             new UIResText(Label, new PointF((int)res.Width - safe.X - 180, (int)res.Height - safe.Y - (30 + (4 * interval))), 0.3f, Colors.White, Font.ChaletLondon, Alignment.Right).Draw();
 
@@ -41,7 +41,6 @@ namespace NuovaGM.Client.MenuNativo
 
         public override void Draw(int interval)
         {
-            SizeF res = ScreenTools.ResolutionMaintainRatio;
             PointF safe = ScreenTools.SafezoneBounds;
 
             base.Draw(interval);
@@ -67,7 +66,6 @@ namespace NuovaGM.Client.MenuNativo
 
         public override void Draw(int interval)
         {
-            SizeF res = ScreenTools.ResolutionMaintainRatio;
             PointF safe = ScreenTools.SafezoneBounds;
 
             base.Draw(interval);

@@ -22,20 +22,14 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         public override void Draw()
         {
             base.Draw();
-
-            var res = ScreenTools.ResolutionMaintainRatio;
-
             var alpha = (Focused || !CanBeFocused) ? 255 : 200;
-
+            if (!Visible) return;
             if (!string.IsNullOrEmpty(TextTitle))
-            {
                 new UIResText(TextTitle, SafeSize.AddPoints(new PointF(40, 20)), 1.5f, Color.FromArgb(alpha, Colors.White)).Draw();
-            }
 
             if (!string.IsNullOrEmpty(Text))
             {
                 var ww = WordWrap == 0 ? BottomRight.X - TopLeft.X - 40 : WordWrap;
-
                 new UIResText(Text, SafeSize.AddPoints(new PointF(40, 150)), 0.4f, Color.FromArgb(alpha, Colors.White)) { Wrap = ww }.Draw();
             }
         }

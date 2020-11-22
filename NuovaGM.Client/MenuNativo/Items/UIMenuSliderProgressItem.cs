@@ -119,8 +119,7 @@ namespace NuovaGM.Client.MenuNativo
 						while (API.IsDisabledControlPressed(0, 24) && ScreenTools.IsMouseInBounds(new PointF(_rectangleBackground.Position.X, _rectangleBackground.Position.Y), new SizeF(150f, _rectangleBackground.Size.Height)))
 						{
 							await BaseScript.Delay(0);
-							var ress = ScreenTools.ResolutionMaintainRatio;
-							float CursorX = API.GetDisabledControlNormal(0, 239) * ress.Width;
+							float CursorX = API.GetDisabledControlNormal(0, 239) * res.Width;
 							var Progress = CursorX - _rectangleSlider.Position.X;
 							Value = (int)Math.Round(_max * ((Progress >= 0f && Progress <= 150f) ? Progress : (Progress < 0) ? 0 : 150f) / 150f);
 							SliderProgressChanged();

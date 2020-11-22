@@ -75,17 +75,14 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
         public override void ProcessControls()
         {
-            if (!Visible) return;
             if (JustOpened)
             {
                 JustOpened = false;
                 return;
             }
-
+            if (!Visible) return;
             if (!Focused) return;
-
             if (Items.Count == 0) return;
-
 
             if (Input.IsControlJustPressed(Control.FrontendAccept) && Focused && Items[Index] is UIMenuCheckboxItem)
             {
@@ -132,8 +129,6 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         {
             if (!Visible) return;
             base.Draw();
-
-            var res = ScreenTools.ResolutionMaintainRatio;
 
             var alpha = Focused ? 120 : 30;
             var blackAlpha = Focused ? 200 : 100;

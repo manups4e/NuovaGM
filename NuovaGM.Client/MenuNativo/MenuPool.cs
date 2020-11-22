@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using NuovaGM.Client.MenuNativo.PauseMenu;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace NuovaGM.Client.MenuNativo
 		public bool OffsetInheritance = true;
 
 		private readonly List<UIMenu> _menuList = new List<UIMenu>();
+        public List<TabView> PauseMenus = new List<TabView>();
 
 
         /// <summary>
@@ -226,7 +228,7 @@ namespace NuovaGM.Client.MenuNativo
         /// <returns>true if at least one menu is visible, false if not.</returns>
         public bool IsAnyMenuOpen
         {
-            get { return _menuList.Any(menu => menu.Visible); }
+            get { return _menuList.Any(menu => menu.Visible) || PauseMenus.Any(x => x.Visible); }
         }
 
         bool firstTick = true;
@@ -240,6 +242,8 @@ namespace NuovaGM.Client.MenuNativo
                 Client.Instance.AddTick(ProcessControl);
                 firstTick = false;
             }
+            if (PauseMenus.Count > 0)
+                PauseMenus.ForEach(x => { x.ProcessControls(); x.Draw(); });
             ProcessMouse();
             Draw();
         }

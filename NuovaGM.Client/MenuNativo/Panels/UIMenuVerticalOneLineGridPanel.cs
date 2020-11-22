@@ -19,7 +19,6 @@ namespace NuovaGM.Client.MenuNativo
 		protected bool CircleLocked;
 		protected bool Pressed;
 		private readonly PointF safezoneOffset = ScreenTools.SafezoneBounds;
-		private readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
 		public PointF CirclePosition
 		{
 			get

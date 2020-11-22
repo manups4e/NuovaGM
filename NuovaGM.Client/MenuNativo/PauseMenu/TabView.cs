@@ -4,6 +4,7 @@ using System.Drawing;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
+using NuovaGM.Client.gmPrincipale.Utility.HUD;
 using Font = CitizenFX.Core.UI.Font;
 
 namespace NuovaGM.Client.MenuNativo.PauseMenu
@@ -18,6 +19,8 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             Name = Game.Player.Name;
             TemporarilyHidden = false;
             CanLeave = true;
+            if (!HUD.MenuPool.PauseMenus.Contains(this))
+                HUD.MenuPool.PauseMenus.Add(this);
         }
 
         public string Title { get; set; }
@@ -30,97 +33,32 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         public bool TemporarilyHidden { get; set; }
         public bool CanLeave { get; set; }
         public bool HideTabs { get; set; }
+        private readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
 
         internal readonly static string _browseTextLocalized = Game.GetGXTEntry("HUD_INPUT1C");
 
         public event EventHandler OnMenuClose;
 
-        public bool IsVisible
+        public bool Visible
         {
             get { return _visible; }
-        }
-
-        public void Visible(bool value)
-        {
-            _visible = value;
-            if (value)
+            set
             {
-                API.SetPauseMenuActive(true);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
-                API.TransitionToBlurred(700);
-
-            }
-            else
-            {
-                API.SetPauseMenuActive(false);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
-                API.TransitionFromBlurred(400);
-            }
-            if (Tabs.Count > 0)
-            {
-                Tabs[0].Active = true;
-                Tabs[0].Focused = true;
-            }
-        }
-        public void Visible(bool value, TabItem focused)
-        {
-            _visible = value;
-            if (value)
-            {
-                API.SetPauseMenuActive(true);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
-                API.TransitionToBlurred(700);
-
-            }
-            else
-            {
-                API.SetPauseMenuActive(false);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
-                API.TransitionFromBlurred(400);
-            }
-            if (Tabs.Contains(focused))
-            {
-                focused.Visible = true;
-                focused.Focused = true;
-            }
-            else
-            {
-                Tabs[0].Active = true;
-                Tabs[0].Focused = true;
-            }
-        }
-
-        public void Visible(bool value, int focused)
-        {
-            _visible = value;
-            if (value)
-            {
-                API.SetPauseMenuActive(true);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 800);
-                API.TransitionToBlurred(700);
-
-            }
-            else
-            {
-                API.SetPauseMenuActive(false);
-                Screen.Effects.Start(ScreenEffect.FocusOut, 500);
-                API.TransitionFromBlurred(400);
-            }
-            if (Tabs.Count > 0)
-            {
-                if (Tabs.Count > focused)
+                if (value)
                 {
-                    Tabs[focused].Active = true;
-                    Tabs[focused].Focused = true;
+                    API.SetPauseMenuActive(true);
+                    Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+                    API.TransitionToBlurred(700);
                 }
                 else
                 {
-                    Tabs[0].Active = true;
-                    Tabs[0].Focused = true;
+                    API.SetPauseMenuActive(false);
+                    Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+                    API.TransitionFromBlurred(400);
                 }
+                _visible = value;
             }
         }
-
         public void AddTab(TabItem item)
         {
             Tabs.Add(item);
@@ -157,7 +95,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
         public void ProcessControls()
         {
-            if (!IsVisible || TemporarilyHidden) return;
+            if (!Visible || TemporarilyHidden) return;
             API.DisableAllControlActions(0);
 
             if (Input.IsControlJustPressed(Control.PhoneLeft) && FocusLevel == 0)
@@ -214,7 +152,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
             {
-                Visible(false);
+                Visible = false;
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
 
                 OnMenuClose?.Invoke(this, EventArgs.Empty);
@@ -273,29 +211,24 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             FocusLevel = 0;
         }
 
-        public void Update()
+        public async void Draw()
         {
-            if (!IsVisible || TemporarilyHidden) return;
+            if (!Visible || TemporarilyHidden) return;
             ShowInstructionalButtons();
             API.HideHudAndRadarThisFrame();
             API.ShowCursorThisFrame();
 
 
-            var res = ScreenTools.ResolutionMaintainRatio;
             var safe = new PointF(300, 180);
             if (!HideTabs)
             {
-                new UIResText(Title, new PointF(safe.X, safe.Y - 80), 1f, Colors.White, Font.ChaletComprimeCologne,
-                    Alignment.Left)
+                new UIResText(Title, new PointF(safe.X, safe.Y - 80), 1f, Colors.White, Font.ChaletComprimeCologne, Alignment.Left)
                 {
                     Shadow = true,
                 }.Draw();
 
                 if (Photo == null)
-                {
-                    new Sprite("char_multiplayer", "char_multiplayer",
-                        new PointF((int)res.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
-                }
+                    new Sprite("char_multiplayer", "char_multiplayer", new PointF((int)res.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
                 else
                 {
                     Photo.Position = new PointF((int)res.Width - safe.X - 100, safe.Y - 90);
@@ -303,21 +236,18 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                     Photo.Draw();
                 }
 
-                new UIResText(Name, new PointF((int)res.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White,
-                    Font.ChaletComprimeCologne, Alignment.Right)
+                new UIResText(Name, new PointF((int)res.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
                 string Date = DateTime.Now.DayOfWeek.ToString().ToUpper();
-                new UIResText(Date + " " + API.GetClockHours().ToString("00") + ":" + API.GetClockMinutes().ToString("00"), new PointF((int)res.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White,
-                    Font.ChaletComprimeCologne, Alignment.Right)
+                new UIResText(Date + " " + API.GetClockHours().ToString("00") + ":" + API.GetClockMinutes().ToString("00"), new PointF((int)res.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
-                new UIResText(Money + " " + MoneySubtitle, new PointF((int)res.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White,
-                    Font.ChaletComprimeCologne, Alignment.Right)
+                new UIResText(Money + " " + MoneySubtitle, new PointF((int)res.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
@@ -325,30 +255,20 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 for (int i = 0; i < Tabs.Count; i++)
                 {
                     var activeSize = res.Width - 2 * safe.X;
-                    activeSize -= 4 * 5;
+                    activeSize -= 5;
                     int tabWidth = (int)activeSize / Tabs.Count;
                     Game.EnableControlThisFrame(0, Control.CursorX);
                     Game.EnableControlThisFrame(0, Control.CursorY);
 
-                    var hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)),
-                        new SizeF(tabWidth, 40));
+                    var hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40));
+                    var tabColor = Tabs[i].Active ? Colors.White : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
 
-                    var tabColor = Tabs[i].Active
-                        ? Colors.White
-                        : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
-                    new UIResRectangle(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40),
-                        Color.FromArgb(Tabs[i].Active ? 255 : 200, tabColor)).Draw();
-
-                    new UIResText(Tabs[i].Title.ToUpper(), safe.AddPoints(new PointF((tabWidth / 2) + (tabWidth + 5) * i, 5)),
-                        0.35f,
-                        Tabs[i].Active ? Colors.Black : Colors.White, Font.ChaletLondon, Alignment.Center)
-                        .Draw();
-
+                    new UIResRectangle(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40), Color.FromArgb(Tabs[i].Active ? 255 : 200, tabColor)).Draw();
                     if (Tabs[i].Active)
-                    {
-                        new UIResRectangle(safe.SubtractPoints(new PointF(-((tabWidth + 5) * i), 10)),
-                            new SizeF(tabWidth, 10), Colors.DodgerBlue).Draw();
-                    }
+                        new UIResRectangle(safe.SubtractPoints(new PointF(-((tabWidth + 5) * i), 10)), new SizeF(tabWidth, 10), Colors.DodgerBlue).Draw();
+
+                    new UIResText(Tabs[i].Title.ToUpper(), safe.AddPoints(new PointF((tabWidth / 2) + (tabWidth + 5) * i, 5)), 0.35f, Tabs[i].Active ? Colors.Black : Colors.White, Font.ChaletLondon, Alignment.Center).Draw();
+
 
                     if (hovering && Input.IsControlJustPressed(Control.CursorAccept) && !Tabs[i].Active)
                     {

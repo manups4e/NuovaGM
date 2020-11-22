@@ -96,8 +96,6 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (!Visible) return;
             base.Draw();
 
-            var res = ScreenTools.ResolutionMaintainRatio;
-
             var alpha = Focused ? 120 : 30;
             var blackAlpha = Focused ? 200 : 100;
             var fullAlpha = Focused ? 255 : 150;

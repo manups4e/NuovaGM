@@ -883,7 +883,7 @@ namespace NuovaGM.Client.MenuNativo
 		private SizeF BackgroundSize { get; set; }
 		private SizeF DrawWidth { get; set; }
 		private bool ReDraw = true;
-
+		private SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
 		internal readonly static string _selectTextLocalized = Game.GetGXTEntry("HUD_INPUT2");
 		internal readonly static string _backTextLocalized = Game.GetGXTEntry("HUD_INPUT3");
 
@@ -1835,9 +1835,8 @@ namespace NuovaGM.Client.MenuNativo
 		{
 			API.BeginTextCommandWidth("jamyfafi");
 			UIResText.AddLongString(item.Text);
-			SizeF res = ScreenTools.ResolutionMaintainRatio;
-			float screenw = res.Width;
-			float screenh = res.Height;
+			float screenw = Resolution.Width;
+			float screenh = Resolution.Height;
 			const float height = 1080f;
 			float ratio = screenw / screenh;
 			float width = height * ratio;
@@ -1906,11 +1905,10 @@ namespace NuovaGM.Client.MenuNativo
 			if (BannerSprite != null)
 			{
 				_glareScaleform.CallFunction("SET_DATA_SLOT", GameplayCamera.RelativeHeading);
-				var res = ScreenTools.ResolutionMaintainRatio;
 				SizeF _glareSize = new SizeF(1.0f, 1.054f);
 				PointF gl = new PointF(
-					(Offset.X / res.Width) + 0.4491f,
-					(Offset.Y / res.Height) + 0.475f 
+					(Offset.X / Resolution.Width) + 0.4491f,
+					(Offset.Y / Resolution.Height) + 0.475f 
 				);
 
 				API.DrawScaleformMovie(_glareScaleform.Handle, gl.X, gl.Y, _glareSize.Width, _glareSize.Height, 255, 255, 255, 255, 0);
@@ -2031,7 +2029,7 @@ namespace NuovaGM.Client.MenuNativo
 				GameplayCamera.RelativeHeading += 5f;
 				API.SetCursorSprite(6);
 			}
-			else if (ScreenTools.IsMouseInBounds(new PointF(Convert.ToInt32(ScreenTools.ResolutionMaintainRatio.Width - 30f), 0), new SizeF(30, 1080)) && MouseEdgeEnabled)
+			else if (ScreenTools.IsMouseInBounds(new PointF(Convert.ToInt32(Resolution.Width - 30f), 0), new SizeF(30, 1080)) && MouseEdgeEnabled)
 			{
 				GameplayCamera.RelativeHeading -= 5f;
 				API.SetCursorSprite(7);

@@ -13,6 +13,8 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             UseDynamicPositionment = true;
         }
 
+        public SizeF res = ScreenTools.ResolutionMaintainRatio;
+
         public virtual bool Visible { get; set; }
         public virtual bool Focused { get; set; }
         public string Title { get; set; }
@@ -47,8 +49,6 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         public virtual void Draw()
         {
             if (!Visible) return;
-
-            var res = ScreenTools.ResolutionMaintainRatio;
 
             if (UseDynamicPositionment)
             {

@@ -24,8 +24,8 @@ namespace NuovaGM.Client.MenuNativo
 
 		public Color TextColor { get; set; }
 		public Color HighlightedTextColor { get; set; }
-
-		private readonly Color _defaultColor = Color.FromArgb(20, 255, 255, 255);
+        public readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
+        private readonly Color _defaultColor = Color.FromArgb(20, 255, 255, 255);
 		private readonly Color _disabledColor = Color.FromArgb(163, 159, 148); // Why allocating memory for same color every time?
 
         /// <summary>
