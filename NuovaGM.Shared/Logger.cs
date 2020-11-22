@@ -1,9 +1,6 @@
 using System;
 using System.Drawing;
 using CitizenFX.Core;
-#if SERVER
-using Console = Colorful.Console;
-#endif
 namespace Logger
 {
 	public enum LogType
@@ -26,59 +23,31 @@ namespace Logger
 		{
 			string err = "-- [INFO] -- ";
 			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm:ss}";
-#if CLIENT
 			string colore = "^2";
-#elif SERVER
-			Color colore = Color.LimeGreen;
-#endif
 			switch (tipo)
 			{
 				case LogType.Info:
 					err = "-- [INFO] -- ";
-#if CLIENT
 					colore = "^2";
-#elif SERVER
-					colore = Color.LimeGreen;
-#endif
 					break;
 				case LogType.Debug:
 					err = "-- [DEBUG] -- ";
-#if CLIENT
 					colore = "^5";
-#elif SERVER
-					colore = Color.Cyan;
-#endif
 					break;
 				case LogType.Warning:
 					err = "-- [ATTENZIONE] --";
-#if CLIENT
 					colore = "^3";
-#elif SERVER
-					colore = Color.DarkOrange;
-#endif
 					break;
 				case LogType.Error:
 					err = "-- [ERRORE] --";
-#if CLIENT
 					colore = "^1";
-#elif SERVER
-					colore = Color.OrangeRed;
-#endif
 					break;
 				case LogType.Fatal:
 					err = "-- [FATALE] --";
-#if CLIENT
 					colore = "^9";
-#elif SERVER
-					colore = Color.Yellow;
-#endif
 					break;
 			}
-#if CLIENT
-			Debug.WriteLine($"^4{incipit} {colore}{err} {text}.^7");
-#elif SERVER
-			Console.WriteLine($"{incipit} {err} {text}", colore);
-#endif
+			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 		}
 	}
 }
