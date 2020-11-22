@@ -49,7 +49,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
                 else
                 {
-					Screen.Effects.Stop(ScreenEffect.MinigameTransitionIn);
+                    Screen.Effects.Stop(ScreenEffect.MinigameTransitionIn);
                 }
             }
         }
@@ -227,41 +227,29 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 if (Photo == null)
                 {
                     new Sprite("char_multiplayer", "char_multiplayer",
-                        new PointF((int)res.Width - safe.X - 64, safe.Y - 80), new SizeF(64, 64)).Draw();
+                        new PointF((int)res.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
                 }
                 else
                 {
-                    Photo.Position = new PointF((int)res.Width - safe.X - 100, safe.Y - 80);
-                    Photo.Size = new SizeF(64, 64);
+                    Photo.Position = new PointF((int)res.Width - safe.X - 100, safe.Y - 90);
+                    Photo.Size = new SizeF(75, 75);
                     Photo.Draw();
                 }
 
-                new UIResText(Name, new PointF((int)res.Width - safe.X - 70, safe.Y - 95), 0.7f, Colors.White,
+                new UIResText(Name, new PointF((int)res.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White,
                     Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
-                string t = Money;
-                if (string.IsNullOrEmpty(Money))
-                {
-                    t = DateTime.Now.ToString();
-                }
-
-
-                new UIResText(t, new PointF((int)res.Width - safe.X - 70, safe.Y - 60), 0.4f, Colors.White,
+                string Date = DateTime.Now.DayOfWeek.ToString().ToUpper();
+                new UIResText(Date + " " + API.GetClockHours().ToString("00") + ":" + API.GetClockMinutes().ToString("00"), new PointF((int)res.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White,
                     Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
-                string subt = MoneySubtitle;
-                if (string.IsNullOrEmpty(MoneySubtitle))
-                {
-                    subt = "";
-                }
-
-                new UIResText(subt, new PointF((int)res.Width - safe.X - 70, safe.Y - 40), 0.4f, Colors.White,
+                new UIResText(Money + " " + MoneySubtitle, new PointF((int)res.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White,
                     Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
