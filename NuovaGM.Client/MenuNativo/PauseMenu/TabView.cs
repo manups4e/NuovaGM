@@ -44,12 +44,16 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
                 if (value)
                 {
-                    Screen.Effects.Start(ScreenEffect.MinigameTransitionIn);
+                    API.SetPauseMenuActive(true);
+                    Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+                    API.TransitionToBlurred(700);
 
                 }
                 else
                 {
-                    Screen.Effects.Stop(ScreenEffect.MinigameTransitionIn);
+                    API.SetPauseMenuActive(false);
+                    Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+                    API.TransitionFromBlurred(400);
                 }
             }
         }
