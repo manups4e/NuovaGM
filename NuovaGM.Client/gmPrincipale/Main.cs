@@ -83,7 +83,6 @@ namespace NuovaGM.Client.gmPrincipale
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
-			Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
 			Client.Instance.AddEventHandler("lprp:getHost", new Action<int>(GetHost));
 			Client.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
@@ -102,17 +101,6 @@ namespace NuovaGM.Client.gmPrincipale
 			SetMapZoomDataLevel(6, 450f, 0f, 0f, 0.1f, 0.1f);
 			SetMapZoomDataLevel(7, 4.5f, 0f, 0f, 0f, 0f);
 			SetMapZoomDataLevel(8, 11f, 0f, 0f, 2.0f, 3.0f);
-		}
-
-		private static async void OnClientResourceStart(string resourceName)
-		{
-			if (resourceName == "config")
-			{
-				BaseScript.TriggerServerEvent("lprp:riavvioApp");
-				return;
-			}
-			else if (resourceName != GetCurrentResourceName() || resourceName != "config")
-				return;
 		}
 
 		private static async void OnClientResourceStop(string resourceName)
