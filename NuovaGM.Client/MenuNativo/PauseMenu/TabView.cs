@@ -33,7 +33,8 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         public bool TemporarilyHidden { get; set; }
         public bool CanLeave { get; set; }
         public bool HideTabs { get; set; }
-        private readonly SizeF res = ScreenTools.ResolutionMaintainRatio;
+
+        protected readonly SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
 
         internal readonly static string _browseTextLocalized = Game.GetGXTEntry("HUD_INPUT1C");
 
@@ -98,7 +99,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (!Visible || TemporarilyHidden) return;
             API.DisableAllControlActions(0);
 
-            if (Input.IsControlJustPressed(Control.PhoneLeft) && FocusLevel == 0)
+            if (Game.IsControlJustPressed(0, Control.PhoneLeft) && FocusLevel == 0)
             {
                 Tabs[Index].Active = false;
                 Tabs[Index].Focused = false;
@@ -111,7 +112,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Input.IsControlJustPressed(Control.PhoneRight) && FocusLevel == 0)
+            else if (Game.IsControlJustPressed(0, Control.PhoneRight) && FocusLevel == 0)
             {
                 Tabs[Index].Active = false;
                 Tabs[Index].Focused = false;
@@ -124,7 +125,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Input.IsControlJustPressed(Control.FrontendAccept) && FocusLevel == 0)
+            else if (Game.IsControlJustPressed(0, Control.FrontendAccept) && FocusLevel == 0)
             {
                 if (Tabs[Index].CanBeFocused)
                 {
@@ -142,7 +143,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             }
 
-            else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 1)
+            else if (Game.IsControlJustPressed(0, Control.PhoneCancel) && FocusLevel == 1)
             {
                 Tabs[Index].Focused = false;
                 FocusLevel = 0;
@@ -150,7 +151,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
-            else if (Input.IsControlJustPressed(Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
+            else if (Game.IsControlJustPressed(0, Control.PhoneCancel) && FocusLevel == 0 && CanLeave)
             {
                 Visible = false;
                 Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -161,7 +162,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             if (!HideTabs)
             {
 
-                if (Input.IsControlJustPressed(Control.FrontendLb))
+                if (Game.IsControlJustPressed(0, Control.FrontendLb))
                 {
                     Tabs[Index].Active = false;
                     Tabs[Index].Focused = false;
@@ -176,7 +177,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                     Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 }
 
-                else if (Input.IsControlJustPressed(Control.FrontendRb))
+                else if (Game.IsControlJustPressed(0, Control.FrontendRb))
                 {
                     Tabs[Index].Active = false;
                     Tabs[Index].Focused = false;
@@ -211,7 +212,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             FocusLevel = 0;
         }
 
-        public async void Draw()
+        public void Draw()
         {
             if (!Visible || TemporarilyHidden) return;
             ShowInstructionalButtons();
@@ -228,49 +229,63 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }.Draw();
 
                 if (Photo == null)
-                    new Sprite("char_multiplayer", "char_multiplayer", new PointF((int)res.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
+                    new Sprite("char_multiplayer", "char_multiplayer", new PointF((int)Resolution.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
                 else
                 {
-                    Photo.Position = new PointF((int)res.Width - safe.X - 100, safe.Y - 90);
+                    Photo.Position = new PointF((int)Resolution.Width - safe.X - 100, safe.Y - 90);
                     Photo.Size = new SizeF(75, 75);
                     Photo.Draw();
                 }
 
-                new UIResText(Name, new PointF((int)res.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
+                new UIResText(Name, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
-                string Date = DateTime.Now.DayOfWeek.ToString().ToUpper();
-                new UIResText(Date + " " + API.GetClockHours().ToString("00") + ":" + API.GetClockMinutes().ToString("00"), new PointF((int)res.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
+                string t = Money;
+                if (string.IsNullOrEmpty(Money))
+                {
+                    t = DateTime.Now.ToString();
+                }
+
+
+                new UIResText(t, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White,
+                    Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
-                new UIResText(Money + " " + MoneySubtitle, new PointF((int)res.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
+                string subt = MoneySubtitle;
+                if (string.IsNullOrEmpty(MoneySubtitle))
+                {
+                    subt = "";
+                }
+
+                new UIResText(subt, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White,
+                    Font.ChaletComprimeCologne, Alignment.Right)
                 {
                     Shadow = true,
                 }.Draw();
 
                 for (int i = 0; i < Tabs.Count; i++)
                 {
-                    var activeSize = res.Width - 2 * safe.X;
+                    var activeSize = Resolution.Width - 2 * safe.X;
                     activeSize -= 5;
                     int tabWidth = (int)activeSize / Tabs.Count;
                     Game.EnableControlThisFrame(0, Control.CursorX);
                     Game.EnableControlThisFrame(0, Control.CursorY);
 
-                    var hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40));
-                    var tabColor = Tabs[i].Active ? Colors.White : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
+                    var hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)),
+                        new SizeF(tabWidth, 40));
 
+                    var tabColor = Tabs[i].Active ? Colors.White : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
                     new UIResRectangle(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40), Color.FromArgb(Tabs[i].Active ? 255 : 200, tabColor)).Draw();
                     if (Tabs[i].Active)
                         new UIResRectangle(safe.SubtractPoints(new PointF(-((tabWidth + 5) * i), 10)), new SizeF(tabWidth, 10), Colors.DodgerBlue).Draw();
 
                     new UIResText(Tabs[i].Title.ToUpper(), safe.AddPoints(new PointF((tabWidth / 2) + (tabWidth + 5) * i, 5)), 0.35f, Tabs[i].Active ? Colors.Black : Colors.White, Font.ChaletLondon, Alignment.Center).Draw();
 
-
-                    if (hovering && Input.IsControlJustPressed(Control.CursorAccept) && !Tabs[i].Active)
+                    if (hovering && Game.IsControlJustPressed(0, Control.CursorAccept) && !Tabs[i].Active)
                     {
                         Tabs[Index].Active = false;
                         Tabs[Index].Focused = false;

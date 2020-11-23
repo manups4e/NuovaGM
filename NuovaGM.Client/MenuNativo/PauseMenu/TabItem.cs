@@ -13,8 +13,6 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             UseDynamicPositionment = true;
         }
 
-        public SizeF res = ScreenTools.ResolutionMaintainRatio;
-
         public virtual bool Visible { get; set; }
         public virtual bool Focused { get; set; }
         public string Title { get; set; }
@@ -26,7 +24,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         public PointF SafeSize { get; set; }
         public bool UseDynamicPositionment { get; set; }
         public TabView Parent { get; set; }
-
+        protected SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
 
         public event EventHandler Activated;
         public event EventHandler DrawInstructionalButtons;
@@ -50,12 +48,13 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
         {
             if (!Visible) return;
 
+
             if (UseDynamicPositionment)
             {
                 SafeSize = new PointF(300, 240);
 
                 TopLeft = new PointF(SafeSize.X, SafeSize.Y);
-                BottomRight = new PointF((int)res.Width - SafeSize.X, (int)res.Height - SafeSize.Y);
+                BottomRight = new PointF((int)Resolution.Width - SafeSize.X, (int)Resolution.Height - SafeSize.Y);
             }
 
             var rectSize = new SizeF(BottomRight.SubtractPoints(TopLeft));

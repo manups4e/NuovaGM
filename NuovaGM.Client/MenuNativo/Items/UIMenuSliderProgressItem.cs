@@ -11,17 +11,18 @@ namespace NuovaGM.Client.MenuNativo
 {
 	public class UIMenuSliderProgressItem  : UIMenuItem
 	{
-		protected Sprite _arrowLeft;
-		protected Sprite _arrowRight;
-		protected bool Pressed;
-		protected UIMenuGridAudio Audio;
-		protected UIResRectangle _rectangleBackground;
-		protected UIResRectangle _rectangleSlider;
-		protected UIResRectangle _rectangleDivider;
+		protected internal Sprite _arrowLeft;
+		protected internal Sprite _arrowRight;
+		protected internal bool Pressed;
+		protected internal UIMenuGridAudio Audio;
+		protected internal UIResRectangle _rectangleBackground;
+		protected internal UIResRectangle _rectangleSlider;
+		protected internal UIResRectangle _rectangleDivider;
 
-		protected int _value = 0;
-		protected int _max;
-		protected int _multiplier = 5;
+		protected internal int _value = 0;
+		protected internal int _max;
+		protected internal int _multiplier = 5;
+		protected internal bool Divider;
 
 		public UIMenuSliderProgressItem(string text, int maxCount, int startIndex, bool divider = false) : this(text, maxCount, startIndex, "", divider)
 		{
@@ -43,6 +44,7 @@ namespace NuovaGM.Client.MenuNativo
 			_arrowRight = new Sprite("commonmenu", "arrowright", new PointF(0, 105), new SizeF(25, 25));
 			_rectangleBackground = new UIResRectangle(new PointF(0, 0), new SizeF(150, 10), backgroundSliderColor);
 			_rectangleSlider = new UIResRectangle(new PointF(0, 0), new SizeF(75, 10), sliderColor);
+			Divider = divider;
 			if (divider)
 				_rectangleDivider = new UIResRectangle(new Point(0, 0), new Size(2, 20), Colors.WhiteSmoke);
 			else
@@ -78,7 +80,7 @@ namespace NuovaGM.Client.MenuNativo
 					_value = 0;
 				else
 					_value = value;
-				SliderProgressChanged();
+				SliderProgressChanged(_value);
 			}
 		}
 
@@ -99,7 +101,7 @@ namespace NuovaGM.Client.MenuNativo
 		/// </summary>
 		public event ItemSliderProgressEvent OnSliderChanged;
 
-		internal virtual void SliderProgressChanged()
+		internal virtual void SliderProgressChanged(int Value)
 		{
 			OnSliderChanged?.Invoke(this, Value);
 			Parent.SliderProgressChange(this, Value);
@@ -122,7 +124,7 @@ namespace NuovaGM.Client.MenuNativo
 							float CursorX = API.GetDisabledControlNormal(0, 239) * res.Width;
 							var Progress = CursorX - _rectangleSlider.Position.X;
 							Value = (int)Math.Round(_max * ((Progress >= 0f && Progress <= 150f) ? Progress : (Progress < 0) ? 0 : 150f) / 150f);
-							SliderProgressChanged();
+							SliderProgressChanged(Value);
 						}
 						API.StopSound(Audio.Id);
 						API.ReleaseSoundId(Audio.Id);
@@ -135,7 +137,7 @@ namespace NuovaGM.Client.MenuNativo
 				if (API.IsDisabledControlPressed(0, 24))
 				{
 					Value -= Multiplier;
-					SliderProgressChanged();
+					SliderProgressChanged(Value);
 				}
 			}
 			else if (ScreenTools.IsMouseInBounds(_arrowRight.Position, _arrowRight.Size))
@@ -143,7 +145,7 @@ namespace NuovaGM.Client.MenuNativo
 				if (API.IsDisabledControlPressed(0, 24))
 				{
 					Value += Multiplier;
-					SliderProgressChanged();
+					SliderProgressChanged(Value);
 				}
 			}
 		}

@@ -52,7 +52,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
 
             if (!Focused) return;
 
-            if (Input.IsControlJustPressed(Control.PhoneSelect) && Focused && Parent.FocusLevel == 1)
+            if (Game.IsControlJustPressed(0, Control.PhoneSelect) && Focused && Parent.FocusLevel == 1)
             {
                 Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 if (Items[Index].CanBeFocused && !Items[Index].Focused)
@@ -67,7 +67,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
             }
 
-            if (Input.IsControlJustPressed(Control.PhoneCancel) && Focused && Parent.FocusLevel > 1)
+            if (Game.IsControlJustPressed(0, Control.PhoneCancel) && Focused && Parent.FocusLevel > 1)
             {
                 Game.PlaySound("CANCEL", "HUD_FRONTEND_DEFAULT_SOUNDSET");
                 if (Items[Index].CanBeFocused && Items[Index].Focused)
@@ -77,12 +77,12 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 }
             }
 
-            if ((Input.IsControlJustPressed(Control.FrontendUp) || Input.IsControlJustPressed(Control.MoveUpOnly) || Input.IsControlJustPressed(Control.CursorScrollUp)) && Parent.FocusLevel == 1)
+            if ((Game.IsControlJustPressed(0, Control.FrontendUp) || Game.IsControlJustPressed(0, Control.MoveUpOnly) || Game.IsControlJustPressed(0, Control.CursorScrollUp)) && Parent.FocusLevel == 1)
             {
                 Index = (1000 - (1000 % Items.Count) + Index - 1) % Items.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
-            else if ((Input.IsControlJustPressed(Control.FrontendDown) || Input.IsControlJustPressed(Control.MoveDownOnly) || Input.IsControlJustPressed(Control.CursorScrollDown)) && Parent.FocusLevel == 1)
+            else if ((Game.IsControlJustPressed(0, Control.FrontendDown) || Game.IsControlJustPressed(0, Control.MoveDownOnly) || Game.IsControlJustPressed(0, Control.CursorScrollDown)) && Parent.FocusLevel == 1)
             {
                 Index = (1000 - (1000 % Items.Count) + Index + 1) % Items.Count;
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -100,7 +100,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             var blackAlpha = Focused ? 200 : 100;
             var fullAlpha = Focused ? 255 : 150;
 
-            var activeWidth = res.Width - SafeSize.X * 2;
+            var activeWidth = Resolution.Width - SafeSize.X * 2;
             var submenuWidth = (int)(activeWidth * 0.6818f);
             var itemSize = new SizeF((int)activeWidth - (submenuWidth + 3), 40);
 
@@ -112,7 +112,7 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
                 new UIResRectangle(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)), itemSize, (Index == i && Focused) ? Color.FromArgb(fullAlpha, Colors.White) : hovering && Focused ? Color.FromArgb(100, 50, 50, 50) : Color.FromArgb(blackAlpha, Colors.Black)).Draw();
                 new UIResText(Items[i].Title, SafeSize.AddPoints(new PointF(6, 5 + (itemSize.Height + 3) * i)), 0.35f, Color.FromArgb(fullAlpha, (Index == i && Focused) ? Colors.Black : Colors.White)).Draw();
 
-                if (Focused && hovering && Input.IsControlJustPressed(Control.CursorAccept))
+                if (Focused && hovering && Game.IsControlJustPressed(0, Control.CursorAccept))
                 {
                     Items[Index].Focused = false;
                     Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
@@ -146,7 +146,11 @@ namespace NuovaGM.Client.MenuNativo.PauseMenu
             Items[Index].UseDynamicPositionment = false;
             Items[Index].SafeSize = SafeSize.AddPoints(new PointF((int)activeWidth - submenuWidth, 0));
             Items[Index].TopLeft = SafeSize.AddPoints(new PointF((int)activeWidth - submenuWidth, 0));
-            Items[Index].BottomRight = new PointF((int)res.Width - SafeSize.X, (int)res.Height - SafeSize.Y);
+            Items[Index].BottomRight = new PointF((int)Resolution.Width - SafeSize.X, (int)Resolution.Height - SafeSize.Y);
+            if (Items[Index] is TabMissionSelectItem it)
+            {
+                it._add = -420;
+            }
             Items[Index].Draw();
         }
     }
