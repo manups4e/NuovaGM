@@ -26,8 +26,7 @@ namespace NuovaGM.Client.Telefono.Apps
         {
             try
             {
-                if (Phone.Scaleform == null || AllApps == null)
-                    return;
+                if (Phone.Scaleform == null || AllApps == null) return;
 
                 for (int i = 0; i < 9; i++)
                 {

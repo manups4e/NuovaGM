@@ -33,25 +33,26 @@ namespace NuovaGM.Client.Telefono
 
 		private static void Setup(string JsonTelefono) 
 		{
-			if (JsonTelefono != "{\"phone_data\":[]}")
+			Log.Printa(LogType.Debug, JsonTelefono);
+			if (JsonTelefono != "{\"phone_data\":[]}" && !string.IsNullOrEmpty(JsonTelefono) && !string.IsNullOrWhiteSpace(JsonTelefono))
 				Phone = new Phone(JsonTelefono.Deserialize<Phone>());
 			else
 				Phone = new Phone();
-			//Client.Instance.AddTick(ControlloApertura);
+			Client.Instance.AddTick(ControlloApertura);
 		}
 
 		public static async Task ControlloApertura()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen && !Game.IsPaused && !Banking.BankingClient.InterfacciaAperta && !(Game.PlayerPed.IsAiming || Game.PlayerPed.IsAimingFromCover))
+			var ped = Game.PlayerPed;
+			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
 			{
-				if (!Phone.Visible)
+				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
 				{
-					if (Input.IsControlJustPressed(Control.Phone))
-						Phone.OpenPhone();
+					Phone.OpenPhone();
+					Phone.currentApp = Phone.mainApp;
 				}
-				else
+				if (IsPedRunningMobilePhoneTask(ped.Handle))
 				{
-					if (Phone.currentApp == null) { return; }
 					if (Input.IsControlJustPressed(Control.PhoneCancel))
 					{
 						if (Phone.IsBackOverriddenByApp)
@@ -59,47 +60,8 @@ namespace NuovaGM.Client.Telefono
 						else
 							KillApp();
 					}
-					if (IsPedRunningMobilePhoneTask(Game.PlayerPed.Handle))
-					{
-						Game.DisableControlThisFrame(0, Control.Sprint);
-
-						if (Phone.VisibleAnimProgress > 0)
-							Phone.VisibleAnimProgress -= 3;
-
-						var time = World.CurrentDayTime;
-						Phone.Scaleform.CallFunction("SET_TITLEBAR_TIME", time.Hours, time.Minutes);
-
-						Phone.Scaleform.CallFunction("SET_SLEEP_MODE", Phone.SleepMode);
-						Phone.Scaleform.CallFunction("SET_THEME", Phone.getCurrentCharPhone().Theme);
-						Phone.Scaleform.CallFunction("SET_BACKGROUND_IMAGE", Phone.getCurrentCharPhone().Wallpaper);
-						Phone.SetSoftKeys(2, 19);
-						var playerPos = Game.Player.GetPlayerData().posizione.ToVector3();
-						Phone.Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
-
-						if (GetFollowPedCamViewMode() == 4)
-							Phone.Scale = 0f;
-						else
-							Phone.Scale = 300f;
-						SetMobilePhoneScale(Phone.Scale);
-						int renderId = 0;
-						GetMobilePhoneRenderId(ref renderId);
-						SetTextRenderId(renderId);
-						DrawScaleformMovie(Phone.Scaleform.Handle, 0.0998f, 0.1775f, 0.1983f, 0.364f, 255, 255, 255, 255, 0);
-						SetTextRenderId(1);
-						if (Phone.currentApp != null)
-						{
-							if (Phone.currentApp.OverrideBack)
-								Phone.IsBackOverriddenByApp = true;
-							else
-								Phone.IsBackOverriddenByApp = false;
-							if (Phone.currentApp.Name != "Messaggi")
-								SetMobilePhoneRotation(-90f, Phone.VisibleAnimProgress * 2f, 0f, 0);
-							else
-								SetMobilePhonePosition(60f, -21f - Phone.VisibleAnimProgress, -60f);
-						}
-					}
 				}
-			}	
+			}
 		}
 
 		public static void StartApp(string app)

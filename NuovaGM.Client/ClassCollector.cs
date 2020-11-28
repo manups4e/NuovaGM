@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using NuovaGM.Client.gmPrincipale.Utility;
 using NuovaGM.Client.IPLs;
 using NuovaGM.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
@@ -12,24 +13,24 @@ namespace NuovaGM.Client
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			gmPrincipale.Main.Init();
+			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
+			gmPrincipale.Utility.HUD.HUD.Init();
+			gmPrincipale.Utility.Eventi.Init();
+			gmPrincipale.Discord.Init();
+			TimeWeather.Meteo.Init();
+			TimeWeather.Orario.Init();
+			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
 
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();
 
-			gmPrincipale.Utility.Eventi.Init();
-			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
-			gmPrincipale.Utility.HUD.HUD.Init();
 			gmPrincipale.Utility.PublicTraffic.Init();
 			gmPrincipale.MenuGm.Menus.Init();
 			gmPrincipale.MenuGm.CamerasFirstTime.Init();
 			gmPrincipale.Status.Death.Init();
 			gmPrincipale.Status.StatsNeeds.Init();
 			gmPrincipale.Voice.Init();
-			gmPrincipale.Discord.Init();
-
-			TimeWeather.Meteo.Init();
-			TimeWeather.Orario.Init();
 
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
@@ -74,7 +75,7 @@ namespace NuovaGM.Client
 
 			Sport.Yoga.Init();
 
-			Telefono.PhoneMainClient.Init();
+			//Telefono.PhoneMainClient.Init();
 
 			ClasseDiTest.Init(); // da rimouvere
 			CodaControl.CodaAdminPanel.Init();

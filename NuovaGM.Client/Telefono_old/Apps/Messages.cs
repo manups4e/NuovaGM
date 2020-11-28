@@ -36,6 +36,8 @@ namespace NuovaGM.Client.Telefono.Apps
 
 		private async void AddMessage(int index, string sender, string messageTopic, bool sending)
 		{
+			phone.Scaleform.CallFunction("SET_DATA_SLOT", 8, index, sending ? 4 : 0, 0, messageTopic, sender);
+			/*
 			PushScaleformMovieFunction(phone.Scaleform.Handle, "SET_DATA_SLOT");
 			PushScaleformMovieFunctionParameterInt(8);
 			PushScaleformMovieFunctionParameterInt(index);
@@ -51,6 +53,7 @@ namespace NuovaGM.Client.Telefono.Apps
 			AddTextComponentSubstringPlayerName("~l~" + sender);
 			EndTextComponent();
 			PopScaleformMovieFunctionVoid();
+			*/
 		}
 
 		public override async Task Tick()
@@ -90,9 +93,7 @@ namespace NuovaGM.Client.Telefono.Apps
 					SelectedItem = 0;
 			}
 			else if (Input.IsControlJustPressed(Control.FrontendAccept))
-			{
 				MoveFinger(5);
-			}
 			else if (Input.IsControlJustPressed(Control.FrontendCancel))
 			{
 				MoveFinger(5);
@@ -107,13 +108,9 @@ namespace NuovaGM.Client.Telefono.Apps
 				}
 			}
 			else
-			{
 				navigated = false;
-			}
 			if (navigated)
-			{
 				Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
-			}
 			await Task.FromResult(0);
 		}
 

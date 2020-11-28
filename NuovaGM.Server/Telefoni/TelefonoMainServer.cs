@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 using NuovaGM.Server.gmPrincipale;
 using NuovaGM.Shared;
@@ -53,8 +54,8 @@ namespace NuovaGM.Server.Telefoni
 			}
 			catch( Exception e)
 			{
-				Debug.WriteLine(e.ToString());
-				Debug.WriteLine(e.StackTrace);
+				Log.Printa(LogType.Error, e.ToString());
+				Log.Printa(LogType.Error, e.StackTrace);
 			}
 		}
 	}

@@ -172,6 +172,8 @@ namespace NuovaGM.Client.Telefono.Apps
 			for (int i = start; i < end + 1; i++)
 			{
 				var contatto = Phone.getCurrentCharPhone().contatti[i];
+				Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
+				/*
 				BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
 				ScaleformMovieMethodAddParamInt(2);
 				ScaleformMovieMethodAddParamInt(Phone.getCurrentCharPhone().contatti.IndexOf(contatto));
@@ -185,11 +187,14 @@ namespace NuovaGM.Client.Telefono.Apps
 				AddTextComponentSubstringPlayerName(contatto.Icon);
 				EndTextCommandScaleformString();
 				EndScaleformMovieMethod();
+				*/
 			}
 		}
 
 		private void SetContactRow(Contatto contatto)
 		{
+			Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
+			/*
 			BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");
 			ScaleformMovieMethodAddParamInt(2);
 			ScaleformMovieMethodAddParamInt(Phone.getCurrentCharPhone().contatti.IndexOf(contatto));
@@ -203,6 +208,7 @@ namespace NuovaGM.Client.Telefono.Apps
 			AddTextComponentSubstringPlayerName(contatto.Icon);
 			EndTextCommandScaleformString();
 			EndScaleformMovieMethod();
+			*/
 		}
 
 		public override void Initialize(Phone phone)

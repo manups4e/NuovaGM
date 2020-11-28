@@ -1473,16 +1473,19 @@ namespace NuovaGM.Client.Personale
 		{
 			if (EventiPersonalMenu.saveVehicle != null)
 				fuelint = (int)Math.Floor(FuelClient.vehicleFuelLevel(EventiPersonalMenu.saveVehicle) / 65f * 100);
-			bool tasto = await Input.WaitForKeyRelease(Control.InteractionMenu);
-			if (tasto && !aperto)
+			if (Input.IsControlPressed(Control.InteractionMenu) && !HUD.MenuPool.IsAnyMenuOpen)
 			{
-				if (!MontagneRusse.SonoSeduto && RuotaPanoramica.GiroFinito)
+				bool tasto = await Input.WaitForKeyRelease(Control.InteractionMenu);
+				if (tasto && !aperto)
 				{
-					menuPersonal();
-					aperto = true;
+					if (!MontagneRusse.SonoSeduto && RuotaPanoramica.GiroFinito)
+					{
+						menuPersonal();
+						aperto = true;
+					}
+					else
+						HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", NotificationColor.Red, true);
 				}
-				else
-					HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", NotificationColor.Red, true);
 			}
 			if(Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift))
 				LastPlanetMenu();
@@ -1491,30 +1494,18 @@ namespace NuovaGM.Client.Personale
 
 		private static async void LastPlanetMenu()
 		{
-			/*
-				AddTextEntry("PM_SCR_INF", "INFO E GUIDA TLPRP");
-				AddTextEntry("PM_PANE_MIS", "Intro");
-				AddTextEntry("PM_PANE_HLP", "Comandi");
-				AddTextEntry("PM_PANE_FEE", "Regolamento");
-				AddTextEntry("PM_NO_HELP", "Qui verranno inseriti tutti i comandi da usare nel server");
-				AddTextEntry("PM_MP_NO_JOB", "Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.\n" +
-				"~BLIP_INFO_ICON~ Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.\n" +
-				"~BLIP_INFO_ICON~ Potrai in ogni mento riaprire questo menu di pausa premendo i tasti   oppure con il comando /help");
-			*/
-			TabView b = new TabView("The Last Planet RP");
-			var mug = await Funzioni.GetPedMugshotAsync(Game.PlayerPed);
-			b.Photo = new MenuNativo.Sprite(mug.Item2, mug.Item2, PointF.Empty, SizeF.Empty);
-			int money = 0;
-			StatGetInt((uint)GetHashKey("MP0_WALLET_BALANCE"), ref money, -1);
-			int bank = 0;
-			StatGetInt((uint)GetHashKey("BANK_BALANCE"), ref bank, -1);
-			b.Money = "Contanti: " + money;
-			b.MoneySubtitle = "Soldi sporchi: " + bank;
+			var pl = Game.Player.GetPlayerData();
+			TabView b = new TabView("The Last Planet", "Full RP")
+			{
+				SideStringTop = Game.Player.Name,
+				SideStringMiddle = DateTime.Now.ToString(),
+				SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyMoney,
+				DisplayHeader = true
+			};
 			TabTextItem intro = new TabTextItem("Introduzione", "Benvenuto su The Last Planet");
 			intro.Text = "Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.\n" +
 				"Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.\n" +
 				"Potrai in ogni mento riaprire questo menu di pausa premendo i tasti SHIFT+F9 oppure con il comando /help";
-			//HUD.HUD.MenuPool.AddPauseMenu(b);
 			TabSubmenuItem comandi = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
 				{
 					new TabItemSimpleList("Generici (sempre validi)", new Dictionary<string, string>()
@@ -1544,7 +1535,6 @@ namespace NuovaGM.Client.Personale
 			intro.Focused = true;
 			intro.Visible = true;
 			b.Visible = true;
-
 		}
 
 		public enum RouteColor

@@ -165,8 +165,8 @@ namespace NuovaGM.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 0.9f);
-			await BaseScript.Delay(500);
+			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 1.5f);
+			await BaseScript.Delay(250);
 		}
 
 		static public async Task Markers()
@@ -906,7 +906,7 @@ namespace NuovaGM.Client.Banking
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(3);
 					BeginTextCommandScaleformString("STRING");
-					AddTextComponentScaleform("Giroconto");
+					AddTextComponentScaleform("Bonifico");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
 

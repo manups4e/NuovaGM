@@ -233,6 +233,28 @@ namespace NuovaGM.Client.gmPrincipale.Utility.HUD
 			}
 		}
 
+		public static void CallFunctionFrontendHeader(string function, params object[] arguments)
+		{
+			API.BeginScaleformMovieMethodOnFrontendHeader(function);
+			foreach (var argument in arguments)
+			{
+				if (argument is int)
+					PushScaleformMovieMethodParameterInt((int)argument);
+				else if (argument is string)
+					PushScaleformMovieMethodParameterString((string)argument);
+				else if (argument is char)
+					PushScaleformMovieMethodParameterString(argument.ToString());
+				else if (argument is float)
+					PushScaleformMovieMethodParameterFloat((float)argument);
+				else if (argument is double)
+					PushScaleformMovieMethodParameterFloat((float)(double)argument);
+				else if (argument is bool)
+					PushScaleformMovieMethodParameterBool((bool)argument);
+			}
+			API.EndScaleformMovieMethod();
+		}
+
+
 		public static void DrawText3D(float x, float y, float z, Color c, string text)
 		{
 			SetTextScale(0.45f, 0.45f);

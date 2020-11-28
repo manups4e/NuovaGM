@@ -603,7 +603,7 @@ namespace NuovaGM.Client.gmPrincipale
 					int ammo = weap.Ammo;
 					BaseScript.TriggerServerEvent("lprp:aggiornaAmmo", weap.Hash, ammo);
 				}
-  			} 
+  			}
 		}
 	}
 

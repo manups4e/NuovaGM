@@ -137,20 +137,11 @@ namespace NuovaGM.Client.Telefono.Apps
 			{
 				MoveFinger(1);
 				if (SelectedItem > 0)
-				{
 					SelectedItem -= 1;
-				}
+				else if (CurrentSubMenu != null)
+					SelectedItem = CurrentSubMenu.Items.Count - 1;
 				else
-				{
-					if (CurrentSubMenu != null)
-					{
-						SelectedItem = CurrentSubMenu.Items.Count - 1;
-					}
-					else
-					{
-						SelectedItem = SubMenus.Count - 1;
-					}
-				}
+					SelectedItem = SubMenus.Count - 1;
 			}
 			else if (Input.IsControlJustPressed(Control.PhoneDown))
 			{
@@ -158,24 +149,16 @@ namespace NuovaGM.Client.Telefono.Apps
 				if (CurrentSubMenu == null)
 				{
 					if (SelectedItem < SubMenus.Count - 1)
-					{
 						SelectedItem += 1;
-					}
 					else
-					{
 						SelectedItem = 0;
-					}
 				}
 				else
 				{
 					if (SelectedItem < CurrentSubMenu.Items.Count - 1)
-					{
 						SelectedItem += 1;
-					}
 					else
-					{
 						SelectedItem = 0;
-					}
 				}
 			}
 			else if (Input.IsControlJustPressed(Control.FrontendAccept))
@@ -189,25 +172,15 @@ namespace NuovaGM.Client.Telefono.Apps
 				else
 				{
 					if (CurrentSubMenu.Name == GetLabelText("CELL_720"))
-					{
 						SetTheme(CurrentSubMenu.Items[SelectedItem].Id);
-					}
 					else if (CurrentSubMenu.Name == GetLabelText("CELL_740"))
-					{
 						SetWallpaper(CurrentSubMenu.Items[SelectedItem].Id);
-					}
 					else if (CurrentSubMenu.Name == GetLabelText("CELL_700"))
-					{
 						SetSleep(CurrentSubMenu.Items[SelectedItem].Id);
-					}
 					else if (CurrentSubMenu.Name == GetLabelText("CELL_710"))
-					{
 						SetRingtone(CurrentSubMenu.Items[SelectedItem].Id);
-					}
 					else if (CurrentSubMenu.Name == GetLabelText("CELL_730"))
-					{
 						SetVibration(CurrentSubMenu.Items[SelectedItem].Id);
-					}
 				}
 			}
 			else if (Input.IsControlJustPressed(Control.FrontendCancel))
@@ -281,7 +254,6 @@ namespace NuovaGM.Client.Telefono.Apps
 			Phone.getCurrentCharPhone().SleepMode = toggle;
 			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "sleep", toggle);
 		}
-
 	}
 
 	public class SettingsSubMenu

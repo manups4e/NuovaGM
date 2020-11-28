@@ -15,7 +15,7 @@ namespace NuovaGM.Client.Interactions
 	{
 		static string anim = "MINI@SPRUNK@FIRST_PERSON";
 		static string AudioBank = "VENDING_MACHINE";
-		static float MachineRange = 0.6f;
+		static float MachineRange = 1.375f;
 		static Prop VendingMachineClosest;
 		static Prop Can = new Prop((int)ObjectHash.prop_ld_can_01b);
 		static List<ObjectHash> VendingHashes = new List<ObjectHash>()
