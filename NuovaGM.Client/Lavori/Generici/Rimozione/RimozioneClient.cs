@@ -1,18 +1,18 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Shared;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
 
-namespace NuovaGM.Client.Lavori.Generici.Rimozione
+namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 {
 	public class RimozioneClient
 	{

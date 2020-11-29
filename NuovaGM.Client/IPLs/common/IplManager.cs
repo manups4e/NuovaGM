@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.Interactions;
+using TheLastPlanet.Client.Interactions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.IPLs
+namespace TheLastPlanet.Client.IPLs
 {
 	public static class IplManager
 	{

@@ -1,19 +1,19 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
 using System;
 using System.Collections.Generic;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Personaggio;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Personaggio;
 
 using System.Drawing;
 using System.Linq;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Manager
+namespace TheLastPlanet.Client.Manager
 {
 	static class ManagerMenu
 	{

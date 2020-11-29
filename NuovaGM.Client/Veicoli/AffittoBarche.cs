@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class AffittoBarche
 	{

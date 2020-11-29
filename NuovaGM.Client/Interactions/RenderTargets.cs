@@ -1,7 +1,7 @@
 ﻿using static CitizenFX.Core.Native.API;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client.Interactions
+namespace TheLastPlanet.Client.Interactions
 {
 	static class RenderTargets
 	{

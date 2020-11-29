@@ -6,7 +6,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.MenuNativo.PauseMenu
+namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
     public class TabInteractiveListItem : TabItem
     {

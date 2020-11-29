@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public class ConfigurazionePolizia
 	{

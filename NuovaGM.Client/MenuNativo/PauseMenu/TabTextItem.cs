@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace NuovaGM.Client.MenuNativo.PauseMenu
+namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
     public class TabTextItem : TabItem
     {

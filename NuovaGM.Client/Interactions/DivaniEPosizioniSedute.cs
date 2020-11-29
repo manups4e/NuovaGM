@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared;
 using System.Linq;
 using System;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.Core.Utility;
 
-namespace NuovaGM.Client.Interactions
+namespace TheLastPlanet.Client.Interactions
 {
 	static class DivaniEPosizioniSedute
 	{

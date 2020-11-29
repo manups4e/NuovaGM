@@ -9,7 +9,7 @@ using Font = CitizenFX.Core.UI.Font;
 using CitizenFX.Core.UI;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	#region Delegates
 	public enum Keys

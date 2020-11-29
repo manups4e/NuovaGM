@@ -1,17 +1,17 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Negozi
+namespace TheLastPlanet.Client.Negozi
 {
 	static class BarberClient
 	{

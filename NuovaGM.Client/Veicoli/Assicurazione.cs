@@ -1,9 +1,9 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class Assicurazione
 	{

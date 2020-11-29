@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Font = CitizenFX.Core.UI.Font;
 
-namespace NuovaGM.Client.MenuNativo.PauseMenu
+namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
     public class TabItemSimpleList : TabItem
     {

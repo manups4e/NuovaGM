@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
-using NuovaGM.Shared;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core.Utility;
 
-namespace NuovaGM.Client.Telefono
+namespace TheLastPlanet.Client.Telefono
 {
 	public enum ModelPhone : int
 	{

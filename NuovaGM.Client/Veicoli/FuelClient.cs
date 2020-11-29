@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.Personale;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Personale;
 using System.Linq;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using Logger;
 using System.Drawing;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	public static class FuelClient
 	{

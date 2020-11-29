@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core.UI;
 using System;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	public class StringMeasurer
 	{

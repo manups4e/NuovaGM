@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	[Obsolete("UIMenuColoredItem is deprecated: use UIMenuItem(text, description, mainColor, hilightColor) instead", true)]
     public class UIMenuColoredItem : UIMenuItem

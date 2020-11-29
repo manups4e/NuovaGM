@@ -5,7 +5,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	public class UIMenuHeritageWindow : UIMenuWindow
 	{

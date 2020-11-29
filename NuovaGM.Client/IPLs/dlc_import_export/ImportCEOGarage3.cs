@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_import_export
+namespace TheLastPlanet.Client.IPLs.dlc_import_export
 {
 	public class ImportCEOGarage3
 	{

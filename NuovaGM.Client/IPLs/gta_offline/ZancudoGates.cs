@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.gtav
+namespace TheLastPlanet.Client.IPLs.gtav
 {
 	public class ZancudoGates
 	{

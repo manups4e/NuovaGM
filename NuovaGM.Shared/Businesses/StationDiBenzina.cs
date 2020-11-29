@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public class StationDiBenzina
 	{

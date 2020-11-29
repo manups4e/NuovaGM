@@ -3,15 +3,15 @@ using static CitizenFX.Core.Native.API;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Shared;
 using Logger;
 
-namespace NuovaGM.Client.Proprietà.Hotel
+namespace TheLastPlanet.Client.Proprietà.Hotel
 {
 	static class Hotels
 	{

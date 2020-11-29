@@ -3,7 +3,7 @@
 using CitizenFX.Core;
 using System.Drawing;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     public static class MiscExtensions
     {

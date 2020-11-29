@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class VehicleDamage
 	{

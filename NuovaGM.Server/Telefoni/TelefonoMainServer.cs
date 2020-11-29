@@ -1,8 +1,8 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Server.Telefoni
+namespace TheLastPlanet.Server.Telefoni
 {
 	static class TelefonoMainServer
 	{

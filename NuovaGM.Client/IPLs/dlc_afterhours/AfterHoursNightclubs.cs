@@ -3,7 +3,7 @@ using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 
-namespace NuovaGM.Client.IPLs.dlc_afterhours
+namespace TheLastPlanet.Client.IPLs.dlc_afterhours
 {
 	public class AfterHoursNightclubs
 	{

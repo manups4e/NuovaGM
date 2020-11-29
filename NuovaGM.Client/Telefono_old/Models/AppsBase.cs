@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Telefono.Models
+namespace TheLastPlanet.Client.Telefono.Models
 {
     public static class AppsBase
     {

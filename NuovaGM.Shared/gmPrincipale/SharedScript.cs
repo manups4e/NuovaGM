@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 // ReSharper disable All
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public delegate void UsaOggetto(Item oggetto, int quantità);
 	public delegate void DaiOggetto(Item oggetto, int quantità);

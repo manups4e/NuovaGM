@@ -1,14 +1,14 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client.TimeWeather
+namespace TheLastPlanet.Client.TimeWeather
 {
 	static class Meteo
 	{

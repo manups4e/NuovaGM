@@ -1,8 +1,8 @@
 ﻿
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System.Collections.Generic;
 
-namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
+namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
 	public class InfoPolizia
 	{

@@ -1,17 +1,17 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using static CitizenFX.Core.Native.API;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.MenuNativo;
 using Logger;
 
-namespace NuovaGM.Client.Banking
+namespace TheLastPlanet.Client.Banking
 {
 	public class BankingClient
 	{

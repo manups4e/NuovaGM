@@ -2,13 +2,13 @@
 using CitizenFX.Core.Native;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	public class Client : BaseScript
 	{

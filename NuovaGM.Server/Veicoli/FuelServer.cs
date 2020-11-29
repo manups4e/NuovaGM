@@ -1,13 +1,13 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Server.Veicoli
+namespace TheLastPlanet.Server.Veicoli
 {
 	static class FuelServer
 	{

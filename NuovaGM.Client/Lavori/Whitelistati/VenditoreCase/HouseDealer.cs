@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Logger;
 
-namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreCase
+namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
 	static class HouseDealer
 	{

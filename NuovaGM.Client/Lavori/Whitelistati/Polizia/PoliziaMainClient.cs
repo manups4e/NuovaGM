@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.MenuNativo;
 using CitizenFX.Core.UI;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
+namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
 	static class PoliziaMainClient
 	{

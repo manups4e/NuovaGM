@@ -7,7 +7,7 @@ using CitizenFX.Core;
 using Logger;
 using MySqlConnector;
 
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
 	public static class MySQL
 	{

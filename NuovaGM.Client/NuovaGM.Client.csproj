@@ -3,16 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <DebugType>embedded</DebugType>
-    <TargetName>$(AssemblyName).net</TargetName>
+    <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>CLIENT</DefineConstants>
-    <AssemblyName>NuovaGM.Client</AssemblyName>
+    <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RootNamespace>TheLastPlanet.Client</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,11 +27,11 @@
 
     <Reference Include="Microsoft.CSharp" />
 
-    <Compile Include="..\NuovaGM.Shared\**\*.cs" />
+    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="..\NuovaGM.Shared\Lavori\Generici\RimozioneShared.cs" />
+    <Compile Remove="..\NuovaGm.Shared\Lavori\Generici\RimozioneShared.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +39,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\nuovagm\" />
+    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\nuovagm\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\nuovagm\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\nuovagm\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\nuovagm\" />
   </Target>
 </Project>

@@ -1,10 +1,10 @@
-﻿using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.Lavori.Whitelistati.Medici;
-using NuovaGM.Client.Lavori.Whitelistati.Polizia;
+﻿using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Lavori.Whitelistati.Medici;
+using TheLastPlanet.Client.Lavori.Whitelistati.Polizia;
 using System;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Lavori.Whitelistati
+namespace TheLastPlanet.Client.Lavori.Whitelistati
 {
 	static class DutyManager
 	{

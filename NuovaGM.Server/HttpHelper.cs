@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
 	public struct RequestResponse
 	{

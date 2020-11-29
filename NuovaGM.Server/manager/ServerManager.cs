@@ -1,8 +1,8 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Server.gmPrincipale;
+using TheLastPlanet.Server.Core;
 using System;
 
-namespace NuovaGM.Server.manager
+namespace TheLastPlanet.Server.manager
 {
 	static class ServerManager
 	{

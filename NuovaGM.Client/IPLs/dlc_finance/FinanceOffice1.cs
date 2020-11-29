@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_finance
+namespace TheLastPlanet.Client.IPLs.dlc_finance
 {
 	public class FinanceOffice1
 	{

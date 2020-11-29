@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuovaGM.Server.Proprietà
+namespace TheLastPlanet.Server.Proprietà
 {
 	public class SoldProperty
 	{

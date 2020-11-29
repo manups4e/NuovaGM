@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public enum DrawableIndexes
 	{

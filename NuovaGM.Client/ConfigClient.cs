@@ -1,17 +1,15 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Client.Lavori;
-using NuovaGM.Client.Proprietà.Hotel;
-using NuovaGM.Shared;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Lavori;
+using TheLastPlanet.Client.Proprietà.Hotel;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	static class ConfigClient
 	{

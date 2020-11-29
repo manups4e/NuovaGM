@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.gta_online
+namespace TheLastPlanet.Client.IPLs.gta_online
 {
 	public class GTAOHouseHi6
 	{

@@ -5,7 +5,7 @@ using CitizenFX.Core.UI;
 using CitizenFX.Core;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	public class UIMenuColorPanel : UIMenuPanel
 	{

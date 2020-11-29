@@ -1,13 +1,13 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
 	static class ConfigServer
 	{

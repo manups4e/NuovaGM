@@ -1,10 +1,10 @@
 ﻿using System;
 
 using CitizenFX.Core;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
 //namespace ApocDev.FiveM
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
     public abstract class NetworkMethod : IDisposable
     {

@@ -3,13 +3,13 @@ using System.Linq;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
 
-namespace NuovaGM.Server.Veicoli
+namespace TheLastPlanet.Server.Veicoli
 {
 	static class VeicoliServer
 	{

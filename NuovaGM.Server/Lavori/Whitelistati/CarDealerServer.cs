@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuovaGM.Server.Lavori.Whitelistati
+namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
 	static class CarDealerServer
 	{

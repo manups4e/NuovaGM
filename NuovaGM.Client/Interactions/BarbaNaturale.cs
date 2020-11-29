@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Interactions
+namespace TheLastPlanet.Client.Interactions
 {
 	static class BarbaNaturale
 	{

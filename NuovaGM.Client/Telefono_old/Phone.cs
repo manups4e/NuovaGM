@@ -7,13 +7,13 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.Telefono.Apps;
-using NuovaGM.Client.Telefono.Models;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Telefono.Apps;
+using TheLastPlanet.Client.Telefono.Models;
+using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Telefono
+namespace TheLastPlanet.Client.Telefono
 {
 	public class Phone
 	{

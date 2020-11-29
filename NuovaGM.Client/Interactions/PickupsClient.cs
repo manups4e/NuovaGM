@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client.Interactions
+namespace TheLastPlanet.Client.Interactions
 {
 	static class PickupsClient
 	{

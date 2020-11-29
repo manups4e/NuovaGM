@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using Newtonsoft.Json;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using Logger;
-using NuovaGM.Client.Proprietà.Appartamenti.Case;
+using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.Proprietà
+namespace TheLastPlanet.Client.Proprietà
 {
 	static class Manager
 	{

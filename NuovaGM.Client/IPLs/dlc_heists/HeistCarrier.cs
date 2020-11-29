@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_heists
+namespace TheLastPlanet.Client.IPLs.dlc_heists
 {
 	public class HeistCarrier
 	{

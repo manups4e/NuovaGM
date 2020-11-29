@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Businesses
+namespace TheLastPlanet.Client.Businesses
 {
 	class PompeDiBenzinaClient
 	{

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using CitizenFX.Core;
 using Newtonsoft.Json;
 
-namespace NuovaGM.Shared.Veicoli
+namespace TheLastPlanet.Shared.Veicoli
 {
 	public class OwnedVehicle
 	{

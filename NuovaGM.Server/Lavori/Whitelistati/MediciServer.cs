@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Server.gmPrincipale;
+using TheLastPlanet.Server.Core;
 
 
-namespace NuovaGM.Server.Lavori.Whitelistati
+namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
 	static class MediciServer
 	{

@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Sport
+namespace TheLastPlanet.Client.Sport
 {
 	static class Freccette
 	{

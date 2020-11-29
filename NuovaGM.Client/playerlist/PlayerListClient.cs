@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.ListaPlayers
+namespace TheLastPlanet.Client.ListaPlayers
 {
 	static class FivemPlayerlist
 	{

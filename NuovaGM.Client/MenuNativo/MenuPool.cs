@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.MenuNativo.PauseMenu;
+using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Control = CitizenFX.Core.Control;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     /// <summary>
     /// Helper class that handles all of your Menus. After instatiating it, you will have to add your menu by using the Add method.

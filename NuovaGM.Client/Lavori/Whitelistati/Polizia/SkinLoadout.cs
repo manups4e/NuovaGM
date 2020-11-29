@@ -1,4 +1,4 @@
-﻿namespace NuovaGM.Client.Lavori.Whitelistati.Polizia
+﻿namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
 	static class SkinLoadout
 	{

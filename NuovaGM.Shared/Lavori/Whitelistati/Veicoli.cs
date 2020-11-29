@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public class VeicoloLavorativoEAffitto
 	{

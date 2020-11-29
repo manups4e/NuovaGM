@@ -2,7 +2,7 @@
 using static CitizenFX.Core.Native.API;
 using System.Linq;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	/// <summary>
 	/// Class that provides tools to handle the game controls.

@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace NuovaGM.Server.TimeWeather
+namespace TheLastPlanet.Server.TimeWeather
 {
 	static class Meteo
 	{

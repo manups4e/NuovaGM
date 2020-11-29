@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Server.TimeWeather
+namespace TheLastPlanet.Server.TimeWeather
 {
 	static class Orario
 	{

@@ -6,7 +6,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using System.Drawing;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     public class Sprite
     {

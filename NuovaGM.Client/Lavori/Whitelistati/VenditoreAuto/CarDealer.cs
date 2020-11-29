@@ -1,19 +1,19 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Logger;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Shared.Veicoli;
 
-namespace NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto
+namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 {
 	// void func_747(int iParam0) in carmod_shop.c
 	static class CarDealer

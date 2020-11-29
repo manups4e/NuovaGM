@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using NuovaGM.Server.gmPrincipale;
+using TheLastPlanet.Server.Core;
 
 using System;
 
-namespace NuovaGM.Server.Clothestores
+namespace TheLastPlanet.Server.Clothestores
 {
 	static class NegozioAbitiServer
 	{

@@ -3,7 +3,7 @@ using System.Drawing;
 using CitizenFX.Core.Native;
 using CitizenFX.Core;
 
-namespace NuovaGM.Client.MenuNativo.PauseMenu
+namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
     public class TabSubmenuItem : TabItem
     {

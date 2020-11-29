@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.TimeWeather
+namespace TheLastPlanet.Client.TimeWeather
 {
 	static class Orario
 	{

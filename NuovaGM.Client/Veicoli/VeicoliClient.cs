@@ -2,15 +2,15 @@
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class VeicoliClient
 	{

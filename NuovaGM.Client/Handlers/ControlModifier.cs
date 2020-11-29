@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
     [Flags]
     public enum ControlModifier

@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
 
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public class GasStation
 	{

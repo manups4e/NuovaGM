@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>1df517d5-02d3-48ad-b0f5-f417f27ca1b2</UserSecretsId>
-    <AssemblyName>NuovaGM.Server.net</AssemblyName>
-    <RootNamespace>NuovaGM.Server</RootNamespace>
+    <AssemblyName>TheLastPlanet.Server.net</AssemblyName>
+    <RootNamespace>TheLastPlanet.Server</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySqlConnector" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <Compile Include="..\NuovaGM.Shared\**\*.cs" />
+    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\NuovaGM.Server.net.dll L:\FiveM\ManuGamemode\resources\[local]\nuovagm&#xD;&#xA;copy /y $(OutDir)\NuovaGM.Server.net.pdb L:\FiveM\ManuGamemode\resources\[local]\nuovagm" />
+    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.dll L:\FiveM\ManuGamemode\resources\[local]\nuovagm&#xD;&#xA;copy /y $(OutDir)\TheLastPlanet.Server.net.pdb L:\FiveM\ManuGamemode\resources\[local]\nuovagm" />
   </Target>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Server.Lavori.Generici.Rimozione
+namespace TheLastPlanet.Server.Lavori.Generici.Rimozione
 {
 	static class RimozioneServer
 	{

@@ -2,17 +2,17 @@
 using CitizenFX.Core.Native;
 using System;
 using System.Threading.Tasks;
-using NuovaGM.Server.gmPrincipale;
+using TheLastPlanet.Server.Core;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using Logger;
 using System.Collections.Generic;
 using System.Resources;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System.Reflection;
 // ReSharper disable All
 
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
 	public class Server : BaseScript
 	{

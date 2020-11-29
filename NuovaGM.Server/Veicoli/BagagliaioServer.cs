@@ -5,7 +5,7 @@ using System.Text;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Server.Veicoli
+namespace TheLastPlanet.Server.Veicoli
 {
 	static class BagagliaioServer
 	{

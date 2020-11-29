@@ -1,37 +1,38 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.Banking;
-using NuovaGM.Client.Businesses;
-using NuovaGM.Client.Giostre;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.MenuGm;
-using NuovaGM.Client.gmPrincipale.Status;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.Interactions;
-using NuovaGM.Client.Lavori;
-using NuovaGM.Client.Lavori.Whitelistati.Medici;
-using NuovaGM.Client.ListaPlayers;
-using NuovaGM.Client.Manager;
-using NuovaGM.Client.Negozi;
-using NuovaGM.Client.Personale;
-using NuovaGM.Client.Sport;
-using NuovaGM.Client.Veicoli;
+using TheLastPlanet.Client.Banking;
+using TheLastPlanet.Client.Businesses;
+using TheLastPlanet.Client.Giostre;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.MenuGm;
+using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Interactions;
+using TheLastPlanet.Client.Lavori;
+using TheLastPlanet.Client.Lavori.Whitelistati.Medici;
+using TheLastPlanet.Client.ListaPlayers;
+using TheLastPlanet.Client.Manager;
+using TheLastPlanet.Client.Negozi;
+using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.Sport;
+using TheLastPlanet.Client.Veicoli;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuovaGM.Client.Lavori.Whitelistati.Polizia;
-using NuovaGM.Client.Lavori.Generici.Rimozione;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.Lavori.Generici.Cacciatore;
-using NuovaGM.Client.Lavori.Generici.Pescatore;
-using NuovaGM.Client.Proprietà.Hotel;
+using TheLastPlanet.Client.Lavori.Whitelistati.Polizia;
+using TheLastPlanet.Client.Lavori.Generici.Rimozione;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Lavori.Generici.Cacciatore;
+using TheLastPlanet.Client.Lavori.Generici.Pescatore;
+using TheLastPlanet.Client.Proprietà.Hotel;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Client.Lavori.Whitelistati.VenditoreAuto;
+using TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto;
+using TheLastPlanet.Client.Core;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	static class TickController
 	{

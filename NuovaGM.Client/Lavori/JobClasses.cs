@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 
-namespace NuovaGM.Client.Lavori
+namespace TheLastPlanet.Client.Lavori
 {
 	public class ConfigPolizia
 	{

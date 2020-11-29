@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.Sport
+namespace TheLastPlanet.Client.Sport
 {
 	public static class BraccioDiFerro
 	{

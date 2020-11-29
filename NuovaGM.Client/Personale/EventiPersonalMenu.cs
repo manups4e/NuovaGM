@@ -1,16 +1,16 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Personale
+namespace TheLastPlanet.Client.Personale
 {
 	static class EventiPersonalMenu
 	{

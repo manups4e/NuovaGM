@@ -1,13 +1,13 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Giostre
+namespace TheLastPlanet.Client.Giostre
 {
 	static class Funivia
 	{

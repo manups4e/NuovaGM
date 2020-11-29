@@ -1,24 +1,24 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
-using NuovaGM.Client.Giostre;
-using NuovaGM.Client.gmPrincipale.Status;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.Veicoli;
+using TheLastPlanet.Client.Giostre;
+using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Veicoli;
 using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Shared;
 using Logger;
-using NuovaGM.Client.MenuNativo.PauseMenu;
+using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using System.Drawing;
 
-namespace NuovaGM.Client.Personale
+namespace TheLastPlanet.Client.Personale
 {
 	static class PersonalMenu
 	{

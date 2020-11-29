@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.Interactions;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_bikers
+namespace TheLastPlanet.Client.IPLs.dlc_bikers
 {
 	public class BikerGang
 	{
@@ -75,7 +75,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 					}
 					public void Init()
 					{
-						IplManager.DrawEmptyRect(Target, gmPrincipale.Utility.Funzioni.HashUint(Prop));
+						IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
 					}
 					public void Enable(bool state)
 					{
@@ -100,7 +100,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 				public async void Set(Member member, Ped ped)
 				{
 					member.Clear();
-					Tuple<int, string> mugshot = await gmPrincipale.Utility.Funzioni.GetPedMugshotAsync(ped);
+					Tuple<int, string> mugshot = await Core.Utility.Funzioni.GetPedMugshotAsync(ped);
 					member.PedHeadshot = mugshot.Item1;
 					member.TextureDict = mugshot.Item2;
 					bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(member.TextureDict);
@@ -127,7 +127,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 				public int Stage = 0;
 				public void Init()
 				{
-					IplManager.DrawEmptyRect(Target, gmPrincipale.Utility.Funzioni.HashUint(Prop));
+					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
 				}
 				public void Enable(bool state)
 				{
@@ -156,7 +156,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 				public int Stage = 0;
 				public void Init()
 				{
-					IplManager.DrawEmptyRect(Target, gmPrincipale.Utility.Funzioni.HashUint(Prop));
+					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
 				}
 				public void Enable(bool state)
 				{
@@ -246,7 +246,7 @@ namespace NuovaGM.Client.IPLs.dlc_bikers
 				}
 				public void Init()
 				{
-					IplManager.DrawEmptyRect(Target, gmPrincipale.Utility.Funzioni.HashUint(Prop));
+					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
 				}
 				public void Enable(bool state)
 				{

@@ -1,8 +1,8 @@
 ﻿using System;
 using CitizenFX.Core;
-using NuovaGM.Shared;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
     public abstract class NetworkMethod : IDisposable
     {

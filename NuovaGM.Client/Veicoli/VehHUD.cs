@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.Core.Utility;
 using Logger;
 using System.Drawing;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class VehHUD
 	{

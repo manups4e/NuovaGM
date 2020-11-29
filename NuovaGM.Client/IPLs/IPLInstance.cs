@@ -1,17 +1,17 @@
 ﻿using CitizenFX.Core.Native;
-using NuovaGM.Client.IPLs.dlc_afterhours;
-using NuovaGM.Client.IPLs.dlc_bikers;
-using NuovaGM.Client.IPLs.dlc_doomsday;
-using NuovaGM.Client.IPLs.dlc_executive;
-using NuovaGM.Client.IPLs.dlc_finance;
-using NuovaGM.Client.IPLs.dlc_gunrunning;
-using NuovaGM.Client.IPLs.dlc_heists;
-using NuovaGM.Client.IPLs.dlc_import_export;
-using NuovaGM.Client.IPLs.dlc_smuggler;
-using NuovaGM.Client.IPLs.gta_online;
-using NuovaGM.Client.IPLs.gtav;
+using TheLastPlanet.Client.IPLs.dlc_afterhours;
+using TheLastPlanet.Client.IPLs.dlc_bikers;
+using TheLastPlanet.Client.IPLs.dlc_doomsday;
+using TheLastPlanet.Client.IPLs.dlc_executive;
+using TheLastPlanet.Client.IPLs.dlc_finance;
+using TheLastPlanet.Client.IPLs.dlc_gunrunning;
+using TheLastPlanet.Client.IPLs.dlc_heists;
+using TheLastPlanet.Client.IPLs.dlc_import_export;
+using TheLastPlanet.Client.IPLs.dlc_smuggler;
+using TheLastPlanet.Client.IPLs.gta_online;
+using TheLastPlanet.Client.IPLs.gtav;
 
-namespace NuovaGM.Client.IPLs
+namespace TheLastPlanet.Client.IPLs
 {
 	public static class IPLInstance
 	{

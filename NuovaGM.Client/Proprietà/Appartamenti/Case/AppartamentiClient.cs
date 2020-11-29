@@ -5,17 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using CitizenFX.Core.UI;
 using Logger;
-using NuovaGM.Shared;
-using NuovaGM.Client.Veicoli;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Veicoli;
 
-namespace NuovaGM.Client.Proprietà.Appartamenti.Case
+namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 {
 	static class AppartamentiClient
 	{

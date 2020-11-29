@@ -2,20 +2,20 @@
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuovaGM.Client.Veicoli;
+using TheLastPlanet.Client.Veicoli;
 using System.Drawing;
-using NuovaGM.Client.Interactions;
+using TheLastPlanet.Client.Interactions;
 
-namespace NuovaGM.Client.Lavori.Generici.Taxi
+namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 {
 	static class TaxiClient
 	{

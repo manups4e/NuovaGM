@@ -5,7 +5,7 @@ using Logger;
 using Newtonsoft.Json;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	public class DamageEvents
 	{

@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.Telefono;
-using NuovaGM.Client.Telefono.Models;
+using TheLastPlanet.Client.Telefono;
+using TheLastPlanet.Client.Telefono.Models;
 
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.gmPrincipale.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility;
 
-namespace NuovaGM.Client.Telefono.Apps
+namespace TheLastPlanet.Client.Telefono.Apps
 {
 	public class Settings : App
     {

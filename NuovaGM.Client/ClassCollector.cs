@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.IPLs;
-using NuovaGM.Client.Proprietà.Appartamenti.Case;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.IPLs;
+using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	static class ClassCollector
 	{
@@ -12,11 +12,11 @@ namespace NuovaGM.Client
 		{
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
-			gmPrincipale.Main.Init();
-			gmPrincipale.NuovoIngresso.NuovoIngresso.Init();
-			gmPrincipale.Utility.HUD.HUD.Init();
-			gmPrincipale.Utility.Eventi.Init();
-			gmPrincipale.Discord.Init();
+			Core.Main.Init();
+			Core.NuovoIngresso.NuovoIngresso.Init();
+			Core.Utility.HUD.HUD.Init();
+			Core.Utility.Eventi.Init();
+			Core.Discord.Init();
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
@@ -25,12 +25,12 @@ namespace NuovaGM.Client
 
 			Businesses.PompeDiBenzinaClient.Init();
 
-			gmPrincipale.Utility.PublicTraffic.Init();
-			gmPrincipale.MenuGm.Menus.Init();
-			gmPrincipale.MenuGm.CamerasFirstTime.Init();
-			gmPrincipale.Status.Death.Init();
-			gmPrincipale.Status.StatsNeeds.Init();
-			gmPrincipale.Voice.Init();
+			Core.Utility.PublicTraffic.Init();
+			Core.MenuGm.Menus.Init();
+			Core.MenuGm.CamerasFirstTime.Init();
+			Core.Status.Death.Init();
+			Core.Status.StatsNeeds.Init();
+			Core.Voice.Init();
 
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();

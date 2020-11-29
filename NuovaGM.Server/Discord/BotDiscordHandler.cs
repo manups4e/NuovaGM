@@ -1,14 +1,14 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Server.Discord.GuildData;
-using NuovaGM.Shared;
+using TheLastPlanet.Server.Discord.GuildData;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Server.Discord
+namespace TheLastPlanet.Server.Discord
 {
 	static class BotDiscordHandler
 	{

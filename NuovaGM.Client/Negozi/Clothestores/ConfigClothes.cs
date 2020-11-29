@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
 
-namespace NuovaGM.Client.Negozi
+namespace TheLastPlanet.Client.Negozi
 {
 	class ConfigClothes
 	{

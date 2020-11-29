@@ -1,4 +1,4 @@
-﻿namespace NuovaGM.Server.Negozi
+﻿namespace TheLastPlanet.Server.Negozi
 {
 	static class NegoziServer
 	{

@@ -2,7 +2,7 @@
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     /// <summary>
     /// A rectangle in 1080 pixels height system.

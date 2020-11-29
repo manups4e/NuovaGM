@@ -3,9 +3,9 @@ using static CitizenFX.Core.Native.API;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NuovaGM.Shared.Veicoli;
+using TheLastPlanet.Shared.Veicoli;
 
-namespace NuovaGM.Client.Veicoli
+namespace TheLastPlanet.Client.Veicoli
 {
 	static class Treni
 	{

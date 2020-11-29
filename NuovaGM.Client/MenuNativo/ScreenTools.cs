@@ -5,7 +5,7 @@ using System.Drawing;
 using System;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
 	/// <summary>
 	/// Tools to deal with the game screen.

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using Font = CitizenFX.Core.UI.Font;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     public class UIMenuDynamicListItem : UIMenuItem, IListItem
     {

@@ -1,4 +1,4 @@
-﻿namespace NuovaGM.Shared
+﻿namespace TheLastPlanet.Shared
 {
 	public enum ObjectHash : int
 	{

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Newtonsoft.Json;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Shared;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Server.Lavori.Whitelistati
+namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
 	static class PoliziaServer
 	{

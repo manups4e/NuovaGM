@@ -8,11 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 #if CLIENT
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
 using static CitizenFX.Core.Native.API;
 #endif
-namespace NuovaGM.Shared
+namespace TheLastPlanet.Shared
 {
 	public static class RandomExtensionSuperMethod
 	{

@@ -1,20 +1,20 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.IPLs.dlc_bikers;
-using NuovaGM.Client.IPLs.dlc_finance;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.Veicoli;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.IPLs.dlc_bikers;
+using TheLastPlanet.Client.IPLs.dlc_finance;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.IPLs
+namespace TheLastPlanet.Client.IPLs
 {
 	static class InteriorObserver
 	{

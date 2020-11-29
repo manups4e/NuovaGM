@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 // ReSharper disable All
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
     [Flags]
 	public enum PadCheck

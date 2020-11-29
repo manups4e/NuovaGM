@@ -8,17 +8,17 @@ using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
-using NuovaGM.Client.gmPrincipale;
-using NuovaGM.Client.gmPrincipale.NuovoIngresso;
-using NuovaGM.Client.gmPrincipale.Personaggio;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
-using NuovaGM.Client.MenuNativo.PauseMenu;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.NuovoIngresso;
+using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.MenuNativo.PauseMenu;
+using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	static class ClasseDiTest
 	{

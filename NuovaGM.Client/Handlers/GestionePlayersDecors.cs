@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
-using NuovaGM.Client.MenuNativo;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
 using System.Threading.Tasks;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	static class GestionePlayersDecors
 	{

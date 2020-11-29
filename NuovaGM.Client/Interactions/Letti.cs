@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using NuovaGM.Client.gmPrincipale.Utility.HUD;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
-using NuovaGM.Client.gmPrincipale.Utility;
-using NuovaGM.Shared;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Shared;
 
-namespace NuovaGM.Client.Interactions
+namespace TheLastPlanet.Client.Interactions
 {
 	static class Letti
 	{

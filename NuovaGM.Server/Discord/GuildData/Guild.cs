@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuovaGM.Server.Discord.GuildData
+namespace TheLastPlanet.Server.Discord.GuildData
 {
 	public class Guild
 	{

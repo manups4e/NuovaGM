@@ -5,7 +5,7 @@ using System.Drawing;
 using CitizenFX.Core.Native;
 
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     public abstract class TimerBarBase
     {

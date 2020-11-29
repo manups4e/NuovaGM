@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     /// <summary>
     /// Simple item with a label.

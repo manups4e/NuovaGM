@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using CitizenFX.Core.UI;
 
-namespace NuovaGM.Client.MenuNativo
+namespace TheLastPlanet.Client.MenuNativo
 {
     public class UIMenuListItem : UIMenuItem, IListItem
     {

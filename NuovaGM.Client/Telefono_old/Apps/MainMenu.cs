@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using NuovaGM.Client.Telefono.Models;
+using TheLastPlanet.Client.Telefono.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client.Telefono.Apps
+namespace TheLastPlanet.Client.Telefono.Apps
 {
     public class MainMenu : App
     {

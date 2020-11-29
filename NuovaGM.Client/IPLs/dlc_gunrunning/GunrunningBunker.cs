@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_gunrunning
+namespace TheLastPlanet.Client.IPLs.dlc_gunrunning
 {
 	public class GunrunningBunker
 	{

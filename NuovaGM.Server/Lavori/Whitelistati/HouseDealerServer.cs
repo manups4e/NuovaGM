@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json.Linq;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Server.Proprietà;
-using NuovaGM.Shared;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Proprietà;
+using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NuovaGM.Server.Lavori.Whitelistati
+namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
 	static class HouseDealerServer
 	{

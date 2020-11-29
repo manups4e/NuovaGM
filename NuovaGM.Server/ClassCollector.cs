@@ -1,19 +1,19 @@
 ﻿using CitizenFX.Core;
 using FivemPlayerlistServer;
 using Logger;
-using NuovaGM.Server.Appartamenti;
-using NuovaGM.Server.banking;
-using NuovaGM.Server.Businesses;
-using NuovaGM.Server.Clothestores;
-using NuovaGM.Server.Discord;
-using NuovaGM.Server.gmPrincipale;
-using NuovaGM.Server.Interactions;
-using NuovaGM.Server.Lavori.Whitelistati;
-using NuovaGM.Server.manager;
-using NuovaGM.Server.Veicoli;
+using TheLastPlanet.Server.Appartamenti;
+using TheLastPlanet.Server.banking;
+using TheLastPlanet.Server.Businesses;
+using TheLastPlanet.Server.Clothestores;
+using TheLastPlanet.Server.Discord;
+using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Interactions;
+using TheLastPlanet.Server.Lavori.Whitelistati;
+using TheLastPlanet.Server.manager;
+using TheLastPlanet.Server.Veicoli;
 using System;
 
-namespace NuovaGM.Server
+namespace TheLastPlanet.Server
 {
 	static class ClassCollector
 	{

@@ -3,7 +3,7 @@ using CitizenFX.Core.Native;
 using System;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Client
+namespace TheLastPlanet.Client
 {
 	public enum DecorationType
 	{

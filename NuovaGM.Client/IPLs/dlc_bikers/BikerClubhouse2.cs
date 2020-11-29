@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuovaGM.Client.IPLs.dlc_bikers
+namespace TheLastPlanet.Client.IPLs.dlc_bikers
 {
 	public class BikerClubhouse2
 	{

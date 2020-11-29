@@ -1,4 +1,4 @@
-﻿namespace NuovaGM.Client.MenuNativo
+﻿namespace TheLastPlanet.Client.MenuNativo
 {
     public interface IListItem
     {

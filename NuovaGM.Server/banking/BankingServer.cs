@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using NuovaGM.Server.gmPrincipale;
+using TheLastPlanet.Server.Core;
 
 using System;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
 
-namespace NuovaGM.Server.banking
+namespace TheLastPlanet.Server.banking
 {
 	static class BankingServer
 	{
