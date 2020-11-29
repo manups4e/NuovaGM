@@ -794,7 +794,13 @@ namespace NuovaGM.Client.Banking
 							MenuAttuale = 9;
 						}
 						break;
-					case 4: // log
+					case 4: // Esci
+						Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
+						Client.Instance.RemoveTick(AtmDisegna);
+						Client.Instance.RemoveTick(ControlliBank);
+						atm.Dispose();
+						StopAudioScene("ATM_PLAYER_SCENE");
+						InterfacciaAperta = false;
 						break;
 					case 5: // ritiro
 						switch(currentSelection)
@@ -913,7 +919,7 @@ namespace NuovaGM.Client.Banking
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(4);
 					BeginTextCommandScaleformString("STRING");
-					AddTextComponentScaleform("Registro");
+					AddTextComponentScaleform("Esci");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
 
@@ -1072,17 +1078,7 @@ namespace NuovaGM.Client.Banking
 					atm.CallFunction("DISPLAY_CASH_OPTIONS");
 					break;
 				case 4:
-					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
-					ScaleformMovieMethodAddParamInt(0);
-					AddText("MPATM_LOG");
-					EndScaleformMovieMethod();
 
-					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
-					ScaleformMovieMethodAddParamInt(1);
-					AddText("MPATM_BACK");
-					EndScaleformMovieMethod();
-
-					atm.CallFunction("DISPLAY_TRANSACTIONS");
 					break;
 
 				case 5: // Conferma ritiro
