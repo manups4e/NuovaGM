@@ -2,7 +2,7 @@
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.MenuGm;
+using TheLastPlanet.Client.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Personale;
@@ -42,8 +42,6 @@ namespace TheLastPlanet.Client.Core
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);
-		public static Camera charSelectionCam;
-		public static Camera charCreationCam;
 
 		static List<string> tipi = new List<string>() { "CIVMALE", "CIVFEMALE", "COP", "WILD_ANIMAL", "SHARK", "COUGAR", "GUARD_DOG", "DOMESTIC_ANIMAL", "DEER", "SECURITY_GUARD", "PRIVATE_SECURITY", "FIREMAN", "GANG_1", "GANG_2", "GANG_9", "GANG_10", "AMBIENT_GANG_LOST", "AMBIENT_GANG_MEXICAN", "AMBIENT_GANG_FAMILY", "AMBIENT_GANG_BALLAS", "AMBIENT_GANG_MARABUNTE", "AMBIENT_GANG_CULT", "AMBIENT_GANG_SALVA", "AMBIENT_GANG_WEICHENG", "AMBIENT_GANG_HILLBILLY", "DEALER", "HATES_PLAYER", "HEN", "NO_RELATIONSHIP", "SPECIAL", "MISSION2", "MISSION3", "MISSION4", "MISSION5", "MISSION6", "MISSION7", "MISSION8", "AGGRESSIVE_INVESTIGATE", "MEDIC" };
 		static List<string> pickupList = new List<string>();
@@ -79,10 +77,8 @@ namespace TheLastPlanet.Client.Core
 		public static void Init()
 		{
 			LoadMain();
-			Client.Instance.AddTick(Entra);
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
-			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
 			Client.Instance.AddEventHandler("lprp:getHost", new Action<int>(GetHost));
 			Client.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
@@ -107,27 +103,6 @@ namespace TheLastPlanet.Client.Core
 		{
 			if (resourceName == GetCurrentResourceName())
 				Screen.Fading.FadeOut(800);
-		}
-
-		public static async void playerSpawned()
-		{
-			int a = Funzioni.GetRandomInt(SelectFirstCoords.Count);
-			charSelectCoords = SelectFirstCoords[a];
-			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
-			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			Game.PlayerPed.Heading = charSelectCoords.W;
-			Screen.Fading.FadeOut(800);
-			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-			await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Game.PlayerPed.IsVisible = false;
-			Game.PlayerPed.IsPositionFrozen = true;
-			Game.Player.IgnoredByPolice = true;
-			Game.Player.DispatchsCops = false;
-			NetworkSetTalkerProximity(-1000f);
-			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			Game.PlayerPed.Heading = charSelectCoords.W;
-			//Client.Instance.GetExports["spawnmanager"].setAutoSpawn(false);
-			Screen.Hud.IsRadarVisible = false;
 		}
 
 		public static async void onPlayerSpawn()
@@ -166,78 +141,9 @@ namespace TheLastPlanet.Client.Core
 				player.SetRelationshipBetweenGroups(new RelationshipGroup(GetHashKey(tipi[i])), Relationship.Neutral, true);
 			Screen.Hud.IsRadarVisible = true;
 		}
-
-		public static async void charSelect()
-		{
-			if (Game.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
-			int a = Funzioni.GetRandomInt(SelectFirstCoords.Count-1);
-			charSelectCoords = SelectFirstCoords[a];
-			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
-			Game.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			Game.PlayerPed.Heading = charSelectCoords.W;
-			await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Game.PlayerPed.Style.SetDefaultClothes();
-			while (!await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-
-			if (Game.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
-			{
-				Game.PlayerPed.Style.SetDefaultClothes();
-				Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
-				Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
-				Game.PlayerPed.SetDecor("PlayerInPausa", false);
-				Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
-				Game.PlayerPed.SetDecor("PlayerInCasa", false);
-				Game.PlayerPed.SetDecor("PlayerInServizio", false);
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
-				Game.PlayerPed.IsVisible = false;
-				Game.PlayerPed.IsPositionFrozen = true;
-				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
-				SetGameplayCamRelativeHeading(0);
-				charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0f, -2, 0);
-				charSelectionCam.PointAt(Game.PlayerPed);
-				charSelectionCam.IsActive = true;
-				RenderScriptCams(true, false, 0, false, false);
-				//Menus.CharSelectionMenu();
-				BaseScript.TriggerEvent("attiva");
-			}
-			else charSelect();
-		}
-
-		public static async void charCreate()
-		{
-			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
-			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-			SetEntityCoords(Game.PlayerPed.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
-			SetEntityHeading(Game.PlayerPed.Handle, charCreateCoords.W);
-			Vector3 h = GetPedBoneCoords(Game.PlayerPed.Handle, 24818, 0.0f, 0.0f, 0.0f);
-			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0.0f, 2.0f, 0.8f);
-			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f)
-			};
-			charCreationCam.PointAt(h);
-			charCreationCam.IsActive = true;
-			RenderScriptCams(true, false, 0, false, false);
-			await Task.FromResult(0);
-		}
-
 		private static void GetHost(int hostid)
 		{
 			HostId = hostid;
-		}
-
-		public static async Task Entra()
-		{
-			if (NetworkIsSessionStarted())
-			{
-				BaseScript.TriggerServerEvent("lprp:setupUser");
-				while (!NetworkIsPlayerActive(PlayerId())) await BaseScript.Delay(1000);
-				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-				Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
-				Client.Instance.RemoveTick(Entra);
-			}
 		}
 
 		private static float OttieniShake
@@ -504,9 +410,9 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task AFK()
 		{
-			if (Game.Player.GetPlayerData().group_level < 3 && !(Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if (Game.Player.GetPlayerData().group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
-//				if (NuovoIngresso.NuovoIngresso.guiEnabled)
+//				if (Ingresso.Ingresso.guiEnabled)
 //				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
 
 				currentPosition = Game.Player.GetPlayerData() == null ? Game.PlayerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();

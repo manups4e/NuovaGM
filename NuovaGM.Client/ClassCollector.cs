@@ -12,22 +12,16 @@ namespace TheLastPlanet.Client
 		{
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
-			Core.Main.Init();
-			Core.NuovoIngresso.NuovoIngresso.Init();
-			Core.Utility.HUD.HUD.Init();
-			Core.Utility.Eventi.Init();
-			Core.Discord.Init();
-			TimeWeather.Meteo.Init();
-			TimeWeather.Orario.Init();
+			await Core.CoreInitializer.LogInInitializer();
 			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
 
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();
 
-			Core.Utility.PublicTraffic.Init();
-			Core.MenuGm.Menus.Init();
-			Core.MenuGm.CamerasFirstTime.Init();
+			PublicTraffic.Init();
+			Core.CharCreation.Creator.Init();
+			Core.CharCreation.CamerasFirstTime.Init();
 			Core.Status.Death.Init();
 			Core.Status.StatsNeeds.Init();
 			Core.Voice.Init();

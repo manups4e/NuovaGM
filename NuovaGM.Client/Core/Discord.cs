@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.Core.MenuGm;
+using TheLastPlanet.Client.Core.CharCreation;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
@@ -32,9 +32,9 @@ namespace TheLastPlanet.Client.Core
 			string NomeAngolo = GetStreetNameFromHashKey(StreetAngolo);
 			if (!Main.spawned)
 			{
-				if (!NuovoIngresso.NuovoIngresso.guiEnabled)
+				if (!Ingresso.LogIn.guiEnabled)
 				{
-					if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
+					if (Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)
 						SetRichPresence("Sta creando un personaggio");
 				}
 				else SetRichPresence("Sta selezionando un personaggio");

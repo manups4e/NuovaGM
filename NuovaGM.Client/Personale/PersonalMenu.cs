@@ -1507,30 +1507,47 @@ namespace TheLastPlanet.Client.Personale
 				"Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.\n" +
 				"Potrai in ogni mento riaprire questo menu di pausa premendo i tasti SHIFT+F9 oppure con il comando /help";
 			TabSubmenuItem comandi = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
+			{
+				new TabItemSimpleList("Generici (sempre validi)", new Dictionary<string, string>()
 				{
-					new TabItemSimpleList("Generici (sempre validi)", new Dictionary<string, string>()
-					{
-						["Menu Personale"] = "Tasto M / Select",
-						["Lista giocatori"] = "Tasto Z / Dpad giù",
-						["Portafoglio"] = "Tasto Z / Dpad giù",
-					}),
-					new TabItemSimpleList("A piedi", new Dictionary<string, string>()
-					{
-						["Azione"] = "Tasto E / Dpad destra",
-					}),
-					new TabItemSimpleList("Su veicolo", new Dictionary<string, string>()
-					{
-						["Accendi veicolo"] = "Tasto F10 / LB+A",
-						["Allaccia / Slaccia cintura"] = "Tasto X / LB+X",
-					}),
-					new TabItemSimpleList("Lavoro", new Dictionary<string, string>()
-					{
-						["Menu lavorativo (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
-						["In servizio / Fuori servizio (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
-					})
-				});
+					["Menu Personale"] = "Tasto M / Select",
+					["Lista giocatori"] = "Tasto Z / Dpad giù",
+					["Portafoglio"] = "Tasto Z / Dpad giù",
+				}),
+				new TabItemSimpleList("A piedi", new Dictionary<string, string>()
+				{
+					["Azione"] = "Tasto E / Dpad destra",
+				}),
+				new TabItemSimpleList("Su veicolo", new Dictionary<string, string>()
+				{
+					["Accendi veicolo"] = "Tasto F10 / LB+A",
+					["Allaccia / Slaccia cintura"] = "Tasto X / LB+X",
+				}),
+				new TabItemSimpleList("Lavoro", new Dictionary<string, string>()
+				{
+					["Menu lavorativo (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
+					["In servizio / Fuori servizio (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
+				})
+			});
+
+			TabSubmenuItem impostazioni = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
+			{
+				new TabInteractiveListItem("HUD", new List<UIMenuItem>()
+				{
+					new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, ""),
+					new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight)),
+					new UIMenuListItem("Filtri", new List<dynamic>(){ }, 0),
+					new UIMenuSeparatorItem(),
+					new UIMenuItem("MiniMappa on/off"),
+					new UIMenuItem("Dimensioni minimappa"),
+					new UIMenuItem("attivagps macchina"),
+					new UIMenuItem("Dimensioni minimappa"),
+				}),
+			});
+
 			b.AddTab(intro);
 			b.AddTab(comandi);
+			b.AddTab(impostazioni);
 			intro.Active = true;
 			intro.Focused = true;
 			intro.Visible = true;

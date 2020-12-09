@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.Manager
 		private static bool CancellaVecchioVeh = false;
 		private static Vehicle VeicoloSalvato;
 
-
 		public static async void AdminMenu(int group_level)
 		{
 			UIMenu AdminMenu = new UIMenu("Admin menu", "Il menu di chi comanda!", new PointF(1439, 50));

@@ -4,7 +4,7 @@ using TheLastPlanet.Client.Banking;
 using TheLastPlanet.Client.Businesses;
 using TheLastPlanet.Client.Giostre;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.MenuGm;
+using TheLastPlanet.Client.Core.CharCreation;
 using TheLastPlanet.Client.Core.Status;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Interactions;

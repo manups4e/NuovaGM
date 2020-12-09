@@ -297,7 +297,16 @@ namespace TheLastPlanet.Server.Core
 				data = ped.char_data.Serialize(),
 				id = ped.identifiers.discord
 			});
-			await BaseScript.Delay(0);
+			player.TriggerEvent("lprp:salvataggioClient", JsonConvert.SerializeObject(new 
+			{
+				name = player.Name,
+				gr = ped.group,
+				level = ped.group_level,
+				time = ped.playTime,
+				current = ped.char_current,
+				data = ped.char_data.Serialize(),
+				id = ped.identifiers.discord
+			}));
 			await Task.FromResult(0);
 		}
 
@@ -320,7 +329,6 @@ namespace TheLastPlanet.Server.Core
 								await SalvaPersonaggio(player);
 								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
 								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
-								await Task.FromResult(0);
 							}
 						}
 					}

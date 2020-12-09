@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using Logger;
+using TheLastPlanet.Client.Core.Ingresso;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -20,6 +21,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Init()
 		{
+			Client.Instance.AddEventHandler("lprp:salvataggioClient", new Action<string>(SalvataggioClient));
 			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
 			Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
@@ -47,6 +49,15 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action(RimuoviIstanza));
 			//Client.Instance.AddTick(Mappina);
 			timer = GetGameTimer();
+		}
+
+		private static async void SalvataggioClient(string salvataggio)
+		{
+			/*
+			Funzioni.SalvaKVPString("mestesso", salvataggio);
+			await BaseScript.Delay(1000);
+			Log.Printa(LogType.Debug, "Me stesso = " + Funzioni.CaricaKVPString("mestesso"));
+			*/
 		}
 
 		private static void AnimazioneRiceviOggetto()
@@ -81,7 +92,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Player = data.Deserialize<PlayerChar>();
 			DisplayRadar(false);
-			Main.charSelect();
+			LogIn.charSelect();
 		}
 
 		public static void teleportCoords(float x, float y, float z)
@@ -269,7 +280,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task LocationSave()
 		{
-			await BaseScript.Delay(750);
+			await BaseScript.Delay(1000);
 			Game.Player.GetPlayerData().posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
 			if (Game.Player.GetPlayerData().Istanza.Stanziato) return;
 			if (GetGameTimer() - timer >= 10000)

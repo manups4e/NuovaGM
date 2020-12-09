@@ -12,10 +12,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core.Ingresso;
 
-namespace TheLastPlanet.Client.Core.MenuGm
+namespace TheLastPlanet.Client.Core.CharCreation
 {
-	static class Menus
+	static class Creator
 	{
 		static MenuPool pool = HUD.MenuPool;
 		static List<dynamic> momfaces = new List<dynamic>() { "Hannah", "Audrey", "Jasmine", "Giselle", "Amelia", "Isabella", "Zoe", "Ava", "Camilla", "Violet", "Sophia", "Eveline", "Nicole", "Ashley", "Grace", "Brianna", "Natalie", "Olivia", "Elizabeth", "Charlotte", "Emma", "Misty" };
@@ -1817,7 +1818,7 @@ namespace TheLastPlanet.Client.Core.MenuGm
 			{
 				Screen.Fading.FadeOut(0);
 				await BaseScript.Delay(100);
-				Main.charSelect();
+				LogIn.charSelect();
 			}
 			else if (param == "back")
 			{

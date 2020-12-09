@@ -7,7 +7,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Core.MenuGm
+namespace TheLastPlanet.Client.Core.CharCreation
 {
 	static class CamerasFirstTime
 	{
