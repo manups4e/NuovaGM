@@ -417,6 +417,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		}
 
 
+
 		public static RaycastResult _CrosshairRaycast(float distance = 1000)
 		{
 			try
@@ -774,6 +775,20 @@ namespace TheLastPlanet.Client.Core.Utility
 			else
 				return null;
 		}
+
+		public static async Task<Prop> SpawnLocalProp(dynamic modelName, Vector3 coords, bool dynamic, bool placeOnGround)
+		{
+			Model model = new Model(modelName);
+			if (!await model.Request(1000))
+			{
+				return null;
+			}
+			Prop p = new Prop(API.CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
+			if (placeOnGround)
+				PlaceObjectOnGroundProperly(p.Handle);
+			return p;
+		}
+
 
 		/// <summary>
 		/// Spawns a <see cref="Ped"/> of the given <see cref="Model"/> at the position and heading specified.
@@ -1154,43 +1169,22 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static bool IsSpawnPedPointClear(this Vector3 pos, float Radius)
 		{
 			Ped[] vehs = GetPedsInArea(pos, Radius);
-			return vehs.Length < 1 ? true : false;
+			return vehs.Length < 1;
 		}
 
 		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius)
 		{
-			Vehicle[] vehs = World.GetAllVehicles();
-			List<Vehicle> vehiclesInArea = new List<Vehicle>();
-			foreach (Vehicle v in vehs)
-			{
-				if (v.IsInRangeOf(Coords, Radius))
-					vehiclesInArea.Add(v);
-			}
-			return vehiclesInArea.ToArray();
+			return World.GetAllVehicles().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 		}
 
 		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius)
 		{
-			Prop[] props = World.GetAllProps();
-			List<Prop> propsInArea = new List<Prop>();
-			foreach (Prop v in props)
-			{
-				if (v.IsInRangeOf(Coords, Radius))
-					propsInArea.Add(v);
-			}
-			return propsInArea.ToArray();
+			return World.GetAllProps().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 		}
 
 		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius)
 		{
-			Ped[] peds = World.GetAllPeds();
-			List<Ped> pedsInArea = new List<Ped>();
-			foreach (Ped v in peds)
-			{
-				if (v.IsInRangeOf(Coords, Radius))
-					pedsInArea.Add(v);
-			}
-			return pedsInArea.ToArray();
+			return World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 		}
 
 		public static Vector2 WorldToScreen(Vector3 position)
