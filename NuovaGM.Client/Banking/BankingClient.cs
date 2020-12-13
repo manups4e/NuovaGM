@@ -10,6 +10,7 @@ using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MenuNativo;
 using Logger;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.Banking
 {
@@ -134,6 +135,9 @@ namespace TheLastPlanet.Client.Banking
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
+			foreach (var pos in atmpos)
+				InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped>(ApriConto)));
+
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
 			AddTextEntry("HUD_CASH", "€~1~");
 			AddTextEntry("HUD_CASH_S", "€~a~");
@@ -169,177 +173,154 @@ namespace TheLastPlanet.Client.Banking
 			await BaseScript.Delay(250);
 		}
 
-		static public async Task Markers()
+		static public void ApriConto(Ped _)
 		{
 			if (ClosestATM != null && !InterfacciaAperta)
-			{
-				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il conto");
-				if (Input.IsControlJustPressed(Control.Context))
-					AttivaBanca();
-			}
-			/*
-			for (int i = 0; i < cleanspotcoords.Count; i++)
-			{
-				if (Game.PlayerPed.IsInRangeOf(cleanspotcoords[i], 60f))
-				{
-					World.DrawMarker(MarkerType.DollarSign, cleanspotcoords[i], new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1.5f, 1.5f, 1.6f), System.Drawing.Color.FromArgb(120, 255, 0, 0), false, false, true);
-				}
-
-				if (Game.PlayerPed.IsInRangeOf(cleanspotcoords[i], 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per pulire i soldi");
-					if (Input.IsControlJustPressed(Control.Context))
-					{
-						HUD.ShowNotification("PlaceHolder sporchi funzionante");
-					}
-				}
-			}
-			*/
-			await Task.FromResult(0);
+				AttivaBanca();
 		}
 
-/*		static public async void BankMenu()
-		{
-			UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
-			HUD.MenuPool.Add(Banca);
-			int saldoBanca = Game.Player.GetPlayerData().Bank;
-
-			UIMenuItem Saldo = new UIMenuItem("Saldo Bancario", "I tuoi soldi in banca");
-			Saldo.SetRightLabel("~g~" + saldoBanca.ToString());
-			Banca.AddItem(Saldo);
-			UIMenuListItem Preleva = new UIMenuListItem("Preleva: ", lista, 0, "Quanto vuoi Prelevare?");
-			UIMenuListItem Deposita = new UIMenuListItem("Deposita: ", lista, 0, "Quanto vuoi Depositare?");
-			Banca.AddItem(Preleva);
-			Banca.AddItem(Deposita);
-
-			int valore;
-			Banca.OnListSelect += async (_menu, _listItem, _itemIndex) =>
-			{
-				if (_listItem == Preleva)
+		/*		static public async void BankMenu()
 				{
-					if (Game.Player.GetPlayerData().Bank > 0)
+					UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
+					HUD.MenuPool.Add(Banca);
+					int saldoBanca = Game.Player.GetPlayerData().Bank;
+
+					UIMenuItem Saldo = new UIMenuItem("Saldo Bancario", "I tuoi soldi in banca");
+					Saldo.SetRightLabel("~g~" + saldoBanca.ToString());
+					Banca.AddItem(Saldo);
+					UIMenuListItem Preleva = new UIMenuListItem("Preleva: ", lista, 0, "Quanto vuoi Prelevare?");
+					UIMenuListItem Deposita = new UIMenuListItem("Deposita: ", lista, 0, "Quanto vuoi Depositare?");
+					Banca.AddItem(Preleva);
+					Banca.AddItem(Deposita);
+
+					int valore;
+					Banca.OnListSelect += async (_menu, _listItem, _itemIndex) =>
 					{
-						string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
-						Debug.WriteLine(Item);
-						if (Item != "Altro Importo")
+						if (_listItem == Preleva)
 						{
-							valore = Convert.ToInt32(Item);
-							Debug.WriteLine("valore = " + valore);
-							BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
-							if (valore <= Game.Player.GetPlayerData().Bank)
+							if (Game.Player.GetPlayerData().Bank > 0)
 							{
-								saldoBanca -= valore;
-								Saldo.SetRightLabel("~g~" + saldoBanca);
+								string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
+								Debug.WriteLine(Item);
+								if (Item != "Altro Importo")
+								{
+									valore = Convert.ToInt32(Item);
+									Debug.WriteLine("valore = " + valore);
+									BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
+									if (valore <= Game.Player.GetPlayerData().Bank)
+									{
+										saldoBanca -= valore;
+										Saldo.SetRightLabel("~g~" + saldoBanca);
+									}
+								}
+								else
+								{
+									valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
+									BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
+									if (valore <= Game.Player.GetPlayerData().Bank)
+									{
+										saldoBanca -= valore;
+										Saldo.SetRightLabel("~g~" + saldoBanca);
+									}
+								}
+							}
+							else
+							{
+								HUD.ShowAdvancedNotification("De Santa Banking", "Conto in rosso", "Siamo spiacenti di informarla che non può prelevare con conto in rosso o in negativo.", "CHAR_BANK_MAZE", (IconType)2);
 							}
 						}
-						else
+						if (_listItem == Deposita)
 						{
-							valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
-							BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
-							if (valore <= Game.Player.GetPlayerData().Bank)
+							if (Game.Player.GetPlayerData().Money > 0)
 							{
-								saldoBanca -= valore;
-								Saldo.SetRightLabel("~g~" + saldoBanca);
+								string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
+								if (Item != "Altro Importo")
+								{
+									valore = Convert.ToInt32(Item);
+									BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
+									if (valore <= Game.Player.GetPlayerData().Money)
+									{
+										saldoBanca += valore;
+										Saldo.SetRightLabel("~g~" + saldoBanca);
+									}
+								}
+								else
+								{
+									valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
+									BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
+									if (valore <= Game.Player.GetPlayerData().Money)
+									{
+										saldoBanca += valore;
+										Saldo.SetRightLabel("~g~" + saldoBanca);
+									}
+								}
+							}
+							else
+							{
+								HUD.ShowAdvancedNotification("De Santa Banking", "Portafoglio Vuoto", "Siamo spiacenti ma lei NON dispone di denaro nel portafoglio.", "CHAR_BANK_MAZE", (IconType)2);
 							}
 						}
-					}
-					else
-					{
-						HUD.ShowAdvancedNotification("De Santa Banking", "Conto in rosso", "Siamo spiacenti di informarla che non può prelevare con conto in rosso o in negativo.", "CHAR_BANK_MAZE", (IconType)2);
-					}
-				}
-				if (_listItem == Deposita)
-				{
-					if (Game.Player.GetPlayerData().Money > 0)
-					{
-						string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
-						if (Item != "Altro Importo")
-						{
-							valore = Convert.ToInt32(Item);
-							BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
-							if (valore <= Game.Player.GetPlayerData().Money)
-							{
-								saldoBanca += valore;
-								Saldo.SetRightLabel("~g~" + saldoBanca);
-							}
-						}
-						else
-						{
-							valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
-							BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
-							if (valore <= Game.Player.GetPlayerData().Money)
-							{
-								saldoBanca += valore;
-								Saldo.SetRightLabel("~g~" + saldoBanca);
-							}
-						}
-					}
-					else
-					{
-						HUD.ShowAdvancedNotification("De Santa Banking", "Portafoglio Vuoto", "Siamo spiacenti ma lei NON dispone di denaro nel portafoglio.", "CHAR_BANK_MAZE", (IconType)2);
-					}
-				}
-			};
+					};
 
-			UIMenu Bonifico = HUD.MenuPool.AddSubMenu(Banca, "Bonifico", "Bonifico istantaneo verso chiunque");
-			UIMenuItem destinatario = new UIMenuItem("Nome Intestatario", "A chi vuoi inviare i soldi?");
-			UIMenuItem importo = new UIMenuItem("Importo da inviare", "Quanto??");
-			UIMenuItem conferma = new UIMenuItem("~g~Invia~w~", "Confermi?");
-			Bonifico.AddItem(destinatario);
-			Bonifico.AddItem(importo);
-			Bonifico.AddItem(conferma);
+					UIMenu Bonifico = HUD.MenuPool.AddSubMenu(Banca, "Bonifico", "Bonifico istantaneo verso chiunque");
+					UIMenuItem destinatario = new UIMenuItem("Nome Intestatario", "A chi vuoi inviare i soldi?");
+					UIMenuItem importo = new UIMenuItem("Importo da inviare", "Quanto??");
+					UIMenuItem conferma = new UIMenuItem("~g~Invia~w~", "Confermi?");
+					Bonifico.AddItem(destinatario);
+					Bonifico.AddItem(importo);
+					Bonifico.AddItem(conferma);
 
-			int valoreBonifico = 0;
-			string nome = "";
-			Bonifico.OnItemSelect += async (_menu, _item, _index) =>
-			{
-				if (_item == destinatario)
-				{
-					int result;
-					nome = await HUD.GetUserInput("A chi vuoi inviare?", "Nome Cognome", 50);
-					if (int.TryParse(nome, out result))
-						HUD.ShowNotification("Devi inserire il nome valido di una persona!", NotificationColor.Red, true);
-					else
+					int valoreBonifico = 0;
+					string nome = "";
+					Bonifico.OnItemSelect += async (_menu, _item, _index) =>
 					{
-						if (nome.Length < 3)
-							HUD.ShowNotification("Nome inserito troppo corto!", NotificationColor.Red, true);
-						else if (!nome.Contains(" "))
-							HUD.ShowNotification("Errore! Devi inserire Nome e Cognome del destinatario!", NotificationColor.Red, true);
-						else
-							destinatario.SetRightLabel(nome);
-					}
+						if (_item == destinatario)
+						{
+							int result;
+							nome = await HUD.GetUserInput("A chi vuoi inviare?", "Nome Cognome", 50);
+							if (int.TryParse(nome, out result))
+								HUD.ShowNotification("Devi inserire il nome valido di una persona!", NotificationColor.Red, true);
+							else
+							{
+								if (nome.Length < 3)
+									HUD.ShowNotification("Nome inserito troppo corto!", NotificationColor.Red, true);
+								else if (!nome.Contains(" "))
+									HUD.ShowNotification("Errore! Devi inserire Nome e Cognome del destinatario!", NotificationColor.Red, true);
+								else
+									destinatario.SetRightLabel(nome);
+							}
+						}
+						if (_item == importo)
+						{
+							string lettere = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,!,\\,\", £,$,%,&,/,(,),=,?,',ì,^,è,*,é,+,à";
+							string[] lettera = lettere.Split(',');
+							string val = await HUD.GetUserInput("Quantità", "", 20);
+							foreach (string a in lettera)
+							{
+								if (!val.All(o => char.IsDigit(o)))
+									HUD.ShowNotification("Errore! Devi inserire solo numeri!!");
+							}
+							if (int.TryParse(val, out int i))
+							{
+								valoreBonifico = Convert.ToInt32(val);
+								importo.SetRightLabel(val + "$");
+							}
+						}
+						if (_item == conferma)
+						{
+							if (Game.Player.GetPlayerData().Bank >= valoreBonifico)
+							{
+								BaseScript.TriggerServerEvent("lprp:banking:sendMoney", nome, valoreBonifico);
+								Saldo.SetRightLabel("~g~" + (saldoBanca - valoreBonifico));
+							}
+							else
+								HUD.ShowAdvancedNotification("De Santa Banking", "Conto in rosso", "Siamo spiacenti di informarla che non può prelevare con conto in rosso o in negativo.", "CHAR_BANK_MAZE", (IconType)2);
+						}
+					};
+					Banca.Visible = true;
+					await Task.FromResult(0);
 				}
-				if (_item == importo)
-				{
-					string lettere = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,!,\\,\", £,$,%,&,/,(,),=,?,',ì,^,è,*,é,+,à";
-					string[] lettera = lettere.Split(',');
-					string val = await HUD.GetUserInput("Quantità", "", 20);
-					foreach (string a in lettera)
-					{
-						if (!val.All(o => char.IsDigit(o)))
-							HUD.ShowNotification("Errore! Devi inserire solo numeri!!");
-					}
-					if (int.TryParse(val, out int i))
-					{
-						valoreBonifico = Convert.ToInt32(val);
-						importo.SetRightLabel(val + "$");
-					}
-				}
-				if (_item == conferma)
-				{
-					if (Game.Player.GetPlayerData().Bank >= valoreBonifico)
-					{
-						BaseScript.TriggerServerEvent("lprp:banking:sendMoney", nome, valoreBonifico);
-						Saldo.SetRightLabel("~g~" + (saldoBanca - valoreBonifico));
-					}
-					else
-						HUD.ShowAdvancedNotification("De Santa Banking", "Conto in rosso", "Siamo spiacenti di informarla che non può prelevare con conto in rosso o in negativo.", "CHAR_BANK_MAZE", (IconType)2);
-				}
-			};
-			Banca.Visible = true;
-			await Task.FromResult(0);
-		}
-*/
+		*/
 		static public void Status(bool success, string msg)
 		{
 			if (success)

@@ -3,6 +3,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.IPLs;
 using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client
 {
@@ -78,6 +79,7 @@ namespace TheLastPlanet.Client
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 
 			TickController.Init();
+			InputHandler.Init();
 		}
 	}
 }
