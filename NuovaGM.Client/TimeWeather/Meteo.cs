@@ -17,6 +17,8 @@ namespace TheLastPlanet.Client.TimeWeather
 		public static bool Transitioning = false;
 		public static bool BlackOut = false;
 		private static float _windCostantDirectRad = 51.4285714286f;
+		private static Prop xMas;
+		private static int blockArea;
 		private static float RandomWindDirection { get { return Funzioni.GetRandomInt(0, 359) / _windCostantDirectRad; } }
 
 		public static void Init()
@@ -52,18 +54,20 @@ namespace TheLastPlanet.Client.TimeWeather
 			{
 				SetForceVehicleTrails(true);
 				SetForcePedFootstepsTracks(true);
+				ForceSnowPass(true);
+				RequestScriptAudioBank("ICE_FOOTSTEPS", false);
 				RequestScriptAudioBank("SNOW_FOOTSTEPS", false);
-				while (!HasNamedPtfxAssetLoaded("core_snow"))
-				{
-					await BaseScript.Delay(0);
-					RequestNamedPtfxAsset("core_snow");
-				}
+				RequestNamedPtfxAsset("core_snow");
+				while (!HasNamedPtfxAssetLoaded("core_snow")) await BaseScript.Delay(0);
+				UseParticleFxAssetNextCall("core_snow");
 				World.CloudHat = CloudHat.Snowy;
 			}
 			else
 			{
 				SetForceVehicleTrails(false);
 				SetForcePedFootstepsTracks(false);
+				ForceSnowPass(false);
+				ReleaseScriptAudioBank();
 			}
 
 			SetBlackout(BlackOut);
