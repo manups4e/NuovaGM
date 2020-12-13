@@ -99,10 +99,8 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(1000);
-			Vector3 pos = new Vector3(x, y, z);
-			StartPlayerTeleport(PlayerId(), x, y, z, 0, true, true, true);
+			StartPlayerTeleport(PlayerId(), x, y, z, 0, false, true, true);
 			while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
-			StopPlayerTeleport();
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeIn(500);
 			//Funzioni.Teleport(pos);
