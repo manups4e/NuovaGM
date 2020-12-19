@@ -1495,7 +1495,19 @@ namespace TheLastPlanet.Client.Personale
 		private static async void LastPlanetMenu()
 		{
 			var pl = Game.Player.GetPlayerData();
-			TabView b = new TabView("The Last Planet", "Full RP")
+			#region HUD MenuItems
+			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, "");
+			UIMenuSliderProgressItem b = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
+			UIMenuListItem c = new UIMenuListItem("Filtri", new List<dynamic>() { "Test" }, 0);
+			UIMenuSeparatorItem d = new UIMenuSeparatorItem();
+			UIMenuItem e = new UIMenuItem("MiniMappa on/off");
+			UIMenuItem f = new UIMenuItem("Dimensioni minimappa");
+			UIMenuItem g = new UIMenuItem("attivagps macchina");
+			UIMenuItem h = new UIMenuItem("Dimensioni minimappa");
+			List<UIMenuItem> hudList = new List<UIMenuItem>() { a, b, c, d, e, f, g, h, };
+			TabInteractiveListItem HUD = new TabInteractiveListItem("HUD", hudList);
+			#endregion
+			TabView MainMenu = new TabView("The Last Planet", "Full RP")
 			{
 				SideStringTop = Game.Player.Name,
 				SideStringMiddle = DateTime.Now.ToString(),
@@ -1532,26 +1544,17 @@ namespace TheLastPlanet.Client.Personale
 
 			TabSubmenuItem impostazioni = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
 			{
-				new TabInteractiveListItem("HUD", new List<UIMenuItem>()
-				{
-					new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, ""),
-					new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight)),
-					new UIMenuListItem("Filtri", new List<dynamic>(){ }, 0),
-					new UIMenuSeparatorItem(),
-					new UIMenuItem("MiniMappa on/off"),
-					new UIMenuItem("Dimensioni minimappa"),
-					new UIMenuItem("attivagps macchina"),
-					new UIMenuItem("Dimensioni minimappa"),
-				}),
+				HUD,
 			});
 
-			b.AddTab(intro);
-			b.AddTab(comandi);
-			b.AddTab(impostazioni);
+			MainMenu.AddTab(intro);
+			MainMenu.AddTab(comandi);
+			MainMenu.AddTab(impostazioni);
 			intro.Active = true;
 			intro.Focused = true;
 			intro.Visible = true;
-			b.Visible = true;
+
+			MainMenu.Visible = true;
 		}
 
 		public enum RouteColor
