@@ -116,6 +116,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		static string d;
 		static Char_data data;
 		static Camera ncam;
+		static Ped dummyPed;
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
@@ -142,6 +143,13 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		{
 			try
 			{
+				dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Game.PlayerPed.Position + new Vector3(10));
+				dummyPed.IsVisible = false;
+				dummyPed.IsPositionFrozen = false;
+				dummyPed.IsCollisionEnabled = false;
+				dummyPed.IsCollisionProof = false;
+				dummyPed.BlockPermanentEvents = true;
+
 				string nome = nuiData["nome"] as string;
 				string cognome = nuiData["cogn"] as string;
 				string dob = nuiData["dob"] as string;
@@ -1175,6 +1183,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				{
 					Screen.Fading.FadeOut(800);
 					await BaseScript.Delay(1000);
+					if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
 					Creazione.Visible = false;
 					pool.CloseAllMenus();
 					BD1.Detach();
@@ -1794,22 +1803,12 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			if (p1.Exists())
 				p1.Heading += 1f;
 
-/*			if (CharSelection.Visible && CharSelection.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
-			{
-				HUD.MenuPool.CloseAllMenus();
-				Esci();
-			}
-*/			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
+			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
 				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio e la creazione verrà annullata", 16392, "lprp:sceltaCharCreation");
 			}
 			await Task.FromResult(0);
-		}
-
-		static void Esci()
-		{
-			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
 		}
 
 		public static async void SceltaCreatoreAsync(string param)
@@ -1818,6 +1817,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			{
 				Screen.Fading.FadeOut(0);
 				await BaseScript.Delay(100);
+				if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
 				LogIn.charSelect();
 			}
 			else if (param == "back")

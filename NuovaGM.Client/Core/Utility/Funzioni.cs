@@ -797,11 +797,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="position">The position to spawn the <see cref="Ped"/> at.</param>
 		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
-		public static async Task<Ped> CreatePedLocally(Model model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
+		public static async Task<Ped> CreatePedLocally(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
-			if (!model.IsPed || !await model.Request(3000))
+			Model mod = new Model(model);
+			if (!mod.IsPed || !await mod.Request(3000))
 				return null;
-			Ped p = new Ped(CreatePed((int)PedType, (uint)model.Hash, position.X, position.Y, position.Z, heading, false, false));
+			Ped p = new Ped(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
 			while (!p.Exists()) await BaseScript.Delay(0);
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			return p;

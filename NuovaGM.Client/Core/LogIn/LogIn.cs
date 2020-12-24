@@ -53,6 +53,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			"CODE_HUMAN_MEDIC_TEND_TO_DEAD", "CODE_HUMAN_MEDIC_TIME_OF_DEATH",
 		};
 
+		private static Ped dummyPed;
 		public static void Init()
 		{
 			Client.Instance.AddTick(Entra);
@@ -151,6 +152,13 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 		private static async void Attiva()
 		{
+			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Game.PlayerPed.Position + new Vector3(10));
+			dummyPed.IsVisible = false;
+			dummyPed.IsPositionFrozen = false;
+			dummyPed.IsCollisionEnabled = false;
+			dummyPed.IsCollisionProof = false;
+			dummyPed.BlockPermanentEvents = true;
+
 			guiEnabled = true;
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
@@ -175,20 +183,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		static Ped p1;
 		private static async void SelezionatoPreview(IDictionary<string, object> data)
 		{
-			Model m = new Model(PedHash.FreemodeMale01);
-			Model f = new Model(PedHash.FreemodeFemale01);
-			m.Request();
-			f.Request();
-			while (!m.IsLoaded)
-			{
-				await BaseScript.Delay(100);
-				m.Request();
-			}
-			while (!f.IsLoaded)
-			{
-				await BaseScript.Delay(100);
-				f.Request();
-			}
+			PedHash m = PedHash.FreemodeMale01;
+			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Game.PlayerPed;
 			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"] as string));
 			if (p1 != null)
@@ -218,6 +214,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		private static async void Selezionato(IDictionary<string, object> data)
 		{
 			if (p1 != null) if (p1.Exists()) p1.Delete();
+			if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
 			guiEnabled = false;
 			ToggleMenu(false);
 			Screen.Fading.FadeOut(800);
