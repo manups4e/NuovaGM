@@ -48,15 +48,15 @@ namespace TheLastPlanet.Client.Handlers
 										switch (input.Check)
 										{
 											case PadCheck.Any:
-												input.Action.DynamicInvoke(Game.PlayerPed);
+												input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
 												break;
 											case PadCheck.Controller:
 												if (Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(Game.PlayerPed);
+													input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
 												break;
 											case PadCheck.Keyboard:
 												if (!Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(Game.PlayerPed);
+													input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
 												break;
 										}
 									}

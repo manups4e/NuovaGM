@@ -304,8 +304,8 @@ namespace TheLastPlanet.Client
 
 		private static async Task aggiornaPl()
 		{
-			await BaseScript.Delay(5000);
 			await Eventi.AggiornaPlayers();
+			await BaseScript.Delay(5000);
 		}
 	}
 }
