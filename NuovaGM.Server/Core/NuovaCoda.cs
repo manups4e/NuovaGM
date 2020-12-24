@@ -63,7 +63,7 @@ namespace TheLastPlanet.Server.Core
         internal static bool bannedReady = false;
         internal static bool reservedReady = false;
         internal static bool priorityReady = false;
-        private static bool puoentrare = false;
+        private static IngressoResponse puoentrare;
         internal static string notWhitelisted = "";
         private static string TestCard = $@"{{""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",""type"": ""AdaptiveCard"",""version"": ""1.0"",""body"": [{{""type"": ""ColumnSet"",""columns"": [{{""type"": ""Column"",""width"": 2,""items"": [{{""type"": ""TextBlock"",""text"": ""Non sei whitelistato nel server"",""weight"": ""Bolder"",""size"": ""Medium""}},{{""type"": ""TextBlock"",""text"": ""Non hai i permessi necessari ad accedere al server."",""isSubtle"": true,""wrap"": true}},{{""type"": ""TextBlock"",""text"": ""Siamo in fase Alpha Testing, vuoi partecipare al testing e segnalare i bugs per aiutare lo sviluppo? Inserisci i tuoi dati qui sotto ed entra nel nostro Discord! (https://discord.gg/n4ep9Fq)"",""isSubtle"": true,""wrap"": true,""size"": ""Small""}},{{""type"": ""TextBlock"",""text"": ""Il tuo nome"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myName"",""placeholder"": ""Scrivi qui Nome o NickName""}},{{""type"": ""TextBlock"",""text"": ""Motivazione"",""wrap"": true}},{{""type"": ""Input.Text"",""id"": ""myMotivazione"",""placeholder"": ""Scrivi qui la motivazione"",""style"": ""Text""}},{{""type"": ""TextBlock"",""text"": ""Nome Discord""}}]}},{{""type"": ""Column"",""width"": 1,""items"": [{{""type"": ""Image"",""url"": ""https://miro.medium.com/max/1000/1*OQQLQscmbtr-xxxw5GKZ3w.jpeg"",""size"": ""auto""}}]}}]}},{{""type"": ""Input.Text"",""placeholder"": ""Scrivi qui NomeDiscord#0000"",""id"": ""MyDiscordId""}}],""actions"": [{{""type"": ""Action.Submit"",""title"": ""Invia""}}]}}";
         public static void Init()
@@ -635,13 +635,17 @@ namespace TheLastPlanet.Server.Core
             return true;
         }
 
-        private static  async void PlayerConnecting([FromSource]Player source, string playerName, dynamic denyWithReason, dynamic deferrals)
+        private static async void PlayerConnecting([FromSource]Player source, string playerName, dynamic denyWithReason, dynamic deferrals)
         {
             try
             {
                 deferrals.defer();
                 await BaseScript.Delay(500);
                 while (!IsEverythingReady()) {await BaseScript.Delay(0); }
+                List<string> PlayerTokens = new List<string>();
+                int tokensNum = GetNumPlayerTokens(source.Handle);
+                for (int i = 0; i < tokensNum; i++)
+                    PlayerTokens.Add(GetPlayerToken(source.Handle, i));
                 string license = source.Identifiers["license"];
                 string discord = source.Identifiers["discord"];
                 string steam = source.Identifiers["steam"];
@@ -654,10 +658,10 @@ namespace TheLastPlanet.Server.Core
                 deferrals.presentCard(ControlloLicenza);
                 await BaseScript.Delay(3000);
 
-                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.permessi);
+                puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.permessi, PlayerTokens);
                 await BaseScript.Delay(1000);
 
-                if (puoentrare)
+                if (puoentrare.permesso)
                 {
                     if (!allowSymbols && !ValidName(playerName)) { deferrals.done($"{messages["Symbols"]}"); return; }
 
@@ -736,16 +740,44 @@ namespace TheLastPlanet.Server.Core
                 else
                 {
                     RemoveFrom(license, false, false, false, false, true, true);
-                    if (whitelistonly)
+                    if (puoentrare.bannato)
                     {
-                        deferrals.presentCard(TestCard, new Action<dynamic>(async (var) => {
-                            object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var, items = source.Identifiers.ToList(), nome = source.Name};
-                            deferrals.done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
-                                "Resta aggiornato sul mio server discord con invito https://discord.gg/n4ep9Fq!");
-                            await BotDiscordHandler.InviaAlBot(dati);
-                        }));
-//                        deferrals.done($"{messages["Whitelist"]}");
+                        string banText = "Last Planet Shield 2.0.";
+                        if (!string.IsNullOrEmpty(puoentrare.datafine))
+                        {
+                            string datafine = "MAI";
+                            banText += "\nSei attualmente bannato dal server!";
+                            if (puoentrare.temporaneo)
+                                banText += "\nIl tuo ban è temporaneo, potrai ri-entrare dopo la data e l'orario di fine ban.";
+                            banText += "\n- BAN ID: " + puoentrare.banId;
+                            banText += "\n- Bannato da: " + puoentrare.banner;
+                            banText += "\n- Motivazione: " + puoentrare.motivazione;
+                            banText += "\n- Data di fine: " + puoentrare.datafine;
+                        }
+						else
+						{
+                            banText += "\nIl tuo accesso al server è stato bloccato!";
+                            banText += "\n\n- Motivazione: " + puoentrare.motivazione;
+                            banText += "\n- Bannato da: SISTEMA ANTICHEAT";
+                        }
+                        banText += "\n\nSe vuoi parlare con lo staff riguardo al tuo ban, ricorda di segnare il BAN ID (se presente, oppure fai uno screenshot dell'errore) e riferiscilo allo staff.";
+                        deferrals.done(banText);
                         return;
+                    }
+                    else
+                    {
+                        if (whitelistonly)
+                        {
+                            deferrals.presentCard(TestCard, new Action<dynamic>(async (var) =>
+                            {
+                                object dati = new { tipo = "RichiestaIngresso", RichiestaInterna = var, items = source.Identifiers.ToList(), nome = source.Name };
+                                deferrals.done("Grazie di esserti candidato! I nostri admin prenderanno in considerazione la candidatura e se la riterranno valida ti contatteranno!\n" +
+                                    "Resta aggiornato sul mio server discord con invito https://discord.gg/n4ep9Fq!");
+                                await BotDiscordHandler.InviaAlBot(dati);
+                            }));
+  //                        deferrals.done($"{messages["Whitelist"]}");
+                            return;
+                        }
                     }
                 }
             }

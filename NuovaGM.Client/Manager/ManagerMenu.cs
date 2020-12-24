@@ -36,15 +36,17 @@ namespace TheLastPlanet.Client.Manager
 			MenuPlayers.OnMenuOpen += async (_menu) =>
 			{
 				MenuPlayers.Clear();
+				/*// COMMENTARE PER TESTARE SU ME STESSO 
+				if (Client.Instance.GetPlayers.Count() == 1)
+				{
+					UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
+					_menu.AddItem(nessuno);
+					return;
+				}
+				*/
 				foreach (var p in Client.Instance.GetPlayers)
 				{
-					if (Client.Instance.GetPlayers.Count() == 1)
-					{
-						UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
-						_menu.AddItem(nessuno);
-						return;
-					}
-					if (p == Game.Player) continue;
+					//if (p == Game.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
 					var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
 					if (player.char_data.Count == 1)
@@ -107,8 +109,10 @@ namespace TheLastPlanet.Client.Manager
 					UIMenuItem motivazioneBan = new UIMenuItem("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
 					UIMenuListItem TempoBan = new UIMenuListItem("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
 					UIMenuItem Banna = new UIMenuItem("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+					UIMenuCheckboxItem temp = new UIMenuCheckboxItem("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
 					Ban.AddItem(motivazioneBan);
 					Ban.AddItem(TempoBan);
+					Ban.AddItem(temp);
 					Ban.AddItem(Banna);
 
 					Ban.OnItemSelect += async (menu, item, index) =>
@@ -117,11 +121,11 @@ namespace TheLastPlanet.Client.Manager
 						{
 							Motivazione = await HUD.GetUserInput("Motivazione del Ban", "", 175);
 							motivazioneBan.Description = Motivazione;
-							motivazioneBan.SetRightLabel(Motivazione.Substring(0, 15) + "...");
+							motivazioneBan.SetRightLabel(Motivazione.Length > 15 ? Motivazione.Substring(0, 15) + "..." : Motivazione);
 							menu.UpdateDescription();
 						}
 						else if (item == Banna)
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, TempoDiBan.Ticks, Game.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Game.Player.ServerId);
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
 					};
 

@@ -47,14 +47,23 @@ namespace TheLastPlanet.Server.Discord
 			return await new Request().Http(serverUrl, "GET", data.Serialize());
 		}
 
-		public static async Task<bool> DoesPlayerHaveRole(string discordId, List<string> Ruoli)
+		public static async Task<IngressoResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
 		{
-			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli} });
+			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli, Tokens = tokens.Serialize()} });
 			if(response.status == System.Net.HttpStatusCode.OK)
-				return response.content.Deserialize<bool>(); 
+				return response.content.Deserialize<IngressoResponse>(); 
 			else
-				return false;
+				return new IngressoResponse() { permesso = false };
 		}
-
+	}
+	internal class IngressoResponse
+	{
+		public bool permesso;
+        public bool bannato;
+        public string motivazione;
+        public string banId;
+        public bool temporaneo;
+        public string datafine;
+        public string banner;
 	}
 }

@@ -58,7 +58,7 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:addWeaponComponenttochar", new Action<string, int, string, string>(AddWeaponCompToChar));
 			Server.Instance.AddEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
 			Server.Instance.AddEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
-			Server.Instance.AddEventHandler("lprp:bannaPlayer", new Action<string, string, long, int>(BannaPlayer));
+			Server.Instance.AddEventHandler("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
 			Server.Instance.AddEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
 			Server.Instance.AddEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
 			Server.Instance.AddEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
@@ -466,24 +466,37 @@ namespace TheLastPlanet.Server.Core
 			Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint);
 		}
 
-		private static async void BannaPlayer(string target, string motivazione, long tempodiban, int banner)
+		private static async void BannaPlayer(string target, string motivazione, bool temporaneo, long tempodiban, int banner)
 		{
-			await BaseScript.Delay(0);
 			DateTime TempoBan = new DateTime(tempodiban);
 			Player Target = Funzioni.GetPlayerFromId(target);
-			Player Banner = Funzioni.GetPlayerFromId(banner);
-			await Server.Instance.Execute("INSERT INTO bans (`discord`, `license`, `Name`, `DataFine`, `Banner`, `Motivazione`) VALUES (@disc, @lice, @nome, @datafine, @banner, @motivation)", new
+			List<string> Tokens = new List<string>();
+			for (int i = 0; i < GetNumPlayerTokens(target); i++)
+				Tokens.Add(GetPlayerToken(target, i));
+			var pippo = await Discord.BotDiscordHandler.InviaAlBotERicevi(new
 			{
-				disc = License.GetLicense(Target, Identifier.Discord),
-				lice = License.GetLicense(Target, Identifier.License),
-				nome = Target.Name,
-				datafine = TempoBan.ToString("yyyy-MM-dd HH:mm:ss"),
-				banner = Banner.Name,
-				motivation = motivazione
+				tipo = "BannaPlayer",
+				RichiestaInterna = new
+				{
+					Banner = banner > 0 ? Funzioni.GetPlayerFromId(banner).Name : "Last Planet Shield 2.0",
+					Bannato = Target.Name,
+					IdMember = Target.Identifiers["discord"],
+					Motivazione = motivazione,
+					Temporaneo = temporaneo,
+					DataFine = tempodiban,
+					Tokens = Tokens.Serialize()
+				}
 			});
-			Log.Printa(LogType.Warning, $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
-			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Banner.Name} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
-			Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {Banner.Name}"); // modificare con introduzione in stile anticheat
+			if (pippo.content.Deserialize<bool>())
+			{
+				Log.Printa(LogType.Warning, $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
+				BaseScript.TriggerEvent("lprp:serverLog", $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
+				//Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {(banner > 0 ? Funzioni.GetPlayerFromId(banner).Name : "Sistema anticheat")}"); // modificare con introduzione in stile anticheat
+			}
+			else
+			{
+				Log.Printa(LogType.Error, "Ban fallito ");
+			}
 		}
 
 		private static void Kick(string target, string motivazione, int kicker)
@@ -498,7 +511,6 @@ namespace TheLastPlanet.Server.Core
 		private static void GiveLicense([FromSource] Player source, string license)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-
 		}
 
 		private static void GiveLicenseToChar([FromSource] Player source, int target, string license)
