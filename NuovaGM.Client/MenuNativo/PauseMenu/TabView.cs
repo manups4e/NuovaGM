@@ -178,7 +178,6 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 Tabs[Index].Active = true;
                 Tabs[Index].Focused = false;
                 Tabs[Index].Visible = true;
-
                 Game.PlaySound("NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET");
             }
 
@@ -283,51 +282,6 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             var safe = new PointF(300, SubTitle != null && SubTitle != "" ? 205 : 195);
             if (!HideTabs)
             {
-                /*
-                new UIResText(Title, new PointF(safe.X, safe.Y - 80), 1f, Colors.White, Font.ChaletComprimeCologne, Alignment.Left)
-                {
-                    Shadow = true,
-                }.Draw();
-
-                if (Photo == null)
-                    new Sprite("char_multiplayer", "char_multiplayer", new PointF((int)Resolution.Width - safe.X - 64, safe.Y - 90), new SizeF(75, 75)).Draw();
-                else
-                {
-                    Photo.Position = new PointF((int)Resolution.Width - safe.X - 100, safe.Y - 90);
-                    Photo.Size = new SizeF(75, 75);
-                    Photo.Draw();
-                }
-
-                new UIResText(Name, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 98), 0.5f, Colors.White, Font.ChaletComprimeCologne, Alignment.Right)
-                {
-                    Shadow = true,
-                }.Draw();
-
-                string t = Money;
-                if (string.IsNullOrEmpty(Money))
-                {
-                    t = DateTime.Now.ToString();
-                }
-
-
-                new UIResText(t, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 70), 0.5f, Colors.White,
-                    Font.ChaletComprimeCologne, Alignment.Right)
-                {
-                    Shadow = true,
-                }.Draw();
-
-                string subt = MoneySubtitle;
-                if (string.IsNullOrEmpty(MoneySubtitle))
-                {
-                    subt = "";
-                }
-
-                new UIResText(subt, new PointF((int)Resolution.Width - safe.X - 106, safe.Y - 44), 0.5f, Colors.White,
-                    Font.ChaletComprimeCologne, Alignment.Right)
-                {
-                    Shadow = true,
-                }.Draw();
-                */
                 for (int i = 0; i < Tabs.Count; i++)
                 {
                     var activeSize = Resolution.Width - 2 * safe.X;

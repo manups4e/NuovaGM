@@ -39,7 +39,6 @@ namespace TheLastPlanet.Client.Personale
 		public static bool GranaCinema = false;
 		static bool aperto = false;
 		private static float fuelint = 0;
-
 		public static List<dynamic> gps = new List<dynamic>()
 		{
 		   "Nessuno",
@@ -1468,7 +1467,6 @@ namespace TheLastPlanet.Client.Personale
 			await BaseScript.Delay(3000);
 		}
 
-		static int aa = 0;
 		public static async Task attiva()
 		{
 			if (EventiPersonalMenu.saveVehicle != null)
@@ -1487,75 +1485,9 @@ namespace TheLastPlanet.Client.Personale
 						HUD.ShowNotification("Non puoi aprire il menu sulle giostre!", NotificationColor.Red, true);
 				}
 			}
-			if(Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift))
-				LastPlanetMenu();
 			await Task.FromResult(0);
 		}
 
-		private static async void LastPlanetMenu()
-		{
-			var pl = Game.Player.GetPlayerData();
-			#region HUD MenuItems
-			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, "");
-			UIMenuSliderProgressItem b = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
-			UIMenuListItem c = new UIMenuListItem("Filtri", new List<dynamic>() { "Test" }, 0);
-			UIMenuSeparatorItem d = new UIMenuSeparatorItem();
-			UIMenuItem e = new UIMenuItem("MiniMappa on/off");
-			UIMenuItem f = new UIMenuItem("Dimensioni minimappa");
-			UIMenuItem g = new UIMenuItem("attivagps macchina");
-			UIMenuItem h = new UIMenuItem("Dimensioni minimappa");
-			List<UIMenuItem> hudList = new List<UIMenuItem>() { a, b, c, d, e, f, g, h, };
-			TabInteractiveListItem HUD = new TabInteractiveListItem("HUD", hudList);
-			#endregion
-			TabView MainMenu = new TabView("The Last Planet", "Full RP")
-			{
-				SideStringTop = Game.Player.Name,
-				SideStringMiddle = DateTime.Now.ToString(),
-				SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyMoney,
-				DisplayHeader = true
-			};
-			TabTextItem intro = new TabTextItem("Introduzione", "Benvenuto su The Last Planet");
-			intro.Text = "Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.\n" +
-				"Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.\n" +
-				"Potrai in ogni mento riaprire questo menu di pausa premendo i tasti SHIFT+F9 oppure con il comando /help";
-			TabSubmenuItem comandi = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
-			{
-				new TabItemSimpleList("Generici (sempre validi)", new Dictionary<string, string>()
-				{
-					["Menu Personale"] = "Tasto M / Select",
-					["Lista giocatori"] = "Tasto Z / Dpad giù",
-					["Portafoglio"] = "Tasto Z / Dpad giù",
-				}),
-				new TabItemSimpleList("A piedi", new Dictionary<string, string>()
-				{
-					["Azione"] = "Tasto E / Dpad destra",
-				}),
-				new TabItemSimpleList("Su veicolo", new Dictionary<string, string>()
-				{
-					["Accendi veicolo"] = "Tasto F10 / LB+A",
-					["Allaccia / Slaccia cintura"] = "Tasto X / LB+X",
-				}),
-				new TabItemSimpleList("Lavoro", new Dictionary<string, string>()
-				{
-					["Menu lavorativo (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
-					["In servizio / Fuori servizio (solo alcuni lavori)"] = "Tasto F6 / Menu personale",
-				})
-			});
-
-			TabSubmenuItem impostazioni = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
-			{
-				HUD,
-			});
-
-			MainMenu.AddTab(intro);
-			MainMenu.AddTab(comandi);
-			MainMenu.AddTab(impostazioni);
-			intro.Active = true;
-			intro.Focused = true;
-			intro.Visible = true;
-
-			MainMenu.Visible = true;
-		}
 
 		public enum RouteColor
 		{

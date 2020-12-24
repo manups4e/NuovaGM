@@ -37,6 +37,18 @@ namespace TheLastPlanet.Client
 		public ConfigProprieta Proprieta = new ConfigProprieta();
 	}
 
+	public class ClientConfigKVP
+	{
+		public bool ModCinema;
+		public float LetterBox;
+		public string Filtro;
+		public int FiltroStrenght;
+		public bool MiniMappaAttiva;
+		public int DimensioniMinimappa;
+		public bool MiniMappaInAuto;
+		public bool MostraContattiTelefonoInMappa; // da valutare
+	}
+
 	public class ConfPrincipale
 	{
 		public string NomeServer;

@@ -104,7 +104,6 @@ namespace TheLastPlanet.Client.MenuNativo
 		internal virtual void SliderProgressChanged(int Value)
 		{
 			OnSliderChanged?.Invoke(this, Value);
-			Parent.SliderProgressChange(this, Value);
 		}
 
 		public async void Functions()

@@ -26,6 +26,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
         protected const int MaxItemsPerView = 15;
         protected int _minItem;
         protected int _maxItem;
+        protected internal int _pressingWaitingTimer = 0;
+        protected internal int _pressingTimer = 0;
 
         public void MoveDown()
         {
@@ -73,7 +75,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
         }
 
 
-        public override void ProcessControls()
+        public override async void ProcessControls()
         {
             if (!Visible) return;
             if (JustOpened)
@@ -117,6 +119,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                     slPIt.Value --;
                     slPIt.SliderProgressChanged(slPIt.Value);
                 }
+                _pressingWaitingTimer = API.GetGameTimer();
             }
 
             if (Game.IsControlJustPressed(0, Control.FrontendRight) && Focused)
@@ -136,6 +139,62 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 {
                     slPIt.Value++;
                     slPIt.SliderProgressChanged(slPIt.Value);
+                }
+                _pressingWaitingTimer = API.GetGameTimer();
+            }
+
+            if (Game.IsControlPressed(0, Control.FrontendLeft) && Focused)
+            {
+                if (API.GetGameTimer() - _pressingWaitingTimer > 175)
+                {
+
+                    if (API.GetGameTimer() - _pressingTimer > 175)
+                    {
+                        Game.PlaySound("NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
+                        if (Items[Index] is UIMenuListItem lIt)
+                        {
+                            lIt.Index--;
+                            lIt.ListChangedTrigger(lIt.Index);
+                        }
+                        else if (Items[Index] is UIMenuSliderItem slIt)
+                        {
+                            slIt.Value -= slIt.Multiplier;
+                            slIt.SliderChanged(slIt.Value);
+                        }
+                        else if (Items[Index] is UIMenuSliderProgressItem slPIt)
+                        {
+                            slPIt.Value--;
+                            slPIt.SliderProgressChanged(slPIt.Value);
+                        }
+                        _pressingTimer = API.GetGameTimer();
+                    }
+                }
+            }
+
+            if (Game.IsControlPressed(0, Control.FrontendRight) && Focused)
+			{
+                if (API.GetGameTimer() - _pressingWaitingTimer > 175)
+                {
+                    if (API.GetGameTimer() - _pressingTimer > 175)
+                    {
+                        Game.PlaySound("NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
+                        if (Items[Index] is UIMenuListItem lIt)
+                        {
+                            lIt.Index++;
+                            lIt.ListChangedTrigger(lIt.Index);
+                        }
+                        else if (Items[Index] is UIMenuSliderItem slIt)
+                        {
+                            slIt.Value += slIt.Multiplier;
+                            slIt.SliderChanged(slIt.Value);
+                        }
+                        else if (Items[Index] is UIMenuSliderProgressItem slPIt)
+                        {
+                            slPIt.Value++;
+                            slPIt.SliderProgressChanged(slPIt.Value);
+                        }
+                        _pressingTimer = API.GetGameTimer();
+                    }
                 }
             }
 

@@ -20,6 +20,7 @@ namespace TheLastPlanet.Client.Core
 		public static int decorInt;
 		private static int HostId;
 		public static bool spawned = false;
+		public static ClientConfigKVP ImpostazioniClient;
 
 		public static List<Gang> GangsAttive = new List<Gang>();
 
@@ -77,6 +78,7 @@ namespace TheLastPlanet.Client.Core
 		public static void Init()
 		{
 			LoadMain();
+
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
@@ -87,6 +89,9 @@ namespace TheLastPlanet.Client.Core
 
 		private static void LoadMain()
 		{
+			ImpostazioniClient = Funzioni.CaricaKVP<ClientConfigKVP>("SettingsClient");
+			if (ImpostazioniClient == null)
+				ImpostazioniClient = new ClientConfigKVP();
 			SetNuiFocus(false, false);
 			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
 			SetMapZoomDataLevel(1, 2.8f, 0.9f, 0.08f, 0.0f, 0.0f);

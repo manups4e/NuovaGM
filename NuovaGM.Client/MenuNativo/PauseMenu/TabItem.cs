@@ -3,6 +3,8 @@ using System.Drawing;
 
 namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
+    public delegate void TabItemActivated();
+    public delegate void TabItemLostFocus();
     public class TabItem
     {
         public TabItem(string name)
@@ -26,7 +28,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
         public TabView Parent { get; set; }
         protected SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
 
-        public event EventHandler Activated;
+        public event TabItemActivated Activated;
+        public event TabItemLostFocus OnFocusLost;
         public event EventHandler DrawInstructionalButtons;
         public bool DrawBg;
         public bool FadeInWhenFocused { get; set; }
@@ -35,9 +38,12 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 
         public void OnActivated()
         {
-            Activated?.Invoke(this, EventArgs.Empty);
+            Activated?.Invoke();
         }
-
+        public void OnLostFocus()
+        {
+            OnFocusLost?.Invoke();
+        }
 
         public virtual void ProcessControls()
         {
