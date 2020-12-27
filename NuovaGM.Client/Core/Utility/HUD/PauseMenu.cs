@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema, "");
 			UIMenuSliderProgressItem b = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
 			UIMenuListItem c = new UIMenuListItem("Filtri", new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" }, 0);
-			UIMenuSliderProgressItem ca = new UIMenuSliderProgressItem("Intensita filtro", 100, Main.ImpostazioniClient.FiltroStrenght);
+			UIMenuSliderProgressItem ca = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)Main.ImpostazioniClient.FiltroStrenght*100);
 			a.CheckboxEvent += async (item, attiva) =>
 			{
 				//Screen.Hud.IsRadarVisible = !attiva;
@@ -45,8 +45,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			};
 			ca.OnSliderChanged += async (item, index) =>
 			{
-				Main.ImpostazioniClient.FiltroStrenght = index;
-				SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght / 100f);
+				Main.ImpostazioniClient.FiltroStrenght = index/100;
+				SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
 			};
 			c.OnListChanged += (item, index) =>
 			{

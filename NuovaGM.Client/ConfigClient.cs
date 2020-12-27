@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client
 		public bool ModCinema;
 		public float LetterBox;
 		public string Filtro;
-		public int FiltroStrenght;
+		public float FiltroStrenght;
 		public bool MiniMappaAttiva;
 		public int DimensioniMinimappa;
 		public bool MiniMappaInAuto;
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client
 			ModCinema = false;
 			LetterBox = 0f;
 			Filtro = "None";
-			FiltroStrenght = 50;
+			FiltroStrenght = 0.5f;
 			MiniMappaAttiva = true;
 			DimensioniMinimappa = 0;
 			MiniMappaInAuto = true;
