@@ -85,7 +85,10 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Recupera un dato arbitrario salvato clientside
 		/// </summary>
-		public static T CaricaKVP<T>(string key) => JsonConvert.DeserializeObject<T>(GetResourceKvpString(key));
+		public static T CaricaKVP<T>(string key)
+		{
+			return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key));
+		}
 
 
 

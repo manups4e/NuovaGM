@@ -19,7 +19,6 @@ namespace TheLastPlanet.Client.Handlers
 
 	static class InputHandler
 	{
-		//private static readonly List<Control> Controlli = Enum.GetValues(typeof(Control)).Cast<Control>().ToList();
 		public static List<InputController> ListaInput = new List<InputController>();
 		public static void Init()
 		{
@@ -41,22 +40,22 @@ namespace TheLastPlanet.Client.Handlers
 							if (p.IsInRangeOf(input.Position, input.Radius.Min) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato semmò default 1.375f
 							{
 								HUD.ShowHelp(input.InputMessage);
-								if (Input.IsControlJustPressed(input.Control))
+								if (Game.IsControlJustPressed(0, input.Control))
 								{
 									if (Input.IsControlModifierPressed(input.Modifier))
 									{
 										switch (input.Check)
 										{
 											case PadCheck.Any:
-												input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
+												input.Action.DynamicInvoke(Game.PlayerPed);
 												break;
 											case PadCheck.Controller:
 												if (Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
+													input.Action.DynamicInvoke(Game.PlayerPed);
 												break;
 											case PadCheck.Keyboard:
 												if (!Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(Game.PlayerPed, input.Position, input.Radius);
+													input.Action.DynamicInvoke(Game.PlayerPed);
 												break;
 										}
 									}
@@ -66,7 +65,7 @@ namespace TheLastPlanet.Client.Handlers
 					}
 					else
 					{
-						if (Input.IsControlJustPressed(input.Control))
+						if (Game.IsControlJustPressed(0, input.Control))
 						{
 							if (Input.IsControlModifierPressed(input.Modifier))
 							{

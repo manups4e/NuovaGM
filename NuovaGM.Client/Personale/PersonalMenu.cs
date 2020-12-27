@@ -533,36 +533,6 @@ namespace TheLastPlanet.Client.Personale
 			};
 			#endregion
 
-			#region Modalità Cinema
-
-			UIMenu Cinematic = pool.AddSubMenu(PersonalMenu, "Modalità Cinema", "Vuoi vivere in un film");
-			UIMenuCheckboxItem attivaCinematica = new UIMenuCheckboxItem("Attiva / Disattiva Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, "");
-			UIMenuSliderProgressItem tipoCinematica = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
-
-			Cinematic.AddItem(attivaCinematica);
-			Cinematic.AddItem(tipoCinematica);
-
-			Cinematic.OnCheckboxChange += async (menu, item, attiva) =>
-			{
-				if (item == attivaCinematica)
-				{
-
-					Screen.Hud.IsRadarVisible = !attiva;
-					EventiPersonalMenu.DoHideHud = attiva;
-					if (attiva)
-						Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
-					else
-						Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
-				}
-			};
-			Cinematic.OnProgressSliderChange += async (menu, item, index) =>
-			{
-				if (item == tipoCinematica)
-					EventiPersonalMenu.CinematicaHeight = index;
-			};
-
-			#endregion
-
 			#region Lavoro
 			/*
 			UIMenu WorkMenu = pool.AddSubMenu(PersonalMenu, "Menu Lavoro", "Menu dei Lavori", pos);

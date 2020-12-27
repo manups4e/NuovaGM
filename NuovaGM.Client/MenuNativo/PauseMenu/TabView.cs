@@ -11,6 +11,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 {
     public class TabView
     {
+        public delegate void PauseMenuClosing();
         public TabView(string title)
         {
             Title = title;
@@ -63,7 +64,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
         internal bool _loaded;
         internal readonly static string _browseTextLocalized = Game.GetGXTEntry("HUD_INPUT1C");
 
-        public event EventHandler OnMenuClose;
+        public event PauseMenuClosing OnMenuClose;
 
         public bool Visible
         {
@@ -211,7 +212,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 {
                     Visible = false;
                     Game.PlaySound("BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET");
-                    OnMenuClose?.Invoke(this, EventArgs.Empty);
+                    OnMenuClose?.Invoke();
                     _loaded = false;
                     _header.CallFunction("REMOVE_MENU", true);
                     _header.Dispose();

@@ -4,6 +4,7 @@ using TheLastPlanet.Client.IPLs;
 using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client
 {
@@ -78,6 +79,8 @@ namespace TheLastPlanet.Client
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 
+			PauseMenu.Init();
+			Minimap.Init();
 			TickController.Init();
 			InputHandler.Init();
 		}

@@ -47,6 +47,17 @@ namespace TheLastPlanet.Client
 		public int DimensioniMinimappa;
 		public bool MiniMappaInAuto;
 		public bool MostraContattiTelefonoInMappa; // da valutare
+		public ClientConfigKVP()
+		{
+			ModCinema = false;
+			LetterBox = 0f;
+			Filtro = "None";
+			FiltroStrenght = 50;
+			MiniMappaAttiva = true;
+			DimensioniMinimappa = 0;
+			MiniMappaInAuto = true;
+			MostraContattiTelefonoInMappa = false;
+		}
 	}
 
 	public class ConfPrincipale

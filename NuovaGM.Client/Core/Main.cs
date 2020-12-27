@@ -92,6 +92,7 @@ namespace TheLastPlanet.Client.Core
 			ImpostazioniClient = Funzioni.CaricaKVP<ClientConfigKVP>("SettingsClient");
 			if (ImpostazioniClient == null)
 				ImpostazioniClient = new ClientConfigKVP();
+
 			SetNuiFocus(false, false);
 			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
 			SetMapZoomDataLevel(1, 2.8f, 0.9f, 0.08f, 0.0f, 0.0f);
@@ -144,7 +145,6 @@ namespace TheLastPlanet.Client.Core
 			Peds();
 			for (int i = 0; i < tipi.Count; i++)
 				player.SetRelationshipBetweenGroups(new RelationshipGroup(GetHashKey(tipi[i])), Relationship.Neutral, true);
-			Screen.Hud.IsRadarVisible = true;
 		}
 		private static void GetHost(int hostid)
 		{
@@ -315,17 +315,6 @@ namespace TheLastPlanet.Client.Core
 				SetTaskPropertyFloat(p.Handle, "Heading", camHeading * -1.0f + 1.0f);
 				SetTaskPropertyBool(p.Handle, "isBlocked", blocked);
 				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
-			}
-			if (!EventiPersonalMenu.DoHideHud)
-			{
-				if (!p.IsInVehicle() && (!IsPauseMenuActive()))
-					DisableRadarThisFrame();
-				if (p.IsInVehicle())
-				{
-					Vehicle veh = p.CurrentVehicle;
-					if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
-						DisableRadarThisFrame();
-				}
 			}
 			if (Game.IsPaused)
 				p.SetDecor("PlayerInPausa", true);

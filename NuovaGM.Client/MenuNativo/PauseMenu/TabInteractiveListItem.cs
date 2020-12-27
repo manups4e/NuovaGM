@@ -344,6 +344,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 {
                     var yoffset = 15;
                     var basePos = SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 210, yoffset + (itemSize.Height + 3) * i));
+                    sliderProgressItem.Value = sliderProgressItem.Value;
                     sliderProgressItem._rectangleBackground.Position = basePos;
                     sliderProgressItem._rectangleBackground.Size = new SizeF(200, 10);
 

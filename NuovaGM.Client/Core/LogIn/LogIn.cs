@@ -176,7 +176,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Game.Player.GetPlayerData().char_data.Serialize() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
-			DisplayRadar(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
 		}
 

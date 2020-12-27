@@ -13,16 +13,18 @@ using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
+using Logger;
+using TheLastPlanet.Client.Personale;
 
-namespace TheLastPlanet.Client.Personale
+namespace TheLastPlanet.Client.Core.Utility.HUD
 {
 	static class PauseMenu
 	{
 		public static void Init()
 		{
-			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action(LastPlanetMenu)));
+			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action<Ped>(LastPlanetMenu)));
 		}
-		private static async void LastPlanetMenu()
+		private static async void LastPlanetMenu(Ped playerPed)
 		{
 			var pl = Game.Player.GetPlayerData();
 			TabInteractiveListItem HUD = null;
@@ -34,7 +36,8 @@ namespace TheLastPlanet.Client.Personale
 			UIMenuSliderProgressItem ca = new UIMenuSliderProgressItem("Intensita filtro", 100, Main.ImpostazioniClient.FiltroStrenght);
 			a.CheckboxEvent += async (item, attiva) =>
 			{
-				Screen.Hud.IsRadarVisible = !attiva;
+				//Screen.Hud.IsRadarVisible = !attiva;
+				Main.ImpostazioniClient.ModCinema = attiva;
 				EventiPersonalMenu.DoHideHud = attiva;
 				if (attiva)
 					Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
@@ -43,6 +46,7 @@ namespace TheLastPlanet.Client.Personale
 			};
 			b.OnSliderChanged += async (item, index) =>
 			{
+				Main.ImpostazioniClient.LetterBox = index/100f;
 				EventiPersonalMenu.CinematicaHeight = index;
 			};
 			ca.OnSliderChanged += async (item, index) =>
@@ -111,12 +115,11 @@ namespace TheLastPlanet.Client.Personale
 				SetTimecycleModifier(effect);
 				Main.ImpostazioniClient.FiltroStrenght = 50;
 				ca.Value = 50;
-				HUD.RefreshIndex();
 			};
 			#endregion
 			UIMenuSeparatorItem d = new UIMenuSeparatorItem(); // SEPARATORE
 			#region Minimappa
-			UIMenuCheckboxItem e = new UIMenuCheckboxItem("Minimappa on/off", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva, "");
+			UIMenuCheckboxItem e = new UIMenuCheckboxItem("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva, "");
 			UIMenuListItem f = new UIMenuListItem("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
 			UIMenuCheckboxItem g = new UIMenuCheckboxItem("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto, "");
 
@@ -139,11 +142,6 @@ namespace TheLastPlanet.Client.Personale
 
 			List<UIMenuItem> hudList = new List<UIMenuItem>() { a, b, c, ca, d, e, f, g};
 			HUD = new TabInteractiveListItem("HUD", hudList);
-
-			HUD.OnFocusLost += () =>
-			{
-				Funzioni.SalvaKVPString("SettingsClient", Main.ImpostazioniClient.Serialize());
-			};
 
 			#endregion
 
@@ -194,7 +192,13 @@ namespace TheLastPlanet.Client.Personale
 			intro.Focused = true;
 			intro.Visible = true;
 
+			MainMenu.OnMenuClose += () =>
+			{
+				Funzioni.SalvaKVPString("SettingsClient", Main.ImpostazioniClient.Serialize());
+				Log.Printa(LogType.Debug, Funzioni.CaricaKVPString("SettingsClient"));
+			};
 			MainMenu.Visible = true;
+
 		}
 	}
 }
