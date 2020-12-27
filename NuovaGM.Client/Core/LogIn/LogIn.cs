@@ -219,7 +219,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			HUD.MenuPool.CloseAllMenus();
-			Screen.LoadingPrompt.Show("Caricamento del Personaggio", LoadingSpinnerType.Clockwise1);
+			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
 			SwitchOutPlayer(PlayerPedId(), 0, 1);
 			DestroyAllCams(true);
@@ -228,8 +228,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			RenderScriptCams(false, false, 0, false, false);
 			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"] as string) + 1;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-			//await BaseScript.Delay(500);
-			//BaseScript.TriggerServerEvent("lprp:caricaAppartamenti");
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
@@ -239,60 +237,30 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Game.PlayerPed.IsInvincible = false;
 			await BaseScript.Delay(1000);
 
-			int tempTimer = GetGameTimer();
+			if (Screen.LoadingPrompt.IsActive)
+				Screen.LoadingPrompt.Hide();
+			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
+
 			if (!Data.location.position.IsZero)
 			{
-				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
-				NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z, 50f, 0);
-				// Wait for the new scene to be loaded.
-				while (IsNetworkLoadingScene())
-				{
-					// If this takes longer than 1 second, just abort. It's not worth waiting that long.
-					if (GetGameTimer() - tempTimer > 10000)
-					{
-						Log.Printa(LogType.Debug, "146: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
-						break;
-					}
-					await BaseScript.Delay(0);
-				}
-				float z = await Data.location.position.FindGroundZ();
+				var z = await Data.location.position.FindGroundZ();
+				Log.Printa(LogType.Debug, Game.PlayerPed.Position.ToString());
+				Log.Printa(LogType.Debug, Data.location.position.ToString());
+				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Heading = Data.location.h;
-				tempTimer = GetGameTimer();
-
-				// Wait for the collision to be loaded around the entity in this new location.
-				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-				{
-					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
-					if (GetGameTimer() - tempTimer > 10000)
-					{
-						Log.Printa(LogType.Debug, "162: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
-						break;
-					}
-					await BaseScript.Delay(0);
-				}
+				while (!HasCollisionLoadedAroundEntity(PlayerPedId())) await BaseScript.Delay(0);
+				Log.Printa(LogType.Debug, Game.PlayerPed.Position.ToString());
+				await BaseScript.Delay(2000);
 			}
 			else
 			{
-				float z = await Main.firstSpawnCoords.FindGroundZ();
-				RequestCollisionAtCoord(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z);
-				NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, 50f, 0);
-				Game.PlayerPed.Position = new Vector3(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z);
-				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
-				tempTimer = GetGameTimer();
-
-				// Wait for the collision to be loaded around the entity in this new location.
-				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle))
-				{
-					// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
-					if (GetGameTimer() - tempTimer > 10000)
-					{
-						Log.Printa(LogType.Debug, "182: Un'attesa nel caricamento ha impiegato troppo tempo (più di 10s). Uscita forzata dall'attesa e proseguimento.");
-						break;
-					}
-					await BaseScript.Delay(0);
-				}
+				var z = await Main.firstSpawnCoords.FindGroundZ();
+				StartPlayerTeleport(PlayerId(), Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, Main.firstSpawnCoords.W, true, true, true);
+				while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
+				await BaseScript.Delay(2000);
 			}
+
 			Eventi.LoadModel();
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
@@ -304,6 +272,11 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Game.PlayerPed.SetDecor("PlayerInCasa", false);
 			Game.PlayerPed.SetDecor("PlayerInServizio", false);
 			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
+
+			if (Screen.LoadingPrompt.IsActive)
+				Screen.LoadingPrompt.Hide();
+			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
+
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
 			Game.PlayerPed.IsPositionFrozen = false;
@@ -312,6 +285,11 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			await BaseScript.Delay(7000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
+
+			if (Screen.LoadingPrompt.IsActive)
+				Screen.LoadingPrompt.Hide();
+			Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);
+
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();

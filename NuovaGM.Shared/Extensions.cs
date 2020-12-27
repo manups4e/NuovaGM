@@ -519,18 +519,17 @@ namespace TheLastPlanet.Shared
 				{
 					await BaseScript.Delay(1);
 					float z = 0;
-					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
-					{
-						result = z;
-					}
+					bool pippo = GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false);
+					if (z > 0)
+						return z;
 				}
+				return result;
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"Vector3 FindGroundZ Error: {ex.Message}");
+				return result;
 			}
-			await Task.FromResult(0);
-			return result;
 		}
 
 		public static async Task<float> FindGroundZ(this Vector4 position)

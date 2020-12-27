@@ -126,17 +126,14 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			e.CheckboxEvent += (item, check) =>
 			{
 				Main.ImpostazioniClient.MiniMappaAttiva = check;
-				// gestione minimappa in base..
 			};
 			f.OnListChanged += (item, index) =>
 			{
 				Main.ImpostazioniClient.DimensioniMinimappa = index;
-				// gestione minimappa in base..
 			};
 			g.CheckboxEvent += (item, check) =>
 			{
 				Main.ImpostazioniClient.MiniMappaInAuto = check;
-				// gestione minimappa in base..
 			};
 			#endregion
 
