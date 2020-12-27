@@ -8,6 +8,7 @@ using Control = CitizenFX.Core.Control;
 using Font = CitizenFX.Core.UI.Font;
 using CitizenFX.Core.UI;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.MenuNativo
 {
@@ -1822,7 +1823,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		private float CalculateCinematicHeight()
 		{
-			return Personale.EventiPersonalMenu.DoHideHud ? Personale.EventiPersonalMenu.CinematicaHeight : 0f;
+			return Main.ImpostazioniClient.ModCinema ? Main.ImpostazioniClient.LetterBox : 0f;
 		}
 		/// <summary>
 		/// Function to get whether the cursor is in an arrow space, or in label of an UIMenuListItem.
@@ -1865,7 +1866,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
 			if (_buttonsEnabled)
 			{
-				if (!Personale.EventiPersonalMenu.DoHideHud)
+				if (!Main.ImpostazioniClient.ModCinema)
 					API.DrawScaleformMovieFullscreen(_instructionalButtonsScaleform.Handle, 255, 255, 255, 255, 0);
 //				else
 //					API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, )

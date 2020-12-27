@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			TabInteractiveListItem HUD = null;
 			#region HUD MenuItems
 			#region cinema
-			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, EventiPersonalMenu.DoHideHud, "");
+			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema, "");
 			UIMenuSliderProgressItem b = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Math.Round(EventiPersonalMenu.CinematicaHeight));
 			UIMenuListItem c = new UIMenuListItem("Filtri", new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" }, 0);
 			UIMenuSliderProgressItem ca = new UIMenuSliderProgressItem("Intensita filtro", 100, Main.ImpostazioniClient.FiltroStrenght);
@@ -38,16 +38,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			{
 				//Screen.Hud.IsRadarVisible = !attiva;
 				Main.ImpostazioniClient.ModCinema = attiva;
-				EventiPersonalMenu.DoHideHud = attiva;
-				if (attiva)
-					Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
-				else
-					Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
 			};
 			b.OnSliderChanged += async (item, index) =>
 			{
 				Main.ImpostazioniClient.LetterBox = index/100f;
-				EventiPersonalMenu.CinematicaHeight = index;
 			};
 			ca.OnSliderChanged += async (item, index) =>
 			{

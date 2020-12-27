@@ -19,7 +19,11 @@ namespace TheLastPlanet.Client.Personale
 		public static bool MostraSoldi = true;
 		public static Vehicle saveVehicle = null;
 		public static float CinematicaHeight = 0;
-		public static bool DoHideHud = false;
+		/*				if (value)
+					Client.Instance.AddTick(CinematicMode);
+				else
+					Client.Instance.RemoveTick(CinematicMode);
+*/
 		static List<HudComponent> hideComponents = new List<HudComponent>()
 		{
 			HudComponent.WantedStars,
@@ -388,7 +392,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async Task MostramiStatus()
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !DoHideHud)
+			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
 			{
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{

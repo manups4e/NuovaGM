@@ -12,6 +12,7 @@ using System.Linq;
 using TheLastPlanet.Shared;
 using Logger;
 using System.Drawing;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -465,7 +466,7 @@ namespace TheLastPlanet.Client.Veicoli
 						initFuel(veh);
 
 					ConsumeFuel(veh);
-					if (!EventiPersonalMenu.DoHideHud)
+					if (!Main.ImpostazioniClient.ModCinema)
 						HUD.DrawText(0.195f, 0.96f, $"Carburante: {(int)Math.Floor(veh.FuelLevel / FuelCapacity * 100)}%", Color.FromArgb(255, 135, 206, 250));
 					if (vehicleFuelLevel(veh) < 0.99f)
 					{

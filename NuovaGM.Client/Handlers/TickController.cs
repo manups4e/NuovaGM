@@ -155,7 +155,7 @@ namespace TheLastPlanet.Client
 					InUnVeicolo = false;
 				}
 			}
-			if (EventiPersonalMenu.DoHideHud)
+			if (Main.ImpostazioniClient.ModCinema)
 			{
 				if (!HideHud)
 				{

@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			Ped p = Game.PlayerPed;
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
-			if (!EventiPersonalMenu.DoHideHud)
+			if (!Main.ImpostazioniClient.ModCinema)
 			{
 				if (Main.ImpostazioniClient.MiniMappaAttiva)
 				{
