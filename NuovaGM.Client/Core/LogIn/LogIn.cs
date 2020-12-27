@@ -31,6 +31,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Camera charSelectionCam;
 		public static Camera charCreationCam;
+		private static bool cambiato = false;
 
 		static List<string> scenari = new List<string>
 		{
@@ -182,6 +183,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		static Ped p1;
 		private static async void SelezionatoPreview(IDictionary<string, object> data)
 		{
+			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Game.PlayerPed;
@@ -195,12 +197,12 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			SetEntityAlpha(p1.Handle, 0, 0);
 			await BaseScript.Delay(10);
 			await SetSkinAndClothes(p1, pers);
+			while (!cambiato) await BaseScript.Delay(10);
 			p1.IsPositionFrozen = true;
 			p1.BlockPermanentEvents = true;
 			string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
 			p1.Task.StartScenario(scena, p1.Position);
 			Client.Instance.AddTick(Controllo);
-			await BaseScript.Delay(100);
 			int i = 0;
 			while (i < 255)
 			{
@@ -244,13 +246,10 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			if (!Data.location.position.IsZero)
 			{
 				var z = await Data.location.position.FindGroundZ();
-				Log.Printa(LogType.Debug, Game.PlayerPed.Position.ToString());
-				Log.Printa(LogType.Debug, Data.location.position.ToString());
 				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, z);
 				Game.PlayerPed.Heading = Data.location.h;
 				while (!HasCollisionLoadedAroundEntity(PlayerPedId())) await BaseScript.Delay(0);
-				Log.Printa(LogType.Debug, Game.PlayerPed.Position.ToString());
 				await BaseScript.Delay(2000);
 			}
 			else
@@ -385,6 +384,10 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				ClearPedProp(p.Handle, 8);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, data.dressing.PropIndices.Unk_8, data.dressing.PropTextures.Unk_8, true);
+
+			while (GetPedDrawableVariation(p.Handle, (int)DrawableIndexes.Torso_2) != data.dressing.ComponentDrawables.Torso_2) await BaseScript.Delay(0);
+			cambiato = true;
+
 			await Task.FromResult(0);
 		}
 
