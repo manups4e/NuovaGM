@@ -1867,9 +1867,9 @@ namespace TheLastPlanet.Client.MenuNativo
 			if (_buttonsEnabled)
 			{
 				if (!Main.ImpostazioniClient.ModCinema)
-					API.DrawScaleformMovieFullscreen(_instructionalButtonsScaleform.Handle, 255, 255, 255, 255, 0);
-//				else
-//					API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, )
+					_instructionalButtonsScaleform.Render2D();
+				else
+					API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
 				Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
 				Screen.Hud.HideComponentThisFrame(HudComponent.AreaName);
 				Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
@@ -1909,8 +1909,8 @@ namespace TheLastPlanet.Client.MenuNativo
 				SizeF _glareSize = new SizeF(1.0f, 1.054f);
 				PointF gl = new PointF(
 					(Offset.X / Resolution.Width) + 0.4491f,
-					(Offset.Y / Resolution.Height) + 0.475f 
-				);
+					((Offset.Y / Resolution.Height) + 0.475f) + (CalculateCinematicHeight() / 1000)
+				); ;
 
 				API.DrawScaleformMovie(_glareScaleform.Handle, gl.X, gl.Y, _glareSize.Width, _glareSize.Height, 255, 255, 255, 255, 0);
 			}

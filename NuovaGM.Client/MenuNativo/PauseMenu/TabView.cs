@@ -4,6 +4,7 @@ using System.Drawing;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
+using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using Font = CitizenFX.Core.UI.Font;
 
@@ -324,7 +325,10 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             Tabs[Index].Draw();
 
             _sc.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-            _sc.Render2D();
+            if (!Main.ImpostazioniClient.ModCinema)
+                _sc.Render2D();
+            else
+                API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
             if (DisplayHeader)
             {
                 if (!_loaded)
@@ -333,5 +337,4 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             }
         }
     }
-
 }

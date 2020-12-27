@@ -51,10 +51,10 @@ namespace TheLastPlanet.Client.Personale
 		static public async Task CinematicMode()
 		{
 			hideComponents.ForEach(c => Screen.Hud.HideComponentThisFrame(c));
-			if (CinematicaHeight > 0f)
+			if (Main.ImpostazioniClient.LetterBox > 0f)
 			{
-				DrawRect(0.5f, CinematicaHeight / 1000 / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
-				DrawRect(0.5f, 1 - CinematicaHeight / 1000 / 2, 1f, (CinematicaHeight / 1000), 0, 0, 0, 255);
+				DrawRect(0.5f, Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, (Main.ImpostazioniClient.LetterBox / 1000), 0, 0, 0, 255);
+				DrawRect(0.5f, 1 - Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, (Main.ImpostazioniClient.LetterBox / 1000), 0, 0, 0, 255);
 			}
 			await Task.FromResult(0);
 		}

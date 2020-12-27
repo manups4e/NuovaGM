@@ -60,9 +60,14 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 				}
 				else
 				{
-					if(IsRadarEnabled())
+					if (IsRadarEnabled())
 						Screen.Hud.IsRadarVisible = false;
 				}
+			}
+			else
+			{
+				if (IsRadarEnabled())
+					Screen.Hud.IsRadarVisible = false;
 			}
 
 			await Task.FromResult(0);

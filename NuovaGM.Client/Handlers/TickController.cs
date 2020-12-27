@@ -160,6 +160,7 @@ namespace TheLastPlanet.Client
 				if (!HideHud)
 				{
 					TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
+					Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
 					HideHud = true;
 				}
 			}
@@ -168,6 +169,7 @@ namespace TheLastPlanet.Client
 				if (HideHud)
 				{
 					TickHUD.ForEach(x => Client.Instance.AddTick(x));
+					Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
 					HideHud = false;
 				}
 			}
