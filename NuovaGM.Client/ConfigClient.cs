@@ -47,6 +47,10 @@ namespace TheLastPlanet.Client
 		public int DimensioniMinimappa;
 		public bool MiniMappaInAuto;
 		public bool MostraContattiTelefonoInMappa; // da valutare
+		public bool ForzaPrimaPersona_Mira;
+		public bool ForzaPrimaPersona_InCopertura;
+		public bool ForzaPrimaPersona_InAuto;
+		public bool ForzaPrimaPersona_MiraInAuto;
 		public ClientConfigKVP()
 		{
 			ModCinema = false;
@@ -57,8 +61,13 @@ namespace TheLastPlanet.Client
 			DimensioniMinimappa = 0;
 			MiniMappaInAuto = true;
 			MostraContattiTelefonoInMappa = false;
+			ForzaPrimaPersona_Mira = false;
+			ForzaPrimaPersona_InCopertura = false;
+			ForzaPrimaPersona_InAuto = false;
+			ForzaPrimaPersona_MiraInAuto = false;
 		}
 	}
+
 
 	public class ConfPrincipale
 	{

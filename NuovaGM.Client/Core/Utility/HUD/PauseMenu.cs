@@ -28,26 +28,28 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			var pl = Game.Player.GetPlayerData();
 			TabInteractiveListItem HUD = null;
+			TabInteractiveListItem Telecamere = null;
 			#region HUD MenuItems
 			#region cinema
-			UIMenuCheckboxItem a = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema, "");
-			UIMenuSliderProgressItem b = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox);
-			UIMenuListItem c = new UIMenuListItem("Filtro cinema", new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" }, 0);
-			UIMenuSliderProgressItem ca = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)Main.ImpostazioniClient.FiltroStrenght*100);
-			a.CheckboxEvent += async (item, attiva) =>
+			UIMenuCheckboxItem aa = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema, "");
+			UIMenuSliderProgressItem ab = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox);
+			UIMenuListItem ac = new UIMenuListItem("Filtro cinema", new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" }, 0);
+			UIMenuSliderProgressItem ad = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)Main.ImpostazioniClient.FiltroStrenght*100);
+
+			aa.CheckboxEvent += async (item, attiva) =>
 			{
 				Main.ImpostazioniClient.ModCinema = attiva;
 			};
-			b.OnSliderChanged += async (item, index) =>
+			ab.OnSliderChanged += async (item, index) =>
 			{
 				Main.ImpostazioniClient.LetterBox = index;
 			};
-			ca.OnSliderChanged += async (item, index) =>
+			ad.OnSliderChanged += async (item, index) =>
 			{
 				Main.ImpostazioniClient.FiltroStrenght = index/100;
 				SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
 			};
-			c.OnListChanged += (item, index) =>
+			ac.OnListChanged += (item, index) =>
 			{
 				string ActiveItem = item.Items[index].ToString();
 				string effect = "None";
@@ -106,32 +108,62 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						break;
 				}
 				SetTimecycleModifier(effect);
-				Main.ImpostazioniClient.FiltroStrenght = 50;
-				ca.Value = 50;
+				Main.ImpostazioniClient.FiltroStrenght = 0.5f;
+				ad.Value = 50;
 			};
 			#endregion
-			UIMenuSeparatorItem d = new UIMenuSeparatorItem(); // SEPARATORE
+			UIMenuSeparatorItem ae = new UIMenuSeparatorItem(); // SEPARATORE
 			#region Minimappa
-			UIMenuCheckboxItem e = new UIMenuCheckboxItem("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva, "");
-			UIMenuListItem f = new UIMenuListItem("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
-			UIMenuCheckboxItem g = new UIMenuCheckboxItem("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto, "");
+			UIMenuCheckboxItem af = new UIMenuCheckboxItem("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva, "");
+			UIMenuListItem ag = new UIMenuListItem("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
+			UIMenuCheckboxItem ah = new UIMenuCheckboxItem("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto, "");
 
-			e.CheckboxEvent += (item, check) =>
+			af.CheckboxEvent += (item, check) =>
 			{
 				Main.ImpostazioniClient.MiniMappaAttiva = check;
 			};
-			f.OnListChanged += (item, index) =>
+			ag.OnListChanged += (item, index) =>
 			{
 				Main.ImpostazioniClient.DimensioniMinimappa = index;
 			};
-			g.CheckboxEvent += (item, check) =>
+			ah.CheckboxEvent += (item, check) =>
 			{
 				Main.ImpostazioniClient.MiniMappaInAuto = check;
 			};
 			#endregion
 
-			List<UIMenuItem> hudList = new List<UIMenuItem>() { a, b, c, ca, d, e, f, g};
+			List<UIMenuItem> hudList = new List<UIMenuItem>() { aa, ab, ac, ad, ae, af, ag, ah };
 			HUD = new TabInteractiveListItem("HUD", hudList);
+			#endregion
+
+			#region Telecamere
+
+			UIMenuCheckboxItem ba = new UIMenuCheckboxItem("Mira in prima persona", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira, "");
+			UIMenuCheckboxItem bb = new UIMenuCheckboxItem("Copertura in prima persona", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura, "");
+			UIMenuCheckboxItem bc = new UIMenuCheckboxItem("Prima persona veicolo", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto, "");
+			UIMenuCheckboxItem bd = new UIMenuCheckboxItem("Prima persona veicolo", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_MiraInAuto, "");
+
+			ba.CheckboxEvent += (item, check) =>
+			{
+				Main.ImpostazioniClient.ForzaPrimaPersona_Mira= check;
+			};
+			bb.CheckboxEvent += (item, check) =>
+			{
+				Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura= check;
+			};
+			bc.CheckboxEvent += (item, check) =>
+			{
+				Main.ImpostazioniClient.ForzaPrimaPersona_InAuto = check;
+			};
+			bd.CheckboxEvent += (item, check) =>
+			{
+				Main.ImpostazioniClient.ForzaPrimaPersona_MiraInAuto = check;
+			};
+
+			List<UIMenuItem> camereList = new List<UIMenuItem>() {ba, bb, bc, bd };
+			Telecamere = new TabInteractiveListItem("Telecamere", camereList);
+
+
 
 			#endregion
 
@@ -173,6 +205,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			TabSubmenuItem impostazioni = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
 			{
 				HUD,
+				Telecamere,
 			});
 
 			MainMenu.AddTab(intro);
