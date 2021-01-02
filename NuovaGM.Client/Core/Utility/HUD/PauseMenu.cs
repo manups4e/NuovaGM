@@ -138,10 +138,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			#region Telecamere
 
-			UIMenuCheckboxItem ba = new UIMenuCheckboxItem("Mira in prima persona", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira, "");
-			UIMenuCheckboxItem bb = new UIMenuCheckboxItem("Copertura in prima persona", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura, "");
-			UIMenuCheckboxItem bc = new UIMenuCheckboxItem("Prima persona veicolo", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto, "");
-			UIMenuCheckboxItem bd = new UIMenuCheckboxItem("Prima persona veicolo", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_MiraInAuto, "");
+			UIMenuCheckboxItem ba = new UIMenuCheckboxItem("Mira in soggettiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira, "");
+			UIMenuCheckboxItem bb = new UIMenuCheckboxItem("Copertura in soggettiva (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura, "");
+			UIMenuCheckboxItem bc = new UIMenuCheckboxItem("Soggettiva nei veicoli (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto, "");
 
 			ba.CheckboxEvent += (item, check) =>
 			{
@@ -155,12 +154,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			{
 				Main.ImpostazioniClient.ForzaPrimaPersona_InAuto = check;
 			};
-			bd.CheckboxEvent += (item, check) =>
-			{
-				Main.ImpostazioniClient.ForzaPrimaPersona_MiraInAuto = check;
-			};
 
-			List<UIMenuItem> camereList = new List<UIMenuItem>() {ba, bb, bc, bd };
+			List<UIMenuItem> camereList = new List<UIMenuItem>() {ba, bb, bc };
 			Telecamere = new TabInteractiveListItem("Telecamere", camereList);
 
 

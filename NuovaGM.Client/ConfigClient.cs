@@ -50,7 +50,6 @@ namespace TheLastPlanet.Client
 		public bool ForzaPrimaPersona_Mira;
 		public bool ForzaPrimaPersona_InCopertura;
 		public bool ForzaPrimaPersona_InAuto;
-		public bool ForzaPrimaPersona_MiraInAuto;
 		public ClientConfigKVP()
 		{
 			ModCinema = false;
@@ -64,7 +63,6 @@ namespace TheLastPlanet.Client
 			ForzaPrimaPersona_Mira = false;
 			ForzaPrimaPersona_InCopertura = false;
 			ForzaPrimaPersona_InAuto = false;
-			ForzaPrimaPersona_MiraInAuto = false;
 		}
 	}
 

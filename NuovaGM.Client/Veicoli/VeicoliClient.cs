@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using Logger;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -450,16 +451,15 @@ namespace TheLastPlanet.Client.Veicoli
 					float tangle = veh.SteeringAngle;
 					if (tangle > 10f || tangle < -10f)
 						angle = tangle;
-					if (veh.Speed < 0.1f && veh.Exists() && (!GetIsTaskActive(PlayerPedId(), 151)) && !veh.IsEngineRunning)
+					if (veh.Speed < 0.1f && veh.Exists() && (!GetIsTaskActive(playerPed.Handle, 151)) && !veh.IsEngineRunning)
 						veh.SteeringAngle = angle;
-					if (veh.GetPedOnSeat(VehicleSeat.Passenger) == Game.PlayerPed)
-						if (GetIsTaskActive(PlayerPedId(), 165))
-							SetPedIntoVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false), 0);
+					if (playerPed.SeatIndex == VehicleSeat.Passenger)
+						if (GetIsTaskActive(playerPed.Handle, 165) && !playerPed.IsAiming)
+							playerPed.SetIntoVehicle(veh, VehicleSeat.Passenger);
 				}
-				if (!IsPedInAnyVehicle(PlayerPedId(), false) && playerPed.LastVehicle != null && playerPed.LastVehicle.Exists() && !playerPed.LastVehicle.IsEngineRunning && acceso)
+				if (!IsPedInAnyVehicle(playerPed.Handle, false) && playerPed.LastVehicle != null && playerPed.LastVehicle.Exists() && !playerPed.LastVehicle.IsEngineRunning && acceso)
 					playerPed.LastVehicle.IsEngineRunning = true;
 			}
-			await Task.FromResult(0);
 		}
 
 		public static async Task engine()
@@ -468,7 +468,7 @@ namespace TheLastPlanet.Client.Veicoli
 			if (playerPed.IsInVehicle())
 			{
 				Vehicle p = playerPed.CurrentVehicle;
-				if (p.Driver == Game.PlayerPed)
+				if (playerPed.SeatIndex == VehicleSeat.Driver)
 				{
 					if (p.IsEngineRunning)
 					{
