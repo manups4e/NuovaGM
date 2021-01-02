@@ -291,7 +291,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static void DrawText3D(float x, float y, float z, Color c, string text)
 		{
-			SetTextScale(0.45f, 0.45f);
+			Vector3 a = new Vector3(0, 0, 72);
+			Vector3 cam = GameplayCamera.Position;
+			float dist = Vector3.Distance(a, cam);
+			float _scale = (1 / dist) * 20;
+			float fov = (1 / GameplayCamera.FieldOfView) * 100;
+			float scale = _scale * fov;
+			SetTextScale(0*scale, 0.1f*scale);
 			SetTextFont(4);
 			SetTextProportional(true);
 			SetTextColour(c.R, c.G, c.B, 255);
@@ -309,10 +315,16 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static void DrawText3D(Vector3 coord, Color c, string text)
 		{
-			SetTextScale(0.45f, 0.45f);
+			Vector3 a = new Vector3(0, 0, 72);
+			Vector3 cam = GameplayCamera.Position;
+			float dist = Vector3.Distance(a, cam);
+			float _scale = (1 / dist) * 20;
+			float fov = (1 / GameplayCamera.FieldOfView) * 100;
+			float scale = _scale * fov;
+			SetTextScale(0 * scale, 0.1f * scale);
 			SetTextFont(4);
 			SetTextProportional(true);
-			SetTextColour(c.R, c.G, c.B, 255);
+			SetTextColour(c.R, c.G, c.B, c.A);
 			SetTextDropshadow(0, 0, 0, 0, 255);
 			SetTextEdge(2, 0, 0, 0, 150);
 			SetTextDropShadow();
@@ -327,7 +339,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static void DrawText3D(Vector3 coord, Color c, string text, int font)
 		{
-			SetTextScale(0.45f, 0.45f);
+			Vector3 a = new Vector3(0, 0, 72);
+			Vector3 cam = GameplayCamera.Position;
+			float dist = Vector3.Distance(a, cam);
+			float _scale = (1 / dist) * 20;
+			float fov = (1 / GameplayCamera.FieldOfView) * 100;
+			float scale = _scale * fov;
+			SetTextScale(0 * scale, 0.1f * scale);
 			SetTextFont(font);
 			SetTextProportional(true);
 			SetTextColour(c.R, c.G, c.B, 255);
