@@ -194,12 +194,12 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				p1.Delete();
 			}
 			p1 = await Funzioni.CreatePedLocally(pers.skin.sex == "Maschio" ? m : f, ped.Position + new Vector3(0, 0.5f, -1f));
+			p1.IsPositionFrozen = true;
+			p1.BlockPermanentEvents = true;
 			SetEntityAlpha(p1.Handle, 0, 0);
 			await BaseScript.Delay(10);
 			await SetSkinAndClothes(p1, pers);
-			while (!cambiato) await BaseScript.Delay(10);
-			p1.IsPositionFrozen = true;
-			p1.BlockPermanentEvents = true;
+			while (!cambiato) await BaseScript.Delay(1000);
 			string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
 			p1.Task.StartScenario(scena, p1.Position);
 			Client.Instance.AddTick(Controllo);
