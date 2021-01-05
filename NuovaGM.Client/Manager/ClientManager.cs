@@ -19,6 +19,7 @@ namespace TheLastPlanet.Client.Manager
 		private static string title;
 		private static string sub;
 		private static string sub2;
+		private static Scaleform _instructionalButtonsScaleform;
 		public enum Tipi_Di_Bottone
 		{
 			NONE = 0,
@@ -83,8 +84,99 @@ namespace TheLastPlanet.Client.Manager
 			Client.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
 			Client.Instance.AddEventHandler("lprp:manager:updateText", new Action<string, string>(UpdateText));
 			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
-			Client.Instance.AddTick(AC);
+			//Client.Instance.AddTick(AC);
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped>(AdminMenu)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped>(_NoClip)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, PadCheck.Keyboard, action: new Action<Ped>(Teleport)));
 		}
+
+		private static void AdminMenu(Ped p)
+		{
+			if (!HUD.MenuPool.IsAnyMenuOpen)
+				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
+		}
+		private static void Teleport(Ped p)
+		{
+			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
+				TeleportToMarker();
+		}
+
+		private static async void _NoClip(Ped p)
+		{
+			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 3)
+			{
+				if (!NoClip)
+				{
+					if (!p.IsInVehicle())
+					{
+						RequestAnimDict(noclip_ANIM_A);
+						while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
+						curLocation = Game.Player.GetPlayerData().posizione.ToVector3();
+						curRotation = p.Rotation;
+						curHeading = Game.Player.GetPlayerData().posizione.W;
+						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
+					}
+					else
+					{
+						curLocation = p.CurrentVehicle.Position;
+						curRotation = p.CurrentVehicle.Rotation;
+						curHeading = p.CurrentVehicle.Heading;
+					}
+					p.Rotation = new Vector3(0);
+					Client.Instance.AddTick(noClip);
+					NoClip = true;
+
+					_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
+				}
+				else
+				{
+					_instructionalButtonsScaleform.Dispose();
+					Client.Instance.RemoveTick(noClip);
+					while (p.IsInvincible)
+					{
+						p.IsInvincible = false;
+						await BaseScript.Delay(0);
+					}
+					if (!p.IsInVehicle())
+					{
+						ClearPedTasksImmediately(PlayerPedId());
+						SetUserRadioControlEnabled(true);
+						p.IsInvincible = false;
+					}
+					else
+					{
+						SetUserRadioControlEnabled(true);
+						p.IsInvincible = false;
+						Vehicle veh = p.CurrentVehicle;
+						veh.IsInvincible = false;
+					}
+					ClearAllHelpMessages();
+					NoClip = false;
+				}
+			}
+		}
+
+		private static void UpdateScaleform()
+		{
+			_instructionalButtonsScaleform.CallFunction("CLEAR_ALL");
+			_instructionalButtonsScaleform.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
+			_instructionalButtonsScaleform.CallFunction("CREATE_CONTAINER");
+
+			InstructionalButton Sali = new InstructionalButton(IsInputDisabled(2) ? Control.Cover : Control.FrontendLt, "Sali");
+			InstructionalButton Scendi = new InstructionalButton(IsInputDisabled(2) ? Control.HUDSpecial : Control.FrontendRt, "Scendi");
+			InstructionalButton Ruota = new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx");
+			InstructionalButton Muovi = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
+			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
+
+			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 0, Scendi.GetButtonId(), Scendi.Text);
+			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 1, Sali.GetButtonId(), Sali.Text);
+			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 2, Ruota.GetButtonId(), Ruota.Text);
+			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 3, Muovi.GetButtonId(), Muovi.Text);
+			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 4, Velocità.GetButtonId(), Velocità.Text);
+
+			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
+		}
+
 
 		private static void TippaDaMe(Vector3 coords)
 		{
@@ -191,65 +283,7 @@ namespace TheLastPlanet.Client.Manager
 
 		public static async Task AC()
 		{
-			Ped p = Game.PlayerPed;
-			if (Input.IsControlJustPressed(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
-				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
-			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
-			{
-				if (Input.IsControlJustPressed(Control.SaveReplayClip, PadCheck.Keyboard))
-					TeleportToMarker();
-			}
-			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 3)
-			{
-				if (Input.IsControlJustPressed(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard))
-				{
-					if (!NoClip)
-					{
-						if (!p.IsInVehicle())
-						{
-							RequestAnimDict(noclip_ANIM_A);
-							while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-							curLocation = Game.Player.GetPlayerData().posizione.ToVector3();
-							curRotation = p.Rotation;
-							curHeading = Game.Player.GetPlayerData().posizione.W;
-							TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
-						}
-						else
-						{
-							curLocation = p.CurrentVehicle.Position;
-							curRotation = p.CurrentVehicle.Rotation;
-							curHeading = p.CurrentVehicle.Heading;
-						}
-						p.Rotation = new Vector3(0);
-						Client.Instance.AddTick(noClip);
-						NoClip = true;
-					}
-					else
-					{
-						Client.Instance.RemoveTick(noClip);
-						while (p.IsInvincible)
-						{
-							p.IsInvincible = false;
-							await BaseScript.Delay(0);
-						}
-						if (!p.IsInVehicle())
-						{
-							ClearPedTasksImmediately(PlayerPedId());
-							SetUserRadioControlEnabled(true);
-							p.IsInvincible = false;
-						}
-						else
-						{
-							SetUserRadioControlEnabled(true);
-							p.IsInvincible = false;
-							Vehicle veh = p.CurrentVehicle;
-							veh.IsInvincible = false;
-						}
-						ClearAllHelpMessages();
-						NoClip = false;
-					}
-				}
-			}
+
 		}
 
 		private static async Task noClip()
@@ -266,12 +300,13 @@ namespace TheLastPlanet.Client.Manager
 			Game.EnableControlThisFrame(0, Control.LookUpOnly);
 			Game.EnableControlThisFrame(0, Control.LookLeftOnly);
 			Game.EnableControlThisFrame(0, Control.LookRightOnly);
-			string helpTextTastiera = "~INPUT_COVER~ / ~INPUT_HUD_SPECIAL~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_FRONTEND_X~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
-			string helpTextPad = "~INPUT_FRONTEND_LT~ / ~INPUT_FRONTEND_RT~ - Sali / Scendi\n~INPUT_MOVE_LEFT_ONLY~ / ~INPUT_MOVE_RIGHT_ONLY~ - Ruota destra / sinistra\n~INPUT_MOVE_UP_ONLY~ / ~INPUT_MOVE_DOWN_ONLY~ Muovi avanti / indietro\n~INPUT_FRONTEND_X~ Cambia velocità\n\nVelocità attuale: ~y~" + travelSpeedStr + "~w~.";
-			if (IsInputDisabled(2))
-				HUD.ShowHelp(helpTextTastiera);
+
+			UpdateScaleform();
+			if (!Main.ImpostazioniClient.ModCinema)
+				_instructionalButtonsScaleform.Render2D();
 			else
-				HUD.ShowHelp(helpTextPad);
+				DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
+			HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
 
 			float rotationSpeed = 2.5f;
 			float forwardPush = 0.8f;

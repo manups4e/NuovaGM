@@ -50,9 +50,9 @@ namespace TheLastPlanet.Client.Manager
 			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Funzioni._CrosshairRaycast().HitPosition}");
 			if (pl.IsAiming)
 			{
-				int entity = 0;
-				if (GetEntityPlayerIsFreeAimingAt(PlayerId(), ref entity))
-					HUD.DrawText3D(GetEntityCoords(entity, true), Colors.DarkSeaGreen, "Hash = " + GetEntityModel(entity));
+				Entity ent = Game.Player.GetTargetedEntity();
+				if (ent.Exists())
+					HUD.DrawText3D(ent.GetOffsetPosition(new Vector3(0, 0, 1)), Colors.DarkSeaGreen, "Hash = " + ent.Model.Hash);
 			}
 			if (pl.IsInVehicle())
 			{
