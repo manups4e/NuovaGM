@@ -223,14 +223,21 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			SwitchOutPlayer(PlayerPedId(), 0, 1);
+			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"] as string) + 1;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
+			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
+
+			int switchType = 1;
+			if (!Data.location.position.IsZero)
+				switchType = GetIdealPlayerSwitchType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
+			else
+				switchType = GetIdealPlayerSwitchType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+
+			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"] as string) + 1;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
 			await BaseScript.Delay(6000);
@@ -245,18 +252,31 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 			if (!Data.location.position.IsZero)
 			{
-				var z = await Data.location.position.FindGroundZ();
-				RequestCollisionAtCoord(Data.location.position.X, Data.location.position.Y, z);
-				Game.PlayerPed.Position = new Vector3(Data.location.position.X, Data.location.position.Y, z);
+				Game.PlayerPed.Position = Data.location.position;
 				Game.PlayerPed.Heading = Data.location.h;
-				while (!HasCollisionLoadedAroundEntity(PlayerPedId())) await BaseScript.Delay(0);
+				await BaseScript.Delay(1000);
+				Vector3 scene = new Vector3(2.5652f, 0, -4.1481f);
+				if (NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X), 4500.0f, 0))
+				{
+					int t = GetGameTimer();
+					while (!IsNewLoadSceneLoaded() && GetGameTimer() - t < 20) await BaseScript.Delay(0);
+					NewLoadSceneStop();
+					SetFocusPosAndVel(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X));
+				}
 				await BaseScript.Delay(2000);
 			}
 			else
 			{
-				var z = await Main.firstSpawnCoords.FindGroundZ();
-				StartPlayerTeleport(PlayerId(), Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, z, Main.firstSpawnCoords.W, true, true, true);
-				while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
+				Game.PlayerPed.Position = Main.firstSpawnCoords.ToVector3();
+				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
+				Vector3 scene = new Vector3(2.5652f, 0, -4.1481f);
+				if (NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X), 4500.0f, 0))
+				{
+					int t = GetGameTimer();
+					while (!IsNewLoadSceneLoaded() && GetGameTimer() - t < 20) await BaseScript.Delay(0);
+					NewLoadSceneStop();
+					SetFocusPosAndVel(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X));
+				}
 				await BaseScript.Delay(2000);
 			}
 
@@ -278,7 +298,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
-			Game.PlayerPed.IsPositionFrozen = false;
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(7000);
@@ -292,17 +311,22 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
+			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
 			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
 			{
 				Game.Player.GetPlayerData().CurrentChar.Veicoli.Clear();
 				Game.Player.GetPlayerData().CurrentChar.Veicoli = (vehs as string).Deserialize<List<OwnedVehicle>>(true);
 			}));
+			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Game.PlayerPed.Handle);
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
+			if (Screen.LoadingPrompt.IsActive)
+				Screen.LoadingPrompt.Hide();
 			Client.Instance.RemoveTick(Controllo);
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(1000);
+			Game.PlayerPed.IsPositionFrozen = false;
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
