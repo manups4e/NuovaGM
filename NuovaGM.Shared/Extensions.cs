@@ -483,52 +483,32 @@ namespace TheLastPlanet.Shared
 			return HUD.MenuPool.AddSubMenu(menu, text, description, offset);
 		}
 
-		public static async Task<float> FindGroundZ(this Vector2 position)
-		{
-			float result = -199f;
-			try
-			{
-				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
-
-				foreach (float h in groundCheckHeight)
-				{
-					await BaseScript.Delay(1);
-					float z = 0;
-					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
-					{
-						result = z;
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
-			}
-			await Task.FromResult(0);
-			return result;
-		}
-
 		public static async Task<float> FindGroundZ(this Vector3 position)
 		{
-			float result = -199f;
+			float z = 0;
 			try
 			{
-				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
-
-				foreach (float h in groundCheckHeight)
+				float h = position.Z;
+				int time = GetGameTimer();
+				while (z == 0)
 				{
-					await BaseScript.Delay(1);
-					float z = 0;
+					if(GetGameTimer() - time > 5000)
+					{
+						Log.Printa(LogType.Debug, $"Vector3 FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
+						return -199.99f;
+					}
+					await BaseScript.Delay(50);
 					bool pippo = GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false);
-					if (z > 0)
-						return z;
+					h++;
+					Log.Printa(LogType.Debug, $"Z = {z}");
 				}
-				return result;
+				Log.Printa(LogType.Debug, $"Z = {z}");
+				return z;
 			}
 			catch (Exception ex)
 			{
 				Log.Printa(LogType.Error, $"Vector3 FindGroundZ Error: {ex.Message}");
-				return result;
+				return -199f;
 			}
 		}
 
@@ -551,11 +531,39 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+				Log.Printa(LogType.Error, $"Vector4 FindGroundZ Error: {ex.Message}");
 			}
 			await Task.FromResult(0);
 			return result;
 		}
+
+		public static async Task<Vector3> GetVector3WithGroundZ(this Vector3 position)
+		{
+			try
+			{
+				float Z = await position.FindGroundZ();
+				return new Vector3(position.X, position.Y, Z);
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"Vector3 GetVector3WithGroundZ Error: {ex.Message}");
+				return new Vector3(position.X, position.Y, -199.99f);
+			}
+		}
+		public static async Task<Vector4> GetVector4WithGroundZ(this Vector4 position)
+		{
+			try
+			{
+				float Z = await position.FindGroundZ();
+				return new Vector4(position.X, position.Y, Z, position.W);
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"Vector4 GetVector4WithGroundZ Error: {ex.Message}");
+				return new Vector4(position.X, position.Y, -199.99f, position.W);
+			}
+		}
+
 #endif
 
 		public static PointF Add(this PointF c1, PointF c2)
