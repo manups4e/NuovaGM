@@ -33,56 +33,58 @@ namespace TheLastPlanet.Client.Manager
 			UIMenu Orario = AdminMenu.AddSubMenu("Cambia Ora del Server");
 
 			#region Players
-			MenuPlayers.OnMenuOpen += async (_menu) =>
+			MenuPlayers.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
-				MenuPlayers.Clear();
-				/*// COMMENTARE PER TESTARE SU ME STESSO 
-				if (Client.Instance.GetPlayers.Count() == 1)
+				if (state == MenuState.Opened)
 				{
-					UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
-					_menu.AddItem(nessuno);
-					return;
-				}
-				*/
-				foreach (var p in Client.Instance.GetPlayers)
-				{
-					//if (p == Game.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
-					var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
-					string charscount;
-					if (player.char_data.Count == 1)
-						charscount = "1 personaggio";
-					else
-						charscount = player.char_data.Count + " personaggi";
-
-					UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Name, charscount);
-
-					UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
-					UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
-					UIMenuItem Specta = new UIMenuItem("Specta Player");
-					Giocatore.AddItem(Teletrasportami);
-					Giocatore.AddItem(Teletrasportalo);
-					Giocatore.AddItem(Specta);
-
-					Giocatore.OnItemSelect += async (menu, item, index) =>
+					MenuPlayers.Clear();
+					/*// COMMENTARE PER TESTARE SU ME STESSO 
+					if (Client.Instance.GetPlayers.Count() == 1)
 					{
-						if (item == Teletrasportami)
-							Game.PlayerPed.Position = p.Character.Position;
-						else if (item == Teletrasportalo)
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.Player.GetPlayerData().posizione.ToVector3());
-						else if (item == Specta)
-						{
-							if (p == Game.Player) return;
-							Game.PlayerPed.SetDecor("AdminSpecta", p.Handle);
-							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
-							NetworkSetInSpectatorMode(true, p.Character.Handle);
-							Client.Instance.AddTick(SpectatorMode);
-						}
-					};
+						UIMenuItem nessuno = new UIMenuItem("Non ci sono player oltre te!");
+						_menu.AddItem(nessuno);
+						return;
+					}
+					*/
+					foreach (var p in Client.Instance.GetPlayers)
+					{
+						//if (p == Game.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
+						var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
+						string charscount;
+						if (player.char_data.Count == 1)
+							charscount = "1 personaggio";
+						else
+							charscount = player.char_data.Count + " personaggi";
 
-					#region Ban Player
-					DateTime TempoDiBan = DateTime.Now.AddMinutes(10);
-					string Motivazione = "";
-					List<dynamic> tempiban = new List<dynamic>()
+						UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Name, charscount);
+
+						UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
+						UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
+						UIMenuItem Specta = new UIMenuItem("Specta Player");
+						Giocatore.AddItem(Teletrasportami);
+						Giocatore.AddItem(Teletrasportalo);
+						Giocatore.AddItem(Specta);
+
+						Giocatore.OnItemSelect += async (menu, item, index) =>
+						{
+							if (item == Teletrasportami)
+								Game.PlayerPed.Position = p.Character.Position;
+							else if (item == Teletrasportalo)
+								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.Player.GetPlayerData().posizione.ToVector3());
+							else if (item == Specta)
+							{
+								if (p == Game.Player) return;
+								Game.PlayerPed.SetDecor("AdminSpecta", p.Handle);
+								RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
+								NetworkSetInSpectatorMode(true, p.Character.Handle);
+								Client.Instance.AddTick(SpectatorMode);
+							}
+						};
+
+						#region Ban Player
+						DateTime TempoDiBan = DateTime.Now.AddMinutes(10);
+						string Motivazione = "";
+						List<dynamic> tempiban = new List<dynamic>()
 					{
 						"10 min",
 						"20 min",
@@ -104,222 +106,223 @@ namespace TheLastPlanet.Client.Manager
 						"1 anno",
 						"100 anni (Perma-ban)",
 					};
-					UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
+						UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
 
-					UIMenuItem motivazioneBan = new UIMenuItem("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
-					UIMenuListItem TempoBan = new UIMenuListItem("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
-					UIMenuItem Banna = new UIMenuItem("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
-					UIMenuCheckboxItem temp = new UIMenuCheckboxItem("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
-					Ban.AddItem(motivazioneBan);
-					Ban.AddItem(TempoBan);
-					Ban.AddItem(temp);
-					Ban.AddItem(Banna);
+						UIMenuItem motivazioneBan = new UIMenuItem("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
+						UIMenuListItem TempoBan = new UIMenuListItem("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
+						UIMenuItem Banna = new UIMenuItem("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+						UIMenuCheckboxItem temp = new UIMenuCheckboxItem("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
+						Ban.AddItem(motivazioneBan);
+						Ban.AddItem(TempoBan);
+						Ban.AddItem(temp);
+						Ban.AddItem(Banna);
 
-					Ban.OnItemSelect += async (menu, item, index) =>
-					{
-						if (item == motivazioneBan)
+						Ban.OnItemSelect += async (menu, item, index) =>
 						{
-							Motivazione = await HUD.GetUserInput("Motivazione del Ban", "", 175);
-							motivazioneBan.Description = Motivazione;
-							motivazioneBan.SetRightLabel(Motivazione.Length > 15 ? Motivazione.Substring(0, 15) + "..." : Motivazione);
-							menu.UpdateDescription();
-						}
-						else if (item == Banna)
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Game.Player.ServerId);
+							if (item == motivazioneBan)
+							{
+								Motivazione = await HUD.GetUserInput("Motivazione del Ban", "", 175);
+								motivazioneBan.Description = Motivazione;
+								motivazioneBan.SetRightLabel(Motivazione.Length > 15 ? Motivazione.Substring(0, 15) + "..." : Motivazione);
+								menu.UpdateDescription();
+							}
+							else if (item == Banna)
+								BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Game.Player.ServerId);
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
 					};
 
-					TempoBan.OnListChanged += async (item, index) =>
-					{
-						DateTime ora = DateTime.Now;
-						switch (item.Items[index])
+						TempoBan.OnListChanged += async (item, index) =>
 						{
-							case "10 min":
-								TempoDiBan = ora.AddMinutes(10);
-								break;
-							case "20 min":
-								TempoDiBan = ora.AddMinutes(20);
-								break;
-							case "30 min":
-								TempoDiBan = ora.AddMinutes(30);
-								break;
-							case "1 ora":
-								TempoDiBan = ora.AddHours(1);
-								break;
-							case "2 ore":
-								TempoDiBan = ora.AddHours(2);
-								break;
-							case "3 ore":
-								TempoDiBan = ora.AddHours(3);
-								break;
-							case "12 ore":
-								TempoDiBan = ora.AddHours(12);
-								break;
-							case "1 giorno":
-								TempoDiBan = ora.AddDays(1);
-								break;
-							case "2 giorni":
-								TempoDiBan = ora.AddDays(2);
-								break;
-							case "3 giorni":
-								TempoDiBan = ora.AddDays(3);
-								break;
-							case "1 settimana":
-								TempoDiBan = ora.AddDays(7);
-								break;
-							case "2 settimane":
-								TempoDiBan = ora.AddDays(14);
-								break;
-							case "3 settimane":
-								TempoDiBan = ora.AddDays(21);
-								break;
-							case "1 mese":
-								TempoDiBan = ora.AddMonths(1);
-								break;
-							case "2 mesi":
-								TempoDiBan = ora.AddMonths(2);
-								break;
-							case "3 mesi":
-								TempoDiBan = ora.AddMonths(3);
-								break;
-							case "6 mesi":
-								TempoDiBan = ora.AddMonths(6);
-								break;
-							case "1 anno":
-								TempoDiBan = ora.AddYears(1);
-								break;
-							case "100 anni (Perma-ban)":
-								TempoDiBan = ora.AddYears(100);
-								break;
-						}
-					};
-					#endregion
-
-					#region Kick
-					string motivazionekick = "";
-					UIMenu Kick = Giocatore.AddSubMenu("~y~Kicka Player~w~");
-					UIMenuItem motivazioneKick = new UIMenuItem("Motivazione");
-					UIMenuItem Kicka = new UIMenuItem("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
-					Kick.AddItem(motivazioneKick);
-					Kick.AddItem(Kicka);
-
-					Kick.OnItemSelect += async (menu, item, index) =>
-					{
-						if (item == motivazioneKick)
-						{
-							motivazionekick = await HUD.GetUserInput("Motivazione del kick?", "", 175);
-							motivazioneKick.Description = motivazionekick;
-							motivazioneKick.SetRightLabel(motivazionekick.Substring(0, 15) + "...");
-						}
-						else if (item == Kicka)
-							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Game.Player.ServerId);
-					};
-					#endregion
-
-					UIMenu Personaggi = Giocatore.AddSubMenu("~b~Gestione Personaggi~w~", charscount);
-
-
-					foreach (Shared.Char_data chars in player.char_data)
-					{
-						UIMenu Character = Personaggi.AddSubMenu(chars.info.firstname + " " + chars.info.lastname);
-
-						UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
-						UIMenu Inventario = Character.AddSubMenu("Inventario");
-						UIMenu Armi = Character.AddSubMenu("Armi");
-						UIMenu Finanze = Character.AddSubMenu("Finanze");
-						UIMenu VeicoliPersonali = Character.AddSubMenu("Veicoli Personali");
-						UIMenu Immobili = Character.AddSubMenu("Proprietà Possedute");
-						UIMenu DatiGenerici = Character.AddSubMenu("Dati Generici", "Fedina Penale, Multe..");
-
-						#region Dati Personali
-						UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
-						nomeCognome.SetRightLabel(chars.info.firstname + " " + chars.info.lastname);
-						UIMenuItem dDN = new UIMenuItem("Data di Nascita");
-						dDN.SetRightLabel(chars.info.dateOfBirth);
-						UIMenuItem sesso = new UIMenuItem("Sesso");
-						sesso.SetRightLabel(chars.skin.sex);
-						UIMenuItem altezza = new UIMenuItem("Altezza");
-						altezza.SetRightLabel(chars.info.height + "cm");
-						UIMenuItem job = new UIMenuItem("Occupazione Attuale");
-						job.SetRightLabel(chars.job.name);
-						UIMenuItem telefono = new UIMenuItem("N° di Telefono");
-						telefono.SetRightLabel("" + chars.info.phoneNumber);
-						UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
-						assicurazione.SetRightLabel("" + chars.info.insurance);
-						DatiPersonali.AddItem(nomeCognome);
-						DatiPersonali.AddItem(dDN);
-						DatiPersonali.AddItem(sesso);
-						DatiPersonali.AddItem(altezza);
-						DatiPersonali.AddItem(job);
-						DatiPersonali.AddItem(telefono);
-						DatiPersonali.AddItem(assicurazione);
-						#endregion
-
-						#region Inventario
-						UIMenuItem addItem = new UIMenuItem("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
-						Inventario.AddItem(addItem);
-						if (chars.inventory.Count > 0)
-						{
-							for (int i = 0; i < chars.inventory.Count; i++)
+							DateTime ora = DateTime.Now;
+							switch (item.Items[index])
 							{
-								Inventory item = chars.inventory[i];
-								if (item.amount > 0)
-								{
-									UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
-									UIMenuItem add = new UIMenuItem("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
-									UIMenuItem rem = new UIMenuItem("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
-									newItemMenu.AddItem(add);
-									newItemMenu.AddItem(rem);
-
-									newItemMenu.OnItemSelect += async (menu, mitem, index) =>
-									{
-										if (mitem == add)
-										{
-											int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
-											if (quantita < 99 && quantita > 0)
-												BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
-											else
-												HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-										}
-										else if (mitem == rem)
-										{
-											int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
-											if (quantita < 99 && quantita > 0)
-												BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
-											else
-												HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-										}
-										menu.ParentMenu.RefreshIndex();
-									};
-								}
+								case "10 min":
+									TempoDiBan = ora.AddMinutes(10);
+									break;
+								case "20 min":
+									TempoDiBan = ora.AddMinutes(20);
+									break;
+								case "30 min":
+									TempoDiBan = ora.AddMinutes(30);
+									break;
+								case "1 ora":
+									TempoDiBan = ora.AddHours(1);
+									break;
+								case "2 ore":
+									TempoDiBan = ora.AddHours(2);
+									break;
+								case "3 ore":
+									TempoDiBan = ora.AddHours(3);
+									break;
+								case "12 ore":
+									TempoDiBan = ora.AddHours(12);
+									break;
+								case "1 giorno":
+									TempoDiBan = ora.AddDays(1);
+									break;
+								case "2 giorni":
+									TempoDiBan = ora.AddDays(2);
+									break;
+								case "3 giorni":
+									TempoDiBan = ora.AddDays(3);
+									break;
+								case "1 settimana":
+									TempoDiBan = ora.AddDays(7);
+									break;
+								case "2 settimane":
+									TempoDiBan = ora.AddDays(14);
+									break;
+								case "3 settimane":
+									TempoDiBan = ora.AddDays(21);
+									break;
+								case "1 mese":
+									TempoDiBan = ora.AddMonths(1);
+									break;
+								case "2 mesi":
+									TempoDiBan = ora.AddMonths(2);
+									break;
+								case "3 mesi":
+									TempoDiBan = ora.AddMonths(3);
+									break;
+								case "6 mesi":
+									TempoDiBan = ora.AddMonths(6);
+									break;
+								case "1 anno":
+									TempoDiBan = ora.AddYears(1);
+									break;
+								case "100 anni (Perma-ban)":
+									TempoDiBan = ora.AddYears(100);
+									break;
 							}
-						}
-						addItem.Activated += async (menu, item) =>
-						{
-							string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
-							int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
-							if (quantita < 99 && quantita > 0)
-								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, oggetto, quantita);
-							else
-								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
-							menu.RefreshIndex();
 						};
 						#endregion
 
-						#region Armi
+						#region Kick
+						string motivazionekick = "";
+						UIMenu Kick = Giocatore.AddSubMenu("~y~Kicka Player~w~");
+						UIMenuItem motivazioneKick = new UIMenuItem("Motivazione");
+						UIMenuItem Kicka = new UIMenuItem("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
+						Kick.AddItem(motivazioneKick);
+						Kick.AddItem(Kicka);
+
+						Kick.OnItemSelect += async (menu, item, index) =>
+						{
+							if (item == motivazioneKick)
+							{
+								motivazionekick = await HUD.GetUserInput("Motivazione del kick?", "", 175);
+								motivazioneKick.Description = motivazionekick;
+								motivazioneKick.SetRightLabel(motivazionekick.Substring(0, 15) + "...");
+							}
+							else if (item == Kicka)
+								BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Game.Player.ServerId);
+						};
 						#endregion
 
-						#region Veicoli Personali
-						#endregion
+						UIMenu Personaggi = Giocatore.AddSubMenu("~b~Gestione Personaggi~w~", charscount);
 
-						#region Proprietà Possedute
-						#endregion
 
-						#region Immobili
-						#endregion
+						foreach (Shared.Char_data chars in player.char_data)
+						{
+							UIMenu Character = Personaggi.AddSubMenu(chars.info.firstname + " " + chars.info.lastname);
 
-						#region Dati Generici
-						#endregion
+							UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
+							UIMenu Inventario = Character.AddSubMenu("Inventario");
+							UIMenu Armi = Character.AddSubMenu("Armi");
+							UIMenu Finanze = Character.AddSubMenu("Finanze");
+							UIMenu VeicoliPersonali = Character.AddSubMenu("Veicoli Personali");
+							UIMenu Immobili = Character.AddSubMenu("Proprietà Possedute");
+							UIMenu DatiGenerici = Character.AddSubMenu("Dati Generici", "Fedina Penale, Multe..");
+
+							#region Dati Personali
+							UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
+							nomeCognome.SetRightLabel(chars.info.firstname + " " + chars.info.lastname);
+							UIMenuItem dDN = new UIMenuItem("Data di Nascita");
+							dDN.SetRightLabel(chars.info.dateOfBirth);
+							UIMenuItem sesso = new UIMenuItem("Sesso");
+							sesso.SetRightLabel(chars.skin.sex);
+							UIMenuItem altezza = new UIMenuItem("Altezza");
+							altezza.SetRightLabel(chars.info.height + "cm");
+							UIMenuItem job = new UIMenuItem("Occupazione Attuale");
+							job.SetRightLabel(chars.job.name);
+							UIMenuItem telefono = new UIMenuItem("N° di Telefono");
+							telefono.SetRightLabel("" + chars.info.phoneNumber);
+							UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
+							assicurazione.SetRightLabel("" + chars.info.insurance);
+							DatiPersonali.AddItem(nomeCognome);
+							DatiPersonali.AddItem(dDN);
+							DatiPersonali.AddItem(sesso);
+							DatiPersonali.AddItem(altezza);
+							DatiPersonali.AddItem(job);
+							DatiPersonali.AddItem(telefono);
+							DatiPersonali.AddItem(assicurazione);
+							#endregion
+
+							#region Inventario
+							UIMenuItem addItem = new UIMenuItem("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
+							Inventario.AddItem(addItem);
+							if (chars.inventory.Count > 0)
+							{
+								for (int i = 0; i < chars.inventory.Count; i++)
+								{
+									Inventory item = chars.inventory[i];
+									if (item.amount > 0)
+									{
+										UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
+										UIMenuItem add = new UIMenuItem("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
+										UIMenuItem rem = new UIMenuItem("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+										newItemMenu.AddItem(add);
+										newItemMenu.AddItem(rem);
+
+										newItemMenu.OnItemSelect += async (menu, mitem, index) =>
+										{
+											if (mitem == add)
+											{
+												int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
+												if (quantita < 99 && quantita > 0)
+													BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
+												else
+													HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+											}
+											else if (mitem == rem)
+											{
+												int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
+												if (quantita < 99 && quantita > 0)
+													BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.id, item.item, quantita);
+												else
+													HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+											}
+											menu.ParentMenu.RefreshIndex();
+										};
+									}
+								}
+							}
+							addItem.Activated += async (menu, item) =>
+							{
+								string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
+								int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
+								if (quantita < 99 && quantita > 0)
+									BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, oggetto, quantita);
+								else
+									HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+								menu.RefreshIndex();
+							};
+							#endregion
+
+							#region Armi
+							#endregion
+
+							#region Veicoli Personali
+							#endregion
+
+							#region Proprietà Possedute
+							#endregion
+
+							#region Immobili
+							#endregion
+
+							#region Dati Generici
+							#endregion
+						}
 					}
 				}
 			};

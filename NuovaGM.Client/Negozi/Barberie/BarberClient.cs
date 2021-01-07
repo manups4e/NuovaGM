@@ -661,7 +661,7 @@ namespace TheLastPlanet.Client.Negozi
 			#endregion
 			#region	ON_ITEM_SELECT
 			MenuPrincipale.OnListSelect += async (menu, _listItem, itemindex) =>
-			 {
+			{
 				 if (_listItem == Capelli)
 				 {
 					 Capigliature obj = new Capigliature();
@@ -937,12 +937,15 @@ namespace TheLastPlanet.Client.Negozi
 				 //				}
 			 };
 			#endregion
-			MenuPrincipale.OnMenuClose += async (menu) =>
+			MenuPrincipale.OnMenuStateChanged += async (a, b, c) =>
 			{
-				ClearPedTasks(PlayerPedId());
-				await Funzioni.UpdateFace(skin);
-				RenderScriptCams(false, true, 1000, true, false);
-				Client.Instance.RemoveTick(NuovaCam);
+				if (c == MenuState.Closed && a == MenuPrincipale)
+				{
+					ClearPedTasks(PlayerPedId());
+					await Funzioni.UpdateFace(skin);
+					RenderScriptCams(false, true, 1000, true, false);
+					Client.Instance.RemoveTick(NuovaCam);
+				}
 			};
 			#endregion
 			MenuPrincipale.Visible = true;

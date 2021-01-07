@@ -445,23 +445,25 @@ namespace TheLastPlanet.Client.Veicoli
 				VeicoliClient.SpawnVehiclePreview(veicoliAff.motoSuper[_newIndex].model, new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), VeicoliClient.carGaragePrev[num].W);
 			};
 
-			affittaVeh.OnMenuOpen += async (_menu) =>
+			pool.OnMenuStateChanged += async (a, b, c) =>
 			{
-				await BaseScript.Delay(100);
-				Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
-				foreach (Vehicle v in ves)
-					v.Delete();
-				VeicoliClient.setupGarageCamera(true, num);
-			};
-
-			MenuAffitto.OnMenuClose += async (_menu) =>
-			{
-				await BaseScript.Delay(100);
-				if (!Bikes.Visible && !GenericCars.Visible && !MediumCars.Visible && !SuperCars.Visible && !GenericMoto.Visible && !MediumMoto.Visible && !SuperMoto.Visible)
+				if (c == MenuState.ChangeForward && b == affittaVeh)
 				{
-					if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
+					await BaseScript.Delay(100);
 					Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
-					foreach (Vehicle v in ves) v.Delete();
+					foreach (Vehicle v in ves)
+						v.Delete();
+					VeicoliClient.setupGarageCamera(true, num);
+				}
+				else if (c == MenuState.Closed && b == MenuAffitto)
+				{
+					await BaseScript.Delay(100);
+					if (!Bikes.Visible && !GenericCars.Visible && !MediumCars.Visible && !SuperCars.Visible && !GenericMoto.Visible && !MediumMoto.Visible && !SuperMoto.Visible)
+					{
+						if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
+						Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
+						foreach (Vehicle v in ves) v.Delete();
+					}
 				}
 			};
 

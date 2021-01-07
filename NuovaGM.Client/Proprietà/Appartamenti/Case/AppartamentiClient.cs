@@ -66,54 +66,58 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					NetworkFadeInEntity(PlayerPedId(), true);
 				};
 			}
-			Citofona.OnMenuOpen += async (_menu) =>
+
+			HUD.MenuPool.OnMenuStateChanged += async (a, _menu, c) =>
 			{
-				_menu.Clear();
-				List<Player> gioc = new List<Player>();
-				foreach(var p in Client.Instance.GetPlayers.ToList())
+				if (c == MenuState.ChangeForward && _menu == Citofona)
 				{
-					if (p == Game.Player) continue;
-					var pl = p.GetPlayerData();
-					if (pl.Istanza.Stanziato)
+					_menu.Clear();
+					List<Player> gioc = new List<Player>();
+					foreach (var p in Client.Instance.GetPlayers.ToList())
 					{
-						if (pl.Istanza.IsProprietario)
+						if (p == Game.Player) continue;
+						var pl = p.GetPlayerData();
+						if (pl.Istanza.Stanziato)
 						{
-							if (pl.Istanza.Instance == app.Key)
+							if (pl.Istanza.IsProprietario)
 							{
-								gioc.Add(p);
+								if (pl.Istanza.Instance == app.Key)
+								{
+									gioc.Add(p);
+								}
 							}
 						}
 					}
-				}
-				if(gioc.Count > 0)
-				{
-					foreach (var p in gioc.ToList())
+					if (gioc.Count > 0)
 					{
-						var pl = p.GetPlayerData();
-						UIMenuItem it = new UIMenuItem(pl.FullName);
-						_menu.AddItem(it);
-						it.Activated += (_submenu, _subitem) =>
+						foreach (var p in gioc.ToList())
 						{
-							Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-							BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.Serialize()); // params: personaincasa.serverid, fromsource chi suona
+							var pl = p.GetPlayerData();
+							UIMenuItem it = new UIMenuItem(pl.FullName);
+							_menu.AddItem(it);
+							it.Activated += (_submenu, _subitem) =>
+							{
+								Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
+								BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.Serialize()); // params: personaincasa.serverid, fromsource chi suona
 							HUD.MenuPool.CloseAllMenus();
-						};
+							};
+						}
+					}
+					else
+					{
+						_menu.AddItem(new UIMenuItem("Non ci sono persone in casa al momento!"));
 					}
 				}
-				else
+				else if (c == MenuState.ChangeBackward && _menu == casa)
 				{
-					_menu.AddItem(new UIMenuItem("Non ci sono persone in casa al momento!"));
+					await BaseScript.Delay(100);
+					if (HUD.MenuPool.IsAnyMenuOpen) return;
+					if (cam.IsActive)
+						RenderScriptCams(false, true, 1500, true, false);
+					dummycam.Delete();
+					cam.Delete();
+					HUD.MenuPool.ControlDisablingEnabled = true;
 				}
-			};
-			casa.OnMenuClose += async (_menu) =>
-			{
-				await BaseScript.Delay(100);
-				if (HUD.MenuPool.IsAnyMenuOpen) return;
-				if(cam.IsActive)
-					RenderScriptCams(false, true, 1500, true, false);
-				dummycam.Delete();
-				cam.Delete();
-				HUD.MenuPool.ControlDisablingEnabled = true;
 			};
 			while (dummycam.IsInterpolating) await BaseScript.Delay(0);
 			while (cam.IsInterpolating) await BaseScript.Delay(0);

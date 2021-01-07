@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			UIMenuListItem markerIngressoCasa;
 			UIMenuListItem markerIngressoGarage;
 			UIMenuCheckboxItem posCamera;
-
+/*
 			selezionePunto.OnMenuStateChange += async (oldmenu, newmenu, state) =>
 			{
 				SetPlayerControl(Game.Player.Handle, false, 256);
@@ -79,6 +79,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					Screen.Fading.FadeIn(500);
 				}
 			};
+*/
 			#endregion
 
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione Interior"); // NB: nome provvisorio

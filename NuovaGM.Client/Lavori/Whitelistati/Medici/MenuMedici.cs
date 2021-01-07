@@ -326,25 +326,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			UIMenu MenuElicotteri = new UIMenu("Elicotteri Medici", "Cura le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
 
-			MenuElicotteri.OnMenuOpen += async (menu) =>
-			{
-				PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
-				PreviewHeli.IsCollisionEnabled = false;
-				PreviewHeli.IsPersistent = true;
-				PreviewHeli.PlaceOnGround();
-				PreviewHeli.IsPositionFrozen = true;
-				if (PreviewHeli.Model.Hash == 353883353)
-					SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
-				PreviewHeli.LockStatus = VehicleLockStatus.Locked;
-				PreviewHeli.IsInvincible = true;
-				PreviewHeli.IsEngineRunning = true;
-				PreviewHeli.IsDriveable = false;
-				Client.Instance.AddTick(Heading);
-				HeliCam.PointAt(PreviewHeli);
-				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
-				RenderScriptCams(true, false, 0, false, false);
-				Screen.Fading.FadeIn(800);
-			};
 
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
@@ -409,17 +390,41 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				PreviewHeli.Delete();
 			};
 
-			MenuElicotteri.OnMenuClose += async (menu) =>
+			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
-				Screen.Fading.FadeOut(800);
-				await BaseScript.Delay(1000);
-				Client.Instance.RemoveTick(Heading);
-				HeliCam.IsActive = false;
-				RenderScriptCams(false, false, 0, false, false);
-				await BaseScript.Delay(1000);
-				Screen.Fading.FadeIn(800);
-				PreviewHeli.MarkAsNoLongerNeeded();
-				PreviewHeli.Delete();
+				if (state == MenuState.Opened && newmenu == MenuElicotteri)
+				{
+					PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
+					PreviewHeli.IsCollisionEnabled = false;
+					PreviewHeli.IsPersistent = true;
+					PreviewHeli.PlaceOnGround();
+					PreviewHeli.IsPositionFrozen = true;
+					if (PreviewHeli.Model.Hash == 353883353)
+						SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
+					PreviewHeli.LockStatus = VehicleLockStatus.Locked;
+					PreviewHeli.IsInvincible = true;
+					PreviewHeli.IsEngineRunning = true;
+					PreviewHeli.IsDriveable = false;
+					Client.Instance.AddTick(Heading);
+					HeliCam.PointAt(PreviewHeli);
+					SetFocusPosAndVel(HeliCam.Position.X, HeliCam.Position.Y, HeliCam.Position.Z, 0, 0, 0);
+					while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+					RenderScriptCams(true, false, 0, false, false);
+					Screen.Fading.FadeIn(800);
+				}
+				else if (state == MenuState.Closed && oldmenu == MenuElicotteri)
+				{
+					Screen.Fading.FadeOut(800);
+					await BaseScript.Delay(1000);
+					Client.Instance.RemoveTick(Heading);
+					HeliCam.IsActive = false;
+					RenderScriptCams(false, false, 0, false, false);
+					SetFocusPosAndVel(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
+					await BaseScript.Delay(1000);
+					Screen.Fading.FadeIn(800);
+					PreviewHeli.MarkAsNoLongerNeeded();
+					PreviewHeli.Delete();
+				}
 			};
 			MenuElicotteri.Visible = true;
 		}

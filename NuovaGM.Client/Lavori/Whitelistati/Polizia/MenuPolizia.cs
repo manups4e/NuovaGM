@@ -214,6 +214,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		static UIMenuItem Pos = new UIMenuItem("");
 		public static async void MainMenu()
 		{
+			string nome = "";
+			string cognome = "";
+			string numero = "";
 			MenuPoliziaPrincipale = new UIMenu("Menu Polizia", "IO SONO LA LEGGE!", new Point(50, 200));
 			HUD.MenuPool.Add(MenuPoliziaPrincipale);
 			InterazioneCivile = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Cittadino", "Mi faccia vedere i dati!");
@@ -242,107 +245,157 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			InterazioneCivile.AddItem(togliVeicolo);
 			InterazioneCivile.AddItem(incarcera);
 
-			DatiPlayer.OnMenuOpen += async (menu) =>
+			HUD.MenuPool.OnMenuStateChanged += async (_oldMenu, _newMenu, state) =>
 			{
-				menu.Clear();
-				if (Client.Instance.GetPlayers.ToList().Count > 1)
+				if (_newMenu == DatiPlayer)
 				{
-					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
-					Ped ClosestPed = Player_Distance.Item1.Character;
-					int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
-					PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
-					float distance = Player_Distance.Item2;
-					if (distance < 3f && ClosestPed != null)
+					_newMenu.Clear();
+					if (Client.Instance.GetPlayers.ToList().Count > 1)
 					{
-						UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
-						nomeCognome.SetRightLabel(player.FullName);
-						UIMenuItem dDN = new UIMenuItem("Data di Nascita");
-						dDN.SetRightLabel(player.DOB);
-						UIMenuItem sesso = new UIMenuItem("Sesso");
-						sesso.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.skin.sex);
-						UIMenuItem altezza = new UIMenuItem("Altezza");
-						altezza.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.info.height + "cm");
-						UIMenuItem job = new UIMenuItem("Occupazione Attuale");
-						job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
-						UIMenuItem telefono = new UIMenuItem("N° di Telefono");
-						telefono.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
-						UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
-						assicurazione.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
-						UIMenuItem nomePlayer = new UIMenuItem("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
-						nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
-						DatiPlayer.AddItem(nomeCognome);
-						DatiPlayer.AddItem(dDN);
-						DatiPlayer.AddItem(sesso);
-						DatiPlayer.AddItem(altezza);
-						DatiPlayer.AddItem(job);
-						DatiPlayer.AddItem(telefono);
-						DatiPlayer.AddItem(assicurazione);
-						DatiPlayer.AddItem(nomePlayer);
+						Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
+						Ped ClosestPed = Player_Distance.Item1.Character;
+						int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
+						PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
+						float distance = Player_Distance.Item2;
+						if (distance < 3f && ClosestPed != null)
+						{
+							UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
+							nomeCognome.SetRightLabel(player.FullName);
+							UIMenuItem dDN = new UIMenuItem("Data di Nascita");
+							dDN.SetRightLabel(player.DOB);
+							UIMenuItem sesso = new UIMenuItem("Sesso");
+							sesso.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.skin.sex);
+							UIMenuItem altezza = new UIMenuItem("Altezza");
+							altezza.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.info.height + "cm");
+							UIMenuItem job = new UIMenuItem("Occupazione Attuale");
+							job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
+							UIMenuItem telefono = new UIMenuItem("N° di Telefono");
+							telefono.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
+							UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
+							assicurazione.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
+							UIMenuItem nomePlayer = new UIMenuItem("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
+							nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
+							DatiPlayer.AddItem(nomeCognome);
+							DatiPlayer.AddItem(dDN);
+							DatiPlayer.AddItem(sesso);
+							DatiPlayer.AddItem(altezza);
+							DatiPlayer.AddItem(job);
+							DatiPlayer.AddItem(telefono);
+							DatiPlayer.AddItem(assicurazione);
+							DatiPlayer.AddItem(nomePlayer);
+						}
+						else
+						{
+							UIMenuItem noPlayers = new UIMenuItem("Non ci sono Player nelle vicinanze!");
+							DatiPlayer.AddItem(noPlayers);
+						}
 					}
 					else
 					{
-						UIMenuItem noPlayers = new UIMenuItem("Non ci sono Player nelle vicinanze!");
+						UIMenuItem noPlayers = new UIMenuItem("Non ci sono altri Player nel server!");
 						DatiPlayer.AddItem(noPlayers);
 					}
 				}
-				else
+				else if (_newMenu == Perquisizione)
 				{
-					UIMenuItem noPlayers = new UIMenuItem("Non ci sono altri Player nel server!");
-					DatiPlayer.AddItem(noPlayers);
-				}
-			};
-
-			Perquisizione.OnMenuOpen += async (menu) =>
-			{
-				if (menu.MenuItems.Count > 0) menu.Clear();
-				if (Client.Instance.GetPlayers.ToList().Count() > 1)
-				{
-					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
-					Ped ClosestPed = Player_Distance.Item1.Character;
-					int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
-					PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
-					float distance = Player_Distance.Item2;
-					if (distance < 3f)
+					if (_newMenu.MenuItems.Count > 0) _newMenu.Clear();
+					if (Client.Instance.GetPlayers.ToList().Count() > 1)
 					{
-						var inv = Game.Player.GetPlayerData().Inventory;
-						if (inv.Count > 0)
+						Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
+						Ped ClosestPed = Player_Distance.Item1.Character;
+						int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
+						PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
+						float distance = Player_Distance.Item2;
+						if (distance < 3f)
 						{
-							foreach (var it in inv)
+							var inv = Game.Player.GetPlayerData().Inventory;
+							if (inv.Count > 0)
 							{
-								if (it.amount > 0)
+								foreach (var it in inv)
 								{
-									UIMenuItem oggetto = new UIMenuItem(it.item);
-									oggetto.SetRightLabel($"Quantità: {it.amount}");
-									menu.AddItem(oggetto);
-									oggetto.Activated += async (_menu, item) =>
+									if (it.amount > 0)
 									{
-										BaseScript.TriggerServerEvent("lprp:polizia:confisca", it.item, it.amount);
-									};
+										UIMenuItem oggetto = new UIMenuItem(it.item);
+										oggetto.SetRightLabel($"Quantità: {it.amount}");
+										_newMenu.AddItem(oggetto);
+										oggetto.Activated += async (_menu, item) =>
+										{
+											BaseScript.TriggerServerEvent("lprp:polizia:confisca", it.item, it.amount);
+										};
+									}
 								}
 							}
+							else
+								Perquisizione.AddItem(new UIMenuItem("Questa persona non ha oggetti con se!"));
 						}
 						else
-							Perquisizione.AddItem(new UIMenuItem("Questa persona non ha oggetti con se!"));
+							Perquisizione.AddItem(new UIMenuItem("Non ci sono Player nelle vicinanze!"));
 					}
 					else
-						Perquisizione.AddItem(new UIMenuItem("Non ci sono Player nelle vicinanze!"));
+						Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
+
 				}
-				else
-					Perquisizione.AddItem(new UIMenuItem("Non ci sono Players oltre te"));
+				//else if(_newMenu == FedinaPenale)
+				//else if(_newMenu == multa)
+				//else if(_newMenu == fatture)
+				else if (_newMenu == CercaPers)
+				{
+					Dictionary<string, PlayerChar> players = await Funzioni.GetAllPlayersAndTheirData();
+					_newMenu.Clear();
+					foreach (KeyValuePair<string, PlayerChar> pers in players.OrderBy(x => x.Key))
+					{
+						foreach (Char_data data in pers.Value.char_data)
+						{
+							if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
+							{
+								int source = 0;
+								foreach (Player p in Client.Instance.GetPlayers.ToList())
+								{
+									if (p.Name == pers.Key)
+									{
+										source = p.ServerId;
+									}
+								}
+								UIMenu Personaggio = CercaPers.AddSubMenu(data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
+								UIMenuItem NomeCognome = new UIMenuItem("Nome:", "Il suo Nome");
+								NomeCognome.SetRightLabel(data.info.firstname + " " + data.info.lastname);
+								Personaggio.AddItem(NomeCognome);
+								UIMenuItem DDN = new UIMenuItem("Data di Nascita:", "La sua data di nascita");
+								DDN.SetRightLabel(data.info.dateOfBirth);
+								Personaggio.AddItem(DDN);
+								//UIMenuItem Altez = new UIMenuItem("Altezza:");
+								UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
+								job.SetRightLabel(data.job.name);
+								Personaggio.AddItem(job);
+								//UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
+								UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
+								bank.SetRightLabel("$" + data.finance.bank);
+								Personaggio.AddItem(bank);
+								Pos = new UIMenuItem("Ultima Posizione conosciuta");
+								if (source != 0)
+									GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
+								else
+									GetStreetNameAtCoord(data.location.position.X, data.location.position.Y, data.location.position.Z, ref StreetA, ref StreetB);
+								Pos.Description = GetStreetNameFromHashKey(StreetA);
+								if (StreetB != 0)
+									Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
+								Personaggio.AddItem(Pos);
+								UIMenu fedinaPenale = Personaggio.AddSubMenu("Fedina Penale");
+								UIMenu Fatture = Personaggio.AddSubMenu("Multe / Insoluti");
+							}
+						}
+					}
+				}
+				else if (_newMenu == MenuPoliziaPrincipale && state == MenuState.Opened)
+				{
+					Client.Instance.AddTick(ControlloMenu);
+				}
+				else if (state == MenuState.Closed && _oldMenu == MenuPoliziaPrincipale)
+				{
+					Client.Instance.RemoveTick(ControlloMenu);
+				};
 			};
 
-			FedinaPenale.OnMenuOpen += async (menu) =>
-			{
-
-			};
-			multa.OnMenuOpen += async (menu) =>
-			{
-
-			};
-			fatture.OnMenuOpen += async (menu) =>
-			{
-
-			};
 
 			InterazioneCivile.OnItemSelect += async (menu, item, index) =>
 			{
@@ -443,9 +496,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			ControlliVeicoloRemoto.AddItem(cercaModello);
 			ControlliVeicoloRemoto.AddItem(cercaTarga);
 
-			string nome = "";
-			string cognome = "";
-			string numero = "";
 			ControlliPersonaRemoto.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == cercaNome)
@@ -473,181 +523,17 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						HUD.ShowNotification("Non puoi ricercare un numero che contiene lettere!", NotificationColor.Red, true);
 				}
 			};
-
-			CercaPers.OnMenuOpen += async (Menu) =>
-			{
-				Dictionary<string, PlayerChar> players = await Funzioni.GetAllPlayersAndTheirData();
-				Menu.Clear();
-				foreach (KeyValuePair<string, PlayerChar> pers in players.OrderBy(x => x.Key))
-				{
-					foreach (Char_data data in pers.Value.char_data)
-					{
-						if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
-						{
-							int source = 0;
-							foreach (Player p in Client.Instance.GetPlayers.ToList())
-							{
-								if (p.Name == pers.Key)
-								{
-									source = p.ServerId;
-								}
-							}
-							UIMenu Personaggio = CercaPers.AddSubMenu(data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
-							UIMenuItem NomeCognome = new UIMenuItem("Nome:", "Il suo Nome");
-							NomeCognome.SetRightLabel(data.info.firstname + " " + data.info.lastname);
-							Personaggio.AddItem(NomeCognome);
-							UIMenuItem DDN = new UIMenuItem("Data di Nascita:", "La sua data di nascita");
-							DDN.SetRightLabel(data.info.dateOfBirth);
-							Personaggio.AddItem(DDN);
-							//UIMenuItem Altez = new UIMenuItem("Altezza:");
-							UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
-							job.SetRightLabel(data.job.name);
-							Personaggio.AddItem(job);
-							//UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-							UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-							bank.SetRightLabel("$" + data.finance.bank);
-							Personaggio.AddItem(bank);
-							Pos = new UIMenuItem("Ultima Posizione conosciuta");
-							if (source != 0)
-								GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
-							else
-								GetStreetNameAtCoord(data.location.position.X, data.location.position.Y, data.location.position.Z, ref StreetA, ref StreetB);
-							Pos.Description = GetStreetNameFromHashKey(StreetA);
-							if (StreetB != 0)
-								Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
-							Personaggio.AddItem(Pos);
-							UIMenu fedinaPenale = Personaggio.AddSubMenu("Fedina Penale");
-							UIMenu Fatture = Personaggio.AddSubMenu("Multe / Insoluti");
-						}
-					}
-				}
-			};
 			#endregion
 
 			#region OGGETTI
 			#endregion
-
-			MenuPoliziaPrincipale.OnMenuOpen += (menu) =>
-			{
-				if (menu == MenuPoliziaPrincipale)
-					Client.Instance.AddTick(ControlloMenu);
-			};
-
-
-			MenuPoliziaPrincipale.OnMenuClose += (menu) =>
-			{
-				if (menu == MenuPoliziaPrincipale)
-					Client.Instance.RemoveTick(ControlloMenu);
-			};
 
 			MenuPoliziaPrincipale.Visible = true;
 		}
 		#endregion
 
 		#region MenuSpawnVeicoli
-/*		static Vehicle PreviewVehicle = new Vehicle(0);
-		static Camera cam = new Camera(0);
-		public static async void VehicleMenu(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
-		{
-			LoadInterior(GetInteriorAtCoords(228.5f, -993.5f, -99.5f));
-			RequestCollisionAtCoord(228.5f, -993.5f, -99.5f);
-			cam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
-			cam.Position = new Vector3(228.5f, -990.5f, -97.5f);
-			cam.IsActive = true;
-			RenderScriptCams(true, false, 0, false, false);
-			await BaseScript.Delay(1000);
-			UIMenu MenuVeicoli = new UIMenu("Veicoli Polizia", "Pattuglia le strade con stile!");
-			HUD.MenuPool.Add(MenuVeicoli);
-			MenuVeicoli.OnMenuOpen += async (menu) =>
-			{
-				PreviewVehicle = await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[0].Model, new Vector3(228.891f, -986.217f, -99.0f), 0);
-				PreviewVehicle.PlaceOnGround();
-				PreviewVehicle.IsPositionFrozen = true;
-				PreviewVehicle.LockStatus = VehicleLockStatus.Locked;
-				PreviewVehicle.IsInvincible = true;
-				PreviewVehicle.IsCollisionEnabled = false;
-				PreviewVehicle.IsEngineRunning = true;
-				PreviewVehicle.IsDriveable = false;
-				PreviewVehicle.IsSirenActive = true;
-				PreviewVehicle.IsSirenSilent = true;
-				Client.Instance.AddTick(Heading);
-				cam.PointAt(PreviewVehicle);
-				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
-			};
 
-			for (int i = 0; i < Stazione.VeicoliAutorizzati.Count; i++)
-			{
-				UIMenuItem veh = new UIMenuItem(Stazione.VeicoliAutorizzati[i].Nome);
-				MenuVeicoli.AddItem(veh);
-			}
-
-			MenuVeicoli.OnIndexChange += async (menu, index) =>
-			{
-				PreviewVehicle = await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[index].Model, new Vector3(228.891f, -986.217f, -99.0f), Punto.SpawnPoints[0].Heading);
-				PreviewVehicle.PlaceOnGround();
-				PreviewVehicle.IsPositionFrozen = true;
-				PreviewVehicle.LockStatus = VehicleLockStatus.Locked;
-				PreviewVehicle.IsCollisionEnabled = false;
-				PreviewVehicle.IsInvincible = true;
-				PreviewVehicle.IsEngineRunning = true;
-				PreviewVehicle.IsDriveable = false;
-				PreviewVehicle.IsSirenActive = true;
-				PreviewVehicle.IsSirenSilent = true;
-				if (cam.IsActive && PreviewVehicle.Exists())
-				{
-					cam.PointAt(PreviewVehicle);
-				}
-			};
-
-			MenuVeicoli.OnItemSelect += async (menu, item, index) =>
-			{
-				CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
-				await BaseScript.Delay(1000);
-				cam.IsActive = false;
-				RenderScriptCams(false, false, 0, false, false);
-				for (int i = 0; i < Punto.SpawnPoints.Count; i++)
-				{
-					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
-					{
-						continue;
-					}
-					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
-					{
-						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[i].Coords, Punto.SpawnPoints[i].Heading);
-						break;
-					}
-					else
-					{
-						PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(Stazione.VeicoliAutorizzati[index].Model, Punto.SpawnPoints[0].Coords, Punto.SpawnPoints[0].Heading);
-						break;
-					}
-				}
-				Game.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
-				Game.PlayerPed.CurrentVehicle.IsDriveable = true;
-				Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
-				Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
-				VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", JsonConvert.SerializeObject(veh));
-				HUD.MenuPool.CloseAllMenus();
-				PreviewVehicle.MarkAsNoLongerNeeded();
-				PreviewVehicle.Delete();
-			};
-
-			MenuVeicoli.OnMenuClose += async (menu) =>
-			{
-				CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
-				await BaseScript.Delay(1000);
-				Client.Instance.RemoveTick(Heading);
-				cam.IsActive = false;
-				RenderScriptCams(false, false, 0, false, false);
-				await BaseScript.Delay(1000);
-				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
-				PreviewVehicle.MarkAsNoLongerNeeded();
-				PreviewVehicle.Delete();
-			};
-			MenuVeicoli.Visible = true;
-		}
-*/
 		///////////////////////// ELICOTTERI
 		static Vehicle PreviewHeli = new Vehicle(0);
 		static Camera HeliCam = new Camera(0);
@@ -665,28 +551,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			UIMenu MenuElicotteri = new UIMenu("Elicotteri Polizia", "Pattuglia le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
 
-			MenuElicotteri.OnMenuOpen += async (menu) =>
-			{
-				PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
-				PreviewHeli.IsCollisionEnabled = false;
-				PreviewHeli.IsPersistent = true;
-				PreviewHeli.PlaceOnGround();
-				PreviewHeli.IsPositionFrozen = true;
-				if (PreviewHeli.Model.Hash == 353883353)
-				{
-					SetVehicleLivery(PreviewHeli.Handle, 0); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
-				}
-
-				PreviewHeli.LockStatus = VehicleLockStatus.Locked;
-				PreviewHeli.IsInvincible = true;
-				PreviewHeli.IsEngineRunning = true;
-				PreviewHeli.IsDriveable = false;
-				Client.Instance.AddTick(Heading);
-				HeliCam.PointAt(PreviewHeli);
-				while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
-				RenderScriptCams(true, false, 0, false, false);
-				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
-			};
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
 			{
@@ -753,17 +617,47 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				PreviewHeli.Delete();
 			};
 
-			MenuElicotteri.OnMenuClose += async (menu) =>
+			HUD.MenuPool.OnMenuStateChanged += async (_oldmenu, _newmenu, _state) =>
 			{
-				CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
-				await BaseScript.Delay(1000);
-				Client.Instance.RemoveTick(Heading);
-				HeliCam.IsActive = false;
-				RenderScriptCams(false, false, 0, false, false);
-				await BaseScript.Delay(1000);
-				CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
-				PreviewHeli.MarkAsNoLongerNeeded();
-				PreviewHeli.Delete();
+				if (_newmenu == MenuElicotteri)
+				{
+					if (_state == MenuState.Opened)
+					{
+						PreviewHeli = await Funzioni.SpawnLocalVehicle(Stazione.ElicotteriAutorizzati[0].Model, new Vector3(-1267.0f, -3013.135f, -48.490f), 0);
+						PreviewHeli.IsCollisionEnabled = false;
+						PreviewHeli.IsPersistent = true;
+						PreviewHeli.PlaceOnGround();
+						PreviewHeli.IsPositionFrozen = true;
+						if (PreviewHeli.Model.Hash == 353883353)
+						{
+							SetVehicleLivery(PreviewHeli.Handle, 0); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
+						}
+
+						PreviewHeli.LockStatus = VehicleLockStatus.Locked;
+						PreviewHeli.IsInvincible = true;
+						PreviewHeli.IsEngineRunning = true;
+						PreviewHeli.IsDriveable = false;
+						Client.Instance.AddTick(Heading);
+						HeliCam.PointAt(PreviewHeli);
+						SetFocusPosAndVel(HeliCam.Position.X, HeliCam.Position.Y, HeliCam.Position.Z, 0, 0, 0);
+						while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
+						RenderScriptCams(true, false, 0, false, false);
+						Screen.Fading.FadeIn(800);
+					}
+				}
+				else if (_state == MenuState.Closed && _oldmenu == MenuElicotteri)
+				{
+					CitizenFX.Core.UI.Screen.Fading.FadeOut(800);
+					await BaseScript.Delay(1000);
+					Client.Instance.RemoveTick(Heading);
+					HeliCam.IsActive = false;
+					RenderScriptCams(false, false, 0, false, false);
+					SetFocusPosAndVel(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
+					await BaseScript.Delay(1000);
+					CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
+					PreviewHeli.MarkAsNoLongerNeeded();
+					PreviewHeli.Delete();
+				}
 			};
 			MenuElicotteri.Visible = true;
 		}

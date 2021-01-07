@@ -598,85 +598,6 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				#region Apparenze
-				Apparenze.OnMenuOpen += (menu) =>
-				{
-					if (!IsHelpMessageBeingDisplayed())
-						HUD.ShowHelp("Usa il ~INPUTGROUP_LOOK~ per controllare i pannelli");
-					Apparenze.Clear();
-					if (selezionato == "Maschio")
-					{
-						Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-						Apparenze.AddItem(Capelli);
-						Apparenze.AddItem(sopracciglia);
-						Apparenze.AddItem(Barba);
-						Apparenze.AddItem(SkinBlemishes);
-						Apparenze.AddItem(SkinAgeing);
-						Apparenze.AddItem(SkinComplexion);
-						Apparenze.AddItem(SkinMoles);
-						Apparenze.AddItem(SkinDamage);
-						Apparenze.AddItem(EyeColor);
-						Apparenze.AddItem(EyeMakup);
-						Apparenze.AddItem(LipStick);
-						UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", UIMenuColorPanel.ColorPanelType.Hair);
-						UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
-						Capelli.AddPanel(CapelCol1);
-						Capelli.AddPanel(CapelCol2);
-						CapelCol1.CurrentSelection = data.skin.hair.color[0];
-						CapelCol2.CurrentSelection = data.skin.hair.color[1];
-						soprCol1.CurrentSelection = data.skin.facialHair.eyebrow.color[0];
-						soprCol2.CurrentSelection = data.skin.facialHair.eyebrow.color[1];
-						soprOp.Percentage = data.skin.facialHair.eyebrow.opacity;
-						BarbaCol1.CurrentSelection = data.skin.facialHair.beard.color[0];
-						BarbaCol2.CurrentSelection = data.skin.facialHair.beard.color[1];
-						BarbaOp.Percentage = data.skin.facialHair.beard.opacity;
-						BlemOp.Percentage = data.skin.blemishes.opacity;
-						AgeOp.Percentage = data.skin.ageing.opacity;
-						CompOp.Percentage = data.skin.complexion.opacity;
-						FrecOp.Percentage = data.skin.freckles.opacity;
-						DamageOp.Percentage = data.skin.skinDamage.opacity;
-						MakupOp.Percentage = data.skin.makeup.opacity;
-						LipCol1.CurrentSelection = data.skin.lipstick.color[0];
-						LipCol2.CurrentSelection = data.skin.lipstick.color[1];
-						LipOp.Percentage = data.skin.lipstick.opacity;
-					}
-					else
-					{
-						Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-						Apparenze.AddItem(Capelli);
-						Apparenze.AddItem(sopracciglia);
-						Apparenze.AddItem(SkinBlemishes);
-						Apparenze.AddItem(SkinAgeing);
-						Apparenze.AddItem(SkinComplexion);
-						Apparenze.AddItem(SkinMoles);
-						Apparenze.AddItem(SkinDamage);
-						Apparenze.AddItem(EyeColor);
-						Apparenze.AddItem(EyeMakup);
-						Apparenze.AddItem(Blusher);
-						Apparenze.AddItem(LipStick);
-						UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", UIMenuColorPanel.ColorPanelType.Hair);
-						UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
-						Capelli.AddPanel(CapelCol1);
-						Capelli.AddPanel(CapelCol2);
-						CapelCol1.CurrentSelection = data.skin.hair.color[0];
-						CapelCol2.CurrentSelection = data.skin.hair.color[1];
-						soprCol1.CurrentSelection = data.skin.facialHair.eyebrow.color[0];
-						soprCol2.CurrentSelection = data.skin.facialHair.eyebrow.color[1];
-						soprOp.Percentage = data.skin.facialHair.eyebrow.opacity;
-						BlemOp.Percentage = data.skin.blemishes.opacity;
-						AgeOp.Percentage = data.skin.ageing.opacity;
-						CompOp.Percentage = data.skin.complexion.opacity;
-						FrecOp.Percentage = data.skin.freckles.opacity;
-						DamageOp.Percentage = data.skin.skinDamage.opacity;
-						MakupOp.Percentage = data.skin.makeup.opacity;
-						BlushCol1.CurrentSelection = data.skin.blusher.color[0];
-						BlushCol2.CurrentSelection = data.skin.blusher.color[1];
-						BlushOp.Percentage = data.skin.blusher.opacity;
-						LipCol1.CurrentSelection = data.skin.lipstick.color[0];
-						LipCol2.CurrentSelection = data.skin.lipstick.color[1];
-						LipOp.Percentage = data.skin.lipstick.opacity;
-					}
-				};
-
 				Apparenze.OnListChange += async (_sender, _listItem, _newIndex) =>
 				{
 					if (_listItem == Capelli)
@@ -1120,28 +1041,6 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				#region VESTITI
-				Apparel.OnMenuOpen += async (menu) =>
-				{
-					TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
-					if (selezionato == "Maschio")
-					{
-						for (int i = 0; i < CompletiMaschio.Count; i++)
-						{
-							UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
-							Apparel.AddItem(abito);
-						}
-						UpdateDress(PlayerPedId(), CompletiMaschio[0]);
-					}
-					else
-					{
-						for (int i = 0; i < CompletiFemmina.Count; i++)
-						{
-							UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
-							Apparel.AddItem(abito);
-						}
-						UpdateDress(PlayerPedId(), CompletiFemmina[0]);
-					}
-				};
 				Apparel.OnIndexChange += async (sender, index) =>
 				{
 					if (data.skin.sex == "Maschio")
@@ -1163,16 +1062,125 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				#region ControlloAperturaChiusura
-				Creazione.OnMenuChange += async (_oldMenu, _newMenu, _forward) =>
+				HUD.MenuPool.OnMenuStateChanged += async (_oldMenu, _newMenu, state) =>
 				{
-					if (_newMenu == Info || _newMenu == Genitori || _newMenu == Dettagli || _newMenu == Apparenze && _forward)
-						AnimateGameplayCamZoom(true, ncam);
+					if (state == MenuState.ChangeForward)
+					{
+						if (_newMenu == Info || _newMenu == Genitori || _newMenu == Dettagli || _newMenu == Apparenze)
+							AnimateGameplayCamZoom(true, ncam);
+
+						if(_newMenu == Apparenze)
+						{
+							if (!IsHelpMessageBeingDisplayed())
+								HUD.ShowHelp("Usa il ~INPUTGROUP_LOOK~ per controllare i pannelli");
+							Apparenze.Clear();
+							if (selezionato == "Maschio")
+							{
+								Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+								Apparenze.AddItem(Capelli);
+								Apparenze.AddItem(sopracciglia);
+								Apparenze.AddItem(Barba);
+								Apparenze.AddItem(SkinBlemishes);
+								Apparenze.AddItem(SkinAgeing);
+								Apparenze.AddItem(SkinComplexion);
+								Apparenze.AddItem(SkinMoles);
+								Apparenze.AddItem(SkinDamage);
+								Apparenze.AddItem(EyeColor);
+								Apparenze.AddItem(EyeMakup);
+								Apparenze.AddItem(LipStick);
+								UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", UIMenuColorPanel.ColorPanelType.Hair);
+								UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+								Capelli.AddPanel(CapelCol1);
+								Capelli.AddPanel(CapelCol2);
+								CapelCol1.CurrentSelection = data.skin.hair.color[0];
+								CapelCol2.CurrentSelection = data.skin.hair.color[1];
+								soprCol1.CurrentSelection = data.skin.facialHair.eyebrow.color[0];
+								soprCol2.CurrentSelection = data.skin.facialHair.eyebrow.color[1];
+								soprOp.Percentage = data.skin.facialHair.eyebrow.opacity;
+								BarbaCol1.CurrentSelection = data.skin.facialHair.beard.color[0];
+								BarbaCol2.CurrentSelection = data.skin.facialHair.beard.color[1];
+								BarbaOp.Percentage = data.skin.facialHair.beard.opacity;
+								BlemOp.Percentage = data.skin.blemishes.opacity;
+								AgeOp.Percentage = data.skin.ageing.opacity;
+								CompOp.Percentage = data.skin.complexion.opacity;
+								FrecOp.Percentage = data.skin.freckles.opacity;
+								DamageOp.Percentage = data.skin.skinDamage.opacity;
+								MakupOp.Percentage = data.skin.makeup.opacity;
+								LipCol1.CurrentSelection = data.skin.lipstick.color[0];
+								LipCol2.CurrentSelection = data.skin.lipstick.color[1];
+								LipOp.Percentage = data.skin.lipstick.opacity;
+							}
+							else
+							{
+								Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+								Apparenze.AddItem(Capelli);
+								Apparenze.AddItem(sopracciglia);
+								Apparenze.AddItem(SkinBlemishes);
+								Apparenze.AddItem(SkinAgeing);
+								Apparenze.AddItem(SkinComplexion);
+								Apparenze.AddItem(SkinMoles);
+								Apparenze.AddItem(SkinDamage);
+								Apparenze.AddItem(EyeColor);
+								Apparenze.AddItem(EyeMakup);
+								Apparenze.AddItem(Blusher);
+								Apparenze.AddItem(LipStick);
+								UIMenuColorPanel CapelCol1 = new UIMenuColorPanel("Colore Principale", UIMenuColorPanel.ColorPanelType.Hair);
+								UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+								Capelli.AddPanel(CapelCol1);
+								Capelli.AddPanel(CapelCol2);
+								CapelCol1.CurrentSelection = data.skin.hair.color[0];
+								CapelCol2.CurrentSelection = data.skin.hair.color[1];
+								soprCol1.CurrentSelection = data.skin.facialHair.eyebrow.color[0];
+								soprCol2.CurrentSelection = data.skin.facialHair.eyebrow.color[1];
+								soprOp.Percentage = data.skin.facialHair.eyebrow.opacity;
+								BlemOp.Percentage = data.skin.blemishes.opacity;
+								AgeOp.Percentage = data.skin.ageing.opacity;
+								CompOp.Percentage = data.skin.complexion.opacity;
+								FrecOp.Percentage = data.skin.freckles.opacity;
+								DamageOp.Percentage = data.skin.skinDamage.opacity;
+								MakupOp.Percentage = data.skin.makeup.opacity;
+								BlushCol1.CurrentSelection = data.skin.blusher.color[0];
+								BlushCol2.CurrentSelection = data.skin.blusher.color[1];
+								BlushOp.Percentage = data.skin.blusher.opacity;
+								LipCol1.CurrentSelection = data.skin.lipstick.color[0];
+								LipCol2.CurrentSelection = data.skin.lipstick.color[1];
+								LipOp.Percentage = data.skin.lipstick.opacity;
+							}
+						}
+						else if(_newMenu == Apparel)
+						{
+							TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+							if (selezionato == "Maschio")
+							{
+								for (int i = 0; i < CompletiMaschio.Count; i++)
+								{
+									UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
+									Apparel.AddItem(abito);
+								}
+								UpdateDress(PlayerPedId(), CompletiMaschio[0]);
+							}
+							else
+							{
+								for (int i = 0; i < CompletiFemmina.Count; i++)
+								{
+									UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
+									Apparel.AddItem(abito);
+								}
+								UpdateDress(PlayerPedId(), CompletiFemmina[0]);
+							}
+						}
+					}
+					else if (state == MenuState.ChangeBackward)
+					{
+						if(_oldMenu == Info || _oldMenu == Genitori || _oldMenu == Dettagli || _oldMenu == Apparenze)
+							AnimateGameplayCamZoom(false, ncam);
+						else if (_oldMenu == Apparel)
+						{
+							Apparel.Clear();
+							TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+						}
+					}
 				};
-				Info.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Genitori.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Dettagli.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Apparenze.OnMenuClose += (_menu) => { AnimateGameplayCamZoom(false, ncam); };
-				Apparel.OnMenuClose += (_menu) => { Apparel.Clear(); TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato)); };
 				#endregion
 
 				#region CREA_BUTTON_FINISH
