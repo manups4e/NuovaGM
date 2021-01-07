@@ -197,7 +197,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			p1.IsPositionFrozen = true;
 			p1.BlockPermanentEvents = true;
 			SetEntityAlpha(p1.Handle, 0, 0);
-			await BaseScript.Delay(10);
 			await SetSkinAndClothes(p1, pers);
 			while (!cambiato) await BaseScript.Delay(1000);
 			string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
@@ -206,7 +205,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			int i = 0;
 			while (i < 255)
 			{
-				await BaseScript.Delay(0);
+				await BaseScript.Delay(25);
 				SetEntityAlpha(p1.Handle, i, 0);
 				i += 25;
 			}
