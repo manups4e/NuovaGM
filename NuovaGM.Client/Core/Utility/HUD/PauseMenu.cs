@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 				})
 			});
 
-			TabSubmenuItem impostazioni = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>()
+			TabSubmenuItem impostazioni = new TabSubmenuItem("Impostazioni", new List<TabItem>()
 			{
 				HUD,
 				Telecamere,
