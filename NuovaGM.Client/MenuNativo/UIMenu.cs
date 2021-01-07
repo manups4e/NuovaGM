@@ -794,6 +794,13 @@ namespace TheLastPlanet.Client.MenuNativo
 		//     The ALT modifier key.
 		Alt = 262144
 	}
+	public enum MenuState
+	{
+		Opened,
+		Closed, 
+		ChangeForward,
+		ChangeBackward
+	}
 	public delegate void IndexChangedEvent(UIMenu sender, int newIndex);
 
 	public delegate void ListChangedEvent(UIMenu sender, UIMenuListItem listItem, int newIndex);
@@ -806,11 +813,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
 	public delegate void ItemSelectEvent(UIMenu sender, UIMenuItem selectedItem, int index);
 
-	public delegate void MenuOpenEvent(UIMenu sender);
-
-	public delegate void MenuCloseEvent(UIMenu sender);
-
-	public delegate void MenuChangeEvent(UIMenu oldMenu, UIMenu newMenu, bool forward);
+	public delegate void Dummy(UIMenu Menu);
 
 	public delegate void ItemActivatedEvent(UIMenu sender, UIMenuItem selectedItem);
 
@@ -878,6 +881,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		private SizeF GlareSize;
 		private PointF GlarePosition;
+		public MenuPool poolcontainer;
 
 		// Draw Variables
 		private PointF Safe { get; set; }
@@ -967,20 +971,8 @@ namespace TheLastPlanet.Client.MenuNativo
 		/// </summary>
 		public event ItemSelectEvent OnItemSelect;
 
-		/// <summary>
-		/// Called when user opens the menu.
-		/// </summary>
-		public event MenuOpenEvent OnMenuOpen;
-
-		/// <summary>
-		/// Called when user closes the menu or goes back in a menu chain.
-		/// </summary>
-		public event MenuCloseEvent OnMenuClose;
-
-		/// <summary>
-		/// Called when user either clicks on a binded button or goes back to a parent menu.
-		/// </summary>
-		public event MenuChangeEvent OnMenuChange;
+		public event Dummy OnMenuOpen;
+		public event Dummy OnMenuClose;
 
 		#endregion
 
@@ -1589,7 +1581,9 @@ namespace TheLastPlanet.Client.MenuNativo
 				if (!Children.ContainsKey(MenuItems[CurrentSelection])) return;
 				Visible = false;
 				Children[MenuItems[CurrentSelection]].Visible = true;
-				MenuChangeEv(Children[MenuItems[CurrentSelection]], true);
+				poolcontainer.MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
+				//MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
+				//Children[MenuItems[CurrentSelection]].MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 			}
 		}
 
@@ -1604,8 +1598,10 @@ namespace TheLastPlanet.Client.MenuNativo
 			if (ParentMenu != null)
 			{
 				PointF tmp = new PointF(0.5f, 0.5f);
+				poolcontainer.MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
+				//ParentMenu.MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
+				//MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				ParentMenu.Visible = true;
-				MenuChangeEv(ParentMenu, false);
 				if (ResetCursorOnOpen)
 					API.SetCursorLocation(tmp.X, tmp.Y);
 				//Cursor.Position = tmp;
@@ -2215,10 +2211,13 @@ namespace TheLastPlanet.Client.MenuNativo
 			get { return _visible; }
 			set
 			{
-				if (value)
-					MenuOpenEv();
-				else
-					MenuCloseEv();
+				if (ParentMenu == null)
+				{
+					if (value)
+						poolcontainer.MenuChangeEv(ParentMenu ?? null, this, MenuState.Opened);
+					else
+						poolcontainer.MenuChangeEv(this, null, MenuState.Closed);
+				}
 				_visible = value;
 				_justOpened = value;
 				_itemsDirty = value;
@@ -2348,21 +2347,6 @@ namespace TheLastPlanet.Client.MenuNativo
 		protected virtual void CheckboxChange(UIMenuCheckboxItem sender, bool Checked)
 		{
 			OnCheckboxChange?.Invoke(this, sender, Checked);
-		}
-
-		protected virtual void MenuOpenEv()
-		{
-			OnMenuOpen?.Invoke(this);
-		}
-
-		protected virtual void MenuCloseEv()
-		{
-			OnMenuClose?.Invoke(this);
-		}
-
-		protected virtual void MenuChangeEv(UIMenu newmenu, bool forward)
-		{
-			OnMenuChange?.Invoke(this, newmenu, forward);
 		}
 
 		#endregion

@@ -8,6 +8,8 @@ using Control = CitizenFX.Core.Control;
 
 namespace TheLastPlanet.Client.MenuNativo
 {
+
+    public delegate void MenuStateChangeEvent(UIMenu oldMenu, UIMenu newMenu, MenuState state);
     /// <summary>
     /// Helper class that handles all of your Menus. After instatiating it, you will have to add your menu by using the Add method.
     /// </summary>
@@ -43,6 +45,10 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		private readonly List<UIMenu> _menuList = new List<UIMenu>();
         public List<TabView> PauseMenus = new List<TabView>();
+        /// <summary>
+        /// Called when user either clicks on a binded button or goes back to a parent menu.
+        /// </summary>
+        public event MenuStateChangeEvent OnMenuStateChanged;
 
 
         /// <summary>
@@ -52,7 +58,10 @@ namespace TheLastPlanet.Client.MenuNativo
         public void Add(UIMenu menu)
         {
             if (!_menuList.Contains(menu))
+            {
                 _menuList.Add(menu);
+                menu.poolcontainer = this;
+            }
         }
 
         /// <summary>
@@ -124,7 +133,8 @@ namespace TheLastPlanet.Client.MenuNativo
 				submenu.SetBannerType(menu.BannerSprite);
 			Add(submenu);
 			menu.BindMenuToItem(submenu, item);
-			return submenu;
+            menu.poolcontainer = this;
+            return submenu;
 		}
 
 		/// <summary>
@@ -295,6 +305,9 @@ namespace TheLastPlanet.Client.MenuNativo
             _menuList.ForEach(m => m.ResetKey(menuControl));
         }
 
-
+        public void MenuChangeEv(UIMenu oldmenu, UIMenu newmenu, MenuState state)
+        {
+            OnMenuStateChanged?.Invoke(oldmenu, newmenu, state);
+        }
     }
 }
