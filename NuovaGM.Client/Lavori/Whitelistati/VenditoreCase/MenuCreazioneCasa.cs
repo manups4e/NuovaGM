@@ -11,6 +11,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
+using Logger;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
@@ -20,7 +21,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static int travelSpeed = 0;
 		private static Vector3 curLocation;
 		private static Vector3 curRotation;
-		private static float curHeading;
 		private static string travelSpeedStr = "Media";
 		private static Scaleform _instructionalButtonsScaleform;
 		private static int checkTimer = 0;
@@ -30,8 +30,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			HUD.MenuPool.Add(creazione);
 
 			UIMenu selezionePunto = creazione.AddSubMenu("1. Posizionare blip esterni"); // NB: nome provvisorio
+			#region selezionePunto
+			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
+			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { BlipSprite.SafehouseForSale }, 0);
+			UIMenuSliderProgressItem blipDimensions = new UIMenuSliderProgressItem("Dimensioni", 100, 0);
+			UIMenuItem blipName = new UIMenuItem("Nome");
+			blip.AddItem(blipType);
+			blip.AddItem(blipDimensions);
+			blip.AddItem(blipName);
 
-			selezionePunto.OnMenuOpen += async (menu) =>
+			UIMenuListItem markerIngressoCasa;
+			UIMenuListItem markerIngressoGarage;
+			UIMenuCheckboxItem posCamera;
+
+			selezionePunto.OnMenuStateChange += async (oldmenu, newmenu, state) =>
 			{
 				SetPlayerControl(Game.Player.Handle, false, 256);
 				Screen.Fading.FadeOut(800);
@@ -49,22 +61,25 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				Screen.Fading.FadeIn(500);
 			};
 
-			selezionePunto.OnMenuChange += async (oldmenu, newmenu, forward) =>
+			selezionePunto.OnMenuChange += async (oldmenu, newmenu) =>
 			{
-				if (newmenu.ParentMenu != selezionePunto && forward) return;
-				Client.Instance.RemoveTick(CreatorCameraControl);
-				Screen.Fading.FadeOut(800);
-				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-				await BaseScript.Delay(100);
-				if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
+				if (!forward )
 				{
-					RenderScriptCams(false, false, 1000, false, false);
-					MainCamera.IsActive = false;
+					Client.Instance.RemoveTick(CreatorCameraControl);
+					Screen.Fading.FadeOut(800);
+					while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+					await BaseScript.Delay(100);
+					if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
+					{
+						RenderScriptCams(false, false, 1000, false, false);
+						MainCamera.IsActive = false;
+					}
+					SetFocusArea(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
+					SetPlayerControl(Game.Player.Handle, true, 256);
+					Screen.Fading.FadeIn(500);
 				}
-				SetFocusArea(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
-				SetPlayerControl(Game.Player.Handle, true, 256);
-				Screen.Fading.FadeIn(500);
 			};
+			#endregion
 
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione Interior"); // NB: nome provvisorio
 
