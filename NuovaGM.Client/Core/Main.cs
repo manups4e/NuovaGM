@@ -89,9 +89,15 @@ namespace TheLastPlanet.Client.Core
 
 		private static void LoadMain()
 		{
-			ImpostazioniClient = Funzioni.CaricaKVP<ClientConfigKVP>("SettingsClient");
-			if (ImpostazioniClient == null)
+			try
+			{
+				ImpostazioniClient = Funzioni.CaricaKVP<ClientConfigKVP>("SettingsClient");
+			}
+			catch(Exception _)
+			{
+				Log.Printa(LogType.Debug, "No impostazioni trovate, settate default");
 				ImpostazioniClient = new ClientConfigKVP();
+			}
 
 			SetNuiFocus(false, false);
 			SetMapZoomDataLevel(0, 2.73f, 0.9f, 0.08f, 0.0f, 0.0f);
