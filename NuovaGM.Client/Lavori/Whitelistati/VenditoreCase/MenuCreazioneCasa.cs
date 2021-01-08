@@ -30,6 +30,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			HUD.MenuPool.Add(creazione);
 
 			UIMenu selezionePunto = creazione.AddSubMenu("1. Posizionare blip esterni"); // NB: nome provvisorio
+			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione Interior"); // NB: nome provvisorio
+			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
+
+
 			#region selezionePunto
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
 			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { BlipSprite.SafehouseForSale }, 0);
@@ -42,49 +46,49 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			UIMenuListItem markerIngressoCasa;
 			UIMenuListItem markerIngressoGarage;
 			UIMenuCheckboxItem posCamera;
-/*
-			selezionePunto.OnMenuStateChange += async (oldmenu, newmenu, state) =>
-			{
-				SetPlayerControl(Game.Player.Handle, false, 256);
-				Screen.Fading.FadeOut(800);
-				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-				if (MainCamera == null)
-					MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
-				MainCamera.IsActive = true;
-				RenderScriptCams(true, false, 1000, true, true);
-				curLocation = MainCamera.Position;
-				curRotation = MainCamera.Rotation;
-				_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
-				UpdateScaleform();
-				checkTimer = GetGameTimer();
-				Client.Instance.AddTick(CreatorCameraControl);
-				Screen.Fading.FadeIn(500);
-			};
 
-			selezionePunto.OnMenuChange += async (oldmenu, newmenu) =>
+			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
-				if (!forward )
+				if (state == MenuState.ChangeForward)
 				{
-					Client.Instance.RemoveTick(CreatorCameraControl);
-					Screen.Fading.FadeOut(800);
-					while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-					await BaseScript.Delay(100);
-					if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
+					if (newmenu == selezionePunto)
 					{
-						RenderScriptCams(false, false, 1000, false, false);
-						MainCamera.IsActive = false;
+						SetPlayerControl(Game.Player.Handle, false, 256);
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
+						if (MainCamera == null)
+							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						MainCamera.IsActive = true;
+						RenderScriptCams(true, false, 1000, true, true);
+						curLocation = MainCamera.Position;
+						curRotation = MainCamera.Rotation;
+						_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
+						UpdateScaleform();
+						checkTimer = GetGameTimer();
+						Client.Instance.AddTick(CreatorCameraControl);
+						Screen.Fading.FadeIn(500);
 					}
-					SetFocusArea(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
-					SetPlayerControl(Game.Player.Handle, true, 256);
-					Screen.Fading.FadeIn(500);
+				}
+				else if (state == MenuState.ChangeBackward)
+				{
+					if (oldmenu == selezionePunto)
+					{
+						Client.Instance.RemoveTick(CreatorCameraControl);
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						await BaseScript.Delay(100);
+						if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
+						{
+							RenderScriptCams(false, false, 1000, false, false);
+							MainCamera.IsActive = false;
+						}
+						SetFocusArea(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
+						SetPlayerControl(Game.Player.Handle, true, 256);
+						Screen.Fading.FadeIn(500);
+					}
 				}
 			};
-*/
 			#endregion
-
-			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione Interior"); // NB: nome provvisorio
-
-			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
 
 			creazione.Visible = true;
 		}
