@@ -329,6 +329,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
+			ClearFocus();
 			NetworkFadeInEntity(Game.PlayerPed.Handle, true);
 			Game.PlayerPed.IsVisible = true;
 			Game.PlayerPed.IsCollisionEnabled = true;

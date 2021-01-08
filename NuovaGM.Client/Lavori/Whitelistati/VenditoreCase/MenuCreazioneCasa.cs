@@ -76,13 +76,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Client.Instance.RemoveTick(CreatorCameraControl);
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						ClearFocus();
 						await BaseScript.Delay(100);
 						if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
 						{
 							RenderScriptCams(false, false, 1000, false, false);
 							MainCamera.IsActive = false;
 						}
-						SetFocusArea(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
 						SetPlayerControl(Game.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 					}
@@ -121,12 +121,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		static bool changed = false;
 		private static async Task CreatorCameraControl()
 		{
-
-			HUD.DrawText(0.35f, 0.7f, "curLocation = " + curLocation, Colors.Cyan);
-			HUD.DrawText(0.35f, 0.725f, "curRotation = " + curRotation, Colors.Orange);
-			HUD.DrawText(0.35f, 0.75f, "IsInputJustDisabled(0) = " + IsInputJustDisabled(0), Colors.Yellow);
-			HUD.DrawText(0.35f, 0.775f, "IsInputJustDisabled(2) = " + IsInputJustDisabled(2), Colors.Yellow);
-			
 
 			float forwardPush = 0.8f;
 			if (GetGameTimer() - checkTimer > (int)Math.Ceiling(1000 / forwardPush))

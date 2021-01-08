@@ -74,7 +74,6 @@ namespace TheLastPlanet.Client.CodaControl
                         $"</tr>";
                     });
                     Funzioni.SendNuiMessage(new {sessionlist = text});
-                    Debug.WriteLine(text);
                     SetNuiFocus(true, true);
                     pannelloCodaAperto = true;
                 }

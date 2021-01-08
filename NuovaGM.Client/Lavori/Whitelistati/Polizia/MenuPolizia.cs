@@ -639,7 +639,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						PreviewHeli.IsDriveable = false;
 						Client.Instance.AddTick(Heading);
 						HeliCam.PointAt(PreviewHeli);
-						SetFocusPosAndVel(HeliCam.Position.X, HeliCam.Position.Y, HeliCam.Position.Z, 0, 0, 0);
+						if(GetInteriorFromEntity(PreviewHeli.Handle) != 0)
+						SetFocusEntity(PreviewHeli.Handle);
 						while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
 						RenderScriptCams(true, false, 0, false, false);
 						Screen.Fading.FadeIn(800);
@@ -652,7 +653,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					Client.Instance.RemoveTick(Heading);
 					HeliCam.IsActive = false;
 					RenderScriptCams(false, false, 0, false, false);
-					SetFocusPosAndVel(GameplayCamera.Position.X, GameplayCamera.Position.Y, GameplayCamera.Position.Z, 0, 0, 0);
+					ClearFocus();
 					await BaseScript.Delay(1000);
 					CitizenFX.Core.UI.Screen.Fading.FadeIn(800);
 					PreviewHeli.MarkAsNoLongerNeeded();
