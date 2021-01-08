@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			{
 				var p = Game.PlayerPed;
 				p.Style.SetDefaultClothes();
-				p.SetDecor("NuovaGM2019fighissimo!yeah!", p.Handle);
+				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
 				p.SetDecor("PlayerInPausa", false);
 				p.SetDecor("PlayerAmmanettato", false);
@@ -283,7 +283,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
 			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
-			Game.PlayerPed.SetDecor("NuovaGM2019fighissimo!yeah!", Game.PlayerPed.Handle);
+			Game.PlayerPed.SetDecor("TheLastPlanet2019fighissimo!yeah!", Game.PlayerPed.Handle);
 			Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
 			Game.PlayerPed.SetDecor("PlayerInPausa", false);
 			Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
