@@ -57,6 +57,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		private static Ped dummyPed;
 		public static void Init()
 		{
+			ClearFocus();
 			Client.Instance.AddTick(Entra);
 			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action(() => ToggleMenu(true, "charloading")));
 			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>>(SelezionatoPreview));
@@ -321,6 +322,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
+			Vector3 pos = await Game.PlayerPed.Position.GetVector3WithGroundZ();
+			Game.PlayerPed.Position = pos;
 			Client.Instance.RemoveTick(Controllo);
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);
