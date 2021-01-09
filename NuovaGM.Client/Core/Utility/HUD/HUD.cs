@@ -52,41 +52,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		DollarIcon = 9
 	}
 
-	public class Marker
-	{
-		public MarkerType MarkerType;
-		public Vector3 Position;
-		public Vector3 Direction = Vector3.Zero;
-		public Vector3 Rotation = Vector3.Zero;
-		public Vector3 Scale = new Vector3(1.5f);
-		public Color Color = Colors.WhiteSmoke;
-		public bool BobUpDown;
-		public bool Rotate;
-		public bool FaceCamera;
-		public Marker(MarkerType type, Vector3 position, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
-		{
-			MarkerType = type;
-			Position = position;
-			BobUpDown = bobUpDown;
-			Rotate = rotate;
-			FaceCamera = faceCamera;
-		}
-		public Marker(MarkerType type, Vector3 position, Vector3 scale, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
-		{
-			MarkerType = type;
-			Position = position;
-			Scale = scale;
-			BobUpDown = bobUpDown;
-			Rotate = rotate;
-			FaceCamera = faceCamera;
-		}
-
-		public async void Draw()
-		{
-			World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate);
-		}
-	}
-
 	public static class HUD
 	{
 		public static UITimerBarPool TimerBarPool = new UITimerBarPool();
