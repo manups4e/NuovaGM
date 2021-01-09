@@ -14,6 +14,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
         protected internal int _index;
         protected internal List<dynamic> _items;
+        protected internal Sprite _itemSprite;
 
 
         /// <summary>
@@ -122,15 +123,27 @@ namespace TheLastPlanet.Client.MenuNativo
         }
 
 
-		/// <summary>
-		/// Draw item.
-		/// </summary>
-		public override async Task Draw()
-		{
-			base.Draw();
+        /// <summary>
+        /// Draw item.
+        /// </summary>
+        public override async Task Draw()
+        {
+            base.Draw();
 
             string caption = _items[Index].ToString();
             float offset = ScreenTools.GetTextWidth(caption, _itemText.Font, _itemText.Scale);
+            if (caption.StartsWith("~blip") || caption.StartsWith("~BLIP"))
+            {
+                string s = caption.Substring(1, caption.Length - 2).ToLower();
+                if(_itemSprite == null)
+                    _itemSprite = new Sprite("blips", s, _itemText.Position, new SizeF(30, 30));
+                offset = _itemSprite.Size.Width;
+            }
+            else
+            {
+                if (_itemSprite != null)
+                    _itemSprite = null;
+            }
 
             _itemText.Color = Enabled ? Selected ? Colors.Black : Colors.WhiteSmoke : Color.FromArgb(163, 159, 148);
 
@@ -150,8 +163,18 @@ namespace TheLastPlanet.Client.MenuNativo
             {
                 _itemText.Position = new PointF(418 + Offset.X + Parent.WidthOffset, _itemText.Position.Y);
             }
-            _itemText.Draw();
+            if (_itemSprite != null)
+            {
+                if (Selected)
+                    _itemSprite.Position = new PointF(372.5f + Offset.X + Parent.WidthOffset, _itemText.Position.Y);
+                else
+                    _itemSprite.Position = new PointF(387.5f + Offset.X + Parent.WidthOffset, _itemText.Position.Y);
+                _itemSprite.Draw();
+            }
+            else
+                _itemText.Draw();
         }
+
 
         internal virtual void ListChangedTrigger(int newindex)
         {
