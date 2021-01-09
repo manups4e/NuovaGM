@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.MenuNativo
 {
+	public enum ColorPanelType { Hair, Makeup }
 	public class UIMenuColorPanel : UIMenuPanel
 	{
 		private readonly PointF safezoneOffset = ScreenTools.SafezoneBounds;
@@ -22,8 +23,14 @@ namespace TheLastPlanet.Client.MenuNativo
 		int r = 0;
 		int g = 0;
 		int b = 0;
-		public enum ColorPanelType { Hair, Makeup }
 		public ColorPanelType ColorPanelColorType;
+		public Color CurrentColor
+		{
+			get
+			{
+				return Colors[CurrentSelection];
+			}
+		}
 		public int CurrentSelection
 		{
 			get

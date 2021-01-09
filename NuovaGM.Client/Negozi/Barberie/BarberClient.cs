@@ -391,8 +391,8 @@ namespace TheLastPlanet.Client.Negozi
 			else if (NomeNegozio == "Mulet")
 				Capelli = new UIMenuListItem("Capelli", capmulet, 0);
 
-			UIMenuColorPanel capCol1 = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
-			UIMenuColorPanel capCol2 = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+			UIMenuColorPanel capCol1 = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
+			UIMenuColorPanel capCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 			Capelli.AddPanel(capCol1);
 			Capelli.AddPanel(capCol2);
 			capCol1.Enabled = false;
@@ -405,8 +405,8 @@ namespace TheLastPlanet.Client.Negozi
 			int capvar;
 
 			UIMenuListItem Sopracciglia = new UIMenuListItem("Sopracciglia", sopr, 0);
-			UIMenuColorPanel soprBase = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
-			UIMenuColorPanel soprSec = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+			UIMenuColorPanel soprBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
+			UIMenuColorPanel soprSec = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 			UIMenuPercentagePanel soprOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 			Sopracciglia.AddPanel(soprBase);
 			Sopracciglia.AddPanel(soprSec);
@@ -436,8 +436,8 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
 
-				beardBase = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Hair);
-				beardSec = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Hair);
+				beardBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
+				beardSec = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 				beardOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				beardOp.Percentage = 1.0f;
 				Barba.AddPanel(beardBase);
@@ -465,8 +465,8 @@ namespace TheLastPlanet.Client.Negozi
 
 			MenuPrincipale.AddItem(Trucco);
 			UIMenuListItem Rossetto = new UIMenuListItem("Rossetto", ross, 0, desc);
-			UIMenuColorPanel rossColBase = new UIMenuColorPanel("Colore Base", UIMenuColorPanel.ColorPanelType.Makeup);
-			UIMenuColorPanel rossColSec = new UIMenuColorPanel("Colore Secondario", UIMenuColorPanel.ColorPanelType.Makeup);
+			UIMenuColorPanel rossColBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Makeup);
+			UIMenuColorPanel rossColSec = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Makeup);
 			UIMenuPercentagePanel rossOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 			Rossetto.AddPanel(rossColBase);
 			Rossetto.AddPanel(rossColSec);
