@@ -287,16 +287,16 @@ namespace TheLastPlanet.Client.Personale
 					datiPers.AddItem(gang);
 					UIMenu money = datiPers.AddSubMenu("Soldi: ", "I suoi soldi");
 					money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
-					money.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+					money.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 					datiPers.AddItem(bank);
 					UIMenu dirty = datiPers.AddSubMenu("Soldi Sporchi: ", "I soldi sporchi");
 					dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
-					dirty.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+					dirty.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 
 					UIMenu daiMoney = money.AddSubMenu("Dai a qualcuno", "A chi?");
 					UIMenu daiDirty = dirty.AddSubMenu("Dai a qualcuno", "A chi?");
-					daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
-					daiMoney.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.ArrowRight);
+					daiMoney.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
+					daiMoney.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 
 					UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
 
