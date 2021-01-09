@@ -12,6 +12,7 @@ using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using Logger;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
@@ -24,28 +25,80 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static string travelSpeedStr = "Media";
 		private static Scaleform _instructionalButtonsScaleform;
 		private static int checkTimer = 0;
+		private static Marker markerIngrPiedi;
+		private static Marker markerIngrGarage;
+		private static Marker markerIngrTetto;
 		public static async void MenuCreazioneCase()
 		{
 			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!");
 			HUD.MenuPool.Add(creazione);
 
-			UIMenu selezionePunto = creazione.AddSubMenu("1. Posizionare blip esterni"); // NB: nome provvisorio
-			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione Interior"); // NB: nome provvisorio
+			UIMenu selezionePunto = creazione.AddSubMenu("1. Gestione esterni"); // NB: nome provvisorio
+			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione interni"); // NB: nome provvisorio
 			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
 
-
+			// CONTINUARE (Finire gestione blip, marker.. )
 			#region selezionePunto
+
+			#region blip
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
-			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { BlipSprite.SafehouseForSale }, 0);
+			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { "~BLIP_40~" }, 0);
+			UIMenuColorPanel blipColor = new UIMenuColorPanel("Colore Blip", ColorPanelType.Hair);
+			blipType.AddPanel(blipColor);
 			UIMenuSliderProgressItem blipDimensions = new UIMenuSliderProgressItem("Dimensioni", 100, 0);
-			UIMenuItem blipName = new UIMenuItem("Nome");
+			UIMenuItem blipName = new UIMenuItem("Nome", "Se lasci il campo vuoto, prenderà il nome dell'abitazione automaticamente");
 			blip.AddItem(blipType);
 			blip.AddItem(blipDimensions);
 			blip.AddItem(blipName);
 
-			UIMenuListItem markerIngressoCasa;
-			UIMenuListItem markerIngressoGarage;
-			UIMenuCheckboxItem posCamera;
+			blipType.OnListChanged += (item, index) =>
+			{
+				// aggiungere salvataggio sprite blip (rimuovere blip_ dal nome e lasciare il numero)
+				Color a = (item.Panels[0] as UIMenuColorPanel).CurrentColor;
+				item._itemSprite.Color = a;
+			};
+			#endregion
+
+			#region marker
+			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
+
+			UIMenuItem markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			UIMenuItem markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			UIMenuItem markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			UIMenuItem posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
+
+			marker.AddItem(markerIngressoCasa);
+			marker.AddItem(markerIngressoGarage);
+			marker.AddItem(markerIngressoTetto);
+			marker.AddItem(posCamera);
+
+			marker.OnItemSelect += (menu, item, index) =>
+			{
+				if (item == markerIngressoCasa)
+				{
+					// Salvataggio Vector
+				}
+				else if (item == markerIngressoGarage)
+				{
+					// Salvataggio Vector
+				}
+				else if (item == markerIngressoTetto)
+				{
+					// Salvataggio Vector
+				}
+				else if (item == posCamera)
+				{
+					// Salvataggio Vector
+					// Salvataggio rotazione (punta a)
+				}
+				item.MainColor = Colors.DarkGreen;
+				item.HighlightColor = Colors.GreenLight;
+				item.SetRightBadge(BadgeStyle.Star);
+			};
+
+			#endregion
+
+			#endregion
 
 			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
@@ -68,6 +121,17 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Client.Instance.AddTick(CreatorCameraControl);
 						Screen.Fading.FadeIn(500);
 					}
+					else if (newmenu == marker)
+					{
+						if (markerIngrPiedi == null)
+							markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
+						if (markerIngrGarage == null) 
+							 markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
+						if (markerIngrTetto == null)
+							 markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
+						// aggiungere tick di gestione marker (ho creato gli item Marker)
+						// gestire Marker in base a dove punta la cam ma sempre per terra..
+					}
 				}
 				else if (state == MenuState.ChangeBackward)
 				{
@@ -88,7 +152,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					}
 				}
 			};
-			#endregion
+
 
 			creazione.Visible = true;
 		}
