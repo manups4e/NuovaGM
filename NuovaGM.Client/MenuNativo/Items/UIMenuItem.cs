@@ -5,6 +5,40 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.MenuNativo
 {
+    public enum BadgeStyle
+    {
+        None,
+        BronzeMedal,
+        GoldMedal,
+        SilverMedal,
+        Alert,
+        Crown,
+        Ammo,
+        Armour,
+        Barber,
+        Clothes,
+        Franklin,
+        Bike,
+        Car,
+        Gun,
+        Heart,
+        Makeup,
+        Mask,
+        Michael,
+        Star,
+        Tatoo,
+        Trevor,
+        Lock,
+        Tick,
+        Sale,
+        ArrowLeft,
+        ArrowRight,
+        Audio1,
+        Audio2,
+        Audio3,
+        AudioInactive,
+        AudioMute
+    }
     /// <summary>
     /// Simple item with a label.
     /// </summary>
@@ -244,40 +278,6 @@ namespace TheLastPlanet.Client.MenuNativo
         /// </summary>
         public virtual BadgeStyle RightBadge { get; private set; }
 
-        public enum BadgeStyle
-        {
-            None,
-            BronzeMedal,
-            GoldMedal,
-            SilverMedal,
-            Alert,
-            Crown,
-            Ammo,
-            Armour,
-            Barber,
-            Clothes,
-            Franklin,
-            Bike,
-            Car,
-            Gun,
-            Heart,
-            Makeup,
-            Mask,
-            Michael,
-            Star,
-            Tatoo,
-            Trevor,
-            Lock,
-            Tick,
-			Sale,
-			ArrowLeft,
-			ArrowRight,
-			Audio1,
-			Audio2,
-			Audio3,
-			AudioInactive,
-			AudioMute
-		}
 
 		internal static string BadgeToSpriteLib(BadgeStyle badge)
         {

@@ -229,8 +229,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 var hovering = ScreenTools.IsMouseInBounds(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)),
                     itemSize);
 
-                var hasLeftBadge = Items[c].LeftBadge != UIMenuItem.BadgeStyle.None;
-                var hasRightBadge = Items[c].RightBadge != UIMenuItem.BadgeStyle.None;
+                var hasLeftBadge = Items[c].LeftBadge != BadgeStyle.None;
+                var hasRightBadge = Items[c].RightBadge != BadgeStyle.None;
 
                 var hasBothBadges = hasRightBadge && hasLeftBadge;
                 var hasAnyBadge = hasRightBadge || hasLeftBadge;

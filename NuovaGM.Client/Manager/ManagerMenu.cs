@@ -541,10 +541,10 @@ namespace TheLastPlanet.Client.Manager
 			{
 				Meteo.ParentItem.Enabled = false;
 				Meteo.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-				Meteo.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+				Meteo.ParentItem.SetRightBadge(BadgeStyle.Lock);
 				Orario.ParentItem.Enabled = false;
 				Orario.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-				Orario.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+				Orario.ParentItem.SetRightBadge(BadgeStyle.Lock);
 			}
 			else
 			{

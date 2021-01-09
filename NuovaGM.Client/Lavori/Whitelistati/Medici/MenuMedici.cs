@@ -276,12 +276,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				UIMenuItem piano = new UIMenuItem($"{i + 1}° piano");
 				Ascensore.AddItem(piano);
 				if (i == LivelloGarage)
-					piano.SetRightBadge(UIMenuItem.BadgeStyle.Car);
+					piano.SetRightBadge(BadgeStyle.Car);
 			}
 			Ascensore.OnItemSelect += async (menu, item, index) =>
 			{
 
-				if (item.RightBadge == UIMenuItem.BadgeStyle.Car)
+				if (item.RightBadge == BadgeStyle.Car)
 					HUD.ShowNotification("Questo è il garage attuale!!", true);
 				else
 				{

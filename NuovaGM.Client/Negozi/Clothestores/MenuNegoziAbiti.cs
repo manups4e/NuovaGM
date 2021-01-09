@@ -526,7 +526,7 @@ namespace TheLastPlanet.Client.Negozi
 				}
 				if (completi[i].Name == Game.Player.GetPlayerData().CurrentChar.dressing.Name)
 				{
-					vest.SetRightBadge(UIMenuItem.BadgeStyle.Clothes); // cambiare con la collezione di abiti
+					vest.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
 					ciao = vest;
 				}
 			}
@@ -549,9 +549,9 @@ namespace TheLastPlanet.Client.Negozi
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
 						Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
-						ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = _item;
-						ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						ciao.SetRightBadge(BadgeStyle.Clothes);
 						HUD.ShowNotification("Hai speso ~g~" + completi[_index].Price + "$~w~, in contanti");
 					}
 					else
@@ -561,9 +561,9 @@ namespace TheLastPlanet.Client.Negozi
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
 							Game.Player.GetPlayerData().CurrentChar.dressing = new Shared.Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = _item;
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							ciao.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + completi[_index].Price + "$~w~, con carta di credito");
 						}
 						else
@@ -648,9 +648,9 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Pantaloni == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Pantaloni == texture)
 					{
-						Pant.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						Pant.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 						ciao = Pant.ParentItem;
-						pant.SetRightBadge(UIMenuItem.BadgeStyle.Clothes); // cambiare con la collezione di abiti
+						pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
 						ciaone = pant;
 					}
 				}
@@ -711,12 +711,12 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.None);
 							ciaone = _item;
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -729,12 +729,12 @@ namespace TheLastPlanet.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.None);
 								ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.None);
 								ciaone = _item;
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.Clothes);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -824,9 +824,9 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Scarpe == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.ComponentTextures.Scarpe == texture)
 					{
-						Scarp.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 						ciao = Scarp.ParentItem;
-						pant.SetRightBadge(UIMenuItem.BadgeStyle.Clothes); // cambiare con la collezione di abiti
+						pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
 						ciaone = pant;
 					}
 				}
@@ -884,12 +884,12 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.None);
 							ciaone = _item;
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -902,12 +902,12 @@ namespace TheLastPlanet.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.None);
 								ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.None);
 								ciaone = _item;
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.Clothes);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -997,9 +997,9 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == v.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orecchie == texture)
 					{
-						Scarp.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 						ciao = Scarp.ParentItem;
-						pant.SetRightBadge(UIMenuItem.BadgeStyle.Clothes); // cambiare con la collezione di abiti
+						pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
 						ciaone = pant;
 					}
 				}
@@ -1057,12 +1057,12 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
-							ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							ciao.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.None);
 							ciaone = _item;
-							ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1075,12 +1075,12 @@ namespace TheLastPlanet.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.None);
 								ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
-								ciao.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								ciao.SetRightBadge(BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.None);
 								ciaone = _item;
-								ciaone.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								ciaone.SetRightBadge(BadgeStyle.Clothes);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1209,7 +1209,7 @@ namespace TheLastPlanet.Client.Negozi
 				Borse.AddItem(bors);
 				if (Game.Player.GetPlayerData().CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == borsa.Modello)
 				{
-					bors.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+					bors.SetRightBadge(BadgeStyle.Clothes);
 					BorsAtt = bors;
 				}
 			}
@@ -1253,9 +1253,9 @@ namespace TheLastPlanet.Client.Negozi
 						Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 						Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+						BorsAtt.SetRightBadge(BadgeStyle.None);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
-						BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						BorsAtt.SetRightBadge(BadgeStyle.Clothes);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1268,9 +1268,9 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							BorsAtt.SetRightBadge(BadgeStyle.None);
 							BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
-							BorsAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							BorsAtt.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1302,12 +1302,12 @@ namespace TheLastPlanet.Client.Negozi
 				}
 				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
 				{
-					CappRim.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+					CappRim.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt = CappRim;
 				}
 				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere != -1 && Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
 				{
-					capelino.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+					capelino.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt = CappRim;
 				}
 				foreach (var texture in cappellino.Text)
@@ -1348,7 +1348,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello && Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Cappelli_Maschere == texture)
 					{
-						newCap.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						newCap.SetRightBadge(BadgeStyle.Clothes);
 						CappAtt1 = newCap;
 					}
 				}
@@ -1391,12 +1391,12 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
-							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							CappAtt1.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeStyle.Clothes);
+							CappAtt1.SetRightBadge(BadgeStyle.None);
 							CappAtt1 = _menu.MenuItems[_menu.CurrentSelection];
-							CappAtt1.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							CappAtt1.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1409,12 +1409,12 @@ namespace TheLastPlanet.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								CappAtt.SetRightBadge(BadgeStyle.None);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
-								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								CappAtt1.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								CappAtt.SetRightBadge(BadgeStyle.Clothes);
+								CappAtt1.SetRightBadge(BadgeStyle.None);
 								CappAtt1 = _menu.MenuItems[_menu.CurrentSelection];
-								CappAtt1.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								CappAtt1.SetRightBadge(BadgeStyle.Clothes);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1467,9 +1467,9 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
-							CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							CappAtt.SetRightBadge(BadgeStyle.Clothes);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1482,9 +1482,9 @@ namespace TheLastPlanet.Client.Negozi
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
-								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								CappAtt.SetRightBadge(BadgeStyle.None);
 								CappAtt = _menu.MenuItems[_menu.CurrentSelection];
-								CappAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								CappAtt.SetRightBadge(BadgeStyle.Clothes);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1501,11 +1501,11 @@ namespace TheLastPlanet.Client.Negozi
 				string ActiveItem = _listItem.Items[_newIndex].ToString();
 				if (Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
 				{
-//					_listItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+//					_listItem.SetRightBadge(BadgeStyle.Clothes);
 				}
 				else
 				{
-//					_listItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+//					_listItem.SetRightBadge(BadgeStyle.None);
 				}
 
 				_listItem.Description = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Price;
@@ -1695,15 +1695,15 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						if (orologio.Modello == -1)
 						{
-							NoOrol.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							NoOrol.SetRightBadge(BadgeStyle.Clothes);
 							OrolAtt = NoOrol;
 						}
 						else
 						{
-							OrologinoItem.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							OrologinoItem.SetRightBadge(BadgeStyle.Clothes);
 							OrolAtt = OrologinoItem;
 						}
-						NewOrol.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+						NewOrol.SetRightBadge(BadgeStyle.Clothes);
 						OrolMod = NewOrol;
 					}
 
@@ -1767,12 +1767,12 @@ namespace TheLastPlanet.Client.Negozi
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
-							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeStyle.None);
 							OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
-							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
+							OrolMod.SetRightBadge(BadgeStyle.None);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
-							OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							OrolMod.SetRightBadge(BadgeStyle.Clothes);
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
 							if (val > 0)
 							{
@@ -1786,12 +1786,12 @@ namespace TheLastPlanet.Client.Negozi
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
-								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								OrolAtt.SetRightBadge(BadgeStyle.None);
 								OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
-								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
-								OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								OrolAtt.SetRightBadge(BadgeStyle.Clothes);
+								OrolMod.SetRightBadge(BadgeStyle.None);
 								OrolMod = _menu.MenuItems[_menu.CurrentSelection];
-								OrolMod.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								OrolMod.SetRightBadge(BadgeStyle.Clothes);
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
@@ -1845,9 +1845,9 @@ namespace TheLastPlanet.Client.Negozi
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = -1;
 							Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = -1;
-							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeStyle.None);
 							OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
-							OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 							Game.Player.GetPlayerData().CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
 							Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());
@@ -1863,9 +1863,9 @@ namespace TheLastPlanet.Client.Negozi
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropIndices.Orologi = -1;
 								Game.Player.GetPlayerData().CurrentChar.dressing.PropTextures.Orologi = -1;
-								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.None);
+								OrolAtt.SetRightBadge(BadgeStyle.None);
 								OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
-								OrolAtt.SetRightBadge(UIMenuItem.BadgeStyle.Clothes);
+								OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 								Game.Player.GetPlayerData().CurrentChar.dressing.Name = null;
 								Game.Player.GetPlayerData().CurrentChar.dressing.Description = null;
 								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Game.Player.GetPlayerData().CurrentChar.dressing.Serialize());

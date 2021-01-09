@@ -1185,7 +1185,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				#region CREA_BUTTON_FINISH
 				UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
-				Salva.SetRightBadge(UIMenuItem.BadgeStyle.Tick);
+				Salva.SetRightBadge(BadgeStyle.Tick);
 				Creazione.AddItem(Salva);
 				Salva.Activated += async (_selectedItem, _index) =>
 				{

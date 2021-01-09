@@ -829,12 +829,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				UIMenuItem piano = new UIMenuItem($"{i+1}° piano");
 				Ascensore.AddItem(piano);
 				if (i == LivelloGarage)
-					piano.SetRightBadge(UIMenuItem.BadgeStyle.Car);
+					piano.SetRightBadge(BadgeStyle.Car);
 			}
 			Ascensore.OnItemSelect += async (menu, item, index) =>
 			{
 
-				if (item.RightBadge == UIMenuItem.BadgeStyle.Car)
+				if (item.RightBadge == BadgeStyle.Car)
 					HUD.ShowNotification("Questo è il garage attuale!!", true);
 				else
 				{
@@ -873,32 +873,32 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					if (InterazioneCivile.ParentItem.Enabled)
 					{
 						InterazioneCivile.ParentItem.Enabled = false;
-						InterazioneCivile.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+						InterazioneCivile.ParentItem.SetRightBadge(BadgeStyle.Lock);
 						InterazioneCivile.ParentItem.Description = InterazioneCivile.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
 					}
 					if (InterazioneVeicolo.ParentItem.Enabled)
 					{
 						InterazioneVeicolo.ParentItem.Enabled = false;
-						InterazioneVeicolo.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+						InterazioneVeicolo.ParentItem.SetRightBadge(BadgeStyle.Lock);
 						InterazioneVeicolo.ParentItem.Description = InterazioneVeicolo.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
 					}
 					if (Oggetti.ParentItem.Enabled)
 					{
 						Oggetti.ParentItem.Enabled = false;
-						Oggetti.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+						Oggetti.ParentItem.SetRightBadge(BadgeStyle.Lock);
 						Oggetti.ParentItem.Description = Oggetti.ParentItem.Description + " - ~r~NON~w~ disponibile dentro un veicolo";
 					
 					}
 					if (!ControlliPersonaRemoto.ParentItem.Enabled)
 					{
 						ControlliPersonaRemoto.ParentItem.Enabled = true;
-						ControlliPersonaRemoto.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+						ControlliPersonaRemoto.ParentItem.SetRightBadge(BadgeStyle.None);
 						ControlliPersonaRemoto.ParentItem.Description = "Sistema Online di Controllo Persone!";
 					}
 					if (!ControlliVeicoloRemoto.ParentItem.Enabled)
 					{
 						ControlliVeicoloRemoto.ParentItem.Enabled = true;
-						ControlliVeicoloRemoto.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+						ControlliVeicoloRemoto.ParentItem.SetRightBadge(BadgeStyle.None);
 						ControlliVeicoloRemoto.ParentItem.Description = "Sistema Online di Controllo Veicoli!";
 					}
 				}
@@ -908,31 +908,31 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				if (!InterazioneCivile.ParentItem.Enabled)
 				{
 					InterazioneCivile.ParentItem.Enabled = true;
-					InterazioneCivile.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+					InterazioneCivile.ParentItem.SetRightBadge(BadgeStyle.None);
 					InterazioneCivile.ParentItem.Description = "Mi faccia vedere i dati!";
 				}
 				if (!InterazioneVeicolo.ParentItem.Enabled)
 				{
 					InterazioneVeicolo.ParentItem.Enabled = true;
-					InterazioneVeicolo.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+					InterazioneVeicolo.ParentItem.SetRightBadge(BadgeStyle.None);
 					InterazioneVeicolo.ParentItem.Description = "Mi faccia controllare il veicolo!";
 				}
 				if (!Oggetti.ParentItem.Enabled)
 				{
 					Oggetti.ParentItem.Enabled = true;
-					Oggetti.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+					Oggetti.ParentItem.SetRightBadge(BadgeStyle.None);
 					Oggetti.ParentItem.Description = "Abbiamo anche le bande chiodate!";
 				}
 				if (ControlliPersonaRemoto.ParentItem.Enabled)
 				{
 					ControlliPersonaRemoto.ParentItem.Enabled = false;
-					ControlliPersonaRemoto.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+					ControlliPersonaRemoto.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					ControlliPersonaRemoto.ParentItem.Description = ControlliPersonaRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
 				}
 				if (ControlliVeicoloRemoto.ParentItem.Enabled)
 				{
 					ControlliVeicoloRemoto.ParentItem.Enabled = false;
-					ControlliVeicoloRemoto.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+					ControlliVeicoloRemoto.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					ControlliVeicoloRemoto.ParentItem.Description = ControlliVeicoloRemoto.ParentItem.Description + " - ~r~NON~w~ disponibile fuori da un veicolo della polizia o lontano da un computer!";
 				}
 			}
@@ -945,7 +945,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					if (!InterazioneCivile.ParentItem.Enabled)
 					{
 						InterazioneCivile.ParentItem.Enabled = true;
-						InterazioneCivile.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.None);
+						InterazioneCivile.ParentItem.SetRightBadge(BadgeStyle.None);
 						InterazioneCivile.ParentItem.Description = "Mi faccia vedere i dati!";
 					}
 				}
@@ -954,7 +954,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					if (InterazioneCivile.ParentItem.Enabled)
 					{
 						InterazioneCivile.ParentItem.Enabled = false;
-						InterazioneCivile.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+						InterazioneCivile.ParentItem.SetRightBadge(BadgeStyle.Lock);
 						InterazioneCivile.ParentItem.Description += "- ~r~NON~w~ ci sono player vicini";
 						if (InterazioneCivile.Visible) InterazioneCivile.Visible = false;
 					}
@@ -965,7 +965,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				if (InterazioneCivile.ParentItem.Enabled)
 				{
 					InterazioneCivile.ParentItem.Enabled = false;
-					InterazioneCivile.ParentItem.SetRightBadge(UIMenuItem.BadgeStyle.Lock);
+					InterazioneCivile.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					InterazioneCivile.ParentItem.Description += "- ~r~NON~w~ ci sono player vicini";
 					if (InterazioneCivile.Visible) InterazioneCivile.Visible = false;
 				}
