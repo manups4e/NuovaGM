@@ -25,9 +25,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static string travelSpeedStr = "Media";
 		private static Scaleform _instructionalButtonsScaleform;
 		private static int checkTimer = 0;
+		private static bool markerVisible;
 		private static Marker markerIngrPiedi;
 		private static Marker markerIngrGarage;
 		private static Marker markerIngrTetto;
+		private static UIMenuItem markerIngressoCasa;
+		private static UIMenuItem markerIngressoGarage;
+		private static UIMenuItem markerIngressoTetto;
+		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
 		public static async void MenuCreazioneCase()
 		{
 			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!");
@@ -62,9 +67,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#region marker
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
 
-			UIMenuItem markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			UIMenuItem markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			UIMenuItem markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
+			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			UIMenuItem posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
 
 			marker.AddItem(markerIngressoCasa);
@@ -123,6 +128,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					}
 					else if (newmenu == marker)
 					{
+						Client.Instance.AddTick(MarkerTick);
+						markerVisible = true;
 						if (markerIngrPiedi == null)
 							markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 						if (markerIngrGarage == null) 
@@ -135,7 +142,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				}
 				else if (state == MenuState.ChangeBackward)
 				{
-					if (oldmenu == selezionePunto)
+					if(oldmenu == marker)
+					{
+						markerVisible = false;
+						Client.Instance.RemoveTick(MarkerTick);
+					}
+					else if (oldmenu == selezionePunto)
 					{
 						Client.Instance.RemoveTick(CreatorCameraControl);
 						Screen.Fading.FadeOut(800);
@@ -225,7 +237,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			Game.DisableControlThisFrame(0, Control.LookLeftOnly);
 			Game.DisableControlThisFrame(0, Control.LookRightOnly);
 
-			float rotationSpeed = 1.5f;
+			float rotationSpeed = 1f;
 
 			switch (travelSpeed)
 			{
@@ -238,7 +250,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					travelSpeedStr = "Veloce";
 					break;
 				case 2:
-					forwardPush = 3.6f; //very fast
+					forwardPush = 2.6f; //very fast
 					travelSpeedStr = "Molto veloce";
 					break;
 				case 3:
@@ -255,10 +267,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					break;
 			}
 
-			float xVect = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z)) * -1.0f;
-			float yVect = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
-			float zVect = forwardPush * (float)Math.Tan(Funzioni.Deg2rad(curRotation.X));
-			if (zVect > 300) zVect = 300;
+			float zVect = forwardPush / 3;
 			if (Input.IsDisabledControlJustPressed(Control.FrontendX))
 			{
 				travelSpeed++;
@@ -266,35 +275,84 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					travelSpeed = 0;
 			}
 
-			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLt, PadCheck.Controller))
-			{
-				curRotation.Y += rotationSpeed; // rotazione verso sinistra
-				if (curRotation.Y > 179.999999999f) curRotation.Y = -180f;
-			}
-			if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRt, PadCheck.Controller))
-			{
-				curRotation.Y -= rotationSpeed; // rotazione verso destra
-				if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
-			}
-
+			float xVectFwd = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z)) * -1.0f;
+			float yVectFwd = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
+			float xVectLat = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
+			float yVectLat = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
 			if (Input.IsDisabledControlPressed(Control.MoveUpOnly))
 			{
-				curLocation.X += xVect;
-				curLocation.Y += yVect;
+				curLocation.X += xVectFwd;
+				curLocation.Y += yVectFwd;
 				float z = 0;
 				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
 				else if (curLocation.Z > z + 0.5f)
-					curLocation.Z += zVect;
+					curLocation.Z -= zVect;
 			}
 			if (Input.IsDisabledControlPressed(Control.MoveDownOnly))
 			{
-				curLocation.X -= xVect;
-				curLocation.Y -= yVect;
-				curLocation.Z -= zVect;
+				curLocation.X -= xVectFwd;
+				curLocation.Y -= yVectFwd;
+				float z = 0;
+				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+				if (z != 0 && curLocation.Z < z + 0.5f)
+					curLocation.Z = z + 0.5f;
+				else if (curLocation.Z > z + 0.5f)
+					curLocation.Z -= zVect;
 			}
 
+			if (Input.IsDisabledControlPressed(Control.MoveLeftOnly))
+			{
+				curLocation.X -= xVectLat;
+				curLocation.Y -= yVectLat;
+				float z = 0;
+				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+				if (z != 0 && curLocation.Z < z + 0.5f)
+					curLocation.Z = z + 0.5f;
+				else if (curLocation.Z > z + 0.5f)
+					curLocation.Z -= zVect;
+			}
+			if (Input.IsDisabledControlPressed(Control.MoveRightOnly))
+			{
+				curLocation.X += xVectLat;
+				curLocation.Y += yVectLat;
+				float z = 0;
+				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+				if (z != 0 && curLocation.Z < z + 0.5f)
+					curLocation.Z = z + 0.5f;
+				else if (curLocation.Z > z + 0.5f)
+					curLocation.Z -= zVect;
+			}
+			if (Input.IsControlPressed(Control.FrontendLt))
+			{
+				curLocation.Z += zVect;
+				float z = 0;
+				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+				if (z != 0 && curLocation.Z > 300)
+					curLocation.Z = 300;
+						
+			}
+			if (Input.IsControlPressed(Control.FrontendRt))
+			{
+				curLocation.Z -= zVect;
+				float z = 0;
+				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+				if (z != 0 && curLocation.Z < z + 0.5f)
+					curLocation.Z = z + 0.5f;
+				else if (curLocation.Z > z + 0.5f)
+					curLocation.Z -= zVect;
+			}
+			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLb, PadCheck.Controller))
+			{
+				curRotation.Y += rotationSpeed; // rotazione verso sinistra
+				if (curRotation.Y > 179.999999999f) curRotation.Y = -180f;
+			}
+			if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRb, PadCheck.Controller))
+			{
+				curRotation.Y -= rotationSpeed; // rotazione verso destra
+				if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
+			}
 
 			if (Input.IsControlPressed(Control.LookDownOnly, PadCheck.Controller))
 			{
@@ -318,6 +376,22 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			}
 			MainCamera.Position = curLocation;
 			MainCamera.Rotation = curRotation;
+		}
+
+		private static async Task MarkerTick()
+		{
+			if (markerVisible)
+			{
+				RaycastResult res = Funzioni._CrosshairRaycast(150);
+				Vector3 direction = res.HitPosition;
+				float z = 0;
+				GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
+				if (z != 0 && res.DitHit)
+				{
+					dummyMarker.Position = new Vector3(direction.X, direction.Y, z);
+					dummyMarker.Draw();
+				}
+			}
 		}
 	}
 }
