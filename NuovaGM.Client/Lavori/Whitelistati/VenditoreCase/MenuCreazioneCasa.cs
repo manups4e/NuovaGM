@@ -37,16 +37,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		{
 			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!");
 			HUD.MenuPool.Add(creazione);
-
+			creazione.MouseControlsEnabled = false;
 			UIMenu selezionePunto = creazione.AddSubMenu("1. Gestione esterni"); // NB: nome provvisorio
+			selezionePunto.MouseControlsEnabled = false;
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione interni"); // NB: nome provvisorio
+			gestioneInteriorCasa.MouseControlsEnabled = false;
 			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
+			datiCasa.MouseControlsEnabled = false;
 
 			// CONTINUARE (Finire gestione blip, marker.. )
 			#region selezionePunto
 
 			#region blip
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
+			blip.MouseControlsEnabled = false;
 			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { "~BLIP_40~" }, 0);
 			UIMenuColorPanel blipColor = new UIMenuColorPanel("Colore Blip", ColorPanelType.Hair);
 			blipType.AddPanel(blipColor);
@@ -66,6 +70,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			#region marker
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
+			marker.MouseControlsEnabled = false;
 
 			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
@@ -336,47 +341,48 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
 			}
 
-			if (Input.IsControlPressed(Control.LookDownOnly, PadCheck.Controller))
+			if (!IsInputDisabled(2))
 			{
-				curRotation.X -= rotationSpeed;
-				if (curRotation.X < -75f) curRotation.X = -75f;
+				if (Input.IsControlPressed(Control.LookDownOnly))
+				{
+					curRotation.X -= rotationSpeed;
+					if (curRotation.X < -75f) curRotation.X = -75f;
+				}
+				if (Input.IsControlPressed(Control.LookUpOnly))
+				{
+					curRotation.X += rotationSpeed;
+					if (curRotation.X > 75f) curRotation.X = 75f;
+				}
+				if (Input.IsControlPressed(Control.LookLeftOnly))
+				{
+					curRotation.Z += rotationSpeed;
+					if (curRotation.Z > 179.999999999f) curRotation.Z = -180f;
+				}
+				if (Input.IsControlPressed(Control.LookRightOnly))
+				{
+					curRotation.Z -= rotationSpeed;
+					if (curRotation.Z < -179.999999999f) curRotation.Z = 180f;
+				}
 			}
-			if (Input.IsControlPressed(Control.LookUpOnly, PadCheck.Controller))
+			else
 			{
-				curRotation.X += rotationSpeed;
-				if (curRotation.X > 75f) curRotation.X = 75f;
-			}
-			if (Input.IsControlPressed(Control.LookLeftOnly, PadCheck.Controller))
-			{
-				curRotation.Z += rotationSpeed;
-				if (curRotation.Z > 179.999999999f) curRotation.Z = -180f;
-			}
-			if (Input.IsControlPressed(Control.LookRightOnly, PadCheck.Controller))
-			{
-				curRotation.Z -= rotationSpeed;
-				if (curRotation.Z < -179.999999999f) curRotation.Z = 180f;
+				curRotation.X -= (GetDisabledControlNormal(1, 2) * rotationSpeed * 8.0f);
+				curRotation.Z -= (GetDisabledControlNormal(1, 1) * rotationSpeed * 8.0f);
 			}
 			MainCamera.Position = curLocation;
 			MainCamera.Rotation = curRotation;
-			Game.PlayerPed.Position = curLocation;
 		}
 
 		private static async Task MarkerTick()
 		{
 			RaycastResult res = MainCamera.CrosshairRaycast(150f);
-			HUD.DrawText(0.35f, 0.725f, "RayCast = " + res.DitHit);
-			HUD.DrawText(0.35f, 0.75f, "MainCamera.Position = " + MainCamera.Position);
-
-			World.DrawLine(curLocation, res.HitPosition, Colors.Red);
 			Vector3 direction = res.HitPosition;
+			dummyMarker.Position = direction;
+			dummyMarker.Draw();
 			float z = 0;
 			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
-			HUD.DrawText(0.35f, 0.775f, "RayCastPos = " + new Vector3(direction.X, direction.Y, z).ToString());
 			if (z != 0 && res.DitHit)
-			{
-				dummyMarker.Position = new Vector3(direction.X, direction.Y, z);
-				dummyMarker.Draw();
-			}
+				dummyMarker.Position.Z = z;
 		}
 	}
 }
