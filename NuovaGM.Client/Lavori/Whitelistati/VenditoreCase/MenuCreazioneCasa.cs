@@ -279,56 +279,42 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			float yVectFwd = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
 			float xVectLat = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
 			float yVectLat = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
+			float z = 0;
+			GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
+			if (z != 0 && curLocation.Z < z + 0.5f)
+				curLocation.Z = z + 0.5f;
 			if (Input.IsDisabledControlPressed(Control.MoveUpOnly))
 			{
 				curLocation.X += xVectFwd;
 				curLocation.Y += yVectFwd;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
-				else if (curLocation.Z > z + 0.5f)
-					curLocation.Z -= zVect;
 			}
 			if (Input.IsDisabledControlPressed(Control.MoveDownOnly))
 			{
 				curLocation.X -= xVectFwd;
 				curLocation.Y -= yVectFwd;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
-				else if (curLocation.Z > z + 0.5f)
-					curLocation.Z -= zVect;
 			}
 
 			if (Input.IsDisabledControlPressed(Control.MoveLeftOnly))
 			{
 				curLocation.X -= xVectLat;
 				curLocation.Y -= yVectLat;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
-				else if (curLocation.Z > z + 0.5f)
-					curLocation.Z -= zVect;
 			}
 			if (Input.IsDisabledControlPressed(Control.MoveRightOnly))
 			{
 				curLocation.X += xVectLat;
 				curLocation.Y += yVectLat;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
-				else if (curLocation.Z > z + 0.5f)
-					curLocation.Z -= zVect;
 			}
 			if (Input.IsControlPressed(Control.FrontendLt))
 			{
 				curLocation.Z += zVect;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
 				if (z != 0 && curLocation.Z > 300)
 					curLocation.Z = 300;
 						
@@ -336,11 +322,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			if (Input.IsControlPressed(Control.FrontendRt))
 			{
 				curLocation.Z -= zVect;
-				float z = 0;
-				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
-				if (z != 0 && curLocation.Z < z + 0.5f)
-					curLocation.Z = z + 0.5f;
-				else if (curLocation.Z > z + 0.5f)
+				if (curLocation.Z > z + 0.5f)
 					curLocation.Z -= zVect;
 			}
 			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLb, PadCheck.Controller))
@@ -376,21 +358,24 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			}
 			MainCamera.Position = curLocation;
 			MainCamera.Rotation = curRotation;
+			Game.PlayerPed.Position = curLocation;
 		}
 
 		private static async Task MarkerTick()
 		{
-			if (markerVisible)
+			RaycastResult res = MainCamera.CrosshairRaycast(150f);
+			HUD.DrawText(0.35f, 0.725f, "RayCast = " + res.DitHit);
+			HUD.DrawText(0.35f, 0.75f, "MainCamera.Position = " + MainCamera.Position);
+
+			World.DrawLine(curLocation, res.HitPosition, Colors.Red);
+			Vector3 direction = res.HitPosition;
+			float z = 0;
+			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
+			HUD.DrawText(0.35f, 0.775f, "RayCastPos = " + new Vector3(direction.X, direction.Y, z).ToString());
+			if (z != 0 && res.DitHit)
 			{
-				RaycastResult res = Funzioni._CrosshairRaycast(150);
-				Vector3 direction = res.HitPosition;
-				float z = 0;
-				GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
-				if (z != 0 && res.DitHit)
-				{
-					dummyMarker.Position = new Vector3(direction.X, direction.Y, z);
-					dummyMarker.Draw();
-				}
+				dummyMarker.Position = new Vector3(direction.X, direction.Y, z);
+				dummyMarker.Draw();
 			}
 		}
 	}

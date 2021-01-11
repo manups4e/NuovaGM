@@ -409,7 +409,20 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Vector3 rotation = (float)(Math.PI / 180.0) * World.RenderingCamera.Direction;
+				Vector3 rotation = (float)(Math.PI / 180.0) * World.RenderingCamera.Rotation;
+				return Vector3.Normalize(new Vector3((float)-Math.Sin(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Cos(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Sin(rotation.X)));
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+			}
+			return default(Vector3);
+		}
+		public static Vector3 GameplayCamForwardVector(Camera cam)
+		{
+			try
+			{
+				Vector3 rotation = (float)(Math.PI / 180.0) * cam.Rotation;
 				return Vector3.Normalize(new Vector3((float)-Math.Sin(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Cos(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Sin(rotation.X)));
 			}
 			catch (Exception ex)
@@ -426,6 +439,18 @@ namespace TheLastPlanet.Client.Core.Utility
 			try
 			{
 				return World.Raycast(World.RenderingCamera.Position, World.RenderingCamera.Position + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+			}
+			return default(RaycastResult);
+		}
+		public static RaycastResult CrosshairRaycast(this Camera cam, float distance = 1000)
+		{
+			try
+			{
+				return World.Raycast(cam.Position, cam.Position + distance * GameplayCamForwardVector(cam), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{

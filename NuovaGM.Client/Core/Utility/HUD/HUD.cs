@@ -227,14 +227,12 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Screen.LoadingPrompt.Show(text, enumtype);
 			await BaseScript.Delay(msecs);
 			if (Screen.LoadingPrompt.IsActive)
-			{
 				Screen.LoadingPrompt.Hide();
-			}
 		}
 
 		public static void CallFunctionFrontendHeader(string function, params object[] arguments)
 		{
-			API.BeginScaleformMovieMethodOnFrontendHeader(function);
+			BeginScaleformMovieMethodOnFrontendHeader(function);
 			foreach (var argument in arguments)
 			{
 				if (argument is int)
@@ -250,7 +248,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 				else if (argument is bool)
 					PushScaleformMovieMethodParameterBool((bool)argument);
 			}
-			API.EndScaleformMovieMethod();
+			EndScaleformMovieMethod();
 		}
 
 
@@ -418,13 +416,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			SetTextScale(0.0f, 0.5f);
 			SetTextColour(color.R, color.G, color.B, color.A);
 			if (Shadow)
-				API.SetTextDropShadow();
+				SetTextDropShadow();
 			if (Outline)
-				API.SetTextOutline();
+				SetTextOutline();
 			if (Wrap != 0)
 			{
 				float xsize = (x + Wrap) / width;
-				API.SetTextWrap(x, xsize);
+				SetTextWrap(x, xsize);
 			}
 			switch (TextAlignment)
 			{
