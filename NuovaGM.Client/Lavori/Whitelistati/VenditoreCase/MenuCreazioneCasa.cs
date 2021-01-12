@@ -18,28 +18,49 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
 	static class MenuCreazioneCasa
 	{
+		private static ConfigCase casaFinale = new ConfigCase();
 		private static Camera MainCamera;
 		private static int travelSpeed = 0;
 		private static Vector3 curLocation;
 		private static Vector3 curRotation;
+		private static Vector3 CameraPosIngresso;
+		private static Vector3 CameraRotIngresso;
 		private static string travelSpeedStr = "Media";
-		private static Scaleform _instructionalButtonsScaleform;
 		private static int checkTimer = 0;
-		private static bool markerVisible;
 		private static Marker markerIngrPiedi;
 		private static Marker markerIngrGarage;
 		private static Marker markerIngrTetto;
 		private static UIMenuItem markerIngressoCasa;
 		private static UIMenuItem markerIngressoGarage;
 		private static UIMenuItem markerIngressoTetto;
+		private static UIMenuColorPanel blipColor;
 		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+
 		public static async void MenuCreazioneCase()
 		{
-			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!");
+			InstructionalButton MuoviSD = new InstructionalButton(Control.MoveLeftRight, "Muovi laterale");
+			InstructionalButton MuoviSG = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
+			InstructionalButton GDS = new InstructionalButton(Control.LookLeftRight, "Guarda sx / dx");
+			InstructionalButton GSG = new InstructionalButton(Control.LookUpDown, "Guarda su / giù");
+			InstructionalButton Sali = new InstructionalButton(Control.FrontendLt, "Sali");
+			InstructionalButton Scendi = new InstructionalButton(Control.FrontendRt, "Scendi");
+			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
+
+			InstructionalButton BlipColoreDX = new InstructionalButton(Control.FrontendRb, "Colore Dx");
+			InstructionalButton BlipColoreSX = new InstructionalButton(Control.FrontendLb, "Colore Sx");
+
+			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0));
 			HUD.MenuPool.Add(creazione);
 			creazione.MouseControlsEnabled = false;
 			UIMenu selezionePunto = creazione.AddSubMenu("1. Gestione esterni"); // NB: nome provvisorio
 			selezionePunto.MouseControlsEnabled = false;
+			selezionePunto.AddInstructionalButton(MuoviSD);
+			selezionePunto.AddInstructionalButton(MuoviSG);
+			selezionePunto.AddInstructionalButton(GDS);
+			selezionePunto.AddInstructionalButton(GSG);
+			selezionePunto.AddInstructionalButton(Sali);
+			selezionePunto.AddInstructionalButton(Scendi);
+			selezionePunto.AddInstructionalButton(Velocità);
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
 			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
@@ -50,9 +71,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			#region blip
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
+			blip.AddInstructionalButton(BlipColoreSX);
+			blip.AddInstructionalButton(BlipColoreDX);
+			
 			blip.MouseControlsEnabled = false;
 			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { "~BLIP_40~" }, 0);
-			UIMenuColorPanel blipColor = new UIMenuColorPanel("Colore Blip", ColorPanelType.Hair);
+			blipColor = new UIMenuColorPanel("Colore Blip", ColorPanelType.Hair);
 			blipType.AddPanel(blipColor);
 			UIMenuSliderProgressItem blipDimensions = new UIMenuSliderProgressItem("Dimensioni", 100, 0);
 			UIMenuItem blipName = new UIMenuItem("Nome", "Se lasci il campo vuoto, prenderà il nome dell'abitazione automaticamente");
@@ -86,20 +110,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				if (item == markerIngressoCasa)
 				{
-					// Salvataggio Vector
+					markerIngrPiedi = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 				}
 				else if (item == markerIngressoGarage)
 				{
-					// Salvataggio Vector
+					markerIngrGarage = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 				}
 				else if (item == markerIngressoTetto)
 				{
-					// Salvataggio Vector
+					markerIngrTetto = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 				}
 				else if (item == posCamera)
 				{
-					// Salvataggio Vector
-					// Salvataggio rotazione (punta a)
+					CameraPosIngresso = MainCamera.Position;
+					CameraRotIngresso = MainCamera.CrosshairRaycast().HitPosition;
 				}
 				item.MainColor = Colors.DarkGreen;
 				item.HighlightColor = Colors.GreenLight;
@@ -125,8 +149,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						RenderScriptCams(true, false, 1000, true, true);
 						curLocation = MainCamera.Position;
 						curRotation = MainCamera.Rotation;
-						_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
-						UpdateScaleform();
 						checkTimer = GetGameTimer();
 						Client.Instance.AddTick(CreatorCameraControl);
 						Screen.Fading.FadeIn(500);
@@ -134,7 +156,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					else if (newmenu == marker)
 					{
 						Client.Instance.AddTick(MarkerTick);
-						markerVisible = true;
 						if (markerIngrPiedi == null)
 							markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 						if (markerIngrGarage == null) 
@@ -149,7 +170,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				{
 					if(oldmenu == marker)
 					{
-						markerVisible = false;
 						Client.Instance.RemoveTick(MarkerTick);
 					}
 					else if (oldmenu == selezionePunto)
@@ -174,31 +194,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			creazione.Visible = true;
 		}
 
-		private static void UpdateScaleform()
-		{
-			_instructionalButtonsScaleform.CallFunction("CLEAR_ALL");
-			_instructionalButtonsScaleform.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
-			_instructionalButtonsScaleform.CallFunction("CREATE_CONTAINER");
-
-			InstructionalButton RS = new InstructionalButton(IsInputDisabled(2) ? Control.Cover : Control.FrontendLt, "Ruota sx");
-			InstructionalButton RD = new InstructionalButton(IsInputDisabled(2) ? Control.HUDSpecial : Control.FrontendRt, "Ruota dx");
-			InstructionalButton MuoviSD = new InstructionalButton(Control.MoveLeftRight, "Muovi laterale");
-			InstructionalButton MuoviSG = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
-			InstructionalButton GDS = new InstructionalButton(Control.LookLeftRight, "Guarda sx / dx");
-			InstructionalButton GSG = new InstructionalButton(Control.LookUpDown, "Guarda su / giù");
-			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
-
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 0, RS.GetButtonId(), RS.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 1, RD.GetButtonId(), RD.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 2, MuoviSD.GetButtonId(), MuoviSD.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 3, MuoviSG.GetButtonId(), MuoviSG.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 4, GDS.GetButtonId(), GDS.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 5, GSG.GetButtonId(), GSG.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 6, Velocità.GetButtonId(), Velocità.Text);
-
-			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-		}
-
 		static bool changed = false;
 		private static async Task CreatorCameraControl()
 		{
@@ -207,28 +202,23 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			if (GetGameTimer() - checkTimer > (int)Math.Ceiling(1000 / forwardPush))
 				SetFocusPosAndVel(curLocation.X, curLocation.Y, curLocation.Z, 0, 0, 0);
 
-			if (IsInputDisabled(2))
-			{
-				if (!changed)
-				{
-					changed = true;
-					UpdateScaleform();
-				}
-			}
-			else
-			{
-				if (changed)
-				{
-					changed = false;
-					UpdateScaleform();
-				}
-			}
-			if (!Main.ImpostazioniClient.ModCinema)
-				_instructionalButtonsScaleform.Render2D();
-			else
-				DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
+
 			HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
 
+			if (blipColor != null)
+			{
+				if (blipColor.ParentItem.Parent.Visible)
+				{
+					if (Input.IsControlJustPressed(Control.FrontendLb))
+					{
+						blipColor.GoLeft();
+					}
+					if (Input.IsControlJustPressed(Control.FrontendRb))
+					{
+						blipColor.GoRight();
+					}
+				}
+			}
 
 			Game.DisableAllControlsThisFrame(0);
 			Game.DisableControlThisFrame(0, Control.LookLeftRight);
@@ -330,6 +320,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				if (curLocation.Z > z + 0.5f)
 					curLocation.Z -= zVect;
 			}
+
+			/* Ci serve davvero ruotare la telecamera? :thinking:
 			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLb, PadCheck.Controller))
 			{
 				curRotation.Y += rotationSpeed; // rotazione verso sinistra
@@ -340,7 +332,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				curRotation.Y -= rotationSpeed; // rotazione verso destra
 				if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
 			}
-
+			*/
 			if (!IsInputDisabled(2))
 			{
 				if (Input.IsControlPressed(Control.LookDownOnly))
@@ -367,7 +359,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			else
 			{
 				curRotation.X -= (GetDisabledControlNormal(1, 2) * rotationSpeed * 8.0f);
+				if (curRotation.X < -75f) curRotation.X = -75f;
+				if (curRotation.X > 75f) curRotation.X = 75f;
 				curRotation.Z -= (GetDisabledControlNormal(1, 1) * rotationSpeed * 8.0f);
+				if (curRotation.Z > 179.999999999f) curRotation.Z = -180f;
+				if (curRotation.Z < -179.999999999f) curRotation.Z = 180f;
 			}
 			MainCamera.Position = curLocation;
 			MainCamera.Rotation = curRotation;
@@ -377,12 +373,28 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		{
 			RaycastResult res = MainCamera.CrosshairRaycast(150f);
 			Vector3 direction = res.HitPosition;
-			dummyMarker.Position = direction;
+			dummyMarker.Color = Colors.Red;
 			dummyMarker.Draw();
+			dummyMarker.Position = direction;
 			float z = 0;
 			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
 			if (z != 0 && res.DitHit)
 				dummyMarker.Position.Z = z;
+			if (markerIngressoCasa.Selected)
+			{
+				if (markerIngressoCasa.RightBadge != BadgeStyle.None)
+					markerIngrPiedi.Draw();
+			}
+			if (markerIngressoGarage.Selected)
+			{
+				if (markerIngressoGarage.RightBadge != BadgeStyle.None)
+					markerIngrGarage.Draw();
+			}
+			if (markerIngressoTetto.Selected)
+			{
+				if (markerIngressoTetto.RightBadge != BadgeStyle.None)
+					markerIngrTetto.Draw();
+			}
 		}
 	}
 }
