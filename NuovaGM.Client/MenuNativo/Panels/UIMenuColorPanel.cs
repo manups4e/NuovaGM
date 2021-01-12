@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client.MenuNativo
 					Data.Pagination.Min = CurrentSelection - 1;
 					Data.Pagination.Max = CurrentSelection + Data.Pagination.Total + 1;
 				}
-				UpdateSelection(false);
+				UpdateSelection(true);
 			}
 		}
 
@@ -160,7 +160,7 @@ namespace TheLastPlanet.Client.MenuNativo
 			}
 		}
 
-		private void GoLeft()
+		public void GoLeft()
 		{
 			if (Data.Items.Count > Data.Pagination.Total + 1)
 			{
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.MenuNativo
 			}
 		}
 
-		private void GoRight()
+		public void GoRight()
 		{
 			if (Data.Items.Count > Data.Pagination.Total + 1)
 			{
