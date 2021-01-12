@@ -54,13 +54,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			creazione.MouseControlsEnabled = false;
 			UIMenu selezionePunto = creazione.AddSubMenu("1. Gestione esterni"); // NB: nome provvisorio
 			selezionePunto.MouseControlsEnabled = false;
-			selezionePunto.AddInstructionalButton(MuoviSD);
-			selezionePunto.AddInstructionalButton(MuoviSG);
-			selezionePunto.AddInstructionalButton(GDS);
-			selezionePunto.AddInstructionalButton(GSG);
-			selezionePunto.AddInstructionalButton(Sali);
-			selezionePunto.AddInstructionalButton(Scendi);
 			selezionePunto.AddInstructionalButton(Velocità);
+			selezionePunto.AddInstructionalButton(Scendi);
+			selezionePunto.AddInstructionalButton(Sali);
+			selezionePunto.AddInstructionalButton(GSG);
+			selezionePunto.AddInstructionalButton(GDS);
+			selezionePunto.AddInstructionalButton(MuoviSG);
+			selezionePunto.AddInstructionalButton(MuoviSD);
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
 			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
@@ -71,8 +71,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			#region blip
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
-			blip.AddInstructionalButton(BlipColoreSX);
+			blip.AddInstructionalButton(Velocità);
+			blip.AddInstructionalButton(Scendi);
+			blip.AddInstructionalButton(Sali);
+			blip.AddInstructionalButton(GSG);
+			blip.AddInstructionalButton(GDS);
+			blip.AddInstructionalButton(MuoviSG);
+			blip.AddInstructionalButton(MuoviSD);
 			blip.AddInstructionalButton(BlipColoreDX);
+			blip.AddInstructionalButton(BlipColoreSX);
 			
 			blip.MouseControlsEnabled = false;
 			UIMenuListItem blipType = new UIMenuListItem("Modello", new List<dynamic>() { "~BLIP_40~" }, 0);
@@ -95,6 +102,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#region marker
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
 			marker.MouseControlsEnabled = false;
+			marker.AddInstructionalButton(Velocità);
+			marker.AddInstructionalButton(Scendi);
+			marker.AddInstructionalButton(Sali);
+			marker.AddInstructionalButton(GSG);
+			marker.AddInstructionalButton(GDS);
+			marker.AddInstructionalButton(MuoviSG);
+			marker.AddInstructionalButton(MuoviSD);
 
 			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
@@ -136,7 +150,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
-				if (state == MenuState.ChangeForward)
+				if(state == MenuState.Opened)
+				{
+					Game.Player.GetPlayerData().Istanza.Istanzia("Creatore Immobiliare");
+				}
+				else if(state == MenuState.Closed)
+				{
+					Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+				}
+				else if (state == MenuState.ChangeForward)
 				{
 					if (newmenu == selezionePunto)
 					{
@@ -189,8 +211,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					}
 				}
 			};
-
-
 			creazione.Visible = true;
 		}
 
