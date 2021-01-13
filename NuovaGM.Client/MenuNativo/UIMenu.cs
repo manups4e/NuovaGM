@@ -1338,7 +1338,6 @@ namespace TheLastPlanet.Client.MenuNativo
 				_descriptionText.Caption = descCaption;
 				_descriptionText.Wrap = 400;
 				int numLines = ScreenTools.GetLineCount(descCaption, _descriptionText.Position, _descriptionText.Font, _descriptionText.Scale, _descriptionText.Wrap);
-				Logger.Log.Printa(Logger.LogType.Debug, "NumLines = " + numLines);
 				_descriptionRectangle.Size = new SizeF(431 + WidthOffset, (numLines * 25) + 15);
 			}
 		}

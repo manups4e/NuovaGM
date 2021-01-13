@@ -18,7 +18,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
 	static class MenuCreazioneCasa
 	{
-		private static ConfigCase casaFinale = new ConfigCase();
 		private static Camera MainCamera;
 		private static int travelSpeed = 0;
 		private static Vector3 curLocation;
@@ -35,24 +34,48 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem markerIngressoTetto;
 		private static UIMenuColorPanel blipColor;
 		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
-
+		private enum TipoImmobile
+		{
+			Casa,
+			Condominio,
+			Ufficio,
+			Garage
+		}
 		public static async void MenuCreazioneCase()
 		{
-			InstructionalButton MuoviSD = new InstructionalButton(Control.MoveLeftRight, "Muovi laterale");
+			ConfigCase casaDummy = new ConfigCase();
+			#region InstructionalButtons
+		InstructionalButton MuoviSD = new InstructionalButton(Control.MoveLeftRight, "Muovi laterale");
 			InstructionalButton MuoviSG = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
 			InstructionalButton GDS = new InstructionalButton(Control.LookLeftRight, "Guarda sx / dx");
 			InstructionalButton GSG = new InstructionalButton(Control.LookUpDown, "Guarda su / giù");
 			InstructionalButton Sali = new InstructionalButton(Control.FrontendLt, "Sali");
 			InstructionalButton Scendi = new InstructionalButton(Control.FrontendRt, "Scendi");
 			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
-
 			InstructionalButton BlipColoreDX = new InstructionalButton(Control.FrontendRb, "Colore Dx");
 			InstructionalButton BlipColoreSX = new InstructionalButton(Control.FrontendLb, "Colore Sx");
+			#endregion
+			bool includiGarage = false;
+			bool includiTetto = false;
+			TipoImmobile immobile = TipoImmobile.Casa;
 
+			#region dichiarazione
 			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0));
 			HUD.MenuPool.Add(creazione);
 			creazione.MouseControlsEnabled = false;
-			UIMenu selezionePunto = creazione.AddSubMenu("1. Gestione esterni"); // NB: nome provvisorio
+
+			UIMenuListItem tipo = new UIMenuListItem("Tipo di immobile", new List<dynamic>() { "Casa", "Condominio", "Ufficio", "Garage" }, 0);
+			creazione.AddItem(tipo);
+			tipo.OnListChanged += (item, index) =>
+			{
+				immobile = (TipoImmobile)index;
+			};
+
+			UIMenu datiCasa = creazione.AddSubMenu("1. Dati dell'immobile"); // NB: nome provvisorio
+			datiCasa.MouseControlsEnabled = false;
+			
+
+			UIMenu selezionePunto = creazione.AddSubMenu("2. Gestione esterni"); // NB: nome provvisorio
 			selezionePunto.MouseControlsEnabled = false;
 			selezionePunto.AddInstructionalButton(Velocità);
 			selezionePunto.AddInstructionalButton(Scendi);
@@ -61,13 +84,58 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			selezionePunto.AddInstructionalButton(GDS);
 			selezionePunto.AddInstructionalButton(MuoviSG);
 			selezionePunto.AddInstructionalButton(MuoviSD);
-			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("2. Gestione interni"); // NB: nome provvisorio
+			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("3. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
-			UIMenu datiCasa = creazione.AddSubMenu("3. Dati della casa"); // NB: nome provvisorio
-			datiCasa.MouseControlsEnabled = false;
 
-			// CONTINUARE (Finire gestione blip, marker.. )
-			#region selezionePunto
+			#endregion
+
+			#region Dati immobile
+			UIMenuItem nomeImmobile = new UIMenuItem("Nome dell'immobile", "Sarebbe preferibile inserire la via e il numero civico nel nome, ma puoi decidere tu il nome come vuoi!");
+			UIMenuItem nomeAbbreviato = new UIMenuItem("Nome Abbreviato", "Per questioni di salvataggio, serve un nome abbreviato per indicizzare l'immobile nel catabase del giocatore.. ad esempio: 0232 Paleto Boulevard => 0232PB");
+			UIMenuCheckboxItem garageIncluso = new UIMenuCheckboxItem("Garage incluso", UIMenuCheckboxStyle.Tick, includiGarage, "Se attivato l'immobile avrà il garage incluso");
+			UIMenuCheckboxItem tettoIncluso = new UIMenuCheckboxItem("Tetto incluso", UIMenuCheckboxStyle.Tick, includiTetto, "Se attivato l'immobile avrà il tetto raggiungibile");
+			UIMenuItem prezzo = new UIMenuItem("Prezzo di vendita", "Inserisci un prezzo base di vendita, in modo che tutti abbiate un'idea di quanto costa comprandolo");
+
+
+
+			datiCasa.AddItem(nomeImmobile);
+			datiCasa.AddItem(nomeAbbreviato);
+			datiCasa.AddItem(garageIncluso);
+			datiCasa.AddItem(tettoIncluso);
+			datiCasa.AddItem(prezzo);
+			garageIncluso.CheckboxEvent += (item, _checked) =>
+			{
+				includiGarage = _checked;
+				casaDummy.GarageIncluso = _checked;
+			};
+			tettoIncluso.CheckboxEvent += (item, _checked) =>
+			{
+				includiTetto = _checked;
+				casaDummy.TettoIncluso = _checked;
+			};
+			datiCasa.OnItemSelect += async (menu, item, index) =>
+			{
+				if(item == nomeImmobile)
+				{
+					string valore = await HUD.GetUserInput("Nome dell'immobile", "", 30);
+					item.SetRightLabel(valore.Length > 15 ? valore.Substring(0, 15) + "..." : valore);
+					casaDummy.Label = valore;
+				}
+				else if (item == nomeAbbreviato)
+				{
+					string valore = await HUD.GetUserInput("Nome abbreviato", "", 7);
+					item.SetRightLabel(valore);
+				}
+				else if (item == prezzo)
+				{
+					string valore = await HUD.GetUserInput("Prezzo", "", 10);
+					item.SetRightLabel("$"+valore);
+					casaDummy.Price = Convert.ToInt32(prezzo);
+				}
+			};
+			#endregion
+
+			#region Gestione esterni
 
 			#region blip
 			UIMenu blip = selezionePunto.AddSubMenu("Posiziona Blip");
@@ -115,29 +183,30 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			UIMenuItem posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
 
-			marker.AddItem(markerIngressoCasa);
-			marker.AddItem(markerIngressoGarage);
-			marker.AddItem(markerIngressoTetto);
-			marker.AddItem(posCamera);
 
 			marker.OnItemSelect += (menu, item, index) =>
 			{
 				if (item == markerIngressoCasa)
 				{
 					markerIngrPiedi = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+					casaDummy.MarkerEntrata = markerIngrPiedi.Position;
 				}
 				else if (item == markerIngressoGarage)
 				{
 					markerIngrGarage = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+					casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
 				}
 				else if (item == markerIngressoTetto)
 				{
 					markerIngrTetto = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
+					casaDummy.MarkerTetto = markerIngrTetto.Position;
 				}
 				else if (item == posCamera)
 				{
 					CameraPosIngresso = MainCamera.Position;
 					CameraRotIngresso = MainCamera.CrosshairRaycast().HitPosition;
+					casaDummy.TelecameraFuori.pos = CameraPosIngresso;
+					casaDummy.TelecameraFuori.guarda = CameraRotIngresso;
 				}
 				item.MainColor = Colors.DarkGreen;
 				item.HighlightColor = Colors.GreenLight;
@@ -145,6 +214,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			};
 
 			#endregion
+
+			#endregion
+	
+			#region Gestione interni
 
 			#endregion
 
@@ -177,6 +250,22 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					}
 					else if (newmenu == marker)
 					{
+						marker.Clear();
+						switch (immobile)
+						{
+							case TipoImmobile.Casa:
+							case TipoImmobile.Condominio:
+							case TipoImmobile.Ufficio:
+								marker.AddItem(markerIngressoCasa);
+								marker.AddItem(markerIngressoGarage);
+								marker.AddItem(markerIngressoTetto);
+								marker.AddItem(posCamera);
+								break;
+							case TipoImmobile.Garage:
+								marker.AddItem(markerIngressoGarage);
+								marker.AddItem(posCamera);
+								break;
+						}
 						Client.Instance.AddTick(MarkerTick);
 						if (markerIngrPiedi == null)
 							markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
@@ -184,8 +273,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							 markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 						if (markerIngrTetto == null)
 							 markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
-						// aggiungere tick di gestione marker (ho creato gli item Marker)
-						// gestire Marker in base a dove punta la cam ma sempre per terra..
 					}
 				}
 				else if (state == MenuState.ChangeBackward)
