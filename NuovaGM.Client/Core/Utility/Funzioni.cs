@@ -409,7 +409,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Vector3 rotation = (float)(Math.PI / 180.0) * World.RenderingCamera.Rotation;
+				Vector3 rotation = (float)(Math.PI / 180.0) * GameplayCamera.Rotation;
 				return Vector3.Normalize(new Vector3((float)-Math.Sin(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Cos(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Sin(rotation.X)));
 			}
 			catch (Exception ex)
@@ -438,7 +438,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				return World.Raycast(World.RenderingCamera.Position, World.RenderingCamera.Position + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
+				return World.Raycast(GameplayCamera.Position, GameplayCamera.Position + distance * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
 			}
 			catch (Exception ex)
 			{
