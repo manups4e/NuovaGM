@@ -84,6 +84,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			selezionePunto.AddInstructionalButton(GDS);
 			selezionePunto.AddInstructionalButton(MuoviSG);
 			selezionePunto.AddInstructionalButton(MuoviSD);
+
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("3. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
 
@@ -216,11 +217,18 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#endregion
 
 			#endregion
-	
+
 			#region Gestione interni
 
+			UIMenuListItem interior = new UIMenuListItem("Interno preferito", new List<dynamic>() { "low", "mid", "high" }, 0);
+			gestioneInteriorCasa.AddItem(interior);
+			interior.OnListChanged += async (item, index) =>
+			{
+
+			};
 			#endregion
 
+			#region StateChanged
 			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
 				if(state == MenuState.Opened)
@@ -274,6 +282,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						if (markerIngrTetto == null)
 							 markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 					}
+					else if(newmenu == gestioneInteriorCasa)
+					{
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						SetPlayerControl(Game.Player.Handle, false, 256);
+						if (MainCamera == null)
+							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						MainCamera.IsActive = true;
+						RenderScriptCams(true, false, 1000, true, true);
+						MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
+						MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
+						SetFocusPosAndVel(266.8514f, -998.9061f, -97.92068f, 0, 0, 0);
+						Screen.Fading.FadeIn(500);
+					}
 				}
 				else if (state == MenuState.ChangeBackward)
 				{
@@ -296,8 +318,23 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						SetPlayerControl(Game.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 					}
+					else if (oldmenu == gestioneInteriorCasa)
+					{
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
+						{
+							RenderScriptCams(false, false, 1000, false, false);
+							MainCamera.IsActive = false;
+							MainCamera.Delete();
+						}
+						SetPlayerControl(Game.Player.Handle, true, 256);
+						Screen.Fading.FadeIn(500);
+					}
 				}
 			};
+			#endregion
+
 			creazione.Visible = true;
 		}
 
@@ -429,16 +466,17 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			}
 
 			/* Ci serve davvero ruotare la telecamera? :thinking:
-			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLb, PadCheck.Controller))
-			{
-				curRotation.Y += rotationSpeed; // rotazione verso sinistra
-				if (curRotation.Y > 179.999999999f) curRotation.Y = -180f;
-			}
-			if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRb, PadCheck.Controller))
-			{
-				curRotation.Y -= rotationSpeed; // rotazione verso destra
-				if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
-			}
+			 * 
+				if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLb, PadCheck.Controller))
+				{
+					curRotation.Y += rotationSpeed; // rotazione verso sinistra
+					if (curRotation.Y > 179.999999999f) curRotation.Y = -180f;
+				}
+				if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRb, PadCheck.Controller))
+				{
+					curRotation.Y -= rotationSpeed; // rotazione verso destra
+					if (curRotation.Y < -179.999999999f) curRotation.Y = 180f;
+				}
 			*/
 			if (!IsInputDisabled(2))
 			{
