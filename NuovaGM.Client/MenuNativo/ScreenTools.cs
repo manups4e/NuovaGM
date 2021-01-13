@@ -157,9 +157,9 @@ namespace TheLastPlanet.Client.MenuNativo
 		public static int GetLineCount(string text, Point position, CitizenFX.Core.UI.Font font, float scale, int wrap)
 		{
 			// Tell the game that we are going to request the number of lines
-			SetTextGxtEntry("CELL_EMAIL_BCON"); // _BEGIN_TEXT_COMMAND_LINE_COUNT
-												// Add the text that has been sent to us
-			UIResText.AddLongStringForUtf8(text); // ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME
+			BeginTextCommandLineCount("CELL_EMAIL_BCON"); // _BEGIN_TEXT_COMMAND_LINE_COUNT
+
+			UIResText.AddLongString(text);// Add the text that has been sent to us
 
 			// Get the resolution with the correct aspect ratio
 			SizeF res = ResolutionMaintainRatio;
@@ -187,11 +187,11 @@ namespace TheLastPlanet.Client.MenuNativo
 		public static int GetLineCount(string text, PointF position, CitizenFX.Core.UI.Font font, float scale, float wrap)
 		{
 			// Tell the game that we are going to request the number of lines
-			SetTextGxtEntry("CELL_EMAIL_BCON"); // _BEGIN_TEXT_COMMAND_LINE_COUNT
-												// Add the text that has been sent to us
-			UIResText.AddLongStringForUtf8(text); // ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME
+			BeginTextCommandLineCount("CELL_EMAIL_BCON"); // _BEGIN_TEXT_COMMAND_LINE_COUNT
 
-			// Get the resolution with the correct aspect ratio
+			// Add the text that has been sent to us
+			UIResText.AddLongString(text);// Add the text that has been sent to us
+										  // Get the resolution with the correct aspect ratio
 			SizeF res = ResolutionMaintainRatio;
 			// Calculate the x and y positions
 			float x = position.X / res.Width;
