@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CitizenFX.Core.Native;
 
 namespace TheLastPlanet.Server.Discord
 {
