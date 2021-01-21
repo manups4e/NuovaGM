@@ -41,6 +41,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			Ufficio,
 			Garage
 		}
+
 		public static async void MenuCreazioneCase()
 		{
 			ConfigCase casaDummy = new ConfigCase();
@@ -224,7 +225,32 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			gestioneInteriorCasa.AddItem(interior);
 			interior.OnListChanged += async (item, index) =>
 			{
-
+				Screen.Fading.FadeOut(800);
+				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+				if (MainCamera == null)
+					MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+				MainCamera.IsActive = true;
+				RenderScriptCams(true, false, 1000, true, true);
+				switch (index)
+				{
+					case 0:
+						MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
+						MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
+						IPLs.gta_online.GTAOHouseLow1.LoadDefault();
+						break;
+					case 1:
+						MainCamera.Position = new Vector3(346.7667f, -1000.168f, -98.29807f);
+						MainCamera.PointAt(new Vector3(343.5662f, -997.7629f, -99.28919f));
+						IPLs.gta_online.GTAOHouseMid1.LoadDefault();
+						break;
+					case 2:
+						MainCamera.Position = new Vector3(-1465.857f, -535.3416f, 74.20998f);
+						MainCamera.PointAt(new Vector3(-1467.427f, -544.514f, 72.46823f));
+						IPLs.gta_online.HLApartment1.Enabled = true;
+						IPLs.gta_online.HLApartment1.LoadDefault();
+						break;
+				}
+				Screen.Fading.FadeIn(500);
 			};
 			#endregion
 
@@ -293,7 +319,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						RenderScriptCams(true, false, 1000, true, true);
 						MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
 						MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
-						SetFocusPosAndVel(266.8514f, -998.9061f, -97.92068f, 0, 0, 0);
+						MainCamera.Position.SetFocus();
 						Screen.Fading.FadeIn(500);
 					}
 				}
@@ -322,19 +348,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					{
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						ClearFocus();
 						if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
 						{
 							RenderScriptCams(false, false, 1000, false, false);
 							MainCamera.IsActive = false;
-							MainCamera.Delete();
 						}
 						SetPlayerControl(Game.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 					}
 				}
+
+				RegisterKeyMapping("insert_command_here", "insert_description_here", "keyboard", "\\");
 			};
 			#endregion
-
 			creazione.Visible = true;
 		}
 
@@ -344,7 +371,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			float forwardPush = 0.8f;
 			if (GetGameTimer() - checkTimer > (int)Math.Ceiling(1000 / forwardPush))
-				SetFocusPosAndVel(curLocation.X, curLocation.Y, curLocation.Z, 0, 0, 0);
+				curLocation.SetFocus();
 
 
 			HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
