@@ -254,12 +254,29 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			{
 				Game.PlayerPed.Position = Data.location.position;
 				Game.PlayerPed.Heading = Data.location.h;
+				await BaseScript.Delay(1000);
+				Vector3 scene = new Vector3(2.5652f, 0, -4.1481f);
+				if (NewLoadSceneStart(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X), 4500.0f, 0))
+				{
+					int t = GetGameTimer();
+					while (!IsNewLoadSceneLoaded() && GetGameTimer() - t < 20) await BaseScript.Delay(0);
+					NewLoadSceneStop();
+					SetFocusPosAndVel(Data.location.position.X, Data.location.position.Y, Data.location.position.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X));
+				}
 				await BaseScript.Delay(2000);
 			}
 			else
 			{
 				Game.PlayerPed.Position = Main.firstSpawnCoords.ToVector3();
 				Game.PlayerPed.Heading = Main.firstSpawnCoords.W;
+				Vector3 scene = new Vector3(2.5652f, 0, -4.1481f);
+				if (NewLoadSceneStart(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X), 4500.0f, 0))
+				{
+					int t = GetGameTimer();
+					while (!IsNewLoadSceneLoaded() && GetGameTimer() - t < 20) await BaseScript.Delay(0);
+					NewLoadSceneStop();
+					SetFocusPosAndVel(Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z, -(Sin(scene.Z)) * Cos(scene.X), (Cos(scene.Z) * Cos(scene.X)), Sin(scene.X));
+				}
 				await BaseScript.Delay(2000);
 			}
 
@@ -302,11 +319,11 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			}));
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Game.PlayerPed.Handle);
-			Vector3 pos = await Game.PlayerPed.Position.GetVector3WithGroundZ();
-			Game.PlayerPed.Position = pos;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
+			Vector3 pos = await Game.PlayerPed.Position.GetVector3WithGroundZ();
+			Game.PlayerPed.Position = pos;
 			Client.Instance.RemoveTick(Controllo);
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(Game.PlayerPed.Handle, true, false);

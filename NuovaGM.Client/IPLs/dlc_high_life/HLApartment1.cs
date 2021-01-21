@@ -48,13 +48,13 @@ namespace TheLastPlanet.Client.IPLs.gta_online
 		public static void LoadDefault()
 		{
 			Enabled = true;
-			Strip.Enable(Strip.A, true);
+			Strip.Enable(Strip.A, false);
 			Strip.Enable(Strip.B, false);
 			Strip.Enable(Strip.C, false);
-			Booze.Enable(Booze.A, true);
+			Booze.Enable(Booze.A, false);
 			Booze.Enable(Booze.B, false);
 			Booze.Enable(Booze.C, false);
-			Smoke.Enable(Smoke.A, true);
+			Smoke.Enable(Smoke.A, false);
 			Smoke.Enable(Smoke.B, false);
 			Smoke.Enable(Smoke.C, false);
 			API.RefreshInterior(InteriorId);
