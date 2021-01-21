@@ -564,6 +564,15 @@ namespace TheLastPlanet.Shared
 			}
 		}
 
+		public static void SetFocus(this Vector3 pos)
+		{
+			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);
+		}
+		public static void SetFocus(this Vector4 pos)
+		{
+			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);
+		}
+
 #endif
 
 		public static PointF Add(this PointF c1, PointF c2)
