@@ -64,16 +64,6 @@ namespace TheLastPlanet.Server.Core
 			get
 			{
 				return char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
-				/*
-				for (int i = 0; i < char_data.Count; i++)
-				{
-					if ((char_current - 1) == char_data[i].id - 1)
-					{
-						return char_data[i];
-					}
-				}
-				return null;
-				*/
 			}
 		}
 
