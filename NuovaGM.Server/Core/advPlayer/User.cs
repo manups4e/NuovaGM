@@ -304,50 +304,24 @@ namespace TheLastPlanet.Server.Core
 		public bool hasWeapon(string weaponName)
 		{
 			return CurrentChar.weapons.Any(x => x.name == weaponName);
-			/*
-			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-			{
-				if (CurrentChar.weapons[i].name == weaponName)
-				{
-					return true;
-				}
-			}
-			return false;
-			*/
-			}
+		}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
 			var weapon = CurrentChar.weapons.FirstOrDefault(x => x.name == weaponName);
-			if(weapon != null)
-				return new Tuple<int, Weapons>(CurrentChar.weapons.IndexOf(weapon), weapon);
-			else
-				return new Tuple<int, Weapons>(0, null);
+			return weapon != null ? new Tuple<int, Weapons>(CurrentChar.weapons.IndexOf(weapon), weapon) : new Tuple<int, Weapons>(0, null);
 		}
 
 		public bool hasWeaponTint(string weaponName, int tint)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
-			if (weapon == null)
-				return false;
-
-			return weapon.tint == tint;
-			/*
-			if (weapon.tint == tint)
-			{
-				Debug.WriteLine("arma = " + weapon.tint + ", tint parametro = " + tint);
-				return true;
-			}
-			return false;
-			*/
+			return weapon != null && weapon.tint == tint;
 		}
 
 		public bool hasWeaponComponent(string weaponName, string weaponComponent)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
-			if (weapon == null)
-				return false;
-			return weapon.components.Any(x => x.name == weaponComponent);
+			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
 		[JsonIgnore]
