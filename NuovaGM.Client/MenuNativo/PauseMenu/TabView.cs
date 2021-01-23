@@ -85,6 +85,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                     API.TransitionFromBlurred(400);
                 }
                 _visible = value;
+                Game.Player.State.Set("Pausa", new { Attivo = value }, true);
             }
         }
         public void AddTab(TabItem item)

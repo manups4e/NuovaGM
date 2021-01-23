@@ -570,6 +570,15 @@ namespace TheLastPlanet.Server.Core
 
 		private static void Istanzia([FromSource] Player p, bool stanziato, int ServerIdProp, bool isprop, string instance)
 		{
+			var l = new
+			{
+				Stanziato = stanziato,
+				ServerIdProprietario = ServerIdProp,
+				IsProprietario = isprop,
+				Instance = instance
+			};
+			p.State.Set("Istanza", l, true);
+
 			p.GetCurrentChar().Istanza.Stanziato = stanziato;
 			p.GetCurrentChar().Istanza.ServerIdProprietario = ServerIdProp;
 			p.GetCurrentChar().Istanza.IsProprietario = isprop;
@@ -578,6 +587,14 @@ namespace TheLastPlanet.Server.Core
 
 		private static void RimuoviIstanza([FromSource] Player p)
 		{
+			var l = new
+			{
+				Stanziato = false,
+				ServerIdProprietario = 0,
+				IsProprietario = false,
+				Instance = string.Empty,
+			};
+			p.State.Set("Istanza", l, true);
 			p.GetCurrentChar().Istanza.Stanziato = false;
 			p.GetCurrentChar().Istanza.ServerIdProprietario = 0;
 			p.GetCurrentChar().Istanza.IsProprietario = false;

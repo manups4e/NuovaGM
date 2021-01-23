@@ -546,4 +546,5 @@ namespace TheLastPlanet.Shared
 			this.Player = player;
 		}
 	}
+
 }

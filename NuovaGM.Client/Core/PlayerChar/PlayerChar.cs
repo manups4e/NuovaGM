@@ -19,7 +19,8 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		public Identifiers identifiers;
 		public string lastConnection;
 		public Status status = new Status();
-		public stanziato Istanza = new stanziato();
+		[JsonIgnore]
+		public Istanza Istanza = new Istanza();
 		public List<Char_data> char_data = new List<Char_data>();
 		public dynamic data;
 		public Vector4 posizione = Vector4.Zero;
@@ -190,51 +191,93 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		public bool spawned = false;
 	}
 
-	public class stanziato
+	public class Istanza
 	{
-		public bool Stanziato;
-		public int ServerId;
-		public bool IsProprietario;
-		public string Instance = "";
+		public bool Stanziato { 
+			get 
+			{
+				return Game.Player.State["Istanza"].Stanziato;
+			}
+			set 
+			{
+				Game.Player.State["Istanza"].Stanziato = value;
+			}
+		}
+		public int ServerIdProprietario
+		{
+			get
+			{
+				return Game.Player.State["Istanza"].ServerId;
+			}
+			set
+			{
+				Game.Player.State["Istanza"].ServerId = value;
+			}
+		}
+		public bool IsProprietario
+		{
+			get 
+			{
+				return Game.Player.State["Istanza"].Proprietario;
+			}
+			set 
+			{
+				Game.Player.State["Istanza"].Proprietario = value;
+			}
+		}
+
+		public string Instance
+		{
+			get 
+			{
+				return Game.Player.State["Istanza"].Stanziato;
+			}
+			set 
+			{
+				Game.Player.State["Istanza"].Stanziato = value;
+			}
+		}
+
 		/// <summary>
 		/// Istanza generica
 		/// </summary>
 		public void Istanzia()
 		{
-			Stanziato = true;
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
-			ServerId = Game.Player.ServerId;
-			IsProprietario = true;
-			Instance = "null";
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, Instance);
+			var L = new { 
+				Stanziato = true,
+				ServerIdProprietario = Game.Player.ServerId,
+				IsProprietario = true,
+				Instance = string.Empty,
+			};
+			Game.Player.State.Set("Istanza", L, true);
 		}
 		/// <summary>
 		/// Istanza generica specificando quale Istanza
 		/// </summary>
 		public void Istanzia(string Instance)
 		{
-			Stanziato = true;
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", Game.Player.ServerId);
-			ServerId = Game.Player.ServerId;
-			IsProprietario = true;
-			this.Instance = Instance;
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, ServerId, IsProprietario, this.Instance);
+			var p  = new
+			{
+				Stanziato = true,
+				ServerIdProprietario = Game.Player.ServerId,
+				IsProprietario = true,
+				Instance,
+			};
+			Game.Player.State.Set("Istanza", p, true);
 		}
 		/// <summary>
 		/// Istanza specifica
 		/// </summary>
 		public void Istanzia(int ServerId, string Instance)
 		{
-			Stanziato = true;
-			Game.PlayerPed.SetDecor("PlayerStanziato", true);
-			var propr = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == ServerId);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", propr.ServerId);
-			this.ServerId = ServerId;
-			IsProprietario = false;
-			this.Instance = Instance;
-			BaseScript.TriggerServerEvent("lprp:istanzia", Stanziato, this.ServerId, IsProprietario, this.Instance);
+			var p = new
+			{
+				Stanziato = true,
+				ServerIdProprietario = ServerId,
+				IsProprietario = true,
+				Instance,
+			};
+			Game.Player.State.Set("Istanza", p, true);
 		}
 
 		/// <summary>
@@ -242,13 +285,14 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		/// </summary>
 		public void RimuoviIstanza()
 		{
-			Game.PlayerPed.SetDecor("PlayerStanziato", false);
-			Game.PlayerPed.SetDecor("PlayerStanziatoInIstanza", 0);
-			Stanziato = false;
-			ServerId = 0;
-			IsProprietario = false;
-			Instance = null;
-			BaseScript.TriggerServerEvent("lprp:rimuoviIstanza");
+			var p = new
+			{
+				Stanziato = false,
+				ServerIdProprietario = 0,
+				IsProprietario = false,
+				Instance = string.Empty,
+			};
+			Game.Player.State.Set("Istanza", p, true);
 		}
 
 		/// <summary>
@@ -268,8 +312,8 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		public void CambiaIstanza(int netId)
 		{
 			if (Stanziato)
-				if(ServerId != netId)
-					ServerId = netId;
+				if(ServerIdProprietario != netId)
+					ServerIdProprietario = netId;
 		}
 	}
 }

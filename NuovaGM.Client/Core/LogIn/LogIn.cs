@@ -114,7 +114,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
-				p.SetDecor("PlayerInPausa", false);
+				await BaseScript.Delay(100);
+				Game.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.SetDecor("PlayerAmmanettato", false);
 				p.SetDecor("PlayerInCasa", false);
 				p.SetDecor("PlayerInServizio", false);

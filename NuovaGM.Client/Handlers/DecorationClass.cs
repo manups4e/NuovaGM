@@ -27,9 +27,6 @@ namespace TheLastPlanet.Client
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
 
 			/* DECOR PLAYERS */
-			EntityDecoration.RegisterProperty("PlayerInPausa", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("PlayerStanziato", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("PlayerStanziatoInIstanza", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PlayerAmmanettato", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerInCasa", DecorationType.Bool);
 			EntityDecoration.RegisterProperty("PlayerInServizio", DecorationType.Bool);

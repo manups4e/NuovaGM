@@ -323,10 +323,15 @@ namespace TheLastPlanet.Client.Core
 				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
 			if (Game.IsPaused)
-				p.SetDecor("PlayerInPausa", true);
+			{
+				if (!Game.Player.State["Pausa"].Attivo)
+					Game.Player.State.Set("Pausa", new { Attivo = true }, true);
+			}
 			else
-				p.SetDecor("PlayerInPausa", false);
-
+			{
+				if (Game.Player.State["Pausa"].Attivo)
+					Game.Player.State.Set("Pausa", new { Attivo = false }, true);
+			}
 			pickupList.ForEach(x => RemoveAllPickupsOfType(Funzioni.HashUint(x)));
 			for (int i = 1; i < 16; i++) EnableDispatchService(i, false);
 		}

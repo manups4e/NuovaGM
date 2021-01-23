@@ -24,13 +24,16 @@ namespace TheLastPlanet.Server.Core
 		public DateTime lastConnection;
 		public Identifiers identifiers = new Identifiers();
 		public Status status = new Status();
-		public stanziato Istanza = new stanziato();
+		[JsonIgnore]
+		public Istanza Istanza;
 		public List<Char_data> char_data = new List<Char_data>();
 		public User() { }
 		[JsonIgnore]
 		public Player p;
 		public User(Player player, dynamic result)
 		{
+
+			Istanza = new Istanza(player);
 			identifiers.steam = License.GetLicense(player, Identifier.Steam);
 			identifiers.license = License.GetLicense(player, Identifier.License);
 			identifiers.discord = License.GetLicense(player, Identifier.Discord);
@@ -359,11 +362,145 @@ namespace TheLastPlanet.Server.Core
 		public bool spawned = false;
 	}
 
-	public class stanziato
+	public class Istanza
 	{
-		public bool Stanziato;
-		public int ServerIdProprietario;
-		public bool IsProprietario;
-		public string Instance;
+		Player player;
+		public Istanza(Player pl)
+		{
+			player = pl;
+			var p = new
+			{
+				Stanziato = false,
+				ServerIdProprietario = 0,
+				IsProprietario = false,
+				Instance = string.Empty,
+			};
+			player.State.Set("Istanza", p, true);
+
+		}
+		public bool Stanziato
+		{
+			get
+			{
+				return player.State["Istanza"].Stanziato;
+			}
+			set
+			{
+				player.State["Istanza"].Stanziato = value;
+			}
+		}
+		public int ServerIdProprietario
+		{
+			get
+			{
+				return player.State["Istanza"].ServerId;
+			}
+			set
+			{
+				player.State["Istanza"].ServerId = value;
+			}
+		}
+		public bool IsProprietario
+		{
+			get
+			{
+				return player.State["Istanza"].Proprietario;
+			}
+			set
+			{
+				player.State["Istanza"].Proprietario = value;
+			}
+		}
+
+		public string Instance
+		{
+			get
+			{
+				return player.State["Istanza"].Stanziato;
+			}
+			set
+			{
+				player.State["Istanza"].Stanziato = value;
+			}
+		}
+
+		/// <summary>
+		/// Istanza generica
+		/// </summary>
+		public void Istanzia()
+		{
+			var L = new
+			{
+				Stanziato = true,
+				ServerIdProprietario = Convert.ToInt32(player.Handle),
+				IsProprietario = true,
+				Instance = string.Empty,
+			};
+			player.State.Set("Istanza", L, true);
+		}
+		/// <summary>
+		/// Istanza generica specificando quale Istanza
+		/// </summary>
+		public void Istanzia(string Instance)
+		{
+			var p = new
+			{
+				Stanziato = true,
+				ServerIdProprietario = Convert.ToInt32(player.Handle),
+				IsProprietario = true,
+				Instance,
+			};
+			player.State.Set("Istanza", p, true);
+		}
+		/// <summary>
+		/// Istanza specifica
+		/// </summary>
+		public void Istanzia(int ServerId, string Instance)
+		{
+			var p = new
+			{
+				Stanziato = true,
+				ServerIdProprietario = ServerId,
+				IsProprietario = true,
+				Instance,
+			};
+			player.State.Set("Istanza", p, true);
+		}
+
+		/// <summary>
+		/// Rimuovi da istanza
+		/// </summary>
+		public void RimuoviIstanza()
+		{
+			var p = new
+			{
+				Stanziato = false,
+				ServerIdProprietario = 0,
+				IsProprietario = false,
+				Instance = string.Empty,
+			};
+			player.State.Set("Istanza", p, true);
+		}
+
+		/// <summary>
+		/// Cambia Istanza con una nuova (es. casa e garage)
+		/// </summary>
+		/// <param name="instance">Specifica quale istanza</param>
+		public void CambiaIstanza(string instance)
+		{
+			if (Stanziato)
+				if (Instance != instance)
+					Instance = instance;
+		}
+		/// <summary>
+		/// Cambia Proprietario dell'istanza
+		/// </summary>
+		/// <param name="netId">networkId del proprietario</param>
+		public void CambiaIstanza(int netId)
+		{
+			if (Stanziato)
+				if (ServerIdProprietario != netId)
+					ServerIdProprietario = netId;
+		}
 	}
 }

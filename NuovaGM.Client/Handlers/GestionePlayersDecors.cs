@@ -12,27 +12,26 @@ namespace TheLastPlanet.Client
 	{
 		public async static Task GestioneDecors()
 		{
-			Ped playerPed = Game.PlayerPed;
 			foreach (var player in Client.Instance.GetPlayers)
 			{
 				if (player.GetPlayerData() != null)
 				{
-					if (player.Character.HasDecor("PlayerStanziato"))
+					if (player.State["Istanza"].Stanziato)
 					{
-						if (player.Character.GetDecor<bool>("PlayerStanziato") || player.GetPlayerData().Istanza.Stanziato && player != Game.Player)
+						if (player.GetPlayerData().Istanza.Stanziato && player != Game.Player)
 						{
-							if (player.Character.HasDecor("PlayerStanziatoInIstanza") || player.GetPlayerData().Istanza.Instance != null)
+							if (player.GetPlayerData().Istanza.Instance != string.Empty)
 							{
-								if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || player.GetPlayerData().Istanza.ServerId != 0 || playerPed.GetDecor<int>("PlayerStanziatoInIstanza") != 0 || Game.Player.GetPlayerData().Istanza.ServerId != 0)
+								if (player.GetPlayerData().Istanza.ServerIdProprietario != 0 || Game.Player.GetPlayerData().Istanza.ServerIdProprietario != 0)
 								{
-									if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") != Game.Player.ServerId && playerPed.GetDecor<int>("PlayerStanziatoInIstanza") != player.ServerId || player.GetPlayerData().Istanza.ServerId != Game.Player.ServerId && Game.Player.GetPlayerData().Istanza.ServerId != player.ServerId)
+									if (player.GetPlayerData().Istanza.ServerIdProprietario != Game.Player.ServerId && Game.Player.GetPlayerData().Istanza.ServerIdProprietario != player.ServerId)
 									{
 										if (!NetworkIsPlayerConcealed(player.Handle))
 											NetworkConcealPlayer(player.Handle, true, true);
 									}
 									else
 									{
-										if (player.Character.GetDecor<int>("PlayerStanziatoInIstanza") == Game.Player.ServerId || playerPed.GetDecor<int>("PlayerStanziatoInIstanza") == player.ServerId || player.GetPlayerData().Istanza.ServerId == Game.Player.ServerId || Game.Player.ServerId == player.GetPlayerData().Istanza.ServerId)
+										if (player.GetPlayerData().Istanza.ServerIdProprietario == Game.Player.ServerId || Game.Player.ServerId == player.GetPlayerData().Istanza.ServerIdProprietario)
 										{
 											if (NetworkIsPlayerConcealed(player.Handle))
 												NetworkConcealPlayer(player.Handle, false, false);
@@ -57,12 +56,12 @@ namespace TheLastPlanet.Client
 								NetworkConcealPlayer(player.Handle, false, false);
 						}
 					}
-				}
-				if (player.Character.HasDecor("PlayerInPausa"))
-				{
-					if (player.Character.GetDecor<bool>("PlayerInPausa") && player != Game.Player)
-						if (player.Character.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 30))
-							HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+					if (player.State["Pausa"].Attivo)
+					{
+						if (player != Game.Player)
+							if (player.Character.IsInRangeOf(Game.Player.GetPlayerData().posizione.ToVector3(), 30))
+								HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+					}
 				}
 			}
 		}
