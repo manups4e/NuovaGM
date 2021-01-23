@@ -20,6 +20,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 {
 	static class PauseMenu
 	{
+		public static TabView MainMenu = new TabView("The Last Planet", "Full RP");
 		public static void Init()
 		{
 			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action<Ped>(LastPlanetMenu)));
@@ -162,7 +163,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			#endregion
 
-			TabView MainMenu = new TabView("The Last Planet", "Full RP")
+			MainMenu = new TabView("The Last Planet", "Full RP")
 			{
 				SideStringTop = Game.Player.Name,
 				SideStringMiddle = DateTime.Now.ToString(),

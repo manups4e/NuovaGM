@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client
 			TickAPiedi.Add(Spazzatura.ControlloSpazzatura);
 			TickAPiedi.Add(CacciatoreClient.ControlloCaccia);
 			TickAPiedi.Add(PescatoreClient.ControlloPesca);
-			TickAPiedi.Add(Hotels.ControlloHotel);
+			//TickAPiedi.Add(Hotels.ControlloHotel);
 			TickAPiedi.Add(Proprietà.Manager.MarkerFuori);
 			TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);
 			TickAPiedi.Add(DivaniEPosizioniSedute.SedieSiedi);

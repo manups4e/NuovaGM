@@ -10,6 +10,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Shared;
 using Logger;
+using System.Linq;
 
 namespace TheLastPlanet.Client.Proprietà.Hotel
 {
@@ -21,6 +22,14 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 		private static bool IsInAppartamento;
 		public static void Init()
 		{
+			for (int i = 0; i < Client.Impostazioni.Proprieta.hotels.Count; i++)
+			{
+				Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, Client.Impostazioni.Proprieta.hotels[i].Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.", null, action: new Action<Ped>(MenuHotel)));
+			}
+
+
+
+
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
 				Log.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
@@ -58,21 +67,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			}
 		}
 
-		public static async Task ControlloHotel()
+		private static async void MenuHotel(Ped _)
 		{
-			for (int i=0; i< Client.Impostazioni.Proprieta.hotels.Count; i++)
-			{
-				if (Game.PlayerPed.IsInRangeOf(Client.Impostazioni.Proprieta.hotels[i].Coords, 3f) && !HUD.MenuPool.IsAnyMenuOpen)
-				{
-					HUD.ShowHelp($"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.");
-					if (Input.IsControlJustPressed(Control.Context))
-						MenuHotel(Client.Impostazioni.Proprieta.hotels[i]);
-				}
-			}
-		}
-
-		private static async void MenuHotel(Hotel hotel)
-		{
+			var hotel = Client.Impostazioni.Proprieta.hotels.ToList().FirstOrDefault(x => _.IsInRangeOf(x.Coords, 3f));
 			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
@@ -139,7 +136,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
 				Game.Player.GetPlayerData().Istanza.Istanzia("Hotel");
-				Game.PlayerPed.SetDecor("PlayerInCasa", true);
+				//Game.PlayerPed.SetDecor("PlayerInCasa", true);
 				Screen.Fading.FadeIn(800);
 				Client.Instance.AddTick(GestioneHotel);
 			};
@@ -165,7 +162,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							Game.PlayerPed.SetDecor("PlayerInCasa", false);
+							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
@@ -187,7 +184,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							Game.PlayerPed.SetDecor("PlayerInCasa", false);
+							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
@@ -209,7 +206,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							Game.PlayerPed.SetDecor("PlayerInCasa", false);
+							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
 							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");

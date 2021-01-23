@@ -207,22 +207,22 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		{
 			get
 			{
-				return Game.Player.State["Istanza"].ServerId;
+				return Game.Player.State["Istanza"].ServerIdProprietario;
 			}
 			set
 			{
-				Game.Player.State["Istanza"].ServerId = value;
+				Game.Player.State["Istanza"].ServerIdProprietario = value;
 			}
 		}
 		public bool IsProprietario
 		{
 			get 
 			{
-				return Game.Player.State["Istanza"].Proprietario;
+				return Game.Player.State["Istanza"].IsProprietario;
 			}
 			set 
 			{
-				Game.Player.State["Istanza"].Proprietario = value;
+				Game.Player.State["Istanza"].IsProprietario = value;
 			}
 		}
 
@@ -230,11 +230,11 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		{
 			get 
 			{
-				return Game.Player.State["Istanza"].Stanziato;
+				return Game.Player.State["Istanza"].Instance;
 			}
 			set 
 			{
-				Game.Player.State["Istanza"].Stanziato = value;
+				Game.Player.State["Istanza"].Instance = value;
 			}
 		}
 

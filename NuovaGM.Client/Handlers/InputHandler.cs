@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.Handlers
 					}
 					else
 					{
-						if (Game.IsControlJustPressed(0, input.Control))
+						if (Game.IsControlJustPressed(0, input.Control) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							if (Input.IsControlModifierPressed(input.Modifier))
 							{

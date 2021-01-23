@@ -322,7 +322,7 @@ namespace TheLastPlanet.Client.Core
 				SetTaskPropertyBool(p.Handle, "isBlocked", blocked);
 				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
-			if (Game.IsPaused)
+			if (Game.IsPaused || (PauseMenu.MainMenu != null && PauseMenu.MainMenu.Visible))
 			{
 				if (!Game.Player.State["Pausa"].Attivo)
 					Game.Player.State.Set("Pausa", new { Attivo = true }, true);
