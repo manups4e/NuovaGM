@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <DebugType>portable</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>CLIENT</DefineConstants>
@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CONFIGURAZIONE\AConfig\" />
     <Folder Include="Lavori\Generici\Consegne\" />
   </ItemGroup>
 
