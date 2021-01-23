@@ -135,8 +135,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
-				Game.Player.GetPlayerData().Istanza.Istanzia("Hotel");
-				//Game.PlayerPed.SetDecor("PlayerInCasa", true);
+				Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Hotel");
+				Game.Player.GetPlayerData().StatiPlayer.InCasa = true;
 				Screen.Fading.FadeIn(800);
 				Client.Instance.AddTick(GestioneHotel);
 			};
@@ -162,8 +162,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
-							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -184,8 +184,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
-							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -206,8 +206,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							//Game.PlayerPed.SetDecor("PlayerInCasa", false);
-							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
 			spawned = true;
 			Game.Player.GetPlayerData().status.spawned = true;
@@ -146,7 +146,8 @@ namespace TheLastPlanet.Client.Core
 				var now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Game.Player.GetPlayerData().FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = -100;
-				playerPed.SetDecor("PlayerFinDiVita", true);
+				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
+
 			}
 			Peds();
 			for (int i = 0; i < tipi.Count; i++)
@@ -322,15 +323,15 @@ namespace TheLastPlanet.Client.Core
 				SetTaskPropertyBool(p.Handle, "isBlocked", blocked);
 				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
-			if (Game.IsPaused || (PauseMenu.MainMenu != null && PauseMenu.MainMenu.Visible))
+			if (Game.IsPaused)
 			{
-				if (!Game.Player.State["Pausa"].Attivo)
-					Game.Player.State.Set("Pausa", new { Attivo = true }, true);
+				if (!Game.Player.GetPlayerData().StatiPlayer.InPausa)
+					Game.Player.GetPlayerData().StatiPlayer.InPausa = true;
 			}
 			else
 			{
-				if (Game.Player.State["Pausa"].Attivo)
-					Game.Player.State.Set("Pausa", new { Attivo = false }, true);
+				if (Game.Player.GetPlayerData().StatiPlayer.InPausa)
+					Game.Player.GetPlayerData().StatiPlayer.InPausa = false;
 			}
 			pickupList.ForEach(x => RemoveAllPickupsOfType(Funzioni.HashUint(x)));
 			for (int i = 1; i < 16; i++) EnableDispatchService(i, false);

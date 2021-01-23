@@ -579,10 +579,10 @@ namespace TheLastPlanet.Server.Core
 			};
 			p.State.Set("Istanza", l, true);
 
-			p.GetCurrentChar().Istanza.Stanziato = stanziato;
-			p.GetCurrentChar().Istanza.ServerIdProprietario = ServerIdProp;
-			p.GetCurrentChar().Istanza.IsProprietario = isprop;
-			p.GetCurrentChar().Istanza.Instance = instance;
+			p.GetCurrentChar().StatiPlayer.Istanza.Stanziato = stanziato;
+			p.GetCurrentChar().StatiPlayer.Istanza.ServerIdProprietario = ServerIdProp;
+			p.GetCurrentChar().StatiPlayer.Istanza.IsProprietario = isprop;
+			p.GetCurrentChar().StatiPlayer.Istanza.Instance = instance;
 		}
 
 		private static void RimuoviIstanza([FromSource] Player p)
@@ -595,10 +595,10 @@ namespace TheLastPlanet.Server.Core
 				Instance = string.Empty,
 			};
 			p.State.Set("Istanza", l, true);
-			p.GetCurrentChar().Istanza.Stanziato = false;
-			p.GetCurrentChar().Istanza.ServerIdProprietario = 0;
-			p.GetCurrentChar().Istanza.IsProprietario = false;
-			p.GetCurrentChar().Istanza.Instance = null;
+			p.GetCurrentChar().StatiPlayer.Istanza.Stanziato = false;
+			p.GetCurrentChar().StatiPlayer.Istanza.ServerIdProprietario = 0;
+			p.GetCurrentChar().StatiPlayer.Istanza.IsProprietario = false;
+			p.GetCurrentChar().StatiPlayer.Istanza.Instance = null;
 		}
 	}
 }

@@ -398,7 +398,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
+				if (Game.Player.GetPlayerData().StatiPlayer.InServizio)
 					foreach(var morto in Morti)
 						morto.Value.Alpha = 255;
 				else

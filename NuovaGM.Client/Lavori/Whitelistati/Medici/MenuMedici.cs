@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
+			if (!Game.Player.GetPlayerData().StatiPlayer.InServizio)
 				cambio = new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.");
 			else
 				cambio = new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
-				if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio")) 
+				if (!Game.Player.GetPlayerData().StatiPlayer.InServizio) 
 				{
 					foreach (var Grado in Client.Impostazioni.Lavori.Medici.Gradi)
 					{
@@ -56,11 +56,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 							}
 						}
 					}
-					Game.PlayerPed.SetDecor("PlayerInServizio", true);
+					Game.Player.GetPlayerData().StatiPlayer.InServizio = true;
 				}
 				else
 				{
-					Game.PlayerPed.SetDecor("PlayerInServizio", false);
+					Game.Player.GetPlayerData().StatiPlayer.InServizio = false;
 					await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 				}
 				await BaseScript.Delay(500);
@@ -142,7 +142,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static bool InGarage = false;
 		public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
 		{
-			Game.Player.GetPlayerData().Istanza.Istanzia("SceltaVeicoliMedici");
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("SceltaVeicoliMedici");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
 			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async Task ControlloGarage()
 		{
 			Ped p = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().Istanza.Stanziato)
+			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
 				if (InGarage)
 				{
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+								Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.Instance.RemoveTick(ControlloGarage);
@@ -294,7 +294,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+						Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
 						Client.Instance.RemoveTick(ControlloGarage);
 					}

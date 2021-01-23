@@ -22,6 +22,7 @@ namespace TheLastPlanet.Client.Core
 		private static async Task RichPresence()
 		{
 			Ped playerPed = Game.PlayerPed;
+			Player player = Game.Player;
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			Vector3 PedCoords = Game.Player.GetPlayerData() == null ? playerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
@@ -121,7 +122,7 @@ namespace TheLastPlanet.Client.Core
 					SetRichPresence("Sta esplorando i fondali in un sottomarino");
 				else if (playerPed.IsAiming || playerPed.IsAimingFromCover || playerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
 					SetRichPresence("E' in uno scontro a fuoco");
-				else if (playerPed.HasDecor("PlayerAmmanettato") && playerPed.GetDecor<bool>("PlayerAmmanettato"))
+				else if (player.GetPlayerData().StatiPlayer.Ammanettato)
 					SetRichPresence("Legato o ammanettato");
 				else if (Main.IsDead)
 					SetRichPresence("Sta morendo");
@@ -131,7 +132,7 @@ namespace TheLastPlanet.Client.Core
 					SetRichPresence("Fa paracadutismo");
 				else if (IsPedStill(PlayerPedId()) || (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Speed == 0) && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
 					SetRichPresence("AFK in gioco");
-				else if (Game.IsPaused)
+				else if (player.GetPlayerData().StatiPlayer.InPausa)
 					SetRichPresence("In Pausa");
 				else if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
 					SetRichPresence("Sta pescando");

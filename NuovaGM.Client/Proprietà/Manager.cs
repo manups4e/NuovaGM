@@ -51,14 +51,14 @@ namespace TheLastPlanet.Client.Proprietà
 								await BaseScript.Delay(1000);
 								var pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 								BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.Serialize(includeEverything: true));
-								Game.Player.GetPlayerData().Istanza.Istanzia(app.Key);
+								Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia(app.Key);
 								await BaseScript.Delay(1000);
 								if (playerPed.CurrentVehicle.PassengerCount > 0)
 								{
 									foreach (var p in playerPed.CurrentVehicle.Passengers)
 									{
 										var pl = Funzioni.GetPlayerFromPed(p);
-										pl.GetPlayerData().Istanza.Istanzia(Game.Player.ServerId, Game.Player.GetPlayerData().Istanza.Instance);
+										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Game.Player.ServerId, Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance);
 										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 									}
 								}
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.Proprietà
 								}
 								foreach (var veh in Game.Player.GetPlayerData().CurrentChar.Veicoli)
 								{
-									if (veh.Garage.Garage == Game.Player.GetPlayerData().Istanza.Instance)
+									if (veh.Garage.Garage == Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance)
 									{
 										if (veh.Garage.InGarage)
 										{
@@ -133,11 +133,11 @@ namespace TheLastPlanet.Client.Proprietà
 		public static async Task MarkerDentro()
 		{
 			Ped playerPed = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().Istanza.Stanziato)
+			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
-				if (Proprietà.Appartamenti.ContainsKey(Game.Player.GetPlayerData().Istanza.Instance))
+				if (Proprietà.Appartamenti.ContainsKey(Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance))
 				{
-					var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().Istanza.Instance];
+					var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance];
 					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");

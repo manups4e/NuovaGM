@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Player killerPlayer = new Player(attackerPlayer);
 			if (victimPlayer == Game.Player)
 			{
-				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
+				victimPlayer.GetPlayerData().StatiPlayer.FinDiVita = true;
 				Vector3 victimCoords = victimPlayer.Character.Position;
 				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
@@ -73,7 +73,6 @@ namespace TheLastPlanet.Client.Core.Status
 			Ped attakcerPed = new Ped(attackerPed);
 			if(victimPlayer == Game.Player)
 			{
-				victimPlayer.Character.SetDecor("PlayerFinDiVita", true);
 				Vector3 victimCoords = victimPlayer.Character.Position;
 				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
@@ -99,7 +98,7 @@ namespace TheLastPlanet.Client.Core.Status
 				List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
 			}
 			else
 			{
@@ -108,7 +107,7 @@ namespace TheLastPlanet.Client.Core.Status
 				List<dynamic> data = new List<dynamic>() { killed, deathCause };
 				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
 			}
 		}
 
@@ -124,7 +123,7 @@ namespace TheLastPlanet.Client.Core.Status
 			data.Add(killerType);
 			data.Add(deathCoords);
 			data.Add(deathCause);
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", true);
+			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
 			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
 		}

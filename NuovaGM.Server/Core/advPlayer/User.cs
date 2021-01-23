@@ -25,7 +25,7 @@ namespace TheLastPlanet.Server.Core
 		public Identifiers identifiers = new Identifiers();
 		public Status status = new Status();
 		[JsonIgnore]
-		public Istanza Istanza;
+		public PlayerStateBags StatiPlayer;
 		public List<Char_data> char_data = new List<Char_data>();
 		public User() { }
 		[JsonIgnore]
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Server.Core
 		public User(Player player, dynamic result)
 		{
 
-			Istanza = new Istanza(player);
+			StatiPlayer = new PlayerStateBags(player);
 			identifiers.steam = License.GetLicense(player, Identifier.Steam);
 			identifiers.license = License.GetLicense(player, Identifier.License);
 			identifiers.discord = License.GetLicense(player, Identifier.Discord);
@@ -362,53 +362,135 @@ namespace TheLastPlanet.Server.Core
 		public bool spawned = false;
 	}
 
-	public class Istanza
+	public class PlayerStateBags
 	{
 		Player player;
-		public Istanza(Player pl)
+		public bool InPausa
+		{
+			get
+			{
+				return player.State["PlayerStates"].InPausa;
+			}
+			set
+			{
+				player.State["PlayerStates"].InPausa = value;
+			}
+		}
+		public bool Ammanettato
+		{
+			get
+			{
+				return player.State["PlayerStates"].Ammanettato;
+			}
+			set
+			{
+				player.State["PlayerStates"].Ammanettato = value;
+			}
+		}
+		public bool InCasa
+		{
+			get
+			{
+				return player.State["PlayerStates"].InCasa;
+			}
+			set
+			{
+				player.State["PlayerStates"].InCasa = value;
+			}
+		}
+		public bool InServizio
+		{
+			get
+			{
+				return player.State["PlayerStates"].InServizio;
+			}
+			set
+			{
+				player.State["PlayerStates"].InServizio = value;
+			}
+		}
+		public bool FinDiVita
+		{
+			get
+			{
+				return player.State["PlayerStates"].FinDiVita;
+			}
+			set
+			{
+				player.State["PlayerStates"].FinDiVita = value;
+			}
+		}
+		public bool AdminSpecta
+		{
+			get
+			{
+				return player.State["PlayerStates"].AdminSpecta;
+			}
+			set
+			{
+				player.State["PlayerStates"].AdminSpecta = value;
+			}
+		}
+		public Istanza Istanza;
+
+		public PlayerStateBags(Player pl)
 		{
 			player = pl;
-			var p = new
+			InPausa = false;
+			Istanza = new Istanza(pl)
 			{
 				Stanziato = false,
 				ServerIdProprietario = 0,
 				IsProprietario = false,
 				Instance = string.Empty,
 			};
-			player.State.Set("Istanza", p, true);
+			Ammanettato = false;
+			InCasa = false;
+			InServizio = false;
+			FinDiVita = false;
+			AdminSpecta = false;
+		}
 
+	}
+
+	public class Istanza
+	{
+		Player player;
+		public Istanza(Player pl)
+		{
+			player = pl;
 		}
 		public bool Stanziato
 		{
 			get
 			{
-				return player.State["Istanza"].Stanziato;
+				return player.State["PlayerStates"].Istanza.Stanziato;
 			}
 			set
 			{
-				player.State["Istanza"].Stanziato = value;
+				player.State["PlayerStates"].Istanza.Stanziato = value;
 			}
 		}
 		public int ServerIdProprietario
 		{
 			get
 			{
-				return player.State["Istanza"].ServerIdProprietario;
+				return player.State["PlayerStates"].Istanza.ServerIdProprietario;
 			}
 			set
 			{
-				player.State["Istanza"].ServerIdProprietario = value;
+				player.State["PlayerStates"].Istanza.ServerIdProprietario = value;
 			}
 		}
 		public bool IsProprietario
 		{
 			get
 			{
-				return player.State["Istanza"].IsProprietario;
+				return player.State["PlayerStates"].Istanza.IsProprietario;
 			}
 			set
 			{
-				player.State["Istanza"].IsProprietario = value;
+				player.State["PlayerStates"].Istanza.IsProprietario = value;
 			}
 		}
 
@@ -416,11 +498,11 @@ namespace TheLastPlanet.Server.Core
 		{
 			get
 			{
-				return player.State["Istanza"].Instance;
+				return player.State["PlayerStates"].Istanza.Instance;
 			}
 			set
 			{
-				player.State["Istanza"].Instance = value;
+				player.State["PlayerStates"].Istanza.Instance = value;
 			}
 		}
 
@@ -429,42 +511,30 @@ namespace TheLastPlanet.Server.Core
 		/// </summary>
 		public void Istanzia()
 		{
-			var L = new
-			{
-				Stanziato = true,
-				ServerIdProprietario = Convert.ToInt32(player.Handle),
-				IsProprietario = true,
-				Instance = string.Empty,
-			};
-			player.State.Set("Istanza", L, true);
+			Stanziato = true;
+			ServerIdProprietario = Convert.ToInt32(player.Handle);
+			IsProprietario = true;
+			Instance = string.Empty;
 		}
 		/// <summary>
 		/// Istanza generica specificando quale Istanza
 		/// </summary>
 		public void Istanzia(string Instance)
 		{
-			var p = new
-			{
-				Stanziato = true,
-				ServerIdProprietario = Convert.ToInt32(player.Handle),
-				IsProprietario = true,
-				Instance,
-			};
-			player.State.Set("Istanza", p, true);
+			Stanziato = true;
+			ServerIdProprietario = Convert.ToInt32(player.Handle);
+			IsProprietario = true;
+			this.Instance = Instance;
 		}
 		/// <summary>
 		/// Istanza specifica
 		/// </summary>
 		public void Istanzia(int ServerId, string Instance)
 		{
-			var p = new
-			{
-				Stanziato = true,
-				ServerIdProprietario = ServerId,
-				IsProprietario = true,
-				Instance,
-			};
-			player.State.Set("Istanza", p, true);
+			Stanziato = true;
+			ServerIdProprietario = ServerId;
+			IsProprietario = true;
+			this.Instance = Instance;
 		}
 
 		/// <summary>
@@ -472,14 +542,10 @@ namespace TheLastPlanet.Server.Core
 		/// </summary>
 		public void RimuoviIstanza()
 		{
-			var p = new
-			{
-				Stanziato = false,
-				ServerIdProprietario = 0,
-				IsProprietario = false,
-				Instance = string.Empty,
-			};
-			player.State.Set("Istanza", p, true);
+			Stanziato = false;
+			ServerIdProprietario = 0;
+			IsProprietario = false;
+			Instance = string.Empty;
 		}
 
 		/// <summary>

@@ -47,10 +47,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			Game.PlayerPed.SetDecor("PlayerAmmanettato", !Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"));
+			Game.Player.GetPlayerData().StatiPlayer.Ammanettato = !Game.Player.GetPlayerData().StatiPlayer.Ammanettato;
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
-			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			if (Game.Player.GetPlayerData().StatiPlayer.Ammanettato)
 			{
 				Game.PlayerPed.Task.ClearAll();
 				Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
@@ -82,12 +82,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		private static async void Accompagna(int ped)
 		{
 			Ped pol = (Ped)Entity.FromNetworkId(ped);
-			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			if (Game.Player.GetPlayerData().StatiPlayer.Ammanettato)
 				Game.PlayerPed.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 		}
 		private static async void TogliVeh()
 		{
-			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			if (Game.Player.GetPlayerData().StatiPlayer.Ammanettato)
 			{
 				if(Game.PlayerPed.IsInVehicle())
 					Game.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.None);	
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		}
 		private static async void MettiVeh()
 		{
-			if (Game.PlayerPed.GetDecor<bool>("PlayerAmmanettato"))
+			if (Game.Player.GetPlayerData().StatiPlayer.Ammanettato)
 			{
 				Vehicle closestVeh = Game.PlayerPed.GetClosestVehicle();
 				if(closestVeh.IsSeatFree(VehicleSeat.LeftRear))

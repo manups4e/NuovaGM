@@ -26,14 +26,6 @@ namespace TheLastPlanet.Client
 			EntityDecoration.RegisterProperty("PickupAccount", DecorationType.Int);
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
 
-			/* DECOR PLAYERS */
-			EntityDecoration.RegisterProperty("PlayerAmmanettato", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("PlayerInCasa", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("PlayerInServizio", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("PlayerFinDiVita", DecorationType.Bool);
-			EntityDecoration.RegisterProperty("AdminSpecta", DecorationType.Int);
-
-
 			/* DECOR LOCK */
 			EntityDecoration.LockProperties();
 			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);

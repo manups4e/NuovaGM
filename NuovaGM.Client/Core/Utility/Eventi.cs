@@ -183,7 +183,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			BaseScript.TriggerEvent("lprp:fineConteggio");
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
+			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
 			Screen.Fading.FadeIn(800);
 		}
 
@@ -287,7 +287,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			await BaseScript.Delay(1000);
 			Game.Player.GetPlayerData().posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
-			if (Game.Player.GetPlayerData().Istanza.Stanziato) return;
+			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato) return;
 			if (GetGameTimer() - timer >= 10000)
 			{
 				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.W);
@@ -387,18 +387,18 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		private static void Istanzia(bool stanziato, int serverId, bool isprop, string instance)
 		{
-			Game.Player.GetPlayerData().Istanza.Stanziato = stanziato;
-			Game.Player.GetPlayerData().Istanza.ServerIdProprietario = serverId;
-			Game.Player.GetPlayerData().Istanza.IsProprietario = isprop;
-			Game.Player.GetPlayerData().Istanza.Instance = instance;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato = stanziato;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario = serverId;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.IsProprietario = isprop;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance = instance;
 		}
 
 		private static void RimuoviIstanza()
 		{
-			Game.Player.GetPlayerData().Istanza.Stanziato = false;
-			Game.Player.GetPlayerData().Istanza.ServerIdProprietario = 0;
-			Game.Player.GetPlayerData().Istanza.IsProprietario = false;
-			Game.Player.GetPlayerData().Istanza.Instance = null;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato = false;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario = 0;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.IsProprietario = false;
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance = null;
 		}
 	}
 }

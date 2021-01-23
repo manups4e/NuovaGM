@@ -68,22 +68,22 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			UIMenuItem Uniforme = new UIMenuItem("");
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
-			if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && !PoliziaMainClient.InServizioDaPilota)
+			if (!Game.Player.GetPlayerData().StatiPlayer.InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && PoliziaMainClient.InServizioDaPilota)
+			else if (!Game.Player.GetPlayerData().StatiPlayer.InServizio && PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
 				Pilota = new UIMenuItem("Rimuovi la tuta da Pilota", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 			}
-			else if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio") && !PoliziaMainClient.InServizioDaPilota)
+			else if (Game.Player.GetPlayerData().StatiPlayer.InServizio && !PoliziaMainClient.InServizioDaPilota)
 			{
 				Uniforme = new UIMenuItem("Rimuovi l'uniforme", "Se ti cambi esci automaticamente dal servizio e le armi prese alla polizia verranno restituite!");
 				Pilota = new UIMenuItem("Indossa la tuta da Pilota", "Oggi lo piloti tu l'elicottero della liberta!");
 			}
-			else if (Game.PlayerPed.GetDecor<bool>("PlayerInServizio") || PoliziaMainClient.InServizioDaPilota)
+			else if (Game.Player.GetPlayerData().StatiPlayer.InServizio || PoliziaMainClient.InServizioDaPilota)
 			{
 				if (Game.PlayerPed.Armor < 1)
 					Giubbotto = new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita");
@@ -101,7 +101,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
 				if (item == Uniforme)
 				{
-					if (!Game.PlayerPed.GetDecor<bool>("PlayerInServizio"))
+					if (!Game.Player.GetPlayerData().StatiPlayer.InServizio)
 					{
 						foreach (var Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
 						{
@@ -121,12 +121,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								}
 							}
 						}
-						Game.PlayerPed.SetDecor("PlayerInServizio", true);
+						Game.Player.GetPlayerData().StatiPlayer.InServizio = true;
 					}
 					else
 					{
 						await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
-						Game.PlayerPed.SetDecor("PlayerInServizio", false);
+						Game.Player.GetPlayerData().StatiPlayer.InServizio = false;
 					}
 				}
 				else if (item == Pilota)
@@ -414,17 +414,17 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								BaseScript.TriggerServerEvent("lprp:polizia:ammanetta_smanetta", playerServerId);
 								break;
 							case UIMenuItem i when i == accompagna:
-								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato")) // rifare client-->server-->client
+								if (player.StatiPlayer.Ammanettato) // rifare client-->server-->client
 									BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, Game.PlayerPed.NetworkId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
 							case UIMenuItem i when i == mettiVeicolo:
-								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato")) // rifare client-->server-->client
+								if (player.StatiPlayer.Ammanettato) // rifare client-->server-->client
 									BaseScript.TriggerServerEvent("lprp:polizia:mettiVeicolo", playerServerId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
 							case UIMenuItem i when i == togliVeicolo: // rifare client-->server-->client
-								if (ClosestPed.GetDecor<bool>("PlayerAmmanettato"))
+								if (player.StatiPlayer.Ammanettato)
 									BaseScript.TriggerServerEvent("lprp:polizia:esciVeicolo", playerServerId);
 								else HUD.ShowNotification("Non è ammanettato!!");
 								break;
@@ -688,7 +688,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		private static bool InGarage = false;
 		public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
 		{
-			Game.Player.GetPlayerData().Istanza.Istanzia("SceltaVeicoliPolizia");
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("SceltaVeicoliPolizia");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
 			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -750,7 +750,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		private static async Task ControlloGarageNew()
 		{
 			Ped p = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().Istanza.Stanziato)
+			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
 				if (InGarage)
 				{
@@ -798,7 +798,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+								Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.Instance.RemoveTick(ControlloGarageNew);
@@ -847,7 +847,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+						Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
 						Client.Instance.RemoveTick(ControlloGarageNew);
 					}

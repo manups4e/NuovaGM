@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static async Task Markers()
 		{
 			Ped p = Game.PlayerPed;
-			if (!Game.Player.GetPlayerData().Istanza.Stanziato)
+			if (!Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
 				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
 				if (p.IsInRangeOf(house.Config.Ingresso, 1.375f))
@@ -45,13 +45,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Funzioni.Teleport(house.Config.Dentro);
-						Game.Player.GetPlayerData().Istanza.Istanzia("VenditoreCase");
+						Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("VenditoreCase");
 					}
 				}
 			}
 			else 
 			{
-				if (Game.Player.GetPlayerData().Istanza.Instance == "VenditoreCase")
+				if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance == "VenditoreCase")
 				{
 					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 					if (p.IsInRangeOf(house.Config.Uscita, 1.375f))
@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Funzioni.Teleport(house.Config.Fuori);
-							Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+							Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 						}
 					}
 				}

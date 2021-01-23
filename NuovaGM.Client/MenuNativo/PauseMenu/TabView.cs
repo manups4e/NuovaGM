@@ -5,6 +5,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using Font = CitizenFX.Core.UI.Font;
 
@@ -85,7 +86,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                     API.TransitionFromBlurred(400);
                 }
                 _visible = value;
-                Game.Player.State.Set("Pausa", new { Attivo = value }, true);
+                Game.Player.GetPlayerData().StatiPlayer.InPausa = value;
             }
         }
         public void AddTab(TabItem item)

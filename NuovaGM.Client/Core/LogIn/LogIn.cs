@@ -113,13 +113,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				var p = Game.PlayerPed;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
+				Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
 				Game.Player.State.Set("Pausa", new { Attivo = false }, true);
-				p.SetDecor("PlayerAmmanettato", false);
-				p.SetDecor("PlayerInCasa", false);
-				p.SetDecor("PlayerInServizio", false);
-				p.SetDecor("PlayerFinDiVita", false);
 				p.IsVisible = false;
 				p.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
@@ -267,14 +263,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Eventi.LoadModel();
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
-			Game.Player.GetPlayerData().Istanza.RimuoviIstanza();
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 			Game.PlayerPed.SetDecor("TheLastPlanet2019fighissimo!yeah!", Game.PlayerPed.Handle);
-			Game.Player.GetPlayerData().Istanza.Istanzia("Ingresso");
-			Game.PlayerPed.SetDecor("PlayerInPausa", false);
-			Game.PlayerPed.SetDecor("PlayerAmmanettato", false);
-			Game.PlayerPed.SetDecor("PlayerInCasa", false);
-			Game.PlayerPed.SetDecor("PlayerInServizio", false);
-			Game.PlayerPed.SetDecor("PlayerFinDiVita", false);
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
 
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();

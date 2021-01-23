@@ -173,14 +173,17 @@ namespace TheLastPlanet.Client
 					HideHud = false;
 				}
 			}
-			if (Game.Player.GetPlayerData().Istanza.Stanziato)
+			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
-				if (!InAppartamento)
+				if (Game.Player.GetPlayerData().StatiPlayer.InCasa)
 				{
-					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-					// verrà aggiunta gestione garage
-					TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
-					InAppartamento = true;
+					if (!InAppartamento)
+					{
+						TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
+						// verrà aggiunta gestione garage
+						TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
+						InAppartamento = true;
+					}
 				}
 			}
 			else
