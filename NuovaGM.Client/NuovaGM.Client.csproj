@@ -4,7 +4,7 @@
     <TargetFramework>net452</TargetFramework>
     <DebugType>portable</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
-    <DefineConstants>CLIENT</DefineConstants>
+    <DefineConstants>DEBUG;CLIENT</DefineConstants>
     <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <RootNamespace>TheLastPlanet.Client</RootNamespace>

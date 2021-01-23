@@ -24,6 +24,7 @@ namespace TheLastPlanet.Client
 	{
 		public static async void Init()
 		{
+			Client.Instance.AddTick(test);
 		}
 
 		private static async void AttivaMenu()
@@ -63,8 +64,13 @@ namespace TheLastPlanet.Client
 				};
 		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", Players);
 		*/
-		public static async Task TabsPauseMenu()
+		public static async Task test()
 		{
+			if (Game.Player.GetPlayerData() != null)
+			{
+				HUD.DrawText(0.35f, 0.7f, JsonConvert.SerializeObject(Game.Player.State["Istanza"]));
+				HUD.DrawText(0.35f, 0.725f, JsonConvert.SerializeObject(Game.Player.State["Pausa"]));
+			}
 			/*
 			b.ProcessControls();
 			b.Update();
