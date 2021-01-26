@@ -33,7 +33,6 @@ namespace TheLastPlanet.Server.Core
 		public User(Player player, dynamic result)
 		{
 
-			StatiPlayer = new PlayerStateBags(player);
 			identifiers.steam = License.GetLicense(player, Identifier.Steam);
 			identifiers.license = License.GetLicense(player, Identifier.License);
 			identifiers.discord = License.GetLicense(player, Identifier.Discord);
@@ -46,6 +45,7 @@ namespace TheLastPlanet.Server.Core
 			group_level = result.group_level;
 			playTime = result.playTime;
 			p = player;
+			StatiPlayer = new PlayerStateBags(player);
 			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
 		}
 
@@ -436,23 +436,27 @@ namespace TheLastPlanet.Server.Core
 		public PlayerStateBags(Player pl)
 		{
 			player = pl;
-			InPausa = false;
-			Istanza = new Istanza(pl)
+			Istanza = new Istanza(pl);
+			var baseBag = new
 			{
-				Stanziato = false,
-				ServerIdProprietario = 0,
-				IsProprietario = false,
-				Instance = string.Empty,
+				InPausa = false,
+				Istanza = new
+				{
+					Stanziato = false,
+					ServerIdProprietario = 0,
+					IsProprietario = false,
+					Instance = string.Empty,
+				},
+				Ammanettato = false,
+				InCasa = false,
+				InServizio = false,
+				FinDiVita = false,
+				AdminSpecta = false,
 			};
-			Ammanettato = false;
-			InCasa = false;
-			InServizio = false;
-			FinDiVita = false;
-			AdminSpecta = false;
+			player.State.Set("PlayerStates", baseBag, true);
 		}
-
 	}
-
+	
 	public class Istanza
 	{
 		Player player;

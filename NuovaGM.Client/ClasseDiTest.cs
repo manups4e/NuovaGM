@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client
 	{
 		public static async void Init()
 		{
-			//Client.Instance.AddTick(test);
+			Client.Instance.AddTick(test);
 		}
 
 		private static async void AttivaMenu()
@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client
 		{
 			if (Game.Player.GetPlayerData() != null)
 			{
-
+				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Game.Player.GetPlayerData().StatiPlayer.Istanza));
 			}
 			/*
 			b.ProcessControls();

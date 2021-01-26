@@ -175,15 +175,12 @@ namespace TheLastPlanet.Client
 			}
 			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 			{
-				if (Game.Player.GetPlayerData().StatiPlayer.InCasa)
+				if (!InAppartamento)
 				{
-					if (!InAppartamento)
-					{
-						TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-						// verrà aggiunta gestione garage
-						TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
-						InAppartamento = true;
-					}
+					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
+					// verrà aggiunta gestione garage
+					TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
+					InAppartamento = true;
 				}
 			}
 			else
