@@ -45,8 +45,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.AddEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
 			Client.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
 			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
-			Client.Instance.AddEventHandler("lprp:istanzia", new Action<bool, int, bool, string>(Istanzia));
-			Client.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action(RimuoviIstanza));
 			//Client.Instance.AddTick(Mappina);
 			timer = GetGameTimer();
 		}
@@ -383,22 +381,6 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 			}
 			Main.LoadoutLoaded = true;
-		}
-
-		private static void Istanzia(bool stanziato, int serverId, bool isprop, string instance)
-		{
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato = stanziato;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario = serverId;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.IsProprietario = isprop;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance = instance;
-		}
-
-		private static void RimuoviIstanza()
-		{
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato = false;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario = 0;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.IsProprietario = false;
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance = null;
 		}
 	}
 }

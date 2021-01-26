@@ -66,8 +66,6 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.AddEventHandler("lprp:istanzia", new Action<Player, bool, int, bool, string>(Istanzia));
-			Server.Instance.AddEventHandler("lprp:rimuoviIstanza", new Action<Player>(RimuoviIstanza));
 			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, dynamic>(GetPlayersOnline));
 			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
 			Server.Instance.RegisterServerCallback("cullingEntity", new Action<Player, Delegate, dynamic>(CullVehicleServer));
@@ -566,39 +564,6 @@ namespace TheLastPlanet.Server.Core
 				targetPlayer.p.TriggerEvent("lprp:riceviOggettoAnimazione");
 				targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");
 			}
-		}
-
-		private static void Istanzia([FromSource] Player p, bool stanziato, int ServerIdProp, bool isprop, string instance)
-		{
-			var l = new
-			{
-				Stanziato = stanziato,
-				ServerIdProprietario = ServerIdProp,
-				IsProprietario = isprop,
-				Instance = instance
-			};
-			p.State.Set("Istanza", l, true);
-
-			p.GetCurrentChar().StatiPlayer.Istanza.Stanziato = stanziato;
-			p.GetCurrentChar().StatiPlayer.Istanza.ServerIdProprietario = ServerIdProp;
-			p.GetCurrentChar().StatiPlayer.Istanza.IsProprietario = isprop;
-			p.GetCurrentChar().StatiPlayer.Istanza.Instance = instance;
-		}
-
-		private static void RimuoviIstanza([FromSource] Player p)
-		{
-			var l = new
-			{
-				Stanziato = false,
-				ServerIdProprietario = 0,
-				IsProprietario = false,
-				Instance = string.Empty,
-			};
-			p.State.Set("Istanza", l, true);
-			p.GetCurrentChar().StatiPlayer.Istanza.Stanziato = false;
-			p.GetCurrentChar().StatiPlayer.Istanza.ServerIdProprietario = 0;
-			p.GetCurrentChar().StatiPlayer.Istanza.IsProprietario = false;
-			p.GetCurrentChar().StatiPlayer.Istanza.Instance = null;
 		}
 	}
 }
