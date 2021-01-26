@@ -20,9 +20,14 @@ namespace TheLastPlanet.Client
 		private static int CurrentRequestId = 0;
 		public Client()
 		{
+			Inizializza();
+		}
+
+		private async void Inizializza()
+		{
 			EventHandlers.Add("lprp:serverCallBack", new Action<int, List<object>>(returnCallback));
 			Instance = this;
-			ClassCollector.Init();
+			await ClassCollector.Init();
 			foreach (KeyValuePair<string, EventHandlerEntry> ehd in EventHandlers)
 			{
 				Debug.WriteLine($"Found Eventhandler {ehd.Key}; resource {API.GetCurrentResourceName()}");

@@ -10,7 +10,7 @@ namespace TheLastPlanet.Client
 {
 	static class ClassCollector
 	{
-		public static async void Init()
+		public static async Task Init()
 		{
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
@@ -83,6 +83,7 @@ namespace TheLastPlanet.Client
 			Minimap.Init();
 			TickController.Init();
 			InputHandler.Init();
+			await Task.FromResult(0);
 		}
 	}
 }
