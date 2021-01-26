@@ -273,23 +273,6 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public Istanza Istanza = new Istanza();
 
-		public PlayerStateBags()
-		{
-			InPausa = false;
-			Istanza = new Istanza()
-			{
-				Stanziato = false,
-				ServerIdProprietario = 0,
-				IsProprietario = false,
-				Instance = string.Empty,
-			};
-			Ammanettato = false;
-			InCasa = false;
-			InServizio = false;
-			FinDiVita = false;
-			AdminSpecta = false;
-		}
-
 	}
 	public class Istanza
 	{
