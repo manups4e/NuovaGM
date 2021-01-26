@@ -263,7 +263,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				}
 				else if(state == MenuState.Closed)
 				{
-					Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+					if(Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance == "Creatore Immobiliare")
+						Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
 				}
 				else if (state == MenuState.ChangeForward)
 				{
