@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 	static class LogIn
 	{
 		public static bool guiEnabled = false;
-		private static List<Vector4> SelectFirstCoords = new List<Vector4>
+		public static List<Vector4> SelectFirstCoords = new List<Vector4>
 		{
 			new Vector4(-1503.000f, -1143.462f, 34.670f, 64.692f),
 			new Vector4(747.339f, 525.837f, 345.395f, 39.975f),
@@ -149,7 +149,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		}
 		#endregion
 
-		private static async void Attiva()
+		public static async void Attiva()
 		{
 			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Game.PlayerPed.Position + new Vector3(10));
 			dummyPed.IsVisible = false;

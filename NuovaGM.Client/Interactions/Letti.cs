@@ -7,6 +7,8 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
+using CitizenFX.Core.UI;
+using TheLastPlanet.Client.Core.Ingresso;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -42,7 +44,7 @@ namespace TheLastPlanet.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoMid.ScendiDalLetto();
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Attualmente non implementato :D <3");
+							CambiaPers();
 					}
 				}
 				if (p.IsInRangeOf(LettoLow.vLocal_343, 1.3f))
@@ -59,7 +61,7 @@ namespace TheLastPlanet.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoLow.ScendiDalLetto();
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Attualmente non implementato :D <3");
+						CambiaPers();
 					}
 				}
 
@@ -91,10 +93,44 @@ namespace TheLastPlanet.Client.Interactions
 						if (Input.IsControlJustPressed(Control.ScriptRUp))
 							LettoHigh.ScendiDalLetto(new Vector3[2] { coord, rot }, LettoHigh.ALettoDestra ? true : false);
 						else if (Input.IsControlJustPressed(Control.FrontendX))
-							HUD.ShowNotification("Attualmente non implementato :D <3");
+						CambiaPers();
 					}
 				}
 			}
+		}
+
+		private static async void CambiaPers()
+		{
+			HUD.MenuPool.CloseAllMenus();
+			Vector4 Random = LogIn.SelectFirstCoords[new Random(GetGameTimer()).Next(LogIn.SelectFirstCoords.Count - 1)];
+			int switchType = GetIdealPlayerSwitchType(Game.PlayerPed.Position.X, Game.PlayerPed.Position.Y, Game.PlayerPed.Position.Z, Random.X, Random.Y, Random.Z);
+			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
+			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
+			await BaseScript.Delay(3000);
+			
+			Game.PlayerPed.Position = new Vector3(Random.X, Random.Y, Random.Z - 1);
+			Game.PlayerPed.Heading = Random.W;
+			await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			Game.PlayerPed.Style.SetDefaultClothes();
+			while (!await Game.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
+			if (Screen.LoadingPrompt.IsActive)
+				Screen.LoadingPrompt.Hide();
+
+			SwitchInPlayer(PlayerPedId());
+
+			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
+			await BaseScript.Delay(100);
+			Game.Player.State.Set("Pausa", new { Attivo = false }, true);
+			Game.PlayerPed.IsVisible = false;
+			Game.PlayerPed.IsPositionFrozen = true;
+			Camera charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
+			SetGameplayCamRelativeHeading(0);
+			charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0f, -2, 0);
+			charSelectionCam.PointAt(Game.PlayerPed);
+			charSelectionCam.IsActive = true;
+			RenderScriptCams(true, false, 0, false, false);
+			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(10);
+			LogIn.Attiva();
 		}
 	}
 
@@ -129,7 +165,7 @@ namespace TheLastPlanet.Client.Interactions
 				if (!IsPedInAnyVehicle(PlayerPedId(), false) && !IsEntityOnFire(PlayerPedId()) && IsPlayerControlOn(PlayerId()))
 					if (!IsExplosionInSphere(-1, vParam0.X, vParam0.Y, vParam0.Z, 2f))
 						if (IsGameplayCamRendering() && !IsCinematicCamRendering())
-							if (Controllo2(Game.Player.GetPlayerData().posizione.ToVector3(), vParam0, fParam3, false))
+							if (Controllo2(Game.PlayerPed.Position, vParam0, fParam3, false))
 								return true;
 			return false;
 		}
@@ -179,6 +215,7 @@ namespace TheLastPlanet.Client.Interactions
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)
 				SetFollowPedCamViewMode(1);
+
 
 			if (Controllo1(vLocal_338, vVar0.X) && IsEntityInAngledArea(PlayerPedId(), vLocal_342.X, vLocal_342.Y, vLocal_342.Z, vLocal_345.X, vLocal_345.Y, vLocal_345.Z, 2f, false, true, 0) && NoPGVicini(vLocal_342, vLocal_345))
 			{
@@ -261,6 +298,7 @@ namespace TheLastPlanet.Client.Interactions
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)
 				SetFollowPedCamViewMode(1);
+
 			if (Controllo1(vLocal_343, vVar0.X) && IsEntityInAngledArea(PlayerPedId(), vLocal_337.X, vLocal_337.Y, vLocal_337.Z, vLocal_340.X, vLocal_340.Y, vLocal_340.Z, 2f, false, true, 0) && NoPGVicini(vLocal_337, vLocal_340))
 			{
 				vLocal_343 =  GetAnimInitialOffsetPosition(sLocal_333, sLocal_334, vLocal_347.X, vLocal_347.Y, vLocal_347.Z, vLocal_350.X, vLocal_350.Y, vLocal_350.Z, 0, 2);

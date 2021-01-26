@@ -5,6 +5,7 @@ using TheLastPlanet.Client.MenuNativo;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core.Ingresso;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -109,7 +110,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		/// <param name="helpText">Testo da mostrare</param>
 		public static void ShowHelp(string helpText)
 		{
-			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.guiEnabled)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
