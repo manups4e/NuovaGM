@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
+
 namespace Logger
 {
 	public enum LogType
@@ -31,8 +33,11 @@ namespace Logger
 					colore = "^2";
 					break;
 				case LogType.Debug:
-					err = "-- [DEBUG] -- ";
-					colore = "^5";
+					if (API.GetResourceMetadata(API.GetCurrentResourceName(), "enable_debug_prints_for_events", 0).ToLower() == "true")
+					{
+						err = "-- [DEBUG] -- ";
+						colore = "^5";
+					}
 					break;
 				case LogType.Warning:
 					err = "-- [ATTENZIONE] --";
