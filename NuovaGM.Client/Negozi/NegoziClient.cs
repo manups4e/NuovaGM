@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.Negozi
 {
@@ -30,6 +31,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptfs.Color = BlipColor.Green;
 				bliptfs.IsShortRange = true;
 				bliptfs.Name = "24/7";
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(tfs)));
 			}
 			foreach (var v in NegoziGenerici.rq)
 			{
@@ -40,6 +42,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptrq.Color = BlipColor.Green;
 				bliptrq.IsShortRange = true;
 				bliptrq.Name = "Robs Liquor";
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(rq)));
 			}
 			foreach (var v in NegoziGenerici.ltd)
 			{
@@ -50,6 +53,7 @@ namespace TheLastPlanet.Client.Negozi
 				blipltd.Color = BlipColor.Green;
 				blipltd.IsShortRange = true;
 				blipltd.Name = "Limited Gasoline";
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(ltd)));
 			}
 			foreach (var v in NegoziGenerici.armerie)
 			{
@@ -60,49 +64,21 @@ namespace TheLastPlanet.Client.Negozi
 				bliparmi.Color = BlipColor.Green;
 				bliparmi.IsShortRange = true;
 				bliparmi.Name = "Armeria";
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, action: new Action<Ped>(Armerie.NuovaArmeria)));
 			}
 		}
 
-		public static async Task OnTick()
+		private static void tfs(Ped _)
 		{
-			Ped p = Game.PlayerPed;
-			foreach (var v in NegoziGenerici.tfs)
-			{
-				if (p.IsInRangeOf(v, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						NegoziBusiness.NegozioPubblico("247");
-				}
-			}
-			foreach (var v in NegoziGenerici.rq)
-			{
-				if (p.IsInRangeOf(v, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						NegoziBusiness.NegozioPubblico("rq");
-				}
-			}
-			foreach (var v in NegoziGenerici.ltd)
-			{
-				if (p.IsInRangeOf(v, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						NegoziBusiness.NegozioPubblico("ltd");
-				}
-			}
-			foreach (var v in NegoziGenerici.armerie)
-			{
-				if (p.IsInRangeOf(v, 1.375f))
-				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accedere al negozio");
-					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
-						Armerie.NuovaArmeria();/*ArmeriaMenu*/
-				}
-			}
-			await Task.FromResult(0);
+			NegoziBusiness.NegozioPubblico("247");
+		}
+		private static void rq(Ped _)
+		{
+			NegoziBusiness.NegozioPubblico("rq");
+		}
+		private static void ltd(Ped _)
+		{
+			NegoziBusiness.NegozioPubblico("ltd");
 		}
 	}
 }

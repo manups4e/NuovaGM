@@ -6,7 +6,6 @@ using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Negozi
 {
