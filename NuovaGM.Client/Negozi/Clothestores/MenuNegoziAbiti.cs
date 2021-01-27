@@ -1724,7 +1724,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					Orologino.OnMenuStateChanged += (oldmenu, newmenu, state) =>
 					{
-						if (state == MenuState.Opened)
+						if (state == MenuState.ChangeForward)
 						{
 							SetPedPropIndex(PlayerPedId(), 6, orologio.Modello, 0, false);
 							IntOrolAtt = orologio.Modello;
@@ -1947,7 +1947,7 @@ namespace TheLastPlanet.Client.Negozi
 
 			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
-				if(state == MenuState.Closed)
+				if(state == MenuState.Closed && oldmenu == MenuAccessori)
 				{
 					await BaseScript.Delay(200);
 					for (int i = 0; i < SubMenusCapp.Count; i++) if (SubMenusCapp[i].Visible) return;
@@ -2027,40 +2027,40 @@ namespace TheLastPlanet.Client.Negozi
 						await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
 						Game.PlayerPed.Task.LookAt(NegozioAbitiClient.camm.Position);
 					}
-				}
-				else if (oldmenu == Brac)
-				{
-					PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
-					StartAnim(anim, "try_shirt_base");
-				}
-				else if (oldmenu == Orol)
-				{
-					await BaseScript.Delay(200);
-					for (int i = 0; i < SubMenusPolso.Count; i++)
+					else if (oldmenu == Brac)
 					{
-						if (SubMenusPolso[i].Visible)
-							return;
+						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+						await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+						StartAnim(anim, "try_shirt_base");
 					}
-					PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
-					StartAnim(anim, "try_shirt_base");
-				}
-				else if (oldmenu == Polso)
-				{
-					PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-					await BaseScript.Delay(100);
-					for (int i = 0; i < SubMenusPolso.Count; i++) if (SubMenusPolso[i].Visible) return;
-					do
+					else if (oldmenu == Orol)
 					{
-						await BaseScript.Delay(0);
-						fov += .7f;
-						if (fov > 45f)
-							fov = 45f;
-						NegozioAbitiClient.camm.FieldOfView = fov;
-					} while (fov < 45f);
-					StartAnim(anim, "try_shirt_base");
-					await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+						await BaseScript.Delay(200);
+						for (int i = 0; i < SubMenusPolso.Count; i++)
+						{
+							if (SubMenusPolso[i].Visible)
+								return;
+						}
+						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+						await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+						StartAnim(anim, "try_shirt_base");
+					}
+					else if (oldmenu == Polso)
+					{
+						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
+						await BaseScript.Delay(100);
+						for (int i = 0; i < SubMenusPolso.Count; i++) if (SubMenusPolso[i].Visible) return;
+						do
+						{
+							await BaseScript.Delay(0);
+							fov += .7f;
+							if (fov > 45f)
+								fov = 45f;
+							NegozioAbitiClient.camm.FieldOfView = fov;
+						} while (fov < 45f);
+						StartAnim(anim, "try_shirt_base");
+						await UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+					}
 				}
 			};
 			MenuAccessori.Visible = true;
