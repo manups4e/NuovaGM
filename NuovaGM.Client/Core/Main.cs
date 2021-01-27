@@ -279,7 +279,7 @@ namespace TheLastPlanet.Client.Core
 				p.Ragdoll(1);
 			if (pl.WantedLevel != 0)
 				pl.WantedLevel = 0;
-			DisablePlayerVehicleRewards(PlayerId());
+			DisablePlayerVehicleRewards(pl.Handle);
 			SetPedMinGroundTimeForStungun(p.Handle, 8000);
 			if (p.IsInVehicle())
 			{

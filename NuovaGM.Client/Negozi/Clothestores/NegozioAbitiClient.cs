@@ -5,6 +5,8 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Negozi
 {
@@ -19,6 +21,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async void Spawnato()
 		{
+	
 			foreach (var v in ConfigClothes.Binco)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z))
@@ -29,6 +32,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Binco's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(BincoVest)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(BincoScarpe)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(BincoPant)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(BincoOcchiali)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(BincoAccessori)));
 			}
 			foreach (var v in ConfigClothes.Discount)
 			{
@@ -40,6 +48,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Discount's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(DiscountVest)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(DiscountScarpe)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(DiscountPant)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(DiscountOcchiali)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(DiscountAccessori)));
 			}
 			foreach (var v in ConfigClothes.Suburban)
 			{
@@ -51,6 +64,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Suburban's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(SuburbanVest)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(SuburbanScarpe)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(SuburbanPant)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(SuburbanOcchiali)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(SuburbanAccessori)));
 			}
 			foreach (var v in ConfigClothes.Ponsombys)
 			{
@@ -62,6 +80,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Ponsombys"
 				};
 				SetBlipDisplay(blip.Handle, 4);
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(PonsombysVest)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(PonsombysScarpe)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(PonsombysPant)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(PonsombysOcchiali)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(PonsombysAccessori)));
 			}
 		}
 
@@ -88,7 +111,279 @@ namespace TheLastPlanet.Client.Negozi
 				RenderScriptCams(true, true, 1500, true, false);
 			}
 		}
+		#region BincoEvents
+		private static async void BincoVest(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
 
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
+			else
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
+			menu = true;
+		}
+
+		private static async void BincoScarpe(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
+			else
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
+
+			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
+			menu = true;
+		}
+		private static async void BincoPant(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
+			else
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
+			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
+			menu = true;
+		}
+		private static async void BincoOcchiali(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
+			else
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
+			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		private static async void BincoAccessori(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
+			else
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		#endregion
+
+		#region Discount Events
+		private static async void DiscountVest(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
+			else
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.DiscVest, "mp_clothing@female@shirt", "Discount");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
+			menu = true;
+		}
+
+		private static async void DiscountScarpe(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
+			else
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.DiscScarpe, "mp_clothing@female@Scarpe", "Discount");
+
+			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
+			menu = true;
+		}
+		private static async void DiscountPant(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
+			else
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.DiscPant, "mp_clothing@female@trousers", "Discount");
+			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
+			menu = true;
+		}
+		private static async void DiscountOcchiali(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
+			else
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Discount");
+			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		private static async void DiscountAccessori(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
+			else
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Discount");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		#endregion
+
+		#region Suburban Events
+		private static async void SuburbanVest(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
+			else
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.SubVest, "mp_clothing@female@shirt", "Suburban");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
+			menu = true;
+		}
+
+		private static async void SuburbanScarpe(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
+			else
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.SubScarpe, "mp_clothing@female@Scarpe", "Suburban");
+
+			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
+			menu = true;
+		}
+		private static async void SuburbanPant(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
+			else
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.SubPant, "mp_clothing@female@trousers", "Suburban");
+			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
+			menu = true;
+		}
+		private static async void SuburbanOcchiali(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
+			else
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Suburban");
+			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		private static async void SuburbanAccessori(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
+			else
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Suburban");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		#endregion
+
+		#region Ponsombys Events
+		private static async void PonsombysVest(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
+			else
+				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.PonsVest, "mp_clothing@female@shirt", "Ponsombys");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
+			menu = true;
+		}
+
+		private static async void PonsombysScarpe(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
+			else
+				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.PonsScarpe, "mp_clothing@female@Scarpe", "Ponsombys");
+
+			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
+			menu = true;
+		}
+		private static async void PonsombysPant(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
+			else
+				MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.PonsPant, "mp_clothing@female@trousers", "Ponsombys");
+			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
+			menu = true;
+		}
+		private static async void PonsombysOcchiali(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Ponsombys");
+			else
+				MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Ponsombys");
+			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		private static async void PonsombysAccessori(Ped p, Vector3 pos, float head)
+		{
+			p.Task.AchieveHeading(head);
+			while (p.Heading > head + 5f || p.Heading < head - 5f)
+				await BaseScript.Delay(0);
+
+			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
+			else
+				MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Ponsombys");
+			cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
+			menu = true;
+		}
+		#endregion
+
+		/*
 		public static async Task OnTick()
 		{
 			Ped p = Game.PlayerPed;
@@ -96,107 +391,6 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				foreach (var v in ConfigClothes.Binco)
 				{
-					if (p.IsInRangeOf(new Vector3(v.Vestiti.X, v.Vestiti.Y, v.Vestiti.Z), 0.8f))
-					{
-						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i vestiti");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							p.Task.AchieveHeading(v.Vestiti.W);
-							while (p.Heading > v.Vestiti.W + 5f || p.Heading < v.Vestiti.W - 5f) await BaseScript.Delay(0);
-
-							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
-							else
-								MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
-							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0, 0, 0), true, new Vector3(0));
-							menu = true;
-						}
-					}
-					else if (p.IsInRangeOf(new Vector3(v.Scarpe.X, v.Scarpe.Y, v.Scarpe.Z), 0.8f))
-					{
-						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le scarpe");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							p.Task.AchieveHeading(v.Scarpe.W);
-							while (p.Heading > v.Scarpe.W + 5f || p.Heading < v.Scarpe.W - 5f) await BaseScript.Delay(0);
-
-							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
-							else
-								MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
-
-							cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
-							menu = true;
-						}
-					}
-					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
-										{
-											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
-											if (Input.IsControlJustPressed(Control.Context))
-											{
-												p.Task.AchieveHeading(v.Maglie.W);
-												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Maschio");
-												else
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Femmina");
-												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
-												//menu = true;
-											}
-										}
-					*/
-					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
-					{
-						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							p.Task.AchieveHeading(v.Pantaloni.W);
-							while (p.Heading > v.Pantaloni.W + 5f || p.Heading < v.Pantaloni.W - 5f)
-								await BaseScript.Delay(0);
-
-							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
-							else
-								MenuNegoziAbiti.MenuPant(Client.Impostazioni.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
-							cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
-							menu = true;
-						}
-					}
-					else if (p.IsInRangeOf(new Vector3(v.Occhiali.X, v.Occhiali.Y, v.Occhiali.Z), 0.8f))
-					{
-						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli occhiali");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							p.Task.AchieveHeading(v.Occhiali.W);
-							while (p.Heading > v.Occhiali.W + 5f || p.Heading < v.Occhiali.W - 5f)
-								await BaseScript.Delay(0);
-
-							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
-							else
-								MenuNegoziAbiti.MenuOcchiali(Client.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
-							cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
-							menu = true;
-						}
-					}
-					else if (p.IsInRangeOf(new Vector3(v.Accessori.X, v.Accessori.Y, v.Accessori.Z), 0.8f))
-					{
-						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare gli accessori");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							p.Task.AchieveHeading(v.Accessori.W);
-							while (p.Heading > v.Accessori.W + 5f || p.Heading < v.Accessori.W - 5f)
-								await BaseScript.Delay(0);
-
-							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
-							else
-								MenuNegoziAbiti.MenuAccessori(Client.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
-							cam(24818, new Vector3(0.0f, 3.0f, 0.0f), new Vector3(0), true, new Vector3(0));
-							menu = true;
-						}
-					}
 				}
 				foreach (var v in ConfigClothes.Discount)
 				{
@@ -234,23 +428,6 @@ namespace TheLastPlanet.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
-										{
-											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
-											if (Input.IsControlJustPressed(Control.Context))
-											{
-												p.Task.AchieveHeading(v.Maglie.W);
-												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Maschio");
-												else
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Femmina");
-												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
-												//menu = true;
-											}
-										}
-					*/
 					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
@@ -339,23 +516,6 @@ namespace TheLastPlanet.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
-										{
-											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
-											if (Input.IsControlJustPressed(Control.Context))
-											{
-												p.Task.AchieveHeading(v.Maglie.W);
-												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Maschio");
-												else
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Femmina");
-												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
-												//menu = true;
-											}
-										}
-					*/
 					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
@@ -444,23 +604,6 @@ namespace TheLastPlanet.Client.Negozi
 							menu = true;
 						}
 					}
-					/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
-										{
-											Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
-											if (Input.IsControlJustPressed(Control.Context))
-											{
-												p.Task.AchieveHeading(v.Maglie.W);
-												if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Maschio");
-												else
-													//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
-													Debug.WriteLine("Femmina");
-												//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
-												//menu = true;
-											}
-										}
-					*/
 					else if (p.IsInRangeOf(new Vector3(v.Pantaloni.X, v.Pantaloni.Y, v.Pantaloni.Z), 0.8f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare i pantaloni");
@@ -499,7 +642,7 @@ namespace TheLastPlanet.Client.Negozi
 			}
 			await Task.FromResult(0);
 		}
-
+		*/
 		public static async Task Esci()
 		{
 			int id = PlayerPedId();
@@ -519,3 +662,24 @@ namespace TheLastPlanet.Client.Negozi
 		}
 	}
 }
+
+
+// PER LE MAGLIE
+
+/*					else if (p.IsInRangeOf(new Vector3(v.Maglie.X, v.Maglie.Y, v.Maglie.Z), 0.8f))
+					{
+						Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per guardare le Maglie");
+						if (Input.IsControlJustPressed(Control.Context))
+						{
+							p.Task.AchieveHeading(v.Maglie.W);
+							if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+								//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
+								Debug.WriteLine("Maschio");
+							else
+								//ApriMenu(Client.Impostazioni.Negozi.Abiti.Maschio);
+								Debug.WriteLine("Femmina");
+							//cam(24818, new Vector3(0), new Vector3(0), true, new Vector3(0));
+							//menu = true;
+						}
+					}
+*/

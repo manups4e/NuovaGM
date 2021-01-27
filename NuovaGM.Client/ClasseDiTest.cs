@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client
 		{
 			if (Game.Player.GetPlayerData() != null)
 			{
-				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Game.Player.GetPlayerData().StatiPlayer.Istanza));
+//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Game.Player.GetPlayerData().StatiPlayer.Istanza));
 			}
 			/*
 			b.ProcessControls();

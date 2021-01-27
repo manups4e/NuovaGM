@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client
 {
 	public class InputController
 	{
 		public Vector3 Position = Vector3.Zero;
+		public float W = -1f;
 		public Radius Radius;
 		public string InputMessage = null;
 		public Marker Marker = null;
@@ -32,6 +34,18 @@ namespace TheLastPlanet.Client
 			Modifier = modifier;
 			Action = action;
 			Position = position;
+			Radius = radius;
+			InputMessage = message;
+			Marker = marker;
+		}
+		public InputController(Control control, Vector4 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null)
+		{
+			Control = control;
+			Check = check;
+			Modifier = modifier;
+			Action = action;
+			Position = position.ToVector3();
+			W = position.W;
 			Radius = radius;
 			InputMessage = message;
 			Marker = marker;
