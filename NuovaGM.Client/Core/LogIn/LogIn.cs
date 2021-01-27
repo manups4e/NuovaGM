@@ -73,6 +73,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		#region INGRESSO NEL SERVER
 		public static async Task Entra()
 		{
+			await BaseScript.Delay(50);
 			if (NetworkIsSessionStarted())
 			{
 				BaseScript.TriggerServerEvent("lprp:setupUser");
