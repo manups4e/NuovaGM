@@ -47,24 +47,15 @@ namespace TheLastPlanet.Client.Handlers
 										switch (input.Check)
 										{
 											case PadCheck.Any:
-												if(input.W != -1)
-													input.Action.DynamicInvoke(p, input.Position, input.W);
-												else
-													input.Action.DynamicInvoke(p);
+												input.Action.DynamicInvoke(p, input.parameters);
 												break;
 											case PadCheck.Controller:
 												if (Input.WasLastInputFromController())
-													if (input.W != -1)
-														input.Action.DynamicInvoke(p, input.Position, input.W);
-													else
-														input.Action.DynamicInvoke(p);
+													input.Action.DynamicInvoke(p, input.parameters);
 												break;
 											case PadCheck.Keyboard:
 												if (!Input.WasLastInputFromController())
-													if (input.W != -1)
-														input.Action.DynamicInvoke(p, input.Position, input.W);
-													else
-														input.Action.DynamicInvoke(p);
+													input.Action.DynamicInvoke(p, input.parameters);
 												break;
 										}
 									}
@@ -81,15 +72,15 @@ namespace TheLastPlanet.Client.Handlers
 								switch (input.Check)
 								{
 									case PadCheck.Any:
-										input.Action.DynamicInvoke(p);
+										input.Action.DynamicInvoke(p, input.parameters);
 										break;
 									case PadCheck.Controller:
 										if (Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p);
+											input.Action.DynamicInvoke(p, input.parameters);
 										break;
 									case PadCheck.Keyboard:
 										if (!Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p);
+											input.Action.DynamicInvoke(p, input.parameters);
 										break;
 								}
 							}

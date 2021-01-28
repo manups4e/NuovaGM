@@ -32,11 +32,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Binco's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(BincoVest)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(BincoScarpe)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(BincoPant)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(BincoOcchiali)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(BincoAccessori)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoVest), v.Vestiti.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoScarpe), v.Scarpe.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
 			}
 			foreach (var v in ConfigClothes.Discount)
 			{
@@ -48,11 +48,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Discount's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(DiscountVest)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(DiscountScarpe)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(DiscountPant)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(DiscountOcchiali)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(DiscountAccessori)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountVest), v.Vestiti.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountScarpe), v.Scarpe.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
 			}
 			foreach (var v in ConfigClothes.Suburban)
 			{
@@ -64,11 +64,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Suburban's"
 				};
 				SetBlipDisplay(blip.Handle, 4);
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(SuburbanVest)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(SuburbanScarpe)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(SuburbanPant)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(SuburbanOcchiali)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(SuburbanAccessori)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanVest), v.Vestiti.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanScarpe), v.Scarpe.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
 			}
 			foreach (var v in ConfigClothes.Ponsombys)
 			{
@@ -80,11 +80,11 @@ namespace TheLastPlanet.Client.Negozi
 					Name = "Ponsombys"
 				};
 				SetBlipDisplay(blip.Handle, 4);
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, action: new Action<Ped, Vector3, float>(PonsombysVest)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, action: new Action<Ped, Vector3, float>(PonsombysScarpe)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, action: new Action<Ped, Vector3, float>(PonsombysPant)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, action: new Action<Ped, Vector3, float>(PonsombysOcchiali)));
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, action: new Action<Ped, Vector3, float>(PonsombysAccessori)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Vestiti, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(PonsombysVest), v.Vestiti.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Scarpe, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(PonsombysScarpe), v.Scarpe.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Pantaloni, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
 			}
 		}
 
@@ -112,10 +112,10 @@ namespace TheLastPlanet.Client.Negozi
 			}
 		}
 		#region BincoEvents
-		private static async void BincoVest(Ped p, Vector3 pos, float head)
+		private static async void BincoVest(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
@@ -125,10 +125,10 @@ namespace TheLastPlanet.Client.Negozi
 			menu = true;
 		}
 
-		private static async void BincoScarpe(Ped p, Vector3 pos, float head)
+		private static async void BincoScarpe(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
@@ -138,10 +138,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
 			menu = true;
 		}
-		private static async void BincoPant(Ped p, Vector3 pos, float head)
+		private static async void BincoPant(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -151,10 +151,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
 			menu = true;
 		}
-		private static async void BincoOcchiali(Ped p, Vector3 pos, float head)
+		private static async void BincoOcchiali(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -164,10 +164,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
 			menu = true;
 		}
-		private static async void BincoAccessori(Ped p, Vector3 pos, float head)
+		private static async void BincoAccessori(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -180,10 +180,10 @@ namespace TheLastPlanet.Client.Negozi
 		#endregion
 
 		#region Discount Events
-		private static async void DiscountVest(Ped p, Vector3 pos, float head)
+		private static async void DiscountVest(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
@@ -193,10 +193,10 @@ namespace TheLastPlanet.Client.Negozi
 			menu = true;
 		}
 
-		private static async void DiscountScarpe(Ped p, Vector3 pos, float head)
+		private static async void DiscountScarpe(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
@@ -206,10 +206,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
 			menu = true;
 		}
-		private static async void DiscountPant(Ped p, Vector3 pos, float head)
+		private static async void DiscountPant(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -219,10 +219,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
 			menu = true;
 		}
-		private static async void DiscountOcchiali(Ped p, Vector3 pos, float head)
+		private static async void DiscountOcchiali(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -232,10 +232,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
 			menu = true;
 		}
-		private static async void DiscountAccessori(Ped p, Vector3 pos, float head)
+		private static async void DiscountAccessori(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -248,10 +248,10 @@ namespace TheLastPlanet.Client.Negozi
 		#endregion
 
 		#region Suburban Events
-		private static async void SuburbanVest(Ped p, Vector3 pos, float head)
+		private static async void SuburbanVest(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
@@ -261,10 +261,10 @@ namespace TheLastPlanet.Client.Negozi
 			menu = true;
 		}
 
-		private static async void SuburbanScarpe(Ped p, Vector3 pos, float head)
+		private static async void SuburbanScarpe(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
@@ -274,10 +274,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
 			menu = true;
 		}
-		private static async void SuburbanPant(Ped p, Vector3 pos, float head)
+		private static async void SuburbanPant(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -287,10 +287,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
 			menu = true;
 		}
-		private static async void SuburbanOcchiali(Ped p, Vector3 pos, float head)
+		private static async void SuburbanOcchiali(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -300,10 +300,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
 			menu = true;
 		}
-		private static async void SuburbanAccessori(Ped p, Vector3 pos, float head)
+		private static async void SuburbanAccessori(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -316,10 +316,10 @@ namespace TheLastPlanet.Client.Negozi
 		#endregion
 
 		#region Ponsombys Events
-		private static async void PonsombysVest(Ped p, Vector3 pos, float head)
+		private static async void PonsombysVest(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(Client.Impostazioni.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
@@ -329,10 +329,10 @@ namespace TheLastPlanet.Client.Negozi
 			menu = true;
 		}
 
-		private static async void PonsombysScarpe(Ped p, Vector3 pos, float head)
+		private static async void PonsombysScarpe(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f) await BaseScript.Delay(0);
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(Client.Impostazioni.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
@@ -342,10 +342,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(14201, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.3f, 0.0f, 0.5f), false, new Vector3(0));
 			menu = true;
 		}
-		private static async void PonsombysPant(Ped p, Vector3 pos, float head)
+		private static async void PonsombysPant(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -355,10 +355,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(51826, new Vector3(0.0f, 1.5f, 1.0f), new Vector3(0.6f, 0.0f, 0.2f), false, new Vector3(0, 0, 0.2f));
 			menu = true;
 		}
-		private static async void PonsombysOcchiali(Ped p, Vector3 pos, float head)
+		private static async void PonsombysOcchiali(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
@@ -368,10 +368,10 @@ namespace TheLastPlanet.Client.Negozi
 			cam(31086, new Vector3(0.0f, 1.45f, 0.0f), new Vector3(0), true, new Vector3(0));
 			menu = true;
 		}
-		private static async void PonsombysAccessori(Ped p, Vector3 pos, float head)
+		private static async void PonsombysAccessori(Ped p, object[] args)
 		{
-			p.Task.AchieveHeading(head);
-			while (p.Heading > head + 5f || p.Heading < head - 5f)
+			p.Task.AchieveHeading((float)args[0]);
+			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f)
 				await BaseScript.Delay(0);
 
 			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")

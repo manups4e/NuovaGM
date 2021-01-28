@@ -136,7 +136,7 @@ namespace TheLastPlanet.Client.Banking
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
 			foreach (var pos in atmpos)
-				InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped>(ApriConto)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
 
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
 			AddTextEntry("HUD_CASH", "€~1~");
@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.Banking
 			await BaseScript.Delay(250);
 		}
 
-		static public void ApriConto(Ped _)
+		static public void ApriConto(Ped _, object[] args)
 		{
 			if (ClosestATM != null && !InterfacciaAperta)
 				AttivaBanca();

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -124,6 +125,13 @@ namespace TheLastPlanet.Client.Veicoli
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
 			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
+			for (int i = 0; i < carGarageSpots.Count; i++)
+			{
+				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i], new Radius(1.379f, 50f), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
+				{
+					MenuAffittoVeicoli.MenuAffitto((int)a[0]);
+				}), i));
+			}
 		}
 
 		public static async Task Lux()
@@ -616,6 +624,7 @@ namespace TheLastPlanet.Client.Veicoli
 			blip.Name = MenuAffittoVeicoli.veicoloInAffitto.name + " (In Affitto)";
 		}
 
+		/*
 		public static async Task MostraMenuAffitto()
 		{
 			Ped playerPed = Game.PlayerPed;
@@ -634,7 +643,7 @@ namespace TheLastPlanet.Client.Veicoli
 				}
 			}
 		}
-
+		*/
 		public static DateTime Affitto;
 		public static async Task AffittoInCorso()
 		{

@@ -23,12 +23,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 		public static void Init()
 		{
 			for (int i = 0; i < Client.Impostazioni.Proprieta.hotels.Count; i++)
-			{
-				Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, Client.Impostazioni.Proprieta.hotels[i].Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.", null, action: new Action<Ped>(MenuHotel)));
-			}
-
-
-
+				Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, Client.Impostazioni.Proprieta.hotels[i].Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{Client.Impostazioni.Proprieta.hotels[i].Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), Client.Impostazioni.Proprieta.hotels[i]));
 
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
@@ -67,9 +62,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			}
 		}
 
-		private static async void MenuHotel(Ped _)
+		private static async void MenuHotel(Ped _, object[] args)
 		{
-			var hotel = Client.Impostazioni.Proprieta.hotels.ToList().FirstOrDefault(x => _.IsInRangeOf(x.Coords, 3f));
+			Hotel hotel = (Hotel)args[0];
 			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");

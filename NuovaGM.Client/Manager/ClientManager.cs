@@ -85,23 +85,23 @@ namespace TheLastPlanet.Client.Manager
 			Client.Instance.AddEventHandler("lprp:manager:updateText", new Action<string, string>(UpdateText));
 			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
 			//Client.Instance.AddTick(AC);
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped>(AdminMenu)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped>(_NoClip)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, PadCheck.Keyboard, action: new Action<Ped>(Teleport)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport)));
 		}
 
-		private static void AdminMenu(Ped p)
+		private static void AdminMenu(Ped p, object[] args)
 		{
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
 		}
-		private static void Teleport(Ped p)
+		private static void Teleport(Ped p, object[] args)
 		{
 			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
 				TeleportToMarker();
 		}
 
-		private static async void _NoClip(Ped p)
+		private static async void _NoClip(Ped p, object[] args)
 		{
 			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 3)
 			{

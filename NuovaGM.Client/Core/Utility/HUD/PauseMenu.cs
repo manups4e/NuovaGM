@@ -23,9 +23,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static TabView MainMenu = new TabView("The Last Planet", "Full RP");
 		public static void Init()
 		{
-			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action<Ped>(LastPlanetMenu)));
+			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action<Ped, object[]>(LastPlanetMenu)));
 		}
-		private static async void LastPlanetMenu(Ped playerPed)
+		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
 			var pl = Game.Player.GetPlayerData();
 			TabInteractiveListItem HUD = null;

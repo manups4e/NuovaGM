@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client
 			//TickAPiedi.Add(NegozioAbitiClient.OnTick);
 			//TickAPiedi.Add(NegoziClient.OnTick);
 			TickAPiedi.Add(BarberClient.Sedie);
-			TickAPiedi.Add(VeicoliClient.MostraMenuAffitto);
+			//TickAPiedi.Add(VeicoliClient.MostraMenuAffitto);
 			TickAPiedi.Add(MediciMainClient.MarkersNonMedici);
 			TickAPiedi.Add(RimozioneClient.InizioLavoro);
 			TickAPiedi.Add(Macchinette.VendingMachines);

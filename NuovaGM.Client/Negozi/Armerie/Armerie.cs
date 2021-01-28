@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		static UIMenuItem attTi = null;
 
-		public static async void NuovaArmeria(Ped playerPed)
+		public static async void NuovaArmeria(Ped playerPed, object[] args)
 		{
 			UIMenu Armeria = new UIMenu(" ", "La drogheria delle armi", new System.Drawing.Point(0, 0), Main.Textures["AmmuNation"].Key, Main.Textures["AmmuNation"].Value);
 			HUD.MenuPool.Add(Armeria);

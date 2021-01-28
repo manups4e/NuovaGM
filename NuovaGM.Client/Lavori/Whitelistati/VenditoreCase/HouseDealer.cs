@@ -21,10 +21,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		{
 			house = Client.Impostazioni.Lavori.VenditoriCase;
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped>(Test)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
 		}
 
-		private static void Test(Ped playerPed)
+		private static void Test(Ped playerPed, object[] args)
 		{
 			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "venditorecase")
 				MenuCreazioneCasa.MenuCreazioneCase();

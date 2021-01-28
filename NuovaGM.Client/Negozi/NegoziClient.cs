@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptfs.Color = BlipColor.Green;
 				bliptfs.IsShortRange = true;
 				bliptfs.Name = "24/7";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(tfs)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(tfs)));
 			}
 			foreach (var v in NegoziGenerici.rq)
 			{
@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptrq.Color = BlipColor.Green;
 				bliptrq.IsShortRange = true;
 				bliptrq.Name = "Robs Liquor";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(rq)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(rq)));
 			}
 			foreach (var v in NegoziGenerici.ltd)
 			{
@@ -53,7 +53,7 @@ namespace TheLastPlanet.Client.Negozi
 				blipltd.Color = BlipColor.Green;
 				blipltd.IsShortRange = true;
 				blipltd.Name = "Limited Gasoline";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped>(ltd)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(ltd)));
 			}
 			foreach (var v in NegoziGenerici.armerie)
 			{
@@ -64,19 +64,19 @@ namespace TheLastPlanet.Client.Negozi
 				bliparmi.Color = BlipColor.Green;
 				bliparmi.IsShortRange = true;
 				bliparmi.Name = "Armeria";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, action: new Action<Ped>(Armerie.NuovaArmeria)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
 			}
 		}
 
-		private static void tfs(Ped _)
+		private static void tfs(Ped _, object[] args)
 		{
 			NegoziBusiness.NegozioPubblico("247");
 		}
-		private static void rq(Ped _)
+		private static void rq(Ped _, object[] args)
 		{
 			NegoziBusiness.NegozioPubblico("rq");
 		}
-		private static void ltd(Ped _)
+		private static void ltd(Ped _, object[] args)
 		{
 			NegoziBusiness.NegozioPubblico("ltd");
 		}

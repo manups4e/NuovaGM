@@ -20,14 +20,16 @@ namespace TheLastPlanet.Client
 		public PadCheck Check;
 		public ControlModifier Modifier;
 		public Delegate Action;
-		public InputController(Control control, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null)
+		public object[] parameters;
+		public InputController(Control control, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
 			Check = check;
 			Modifier = modifier;
 			Action = action;
+			parameters = args;
 		}
-		public InputController(Control control, Vector3 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null)
+		public InputController(Control control, Vector3 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
 			Check = check;
@@ -37,8 +39,9 @@ namespace TheLastPlanet.Client
 			Radius = radius;
 			InputMessage = message;
 			Marker = marker;
+			parameters = args;
 		}
-		public InputController(Control control, Vector4 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null)
+		public InputController(Control control, Vector4 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
 			Check = check;
@@ -49,6 +52,7 @@ namespace TheLastPlanet.Client
 			Radius = radius;
 			InputMessage = message;
 			Marker = marker;
+			parameters = args;
 		}
 	}
 
@@ -56,10 +60,10 @@ namespace TheLastPlanet.Client
 	{
 		public float Min;
 		public float Max;
-		public Radius(float min, float max)
+		public Radius(float minimo, float markerDistance)
 		{
-			Min = min;
-			Max = max;
+			Min = minimo;
+			Max = markerDistance;
 		}
 	}
 }
