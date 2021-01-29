@@ -33,6 +33,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem markerIngressoGarage;
 		private static UIMenuItem markerIngressoTetto;
 		private static UIMenuColorPanel blipColor;
+		private static Prop renderCamObject;
 		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
 		private enum TipoImmobile
 		{
@@ -231,25 +232,32 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 				MainCamera.IsActive = true;
 				RenderScriptCams(true, false, 1000, true, true);
+				if (renderCamObject == null)
+					renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
+				renderCamObject.IsVisible = false;
+				SetFocusEntity(renderCamObject.Handle);
+				Vector3 pos = Vector3.Zero;
+				Vector3 lookAt = Vector3.Zero;
 				switch (index)
 				{
 					case 0:
-						MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
-						MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
-						IPLs.gta_online.GTAOHouseLow1.LoadDefault();
+						pos = new Vector3(266.8514f, -998.9061f, -97.92068f);
+						lookAt = new Vector3(259.7751f, -998.6475f, -100.0068f);
 						break;
 					case 1:
-						MainCamera.Position = new Vector3(346.7667f, -1000.168f, -98.29807f);
-						MainCamera.PointAt(new Vector3(343.5662f, -997.7629f, -99.28919f));
-						IPLs.gta_online.GTAOHouseMid1.LoadDefault();
+						pos = new Vector3(346.7667f, -1000.168f, -98.29807f);
+						lookAt = new Vector3(343.5662f, -997.7629f, -99.28919f);
 						break;
 					case 2:
-						MainCamera.Position = new Vector3(-1465.857f, -535.3416f, 74.20998f);
-						MainCamera.PointAt(new Vector3(-1467.427f, -544.514f, 72.46823f));
-						IPLs.gta_online.HLApartment1.Enabled = true;
-						IPLs.gta_online.HLApartment1.LoadDefault();
+						pos = new Vector3(-1465.857f, -535.3416f, 74.20998f);
+						lookAt = new Vector3(-1467.427f, -544.514f, 72.46823f);
 						break;
 				}
+				renderCamObject.Position = pos;
+				PlaceObjectOnGroundProperly(renderCamObject.Handle);
+				MainCamera.Position = pos;
+				MainCamera.PointAt(lookAt);
+				await BaseScript.Delay(1000); // non voglio che i giocatori si ritrovino ad aspettare che carica.. così aspettano a schermo nero
 				Screen.Fading.FadeIn(500);
 			};
 			#endregion
@@ -349,6 +357,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					{
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						MainCamera.StopPointing();
 						ClearFocus();
 						if (MainCamera.Exists() && World.RenderingCamera == MainCamera)
 						{
@@ -359,8 +368,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Screen.Fading.FadeIn(500);
 					}
 				}
-
-				RegisterKeyMapping("insert_command_here", "insert_description_here", "keyboard", "\\");
 			};
 			#endregion
 			creazione.Visible = true;
