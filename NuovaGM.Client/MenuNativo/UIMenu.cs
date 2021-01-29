@@ -891,6 +891,7 @@ namespace TheLastPlanet.Client.MenuNativo
 		private SizeF DrawWidth { get; set; }
 		private bool ReDraw = true;
 		private SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
+		protected internal int _pressingTimer = 0;
 		internal readonly static string _selectTextLocalized = Game.GetGXTEntry("HUD_INPUT2");
 		internal readonly static string _backTextLocalized = Game.GetGXTEntry("HUD_INPUT3");
 
@@ -2144,25 +2145,46 @@ namespace TheLastPlanet.Client.MenuNativo
 			if (MenuItems.Count == 0) return;
 			if (IsControlBeingPressed(MenuControls.Up, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 			{
-				if (Size > MaxItemsOnScreen + 1)
-					await GoUpOverflow();
-				else
-					await GoUp();
+				if (API.GetGameTimer() - _pressingTimer > 175)
+				{
+					if (Size > MaxItemsOnScreen + 1)
+						GoUpOverflow();
+					else
+						GoUp();
+					UpdateScaleform();
+					_pressingTimer = API.GetGameTimer();
+				}
 			}
 
 			else if (IsControlBeingPressed(MenuControls.Down, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 			{
-				if (Size > MaxItemsOnScreen + 1)
-					await GoDownOverflow();
-				else
-					await GoDown();
+				if (API.GetGameTimer() - _pressingTimer > 175)
+				{
+					if (Size > MaxItemsOnScreen + 1)
+						GoDownOverflow();
+					else
+						GoDown();
+					UpdateScaleform();
+					_pressingTimer = API.GetGameTimer();
+				}
 			}
 
 			else if (IsControlBeingPressed(MenuControls.Left, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-				await GoLeft();
+			{
+				if (API.GetGameTimer() - _pressingTimer > 235)
+				{
+					GoLeft();
+					_pressingTimer = API.GetGameTimer();
+				}
+			}
 			else if (IsControlBeingPressed(MenuControls.Right, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
-				await GoRight();
-
+			{
+				if (API.GetGameTimer() - _pressingTimer > 235)
+				{
+					GoRight();
+					_pressingTimer = API.GetGameTimer();
+				}
+			}
 			else if (HasControlJustBeenPressed(MenuControls.Select, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 				SelectItem();
 
