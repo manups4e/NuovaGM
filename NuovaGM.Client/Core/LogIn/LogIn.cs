@@ -186,7 +186,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Game.PlayerPed;
-			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id-1 == Convert.ToInt32(data["slot"] as string));
+			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id == (int)data["id"]);
 			if (p1 != null)
 			{
 				Client.Instance.RemoveTick(Controllo);
@@ -221,7 +221,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			Game.Player.GetPlayerData().char_current = Convert.ToInt32(data["slot"] as string) + 1;
+			Game.Player.GetPlayerData().char_current = (int)data["id"];
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
 			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
 
