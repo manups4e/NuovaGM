@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
-    <DebugType>portable</DebugType>
+    <DebugType>embedded</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>DEBUG;CLIENT</DefineConstants>
     <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
