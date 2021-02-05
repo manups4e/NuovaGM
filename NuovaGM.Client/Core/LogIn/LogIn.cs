@@ -68,6 +68,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
+			Screen.Hud.IsRadarVisible = false;
 		}
 
 		#region INGRESSO NEL SERVER
