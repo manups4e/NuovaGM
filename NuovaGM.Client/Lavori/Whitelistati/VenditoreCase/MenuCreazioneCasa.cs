@@ -35,11 +35,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuColorPanel blipColor;
 		private static Prop renderCamObject;
 		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+		private static int interno = 0;
 		private enum TipoImmobile
 		{
 			Casa,
-			Condominio,
-			Ufficio,
 			Garage
 		}
 
@@ -66,7 +65,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			HUD.MenuPool.Add(creazione);
 			creazione.MouseControlsEnabled = false;
 
-			UIMenuListItem tipo = new UIMenuListItem("Tipo di immobile", new List<dynamic>() { "Casa", "Condominio", "Ufficio", "Garage" }, 0);
+			UIMenuListItem tipo = new UIMenuListItem("Tipo di immobile", new List<dynamic>() { "Casa", "Garage" }, 0);
 			creazione.AddItem(tipo);
 			tipo.OnListChanged += (item, index) =>
 			{
@@ -89,6 +88,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("3. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
+			UIMenu opzioniInterior = null;
 
 			#endregion
 
@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				else if (item == posCamera)
 				{
 					CameraPosIngresso = MainCamera.Position;
-					CameraRotIngresso = MainCamera.CrosshairRaycast().HitPosition;
+					CameraRotIngresso = MainCamera.CrosshairRaycast(1000).HitPosition;
 					casaDummy.TelecameraFuori.pos = CameraPosIngresso;
 					casaDummy.TelecameraFuori.guarda = CameraRotIngresso;
 				}
@@ -221,44 +221,433 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#endregion
 
 			#region Gestione interni
-
-			UIMenuListItem interior = new UIMenuListItem("Interno preferito", new List<dynamic>() { "low", "mid", "high" }, 0);
-			gestioneInteriorCasa.AddItem(interior);
-			interior.OnListChanged += async (item, index) =>
+			gestioneInteriorCasa.OnMenuStateChanged += async (_old, _new, _state) =>
 			{
-				Screen.Fading.FadeOut(800);
-				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-				if (MainCamera == null)
-					MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
-				MainCamera.IsActive = true;
-				RenderScriptCams(true, false, 1000, true, true);
-				if (renderCamObject == null)
-					renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
-				renderCamObject.IsVisible = false;
-				SetFocusEntity(renderCamObject.Handle);
-				Vector3 pos = Vector3.Zero;
-				Vector3 lookAt = Vector3.Zero;
-				switch (index)
+				UIMenuListItem interior = new UIMenuListItem("", new List<dynamic>() { "" }, 0);
+				if (_new == gestioneInteriorCasa)
 				{
-					case 0:
-						pos = new Vector3(266.8514f, -998.9061f, -97.92068f);
-						lookAt = new Vector3(259.7751f, -998.6475f, -100.0068f);
-						break;
-					case 1:
-						pos = new Vector3(346.7667f, -1000.168f, -98.29807f);
-						lookAt = new Vector3(343.5662f, -997.7629f, -99.28919f);
-						break;
-					case 2:
-						pos = new Vector3(-1465.857f, -535.3416f, 74.20998f);
-						lookAt = new Vector3(-1467.427f, -544.514f, 72.46823f);
-						break;
+					if (_state == MenuState.ChangeForward)
+					{
+						_new.Clear();
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						SetPlayerControl(Game.Player.Handle, false, 256);
+
+						if (immobile == TipoImmobile.Casa)
+							interior = new UIMenuListItem("Interno preferito", new List<dynamic>() { "Base", "Medio", "Alto [HighLife]", "Alto [2 piani]", "Alto [3 piani]", "Alto [Executive]" }, 0);
+						if (immobile == TipoImmobile.Garage)
+							interior = new UIMenuListItem("Interno preferito", new List<dynamic>() { "Base", "Medio [4]", "Medio [6]", "Alto [10]" }, 0);
+						gestioneInteriorCasa.AddItem(interior);
+						if(immobile == TipoImmobile.Casa)
+							opzioniInterior = gestioneInteriorCasa.AddSubMenu("Opzioni interno selezionato");
+
+						if (MainCamera == null)
+							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						MainCamera.IsActive = true;
+						RenderScriptCams(true, false, 1000, true, true);
+
+						if (renderCamObject == null)
+							renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
+						renderCamObject.IsVisible = false;
+
+						if (immobile == TipoImmobile.Casa)
+						{
+							SetFocusEntity(renderCamObject.Handle);
+							renderCamObject.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
+							PlaceObjectOnGroundProperly(renderCamObject.Handle);
+
+							MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
+							MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
+						}
+						else if (immobile == TipoImmobile.Garage)
+						{
+							SetFocusEntity(renderCamObject.Handle);
+							renderCamObject.Position = new Vector3(177.8964f, -1008.719f, -98.03687f);
+							PlaceObjectOnGroundProperly(renderCamObject.Handle);
+
+							MainCamera.Position = new Vector3(177.8964f, -1008.719f, -98.03687f);
+							MainCamera.PointAt(new Vector3(168.3609f, -1002.193f, -99.99992f));
+						}
+						Screen.Fading.FadeIn(500);
+					}
+
+
+					interior.OnListChanged += async (item, index) =>
+					{
+						Screen.Fading.FadeOut(800);
+						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
+						if (renderCamObject == null)
+							renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
+						renderCamObject.IsVisible = false;
+						if (MainCamera == null)
+							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						MainCamera.IsActive = true;
+						RenderScriptCams(true, false, 1000, true, true);
+
+						Vector3 pos = Vector3.Zero;
+						Vector3 lookAt = Vector3.Zero;
+						interno = index;
+						switch (index)
+						{
+							case 0:
+								if (immobile == TipoImmobile.Casa)
+								{
+									pos = new Vector3(266.8514f, -998.9061f, -97.92068f);
+									lookAt = new Vector3(259.7751f, -998.6475f, -100.0068f);
+								}
+								else if (immobile == TipoImmobile.Garage)
+								{
+									pos = new Vector3(177.8964f, -1008.719f, -98.03687f);
+									lookAt = new Vector3(168.3609f, -1002.193f, -99.99992f);
+								}
+								break;
+							case 1:
+								if (immobile == TipoImmobile.Casa)
+								{
+									pos = new Vector3(339.3684f, -992.7239f, -98.21723f);
+									lookAt = new Vector3(341.4973f, -999.5391f, -100.1962f);
+								}
+								else if (immobile == TipoImmobile.Garage)
+								{
+									pos = new Vector3(190.6334f, -1027.276f, -98.94763f);
+									lookAt = new Vector3(193.8157f, -1024.415f, -99.99996f);
+								}
+								break;
+							case 2:
+								if (immobile == TipoImmobile.Casa)
+								{
+
+									pos = new Vector3(-1465.857f, -535.3416f, 74.20998f);
+									lookAt = new Vector3(-1467.427f, -544.514f, 72.46823f);
+								}
+								else if (immobile == TipoImmobile.Garage)
+								{
+									pos = new Vector3(206.7423f, -993.4413f, -98.09858f);
+									lookAt = new Vector3(190.6937f, -1008.027f, -99.62811f);
+								}
+								break;
+							case 3:
+								if (immobile == TipoImmobile.Casa)
+								{
+									pos = new Vector3(-42.78862f, -571.4902f, 89.38699f);
+									lookAt = new Vector3(-35.83893f, -583.5001f, 88.47382f);
+								}
+								else if (immobile == TipoImmobile.Garage)
+								{
+									pos = new Vector3(220.5728f, -1007.01f, -98.10276f);
+									lookAt = new Vector3(225.9477f, -996.6439f, -99.9992f);
+								}
+								break;
+							case 4:
+								if (immobile == TipoImmobile.Casa)
+								{
+									pos = new Vector3(-169.7948f, 478.3921f, 138.4392f);
+									lookAt = new Vector3(-166.9105f, 485.8192f, 136.8266f);
+								}
+								break;
+							case 5:
+								if (immobile == TipoImmobile.Casa)
+								{
+									pos = new Vector3(-791.5707f, 343.7827f, 217.8111f);
+									lookAt = new Vector3(-784.6417f, 330.4529f, 216.0382f);
+								}
+								break;
+						}
+						renderCamObject.Position = pos;
+						PlaceObjectOnGroundProperly(renderCamObject.Handle);
+						MainCamera.Position = pos;
+						MainCamera.PointAt(lookAt);
+						await BaseScript.Delay(1000); // non voglio che i giocatori si ritrovino ad aspettare che carica.. così aspettano a schermo nero
+						Screen.Fading.FadeIn(500);
+					};
 				}
-				renderCamObject.Position = pos;
-				PlaceObjectOnGroundProperly(renderCamObject.Handle);
-				MainCamera.Position = pos;
-				MainCamera.PointAt(lookAt);
-				await BaseScript.Delay(1000); // non voglio che i giocatori si ritrovino ad aspettare che carica.. così aspettano a schermo nero
-				Screen.Fading.FadeIn(500);
+				else if (_new == opzioniInterior)
+				{
+					if (_state == MenuState.ChangeForward)
+					{
+						_new.Clear();
+						Log.Printa(LogType.Debug, "Interior = " + interno);
+						switch (interno)
+						{
+							#region Low
+							case 0: // low
+								if (immobile == TipoImmobile.Casa)
+								{
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.A, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.B, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.A, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.B, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.A, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.B, check, true);
+											IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+							#endregion
+							#region Mid
+							case 1:
+								if (immobile == TipoImmobile.Casa)
+								{
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.A, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.B, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.A, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.B, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.A, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.B, check, true);
+											IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+							#endregion
+							#region HighLife
+							case 2:
+								if (immobile == TipoImmobile.Casa)
+								{
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.A, check, true);
+											IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.B, check, true);
+											IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.A, check, true);
+											IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.B, check, true);
+											IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.A, check, true);
+											IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.B, check, true);
+											IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+							#endregion
+							#region OnlineHi
+							case 3:
+								if (immobile == TipoImmobile.Casa)
+								{
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.A, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.B, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.A, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.B, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.A, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.B, check, true);
+											IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+							#endregion
+							#region OnlineHouseHi
+							case 4:
+								if (immobile == TipoImmobile.Casa)
+								{
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.A, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.B, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.A, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.B, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.A, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.B, check, true);
+											IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+							#endregion
+							#region Executive
+							case 5:
+								if (immobile == TipoImmobile.Casa)
+								{
+									int idx = 0;
+									UIMenuListItem tema = new UIMenuListItem("Stile appartamento", new List<dynamic>() 
+									{
+										"Modern",
+										"Moody",
+										"Vibrant",
+										"Sharp",
+										"Monochrome",
+										"Seductive",
+										"Regal",
+										"Aqua",
+									}, 0); // cambiare index
+									UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", false); // cambiare checked
+									UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", false); // cambiare checked
+									UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", false); // cambiare checked
+									_new.AddItem(tema);
+									_new.AddItem(strip);
+									_new.AddItem(booze);
+									_new.AddItem(smoke);
+									tema.OnListChanged += async (item, index) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										idx = index;
+										switch (index)
+										{
+											case 0:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Modern, true);
+												break;
+											case 1:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Moody, true);
+												break;
+											case 2:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Vibrant, true);
+												break;
+											case 3:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Sharp, true);
+												break;
+											case 4:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Monochrome, true);
+												break;
+											case 5:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Seductive, true);
+												break;
+											case 6:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Regal, true);
+												break;
+											case 7:
+												IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Aqua, true);
+												break;
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+									_new.OnCheckboxChange += async (menu, item, check) =>
+									{
+										Screen.Fading.FadeOut(250);
+										await BaseScript.Delay(300);
+										if (item == strip)
+										{
+											IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.A, check, true);
+											IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.B, check, true);
+											IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.C, check, true);
+										}
+										else if (item == booze)
+										{
+											IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.A, check, true);
+											IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.B, check, true);
+											IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.C, check, true);
+										}
+										else if (item == smoke)
+										{
+											IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.A, check, true);
+											IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.B, check, true);
+											IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.C, check, true);
+										}
+										await BaseScript.Delay(500);
+										Screen.Fading.FadeIn(500);
+									};
+								}
+								break;
+								#endregion
+						}
+					}
+				}
 			};
 			#endregion
 
@@ -291,14 +680,16 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Client.Instance.AddTick(CreatorCameraControl);
 						Screen.Fading.FadeIn(500);
 					}
+					else if (newmenu == blip)
+					{
+						Client.Instance.AddTick(BlipMarker);
+					}
 					else if (newmenu == marker)
 					{
 						marker.Clear();
 						switch (immobile)
 						{
 							case TipoImmobile.Casa:
-							case TipoImmobile.Condominio:
-							case TipoImmobile.Ufficio:
 								marker.AddItem(markerIngressoCasa);
 								marker.AddItem(markerIngressoGarage);
 								marker.AddItem(markerIngressoTetto);
@@ -317,26 +708,16 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						if (markerIngrTetto == null)
 							 markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 					}
-					else if(newmenu == gestioneInteriorCasa)
-					{
-						Screen.Fading.FadeOut(800);
-						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-						SetPlayerControl(Game.Player.Handle, false, 256);
-						if (MainCamera == null)
-							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
-						MainCamera.IsActive = true;
-						RenderScriptCams(true, false, 1000, true, true);
-						MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
-						MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
-						MainCamera.Position.SetFocus();
-						Screen.Fading.FadeIn(500);
-					}
 				}
 				else if (state == MenuState.ChangeBackward)
 				{
 					if(oldmenu == marker)
 					{
 						Client.Instance.RemoveTick(MarkerTick);
+					}
+					else if (oldmenu == blip)
+					{
+						Client.Instance.RemoveTick(BlipMarker);
 					}
 					else if (oldmenu == selezionePunto)
 					{
@@ -574,6 +955,22 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				if (markerIngressoTetto.RightBadge != BadgeStyle.None)
 					markerIngrTetto.Draw();
+			}
+		}
+
+		private static async Task BlipMarker()
+		{
+			if(blipColor != null)
+			{
+				RaycastResult res = MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
+				Vector3 direction = res.HitPosition;
+				var pos = new Vector3(direction.X, direction.Y, curLocation.Z);
+				string val = (blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string);
+				World.DrawMarker((MarkerType)8, pos, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(5f), blipColor.CurrentColor, true, false, true, "blips", val.Substring(1, val.Length - 2).ToLower());
+				//metto un marker sotto
+				float z = 0;
+				GetGroundZFor_3dCoord(pos.X, pos.Y, pos.Z, ref z, false);
+				World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(direction.X, direction.Y, z), Vector3.Zero, Vector3.Zero, new Vector3(2f, 2f, (pos.Z - z)), Colors.White);
 			}
 		}
 	}
