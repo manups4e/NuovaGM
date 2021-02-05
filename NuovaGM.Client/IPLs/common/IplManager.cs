@@ -62,7 +62,10 @@ namespace TheLastPlanet.Client.IPLs
 					RequestIpl(s);
 			}
 			else
-				if (IsIplActive(s)) RemoveIpl(s);
+			{
+				if (IsIplActive(s))
+					RemoveIpl(s);
+			}
 		}
 
 		public static async Task<bool> LoadStreamedTextureDict(string texture)
