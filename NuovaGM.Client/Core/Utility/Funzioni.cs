@@ -458,6 +458,18 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			return default(RaycastResult);
 		}
+		public static RaycastResult CrosshairRaycast(this Camera cam, IntersectOptions options = IntersectOptions.Everything, float distance = 1000)
+		{
+			try
+			{
+				return World.Raycast(cam.Position, cam.Position + distance * GameplayCamForwardVector(cam), options, Game.PlayerPed);
+			}
+			catch (Exception ex)
+			{
+				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+			}
+			return default(RaycastResult);
+		}
 
 		public struct _RaycastResult
 		{
