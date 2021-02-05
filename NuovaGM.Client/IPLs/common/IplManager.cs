@@ -42,8 +42,15 @@ namespace TheLastPlanet.Client.IPLs
 		private static void _setIplPropState(int interior, string prop, bool state, bool refresh)
 		{
 			if (state)
-				if (!IsInteriorEntitySetActive(interior, prop)) ActivateInteriorEntitySet(interior, prop);
-				else if (IsInteriorEntitySetActive(interior, prop)) DeactivateInteriorEntitySet(interior, prop);
+			{
+				if (!IsInteriorEntitySetActive(interior, prop))
+					ActivateInteriorEntitySet(interior, prop);
+			}
+			else
+			{ 
+				if (IsInteriorEntitySetActive(interior, prop))
+					DeactivateInteriorEntitySet(interior, prop); 
+			}
 			if (refresh) RefreshInterior(interior);
 		}
 
