@@ -338,6 +338,10 @@ namespace TheLastPlanet.Client
 		public Vector3 SpawnGarageAPiediDentro;
 		public Vector4 SpawnGarageInVehFuori;
 		public int Price;
+		public int Stile = 0;
+		public bool Strip;
+		public bool Booze;
+		public bool Smoke;
 	}
 	public class ConfigCaseCamInt
 	{
