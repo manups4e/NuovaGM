@@ -51,17 +51,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			ConfigCase casaDummy = new ConfigCase();
 			casaDummy.VehCapacity = 2;
 			Garages garageDummy = new Garages();
-			#region InstructionalButtons
-			InstructionalButton MuoviSD = new InstructionalButton(Control.MoveLeftRight, "Muovi laterale");
-			InstructionalButton MuoviSG = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
-			InstructionalButton GDS = new InstructionalButton(Control.LookLeftRight, "Guarda sx / dx");
-			InstructionalButton GSG = new InstructionalButton(Control.LookUpDown, "Guarda su / giù");
-			InstructionalButton Sali = new InstructionalButton(Control.FrontendLt, "Sali");
-			InstructionalButton Scendi = new InstructionalButton(Control.FrontendRt, "Scendi");
-			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
-			InstructionalButton BlipColoreDX = new InstructionalButton(Control.FrontendRb, "Colore Dx");
-			InstructionalButton BlipColoreSX = new InstructionalButton(Control.FrontendLb, "Colore Sx");
-			#endregion
 			bool includiGarage = false;
 			bool includiTetto = false;
 			TipoImmobile immobile = TipoImmobile.Casa;
@@ -84,13 +73,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			UIMenu selezionePunto = creazione.AddSubMenu("2. Gestione esterni"); // NB: nome provvisorio
 			selezionePunto.MouseControlsEnabled = false;
-			selezionePunto.AddInstructionalButton(Velocità);
-			selezionePunto.AddInstructionalButton(Scendi);
-			selezionePunto.AddInstructionalButton(Sali);
-			selezionePunto.AddInstructionalButton(GSG);
-			selezionePunto.AddInstructionalButton(GDS);
-			selezionePunto.AddInstructionalButton(MuoviSG);
-			selezionePunto.AddInstructionalButton(MuoviSD);
 
 			UIMenu gestioneInteriorCasa = creazione.AddSubMenu("3. Gestione interni"); // NB: nome provvisorio
 			gestioneInteriorCasa.MouseControlsEnabled = false;
@@ -213,13 +195,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#region marker
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
 			marker.MouseControlsEnabled = false;
-			marker.AddInstructionalButton(Velocità);
-			marker.AddInstructionalButton(Scendi);
-			marker.AddInstructionalButton(Sali);
-			marker.AddInstructionalButton(GSG);
-			marker.AddInstructionalButton(GDS);
-			marker.AddInstructionalButton(MuoviSG);
-			marker.AddInstructionalButton(MuoviSD);
 
 			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
@@ -1009,8 +984,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			if (GetGameTimer() - checkTimer > (int)Math.Ceiling(1000 / forwardPush))
 				curLocation.SetFocus();
 
-
-			HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
+			string tast = $"~INPUTGROUP_MOVE~ per muoverti.\n~INPUTGROUP_LOOK~ per girare la telecamera.\n~INPUT_COVER~ ~INPUT_VEH_HORN~ per salire e scendere.\n~INPUT_FRONTEND_X~ per cambiare velocità.\nVelocità attuale: ~y~{travelSpeedStr}~w~.";
+			string gampa = $"~INPUTGROUP_MOVE~ per muoverti.\n~INPUTGROUP_LOOK~ per girare la telecamera.\n~INPUTGROUP_FRONTEND_TRIGGERS~ per salire e scendere.\n~INPUT_FRONTEND_X~ per cambiare velocità.\nVelocità attuale: ~y~{travelSpeedStr}~w~.";
+			if(IsInputDisabled(2))
+				HUD.ShowHelpNoMenu(tast);
+			else
+				HUD.ShowHelpNoMenu(gampa);
 
 			if (blipColor != null)
 			{
@@ -1114,14 +1093,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				if (z != 0 && curLocation.Z < z + 0.5f)
 					curLocation.Z = z + 0.5f;
 			}
-			if (Input.IsControlPressed(Control.FrontendLt))
+			if (Input.IsControlPressed(Control.FrontendLt, PadCheck.Controller) || Input.IsControlPressed(Control.Cover, PadCheck.Keyboard))
 			{
 				curLocation.Z += zVect;
-				if (z != 0 && curLocation.Z > 300)
-					curLocation.Z = 300;
+				if (z != 0 && curLocation.Z > z + 300)
+					curLocation.Z = z + 300;
 						
 			}
-			if (Input.IsControlPressed(Control.FrontendRt))
+			if (Input.IsControlPressed(Control.FrontendRt, PadCheck.Controller) || Input.IsControlPressed(Control.VehicleHorn, PadCheck.Keyboard))
 			{
 				curLocation.Z -= zVect;
 				if (curLocation.Z > z + 0.5f)

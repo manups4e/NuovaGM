@@ -36,8 +36,6 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				Client.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.Deserialize<ConfigCase>());
 			foreach (var a in garages)
 				Client.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.Deserialize<Garages>());
-
-			Log.Printa(LogType.Debug, JsonCase);
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)

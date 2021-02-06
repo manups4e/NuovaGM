@@ -116,6 +116,14 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
 			}
 		}
+		public static void ShowHelpNoMenu(string helpText)
+		{
+			if (!IsPlayerSwitchInProgress() && !LogIn.guiEnabled)
+			{
+				AddTextEntry("LastPlanetHelpText", helpText);
+				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
+			}
+		}
 
 		/// <summary>
 		/// Il testo che viene mostrato in alto a destra dello schermo
