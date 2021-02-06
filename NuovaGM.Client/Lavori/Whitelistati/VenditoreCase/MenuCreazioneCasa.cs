@@ -47,7 +47,29 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		public static async void MenuCreazioneCase()
 		{
-			Istanza oldInstance = new Istanza();
+			MainCamera = null;
+			travelSpeed = 0;
+			curLocation = Vector3.Zero;
+			curRotation = Vector3.Zero;
+			CameraPosIngresso = Vector3.Zero;
+			CameraRotIngresso = Vector3.Zero;
+			travelSpeedStr = "Media";
+			checkTimer = 0;
+			markerIngrPiedi = null;
+			markerIngrGarage = null;
+			markerIngrTetto = null;
+			markerIngressoCasa = null;
+			markerIngressoGarage = null;
+			markerIngressoTetto = null;
+			posCamera = null;
+			blipColor = null;
+			renderCamObject = null;
+			dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+			interno = 0;
+			abbreviazione = "";
+
+
+		Istanza oldInstance = new Istanza();
 			ConfigCase casaDummy = new ConfigCase();
 			casaDummy.VehCapacity = 2;
 			Garages garageDummy = new Garages();
@@ -195,7 +217,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			#region marker
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
 			marker.MouseControlsEnabled = false;
-
+			marker.SetKey(UIMenu.MenuControls.Select, Control.Attack);
 			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
