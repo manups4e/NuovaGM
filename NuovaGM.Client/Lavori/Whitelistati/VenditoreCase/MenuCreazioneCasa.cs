@@ -13,6 +13,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using Logger;
 using System.Drawing;
+using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
@@ -46,6 +47,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		public static async void MenuCreazioneCase()
 		{
+			Istanza oldInstance = new Istanza();
 			ConfigCase casaDummy = new ConfigCase();
 			casaDummy.VehCapacity = 2;
 			Garages garageDummy = new Garages();
@@ -104,14 +106,16 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					datiCasa.Clear();
 					UIMenuItem nomeImmobile = new UIMenuItem("Nome dell'immobile", "Sarebbe preferibile inserire la via e il numero civico nel nome, ma puoi decidere tu il nome come vuoi!");
 					UIMenuItem nomeAbbreviato = new UIMenuItem("Nome Abbreviato", "Per questioni di salvataggio, serve un nome abbreviato per indicizzare l'immobile nel catabase del giocatore.. ad esempio: 0232 Paleto Boulevard => 0232PB");
-					if (casaDummy.Label != null || garageDummy.Label != null)
+					if (immobile == TipoImmobile.Casa)
 					{
-						if (immobile == TipoImmobile.Casa)
+						if (casaDummy.Label != null)
 						{
-							nomeImmobile.SetRightLabel(casaDummy.Label.Length > 15 ? casaDummy.Label.Substring(0, 15) + "..." : casaDummy.Label);
 							nomeAbbreviato.SetRightLabel(abbreviazione);
 						}
-						else if (immobile == TipoImmobile.Garage)
+					}
+					else if (immobile == TipoImmobile.Garage)
+					{
+						if (garageDummy.Label != null)
 						{
 							nomeImmobile.SetRightLabel(garageDummy.Label.Length > 15 ? garageDummy.Label.Substring(0, 15) + "..." : garageDummy.Label);
 							nomeAbbreviato.SetRightLabel(abbreviazione);
@@ -233,11 +237,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						casaDummy.MarkerEntrata = markerIngrPiedi.Position;
 						casaDummy.SpawnFuori = markerIngrPiedi.Position;
 					}
-					else if (immobile == TipoImmobile.Garage)
-					{
-						garageDummy.MarkerEntrata = markerIngrPiedi.Position;
-						garageDummy.SpawnFuori = new Vector4(markerIngrPiedi.Position, 0);
-					}
 				}
 				else if (item == markerIngressoGarage)
 				{
@@ -246,6 +245,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					{
 						casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
 						casaDummy.SpawnGarageInVehFuori = new Vector4(markerIngrGarage.Position, 0);
+					}
+					else if (immobile == TipoImmobile.Garage)
+					{
+						garageDummy.MarkerEntrata = markerIngrGarage.Position;
+						garageDummy.SpawnFuori = new Vector4(markerIngrGarage.Position, 0);
 					}
 				}
 				else if (item == markerIngressoTetto)
@@ -795,12 +799,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				if(state == MenuState.Opened)
 				{
+					oldInstance = Game.Player.GetPlayerData().StatiPlayer.Istanza;
 					Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
 				}
 				else if(state == MenuState.Closed)
 				{
 					if(Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance == "Creatore Immobiliare")
 						Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+					Game.Player.GetPlayerData().StatiPlayer.Istanza = oldInstance;
 				}
 				else if (state == MenuState.ChangeForward)
 				{
@@ -810,7 +816,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 						if (MainCamera == null)
-							MainCamera = World.CreateCamera(Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+							MainCamera = World.CreateCamera(Vector3.Zero, new Vector3(0, 0, 0), 45f);
+						MainCamera.Position = Game.Player.GetPlayerData().posizione.ToVector3() + new Vector3(0, 0, 100);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						curLocation = MainCamera.Position;
@@ -942,6 +949,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 												if (casaDummy.MarkerTetto != Vector3.Zero)
 												{
 													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+													Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 													HUD.MenuPool.CloseAllMenus();
 												}
 												else HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", NotificationColor.Red, true);
@@ -949,6 +957,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 											else
 											{// non tetto incluso
 												BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+												Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 												HUD.MenuPool.CloseAllMenus();
 											}
 										}
@@ -976,6 +985,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 									if(garageDummy.TelecameraFuori.pos != Vector3.Zero && garageDummy.TelecameraFuori.guarda != Vector3.Zero)
 									{
 										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.Serialize(), abbreviazione);
+										Client.Impostazioni.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
 										HUD.MenuPool.CloseAllMenus();
 									}
 									else HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", NotificationColor.Red, true);
