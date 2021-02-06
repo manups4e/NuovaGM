@@ -21,10 +21,77 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	static class PauseMenu
 	{
 		public static TabView MainMenu = new TabView("The Last Planet", "Full RP");
+		private static readonly List<dynamic> filtri = new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" };
 		public static void Init()
 		{
 			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, action: new Action<Ped, object[]>(LastPlanetMenu)));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
+
+		private static async void Spawnato()
+		{
+			string effect = "None";
+			switch (Main.ImpostazioniClient.Filtro)
+			{
+				case "Matrix":
+					effect = "AirRaceBoost02";
+					break;
+				case "Matrix 1":
+					effect = "FranklinColorCodeBright";
+					break;
+				case "Matrix 2":
+					effect = "FranklinColorCodeBasic";
+					break;
+				case "Noir":
+					effect = "NG_filmnoir_BW01";
+					break;
+				case "Noir vintage":
+					effect = "NG_filmnoir_BW01";
+					break;
+				case "2019":
+					effect = "BikerFormFlash";
+					break;
+				case "Bianco e Nero":
+					effect = "BikerSPLASH?";
+					break;
+				case "Bianco e Nero 1":
+					effect = "MP_corona_heist_BW";
+					break;
+				case "Sgranato B/N":
+					effect = "CAMERA_BW";
+					break;
+				case "Sgranato a colori":
+					effect = "Dont_tazeme_bro";
+					break;
+				case "Purple Haze":
+					effect = "NG_filmic08";
+					break;
+				case "Kabuchiko":
+					effect = "NG_filmic10";
+					break;
+				case "Kabuchiko GLOOM":
+					effect = "NG_filmic23";
+					break;
+				case "Kabuchiko sgranato":
+					effect = "drug_flying_base";
+					break;
+				case "Silent Hill":
+					effect = "NG_filmic25";
+					break;
+				case "Silent Hill 1":
+					effect = "michealspliff";
+					break;
+				default:
+					effect = "None";
+					break;
+			}
+			if (effect != "None")
+				SetTransitionTimecycleModifier(effect, 1f);
+			else
+				SetTimecycleModifier(effect);
+			SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
+		}
+
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
 			var pl = Game.Player.GetPlayerData();
@@ -34,8 +101,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			#region cinema
 			UIMenuCheckboxItem aa = new UIMenuCheckboxItem("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema, "");
 			UIMenuSliderProgressItem ab = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox);
-			UIMenuListItem ac = new UIMenuListItem("Filtro cinema", new List<dynamic>() { "Nessuno", "Matrix", "Matrix 1", "Matrix 2", "Noir", "Noir vintage", "2019", "Bianco e Nero", "Bianco e Nero 1", "Sgranato a colori", "Purple Haze", "Kabuchiko", "Kabuchiko GLOOM", "Kabuchiko sgranato", "Silent Hill", "Silent Hill 1" }, 0);
-			UIMenuSliderProgressItem ad = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)Main.ImpostazioniClient.FiltroStrenght*100);
+			UIMenuListItem ac = new UIMenuListItem("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
+			UIMenuSliderProgressItem ad = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght*100));
 
 			aa.CheckboxEvent += async (item, attiva) =>
 			{
@@ -47,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			};
 			ad.OnSliderChanged += async (item, index) =>
 			{
-				Main.ImpostazioniClient.FiltroStrenght = index/100;
+				Main.ImpostazioniClient.FiltroStrenght = index/100f;
 				SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
 			};
 			ac.OnListChanged += (item, index) =>
@@ -104,13 +171,16 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 					case "Silent Hill 1":
 						effect = "michealspliff";
 						break;
+					case "Nessuno":
 					default:
 						effect = "None";
 						break;
 				}
-				SetTimecycleModifier(effect);
-				Main.ImpostazioniClient.FiltroStrenght = 0.5f;
-				ad.Value = 50;
+				if (effect != "None")
+					SetTransitionTimecycleModifier(effect, 1f);
+				else
+					SetTimecycleModifier(effect);
+				Main.ImpostazioniClient.Filtro = ActiveItem;
 			};
 			#endregion
 			UIMenuSeparatorItem ae = new UIMenuSeparatorItem(); // SEPARATORE

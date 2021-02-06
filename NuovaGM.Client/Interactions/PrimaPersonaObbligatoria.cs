@@ -28,8 +28,8 @@ namespace TheLastPlanet.Client.Interactions
 		}
 
 		//aggiungere controlli impostazioni.. V
-		//migliorare coordinate testa e aggiungere effetto grafico..
-		//migliorare precisione in corsa e in genera in copertura e non..
+		//migliorare coordinate testa e aggiungere effetto grafico.. V
+		//migliorare precisione in corsa e in genera in copertura e non.. V 
 		private static async Task WeaponHandling()
 		{
 			Ped p = Game.PlayerPed;
