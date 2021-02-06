@@ -17,6 +17,25 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		{
 			Server.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
 			Server.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+		}
+
+		private static async void Spawnato([FromSource] Player player)
+		{
+			dynamic aparts = await Server.Instance.Query("select * from immobili_creati");
+			if (aparts.Count > 0)
+			{
+				Dictionary<string, string> apart = new Dictionary<string, string>();
+				Dictionary<string, string> garag = new Dictionary<string, string>();
+				foreach (var p in aparts)
+				{
+					if (p.tipo == "casa")
+						apart.Add(p.abbreviazione, p.datiImmobile);
+					else if (p.tipo == "garage")
+						garag.Add(p.abbreviazione, p.datiImmobile);
+				}
+				player.TriggerEvent("lprp:housedealer:caricaImmobiliDaDB", apart.Serialize(), garag.Serialize());
+			}
 		}
 
 		private static async void Vendi([FromSource] Player p, bool venduto, int target, string jsonProperty, int prezzo)
@@ -54,6 +73,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 				dati = jsonData,
 				tipo
 			});
+			p.GetCurrentChar().showNotification($"Immobile ~y~{abbreviazione} salvato con successo!");
 		}
 	}
 }
