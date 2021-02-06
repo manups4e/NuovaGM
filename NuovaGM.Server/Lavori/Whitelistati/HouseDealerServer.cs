@@ -16,6 +16,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
+			Server.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
 		}
 
 		private static async void Vendi([FromSource] Player p, bool venduto, int target, string jsonProperty, int prezzo)
@@ -41,6 +42,18 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 			});
 			p.GetCurrentChar().showNotification($"Hai {(venduto ? "venduto" : "affittato")} ~y~{prop.Label}~w~ a ~o~{acquirente.GetCurrentChar().FullName}~w~.");
 			acquirente.GetCurrentChar().showNotification($"Hai {(venduto ? "comprato" : "affittato")} un nuovo appartamento: ~y~{prop.Label}~w~.");
+		}
+
+		private static async void SalvaAppartamento([FromSource] Player p, string tipo, string jsonData, string abbreviazione)
+		{
+			await Server.Instance.Execute("INSERT INTO immobili_creati VALUES (@nome, @data, @abbr, @dati, @tipo)", new
+			{
+				nome = p.Name,
+				data = DateTime.Now,
+				abbr = abbreviazione,
+				dati = jsonData,
+				tipo
+			});
 		}
 	}
 }

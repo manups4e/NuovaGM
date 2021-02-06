@@ -32,6 +32,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem markerIngressoCasa;
 		private static UIMenuItem markerIngressoGarage;
 		private static UIMenuItem markerIngressoTetto;
+		private static UIMenuItem posCamera;
 		private static UIMenuColorPanel blipColor;
 		private static Prop renderCamObject;
 		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
@@ -219,7 +220,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
 			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			UIMenuItem posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
+			posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
 
 
 			marker.OnItemSelect += (menu, item, index) =>
@@ -242,7 +243,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				{
 					markerIngrGarage = new Marker(dummyMarker.MarkerType, dummyMarker.Position, Colors.Green);
 					if (immobile == TipoImmobile.Casa)
+					{
 						casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
+						casaDummy.SpawnGarageInVehFuori = new Vector4(markerIngrGarage.Position, 0);
+					}
 				}
 				else if (item == markerIngressoTetto)
 				{
@@ -897,18 +901,97 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			creazione.AddItem(Salva);
 			Salva.Activated += async (menu, item) =>
 			{
-				Log.Printa(LogType.Debug, casaDummy.Serialize(Newtonsoft.Json.Formatting.Indented));
-				Log.Printa(LogType.Debug, garageDummy.Serialize(Newtonsoft.Json.Formatting.Indented));
+
 				if (immobile == TipoImmobile.Casa)
-					BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+				{
+					if (!string.IsNullOrWhiteSpace(casaDummy.Label))
+					{
+						if (!string.IsNullOrWhiteSpace(abbreviazione))
+						{
+							if (casaDummy.Price > 0)
+							{
+								if (casaDummy.MarkerEntrata != Vector3.Zero)
+								{
+									if (casaDummy.TelecameraFuori.pos != Vector3.Zero && casaDummy.TelecameraFuori.guarda != Vector3.Zero)
+									{
+										if (casaDummy.GarageIncluso)
+										{
+											if (casaDummy.MarkerGarageEsterno != Vector3.Zero && casaDummy.SpawnGarageInVehFuori != Vector4.Zero)
+											{
+												if (casaDummy.TettoIncluso)
+												{
+													if (casaDummy.MarkerTetto != Vector3.Zero)
+													{
+														BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+														HUD.MenuPool.CloseAllMenus();
+													}
+													else HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", NotificationColor.Red, true);
+												}
+												else
+												{// non tetto incluso
+													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+													HUD.MenuPool.CloseAllMenus();
+												}
+											}
+											else HUD.ShowNotification("Hai incluso il garage ma mancano i marker del garage!", NotificationColor.Red, true);
+										}
+										else // non garage incluso
+										{
+											if (casaDummy.TettoIncluso)
+											{
+												if (casaDummy.MarkerTetto != Vector3.Zero)
+												{
+													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+													HUD.MenuPool.CloseAllMenus();
+												}
+												else HUD.ShowNotification("Hai incluso il tetto ma manca il marker del tetto!", NotificationColor.Red, true);
+											}
+											else
+											{// non tetto incluso
+												BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+												HUD.MenuPool.CloseAllMenus();
+											}
+										}
+									}
+									else HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", NotificationColor.Red, true);
+								}
+								else HUD.ShowNotification("Non hai impostato il marker d'entrata!", NotificationColor.Red, true);
+							}
+							else HUD.ShowNotification("Non hai inserito un prezzo!", NotificationColor.Red, true);
+						}
+						else HUD.ShowNotification("Non hai inserito l'abbreviazione!", NotificationColor.Red, true);
+					}
+					else HUD.ShowNotification("Non hai specificato il nome dell'immobile!", NotificationColor.Red, true);
+				}
 				else if (immobile == TipoImmobile.Garage)
-					BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.Serialize(), abbreviazione);
-				HUD.MenuPool.CloseAllMenus();
+				{
+					if (!string.IsNullOrWhiteSpace(garageDummy.Label))
+					{
+						if (!string.IsNullOrWhiteSpace(abbreviazione))
+						{
+							if (garageDummy.Price > 0)
+							{
+								if (garageDummy.MarkerEntrata != Vector3.Zero)
+								{
+									if(garageDummy.TelecameraFuori.pos != Vector3.Zero && garageDummy.TelecameraFuori.guarda != Vector3.Zero)
+									{
+										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.Serialize(), abbreviazione);
+										HUD.MenuPool.CloseAllMenus();
+									}
+									else HUD.ShowNotification("Non hai settato la telecamera d'ingresso!", NotificationColor.Red, true);
+								}
+								else HUD.ShowNotification("Non hai impostato il marker d'entrata!", NotificationColor.Red, true);
+							}
+							else HUD.ShowNotification("Non hai inserito un prezzo!", NotificationColor.Red, true);
+						}
+						else HUD.ShowNotification("Non hai inserito l'abbreviazione!", NotificationColor.Red, true);
+					}
+					else HUD.ShowNotification("Non hai specificato il nome dell'immobile!", NotificationColor.Red, true);
+				}
 			};
 			creazione.Visible = true;
 		}
 
-		static bool changed = false;
 		private static async Task CreatorCameraControl()
 		{
 
@@ -1089,7 +1172,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			RaycastResult res = MainCamera.CrosshairRaycast(150f);
 			Vector3 direction = res.HitPosition;
 			dummyMarker.Color = Colors.Red;
-			dummyMarker.Draw();
+			if(!posCamera.Selected)
+				dummyMarker.Draw();
 			dummyMarker.Position = direction;
 			float z = 0;
 			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
