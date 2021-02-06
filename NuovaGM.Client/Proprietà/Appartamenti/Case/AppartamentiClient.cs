@@ -25,6 +25,19 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 			Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
 			Client.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
 			Client.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
+			Client.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
+		}
+
+		private static async void CaricaCaseDaDb(string JsonCase, string jsonGarage)
+		{
+			Dictionary<string, string> aparts = JsonCase.Deserialize<Dictionary<string, string>>();
+			Dictionary<string, string> garages = jsonGarage.Deserialize<Dictionary<string, string>>();
+			foreach (var a in aparts)
+				Client.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.Deserialize<ConfigCase>());
+			foreach (var a in garages)
+				Client.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.Deserialize<Garages>());
+
+			Log.Printa(LogType.Debug, JsonCase);
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
