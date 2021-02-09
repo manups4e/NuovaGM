@@ -58,12 +58,12 @@ namespace TheLastPlanet.Client
 
 	public class Radius
 	{
-		public float Min;
-		public float Max;
-		public Radius(float minimo, float markerDistance)
+		public float MinInputDistance = 1.375f; // default R* inside marker distance to press input
+		public float MarkerDistance = 100f; // default 100
+		public Radius(float minimum, float markerDistance)
 		{
-			Min = minimo;
-			Max = markerDistance;
+			MinInputDistance = minimum;
+			MarkerDistance = markerDistance;
 		}
 	}
 }

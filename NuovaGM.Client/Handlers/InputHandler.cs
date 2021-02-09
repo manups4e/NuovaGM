@@ -33,11 +33,11 @@ namespace TheLastPlanet.Client.Handlers
 				{
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)
 					{
-						if (p.IsInRangeOf(input.Position, input.Radius.Max)) // big range personalizzato sennò default 50f
+						if (p.IsInRangeOf(input.Position, input.Radius.MarkerDistance)) // big range personalizzato sennò default 50f
 						{
 							if (input.Marker != null)
 								input.Marker.Draw();
-							if (p.IsInRangeOf(input.Position, input.Radius.Min) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+							if (p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
 								if (!string.IsNullOrWhiteSpace(input.InputMessage))
 									HUD.ShowHelp(input.InputMessage);
