@@ -1450,7 +1450,7 @@ namespace TheLastPlanet.Client.Personale
 				fuelint = (int)Math.Floor(FuelClient.vehicleFuelLevel(EventiPersonalMenu.saveVehicle) / 65f * 100);
 			if (Input.IsControlPressed(Control.InteractionMenu) && !HUD.MenuPool.IsAnyMenuOpen)
 			{
-				bool tasto = await Input.WaitForKeyRelease(Control.InteractionMenu);
+				bool tasto = await Input.IsControlStillPressed(Control.InteractionMenu);
 				if (tasto && !aperto)
 				{
 					if (!MontagneRusse.SonoSeduto && RuotaPanoramica.GiroFinito)

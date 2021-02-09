@@ -176,7 +176,7 @@ namespace TheLastPlanet.Client.Core.Status
 				if (!EarlyRespawnFine)
 				{
 					text += "Tieni premuto [~b~E~s~] per respawnare";
-					if (await Input.WaitForKeyRelease(Control.Context))
+					if (await Input.IsControlStillPressed(Control.Context))
 					{
 						Client.Instance.RemoveTick(conteggioSangue);
 						Client.Instance.RemoveTick(conteggioMorte);
@@ -191,7 +191,7 @@ namespace TheLastPlanet.Client.Core.Status
 				else if (EarlyRespawnFine && canPayFine)
 				{
 					text = text + "Tieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
-					if (await Input.WaitForKeyRelease(Control.Context))
+					if (await Input.IsControlStillPressed(Control.Context))
 					{
 						BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
 						Client.Instance.RemoveTick(conteggioSangue);
