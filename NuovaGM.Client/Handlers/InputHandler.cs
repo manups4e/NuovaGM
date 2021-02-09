@@ -29,17 +29,18 @@ namespace TheLastPlanet.Client.Handlers
 			try
 			{
 				Ped p = Game.PlayerPed;
-				foreach (var input in ListaInput)
+				foreach(var input in ListaInput)
 				{
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)
 					{
 						if (p.IsInRangeOf(input.Position, input.Radius.Max)) // big range personalizzato sennò default 50f
 						{
-							if(input.Marker != null)
+							if (input.Marker != null)
 								input.Marker.Draw();
-							if (p.IsInRangeOf(input.Position, input.Radius.Min) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato semmò default 1.375f
+							if (p.IsInRangeOf(input.Position, input.Radius.Min) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
-								HUD.ShowHelp(input.InputMessage);
+								if (!string.IsNullOrWhiteSpace(input.InputMessage))
+									HUD.ShowHelp(input.InputMessage);
 								if (Game.IsControlJustPressed(0, input.Control))
 								{
 									if (Input.IsControlModifierPressed(input.Modifier))
@@ -86,7 +87,8 @@ namespace TheLastPlanet.Client.Handlers
 							}
 						}
 					}
-				}
+				};
+				await Task.FromResult(0);
 			}
 			catch(Exception e)
 			{
