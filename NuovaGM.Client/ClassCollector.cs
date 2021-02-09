@@ -16,7 +16,6 @@ namespace TheLastPlanet.Client
 			await ConfigClient.Init();
 			await Core.CoreInitializer.LogInInitializer();
 			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
-
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();
@@ -83,6 +82,10 @@ namespace TheLastPlanet.Client
 			Minimap.Init();
 			TickController.Init();
 			InputHandler.Init();
+
+			//TEST
+			//KeyMappingsTest.Init();
+
 			await Task.FromResult(0);
 		}
 	}
