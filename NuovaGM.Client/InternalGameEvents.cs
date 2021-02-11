@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -15,6 +16,7 @@ namespace TheLastPlanet.Client
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("gameEventTriggered", new Action<string, List<object>>(GameEventTriggered));
+
 			if (GetResourceMetadata(GetCurrentResourceName(), "enable_debug_prints_for_events", 0).ToLower() == "true")
 			{
 				Client.Instance.AddEventHandler(damageEventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
@@ -197,54 +199,57 @@ namespace TheLastPlanet.Client
 				bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
 				int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
 
-				if (victim != null && attacker != null)
+				if (victim != null)
 				{
-					if (victimDied)
+					if (attacker != null)
 					{
-						// victim died
-
-						// vehicle destroyed
-						if (victim.Model.IsVehicle)
-							VehicleDestroyed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
-						// other entity died
-						else
+						if (victimDied)
 						{
-							// victim is a ped
-							if (victim is Ped ped)
+							// victim died
+							// vehicle destroyed
+							if (victim.Model.IsVehicle)
+								VehicleDestroyed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+							// other entity died
+							else
 							{
-								if (attacker is Vehicle veh)
-									PedKilledByVehicle(victim.Handle, attacker.Handle);
-								else if (attacker is Ped p)
+								// victim is a ped
+								if (victim is Ped ped)
 								{
-									if (p.IsPlayer)
+									if (attacker is Vehicle veh)
+										PedKilledByVehicle(victim.Handle, attacker.Handle);
+									else if (attacker is Ped p)
 									{
-										int player = NetworkGetPlayerIndexFromPed(p.Handle);
-										PedKilledByPlayer(victim.Handle, player, weaponHash, isMeleeDamage);
+										if (p.IsPlayer)
+										{
+											int player = NetworkGetPlayerIndexFromPed(p.Handle);
+											PedKilledByPlayer(victim.Handle, player, weaponHash, isMeleeDamage);
+										}
+										else
+											PedKilledByPed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
 									}
 									else
-										PedKilledByPed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+										PedDied(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
 								}
+								// victim is not a ped
 								else
-									PedDied(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+									EntityKilled(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
 							}
-							// victim is not a ped
+						}
+						else
+						{
+							// only damaged
+							if (!victim.Model.IsVehicle)
+								EntityDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
 							else
-								EntityKilled(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+								VehicleDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 						}
 					}
 					else
 					{
-						// only damaged
-						if (!victim.Model.IsVehicle)
-							EntityDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-						else
-							VehicleDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+						if (victimDied)
+							PedDied(victim.Handle, -1, weaponHash, isMeleeDamage);
 					}
 				}
-			}
-			else if (eventName == "CEventPlayerDeath")
-			{
-				Log.Printa(LogType.Debug, data.Serialize(Formatting.Indented));
 			}
 		}
 
