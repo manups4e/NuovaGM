@@ -78,6 +78,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async void menuPersonal()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
@@ -190,7 +191,7 @@ namespace TheLastPlanet.Client.Personale
 			vehContr.AddItem(fin);
 			vehContr.AddItem(port);
 			vehContr.AddItem(motore);
-			if (!Game.PlayerPed.IsInVehicle())
+			if (!playerPed.IsInVehicle())
 			{
 				chiudi.Enabled = false;
 				fin.Enabled = false;
@@ -203,7 +204,7 @@ namespace TheLastPlanet.Client.Personale
 					EventiPersonalMenu.Lock(_checked);
 				else if (_item == salva)
 				{
-					if (_checked && Game.PlayerPed.IsInVehicle())
+					if (_checked && playerPed.IsInVehicle())
 					{
 						EventiPersonalMenu.Save(_checked);
 						if (_checked)
@@ -320,7 +321,7 @@ namespace TheLastPlanet.Client.Personale
 							}
 							while (amount <= 1);
 							if (amount == -1) return;
-							Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+							playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
 							BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi", amount);
 							await BaseScript.Delay(1000);
 							menu.GoBack();
@@ -344,7 +345,7 @@ namespace TheLastPlanet.Client.Personale
 							}
 							while (amount < 1);
 							if (amount == -1) return;
-							Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+							playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
 							BaseScript.TriggerServerEvent("lprp:removeAccountWithPickup", "soldi_sporchi", amount);
 							await BaseScript.Delay(1000);
 							menu.GoBack();
@@ -427,7 +428,7 @@ namespace TheLastPlanet.Client.Personale
 											UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
 											playerId.Add(player.ServerId);
 											giveButton.AddItem(playerItem);
-											Game.PlayerPed.Task.PlayAnimation("mp_common", "givetake1_a");
+											playerPed.Task.PlayAnimation("mp_common", "givetake1_a");
 										}
 										giveButton.OnListSelect += async (_menu, _listItem, _index) =>
 										{
@@ -451,7 +452,7 @@ namespace TheLastPlanet.Client.Personale
 									{
 										if (_listItem == dropButton)
 										{
-											Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+											playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
 											BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", it.item, int.Parse(amountino[_listItem.Index]));
 											await BaseScript.Delay(1000);
 										//										Inventory.RemoveItemAt(Inventory.MenuItems.IndexOf(newItemMenu.ParentItem));
@@ -523,7 +524,7 @@ namespace TheLastPlanet.Client.Personale
 							arma.AddItem(dropButton);
 							dropButton.Activated += async (_menu, item) =>
 							{
-								Game.PlayerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
+								playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
 								BaseScript.TriggerServerEvent("lprp:removeWeaponWithPickup", armi.name);
 								await BaseScript.Delay(1000);
 							//							weapMenu.RemoveItemAt(weapMenu.MenuItems.IndexOf(arma.ParentItem));
@@ -573,39 +574,39 @@ namespace TheLastPlanet.Client.Personale
 
 					if (ActiveItem == "Determinato")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@brave";
+						playerPed.MovementAnimationSet = "move_m@brave";
 					}
 					else if (ActiveItem == "Triste")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@sad@a";
+						playerPed.MovementAnimationSet = "move_m@sad@a";
 					}
 					else if (ActiveItem == "Depresso")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@depressed@a";
+						playerPed.MovementAnimationSet = "move_m@depressed@a";
 					}
 					else if (ActiveItem == "Annoiato")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_characters@michael@fire";
+						playerPed.MovementAnimationSet = "move_characters@michael@fire";
 					}
 					else if (ActiveItem == "Impaziente")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@quick";
+						playerPed.MovementAnimationSet = "move_m@quick";
 					}
 					else if (ActiveItem == "Timido")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@confident";
+						playerPed.MovementAnimationSet = "move_m@confident";
 					}
 					else if (ActiveItem == "Lunatico")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@hurry@a";
+						playerPed.MovementAnimationSet = "move_m@hurry@a";
 					}
 					else if (ActiveItem == "Stressato")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@hurry@a";
+						playerPed.MovementAnimationSet = "move_m@hurry@a";
 					}
 					else if (ActiveItem == "Pigro")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_characters@jimmy@slow@";
+						playerPed.MovementAnimationSet = "move_characters@jimmy@slow@";
 					}
 				}
 				else if (_listItem == Item2 && !Death.ferito)
@@ -613,51 +614,51 @@ namespace TheLastPlanet.Client.Personale
 					string atteg = (_listItem as UIMenuListItem).Items[(_listItem as UIMenuListItem).Index].ToString();
 					if (atteg == "Fiero")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@business@a";
+						playerPed.MovementAnimationSet = "move_m@business@a";
 					}
 					else if (atteg == "Cattivo")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@casual@d";
+						playerPed.MovementAnimationSet = "move_m@casual@d";
 					}
 					else if (atteg == "Gangster")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@casual@e";
+						playerPed.MovementAnimationSet = "move_m@casual@e";
 					}
 					else if (atteg == "Freddo")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@buzzed";
+						playerPed.MovementAnimationSet = "move_m@buzzed";
 					}
 					else if (atteg == "Vuoto Dentro")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@depressed@b";
+						playerPed.MovementAnimationSet = "move_m@depressed@b";
 					}
 					else if (atteg == "Borioso")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@sassy";
+						playerPed.MovementAnimationSet = "move_m@sassy";
 					}
 					else if (atteg == "Perso")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@hobo@b";
+						playerPed.MovementAnimationSet = "move_m@hobo@b";
 					}
 					else if (atteg == "Intimidatorio")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@intimidation@1h";
+						playerPed.MovementAnimationSet = "move_m@intimidation@1h";
 					}
 					else if (atteg == "Ricco")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@money";
+						playerPed.MovementAnimationSet = "move_m@money";
 					}
 					else if (atteg == "Aggressivo")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@fire";
+						playerPed.MovementAnimationSet = "move_m@fire";
 					}
 					else if (atteg == "Imponente")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@gangster@generic";
+						playerPed.MovementAnimationSet = "move_m@gangster@generic";
 					}
 					else if (atteg == "Esibizionista")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_m@swagger";
+						playerPed.MovementAnimationSet = "move_m@swagger";
 					}
 				}
 				else if (_listItem == Item3 && !Death.ferito)
@@ -665,48 +666,48 @@ namespace TheLastPlanet.Client.Personale
 					string donna = (_listItem as UIMenuListItem).Items[(_listItem as UIMenuListItem).Index].ToString();
 					if (donna == "Arrogante")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@arrogant@a";
+						playerPed.MovementAnimationSet = "move_f@arrogant@a";
 					}
 					else if (donna == "Di Classe")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_characters@amanda@bag";
+						playerPed.MovementAnimationSet = "move_characters@amanda@bag";
 					}
 					else if (donna == "Fragile")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@femme@";
+						playerPed.MovementAnimationSet = "move_f@femme@";
 					}
 					else if (donna == "Femme Fatale")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@gangster@ng";
+						playerPed.MovementAnimationSet = "move_f@gangster@ng";
 					}
 					else if (donna == "Assorbente senza Ali")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@heels@c";
+						playerPed.MovementAnimationSet = "move_f@heels@c";
 					}
 					else if (donna == "Triste")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@sad@a";
+						playerPed.MovementAnimationSet = "move_f@sad@a";
 					}
 					else if (donna == "Ribelle")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@sassy";
+						playerPed.MovementAnimationSet = "move_f@sassy";
 					}
 					else if (donna == "Sexy")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@sexy@a";
+						playerPed.MovementAnimationSet = "move_f@sexy@a";
 					}
 					else if (donna == "Con la ciccia ai glutei")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@tough_guy@";
+						playerPed.MovementAnimationSet = "move_f@tough_guy@";
 					}
 					else if (donna == "Fiera")
 					{
-						Game.PlayerPed.MovementAnimationSet = "move_f@tool_belt@a";
+						playerPed.MovementAnimationSet = "move_f@tool_belt@a";
 					}
 				}
 				else if (_listItem == Item4 && !Death.ferito)
 				{
-					Game.PlayerPed.MovementAnimationSet = null;
+					playerPed.MovementAnimationSet = null;
 				}
 				else
 				{
@@ -729,43 +730,43 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu1.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item1)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item2)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@dj", "dj");
+						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@dj", "dj");
 					}
 					else if (_item == item3)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item4)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item5)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@air_guitar", "air_guitar");
+						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@air_guitar", "air_guitar");
 					}
 					else if (_item == item6)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intcelebrationfemale@air_shagging", "air_shagging");
+						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationfemale@air_shagging", "air_shagging");
 					}
 					else if (_item == item7)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_player_int_upperrock", "mp_player_int_rock");
+						playerPed.Task.PlayAnimation("mp_player_int_upperrock", "mp_player_int_rock");
 					}
 					else if (_item == item8)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item9)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_bum_standing@drunk@idle_a", "idle_a");
+						playerPed.Task.PlayAnimation("amb@world_human_bum_standing@drunk@idle_a", "idle_a");
 					}
 				}
 				else
@@ -798,23 +799,23 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu2.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item10)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_hello");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_hello");
 					}
 					else if (_item == item11)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_ped_interaction", "handshake_guy_a");
+						playerPed.Task.PlayAnimation("mp_ped_interaction", "handshake_guy_a");
 					}
 					else if (_item == item12)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_ped_interaction", "hugs_guy_a");
+						playerPed.Task.PlayAnimation("mp_ped_interaction", "hugs_guy_a");
 					}
 					else if (_item == item13)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_player_int_uppersalute", "mp_player_int_salute");
+						playerPed.Task.PlayAnimation("mp_player_int_uppersalute", "mp_player_int_salute");
 					}
 				}
 				else
@@ -866,75 +867,75 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu3.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item14)
 					{
-						Game.PlayerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
+						playerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
 					}
 					else if (_item == item15)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_stand_fishing", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_stand_fishing", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item16)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_gardener_plant", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_gardener_plant", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item17)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_vehicle_mechanic", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_vehicle_mechanic", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item18)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@repair", "fixing_a_ped");
+						playerPed.Task.PlayAnimation("mini@repair", "fixing_a_ped");
 					}
 					else if (_item == item19)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item20)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@code_human_police_investigate@idle_b", "idle_f");
+						playerPed.Task.PlayAnimation("amb@code_human_police_investigate@idle_b", "idle_f");
 					}
 					else if (_item == item21)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item22)
 					{
-						Game.PlayerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item23)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@taxi@driver", "leanover_idle");
+						playerPed.Task.PlayAnimation("oddjobs@taxi@driver", "leanover_idle");
 					}
 					else if (_item == item24)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@taxi@cyi", "std_hand_off_ps_passenger");
+						playerPed.Task.PlayAnimation("oddjobs@taxi@cyi", "std_hand_off_ps_passenger");
 					}
 					else if (_item == item25)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_am_hold_up", "purchase_beerbox_shopkeeper");
+						playerPed.Task.PlayAnimation("mp_am_hold_up", "purchase_beerbox_shopkeeper");
 					}
 					else if (_item == item26)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item27)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item28)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item29)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item30)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -981,67 +982,67 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu4.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item31)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item32)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_action", "thanks_male_06");
+						playerPed.Task.PlayAnimation("mp_action", "thanks_male_06");
 					}
 					else if (_item == item33)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_point");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_point");
 					}
 					else if (_item == item34)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_bring_it_on");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_bring_it_on");
 					}
 					else if (_item == item35)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@am_hold_up@male", "shoplift_high");
+						playerPed.Task.PlayAnimation("anim@am_hold_up@male", "shoplift_high");
 					}
 					else if (_item == item36)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@face_palm", "face_palm");
+						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@face_palm", "face_palm");
 					}
 					else if (_item == item37)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_easy_now");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_easy_now");
 					}
 					else if (_item == item38)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@assassinate@multi@", "react_big_variations_a");
+						playerPed.Task.PlayAnimation("oddjobs@assassinate@multi@", "react_big_variations_a");
 					}
 					else if (_item == item39)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@code_human_cower_stand@male@react_cowering", "base_right");
+						playerPed.Task.PlayAnimation("amb@code_human_cower_stand@male@react_cowering", "base_right");
 					}
 					else if (_item == item40)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@deathmatch_intros@unarmed", "intro_male_unarmed_e");
+						playerPed.Task.PlayAnimation("anim@deathmatch_intros@unarmed", "intro_male_unarmed_e");
 					}
 					else if (_item == item41)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_damn");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_damn");
 					}
 					else if (_item == item42)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_ped_interaction", "kisses_guy_a");
+						playerPed.Task.PlayAnimation("mp_ped_interaction", "kisses_guy_a");
 					}
 					else if (_item == item43)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_player_int_upperfinger", "mp_player_int_finger_01_enter");
+						playerPed.Task.PlayAnimation("mp_player_int_upperfinger", "mp_player_int_finger_01_enter");
 					}
 					else if (_item == item44)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_player_int_upperwank", "mp_player_int_wank_01");
+						playerPed.Task.PlayAnimation("mp_player_int_upperwank", "mp_player_int_wank_01");
 					}
 					else if (_item == item45)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pistol");
+						playerPed.Task.PlayAnimation("mp_suicide", "pistol");
 					}
 				}
 				else
@@ -1066,27 +1067,27 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu5.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item46)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_muscle_flex@arms_at_side@base", "base");
+						playerPed.Task.PlayAnimation("amb@world_human_muscle_flex@arms_at_side@base", "base");
 					}
 					else if (_item == item47)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_muscle_free_weights@male@barbell@base", "base");
+						playerPed.Task.PlayAnimation("amb@world_human_muscle_free_weights@male@barbell@base", "base");
 					}
 					else if (_item == item48)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_push_ups@male@base", "base");
+						playerPed.Task.PlayAnimation("amb@world_human_push_ups@male@base", "base");
 					}
 					else if (_item == item49)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_sit_ups@male@base", "base");
+						playerPed.Task.PlayAnimation("amb@world_human_sit_ups@male@base", "base");
 					}
 					else if (_item == item50)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_yoga@male@base", "base_a");
+						playerPed.Task.PlayAnimation("amb@world_human_yoga@male@base", "base_a");
 					}
 				}
 				else
@@ -1118,39 +1119,39 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu6.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item51)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@world_human_aa_coffee@idle_a", "idle_a");
+						playerPed.Task.PlayAnimation("amb@world_human_aa_coffee@idle_a", "idle_a");
 					}
 					else if (_item == item52)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@heists@prison_heistunfinished_biztarget_idle", "target_idle");
+						playerPed.Task.PlayAnimation("anim@heists@prison_heistunfinished_biztarget_idle", "target_idle");
 					}
 					else if (_item == item53)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item54)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_leaning", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_leaning", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item55)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item56)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item57)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_maid_clean", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_maid_clean", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item58)
 					{
-						Game.PlayerPed.Task.StartScenario("world_human_tourist_mobile", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_tourist_mobile", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -1186,51 +1187,51 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item59)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@towing", "m_blow_job_loop");
+						playerPed.Task.PlayAnimation("oddjobs@towing", "m_blow_job_loop");
 					}
 					else if (_item == item60)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@towing", "f_blow_job_loop");
+						playerPed.Task.PlayAnimation("oddjobs@towing", "f_blow_job_loop");
 					}
 					else if (_item == item61)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player");
+						playerPed.Task.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player");
 					}
 					else if (_item == item62)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female");
+						playerPed.Task.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female");
 					}
 					else if (_item == item63)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch");
+						playerPed.Task.PlayAnimation("mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch");
 					}
 					else if (_item == item64)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@strip_club@idles@stripper", "stripper_idle_02");
+						playerPed.Task.PlayAnimation("mini@strip_club@idles@stripper", "stripper_idle_02");
 					}
 					else if (_item == item65)
 					{
-						Game.PlayerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", Game.Player.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item66)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@strip_club@backroom@", "stripper_b_backroom_idle_b");
+						playerPed.Task.PlayAnimation("mini@strip_club@backroom@", "stripper_b_backroom_idle_b");
 					}
 					else if (_item == item67)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@strip_club@lap_dance@ld_girl_a_song_a_p1", "ld_girl_a_song_a_p1_f");
+						playerPed.Task.PlayAnimation("mini@strip_club@lap_dance@ld_girl_a_song_a_p1", "ld_girl_a_song_a_p1_f");
 					}
 					else if (_item == item68)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@strip_club@private_dance@part2", "priv_dance_p2");
+						playerPed.Task.PlayAnimation("mini@strip_club@private_dance@part2", "priv_dance_p2");
 					}
 					else if (_item == item69)
 					{
-						Game.PlayerPed.Task.PlayAnimation("mini@strip_club@private_dance@part3", "priv_dance_p3");
+						playerPed.Task.PlayAnimation("mini@strip_club@private_dance@part3", "priv_dance_p3");
 					}
 				}
 				else
@@ -1252,39 +1253,39 @@ namespace TheLastPlanet.Client.Personale
 
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.IsAlive)
+				if (!playerPed.IsInVehicle() && playerPed.IsAlive)
 				{
 					if (_item == item70)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intupperface_palm", "idle_a");
+						playerPed.Task.PlayAnimation("anim@mp_player_intupperface_palm", "idle_a");
 					}
 					else if (_item == item71)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@assassinate@construction@", "unarmed_fold_arms");
+						playerPed.Task.PlayAnimation("oddjobs@assassinate@construction@", "unarmed_fold_arms");
 					}
 					else if (_item == item72)
 					{
-						Game.PlayerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_damn");
+						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_damn");
 					}
 					else if (_item == item73)
 					{
-						Game.PlayerPed.Task.PlayAnimation("random@car_thief@agitated@idle_a", "agitated_idle_a");
+						playerPed.Task.PlayAnimation("random@car_thief@agitated@idle_a", "agitated_idle_a");
 					}
 					else if (_item == item74)
 					{
-						Game.PlayerPed.Task.PlayAnimation("oddjobs@assassinate@construction@", "idle_a");
+						playerPed.Task.PlayAnimation("oddjobs@assassinate@construction@", "idle_a");
 					}
 					else if (_item == item75)
 					{
-						Game.PlayerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@slow_clap", "slow_clap");
+						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@slow_clap", "slow_clap");
 					}
 					else if (_item == item76)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@code_human_police_crowd_control@idle_a", "idle_a");
+						playerPed.Task.PlayAnimation("amb@code_human_police_crowd_control@idle_a", "idle_a");
 					}
 					else if (_item == item77)
 					{
-						Game.PlayerPed.Task.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d");
+						playerPed.Task.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d");
 					}
 				}
 				else
@@ -1377,29 +1378,36 @@ namespace TheLastPlanet.Client.Personale
 				while (!HasAnimDictLoaded("mp_suicide")) await BaseScript.Delay(0);
 
 				string var = item.Items[index] as string;
+				string Anim = "";
+				//controllare se ha una pistola o le pillole con se
 				switch (var) 
 				{
 					case "Medicine":
 						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill");
+							Anim = "pill";
 						else
-							Game.PlayerPed.Task.PlayAnimation("mp_suicide", "pill_fp");
+							Anim = "pill_fp";
 						break;
 					case "Pistola":
-						Game.PlayerPed.Weapons.Give(WeaponHash.Pistol, 1, true, true);
-						string anim = "";
 						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
-							anim = "PISTOL";
+							Anim = "PISTOL";
 						else
-							anim = "PISTOL_FP";
-						TaskPlayAnim(PlayerPedId(), "MP_SUICIDE", anim, 8f, -8f, -1, 270540800, 0, false, false, false);
-						while (GetEntityAnimCurrentTime(PlayerPedId(), "MP_SUICIDE", anim) < 0.99f) await BaseScript.Delay(0);
-						Game.PlayerPed.Weapons.Remove(WeaponHash.Pistol);
-						HUD.MenuPool.CloseAllMenus();
+							Anim = "PISTOL_FP";
 						break;
 				}
-
-
+				if (Anim == "PISTOL" || Anim == "PISTOL_FP")
+				{
+					if (playerPed.Weapons.HasWeapon(WeaponHash.Pistol))
+						playerPed.Weapons.Select(WeaponHash.Pistol);
+					else
+					{
+						HUD.ShowNotification("Non puoi suicidarti con la pistola senza avere una pistola!");
+						return;
+					}				}				HUD.MenuPool.CloseAllMenus();
+				TaskPlayAnim(PlayerPedId(), "MP_SUICIDE", Anim, 8f, -8f, -1, 270540800, 0, false, false, false);
+				while (GetEntityAnimCurrentTime(PlayerPedId(), "MP_SUICIDE", Anim) < 0.99f) await BaseScript.Delay(0);
+				playerPed.Weapons.Select(WeaponHash.Unarmed);
+				BaseScript.TriggerEvent("DamageEvents:PedDied", playerPed.Handle, playerPed.Handle, 3452007600, false);
 			};
 
 			#endregion
