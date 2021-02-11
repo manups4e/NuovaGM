@@ -24,8 +24,8 @@ namespace TheLastPlanet.Client.Core.Status
 		public static bool ferito = false;
 		public static TimeSpan EarlyRespawnTimer;
 		public static TimeSpan BleedoutTimer;
-		private static int earlySpawnTimer;
-		private static int bleedoutTimer;
+		private static int earlySpawnTimer = 0;
+		private static int bleedoutTimer = 0;
 
 
 		private static List<Vector3> hospitals = new List<Vector3>()
@@ -213,7 +213,9 @@ namespace TheLastPlanet.Client.Core.Status
 		{
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-
+			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
+			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
+			Main.IsDead = true;
 			if (EarlyRespawn)
 			{
 				if (EarlyRespawnFine)
@@ -227,83 +229,83 @@ namespace TheLastPlanet.Client.Core.Status
 		static string text = "";
 		public static async Task ConteggioMorte()
 		{
+			Log.Printa(LogType.Debug, $"EarlyRespawnTimer = {EarlyRespawnTimer:mm\\:ss}, BleedoutTimer = {BleedoutTimer:mm\\:ss}");
+			Log.Printa(LogType.Debug, $"ora = {GetGameTimer() - earlySpawnTimer}");
 			if (EarlyRespawn)
 			{
-				while (EarlyRespawnTimer.Seconds > 0)
+				if (GetGameTimer() - earlySpawnTimer > 1000)
 				{
-					if (GetGameTimer() - earlySpawnTimer > 1000)
-					{
-						if (EarlyRespawnTimer.Seconds > 0)
-							EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
-						earlySpawnTimer = GetGameTimer();
-					}
+					if (EarlyRespawnTimer.TotalSeconds > 0)
+						EarlyRespawnTimer = EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
+					earlySpawnTimer = GetGameTimer();
 					// spostare text
-					text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm:ss}";
-					if (EarlyRespawnTimer.Seconds == 0)
-						Client.Instance.AddTick(ConteggioMorte);
+					text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm\\:ss}";
 				}
 			}
 
-			while (BleedoutTimer.Seconds > 0)
+			if ((EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0) || !EarlyRespawn)
 			{
-				if (EarlyRespawn && EarlyRespawnTimer.Seconds < 1)
+				if (BleedoutTimer.TotalSeconds > 0)
 				{
-					if (GetGameTimer() - bleedoutTimer > 1000)
+					if (EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0)
 					{
-						if (BleedoutTimer.Seconds > 0)
-							BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
-						bleedoutTimer = GetGameTimer();
-					}
-					text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm:ss}~w~.";
-					if (!EarlyRespawnFine)
-					{
-						text += "\nTieni premuto [~b~E~s~] per respawnare";
-						if (await Input.IsControlStillPressed(Control.Context))
+						if (GetGameTimer() - bleedoutTimer > 1000)
 						{
-							Client.Instance.RemoveTick(ConteggioMorte);
-							RemoveItemsAfterRPDeath();
-							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-							text = "";
-							return;
+							if (BleedoutTimer.TotalSeconds > 0)
+								BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+							bleedoutTimer = GetGameTimer();
+						}
+						text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
+						if (!EarlyRespawnFine)
+						{
+							text += "\nTieni premuto [~b~E~s~] per respawnare";
+							if (await Input.IsControlStillPressed(Control.Context))
+							{
+								Client.Instance.RemoveTick(ConteggioMorte);
+								RemoveItemsAfterRPDeath();
+								EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+								BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+								text = "";
+								return;
+							}
+						}
+						else if (EarlyRespawnFine && canPayFine)
+						{
+							text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
+							if (await Input.IsControlStillPressed(Control.Context))
+							{
+								BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
+								Client.Instance.RemoveTick(ConteggioMorte);
+								RemoveItemsAfterRPDeath();
+								EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+								BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+								text = "";
+								return;
+							}
+						}
+						else if (EarlyRespawnFine && !canPayFine)
+						{
+							text = text + "\nPurtroppo non puoi respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~, perché non hai abbastanza denaro.";
 						}
 					}
-					else if (EarlyRespawnFine && canPayFine)
+					else
 					{
-						text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
-						if (await Input.IsControlStillPressed(Control.Context))
+						if (GetGameTimer() - bleedoutTimer > 1000)
 						{
-							BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-							Client.Instance.RemoveTick(ConteggioMorte);
-							RemoveItemsAfterRPDeath();
-							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-							text = "";
-							return;
+							if (BleedoutTimer.TotalSeconds > 0)
+								BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+							bleedoutTimer = GetGameTimer();
 						}
+						text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
 					}
-					else if (EarlyRespawnFine && !canPayFine)
+					if (BleedoutTimer.TotalSeconds == 0 && Main.IsDead)
 					{
-						text = text + "\nPurtroppo non puoi respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~, perché non hai abbastanza denaro.";
+						Client.Instance.RemoveTick(ConteggioMorte);
+						RemoveItemsAfterRPDeath();
+						EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+						BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+						text = "";
 					}
-				}
-				else
-				{
-					if (GetGameTimer() - bleedoutTimer > 1000)
-					{
-						if (BleedoutTimer.Seconds > 0)
-							BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
-						bleedoutTimer = GetGameTimer();
-					}
-					text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm:ss}~w~.";
-				}
-				if (BleedoutTimer.Seconds == 0 && Main.IsDead)
-				{
-					Client.Instance.RemoveTick(ConteggioMorte);
-					RemoveItemsAfterRPDeath();
-					EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-					BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-					text = "";
 				}
 			}
 			HUD.DrawText(text);
