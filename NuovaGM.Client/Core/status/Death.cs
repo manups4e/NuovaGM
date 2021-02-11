@@ -221,11 +221,11 @@ namespace TheLastPlanet.Client.Core.Status
 						canPayFine = true;
 			}
 			if (Main.IsDead)
-				Client.Instance.AddTick(conteggioMorte);
+				Client.Instance.AddTick(ConteggioMorte);
 		}
 
 		static string text = "";
-		public static async Task conteggioMorte()
+		public static async Task ConteggioMorte()
 		{
 			if (EarlyRespawn)
 			{
@@ -240,7 +240,7 @@ namespace TheLastPlanet.Client.Core.Status
 					// spostare text
 					text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm:ss}";
 					if (EarlyRespawnTimer.Seconds == 0)
-						Client.Instance.AddTick(conteggioMorte);
+						Client.Instance.AddTick(ConteggioMorte);
 				}
 			}
 
@@ -260,7 +260,7 @@ namespace TheLastPlanet.Client.Core.Status
 						text += "\nTieni premuto [~b~E~s~] per respawnare";
 						if (await Input.IsControlStillPressed(Control.Context))
 						{
-							Client.Instance.RemoveTick(conteggioMorte);
+							Client.Instance.RemoveTick(ConteggioMorte);
 							RemoveItemsAfterRPDeath();
 							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
@@ -274,7 +274,7 @@ namespace TheLastPlanet.Client.Core.Status
 						if (await Input.IsControlStillPressed(Control.Context))
 						{
 							BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-							Client.Instance.RemoveTick(conteggioMorte);
+							Client.Instance.RemoveTick(ConteggioMorte);
 							RemoveItemsAfterRPDeath();
 							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
@@ -299,7 +299,7 @@ namespace TheLastPlanet.Client.Core.Status
 				}
 				if (BleedoutTimer.Seconds == 0 && Main.IsDead)
 				{
-					Client.Instance.RemoveTick(conteggioMorte);
+					Client.Instance.RemoveTick(ConteggioMorte);
 					RemoveItemsAfterRPDeath();
 					EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 					BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
@@ -312,7 +312,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async void endConteggio()
 		{
-			Client.Instance.RemoveTick(conteggioMorte);
+			Client.Instance.RemoveTick(ConteggioMorte);
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 			text = "";
