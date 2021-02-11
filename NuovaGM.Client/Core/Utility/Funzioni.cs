@@ -1756,6 +1756,11 @@ namespace TheLastPlanet.Client.Core.Utility
 					return "Nome colore non trovato";
 			}
 		}
+
+		public static string GetSourceOfDeath(uint hash)
+		{
+			return ConfigShared.SharedConfig.Main.Generici.DeathReasons[hash];
+		}
 	}
 
 	public class VehicleList : IEnumerable<int>
@@ -1811,7 +1816,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			return GetEnumerator();
 		}
 	}
-
 
 	static class WorldProbe
 	{
