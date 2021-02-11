@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:salvataggioClient", new Action<string>(SalvataggioClient));
 			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
 			Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
@@ -47,15 +46,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
 			//Client.Instance.AddTick(Mappina);
 			timer = GetGameTimer();
-		}
-
-		private static async void SalvataggioClient(string salvataggio)
-		{
-			/*
-			Funzioni.SalvaKVPString("mestesso", salvataggio);
-			await BaseScript.Delay(1000);
-			Log.Printa(LogType.Debug, "Me stesso = " + Funzioni.CaricaKVPString("mestesso"));
-			*/
 		}
 
 		private static void AnimazioneRiceviOggetto()
@@ -157,7 +147,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void death()
 		{
-			Game.PlayerPed.Health = -100;
+			Game.PlayerPed.Kill();
 		}
 
 		public static async void announce(string msg)
