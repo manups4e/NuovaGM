@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client
 			Interactions.PickupsClient.Init();
 			Interactions.OggettiGenerici.Init();
 			Interactions.PrimaPersonaObbligatoria.Init();
-			DamageEvents.Init();
+			InternalGameEvents.Init();
 
 			Sport.Yoga.Init();
 
