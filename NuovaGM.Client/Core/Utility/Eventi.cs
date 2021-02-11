@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.Core.Ingresso;
+using TheLastPlanet.Client.Core.Status;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -23,7 +24,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
-			Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
+			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
 			Client.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, int, string>(sendUserInfo));
 			Client.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
 			Client.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
@@ -94,14 +95,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			//Funzioni.Teleport(pos);
 		}
 
-		public static void onPlayerDeath(dynamic data)
-		{
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(data));
-			Main.IsDead = true;
-			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-			BaseScript.TriggerEvent("lprp:iniziaConteggio");
-			StartScreenEffect("DeathFailOut", 0, false);
-		}
 
 		public static void sendUserInfo(string _char_data, int _char_current, string _group)
 		{
@@ -162,14 +155,14 @@ namespace TheLastPlanet.Client.Core.Utility
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
 
 			Main.RespawnPed(Game.Player.GetPlayerData().posizione.ToVector3());
-			Status.StatsNeeds.nee.fame = 0.0f;
-			Status.StatsNeeds.nee.sete = 0.0f;
-			Status.StatsNeeds.nee.stanchezza = 0.0f;
-			Status.StatsNeeds.nee.malattia = false;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", Status.StatsNeeds.nee.Serialize());
+			StatsNeeds.nee.fame = 0.0f;
+			StatsNeeds.nee.sete = 0.0f;
+			StatsNeeds.nee.stanchezza = 0.0f;
+			StatsNeeds.nee.malattia = false;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", StatsNeeds.nee.Serialize());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
-			BaseScript.TriggerEvent("lprp:fineConteggio");
+			Death.endConteggio();
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
 			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
 			Screen.Fading.FadeIn(800);

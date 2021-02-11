@@ -17,12 +17,16 @@ namespace TheLastPlanet.Client.Core.Status
 		static private int ReviveReward;
 		static private bool EarlyRespawnFine;
 		static private int EarlyRespawnFineAmount;
-		static private bool earlyRespawn;
-		static private int earlySpawnTimer;
-		static private int bleedoutTimer;
+		static private bool EarlyRespawn;
 		static private bool canPayFine = false;
+
 		public static bool guarito = true;
 		public static bool ferito = false;
+		public static TimeSpan EarlyRespawnTimer;
+		public static TimeSpan BleedoutTimer;
+		private static int earlySpawnTimer;
+		private static int bleedoutTimer;
+
 
 		private static List<Vector3> hospitals = new List<Vector3>()
 		{
@@ -37,11 +41,105 @@ namespace TheLastPlanet.Client.Core.Status
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 
-			Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
-			Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+			//Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
+			//Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+
+
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(PedKilledByPlayer));
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPed", new Action<int, int, uint, bool>(PedKilledByPed));
+			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, int, uint, bool>(PedDied));
+			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
+			Client.Instance.AddEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
+
+
 			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
-			Client.Instance.AddEventHandler("lprp:fineConteggio", new Action(endConteggio));
 			Client.Instance.AddTick(Injuried);
+		}
+
+		#region events
+		private static async void EntityDamaged(int entity, int attacker, uint weaponHash, bool isMeleeDamage)
+		{
+			Entity ent = Entity.FromHandle(entity);
+			if(ent is Ped ped)
+			{
+				if(ped == Game.PlayerPed)
+				{
+					if (ped.Health < 55 && !ped.IsDead && guarito && !ferito)
+					{
+						RequestAnimSet("move_injured_generic");
+						while (!HasAnimSetLoaded("move_injured_generic")) await BaseScript.Delay(0);
+						ped.MovementAnimationSet = "move_injured_generic";
+						HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", NotificationColor.Red, true);
+						ferito = true;
+						guarito = false;
+						RemoveAnimSet("move_injured_generic");
+					}
+				}
+			}
+		}
+		private static void PedKilledByVehicle(int ped, int vehicle)
+		{
+			DatiMorte morte = new DatiMorte
+			{
+				Vittima = new Ped(ped),
+				VeicoloAssassino = new Vehicle(vehicle)
+			};
+			morte.Assassino = morte.VeicoloAssassino.Driver;
+			morte.PosizioneVittima = morte.Vittima.Position;
+			if(ped == PlayerPedId())
+			{
+				onPlayerDeath(morte);
+				StartDeathTimer();
+			}
+		}
+		private static void PedKilledByPlayer(int ped, int player, uint weaponHash, bool isMeleeDamage)
+		{
+			DatiMorte morte = new DatiMorte
+			{
+				Vittima = new Ped(ped),
+				Assassino = new Ped(GetPlayerPed(player)),
+				CausaDellaMorte = weaponHash,
+			};
+			morte.PosizioneVittima = morte.Vittima.Position;
+			morte.PosizioneAssassino = morte.Assassino.Position;
+			if (ped == PlayerPedId())
+			{
+				onPlayerDeath(morte);
+				StartDeathTimer();
+			}
+		}
+		private static void PedKilledByPed(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
+		{
+			DatiMorte morte = new DatiMorte
+			{
+				Vittima = new Ped(ped),
+				Assassino = new Ped(attackerPed),
+				CausaDellaMorte = weaponHash,
+			};
+			morte.PosizioneVittima = morte.Vittima.Position;
+			morte.PosizioneAssassino = morte.Assassino.Position;
+			if (ped == PlayerPedId())
+			{
+				onPlayerDeath(morte);
+				StartDeathTimer();
+			}
+		}
+		private static void PedDied(int ped, int attacker, uint weaponHash, bool isMeleeDamage)
+		{
+			DatiMorte morte = new DatiMorte
+			{
+				Vittima = new Ped(ped),
+				Assassino = new Ped(attacker),
+				CausaDellaMorte = weaponHash,
+			};
+			morte.PosizioneVittima = morte.Vittima.Position;
+			morte.PosizioneAssassino = morte.Assassino.Position;
+			if (ped == PlayerPedId())
+			{
+				StartDeathTimer();
+				onPlayerDeath(morte);
+			}
 		}
 
 		public static void Spawnato()
@@ -49,236 +147,190 @@ namespace TheLastPlanet.Client.Core.Status
 			ReviveReward = Client.Impostazioni.Main.ReviveReward;
 			EarlyRespawnFine = Client.Impostazioni.Main.EarlyRespawnFine;
 			EarlyRespawnFineAmount = Client.Impostazioni.Main.EarlyRespawnFineAmount;
-			earlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
-			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
-			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
+			EarlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
 		}
 
-		private static void pedKilledByPlayer(int ped, int attackerPlayer, uint weaponHash, bool isMeleeDamage)
+		public static void onPlayerDeath(DatiMorte morte)
 		{
-			Player victimPlayer = new Player(NetworkGetPlayerIndexFromPed(ped));
-			Player killerPlayer = new Player(attackerPlayer);
-			if (victimPlayer == Game.Player)
-			{
-				victimPlayer.GetPlayerData().StatiPlayer.FinDiVita = true;
-				Vector3 victimCoords = victimPlayer.Character.Position;
-				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, killerPlayer = killerPlayer.Handle, victimCoords, causeofdeath });
-			}
-		}
-		private static void pedKilledByPed(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
-		{
-			Player victimPlayer = new Player(NetworkGetPlayerIndexFromPed(ped));
-			Ped attakcerPed = new Ped(attackerPed);
-			if(victimPlayer == Game.Player)
-			{
-				Vector3 victimCoords = victimPlayer.Character.Position;
-				string causeofdeath = ConfigShared.SharedConfig.Main.Generici.DeathReasons[weaponHash];
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", new { victimPlayer = victimPlayer.Handle, attakcerPed = attakcerPed.Handle, victimCoords, causeofdeath });
-			}
-		}
-
-		public static void playerKilled(int killerId, dynamic Data)
-		{
-			int playerPed = PlayerPedId();
-			int killer = GetPlayerFromServerId(killerId);
-			if (NetworkIsPlayerActive(killer))
-			{
-				Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
-				int weaponHash = Data.weaponhash;
-				Data.killerpos = null;
-				Data.weaponhash = null;
-				int deathCause = GetPedCauseOfDeath(playerPed);
-				int killerPed = GetPlayerPed(killer);
-				Vector3 killerCoords = GetEntityCoords(killerPed, true);
-				float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
-				bool killed = true;
-				List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
-			}
-			else
-			{
-				bool killed = false;
-				int deathCause = GetPedCauseOfDeath(playerPed);
-				List<dynamic> data = new List<dynamic>() { killed, deathCause };
-				BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-				BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
-			}
-		}
-
-		public static void playerDied(int tipo, List<dynamic> Coords)
-		{
-			int playerPed = PlayerPedId();
-			List<dynamic> data = new List<dynamic>();
-			bool killed = false;
-			int killerType = tipo;
-			Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
-			int deathCause = GetPedCauseOfDeath(playerPed);
-			data.Add(killed);
-			data.Add(killerType);
-			data.Add(deathCoords);
-			data.Add(deathCause);
 			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
-			BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
-			BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+			Main.IsDead = true;
+			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
+			StartScreenEffect("DeathFailOut", 0, false);
 		}
+		#endregion
+
+		/*
+				public static void playerKilled(int killerId, dynamic Data)
+				{
+					int playerPed = PlayerPedId();
+					int killer = GetPlayerFromServerId(killerId);
+					if (NetworkIsPlayerActive(killer))
+					{
+						Vector3 victimCoords = new Vector3((float)Data.killerpos[0], (float)Data.killerpos[1], (float)Data.killerpos[2]);
+						int weaponHash = Data.weaponhash;
+						Data.killerpos = null;
+						Data.weaponhash = null;
+						int deathCause = GetPedCauseOfDeath(playerPed);
+						int killerPed = GetPlayerPed(killer);
+						Vector3 killerCoords = GetEntityCoords(killerPed, true);
+						float distance = GetDistanceBetweenCoords(victimCoords.X, victimCoords.Y, victimCoords.Z, killerCoords.X, killerCoords.Y, killerCoords.Z, false);
+						bool killed = true;
+						List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
+						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+						Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
+					}
+					else
+					{
+						bool killed = false;
+						int deathCause = GetPedCauseOfDeath(playerPed);
+						List<dynamic> data = new List<dynamic>() { killed, deathCause };
+						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+						Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
+					}
+				}
+
+				public static void playerDied(int tipo, List<dynamic> Coords)
+				{
+					int playerPed = PlayerPedId();
+					List<dynamic> data = new List<dynamic>();
+					bool killed = false;
+					int killerType = tipo;
+					Vector3 deathCoords = new Vector3((float)Coords[0], (float)Coords[1], (float)Coords[2]); ;
+					int deathCause = GetPedCauseOfDeath(playerPed);
+					data.Add(killed);
+					data.Add(killerType);
+					data.Add(deathCoords);
+					data.Add(deathCause);
+					Game.Player.GetPlayerData().StatiPlayer.FinDiVita = true;
+					BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
+					BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
+				}
+		*/
 
 		public static async void StartDeathTimer()
 		{
-			if (earlyRespawn)
+			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+
+			if (EarlyRespawn)
 			{
 				if (EarlyRespawnFine)
-					if (Game.Player.GetPlayerData().Money >= EarlyRespawnFineAmount)
+					if (Game.Player.GetPlayerData().Money >= EarlyRespawnFineAmount || Game.Player.GetPlayerData().Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
-
-				if (earlySpawnTimer > 0 && Main.IsDead)
-					Client.Instance.AddTick(conteggioSangue);
 			}
-			else
-			{
-				if (bleedoutTimer > 0 && Main.IsDead)
-					Client.Instance.AddTick(conteggioMorte);
-			}
-			Client.Instance.AddTick(Testo);
+			if (Main.IsDead)
+				Client.Instance.AddTick(conteggioMorte);
 		}
 
 		static string text = "";
-		public static async Task conteggioSangue()
-		{
-			await BaseScript.Delay(1000);
-			if (earlySpawnTimer > 0)
-				--earlySpawnTimer;
-
-			int mins = Funzioni.secondsToClock(earlySpawnTimer).Item1; int secs = Funzioni.secondsToClock(earlySpawnTimer).Item2;
-			text = "Avrai possibilità di respawnare in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~";
-			if (earlySpawnTimer < 1)
-				Client.Instance.AddTick(conteggioMorte);
-			await Task.FromResult(0);
-		}
-
-
-
 		public static async Task conteggioMorte()
 		{
-			await BaseScript.Delay(1000);
-			if (earlyRespawn && earlySpawnTimer < 1)
+			if (EarlyRespawn)
 			{
-				if (bleedoutTimer > 0)
-					--bleedoutTimer;
-
-				int mins = Funzioni.secondsToClock(bleedoutTimer).Item1; int secs = Funzioni.secondsToClock(bleedoutTimer).Item2;
-				text = "Morirai dissanguato in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~\n";
-				if (!EarlyRespawnFine)
+				while (EarlyRespawnTimer.Seconds > 0)
 				{
-					text += "Tieni premuto [~b~E~s~] per respawnare";
-					if (await Input.IsControlStillPressed(Control.Context))
+					if (GetGameTimer() - earlySpawnTimer > 1000)
 					{
-						Client.Instance.RemoveTick(conteggioSangue);
-						Client.Instance.RemoveTick(conteggioMorte);
-						Client.Instance.RemoveTick(Testo);
-						RemoveItemsAfterRPDeath();
-						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
-						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
-						text = "";
-						return;
+						if (EarlyRespawnTimer.Seconds > 0)
+							EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
+						earlySpawnTimer = GetGameTimer();
+					}
+					// spostare text
+					text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm:ss}";
+					if (EarlyRespawnTimer.Seconds == 0)
+						Client.Instance.AddTick(conteggioMorte);
+				}
+			}
+
+			while (BleedoutTimer.Seconds > 0)
+			{
+				if (EarlyRespawn && EarlyRespawnTimer.Seconds < 1)
+				{
+					if (GetGameTimer() - bleedoutTimer > 1000)
+					{
+						if (BleedoutTimer.Seconds > 0)
+							BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+						bleedoutTimer = GetGameTimer();
+					}
+					text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm:ss}~w~.";
+					if (!EarlyRespawnFine)
+					{
+						text += "\nTieni premuto [~b~E~s~] per respawnare";
+						if (await Input.IsControlStillPressed(Control.Context))
+						{
+							Client.Instance.RemoveTick(conteggioMorte);
+							RemoveItemsAfterRPDeath();
+							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+							text = "";
+							return;
+						}
+					}
+					else if (EarlyRespawnFine && canPayFine)
+					{
+						text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
+						if (await Input.IsControlStillPressed(Control.Context))
+						{
+							BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
+							Client.Instance.RemoveTick(conteggioMorte);
+							RemoveItemsAfterRPDeath();
+							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+							text = "";
+							return;
+						}
+					}
+					else if (EarlyRespawnFine && !canPayFine)
+					{
+						text = text + "\nPurtroppo non puoi respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~, perché non hai abbastanza denaro.";
 					}
 				}
-				else if (EarlyRespawnFine && canPayFine)
+				else
 				{
-					text = text + "Tieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
-					if (await Input.IsControlStillPressed(Control.Context))
+					if (GetGameTimer() - bleedoutTimer > 1000)
 					{
-						BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-						Client.Instance.RemoveTick(conteggioSangue);
-						Client.Instance.RemoveTick(conteggioMorte);
-						Client.Instance.RemoveTick(Testo);
-						RemoveItemsAfterRPDeath();
-						earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
-						bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
-						text = "";
-						return;
+						if (BleedoutTimer.Seconds > 0)
+							BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+						bleedoutTimer = GetGameTimer();
 					}
+					text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm:ss}~w~.";
 				}
-				else if (EarlyRespawnFine && !canPayFine)
+				if (BleedoutTimer.Seconds == 0 && Main.IsDead)
 				{
-					Screen.ShowNotification("Non hai abbastanza soldi!!");
+					Client.Instance.RemoveTick(conteggioMorte);
+					RemoveItemsAfterRPDeath();
+					EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+					BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+					text = "";
 				}
 			}
-			else
-			{
-				if (bleedoutTimer > 0)
-					--bleedoutTimer;
-
-				int mins = Funzioni.secondsToClock(bleedoutTimer).Item1; int secs = Funzioni.secondsToClock(bleedoutTimer).Item2;
-				text = "Morirai dissanguato in ~b~ " + mins + " minuti ~s~e ~b~" + secs + " secondi~s~\n";
-			}
-			if (bleedoutTimer < 1 && Main.IsDead)
-			{
-				Client.Instance.RemoveTick(conteggioSangue);
-				Client.Instance.RemoveTick(conteggioMorte);
-				Client.Instance.RemoveTick(Testo);
-				RemoveItemsAfterRPDeath();
-				earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
-				bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
-				text = "";
-			}
-			await Task.FromResult(0);
-		}
-
-
-
-		public static async Task Testo()
-		{
-			if (earlyRespawn && earlySpawnTimer < 1)
-				Client.Instance.RemoveTick(conteggioSangue);
-
 			HUD.DrawText(text);
 			await Task.FromResult(0);
 		}
 
 		public static async void endConteggio()
 		{
-			Client.Instance.RemoveTick(conteggioSangue);
 			Client.Instance.RemoveTick(conteggioMorte);
-			Client.Instance.RemoveTick(Testo);
-			earlySpawnTimer = Client.Impostazioni.Main.EarlySpawnTimer;
-			bleedoutTimer = Client.Impostazioni.Main.BleedoutTimer;
+			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 			text = "";
 		}
 
 		public static async void RemoveItemsAfterRPDeath()
 		{
-			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-			List<float> coords = new List<float>();
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(10);
-
 			BaseScript.TriggerServerEvent("lprp:removeItemsDeath");
-			Vector3 pedCoords = GetEntityCoords(PlayerPedId(), false);
-			for (int i = 0; i < hospitals.Count; i++)
-			{
-				coords.Add(CalculateTravelDistanceBetweenPoints(pedCoords.X, pedCoords.Y, pedCoords.Z, hospitals[i].X, hospitals[i].Y, hospitals[i].Z));
-			}
-
-			float vicino = coords.Min();
-
-			for (int i = 0; i < hospitals.Count; i++)
-			{
-				if (Vdist(pedCoords.X, pedCoords.Y, pedCoords.Z, hospitals[i].X, hospitals[i].Y, hospitals[i].Z) <= vicino)
-				{
-					Vector3 pos = new Vector3(hospitals[i].X, hospitals[i].Y, hospitals[i].Z);
-					Main.RespawnPed(pos);
-				}
-				while (!IsPedStill(PlayerPedId())) await BaseScript.Delay(50);
-
-				Screen.Effects.Stop(ScreenEffect.DeathFailOut);
-				Screen.Fading.FadeIn(800);
-			}
+			Vector3 pedCoords = Game.PlayerPed.Position;
+			Vector3 pos = hospitals.OrderBy(x => Vector3.Distance(pedCoords, x)).FirstOrDefault();
+			Main.RespawnPed(pos);
+			while (!IsPedStill(PlayerPedId())) await BaseScript.Delay(50);
+			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
+			Screen.Fading.FadeIn(800);
+			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
+			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
 		}
 
 		// -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO
@@ -286,22 +338,23 @@ namespace TheLastPlanet.Client.Core.Status
 		{
 			await BaseScript.Delay(1000);
 			Ped playerPed = Game.PlayerPed;
-			if ((playerPed.Health < 55 && playerPed.Health > 0) && guarito && !ferito)
-			{
-				RequestAnimSet("move_injured_generic");
-				while (!HasAnimSetLoaded("move_injured_generic")) await BaseScript.Delay(0);
-				playerPed.MovementAnimationSet = "move_injured_generic";
-				HUD.ShowNotification("Sei ferito ~b~gravemente~w~!! Hai bisogno di essere ~b~curato~w~ da un ~b~medico~w~!", NotificationColor.Red, true);
-				ferito = true;
-				guarito = false;
-				RemoveAnimSet("move_injured_generic");
-			}
 			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.nee.fame < 80 && StatsNeeds.nee.sete < 80))
 			{
-				ResetPedMovementClipset(PlayerPedId(), 0.25f);
+				playerPed.MovementAnimationSet = null;
 				ferito = false;
 				guarito = true;
 			}
 		}
+	}
+
+	public class DatiMorte
+	{
+		public Ped Vittima;
+		public Ped Assassino;
+		public Vector3 PosizioneVittima;
+		public Vector3 PosizioneAssassino;
+		public uint CausaDellaMorte;
+		public Vehicle VeicoloAssassino;
+		// aggiungere parti del corpo danneggiate
 	}
 }
