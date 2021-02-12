@@ -229,84 +229,91 @@ namespace TheLastPlanet.Client.Core.Status
 		static string text = "";
 		public static async Task ConteggioMorte()
 		{
-			if (EarlyRespawn)
+			try
 			{
-				if (GetGameTimer() - earlySpawnTimer > 1000)
+				if (EarlyRespawn)
 				{
-					if (EarlyRespawnTimer.TotalSeconds > 0)
-						EarlyRespawnTimer = EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
-					earlySpawnTimer = GetGameTimer();
-					// spostare text
-					text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm\\:ss}";
+					if (GetGameTimer() - earlySpawnTimer > 1000)
+					{
+						if (EarlyRespawnTimer.TotalSeconds > 0)
+							EarlyRespawnTimer = EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
+						earlySpawnTimer = GetGameTimer();
+						// spostare text
+						text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm\\:ss}";
+					}
 				}
-			}
 
-			if ((EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0) || !EarlyRespawn)
-			{
-				if (BleedoutTimer.TotalSeconds > 0)
+				if ((EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0) || !EarlyRespawn)
 				{
-					if (EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0)
+					if (BleedoutTimer.TotalSeconds > 0)
 					{
-						if (GetGameTimer() - bleedoutTimer > 1000)
+						if (EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0)
 						{
-							if (BleedoutTimer.TotalSeconds > 0)
-								BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
-							bleedoutTimer = GetGameTimer();
-						}
-						text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
-						if (!EarlyRespawnFine)
-						{
-							text += "\nTieni premuto [~b~E~s~] per respawnare";
-							if (await Input.IsControlStillPressed(Control.Context))
+							if (GetGameTimer() - bleedoutTimer > 1000)
 							{
-								Client.Instance.RemoveTick(ConteggioMorte);
-								RemoveItemsAfterRPDeath();
-								EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-								BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-								text = "";
-								return;
+								if (BleedoutTimer.TotalSeconds > 0)
+									BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+								bleedoutTimer = GetGameTimer();
+							}
+							text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
+							if (!EarlyRespawnFine)
+							{
+								text += "\nTieni premuto [~b~E~s~] per respawnare";
+								if (await Input.IsControlStillPressed(Control.Context))
+								{
+									Client.Instance.RemoveTick(ConteggioMorte);
+									RemoveItemsAfterRPDeath();
+									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									text = "";
+									return;
+								}
+							}
+							else if (EarlyRespawnFine && canPayFine)
+							{
+								text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
+								if (await Input.IsControlStillPressed(Control.Context))
+								{
+									BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
+									Client.Instance.RemoveTick(ConteggioMorte);
+									RemoveItemsAfterRPDeath();
+									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									text = "";
+									return;
+								}
+							}
+							else if (EarlyRespawnFine && !canPayFine)
+							{
+								text = text + "\nPurtroppo non puoi respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~, perché non hai abbastanza denaro.";
 							}
 						}
-						else if (EarlyRespawnFine && canPayFine)
+						else
 						{
-							text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
-							if (await Input.IsControlStillPressed(Control.Context))
+							if (GetGameTimer() - bleedoutTimer > 1000)
 							{
-								BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-								Client.Instance.RemoveTick(ConteggioMorte);
-								RemoveItemsAfterRPDeath();
-								EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-								BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-								text = "";
-								return;
+								if (BleedoutTimer.TotalSeconds > 0)
+									BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+								bleedoutTimer = GetGameTimer();
 							}
+							text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
 						}
-						else if (EarlyRespawnFine && !canPayFine)
+						if (BleedoutTimer.TotalSeconds == 0 && Main.IsDead)
 						{
-							text = text + "\nPurtroppo non puoi respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~, perché non hai abbastanza denaro.";
+							Client.Instance.RemoveTick(ConteggioMorte);
+							RemoveItemsAfterRPDeath();
+							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
+							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+							text = "";
 						}
-					}
-					else
-					{
-						if (GetGameTimer() - bleedoutTimer > 1000)
-						{
-							if (BleedoutTimer.TotalSeconds > 0)
-								BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
-							bleedoutTimer = GetGameTimer();
-						}
-						text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
-					}
-					if (BleedoutTimer.TotalSeconds == 0 && Main.IsDead)
-					{
-						Client.Instance.RemoveTick(ConteggioMorte);
-						RemoveItemsAfterRPDeath();
-						EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-						BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
-						text = "";
 					}
 				}
+				HUD.DrawText(text);
 			}
-			HUD.DrawText(text);
+			catch(Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+			}
 			await Task.FromResult(0);
 		}
 
