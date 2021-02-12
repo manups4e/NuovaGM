@@ -1157,14 +1157,14 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static uint HashUint(string str) => (uint)GetHashKey(str);
+		public static uint HashUint(string str) => (uint)Game.GenerateHash(str);
 
 		/// <summary>
 		/// GetHashKey int
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static int HashInt(string str) => GetHashKey(str);
+		public static int HashInt(string str) => Game.GenerateHash(str);
 
 		/// <summary>
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
