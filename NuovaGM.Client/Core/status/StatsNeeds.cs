@@ -464,7 +464,7 @@ namespace TheLastPlanet.Client.Core.Status
 				AggTimer = Game.GameTime;
 				#endregion
 			}
-			if (Game.GameTime - UpdTimer > 5000)//60000)
+			if (Game.GameTime - UpdTimer > 30000)//60000)
 			{
 				await Agg();
 				UpdTimer = Game.GameTime;
