@@ -158,95 +158,92 @@ namespace TheLastPlanet.Client.Core
 			HostId = hostid;
 		}
 
-		private static float OttieniShake
+		private static float OttieniShake(WeaponHash weap)
 		{
-			get
+			switch (Game.PlayerPed.Weapons.Current.Hash)
 			{
-				switch (Game.PlayerPed.Weapons.Current.Hash)
-				{
-					case WeaponHash.StunGun:
-					case WeaponHash.FlareGun:
-						return 0.01f;
-					case WeaponHash.SNSPistol:
-						return 0.02f;
-					case WeaponHash.SNSPistolMk2:
-					case WeaponHash.VintagePistol:
-					case WeaponHash.DoubleAction:
-					case WeaponHash.Pistol:
-						return 0.025f;
-					case WeaponHash.PistolMk2:
-					case WeaponHash.CombatPistol:
-					case WeaponHash.HeavyPistol:
-					case WeaponHash.MarksmanPistol:
-						return 0.03f;
-					case WeaponHash.MicroSMG:
-					case WeaponHash.MachinePistol:
-					case WeaponHash.MiniSMG:
-						return 0.035f;
-					case WeaponHash.Musket:
-						return 0.04f;
-					case WeaponHash.Revolver:
-					case WeaponHash.SMG:
-						return 0.045f;
-					case WeaponHash.APPistol:
-					case WeaponHash.Pistol50:
-					case WeaponHash.Gusenberg:
-					case WeaponHash.BullpupRifle:
-					case WeaponHash.CompactRifle:
-					case WeaponHash.DoubleBarrelShotgun:
-					case WeaponHash.AssaultSMG:
-						return 0.05f;
-					case WeaponHash.RevolverMk2:
-					case WeaponHash.CombatPDW:
-					case WeaponHash.SMGMk2:
-						return 0.055f;
-					case WeaponHash.CarbineRifle:
-					case WeaponHash.AdvancedRifle:
-					case WeaponHash.SawnOffShotgun:
-					case WeaponHash.SpecialCarbine:
-						return 0.06f;
-					case WeaponHash.CarbineRifleMk2:
-					case WeaponHash.BullpupRifleMk2:
-						return 0.065f;
-					case WeaponHash.MG:
-					case WeaponHash.PumpShotgun:
-					case WeaponHash.AssaultRifle:
-						return 0.07f;
-					case WeaponHash.SpecialCarbineMk2:
-						return 0.075f;
-					case WeaponHash.CombatMG:
-					case WeaponHash.CompactGrenadeLauncher:
-					case WeaponHash.BullpupShotgun:
-					case WeaponHash.GrenadeLauncher:
-					case WeaponHash.SweeperShotgun:
-						return 0.08f;
-					case WeaponHash.CombatMGMk2:
-					case WeaponHash.AssaultRifleMk2:
-					case WeaponHash.PumpShotgunMk2:
-						return 0.085f;
-					case WeaponHash.MarksmanRifle:
-					case WeaponHash.MarksmanRifleMk2:
-						return 0.1f;
-					case WeaponHash.AssaultShotgun:
-						return 0.12f;
-					case WeaponHash.HeavyShotgun:
-						return 0.13f;
-					case WeaponHash.Minigun:
-					case WeaponHash.SniperRifle:
-						return 0.2f;
-					case WeaponHash.HeavySniper:
-						return 0.3f;
-					case WeaponHash.HeavySniperMk2:
-						return 0.35f;
-					case WeaponHash.Firework:
-						return 0.5f;
-					case WeaponHash.RPG:
-					case WeaponHash.HomingLauncher:
-						return 0.9f;
-					case WeaponHash.Railgun:
-						return 1.0f;
-					default: return 0;
-				}
+				case WeaponHash.StunGun:
+				case WeaponHash.FlareGun:
+					return 0.01f;
+				case WeaponHash.SNSPistol:
+					return 0.02f;
+				case WeaponHash.SNSPistolMk2:
+				case WeaponHash.VintagePistol:
+				case WeaponHash.DoubleAction:
+				case WeaponHash.Pistol:
+					return 0.025f;
+				case WeaponHash.PistolMk2:
+				case WeaponHash.CombatPistol:
+				case WeaponHash.HeavyPistol:
+				case WeaponHash.MarksmanPistol:
+					return 0.03f;
+				case WeaponHash.MicroSMG:
+				case WeaponHash.MachinePistol:
+				case WeaponHash.MiniSMG:
+					return 0.035f;
+				case WeaponHash.Musket:
+					return 0.04f;
+				case WeaponHash.Revolver:
+				case WeaponHash.SMG:
+					return 0.045f;
+				case WeaponHash.APPistol:
+				case WeaponHash.Pistol50:
+				case WeaponHash.Gusenberg:
+				case WeaponHash.BullpupRifle:
+				case WeaponHash.CompactRifle:
+				case WeaponHash.DoubleBarrelShotgun:
+				case WeaponHash.AssaultSMG:
+					return 0.05f;
+				case WeaponHash.RevolverMk2:
+				case WeaponHash.CombatPDW:
+				case WeaponHash.SMGMk2:
+					return 0.055f;
+				case WeaponHash.CarbineRifle:
+				case WeaponHash.AdvancedRifle:
+				case WeaponHash.SawnOffShotgun:
+				case WeaponHash.SpecialCarbine:
+					return 0.06f;
+				case WeaponHash.CarbineRifleMk2:
+				case WeaponHash.BullpupRifleMk2:
+					return 0.065f;
+				case WeaponHash.MG:
+				case WeaponHash.PumpShotgun:
+				case WeaponHash.AssaultRifle:
+					return 0.07f;
+				case WeaponHash.SpecialCarbineMk2:
+					return 0.075f;
+				case WeaponHash.CombatMG:
+				case WeaponHash.CompactGrenadeLauncher:
+				case WeaponHash.BullpupShotgun:
+				case WeaponHash.GrenadeLauncher:
+				case WeaponHash.SweeperShotgun:
+					return 0.08f;
+				case WeaponHash.CombatMGMk2:
+				case WeaponHash.AssaultRifleMk2:
+				case WeaponHash.PumpShotgunMk2:
+					return 0.085f;
+				case WeaponHash.MarksmanRifle:
+				case WeaponHash.MarksmanRifleMk2:
+					return 0.1f;
+				case WeaponHash.AssaultShotgun:
+					return 0.12f;
+				case WeaponHash.HeavyShotgun:
+					return 0.13f;
+				case WeaponHash.Minigun:
+				case WeaponHash.SniperRifle:
+					return 0.2f;
+				case WeaponHash.HeavySniper:
+					return 0.3f;
+				case WeaponHash.HeavySniperMk2:
+					return 0.35f;
+				case WeaponHash.Firework:
+					return 0.5f;
+				case WeaponHash.RPG:
+				case WeaponHash.HomingLauncher:
+					return 0.9f;
+				case WeaponHash.Railgun:
+					return 1.0f;
+				default: return 0;
 			}
 		}
 
@@ -346,7 +343,7 @@ namespace TheLastPlanet.Client.Core
 				DisplayAmmoThisFrame(false);
 			if (p.IsShooting)
 			{
-				ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", OttieniShake);
+				ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", OttieniShake(p.Weapons.Current.Hash));
 				if (weapon.Hash == WeaponHash.FireExtinguisher)
 					weapon.InfiniteAmmo = true;
 				if (!p.IsDoingDriveBy)
@@ -424,8 +421,10 @@ namespace TheLastPlanet.Client.Core
 				currentPosition = Game.Player.GetPlayerData() == null ? Game.PlayerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (t >= Client.Impostazioni.Main.AFKCheckTime)
+				{
 					if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), currentPosition) < 3f)
 						BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
+				}
 				else
 				{
 					if (t > (Client.Impostazioni.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 4f)))
