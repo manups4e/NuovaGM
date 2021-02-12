@@ -123,8 +123,6 @@ namespace TheLastPlanet.Client
         {
             var currentTicks = Game.GameTime + 1;
 
-            await BaseScript.Delay(0);
-
             while (IsControlPressed(control, keyboardOnly, modifier) && Game.GameTime - currentTicks < timeout)
                 await BaseScript.Delay(0);
 
