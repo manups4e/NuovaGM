@@ -250,8 +250,12 @@ namespace TheLastPlanet.Client.Core
 			}
 		}
 
-		public static async Task NewTick()
+		public static async Task MainTick()
 		{
+			Ped p = Game.PlayerPed;
+			Player pl = Game.Player;
+
+			#region death?andweapon
 			Game.DisableControlThisFrame(0, Control.SpecialAbilitySecondary);
 			if (IsDead)
 			{
@@ -261,7 +265,7 @@ namespace TheLastPlanet.Client.Core
 				EnableControlAction(0, 38, true);
 				Game.EnableControlThisFrame(0, Control.FrontendPause);
 			}
-			if (IsPedArmed(Game.PlayerPed.Handle, 6))
+			if (IsPedArmed(p.Handle, 6))
 			{
 				Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
 				Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
@@ -269,12 +273,8 @@ namespace TheLastPlanet.Client.Core
 				Game.DisableControlThisFrame(0, Control.MeleeAttack1);
 				Game.DisableControlThisFrame(0, Control.MeleeAttack2);
 			}
-		}
+			#endregion
 
-		public static async Task MainTick()
-		{
-			Ped p = Game.PlayerPed;
-			Player pl = Game.Player;
 			if (p.IsJumping && Input.IsControlJustPressed(Control.Jump))
 				p.Ragdoll(1);
 			if (pl.WantedLevel != 0)

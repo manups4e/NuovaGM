@@ -62,7 +62,6 @@ namespace TheLastPlanet.Client
 			TickGenerici.Add(StatsNeeds.Aggiornamento);
 			TickGenerici.Add(StatsNeeds.Conseguenze);
 			TickGenerici.Add(StatsNeeds.Agg);
-			TickGenerici.Add(Main.NewTick);
 			TickGenerici.Add(Main.MainTick);
 			TickGenerici.Add(Main.Armi);
 			TickGenerici.Add(PersonalMenu.attiva);
