@@ -229,8 +229,6 @@ namespace TheLastPlanet.Client.Core.Status
 		static string text = "";
 		public static async Task ConteggioMorte()
 		{
-			Log.Printa(LogType.Debug, $"EarlyRespawnTimer = {EarlyRespawnTimer:mm\\:ss}, BleedoutTimer = {BleedoutTimer:mm\\:ss}");
-			Log.Printa(LogType.Debug, $"ora = {GetGameTimer() - earlySpawnTimer}");
 			if (EarlyRespawn)
 			{
 				if (GetGameTimer() - earlySpawnTimer > 1000)
