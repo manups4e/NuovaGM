@@ -32,6 +32,11 @@ namespace TheLastPlanet.Client.Core.Status
 		private static bool sete60 = false;
 		private static bool sete80 = false;
 		private static bool sete100 = false;
+		private static bool stanchezza20 = false;
+		private static bool stanchezza40 = false;
+		private static bool stanchezza60 = false;
+		private static bool stanchezza80 = false;
+		private static bool stanchezza100 = false;
 		private static int stamina = 0;
 		private static int strength = 0;
 		private static int fly = 0;
@@ -40,7 +45,10 @@ namespace TheLastPlanet.Client.Core.Status
 		private static int drugs = 0;
 		private static int fishing = 0;
 		private static int hunting = 0;
-
+		private static int AggTimer = 0;
+		private static int SvieniTimer = 0;
+		private static int UpdTimer = 0;
+		
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
@@ -141,313 +149,353 @@ namespace TheLastPlanet.Client.Core.Status
 		}
 
 
-		public static async Task Aggiornamento()
+		public static async Task AggiornamentoEConseguenze()
 		{
+			await BaseScript.Delay(625); // ogni 4 volte
+			if (Game.GameTime - AggTimer > 2500)
+			{
+				Player me = Game.Player;
+				Ped playerPed = me.Character;
+
+				#region Aggiornamento
+				if (playerPed.IsRunning || playerPed.IsSwimming || playerPed.IsJumping)
+				{
+					nee.fame += 0.025f;
+					nee.sete += 0.035f;
+					nee.stanchezza += 0.005f;
+				}
+				else if (playerPed.IsSwimmingUnderWater || playerPed.IsSprinting)
+				{
+					nee.fame += 0.040f;
+					nee.sete += 0.055f;
+					nee.stanchezza += 0.070f;
+				}
+				else if (playerPed.IsInMeleeCombat)
+				{
+					nee.fame += 0.015f;
+					nee.sete += 0.033f;
+					nee.stanchezza += 0.057f;
+				}
+				else
+				{
+					nee.fame += 0.005f;
+					nee.sete += 0.006f;
+					nee.stanchezza += 0.007f;
+				}
+				if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6)
+					nee.stanchezza += 0.07f;
+				if (nee.fame >= 100.0f)
+					nee.fame = 100.0f;
+				else if (nee.fame <= 0.0f)
+					nee.fame = 0.0f;
+
+				if (nee.sete >= 100.0f)
+					nee.sete = 100.0f;
+				else if (nee.sete <= 0.0f)
+					nee.sete = 0.0f;
+
+				if (nee.stanchezza >= 100.0f)
+					nee.stanchezza = 100.0f;
+				else if (nee.stanchezza <= 0.0f)
+					nee.stanchezza = 0.0f;
+
+				if (playerPed.IsSprinting || playerPed.IsSwimmingUnderWater)
+					skill.STAMINA += 0.002f;
+				else if (playerPed.IsRunning || playerPed.IsSwimming)
+					skill.STAMINA += +0.001f;
+
+				if (playerPed.IsSwimmingUnderWater)
+					skill.LUNG_CAPACITY += 0.002f;
+
+				if (playerPed.IsInMeleeCombat)
+					skill.STRENGTH += 0.002f;
+
+				if (playerPed.IsOnBike && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == playerPed)
+				{
+					float speed = playerPed.CurrentVehicle.Speed * 3.6f;
+					if (speed > 150f)
+						skill.WHEELIE_ABILITY += 0.003f;
+					else if (speed > 90f && speed < 150f)
+						skill.WHEELIE_ABILITY += 0.002f;
+					else if (speed < 90f)
+						skill.WHEELIE_ABILITY += 0.001f;
+				}
+				else if ((playerPed.IsInPlane || playerPed.IsInHeli) && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == playerPed)
+				{
+					if (playerPed.CurrentVehicle.HeightAboveGround >= 15)
+						skill.FLYING_ABILITY += 0.002f;
+				}
+				if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
+					skill.FISHING += 0.003f;
+				/*
+				if (Lavori.Droghe.generico)
+				{
+					skill.DRUGS += 0.002f;
+				}
+				*/
+
+				if (skill.WHEELIE_ABILITY - wheelie >= 1f)
+				{
+					wheelie = (int)Math.Floor(skill.WHEELIE_ABILITY);
+					me.GetPlayerData().CurrentChar.statistiche.WHEELIE_ABILITY = skill.WHEELIE_ABILITY;
+					StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), wheelie, true);
+					HUD.ShowStatNotification(wheelie, "PSF_DRIVING");
+				}
+
+				if (skill.FLYING_ABILITY - fly >= 1f)
+				{
+					fly = (int)Math.Floor(skill.FLYING_ABILITY);
+					me.GetPlayerData().CurrentChar.statistiche.FLYING_ABILITY = skill.FLYING_ABILITY;
+					StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), fly, true);
+					HUD.ShowStatNotification(fly, "PSF_FLYING");
+				}
+
+				if (skill.STAMINA - stamina >= 1f)
+				{
+					stamina = (int)Math.Floor(skill.STAMINA);
+					me.GetPlayerData().CurrentChar.statistiche.STAMINA = skill.STAMINA;
+					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), stamina, true);
+					HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Resistenza~w~ di 1 punto! Il tuo livello attuale è di ~b~{stamina}/100~w~!");
+				}
+
+				if (skill.STRENGTH - strength >= 1f)
+				{
+					strength = (int)Math.Floor(skill.STRENGTH);
+					me.GetPlayerData().CurrentChar.statistiche.STRENGTH = skill.STRENGTH;
+					StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), strength, true);
+					HUD.ShowStatNotification(strength, "PSF_STRENGTH");
+				}
+
+				if (skill.LUNG_CAPACITY - lung >= 1f)
+				{
+					lung = (int)Math.Floor(skill.LUNG_CAPACITY);
+					me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY = skill.LUNG_CAPACITY;
+					StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), lung, true);
+					HUD.ShowStatNotification(lung, "PSF_LUNG");
+				}
+
+				if (skill.FISHING - fishing >= 1f)
+				{
+					fishing = (int)Math.Floor(skill.FISHING);
+					me.GetPlayerData().CurrentChar.statistiche.FISHING = skill.FISHING;
+					HUD.ShowStatNotification(lung, "Pescatore +");
+				}
+
+				if (skill.HUNTING - hunting >= 1f)
+				{
+					hunting = (int)Math.Floor(skill.HUNTING);
+					HUD.ShowStatNotification(lung, "Cacciatore +");
+					me.GetPlayerData().CurrentChar.statistiche.HUNTING = skill.HUNTING;
+				}
+
+				if (skill.DRUGS - drugs >= 1f)
+				{
+					drugs = (int)Math.Floor(skill.DRUGS);
+					//Lavori.Droghe.set(skill.DRUGS);
+				}
+				#endregion
+
+				#region Conseguenze
+				if (nee.stanchezza < 20.0f)
+				{
+					if (stanchezza20 || stanchezza40 || stanchezza60 || stanchezza80 || stanchezza100)
+					{
+						StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
+						StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(me.GetPlayerData().CurrentChar.statistiche.SHOOTING_ABILITY), true);
+						stanchezza20 = false;
+						stanchezza40 = false;
+						stanchezza60 = false;
+						stanchezza80 = false;
+						stanchezza100 = false;
+					}
+				}
+				if (nee.stanchezza >= 20f)
+				{
+					if (!stanchezza20)
+					{
+						int stam = 0;
+						int shot = 0;
+						StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref stam, -1);
+						StatGetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), ref shot, -1);
+						if (stam > 10)
+							StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(stam - (stam / 20f)), true);
+						if (shot > 10)
+							StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(shot - (shot / 20f)), true);
+						stanchezza20 = true;
+					}
+				}
+				if (nee.stanchezza >= 40.0f)
+				{
+					if (!stanchezza40)
+					{
+						StatSetInt(Funzioni.HashUint("MP0_STAMINA"), 1, true);
+						StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), 1, true);
+						stanchezza40 = true;
+					}
+				}
+				if (nee.stanchezza >= 60.0f)
+				{
+					if (!stanchezza60)
+					{
+						SetPlayerSprint(PlayerId(), false);
+						stanchezza60 = true;
+					}
+				}
+				if (nee.stanchezza >= 80.0f)
+				{
+					if (Game.GameTime - SvieniTimer > 600000)
+					{
+						if (Funzioni.GetRandomInt(100) > 85)
+						{
+							if (playerPed.IsWalking)
+							{
+								playerPed.Ragdoll(30000, RagdollType.Normal);
+								HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Trova un posto per riposare!!");
+								Clacson();
+							}
+							else if (playerPed.IsInVehicle() || playerPed.IsInFlyingVehicle)
+							{
+								SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
+								HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Se sopravvivi trova un posto per riposare!!");
+								playerPed.Task.PlayAnimation("rcmnigel2", "die_horn", 4f, -1, AnimationFlags.StayInEndFrame);
+								Clacson();
+							}
+						}
+						SvieniTimer = Game.GameTime;
+					}
+					stanchezza80 = true;
+				}
+				if (nee.fame < 20.0f)
+				{
+					if (fame20 || fame60 || fame80 || fame100)
+					{
+						StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
+						fame20 = false;
+						fame60 = false;
+						fame80 = false;
+						fame100 = false;
+					}
+				}
+				if (nee.fame >= 20f)
+				{
+					if (!fame20)
+					{
+						HUD.ShowNotification("Senti un certo languorino... Stuzzicheresti volentieri qualcosa.", NotificationColor.GreenDark, true);
+						fame20 = true;
+					}
+				}
+				if (nee.fame >= 60)
+				{
+					if (!fame60)
+					{
+						HUD.ShowNotification("Hai fame! forse dovresti mangiare qualcosa!", NotificationColor.Yellow, true);
+						fame60 = true;
+						int stam = 0;
+						StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref stam, -1);
+						StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(stam - (stam / 10f)), true);
+					}
+				}
+				if (nee.fame >= 80)
+				{
+					if (!fame80)
+					{
+						HUD.ShowNotification("Stai morendo di fame! Se continui così rischi di morire!.", NotificationColor.Red, true);
+						fame80 = true;
+						playerPed.Health -= 5;
+						playerPed.MovementAnimationSet = "move_injured_generic";
+					}
+				}
+				if (nee.fame == 100)
+				{
+					if (!fame100)
+					{
+						HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
+						fame100 = true;	
+						Client.Instance.AddTick(FameSete);
+					}
+				}
+
+				if (nee.sete < 20.0f)
+				{
+					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
+					fame20 = false;
+					fame60 = false;
+					fame80 = false;
+					fame100 = false;
+				}
+				if (nee.sete >= 20f)
+				{
+					if (!sete20)
+					{
+						HUD.ShowNotification("Hai la gola un po' secca... ti andrebbe una bibita.", NotificationColor.GreenDark, true);
+						sete20 = true;
+					}
+				}
+				if (nee.sete >= 60)
+				{
+					if (!sete60)
+					{
+						HUD.ShowNotification("Hai sete! forse dovresti bere qualcosa!", NotificationColor.Yellow, true);
+						sete60 = true;
+						int stam = 0;
+						StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref stam, -1);
+						StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(stam - (stam / 10f)), true);
+					}
+				}
+				if (nee.sete >= 80)
+				{
+					if (!sete80)
+					{
+						HUD.ShowNotification("Stai morendo di sete! Se continui così rischi di morire!.", NotificationColor.Red, true);
+						playerPed.Health -= 5;
+						playerPed.MovementAnimationSet = "move_injured_generic";
+						sete80 = true;
+					}
+				}
+				if (nee.sete == 100)
+				{
+					if (!sete100)
+					{
+						HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
+						sete100 = true;
+						Client.Instance.AddTick(FameSete);
+					}
+				}
+				AggTimer = Game.GameTime;
+				#endregion
+			}
+			if (Game.GameTime - UpdTimer > 5000)//60000)
+			{
+				await Agg();
+				UpdTimer = Game.GameTime;
+			}
+		}
+
+		private static async Task FameSete()
+		{
+			await BaseScript.Delay(1000);
 			Ped playerPed = Game.PlayerPed;
-			if (playerPed.IsRunning || playerPed.IsSwimming || playerPed.IsJumping)
+			if (playerPed.Health > 0 && (fame100 || sete100))
 			{
-				nee.fame += 0.025f;
-				nee.sete += 0.035f;
-				nee.stanchezza += 0.005f;
-			}
-			else if (playerPed.IsSwimmingUnderWater || playerPed.IsSprinting)
-			{
-				nee.fame += 0.040f;
-				nee.sete += 0.055f;
-				nee.stanchezza += 0.070f;
-			}
-			else if (playerPed.IsInMeleeCombat)
-			{
-				nee.fame += 0.015f;
-				nee.sete += 0.033f;
-				nee.stanchezza += 0.057f;
+				if (playerPed.Health <= 50)
+					playerPed.Health -= 5;
+				else
+					playerPed.Health -= 1;
 			}
 			else
-			{
-				nee.fame += 0.005f;
-				nee.sete += 0.010f;
-				nee.stanchezza += 0.015f;
-			}
-			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6)
-				nee.stanchezza += 0.07f;
-			if (nee.fame >= 100.0f)
-				nee.fame = 100.0f;
-			else if (nee.fame <= 0.0f)
-				nee.fame = 0.0f;
-
-			if (nee.sete >= 100.0f)
-				nee.sete = 100.0f;
-			else if (nee.sete <= 0.0f)
-				nee.sete = 0.0f;
-
-			if (nee.stanchezza >= 100.0f)
-				nee.stanchezza = 100.0f;
-			else if (nee.stanchezza <= 0.0f)
-				nee.stanchezza = 0.0f;
-
-			if (playerPed.IsSprinting || playerPed.IsSwimmingUnderWater)
-				skill.STAMINA += 0.002f;
-			else if (playerPed.IsRunning || playerPed.IsSwimming)
-				skill.STAMINA += +0.001f;
-
-			if (playerPed.IsSwimmingUnderWater)
-				skill.LUNG_CAPACITY += 0.002f;
-
-			if (playerPed.IsInMeleeCombat)
-				skill.STRENGTH += 0.002f;
-
-			if (playerPed.IsOnBike && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
-			{
-				float speed = playerPed.CurrentVehicle.Speed * 3.6f;
-				if (speed > 150f)
-					skill.WHEELIE_ABILITY += 0.003f;
-				else if (speed > 90f && speed < 150f)
-					skill.WHEELIE_ABILITY += 0.002f;
-				else if (speed < 90f)
-					skill.WHEELIE_ABILITY += 0.001f;
-			}
-			else if ((playerPed.IsInPlane || playerPed.IsInHeli) && playerPed.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.PlayerPed)
-			{
-				if (playerPed.CurrentVehicle.HeightAboveGround >= 15)
-					skill.FLYING_ABILITY += 0.002f;
-			}
-			if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
-				skill.FISHING += 0.003f;
-			/*
-			if (Lavori.Droghe.generico)
-			{
-				skill.DRUGS += 0.002f;
-			}
-			*/
-
-			if (skill.WHEELIE_ABILITY - wheelie >= 1)
-			{
-				wheelie = (int)Math.Floor(skill.WHEELIE_ABILITY);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.WHEELIE_ABILITY = skill.WHEELIE_ABILITY;
-				StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), wheelie, true);
-				HUD.ShowStatNotification(wheelie, "PSF_DRIVING");
-//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Abilità in Moto~w~ di 1 punto! Il tuo livello attuale è di ~b~{wheelie}/100~w~!");
-			}
-
-			if (skill.FLYING_ABILITY - fly >= 1)
-			{
-				fly = (int)Math.Floor(skill.FLYING_ABILITY);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.FLYING_ABILITY = skill.FLYING_ABILITY;
-				StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), fly, true);
-				HUD.ShowStatNotification(fly, "PSF_FLYING");
-//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Abilità in Volo~w~ di 1 punto! Il tuo livello attuale è di ~b~{fly}/100~w~!");
-			}
-
-			if (skill.STAMINA - stamina >= 1)
-			{
-				stamina = (int)Math.Floor(skill.STAMINA);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.STAMINA = skill.STAMINA;
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), stamina, true);
-				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Resistenza~w~ di 1 punto! Il tuo livello attuale è di ~b~{stamina}/100~w~!");
-//				HUD.ShowStatNotification(stamina, "PSF_STAMINA");
-			}
-
-			if (skill.STRENGTH - strength >= 1)
-			{
-				strength = (int)Math.Floor(skill.STRENGTH);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.STRENGTH = skill.STRENGTH;
-				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), strength, true);
-				HUD.ShowStatNotification(strength, "PSF_STRENGTH");
-//				HUD.ShowNotification($"Complimenti! Hai aumentato la tua ~y~Forza~w~ di 1 punto! Il tuo livello attuale è di ~b~{strength}/100~w~!");
-			}
-
-			if (skill.LUNG_CAPACITY - lung >= 1)
-			{
-				lung = (int)Math.Floor(skill.LUNG_CAPACITY);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY = skill.LUNG_CAPACITY;
-				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), lung, true);
-				HUD.ShowStatNotification(lung, "PSF_LUNG");
-//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Fiato sott'Acqua~w~ di 1 punto! Il tuo livello attuale è di ~b~{lung}/100~w~!");
-			}
-
-			if (skill.FISHING - fishing >= 1)
-			{
-				fishing = (int)Math.Floor(skill.FISHING);
-				Game.Player.GetPlayerData().CurrentChar.statistiche.FISHING = skill.FISHING;
-				HUD.ShowStatNotification(lung, "Pescatore +");
-//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Pesca~w~ di 1 punto! Il tuo livello attuale è di ~b~{fishing}/100~w~!");
-			}
-
-			if (skill.HUNTING - hunting >= 1)
-			{
-				hunting = (int)Math.Floor(skill.HUNTING);
-				HUD.ShowStatNotification(lung, "Cacciatore +");
-				Game.Player.GetPlayerData().CurrentChar.statistiche.HUNTING = skill.HUNTING;
-//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Caccia~w~ di 1 punto! Il tuo livello attuale è di ~b~{hunting}/100~w~!");
-			}
-
-			if (skill.DRUGS - drugs >= 1)
-			{
-				drugs = (int)Math.Floor(skill.DRUGS);
-				//Lavori.Droghe.set(skill.DRUGS);
-//				HUD.ShowNotification($"Complimenti! Hai aumentato il tuo ~y~Livello di Droga~w~ di 1 punto! Il tuo livello attuale è di ~b~{drugs}/100~w~!");
-			}
-			await BaseScript.Delay(2500);
+				Client.Instance.RemoveTick(FameSete);
 		}
 
-		public static async Task Conseguenze()
+		private static async void Clacson()
 		{
-			Ped playerPed = Game.PlayerPed;
-			int val = 0;
-			int val1 = 0;
-			bool bol = StatGetInt(Funzioni.HashUint("MP0_STAMINA"), ref val, -1);
-			if (nee.stanchezza >= 20.0f)
-			{
-				bool bol1 = StatGetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), ref val1, -1);
-				if (val > 10)
-				{
-					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
-				}
-
-				if (val1 > 10)
-				{
-					StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(val / 10), true);
-				}
-			}
-			else if (nee.stanchezza >= 40.0f)
-			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), 1, true);
-				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), 1, true);
-			}
-			else if (nee.stanchezza < 20.0f)
-			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Game.Player.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
-				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(Game.Player.GetPlayerData().CurrentChar.statistiche.SHOOTING_ABILITY), true);
-			}
-			if (nee.stanchezza >= 60.0f)
-			{
-				SetPlayerSprint(PlayerId(), false);
-				playerPed.Accuracy = 15;
-			}
-			if (nee.stanchezza >= 80.0f)
-			{
-				playerPed.Accuracy = 0;
-				if (Funzioni.GetRandomInt(100) > 85)
-				{
-					if (playerPed.IsWalking)
-					{
-						playerPed.Ragdoll(30000, RagdollType.Normal);
-						HUD.ShowNotification("Sei svenuto perche eri troppo stanco.. Trova un posto per riposare!!");
-						await BaseScript.Delay(30000);
-						playerPed.CancelRagdoll();
-					}
-					else if (playerPed.IsInVehicle() || playerPed.IsInFlyingVehicle)
-					{
-						SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
-						HUD.ShowNotification("Sei svenuto perche eri troppo stanco.. Se sopravvivi trova un posto per riposare!!");
-						playerPed.Task.PlayAnimation("rcmnigel2", "die_horn", 4f, -1, AnimationFlags.StayInEndFrame);
-						Client.Instance.AddTick(Horn);
-						await BaseScript.Delay(30000);
-						playerPed.CancelRagdoll();
-						Client.Instance.RemoveTick(Horn);
-					}
-				}
-				await BaseScript.Delay(600000);
-			}
-			if (nee.fame >= 25)
-			{
-				if (!fame20)
-				{
-					HUD.ShowNotification("Senti un certo languorino... Stuzzicheresti volentieri qualcosa.", NotificationColor.GreenDark, true);
-					fame20 = true;
-				}
-			}
-			else if (nee.fame >= 60)
-			{
-				if (!fame60 && fame20)
-				{
-					HUD.ShowNotification("Hai fame! forse dovresti mangiare qualcosa!", NotificationColor.Yellow, true);
-					fame60 = true;
-				}
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
-			}
-			else if (nee.fame >= 80)
-			{
-				if (!fame80 && fame20 && fame60)
-				{
-					HUD.ShowNotification("Stai morendo di fame! Se continui così rischi di morire!.", NotificationColor.Red, true);
-					fame80 = true;
-				}
-				playerPed.Health -= 5;
-				playerPed.MovementAnimationSet = "move_injured_generic";
-			}
-			else if (nee.fame == 100)
-			{
-				if (!fame100 && fame20 && fame60 && fame80)
-				{
-					HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
-					fame100 = true;
-				}
-				while (playerPed.Health > 0 && nee.fame == 100)
-				{
-					await BaseScript.Delay(0);
-					playerPed.Ragdoll(-1, RagdollType.Normal);
-				}
-			}
-			else if (nee.fame < 20.0f)
-			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Game.Player.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
-				fame20 = false;
-				fame60 = false;
-				fame80 = false;
-				fame100 = false;
-			}
-			if (nee.sete >= 25)
-			{
-				if (!sete20)
-				{
-					HUD.ShowNotification("Hai la gola un po' secca... ti andrebbe una bibita.", NotificationColor.GreenDark, true);
-					sete20 = true;
-				}
-			}
-			else if (nee.sete >= 60)
-			{
-				if (!sete60 && sete20)
-				{
-					HUD.ShowNotification("Hai sete! forse dovresti bere qualcosa!", NotificationColor.Yellow, true);
-					sete60 = true;
-				}
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(val / 10), true);
-			}
-			else if (nee.sete >= 80)
-			{
-				if (!sete80 && sete60 && sete20)
-				{
-					HUD.ShowNotification("Stai morendo di sete! Se continui così rischi di morire!.", NotificationColor.Red, true);
-					sete80 = true;
-				}
-				playerPed.Health -= 5;
-				playerPed.MovementAnimationSet = "move_injured_generic";
-			}
-			else if (nee.sete == 100)
-			{
-				if (!sete100 && sete80 && sete60 && sete20)
-				{
-					HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
-					sete100 = true;
-				}
-				while (playerPed.Health > 0 && nee.sete == 100)
-				{
-					await BaseScript.Delay(0);
-					playerPed.Ragdoll(-1, RagdollType.Normal);
-				}
-			}
-			else if (nee.sete < 20.0f)
-			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Game.Player.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
-				fame20 = false;
-				fame60 = false;
-				fame80 = false;
-				fame100 = false;
-			}
-			await BaseScript.Delay(2500);
+			Ped p = Game.PlayerPed;
+			if (p.IsInVehicle())
+				Client.Instance.AddTick(Horn);
+			await BaseScript.Delay(30000);
+			p.CancelRagdoll();
+			if (p.IsInVehicle())
+				Client.Instance.RemoveTick(Horn);
 		}
-
 		public static async Task Horn()
 		{
 			SoundVehicleHornThisFrame(GetVehiclePedIsUsing(PlayerPedId()));
@@ -456,9 +504,9 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async Task Agg()
 		{
-			await BaseScript.Delay(60000);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.Serialize());
+			await Task.FromResult(0);
 		}
 	}
 }
