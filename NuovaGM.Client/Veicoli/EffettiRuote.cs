@@ -31,26 +31,26 @@ namespace TheLastPlanet.Client.Veicoli
 			Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
 		}
 
-		private static async void AddRear(int NetVeh)
+		private static void AddRear(int NetVeh)
 		{
 			Vehicle veh = new Vehicle(NetToVeh(NetVeh));
 			rearvehicles.Add(veh);
 		}
 
-		private static async void AddFront(int NetVeh)
+		private static void AddFront(int NetVeh)
 		{
 			Vehicle veh = new Vehicle(NetToVeh(NetVeh));
 			frontvehicles.Add(veh);
 		}
 
-		private static async void RemRear(int NetVeh)
+		private static void RemRear(int NetVeh)
 		{
 			foreach (var veh in rearvehicles.ToList()) 
 				if (veh.NetworkId == NetVeh)
 					rearvehicles.Remove(veh);
 		}
 
-		private static async void RemFront(int NetVeh)
+		private static void RemFront(int NetVeh)
 		{
 			foreach (var veh in frontvehicles.ToList())
 				if (veh.NetworkId == NetVeh)
@@ -136,6 +136,7 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				Log.Printa(LogType.Warning, e.ToString());
 			}
+			await Task.FromResult(0);
 		}
 
 		public static async Task WheelGlow()
@@ -168,6 +169,7 @@ namespace TheLastPlanet.Client.Veicoli
 					StopParticleFxLooped(disc_RF, true);
 				}
 			}
+			await Task.FromResult(0);
 		}
 	}
 }
