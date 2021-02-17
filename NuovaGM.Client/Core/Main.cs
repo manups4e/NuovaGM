@@ -511,9 +511,10 @@ namespace TheLastPlanet.Client.Core
 			if (IsDead) await BaseScript.Delay(500);
 			else 
 			{
-				if (Game.PlayerPed.IsShooting)
+				Ped p = new Ped(PlayerPedId());
+				if (p.IsShooting)
 				{
-					Weapon weap = Game.PlayerPed.Weapons.Current;
+					Weapon weap = p.Weapons.Current;
 					int ammo = weap.Ammo;
 					BaseScript.TriggerServerEvent("lprp:aggiornaAmmo", weap.Hash, ammo);
 				}
