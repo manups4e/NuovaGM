@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
@@ -23,6 +25,11 @@ namespace Logger
 		/// <param name="text">Testo del messaggio</param>
 		public static void Printa(LogType tipo, string text)
 		{
+			StackFrame stackFrame = new StackTrace(1).GetFrame(1);
+			string fileName = stackFrame.GetFileName();
+			string methodName = stackFrame.GetMethod().ToString();
+			int lineNumber = stackFrame.GetFileLineNumber();
+
 			string err = "-- [INFO] -- ";
 			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm:ss}";
 			string colore = "^2";
@@ -52,7 +59,7 @@ namespace Logger
 					colore = "^9";
 					break;
 			}
-			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.\n{Path.GetFileName(fileName)}, {methodName}, {lineNumber}^7");
 		}
 	}
 }
