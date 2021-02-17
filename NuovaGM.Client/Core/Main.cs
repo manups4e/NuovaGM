@@ -349,34 +349,37 @@ namespace TheLastPlanet.Client.Core
 				if (!p.IsDoingDriveBy)
 				{
 					Weapon wep = p.Weapons.Current;
-					if (recoils[(uint)wep.Hash] != 0)
+					if (recoils.ContainsKey((uint)wep.Hash))
 					{
-						float tv = 0;
-						if (GetFollowPedCamViewMode() != 4)
+						if (recoils[(uint)wep.Hash] != 0)
 						{
-							do
+							float tv = 0;
+							if (GetFollowPedCamViewMode() != 4)
 							{
-								await BaseScript.Delay(0);
-								SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.1f, 0.2f);
-								tv += 0.1f;
-							} while (tv < recoils[(uint)wep.Hash]);
-						}
-						else
-						{
-							do
-							{
-								await BaseScript.Delay(0);
-								if (recoils[(uint)wep.Hash] > 0.1)
+								do
 								{
-									SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.6f, 1.2f);
-									tv += 0.6f;
-								}
-								else
-								{
-									SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.016f, 0.333f);
+									await BaseScript.Delay(0);
+									SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.1f, 0.2f);
 									tv += 0.1f;
-								}
-							} while (tv < recoils[(uint)wep.Hash]);
+								} while (tv < recoils[(uint)wep.Hash]);
+							}
+							else
+							{
+								do
+								{
+									await BaseScript.Delay(0);
+									if (recoils[(uint)wep.Hash] > 0.1)
+									{
+										SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.6f, 1.2f);
+										tv += 0.6f;
+									}
+									else
+									{
+										SetGameplayCamRelativePitch(GetGameplayCamRelativePitch() + 0.016f, 0.333f);
+										tv += 0.1f;
+									}
+								} while (tv < recoils[(uint)wep.Hash]);
+							}
 						}
 					}
 				}
