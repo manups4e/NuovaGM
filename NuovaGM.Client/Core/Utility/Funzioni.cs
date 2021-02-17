@@ -1294,251 +1294,450 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 		}
 
-		public static Dictionary<string, string> HASH_TO_LABEL = new Dictionary<string, string>()
-		{
-			[Convert.ToString((uint)GetHashKey("WEAPON_UNARMED"))] = "WT_UNARMED",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ANIMAL"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COUGAR"))] = "WT_RAGE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_KNIFE"))] = "WT_KNIFE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_NIGHTSTICK"))] = "WT_NGTSTK",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HAMMER"))] = "WT_HAMMER",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BAT"))] = "WT_BAT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_GOLFCLUB"))] = "WT_GOLFCLUB",
-			[Convert.ToString((uint)GetHashKey("WEAPON_CROWBAR"))] = "WT_CROWBAR",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PISTOL"))] = "WT_PIST",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COMBATPISTOL"))] = "WT_PIST_CBT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_APPISTOL"))] = "WT_PIST_AP",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PISTOL50"))] = "WT_PIST_50",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MICROSMG"))] = "WT_SMG_MCR",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SMG"))] = "WT_SMG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ASSAULTSMG"))] = "WT_SMG_ASL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ASSAULTRIFLE"))] = "WT_RIFLE_ASL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_CARBINERIFLE"))] = "WT_RIFLE_CBN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ADVANCEDRIFLE"))] = "WT_RIFLE_ADV",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MG"))] = "WT_MG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COMBATMG"))] = "WT_MG_CBT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PUMPSHOTGUN"))] = "WT_SG_PMP",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SAWNOFfsHOTGUN"))] = "WT_SG_SOF",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ASSAULTSHOTGUN"))] = "WT_SG_ASL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BULLPUPSHOTGUN"))] = "WT_SG_BLP",
-			[Convert.ToString((uint)GetHashKey("WEAPON_STUNGUN"))] = "WT_STUN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SNIPERRIFLE"))] = "WT_SNIP_RIF",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HEAVYSNIPER"))] = "WT_SNIP_HVY",
-			[Convert.ToString((uint)GetHashKey("WEAPON_REMOTESNIPER"))] = "WT_SNIP_RMT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_GRENADELAUNCHER"))] = "WT_GL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_GRENADELAUNCHER_SMOKE"))] = "WT_GL_SMOKE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_RPG"))] = "WT_RPG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PASSENGER_ROCKET"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_AIRSTRIKE_ROCKET"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_STINGER"))] = "WT_RPG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MINIGUN"))] = "WT_MINIGUN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_GRENADE"))] = "WT_GNADE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_STICKYBOMB"))] = "WT_GNADE_STK",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SMOKEGRENADE"))] = "WT_GNADE_SMK",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BZGAS"))] = "WT_BZGAS",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MOLOTOV"))] = "WT_MOLOTOV",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FIREEXTINGUISHER"))] = "WT_FIRE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PETROLCAN"))] = "WT_PETROL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DIGISCANNER"))] = "WT_DIGI",
-			[Convert.ToString((uint)GetHashKey("GADGET_NIGHTVISION"))] = "WT_NV",
-			[Convert.ToString((uint)GetHashKey("OBJECT"))] = "WT_OBJECT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BRIEFCASE"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BRIEFCASE_02"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BALL"))] = "WT_BALL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FLARE"))] = "WT_FLARE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_ELECTRIC_FENCE"))] = "WT_ELCFEN",
-			[Convert.ToString((uint)GetHashKey("VEHICLE_WEAPON_TANK"))] = "WT_V_TANK",
-			[Convert.ToString((uint)GetHashKey("VEHICLE_WEAPON_SPACE_ROCKET"))] = "WT_V_SPACERKT",
-			[Convert.ToString((uint)GetHashKey("VEHICLE_WEAPON_PLAYER_LASER"))] = "WT_V_PLRLSR",
-			[Convert.ToString((uint)GetHashKey("AMMO_RPG"))] = "WT_A_RPG",
-			[Convert.ToString((uint)GetHashKey("AMMO_TANK"))] = "WT_A_TANK",
-			[Convert.ToString((uint)GetHashKey("AMMO_SPACE_ROCKET"))] = "WT_A_SPACERKT",
-			[Convert.ToString((uint)GetHashKey("AMMO_PLAYER_LASER"))] = "WT_A_PLRLSR",
-			[Convert.ToString((uint)GetHashKey("AMMO_ENEMY_LASER"))] = "WT_A_ENMYLSR",
-			[Convert.ToString((uint)GetHashKey("WEAPON_RAMMED_BY_CAR"))] = "WT_PIST",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BOTTLE"))] = "WT_BOTTLE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_GUSENBERG"))] = "WT_GUSENBERG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SNSPISTOL"))] = "WT_SNSPISTOL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_VINTAGEPISTOL"))] = "WT_VPISTOL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DAGGER"))] = "WT_DAGGER",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FLAREGUN"))] = "WT_FLAREGUN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HEAVYPISTOL"))] = "WT_HEAVYPSTL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SPECIALCARBINE"))] = "WT_RIFLE_SCBN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MUSKET"))] = "WT_MUSKET",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FIREWORK"))] = "WT_FWRKLNCHR",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MARKSMANRIFLE"))] = "WT_MKRIFLE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HEAVYSHOTGUN"))] = "WT_HVYSHOT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PROXMINE"))] = "WT_PRXMINE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HOMINGLAUNCHER"))] = "WT_HOMLNCH",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HATCHET"))] = "WT_HATCHET",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COMBATPDW"))] = "WT_COMBATPDW",
-			[Convert.ToString((uint)GetHashKey("WEAPON_KNUCKLE"))] = "WT_KNUCKLE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MARKSMANPISTOL"))] = "WT_MKPISTOL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MACHETE"))] = "WT_MACHETE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MACHINEPISTOL"))] = "WT_MCHPIST",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FLASHLIGHT"))] = "WT_FLASHLIGHT",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DBSHOTGUN"))] = "WT_DBSHGN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COMPACTRIFLE"))] = "WT_CMPRIFLE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SWITCHBLADE"))] = "WT_SWBLADE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_REVOLVER"))] = "WT_REVOLVER",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FIRE"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HELI_CRASH"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_RUN_OVER_BY_CAR"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_HIT_BY_WATER_CANNON"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_EXHAUSTION"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_FALL"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_EXPLOSION"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BLEEDING"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DROWNING_IN_VEHICLE"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DROWNING"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BARBED_WIRE"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_VEHICLE_ROCKET"))] = "WT_INVALID",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SNSPISTOL_MK2"))] = "WT_SNSPISTOL2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_REVOLVER_MK2"))] = "WT_REVOLVER2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_DOUBLEACTION"))] = "WT_REV_DA",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SPECIALCARBINE_MK2"))] = "WT_SPCARBINE2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BULLPUPRIFLE_MK2"))] = "WT_BULLRIFLE2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PUMPSHOTGUN_MK2"))] = "WT_SG_PMP2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MARKSMANRIFLE_MK2"))] = "WT_MKRIFLE2",
-			[Convert.ToString((uint)GetHashKey("WEAPON_POOLCUE"))] = "WT_POOLCUE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_WRENCH"))] = "WT_WRENCH",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BATTLEAXE"))] = "WT_BATTLEAXE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_MINISMG"))] = "WT_MINISMG",
-			[Convert.ToString((uint)GetHashKey("WEAPON_BULLPUPRIFLE"))] = "WT_BULLRIFLE",
-			[Convert.ToString((uint)GetHashKey("WEAPON_AUTOSHOTGUN"))] = "WT_AUTOSHGN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_RAILGUN"))] = "WT_RAILGUN",
-			[Convert.ToString((uint)GetHashKey("WEAPON_COMPACTLAUNCHER"))] = "WT_CMPGL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_SNOWBALL"))] = "WT_SNWBALL",
-			[Convert.ToString((uint)GetHashKey("WEAPON_PIPEBOMB"))] = "WT_PIPEBOMB",
-			[Convert.ToString((uint)GetHashKey("GADGET_NIGHTVISION"))] = "WT_NV",
-			[Convert.ToString((uint)GetHashKey("GADGET_PARACHUTE"))] = "WT_PARA",
-			[Convert.ToString((uint)GetHashKey("WEAPON_STONE_HATCHET"))] = "WT_SHATCHET",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_PI_FLSH"))] = "WCT_FLASH",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_PI_SUPP_02"))] = "WCT_SUPP",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_PI_SUPP"))] = "WCT_SUPP",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPISTOL_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_APPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_APPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_APPISTOL_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL50_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL50_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_AR_SUPP_02"))] = "WCT_SUPP",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PISTOL50_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SNSPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SNSPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SNSPISTOL_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_HEAVYPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_HEAVYPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_HEAVYPISTOL_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_VINTAGEPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_VINTAGEPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MICROSMG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MICROSMG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_MACRO"))] = "WCT_SCOPE_MAC",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MICROSMG_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SMG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SMG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SMG_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_MACRO_02"))] = "WCT_SCOPE_MAC",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SMG_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTSMG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTSMG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTSMG_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MINISMG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MINISMG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MACHINEPISTOL_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MACHINEPISTOL_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MACHINEPISTOL_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPDW_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPDW_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATPDW_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_AR_AFGRIP"))] = "WCT_GRIP",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_SMALL"))] = "WCT_SCOPE_SML",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SAWNOFfsHOTGUN_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTSHOTGUN_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTSHOTGUN_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTRIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTRIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTRIFLE_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ASSAULTRIFLE_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_CARBINERIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_CARBINERIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_CARBINERIFLE_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_MEDIUM"))] = "WCT_SCOPE_MED",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_CARBINERIFLE_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ADVANCEDRIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ADVANCEDRIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_ADVANCEDRIFLE_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SPECIALCARBINE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SPECIALCARBINE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SPECIALCARBINE_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SPECIALCARBINE_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_BULLPUPRIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_BULLPUPRIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_BULLPUPRIFLE_VARMOD_LOW"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMPACTRIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMPACTRIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMPACTRIFLE_CLIP_03"))] = "WCT_CLIP_DRM",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MG_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATMG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATMG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_COMBATMG_VARMOD_LOWRIDER"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_GUSENBERG_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_GUSENBERG_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_LARGE"))] = "WCT_SCOPE_LRG",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_MAX"))] = "WCT_SCOPE_MAX",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SNIPERRIFLE_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MARKSMANRIFLE_CLIP_01"))] = "WCT_CLIP1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MARKSMANRIFLE_CLIP_02"))] = "WCT_CLIP2",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM"))] = "WCT_SCOPE_LRG",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_MARKSMANRIFLE_VARMOD_LUXE"))] = "WCT_VAR_GOLD",
-			[Convert.ToString((uint)GetHashKey("WM_TINT0"))] = "WM_TINT0",
-			[Convert.ToString((uint)GetHashKey("WM_TINT1"))] = "WM_TINT1",
-			[Convert.ToString((uint)GetHashKey("WM_TINT2"))] = "WM_TINT2",
-			[Convert.ToString((uint)GetHashKey("WM_TINT3"))] = "WM_TINT3",
-			[Convert.ToString((uint)GetHashKey("WM_TINT4"))] = "WM_TINT4",
-			[Convert.ToString((uint)GetHashKey("WM_TINT5"))] = "WM_TINT5",
-			[Convert.ToString((uint)GetHashKey("WM_TINT6"))] = "WM_TINT6",
-			[Convert.ToString((uint)GetHashKey("WM_TINT7"))] = "WM_TINT7",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_BASE"))] = "WCT_KNUCK_01",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_PIMP"))] = "WCT_KNUCK_02",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_BALLAS"))] = "WCT_KNUCK_BG",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_DOLLAR"))] = "WCT_KNUCK_DLR",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_DIAMOND"))] = "WCT_KNUCK_DMD",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_HATE"))] = "WCT_KNUCK_HT",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_LOVE"))] = "WCD_VAR_DESC",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_PLAYER"))] = "WCT_KNUCK_PC",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_KING"))] = "WCT_KNUCK_SLG",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_KNUCKLE_VARMOD_VAGOS"))] = "WCT_KNUCK_VG",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SWITCHBLADE_VARMOD_BASE"))] = "WCT_SB_BASE",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SWITCHBLADE_VARMOD_VAR1"))] = "WCT_SB_VAR1",
-			[Convert.ToString((uint)GetHashKey("COMPONENT_SWITCHBLADE_VARMOD_VAR2"))] = "WCT_SB_VAR2"
-		};
-
 		public static string GetWeaponLabel(uint hash)
 		{
-			if (HASH_TO_LABEL.ContainsKey(hash.ToString()))
+			if (hash == HashUint("WEAPON_UNARMED"))
+				return Game.GetGXTEntry("WT_UNARMED");
+			else if (hash == HashUint("WEAPON_COUGAR"))
+				return Game.GetGXTEntry("WT_RAGE");
+			else if (hash == HashUint("WEAPON_KNIFE"))
+				return Game.GetGXTEntry("WT_KNIFE");
+			else if (hash == HashUint("WEAPON_NIGHTSTICK"))
+				return Game.GetGXTEntry("WT_NGTSTK");
+			else if (hash == HashUint("WEAPON_HAMMER"))
+				return Game.GetGXTEntry("WT_HAMMER");
+			else if (hash == HashUint("WEAPON_BAT"))
+				return Game.GetGXTEntry("WT_BAT");
+			else if (hash == HashUint("WEAPON_GOLFCLUB"))
+				return Game.GetGXTEntry("WT_GOLFCLUB");
+			else if (hash == HashUint("WEAPON_CROWBAR"))
+				return Game.GetGXTEntry("WT_CROWBAR");
+			else if (hash == HashUint("WEAPON_PISTOL"))
+				return Game.GetGXTEntry("WT_PIST");
+			else if (hash == HashUint("WEAPON_COMBATPISTOL"))
+				return Game.GetGXTEntry("WT_PIST_CBT");
+			else if (hash == HashUint("WEAPON_APPISTOL"))
+				return Game.GetGXTEntry("WT_PIST_AP");
+			else if (hash == HashUint("WEAPON_PISTOL50"))
+				return Game.GetGXTEntry("WT_PIST_50");
+			else if (hash == HashUint("WEAPON_MICROSMG"))
+				return Game.GetGXTEntry("WT_SMG_MCR");
+			else if (hash == HashUint("WEAPON_SMG"))
+				return Game.GetGXTEntry("WT_SMG");
+			else if (hash == HashUint("WEAPON_ASSAULTSMG"))
+				return Game.GetGXTEntry("WT_SMG_ASL");
+			else if (hash == HashUint("WEAPON_ASSAULTRIFLE"))
+				return Game.GetGXTEntry("WT_RIFLE_ASL");
+			else if (hash == HashUint("WEAPON_CARBINERIFLE"))
+				return Game.GetGXTEntry("WT_RIFLE_CBN");
+			else if (hash == HashUint("WEAPON_ADVANCEDRIFLE"))
+				return Game.GetGXTEntry("WT_RIFLE_ADV");
+			else if (hash == HashUint("WEAPON_MG"))
+				return Game.GetGXTEntry("WT_MG");
+			else if (hash == HashUint("WEAPON_COMBATMG"))
+				return Game.GetGXTEntry("WT_MG_CBT");
+			else if (hash == HashUint("WEAPON_PUMPSHOTGUN"))
+				return Game.GetGXTEntry("WT_SG_PMP");
+			else if (hash == HashUint("WEAPON_SAWNOFFSHOTGUN"))
+				return Game.GetGXTEntry("WT_SG_SOF");
+			else if (hash == HashUint("WEAPON_ASSAULTSHOTGUN"))
+				return Game.GetGXTEntry("WT_SG_ASL");
+			else if (hash == HashUint("WEAPON_BULLPUPSHOTGUN"))
+				return Game.GetGXTEntry("WT_SG_BLP");
+			else if (hash == HashUint("WEAPON_STUNGUN"))
+				return Game.GetGXTEntry("WT_STUN");
+			else if (hash == HashUint("WEAPON_SNIPERRIFLE"))
+				return Game.GetGXTEntry("WT_SNIP_RIF");
+			else if (hash == HashUint("WEAPON_HEAVYSNIPER"))
+				return Game.GetGXTEntry("WT_SNIP_HVY");
+			else if (hash == HashUint("WEAPON_REMOTESNIPER"))
+				return Game.GetGXTEntry("WT_SNIP_RMT");
+			else if (hash == HashUint("WEAPON_GRENADELAUNCHER"))
+				return Game.GetGXTEntry("WT_GL");
+			else if (hash == HashUint("WEAPON_GRENADELAUNCHER_SMOKE"))
+				return Game.GetGXTEntry("WT_GL_SMOKE");
+			else if (hash == HashUint("WEAPON_RPG"))
+				return Game.GetGXTEntry("WT_RPG");
+			else if (hash == HashUint("WEAPON_STINGER"))
+				return Game.GetGXTEntry("WT_RPG");
+			else if (hash == HashUint("WEAPON_MINIGUN"))
+				return Game.GetGXTEntry("WT_MINIGUN");
+			else if (hash == HashUint("WEAPON_GRENADE"))
+				return Game.GetGXTEntry("WT_GNADE");
+			else if (hash == HashUint("WEAPON_STICKYBOMB"))
+				return Game.GetGXTEntry("WT_GNADE_STK");
+			else if (hash == HashUint("WEAPON_SMOKEGRENADE"))
+				return Game.GetGXTEntry("WT_GNADE_SMK");
+			else if (hash == HashUint("WEAPON_BZGAS"))
+				return Game.GetGXTEntry("WT_BZGAS");
+			else if (hash == HashUint("WEAPON_MOLOTOV"))
+				return Game.GetGXTEntry("WT_MOLOTOV");
+			else if (hash == HashUint("WEAPON_FIREEXTINGUISHER"))
+				return Game.GetGXTEntry("WT_FIRE");
+			else if (hash == HashUint("WEAPON_PETROLCAN"))
+				return Game.GetGXTEntry("WT_PETROL");
+			else if (hash == HashUint("WEAPON_DIGISCANNER"))
+				return Game.GetGXTEntry("WT_DIGI");
+			else if (hash == HashUint("GADGET_NIGHTVISION"))
+				return Game.GetGXTEntry("WT_NV");
+			else if (hash == HashUint("OBJECT"))
+				return Game.GetGXTEntry("WT_OBJECT");
+			else if (hash == HashUint("WEAPON_BALL"))
+				return Game.GetGXTEntry("WT_BALL");
+			else if (hash == HashUint("WEAPON_FLARE"))
+				return Game.GetGXTEntry("WT_FLARE");
+			else if (hash == HashUint("WEAPON_ELECTRIC_FENCE"))
+				return Game.GetGXTEntry("WT_ELCFEN");
+			else if (hash == HashUint("VEHICLE_WEAPON_TANK"))
+				return Game.GetGXTEntry("WT_V_TANK");
+			else if (hash == HashUint("VEHICLE_WEAPON_SPACE_ROCKET"))
+				return Game.GetGXTEntry("WT_V_SPACERKT");
+			else if (hash == HashUint("VEHICLE_WEAPON_PLAYER_LASER"))
+				return Game.GetGXTEntry("WT_V_PLRLSR");
+			else if (hash == HashUint("AMMO_RPG"))
+				return Game.GetGXTEntry("WT_A_RPG");
+			else if (hash == HashUint("AMMO_TANK"))
+				return Game.GetGXTEntry("WT_A_TANK");
+			else if (hash == HashUint("AMMO_SPACE_ROCKET"))
+				return Game.GetGXTEntry("WT_A_SPACERKT");
+			else if (hash == HashUint("AMMO_PLAYER_LASER"))
+				return Game.GetGXTEntry("WT_A_PLRLSR");
+			else if (hash == HashUint("AMMO_ENEMY_LASER"))
+				return Game.GetGXTEntry("WT_A_ENMYLSR");
+			else if (hash == HashUint("WEAPON_RAMMED_BY_CAR"))
+				return Game.GetGXTEntry("WT_PIST");
+			else if (hash == HashUint("WEAPON_BOTTLE"))
+				return Game.GetGXTEntry("WT_BOTTLE");
+			else if (hash == HashUint("WEAPON_GUSENBERG"))
+				return Game.GetGXTEntry("WT_GUSENBERG");
+			else if (hash == HashUint("WEAPON_SNSPISTOL"))
+				return Game.GetGXTEntry("WT_SNSPISTOL");
+			else if (hash == HashUint("WEAPON_VINTAGEPISTOL"))
+				return Game.GetGXTEntry("WT_VPISTOL");
+			else if (hash == HashUint("WEAPON_DAGGER"))
+				return Game.GetGXTEntry("WT_DAGGER");
+			else if (hash == HashUint("WEAPON_FLAREGUN"))
+				return Game.GetGXTEntry("WT_FLAREGUN");
+			else if (hash == HashUint("WEAPON_HEAVYPISTOL"))
+				return Game.GetGXTEntry("WT_HEAVYPSTL");
+			else if (hash == HashUint("WEAPON_SPECIALCARBINE"))
+				return Game.GetGXTEntry("WT_RIFLE_SCBN");
+			else if (hash == HashUint("WEAPON_MUSKET"))
+				return Game.GetGXTEntry("WT_MUSKET");
+			else if (hash == HashUint("WEAPON_FIREWORK"))
+				return Game.GetGXTEntry("WT_FWRKLNCHR");
+			else if (hash == HashUint("WEAPON_MARKSMANRIFLE"))
+				return Game.GetGXTEntry("WT_MKRIFLE");
+			else if (hash == HashUint("WEAPON_HEAVYSHOTGUN"))
+				return Game.GetGXTEntry("WT_HVYSHOT");
+			else if (hash == HashUint("WEAPON_PROXMINE"))
+				return Game.GetGXTEntry("WT_PRXMINE");
+			else if (hash == HashUint("WEAPON_HOMINGLAUNCHER"))
+				return Game.GetGXTEntry("WT_HOMLNCH");
+			else if (hash == HashUint("WEAPON_HATCHET"))
+				return Game.GetGXTEntry("WT_HATCHET");
+			else if (hash == HashUint("WEAPON_COMBATPDW"))
+				return Game.GetGXTEntry("WT_COMBATPDW");
+			else if (hash == HashUint("WEAPON_KNUCKLE"))
+				return Game.GetGXTEntry("WT_KNUCKLE");
+			else if (hash == HashUint("WEAPON_MARKSMANPISTOL"))
+				return Game.GetGXTEntry("WT_MKPISTOL");
+			else if (hash == HashUint("WEAPON_MACHETE"))
+				return Game.GetGXTEntry("WT_MACHETE");
+			else if (hash == HashUint("WEAPON_MACHINEPISTOL"))
+				return Game.GetGXTEntry("WT_MCHPIST");
+			else if (hash == HashUint("WEAPON_FLASHLIGHT"))
+				return Game.GetGXTEntry("WT_FLASHLIGHT");
+			else if (hash == HashUint("WEAPON_DBSHOTGUN"))
+				return Game.GetGXTEntry("WT_DBSHGN");
+			else if (hash == HashUint("WEAPON_COMPACTRIFLE"))
+				return Game.GetGXTEntry("WT_CMPRIFLE");
+			else if (hash == HashUint("WEAPON_SWITCHBLADE"))
+				return Game.GetGXTEntry("WT_SWBLADE");
+			else if (hash == HashUint("WEAPON_REVOLVER"))
+				return Game.GetGXTEntry("WT_REVOLVER");
+			else if (hash == HashUint("WEAPON_SNSPISTOL_MK2"))
+				return Game.GetGXTEntry("WT_SNSPISTOL2");
+			else if (hash == HashUint("WEAPON_REVOLVER_MK2"))
+				return Game.GetGXTEntry("WT_REVOLVER2");
+			else if (hash == HashUint("WEAPON_DOUBLEACTION"))
+				return Game.GetGXTEntry("WT_REV_DA");
+			else if (hash == HashUint("WEAPON_SPECIALCARBINE_MK2"))
+				return Game.GetGXTEntry("WT_SPCARBINE2");
+			else if (hash == HashUint("WEAPON_BULLPUPRIFLE_MK2"))
+				return Game.GetGXTEntry("WT_BULLRIFLE2");
+			else if (hash == HashUint("WEAPON_PUMPSHOTGUN_MK2"))
+				return Game.GetGXTEntry("WT_SG_PMP2");
+			else if (hash == HashUint("WEAPON_MARKSMANRIFLE_MK2"))
+				return Game.GetGXTEntry("WT_MKRIFLE2");
+			else if (hash == HashUint("WEAPON_POOLCUE"))
+				return Game.GetGXTEntry("WT_POOLCUE");
+			else if (hash == HashUint("WEAPON_WRENCH"))
+				return Game.GetGXTEntry("WT_WRENCH");
+			else if (hash == HashUint("WEAPON_BATTLEAXE"))
+				return Game.GetGXTEntry("WT_BATTLEAXE");
+			else if (hash == HashUint("WEAPON_MINISMG"))
+				return Game.GetGXTEntry("WT_MINISMG");
+			else if (hash == HashUint("WEAPON_BULLPUPRIFLE"))
+				return Game.GetGXTEntry("WT_BULLRIFLE");
+			else if (hash == HashUint("WEAPON_AUTOSHOTGUN"))
+				return Game.GetGXTEntry("WT_AUTOSHGN");
+			else if (hash == HashUint("WEAPON_RAILGUN"))
+				return Game.GetGXTEntry("WT_RAILGUN");
+			else if (hash == HashUint("WEAPON_COMPACTLAUNCHER"))
+				return Game.GetGXTEntry("WT_CMPGL");
+			else if (hash == HashUint("WEAPON_SNOWBALL"))
+				return Game.GetGXTEntry("WT_SNWBALL");
+			else if (hash == HashUint("WEAPON_PIPEBOMB"))
+				return Game.GetGXTEntry("WT_PIPEBOMB");
+			else if (hash == HashUint("GADGET_NIGHTVISION"))
+				return Game.GetGXTEntry("WT_NV");
+			else if (hash == HashUint("GADGET_PARACHUTE"))
+				return Game.GetGXTEntry("WT_PARA");
+			else if (hash == HashUint("WEAPON_STONE_HATCHET"))
+				return Game.GetGXTEntry("WT_SHATCHET");
+			else if (hash == HashUint("COMPONENT_AT_PI_FLSH"))
+				return Game.GetGXTEntry("WCT_FLASH");
+			else if (hash == HashUint("COMPONENT_PISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_PISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_PI_SUPP_02"))
+				return Game.GetGXTEntry("WCT_SUPP");
+			else if (hash == HashUint("COMPONENT_PISTOL_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_PI_SUPP"))
+				return Game.GetGXTEntry("WCT_SUPP");
+			else if (hash == HashUint("COMPONENT_COMBATPISTOL_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_APPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_APPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_APPISTOL_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_PISTOL50_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_PISTOL50_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_AR_SUPP_02"))
+				return Game.GetGXTEntry("WCT_SUPP");
+			else if (hash == HashUint("COMPONENT_PISTOL50_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_SNSPISTOL_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_MICROSMG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_MICROSMG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO"))
+				return Game.GetGXTEntry("WCT_SCOPE_MAC");
+			else if (hash == HashUint("COMPONENT_MICROSMG_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_SMG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_SMG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_SMG_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO_02"))
+				return Game.GetGXTEntry("WCT_SCOPE_MAC");
+			else if (hash == HashUint("COMPONENT_SMG_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_ASSAULTSMG_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_MINISMG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_MINISMG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_AT_AR_AFGRIP"))
+				return Game.GetGXTEntry("WCT_GRIP");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_SMALL"))
+				return Game.GetGXTEntry("WCT_SCOPE_SML");
+			else if (hash == HashUint("COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_SAWNOFfsHOTGUN_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_MEDIUM"))
+				return Game.GetGXTEntry("WCT_SCOPE_MED");
+			else if (hash == HashUint("COMPONENT_CARBINERIFLE_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_VARMOD_LOW"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_03"))
+				return Game.GetGXTEntry("WCT_CLIP_DRM");
+			else if (hash == HashUint("COMPONENT_MG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_MG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_MG_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_COMBATMG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_COMBATMG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_COMBATMG_VARMOD_LOWRIDER"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE"))
+				return Game.GetGXTEntry("WCT_SCOPE_LRG");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_MAX"))
+				return Game.GetGXTEntry("WCT_SCOPE_MAX");
+			else if (hash == HashUint("COMPONENT_SNIPERRIFLE_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_01"))
+				return Game.GetGXTEntry("WCT_CLIP1");
+			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_02"))
+				return Game.GetGXTEntry("WCT_CLIP2");
+			else if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM"))
+				return Game.GetGXTEntry("WCT_SCOPE_LRG");
+			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_VARMOD_LUXE"))
+				return Game.GetGXTEntry("WCT_VAR_GOLD");
+			else if (hash == HashUint("WM_TINT0"))
+				return Game.GetGXTEntry("WM_TINT0");
+			else if (hash == HashUint("WM_TINT1"))
+				return Game.GetGXTEntry("WM_TINT1");
+			else if (hash == HashUint("WM_TINT2"))
+				return Game.GetGXTEntry("WM_TINT2");
+			else if (hash == HashUint("WM_TINT3"))
+				return Game.GetGXTEntry("WM_TINT3");
+			else if (hash == HashUint("WM_TINT4"))
+				return Game.GetGXTEntry("WM_TINT4");
+			else if (hash == HashUint("WM_TINT5"))
+				return Game.GetGXTEntry("WM_TINT5");
+			else if (hash == HashUint("WM_TINT6"))
+				return Game.GetGXTEntry("WM_TINT6");
+			else if (hash == HashUint("WM_TINT7"))
+				return Game.GetGXTEntry("WM_TINT7");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BASE"))
+				return Game.GetGXTEntry("WCT_KNUCK_01");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PIMP"))
+				return Game.GetGXTEntry("WCT_KNUCK_02");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BALLAS"))
+				return Game.GetGXTEntry("WCT_KNUCK_BG");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DOLLAR"))
+				return Game.GetGXTEntry("WCT_KNUCK_DLR");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DIAMOND"))
+				return Game.GetGXTEntry("WCT_KNUCK_DMD");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_HATE"))
+				return Game.GetGXTEntry("WCT_KNUCK_HT");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_LOVE"))
+				return Game.GetGXTEntry("WCD_VAR_DESC");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PLAYER"))
+				return Game.GetGXTEntry("WCT_KNUCK_PC");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_KING"))
+				return Game.GetGXTEntry("WCT_KNUCK_SLG");
+			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_VAGOS"))
+				return Game.GetGXTEntry("WCT_KNUCK_VG");
+			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_BASE"))
+				return Game.GetGXTEntry("WCT_SB_BASE");
+			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR1"))
+				return Game.GetGXTEntry("WCT_SB_VAR1");
+			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR2"))
+				return Game.GetGXTEntry("WCT_SB_VAR2");
+			else if (hash == HashUint("WEAPON_ANIMAL")
+			|| hash == HashUint("WEAPON_PASSENGER_ROCKET")
+			|| hash == HashUint("WEAPON_AIRSTRIKE_ROCKET")
+			|| hash == HashUint("WEAPON_BRIEFCASE")
+			|| hash == HashUint("WEAPON_BRIEFCASE_02")
+			|| hash == HashUint("WEAPON_FIRE")
+			|| hash == HashUint("WEAPON_HELI_CRASH")
+			|| hash == HashUint("WEAPON_RUN_OVER_BY_CAR")
+			|| hash == HashUint("WEAPON_HIT_BY_WATER_CANNON")
+			|| hash == HashUint("WEAPON_EXHAUSTION")
+			|| hash == HashUint("WEAPON_FALL")
+			|| hash == HashUint("WEAPON_EXPLOSION")
+			|| hash == HashUint("WEAPON_BLEEDING")
+			|| hash == HashUint("WEAPON_DROWNING_IN_VEHICLE")
+			|| hash == HashUint("WEAPON_DROWNING")
+			|| hash == HashUint("WEAPON_BARBED_WIRE")
+			|| hash == HashUint("WEAPON_VEHICLE_ROCKET"))
 			{
-				string label = HASH_TO_LABEL[hash.ToString()];
-				if (label != null)
-				{
-					return label;
-				}
+				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				return Game.GetGXTEntry("WT_INVALID");
 			}
 			else
 			{
 				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				return Game.GetGXTEntry("WT_INVALID");
 			}
-
-			return "WT_INVALID";
 		}
 
 		public static string GetVehColorLabel(int color)
@@ -1763,65 +1962,11 @@ namespace TheLastPlanet.Client.Core.Utility
 		}
 	}
 
-	public class VehicleList : IEnumerable<int>
-	{
-		public IEnumerator<int> GetEnumerator()
-		{
-			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_VEHICLE")), OutArgEntity);
-			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_VEHICLE")), handle, OutArgEntity)) 
-				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_VEHICLE")), handle);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-	}
-
-	public class PedList : IEnumerable<int>
-	{
-		public IEnumerator<int> GetEnumerator()
-		{
-			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_PED")), OutArgEntity);
-			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_PED")), handle, OutArgEntity))
-				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_PED")), handle);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-	}
-
-	public class ObjectList : IEnumerable<int>
-	{
-		public IEnumerator<int> GetEnumerator()
-		{
-			OutputArgument OutArgEntity = new OutputArgument();
-			int handle = Function.Call<int>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_FIRST_OBJECT")), OutArgEntity);
-			yield return OutArgEntity.GetResult<int>();
-			while (Function.Call<bool>((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("FIND_NEXT_OBJECT")), handle, OutArgEntity))
-				yield return OutArgEntity.GetResult<int>();
-			Function.Call((CitizenFX.Core.Native.Hash)((uint)Game.GenerateHash("END_FIND_OBJECT")), handle);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-	}
-
 	static class WorldProbe
 	{
 		// Intended for:
 		// Getting closest ped, closest vehicle, vehicle in front (raycast), raycast normal, raycast collision coordinates
-		static _RaycastResult? CrosshairRaycastThisTick = null;
+		static RaycastResult? CrosshairRaycastThisTick = null;
 
 		static WorldProbe()
 		{
@@ -1883,151 +2028,6 @@ namespace TheLastPlanet.Client.Core.Utility
 				Log.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 			return default(Vector3);
-		}
-
-		public static Vector3 GameplayCamForwardVector()
-		{
-			try
-			{
-				Vector3 rotation = (float)(Math.PI / 180.0) * GetGameplayCamRot(2);
-				return Vector3.Normalize(new Vector3((float)-Math.Sin(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Cos(rotation.Z) * (float)Math.Abs(Math.Cos(rotation.X)), (float)Math.Sin(rotation.X)));
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
-			}
-			return default(Vector3);
-		}
-
-
-		public static RaycastResult _CrosshairRaycast()
-		{
-			try
-			{
-				return World.Raycast(Game.PlayerPed.Position, Game.PlayerPed.Position + 1000 * GameplayCamForwardVector(), IntersectOptions.Everything, Game.PlayerPed);
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
-			}
-			return default(RaycastResult);
-		}
-
-		public struct _RaycastResult
-		{
-			public Entity HitEntity { get; }
-			public Vector3 HitPosition { get; }
-			public Vector3 SurfaceNormal { get; }
-			public bool DitHit { get; }
-			public bool DitHitEntity { get; }
-			public int Result { get; }
-
-			public _RaycastResult(bool DitHit, Vector3 HitPosition, Vector3 SurfaceNormal, int entityHandle, int Result)
-			{
-				this.DitHit = DitHit;
-				this.HitPosition = HitPosition;
-				this.SurfaceNormal = SurfaceNormal;
-				if (entityHandle == 0)
-				{
-					this.HitEntity = null;
-					this.DitHitEntity = false;
-				}
-				else
-				{
-					this.HitEntity = Entity.FromHandle(entityHandle);
-					this.DitHitEntity = true;
-				}
-				this.Result = Result;
-			}
-		}
-
-
-		public static _RaycastResult CrosshairRaycast(float distance = 1000f)
-		{
-			return CrosshairRaycast(Game.PlayerPed);
-		}
-
-		/// <summary>
-		/// Because HitPosition and SurfaceNormal are currently broken in platform function
-		/// </summary>
-		/// <returns></returns>
-		public static _RaycastResult CrosshairRaycast(Entity ignore, float distance = 1000f)
-		{
-			try
-			{
-				// Uncomment these to potentially save on raycasts (don't think they're ridiculously costly, but there's a # limit per tick)
-				//if(CrosshairRaycastThisTick != null && distance == 1000f) return (_RaycastResult) CrosshairRaycastThisTick;
-
-				Vector3 start = GameplayCamera.Position;
-				Vector3 end = GameplayCamera.Position + distance * WorldProbe.GameplayCamForwardVector();
-				int raycastHandle = Function.Call<int>(Hash._START_SHAPE_TEST_RAY, start.X, start.Y, start.Z, end.X, end.Y, end.Z, IntersectOptions.Everything, ignore.Handle, 0);
-				OutputArgument DitHit = new OutputArgument();
-				OutputArgument HitPosition = new OutputArgument();
-				OutputArgument SurfaceNormal = new OutputArgument();
-				OutputArgument HitEntity = new OutputArgument();
-				Function.Call<int>(Hash.GET_SHAPE_TEST_RESULT, raycastHandle, DitHit, HitPosition, SurfaceNormal, HitEntity);
-
-				var result = new _RaycastResult(DitHit.GetResult<bool>(), HitPosition.GetResult<Vector3>(), SurfaceNormal.GetResult<Vector3>(), HitEntity.GetResult<int>(), raycastHandle);
-
-				//if(distance == 1000f) CrosshairRaycastThisTick = result;
-				return result;
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe CrosshairRaycast Error: {ex.Message}");
-			}
-			return default(_RaycastResult);
-		}
-
-		// Apparently there's a built-in native for this...
-		// TODO: Replace with that
-		public static string GetEntityType(int entityHandle)
-		{
-			try
-			{
-				if (Function.Call<bool>(Hash.IS_ENTITY_A_PED, entityHandle))
-				{
-					return "PED";
-				}
-				else if (Function.Call<bool>(Hash.IS_ENTITY_A_VEHICLE, entityHandle))
-				{
-					return "VEH";
-				}
-				else if (Function.Call<bool>(Hash.IS_ENTITY_AN_OBJECT, entityHandle))
-				{
-					return "OBJ";
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
-			}
-			return "UNK";
-		}
-
-
-		public static async Task<float?> FindGroundZ(Vector2 position)
-		{
-			float? result = null;
-			try
-			{
-				float[] groundCheckHeight = new float[] { 100.0f, 150.0f, 50.0f, 0.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
-
-				foreach (float h in groundCheckHeight)
-				{
-					//await BaseScript.Delay(0);
-					OutputArgument z = new OutputArgument();
-					if (Function.Call<bool>(Hash.GET_GROUND_Z_FOR_3D_COORD, position.X, position.Y, (float)h, z, false))
-					{
-						result = z.GetResult<float>();
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
-			}
-			return result;
 		}
 	}
 }

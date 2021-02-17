@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void LoadModel()
 		{
-			uint hash = (uint)GetHashKey(Game.Player.GetPlayerData().CurrentChar.skin.model);
+			uint hash = Funzioni.HashUint(Game.Player.GetPlayerData().CurrentChar.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
@@ -279,9 +279,9 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void AddWeapon(string weaponName, int ammo)
 		{
-			WeaponHash weaponHash = (WeaponHash)GetHashKey(weaponName);
+			WeaponHash weaponHash = (WeaponHash)Funzioni.HashUint(weaponName);
 			Game.PlayerPed.Weapons.Give(weaponHash, ammo, false, true);
-			HUD.HUD.ShowNotification("Hai ottenuto un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)weaponHash)));
+			HUD.HUD.ShowNotification("Hai ottenuto un/a ~y~" + Funzioni.GetWeaponLabel((uint)weaponHash));
 		}
 
 		public static void RemoveWeapon(string weaponName)
@@ -289,44 +289,44 @@ namespace TheLastPlanet.Client.Core.Utility
 			WeaponHash weaponHash = (WeaponHash)GetHashKey(weaponName);
 			RemoveWeaponFromPed(PlayerPedId(), (uint)weaponHash);
 			SetPedAmmo(PlayerPedId(), (uint)weaponHash, 0);
-			HUD.HUD.ShowNotification("Rimosso/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)weaponHash)));
+			HUD.HUD.ShowNotification("Rimosso/a ~y~" + Funzioni.GetWeaponLabel((uint)weaponHash));
 		}
 
 		public static void PossiediArma(string weaponName, string componentName)
 		{
-			HUD.HUD.ShowNotification("Possiedi già la modifica: ~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(componentName))) + "~w~ per ~b~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(weaponName))) + "~w~.");
+			HUD.HUD.ShowNotification("Possiedi già la modifica: ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(componentName)) + "~w~ per ~b~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(weaponName)) + "~w~.");
 		}
 		public static void PossiediTinta(string weaponName, int tinta)
 		{
-			HUD.HUD.ShowNotification("Possiedi già la modifica: ~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(Armerie.tinte[tinta].name))) + "~w~ per ~b~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(weaponName))) + "~w~.");
+			HUD.HUD.ShowNotification("Possiedi già la modifica: ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(Armerie.tinte[tinta].name)) + "~w~ per ~b~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(weaponName)) + "~w~.");
 		}
 
 		public static void AddWeaponComponent(string weaponName, string weaponComponent)
 		{
-			uint weaponHash = (uint)GetHashKey(weaponName);
-			uint componentHash = (uint)GetHashKey(weaponComponent);
+			uint weaponHash = Funzioni.HashUint(weaponName);
+			uint componentHash = Funzioni.HashUint(weaponComponent);
 			if (!Player.hasWeaponComponent(weaponName, weaponComponent))
 			{
 				GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
-				HUD.HUD.ShowNotification("Hai ottenuto un ~b~" + GetLabelText(Funzioni.GetWeaponLabel(componentHash)));
+				HUD.HUD.ShowNotification("Hai ottenuto un ~b~" + Funzioni.GetWeaponLabel(componentHash));
 			}
 			else
 			{
-				HUD.HUD.ShowNotification("Quest'arma ha già un" + GetLabelText(Funzioni.GetWeaponLabel(componentHash)));
+				HUD.HUD.ShowNotification("Quest'arma ha già un" + Funzioni.GetWeaponLabel(componentHash));
 			}
 		}
 
 		public static void RemoveWeaponComponent(string weaponName, string weaponComponent)
 		{
-			uint weaponHash = (uint)GetHashKey(weaponName);
-			uint componentHash = (uint)GetHashKey(weaponComponent);
+			uint weaponHash = Funzioni.HashUint(weaponName);
+			uint componentHash = Funzioni.HashUint(weaponComponent);
 			RemoveWeaponComponentFromPed(PlayerPedId(), weaponHash, componentHash);
-			HUD.HUD.ShowNotification("Rimosso/a ~b~" + GetLabelText(Funzioni.GetWeaponLabel(componentHash)));
+			HUD.HUD.ShowNotification("Rimosso/a ~b~" + Funzioni.GetWeaponLabel(componentHash));
 		}
 
 		public static void AddWeaponTint(string weaponName, int tint)
 		{
-			uint weaponHash = (uint)GetHashKey(weaponName);
+			uint weaponHash = Funzioni.HashUint(weaponName);
 			SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
 		}
 
@@ -339,7 +339,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				for (int i = 0; i < Player.getCharWeapons(Player.char_current).Count; i++)
 				{
 					string weaponName = Player.getCharWeapons(Player.char_current)[i].name;
-					uint weaponHash = (uint)GetHashKey(weaponName);
+					uint weaponHash = Funzioni.HashUint(weaponName);
 					int tint = Player.getCharWeapons(Player.char_current)[i].tint;
 					Game.PlayerPed.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
 					int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
@@ -348,7 +348,7 @@ namespace TheLastPlanet.Client.Core.Utility
 						for (int j = 0; j < Player.getCharWeapons(Player.char_current)[i].components.Count; j++)
 						{
 							Components weaponComponent = Player.getCharWeapons(Player.char_current)[i].components[j];
-							uint componentHash = (uint)GetHashKey(weaponComponent.name);
+							uint componentHash = Funzioni.HashUint(weaponComponent.name);
 							if (weaponComponent.active)
 							{
 								GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);

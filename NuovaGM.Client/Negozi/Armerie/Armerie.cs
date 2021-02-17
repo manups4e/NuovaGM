@@ -108,7 +108,7 @@ namespace TheLastPlanet.Client.Negozi
 					ArmiLic1.Clear();
 					for (int i = 0; i < armi1.Count; i++)
 					{
-						UIMenuItem arma = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name))));
+						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name)));
 						if ((Game.Player.GetPlayerData().Money >= armi1[i].price) || (Game.Player.GetPlayerData().Bank >= armi1[i].price))
 							arma.SetRightLabel("~g~" + armi1[i].price + "$");
 						else
@@ -146,7 +146,7 @@ namespace TheLastPlanet.Client.Negozi
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi1[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi1[_index].price);
-								HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name))));
+								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
 								_item.SetRightBadge(BadgeStyle.Gun);
 							}
 							else
@@ -155,7 +155,7 @@ namespace TheLastPlanet.Client.Negozi
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi1[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi1[_index].price);
-									HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name))));
+									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
@@ -171,7 +171,7 @@ namespace TheLastPlanet.Client.Negozi
 					ArmiLic2.Clear();
 					for (int i = 0; i < armi2.Count; i++)
 					{
-						UIMenuItem arma = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name))));
+						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name)));
 						if ((Game.Player.GetPlayerData().Money >= armi2[i].price) || (Game.Player.GetPlayerData().Bank >= armi2[i].price))
 							arma.SetRightLabel("~g~" + armi2[i].price + "$");
 						else
@@ -209,7 +209,7 @@ namespace TheLastPlanet.Client.Negozi
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi2[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi2[_index].price);
-								HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name))));
+								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
 								_item.SetRightBadge(BadgeStyle.Gun);
 							}
 							else
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.Negozi
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi2[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi2[_index].price);
-									HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name))));
+									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
@@ -234,7 +234,7 @@ namespace TheLastPlanet.Client.Negozi
 					ArmiLic3.Clear();
 					for (int i = 0; i < armi3.Count; i++)
 					{
-						UIMenuItem arma = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name))));
+						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name)));
 						if ((Game.Player.GetPlayerData().Money >= armi3[i].price) || (Game.Player.GetPlayerData().Bank >= armi3[i].price))
 							arma.SetRightLabel("~g~" + armi3[i].price + "$");
 						else
@@ -272,7 +272,7 @@ namespace TheLastPlanet.Client.Negozi
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi3[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi3[_index].price);
-								HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name))));
+								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
 								_item.SetRightBadge(BadgeStyle.Gun);
 							}
 							else
@@ -281,7 +281,7 @@ namespace TheLastPlanet.Client.Negozi
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi3[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi3[_index].price);
-									HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name))));
+									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
@@ -299,12 +299,12 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						if (SharedScript.hasComponents(armi.name))
 						{
-							UIMenu Arma = pool.AddSubMenu(component, GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))), "Vedi qui i componenti acquistabili per la tua arma");
+							UIMenu Arma = pool.AddSubMenu(component, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i componenti acquistabili per la tua arma");
 							foreach (ArmiLicenza co in componenti)
 							{
 								if (SharedScript.hasWeaponComponent(armi.name, co.name))
 								{
-									UIMenuItem compon = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(co.name))));
+									UIMenuItem compon = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(co.name)));
 									Arma.AddItem(compon);
 									if (Game.Player.GetPlayerData().Money >= co.price || Game.Player.GetPlayerData().Bank >= co.price)
 										compon.SetRightLabel("~g~" + co.price + "$");
@@ -322,7 +322,7 @@ namespace TheLastPlanet.Client.Negozi
 									HUD.ShowNotification("Hai già acquistato questo componente!!", true);
 								else
 								{
-									ArmiLicenza arm = componenti.FirstOrDefault(x => GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name))) == _item.Text);
+									ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Text);
 
 									Log.Printa(LogType.Debug, "Prezzo = " + arm.price);
 									Log.Printa(LogType.Debug, "name = " + arm.name);
@@ -330,7 +330,7 @@ namespace TheLastPlanet.Client.Negozi
 									{
 										BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
 										BaseScript.TriggerServerEvent("lprp:removemoney", arm.price);
-										HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name))));
+										HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
 										_item.SetRightBadge(BadgeStyle.Ammo);
 									}
 									else
@@ -339,7 +339,7 @@ namespace TheLastPlanet.Client.Negozi
 										{
 											BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
 											BaseScript.TriggerServerEvent("lprp:removebank", arm.price);
-											HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name))));
+											HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
 											_item.SetRightBadge(BadgeStyle.Ammo);
 										}
 										else
@@ -362,10 +362,10 @@ namespace TheLastPlanet.Client.Negozi
 						bool Hastints = SharedScript.hasTints(armi.name);
 						if (Hastints)
 						{
-							UIMenu Tnt = pool.AddSubMenu(Tinte, GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))), "Vedi qui i colori acquistabili per la tua arma");
+							UIMenu Tnt = pool.AddSubMenu(Tinte, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
 							foreach (var tin in tinte)
 							{
-								UIMenuItem tintina = new UIMenuItem(GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name))));
+								UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
 								Tnt.AddItem(tintina);
 								if ((Game.Player.GetPlayerData().Money >= tin.price) || (Game.Player.GetPlayerData().Bank >= tin.price))
 									tintina.SetRightLabel("~g~" + tin.price + "$");
@@ -386,7 +386,7 @@ namespace TheLastPlanet.Client.Negozi
 									{
 										BaseScript.TriggerServerEvent("lprp:removemoney", tinte[_index].price);
 										BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
-										HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name))));
+										HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
 										_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
 										//attTi.SetRightBadge(BadgeStyle.None);
 										//attTi = _item;
@@ -399,7 +399,7 @@ namespace TheLastPlanet.Client.Negozi
 										{
 											BaseScript.TriggerServerEvent("lprp:removebank", tinte[_index].price);
 											BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
-											HUD.ShowNotification("Hai acquistato un/a ~y~" + GetLabelText(Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name))));
+											HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
 											_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
 											//attTi.SetRightBadge(BadgeStyle.None);
 											//attTi = _item;

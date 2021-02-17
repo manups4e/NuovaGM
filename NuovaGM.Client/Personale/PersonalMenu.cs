@@ -479,23 +479,23 @@ namespace TheLastPlanet.Client.Personale
 						for (int i = 0; i < Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count; i++)
 						{
 							Weapons armi = Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current)[i];
-							UIMenu arma = pool.AddSubMenu(weapMenu, GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Munizioni: " + armi.ammo);
+							UIMenu arma = pool.AddSubMenu(weapMenu, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
 							if (armi.components.Count > 0)
 							{
-								UIMenu componenti = pool.AddSubMenu(arma, "Componenti " + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name))), "Scegli qui quali abilitare tra quelli che hai!");
+								UIMenu componenti = pool.AddSubMenu(arma, "Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Scegli qui quali abilitare tra quelli che hai!");
 								for (int j = 0; j < armi.components.Count; j++)
 								{
 									Components comp = armi.components[j];
 									bool attivo = comp.active;
-									if (GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) != "Caricatore standard")
+									if (Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) != "Caricatore standard")
 									{
-										UIMenuCheckboxItem componente = new UIMenuCheckboxItem(GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))), comp.active, "Attiva/Disattiva questo componente!");
+										UIMenuCheckboxItem componente = new UIMenuCheckboxItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)), comp.active, "Attiva/Disattiva questo componente!");
 										componenti.AddItem(componente);
 										componenti.OnCheckboxChange += (_menu, _item, _checked) =>
 										{
-											if (_item.Text == GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))))
+											if (_item.Text == Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)))
 											{
-												uint componentHash = (uint)GetHashKey(comp.name);
+												uint componentHash = Funzioni.HashUint(comp.name);
 												List<Weapons> armiAgg = new List<Weapons>();
 												List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 												armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
@@ -503,13 +503,13 @@ namespace TheLastPlanet.Client.Personale
 												BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.Serialize());
 												if (_checked)
 												{
-													GiveWeaponComponentToPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
-													HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Attivato/a.", true);
+													GiveWeaponComponentToPed(PlayerPedId(), Funzioni.HashUint(armi.name), componentHash);
+													HUD.ShowNotification("~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) + " Attivato/a.", true);
 												}
 												else if (!_checked)
 												{
-													RemoveWeaponComponentFromPed(PlayerPedId(), (uint)GetHashKey(armi.name), componentHash);
-													HUD.ShowNotification("~y~" + GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(comp.name))) + " Disattivato/a.");
+													RemoveWeaponComponentFromPed(PlayerPedId(), Funzioni.HashUint(armi.name), componentHash);
+													HUD.ShowNotification("~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)) + " Disattivato/a.");
 												}
 											}
 										};
@@ -517,10 +517,10 @@ namespace TheLastPlanet.Client.Personale
 								}
 							}
 							/* CODICE PER DARE UN ARMA E SI AGGIUNGERE ANCHE LE MUNIZIONI
-							UIMenuItem giveButton = new UIMenuItem($"Dai {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.Cyan, Colors.DarkCyan);
+							UIMenuItem giveButton = new UIMenuItem($"Dai {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", Colors.Cyan, Colors.DarkCyan);
 							arma.AddItem(giveButton);
 							*/
-							UIMenuItem dropButton = new UIMenuItem($"Gettare {GetLabelText(Funzioni.GetWeaponLabel((uint)GetHashKey(armi.name)))}", "", Colors.RedLight, Colors.Red);
+							UIMenuItem dropButton = new UIMenuItem($"Gettare {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", Colors.RedLight, Colors.Red);
 							arma.AddItem(dropButton);
 							dropButton.Activated += async (_menu, item) =>
 							{
