@@ -1132,24 +1132,8 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="coords"></param>
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
-			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x=>Vector3.Distance(x.Character.Position, Game.PlayerPed.Position)).FirstOrDefault();
-			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(Game.PlayerPed.Position, closestPlayer.Character.Position));
-			
-			/*
-			float closestDistance = -1;
-			foreach (Player p in Client.Instance.GetPlayers.ToList())
-			{
-				Ped target = p.Character;
-				Vector3 targetCoords = target.Position;
-				float distance = Vector3.Distance(coords, targetCoords);
-				if (closestDistance == -1 || closestDistance > distance)
-				{
-					closestPlayer = p;
-					closestDistance = distance;
-				}
-			}
-			return new Tuple<Player, float>(closestPlayer, closestDistance);
-			*/
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x=>Vector3.Distance(x.Character.Position, coords)).FirstOrDefault();
+			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
 		}
 
 		/// <summary>
