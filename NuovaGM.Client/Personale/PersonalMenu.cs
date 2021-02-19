@@ -79,6 +79,7 @@ namespace TheLastPlanet.Client.Personale
 		public static async void menuPersonal()
 		{
 			Ped playerPed = new Ped(PlayerPedId());
+			Player me = new Player(PlayerId());
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
@@ -161,7 +162,7 @@ namespace TheLastPlanet.Client.Personale
 						Blip[] test = World.GetAllBlips((BlipSprite)var);
 						HUD.ShowNotification("GPS: Calcolo..");
 						await BaseScript.Delay(1000);
-						b = test.ToList().OrderBy(x => Vector3.Distance(x.Position, Game.Player.GetPlayerData().posizione.ToVector3())).FirstOrDefault();
+						b = test.ToList().OrderBy(x => Vector3.Distance(x.Position, me.GetPlayerData().posizione.ToVector3())).FirstOrDefault();
 						HUD.ShowNotification("GPS: Calcolo..").Hide();
 						if (b != null)
 						{
@@ -267,18 +268,18 @@ namespace TheLastPlanet.Client.Personale
 					UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
 					UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
 					UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
-					name.SetRightLabel(Game.Player.GetPlayerData().FullName);
-					dob.SetRightLabel(Game.Player.GetPlayerData().DOB);
-					alt.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.height);
-					nTel.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.phoneNumber);
-					nAss.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.info.insurance);
+					name.SetRightLabel(me.GetPlayerData().FullName);
+					dob.SetRightLabel(me.GetPlayerData().DOB);
+					alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.height);
+					nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.phoneNumber);
+					nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.insurance);
 					//
-					//job.Label = SharedScript.Jobs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
-					//gang.Label = SharedScript.Gangs[Game.Player.GetPlayerData().CurrentChar.job.name].label;
+					//job.Label = SharedScript.Jobs[me.GetPlayerData().CurrentChar.job.name].label;
+					//gang.Label = SharedScript.Gangs[me.GetPlayerData().CurrentChar.job.name].label;
 					//
-					job.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.job.name);
-					gang.SetRightLabel(Game.Player.GetPlayerData().CurrentChar.gang.name);
-					bank.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Bank);
+					job.SetRightLabel(me.GetPlayerData().CurrentChar.job.name);
+					gang.SetRightLabel(me.GetPlayerData().CurrentChar.gang.name);
+					bank.SetRightLabel("~g~$" + me.GetPlayerData().Bank);
 					datiPers.AddItem(name);
 					datiPers.AddItem(dob);
 					datiPers.AddItem(alt);
@@ -287,11 +288,11 @@ namespace TheLastPlanet.Client.Personale
 					datiPers.AddItem(job);
 					datiPers.AddItem(gang);
 					UIMenu money = datiPers.AddSubMenu("Soldi: ", "I suoi soldi");
-					money.ParentItem.SetRightLabel("~g~$" + Game.Player.GetPlayerData().Money);
+					money.ParentItem.SetRightLabel("~g~$" + me.GetPlayerData().Money);
 					money.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 					datiPers.AddItem(bank);
 					UIMenu dirty = datiPers.AddSubMenu("Soldi Sporchi: ", "I soldi sporchi");
-					dirty.ParentItem.SetRightLabel("~r~$" + Game.Player.GetPlayerData().DirtyMoney);
+					dirty.ParentItem.SetRightLabel("~r~$" + me.GetPlayerData().DirtyMoney);
 					dirty.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 
 					UIMenu daiMoney = money.AddSubMenu("Dai a qualcuno", "A chi?");
@@ -316,7 +317,7 @@ namespace TheLastPlanet.Client.Personale
 								if (string.IsNullOrEmpty(am))
 									break;
 								amount = Convert.ToInt32(am);
-								if (amount < 1 || amount > Game.Player.GetPlayerData().Money)
+								if (amount < 1 || amount > me.GetPlayerData().Money)
 									HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 							}
 							while (amount <= 1);
@@ -340,7 +341,7 @@ namespace TheLastPlanet.Client.Personale
 								if (string.IsNullOrEmpty(am))
 									break;
 								amount = Convert.ToInt32(am);
-								if (amount < 1 || amount > Game.Player.GetPlayerData().DirtyMoney)
+								if (amount < 1 || amount > me.GetPlayerData().DirtyMoney)
 									HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 							}
 							while (amount < 1);
@@ -355,17 +356,13 @@ namespace TheLastPlanet.Client.Personale
 				}
 			};
 			UIMenu salute = pool.AddSubMenu(persMenu, "Salute", "Fame, sete..", pos);
-			fa.SetRightLabel("" + Math.Round(StatsNeeds.nee.fame, 2) + "%");
-			se.SetRightLabel("" + Math.Round(StatsNeeds.nee.sete, 2) + "%");
-			st.SetRightLabel("" + Math.Round(StatsNeeds.nee.stanchezza, 2) + "%");
-			if (StatsNeeds.nee.malattia)
-			{
+			fa.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+			se.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+			st.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+			if (me.GetPlayerData().CurrentChar.needs.malattia)
 				ma.SetRightLabel("Malato");
-			}
 			else
-			{
 				ma.SetRightLabel("In Salute");
-			}
 
 			salute.AddItem(fa);
 			salute.AddItem(se);
@@ -387,7 +384,7 @@ namespace TheLastPlanet.Client.Personale
 				{
 					Inventory.Clear();
 					int rimozione = 5;
-					var inv = Game.Player.GetPlayerData().Inventory;
+					var inv = me.GetPlayerData().Inventory;
 					if (inv.Count > 0)
 					{
 						foreach (var it in inv)
@@ -420,7 +417,7 @@ namespace TheLastPlanet.Client.Personale
 									giveButton.ParentItem.HighlightColor = Colors.Cyan;
 									giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 									List<int> playerId = new List<int>();
-									var players = Funzioni.GetPlayersInArea(Game.Player.GetPlayerData().posizione.ToVector3(), 3f);
+									var players = Funzioni.GetPlayersInArea(me.GetPlayerData().posizione.ToVector3(), 3f);
 									if (players.Count > 0)
 									{
 										foreach (var player in players)
@@ -474,11 +471,11 @@ namespace TheLastPlanet.Client.Personale
 				if (state == MenuState.ChangeForward && menu == weapMenu)
 				{
 					weapMenu.Clear();
-					if (Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count > 0)
+					if (me.GetPlayerData().getCharWeapons(me.GetPlayerData().char_current).Count > 0)
 					{
-						for (int i = 0; i < Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current).Count; i++)
+						for (int i = 0; i < me.GetPlayerData().getCharWeapons(me.GetPlayerData().char_current).Count; i++)
 						{
-							Weapons armi = Game.Player.GetPlayerData().getCharWeapons(Game.Player.GetPlayerData().char_current)[i];
+							Weapons armi = me.GetPlayerData().getCharWeapons(me.GetPlayerData().char_current)[i];
 							UIMenu arma = pool.AddSubMenu(weapMenu, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
 							if (armi.components.Count > 0)
 							{
@@ -499,7 +496,7 @@ namespace TheLastPlanet.Client.Personale
 												List<Weapons> armiAgg = new List<Weapons>();
 												List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 												armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
-												Game.Player.GetPlayerData().CurrentChar.weapons = armiAgg;
+												me.GetPlayerData().CurrentChar.weapons = armiAgg;
 												BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.Serialize());
 												if (_checked)
 												{
@@ -734,7 +731,7 @@ namespace TheLastPlanet.Client.Personale
 				{
 					if (_item == item1)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item2)
 					{
@@ -742,11 +739,11 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item3)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item4)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item5)
 					{
@@ -762,7 +759,7 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item8)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item9)
 					{
@@ -875,15 +872,15 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item15)
 					{
-						playerPed.Task.StartScenario("world_human_stand_fishing", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_stand_fishing", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item16)
 					{
-						playerPed.Task.StartScenario("world_human_gardener_plant", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_gardener_plant", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item17)
 					{
-						playerPed.Task.StartScenario("world_human_vehicle_mechanic", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_vehicle_mechanic", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item18)
 					{
@@ -891,7 +888,7 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item19)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item20)
 					{
@@ -899,11 +896,11 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item21)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item22)
 					{
-						playerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item23)
 					{
@@ -919,23 +916,23 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item26)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item27)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item28)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item29)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item30)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", me.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -986,7 +983,7 @@ namespace TheLastPlanet.Client.Personale
 				{
 					if (_item == item31)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item32)
 					{
@@ -1131,27 +1128,27 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item53)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item54)
 					{
-						playerPed.Task.StartScenario("world_human_leaning", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_leaning", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item55)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item56)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item57)
 					{
-						playerPed.Task.StartScenario("world_human_maid_clean", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_maid_clean", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item58)
 					{
-						playerPed.Task.StartScenario("world_human_tourist_mobile", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("world_human_tourist_mobile", me.GetPlayerData().posizione.ToVector3());
 					}
 				}
 				else
@@ -1215,7 +1212,7 @@ namespace TheLastPlanet.Client.Personale
 					}
 					else if (_item == item65)
 					{
-						playerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", Game.Player.GetPlayerData().posizione.ToVector3());
+						playerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", me.GetPlayerData().posizione.ToVector3());
 					}
 					else if (_item == item66)
 					{
@@ -1306,7 +1303,7 @@ namespace TheLastPlanet.Client.Personale
 			#endregion
 			#region Gangs
 			UIMenu bandeCriminali = pool.AddSubMenu(PersonalMenu, "Bande criminali", "Fonda e gestisti la tua banda criminale!");
-			if (Game.Player.GetPlayerData().CurrentChar.gang.name == "Incensurato")
+			if (me.GetPlayerData().CurrentChar.gang.name == "Incensurato")
 			{
 				UIMenuItem diventaBoss = new UIMenuItem("Diventa Boss di una Banda!", "Baciamo le mani.");
 				List<dynamic> lavoro = new List<dynamic>() { "No", "Si" };
@@ -1318,7 +1315,7 @@ namespace TheLastPlanet.Client.Personale
 
 				diventaBoss.Activated += async (menu, item) =>
 				{
-					if (Game.Player.GetPlayerData().Bank > 5000)
+					if (me.GetPlayerData().Bank > 5000)
 					{
 						if (Main.GangsAttive.Count < 3)
 						{
@@ -1338,7 +1335,7 @@ namespace TheLastPlanet.Client.Personale
 			}
 			else
 			{
-				if (Game.Player.GetPlayerData().CurrentChar.gang.grade > 4)
+				if (me.GetPlayerData().CurrentChar.gang.grade > 4)
 				{
 					UIMenu assumi = pool.AddSubMenu(bandeCriminali, "Assumi membri");
 					UIMenu gestione = pool.AddSubMenu(bandeCriminali, "Gestione banda");
@@ -1348,8 +1345,8 @@ namespace TheLastPlanet.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						Main.GangsAttive.Remove(Game.Player.GetPlayerData().CurrentChar.gang);
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
+						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.gang);
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", (new Gang("Incensurato", 0)).Serialize());
 					};
@@ -1361,7 +1358,7 @@ namespace TheLastPlanet.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{Game.Player.GetPlayerData().CurrentChar.gang.name}~w~.");
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", (new Gang("Incensurato", 0)).Serialize());
 					};
@@ -1383,13 +1380,13 @@ namespace TheLastPlanet.Client.Personale
 				switch (var) 
 				{
 					case "Medicine":
-						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+						if (me.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							Anim = "pill";
 						else
 							Anim = "pill_fp";
 						break;
 					case "Pistola":
-						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+						if (me.GetPlayerData().CurrentChar.skin.sex == "Maschio")
 							Anim = "PISTOL";
 						else
 							Anim = "PISTOL_FP";
@@ -1403,7 +1400,9 @@ namespace TheLastPlanet.Client.Personale
 					{
 						HUD.ShowNotification("Non puoi suicidarti con la pistola senza avere una pistola!");
 						return;
-					}				}				HUD.MenuPool.CloseAllMenus();
+					}
+				}
+				HUD.MenuPool.CloseAllMenus();
 				TaskPlayAnim(PlayerPedId(), "MP_SUICIDE", Anim, 8f, -8f, -1, 270540800, 0, false, false, false);
 				while (GetEntityAnimCurrentTime(PlayerPedId(), "MP_SUICIDE", Anim) < 0.99f) await BaseScript.Delay(0);
 				playerPed.Weapons.Select(WeaponHash.Unarmed);
@@ -1417,34 +1416,35 @@ namespace TheLastPlanet.Client.Personale
 
 		private static async Task AggiornaSalute()
 		{
-			if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 30f)
-				fa.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 60f)
-				fa.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 90f)
-				fa.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			Player me = new Player(PlayerId());
+			if (me.GetPlayerData().CurrentChar.needs.fame > 30f)
+				fa.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.fame > 60f)
+				fa.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.fame > 90f)
+				fa.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 			else
-				fa.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+				fa.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
 
-			if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 30f)
-				se.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 60f)
-				se.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 90f)
-				se.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			if (me.GetPlayerData().CurrentChar.needs.sete > 30f)
+				se.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.sete > 60f)
+				se.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.sete > 90f)
+				se.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 			else
-				se.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+				se.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
 
-			if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
-				st.SetRightLabel("~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
-				st.SetRightLabel("~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-			else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
-				st.SetRightLabel("~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			if (me.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
+				st.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
+				st.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			else if (me.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
+				st.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 			else
-				st.SetRightLabel("~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+				st.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
 
-			if (Game.Player.GetPlayerData().CurrentChar.needs.malattia)
+			if (me.GetPlayerData().CurrentChar.needs.malattia)
 				ma.SetRightLabel("~r~In malattia");
 			else
 				ma.SetRightLabel("~g~In Salute");
@@ -1483,19 +1483,19 @@ namespace TheLastPlanet.Client.Personale
 		}
 		public static async Task routeColor()
 		{
-
-			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 5000f)
+			Player me = new Player(PlayerId());
+			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 5000f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
-			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 5000f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 4500f)
+			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 5000f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 4500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Blue);
-			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 4500f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 2500f)
+			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 4500f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 2500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 2500f && Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) > 1500f)
+			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 2500f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 1500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 1500f)
+			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 1500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Green);
 
-			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), b.Position) < 20)
+			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 20)
 			{
 				HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
 				b.ShowRoute = false;
