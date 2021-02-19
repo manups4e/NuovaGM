@@ -155,11 +155,18 @@ namespace TheLastPlanet.Client.Core.Utility
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
 
 			Main.RespawnPed(Game.Player.GetPlayerData().posizione.ToVector3());
-			StatsNeeds.nee.fame = 0.0f;
-			StatsNeeds.nee.sete = 0.0f;
-			StatsNeeds.nee.stanchezza = 0.0f;
-			StatsNeeds.nee.malattia = false;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", StatsNeeds.nee.Serialize());
+			StatsNeeds.Needs["Fame"].Val = 0.0f;
+			StatsNeeds.Needs["Sete"].Val = 0.0f;
+			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
+			Game.Player.GetPlayerData().CurrentChar.needs.malattia = false;
+			Needs nee = new Needs()
+			{
+				fame = StatsNeeds.Needs["Fame"].Val,
+				sete = StatsNeeds.Needs["Sete"].Val,
+				stanchezza = StatsNeeds.Needs["Stanchezza"].Val,
+				malattia = Game.Player.GetPlayerData().CurrentChar.needs.malattia
+			};
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();

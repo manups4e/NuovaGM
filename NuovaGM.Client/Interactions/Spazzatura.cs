@@ -123,11 +123,11 @@ namespace TheLastPlanet.Client.Interactions
 							{
 								case 1:
 									HUD.ShowNotification("Hai trovato un panino mezzo mangiato.. Meglio mangiarlo subito!");
-									StatsNeeds.nee.fame -= 20;
+									StatsNeeds.Needs["Fame"].Val -= 20;
 									break;
 								case 2:
 									HUD.ShowNotification("Hai trovato una bottiglietta d'acqua non finita.. Meglio berla subito!");
-									StatsNeeds.nee.sete -= 20;
+									StatsNeeds.Needs["Sete"].Val -= 20;
 									break;
 							}
 							break;

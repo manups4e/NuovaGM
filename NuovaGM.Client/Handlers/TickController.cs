@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 
 			// TICK GENERICI \\ ATTIVI SEMPRE
-			TickGenerici.Add(StatsNeeds.AggiornamentoEConseguenze);
+			TickGenerici.Add(StatsNeeds.GestioneStatsSkill);
 			//TickGenerici.Add(StatsNeeds.Agg);
 			TickGenerici.Add(Main.MainTick);
 			TickGenerici.Add(Main.Armi);

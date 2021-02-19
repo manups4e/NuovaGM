@@ -345,7 +345,7 @@ namespace TheLastPlanet.Client.Core.Status
 		{
 			await BaseScript.Delay(1000);
 			Ped playerPed = Game.PlayerPed;
-			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.nee.fame < 80 && StatsNeeds.nee.sete < 80))
+			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80))
 			{
 				playerPed.MovementAnimationSet = null;
 				ferito = false;
