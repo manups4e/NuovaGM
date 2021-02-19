@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 		public async static Task ControlloPesca()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Main.spawned)
 			{
 				if (PerVendereIlPesce.Any(o => Eventi.Player.getInventoryItem(o).Item1))

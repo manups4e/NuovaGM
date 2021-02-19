@@ -26,7 +26,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerFuori()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			foreach (var app in Proprietà.Appartamenti)
 			{
 				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerDentro()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Eventi.Player.StatiPlayer.Istanza.Stanziato)
 			{
 				if (Proprietà.Appartamenti.ContainsKey(Eventi.Player.StatiPlayer.Istanza.Instance))

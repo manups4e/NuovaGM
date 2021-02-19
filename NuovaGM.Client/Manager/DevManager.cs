@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
-			Ped pl = Game.PlayerPed;
+			Ped pl = new Ped(PlayerPedId());
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");

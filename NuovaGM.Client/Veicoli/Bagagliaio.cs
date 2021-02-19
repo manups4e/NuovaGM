@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task ControlloBagagliaio()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (!playerPed.IsInVehicle())
 			{
 				Tuple<Vehicle, float> closestVeh = playerPed.GetClosestVehicleWithDistance();

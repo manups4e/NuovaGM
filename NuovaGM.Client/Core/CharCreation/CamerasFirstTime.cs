@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task SiComincia()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			TriggerMusicEvent("FM_INTRO_START");
 			playerPed.Detach();
 			Client.Instance.AddTick(Controllo);
@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiContinua(Camera Cam)
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiFinisce()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			TriggerMusicEvent("GLOBAL_KILL_MUSIC");
 			playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);

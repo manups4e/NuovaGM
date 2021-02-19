@@ -228,7 +228,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task OnTick()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (playerPed.IsInVehicle())
 			{
 				vehicle = playerPed.CurrentVehicle;

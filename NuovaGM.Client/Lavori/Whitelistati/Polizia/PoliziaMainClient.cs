@@ -108,7 +108,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MarkersPolizia()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.CurrentChar.job.name.ToLower() == "polizia")
 			{
 				for (int stazione=0; stazione < Client.Impostazioni.Lavori.Polizia.Config.Stazioni.Count; stazione++)
@@ -338,7 +338,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task Ammanettato()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 
 			if (Game.Player.CanControlCharacter)
 				Game.Player.CanControlCharacter = false;

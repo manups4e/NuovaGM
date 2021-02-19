@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.Interactions
 		public static async Task ControlloLetti()
 		{
 
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_r_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
@@ -208,7 +208,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public override async void Sdraiati()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Vector3 vVar0 = new Vector3(1.5f);
@@ -290,7 +290,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public async override void Sdraiati()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			p.Weapons.Select(WeaponHash.Unarmed);

@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (!p.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
 			{
 				if (affittatoBianca)
@@ -138,7 +138,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloUccisi()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			foreach (var anim in animaliUccisi)
 			{
 				if (p.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)

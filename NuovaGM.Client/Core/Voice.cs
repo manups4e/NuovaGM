@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void UpdateVoices()
 		{
-			Ped pl = Game.PlayerPed;
+			Ped pl = new Ped(PlayerPedId());
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				int serverID = GetPlayerServerId(p.Handle);
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.Core
 		static bool notif = false;
 		public static async Task OnTick2()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Permesso)
 			{
 				if (Input.IsControlPressed(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))

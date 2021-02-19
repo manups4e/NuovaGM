@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task CestiSpazzatura()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");

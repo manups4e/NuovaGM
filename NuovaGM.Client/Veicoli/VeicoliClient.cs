@@ -136,7 +136,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task Lux()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (playerPed.IsInVehicle() && Main.spawned)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
@@ -449,7 +449,7 @@ namespace TheLastPlanet.Client.Veicoli
 		static float angle = 0f;
 		public static async Task gestioneVeh()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
@@ -472,7 +472,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task engine()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (playerPed.IsInVehicle())
 			{
 				Vehicle p = playerPed.CurrentVehicle;
@@ -627,7 +627,7 @@ namespace TheLastPlanet.Client.Veicoli
 		/*
 		public static async Task MostraMenuAffitto()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)

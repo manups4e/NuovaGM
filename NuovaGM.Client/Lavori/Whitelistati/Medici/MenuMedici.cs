@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		private static async Task ControlloGarage()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.StatiPlayer.Istanza.Stanziato)
 			{
 				if (InGarage)

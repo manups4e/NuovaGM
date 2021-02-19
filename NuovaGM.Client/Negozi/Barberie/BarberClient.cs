@@ -108,7 +108,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async Task Sedie()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
 				if (p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)

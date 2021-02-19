@@ -163,7 +163,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task DivaniCasa()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (!Seduto)
 			{
 				for (int i = 0; i < Divani.Count; i++)
@@ -191,7 +191,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task Televisione()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Seduto /*&&controllo per casa o hotel*/)
 			{
 				if (!stato)
@@ -226,7 +226,7 @@ namespace TheLastPlanet.Client.Interactions
 		}
 		public static async Task SedieSiedi()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (SediaClosest != null)
 			{
 				if(p.IsInRangeOf(SediaClosest.Position, 1.375f))

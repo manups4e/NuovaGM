@@ -53,7 +53,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 
 		public static async Task Markers()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (p.IsInRangeOf(taxi.PosAccettazione, 100))
 			{
 				World.DrawMarker(MarkerType.ChevronUpx2, taxi.PosAccettazione, Vector3.Zero, Vector3.Zero, new Vector3(1.5f), Colors.Yellow, rotateY: true);
@@ -161,7 +161,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 		}
 		private static async Task ServizioTaxi()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (InServizio && jobs.onJob == 0)
 			{
 				if (p.IsInVehicle(VeicoloServizio))

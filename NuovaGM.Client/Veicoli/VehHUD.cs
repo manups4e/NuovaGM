@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client.Veicoli
 
         public static async Task Tick1()
         {
-            Ped playerPed = Game.PlayerPed;
+            Ped playerPed = new Ped(PlayerPedId());
             if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
             {
                 IsEngineOn = playerPed.CurrentVehicle.IsEngineRunning;
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.Veicoli
 
         private static async Task OnTickSpeedo3()
         {
-            Ped playerPed = Game.PlayerPed;
+            Ped playerPed = new Ped(PlayerPedId());
             if (overwriteAlpha)
                 curAlpha = 0;
             if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver == Game.PlayerPed)

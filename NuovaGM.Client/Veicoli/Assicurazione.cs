@@ -2,6 +2,7 @@
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using System.Threading.Tasks;
+using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -14,7 +15,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		private static async Task ControlloAssicurazione()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver != playerPed)
 			{
 				if (playerPed.CurrentVehicle.IsOnFire || playerPed.CurrentVehicle.IsDead)

@@ -119,7 +119,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void onPlayerSpawn()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			SetEnablePedEnveffScale(playerPed.Handle, true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
@@ -249,7 +249,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task MainTick()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			Player pl = Game.Player;
 
 			#region death?andweapon
@@ -336,7 +336,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task Recoil()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			Weapon weapon = p.Weapons.Current;
 			ManageReticle(weapon);
 			if (p.IsAiming || p.IsAimingFromCover || p.IsShooting)

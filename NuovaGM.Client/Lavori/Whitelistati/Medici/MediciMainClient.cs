@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersMedici()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
@@ -245,7 +245,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersNonMedici()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" || Eventi.Player.CurrentChar.job.name.ToLower() != "medici")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)

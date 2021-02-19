@@ -1229,7 +1229,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		static float CoordY;
 		public static async Task TastiMenu()
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
 				if (((IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205)) && IsInputDisabled(2)) || ((IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205)) && !IsInputDisabled(2)))

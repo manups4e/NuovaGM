@@ -749,7 +749,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloGarageNew()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.StatiPlayer.Istanza.Stanziato)
 			{
 				if (InGarage)
@@ -865,7 +865,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloMenu()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (p.IsInVehicle())
 			{
 				if (p.CurrentVehicle.Driver == Game.PlayerPed && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Game.PlayerPed)

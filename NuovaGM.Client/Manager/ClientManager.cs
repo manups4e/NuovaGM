@@ -288,7 +288,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task noClip()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -436,7 +436,7 @@ namespace TheLastPlanet.Client.Manager
 			if (blipFound)
 			{
 				// get entity to teleport
-				Entity ent = Game.PlayerPed;
+				Entity ent = new Ped(PlayerPedId());
 				if (Game.PlayerPed.IsInVehicle())
 					ent = Game.PlayerPed.CurrentVehicle;
 

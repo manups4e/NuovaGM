@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 			if (Game.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
 			{
-				var p = Game.PlayerPed;
+				var p = new Ped(PlayerPedId());
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				while (Eventi.Player == null) await BaseScript.Delay(0);
@@ -187,7 +187,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
-			Ped ped = Game.PlayerPed;
+			Ped ped = new Ped(PlayerPedId());
 			Char_data pers = Eventi.Player.char_data.FirstOrDefault(x => x.id == (int)data["id"]);
 			if (p1 != null)
 			{

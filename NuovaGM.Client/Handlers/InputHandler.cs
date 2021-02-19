@@ -8,6 +8,7 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using static Logger.Log;
+using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -28,7 +29,7 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				Ped p = Game.PlayerPed;
+				Ped p = new Ped(PlayerPedId());
 				foreach(var input in ListaInput)
 				{
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)

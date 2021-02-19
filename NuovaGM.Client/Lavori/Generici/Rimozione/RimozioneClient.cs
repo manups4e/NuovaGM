@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 
 		public static async Task InizioLavoro()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			if (Eventi.Player.CurrentChar.job.name != "Rimozione forzata")
 			{
 				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50))

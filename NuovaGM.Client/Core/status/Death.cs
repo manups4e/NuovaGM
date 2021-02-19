@@ -344,7 +344,7 @@ namespace TheLastPlanet.Client.Core.Status
 		public static async Task Injuried()
 		{
 			await BaseScript.Delay(1000);
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80))
 			{
 				playerPed.MovementAnimationSet = null;

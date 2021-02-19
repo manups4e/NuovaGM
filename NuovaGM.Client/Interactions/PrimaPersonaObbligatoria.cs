@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.Interactions
 		//migliorare precisione in corsa e in genera in copertura e non.. V 
 		private static async Task WeaponHandling()
 		{
-			Ped p = Game.PlayerPed;
+			Ped p = new Ped(PlayerPedId());
 			#region MiraPrimaPersona
 			if (Main.ImpostazioniClient.ForzaPrimaPersona_Mira)
 			{

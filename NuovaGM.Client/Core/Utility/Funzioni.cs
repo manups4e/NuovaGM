@@ -585,7 +585,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void Teleport(Vector3 coords)
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible)
@@ -630,7 +630,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void TeleportConVeh(Vector3 coords)
 		{
-			Ped playerPed = Game.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible)
