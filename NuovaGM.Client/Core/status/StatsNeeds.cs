@@ -283,13 +283,13 @@ namespace TheLastPlanet.Client.Core.Status
 		private static void Stanchezza(Ped playerPed, Player me, Necessità stanchezza)
 		{
 			if (!playerPed.IsAiming && (playerPed.IsRunning || playerPed.IsSwimming || playerPed.IsJumping))
-				stanchezza.ChangeVal = 0.045f;
+				stanchezza.ChangeVal = 0.0225f;
 			else if (!playerPed.IsAiming && (playerPed.IsSwimmingUnderWater || playerPed.IsSprinting))
-				stanchezza.ChangeVal = 0.070f;
+				stanchezza.ChangeVal = 0.035f;
 			else if (playerPed.IsInMeleeCombat)
-				stanchezza.ChangeVal = 0.057f;
+				stanchezza.ChangeVal = 0.0285f;
 			else
-				stanchezza.ChangeVal = 0.0064f;
+				stanchezza.ChangeVal = 0.0062f;
 			stanchezza.Val += stanchezza.ChangeVal;
 			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6)
 				stanchezza.Val += 0.03f;
