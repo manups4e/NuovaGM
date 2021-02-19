@@ -254,7 +254,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				RaycastResult raycast = World.Raycast(Game.Player.GetPlayerData().posizione.ToVector3(), Game.PlayerPed.GetOffsetPosition(new Vector3(0f, distance, 0f)), IntersectOptions.Everything);
+				RaycastResult raycast = World.Raycast(Eventi.Player.posizione.ToVector3(), Game.PlayerPed.GetOffsetPosition(new Vector3(0f, distance, 0f)), IntersectOptions.Everything);
 				if (raycast.DitHitEntity)
 				{
 					return (Entity)raycast.HitEntity;
@@ -1123,7 +1123,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		public static Tuple<Player, float> GetClosestPlayer()
 		{
-			return GetClosestPlayer(Game.Player.GetPlayerData().posizione.ToVector3());
+			return GetClosestPlayer(Eventi.Player.posizione.ToVector3());
 		}
 
 		/// <summary>

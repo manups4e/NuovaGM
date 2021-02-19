@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private async static void Spawnato()
 		{
-			if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Maschio")
+			if (Eventi.Player.CurrentChar.skin.sex == "Maschio")
 			{
 				sLocal_436 = "mp_safehouseshower@male@";
 				sLocal_437 = "male_shower_undress_&_turn_on_water";
@@ -179,10 +179,10 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			if (!InDoccia)
 			{
-				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 1.375f);
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < 1.375f);
 				if (VicinoDoccia)
 				{
-					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < 1.375f);
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < 1.375f);
 					if (!DocciaPorta.IsAttached())
 						DocciaPorta.IsPositionFrozen = true;
 					attuale = Coords.First(o => Vector3.Distance(o.anim, DocciaPorta.Position) < 2f);
@@ -271,7 +271,7 @@ namespace TheLastPlanet.Client.Interactions
 						if (Global_2499242_f_25 != -1)
 							ReleaseSoundId(Global_2499242_f_25);
 
-						if (Game.Player.GetPlayerData().CurrentChar.skin.sex == "Femmina")
+						if (Eventi.Player.CurrentChar.skin.sex == "Femmina")
 						{
 							while (GetSynchronizedScenePhase(Scena1) < 0.76f) await BaseScript.Delay(0);
 							Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);

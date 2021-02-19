@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.Interactions
 					Prop pick = new Prop(pickup.propObj);
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), pick.Position);
+						float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), pick.Position);
 						if (dist < 5)
 						{
 							string label = pickup.label;

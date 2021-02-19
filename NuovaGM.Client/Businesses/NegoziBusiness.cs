@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.Negozi
 			foreach (var ogg in oggettidaaggiungere)
 			{
 				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
-				if (Game.Player.GetPlayerData().Money >= ogg.prezzo || Game.Player.GetPlayerData().Bank >= ogg.prezzo)
+				if (Eventi.Player.Money >= ogg.prezzo || Eventi.Player.Bank >= ogg.prezzo)
 					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
 				else
 					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
@@ -74,14 +74,14 @@ namespace TheLastPlanet.Client.Negozi
 				if (!string.IsNullOrEmpty(nome)) 
 				{
 					OggettoVendita ogg = oggettidaaggiungere.FirstOrDefault(x => x.oggetto == nome);
-					if (Game.Player.GetPlayerData().Money >= ogg.prezzo)
+					if (Eventi.Player.Money >= ogg.prezzo)
 					{
 						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
 						BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= ogg.prezzo)
+						if (Eventi.Player.Bank >= ogg.prezzo)
 						{
 							BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.Negozi
 					World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(stations[i].ppos.x, stations[i].ppos.y, stations[i].ppos.z - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 					if (dist < 1.3f)
 					{
-						if (stationinfo.ownerchar.ToLower() == Game.Player.GetPlayerData().FullName.ToLower())
+						if (stationinfo.ownerchar.ToLower() == Eventi.Player.FullName.ToLower())
 						{
 							Funzioni.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 							if (!interactWait)

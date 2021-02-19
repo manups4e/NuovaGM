@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Manager
 							if (item == Teletrasportami)
 								Game.PlayerPed.Position = p.Character.Position;
 							else if (item == Teletrasportalo)
-								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Game.Player.GetPlayerData().posizione.ToVector3());
+								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Eventi.Player.posizione.ToVector3());
 							else if (item == Specta)
 							{
 								if (p == Game.Player) return;
@@ -358,7 +358,7 @@ namespace TheLastPlanet.Client.Manager
 						VeicoloSalvato.Delete();
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.W);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Eventi.Player.posizione.ToVector3(), Eventi.Player.posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane)
 						SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
@@ -537,7 +537,7 @@ namespace TheLastPlanet.Client.Manager
 			};
 			#endregion
 
-			if (Game.Player.GetPlayerData().group_level < 2)
+			if (Eventi.Player.group_level < 2)
 			{
 				Meteo.ParentItem.Enabled = false;
 				Meteo.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
@@ -551,7 +551,7 @@ namespace TheLastPlanet.Client.Manager
 				Meteo.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
 				Orario.ParentItem.Description = "ATTENZIONE! QUESTI CAMBIAMENTI SI APPLICANO A TUTTI I GIOCATORI!";
 			}
-			if (Game.Player.GetPlayerData().group_level < 5)
+			if (Eventi.Player.group_level < 5)
 			{
 				Oggetti.ParentItem.Enabled = false;
 				Oggetti.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";

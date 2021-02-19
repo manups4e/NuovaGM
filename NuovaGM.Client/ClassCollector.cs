@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await Core.CoreInitializer.LogInInitializer();
-			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
+			while (Eventi.Player == null) await BaseScript.Delay(0);
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();

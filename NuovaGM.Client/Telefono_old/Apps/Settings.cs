@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
 		public Settings(Phone phone) : base(GetLabelText("CELL_16"), 24, phone)
         {
-			numero = Game.Player.GetPlayerData().CurrentChar.info.phoneNumber.ToString();
+			numero = Eventi.Player.CurrentChar.info.phoneNumber.ToString();
         }
 
         public override async Task Tick()

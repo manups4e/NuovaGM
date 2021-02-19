@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 			Ped p = Game.PlayerPed;
 			if (Main.spawned)
 			{
-				if (PerVendereIlPesce.Any(o => Game.Player.GetPlayerData().getInventoryItem(o).Item1))
+				if (PerVendereIlPesce.Any(o => Eventi.Player.getInventoryItem(o).Item1))
 				{
 					if (!mostrablip)
 					{
@@ -175,7 +175,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				}
 
 
-				/*			if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
+				/*			if (Vector3.Distance(Eventi.Player.posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -194,7 +194,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 			{
 				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
 				HUD.MenuPool.Add(venditaPesce);
-				List<Inventory> inventario = Game.Player.GetPlayerData().CurrentChar.inventory;
+				List<Inventory> inventario = Eventi.Player.CurrentChar.inventory;
 				foreach (var inv in inventario)
 				{
 					foreach (string s in PerVendereIlPesce)
@@ -233,7 +233,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 								else if (Convert.ToInt32(quantita) > 99)
 									perc = 20;
 
-								int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + (ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Game.Player.GetPlayerData().CurrentChar.statistiche.FISHING / 10))) / 100;
+								int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + (ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Eventi.Player.CurrentChar.statistiche.FISHING / 10))) / 100;
 								BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 								BaseScript.TriggerServerEvent("lprp:givemoney", (valoreAggiunto * Convert.ToInt32(quantita)));
 							};
@@ -257,7 +257,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				if (Input.IsDisabledControlJustPressed(Control.FrontendX))
 				{
 					float altezza = 0;
-					if(GetWaterHeightNoWaves(Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, ref altezza)) 
+					if(GetWaterHeightNoWaves(Eventi.Player.posizione.ToVector3().X, Eventi.Player.posizione.ToVector3().Y, Eventi.Player.posizione.ToVector3().Z, ref altezza)) 
 					{ 
 						Game.PlayerPed.IsPositionFrozen = true;
 						SetEnableHandcuffs(PlayerPedId(), true);
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				HUD.MenuPool.CloseAllMenus();
 				if (veh.Exists()) veh.Delete();
 				Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
-				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, Game.Player.GetPlayerData().FullName);
+				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, Eventi.Player.FullName);
 				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.Serialize());
 			};
 			Barche.Visible = true;

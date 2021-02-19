@@ -118,7 +118,7 @@ namespace TheLastPlanet.Client.Interactions
 
 			SwitchInPlayer(PlayerPedId());
 
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
+			Eventi.Player.StatiPlayer.Istanza.Istanzia("Ingresso");
 			await BaseScript.Delay(100);
 			Game.Player.State.Set("Pausa", new { Attivo = false }, true);
 			Game.PlayerPed.IsVisible = false;

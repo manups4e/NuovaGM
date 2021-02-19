@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.Core.Status
 				fame = Needs["Fame"].Val,
 				sete = Needs["Sete"].Val,
 				stanchezza = Needs["Stanchezza"].Val,
-				malattia = Game.Player.GetPlayerData().CurrentChar.needs.malattia
+				malattia = Eventi.Player.CurrentChar.needs.malattia
 			};
 			Statistiche skill = new Statistiche()
 			{
@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (fame.Val < 20.0f && (fame20 || fame60 || fame80 || fame100))
 			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
 				fame20 = false;
 				fame60 = false;
 				fame80 = false;
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (sete.Val < 20.0f && (fame20 || fame60 || fame80 || fame100))
 			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
 				fame20 = false;
 				fame60 = false;
 				fame80 = false;
@@ -297,8 +297,8 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (stanchezza.Val < 20.0f && (stanchezza20 || stanchezza40 || stanchezza60))
 			{
-					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(me.GetPlayerData().CurrentChar.statistiche.STAMINA), true);
-					StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(me.GetPlayerData().CurrentChar.statistiche.SHOOTING_ABILITY), true);
+					StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)(Eventi.Player.CurrentChar.statistiche.STAMINA), true);
+					StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)(Eventi.Player.CurrentChar.statistiche.SHOOTING_ABILITY), true);
 					stanchezza20 = false;
 					stanchezza40 = false;
 					stanchezza60 = false;
@@ -357,7 +357,7 @@ namespace TheLastPlanet.Client.Core.Status
 		#region skills
 		public static void Stamina(Ped playerPed, Player me, Statistica stam)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.STAMINA;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.STAMINA;
 
 			stam.ChangeVal = !playerPed.IsInVehicle() ? playerPed.IsSprinting || playerPed.IsSwimmingUnderWater ? 0.002f :
 				playerPed.IsRunning || playerPed.IsSwimming ? 0.001f : 0f : playerPed.CurrentVehicle.Model.IsBicycle ? 0.003f : 0f;
@@ -367,7 +367,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (stam.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.STAMINA = stam.Val;
+				Eventi.Player.CurrentChar.statistiche.STAMINA = stam.Val;
 				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)stam.Val, true);
 				stam.ShowStatNotification();
 			}
@@ -375,7 +375,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Strenght(Ped playerPed, Player me, Statistica strenght)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.STRENGTH;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.STRENGTH;
 
 			strenght.ChangeVal = playerPed.IsInMeleeCombat ? 0.002f : 0f;
 
@@ -383,7 +383,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (strenght.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.STRENGTH = strenght.Val;
+				Eventi.Player.CurrentChar.statistiche.STRENGTH = strenght.Val;
 				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), (int)strenght.Val, true);
 				strenght.ShowStatNotification();
 
@@ -392,7 +392,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Flying(Ped playerPed, Player me, Statistica flying)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.FLYING_ABILITY;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY;
 
 			// solo se in aereo
 			if (playerPed.IsInPlane || playerPed.IsInHeli)
@@ -405,7 +405,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (flying.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.FLYING_ABILITY = flying.Val;
+				Eventi.Player.CurrentChar.statistiche.FLYING_ABILITY = flying.Val;
 				StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), (int)flying.Val, true);
 				flying.ShowStatNotification();
 
@@ -414,7 +414,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Lung(Ped playerPed, Player me, Statistica lung)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY;
 
 			// solo se è in acqua
 			if (playerPed.IsInWater)
@@ -425,7 +425,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (lung.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY = lung.Val;
+				Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY = lung.Val;
 				StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)lung.Val, true);
 				lung.ShowStatNotification();
 
@@ -434,7 +434,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Driving(Ped playerPed, Player me, Statistica driving)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.WHEELIE_ABILITY;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY;
 
 			if (playerPed.IsInVehicle() && playerPed.SeatIndex == VehicleSeat.Driver)
 			{
@@ -494,7 +494,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (driving.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.WHEELIE_ABILITY = driving.Val;
+				Eventi.Player.CurrentChar.statistiche.WHEELIE_ABILITY = driving.Val;
 				StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), (int)driving.Val, true);
 				driving.ShowStatNotification();
 
@@ -503,13 +503,13 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Shooting(Ped playerPed, Player me, Statistica shoot)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.SHOOTING_ABILITY;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.SHOOTING_ABILITY;
 
 			// GESTIRE SPARATORIE
 
 			if (shoot.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY = shoot.Val;
+				Eventi.Player.CurrentChar.statistiche.LUNG_CAPACITY = shoot.Val;
 				StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)shoot.Val, true);
 				shoot.ShowStatNotification();
 
@@ -517,7 +517,7 @@ namespace TheLastPlanet.Client.Core.Status
 		}
 		private static void Pescatore(Ped playerPed, Player me, Statistica pesca)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.FISHING;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.FISHING;
 			if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
 			{
 				pesca.ChangeVal = 0.003f;
@@ -527,29 +527,29 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (pesca.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.FISHING = pesca.Val;
+				Eventi.Player.CurrentChar.statistiche.FISHING = pesca.Val;
 				pesca.ShowStatNotification();
 			}
 
 		}
 		private static void Cacciatore(Ped playerPed, Player me, Statistica caccia)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.HUNTING;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.HUNTING;
 
 			if (caccia.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.HUNTING = caccia.Val;
+				Eventi.Player.CurrentChar.statistiche.HUNTING = caccia.Val;
 				caccia.ShowStatNotification();
 			}
 
 		}
 		private static void Droga(Ped playerPed, Player me, Statistica droga)
 		{
-			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.DRUGS;
+			int baseStat = (int)Eventi.Player.CurrentChar.statistiche.DRUGS;
 
 			if (droga.Val - baseStat >= 1f)
 			{
-				me.GetPlayerData().CurrentChar.statistiche.DRUGS = droga.Val;
+				Eventi.Player.CurrentChar.statistiche.DRUGS = droga.Val;
 				droga.ShowStatNotification();
 			}
 

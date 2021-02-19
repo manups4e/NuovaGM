@@ -170,8 +170,8 @@ namespace TheLastPlanet.Client.Sport
 
 						int seq0 = -1;
 						OpenSequenceTask(ref seq0);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Game.Player.GetPlayerData().posizione.ToVector3().X, Game.Player.GetPlayerData().posizione.ToVector3().Y, Game.Player.GetPlayerData().posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Eventi.Player.posizione.ToVector3().X, Eventi.Player.posizione.ToVector3().Y, Eventi.Player.posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Eventi.Player.posizione.ToVector3().X, Eventi.Player.posizione.ToVector3().Y, Eventi.Player.posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
 						CloseSequenceTask(seq0);
 						TaskPerformSequence(PlayerPedId(), seq0);
 						ClearSequenceTask(ref seq0);
@@ -236,7 +236,7 @@ namespace TheLastPlanet.Client.Sport
 						TaskPlayAnim(PlayerPedId(), "missfam5_yoga", "start_pose", 4f, -8f, -1, 1, 0f, false, true, false);
 					else
 					{
-						Vector3 coord = Game.Player.GetPlayerData().posizione.ToVector3();
+						Vector3 coord = Eventi.Player.posizione.ToVector3();
 						Vector3 rot = Game.PlayerPed.Rotation;
 						ClearSequenceTask(ref uVar0);
 						OpenSequenceTask(ref uVar0);

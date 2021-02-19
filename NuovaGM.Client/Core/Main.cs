@@ -134,19 +134,19 @@ namespace TheLastPlanet.Client.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+			Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
 			spawned = true;
-			Game.Player.GetPlayerData().status.spawned = true;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().CurrentChar.id);
+			Eventi.Player.status.spawned = true;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Eventi.Player.CurrentChar.id);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
-			if (Game.Player.GetPlayerData().DeathStatus)
+			if (Eventi.Player.DeathStatus)
 			{
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				var now = DateTime.Now;
-				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Game.Player.GetPlayerData().FullName + " e' spawnato morto poiché è sloggato da morto");
+				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Eventi.Player.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = -100;
-				Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
+				Eventi.Player.StatiPlayer.FinDiVita = false;
 
 			}
 			Peds();
@@ -322,13 +322,13 @@ namespace TheLastPlanet.Client.Core
 			}
 			if (Game.IsPaused)
 			{
-				if (!Game.Player.GetPlayerData().StatiPlayer.InPausa)
-					Game.Player.GetPlayerData().StatiPlayer.InPausa = true;
+				if (!Eventi.Player.StatiPlayer.InPausa)
+					Eventi.Player.StatiPlayer.InPausa = true;
 			}
 			else
 			{
-				if (Game.Player.GetPlayerData().StatiPlayer.InPausa)
-					Game.Player.GetPlayerData().StatiPlayer.InPausa = false;
+				if (Eventi.Player.StatiPlayer.InPausa)
+					Eventi.Player.StatiPlayer.InPausa = false;
 			}
 			pickupList.ForEach(x => RemoveAllPickupsOfType(Funzioni.HashUint(x)));
 			for (int i = 1; i < 16; i++) EnableDispatchService(i, false);
@@ -416,16 +416,16 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task AFK()
 		{
-			if (Game.Player.GetPlayerData().group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if (Eventi.Player.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 //				if (Ingresso.Ingresso.guiEnabled)
 //				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
 
-				currentPosition = Game.Player.GetPlayerData() == null ? Game.PlayerPed.Position : Game.Player.GetPlayerData().posizione.ToVector3();
+				currentPosition = Eventi.Player == null ? Game.PlayerPed.Position : Eventi.Player.posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (t >= Client.Impostazioni.Main.AFKCheckTime)
 				{
-					if (Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), currentPosition) < 3f)
+					if (Vector3.Distance(Eventi.Player.posizione.ToVector3(), currentPosition) < 3f)
 						BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else

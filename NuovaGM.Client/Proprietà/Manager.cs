@@ -37,13 +37,13 @@ namespace TheLastPlanet.Client.Proprietà
 				}
 				if (playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f))
 				{
-					if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Contains(app.Key))
+					if (Eventi.Player.CurrentChar.Proprietà.Contains(app.Key))
 					{
 						if (playerPed.IsInVehicle())
 						{
 							string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
 							var model = playerPed.CurrentVehicle.Model.Hash;
-							if (Game.Player.GetPlayerData().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Game.Player.GetPlayerData().CurrentChar.info.insurance) != null)
+							if (Eventi.Player.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Eventi.Player.CurrentChar.info.insurance) != null)
 							{
 								if (playerPed.IsVisible)
 									NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
@@ -51,14 +51,14 @@ namespace TheLastPlanet.Client.Proprietà
 								await BaseScript.Delay(1000);
 								var pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 								BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.Serialize(includeEverything: true));
-								Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia(app.Key);
+								Eventi.Player.StatiPlayer.Istanza.Istanzia(app.Key);
 								await BaseScript.Delay(1000);
 								if (playerPed.CurrentVehicle.PassengerCount > 0)
 								{
 									foreach (var p in playerPed.CurrentVehicle.Passengers)
 									{
 										var pl = Funzioni.GetPlayerFromPed(p);
-										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Game.Player.ServerId, Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance);
+										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Game.Player.ServerId, Eventi.Player.StatiPlayer.Istanza.Instance);
 										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 									}
 								}
@@ -92,9 +92,9 @@ namespace TheLastPlanet.Client.Proprietà
 									}
 									await BaseScript.Delay(0);
 								}
-								foreach (var veh in Game.Player.GetPlayerData().CurrentChar.Veicoli)
+								foreach (var veh in Eventi.Player.CurrentChar.Veicoli)
 								{
-									if (veh.Garage.Garage == Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance)
+									if (veh.Garage.Garage == Eventi.Player.StatiPlayer.Istanza.Instance)
 									{
 										if (veh.Garage.InGarage)
 										{
@@ -133,11 +133,11 @@ namespace TheLastPlanet.Client.Proprietà
 		public static async Task MarkerDentro()
 		{
 			Ped playerPed = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
+			if (Eventi.Player.StatiPlayer.Istanza.Stanziato)
 			{
-				if (Proprietà.Appartamenti.ContainsKey(Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance))
+				if (Proprietà.Appartamenti.ContainsKey(Eventi.Player.StatiPlayer.Istanza.Instance))
 				{
-					var app = Proprietà.Appartamenti[Game.Player.GetPlayerData().StatiPlayer.Istanza.Instance];
+					var app = Proprietà.Appartamenti[Eventi.Player.StatiPlayer.Istanza.Instance];
 					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");

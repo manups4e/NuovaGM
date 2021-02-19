@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloSpazzatura()
 		{
-			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), o.Position) < TrashRange);
+			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < TrashRange);
 			await BaseScript.Delay(500);
 		}
 
@@ -75,7 +75,7 @@ namespace TheLastPlanet.Client.Interactions
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					var inv = Game.Player.GetPlayerData().Inventory;
+					var inv = Eventi.Player.Inventory;
 					if (inv.Count > 0)
 					{
 						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");

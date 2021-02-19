@@ -66,13 +66,13 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void LoadModel()
 		{
-			uint hash = Funzioni.HashUint(Game.Player.GetPlayerData().CurrentChar.skin.model);
+			uint hash = Funzioni.HashUint(Player.CurrentChar.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
-			await Funzioni.UpdateFace(Game.Player.GetPlayerData().CurrentChar.skin);
-			await Funzioni.UpdateDress(Game.Player.GetPlayerData().CurrentChar.dressing);
+			await Funzioni.UpdateFace(Player.CurrentChar.skin);
+			await Funzioni.UpdateDress(Player.CurrentChar.dressing);
 			BaseScript.TriggerEvent("lprp:restoreWeapons");
 			BaseScript.TriggerEvent("lprp:StartLocationSave");
 		}
@@ -154,30 +154,30 @@ namespace TheLastPlanet.Client.Core.Utility
 			Screen.Fading.FadeOut(800);
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
 
-			Main.RespawnPed(Game.Player.GetPlayerData().posizione.ToVector3());
+			Main.RespawnPed(Player.posizione.ToVector3());
 			StatsNeeds.Needs["Fame"].Val = 0.0f;
 			StatsNeeds.Needs["Sete"].Val = 0.0f;
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
-			Game.Player.GetPlayerData().CurrentChar.needs.malattia = false;
+			Player.CurrentChar.needs.malattia = false;
 			Needs nee = new Needs()
 			{
 				fame = StatsNeeds.Needs["Fame"].Val,
 				sete = StatsNeeds.Needs["Sete"].Val,
 				stanchezza = StatsNeeds.Needs["Stanchezza"].Val,
-				malattia = Game.Player.GetPlayerData().CurrentChar.needs.malattia
+				malattia = Player.CurrentChar.needs.malattia
 			};
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-			Game.Player.GetPlayerData().StatiPlayer.FinDiVita = false;
+			Player.StatiPlayer.FinDiVita = false;
 			Screen.Fading.FadeIn(800);
 		}
 
 		public static async void SpawnVehicle(string model)
 		{
-			Vector3 coords = Game.Player.GetPlayerData().posizione.ToVector3();
+			Vector3 coords = Player.posizione.ToVector3();
 			var Veh = await Funzioni.SpawnVehicle(model, coords, Game.PlayerPed.Heading);
 			if (Veh != null)
 				Veh.PreviouslyOwnedByPlayer = true;
@@ -274,11 +274,11 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task LocationSave()
 		{
 			await BaseScript.Delay(1000);
-			Game.Player.GetPlayerData().posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
-			if (Game.Player.GetPlayerData().StatiPlayer.Istanza.Stanziato) return;
+			Player.posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
+			if (Player.StatiPlayer.Istanza.Stanziato) return;
 			if (GetGameTimer() - timer >= 10000)
 			{
-				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Game.Player.GetPlayerData().posizione.ToVector3(), Game.Player.GetPlayerData().posizione.W);
+				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Player.posizione.ToVector3(), Player.posizione.W);
 				timer = GetGameTimer();
 			}
 			await Task.FromResult(0);
@@ -340,7 +340,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static void RestoreWeapons()
 		{
 			Dictionary<int, bool> ammoTypes = new Dictionary<int, bool>();
-			if (Game.Player.GetPlayerData().CurrentChar.weapons.Count > 0)
+			if (Player.CurrentChar.weapons.Count > 0)
 			{
 				Game.PlayerPed.Weapons.RemoveAll();
 				for (int i = 0; i < Player.getCharWeapons(Player.char_current).Count; i++)

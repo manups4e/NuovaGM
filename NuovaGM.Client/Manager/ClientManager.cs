@@ -93,17 +93,17 @@ namespace TheLastPlanet.Client.Manager
 		private static void AdminMenu(Ped p, object[] args)
 		{
 			if (!HUD.MenuPool.IsAnyMenuOpen)
-				ManagerMenu.AdminMenu(Game.Player.GetPlayerData().group_level);
+				ManagerMenu.AdminMenu(Eventi.Player.group_level);
 		}
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 1)
+			if (Eventi.Player != null && Eventi.Player.group_level > 1)
 				TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (Game.Player.GetPlayerData() != null && Game.Player.GetPlayerData().group_level > 3)
+			if (Eventi.Player != null && Eventi.Player.group_level > 3)
 			{
 				if (!NoClip)
 				{
@@ -111,9 +111,9 @@ namespace TheLastPlanet.Client.Manager
 					{
 						RequestAnimDict(noclip_ANIM_A);
 						while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-						curLocation = Game.Player.GetPlayerData().posizione.ToVector3();
+						curLocation = Eventi.Player.posizione.ToVector3();
 						curRotation = p.Rotation;
-						curHeading = Game.Player.GetPlayerData().posizione.W;
+						curHeading = Eventi.Player.posizione.W;
 						TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 					}
 					else

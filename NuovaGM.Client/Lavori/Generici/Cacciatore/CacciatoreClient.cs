@@ -227,42 +227,42 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 				affittoArmi.OnItemSelect += async (menu, item, index) =>
 				{
-					if (Game.Player.GetPlayerData().hasLicense("Caccia"))
+					if (Eventi.Player.hasLicense("Caccia"))
 					{
 						if (item == armi)
 						{
-							if ((Game.Player.GetPlayerData().hasWeapon(DaFuoco) || affittatoFuoco) && (Game.Player.GetPlayerData().hasWeapon(Bianca) || affittatoBianca))
+							if ((Eventi.Player.hasWeapon(DaFuoco) || affittatoFuoco) && (Eventi.Player.hasWeapon(Bianca) || affittatoBianca))
 							{
 								HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
 								return;
 							}
 							int prezzo = 0;
-							if (!Game.Player.GetPlayerData().hasWeapon(DaFuoco))
+							if (!Eventi.Player.hasWeapon(DaFuoco))
 							{
-								if (Game.Player.GetPlayerData().Money >= 250 || Game.Player.GetPlayerData().Bank >= 250)
+								if (Eventi.Player.Money >= 250 || Eventi.Player.Bank >= 250)
 								{
 									Game.PlayerPed.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
 									prezzo += 250;
 									affittatoFuoco = true;
 								}
 							}
-							if (!Game.Player.GetPlayerData().hasWeapon(Bianca))
+							if (!Eventi.Player.hasWeapon(Bianca))
 							{
-								if (Game.Player.GetPlayerData().Money >= 50 || Game.Player.GetPlayerData().Bank >= 50)
+								if (Eventi.Player.Money >= 50 || Eventi.Player.Bank >= 50)
 								{
 									Game.PlayerPed.Weapons.Give(WeaponHash.Knife, 1, false, true);
 									prezzo += 50;
 									affittatoBianca = true;
 								}
 							}
-							if (Game.Player.GetPlayerData().Money >= prezzo)
+							if (Eventi.Player.Money >= prezzo)
 							{
 								BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 							}
 							else
 							{
-								if (Game.Player.GetPlayerData().Bank >= prezzo)
+								if (Eventi.Player.Bank >= prezzo)
 								{
 									BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
 									HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");

@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.Businesses
 			int mstation = 0;
 			for (int i = 0; i < stations.Count; i++)
 			{
-				float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), pos);
+				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), pos);
 				if (dist < 50f)
 				{
 					mstation = i;
@@ -181,7 +181,7 @@ namespace TheLastPlanet.Client.Businesses
 			Ped playerPed = Game.PlayerPed;
 			for (int i = 0; i < stations.Count; i++)
 			{ 
-				float dist = Vector3.Distance(Game.Player.GetPlayerData().posizione.ToVector3(), stations[i].ppos);
+				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), stations[i].ppos);
 				if (dist < 80)
 				{
 					StationDiBenzina stationinfo = GetStationInfo(i + 1);
@@ -190,7 +190,7 @@ namespace TheLastPlanet.Client.Businesses
 					{
 						if (!playerPed.IsInVehicle())
 						{
-							if (stationinfo.ownerchar.ToLower() == Game.Player.GetPlayerData().FullName.ToLower())
+							if (stationinfo.ownerchar.ToLower() == Eventi.Player.FullName.ToLower())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 								if (!interactWait)

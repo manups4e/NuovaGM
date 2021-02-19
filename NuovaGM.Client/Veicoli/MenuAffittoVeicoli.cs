@@ -48,7 +48,7 @@ namespace TheLastPlanet.Client.Veicoli
 				GenericCars.AddItem(veicoloGC);
 				GenericCars.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.macchineGeneric[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.macchineGeneric[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineGeneric[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.macchineGeneric[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.macchineGeneric[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineGeneric[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.Veicoli
 				MediumCars.AddItem(veicoloMC);
 				MediumCars.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.macchineMedium[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.macchineMedium[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineMedium[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.macchineMedium[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.macchineMedium[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -133,7 +133,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineMedium[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -156,7 +156,7 @@ namespace TheLastPlanet.Client.Veicoli
 				SuperCars.AddItem(veicoloSC);
 				SuperCars.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.macchineSuper[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.macchineSuper[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineSuper[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.macchineSuper[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.macchineSuper[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -187,7 +187,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineSuper[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.Veicoli
 				GenericMoto.AddItem(veicoloMG);
 				GenericMoto.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.motoGeneric[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.motoGeneric[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoGeneric[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.motoGeneric[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.motoGeneric[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoGeneric[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -264,7 +264,7 @@ namespace TheLastPlanet.Client.Veicoli
 				MediumMoto.AddItem(veicoloMM);
 				MediumMoto.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.motoMedium[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.motoMedium[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -274,7 +274,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoMedium[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.motoMedium[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.motoMedium[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoMedium[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -318,7 +318,7 @@ namespace TheLastPlanet.Client.Veicoli
 				SuperMoto.AddItem(veicoloMS);
 				SuperMoto.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (Game.Player.GetPlayerData().Money >= veicoliAff.motoSuper[_index].price)
+					if (Eventi.Player.Money >= veicoliAff.motoSuper[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -328,7 +328,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoSuper[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -339,7 +339,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					else
 					{
-						if (Game.Player.GetPlayerData().Bank >= veicoliAff.motoSuper[_index].price)
+						if (Eventi.Player.Bank >= veicoliAff.motoSuper[_index].price)
 						{
 							if (veicoloInAffitto == null)
 							{
@@ -349,7 +349,7 @@ namespace TheLastPlanet.Client.Veicoli
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoSuper[_index].price);
-								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+								BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 							}
 							else
 							{
@@ -368,7 +368,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 			Bikes.OnItemSelect += async (_menu, _item, _index) =>
 			{
-				if (Game.Player.GetPlayerData().Money >= veicoliAff.biciclette[_index].price)
+				if (Eventi.Player.Money >= veicoliAff.biciclette[_index].price)
 				{
 					if (veicoloInAffitto == null)
 					{
@@ -378,7 +378,7 @@ namespace TheLastPlanet.Client.Veicoli
 						VeicoliClient.previewedVehicle.Delete();
 						VeicoliClient.setupGarageCamera(false, 0);
 						BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.biciclette[_index].price);
-						BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+						BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 					}
 					else
 					{
@@ -389,7 +389,7 @@ namespace TheLastPlanet.Client.Veicoli
 				}
 				else
 				{
-					if (Game.Player.GetPlayerData().Bank >= veicoliAff.biciclette[_index].price)
+					if (Eventi.Player.Bank >= veicoliAff.biciclette[_index].price)
 					{
 						if (veicoloInAffitto == null)
 						{
@@ -399,7 +399,7 @@ namespace TheLastPlanet.Client.Veicoli
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.biciclette[_index].price);
-							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
+							BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena affittato un/una {veicoloInAffitto.name} al prezzo di ${veicoloInAffitto.price} ");
 						}
 						else
 						{
@@ -472,7 +472,7 @@ namespace TheLastPlanet.Client.Veicoli
 				if (_item == rest)
 				{
 					HUD.ShowNotification("Grazie di aver utilizzato LastPlanet Affitto Veicoli!", NotificationColor.GreenLight);
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Game.Player.GetPlayerData().FullName}, [{GetPlayerName(Convert.ToInt32(Game.Player.GetPlayerData().source))}], ha appena appena restituito il veicolo {veicoloInAffitto.name} affittato");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha appena appena restituito il veicolo {veicoloInAffitto.name} affittato");
 					veicoloInAffitto = null;
 					VeicoliClient.veicoloinaffitto.Delete();
 					Client.Instance.RemoveTick(VeicoliClient.AffittoInCorso);

@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 		public static async Task Markers()
 		{
 			Ped p = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "cardealer")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "cardealer")
 			{
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
 				if(p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 						MenuVenditore();
 				}
 			}
-			if(Game.Player.GetPlayerData().CurrentChar.job.grade > 1)
+			if(Eventi.Player.CurrentChar.job.grade > 1)
 			{
 				// verrà sostiuito con il sedersi alla scrivania 
 				if(p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				{
 					_newmenu.Clear();
 					players.Clear();
-					players = Funzioni.GetPlayersInArea(Game.Player.GetPlayerData().posizione.ToVector3(), 3f);
+					players = Funzioni.GetPlayersInArea(Eventi.Player.posizione.ToVector3(), 3f);
 					List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 					string txt = "";
 					foreach (var t in texts) txt = t + "~n~";
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				}
 			};
 			UIMenu riacquista = menuVenditore.AddSubMenu("Acquista veicolo usato");
-			if(Game.Player.GetPlayerData().CurrentChar.job.grade < 2)
+			if(Eventi.Player.CurrentChar.job.grade < 2)
 			{
 				riacquista.ParentItem.Enabled = false;
 				riacquista.ParentItem.Description = "Solo i capi possono acquistare i veicoli usati!";
@@ -189,18 +189,18 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					{
 						if(_newsubmenu == prendi) { 
 							_newsubmenu.Clear();
-							if (Game.Player.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
+							if (Eventi.Player.CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
 							{
 								foreach (var pro in Client.Impostazioni.Proprieta.Appartamenti)
 								{
 									if (pro.Value.GarageIncluso)
 									{
-										foreach (var a in Game.Player.GetPlayerData().CurrentChar.Proprietà)
+										foreach (var a in Eventi.Player.CurrentChar.Proprietà)
 										{
 											if (a == pro.Key)
 											{
 												UIMenuItem c = new UIMenuItem(pro.Value.Label);
-												c.SetRightLabel("" + Game.Player.GetPlayerData().CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count + "/" + Client.Impostazioni.Proprieta.Appartamenti[pro.Key].VehCapacity);
+												c.SetRightLabel("" + Eventi.Player.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count + "/" + Client.Impostazioni.Proprieta.Appartamenti[pro.Key].VehCapacity);
 												prendi.AddItem(c);
 												c.Activated += async (_menu_, _item_) =>
 												{
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 													string plate = s1 + " " + Funzioni.GetRandomInt(001, 999).ToString("000") + s2;
 													PreviewVeh.Mods.LicensePlate = plate;
 													var prop = await PreviewVeh.GetVehicleProperties();
-													OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Game.Player.GetPlayerData().CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, Game.Player.GetPlayerData().CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
+													OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Eventi.Player.CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, Eventi.Player.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
 													BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize(includeEverything: true));
 													HUD.MenuPool.CloseAllMenus();
 													HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");

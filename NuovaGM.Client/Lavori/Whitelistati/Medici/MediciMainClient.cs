@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async void Aggiungi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
 				pl.Character.AttachBlip();
 				pl.Character.AttachedBlip.Sprite = BlipSprite.Deathmatch;
@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async void Rimuovi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Morti.ContainsKey(pl.Character))
 				{
@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		public static async Task MarkersMedici()
 		{
 			Ped p = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		public static async Task MarkersNonMedici()
 		{
 			Ped p = Game.PlayerPed;
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "medico" || Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() != "medici")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" || Eventi.Player.CurrentChar.job.name.ToLower() != "medici")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -396,9 +396,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task BlipMorti()
 		{
-			if (Game.Player.GetPlayerData().CurrentChar.job.name.ToLower() == "medico")
+			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Game.Player.GetPlayerData().StatiPlayer.InServizio)
+				if (Eventi.Player.StatiPlayer.InServizio)
 					foreach(var morto in Morti)
 						morto.Value.Alpha = 255;
 				else

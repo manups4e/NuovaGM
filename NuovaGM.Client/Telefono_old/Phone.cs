@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if (Game.Player.GetPlayerData().char_current - 1 == phone_data[i].id - 1)
+				if (Eventi.Player.char_current - 1 == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			return null;
@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			var playerPos = Game.Player.GetPlayerData().posizione.ToVector3();
+			var playerPos = Eventi.Player.posizione.ToVector3();
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

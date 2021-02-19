@@ -115,8 +115,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				var p = Game.PlayerPed;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(0);
-				Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
+				while (Eventi.Player == null) await BaseScript.Delay(0);
+				Eventi.Player.StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
 				Game.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.IsVisible = false;
@@ -169,13 +169,13 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Screen.Fading.FadeIn(1000);
 			await BaseScript.Delay(1000);
 			ToggleMenu(true, "charloading");
-			while (Game.Player.GetPlayerData() == null) await BaseScript.Delay(50);
+			while (Eventi.Player == null) await BaseScript.Delay(50);
 			Client.Instance.AddTick(Main.AFK);
 		}
 
 		private static void ToggleMenu(bool menuOpen, string menu = "")
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Game.Player.GetPlayerData().char_data.Serialize() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Eventi.Player.char_data.Serialize() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
@@ -188,7 +188,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Game.PlayerPed;
-			Char_data pers = Game.Player.GetPlayerData().char_data.FirstOrDefault(x => x.id == (int)data["id"]);
+			Char_data pers = Eventi.Player.char_data.FirstOrDefault(x => x.id == (int)data["id"]);
 			if (p1 != null)
 			{
 				Client.Instance.RemoveTick(Controllo);
@@ -223,9 +223,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			Game.Player.GetPlayerData().char_current = (int)data["id"];
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Game.Player.GetPlayerData().char_current);
-			Char_data Data = Game.Player.GetPlayerData().CurrentChar;
+			Eventi.Player.char_current = (int)data["id"];
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Eventi.Player.char_current);
+			Char_data Data = Eventi.Player.CurrentChar;
 
 			int switchType = 1;
 			if (!Data.location.position.IsZero)
@@ -238,8 +238,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Game.Player.GetPlayerData().Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Game.Player.GetPlayerData().DirtyMoney, true);
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Eventi.Player.Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Eventi.Player.DirtyMoney, true);
 			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
@@ -266,9 +266,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Eventi.LoadModel();
 			if (Game.PlayerPed.IsVisible)
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.RimuoviIstanza();
+			Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
 			Game.PlayerPed.SetDecor("TheLastPlanet2019fighissimo!yeah!", Game.PlayerPed.Handle);
-			Game.Player.GetPlayerData().StatiPlayer.Istanza.Istanzia("Ingresso");
+			Eventi.Player.StatiPlayer.Istanza.Istanzia("Ingresso");
 
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
@@ -292,8 +292,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
 			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
 			{
-				Game.Player.GetPlayerData().CurrentChar.Veicoli.Clear();
-				Game.Player.GetPlayerData().CurrentChar.Veicoli = (vehs as string).Deserialize<List<OwnedVehicle>>(true);
+				Eventi.Player.CurrentChar.Veicoli.Clear();
+				Eventi.Player.CurrentChar.Veicoli = (vehs as string).Deserialize<List<OwnedVehicle>>(true);
 			}));
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Game.PlayerPed.Handle);

@@ -86,7 +86,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                     API.TransitionFromBlurred(400);
                 }
                 _visible = value;
-                Game.Player.GetPlayerData().StatiPlayer.InPausa = value;
+                Eventi.Player.StatiPlayer.InPausa = value;
             }
         }
         public void AddTab(TabItem item)
