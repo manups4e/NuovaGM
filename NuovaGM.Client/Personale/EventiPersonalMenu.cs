@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core.Status;
 
 namespace TheLastPlanet.Client.Personale
 {
@@ -399,32 +400,32 @@ namespace TheLastPlanet.Client.Personale
 					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Game.PlayerPed.IsWalking || Game.PlayerPed.IsInVehicle() && !Game.PlayerPed.CurrentVehicle.IsEngineRunning)))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
-						if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.fame > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+						if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Fame"].GetPercent() > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Fame"].GetPercent() > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 
-						if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.sete > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+						if (StatsNeeds.Needs["Sete"].GetPercent() > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Sete"].GetPercent() > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Sete"].GetPercent() > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 
-						if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-						else if (Game.Player.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+						if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 30f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 60f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+						else if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 90f)
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(Game.Player.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+							HUD.DrawText3D(Game.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 					}
 					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 						Game.PlayerPed.Task.ClearAll();

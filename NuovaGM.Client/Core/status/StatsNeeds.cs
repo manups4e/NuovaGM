@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.status.Interfacce;
 using System.Collections.Generic;
 using System.Linq;
 using Logger;
+using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Core.Status
 {
@@ -50,9 +51,9 @@ namespace TheLastPlanet.Client.Core.Status
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 
-			Needs.Add("Fame", new Necessità("Fame", 50, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
-			Needs.Add("Sete", new Necessità("Sete", 50, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
-			Needs.Add("Stanchezza", new Necessità("Stanchezza", 30, 0.007f, new Action<Ped, Player, Necessità>(Stanchezza)));
+			Needs.Add("Fame", new Necessità("Fame", 0, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
+			Needs.Add("Sete", new Necessità("Sete", 0, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
+			Needs.Add("Stanchezza", new Necessità("Stanchezza", 0, 0.007f, new Action<Ped, Player, Necessità>(Stanchezza)));
 
 			Statistics.Add("STAMINA", new Statistica("Stamina", "MP0_STAMINA", "PSF_STAMINA", new Action<Ped, Player, Statistica>(Stamina)));
 			Statistics.Add("STRENGTH", new Statistica("Strenght", "MP0_STRENGTH", "PSF_STRENGTH", new Action<Ped, Player, Statistica>(Strenght)));
@@ -68,20 +69,22 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Eccolo()
 		{
-			Player me = new Player(PlayerId());
-			Needs["Fame"].Val = me.GetPlayerData().CurrentChar.needs.fame;
-			Needs["Sete"].Val = me.GetPlayerData().CurrentChar.needs.sete;
-			Needs["Stanchezza"].Val = me.GetPlayerData().CurrentChar.needs.stanchezza;
-			//nee.malattia = me.GetPlayerData().CurrentChar.needs.malattia;
+			PlayerChar me = Eventi.Player;
 
-			Statistics["STAMINA"].Val = me.GetPlayerData().CurrentChar.statistiche.STAMINA;
-			Statistics["STRENGTH"].Val = me.GetPlayerData().CurrentChar.statistiche.STRENGTH;
-			Statistics["FLYING_ABILITY"].Val = me.GetPlayerData().CurrentChar.statistiche.FLYING_ABILITY;
-			Statistics["LUNG_CAPACITY"].Val = me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY;
-			Statistics["WHEELIE_ABILITY"].Val = me.GetPlayerData().CurrentChar.statistiche.WHEELIE_ABILITY;
-			Statistics["DRUGS"].Val = me.GetPlayerData().CurrentChar.statistiche.DRUGS;
-			Statistics["FISHING"].Val = me.GetPlayerData().CurrentChar.statistiche.FISHING;
-			Statistics["HUNTING"].Val = me.GetPlayerData().CurrentChar.statistiche.HUNTING;
+			Needs["Fame"].Val = me.CurrentChar.needs.fame;
+			Needs["Sete"].Val = me.CurrentChar.needs.sete;
+			Needs["Stanchezza"].Val = me.CurrentChar.needs.stanchezza;
+			//nee.malattia = m.CurrentChar.needs.malattia;
+			Log.Printa(LogType.Debug, Needs.Serialize());
+
+			Statistics["STAMINA"].Val = me.CurrentChar.statistiche.STAMINA;
+			Statistics["STRENGTH"].Val = me.CurrentChar.statistiche.STRENGTH;
+			Statistics["FLYING_ABILITY"].Val = me.CurrentChar.statistiche.FLYING_ABILITY;
+			Statistics["LUNG_CAPACITY"].Val = me.CurrentChar.statistiche.LUNG_CAPACITY;
+			Statistics["WHEELIE_ABILITY"].Val = me.CurrentChar.statistiche.WHEELIE_ABILITY;
+			Statistics["DRUGS"].Val = me.CurrentChar.statistiche.DRUGS;
+			Statistics["FISHING"].Val = me.CurrentChar.statistiche.FISHING;
+			Statistics["HUNTING"].Val = me.CurrentChar.statistiche.HUNTING;
 
 			StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)Statistics["STAMINA"].Val, true);
 			StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), (int)Statistics["STRENGTH"].Val, true);
@@ -286,10 +289,10 @@ namespace TheLastPlanet.Client.Core.Status
 			else if (playerPed.IsInMeleeCombat)
 				stanchezza.ChangeVal = 0.057f;
 			else
-				stanchezza.ChangeVal = 0.007f;
+				stanchezza.ChangeVal = 0.0064f;
 			stanchezza.Val += stanchezza.ChangeVal;
 			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6)
-				stanchezza.Val += 0.07f;
+				stanchezza.Val += 0.03f;
 
 
 			if (stanchezza.Val < 20.0f && (stanchezza20 || stanchezza40 || stanchezza60))

@@ -1417,32 +1417,32 @@ namespace TheLastPlanet.Client.Personale
 		private static async Task AggiornaSalute()
 		{
 			Player me = new Player(PlayerId());
-			if (me.GetPlayerData().CurrentChar.needs.fame > 30f)
-				fa.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.fame > 60f)
-				fa.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.fame > 90f)
-				fa.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+			if (StatsNeeds.Needs["Fame"].Val> 30f)
+				fa.SetRightLabel("~y~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Fame"].Val> 60f)
+				fa.SetRightLabel("~o~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Fame"].Val> 90f)
+				fa.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
 			else
-				fa.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.fame, 2) + "%");
+				fa.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
 
-			if (me.GetPlayerData().CurrentChar.needs.sete > 30f)
-				se.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.sete > 60f)
-				se.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.sete > 90f)
-				se.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+			if (StatsNeeds.Needs["Sete"].Val> 30f)
+				se.SetRightLabel("~y~" + Math.Round(StatsNeeds.Needs["Sete"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Sete"].Val> 60f)
+				se.SetRightLabel("~o~" + Math.Round(StatsNeeds.Needs["Sete"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Sete"].Val> 90f)
+				se.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Sete"].Val, 2) + "%");
 			else
-				se.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.sete, 2) + "%");
+				se.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Sete"].Val, 2) + "%");
 
-			if (me.GetPlayerData().CurrentChar.needs.stanchezza > 30f)
-				st.SetRightLabel("~y~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.stanchezza > 60f)
-				st.SetRightLabel("~o~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
-			else if (me.GetPlayerData().CurrentChar.needs.stanchezza > 90f)
-				st.SetRightLabel("~r~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+			if (StatsNeeds.Needs["Stanchezza"].Val> 30f)
+				st.SetRightLabel("~y~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Stanchezza"].Val> 60f)
+				st.SetRightLabel("~o~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
+			else if (StatsNeeds.Needs["Stanchezza"].Val> 90f)
+				st.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
 			else
-				st.SetRightLabel("~g~" + Math.Round(me.GetPlayerData().CurrentChar.needs.stanchezza, 2) + "%");
+				st.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
 
 			if (me.GetPlayerData().CurrentChar.needs.malattia)
 				ma.SetRightLabel("~r~In malattia");
