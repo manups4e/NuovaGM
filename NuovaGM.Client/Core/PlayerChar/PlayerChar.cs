@@ -206,6 +206,21 @@ namespace TheLastPlanet.Client.Core.Personaggio
 				Game.Player.State.Set("PlayerStates", p, true);
 			}
 		}
+
+		public bool Svenuto
+		{
+			get
+			{
+				return Game.Player.State["PlayerStates"].Svenuto;
+			}
+			set
+			{
+				var p = Game.Player.State["PlayerStates"];
+				p.Svenuto = value;
+				Game.Player.State.Set("PlayerStates", p, true);
+			}
+		}
+
 		public bool Ammanettato
 		{
 			get

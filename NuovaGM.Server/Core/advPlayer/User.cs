@@ -367,69 +367,40 @@ namespace TheLastPlanet.Server.Core
 		Player player;
 		public bool InPausa
 		{
-			get
-			{
-				return player.State["PlayerStates"].InPausa;
-			}
-			set
-			{
-				player.State["PlayerStates"].InPausa = value;
-			}
+			get => player.State["PlayerStates"].InPausa;
+			set => player.State["PlayerStates"].InPausa = value;
 		}
+
+		public bool Svenuto
+		{
+			get => player.State["PlayerStates"].Svenuto;
+			set => player.State["PlayerStates"].Svenuto = value;
+		}
+
 		public bool Ammanettato
 		{
-			get
-			{
-				return player.State["PlayerStates"].Ammanettato;
-			}
-			set
-			{
-				player.State["PlayerStates"].Ammanettato = value;
-			}
+			get => player.State["PlayerStates"].Ammanettato;
+			set => player.State["PlayerStates"].Ammanettato = value;
 		}
 		public bool InCasa
 		{
-			get
-			{
-				return player.State["PlayerStates"].InCasa;
-			}
-			set
-			{
-				player.State["PlayerStates"].InCasa = value;
-			}
+			get => player.State["PlayerStates"].InCasa;
+			set => player.State["PlayerStates"].InCasa = value;
 		}
 		public bool InServizio
 		{
-			get
-			{
-				return player.State["PlayerStates"].InServizio;
-			}
-			set
-			{
-				player.State["PlayerStates"].InServizio = value;
-			}
+			get => player.State["PlayerStates"].InServizio;
+			set => player.State["PlayerStates"].InServizio = value;
 		}
 		public bool FinDiVita
 		{
-			get
-			{
-				return player.State["PlayerStates"].FinDiVita;
-			}
-			set
-			{
-				player.State["PlayerStates"].FinDiVita = value;
-			}
+			get => player.State["PlayerStates"].FinDiVita;
+			set => player.State["PlayerStates"].FinDiVita = value;
 		}
 		public bool AdminSpecta
 		{
-			get
-			{
-				return player.State["PlayerStates"].AdminSpecta;
-			}
-			set
-			{
-				player.State["PlayerStates"].AdminSpecta = value;
-			}
+			get => player.State["PlayerStates"].AdminSpecta;
+			set => player.State["PlayerStates"].AdminSpecta = value;
 		}
 		public Istanza Istanza;
 
@@ -440,6 +411,7 @@ namespace TheLastPlanet.Server.Core
 			var baseBag = new
 			{
 				InPausa = false,
+				Svenuto = false,
 				Istanza = new
 				{
 					Stanziato = false,
