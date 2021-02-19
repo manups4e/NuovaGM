@@ -217,6 +217,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			ClearKeyboard(windowTitle, defaultText, maxLength);
 			while (UpdateOnscreenKeyboard() == 0)
 				await BaseScript.Delay(0);
+			if (UpdateOnscreenKeyboard() == 2)
+				return "";
 			return GetOnscreenKeyboardResult();
 		}
 		private static void ClearKeyboard(string windowTitle, string defaultText, int maxLength)
