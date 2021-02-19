@@ -61,6 +61,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static void Init()
 		{
 			MenuPool.RefreshIndex();
+			ProximityChat.Init();
 		}
 
 		public static async Task Menus()
@@ -144,18 +145,15 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			}
 		}
 
-		public static void ShowFloatingHelpNotification(string msg, Vector3 coords)
+		public static void ShowFloatingHelpNotification(string msg, Vector3 coords, int tempo = -1)
 		{
 			if (IsFloatingHelpTextOnScreen(0)) ClearFloatingHelp(0, true);
 			if (IsFloatingHelpTextOnScreen(1)) ClearFloatingHelp(1, true);
 			AddTextEntry("LprpFloatingHelpText", msg);
 			SetFloatingHelpTextWorldPosition(1, coords.X, coords.Y, coords.Z);
 			SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0);
-			//string[] strings = Screen.StringToArray(msg);
 			BeginTextCommandDisplayHelp("LprpFloatingHelpText");
-			//foreach (string s in strings)
-			//	AddTextComponentSubstringPlayerName(s);
-			EndTextCommandDisplayHelp(2, false, false, -1);
+			EndTextCommandDisplayHelp(2, false, false, tempo);
 		}
 
 		public static async void ShowStatNotification(int value, string title)

@@ -1134,7 +1134,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x=>Vector3.Distance(x.Character.Position, coords)).FirstOrDefault();
 			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
-		}
+					}
 
 		/// <summary>
 		/// GetHashKey uint
