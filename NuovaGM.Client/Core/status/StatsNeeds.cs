@@ -59,8 +59,10 @@ namespace TheLastPlanet.Client.Core.Status
 			Statistics.Add("FLYING_ABILITY", new Statistica("Flying_ability", "MP0_FLYING_ABILITY", "PSF_FLYING", new Action<Ped, Player, Statistica>(Flying)));
 			Statistics.Add("LUNG_CAPACITY", new Statistica("Lung_capacity", "MP0_LUNG_CAPACITY", "PSF_LUNG", new Action<Ped, Player, Statistica>(Lung)));
 			Statistics.Add("WHEELIE_ABILITY", new Statistica("Wheelie_ability", "MP0_WHEELIE_ABILITY", "PSF_DRIVING", new Action<Ped, Player, Statistica>(Driving)));
+			Statistics.Add("SHOOTING_ABILITY", new Statistica("Mira", "SHOOTING_ABILITY", "PSF_SHOOTING", new Action<Ped, Player, Statistica>(Shooting)));
 			Statistics.Add("FISHING", new Statistica("Pescatore", "Pescatore", "Pesca +", new Action<Ped, Player, Statistica>(Pescatore)));
 			Statistics.Add("HUNTING", new Statistica("Cacciatore", "Cacciatore", "Caccia +", new Action<Ped, Player, Statistica>(Cacciatore)));
+			Statistics.Add("DRUGS", new Statistica("Droghe", "Droghe", "Droga +", new Action<Ped, Player, Statistica>(Droga)));
 			//PSF_SHOOTING aggiungere abilità sparatorie?
 		}
 
@@ -496,6 +498,20 @@ namespace TheLastPlanet.Client.Core.Status
 			}
 		}
 
+		public static void Shooting(Ped playerPed, Player me, Statistica shoot)
+		{
+			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.SHOOTING_ABILITY;
+
+			// GESTIRE SPARATORIE
+
+			if (shoot.Val - baseStat >= 1f)
+			{
+				me.GetPlayerData().CurrentChar.statistiche.LUNG_CAPACITY = shoot.Val;
+				StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)shoot.Val, true);
+				shoot.ShowStatNotification();
+
+			}
+		}
 		private static void Pescatore(Ped playerPed, Player me, Statistica pesca)
 		{
 			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.FISHING;
@@ -521,6 +537,17 @@ namespace TheLastPlanet.Client.Core.Status
 			{
 				me.GetPlayerData().CurrentChar.statistiche.HUNTING = caccia.Val;
 				caccia.ShowStatNotification();
+			}
+
+		}
+		private static void Droga(Ped playerPed, Player me, Statistica droga)
+		{
+			int baseStat = (int)me.GetPlayerData().CurrentChar.statistiche.DRUGS;
+
+			if (droga.Val - baseStat >= 1f)
+			{
+				me.GetPlayerData().CurrentChar.statistiche.DRUGS = droga.Val;
+				droga.ShowStatNotification();
 			}
 
 		}
