@@ -75,7 +75,6 @@ namespace TheLastPlanet.Client.Core.Status
 			Needs["Sete"].Val = me.CurrentChar.needs.sete;
 			Needs["Stanchezza"].Val = me.CurrentChar.needs.stanchezza;
 			//nee.malattia = m.CurrentChar.needs.malattia;
-			Log.Printa(LogType.Debug, Needs.Serialize());
 
 			Statistics["STAMINA"].Val = me.CurrentChar.statistiche.STAMINA;
 			Statistics["STRENGTH"].Val = me.CurrentChar.statistiche.STRENGTH;

@@ -500,9 +500,7 @@ namespace TheLastPlanet.Shared
 					await BaseScript.Delay(50);
 					bool pippo = GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false);
 					h++;
-					Log.Printa(LogType.Debug, $"Z = {z}");
 				}
-				Log.Printa(LogType.Debug, $"Z = {z}");
 				return z;
 			}
 			catch (Exception ex)
