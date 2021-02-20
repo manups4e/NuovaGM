@@ -69,6 +69,7 @@ namespace TheLastPlanet.Client
 			TickGenerici.Add(FuelClient.FuelTruck);
 			TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
 			TickGenerici.Add(aggiornaPl);
+			TickGenerici.Add(ProximityChat.Prossimità);
 
 			// TICK A PIEDI \\
 			TickAPiedi.Add(BankingClient.ControlloATM);
