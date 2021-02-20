@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using TheLastPlanet.Client.MenuNativo;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -13,62 +14,91 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	{
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string, int, int, int>(TriggerProximtyDisplay));
+			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
 			Client.Instance.AddTick(Prossimità);
 		}
 
-		static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();
+		private static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();
 
-		public static void TriggerProximtyDisplay(int id, string title, string text, int a, int b, int c)
+		public static void TriggerProximtyDisplay(int player, string title, string text)
 		{
-			Player target = new Player(API.GetPlayerFromServerId(id));
+			Player target = new Player(API.GetPlayerFromServerId(player));
 			if (Game.PlayerPed.IsInRangeOf(target.Character.Position, 19f))
 			{
-				if (Messaggi.ContainsKey(id))
-					Messaggi[id].Add(new ProxMess(text, Color.FromArgb(200, a, b, c), target.Character.Bones[Bone.SKEL_Head].Position, Messaggi[id].Count));
+				if (Messaggi.ContainsKey(player))
+					Messaggi[player].Add(new ProxMess(title + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position));
 				else
-					Messaggi.Add(id, new List<ProxMess>() { new ProxMess(text, Color.FromArgb(200, a, b, c), target.Character.Bones[Bone.SKEL_Head].Position, 1) });
+					Messaggi.Add(player, new List<ProxMess>() { new ProxMess(title + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position) });
 			}
 		}
 
 		public static async Task Prossimità()
 		{
-			foreach(var p in Messaggi)
+			if (Messaggi.Count > 0)
 			{
-				Player player = new Player(API.GetPlayerFromServerId(p.Key));
-				Ped ped = player.Character;
-				foreach (var m in p.Value.ToList())
+				foreach (var p in Messaggi)
 				{
-					m.Position = ped.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 1 + ((p.Value.Count - m.Id) * 0.25f));
-					m.Draw();
-					if (Game.GameTime - m.Timer >= 1000)
+					Player player = new Player(API.GetPlayerFromServerId(p.Key));
+					Ped ped = player.Character;
+					if (p.Value.Count > 0)
 					{
-						m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
-						m.Timer = Game.GameTime;
-						if (m.Tempo.TotalSeconds == TimeSpan.Zero.TotalSeconds)
-							p.Value.Remove(m);
+						foreach (var m in p.Value.ToList())
+						{
+							Color textColor = Colors.WhiteSmoke;
+							switch (p.Value.Count - p.Value.IndexOf(m))
+							{
+								case 1:
+									textColor = Colors.Green;
+									break;
+								case 2:
+									textColor = Colors.Cyan;
+									break;
+								case 3:
+									textColor = Colors.PurpleLight;
+									break;
+								case 4:
+									textColor = Colors.RedLight;
+									break;
+								case 5:
+									textColor = Colors.Orange;
+									break;
+								case 6:
+									textColor = Colors.Yellow;
+									break;
+							}
+							if (m.Timer == 0) m.Timer = Game.GameTime;
+							m.Position = ped.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.4f + (p.Value.Count - p.Value.IndexOf(m)) * 0.24f);
+							m.Color = textColor;
+							m.Draw();
+							if (Game.GameTime - m.Timer >= 1000)
+							{
+								m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
+								m.Timer = Game.GameTime;
+								if (m.Tempo.TotalSeconds == TimeSpan.Zero.TotalSeconds)
+									p.Value.Remove(m);
+							}
+						}
 					}
+					//else Messaggi.Remove(p.Key);
 				}
 			}
-			// p.Value.Count - m.Id (per far scorrere al contrario)
 			await Task.FromResult(0);
 		}
 	}
 
 	public class ProxMess
 	{
+
 		public string Message;
 		public Color Color;
 		public Vector3 Position;
-		public int Id;
-		public TimeSpan Tempo = new TimeSpan(0, 0, 3);
+		public TimeSpan Tempo = new TimeSpan(0, 0, 5); // cambiare con 5 secondi
 		public int Timer = 0;
-		public ProxMess(string mess, Color color, Vector3 pos, int id)
+		public ProxMess(string mess, Color color, Vector3 pos)
 		{
 			Message = mess;
 			Color = color;
 			Position = pos;
-			Id = id;
 		}
 
 		/// <summary>
@@ -76,7 +106,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		/// </summary>
 		public void Draw()
 		{
-			if (Timer == 0) Timer = Game.GameTime;
 			HUD.DrawText3D(Position, Color, Message, 0);
 		}
 	}
