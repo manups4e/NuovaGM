@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Ingresso;
+using Font = CitizenFX.Core.UI.Font;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -80,10 +81,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static Notifica ShowNotification(string msg, bool blink = false)
 		{
 			AddTextEntry("LprpNotification", msg);
-			//string[] strings = Screen.StringToArray(msg);
 			BeginTextCommandThefeedPost("LprpNotification");
-			//foreach (string s in strings)
-			//	AddTextComponentSubstringPlayerName(s);
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
@@ -97,10 +95,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static Notifica ShowNotification(string msg, NotificationColor color, bool blink = false)
 		{
 			AddTextEntry("LprpNotification", msg);
-			//string[] strings = Screen.StringToArray(msg);
 			BeginTextCommandThefeedPost("LprpNotification");
-			//foreach (string s in strings)
-			//	AddTextComponentSubstringPlayerName(s);
 			ThefeedNextPostBackgroundColor((int)color);
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
@@ -137,18 +132,15 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
-				//string[] strings = Screen.StringToArray(helpText);
 				BeginTextCommandDisplayHelp("LastPlanetHelpText");
-				//foreach (string s in strings)
-				//	AddTextComponentSubstringPlayerName(s);
 				EndTextCommandDisplayHelp(0, false, true, tempo);
 			}
 		}
 
 		public static void ShowFloatingHelpNotification(string msg, Vector3 coords, int tempo = -1)
 		{
-			if (IsFloatingHelpTextOnScreen(0)) ClearFloatingHelp(0, true);
-			if (IsFloatingHelpTextOnScreen(1)) ClearFloatingHelp(1, true);
+			//if (IsFloatingHelpTextOnScreen(0)) ClearFloatingHelp(0, true);
+			//if (IsFloatingHelpTextOnScreen(1)) ClearFloatingHelp(1, true);
 			AddTextEntry("LprpFloatingHelpText", msg);
 			SetFloatingHelpTextWorldPosition(1, coords.X, coords.Y, coords.Z);
 			SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0);
@@ -164,16 +156,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);
 			EndTextCommandThefeedPostTicker(false, true);
 			UnregisterPedheadshot(mug.Item1);
-			/*
-				PSF_DRIVING = Driving +
-				PSF_FLYING = Flying +
-				PSF_LUNG = Lung Capacity +
-				PSF_SHOOTING = Shooting +
-				PSF_SPEC_AB = Special capacity +
-				PSF_STAMINA = Stamina +
-				PSF_STEALTH = Stealth +
-				PSF_STRENGTH = Strength +
-			*/
 		}
 
 		/// <summary>
@@ -260,66 +242,18 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndScaleformMovieMethod();
 		}
 
-
-		public static void DrawText3D(float x, float y, float z, Color c, string text)
-		{
-			Vector3 a = new Vector3(x, y, z);
-			Vector3 cam = GameplayCamera.Position;
-			float dist = Vector3.Distance(a, cam);
-			float _scale = (1 / dist) * 20;
-			float fov = (1 / GameplayCamera.FieldOfView) * 100;
-			float scale = _scale * fov;
-			SetTextScale(0.1f * scale, 0.15f * scale);
-			SetTextFont(4);
-			SetTextProportional(true);
-			SetTextColour(c.R, c.G, c.B, 255);
-			SetTextDropshadow(0, 0, 0, 0, 255);
-			SetTextEdge(2, 0, 0, 0, 150);
-			SetTextDropShadow();
-			SetTextOutline();
-			SetTextCentre(true);
-			SetDrawOrigin(x, y, z, 0);
-			BeginTextCommandDisplayText("STRING");
-			AddTextComponentSubstringPlayerName(text);
-			EndTextCommandDisplayText(0, 0);
-			ClearDrawOrigin();
-		}
-
-		public static void DrawText3D(Vector3 coord, Color c, string text)
+		public static void DrawText3D(Vector3 coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
 		{
 			Vector3 cam = GameplayCamera.Position;
 			float dist = Vector3.Distance(coord, cam);
-			float _scale = (1 / dist) * 20;
+			float scaleInternal = (1 / dist) * scale;
 			float fov = (1 / GameplayCamera.FieldOfView) * 100;
-			float scale = _scale * fov;
-			SetTextScale(0.1f * scale, 0.15f * scale);
-			SetTextFont(4);
+			float _scale = scaleInternal * fov;
+			SetTextScale(0.1f * _scale, 0.15f * _scale);
+			SetTextFont((int)font);
 			SetTextProportional(true);
 			SetTextColour(c.R, c.G, c.B, c.A);
-			SetTextDropshadow(0, 0, 0, 0, 255);
-			SetTextEdge(2, 0, 0, 0, 150);
-			SetTextDropShadow();
-			SetTextOutline();
-			SetTextCentre(true);
-			SetDrawOrigin(coord.X, coord.Y, coord.Z, 0);
-			BeginTextCommandDisplayText("STRING");
-			AddTextComponentSubstringPlayerName(text);
-			EndTextCommandDisplayText(0, 0);
-			ClearDrawOrigin();
-		}
-
-		public static void DrawText3D(Vector3 coord, Color c, string text, int font)
-		{
-			Vector3 cam = GameplayCamera.Position;
-			float dist = Vector3.Distance(coord, cam);
-			float _scale = (1 / dist) * 20;
-			float fov = (1 / GameplayCamera.FieldOfView) * 100;
-			float scale = _scale * fov;
-			SetTextScale(0.1f * scale, 0.15f * scale);
-			SetTextFont(font);
-			SetTextProportional(true);
-			SetTextColour(c.R, c.G, c.B, 255);
-			SetTextDropshadow(0, 0, 0, 0, 255);
+			SetTextDropshadow(5, 0, 0, 0, 255);
 			SetTextEdge(2, 0, 0, 0, 150);
 			SetTextDropShadow();
 			SetTextOutline();
