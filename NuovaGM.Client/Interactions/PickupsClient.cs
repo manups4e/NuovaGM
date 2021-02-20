@@ -64,9 +64,9 @@ namespace TheLastPlanet.Client.Interactions
 								}
 							}
 							if (!pick.HasDecor("PickupArma"))
-								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, 1);
+								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, CitizenFX.Core.UI.Font.HouseScript);
 							else 
-								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", 1);
+								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", CitizenFX.Core.UI.Font.HouseScript);
 						}
 						else if (pickup.inRange) pickup.inRange = false;
 					}

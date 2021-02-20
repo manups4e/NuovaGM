@@ -74,7 +74,8 @@ namespace TheLastPlanet.Server.Core
 				Player p = Funzioni.GetPlayerFromId(id);
 				if (message.Substring(0, 1) != "/")
 				{
-					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), user.FullName + ":", message, 00, 102, 255);
+					// mettere magari un controllo su "lo conosco o non lo conosco"
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), /*user.FullName + ":",*/ message);
 					CancelEvent();
 				}
 				else
