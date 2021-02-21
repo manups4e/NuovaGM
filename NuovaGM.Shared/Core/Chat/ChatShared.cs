@@ -33,5 +33,6 @@ namespace TheLastPlanet.Shared
 		public Player Source;
 		public string rawCommand;
 		public object[] Args;
+		UserGroup Allowance;
 	}
 }
