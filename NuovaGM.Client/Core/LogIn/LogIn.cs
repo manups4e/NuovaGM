@@ -59,11 +59,11 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		{
 			ClearFocus();
 			Client.Instance.AddTick(Entra);
-			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action(() => ToggleMenu(true, "charloading")));
-			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>>(SelezionatoPreview));
-			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>>(Selezionato));
-			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>>(Disconnetti));
-			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>>(NuovoPersonaggio));
+			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) => { ToggleMenu(true, "charloading"); cb("ok"); }));
+			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
+			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
+			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
+			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
 			RequestModel((uint)PedHash.FreemodeMale01);
@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		}
 
 		static Ped p1;
-		private static async void SelezionatoPreview(IDictionary<string, object> data)
+		private static async void SelezionatoPreview(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
@@ -210,9 +210,10 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				SetEntityAlpha(p1.Handle, i, 0);
 				i += 25;
 			}
+			cb("ok");
 		}
 
-		private static async void Selezionato(IDictionary<string, object> data)
+		private static async void Selezionato(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			if (p1 != null) if (p1.Exists()) p1.Delete();
 			if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
@@ -316,6 +317,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Game.PlayerPed.IsCollisionEnabled = true;
 //			Client.Instance.RemoveTick(Scaleform);
 //			Client.Instance.RemoveTick(TastiMenu);
+			cb("ok");
 		}
 
 		public static async Task SetSkinAndClothes(Ped p, Char_data data)
@@ -396,11 +398,12 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			await Task.FromResult(0);
 		}
 
-		private static void Disconnetti(IDictionary<string, object>data)
+		private static void Disconnetti(IDictionary<string, object>data, CallbackDelegate cb)
 		{
 			guiEnabled = false;
 			ToggleMenu(false);
 			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
+			cb("ok");
 		}
 
 		private static async Task Controllo()
@@ -441,13 +444,14 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				p1.Heading += 1.2f;
 		}
 
-		private static async void NuovoPersonaggio(IDictionary<string, object>data)
+		private static async void NuovoPersonaggio(IDictionary<string, object>data, CallbackDelegate cb)
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			guiEnabled = false;
 			ToggleMenu(false);
 			Creator.CharCreationMenu(data);
+			cb("ok");
 		}
 
 		public static async void Scelta(string param)

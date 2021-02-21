@@ -26,12 +26,12 @@ namespace TheLastPlanet.Client.Businesses
 			Client.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
 			Client.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
 			Client.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>>(Manage));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>>(SellStation));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>>(Notification));
-			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action(MenuClosed));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>>(AddStationFunds));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>>(RemStationFunds));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>, CallbackDelegate>(Manage));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>, CallbackDelegate>(SellStation));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>, CallbackDelegate>(Notification));
+			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action<CallbackDelegate>(MenuClosed));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(AddStationFunds));
+			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(RemStationFunds));
 		}
 
 		public static StationDiBenzina GetStationInfo(int index)
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Businesses
 			Funzioni.SendNuiMessage(a);
 		}
 
-		private static void Manage(IDictionary<string, object> data)
+		private static void Manage(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			string name = data["stationname"] as string;
 			int fuelcost = Convert.ToInt32(data["fuelcost"]);
@@ -141,39 +141,45 @@ namespace TheLastPlanet.Client.Businesses
 
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);
+			cb("ok");
 		}
 
 
-		private static void SellStation(IDictionary<string, object> data)
+		private static void SellStation(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			string sellname = data["sellname"] as string;
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:sellstation", sellname, manageid);
+			cb("ok");
 		}
 
-		private static void Notification(IDictionary<string, object> data)
+		private static void Notification(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			HUD.ShowNotification(data["text"] as string);
+			cb("ok");
 		}
 
-		private static void MenuClosed()
+		private static void MenuClosed(CallbackDelegate cb)
 		{
 			SetNuiFocus(false, false);
+			cb("ok");
 		}
 
-		private static void AddStationFunds(IDictionary<string, object> data)
+		private static void AddStationFunds(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			int amount = Convert.ToInt32(data["amount"]);
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:addstationfunds", manageid, amount);
+			cb("ok");
 		}
 
 
-		private static void RemStationFunds(IDictionary<string, object> data)
+		private static void RemStationFunds(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			int amount = Convert.ToInt32(data["amount"]);
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:remstationfunds", manageid, amount);
+			cb("ok");
 		}
 
 		public static async Task BusinessesPumps()

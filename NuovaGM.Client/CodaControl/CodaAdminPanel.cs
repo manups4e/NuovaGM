@@ -32,10 +32,10 @@ namespace TheLastPlanet.Client.CodaControl
 		{
 			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
             Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<string>(SessionResponse));
-            Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>>(ClosePanel));
-            Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>>(RefreshPanel));
-            Client.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>>(KickUser));
-            Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>>(ChangePriority));
+            Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>, CallbackDelegate>(ClosePanel));
+            Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>, CallbackDelegate>(RefreshPanel));
+            Client.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>, CallbackDelegate>(KickUser));
+            Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>, CallbackDelegate>(ChangePriority));
 
         }
 
@@ -86,7 +86,7 @@ namespace TheLastPlanet.Client.CodaControl
             }
         }
 
-        private static void ClosePanel(IDictionary<string, object> data)
+        private static void ClosePanel(IDictionary<string, object> data, CallbackDelegate cb)
         {
             try
             {
@@ -98,9 +98,10 @@ namespace TheLastPlanet.Client.CodaControl
             {
                 Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ClosePanel()");
             }
+            cb("ok");
         }
 
-        private static void RefreshPanel(IDictionary<string, object> data)
+        private static void RefreshPanel(IDictionary<string, object> data, CallbackDelegate cb)
         {
             try
             {
@@ -113,9 +114,10 @@ namespace TheLastPlanet.Client.CodaControl
             {
                 Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - RefreshPanel()");
             }
+            cb("ok");
         }
 
-        private static void KickUser(IDictionary<string, object> data)
+        private static void KickUser(IDictionary<string, object> data, CallbackDelegate cb)
         {
             try
             {
@@ -125,9 +127,10 @@ namespace TheLastPlanet.Client.CodaControl
             {
                 Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - KickUser()");
             }
+            cb("ok");
         }
 
-        private static void ChangePriority(IDictionary<string, object> data)
+        private static void ChangePriority(IDictionary<string, object> data, CallbackDelegate cb)
         {
             try
             {
@@ -143,6 +146,7 @@ namespace TheLastPlanet.Client.CodaControl
             {
                 Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ChangePriority()");
             }
+            cb("ok");
         }
 
     }
