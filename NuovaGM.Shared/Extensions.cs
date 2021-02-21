@@ -463,6 +463,14 @@ namespace TheLastPlanet.Shared
 			}
 		}
 
+		public static T GetVal<T>(this IDictionary<string, object> dict, string key, T defaultVal)
+		{
+			if (dict.ContainsKey(key))
+				if (dict[key] is T)
+					return (T)dict[key];
+			return defaultVal;
+		}
+
 #if CLIENT
 
 		public static UIMenu AddSubMenu(this UIMenu menu, string text)
@@ -573,7 +581,7 @@ namespace TheLastPlanet.Shared
 
 #endif
 
-		public static PointF Add(this PointF c1, PointF c2)
+	public static PointF Add(this PointF c1, PointF c2)
 		{
 			return new PointF(c1.X + c2.X, c1.Y + c2.Y);
 		}
