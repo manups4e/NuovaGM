@@ -446,32 +446,32 @@ namespace TheLastPlanet.Server.Core
 					if (args[1] == "normal")
 					{
 						group = "normal";
-						group_level = 0;
+						group_level = (int)UserGroup.User;
 					}
 					else if (args[1] == "helper")
 					{
 						group = "helper";
-						group_level = 1;
+						group_level = (int)UserGroup.Helper;
 					}
 					else if (args[1] == "mod")
 					{
 						group = "moderatore";
-						group_level = 2;
+						group_level = (int)UserGroup.Moderatore;
 					}
 					else if (args[1] == "admin")
 					{
 						group = "admin";
-						group_level = 3;
+						group_level = (int)UserGroup.Admin;
 					}
 					else if (args[1] == "founder")
 					{
 						group = "founder";
-						group_level = 4;
+						group_level = (int)UserGroup.Founder;
 					}
 					else if (args[1] == "dev")
 					{
 						group = "dev";
-						group_level = 5;
+						group_level = (int)UserGroup.Sviluppatore;
 					}
 					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new
 					{
@@ -481,7 +481,7 @@ namespace TheLastPlanet.Server.Core
 					});
 					var user = Funzioni.GetUserFromPlayerId(ricevitore.Handle);
 					user.group = group;
-					user.group_level = group_level;
+					user.group_level = (UserGroup)group_level;
 					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + $" --  Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 				}

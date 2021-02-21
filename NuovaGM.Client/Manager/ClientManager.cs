@@ -97,13 +97,13 @@ namespace TheLastPlanet.Client.Manager
 		}
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (Eventi.Player != null && Eventi.Player.group_level > 1)
+			if (Eventi.Player != null && (int)Eventi.Player.group_level > 1)
 				TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (Eventi.Player != null && Eventi.Player.group_level > 3)
+			if (Eventi.Player != null && (int)Eventi.Player.group_level > 3)
 			{
 				if (!NoClip)
 				{

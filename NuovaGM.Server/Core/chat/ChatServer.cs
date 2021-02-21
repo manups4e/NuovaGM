@@ -60,7 +60,6 @@ namespace TheLastPlanet.Server.Core
 			["dailicenza"] = 3,
 			["rimuovilicenza"] = 3,
 		};
-
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));

@@ -416,7 +416,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task AFK()
 		{
-			if (Eventi.Player.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if ((int)Eventi.Player.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 //				if (Ingresso.Ingresso.guiEnabled)
 //				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)

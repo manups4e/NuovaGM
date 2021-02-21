@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.Core
 		[JsonIgnore]
 		public string source;
 		public string group;
-		public int group_level;
+		public UserGroup group_level;
 		public int char_current;
 		public long playTime;
 		public DateTime lastConnection;
@@ -42,7 +42,7 @@ namespace TheLastPlanet.Server.Core
 			source = player.Handle;
 			char_current = result.char_current;
 			group = result.group;
-			group_level = result.group_level;
+			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			p = player;
 			StatiPlayer = new PlayerStateBags(player);
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Server.Core
 			//source = player.Handle;
 			char_current = result.char_current;
 			group = result.group;
-			group_level = result.group_level;
+			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			//p = player;
 			char_data = (result.char_data as string).Deserialize<List<Char_data>>();

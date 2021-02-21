@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		public int source;
 		private int playerId;
 		public string group;
-		public int group_level;
+		public UserGroup group_level;
 		public int char_current;
 		public long playTime;
 		public Identifiers identifiers;
@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			lastConnection = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss");
 			source = Game.Player.ServerId;
 			group = result.group;
-			group_level = result.group_level;
+			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
 			status = new Status();
