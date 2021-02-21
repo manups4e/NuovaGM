@@ -349,8 +349,30 @@ namespace TheLastPlanet.Server.Core
 			{
 				Player p = GetPlayerFromId(player);
 				User Char = GetUserFromPlayerId(p.Handle);
+				if ((int)Char.group_level >= level) return true;
+			}
+			return false;
+		}
+		public static bool IsPlayerAndHasPermission(int player, UserGroup level)
+		{
+			if (player != 0)
+			{
+				Player p = GetPlayerFromId(player);
+				User Char = GetUserFromPlayerId(p.Handle);
 				if (Char.group_level >= level) return true;
 			}
+			return false;
+		}
+		public static bool IsPlayerAndHasPermission(Player player, int level)
+		{
+			User Char = GetUserFromPlayerId(player.Handle);
+			if ((int)Char.group_level >= level) return true;
+			return false;
+		}
+		public static bool IsPlayerAndHasPermission(Player player, UserGroup level)
+		{
+			User Char = GetUserFromPlayerId(player.Handle);
+			if (Char.group_level >= level) return true;
 			return false;
 		}
 

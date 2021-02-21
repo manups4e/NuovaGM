@@ -104,7 +104,18 @@ namespace TheLastPlanet.Server
 		/// <param name="commandName">Nome comando</param>
 		/// <param name="handler">Una nuova Action<int source, List<dynamic> args, string rawCommand</param>
 		/// <param name="restricted">tutti o solo chi può?</param>
-		public void AddCommand(string commandName, InputArgument handler, bool restricted) => API.RegisterCommand(commandName, handler, restricted);
-
+		//public void AddCommand(string commandName, InputArgument handler, bool restricted) => API.RegisterCommand(commandName, handler, restricted);
+		public void AddCommand(string commandName, Delegate handler, UserGroup restricted = UserGroup.User, ChatSuggestion suggestion = null)
+		{
+			//API.RegisterCommand(commandName, handler, restricted);
+			ChatServer.Commands.Add(new ChatCommand(commandName, restricted, handler));
+			if (suggestion != null) 
+			{
+				List<object> paramss = new List<object>();
+				for (int i = 0; i < suggestion.@params.Length; i++)
+					paramss.Add(new { suggestion.@params[i].name, suggestion.@params[i].help });
+				TriggerClientEvent("chat:addSuggestion", "/"+commandName, suggestion.help, paramss);
+			}
+		}
 	}
 }

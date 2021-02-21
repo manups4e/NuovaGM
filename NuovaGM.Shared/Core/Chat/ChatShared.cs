@@ -1,9 +1,13 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
+#if SERVER
+using TheLastPlanet.Server.Core;
+#endif
 // ReSharper disable All
 
 namespace TheLastPlanet.Shared
@@ -14,25 +18,38 @@ namespace TheLastPlanet.Shared
 	}
 	public class ChatSuggestion
 	{
-		public string Name;
-		public string Help;
-		public List<string> Params = new List<string>();
+		public string help;
+		public SuggestionParam[] @params;
 
-		public ChatSuggestion(string name, string help, List<string> args)
+		public ChatSuggestion(string help, SuggestionParam[] args)
 		{
-			Name = name;
-			Help = help;
-			Params = args;
+			this.help = help;
+			@params = args;
 		}
 	}
-
+	public class SuggestionParam
+	{
+		public string name;
+		public string help;
+		public SuggestionParam(string name, string help)
+		{
+			this.name = name;
+			this.help = help;
+		}
+	}
 	public class ChatCommand
 	{
-		public string Name;
+		public string CommandName;
 		public Delegate Action;
 		public Player Source;
 		public string rawCommand;
-		public object[] Args;
-		UserGroup Allowance;
+		public List<string> Args;
+		public UserGroup Restriction;
+		public ChatCommand(string commandName, UserGroup minGroupAllowed, Delegate handler)
+		{
+			CommandName = commandName;
+			Restriction = minGroupAllowed;
+			Action = handler;
+		}
 	}
 }
