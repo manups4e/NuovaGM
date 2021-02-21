@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client
 			TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);
 			TickAPiedi.Add(DivaniEPosizioniSedute.SedieSiedi);
 			TickAPiedi.Add(CarDealer.Markers);
-
+			TickAPiedi.Add(LootingDead.Looting);
 
 
 			// TICK NEL VEICOLO \\

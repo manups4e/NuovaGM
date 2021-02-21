@@ -24,15 +24,18 @@ namespace TheLastPlanet.Client.Interactions
 			// alleggerire carico peso
 			//Ped playerPed = new Ped(PlayerPedId());
 			var closest = Funzioni.GetClosestPlayer();
-		 
-			if(closest.Item2 < 3f)
+
+			if (!Eventi.Player.StatiPlayer.InServizio)
 			{
-				if (closest.Item1.GetPlayerData().StatiPlayer.Svenuto || closest.Item1.GetPlayerData().StatiPlayer.FinDiVita)
+				if (closest.Item2 < 3f)
 				{
-					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");
-					if (Input.IsControlJustPressed(Control.Context))
+					if (closest.Item1.GetPlayerData().StatiPlayer.Svenuto || closest.Item1.GetPlayerData().StatiPlayer.FinDiVita)
 					{
-						LootMenu(closest.Item1);
+						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");
+						if (Input.IsControlJustPressed(Control.Context))
+						{
+							LootMenu(closest.Item1);
+						}
 					}
 				}
 			}
