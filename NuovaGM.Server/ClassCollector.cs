@@ -26,7 +26,7 @@ namespace TheLastPlanet.Server
 			ServerEntrance.Init();
 			Eventi.Init();
 			Funzioni.Init();
-			ChatMain.Init();
+			ChatServer.Init();
 			ChatEvents.Init();
 			BankingServer.Init();
 			PompeDiBenzinaServer.Init();

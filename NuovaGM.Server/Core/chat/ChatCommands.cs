@@ -59,16 +59,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["ooc"]))
-				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
-					{
-						msg = msg + " " + args[i];
-					}
-					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + GetPlayerName(sender.ToString()), msg } });
-				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["ooc"]))
+					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + GetPlayerName(sender.ToString()), rawCommand.Substring(4) } });
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -78,18 +71,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pol"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["pol"]))
 				{
 					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
 					if (user.CurrentChar.job.name.ToLower() == "polizia")
-					{
-						string msg = "";
-						for (int i = 0; i < args.Count; i++)
-							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, msg } });
-					}
+						Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(4) } }));
+					else user.showNotification("Non puoi usare questo comando!");
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -99,18 +88,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["pil"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["pil"]))
 				{
 					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
 					if (user.CurrentChar.job.name.ToLower() == "pilota")
-					{
-						string msg = "";
-						for (int i = 0; i < args.Count; i++)
-							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, msg } });
-					}
+						Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(4) } }));
+					else user.showNotification("Non puoi usare questo comando!");
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -120,18 +105,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["med"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["med"]))
 				{
 					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
 					if (user.CurrentChar.job.name.ToLower() == "medico")
-					{
-						string msg = "";
-						for (int i = 0; i < args.Count; i++)
-							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, msg } });
-					}
+						Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(4) } }));
+					else user.showNotification("Non puoi usare questo comando!");
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -141,18 +122,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["mec"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["mec"]))
 				{
 					var user = Funzioni.GetUserFromPlayerId(sender.ToString());
 					if (user.CurrentChar.job.name.ToLower() == "meccanico")
-					{
-						string msg = "";
-						for (int i = 0; i < args.Count; i++)
-							msg = msg + " " + args[i];
-						BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, msg } });
-					}
+						Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(4) } }));
+					else user.showNotification("Non puoi usare questo comando!");
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -162,14 +139,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["me"]))
-				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
-						msg = msg + " " + args[i];
-					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", msg, 0, 255, 153);
-				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["me"]))
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", rawCommand.Substring(3), 0, 255, 153);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -179,14 +151,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["do"]))
-				{
-					string msg = "";
-					for (int i = 0; i < args.Count; i++)
-						msg = msg + " " + args[i];
-					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", msg, 0, 255, 153);
-				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["do"]))
+					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", rawCommand.Substring(3), 0, 255, 153);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 			else
 				Log.Printa(LogType.Error, "Questo comando funziona SOLO in gioco");
@@ -200,7 +167,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				try
 				{
-					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveitem"]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["giveitem"]))
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
@@ -215,9 +182,8 @@ namespace TheLastPlanet.Server.Core
 				catch
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
-
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -227,7 +193,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				try
 				{
-					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeitem"]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["removeitem"]))
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
@@ -242,7 +208,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeitem] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -252,7 +218,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				try
 				{
-					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["giveweapon"]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["giveweapon"]))
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
@@ -267,7 +233,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO giveweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -277,7 +243,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				try
 				{
-					if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removeweapon"]))
+					if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["removeweapon"]))
 					{
 						if (Server.PlayerList.ContainsKey(args[0]))
 						{
@@ -293,9 +259,8 @@ namespace TheLastPlanet.Server.Core
 				catch
 				{
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO removeweapon] = ", "Errore nei parametri!" }, color = new[] { 255, 0, 0 } });
-
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 		// FINE GESTIONE INVENTARIO
@@ -304,14 +269,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givemoney"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["givemoney"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.GiveMoney(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givemoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 		
@@ -319,14 +284,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givebank"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["givebank"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.GiveBank(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givebank] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -334,14 +299,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["givedirty"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["givedirty"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.GiveDirty(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 		
@@ -349,14 +314,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removemoney"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["removemoney"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.RemoveMoney(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -364,14 +329,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removebank"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["removebank"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.RemoveBank(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -379,14 +344,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["removedirty"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["removedirty"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 						Eventi.RemoveDirty(Server.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -394,7 +359,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmoney"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["setmoney"]))
 				{
 					if (Server.PlayerList.ContainsKey(args[0]))
 					{
@@ -415,16 +380,12 @@ namespace TheLastPlanet.Server.Core
 							player.DirtyMoney += Convert.ToInt32(args[2]);
 						}
 						else
-						{
 							Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "L'account monetario '" + args[1] + "' non esiste!" }, color = new[] { 255, 0, 0 } });
-						}
 					}
 					else
-					{
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setmoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
-					}
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -432,15 +393,10 @@ namespace TheLastPlanet.Server.Core
 		// ANNUNCIO PLAYERS
 		public static void Annuncio(int sender, List<dynamic> args, string rawCommand)
 		{
-			if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["annuncio"]) || sender == 0)
-			{
-				string msg = "";
-				for (int i = 0; i < args.Count; i++)
-					msg = msg + " " + args[i];
-				BaseScript.TriggerClientEvent("lprp:announce", msg);
-			}
+			if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["annuncio"]) || sender == 0)
+				BaseScript.TriggerClientEvent("lprp:announce", rawCommand.Replace("annuncio", string.Empty));
 			if (sender != 0)
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE ANNUNCIO
 
@@ -449,7 +405,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["revive"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["revive"]))
 				{
 					var now = DateTime.Now;
 					if (args != null && args.Count > 0)
@@ -463,11 +419,9 @@ namespace TheLastPlanet.Server.Core
 						}
 					}
 					else
-					{
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:reviveChar");
-					}
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 		// FINE REVIVE
@@ -547,7 +501,7 @@ namespace TheLastPlanet.Server.Core
 					Log.Printa(LogType.Error, "errore nel comando setgroup..riprova");
 			}
 			if (sender != 0)
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 		// FINE SETGROUP
 
@@ -555,7 +509,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["tp"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["tp"]))
 				{
 					float x = 0;
 					float y = 0;
@@ -567,7 +521,7 @@ namespace TheLastPlanet.Server.Core
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -575,9 +529,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["suicidati"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["suicidati"]))
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:death");
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -585,9 +539,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["car"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["car"]))
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:spawnVehicle", args[0]);
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -595,9 +549,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["dv"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["dv"]))
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:deleteVehicle");
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -605,9 +559,9 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["delgun"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["delgun"]))
 					Funzioni.GetPlayerFromId(sender).TriggerEvent("lprp:ObjectDeleteGun", args[0]);
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -635,14 +589,14 @@ namespace TheLastPlanet.Server.Core
 				Log.Printa(LogType.Fatal, "" + ex);
 			}
 			if(sender!=0)
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 		}
 
 		public static void Sviluppatore(int sender, List<dynamic> args, string rawCommand)
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["sviluppatore"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["sviluppatore"]))
 				{
 					Player send = Funzioni.GetPlayerFromId(sender);
 					if (args[0] == "on")
@@ -658,7 +612,7 @@ namespace TheLastPlanet.Server.Core
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
 					}
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -666,7 +620,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setjob"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["setjob"]))
 				{
 					Player p = Funzioni.GetPlayerFromId(args[0]);
 					if (Server.PlayerList.ContainsKey(p.Handle))
@@ -680,7 +634,7 @@ namespace TheLastPlanet.Server.Core
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -688,7 +642,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender != 0)
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setgang"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["setgang"]))
 				{
 					Player p = Funzioni.GetPlayerFromId(args[0]);
 					if (Server.PlayerList.ContainsKey(p.Handle))
@@ -702,7 +656,7 @@ namespace TheLastPlanet.Server.Core
 					else
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
 				}
-				ChatMain.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
+				ChatServer.chatCommandEntered(Funzioni.GetPlayerFromId(sender), rawCommand);
 			}
 		}
 
@@ -739,7 +693,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			else
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["cambiaora"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["cambiaora"]))
 				{
 					if (args != null && args.Count > 0 && args.Count < 3)
 					{
@@ -769,7 +723,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			else
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["bloccatempo"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["bloccatempo"]))
 				{
 					BaseScript.TriggerEvent("freezeTime", freeze);
 					if (freeze)
@@ -799,7 +753,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			else
 			{
-				if (Funzioni.IsPlayerAndHasPermission(sender, ChatMain.commands["setmeteo"]))
+				if (Funzioni.IsPlayerAndHasPermission(sender, ChatServer.commands["setmeteo"]))
 				{
 					if (args.Count < 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 						Funzioni.GetPlayerFromId(sender).TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO weather] = ", "Errore weather, argomenti disponibili: ~n~0 = EXTRASUNNY, 1 = CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, ~n~9 = NEUTRAL, 10 = SNOW, 11 = BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN!" }, color = new[] { 255, 0, 0 } });

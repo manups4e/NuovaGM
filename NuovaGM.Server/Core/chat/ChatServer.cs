@@ -8,7 +8,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
-	static class ChatMain
+	static class ChatServer
 	{
 		public static ConcurrentDictionary<string, int> commands = new ConcurrentDictionary<string, int>()
 		{
