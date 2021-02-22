@@ -12,56 +12,6 @@ namespace TheLastPlanet.Server.Core
 	static class ChatServer
 	{
 		public static List<ChatCommand> Commands = new List<ChatCommand>();
-		public static ConcurrentDictionary<string, int> commands = new ConcurrentDictionary<string, int>()
-		{
-			["annuncio"] = 2,
-			["givemoney"] = 2,
-			["givebank"] = 2,
-			["givedirty"] = 2,
-			["removemoney"] = 2,
-			["removebank"] = 2,
-			["removedirty"] = 2,
-			["setmoney"] = 2,
-			["giveitem"] = 2,
-			["removeitem"] = 2,
-			["giveweapon"] = 2,
-			["removeweapon"] = 2,
-			["setjob"] = 2,
-			["setgang"] = 2,
-			["revive"] = 2, //0 perché non esistono i medici
-			["tp"] = 2,
-			["tpalplayer"] = 2,
-			["jail"] = 2,
-			["unjail"] = 2,
-			["car"] = 2, //0 perché non esistono le auto personali
-			["dv"] = 2, //0 perché non esistono le auto personali
-			["suicidati"] = 2,
-			["spawnped"] = 2,
-			["spawnobject"] = 2,
-			["delgun"] = 2,
-			["kick"] = 2,
-			["ban"] = 2,
-			["tempban"] = 2,
-			["ooc"] = 0,
-			["me"] = 0,
-			["do"] = 0,
-			["pol"] = 0,
-			["pil"] = 0,
-			["med"] = 0,
-			["mec"] = 0,
-			["twt"] = 0,
-			["news"] = 0,
-			["aiuto"] = 0,
-			["lprphelp"] = 0,
-			["setgroup"] = 3,
-			["salvatutti"] = 2,
-			["sviluppatore"] = 5,
-			["cambiaora"] = 3,
-			["bloccatempo"] = 3,
-			["setmeteo"] = 3,
-			["dailicenza"] = 3,
-			["rimuovilicenza"] = 3,
-		};
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));

@@ -26,6 +26,11 @@ namespace TheLastPlanet.Shared
 			this.help = help;
 			@params = args;
 		}
+		public ChatSuggestion(string help)
+		{
+			this.help = help;
+			@params = new SuggestionParam[0];
+		}
 	}
 	public class SuggestionParam
 	{
