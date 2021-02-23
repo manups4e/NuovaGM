@@ -42,35 +42,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 					{
 						if (p.Value.Count > 0)
 						{
-							if (myPed.IsInVehicle() || ped.IsInVehicle())
-							{
-								if (myPed.IsInVehicle())
-								{
-									if (ped.IsInVehicle())
-									{
-										if (myPed.CurrentVehicle == ped.CurrentVehicle)
-											canDraw = true;
-										else
-											canDraw = false;
-									}
-									else
-									{
-										if (!ped.CurrentVehicle.Windows.AreAllWindowsIntact)
-											canDraw = true;
-										else
-											canDraw = false;
-									}
-								}
-								else
-								{
-									if (!myPed.CurrentVehicle.Windows.AreAllWindowsIntact)
-										canDraw = true;
-									else
-										canDraw = false;
-								}
-							}
-							else canDraw = true;
-
+							canDraw = ProximityVehCheck(myPed, ped);
 							foreach (var m in p.Value.ToList())
 							{
 								if (canDraw)
@@ -90,7 +62,48 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			}
 			await Task.FromResult(0);
 		}
+
+		private static bool ProximityVehCheck(Ped io, Ped lui)
+		{
+			bool ioInVeh = io.IsInVehicle();
+			bool luiInVeh = lui.IsInVehicle();
+
+			if (ioInVeh || luiInVeh)
+			{
+				if (ioInVeh && !luiInVeh)
+				{
+					if (!io.CurrentVehicle.Windows.AreAllWindowsIntact)
+						return true;
+					else
+						return false;
+				}
+				else if (!ioInVeh && luiInVeh)
+				{
+					if (!lui.CurrentVehicle.Windows.AreAllWindowsIntact)
+						return true;
+					else
+						return false;
+				}
+				if (ioInVeh && luiInVeh)
+				{
+					if (io.CurrentVehicle == lui.CurrentVehicle)
+						return true;
+					else if (!lui.CurrentVehicle.Windows.AreAllWindowsIntact && !io.CurrentVehicle.Windows.AreAllWindowsIntact)
+						return true;
+					else
+						return false;
+				}
+			}
+			return true;
+		}
+
+		private static bool ProximityCheck(Ped myPed, Ped lui)
+		{
+
+			return true;
+		}
 	}
+
 
 	public class ProxMess
 	{
