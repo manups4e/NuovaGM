@@ -30,46 +30,51 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task Prossimità()
 		{
-			Ped io = new Ped(API.PlayerPedId());
+			bool canDraw = false;
+			Ped myPed = new Ped(API.PlayerPedId());
 			if (Messaggi.Count > 0)
 			{
 				foreach (var p in Messaggi)
 				{
 					Player player = new Player(API.GetPlayerFromServerId(p.Key));
 					Ped ped = player.Character;
-					if (io.IsInRangeOf(ped.Position, 19f))
+					if (myPed.IsInRangeOf(ped.Position, 19f))
 					{
-
 						if (p.Value.Count > 0)
 						{
+							if (myPed.IsInVehicle() || ped.IsInVehicle())
+							{
+								if (myPed.IsInVehicle())
+								{
+									if (ped.IsInVehicle())
+									{
+										if (myPed.CurrentVehicle == ped.CurrentVehicle)
+											canDraw = true;
+										else
+											canDraw = false;
+									}
+									else
+									{
+										if (!ped.CurrentVehicle.Windows.AreAllWindowsIntact)
+											canDraw = true;
+										else
+											canDraw = false;
+									}
+								}
+								else
+								{
+									if (!myPed.CurrentVehicle.Windows.AreAllWindowsIntact)
+										canDraw = true;
+									else
+										canDraw = false;
+								}
+							}
+							else canDraw = true;
+
 							foreach (var m in p.Value.ToList())
 							{
-								Color textColor = Colors.WhiteSmoke;
-								switch (p.Value.Count - p.Value.IndexOf(m))
-								{
-									case 1:
-										textColor = Colors.Green;
-										break;
-									case 2:
-										textColor = Colors.Cyan;
-										break;
-									case 3:
-										textColor = Colors.PurpleLight;
-										break;
-									case 4:
-										textColor = Colors.RedLight;
-										break;
-									case 5:
-										textColor = Colors.Orange;
-										break;
-									case 6:
-										textColor = Colors.Yellow;
-										break;
-								}
-								if (m.Timer == 0) m.Timer = Game.GameTime;
-								m.Position = ped.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.4f + (p.Value.Count - p.Value.IndexOf(m)) * 0.24f);
-								m.Color = textColor;
-								m.Draw();
+								if (canDraw)
+									m.Draw(p.Value.Count - p.Value.IndexOf(m), ped);
 								if (Game.GameTime - m.Timer >= 1000)
 								{
 									m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
@@ -105,9 +110,34 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		/// <summary>
 		/// Chiamata ad ogni frame!
 		/// </summary>
-		public void Draw()
+		public void Draw(int index, Ped p)
 		{
-			HUD.DrawText3D(Position, Color, Message, 0);
+			if (Timer == 0) Timer = Game.GameTime;
+			Color textColor = Colors.WhiteSmoke;
+			switch (index)
+			{
+				case 1:
+					textColor = Colors.Green;
+					break;
+				case 2:
+					textColor = Colors.Cyan;
+					break;
+				case 3:
+					textColor = Colors.PurpleLight;
+					break;
+				case 4:
+					textColor = Colors.RedLight;
+					break;
+				case 5:
+					textColor = Colors.Orange;
+					break;
+				case 6:
+					textColor = Colors.Yellow;
+					break;
+			}
+			Color = textColor;
+			Position = p.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.4f + index * 0.24f);
+			HUD.DrawText3D(Position, Color, Message, CitizenFX.Core.UI.Font.ChaletLondon);
 		}
 	}
 }
