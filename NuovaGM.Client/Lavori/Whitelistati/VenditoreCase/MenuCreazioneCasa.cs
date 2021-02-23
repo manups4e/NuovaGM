@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
 
 
-			marker.OnItemSelect += (menu, item, index) =>
+			marker.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == markerIngressoCasa)
 				{
@@ -261,7 +261,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				else if (item == posCamera)
 				{
 					CameraPosIngresso = MainCamera.Position;
-					CameraRotIngresso = MainCamera.CrosshairRaycast(1000).HitPosition;
+					CameraRotIngresso = (await MainCamera.CrosshairRaycast(1000)).HitPosition;
 					if (immobile == TipoImmobile.Casa)
 					{
 						casaDummy.TelecameraFuori.pos = CameraPosIngresso;
@@ -1180,7 +1180,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		private static async Task MarkerTick()
 		{
-			RaycastResult res = MainCamera.CrosshairRaycast(150f);
+			AsyncRaycastResult res =  await MainCamera.CrosshairRaycast(150f);
 			Vector3 direction = res.HitPosition;
 			dummyMarker.Color = Colors.Red;
 			if(!posCamera.Selected)
@@ -1211,7 +1211,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		{
 			if(blipColor != null)
 			{
-				RaycastResult res = MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
+				AsyncRaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
 				Vector3 direction = res.HitPosition;
 				var pos = new Vector3(direction.X, direction.Y, curLocation.Z);
 				string val = (blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string);

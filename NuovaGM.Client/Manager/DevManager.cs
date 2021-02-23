@@ -43,11 +43,12 @@ namespace TheLastPlanet.Client.Manager
 		public static async Task OnTickSviluppo()
 		{
 			Ped pl = new Ped(PlayerPedId());
+			var ray = await WorldProbe.GamePlayCamCrosshairRaycast();
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
-			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Funzioni._CrosshairRaycast().HitPosition}");
+			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {ray.HitPosition}");
 			if (pl.IsAiming)
 			{
 				Entity ent = Game.Player.GetTargetedEntity();
