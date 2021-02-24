@@ -40,12 +40,12 @@ namespace TheLastPlanet.Server.Discord
 
 		public static async Task InviaAlBot(object data)
 		{
-			await new Request().Http(serverUrl, "GET", data.Serialize());
+			await Request.Http(serverUrl, "GET", data.Serialize());
 		}
 
 		public static async Task<RequestResponse> InviaAlBotERicevi(object data)
 		{
-			return await new Request().Http(serverUrl, "GET", data.Serialize());
+			return await Request.Http(serverUrl, "GET", data.Serialize());
 		}
 
 		public static async Task<IngressoResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
