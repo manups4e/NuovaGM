@@ -69,6 +69,7 @@ namespace TheLastPlanet.Server
 		public string RuoloWhitelistato;
 		public string DiscordToken;
 		public string GuildId;
+		public Dictionary<string, string> BadWords = new Dictionary<string, string>();
 	}
 
 	public class ConfigCoda

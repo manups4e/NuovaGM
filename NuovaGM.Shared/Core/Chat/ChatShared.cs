@@ -18,6 +18,7 @@ namespace TheLastPlanet.Shared
 	}
 	public class ChatSuggestion
 	{
+		public string name;
 		public string help;
 		public SuggestionParam[] @params;
 

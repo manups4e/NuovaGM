@@ -109,13 +109,12 @@ namespace TheLastPlanet.Server
 		{
 			//API.RegisterCommand(commandName, handler, restricted);
 			ChatServer.Commands.Add(new ChatCommand(commandName, restricted, handler));
-			if (suggestion != null) 
+			if (suggestion != null)
 			{
-				List<object> paramss = new List<object>();
-				for (int i = 0; i < suggestion.@params.Length; i++)
-					paramss.Add(new { suggestion.@params[i].name, suggestion.@params[i].help });
-				TriggerClientEvent("chat:addSuggestion", "/"+commandName, suggestion.help, paramss);
+				suggestion.name = "/"+ commandName;
+				ChatServer.Suggestions.Add(suggestion);
 			}
+
 		}
 	}
 }

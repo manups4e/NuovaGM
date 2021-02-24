@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using System.Text.RegularExpressions;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -54,52 +55,62 @@ namespace TheLastPlanet.Server.Core
 		}
 
 		// GESTIONE CHAT
-		public static void Ooc(Player sender, List<string> args, string rawCommand)
+		public static async void Ooc(Player sender, List<string> args, string rawCommand)
 		{
 			if (args.Count > 0)
-				BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + sender.Name, rawCommand.Substring(4) } });
+			{
+				string noCom = rawCommand.Substring(5);
+
+				string filtro = $"({Server.Impostazioni.Main.BadWords.Keys.ToArray().Aggregate((i, j) => i + "|" + j)})";
+				Regex filter = new Regex(filtro);
+				MatchCollection matches = filter.Matches(noCom);
+				foreach (Match m in matches)
+					noCom = filter.Replace(noCom, Server.Impostazioni.Main.BadWords[m.Value], 1);
+
+				BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + sender.Name, noCom } });
+			}
 		}
 
 		public static void Pol(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "polizia")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(4) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
 		}
 
 		public static void Pil(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "pilota")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(4) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
 		}
 
 		public static void Med(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "medico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(4) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
 		}
 
 		public static void Mec(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.ToString());
+			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "meccanico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(4) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
 		}
 
 		public static void Me(Player sender, List<string> args, string rawCommand)
 		{
-			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", rawCommand.Substring(3), 0, 255, 153);
+			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", rawCommand.Substring(4), 0, 255, 153);
 		}
 
 		public static void Do(Player sender, List<string> args, string rawCommand)
 		{
-			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", rawCommand.Substring(3), 0, 255, 153);
+			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", rawCommand.Substring(4), 0, 255, 153);
 		}
 
 		// FINE CHAT
@@ -270,8 +281,8 @@ namespace TheLastPlanet.Server.Core
 				if (GetPlayerName(args[0]) != ".")
 				{
 					Player p = Server.Instance.GetPlayers[Convert.ToInt32(args[0])];
-					Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
-					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando revive su " + GetPlayerName(args[0]));
+					Log.Printa(LogType.Info, "Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
+					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
 					BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
 				}
 			}
@@ -292,8 +303,8 @@ namespace TheLastPlanet.Server.Core
 				Player ricevitore = Funzioni.GetPlayerFromId(args[0]);
 				if (ricevitore.Name.Length > 0)
 				{
-					Log.Printa(LogType.Info, "Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
-					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + GetPlayerName(sender.ToString()) + " ha usato il comando setgroup su " + ricevitore.Name);
+					Log.Printa(LogType.Info, "Comandi: " + sender.Name + " ha usato il comando setgroup su " + ricevitore.Name);
+					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + sender.Name + " ha usato il comando setgroup su " + ricevitore.Name);
 					if (args[1] == "normal")
 					{
 						group = "normal";
@@ -401,11 +412,10 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Sviluppatore(Player sender, List<string> args, string rawCommand)
 		{
-			Player send = sender;
-			if (args[0] == "on")
-				send.TriggerEvent("lprp:sviluppatoreOn", true);
-			else if (args[0] == "off")
-				send.TriggerEvent("lprp:sviluppatoreOn", false);
+			if (args[0].ToLower() == "on")
+				sender.TriggerEvent("lprp:sviluppatoreOn", true);
+			else if (args[0].ToLower() == "off")
+				sender.TriggerEvent("lprp:sviluppatoreOn", false);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
 		}
