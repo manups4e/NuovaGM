@@ -67,9 +67,9 @@ namespace TheLastPlanet.Client
 		static int timer = 0;
 		public static async Task test()
 		{
-			if (Eventi.Player != null)
+			if (Cache.Char != null)
 			{
-//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Eventi.Player.StatiPlayer.Istanza));
+//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Cache.Char.StatiPlayer.Istanza));
 			}
 			/*
 			b.ProcessControls();

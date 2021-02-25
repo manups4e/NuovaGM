@@ -172,7 +172,7 @@ namespace TheLastPlanet.Client
 					HideHud = false;
 				}
 			}
-			if (Eventi.Player.StatiPlayer.Istanza.Stanziato)
+			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
 			{
 				if (!InAppartamento)
 				{
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client
 				}
 			}
 
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "polizia")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "polizia")
 			{
 				if (Medici)
 				{
@@ -216,7 +216,7 @@ namespace TheLastPlanet.Client
 					Polizia = true;
 				}
 			}
-			else if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			else if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Polizia)
 				{
@@ -233,7 +233,7 @@ namespace TheLastPlanet.Client
 					Medici = true;
 				}
 			}
-			else if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" && Eventi.Player.CurrentChar.job.name.ToLower() != "polizia")
+			else if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" && Cache.Char.CurrentChar.job.name.ToLower() != "polizia")
 			{
 				if (Polizia)
 				{

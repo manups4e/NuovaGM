@@ -7,6 +7,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
+using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Telefono.Apps;
 using TheLastPlanet.Client.Telefono.Models;
@@ -87,7 +88,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if (Eventi.Player.char_current - 1 == phone_data[i].id - 1)
+				if (Cache.Char.char_current - 1 == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			return null;
@@ -111,7 +112,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			var playerPos = Eventi.Player.posizione.ToVector3();
+			var playerPos = Cache.Char.posizione.ToVector3();
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

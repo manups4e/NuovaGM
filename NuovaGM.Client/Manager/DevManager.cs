@@ -96,13 +96,13 @@ namespace TheLastPlanet.Client.Manager
 			else
 			{
 				foreach (var p in World.GetAllProps())
-					if (p.IsInRangeOf(Eventi.Player.posizione.ToVector3(), 20f))
+					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllPeds())
-					if (p.IsInRangeOf(Eventi.Player.posizione.ToVector3(), 20f) && p != Game.PlayerPed)
+					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f) && p != Game.PlayerPed)
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllVehicles())
-					if (p.IsInRangeOf(Eventi.Player.posizione.ToVector3(), 20f))
+					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}
 			await Task.FromResult(0);

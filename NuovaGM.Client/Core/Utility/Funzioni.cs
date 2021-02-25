@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static PlayerChar GetPlayerData(this Player player)
 		{
-			return player == Game.Player ? Eventi.Player : GetPlayerCharFromServerId(player.ServerId);
+			return player == Game.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
 		}
 
 		public static void SendNuiMessage(object message)
@@ -912,7 +912,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		public static Tuple<Player, float> GetClosestPlayer()
 		{
-			return GetClosestPlayer(Eventi.Player.posizione.ToVector3());
+			return GetClosestPlayer(Cache.Char.posizione.ToVector3());
 		}
 
 		/// <summary>

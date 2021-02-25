@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -25,7 +26,7 @@ namespace TheLastPlanet.Client.Interactions
 			//Ped playerPed = new Ped(PlayerPedId());
 			var closest = Funzioni.GetClosestPlayer();
 
-			if (!Eventi.Player.StatiPlayer.InServizio)
+			if (!Cache.Char.StatiPlayer.InServizio)
 			{
 				if (closest.Item2 < 3f)
 				{

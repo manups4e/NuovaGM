@@ -5,6 +5,7 @@ using TheLastPlanet.Client.MenuNativo;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client
 {
@@ -22,9 +23,9 @@ namespace TheLastPlanet.Client
 						{
 							if (player.GetPlayerData().StatiPlayer.Istanza.Instance != string.Empty)
 							{
-								if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || Eventi.Player.StatiPlayer.Istanza.ServerIdProprietario != 0)
+								if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || Cache.Char.StatiPlayer.Istanza.ServerIdProprietario != 0)
 								{
-									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Game.Player.ServerId && Eventi.Player.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
+									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Game.Player.ServerId && Cache.Char.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
 									{
 										if (!NetworkIsPlayerConcealed(player.Handle))
 											NetworkConcealPlayer(player.Handle, true, true);
@@ -59,7 +60,7 @@ namespace TheLastPlanet.Client
 					if (player.GetPlayerData().StatiPlayer.InPausa)
 					{
 						//if (player != Game.Player)
-							if (player.Character.IsInRangeOf(Eventi.Player.posizione.ToVector3(), 30))
+							if (player.Character.IsInRangeOf(Cache.Char.posizione.ToVector3(), 30))
 								HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 					}
 				}

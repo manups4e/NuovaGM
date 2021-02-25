@@ -8,6 +8,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -36,7 +37,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloMachines()
 		{
-			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < MachineRange);
+			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < MachineRange);
 			await BaseScript.Delay(200);
 		}
 
@@ -47,7 +48,7 @@ namespace TheLastPlanet.Client.Interactions
 			{
 				if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					if (Eventi.Player.Money > 5)
+					if (Cache.Char.Money > 5)
 					{
 						if (VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_01 || VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_02)
 						{

@@ -79,22 +79,22 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				if (state == MenuState.Opened)
 				{
-					if (!Eventi.Player.hasLicense("Armi1"))
+					if (!Cache.Char.hasLicense("Armi1"))
 					{
 						ArmiLic1.ParentItem.Enabled = false;
 						ArmiLic1.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
-					if (!Eventi.Player.hasLicense("Armi2"))
+					if (!Cache.Char.hasLicense("Armi2"))
 					{
 						ArmiLic2.ParentItem.Enabled = false;
 						ArmiLic2.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
-					if (!Eventi.Player.hasLicense("Armi3"))
+					if (!Cache.Char.hasLicense("Armi3"))
 					{
 						ArmiLic3.ParentItem.Enabled = false;
 						ArmiLic3.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
-					if (Eventi.Player.CurrentChar.weapons.Count == 0)
+					if (Cache.Char.CurrentChar.weapons.Count == 0)
 					{
 						component.ParentItem.Enabled = false;
 						component.ParentItem.SetRightBadge(BadgeStyle.Lock);
@@ -109,7 +109,7 @@ namespace TheLastPlanet.Client.Negozi
 					for (int i = 0; i < armi1.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name)));
-						if ((Eventi.Player.Money >= armi1[i].price) || (Eventi.Player.Bank >= armi1[i].price))
+						if ((Cache.Char.Money >= armi1[i].price) || (Cache.Char.Bank >= armi1[i].price))
 							arma.SetRightLabel("~g~" + armi1[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi1[i].price + "$");
@@ -122,7 +122,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[_index].name)))
 						{
-							if (Eventi.Player.Money >= 150)
+							if (Cache.Char.Money >= 150)
 							{
 								AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
 								HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Bank >= 150)
+								if (Cache.Char.Bank >= 150)
 								{
 									AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
 									HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -142,7 +142,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Money >= armi1[_index].price)
+							if (Cache.Char.Money >= armi1[_index].price)
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi1[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi1[_index].price);
@@ -151,7 +151,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Money >= armi1[_index].price)
+								if (Cache.Char.Money >= armi1[_index].price)
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi1[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi1[_index].price);
@@ -172,7 +172,7 @@ namespace TheLastPlanet.Client.Negozi
 					for (int i = 0; i < armi2.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name)));
-						if ((Eventi.Player.Money >= armi2[i].price) || (Eventi.Player.Bank >= armi2[i].price))
+						if ((Cache.Char.Money >= armi2[i].price) || (Cache.Char.Bank >= armi2[i].price))
 							arma.SetRightLabel("~g~" + armi2[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi2[i].price + "$");
@@ -185,7 +185,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[_index].name)))
 						{
-							if (Eventi.Player.Money >= 150)
+							if (Cache.Char.Money >= 150)
 							{
 								AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
 								HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Bank >= 150)
+								if (Cache.Char.Bank >= 150)
 								{
 									AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
 									HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Money >= armi2[_index].price)
+							if (Cache.Char.Money >= armi2[_index].price)
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi2[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi2[_index].price);
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Money >= armi2[_index].price)
+								if (Cache.Char.Money >= armi2[_index].price)
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi2[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi2[_index].price);
@@ -235,7 +235,7 @@ namespace TheLastPlanet.Client.Negozi
 					for (int i = 0; i < armi3.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name)));
-						if ((Eventi.Player.Money >= armi3[i].price) || (Eventi.Player.Bank >= armi3[i].price))
+						if ((Cache.Char.Money >= armi3[i].price) || (Cache.Char.Bank >= armi3[i].price))
 							arma.SetRightLabel("~g~" + armi3[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi3[i].price + "$");
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[_index].name)))
 						{
-							if (Eventi.Player.Money >= 150)
+							if (Cache.Char.Money >= 150)
 							{
 								AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
 								HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -256,7 +256,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Bank >= 150)
+								if (Cache.Char.Bank >= 150)
 								{
 									AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
 									HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (Eventi.Player.Money >= armi3[_index].price)
+							if (Cache.Char.Money >= armi3[_index].price)
 							{
 								BaseScript.TriggerServerEvent("lprp:addWeapon", armi3[_index].name, 250);
 								BaseScript.TriggerServerEvent("lprp:removemoney", armi3[_index].price);
@@ -277,7 +277,7 @@ namespace TheLastPlanet.Client.Negozi
 							}
 							else
 							{
-								if (Eventi.Player.Money >= armi3[_index].price)
+								if (Cache.Char.Money >= armi3[_index].price)
 								{
 									BaseScript.TriggerServerEvent("lprp:addWeapon", armi3[_index].name, 250);
 									BaseScript.TriggerServerEvent("lprp:removebank", armi3[_index].price);
@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.Negozi
 				else if (state == MenuState.ChangeForward && newmenu == component)
 				{
 					component.Clear();
-					foreach (Weapons armi in Eventi.Player.CurrentChar.weapons)
+					foreach (Weapons armi in Cache.Char.CurrentChar.weapons)
 					{
 						if (SharedScript.hasComponents(armi.name))
 						{
@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.Negozi
 								{
 									UIMenuItem compon = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(co.name)));
 									Arma.AddItem(compon);
-									if (Eventi.Player.Money >= co.price || Eventi.Player.Bank >= co.price)
+									if (Cache.Char.Money >= co.price || Cache.Char.Bank >= co.price)
 										compon.SetRightLabel("~g~" + co.price + "$");
 									else
 										compon.SetRightLabel("~r~" + co.price + "$");
@@ -326,7 +326,7 @@ namespace TheLastPlanet.Client.Negozi
 
 									Log.Printa(LogType.Debug, "Prezzo = " + arm.price);
 									Log.Printa(LogType.Debug, "name = " + arm.name);
-									if (Eventi.Player.Money >= arm.price)
+									if (Cache.Char.Money >= arm.price)
 									{
 										BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
 										BaseScript.TriggerServerEvent("lprp:removemoney", arm.price);
@@ -335,7 +335,7 @@ namespace TheLastPlanet.Client.Negozi
 									}
 									else
 									{
-										if (Eventi.Player.Bank >= arm.price)
+										if (Cache.Char.Bank >= arm.price)
 										{
 											BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
 											BaseScript.TriggerServerEvent("lprp:removebank", arm.price);
@@ -357,7 +357,7 @@ namespace TheLastPlanet.Client.Negozi
 				else if (state == MenuState.ChangeForward && newmenu == Tinte)
 				{
 					Tinte.Clear();
-					foreach (Weapons armi in Eventi.Player.CurrentChar.weapons)
+					foreach (Weapons armi in Cache.Char.CurrentChar.weapons)
 					{
 						bool Hastints = SharedScript.hasTints(armi.name);
 						if (Hastints)
@@ -367,12 +367,12 @@ namespace TheLastPlanet.Client.Negozi
 							{
 								UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
 								Tnt.AddItem(tintina);
-								if ((Eventi.Player.Money >= tin.price) || (Eventi.Player.Bank >= tin.price))
+								if ((Cache.Char.Money >= tin.price) || (Cache.Char.Bank >= tin.price))
 									tintina.SetRightLabel("~g~" + tin.price + "$");
 								else
 									tintina.SetRightLabel("~r~" + tin.price + "$");
 
-								if (Eventi.Player.hasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7))))
+								if (Cache.Char.hasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7))))
 									tintina.SetRightBadge(BadgeStyle.Ammo);
 
 							}
@@ -382,7 +382,7 @@ namespace TheLastPlanet.Client.Negozi
 									HUD.ShowNotification("Hai già acquistato questo colore!!", true);
 								else
 								{
-									if (Eventi.Player.Money >= tinte[_index].price)
+									if (Cache.Char.Money >= tinte[_index].price)
 									{
 										BaseScript.TriggerServerEvent("lprp:removemoney", tinte[_index].price);
 										BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
@@ -395,7 +395,7 @@ namespace TheLastPlanet.Client.Negozi
 									}
 									else
 									{
-										if (Eventi.Player.Bank >= tinte[_index].price)
+										if (Cache.Char.Bank >= tinte[_index].price)
 										{
 											BaseScript.TriggerServerEvent("lprp:removebank", tinte[_index].price);
 											BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Businesses
 {
@@ -47,7 +48,7 @@ namespace TheLastPlanet.Client.Businesses
 			int mstation = 0;
 			for (int i = 0; i < stations.Count; i++)
 			{
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), pos);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), pos);
 				if (dist < 50f)
 				{
 					mstation = i;
@@ -187,7 +188,7 @@ namespace TheLastPlanet.Client.Businesses
 			Ped playerPed = new Ped(PlayerPedId());
 			for (int i = 0; i < stations.Count; i++)
 			{ 
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), stations[i].ppos);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), stations[i].ppos);
 				if (dist < 80)
 				{
 					StationDiBenzina stationinfo = GetStationInfo(i + 1);
@@ -196,7 +197,7 @@ namespace TheLastPlanet.Client.Businesses
 					{
 						if (!playerPed.IsInVehicle())
 						{
-							if (stationinfo.ownerchar.ToLower() == Eventi.Player.FullName.ToLower())
+							if (stationinfo.ownerchar.ToLower() == Cache.Char.FullName.ToLower())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 								if (!interactWait)

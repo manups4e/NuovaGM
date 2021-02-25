@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.MenuNativo;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
@@ -47,10 +48,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			Eventi.Player.StatiPlayer.Ammanettato = !Eventi.Player.StatiPlayer.Ammanettato;
+			Cache.Char.StatiPlayer.Ammanettato = !Cache.Char.StatiPlayer.Ammanettato;
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
-			if (Eventi.Player.StatiPlayer.Ammanettato)
+			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
 				Game.PlayerPed.Task.ClearAll();
 				Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
@@ -58,7 +59,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				SetEnableHandcuffs(PlayerPedId(), true);
 				DisablePlayerFiring(PlayerId(), true);
 				Game.PlayerPed.CanPlayGestures = false;
-				if (Eventi.Player.CurrentChar.skin.sex.ToLower() == "femmina")
+				if (Cache.Char.CurrentChar.skin.sex.ToLower() == "femmina")
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 25, 0, 0);
 				else
 					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 41, 0, 0);
@@ -71,7 +72,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				Game.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
-				SetPedComponentVariation(Game.PlayerPed.Handle, Eventi.Player.CurrentChar.dressing.ComponentDrawables.Accessori, Eventi.Player.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetPedComponentVariation(Game.PlayerPed.Handle, Cache.Char.CurrentChar.dressing.ComponentDrawables.Accessori, Cache.Char.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
 				SetEnableHandcuffs(PlayerPedId(), false);
 				DisablePlayerFiring(PlayerId(), false);
 				Game.PlayerPed.CanPlayGestures = true;
@@ -82,12 +83,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		private static async void Accompagna(int ped)
 		{
 			Ped pol = (Ped)Entity.FromNetworkId(ped);
-			if (Eventi.Player.StatiPlayer.Ammanettato)
+			if (Cache.Char.StatiPlayer.Ammanettato)
 				Game.PlayerPed.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 		}
 		private static async void TogliVeh()
 		{
-			if (Eventi.Player.StatiPlayer.Ammanettato)
+			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
 				if(Game.PlayerPed.IsInVehicle())
 					Game.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.None);	
@@ -96,7 +97,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		}
 		private static async void MettiVeh()
 		{
-			if (Eventi.Player.StatiPlayer.Ammanettato)
+			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
 				Vehicle closestVeh = Game.PlayerPed.GetClosestVehicle();
 				if(closestVeh.IsSeatFree(VehicleSeat.LeftRear))
@@ -109,7 +110,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		public static async Task MarkersPolizia()
 		{
 			Ped p = new Ped(PlayerPedId());
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "polizia")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "polizia")
 			{
 				for (int stazione=0; stazione < Client.Impostazioni.Lavori.Polizia.Config.Stazioni.Count; stazione++)
 				{
@@ -210,7 +211,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 							}
 						}
 					}
-					if (Eventi.Player.CurrentChar.job.grade == Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1)
+					if (Cache.Char.CurrentChar.job.grade == Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1)
 					{
 						for (int boss = 0; boss < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo.Count; boss++)
 							World.DrawMarker(MarkerType.HorizontalCircleSkinny, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].AzioniCapo[boss], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
@@ -330,7 +331,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MainTickPolizia()
 		{
-			if (Eventi.Player.CurrentChar.job.name == "Polizia")
+			if (Cache.Char.CurrentChar.job.name == "Polizia")
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);

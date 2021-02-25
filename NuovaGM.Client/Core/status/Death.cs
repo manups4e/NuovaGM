@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void onPlayerDeath(DatiMorte morte)
 		{
-			Eventi.Player.StatiPlayer.FinDiVita = true;
+			Cache.Char.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			StartScreenEffect("DeathFailOut", 0, false);
@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.Core.Status
 						List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
 						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Eventi.Player.StatiPlayer.FinDiVita = true;
+						Cache.Char.StatiPlayer.FinDiVita = true;
 					}
 					else
 					{
@@ -187,7 +187,7 @@ namespace TheLastPlanet.Client.Core.Status
 						List<dynamic> data = new List<dynamic>() { killed, deathCause };
 						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Eventi.Player.StatiPlayer.FinDiVita = true;
+						Cache.Char.StatiPlayer.FinDiVita = true;
 					}
 				}
 
@@ -203,7 +203,7 @@ namespace TheLastPlanet.Client.Core.Status
 					data.Add(killerType);
 					data.Add(deathCoords);
 					data.Add(deathCause);
-					Eventi.Player.StatiPlayer.FinDiVita = true;
+					Cache.Char.StatiPlayer.FinDiVita = true;
 					BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 					BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
 				}
@@ -214,12 +214,12 @@ namespace TheLastPlanet.Client.Core.Status
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-			Eventi.Player.StatiPlayer.FinDiVita = true;
+			Cache.Char.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			if (EarlyRespawn)
 			{
 				if (EarlyRespawnFine)
-					if (Eventi.Player.Money >= EarlyRespawnFineAmount || Eventi.Player.Bank >= EarlyRespawnFineAmount)
+					if (Cache.Char.Money >= EarlyRespawnFineAmount || Cache.Char.Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
 			}
 			if (Main.IsDead)
@@ -337,7 +337,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Screen.Fading.FadeIn(800);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-			Eventi.Player.StatiPlayer.FinDiVita = false;
+			Cache.Char.StatiPlayer.FinDiVita = false;
 		}
 
 		// -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO

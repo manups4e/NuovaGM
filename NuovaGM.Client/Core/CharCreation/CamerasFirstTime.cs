@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Client.Instance.AddTick(Crediti);
 			playerPed.IsPositionFrozen = true;
 			playerPed.IsVisible = false;
-			Eventi.Player.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
+			Cache.Char.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
 			playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
 			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
@@ -273,7 +273,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);
 			playerPed.IsVisible = true;
-			Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);

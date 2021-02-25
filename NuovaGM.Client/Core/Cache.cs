@@ -12,9 +12,25 @@ namespace TheLastPlanet.Client.Core
 {
 	public static class Cache
 	{
-		public static PlayerChar Player;
-		public static void AddPlayer(string jsonData) => Player = jsonData.Deserialize<PlayerChar>();
-		public static void UpdatePedId() => Player.PlayerPed = new Ped(PlayerPedId());
+
+		private static Ped _ped;
+		private static Player _player;
+
+		public static Ped PlayerPed
+		{
+			get => _ped;
+			set => _ped = value;
+		}
+		public static Player Player
+		{
+			get => _player;
+			set => _player = value;
+		}
+
+		public static PlayerChar Char;
+		public static void AddPlayer(string jsonData) => Char = jsonData.Deserialize<PlayerChar>();
+		public static void UpdatePedId() => PlayerPed = new Ped(PlayerPedId());
+		public static void UpdatePlayerId() => Player = Game.Player;
 
 
 	}

@@ -11,14 +11,6 @@ namespace TheLastPlanet.Client.Core.Personaggio
 {
 	public class PlayerChar
 	{
-		[JsonIgnore]
-		private Ped ped;
-		[JsonIgnore]
-		public Ped PlayerPed
-		{
-			get => ped;
-			internal set => ped = value;
-		}
 		public int source;
 		private int playerId;
 		public string group;
@@ -44,7 +36,6 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			playTime = result.playTime;
 			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
 			status = new Status();
-			PlayerPed = new Ped(API.PlayerPedId());
 		}
 
 		public Char_data CurrentChar
@@ -204,7 +195,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 	public class PlayerStateBags
 	{
 		[JsonIgnore]
-		Player player = new Player(Cache.Player.source);
+		Player player = Game.Player;
 		public bool InPausa
 		{
 			get
@@ -304,7 +295,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 	public class Istanza
 	{
 		[JsonIgnore]
-		Player player = new Player(Cache.Player.source);
+		Player player = Game.Player;
 		public bool Stanziato { 
 			get 
 			{

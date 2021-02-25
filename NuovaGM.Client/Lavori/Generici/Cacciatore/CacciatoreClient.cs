@@ -227,42 +227,42 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 				affittoArmi.OnItemSelect += async (menu, item, index) =>
 				{
-					if (Eventi.Player.hasLicense("Caccia"))
+					if (Cache.Char.hasLicense("Caccia"))
 					{
 						if (item == armi)
 						{
-							if ((Eventi.Player.hasWeapon(DaFuoco) || affittatoFuoco) && (Eventi.Player.hasWeapon(Bianca) || affittatoBianca))
+							if ((Cache.Char.hasWeapon(DaFuoco) || affittatoFuoco) && (Cache.Char.hasWeapon(Bianca) || affittatoBianca))
 							{
 								HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
 								return;
 							}
 							int prezzo = 0;
-							if (!Eventi.Player.hasWeapon(DaFuoco))
+							if (!Cache.Char.hasWeapon(DaFuoco))
 							{
-								if (Eventi.Player.Money >= 250 || Eventi.Player.Bank >= 250)
+								if (Cache.Char.Money >= 250 || Cache.Char.Bank >= 250)
 								{
 									Game.PlayerPed.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
 									prezzo += 250;
 									affittatoFuoco = true;
 								}
 							}
-							if (!Eventi.Player.hasWeapon(Bianca))
+							if (!Cache.Char.hasWeapon(Bianca))
 							{
-								if (Eventi.Player.Money >= 50 || Eventi.Player.Bank >= 50)
+								if (Cache.Char.Money >= 50 || Cache.Char.Bank >= 50)
 								{
 									Game.PlayerPed.Weapons.Give(WeaponHash.Knife, 1, false, true);
 									prezzo += 50;
 									affittatoBianca = true;
 								}
 							}
-							if (Eventi.Player.Money >= prezzo)
+							if (Cache.Char.Money >= prezzo)
 							{
 								BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 							}
 							else
 							{
-								if (Eventi.Player.Bank >= prezzo)
+								if (Cache.Char.Bank >= prezzo)
 								{
 									BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
 									HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");

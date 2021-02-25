@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -20,7 +21,7 @@ namespace TheLastPlanet.Client.IPLs
 	{
 		public static async Task Observer()
 		{
-			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(Eventi.Player.posizione.ToVector3().X, Eventi.Player.posizione.ToVector3().Y, Eventi.Player.posizione.ToVector3().Z);
+			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z);
 			if (IplManager.Global.CurrentInteriorId == 0)
 				IplManager.Global.ResetInteriorVariables();
 			else

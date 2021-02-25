@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -35,7 +36,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloProstitute()
 		{
-			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < ProstDistance);
+			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < ProstDistance);
 			await BaseScript.Delay(200);
 		}
 
@@ -51,7 +52,7 @@ namespace TheLastPlanet.Client.Interactions
 					HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
 					if (Input.IsControlJustPressed(Control.VehicleHorn))
 					{
-						if (Eventi.Player.Money > 5f)
+						if (Cache.Char.Money > 5f)
 						{
 							if (p.CurrentVehicle.ClassType != VehicleClass.Boats
 							&& p.CurrentVehicle.ClassType != VehicleClass.Cycles

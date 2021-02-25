@@ -11,6 +11,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MenuNativo;
 using Logger;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Banking
 {
@@ -144,12 +145,12 @@ namespace TheLastPlanet.Client.Banking
 		}
 		private static async void AggMon(int mon)
 		{
-			var mone = Eventi.Player.Money + mon;
+			var mone = Cache.Char.Money + mon;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), mone, true);
 		}
 		private static async void AggDirty(int mon)
 		{
-			var mone = Eventi.Player.DirtyMoney + mon;
+			var mone = Cache.Char.DirtyMoney + mon;
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), mone, true);
 		}
 
@@ -169,7 +170,7 @@ namespace TheLastPlanet.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Eventi.Player.posizione.ToVector3(), o.Position) < 1.5f);
+			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < 1.5f);
 			await BaseScript.Delay(250);
 		}
 
@@ -183,7 +184,7 @@ namespace TheLastPlanet.Client.Banking
 				{
 					UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
 					HUD.MenuPool.Add(Banca);
-					int saldoBanca = Eventi.Player.Bank;
+					int saldoBanca = Cache.Char.Bank;
 
 					UIMenuItem Saldo = new UIMenuItem("Saldo Bancario", "I tuoi soldi in banca");
 					Saldo.SetRightLabel("~g~" + saldoBanca.ToString());
@@ -198,7 +199,7 @@ namespace TheLastPlanet.Client.Banking
 					{
 						if (_listItem == Preleva)
 						{
-							if (Eventi.Player.Bank > 0)
+							if (Cache.Char.Bank > 0)
 							{
 								string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
 								Debug.WriteLine(Item);
@@ -207,7 +208,7 @@ namespace TheLastPlanet.Client.Banking
 									valore = Convert.ToInt32(Item);
 									Debug.WriteLine("valore = " + valore);
 									BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
-									if (valore <= Eventi.Player.Bank)
+									if (valore <= Cache.Char.Bank)
 									{
 										saldoBanca -= valore;
 										Saldo.SetRightLabel("~g~" + saldoBanca);
@@ -217,7 +218,7 @@ namespace TheLastPlanet.Client.Banking
 								{
 									valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
 									BaseScript.TriggerServerEvent("lprp:banking:atmwithdraw", valore);
-									if (valore <= Eventi.Player.Bank)
+									if (valore <= Cache.Char.Bank)
 									{
 										saldoBanca -= valore;
 										Saldo.SetRightLabel("~g~" + saldoBanca);
@@ -231,14 +232,14 @@ namespace TheLastPlanet.Client.Banking
 						}
 						if (_listItem == Deposita)
 						{
-							if (Eventi.Player.Money > 0)
+							if (Cache.Char.Money > 0)
 							{
 								string Item = (_listItem as UIMenuListItem).Items[_itemIndex].ToString();
 								if (Item != "Altro Importo")
 								{
 									valore = Convert.ToInt32(Item);
 									BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
-									if (valore <= Eventi.Player.Money)
+									if (valore <= Cache.Char.Money)
 									{
 										saldoBanca += valore;
 										Saldo.SetRightLabel("~g~" + saldoBanca);
@@ -248,7 +249,7 @@ namespace TheLastPlanet.Client.Banking
 								{
 									valore = Convert.ToInt32(await HUD.GetUserInput("Importo", "0", 10));
 									BaseScript.TriggerServerEvent("lprp:banking:atmdeposit", valore);
-									if (valore <= Eventi.Player.Money)
+									if (valore <= Cache.Char.Money)
 									{
 										saldoBanca += valore;
 										Saldo.SetRightLabel("~g~" + saldoBanca);
@@ -308,7 +309,7 @@ namespace TheLastPlanet.Client.Banking
 						}
 						if (_item == conferma)
 						{
-							if (Eventi.Player.Bank >= valoreBonifico)
+							if (Cache.Char.Bank >= valoreBonifico)
 							{
 								BaseScript.TriggerServerEvent("lprp:banking:sendMoney", nome, valoreBonifico);
 								Saldo.SetRightLabel("~g~" + (saldoBanca - valoreBonifico));
@@ -491,7 +492,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (currentSelection)
 						{
 							case 1: // 50
-								if (Eventi.Player.Bank >= 50)
+								if (Cache.Char.Bank >= 50)
 								{
 									TryBankingNew(false, 5, 50);
 									MenuAttuale = 5;
@@ -503,7 +504,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 2: // 100
-								if (Eventi.Player.Bank >= 100)
+								if (Cache.Char.Bank >= 100)
 								{
 									TryBankingNew(false, 5, 100);
 									MenuAttuale = 5;
@@ -515,7 +516,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 3: // 200
-								if (Eventi.Player.Bank >= 200)
+								if (Cache.Char.Bank >= 200)
 								{
 									TryBankingNew(false, 5, 200);
 									MenuAttuale = 5;
@@ -527,7 +528,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 5: // 500
-								if (Eventi.Player.Bank >= 500)
+								if (Cache.Char.Bank >= 500)
 								{
 									TryBankingNew(false, 5, 500);
 									MenuAttuale = 5;
@@ -539,7 +540,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 6: // 1000
-								if (Eventi.Player.Bank >= 1000)
+								if (Cache.Char.Bank >= 1000)
 								{
 									TryBankingNew(false, 5, 1000);
 									MenuAttuale = 5;
@@ -551,12 +552,12 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Eventi.Player.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Cache.Char.Bank.ToString().Length);
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (Eventi.Player.Bank >= Convert.ToInt32(valore))
+										if (Cache.Char.Bank >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 5, Convert.ToInt32(valore));
 											MenuAttuale = 5;
@@ -585,7 +586,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (currentSelection)
 						{
 							case 1: // 50
-								if (Eventi.Player.Money >= 50)
+								if (Cache.Char.Money >= 50)
 								{
 									TryBankingNew(false, 6, 50);
 									MenuAttuale = 6;
@@ -597,7 +598,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 2: // 100
-								if (Eventi.Player.Money >= 100)
+								if (Cache.Char.Money >= 100)
 								{
 									TryBankingNew(false, 6, 100);
 									MenuAttuale = 6;
@@ -609,7 +610,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 3: // 200
-								if (Eventi.Player.Money >= 200)
+								if (Cache.Char.Money >= 200)
 								{
 									TryBankingNew(false, 6, 200);
 									MenuAttuale = 6;
@@ -621,7 +622,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 5: // 500
-								if (Eventi.Player.Money >= 500)
+								if (Cache.Char.Money >= 500)
 								{
 									TryBankingNew(false, 6, 500);
 									MenuAttuale = 6;
@@ -633,7 +634,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 6: // 1000
-								if (Eventi.Player.Money >= 1000)
+								if (Cache.Char.Money >= 1000)
 								{
 									TryBankingNew(false, 6, 1000);
 									MenuAttuale = 6;
@@ -645,12 +646,12 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Eventi.Player.Money.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Cache.Char.Money.ToString().Length);
 								if (!string.IsNullOrEmpty(valore))
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (Eventi.Player.Money >= Convert.ToInt32(valore))
+										if (Cache.Char.Money >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 6, Convert.ToInt32(valore));
 											MenuAttuale = 6;
@@ -682,7 +683,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (currentSelection)
 						{
 							case 1: // 50
-								if (Eventi.Player.Money >= 50)
+								if (Cache.Char.Money >= 50)
 									soldi = 50;
 								else
 								{
@@ -691,7 +692,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 2: // 100
-								if (Eventi.Player.Money >= 100)
+								if (Cache.Char.Money >= 100)
 									soldi = 100;
 								else
 								{
@@ -700,7 +701,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 3: // 200
-								if (Eventi.Player.Money >= 200)
+								if (Cache.Char.Money >= 200)
 									soldi = 200;
 								else
 								{
@@ -709,7 +710,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 5: // 500
-								if (Eventi.Player.Money >= 500)
+								if (Cache.Char.Money >= 500)
 									soldi = 500;
 								else
 								{
@@ -718,7 +719,7 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 6: // 1000
-								if (Eventi.Player.Money >= 1000)
+								if (Cache.Char.Money >= 1000)
 									soldi = 1000;
 								else
 								{
@@ -727,12 +728,12 @@ namespace TheLastPlanet.Client.Banking
 								}
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", Eventi.Player.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", Cache.Char.Bank.ToString().Length);
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (Eventi.Player.Bank >= Convert.ToInt32(valore))
+										if (Cache.Char.Bank >= Convert.ToInt32(valore))
 											soldi = Convert.ToInt32(valore);
 										else
 										{
@@ -1176,9 +1177,9 @@ namespace TheLastPlanet.Client.Banking
 			}
 
 			BeginScaleformMovieMethod(atm.Handle, "DISPLAY_BALANCE");
-			PushScaleformMovieMethodParameterButtonName(Eventi.Player.FullName);
+			PushScaleformMovieMethodParameterButtonName(Cache.Char.FullName);
 			AddText("MPATM_ACBA");
-			PushScaleformMovieMethodParameterButtonName(Eventi.Player.Bank.ToString());
+			PushScaleformMovieMethodParameterButtonName(Cache.Char.Bank.ToString());
 			EndScaleformMovieMethod();
 		}
 

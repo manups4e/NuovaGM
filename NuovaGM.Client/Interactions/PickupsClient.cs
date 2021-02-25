@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -35,7 +36,7 @@ namespace TheLastPlanet.Client.Interactions
 					Prop pick = new Prop(pickup.propObj);
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), pick.Position);
+						float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), pick.Position);
 						if (dist < 5)
 						{
 							string label = pickup.label;

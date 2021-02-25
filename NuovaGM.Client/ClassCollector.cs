@@ -5,6 +5,7 @@ using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client
 {
@@ -15,7 +16,7 @@ namespace TheLastPlanet.Client
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await Core.CoreInitializer.LogInInitializer();
-			while (Eventi.Player == null) await BaseScript.Delay(0);
+			while (Cache.Char == null) await BaseScript.Delay(0);
 			Banking.BankingClient.Init();
 
 			Businesses.PompeDiBenzinaClient.Init();

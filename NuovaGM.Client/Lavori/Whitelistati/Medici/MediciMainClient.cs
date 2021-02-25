@@ -12,6 +12,7 @@ using CitizenFX.Core.UI;
 
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 {
@@ -45,7 +46,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async void Aggiungi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				pl.Character.AttachBlip();
 				pl.Character.AttachedBlip.Sprite = BlipSprite.Deathmatch;
@@ -60,7 +61,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async void Rimuovi(int player)
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Morti.ContainsKey(pl.Character))
 				{
@@ -79,7 +80,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		public static async Task MarkersMedici()
 		{
 			Ped p = new Ped(PlayerPedId());
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -246,7 +247,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		public static async Task MarkersNonMedici()
 		{
 			Ped p = new Ped(PlayerPedId());
-			if (Eventi.Player.CurrentChar.job.name.ToLower() != "medico" || Eventi.Player.CurrentChar.job.name.ToLower() != "medici")
+			if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" || Cache.Char.CurrentChar.job.name.ToLower() != "medici")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
@@ -396,9 +397,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task BlipMorti()
 		{
-			if (Eventi.Player.CurrentChar.job.name.ToLower() == "medico")
+			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Eventi.Player.StatiPlayer.InServizio)
+				if (Cache.Char.StatiPlayer.InServizio)
 					foreach(var morto in Morti)
 						morto.Value.Alpha = 255;
 				else

@@ -651,11 +651,11 @@ namespace TheLastPlanet.Client.Veicoli
 //			await BaseScript.Delay(10000);
 			if (MenuAffittoVeicoli.veicoloInAffitto != null)
 			{
-				if (Eventi.Player.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
+				if (Cache.Char.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
 				{
 					BaseScript.TriggerServerEvent("lprp:removebank", MenuAffittoVeicoli.veicoloInAffitto.price);
 					HUD.ShowNotification("Hai pagato $" + MenuAffittoVeicoli.veicoloInAffitto.price + " per l'affitto del veicolo", NotificationColor.GreenLight, true);
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Cache.Char.FullName}, [{GetPlayerName(Convert.ToInt32(Cache.Char.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
 				}
 				else
 				{
@@ -669,7 +669,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (veicoloinaffitto.Model.IsBicycle) veicoloinaffitto.IsPositionFrozen = true;
 					await BaseScript.Delay(30000);
 					veicoloinaffitto.Delete(); // magari sostituire con soccorso
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Eventi.Player.FullName}, [{GetPlayerName(Convert.ToInt32(Eventi.Player.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {Cache.Char.FullName}, [{GetPlayerName(Convert.ToInt32(Cache.Char.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
 					await BaseScript.Delay(100);
 					MenuAffittoVeicoli.veicoloInAffitto = null;
 					HUD.ShowNotification("Il veicolo che hai affittato è stato riportato al garage di competenza.");

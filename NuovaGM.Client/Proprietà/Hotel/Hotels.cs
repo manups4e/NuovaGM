@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			{
 				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
-				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Eventi.Player.posizione.ToVector3().X, Eventi.Player.posizione.ToVector3().Y, Eventi.Player.posizione.ToVector3().Z, true, 1.0f, 0));
+				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, true, 1.0f, 0));
 
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
@@ -68,11 +68,11 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
-			stanzaPiccola.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola || Eventi.Player.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
+			stanzaPiccola.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.StanzaPiccola || Cache.Char.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
 			UIMenuItem stanzaMedia = new UIMenuItem("Stanza Media", "Costa un po' di più.. ed è un po' più confortevole");
-			stanzaMedia.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.StanzaMedia || Eventi.Player.Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
+			stanzaMedia.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.StanzaMedia || Cache.Char.Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
 			UIMenuItem appartamento = new UIMenuItem("Appartamento", "Vorresti viverci.. ma prima o poi dovrai andartene!");
-			appartamento.SetRightLabel((Eventi.Player.Money >= hotel.Prezzi.Appartamento || Eventi.Player.Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
+			appartamento.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.Appartamento || Cache.Char.Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
 			HotelMenu.AddItem(stanzaPiccola);
 			HotelMenu.AddItem(stanzaMedia);
 			HotelMenu.AddItem(appartamento);	
@@ -82,9 +82,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				Vector3 pos = new Vector3(0);
 				if (item == stanzaPiccola)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola || Eventi.Player.Bank >= hotel.Prezzi.StanzaPiccola)
+					if (Cache.Char.Money >= hotel.Prezzi.StanzaPiccola || Cache.Char.Bank >= hotel.Prezzi.StanzaPiccola)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.StanzaPiccola)
+						if (Cache.Char.Money >= hotel.Prezzi.StanzaPiccola)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaPiccola);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaPiccola);
@@ -96,9 +96,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				else if (item == stanzaMedia)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia || Eventi.Player.Bank >= hotel.Prezzi.StanzaMedia)
+					if (Cache.Char.Money >= hotel.Prezzi.StanzaMedia || Cache.Char.Bank >= hotel.Prezzi.StanzaMedia)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.StanzaMedia)
+						if (Cache.Char.Money >= hotel.Prezzi.StanzaMedia)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.StanzaMedia);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.StanzaMedia);
@@ -110,9 +110,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				else if (item == appartamento)
 				{
-					if (Eventi.Player.Money >= hotel.Prezzi.Appartamento || Eventi.Player.Bank >= hotel.Prezzi.Appartamento)
+					if (Cache.Char.Money >= hotel.Prezzi.Appartamento || Cache.Char.Bank >= hotel.Prezzi.Appartamento)
 					{
-						if (Eventi.Player.Money >= hotel.Prezzi.Appartamento)
+						if (Cache.Char.Money >= hotel.Prezzi.Appartamento)
 							BaseScript.TriggerServerEvent("lprp:removemoney", hotel.Prezzi.Appartamento);
 						else
 							BaseScript.TriggerServerEvent("lprp:removebank", hotel.Prezzi.Appartamento);
@@ -126,12 +126,12 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				OldPos = Eventi.Player.posizione.ToVector3();
+				OldPos = Cache.Char.posizione.ToVector3();
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
-				Eventi.Player.StatiPlayer.Istanza.Istanzia("Hotel");
-				Eventi.Player.StatiPlayer.InCasa = true;
+				Cache.Char.StatiPlayer.Istanza.Istanzia("Hotel");
+				Cache.Char.StatiPlayer.InCasa = true;
 				Screen.Fading.FadeIn(800);
 				Client.Instance.AddTick(GestioneHotel);
 			};
@@ -157,8 +157,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
-							Eventi.Player.StatiPlayer.InCasa = false;
+							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Char.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -179,8 +179,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
-							Eventi.Player.StatiPlayer.InCasa = false;
+							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Char.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
@@ -201,8 +201,8 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							Eventi.Player.StatiPlayer.Istanza.RimuoviIstanza();
-							Eventi.Player.StatiPlayer.InCasa = false;
+							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Char.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

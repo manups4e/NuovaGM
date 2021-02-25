@@ -399,7 +399,7 @@ namespace TheLastPlanet.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -414,7 +414,7 @@ namespace TheLastPlanet.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -429,7 +429,7 @@ namespace TheLastPlanet.Client.Veicoli
 			int cl = 0;
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100)
 					cl = i;
 				if (cl > 0)
@@ -484,7 +484,7 @@ namespace TheLastPlanet.Client.Veicoli
 				{
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+						float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 						if (dist <= 80f)
 						{
 							lastStation = i + 1;
@@ -505,9 +505,9 @@ namespace TheLastPlanet.Client.Veicoli
 										World.DrawMarker(MarkerType.BikeSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
 								}
 
-								float pdist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
+								float pdist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
-								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Eventi.Player.posizione.ToVector3(), LastVehicle) && !playerPed.IsInVehicle())
+								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Cache.Char.posizione.ToVector3(), LastVehicle) && !playerPed.IsInVehicle())
 								{
 									DisableControlAction(2, 22, true);
 									if (lastStationFuel.stationfuel > 0)
@@ -562,7 +562,7 @@ namespace TheLastPlanet.Client.Veicoli
 						}
 						if (lastStation > 0)
 						{
-							float dista = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos);
+							float dista = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos);
 							if (dista > 80f)
 							{
 								lastStation = 0;
@@ -574,7 +574,7 @@ namespace TheLastPlanet.Client.Veicoli
 				Weapon wep = playerPed.Weapons.Current;
 				if (wep.Hash == WeaponHash.PetrolCan && LastVehicle.Exists())
 				{
-					float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), LastVehicle.Position);
+					float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), LastVehicle.Position);
 					if (dist < 2 && LastVehicle.HasDecor(DecorName))
 					{
 						float max = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
@@ -629,7 +629,7 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				for (int i = 0; i < registrySpots.Count; i++)
 				{
-					float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), registrySpots[i]);
+					float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), registrySpots[i]);
 					if (dist < 80)
 					{
 						World.DrawMarker(MarkerType.TruckSymbol, registrySpots[i], new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 0, 255), false, false, true);
@@ -671,7 +671,7 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				Vector3 spot = tankerSpots[curRegPickup].pos;
 				World.DrawMarker(MarkerType.TruckSymbol, new Vector3(spot.X, spot.Y, spot.Z), new Vector3(0), new Vector3(0), new Vector3(2.1f, 2.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0), false, false, true);
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), spot);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), spot);
 				if (dist < 2.1)
 				{
 					Tanker info = tankerSpots[curRegPickup];
@@ -694,7 +694,7 @@ namespace TheLastPlanet.Client.Veicoli
 					HUD.DrawText(0.9f, 0.935f, $"Carburante Cisterna: {tankerfuel}", Color.FromArgb(255, 135, 206, 235));
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dis = Vector3.Distance(Eventi.Player.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+						float dis = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 						if (dis < 80)
 						{
 							World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos.Z - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(10.1f, 10.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
@@ -722,7 +722,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 					for (int i = 0; i < refuelspots.Count; i++)
 					{
-						float di = Vector3.Distance(Eventi.Player.posizione.ToVector3(), refuelspots[i]);
+						float di = Vector3.Distance(Cache.Char.posizione.ToVector3(), refuelspots[i]);
 						if (di < 80)
 						{
 							World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(refuelspots[i].X, refuelspots[i].Y, refuelspots[i].Z - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(3.1f, 3.1f, 1.3f), System.Drawing.Color.FromArgb(170, 255, 165, 0));
@@ -761,7 +761,7 @@ namespace TheLastPlanet.Client.Veicoli
 						avviso1 = true;
 					}
 				}
-				float dist = Vector3.Distance(Eventi.Player.posizione.ToVector3(), jobTruck.Position);
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), jobTruck.Position);
 				if (dist > 40f)
 				{
 					if (!distwarn)

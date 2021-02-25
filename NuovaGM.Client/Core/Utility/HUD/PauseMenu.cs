@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
-			var pl = Eventi.Player;
+			var pl = Cache.Char;
 			TabInteractiveListItem HUD = null;
 			TabInteractiveListItem Telecamere = null;
 			#region HUD MenuItems

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using TheLastPlanet.Shared;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Manager
 {
@@ -70,7 +71,7 @@ namespace TheLastPlanet.Client.Manager
 							if (item == Teletrasportami)
 								Game.PlayerPed.Position = p.Character.Position;
 							else if (item == Teletrasportalo)
-								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Eventi.Player.posizione.ToVector3());
+								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.Char.posizione.ToVector3());
 							else if (item == Specta)
 							{
 								if (p == Game.Player) return;
@@ -358,7 +359,7 @@ namespace TheLastPlanet.Client.Manager
 						VeicoloSalvato.Delete();
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Eventi.Player.posizione.ToVector3(), Eventi.Player.posizione.W);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.Char.posizione.ToVector3(), Cache.Char.posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane)
 						SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}

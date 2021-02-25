@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Ingresso;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -118,7 +119,7 @@ namespace TheLastPlanet.Client.Interactions
 
 			SwitchInPlayer(PlayerPedId());
 
-			Eventi.Player.StatiPlayer.Istanza.Istanzia("Ingresso");
+			Cache.Char.StatiPlayer.Istanza.Istanzia("Ingresso");
 			await BaseScript.Delay(100);
 			Game.Player.State.Set("Pausa", new { Attivo = false }, true);
 			Game.PlayerPed.IsVisible = false;

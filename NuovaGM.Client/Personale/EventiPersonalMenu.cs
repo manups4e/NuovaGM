@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.Personale
 			{
 				if (vehicle != null && vehicle.Exists())
 				{
-					float distanceToVeh = Vector3.Distance(Eventi.Player.posizione.ToVector3(), vehicle.Position);
+					float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
 					if (distanceToVeh <= 20f)
 					{
 						if (vehicle.Doors.HasDoor((VehicleDoorIndex)port))
@@ -290,7 +290,7 @@ namespace TheLastPlanet.Client.Personale
 			{
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
-				float distanceToVeh = Vector3.Distance(Eventi.Player.posizione.ToVector3(), vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
 				if (toggle)
 				{
 					if (vehicle.Exists())
