@@ -57,17 +57,24 @@ namespace TheLastPlanet.Server.Core
 		// GESTIONE CHAT
 		public static async void Ooc(Player sender, List<string> args, string rawCommand)
 		{
-			if (args.Count > 0)
+			try
 			{
-				string noCom = rawCommand.Substring(5);
+				if (args.Count > 0)
+				{
+					string noCom = rawCommand.Substring(5);
 
-				string filtro = $"({Server.Impostazioni.Main.BadWords.Keys.ToArray().Aggregate((i, j) => i + "|" + j)})";
-				Regex filter = new Regex(filtro);
-				MatchCollection matches = filter.Matches(noCom);
-				foreach (Match m in matches)
-					noCom = filter.Replace(noCom, Server.Impostazioni.Main.BadWords[m.Value], 1);
+					string filtro = $"({Server.Impostazioni.Main.BadWords.Keys.Aggregate((i, j) => i + "|" + j)})";
+					Regex filter = new Regex(filtro, RegexOptions.IgnoreCase);
+					MatchCollection matches = filter.Matches(noCom);
+					foreach (Match m in matches)
+						noCom = filter.Replace(noCom, Server.Impostazioni.Main.BadWords[m.Value], 1);
 
-				BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + sender.Name, noCom } });
+					BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + sender.Name, noCom } });
+				}
+			}
+			catch(Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
 			}
 		}
 

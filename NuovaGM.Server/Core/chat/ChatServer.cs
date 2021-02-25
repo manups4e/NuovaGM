@@ -26,31 +26,34 @@ namespace TheLastPlanet.Server.Core
 			User user = p.GetCurrentChar();
 			if ((int)user.group_level > -1)
 			{
-				if (message.StartsWith("/"))
+				if (user.status.spawned || user.group_level > UserGroup.Helper)
 				{
-					string fullCommand = message.Replace("/", "");
-					string[] command = fullCommand.Split(' ');
-					string cmd = command[0];
-					ChatCommand comm = null;
-					if (Commands.Any(x => x.CommandName.ToLower() == cmd.ToLower()))
-						comm = Commands.FirstOrDefault(x => x.CommandName.ToLower() == cmd.ToLower());
-					if (comm != null)
+					if (message.StartsWith("/"))
 					{
-						if (user.group_level >= comm.Restriction)
+						string fullCommand = message.Replace("/", "");
+						string[] command = fullCommand.Split(' ');
+						string cmd = command[0];
+						ChatCommand comm = null;
+						if (Commands.Any(x => x.CommandName.ToLower() == cmd.ToLower()))
+							comm = Commands.FirstOrDefault(x => x.CommandName.ToLower() == cmd.ToLower());
+						if (comm != null)
 						{
-							comm.Source = p;
-							comm.rawCommand = message;
-							if (command.Length > 1)
-								comm.Args = command.Skip(1).ToList();
-							else comm.Args = new List<string>();
-							comm.Action.DynamicInvoke(p, comm.Args, comm.rawCommand);
+							if (user.group_level >= comm.Restriction)
+							{
+								comm.Source = p;
+								comm.rawCommand = message;
+								if (command.Length > 1)
+									comm.Args = command.Skip(1).ToList();
+								else comm.Args = new List<string>();
+								comm.Action.DynamicInvoke(p, comm.Args, comm.rawCommand);
+							}
 						}
+						chatCommandEntered(p, fullCommand, command, cmd, comm);
 					}
-					chatCommandEntered(p, fullCommand, command, cmd, comm);
+					else
+						BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), /*user.FullName + ":",*/ message);
+					CancelEvent();
 				}
-				else
-					BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), /*user.FullName + ":",*/ message);
-				CancelEvent();
 			}
 		}
 
