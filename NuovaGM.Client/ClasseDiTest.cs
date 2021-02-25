@@ -24,7 +24,6 @@ namespace TheLastPlanet.Client
 	{
 		public static async void Init()
 		{
-			Log.Printa(LogType.Debug, "Cache.PlayerPed.Handle = " + Cache.PlayerPed.Handle);
 			Client.Instance.AddTick(test);
 		}
 
@@ -61,7 +60,7 @@ namespace TheLastPlanet.Client
 		static TabView b = new TabView("New");
 		static List<UIMenuItem> Players = new List<UIMenuItem>()
 				{
-					new UIMenuItem(Cache.Player.Name)
+					new UIMenuItem(Game.Player.Name)
 				};
 		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", Players);
 		*/

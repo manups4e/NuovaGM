@@ -180,7 +180,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static void TippaDaMe(Vector3 coords)
 		{
-			Cache.PlayerPed.Position = coords;
+			Game.PlayerPed.Position = coords;
 		}
 
 		public static void UpdateText(string txt, string txt2)
@@ -288,6 +288,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task noClip()
 		{
+			Ped p = new Ped(PlayerPedId());
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -345,22 +346,22 @@ namespace TheLastPlanet.Client.Manager
 			float xVect = forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f;
 			float yVect = forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading));
 
-			Entity target = Cache.PlayerPed;
-			if (Cache.PlayerPed.IsInVehicle())
-				target = Cache.PlayerPed.CurrentVehicle;
+			Entity target = p;
+			if (p.IsInVehicle())
+				target = p.CurrentVehicle;
 
-			target.Velocity = new Vector3(0);
+			p.Velocity = new Vector3(0);
 
-			if (!Cache.PlayerPed.IsInVehicle())
+			if (!p.IsInVehicle())
 			{
 				SetUserRadioControlEnabled(false);
-				Cache.PlayerPed.IsInvincible = true;
+				p.IsInvincible = true;
 			}
 			else
 			{
 				SetUserRadioControlEnabled(false);
-				Cache.PlayerPed.IsInvincible = true;
-				Vehicle veh = Cache.PlayerPed.CurrentVehicle;
+				p.IsInvincible = true;
+				Vehicle veh = p.CurrentVehicle;
 				veh.IsInvincible= true;
 			}
 
@@ -417,7 +418,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async void TeleportToMarker()
 		{
-			Vector3 coords = Cache.PlayerPed.Position;
+			Vector3 coords = Game.PlayerPed.Position;
 			bool success = false;
 			bool blipFound = false;
 			// search for marker blip
@@ -435,9 +436,9 @@ namespace TheLastPlanet.Client.Manager
 			if (blipFound)
 			{
 				// get entity to teleport
-				Entity ent = Cache.PlayerPed;
-				if (Cache.PlayerPed.IsInVehicle())
-					ent = Cache.PlayerPed.CurrentVehicle;
+				Entity ent = new Ped(PlayerPedId());
+				if (Game.PlayerPed.IsInVehicle())
+					ent = Game.PlayerPed.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;

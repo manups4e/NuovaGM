@@ -4,7 +4,6 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
@@ -68,17 +67,17 @@ namespace TheLastPlanet.Client.TimeWeather
 				HUD.ShowLoadingSavingNotificationWithTime("Aggiornamento orario del server in corso...", LoadingSpinnerType.Clockwise1, 10000);
 				await BaseScript.Delay(2000);
 				Screen.Fading.FadeOut(800);
-				if (Cache.PlayerPed.IsInVehicle())
-					Cache.PlayerPed.IsPositionFrozen = true;
+				if (Game.PlayerPed.IsInVehicle())
+					Game.PlayerPed.IsPositionFrozen = true;
 				else
-					Cache.PlayerPed.IsPositionFrozen = true;
+					Game.PlayerPed.IsPositionFrozen = true;
 				await BaseScript.Delay(2000);
 				AdvanceClockTimeTo(h, m, s);
 				await BaseScript.Delay(1950);
-				if (Cache.PlayerPed.IsInVehicle())
-					Cache.PlayerPed.IsPositionFrozen = false;
+				if (Game.PlayerPed.IsInVehicle())
+					Game.PlayerPed.IsPositionFrozen = false;
 				else
-					Cache.PlayerPed.IsPositionFrozen = false;
+					Game.PlayerPed.IsPositionFrozen = false;
 				Screen.Fading.FadeIn(800);
 				Cambio = false;
 			}

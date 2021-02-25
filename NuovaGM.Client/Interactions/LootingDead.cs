@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static async void LootMenu(Player target)
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			var targetData = target.GetPlayerData();
 			UIMenu loot = new UIMenu(targetData.FullName, "Looting Menu");
 			HUD.MenuPool.Add(loot);

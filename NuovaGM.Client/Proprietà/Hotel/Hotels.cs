@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				await BaseScript.Delay(1000);
 				OldPos = Cache.Char.posizione.ToVector3();
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
-				Cache.PlayerPed.Position = pos;
+				Game.PlayerPed.Position = pos;
 				await BaseScript.Delay(2000);
 				Cache.Char.StatiPlayer.Istanza.Istanzia("Hotel");
 				Cache.Char.StatiPlayer.InCasa = true;
@@ -144,7 +144,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			{
 				if (IsInPiccola)
 				{
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Game.PlayerPed.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				if (IsInMedia)
 				{
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(346.493f, -1013.031f, -99.196f), 1.3f))
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(346.493f, -1013.031f, -99.196f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -174,7 +174,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Game.PlayerPed.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
@@ -188,7 +188,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				if (IsInAppartamento)
 				{
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1452.164f, -540.640f, 74.044f), 1.3f))
+					if (Game.PlayerPed.IsInRangeOf(new Vector3(-1452.164f, -540.640f, 74.044f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'appartamento");
 						if (Input.IsControlJustPressed(Control.Context))
@@ -196,7 +196,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Game.PlayerPed.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);

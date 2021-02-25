@@ -59,9 +59,9 @@ namespace TheLastPlanet.Client.Telefono
 			Game.PlaySound("Pull_Out", "Phone_SoundSet_Default");
 			CreateMobilePhone((int)ModelPhone.Micheal);
 			PhoneMainClient.StartApp("Main");
-			Cache.PlayerPed.SetConfigFlag(242, false);
-			Cache.PlayerPed.SetConfigFlag(243, false);
-			Cache.PlayerPed.SetConfigFlag(244, true);
+			Game.PlayerPed.SetConfigFlag(242, false);
+			Game.PlayerPed.SetConfigFlag(243, false);
+			Game.PlayerPed.SetConfigFlag(244, true);
 			VisibleAnimProgress = 21;
 			N_0x83a169eabcdb10a2(PlayerPedId(), getCurrentCharPhone().Theme);
 			if (GetFollowPedCamViewMode() == 4)
@@ -78,9 +78,9 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SHUTDOWN_MOVIE");
 			DestroyMobilePhone();
 			Visible = false;
-			Cache.PlayerPed.SetConfigFlag(242, true);
-			Cache.PlayerPed.SetConfigFlag(243, true);
-			Cache.PlayerPed.SetConfigFlag(244, false);
+			Game.PlayerPed.SetConfigFlag(242, true);
+			Game.PlayerPed.SetConfigFlag(243, true);
+			Game.PlayerPed.SetConfigFlag(244, false);
 			Scaleform.Dispose();
 		}
 

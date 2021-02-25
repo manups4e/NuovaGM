@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.Veicoli
 			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 			for (int i = 0; i < carGarageSpots.Count; i++)
 			{
-				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i], new Radius(1.379f, 50f), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((ped, a) =>
+				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i], new Radius(1.379f, 50f), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
 				{
 					MenuAffittoVeicoli.MenuAffitto((int)a[0]);
 				}), i));
@@ -136,10 +136,11 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task Lux()
 		{
-			if (Cache.PlayerPed.IsInVehicle() && Main.spawned)
+			Ped playerPed = new Ped(PlayerPedId());
+			if (playerPed.IsInVehicle() && Main.spawned)
 			{
-				Vehicle veh = Cache.PlayerPed.CurrentVehicle;
-				if (veh.Driver == Cache.PlayerPed)
+				Vehicle veh = playerPed.CurrentVehicle;
+				if (veh.Driver == Game.PlayerPed)
 				{
 					Game.DisableControlThisFrame(0, Control.VehicleSelectNextWeapon);
 					Game.DisableControlThisFrame(0, Control.VehicleSelectPrevWeapon);
@@ -199,7 +200,7 @@ namespace TheLastPlanet.Client.Veicoli
 						Game.DisableControlThisFrame(0, Control.VehicleDuck);
 						if (Input.IsDisabledControlJustPressed(Control.VehicleDuck))
 						{
-							if ((Cache.PlayerPed.CurrentVehicle.Speed < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
+							if ((playerPed.CurrentVehicle.Speed < 10f) && (!IsThisModelABicycle((uint)GetEntityModel(GetVehiclePedIsUsing(PlayerPedId())))))
 								engine();
 							else
 							{
@@ -421,7 +422,7 @@ namespace TheLastPlanet.Client.Veicoli
 			Ped ped_s = new Ped(GetPlayerPed(player_s));
 			if (ped_s.Exists() && !ped_s.IsDead)
 			{
-				if (ped_s != Cache.PlayerPed)
+				if (ped_s != Game.PlayerPed)
 				{
 					if (ped_s.IsInVehicle())
 					{
@@ -448,32 +449,34 @@ namespace TheLastPlanet.Client.Veicoli
 		static float angle = 0f;
 		public static async Task gestioneVeh()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
-				if (Cache.PlayerPed.IsInVehicle())
+				if (playerPed.IsInVehicle())
 				{
-					Vehicle veh = Cache.PlayerPed.CurrentVehicle;
+					Vehicle veh = playerPed.CurrentVehicle;
 					float tangle = veh.SteeringAngle;
 					if (tangle > 10f || tangle < -10f)
 						angle = tangle;
-					if (veh.Speed < 0.1f && veh.Exists() && (!GetIsTaskActive(Cache.PlayerPed.Handle, 151)) && !veh.IsEngineRunning)
+					if (veh.Speed < 0.1f && veh.Exists() && (!GetIsTaskActive(playerPed.Handle, 151)) && !veh.IsEngineRunning)
 						veh.SteeringAngle = angle;
-					if (Cache.PlayerPed.SeatIndex == VehicleSeat.Passenger)
-						if (GetIsTaskActive(Cache.PlayerPed.Handle, 165) && !Cache.PlayerPed.IsAiming)
-							Cache.PlayerPed.SetIntoVehicle(veh, VehicleSeat.Passenger);
+					if (playerPed.SeatIndex == VehicleSeat.Passenger)
+						if (GetIsTaskActive(playerPed.Handle, 165) && !playerPed.IsAiming)
+							playerPed.SetIntoVehicle(veh, VehicleSeat.Passenger);
 				}
-				if (!IsPedInAnyVehicle(Cache.PlayerPed.Handle, false) && Cache.PlayerPed.LastVehicle != null && Cache.PlayerPed.LastVehicle.Exists() && !Cache.PlayerPed.LastVehicle.IsEngineRunning && acceso)
-					Cache.PlayerPed.LastVehicle.IsEngineRunning = true;
+				if (!IsPedInAnyVehicle(playerPed.Handle, false) && playerPed.LastVehicle != null && playerPed.LastVehicle.Exists() && !playerPed.LastVehicle.IsEngineRunning && acceso)
+					playerPed.LastVehicle.IsEngineRunning = true;
 			}
 		}
 
 		public static async Task engine()
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			Ped playerPed = new Ped(PlayerPedId());
+			if (playerPed.IsInVehicle())
 			{
-				Vehicle p = Cache.PlayerPed.CurrentVehicle;
-				if (Cache.PlayerPed.SeatIndex == VehicleSeat.Driver)
+				Vehicle p = playerPed.CurrentVehicle;
+				if (playerPed.SeatIndex == VehicleSeat.Driver)
 				{
 					if (p.IsEngineRunning)
 					{
@@ -624,12 +627,12 @@ namespace TheLastPlanet.Client.Veicoli
 		/*
 		public static async Task MostraMenuAffitto()
 		{
-			Ped Cache.PlayerPed = new Ped(PlayerPedId());
+			Ped playerPed = new Ped(PlayerPedId());
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				for (int i = 0; i < carGarageSpots.Count; i++)
 				{
-					if (Cache.PlayerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
+					if (playerPed.IsInRangeOf(carGarageSpots[i], 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per affittare un veicolo");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

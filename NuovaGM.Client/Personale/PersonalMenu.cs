@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async void menuPersonal()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = new Ped(PlayerPedId());
 			Player me = new Player(PlayerId());
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);

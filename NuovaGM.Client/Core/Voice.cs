@@ -42,10 +42,11 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void UpdateVoices()
 		{
+			Ped pl = new Ped(PlayerPedId());
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				int serverID = GetPlayerServerId(p.Handle);
-				if (CanPedBeListened(Cache.PlayerPed, p.Character))
+				if (CanPedBeListened(pl, p.Character))
 				{
 					if (!Listeners.ContainsKey(serverID))
 						Listeners.Add(serverID, true);
@@ -88,7 +89,7 @@ namespace TheLastPlanet.Client.Core
 			return InSameVeh || (!OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < (Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f)) && distance < CheckDistance);
 		}
 
-		public static bool ShouldSendVoice() => NetworkIsPlayerTalking(Cache.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
+		public static bool ShouldSendVoice() => NetworkIsPlayerTalking(Game.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
 
 		public static async Task OnTick()
 		{
@@ -108,7 +109,7 @@ namespace TheLastPlanet.Client.Core
 		public static void UpdateVocalMode(int mode)
 		{
 			int nextMode = mode;
-			if (nextMode > 2 && !Cache.PlayerPed.IsInVehicle())
+			if (nextMode > 2 && !Game.PlayerPed.IsInVehicle())
 				nextMode = 0;
 			Mode = (Mode)nextMode;
 			OnModeModified();
@@ -127,25 +128,25 @@ namespace TheLastPlanet.Client.Core
 		static bool notif = false;
 		public static async Task OnTick2()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			if (Permesso)
 			{
 				if (Input.IsControlPressed(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))
 				{
-					Vector3 headPos = Cache.PlayerPed.Bones[Bone.IK_Head].Position;
+					Vector3 headPos = playerPed.Bones[Bone.IK_Head].Position;
 					World.DrawMarker(MarkerType.DebugSphere, headPos, Vector3.Zero, Vector3.Zero, new Vector3(CheckDistance), System.Drawing.Color.FromArgb(30, 20, 192, 255));
 				}
 				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift))
 					UpdateVocalMode();
 			}
-			if (Cache.PlayerPed.IsInVehicle())
+			if (playerPed.IsInVehicle())
 			{
-				Vehicle veh = Cache.PlayerPed.CurrentVehicle;
-				if (veh.Windows.AreAllWindowsIntact && EventiPersonalMenu.WindowsGiu)
+				if (playerPed.CurrentVehicle.Windows.AreAllWindowsIntact && EventiPersonalMenu.WindowsGiu)
 				{
 					Permesso = true;
 					notif = false;
 				}
-				else if (veh.Windows.AreAllWindowsIntact && !EventiPersonalMenu.WindowsGiu)
+				else if (playerPed.CurrentVehicle.Windows.AreAllWindowsIntact && !EventiPersonalMenu.WindowsGiu)
 				{
 					if (!notif)
 					{
@@ -155,7 +156,7 @@ namespace TheLastPlanet.Client.Core
 					Permesso = false;
 					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{
-						if (CanPedBeListened(Cache.PlayerPed, p.Character))
+						if (CanPedBeListened(playerPed, p.Character))
 						{
 							if (!Listeners.ContainsKey(p.ServerId))
 								Listeners.Add(p.ServerId, true);
@@ -173,7 +174,7 @@ namespace TheLastPlanet.Client.Core
 						}
 					}
 				}
-				else if (!Cache.PlayerPed.CurrentVehicle.Windows.AreAllWindowsIntact)
+				else if (!playerPed.CurrentVehicle.Windows.AreAllWindowsIntact)
 				{
 					Permesso = true;
 					notif = false;

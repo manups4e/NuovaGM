@@ -239,7 +239,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			for (int i = 0; i < stations.Count; i++)
 			{
-				float dist = Vector3.Distance(Cache.PlayerPed.Position, new Vector3(stations[i].ppos.x, stations[i].ppos.y, stations[i].ppos.z));
+				float dist = Vector3.Distance(Game.PlayerPed.Position, new Vector3(stations[i].ppos.x, stations[i].ppos.y, stations[i].ppos.z));
 				if (dist < 80)
 				{
 					StationDiBenzina stationinfo = GetStationInfo(i + 1);

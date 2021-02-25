@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -76,11 +75,11 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static bool isPedDrivingAVehicle()
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			if (Game.PlayerPed.IsInVehicle())
 			{
-				if (Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
+				if (Game.PlayerPed.CurrentVehicle.Driver == Game.PlayerPed)
 				{
-					VehicleClass classe = Cache.PlayerPed.CurrentVehicle.ClassType;
+					VehicleClass classe = Game.PlayerPed.CurrentVehicle.ClassType;
 					if (classe != VehicleClass.Cycles && classe != VehicleClass.Helicopters && classe != VehicleClass.Boats && classe != VehicleClass.Planes && classe != VehicleClass.Trains)
 					{
 						return true;
@@ -229,9 +228,10 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task OnTick()
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			Ped playerPed = new Ped(PlayerPedId());
+			if (playerPed.IsInVehicle())
 			{
-				vehicle = Cache.PlayerPed.CurrentVehicle;
+				vehicle = playerPed.CurrentVehicle;
 				vehicleClass = vehicle.ClassType;
 				healthEngineCurrent = vehicle.EngineHealth;
 				if (healthEngineCurrent == 1000f)
@@ -346,9 +346,9 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				if (pedInSameVehicleLast == true)
 				{
-					if (Cache.PlayerPed.LastVehicle != null)
+					if (playerPed.LastVehicle != null)
 					{
-						lastVehicle = Cache.PlayerPed.LastVehicle;
+						lastVehicle = playerPed.LastVehicle;
 						if (deformationMultiplier != -1)
 							SetVehicleHandlingFloat(lastVehicle.Handle, "CHandlingData", "fDeformationDamageMult", fDeformationDamageMult);
 

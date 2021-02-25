@@ -93,13 +93,13 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			if (!camm.Exists() || !camm.IsActive)
 			{
-				Vector3 xyz = Cache.PlayerPed.Bones[(Bone)bone].Position;
-				Vector3 offC = Cache.PlayerPed.GetOffsetPosition(off);
+				Vector3 xyz = Game.PlayerPed.Bones[(Bone)bone].Position;
+				Vector3 offC = Game.PlayerPed.GetOffsetPosition(off);
 				camm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 				camm.Position = new Vector3(c.X + offC.X, c.Y + offC.Y, xyz.Z + c.Z);
 				if (toggle)
 				{
-					camm.PointAt(Cache.PlayerPed.Bones[bone], new Vector3(0));
+					camm.PointAt(Game.PlayerPed.Bones[bone], new Vector3(0));
 				}
 				else
 				{

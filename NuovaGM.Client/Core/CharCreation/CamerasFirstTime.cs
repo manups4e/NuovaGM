@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void FirstTimeTransition(bool FirstChar)
 		{
-			Cache.PlayerPed.Detach();
+			Game.PlayerPed.Detach();
 			if (FirstChar)
 				await SiComincia();
 			else
@@ -51,14 +51,15 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task SiComincia()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			TriggerMusicEvent("FM_INTRO_START");
-			Cache.PlayerPed.Detach();
+			playerPed.Detach();
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
-			Cache.PlayerPed.IsPositionFrozen = true;
-			Cache.PlayerPed.IsVisible = false;
+			playerPed.IsPositionFrozen = true;
+			playerPed.IsVisible = false;
 			Cache.Char.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
-			Cache.PlayerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
+			playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
 			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -66,7 +67,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			};
 			Cam1.IsActive = true;
 			Cam1.PointAt(new Vector3(657.620f, 906.617f, 276.418f));
-			while (!HasCollisionLoadedAroundEntity(Cache.PlayerPed.Handle)) await BaseScript.Delay(1000);
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
 			Camera Cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -85,8 +86,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
-			Cache.PlayerPed.Position = new Vector3(-241.502f, -534.627f, 148.902f);
-			while (!HasCollisionLoadedAroundEntity(Cache.PlayerPed.Handle)) await BaseScript.Delay(1000);
+			playerPed.Position = new Vector3(-241.502f, -534.627f, 148.902f);
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
 
 			Cam1.IsActive = false;
 			Cam2.IsActive = false;
@@ -119,8 +120,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await BaseScript.Delay(1000);
 			Cam3.Delete();
 			Cam4.Delete();
-			Cache.PlayerPed.Position = new Vector3(-1604.552f, -1048.718f, 17.027f);
-			while (!HasCollisionLoadedAroundEntity(Cache.PlayerPed.Handle)) await BaseScript.Delay(1000);
+			playerPed.Position = new Vector3(-1604.552f, -1048.718f, 17.027f);
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
 			Camera Cam5 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
 			{
 				FieldOfView = 60f,
@@ -146,8 +147,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
-			Cache.PlayerPed.Position = new Vector3(-552.468f, -513.632f, 30.427f);
-			while (!HasCollisionLoadedAroundEntity(Cache.PlayerPed.Handle)) await BaseScript.Delay(1000);
+			playerPed.Position = new Vector3(-552.468f, -513.632f, 30.427f);
+			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
 			Cam5.Delete();
 			Cam6.Delete();
 			Camera Cam7 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -177,6 +178,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiContinua(Camera Cam)
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -205,8 +207,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			EntityDecoration.SetDecor(taxi, Main.decorName, Main.decorInt);
 			Ped Tax = await taxi.CreatePedOnSeat(VehicleSeat.Driver, tassista);
 			Tax.BlockPermanentEvents = true;
-			Cache.PlayerPed.SetIntoVehicle(taxi, VehicleSeat.RightRear);
-			Cache.PlayerPed.IsVisible = true;
+			playerPed.SetIntoVehicle(taxi, VehicleSeat.RightRear);
+			playerPed.IsVisible = true;
 			//Tassista.Task.WanderAround();
 			taxi.IsEngineRunning = true;
 			taxi.CanEngineDegrade = false;
@@ -232,8 +234,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			}
 			sub_11f01("prog", 0.16f);
 			Cam9.Detach();
-			Cam9.AttachTo(Cache.PlayerPed.Bones[Bone.SKEL_Head], new Vector3(1f, 1f, 1f));
-			Cam9.PointAt(Cache.PlayerPed.Bones[Bone.SKEL_Head]);
+			Cam9.AttachTo(playerPed.Bones[Bone.SKEL_Head], new Vector3(1f, 1f, 1f));
+			Cam9.PointAt(playerPed.Bones[Bone.SKEL_Head]);
 			await BaseScript.Delay(1000);
 			sub_12019("scrlead", 50.0f, 185.0f, "right", 0.8f, 0.8f);
 			sub_11fbe("scrlead", "La tua nuova vita sta per iniziare", 0.0f, "HUD_COLOUR_NET_PLAYER1", true);
@@ -256,7 +258,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Tax.Task.ClearAllImmediately();
 			Tax.Delete();
 			taxi.Delete();
-			Cache.PlayerPed.Position = new Vector3(0, 0, 0);
+			playerPed.Position = new Vector3(0, 0, 0);
 			Cam9.Delete();
 			cam10.Delete();
 			DestroyAllCams(false);
@@ -266,12 +268,13 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiFinisce()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			TriggerMusicEvent("GLOBAL_KILL_MUSIC");
-			Cache.PlayerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
+			playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);
-			Cache.PlayerPed.IsVisible = true;
+			playerPed.IsVisible = true;
 			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-			Cache.PlayerPed.IsPositionFrozen = false;
+			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);

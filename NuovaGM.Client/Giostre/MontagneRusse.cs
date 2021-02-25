@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Giostre
 {
@@ -132,7 +131,7 @@ namespace TheLastPlanet.Client.Giostre
 		{
 			try
 			{
-				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Cache.PlayerPed.Position, o.Position) < 300f);
+				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Game.PlayerPed.Position, o.Position) < 300f);
 				if (MRClosest != null && MRClosest.Exists()) MRClosest.Delete();
 			}
 			catch(Exception e)
@@ -192,20 +191,20 @@ namespace TheLastPlanet.Client.Giostre
 								RequestAnimDict(RollerAnim);
 								while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 								if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3))
-									Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+									Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 								if (Input.IsControlJustPressed(Control.FrontendX))
 								{
 									if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 									{
-										Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_enter_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
+										Game.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_enter_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
 										while (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_enter_player_" + Posto, 3)) await BaseScript.Delay(0);
-										Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_idle_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+										Game.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_idle_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 									}
 									else if (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 									{
-										Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
+										Game.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
 										while (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3)) await BaseScript.Delay(0);
-										Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+										Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 									}
 								}
 								RemoveAnimDict(RollerAnim);
@@ -220,9 +219,9 @@ namespace TheLastPlanet.Client.Giostre
 						PlaySoundFromEntity(-1, "Ride_Stop", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0);
 						if (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 						{
-							Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
+							Game.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
 							while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto) < 0.99f) await BaseScript.Delay(0);
-							Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+							Game.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 						}
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "FERMATA");
 						break;
@@ -245,7 +244,7 @@ namespace TheLastPlanet.Client.Giostre
 								Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_exit_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
 								RemoveAnimDict(RollerAnim);
 								PlaySoundFromEntity(-1, "Bar_Unlock_And_Raise", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Postoper entrare
-								if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Cache.PlayerPed.NetworkId);
+								if (SonoSeduto) BaseScript.TriggerServerEvent("lprp:montagnerusse:playerScende", Game.PlayerPed.NetworkId);
 								Montagna.Carrelli.ToList().ForEach(o => o.Occupato = 0);
 								Montagna.Carrelli.ToList().ForEach(o => BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", Montagna.Carrelli.ToList().IndexOf(o), 0));
 								await BaseScript.Delay(1000);
@@ -274,7 +273,7 @@ namespace TheLastPlanet.Client.Giostre
 			RequestAnimDict(RollerAnim);
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
-			if (personaggio.NetworkId != Cache.PlayerPed.NetworkId)
+			if (personaggio.NetworkId != Game.PlayerPed.NetworkId)
 				if (!NetworkHasControlOfNetworkId(playernetid))
 					while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
 			Prop Carrello = (Prop)Entity.FromNetworkId(carrellonetid);
@@ -311,7 +310,7 @@ namespace TheLastPlanet.Client.Giostre
 			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
 			Function.Call((Hash)0x267c78c60e806b9a, personaggio.Handle, true);
 			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 0, true);
-			if (personaggio.NetworkId == Cache.PlayerPed.NetworkId)
+			if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
 				SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
 			RemoveAnimDict(RollerAnim);
@@ -324,12 +323,12 @@ namespace TheLastPlanet.Client.Giostre
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio != null)
 			{
-				if (personaggio.NetworkId != Cache.PlayerPed.NetworkId)
+				if (personaggio.NetworkId != Game.PlayerPed.NetworkId)
 					if (!NetworkHasControlOfNetworkId(playernetid))
 						while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
 				if (personaggio.IsAttached())
 					personaggio.Detach();
-				if (personaggio.NetworkId == Cache.PlayerPed.NetworkId)
+				if (personaggio.NetworkId == Game.PlayerPed.NetworkId)
 					SonoSeduto = false;
 				int iLocal_1443 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
 				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
@@ -348,7 +347,7 @@ namespace TheLastPlanet.Client.Giostre
 		{
 			foreach (var v in ingressi)
 			{
-				if (Cache.PlayerPed.IsInRangeOf(v,  1.3f) && Montagna.State == "ATTESA" && tempo > 0)
+				if (Game.PlayerPed.IsInRangeOf(v,  1.3f) && Montagna.State == "ATTESA" && tempo > 0)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulle montagne russe");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -359,7 +358,7 @@ namespace TheLastPlanet.Client.Giostre
 						else
 							fVar2 = -1.017f;
 						Coord = GetOffsetFromEntityInWorldCoords(Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.Handle, 0, fVar2, 0);
-						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", Cache.PlayerPed.NetworkId, ingressi.IndexOf(v) / 2, Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.NetworkId);
+						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", Game.PlayerPed.NetworkId, ingressi.IndexOf(v) / 2, Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.NetworkId);
 					}
 				}
 			}
@@ -374,7 +373,7 @@ namespace TheLastPlanet.Client.Giostre
 					LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS");
 			}
 
-			if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1646.863f, -1125.135f, 17.338f), 30f))
+			if (Game.PlayerPed.IsInRangeOf(new Vector3(-1646.863f, -1125.135f, 17.338f), 30f))
 			{
 				if (Montagna.State == "ATTESA" && tempo > 0)
 					montagna.Enabled = true;
@@ -632,7 +631,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 			SlerpNearQuaternion(fVar4, uVar5[0], uVar5[1], uVar5[2], uVar5[3], uVar6[0], uVar6[1], uVar6[2], uVar6[3], ref uVar7[0], ref uVar7[1], ref uVar7[2], ref uVar7[3]);
 			SetEntityQuaternion(Montagna.Carrelli[iParam0].Entity.Handle, uVar7[0], uVar7[1], uVar7[2], uVar7[3]);
-			if (Cache.PlayerPed.IsInRangeOf(Montagna.Carrelli[0].Entity.Position, 50f))
+			if (Game.PlayerPed.IsInRangeOf(Montagna.Carrelli[0].Entity.Position, 50f))
 				if (iParam0 == 0 && iVar0 % 3 == 0)
 					SetPadShake(0, 32, 32);
 		}

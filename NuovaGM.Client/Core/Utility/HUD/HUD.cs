@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async void ShowStatNotification(int value, string title)
 		{
-			var mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerPed);
+			var mug = await Funzioni.GetPedMugshotAsync(Game.PlayerPed);
 			BeginTextCommandThefeedPost("PS_UPDATE");
 			AddTextComponentInteger(value);
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);

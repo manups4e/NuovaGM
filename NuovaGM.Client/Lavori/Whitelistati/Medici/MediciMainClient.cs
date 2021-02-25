@@ -79,13 +79,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersMedici()
 		{
+			Ped p = new Ped(PlayerPedId());
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (var vettore in osp.Spogliatoio)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore,2f))
+						if (p.IsInRangeOf(vettore,2f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -97,7 +98,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var vettore in osp.Farmacia)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore,1.5f))
+						if (p.IsInRangeOf(vettore,1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -109,7 +110,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var vettore in osp.IngressoVisitatori)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore,1.375f))
+						if (p.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -122,7 +123,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								Cache.PlayerPed.Position = pos;
+								p.Position = pos;
 								Screen.Fading.FadeIn(800);
 							}
 						}
@@ -130,7 +131,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var vettore in osp.UscitaVisitatori)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore,1.375f))
+						if (p.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -143,7 +144,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								Cache.PlayerPed.Position = pos;
+								p.Position = pos;
 								Screen.Fading.FadeIn(800);
 							}
 						}
@@ -151,10 +152,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var vehicle in osp.Veicoli)
 					{
-						if (!Cache.PlayerPed.IsInVehicle())
+						if (!p.IsInVehicle())
 						{
 							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-							if (Cache.PlayerPed.IsInRangeOf(vehicle.SpawnerMenu, 1.5f))
+							if (p.IsInRangeOf(vehicle.SpawnerMenu, 1.5f))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -171,19 +172,19 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
-							if (Cache.PlayerPed.IsInVehicle())
+							if (p.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (Cache.PlayerPed.IsInRangeOf(vehicle.Deleters[i], 2f))
+								if (p.IsInRangeOf(vehicle.Deleters[i], 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
 									{
-										if (Cache.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
+										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
-											VeicoloPol vehicl = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
+											VeicoloPol vehicl = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
 											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", vehicl.Serialize());
-											Cache.PlayerPed.CurrentVehicle.Delete();
+											p.CurrentVehicle.Delete();
 											VeicoloAttuale = new Vehicle(0);
 										}
 										else
@@ -198,9 +199,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var heli in osp.Elicotteri)
 					{
-						if (!Cache.PlayerPed.IsInVehicle())
+						if (!p.IsInVehicle())
 							World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
-						if (Cache.PlayerPed.IsInRangeOf(heli.SpawnerMenu, 1.5f))
+						if (p.IsInRangeOf(heli.SpawnerMenu, 1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -216,19 +217,19 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
-							if (Cache.PlayerPed.IsInVehicle())
+							if (p.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
-								if (Cache.PlayerPed.IsInRangeOf(heli.Deleters[i], 2f))
+								if (p.IsInRangeOf(heli.Deleters[i], 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
 									{
-										if (Cache.PlayerPed.CurrentVehicle.HasDecor("VeicoloMedici"))
+										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
-											VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
+											VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
 											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", veh.Serialize());
-											Cache.PlayerPed.CurrentVehicle.Delete();
+											p.CurrentVehicle.Delete();
 											ElicotteroAttuale = new Vehicle(0);
 										}
 										else
@@ -245,13 +246,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task MarkersNonMedici()
 		{
+			Ped p = new Ped(PlayerPedId());
 			if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" || Cache.Char.CurrentChar.job.name.ToLower() != "medici")
 			{
 				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (var vettore in osp.IngressoVisitatori)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore,1.375f))
+						if (p.IsInRangeOf(vettore,1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -264,7 +266,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								Cache.PlayerPed.Position = pos;
+								p.Position = pos;
 								Screen.Fading.FadeIn(800);
 							}
 						}
@@ -272,7 +274,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					foreach (var vettore in osp.UscitaVisitatori)
 					{
-						if (Cache.PlayerPed.IsInRangeOf(vettore, 1.375f))
+						if (p.IsInRangeOf(vettore, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -285,7 +287,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								Cache.PlayerPed.Position = pos;
+								p.Position = pos;
 								Screen.Fading.FadeIn(800);
 							}
 						}

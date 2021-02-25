@@ -215,7 +215,7 @@ namespace TheLastPlanet.Client.Interactions
 
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_20) await BaseScript.Delay(0);
 						func_314();
-						Cache.PlayerPed.ClearBloodDamage();
+						Game.PlayerPed.ClearBloodDamage();
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_UNDRESSED_MASTER", PlayerPedId(), 0, 0, 0);
 
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_22) await BaseScript.Delay(0);

@@ -43,9 +43,10 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task VendingMachines()
 		{
+			Ped p = new Ped(PlayerPedId());
 			if (VendingMachineClosest != null)
 			{
-				if (!Cache.PlayerPed.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
+				if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					if (Cache.Char.Money > 5)
 					{
@@ -61,10 +62,10 @@ namespace TheLastPlanet.Client.Interactions
 								while (!HasAnimDictLoaded(anim)) await BaseScript.Delay(0);
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);
-								Cache.PlayerPed.Task.LookAt(VendingMachineClosest);
+								p.Task.LookAt(VendingMachineClosest);
 								TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z, 1f, 20000, VendingMachineClosest.Heading, 0.1f);
 								await BaseScript.Delay(1000);
-								await Cache.PlayerPed.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT1", 2f, -4f, -1, (AnimationFlags)1048576, 0);
+								await p.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT1", 2f, -4f, -1, (AnimationFlags)1048576, 0);
 								await BaseScript.Delay(1000);
 								RequestModel((uint)ObjectHash.prop_ld_can_01b);
 								while (!HasModelLoaded((uint)ObjectHash.prop_ld_can_01b)) await BaseScript.Delay(0);
@@ -76,11 +77,11 @@ namespace TheLastPlanet.Client.Interactions
 								SetModelAsNoLongerNeeded((uint)ObjectHash.prop_ld_can_01b);
 
 								while (GetEntityAnimCurrentTime(PlayerPedId(), anim, "PLYR_BUY_DRINK_PT1") < 0.95f) await BaseScript.Delay(0);
-								await Cache.PlayerPed.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT2", 4f, -1000f, -1, (AnimationFlags)1048576, 0);
+								await p.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT2", 4f, -1000f, -1, (AnimationFlags)1048576, 0);
 								N_0x2208438012482a1a(PlayerPedId(), false, false);
 
 								while (GetEntityAnimCurrentTime(PlayerPedId(), anim, "PLYR_BUY_DRINK_PT2") < 0.95f) await BaseScript.Delay(0);
-								await Cache.PlayerPed.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT3", 1000f, -4f, -1, (AnimationFlags)1048624, 0);
+								await p.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT3", 1000f, -4f, -1, (AnimationFlags)1048624, 0);
 
 								while (GetEntityAnimCurrentTime(PlayerPedId(), anim, "PLYR_BUY_DRINK_PT3") < 0.35f) await BaseScript.Delay(0);
 								Function.Call(Hash.HINT_AMBIENT_AUDIO_BANK, "VENDING_MACHINE", 0, -1);
@@ -96,10 +97,10 @@ namespace TheLastPlanet.Client.Interactions
 								while (!HasAnimDictLoaded(anim)) await BaseScript.Delay(0);
 								BaseScript.TriggerServerEvent("lprp:removemoney", 5);
 								Vector3 offset = GetOffsetFromEntityInWorldCoords(VendingMachineClosest.Handle, 0f, -0.97f, 0.05f);
-								Cache.PlayerPed.Task.LookAt(VendingMachineClosest);
+								p.Task.LookAt(VendingMachineClosest);
 								TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z, 1f, 20000, VendingMachineClosest.Heading, 0.1f);
 								await BaseScript.Delay(1000);
-								await Cache.PlayerPed.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT1", 2f, -4f, -1, (AnimationFlags)1048576, 0);
+								await p.Task.PlayAnimation(anim, "PLYR_BUY_DRINK_PT1", 2f, -4f, -1, (AnimationFlags)1048576, 0);
 								await BaseScript.Delay(1000);
 								RequestModel((uint)ObjectHash.prop_ld_can_01b);
 								while (!HasModelLoaded((uint)ObjectHash.prop_ld_can_01b)) await BaseScript.Delay(0);
@@ -114,7 +115,7 @@ namespace TheLastPlanet.Client.Interactions
 								HUD.ShowNotification("Hai comprato una bibita dissetante", NotificationColor.Cyan);
 								Can.Detach();
 								Can.Delete();
-								Cache.PlayerPed.Task.ClearAll();
+								p.Task.ClearAll();
 								RemoveAnimDict(anim);
 							}
 						}

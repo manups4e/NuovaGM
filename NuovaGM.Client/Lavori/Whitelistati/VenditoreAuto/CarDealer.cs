@@ -41,10 +41,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 		public static async Task Markers()
 		{
+			Ped p = new Ped(PlayerPedId());
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "cardealer")
 			{
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
-				if(Cache.PlayerPed.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
+				if(p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu del venditore");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -54,7 +55,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 			if(Cache.Char.CurrentChar.job.grade > 1)
 			{
 				// verrà sostiuito con il sedersi alla scrivania 
-				if(Cache.PlayerPed.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
+				if(p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu boss");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)

@@ -185,6 +185,7 @@ namespace TheLastPlanet.Client.Businesses
 
 		public static async Task BusinessesPumps()
 		{
+			Ped playerPed = new Ped(PlayerPedId());
 			for (int i = 0; i < stations.Count; i++)
 			{ 
 				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), stations[i].ppos);
@@ -194,7 +195,7 @@ namespace TheLastPlanet.Client.Businesses
 					World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(stations[i].ppos[0], stations[i].ppos[1], stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 					if (dist < 1.3f)
 					{
-						if (!Cache.PlayerPed.IsInVehicle())
+						if (!playerPed.IsInVehicle())
 						{
 							if (stationinfo.ownerchar.ToLower() == Cache.Char.FullName.ToLower())
 							{

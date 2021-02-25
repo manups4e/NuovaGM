@@ -267,7 +267,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 			jobTruck = await World.CreateVehicle(truck, spot.pos, spot.heading);
 			jobTruck.PlaceOnGround();
-			Cache.PlayerPed.SetIntoVehicle(jobTruck, VehicleSeat.Driver);
+			Game.PlayerPed.SetIntoVehicle(jobTruck, VehicleSeat.Driver);
 			SetVehicleNumberPlateText(jobTruck.Handle, plate);
 			BaseScript.TriggerEvent("frfuel:filltankForVeh", jobTruck.Handle);
 			string plat = GetVehicleNumberPlateText(jobTruck.Handle).ToLower();
@@ -282,9 +282,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void FillFuel()
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			if (Game.PlayerPed.IsInVehicle())
 			{
-				SetVehicleFuelLevel(Cache.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+				SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
 			}
 		}
@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.Veicoli
 				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			else if (level < 0f)
 				level = 0f;
-			SetVehicleFuelLevel(Cache.PlayerPed.CurrentVehicle, level);
+			SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, level);
 			HUD.ShowNotification("Carburante settato, Usalo SOLO in caso di ~r~EMERGENZA~w~!");
 		}
 
@@ -446,15 +446,16 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			try
 			{
-				if (Cache.PlayerPed.IsInVehicle())
+				Ped playerPed = new Ped(PlayerPedId());
+				if (playerPed.IsInVehicle())
 				{
-					if (Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
-						veh = Cache.PlayerPed.CurrentVehicle;
-					if (Cache.PlayerPed.LastVehicle != null)
-						lastveh = Cache.PlayerPed.LastVehicle;
+					if (playerPed.CurrentVehicle.Driver == playerPed)
+						veh = playerPed.CurrentVehicle;
+					if (playerPed.LastVehicle != null)
+						lastveh = playerPed.LastVehicle;
 				}
 
-				if (Cache.PlayerPed.IsInVehicle() && veh.Driver == Cache.PlayerPed && modelValid(veh) && !veh.IsDead)
+				if (playerPed.IsInVehicle() && veh.Driver == playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					if (LastVehicle != veh)
 					{
@@ -473,7 +474,7 @@ namespace TheLastPlanet.Client.Veicoli
 						veh.IsDriveable = false;
 					}
 				}
-				else if(Cache.PlayerPed.IsInVehicle() && veh.Driver != Cache.PlayerPed && modelValid(veh) && !veh.IsDead)
+				else if(playerPed.IsInVehicle() && veh.Driver != playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
@@ -487,14 +488,14 @@ namespace TheLastPlanet.Client.Veicoli
 						if (dist <= 80f)
 						{
 							lastStation = i + 1;
-							if (fuelChecked == false && Cache.PlayerPed.IsInVehicle())
+							if (fuelChecked == false && playerPed.IsInVehicle())
 							{
 								fuelChecked = true;
 								BaseScript.TriggerServerEvent("lprp:businesses:checkfuelforstation", lastStation);
 							}
 							for (int j = 0; j < ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps.Count; j++)
 							{
-								if (Cache.PlayerPed.IsInVehicle())
+								if (playerPed.IsInVehicle())
 								{
 									if (veh.ClassType == VehicleClass.Industrial || lastveh.ClassType == VehicleClass.Industrial || veh.ClassType == VehicleClass.Commercial || lastveh.ClassType == VehicleClass.Commercial)
 										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), System.Drawing.Color.FromArgb(180, 255, 255, 0), false, false, true);
@@ -506,7 +507,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 								float pdist = Vector3.Distance(Cache.Char.posizione.ToVector3(), ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
-								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Cache.Char.posizione.ToVector3(), LastVehicle) && !Cache.PlayerPed.IsInVehicle())
+								if ((pdist < 3.05) && LastVehicle.Exists() && withinDist(Cache.Char.posizione.ToVector3(), LastVehicle) && !playerPed.IsInVehicle())
 								{
 									DisableControlAction(2, 22, true);
 									if (lastStationFuel.stationfuel > 0)
@@ -521,7 +522,7 @@ namespace TheLastPlanet.Client.Veicoli
 												{
 													TaskTurnPedToFaceEntity(PlayerPedId(), LastVehicle.Handle, 1000);
 													await BaseScript.Delay(1000);
-													await Cache.PlayerPed.Task.PlayAnimation("timetable@gardener@filling_can", "gar_ig_5_filling_can", 2f, 8f, -1, (AnimationFlags)50, 0);
+													await playerPed.Task.PlayAnimation("timetable@gardener@filling_can", "gar_ig_5_filling_can", 2f, 8f, -1, (AnimationFlags)50, 0);
 												}
 												if (LastVehicle.FuelLevel < 100)
 												{
@@ -544,7 +545,7 @@ namespace TheLastPlanet.Client.Veicoli
 										if (Input.IsControlJustReleased(Control.Context) || Input.IsDisabledControlJustReleased(Control.Context))
 										{
 											if (IsEntityPlayingAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 3))
-												Cache.PlayerPed.Task.ClearAll();
+												playerPed.Task.ClearAll();
 											if (justPumped)
 											{
 												justPumped = false;
@@ -570,7 +571,7 @@ namespace TheLastPlanet.Client.Veicoli
 						}
 					}
 				}
-				Weapon wep = Cache.PlayerPed.Weapons.Current;
+				Weapon wep = playerPed.Weapons.Current;
 				if (wep.Hash == WeaponHash.PetrolCan && LastVehicle.Exists())
 				{
 					float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), LastVehicle.Position);
@@ -586,14 +587,14 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							if (animState == 3)
 							{
-								Cache.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_intro");
+								playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_intro");
 								animState = 1;
 							}
 							else if (animState == 1)
 							{
-								if (!IsEntityPlayingAnim(Cache.PlayerPed.Handle, "weapon@w_sp_jerrycan", "fire_intro", 3))
+								if (!IsEntityPlayingAnim(playerPed.Handle, "weapon@w_sp_jerrycan", "fire_intro", 3))
 								{
-									Cache.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire");
+									playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire");
 									animState = 2;
 								}
 							}
@@ -608,8 +609,8 @@ namespace TheLastPlanet.Client.Veicoli
 						}
 						if (Input.IsControlJustReleased(Control.Context))
 						{
-							StopEntityAnim(Cache.PlayerPed.Handle, "fire", "weapon@w_sp_jerrycan", 3);
-							Cache.PlayerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_outro");
+							StopEntityAnim(playerPed.Handle, "fire", "weapon@w_sp_jerrycan", 3);
+							playerPed.Task.PlayAnimation("weapon@w_sp_jerrycan", "fire_outro");
 							animState = 3;
 						}
 					}
@@ -687,7 +688,7 @@ namespace TheLastPlanet.Client.Veicoli
 			}
 			if (jobTruck.Handle != 0 && jobTrailer.Handle != 0)
 			{
-				Vehicle vehicle = Cache.PlayerPed.CurrentVehicle;
+				Vehicle vehicle = Game.PlayerPed.CurrentVehicle;
 				if (vehicle == jobTruck && IsVehicleAttachedToTrailer(jobTruck.Handle))
 				{
 					HUD.DrawText(0.9f, 0.935f, $"Carburante Cisterna: {tankerfuel}", Color.FromArgb(255, 135, 206, 235));

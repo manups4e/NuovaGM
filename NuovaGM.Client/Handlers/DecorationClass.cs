@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client
 {

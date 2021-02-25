@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		{
 			char_current = result.char_current;
 			lastConnection = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss");
-			source = Cache.Player.ServerId;
+			source = Game.Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 	public class PlayerStateBags
 	{
 		[JsonIgnore]
-		Player player = Cache.Player;
+		Player player = Game.Player;
 		public bool InPausa
 		{
 			get
@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 	public class Istanza
 	{
 		[JsonIgnore]
-		Player player = Cache.Player;
+		Player player = Game.Player;
 		public bool Stanziato { 
 			get 
 			{
