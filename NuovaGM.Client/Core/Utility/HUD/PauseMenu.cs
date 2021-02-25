@@ -235,7 +235,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			MainMenu = new TabView("The Last Planet", "Full RP")
 			{
-				SideStringTop = Game.Player.Name,
+				SideStringTop = Cache.Player.Name,
 				SideStringMiddle = DateTime.Now.ToString(),
 				SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyMoney,
 				DisplayHeader = true

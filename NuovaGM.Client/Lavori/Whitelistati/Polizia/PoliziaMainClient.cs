@@ -53,30 +53,30 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
 			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
-				Game.PlayerPed.Task.ClearAll();
-				Game.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
-				Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+				Cache.PlayerPed.Task.ClearAll();
+				Cache.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+				Cache.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 				SetEnableHandcuffs(PlayerPedId(), true);
 				DisablePlayerFiring(PlayerId(), true);
-				Game.PlayerPed.CanPlayGestures = false;
+				Cache.PlayerPed.CanPlayGestures = false;
 				if (Cache.Char.CurrentChar.skin.sex.ToLower() == "femmina")
-					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 25, 0, 0);
+					SetPedComponentVariation(Cache.PlayerPed.Handle, 7, 25, 0, 0);
 				else
-					SetPedComponentVariation(Game.PlayerPed.Handle, 7, 41, 0, 0);
-				Game.Player.CanControlCharacter = false;
+					SetPedComponentVariation(Cache.PlayerPed.Handle, 7, 41, 0, 0);
+				Cache.Player.CanControlCharacter = false;
 				Client.Instance.AddTick(Ammanettato);
 			}
 			else
 			{
 				Client.Instance.RemoveTick(Ammanettato);
-				Game.PlayerPed.Task.ClearAll();
+				Cache.PlayerPed.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
-				SetPedComponentVariation(Game.PlayerPed.Handle, Cache.Char.CurrentChar.dressing.ComponentDrawables.Accessori, Cache.Char.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetPedComponentVariation(Cache.PlayerPed.Handle, Cache.Char.CurrentChar.dressing.ComponentDrawables.Accessori, Cache.Char.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
 				SetEnableHandcuffs(PlayerPedId(), false);
 				DisablePlayerFiring(PlayerId(), false);
-				Game.PlayerPed.CanPlayGestures = true;
-				Game.Player.CanControlCharacter = true;
+				Cache.PlayerPed.CanPlayGestures = true;
+				Cache.Player.CanControlCharacter = true;
 			}
 		}
 
@@ -84,14 +84,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			Ped pol = (Ped)Entity.FromNetworkId(ped);
 			if (Cache.Char.StatiPlayer.Ammanettato)
-				Game.PlayerPed.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+				Cache.PlayerPed.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 		}
 		private static async void TogliVeh()
 		{
 			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
-				if(Game.PlayerPed.IsInVehicle())
-					Game.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.None);	
+				if(Cache.PlayerPed.IsInVehicle())
+					Cache.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.None);	
 			}
 
 		}
@@ -99,17 +99,16 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			if (Cache.Char.StatiPlayer.Ammanettato)
 			{
-				Vehicle closestVeh = Game.PlayerPed.GetClosestVehicle();
+				Vehicle closestVeh = Cache.PlayerPed.GetClosestVehicle();
 				if(closestVeh.IsSeatFree(VehicleSeat.LeftRear))
-					Game.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
-				else if (Game.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.RightRear))
-					Game.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
+					Cache.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
+				else if (Cache.PlayerPed.LastVehicle.IsSeatFree(VehicleSeat.RightRear))
+					Cache.PlayerPed.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
 			}
 		}
 
 		public static async Task MarkersPolizia()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "polizia")
 			{
 				for (int stazione=0; stazione < Client.Impostazioni.Lavori.Polizia.Config.Stazioni.Count; stazione++)
@@ -117,7 +116,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					for (int spoglio = 0; spoglio < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio.Count; spoglio++)
 					{
 						World.DrawMarker(MarkerType.HorizontalCircleSkinny, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
-						if (p.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio], 1.375f))
+						if (Cache.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Spogliatoio[spoglio], 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -131,7 +130,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					for (int veh = 0; veh< Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli.Count; veh++)
 					{
 						World.DrawMarker(MarkerType.CarSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
-						if (p.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu,  1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (Cache.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].SpawnerMenu,  1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -143,19 +142,19 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 						for (int del=0;del< Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters.Count; del++)
 						{
-							if (p.IsInVehicle())
+							if (Cache.PlayerPed.IsInVehicle())
 							{
 								World.DrawMarker(MarkerType.CarSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (p.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del], 1.375f) && p.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen)
+								if (Cache.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Veicoli[veh].Deleters[del], 1.375f) && Cache.PlayerPed.IsInVehicle() && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
 									{
-										if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
+										if (Cache.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
-											VeicoloPol vehicle = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
+											VeicoloPol vehicle = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
 											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.Serialize());
-											p.CurrentVehicle.Delete();
+											Cache.PlayerPed.CurrentVehicle.Delete();
 											VeicoloAttuale = new Vehicle(0);
 										}
 										else
@@ -168,7 +167,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					for (int eli = 0; eli < Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri.Count; eli++)
 					{
 						World.DrawMarker(MarkerType.HelicopterSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
-						if (p.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (Cache.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].SpawnerMenu, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
 							if (Input.IsControlJustPressed(Control.Context))
@@ -189,19 +188,19 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								}
 							}
 
-							if (p.IsInHeli)
+							if (Cache.PlayerPed.IsInHeli)
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
-								if (p.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 3.375f) && p.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen)
+								if (Cache.PlayerPed.IsInRangeOf(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 3.375f) && Cache.PlayerPed.IsInHeli && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
 									if (Input.IsControlJustPressed(Control.Context))
 									{
-										if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
+										if (Cache.PlayerPed.CurrentVehicle.HasDecor("VeicoloPolizia"))
 										{
-											VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+											VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
 											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.Serialize());
-											Game.PlayerPed.CurrentVehicle.Delete();
+											Cache.PlayerPed.CurrentVehicle.Delete();
 											ElicotteroAttuale = new Vehicle(0);
 										}
 										else
@@ -339,22 +338,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task Ammanettato()
 		{
-			Ped p = new Ped(PlayerPedId());
+			if (Cache.Player.CanControlCharacter)
+				Cache.Player.CanControlCharacter = false;
+			if(!Cache.PlayerPed.IsCuffed)
+				SetEnableHandcuffs(Cache.PlayerPed.Handle, true);
+			if(Cache.Player.CanControlCharacter)
+				Cache.Player.CanControlCharacter = false;
 
-			if (Game.Player.CanControlCharacter)
-				Game.Player.CanControlCharacter = false;
-			if(!p.IsCuffed)
-				SetEnableHandcuffs(p.Handle, true);
-			if(Game.Player.CanControlCharacter)
-				Game.Player.CanControlCharacter = false;
-
-			if(!IsEntityPlayingAnim(p.Handle, "mp_arresting", "idle", 3))
+			if(!IsEntityPlayingAnim(Cache.PlayerPed.Handle, "mp_arresting", "idle", 3))
 			{
 				if(!HasAnimDictLoaded("mp_arresting"))
 				{
 					RequestAnimDict("mp_arresting");
 					while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(10);
-					p.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+					Cache.PlayerPed.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
 				}
 			}
 		}

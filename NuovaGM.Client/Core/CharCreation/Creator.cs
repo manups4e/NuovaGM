@@ -133,6 +133,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 
 			SetPlayerModel(PlayerId(), hash);
+			Cache.UpdatePedId();
 			await UpdateFace(PlayerPedId(), plpl.skin);
 			await UpdateDress(PlayerPedId(), plpl.dressing);
 		}
@@ -143,7 +144,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		{
 			try
 			{
-				dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Game.PlayerPed.Position + new Vector3(10));
+				dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Cache.PlayerPed.Position + new Vector3(10));
 				dummyPed.IsVisible = false;
 				dummyPed.IsPositionFrozen = false;
 				dummyPed.IsCollisionEnabled = false;
@@ -173,16 +174,16 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					data = dataFemmina;
 				BaseScript.TriggerEvent("lprp:aggiornaModel", data.Serialize());
 				await BaseScript.Delay(1000);
-				Game.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
-				while (!HasCollisionLoadedAroundEntity(Game.PlayerPed.Handle)) await BaseScript.Delay(1);
-				Game.PlayerPed.IsVisible = true;
-				Game.PlayerPed.IsPositionFrozen = false;
-				Game.PlayerPed.BlockPermanentEvents = true;
+				Cache.PlayerPed.Position = new Vector3(402.91f, -996.74f, -180.00025f);
+				while (!HasCollisionLoadedAroundEntity(Cache.PlayerPed.Handle)) await BaseScript.Delay(1);
+				Cache.PlayerPed.IsVisible = true;
+				Cache.PlayerPed.IsPositionFrozen = false;
+				Cache.PlayerPed.BlockPermanentEvents = true;
 				ped_cre_board(data);
 				if (selezionato == "Maschio")
-					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Maschio"));
+					TaskWalkInToRoom(Cache.PlayerPed, sub_7dd83(1, 0, "Maschio"));
 				else
-					TaskWalkInToRoom(Game.PlayerPed, sub_7dd83(1, 0, "Femmina"));
+					TaskWalkInToRoom(Cache.PlayerPed, sub_7dd83(1, 0, "Femmina"));
 				await BaseScript.Delay(2000);
 				RenderScriptCams(true, true, 0, false, false);
 				cam2.Delete();
@@ -428,9 +429,9 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				LipStick.AddPanel(LipCol1);
 				LipStick.AddPanel(LipCol2);
 				LipStick.AddPanel(LipOp);
-				//	SetPedHeadOverlay			(playerPed, 10,		Character['chest_1'],			(Character['chest_2'] / 10) + 0.0)			-- Chest Hair + opacity
-				//  SetPedHeadOverlayColor(playerPed, 10, 1, Character['chest_3'])-- Torso Color
-				//	SetPedHeadOverlay(playerPed, 11, Character['bodyb_1'], (Character['bodyb_2'] / 10) + 0.0)-- Body Blemishes +opacity
+				//	SetPedHeadOverlay			(Cache.PlayerPed, 10,		Character['chest_1'],			(Character['chest_2'] / 10) + 0.0)			-- Chest Hair + opacity
+				//  SetPedHeadOverlayColor(Cache.PlayerPed, 10, 1, Character['chest_3'])-- Torso Color
+				//	SetPedHeadOverlay(Cache.PlayerPed, 11, Character['bodyb_1'], (Character['bodyb_2'] / 10) + 0.0)-- Body Blemishes +opacity
 				#endregion
 
 				#endregion
@@ -1056,7 +1057,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						dataFemmina = data;
 					}
 					UpdateDress(PlayerPedId(), data.dressing);
-					TaskProvaClothes(Game.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
+					TaskProvaClothes(Cache.PlayerPed, sub_7dd83(1, 0, data.skin.sex));
 				};
 				#endregion
 				#endregion
@@ -1149,7 +1150,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						}
 						else if(_newMenu == Apparel)
 						{
-							TaskCreaClothes(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+							TaskCreaClothes(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
 							if (selezionato == "Maschio")
 							{
 								for (int i = 0; i < CompletiMaschio.Count; i++)
@@ -1177,7 +1178,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						else if (_oldMenu == Apparel)
 						{
 							Apparel.Clear();
-							TaskClothesALoop(Game.PlayerPed, sub_7dd83(1, 0, selezionato));
+							TaskClothesALoop(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
 						}
 					}
 				};
@@ -1196,7 +1197,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					pool.CloseAllMenus();
 					BD1.Detach();
 					BD1.Delete();
-					Game.PlayerPed.Detach();
+					Cache.PlayerPed.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", data.Serialize());
 					Cache.Char.char_current = data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Char.char_current);
@@ -1229,7 +1230,6 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		static float CoordY;
 		public static async Task TastiMenu()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
 			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
 				if (((IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205)) && IsInputDisabled(2)) || ((IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205)) && !IsInputDisabled(2)))
@@ -1237,8 +1237,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					if (!left)
 					{
 						left = true;
-						TaskLookLeft(playerPed, sub_7dd83(1, 0, selezionato));
-						//TaskLookAtCoord(playerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
+						TaskLookLeft(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(Cache.PlayerPed.Handle, 401.48f, -997.13f, -98.5f, 1.0f, 0, 2);
 					}
 				}
 				else if (((IsControlPressed(0, 206) || IsDisabledControlPressed(0, 206)) && IsInputDisabled(2)) || ((IsControlPressed(2, 206) || IsDisabledControlPressed(2, 206)) && !IsInputDisabled(2)))
@@ -1246,19 +1246,19 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					if (!right)
 					{
 						right = true;
-						TaskLookRight(playerPed, sub_7dd83(1, 0, selezionato));
-						//TaskLookAtCoord(playerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
+						TaskLookRight(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
+						//TaskLookAtCoord(Cache.PlayerPed.Handle, 403.89f, -996.86f, -98.5f, 1.0f, 0, 2);
 					}
 				}
 				else
 				{
 					if (right)
-						TaskStopLookRight(playerPed, sub_7dd83(1, 0, selezionato));
+						TaskStopLookRight(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
 					else if (left)
-						TaskStopLookLeft(playerPed, sub_7dd83(1, 0, selezionato));
+						TaskStopLookLeft(Cache.PlayerPed, sub_7dd83(1, 0, selezionato));
 					right = false;
 					left = false;
-					//TaskClearLookAt(playerPed.Handle);
+					//TaskClearLookAt(Cache.PlayerPed.Handle);
 				}
 			}
 			else if ((Dettagli.Visible || Apparenze.Visible || Genitori.Visible) && !Creazione.Visible)
@@ -1690,7 +1690,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						dataFemmina = data;
 					else
 						dataMaschio = data;
-					UpdateFace(playerPed.Handle, data.skin);
+					UpdateFace(Cache.PlayerPed.Handle, data.skin);
 				}
 			}
 			await Task.FromResult(0);
@@ -1707,7 +1707,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				ncamm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
 				ncamm.Position = new Vector3(402.6746f, -1000.129f, -98.46554f);
 				ncamm.Rotation = new Vector3(0.861356f, 0f, -2.348183f);
-				Game.PlayerPed.IsVisible = true;
+				Cache.PlayerPed.IsVisible = true;
 				ncamm.FieldOfView = 10.00255f;
 				ncamm.IsActive = true;
 				N_0xf55e4046f6f831dc(ncamm.Handle, 4f);
@@ -1751,7 +1751,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void ped_cre_board(Char_data data)
 		{
-			Game.PlayerPed.BlockPermanentEvents = true;
+			Cache.PlayerPed.BlockPermanentEvents = true;
 			sub_7cddb();
 			Pol_Board2(data);
 		}
@@ -1771,7 +1771,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			while (!BD1.Exists()) await BaseScript.Delay(0);
 			while (!Overlay1.Exists()) await BaseScript.Delay(0);
 			Overlay1.AttachTo(BD1);
-			BD1.AttachTo(Game.PlayerPed.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
+			BD1.AttachTo(Cache.PlayerPed.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
 			CreaScaleform_Cre(data, overlay1);
 			Overlay1.MarkAsNoLongerNeeded();
 			bd1.MarkAsNoLongerNeeded();
@@ -1790,7 +1790,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task Scaleform()
 		{
-			if (Game.PlayerPed.Exists())
+			if (Cache.PlayerPed.Exists())
 			{
 				API.SetTextRenderId(handle1);
 				Function.Call((Hash)0x40332D115A898AF5, board_scalep1.Handle, true);
@@ -1858,8 +1858,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				v_3 = "mood_Happy_1";
 			if (AreStringsEqual(v_3, "mood_sulk_1"))
 				v_3 = "mood_Angry_1";
-			if (!Game.PlayerPed.IsInjured)
-				SetFacialIdleAnimOverride(Game.PlayerPed.Handle, v_3, "0");
+			if (!Cache.PlayerPed.IsInjured)
+				SetFacialIdleAnimOverride(Cache.PlayerPed.Handle, v_3, "0");
 		}
 		public static string sub_7ce29(int a_0)
 		{

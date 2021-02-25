@@ -54,11 +54,10 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 
 		public static async Task Markers()
 		{
-			Ped p = new Ped(PlayerPedId());
-			if (p.IsInRangeOf(taxi.PosAccettazione, 100))
+			if (Cache.PlayerPed.IsInRangeOf(taxi.PosAccettazione, 100))
 			{
 				World.DrawMarker(MarkerType.ChevronUpx2, taxi.PosAccettazione, Vector3.Zero, Vector3.Zero, new Vector3(1.5f), Colors.Yellow, rotateY: true);
-				if (p.IsInRangeOf(taxi.PosAccettazione, 1.375f))
+				if (Cache.PlayerPed.IsInRangeOf(taxi.PosAccettazione, 1.375f))
 				{
 					if(Cache.Char.CurrentChar.job.name.ToLower() != "taxi")
 					{
@@ -82,18 +81,18 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 			}
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "taxi")
 			{
-				if (p.IsInRangeOf(taxi.PosRitiroVeicolo, 100))
+				if (Cache.PlayerPed.IsInRangeOf(taxi.PosRitiroVeicolo, 100))
 				{
 					if (VeicoloServizio == null || (VeicoloServizio != null && !VeicoloServizio.Exists() || VeicoloServizio.IsDead))
 					{
 						World.DrawMarker(MarkerType.CarSymbol, taxi.PosRitiroVeicolo, Vector3.Zero, Vector3.Zero, new Vector3(1.5f), Colors.Yellow, rotateY: true);
-						if (p.IsInRangeOf(taxi.PosRitiroVeicolo, 1.375f))
+						if (Cache.PlayerPed.IsInRangeOf(taxi.PosRitiroVeicolo, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per prendere il tuo veicolo di servizio.");
 							if (Input.IsControlJustPressed(Control.Context))
 							{
-								if (p.IsVisible)
-									NetworkFadeOutEntity(p.Handle, true, false);
+								if (Cache.PlayerPed.IsVisible)
+									NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
 								VeicoloServizio = await Funzioni.SpawnVehicle("taxi", taxi.PosSpawnVeicolo.ToVector3(), taxi.PosSpawnVeicolo.W);
@@ -107,24 +106,24 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 						}
 					}
 				}
-				if (p.IsInRangeOf(taxi.PosDepositoVeicolo, 100))
+				if (Cache.PlayerPed.IsInRangeOf(taxi.PosDepositoVeicolo, 100))
 				{
 					if (VeicoloServizio != null && !VeicoloServizio.IsDead && VeicoloServizio.Exists())
 					{
 						World.DrawMarker(MarkerType.CarSymbol, taxi.PosDepositoVeicolo, Vector3.Zero, Vector3.Zero, new Vector3(1.5f), Colors.Red, rotateY: true);
-						if (p.IsInRangeOf(taxi.PosDepositoVeicolo, 1.375f))
+						if (Cache.PlayerPed.IsInRangeOf(taxi.PosDepositoVeicolo, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo di servizio.");
 							if (Input.IsControlJustPressed(Control.Context))
 							{
-								if (p.CurrentVehicle.IsVisible)
-									NetworkFadeOutEntity(p.CurrentVehicle.Handle, true, false);
+								if (Cache.PlayerPed.CurrentVehicle.IsVisible)
+									NetworkFadeOutEntity(Cache.PlayerPed.CurrentVehicle.Handle, true, false);
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
 								taximeter.meter_entity.Delete();
 								VeicoloServizio.Delete();
 								VeicoloServizio = null;
-								p.Position = taxi.PosRitiroVeicolo;
+								Cache.PlayerPed.Position = taxi.PosRitiroVeicolo;
 								NetworkFadeInEntity(PlayerPedId(), true);
 								Screen.Fading.FadeIn(500);
 								if (InServizio)
@@ -146,7 +145,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 							taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
 							Client.Instance.AddTick(ServizioTaxi);
 							HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
-							if (p.IsInVehicle(VeicoloServizio))
+							if (Cache.PlayerPed.IsInVehicle(VeicoloServizio))
 								Client.Instance.AddTick(TaximeterTick);
 						}
 						else
@@ -162,12 +161,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 		}
 		private static async Task ServizioTaxi()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (InServizio && jobs.onJob == 0)
 			{
-				if (p.IsInVehicle(VeicoloServizio))
+				if (Cache.PlayerPed.IsInVehicle(VeicoloServizio))
 				{
-					if(p.CurrentVehicle.Driver == Game.PlayerPed)
+					if(Cache.PlayerPed.SeatIndex == VehicleSeat.Driver)
 					{
 						jobs.flag[0] = 0;
 						jobs.flag[1] = 59 + Funzioni.GetRandomInt(1, 61);
@@ -179,7 +177,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 			{
 				if(VeicoloServizio.Exists() && VeicoloServizio.IsDriveable)
 				{
-					if (p.IsSittingInVehicle(VeicoloServizio))
+					if (Cache.PlayerPed.IsSittingInVehicle(VeicoloServizio))
 					{
 						if(NPCPasseggero != null && NPCPasseggero.Exists())
 						{
@@ -217,7 +215,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 									}
 									else
 									{
-										if (p.IsSittingInVehicle(VeicoloServizio))
+										if (Cache.PlayerPed.IsSittingInVehicle(VeicoloServizio))
 										{
 											if (Vector3.Distance(Cache.Char.posizione.ToVector3(), NPCPasseggero.Position) < 8.0001f)
 											{
@@ -263,7 +261,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 									}
 									else
 									{
-										if (p.IsSittingInVehicle(VeicoloServizio))
+										if (Cache.PlayerPed.IsSittingInVehicle(VeicoloServizio))
 										{
 											if (NPCPasseggero.AttachedBlip != null && NPCPasseggero.AttachedBlip.Exists())
 												NPCPasseggero.AttachedBlip.Delete();

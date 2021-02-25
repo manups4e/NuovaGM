@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Giostre
 {
@@ -450,7 +451,7 @@ namespace TheLastPlanet.Client.Giostre
 		static void CheckIfPlayerShouldBeKickedOut(TrenoFunivia treno)
 		{
 			Vector3 pos = Vector3.Add(treno.Position, new Vector3(0.0f, 0.0f, -5.3f));
-			float dist = Vector3.Distance(pos, Game.PlayerPed.Position);
+			float dist = Vector3.Distance(pos, Cache.PlayerPed.Position);
 			if (dist < 3.0f)
 			{
 				KickPlayerOutOfMyCablecar(treno);
@@ -460,14 +461,14 @@ namespace TheLastPlanet.Client.Giostre
 		static void KickPlayerOutOfMyCablecar(TrenoFunivia treno)
 		{
 			treno.Is_player_seated = false;
-			Game.PlayerPed.Detach();
+			Cache.PlayerPed.Detach();
 			Vector3 not1 = new Vector3(0);
 			Vector3 Destra = new Vector3(0);
 			Vector3 not2 = new Vector3(0);
 			Vector3 not3 = new Vector3(0);
 			GetEntityMatrix(treno.Entity.Handle, ref Destra, ref not1, ref not2, ref not3);
 			Vector3 right = Vector3.Multiply(Destra, 3.5f);
-			Game.PlayerPed.Position = Vector3.Add(Vector3.Add(treno.Position, right), new Vector3(0.0f, 0.0f, -5.3f));
+			Cache.PlayerPed.Position = Vector3.Add(Vector3.Add(treno.Position, right), new Vector3(0.0f, 0.0f, -5.3f));
 		}
 
 		static void GivePlayerOptionToJoinMyCablecar(TrenoFunivia treno, bool moving)
@@ -475,15 +476,15 @@ namespace TheLastPlanet.Client.Giostre
 			Vector3 pos = Vector3.Add(treno.Position, new Vector3(0f, 0f, -5.3f));
 			if (!treno.Is_player_seated)
 			{
-				Vector3 plypos = Game.PlayerPed.Position;
-				float dist = Vector3.Distance(pos, Game.PlayerPed.Position);
+				Vector3 plypos = Cache.PlayerPed.Position;
+				float dist = Vector3.Distance(pos, Cache.PlayerPed.Position);
 				if (dist < 3.0f)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nella funivia");
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = true;
-						Game.PlayerPed.AttachTo(treno.Entity, Vector3.Subtract(Game.PlayerPed.Position, treno.Position), Game.PlayerPed.Rotation);
+						Cache.PlayerPed.AttachTo(treno.Entity, Vector3.Subtract(Cache.PlayerPed.Position, treno.Position), Cache.PlayerPed.Rotation);
 					}
 				}
 			}
@@ -495,7 +496,7 @@ namespace TheLastPlanet.Client.Giostre
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = false;
-						Game.PlayerPed.Detach();
+						Cache.PlayerPed.Detach();
 					}
 				}
 			}

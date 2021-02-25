@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using static Logger.Log;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -29,35 +30,34 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				Ped p = new Ped(PlayerPedId());
 				foreach(var input in ListaInput)
 				{
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)
 					{
-						if (p.IsInRangeOf(input.Position, input.Radius.MarkerDistance)) // big range personalizzato sennò default 50f
+						if (Cache.PlayerPed.IsInRangeOf(input.Position, input.Radius.MarkerDistance)) // big range personalizzato sennò default 50f
 						{
 							if (input.Marker != null)
 								input.Marker.Draw();
-							if (p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+							if (Cache.PlayerPed.IsInRangeOf(input.Position, input.Radius.MinInputDistance) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
 								if (!string.IsNullOrWhiteSpace(input.InputMessage))
 									HUD.ShowHelp(input.InputMessage);
-								if (Game.IsControlJustPressed(0, input.Control))
+								if (Input.IsControlJustPressed(input.Control))
 								{
 									if (Input.IsControlModifierPressed(input.Modifier))
 									{
 										switch (input.Check)
 										{
 											case PadCheck.Any:
-												input.Action.DynamicInvoke(p, input.parameters);
+												input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 												break;
 											case PadCheck.Controller:
 												if (Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(p, input.parameters);
+													input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 												break;
 											case PadCheck.Keyboard:
 												if (!Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(p, input.parameters);
+													input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 												break;
 										}
 									}
@@ -67,22 +67,22 @@ namespace TheLastPlanet.Client.Handlers
 					}
 					else
 					{
-						if (Game.IsControlJustPressed(0, input.Control) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (Input.IsControlJustPressed(input.Control) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							if (Input.IsControlModifierPressed(input.Modifier))
 							{
 								switch (input.Check)
 								{
 									case PadCheck.Any:
-										input.Action.DynamicInvoke(p, input.parameters);
+										input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 										break;
 									case PadCheck.Controller:
 										if (Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p, input.parameters);
+											input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 										break;
 									case PadCheck.Keyboard:
 										if (!Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p, input.parameters);
+											input.Action.DynamicInvoke(Cache.PlayerPed, input.parameters);
 										break;
 								}
 							}

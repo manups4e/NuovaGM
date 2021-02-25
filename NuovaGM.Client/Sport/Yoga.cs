@@ -155,13 +155,13 @@ namespace TheLastPlanet.Client.Sport
 		{
 			if (Materasso != null && Materasso.Exists())
 			{
-				if (Game.PlayerPed.IsInRangeOf(Materasso.Position, 1.2f))
+				if (Cache.PlayerPed.IsInRangeOf(Materasso.Position, 1.2f))
 				{
 					HUD.ShowHelp("~INPUT_CONTEXT~ per praticare lo Yoga\n~INPUT_FRONTEND_CANCEL~ per ritirare il materassino");
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Client.Instance.AddTick(Animations);
-						Game.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+						Cache.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
 						ApplyPedDamageDecal(PlayerPedId(), 1, 0.5f, 0.513f, 0f, 1f, 0, 0, true, "blushing");
 						func_351(0);
 						if(IsInputDisabled(2))
@@ -171,8 +171,8 @@ namespace TheLastPlanet.Client.Sport
 
 						int seq0 = -1;
 						OpenSequenceTask(ref seq0);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, Game.PlayerPed.Rotation.X, Game.PlayerPed.Rotation.Y, Game.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, Cache.PlayerPed.Rotation.X, Cache.PlayerPed.Rotation.Y, Cache.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, Cache.PlayerPed.Rotation.X, Cache.PlayerPed.Rotation.Y, Cache.PlayerPed.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
 						CloseSequenceTask(seq0);
 						TaskPerformSequence(PlayerPedId(), seq0);
 						ClearSequenceTask(ref seq0);
@@ -238,7 +238,7 @@ namespace TheLastPlanet.Client.Sport
 					else
 					{
 						Vector3 coord = Cache.Char.posizione.ToVector3();
-						Vector3 rot = Game.PlayerPed.Rotation;
+						Vector3 rot = Cache.PlayerPed.Rotation;
 						ClearSequenceTask(ref uVar0);
 						OpenSequenceTask(ref uVar0);
 						switch (Funzioni.GetRandomInt(0, 3))

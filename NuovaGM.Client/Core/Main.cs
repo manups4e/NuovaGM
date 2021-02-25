@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.Core
 		};
 
 		public static bool ispointing = false;
-		private static RelationshipGroup player = Game.PlayerPed.RelationshipGroup;
+		private static RelationshipGroup player = Cache.PlayerPed.RelationshipGroup;
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);
@@ -119,11 +119,10 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void onPlayerSpawn()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
-			SetEnablePedEnveffScale(playerPed.Handle, true);
+			SetEnablePedEnveffScale(Cache.PlayerPed.Handle, true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
-			SetCanAttackFriendly(playerPed.Handle, true, true);
+			SetCanAttackFriendly(Cache.PlayerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
 			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
 			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
@@ -135,7 +134,7 @@ namespace TheLastPlanet.Client.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
 			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-			playerPed.IsVisible = true;
+			Cache.PlayerPed.IsVisible = true;
 			spawned = true;
 			Cache.Char.status.spawned = true;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Char.CurrentChar.id);
@@ -145,7 +144,7 @@ namespace TheLastPlanet.Client.Core
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				var now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Cache.Char.FullName + " e' spawnato morto poiché è sloggato da morto");
-				playerPed.Health = -100;
+				Cache.PlayerPed.Health = -100;
 				Cache.Char.StatiPlayer.FinDiVita = false;
 
 			}
@@ -160,7 +159,7 @@ namespace TheLastPlanet.Client.Core
 
 		private static float OttieniShake(WeaponHash weap)
 		{
-			switch (Game.PlayerPed.Weapons.Current.Hash)
+			switch (Cache.PlayerPed.Weapons.Current.Hash)
 			{
 				case WeaponHash.StunGun:
 				case WeaponHash.FlareGun:
@@ -249,9 +248,6 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task MainTick()
 		{
-			Ped p = new Ped(PlayerPedId());
-			Player pl = Game.Player;
-
 			#region death?andweapon
 			Game.DisableControlThisFrame(0, Control.SpecialAbilitySecondary);
 			if (IsDead)
@@ -262,7 +258,7 @@ namespace TheLastPlanet.Client.Core
 				EnableControlAction(0, 38, true);
 				Game.EnableControlThisFrame(0, Control.FrontendPause);
 			}
-			if (IsPedArmed(p.Handle, 6))
+			if (IsPedArmed(Cache.PlayerPed.Handle, 6))
 			{
 				Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
 				Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
@@ -272,24 +268,24 @@ namespace TheLastPlanet.Client.Core
 			}
 			#endregion
 
-			if (p.IsJumping && Input.IsControlJustPressed(Control.Jump))
-				p.Ragdoll(1);
-			if (pl.WantedLevel != 0)
-				pl.WantedLevel = 0;
-			DisablePlayerVehicleRewards(pl.Handle);
-			SetPedMinGroundTimeForStungun(p.Handle, 8000);
-			if (p.IsInVehicle())
+			if (Cache.PlayerPed.IsJumping && Input.IsControlJustPressed(Control.Jump))
+				Cache.PlayerPed.Ragdoll(1);
+			if (Cache.Player.WantedLevel != 0)
+				Cache.Player.WantedLevel = 0;
+			DisablePlayerVehicleRewards(Cache.Player.Handle);
+			SetPedMinGroundTimeForStungun(Cache.PlayerPed.Handle, 8000);
+			if (Cache.PlayerPed.IsInVehicle())
 			{
-				if (p.CurrentVehicle.Driver == p)
-					SetPlayerCanDoDriveBy(pl.Handle, false);
+				if (Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
+					SetPlayerCanDoDriveBy(Cache.Player.Handle, false);
 				else if (passengerDriveBy)
-					SetPlayerCanDoDriveBy(pl.Handle, true);
+					SetPlayerCanDoDriveBy(Cache.Player.Handle, true);
 				else
-					SetPlayerCanDoDriveBy(pl.Handle, false);
+					SetPlayerCanDoDriveBy(Cache.Player.Handle, false);
 			}
 			if ((Input.IsControlJustPressed(Control.MpTextChatTeam) || Input.IsDisabledControlJustPressed(Control.MpTextChatTeam)) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
 			{
-				if (!IsEntityPlayingAnim(p.Handle, "mp_arresting", "idle", 3))
+				if (!IsEntityPlayingAnim(Cache.PlayerPed.Handle, "mp_arresting", "idle", 3))
 					startPointing();
 			}
 			else if (Input.IsControlJustReleased(Control.MpTextChatTeam) || Input.IsDisabledControlJustReleased(Control.MpTextChatTeam))
@@ -312,13 +308,13 @@ namespace TheLastPlanet.Client.Core
 				camHeading = (camHeading + 180.0f) / 360.0f;
 				bool blocked = false;
 				int nn = 0;
-				Vector3 coords = GetOffsetFromEntityInWorldCoords(p.Handle, (cosCamHeading * -0.2f) - (sinCamHeading * (0.4f * camHeading + 0.3f)), (sinCamHeading * -0.2f) + (cosCamHeading * (0.4f * camHeading + 0.3f)), 0.6f);
-				int ray = StartShapeTestCapsule(coords.X, coords.Y, coords.Z - 0.2f, coords.X, coords.Y, coords.Z + 0.2f, 0.4f, 95, p.Handle, 7);
+				Vector3 coords = GetOffsetFromEntityInWorldCoords(Cache.PlayerPed.Handle, (cosCamHeading * -0.2f) - (sinCamHeading * (0.4f * camHeading + 0.3f)), (sinCamHeading * -0.2f) + (cosCamHeading * (0.4f * camHeading + 0.3f)), 0.6f);
+				int ray = StartShapeTestCapsule(coords.X, coords.Y, coords.Z - 0.2f, coords.X, coords.Y, coords.Z + 0.2f, 0.4f, 95, Cache.PlayerPed.Handle, 7);
 				GetShapeTestResult(ray, ref blocked, ref coords, ref coords, ref nn);
-				SetTaskPropertyFloat(p.Handle, "Pitch", camPitch);
-				SetTaskPropertyFloat(p.Handle, "Heading", camHeading * -1.0f + 1.0f);
-				SetTaskPropertyBool(p.Handle, "isBlocked", blocked);
-				SetTaskPropertyBool(p.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
+				SetTaskPropertyFloat(Cache.PlayerPed.Handle, "Pitch", camPitch);
+				SetTaskPropertyFloat(Cache.PlayerPed.Handle, "Heading", camHeading * -1.0f + 1.0f);
+				SetTaskPropertyBool(Cache.PlayerPed.Handle, "isBlocked", blocked);
+				SetTaskPropertyBool(Cache.PlayerPed.Handle, "isFirstPerson", N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4);
 			}
 			if (Game.IsPaused)
 			{
@@ -391,22 +387,22 @@ namespace TheLastPlanet.Client.Core
 			ispointing = true;
 			RequestAnimDict("anim@mp_point");
 			while (!HasAnimDictLoaded("anim@mp_point")) await BaseScript.Delay(0);
-			SetPedCurrentWeaponVisible(Game.PlayerPed.Handle, false, true, true, true);
-			SetPedConfigFlag(Game.PlayerPed.Handle, 36, true);
-			TaskMoveNetwork(Game.PlayerPed.Handle, "task_mp_pointing", 0.5f, false, "anim@mp_point", 24);
+			SetPedCurrentWeaponVisible(Cache.PlayerPed.Handle, false, true, true, true);
+			SetPedConfigFlag(Cache.PlayerPed.Handle, 36, true);
+			TaskMoveNetwork(Cache.PlayerPed.Handle, "task_mp_pointing", 0.5f, false, "anim@mp_point", 24);
 			RemoveAnimDict("anim@mp_point");
 		}
 
 		private static void StopPointing()
 		{
 			ispointing = false;
-			N_0xd01015c7316ae176(Game.PlayerPed.Handle, "Stop");
-			if (!Game.PlayerPed.IsInjured)
-				Game.PlayerPed.Task.ClearSecondary();
-			if (!Game.PlayerPed.IsInVehicle())
-				SetPedCurrentWeaponVisible(Game.PlayerPed.Handle, true, true, true, true);
-			SetPedConfigFlag(Game.PlayerPed.Handle, 36, false);
-			Game.PlayerPed.Task.ClearSecondary();
+			N_0xd01015c7316ae176(Cache.PlayerPed.Handle, "Stop");
+			if (!Cache.PlayerPed.IsInjured)
+				Cache.PlayerPed.Task.ClearSecondary();
+			if (!Cache.PlayerPed.IsInVehicle())
+				SetPedCurrentWeaponVisible(Cache.PlayerPed.Handle, true, true, true, true);
+			SetPedConfigFlag(Cache.PlayerPed.Handle, 36, false);
+			Cache.PlayerPed.Task.ClearSecondary();
 		}
 
 		public static int AFKTime = 600;
@@ -421,7 +417,7 @@ namespace TheLastPlanet.Client.Core
 //				if (Ingresso.Ingresso.guiEnabled)
 //				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
 
-				currentPosition = Cache.Char == null ? Game.PlayerPed.Position : Cache.Char.posizione.ToVector3();
+				currentPosition = Cache.Char == null ? Cache.PlayerPed.Position : Cache.Char.posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (t >= Client.Impostazioni.Main.AFKCheckTime)
 				{
@@ -463,11 +459,11 @@ namespace TheLastPlanet.Client.Core
 		public static void RespawnPed(Vector3 coords)
 		{
 			IsDead = false;
-			Game.PlayerPed.Position = coords;
-			NetworkResurrectLocalPlayer(coords.X, coords.Y, coords.Z, Game.PlayerPed.Heading, true, false);
-			Game.PlayerPed.Health = 100;
-			Game.PlayerPed.IsInvincible = false;
-			Game.PlayerPed.ClearBloodDamage();
+			Cache.PlayerPed.Position = coords;
+			NetworkResurrectLocalPlayer(coords.X, coords.Y, coords.Z, Cache.PlayerPed.Heading, true, false);
+			Cache.PlayerPed.Health = 100;
+			Cache.PlayerPed.IsInvincible = false;
+			Cache.PlayerPed.ClearBloodDamage();
 		}
 
 		private static async void Peds()
@@ -511,10 +507,9 @@ namespace TheLastPlanet.Client.Core
 			if (IsDead) await BaseScript.Delay(500);
 			else 
 			{
-				Ped p = new Ped(PlayerPedId());
-				if (p.IsShooting)
+				if (Cache.PlayerPed.IsShooting)
 				{
-					Weapon weap = p.Weapons.Current;
+					Weapon weap = Cache.PlayerPed.Weapons.Current;
 					int ammo = weap.Ammo;
 					BaseScript.TriggerServerEvent("lprp:aggiornaAmmo", weap.Hash, ammo);
 				}

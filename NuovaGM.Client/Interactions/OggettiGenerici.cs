@@ -3,6 +3,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -10,7 +11,7 @@ namespace TheLastPlanet.Client.Interactions
 	{
 		public static void Init()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
 			{
 				RequestAnimDict("mp_player_inteat@burger");

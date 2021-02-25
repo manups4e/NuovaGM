@@ -164,14 +164,13 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task DivaniCasa()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (!Seduto)
 			{
 				for (int i = 0; i < Divani.Count; i++)
 				{
 					for (int j = 0; j < Divani[i].Length; j++)
 					{
-						if (p.IsInRangeOf(Divani[i][j], 1.5f))
+						if (Cache.PlayerPed.IsInRangeOf(Divani[i][j], 1.5f))
 						{
 							HUD.ShowHelp(GetLabelText("MPTV_WALK"));
 							if (Input.IsControlJustPressed(Control.Context))
@@ -192,7 +191,6 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task Televisione()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (Seduto /*&&controllo per casa o hotel*/)
 			{
 				if (!stato)
@@ -205,7 +203,7 @@ namespace TheLastPlanet.Client.Interactions
 					}
 					else if (IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
 					{
-						p.Task.ClearAll();
+						Cache.PlayerPed.Task.ClearAll();
 						Seduto = false;
 						SetPedConfigFlag(PlayerPedId(), 414, false);
 					}
@@ -230,7 +228,7 @@ namespace TheLastPlanet.Client.Interactions
 			Ped p = new Ped(PlayerPedId());
 			if (SediaClosest != null)
 			{
-				if(p.IsInRangeOf(SediaClosest.Position, 1.375f))
+				if(Cache.PlayerPed.IsInRangeOf(SediaClosest.Position, 1.375f))
 				{
 					SediaClosest.IsPositionFrozen = true;
 					if (!Seduto)
@@ -239,7 +237,7 @@ namespace TheLastPlanet.Client.Interactions
 						if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f) {
 							if (!IsPedActiveInScenario(ped.Handle))
 							{
-								if (!p.IsDead && !(p.Health < 1) && !p.IsInVehicle())
+								if (!Cache.PlayerPed.IsDead && !(Cache.PlayerPed.Health < 1) && !Cache.PlayerPed.IsInVehicle())
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per sederti");
 									{
@@ -273,7 +271,7 @@ namespace TheLastPlanet.Client.Interactions
 						{
 							Seduto = false;
 							SetPedConfigFlag(PlayerPedId(), 414, false);
-							p.Task.ClearAll();
+							Cache.PlayerPed.Task.ClearAll();
 						}
 					}
 				}

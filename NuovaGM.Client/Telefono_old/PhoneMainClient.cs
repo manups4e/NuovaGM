@@ -8,6 +8,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Telefono
 {
@@ -43,15 +44,14 @@ namespace TheLastPlanet.Client.Telefono
 
 		public static async Task ControlloApertura()
 		{
-			var ped = new Ped(PlayerPedId());
-			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
+			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || Cache.PlayerPed.IsAiming || Cache.PlayerPed.IsAimingFromCover || Cache.PlayerPed.IsShooting))
 			{
-				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
+				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(Cache.PlayerPed.Handle))
 				{
 					Phone.OpenPhone();
 					Phone.currentApp = Phone.mainApp;
 				}
-				if (IsPedRunningMobilePhoneTask(ped.Handle))
+				if (IsPedRunningMobilePhoneTask(Cache.PlayerPed.Handle))
 				{
 					if (Input.IsControlJustPressed(Control.PhoneCancel))
 					{

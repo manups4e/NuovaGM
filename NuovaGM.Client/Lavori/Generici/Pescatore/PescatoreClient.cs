@@ -121,7 +121,6 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 		public async static Task ControlloPesca()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (Main.spawned)
 			{
 				if (PerVendereIlPesce.Any(o => Cache.Char.getInventoryItem(o).Item1))
@@ -146,10 +145,10 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 					foreach (var punto in PuntiPesca.LuoghiVendita)
 					{
-						if (p.IsInRangeOf(punto, 80))
+						if (Cache.PlayerPed.IsInRangeOf(punto, 80))
 						{
 							World.DrawMarker(MarkerType.DollarSign, punto, new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 2.0f), Colors.DarkSeaGreen, false, false, true);
-							if (p.IsInRangeOf(punto, 2))
+							if (Cache.PlayerPed.IsInRangeOf(punto, 2))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per vendere il pesce che possiedi");
 								if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
@@ -175,7 +174,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				}
 
 
-				/*			if (Vector3.Distance(Cache.Char.posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Game.PlayerPed.IsInVehicle())
+				/*			if (Vector3.Distance(Cache.Char.posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Cache.PlayerPed.IsInVehicle())
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
 								if (Input.IsControlJustPressed(Control.Context))
@@ -259,7 +258,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 					float altezza = 0;
 					if(GetWaterHeightNoWaves(Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, ref altezza)) 
 					{ 
-						Game.PlayerPed.IsPositionFrozen = true;
+						Cache.PlayerPed.IsPositionFrozen = true;
 						SetEnableHandcuffs(PlayerPedId(), true);
 						CannaDaPesca.Detach();
 						AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 60309), 0, 0, 0, 0, 0, 0, false, false, false, false, 2, true);
@@ -273,7 +272,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				{
 					CannaDaPesca.Delete();
 					Client.Instance.RemoveTick(Pesca);
-					Game.PlayerPed.Task.ClearAll();
+					Cache.PlayerPed.Task.ClearAll();
 					CannaInMano = false;
 					TipoCanna = -1;
 				}
@@ -348,11 +347,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				else
 					HUD.ShowNotification("Il pesce è scappato! Andrà meglio la prossima volta..", true);
 				Pescando = false;
-				Game.PlayerPed.Task.ClearAll();
+				Cache.PlayerPed.Task.ClearAll();
 				CannaDaPesca.Detach();
 				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
-				Game.PlayerPed.IsPositionFrozen = false;
+				Cache.PlayerPed.IsPositionFrozen = false;
 				SetEnableHandcuffs(PlayerPedId(), false);
 				await Task.FromResult(0);
 			}

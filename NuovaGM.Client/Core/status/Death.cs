@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Entity ent = Entity.FromHandle(entity);
 			if(ent is Ped ped)
 			{
-				if(ped == Game.PlayerPed)
+				if(ped == Cache.PlayerPed)
 				{
 					if (ped.Health < 55 && !ped.IsDead && guarito && !ferito)
 					{
@@ -330,7 +330,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(10);
 			BaseScript.TriggerServerEvent("lprp:removeItemsDeath");
-			Vector3 pedCoords = Game.PlayerPed.Position;
+			Vector3 pedCoords = Cache.PlayerPed.Position;
 			Vector3 pos = hospitals.OrderBy(x => Vector3.Distance(pedCoords, x)).FirstOrDefault();
 			Main.RespawnPed(pos);
 			while (!IsPedStill(PlayerPedId())) await BaseScript.Delay(50);
@@ -344,10 +344,9 @@ namespace TheLastPlanet.Client.Core.Status
 		public static async Task Injuried()
 		{
 			await BaseScript.Delay(1000);
-			Ped playerPed = new Ped(PlayerPedId());
-			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80))
+			if ((Cache.PlayerPed.Health > 55) && ferito && !guarito && (StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80))
 			{
-				playerPed.MovementAnimationSet = null;
+				Cache.PlayerPed.MovementAnimationSet = null;
 				ferito = false;
 				guarito = true;
 			}

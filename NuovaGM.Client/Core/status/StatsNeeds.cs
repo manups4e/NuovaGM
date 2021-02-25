@@ -107,13 +107,12 @@ namespace TheLastPlanet.Client.Core.Status
 		private static async Task FameSete()
 		{
 			await BaseScript.Delay(1000);
-			Ped playerPed = new Ped(PlayerPedId());
-			if (playerPed.Health > 0 && (fame100 || sete100))
+			if (Cache.PlayerPed.Health > 0 && (fame100 || sete100))
 			{
-				if (playerPed.Health <= 50)
-					playerPed.Health -= 5;
+				if (Cache.PlayerPed.Health <= 50)
+					Cache.PlayerPed.Health -= 5;
 				else
-					playerPed.Health -= 1;
+					Cache.PlayerPed.Health -= 1;
 			}
 			else
 				Client.Instance.RemoveTick(FameSete);
@@ -121,12 +120,11 @@ namespace TheLastPlanet.Client.Core.Status
 
 		private static async void Clacson()
 		{
-			Ped p = new Ped(PlayerPedId());
-			if (p.IsInVehicle())
+			if (Cache.PlayerPed.IsInVehicle())
 				Client.Instance.AddTick(Horn);
 			await BaseScript.Delay(30000);
-			p.CancelRagdoll();
-			if (p.IsInVehicle())
+			Cache.PlayerPed.CancelRagdoll();
+			if (Cache.PlayerPed.IsInVehicle())
 				Client.Instance.RemoveTick(Horn);
 		}
 		public static async Task Horn()
@@ -164,10 +162,8 @@ namespace TheLastPlanet.Client.Core.Status
 		public static async Task GestioneStatsSkill()
 		{
 			await BaseScript.Delay(1000);
-			Ped p = new Ped(PlayerPedId());
-			Player m = new Player(PlayerId());
-			Needs.Values.ToList().ForEach(x => x.OnTick(p, m));
-			Statistics.Values.ToList().ForEach(x => x.OnTick(p, m));
+			Needs.Values.ToList().ForEach(x => x.OnTick(Cache.PlayerPed, Cache.Player));
+			Statistics.Values.ToList().ForEach(x => x.OnTick(Cache.PlayerPed, Cache.Player));
 
 			if (Game.GameTime - UpdTimer > 30000)//60000)
 			{

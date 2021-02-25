@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Logger;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -61,22 +62,21 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			try
 			{
-				Ped playerPed = new Ped(PlayerPedId());
-				if (playerPed.IsInVehicle())
+				if (Cache.PlayerPed.IsInVehicle())
 				{
-					if (playerPed.CurrentVehicle.Driver == playerPed)
+					if (Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
 					{
-						if (playerPed.CurrentVehicle.IsHandbrakeForcedOn && playerPed.CurrentVehicle.Speed > 2f)
+						if (Cache.PlayerPed.CurrentVehicle.IsHandbrakeForcedOn && Cache.PlayerPed.CurrentVehicle.Speed > 2f)
 						{
 							if (heat_rear < 300f)
 								heat_rear += 2f;
 						}
-						if (playerPed.CurrentVehicle.IsInBurnout)
+						if (Cache.PlayerPed.CurrentVehicle.IsInBurnout)
 						{
 							if (heat_rear < 300f)
 								heat_rear += 2f;
 						}
-						if (playerPed.CurrentVehicle.Speed > 2f && playerPed.CurrentVehicle.CurrentGear != 0)
+						if (Cache.PlayerPed.CurrentVehicle.Speed > 2f && Cache.PlayerPed.CurrentVehicle.CurrentGear != 0)
 						{
 							if (Game.IsControlPressed(27, Control.VehicleBrake))
 							{
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (heat_rear > 30f)
 					{
 						glow_rear = true;
-						BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(playerPed.CurrentVehicle.Handle));
+						BaseScript.TriggerServerEvent("brakes:add_rear", VehToNet(Cache.PlayerPed.CurrentVehicle.Handle));
 					}
 				}
 				else
@@ -108,7 +108,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (heat_rear < 30f)
 					{
 						glow_rear = false;
-						BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(playerPed.CurrentVehicle.Handle));
+						BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(Cache.PlayerPed.CurrentVehicle.Handle));
 					}
 				}
 				if (!glow_front)
@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (heat_front > 30f)
 					{
 						glow_front = true;
-						BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(playerPed.CurrentVehicle.Handle));
+						BaseScript.TriggerServerEvent("brakes:add_front", VehToNet(Cache.PlayerPed.CurrentVehicle.Handle));
 					}
 				}
 				else
@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (heat_front < 30f)
 					{
 						glow_front = false;
-						BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(playerPed.CurrentVehicle.Handle));
+						BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(Cache.PlayerPed.CurrentVehicle.Handle));
 					}
 				}
 				if (heat_rear > 1)

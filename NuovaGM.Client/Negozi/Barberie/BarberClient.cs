@@ -82,9 +82,9 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async void Controlla(Vector3 S, float Ch, Vector3 C, string Menu)
 		{
-			while (!Game.PlayerPed.IsInRangeOf(S, 1f)) await BaseScript.Delay(100);
+			while (!Cache.PlayerPed.IsInRangeOf(S, 1f)) await BaseScript.Delay(100);
 
-			if (Game.PlayerPed.IsInRangeOf(S, 1f) && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
+			if (Cache.PlayerPed.IsInRangeOf(S, 1f) && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Negozi
 			Vector3 Coords = GetObjectOffsetFromCoords(C.X, C.Y, C.Z, Ch, O.X, O.Y, O.Z);
 			Camm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
 			Camm.Position = new Vector3(Coords.X, Coords.Y, Coords.Z + 0.85f);
-			Camm.PointAt(Game.PlayerPed.Bones[Bone.SKEL_Head].Position);
+			Camm.PointAt(Cache.PlayerPed.Bones[Bone.SKEL_Head].Position);
 			Camm.FieldOfView = 35f;
 			Camm.IsActive = true;
 			RenderScriptCams(true, true, 1000, true, false);
@@ -108,10 +108,9 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async Task Sedie()
 		{
-			Ped p = new Ped(PlayerPedId());
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
-				if (p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
+				if (Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
 				{
 					S1 = ConfigBarbieri.Kuts[i].Sedia1;
 					S2 = ConfigBarbieri.Kuts[i].Sedia2;
@@ -119,7 +118,7 @@ namespace TheLastPlanet.Client.Negozi
 					CurrentBarber = await CreateBarber(ConfigBarbieri.Kuts[i].Model);
 					CreatoKuts = true;
 				}
-				else if (!p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
+				else if (!Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
 				{
 					if (CreatoKuts)
 					{
@@ -127,7 +126,7 @@ namespace TheLastPlanet.Client.Negozi
 						CreatoKuts = false;
 					}
 				}
-				else if (p.IsInRangeOf(CurrentBarber.Position, 2f))
+				else if (Cache.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 					if (Input.IsControlJustPressed(Control.Context))
@@ -161,12 +160,12 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 			}
-			if (p.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
+			if (Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Hawick.Model);
 				CreatoHawick = true;
 			}
-			else if (!p.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50))
+			else if (!Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50))
 			{
 				if (CreatoHawick)
 				{
@@ -174,7 +173,7 @@ namespace TheLastPlanet.Client.Negozi
 					CreatoHawick = false;
 				}
 			}
-			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (Cache.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -208,13 +207,13 @@ namespace TheLastPlanet.Client.Negozi
 				}
 			}
 
-			if (p.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50) && !CreatoOsheas)
+			if (Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50) && !CreatoOsheas)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Osheas.Model);
 				CreatoOsheas = true;
 			}
 
-			else if (!p.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
+			else if (!Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
 			{
 				if (CreatoOsheas)
 				{
@@ -222,7 +221,7 @@ namespace TheLastPlanet.Client.Negozi
 					CreatoOsheas = false;
 				}
 			}
-			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (Cache.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))
@@ -255,12 +254,12 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 			}
-			if (p.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
+			if (Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Combo.Model);
 				CreatoCombo = true;
 			}
-			else if (!p.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50))
+			else if (!Cache.PlayerPed.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50))
 			{
 				if (CreatoCombo)
 				{
@@ -268,7 +267,7 @@ namespace TheLastPlanet.Client.Negozi
 					CreatoCombo = false;
 				}
 			}
-			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
+			else if (Cache.PlayerPed.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
 				if (Input.IsControlJustPressed(Control.Context))

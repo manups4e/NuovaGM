@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.Utility;
 using Logger;
 using System.Drawing;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -57,33 +58,35 @@ namespace TheLastPlanet.Client.Veicoli
 
         public static async Task Tick1()
         {
-            Ped playerPed = new Ped(PlayerPedId());
-            if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
+            if (Cache.PlayerPed.CurrentVehicle != null)
             {
-                IsEngineOn = playerPed.CurrentVehicle.IsEngineRunning;
-                engineHealth = playerPed.CurrentVehicle.EngineHealth;
-                OilLevel = playerPed.CurrentVehicle.OilLevel;
-                FuelLevel = playerPed.CurrentVehicle.vehicleFuelLevel();
-                lightson = playerPed.CurrentVehicle.AreLightsOn;
-                highbeams = playerPed.CurrentVehicle.AreHighBeamsOn;
-                MaxFuelLevel = GetVehicleHandlingFloat(playerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume");
+                Vehicle veh = Cache.PlayerPed.CurrentVehicle;
+                if (veh.Exists() && !veh.IsDead && !Cache.PlayerPed.IsDead)
+                {
+                    IsEngineOn = veh.IsEngineRunning;
+                    engineHealth = veh.EngineHealth;
+                    OilLevel = veh.OilLevel;
+                    FuelLevel = veh.vehicleFuelLevel();
+                    lightson = veh.AreLightsOn;
+                    highbeams = veh.AreHighBeamsOn;
+                    MaxFuelLevel = GetVehicleHandlingFloat(veh.Handle, "CHandlingData", "fPetrolTankVolume");
+                }
             }
             await BaseScript.Delay(100);
         }
 
         private static async Task OnTickSpeedo3()
         {
-            Ped playerPed = new Ped(PlayerPedId());
             if (overwriteAlpha)
                 curAlpha = 0;
-            if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver == Game.PlayerPed)
+            if (Cache.PlayerPed.IsInVehicle() && Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
             {
                 if (curAlpha >= 255)
                     curAlpha = 255;
                 else
                     curAlpha += 5;
             }
-            else if (!playerPed.IsInVehicle())
+            else if (!Cache.PlayerPed.IsInVehicle())
             {
                 if (curAlpha <= 0)
                     curAlpha = 0;
@@ -98,9 +101,9 @@ namespace TheLastPlanet.Client.Veicoli
             }
             else
             {
-                if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
+                if (Cache.PlayerPed.CurrentVehicle != null && Cache.PlayerPed.CurrentVehicle.Exists() && !Cache.PlayerPed.CurrentVehicle.IsDead && !Cache.PlayerPed.IsDead)
                 {
-                    RPM = playerPed.CurrentVehicle.CurrentRPM;
+                    RPM = Cache.PlayerPed.CurrentVehicle.CurrentRPM;
                     if (!IsEngineOn)
                         RPM = 0;
                     if (RPM > 0.999f)
@@ -109,12 +112,12 @@ namespace TheLastPlanet.Client.Veicoli
                         RPM += Funzioni.GetRandomFloat(-2f, 2f);
                         RPM /= 100f;
                     }
-                    if (playerPed.CurrentVehicle.Speed > 0)
-                        degree = playerPed.CurrentVehicle.Speed * 2.036936f * cst.RotStep;
+                    if (Cache.PlayerPed.CurrentVehicle.Speed > 0)
+                        degree = Cache.PlayerPed.CurrentVehicle.Speed * 2.036936f * cst.RotStep;
                     if (degree > 290)
                         degree = 290f;
 
-                    blinkerstate = GetVehicleIndicatorLights(playerPed.CurrentVehicle.Handle);
+                    blinkerstate = GetVehicleIndicatorLights(Cache.PlayerPed.CurrentVehicle.Handle);
                     if (blinkerstate == 0)
                     {
                         blinkerleft = false;
@@ -191,7 +194,7 @@ namespace TheLastPlanet.Client.Veicoli
                         showHighBeams = false;
                         showLowBeams = false;
                     }
-                    if (((int)playerPed.CurrentVehicle.ClassType < 0 || (int)playerPed.CurrentVehicle.ClassType >= 13) && (int)playerPed.CurrentVehicle.ClassType < 17)
+                    if (((int)Cache.PlayerPed.CurrentVehicle.ClassType < 0 || (int)Cache.PlayerPed.CurrentVehicle.ClassType >= 13) && (int)Cache.PlayerPed.CurrentVehicle.ClassType < 17)
                         curAlpha = 0;
                     if (RPM < 0.119999997317791f || RPM == 0)
                         RPM = 0.12f;
@@ -223,12 +226,12 @@ namespace TheLastPlanet.Client.Veicoli
                     if (FuelLevel > -1.0f && MaxFuelLevel != 0)
                     {
                         DrawSprite(cst.ytdName, curFuelGauge, cst.centerCoords.X + cst.FuelBGLoc.X, cst.centerCoords.Y + cst.FuelBGLoc.Y, cst.FuelBGLoc.Z, cst.FuelBGLoc.W, 0.0f, 255, 255, 255, curAlpha);
-                        DrawSprite(cst.ytdName, curNeedle, cst.centerCoords.X + cst.FuelGaugeLoc.X, cst.centerCoords.Y + cst.FuelGaugeLoc.Y, cst.FuelGaugeLoc.Z, cst.FuelGaugeLoc.W, 80.0f + playerPed.CurrentVehicle.FuelLevel / GetVehicleHandlingFloat(playerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume") * 110.0f, 255, 255, 255, curAlpha);
+                        DrawSprite(cst.ytdName, curNeedle, cst.centerCoords.X + cst.FuelGaugeLoc.X, cst.centerCoords.Y + cst.FuelGaugeLoc.Y, cst.FuelGaugeLoc.Z, cst.FuelGaugeLoc.W, 80.0f + Cache.PlayerPed.CurrentVehicle.FuelLevel / GetVehicleHandlingFloat(Cache.PlayerPed.CurrentVehicle.Handle, "CHandlingData", "fPetrolTankVolume") * 110.0f, 255, 255, 255, curAlpha);
                     }
                     if (!beltOn && showBlinkerBelt)
                         DrawSprite(cst.ytdName, "seatbelt", cst.centerCoords.X + cst.seatbeltLoc.X, cst.centerCoords.Y + cst.seatbeltLoc.Y, cst.seatbeltLoc.Z, cst.seatbeltLoc.W, 0.0f, 255, 0, 0, curAlpha);
 
-                    if (IsCar(playerPed.CurrentVehicle.Handle))
+                    if (IsCar(Cache.PlayerPed.CurrentVehicle.Handle))
                     {
                         if (!UIOpen)
                         {
@@ -242,18 +245,18 @@ namespace TheLastPlanet.Client.Veicoli
                                 HUD.ShowNotification("Hai la cintura allacciata!!", NotificationColor.Red, true);
                         }
                         speedBuffer[1] = speedBuffer[0];
-                        speedBuffer[0] = playerPed.CurrentVehicle.Speed;
-                        if (speedBuffer[1] > 0 && !beltOn && (GetEntitySpeedVector(playerPed.CurrentVehicle.Handle, true).Y > 1 && speedBuffer[0] > 15) && speedBuffer[1] - speedBuffer[0] > speedBuffer[0] * 0.254999995231628f)
+                        speedBuffer[0] = Cache.PlayerPed.CurrentVehicle.Speed;
+                        if (speedBuffer[1] > 0 && !beltOn && (GetEntitySpeedVector(Cache.PlayerPed.CurrentVehicle.Handle, true).Y > 1 && speedBuffer[0] > 15) && speedBuffer[1] - speedBuffer[0] > speedBuffer[0] * 0.254999995231628f)
                         {
-                            Vector3 coords = playerPed.Position;
+                            Vector3 coords = Cache.PlayerPed.Position;
                             float[] fw = ForwardVelocity(PlayerPedId());
-                            playerPed.Position = new Vector3(coords.X + fw[0], coords.Y + fw[1], coords.Z - 0.469999998807907f);
-                            playerPed.Velocity = new Vector3(velBuffer[1].X, velBuffer[1].Y, velBuffer[1].Z);
+                            Cache.PlayerPed.Position = new Vector3(coords.X + fw[0], coords.Y + fw[1], coords.Z - 0.469999998807907f);
+                            Cache.PlayerPed.Velocity = new Vector3(velBuffer[1].X, velBuffer[1].Y, velBuffer[1].Z);
                             await BaseScript.Delay(1);
-                            playerPed.Ragdoll(3000, RagdollType.Normal);
+                            Cache.PlayerPed.Ragdoll(3000, RagdollType.Normal);
                         }
                         velBuffer[1] = velBuffer[0];
-                        velBuffer[0] = playerPed.CurrentVehicle.Velocity;
+                        velBuffer[0] = Cache.PlayerPed.CurrentVehicle.Velocity;
                         if (Input.IsControlJustPressed(Control.ReplayTimelinePickupClip, PadCheck.Keyboard) || (Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) && Input.IsControlJustPressed(Control.FrontendX, PadCheck.Controller)))
                         {
                             if (a != null) a.Hide();
@@ -297,7 +300,7 @@ namespace TheLastPlanet.Client.Veicoli
             return vehicleClass >= 0 && vehicleClass <= 7 || vehicleClass >= 9 && vehicleClass <= 12 || vehicleClass >= 17 && vehicleClass <= 20;
         }
 
-        public static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Game.PlayerPed.IsInVehicle() });
+        public static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Cache.PlayerPed.IsInVehicle() });
 
         private static float[] ForwardVelocity(int ent)
         {

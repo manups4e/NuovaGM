@@ -70,7 +70,6 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task CestiSpazzatura()
 		{
-			Ped p = new Ped(PlayerPedId());
 			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
@@ -107,7 +106,7 @@ namespace TheLastPlanet.Client.Interactions
 				else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					Vector3 offset = GetOffsetFromEntityInWorldCoords(BinClosest.Handle, 0f, -0.97f, 0.05f);
-					p.Task.LookAt(BinClosest);
+					Cache.PlayerPed.Task.LookAt(BinClosest);
 					TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z+1, 1f, 20000, BinClosest.Heading, 0.1f);
 					TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true);
 					await BaseScript.Delay(5000);
@@ -137,7 +136,7 @@ namespace TheLastPlanet.Client.Interactions
 							break;
 					}
 					await BaseScript.Delay(1000);
-					p.Task.ClearAll();
+					Cache.PlayerPed.Task.ClearAll();
 				}
 			}
 		}

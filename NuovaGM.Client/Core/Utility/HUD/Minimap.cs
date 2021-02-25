@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task MinimapDrawing()
 		{
-			Ped p = new Ped(PlayerPedId());
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
 			{
@@ -44,13 +43,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 					}
 
 					//se non sono su un veicolo e non ho il menu di pausa attivo.
-					if (!p.IsInVehicle() && (!IsPauseMenuActive()))
+					if (!Cache.PlayerPed.IsInVehicle() && (!IsPauseMenuActive()))
 						DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
-					if (p.IsInVehicle())
+					if (Cache.PlayerPed.IsInVehicle())
 					{
 						if (Main.ImpostazioniClient.MiniMappaInAuto)
 						{
-							Vehicle veh = p.CurrentVehicle;
+							Vehicle veh = Cache.PlayerPed.CurrentVehicle;
 							if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
 								DisableRadarThisFrame();
 						}
