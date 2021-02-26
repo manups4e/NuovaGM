@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void UpdateVoices()
 		{
-			Ped pl = new Ped(PlayerPedId());
+			Ped pl = Cache.PlayerPed;
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				int serverID = GetPlayerServerId(p.Handle);
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.Core
 			return InSameVeh || (!OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < (Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f)) && distance < CheckDistance);
 		}
 
-		public static bool ShouldSendVoice() => NetworkIsPlayerTalking(Game.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
+		public static bool ShouldSendVoice() => NetworkIsPlayerTalking(Cache.Player.Handle) || Input.IsControlPressed(Control.PushToTalk);
 
 		public static async Task OnTick()
 		{
@@ -109,7 +109,7 @@ namespace TheLastPlanet.Client.Core
 		public static void UpdateVocalMode(int mode)
 		{
 			int nextMode = mode;
-			if (nextMode > 2 && !Game.PlayerPed.IsInVehicle())
+			if (nextMode > 2 && !Cache.PlayerPed.IsInVehicle())
 				nextMode = 0;
 			Mode = (Mode)nextMode;
 			OnModeModified();
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.Core
 		static bool notif = false;
 		public static async Task OnTick2()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			if (Permesso)
 			{
 				if (Input.IsControlPressed(Control.VehicleHeadlight, PadCheck.Keyboard, ControlModifier.Shift))

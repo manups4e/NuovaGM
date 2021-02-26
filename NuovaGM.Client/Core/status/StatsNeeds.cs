@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Core.Status
 		private static async Task FameSete()
 		{
 			await BaseScript.Delay(1000);
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			if (playerPed.Health > 0 && (fame100 || sete100))
 			{
 				if (playerPed.Health <= 50)
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		private static async void Clacson()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (p.IsInVehicle())
 				Client.Instance.AddTick(Horn);
 			await BaseScript.Delay(30000);
@@ -164,8 +164,8 @@ namespace TheLastPlanet.Client.Core.Status
 		public static async Task GestioneStatsSkill()
 		{
 			await BaseScript.Delay(1000);
-			Ped p = new Ped(PlayerPedId());
-			Player m = new Player(PlayerId());
+			Ped p = Cache.PlayerPed;
+			Player m = Cache.Player;
 			Needs.Values.ToList().ForEach(x => x.OnTick(p, m));
 			Statistics.Values.ToList().ForEach(x => x.OnTick(p, m));
 

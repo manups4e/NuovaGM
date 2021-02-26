@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client
 		static TabView b = new TabView("New");
 		static List<UIMenuItem> Players = new List<UIMenuItem>()
 				{
-					new UIMenuItem(Game.Player.Name)
+					new UIMenuItem(Cache.Player.Name)
 				};
 		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", Players);
 		*/

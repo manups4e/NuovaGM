@@ -49,7 +49,7 @@ namespace TheLastPlanet.Client.Manager
 					*/
 					foreach (var p in Client.Instance.GetPlayers)
 					{
-						//if (p == Game.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
+						//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
 						var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 						string charscount;
 						if (player.char_data.Count == 1)
@@ -69,13 +69,13 @@ namespace TheLastPlanet.Client.Manager
 						Giocatore.OnItemSelect += async (menu, item, index) =>
 						{
 							if (item == Teletrasportami)
-								Game.PlayerPed.Position = p.Character.Position;
+								Cache.PlayerPed.Position = p.Character.Position;
 							else if (item == Teletrasportalo)
 								BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.Char.posizione.ToVector3());
 							else if (item == Specta)
 							{
-								if (p == Game.Player) return;
-								Game.PlayerPed.SetDecor("AdminSpecta", p.Handle);
+								if (p == Cache.Player) return;
+								Cache.PlayerPed.SetDecor("AdminSpecta", p.Handle);
 								RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 								NetworkSetInSpectatorMode(true, p.Character.Handle);
 								Client.Instance.AddTick(SpectatorMode);
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.Manager
 								menu.UpdateDescription();
 							}
 							else if (item == Banna)
-								BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Game.Player.ServerId);
+								BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.Player.ServerId);
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
 					};
 
@@ -215,7 +215,7 @@ namespace TheLastPlanet.Client.Manager
 								motivazioneKick.SetRightLabel(motivazionekick.Substring(0, 15) + "...");
 							}
 							else if (item == Kicka)
-								BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Game.Player.ServerId);
+								BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.Player.ServerId);
 						};
 						#endregion
 
@@ -364,7 +364,7 @@ namespace TheLastPlanet.Client.Manager
 						SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else
-					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Game.PlayerPed.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Cache.PlayerPed.Heading);
 				VeicoloSalvato.DirtLevel = 0;
 				VeicoloSalvato.NeedsToBeHotwired = false;
 				VeicoloSalvato.MarkAsNoLongerNeeded();
@@ -562,15 +562,15 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task SpectatorMode()
 		{
-			if (Game.PlayerPed.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
+			if (Cache.PlayerPed.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
 			{
 				Game.DisableControlThisFrame(0, Control.Context);
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di spectare");
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					Player p = new Player(Game.PlayerPed.GetDecor<int>("AdminSpecta"));
+					Player p = new Player(Cache.PlayerPed.GetDecor<int>("AdminSpecta"));
 					NetworkSetInSpectatorMode(false, p.Character.Model);
-					Game.PlayerPed.SetDecor("AdminSpecta", 0);
+					Cache.PlayerPed.SetDecor("AdminSpecta", 0);
 					Client.Instance.RemoveTick(SpectatorMode);
 				}
 			}

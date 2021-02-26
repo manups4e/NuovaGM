@@ -23,19 +23,19 @@ namespace TheLastPlanet.Client.Negozi
 		#region Utili
 		static private async void StartAnim(string lib, string anim)
 		{
-			Game.PlayerPed.BlockPermanentEvents = true;
-			await Game.PlayerPed.Task.PlayAnimation(lib, anim, 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			await Cache.PlayerPed.Task.PlayAnimation(lib, anim, 8f, -8f, -1, AnimationFlags.Loop, 0);
 		}
 
 		static private async void StartAnimN(string lib, string anim)
 		{
-			Game.PlayerPed.BlockPermanentEvents = true;
-			await Game.PlayerPed.Task.PlayAnimation(lib, anim, 4.0f, -2.0f, -1, AnimationFlags.None, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			await Cache.PlayerPed.Task.PlayAnimation(lib, anim, 4.0f, -2.0f, -1, AnimationFlags.None, 0);
 		}
 
 		static private void StartScenario(string anim)
 		{
-			Game.PlayerPed.Task.StartScenario(anim, Cache.Char.posizione.ToVector3());
+			Cache.PlayerPed.Task.StartScenario(anim, Cache.Char.posizione.ToVector3());
 		}
 
 		public static async Task UpdateDress(dynamic dress)
@@ -500,9 +500,9 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenu MenuVest = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuVest);
 			MenuVest.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
-			Game.PlayerPed.BlockPermanentEvents = true;
-			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
-			await Game.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
+			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			var completi = Completi.OrderBy(x => x.Price).ToList();
 			_menuVestiti.Add(MenuVest);
 			for (int i = 0; i < completi.Count; i++)
@@ -534,7 +534,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				string random = GetRandomAnim(anim, false);
 				await UpdateDress(completi[index]);
-				await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+				await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 			};
 			MenuVest.OnItemSelect += async (_menu, _item, _index) =>
 			{
@@ -598,9 +598,9 @@ namespace TheLastPlanet.Client.Negozi
 			pool.Add(MenuPant);
 			MenuPant.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			_menuVestiti.Add(MenuPant);
-			Game.PlayerPed.BlockPermanentEvents = true;
-			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "try_trousers_base", 4.0f, true);
-			await Game.PlayerPed.Task.PlayAnimation(anim, "try_trousers_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_trousers_base", 4.0f, true);
+			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_trousers_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			var completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
@@ -661,7 +661,7 @@ namespace TheLastPlanet.Client.Negozi
 						SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
 						string random = GetRandomAnim(anim, false);
 						SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[0], 2);
-						await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+						await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 						mod = v.Modello;
 						text = v.Text[0];
 					}
@@ -674,7 +674,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					string random = GetRandomAnim(anim, false);
 					SetPedComponentVariation(PlayerPedId(), 4, v.Modello, v.Text[index], 2);
-					await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+					await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 					mod = v.Modello;
 					text = v.Text[index];
 				};
@@ -773,9 +773,9 @@ namespace TheLastPlanet.Client.Negozi
 			pool.Add(MenuScarpe);
 			_menuVestiti.Add(MenuScarpe);
 			MenuScarpe.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
-			Game.PlayerPed.BlockPermanentEvents = true;
-			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "try_shoes_base", 4.0f, true);
-			await Game.PlayerPed.Task.PlayAnimation(anim, "try_shoes_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_shoes_base", 4.0f, true);
+			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_shoes_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			var completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
@@ -836,7 +836,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						string random = GetRandomAnim(anim, false);
 						SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[0], 2);
-						await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+						await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 						mod = v.Modello;
 						text = v.Text[0];
 					}
@@ -847,7 +847,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					string random = GetRandomAnim(anim, false);
 					SetPedComponentVariation(PlayerPedId(), 6, v.Modello, v.Text[index], 2);
-					await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+					await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 					mod = v.Modello;
 					text = v.Text[index];
 				};
@@ -946,9 +946,9 @@ namespace TheLastPlanet.Client.Negozi
 			pool.Add(MenuOcchiali);
 			_menuVestiti.Add(MenuOcchiali);
 			MenuOcchiali.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
-			Game.PlayerPed.BlockPermanentEvents = true;
-			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "Try_Glasses_Base", 4.0f, true);
-			await Game.PlayerPed.Task.PlayAnimation(anim, "Try_Glasses_Base", 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "Try_Glasses_Base", 4.0f, true);
+			await Cache.PlayerPed.Task.PlayAnimation(anim, "Try_Glasses_Base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			var completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
@@ -1009,7 +1009,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						string random = GetRandomAnim(anim, false);
 						SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[0], false);
-						await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+						await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 						mod = v.Modello;
 						text = v.Text[0];
 					}
@@ -1020,7 +1020,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					string random = GetRandomAnim(anim, false);
 					SetPedPropIndex(PlayerPedId(), 1, v.Modello, v.Text[index], false);
-					await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+					await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 					mod = v.Modello;
 					text = v.Text[index];
 				};
@@ -1138,9 +1138,9 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenu MenuAccessori = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuAccessori);
 			MenuAccessori.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
-			Game.PlayerPed.BlockPermanentEvents = true;
-			SetPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
-			await Game.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
+			Cache.PlayerPed.BlockPermanentEvents = true;
+			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
+			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			int money = 0;
 			int IntorecAtt = Cache.Char.CurrentChar.skin.ears.style;
 			int IntcoloOreccAtt = Cache.Char.CurrentChar.skin.ears.color;
@@ -1218,7 +1218,7 @@ namespace TheLastPlanet.Client.Negozi
 				IntBors = Accessorio.Borse[index].Modello;
 				string random = GetRandomAnim(anim, false);
 				SetPedComponentVariation(PlayerPedId(), 5, IntBors, 0, 2);
-				await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+				await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 			};
 			Borse.OnItemSelect += async (_menu, _item, _index) =>
 			{
@@ -1358,7 +1358,7 @@ namespace TheLastPlanet.Client.Negozi
 					SetPedPropIndex(PlayerPedId(), 0, cappellino.Modello, cappellino.Text[_newIndex], false);
 					IntCappAtt = cappellino.Text[_newIndex];
 					IntCappAttMod = cappellino.Text[_newIndex];
-					await Game.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
+					await Cache.PlayerPed.Task.PlayAnimation(anim, random, 4f, -2f, -1, AnimationFlags.None, 0);
 				};
 				Capelino.OnItemSelect += async (_menu, _item, _index) =>
 				{
@@ -1965,8 +1965,8 @@ namespace TheLastPlanet.Client.Negozi
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 28422, 0.0f, 0.0f, 0.0f, true);
 					else if (newmenu == Borse)
 					{
-						float newheading = Game.PlayerPed.Heading - 180f;
-						Game.PlayerPed.Task.AchieveHeading(newheading, 1000);
+						float newheading = Cache.PlayerPed.Heading - 180f;
+						Cache.PlayerPed.Task.AchieveHeading(newheading, 1000);
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
 					}
 					else if (newmenu == Orecc)
@@ -1984,7 +1984,7 @@ namespace TheLastPlanet.Client.Negozi
 
 							NegozioAbitiClient.camm.FieldOfView = fov;
 						} while (fov > 15f);
-						Game.PlayerPed.Task.LookAt(new Vector3(NegozioAbitiClient.camm.Position.X + 5f, NegozioAbitiClient.camm.Position.Y, NegozioAbitiClient.camm.Position.Z));
+						Cache.PlayerPed.Task.LookAt(new Vector3(NegozioAbitiClient.camm.Position.X + 5f, NegozioAbitiClient.camm.Position.Y, NegozioAbitiClient.camm.Position.Z));
 					}
 					else if (newmenu == Orol)
 					{
@@ -2006,8 +2006,8 @@ namespace TheLastPlanet.Client.Negozi
 					if (oldmenu == Borse)
 					{
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-						float newheading = Game.PlayerPed.Heading + 180f;
-						Game.PlayerPed.Task.AchieveHeading(newheading, 1000);
+						float newheading = Cache.PlayerPed.Heading + 180f;
+						Cache.PlayerPed.Task.AchieveHeading(newheading, 1000);
 						await UpdateDress(Cache.Char.CurrentChar.dressing);
 					}
 					else if (oldmenu == Orecc)
@@ -2025,7 +2025,7 @@ namespace TheLastPlanet.Client.Negozi
 							NegozioAbitiClient.camm.FieldOfView = fov;
 						} while (fov < 45f);
 						await UpdateDress(Cache.Char.CurrentChar.dressing);
-						Game.PlayerPed.Task.LookAt(NegozioAbitiClient.camm.Position);
+						Cache.PlayerPed.Task.LookAt(NegozioAbitiClient.camm.Position);
 					}
 					else if (oldmenu == Brac)
 					{

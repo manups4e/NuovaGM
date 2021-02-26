@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						_new.Clear();
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-						SetPlayerControl(Game.Player.Handle, false, 256);
+						SetPlayerControl(Cache.Player.Handle, false, 256);
 
 						if (immobile == TipoImmobile.Casa)
 						{
@@ -809,7 +809,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				{
 					if (newmenu == selezionePunto)
 					{
-						SetPlayerControl(Game.Player.Handle, false, 256);
+						SetPlayerControl(Cache.Player.Handle, false, 256);
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 						if (MainCamera == null)
@@ -880,7 +880,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							RenderScriptCams(false, false, 1000, false, false);
 							MainCamera.IsActive = false;
 						}
-						SetPlayerControl(Game.Player.Handle, true, 256);
+						SetPlayerControl(Cache.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 					}
 					else if (oldmenu == gestioneInteriorCasa)
@@ -894,7 +894,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							RenderScriptCams(false, false, 1000, false, false);
 							MainCamera.IsActive = false;
 						}
-						SetPlayerControl(Game.Player.Handle, true, 256);
+						SetPlayerControl(Cache.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 					}
 				}

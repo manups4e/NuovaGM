@@ -82,9 +82,9 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async void Controlla(Vector3 S, float Ch, Vector3 C, string Menu)
 		{
-			while (!Game.PlayerPed.IsInRangeOf(S, 1f)) await BaseScript.Delay(100);
+			while (!Cache.PlayerPed.IsInRangeOf(S, 1f)) await BaseScript.Delay(100);
 
-			if (Game.PlayerPed.IsInRangeOf(S, 1f) && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
+			if (Cache.PlayerPed.IsInRangeOf(S, 1f) && IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"))
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Negozi
 			Vector3 Coords = GetObjectOffsetFromCoords(C.X, C.Y, C.Z, Ch, O.X, O.Y, O.Z);
 			Camm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
 			Camm.Position = new Vector3(Coords.X, Coords.Y, Coords.Z + 0.85f);
-			Camm.PointAt(Game.PlayerPed.Bones[Bone.SKEL_Head].Position);
+			Camm.PointAt(Cache.PlayerPed.Bones[Bone.SKEL_Head].Position);
 			Camm.FieldOfView = 35f;
 			Camm.IsActive = true;
 			RenderScriptCams(true, true, 1000, true, false);
@@ -108,7 +108,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async Task Sedie()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
 			{
 				if (p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)

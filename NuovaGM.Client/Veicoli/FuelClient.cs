@@ -267,7 +267,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 			jobTruck = await World.CreateVehicle(truck, spot.pos, spot.heading);
 			jobTruck.PlaceOnGround();
-			Game.PlayerPed.SetIntoVehicle(jobTruck, VehicleSeat.Driver);
+			Cache.PlayerPed.SetIntoVehicle(jobTruck, VehicleSeat.Driver);
 			SetVehicleNumberPlateText(jobTruck.Handle, plate);
 			BaseScript.TriggerEvent("frfuel:filltankForVeh", jobTruck.Handle);
 			string plat = GetVehicleNumberPlateText(jobTruck.Handle).ToLower();
@@ -282,9 +282,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void FillFuel()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			if (Cache.PlayerPed.IsInVehicle())
 			{
-				SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+				SetVehicleFuelLevel(Cache.PlayerPed.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
 			}
 		}
@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.Veicoli
 				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			else if (level < 0f)
 				level = 0f;
-			SetVehicleFuelLevel(Game.PlayerPed.CurrentVehicle, level);
+			SetVehicleFuelLevel(Cache.PlayerPed.CurrentVehicle, level);
 			HUD.ShowNotification("Carburante settato, Usalo SOLO in caso di ~r~EMERGENZA~w~!");
 		}
 
@@ -446,7 +446,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			try
 			{
-				Ped playerPed = new Ped(PlayerPedId());
+				Ped playerPed = Cache.PlayerPed;
 				if (playerPed.IsInVehicle())
 				{
 					if (playerPed.CurrentVehicle.Driver == playerPed)
@@ -688,7 +688,7 @@ namespace TheLastPlanet.Client.Veicoli
 			}
 			if (jobTruck.Handle != 0 && jobTrailer.Handle != 0)
 			{
-				Vehicle vehicle = Game.PlayerPed.CurrentVehicle;
+				Vehicle vehicle = Cache.PlayerPed.CurrentVehicle;
 				if (vehicle == jobTruck && IsVehicleAttachedToTrailer(jobTruck.Handle))
 				{
 					HUD.DrawText(0.9f, 0.935f, $"Carburante Cisterna: {tankerfuel}", Color.FromArgb(255, 135, 206, 235));

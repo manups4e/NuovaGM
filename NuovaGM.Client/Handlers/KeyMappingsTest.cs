@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Handlers
                 //IF YOU CHANGE FROM +key OR -key REMEMBER TO COUNT THE MIN CHARS "+key " is 5 for the substring
                 KeyMappingController input = InputList.FirstOrDefault(x => x.CommandName == rawCommand.Substring(5));
                 input.IsPressed = true;
-                input.ForwardedData.player = Game.Player;
+                input.ForwardedData.player = Cache.Player;
                 input.Action.DynamicInvoke(input.ForwardedData);
             }
             catch(Exception e)
@@ -69,9 +69,9 @@ namespace TheLastPlanet.Client.Handlers
         // this is made as a tick because: if you add a new keymapping with server already open it'll be registered on the go
         public async Task MappingHandling()
 		{
-            //using Game.PlayerPed means calling Game.Player.Character means 3 natives PlayerId() (once), GetPlayerPed() (twice)
+            //using Cache.PlayerPed means calling Cache.Player.Character means 3 natives PlayerId() (once), GetPlayerPed() (twice)
             //this way i only call it once with PlayerPedId()
-            Ped playerPed = new Ped(PlayerPedId());
+            Ped playerPed = Cache.PlayerPed;
             foreach (var input in InputList)
             {
                 //if the input id is 0 register it and give it an id.. this way it gets registered once only

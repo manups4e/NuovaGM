@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client.Veicoli
 
         public static async Task Tick1()
         {
-            Ped playerPed = new Ped(PlayerPedId());
+            Ped playerPed = Cache.PlayerPed;
             if (playerPed.CurrentVehicle != null && playerPed.CurrentVehicle.Exists() && !playerPed.CurrentVehicle.IsDead && !playerPed.IsDead)
             {
                 IsEngineOn = playerPed.CurrentVehicle.IsEngineRunning;
@@ -73,10 +73,10 @@ namespace TheLastPlanet.Client.Veicoli
 
         private static async Task OnTickSpeedo3()
         {
-            Ped playerPed = new Ped(PlayerPedId());
+            Ped playerPed = Cache.PlayerPed;
             if (overwriteAlpha)
                 curAlpha = 0;
-            if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver == Game.PlayerPed)
+            if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver == Cache.PlayerPed)
             {
                 if (curAlpha >= 255)
                     curAlpha = 255;
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.Veicoli
             return vehicleClass >= 0 && vehicleClass <= 7 || vehicleClass >= 9 && vehicleClass <= 12 || vehicleClass >= 17 && vehicleClass <= 20;
         }
 
-        public static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Game.PlayerPed.IsInVehicle() });
+        public static void NUIBuckled(bool value) => Funzioni.SendNuiMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Cache.PlayerPed.IsInVehicle() });
 
         private static float[] ForwardVelocity(int ent)
         {

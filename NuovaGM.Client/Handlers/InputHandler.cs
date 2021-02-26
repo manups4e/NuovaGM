@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				Ped p = new Ped(PlayerPedId());
+				Ped p = Cache.PlayerPed;
 				foreach(var input in ListaInput)
 				{
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)

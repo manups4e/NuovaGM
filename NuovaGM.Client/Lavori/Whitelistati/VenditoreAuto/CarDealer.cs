@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 		public static async Task Markers()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "cardealer")
 			{
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente

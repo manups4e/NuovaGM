@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task MinimapDrawing()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
 			{

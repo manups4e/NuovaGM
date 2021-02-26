@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			try
 			{
-				Ped playerPed = new Ped(PlayerPedId());
+				Ped playerPed = Cache.PlayerPed;
 				if (playerPed.IsInVehicle())
 				{
 					if (playerPed.CurrentVehicle.Driver == playerPed)

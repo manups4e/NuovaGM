@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 
 		public static async Task InizioLavoro()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (Cache.Char.CurrentChar.job.name != "Rimozione forzata")
 			{
 				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50))
@@ -192,7 +192,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			}
 			if (VeicoloLavorativo == null) return;
 			while (Vector3.Distance(Cache.Char.posizione.ToVector3(), VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0 && VeicoloDaRimuovere != null) await BaseScript.Delay(0);
-			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Game.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10))
+			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Cache.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10))
 				HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
 			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle)
 				HUD.ShowHelp("Hai agganciato il veicolo sbagliato!");

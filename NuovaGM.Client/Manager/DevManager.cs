@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
-			Ped pl = new Ped(PlayerPedId());
+			Ped pl = Cache.PlayerPed;
 			var ray = await WorldProbe.GamePlayCamCrosshairRaycast();
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Manager
 			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {ray.HitPosition}");
 			if (pl.IsAiming)
 			{
-				Entity ent = Game.Player.GetTargetedEntity();
+				Entity ent = Cache.Player.GetTargetedEntity();
 				if (ent.Exists())
 					HUD.DrawText3D(ent.GetOffsetPosition(new Vector3(0, 0, 1)), Colors.DarkSeaGreen, "Hash = " + ent.Model.Hash);
 			}
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Manager
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllPeds())
-					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f) && p != Game.PlayerPed)
+					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f) && p != Cache.PlayerPed)
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
 				foreach (var p in World.GetAllVehicles())
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))

@@ -30,13 +30,13 @@ namespace TheLastPlanet.Client.Veicoli
 		private static async void ChiudiBagagliaio()
 		{
 			trunkOpen = false;
-			if (Game.PlayerPed.LastVehicle != null)
-				Game.PlayerPed.LastVehicle.Doors[VehicleDoorIndex.Trunk].Close();
+			if (Cache.PlayerPed.LastVehicle != null)
+				Cache.PlayerPed.LastVehicle.Doors[VehicleDoorIndex.Trunk].Close();
 		}
 
 		public static async Task ControlloBagagliaio()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			if (!playerPed.IsInVehicle())
 			{
 				Tuple<Vehicle, float> closestVeh = playerPed.GetClosestVehicleWithDistance();

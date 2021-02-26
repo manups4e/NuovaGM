@@ -185,7 +185,7 @@ namespace TheLastPlanet.Client.Businesses
 
 		public static async Task BusinessesPumps()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			for (int i = 0; i < stations.Count; i++)
 			{ 
 				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), stations[i].ppos);

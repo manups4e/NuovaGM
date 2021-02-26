@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task VendingMachines()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (VendingMachineClosest != null)
 			{
 				if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)

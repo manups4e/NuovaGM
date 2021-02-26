@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static PlayerChar GetPlayerData(this Player player)
 		{
-			return player == Game.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
+			return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
 		}
 
 		public static void SendNuiMessage(object message)
@@ -126,26 +126,26 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			var players = GetPlayersInArea(coord, radius);
 			foreach (var pl in players)
-				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle)
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, true, true);
 		}
 
 		public static void ConcealAllPlayers()
 		{
-			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, true, true); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) { NetworkConcealPlayer(pl.Handle, true, true); } });
 		}
 
 		public static void RevealPlayersNearby(Vector3 coord, float radius)
 		{
 			var players = GetPlayersInArea(coord, radius);
 			foreach (var pl in players)
-				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle)
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, false, false);
 		}
 
 		public static void RevealAllPlayers()
 		{
-			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Game.Player.Handle) { NetworkConcealPlayer(pl.Handle, false, false); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) { NetworkConcealPlayer(pl.Handle, false, false); } });
 		}
 
 
@@ -374,7 +374,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void Teleport(Vector3 coords)
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible)
@@ -419,7 +419,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void TeleportConVeh(Vector3 coords)
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible)
@@ -470,8 +470,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static int GetVehicleInDirection()
 		{
-			int ped = Game.PlayerPed.Handle;
-			Vector3 coords = Game.PlayerPed.Position;
+			int ped = Cache.PlayerPed.Handle;
+			Vector3 coords = Cache.PlayerPed.Position;
 			Vector3 inDirection = GetOffsetFromEntityInWorldCoords(ped, 0.0f, 5.0f, 0.0f);
 			int rayHandle = CastRayPointToPoint(coords.X, coords.Y, coords.Z, inDirection.X, inDirection.Y, inDirection.Z, 10, ped, 0);
 			bool a = false;
@@ -513,13 +513,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				};
 				while (!vehicle.Exists()) await BaseScript.Delay(0);
 				vehicle.PlaceOnGround();
-				Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
+				Cache.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
 				bool ready = false;
 				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
-				return Game.PlayerPed.CurrentVehicle;
+				return Cache.PlayerPed.CurrentVehicle;
 			}
 			else
 			{
@@ -717,7 +717,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> PlayersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area) && p != Game.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area));
+			List<Player> PlayersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area) && p != Cache.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area));
 			return PlayersInArea;
 		}
 

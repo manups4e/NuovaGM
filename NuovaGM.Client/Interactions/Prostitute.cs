@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task LoopProstitute()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (Prostituta != null)
 			{
 				if (Prostituta.IsPlayer) return;

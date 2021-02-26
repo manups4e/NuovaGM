@@ -135,7 +135,7 @@ namespace TheLastPlanet.Client
 
 		private static async Task TickHandler()
 		{
-			if (Game.PlayerPed.IsInVehicle())
+			if (Cache.PlayerPed.IsInVehicle())
 			{
 				if (!InUnVeicolo)
 				{

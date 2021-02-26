@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerFuori()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			foreach (var app in Proprietà.Appartamenti)
 			{
 				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Proprietà
 									foreach (var p in playerPed.CurrentVehicle.Passengers)
 									{
 										var pl = Funzioni.GetPlayerFromPed(p);
-										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Game.Player.ServerId, Cache.Char.StatiPlayer.Istanza.Instance);
+										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Cache.Player.ServerId, Cache.Char.StatiPlayer.Istanza.Instance);
 										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 									}
 								}
@@ -133,7 +133,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerDentro()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
 			{
 				if (Proprietà.Appartamenti.ContainsKey(Cache.Char.StatiPlayer.Istanza.Instance))

@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Interactions
 							letSleep = false;
 							if (dist < 1.5)
 							{
-								if (Game.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
+								if (Cache.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
 									if (Input.IsControlJustPressed(Control.Context))
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.Interactions
 											if (!pickup.inRange)
 											{
 												pickup.inRange = true;
-												Game.PlayerPed.Task.PlayAnimation("pickup_object", "pickup_low");
+												Cache.PlayerPed.Task.PlayAnimation("pickup_object", "pickup_low");
 												await BaseScript.Delay(1000);
 												BaseScript.TriggerServerEvent("lprp:onPickup", pickup.id);
 												Game.PlaySound("PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET");

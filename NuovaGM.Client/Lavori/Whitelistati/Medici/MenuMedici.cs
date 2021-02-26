@@ -145,8 +145,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Cache.Char.StatiPlayer.Istanza.Istanzia("SceltaVeicoliMedici");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
-			Game.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
-			Game.PlayerPed.Heading = 85.162f;
+			Cache.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
+			Cache.PlayerPed.Heading = 85.162f;
 			InGarage = true;
 			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade)) <= 10)
 			{
@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		private static async Task ControlloGarage()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
 			{
 				if (InGarage)
@@ -290,7 +290,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 					await BaseScript.Delay(1000);
 					if (item == esci)
 					{
-						Game.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
+						Cache.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
@@ -377,13 +377,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						break;
 					}
 				}
-				Game.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
-				Game.PlayerPed.CurrentVehicle.IsDriveable = true;
-				Game.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
-				Game.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
-				if (Game.PlayerPed.CurrentVehicle.Model.Hash == 353883353)
-					SetVehicleLivery(Game.PlayerPed.CurrentVehicle.Handle, 1);
-				VeicoloPol veh = new VeicoloPol(Game.PlayerPed.CurrentVehicle.Mods.LicensePlate, Game.PlayerPed.CurrentVehicle.Model.Hash, Game.PlayerPed.CurrentVehicle.Handle);
+				Cache.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
+				Cache.PlayerPed.CurrentVehicle.IsDriveable = true;
+				Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
+				Cache.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353)
+					SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 1);
+				VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
 				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();

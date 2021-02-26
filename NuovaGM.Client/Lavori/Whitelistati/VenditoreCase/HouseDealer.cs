@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		private static async Task Markers()
 		{
-			Ped p = new Ped(PlayerPedId());
+			Ped p = Cache.PlayerPed;
 			if (!Cache.Char.StatiPlayer.Istanza.Stanziato)
 			{
 				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);

@@ -21,8 +21,8 @@ namespace TheLastPlanet.Client.Core
 
 		private static async Task RichPresence()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
-			Player player = Game.Player;
+			Ped playerPed = Cache.PlayerPed;
+			Player player = Cache.Player;
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			Vector3 PedCoords = Cache.Char == null ? playerPed.Position : Cache.Char.posizione.ToVector3();

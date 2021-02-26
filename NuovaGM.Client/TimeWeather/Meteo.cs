@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.TimeWeather
 			await BaseScript.Delay(30000);
 			if (!Transitioning)
 				if (CurrentWeather == 7 || CurrentWeather == 8)
-					Game.PlayerPed.CurrentVehicle.DirtLevel -= 0.1f;
+					Cache.PlayerPed.CurrentVehicle.DirtLevel -= 0.1f;
 		}
 	}
 }

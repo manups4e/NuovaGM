@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;

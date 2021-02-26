@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		private static async Task ControlloAssicurazione()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
+			Ped playerPed = Cache.PlayerPed;
 			if (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Driver != playerPed)
 			{
 				if (playerPed.CurrentVehicle.IsOnFire || playerPed.CurrentVehicle.IsDead)

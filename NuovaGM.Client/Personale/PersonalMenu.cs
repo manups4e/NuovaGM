@@ -78,8 +78,8 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async void menuPersonal()
 		{
-			Ped playerPed = new Ped(PlayerPedId());
-			Player me = new Player(PlayerId());
+			Ped playerPed = Cache.PlayerPed;
+			Player me = Cache.Player;
 			var pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
@@ -1416,7 +1416,7 @@ namespace TheLastPlanet.Client.Personale
 
 		private static async Task AggiornaSalute()
 		{
-			Player me = new Player(PlayerId());
+			Player me = Cache.Player;
 			if (StatsNeeds.Needs["Fame"].Val> 30f)
 				fa.SetRightLabel("~y~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
 			else if (StatsNeeds.Needs["Fame"].Val> 60f)
@@ -1483,7 +1483,7 @@ namespace TheLastPlanet.Client.Personale
 		}
 		public static async Task routeColor()
 		{
-			Player me = new Player(PlayerId());
+			Player me = Cache.Player;
 			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 5000f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
 			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 5000f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 4500f)
