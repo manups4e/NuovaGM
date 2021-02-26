@@ -36,29 +36,29 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			KeyValuePair<string, string> neg = Main.Textures[tipo];
 			string description = "";
-			List<OggettoVendita> oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared;
+			List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared;
 
 			switch (tipo)
 			{
 				case "247":
 					description = "Aperti 24/7!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettidaaggiungere.Add(x));
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
 					break;
 
 				case "ltd":
 					description = "Non è mica infinita!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettidaaggiungere.Add(x));
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
 					break;
 
 				case "rq":
 					description = "I liquori migliori!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettidaaggiungere.Add(x));
+					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
 					break;
 			}
 			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
 			HUD.MenuPool.Add(Negozio);
 
-			foreach (OggettoVendita ogg in oggettidaaggiungere)
+			foreach (OggettoVendita ogg in oggettiDaAggiungere)
 			{
 				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
 				if (Cache.Char.Money >= ogg.prezzo || Cache.Char.Bank >= ogg.prezzo)
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.Negozi
 				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
 				if (!string.IsNullOrEmpty(nome)) 
 				{
-					OggettoVendita ogg = oggettidaaggiungere.FirstOrDefault(x => x.oggetto == nome);
+					OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
 					if (Cache.Char.Money >= ogg.prezzo)
 					{
 						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
