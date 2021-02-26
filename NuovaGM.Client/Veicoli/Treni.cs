@@ -82,7 +82,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		private static async void Spawnato()
 		{
-			foreach (var v in MetroTrainStations)
+			foreach (Vector3 v in MetroTrainStations)
 			{
 				Blip p = new Blip(AddBlipForCoord(v.X, v.Y, v.Z))
 				{

@@ -65,9 +65,9 @@ namespace TheLastPlanet.Client.IPLs.dlc_finance
 			}
 			public void Clear()
 			{
-				foreach (var themeValue in ThemeInternal)
+				foreach (Theme themeValue in ThemeInternal)
 				{
-					foreach (var swagValue in SwagInternal)
+					foreach (OfficeSwag.Swagging swagValue in SwagInternal)
 					{
 						IplManager.SetIplPropState(themeValue.InteriorId, swagValue.A, false);
 						IplManager.SetIplPropState(themeValue.InteriorId, swagValue.B, false);

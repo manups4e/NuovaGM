@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				{
 					if (!mostrablip)
 					{
-						foreach (var punto in PuntiPesca.LuoghiVendita)
+						foreach (Vector3 punto in PuntiPesca.LuoghiVendita)
 						{
 							Blip puntovendita = new Blip(AddBlipForCoord(punto[0], punto[1], punto[2]))
 							{
@@ -144,7 +144,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 						mostrablip = true;
 					}
 
-					foreach (var punto in PuntiPesca.LuoghiVendita)
+					foreach (Vector3 punto in PuntiPesca.LuoghiVendita)
 					{
 						if (p.IsInRangeOf(punto, 80))
 						{
@@ -164,7 +164,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				{
 					if (mostrablip)
 					{
-						foreach (var blip in venditaPesceBlip)
+						foreach (Blip blip in venditaPesceBlip)
 						{
 							if (blip.Exists())
 								blip.Delete();
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
 				HUD.MenuPool.Add(venditaPesce);
 				List<Inventory> inventario = Cache.Char.CurrentChar.inventory;
-				foreach (var inv in inventario)
+				foreach (Inventory inv in inventario)
 				{
 					foreach (string s in PerVendereIlPesce)
 					{
@@ -362,7 +362,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 		{
 			UIMenu Barche = new UIMenu("Pescatore", "Scegli la barca", new System.Drawing.PointF(50,50));
 			HUD.MenuPool.Add(Barche);
-			foreach (var barca in PuntiPesca.Barche)
+			foreach (string barca in PuntiPesca.Barche)
 			{
 				UIMenuItem boat = new UIMenuItem(GetLabelText(barca), "~y~Se sei in compagnia dei tuoi amici~w~ potete usare una barca sola insieme e risparmiare nell'affitto!");
 				Barche.AddItem(boat);

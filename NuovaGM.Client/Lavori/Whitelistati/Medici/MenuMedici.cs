@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
 				if (!Cache.Char.StatiPlayer.InServizio) 
 				{
-					foreach (var Grado in Client.Impostazioni.Lavori.Medici.Gradi)
+					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi)
 					{
 						if (Grado.Value.Id == Cache.Char.CurrentChar.job.grade)
 						{
@@ -175,7 +175,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		}
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
 		{
-			foreach (var veh in veicoliParcheggio) veh.Delete();
+			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
 			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
 								int model = p.CurrentVehicle.Model.Hash;
-								foreach (var vehicle in veicoliParcheggio) vehicle.Delete();
+								foreach (Vehicle vehicle in veicoliParcheggio) vehicle.Delete();
 								veicoliParcheggio.Clear();
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
 								{

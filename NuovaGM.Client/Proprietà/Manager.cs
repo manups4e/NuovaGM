@@ -14,6 +14,7 @@ using Logger;
 using TheLastPlanet.Client.Proprietà.Appartamenti.Case;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.Proprietà
 {
@@ -28,7 +29,7 @@ namespace TheLastPlanet.Client.Proprietà
 		public static async Task MarkerFuori()
 		{
 			Ped playerPed = Cache.PlayerPed;
-			foreach (var app in Proprietà.Appartamenti)
+			foreach (KeyValuePair<string, ConfigCase> app in Proprietà.Appartamenti)
 			{
 				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
 				{
@@ -43,22 +44,22 @@ namespace TheLastPlanet.Client.Proprietà
 						if (playerPed.IsInVehicle())
 						{
 							string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
-							var model = playerPed.CurrentVehicle.Model.Hash;
+							int model = playerPed.CurrentVehicle.Model.Hash;
 							if (Cache.Char.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Cache.Char.CurrentChar.info.insurance) != null)
 							{
 								if (playerPed.IsVisible)
 									NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
 								Screen.Fading.FadeOut(500);
 								await BaseScript.Delay(1000);
-								var pr = await playerPed.CurrentVehicle.GetVehicleProperties();
+								VehProp pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 								BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.Serialize(includeEverything: true));
 								Cache.Char.StatiPlayer.Istanza.Istanzia(app.Key);
 								await BaseScript.Delay(1000);
 								if (playerPed.CurrentVehicle.PassengerCount > 0)
 								{
-									foreach (var p in playerPed.CurrentVehicle.Passengers)
+									foreach (Ped p in playerPed.CurrentVehicle.Passengers)
 									{
-										var pl = Funzioni.GetPlayerFromPed(p);
+										Player pl = Funzioni.GetPlayerFromPed(p);
 										pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Cache.Player.ServerId, Cache.Char.StatiPlayer.Istanza.Instance);
 										BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 									}
@@ -93,13 +94,13 @@ namespace TheLastPlanet.Client.Proprietà
 									}
 									await BaseScript.Delay(0);
 								}
-								foreach (var veh in Cache.Char.CurrentChar.Veicoli)
+								foreach (OwnedVehicle veh in Cache.Char.CurrentChar.Veicoli)
 								{
 									if (veh.Garage.Garage == Cache.Char.StatiPlayer.Istanza.Instance)
 									{
 										if (veh.Garage.InGarage)
 										{
-											var veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+											Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 											await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 											AppartamentiClient.VeicoliParcheggio.Add(veic);
 										}
@@ -119,7 +120,7 @@ namespace TheLastPlanet.Client.Proprietà
 					}
 				}
 			}
-			foreach (var gar in Proprietà.Garages.Garages)
+			foreach (KeyValuePair<string, Garages> gar in Proprietà.Garages.Garages)
 			{
 				if(playerPed.IsInRangeOf(gar.Value.MarkerEntrata, 1.5f))
 				{
@@ -138,7 +139,7 @@ namespace TheLastPlanet.Client.Proprietà
 			{
 				if (Proprietà.Appartamenti.ContainsKey(Cache.Char.StatiPlayer.Istanza.Instance))
 				{
-					var app = Proprietà.Appartamenti[Cache.Char.StatiPlayer.Istanza.Instance];
+					ConfigCase app = Proprietà.Appartamenti[Cache.Char.StatiPlayer.Istanza.Instance];
 					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");

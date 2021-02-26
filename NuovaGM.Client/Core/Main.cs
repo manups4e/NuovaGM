@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.Core
 			if (Cache.Char.DeathStatus)
 			{
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
-				var now = DateTime.Now;
+				DateTime now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Cache.Char.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = -100;
 				Cache.Char.StatiPlayer.FinDiVita = false;
@@ -474,7 +474,7 @@ namespace TheLastPlanet.Client.Core
 		{
 			await BaseScript.Delay(30000);
 			while (Client.Impostazioni.Main.stripClub == null) await BaseScript.Delay(0);
-			foreach (var stripper in Client.Impostazioni.Main.stripClub)
+			foreach (GenericPeds stripper in Client.Impostazioni.Main.stripClub)
 			{
 				Ped ped = await World.CreatePed(new Model(GetHashKey(stripper.model)), new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);
 				ped.CanRagdoll = false;
@@ -484,7 +484,7 @@ namespace TheLastPlanet.Client.Core
 				SetPedCombatAttributes(ped.Handle, 17, true);
 				ped.Task.PlayAnimation(stripper.animDict, stripper.animName, -1, -1, AnimationFlags.Loop);
 			}
-			foreach (var market in Client.Impostazioni.Main.blackMarket)
+			foreach (GenericPeds market in Client.Impostazioni.Main.blackMarket)
 			{
 				Ped ped1 = await World.CreatePed(new Model(GetHashKey(market.model)), new Vector3(market.coords[0], market.coords[1], market.coords[2]), market.heading);
 				ped1.CanRagdoll = false;
@@ -494,7 +494,7 @@ namespace TheLastPlanet.Client.Core
 				SetPedCombatAttributes(ped1.Handle, 17, true);
 				ped1.Task.StartScenario(market.animName, GetEntityCoords(ped1.Handle, true));
 			}
-			foreach (var illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
+			foreach (GenericPeds illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
 			{
 				Ped ped2 = await World.CreatePed(new Model(GetHashKey(illegal.model)), new Vector3(illegal.coords[0], illegal.coords[1], illegal.coords[2]), illegal.heading);
 				ped2.CanRagdoll = false;

@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.MenuNativo
             int screenh = Screen.Resolution.Height;
             const float height = 1080f;
             float ratio = (float)screenw / screenh;
-            var width = height * ratio;
+            float width = height * ratio;
 
 
             float w = (Size.Width / width);
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Client.MenuNativo
             int screenh = Screen.Resolution.Height;
             const float height = 1080f;
             float ratio = (float)screenw / screenh;
-            var width = height * ratio;
+            float width = height * ratio;
 
 
             float w = (boxWidth / width);

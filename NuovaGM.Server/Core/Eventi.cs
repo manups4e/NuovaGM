@@ -211,14 +211,14 @@ namespace TheLastPlanet.Server.Core
 
 		public static void PayFine([FromSource] Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			if (amount == EarlyRespawnFineAmount)
 			{
 				player.Money -= EarlyRespawnFineAmount;
 			}
 			else
 			{
-				var now = DateTime.Now;
+				DateTime now = DateTime.Now;
 				Log.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + "--il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				DropPlayer(source.Handle, "LastPlanet Shield [Sospetto Modding]: entra in discord a chiarire perfavore!");
@@ -228,7 +228,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static async void Spawnato([FromSource] Player source)
 		{
-			var user = Funzioni.GetUserFromPlayerId(source.Handle);
+			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
 			BaseScript.TriggerEvent("lprp:serverLog",user.FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
@@ -243,7 +243,7 @@ namespace TheLastPlanet.Server.Core
 			Player p = player;
 			string name = p.Name;
 			string handle = p.Handle;
-			var now = DateTime.Now;
+			DateTime now = DateTime.Now;
 			string text = name + " e' uscito.";
 			if (reason != "")
 			{
@@ -283,7 +283,7 @@ namespace TheLastPlanet.Server.Core
 			string name = player.Name;
 			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
-				var ped = Funzioni.GetUserFromPlayerId(player.Handle);
+				User ped = Funzioni.GetUserFromPlayerId(player.Handle);
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
@@ -305,14 +305,14 @@ namespace TheLastPlanet.Server.Core
 
 		public static void removeItemsDeath([FromSource] Player source)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			int money = player.Money;
 			int dirty = player.DirtyMoney;
 
-			foreach(var inv in player.CurrentChar.inventory.ToList())
+			foreach(Inventory inv in player.CurrentChar.inventory.ToList())
 				player.removeInventoryItem(inv.item, inv.amount);
 
-			foreach (var inv in player.CurrentChar.weapons.ToList())
+			foreach (Weapons inv in player.CurrentChar.weapons.ToList())
 				player.removeWeapon(inv.name);
 
 			player.Money -= money;
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void GiveMoney([FromSource]Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Money += (amount);
 		}
 
@@ -329,7 +329,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (amount != 0)
 			{
-				var player = Funzioni.GetUserFromPlayerId(source.Handle);
+				User player = Funzioni.GetUserFromPlayerId(source.Handle);
 				player.Money -= amount;
 			}
 			else
@@ -338,25 +338,25 @@ namespace TheLastPlanet.Server.Core
 
 		public static void GiveBank([FromSource]Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank += amount;
 		}
 
 		public static void RemoveBank([FromSource]Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirty([FromSource]Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirty([FromSource]Player source, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(source.Handle);
+			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney -= amount;
 		}
 
@@ -395,7 +395,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void GiveMoneyToChar(string target, int charId, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(target);
+			User player = Funzioni.GetUserFromPlayerId(target);
 			player.Money += (amount);
 		}
 
@@ -403,32 +403,32 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (amount != 0)
 			{
-				var player = Funzioni.GetUserFromPlayerId(target);
+				User player = Funzioni.GetUserFromPlayerId(target);
 				player.Money -= amount;
 			}
 		}
 
 		public static void GiveBankToChar(string target, int charId, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(target);
+			User player = Funzioni.GetUserFromPlayerId(target);
 			player.Bank += amount;
 		}
 
 		public static void RemoveBankToChar(string target, int charId, int amount)
 		{
-			var player = Funzioni.GetUserFromPlayerId(target);
+			User player = Funzioni.GetUserFromPlayerId(target);
 			player.Bank -= amount;
 		}
 
 		public static void GiveDirtyToChar(string target, int charId, int amount)
 		{
-						var player = Funzioni.GetUserFromPlayerId(target);
+						User player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirtyToChar(string target, int charId, int amount)
 		{
-						var player = Funzioni.GetUserFromPlayerId(target);
+						User player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney -= amount;
 		}
 
@@ -471,7 +471,7 @@ namespace TheLastPlanet.Server.Core
 			List<string> Tokens = new List<string>();
 			for (int i = 0; i < GetNumPlayerTokens(target); i++)
 				Tokens.Add(GetPlayerToken(target, i));
-			var pippo = await Discord.BotDiscordHandler.InviaAlBotERicevi(new
+			RequestResponse pippo = await Discord.BotDiscordHandler.InviaAlBotERicevi(new
 			{
 				tipo = "BannaPlayer",
 				RichiestaInterna = new
@@ -550,8 +550,8 @@ namespace TheLastPlanet.Server.Core
 		{
 			User player = source.GetCurrentChar();
 			User targetPlayer = Funzioni.GetPlayerFromId(target).GetCurrentChar();
-			var weapon = player.getWeapon(weaponName);
-			var arma = weapon.Item2;
+			Tuple<int, Weapons> weapon = player.getWeapon(weaponName);
+			Weapons arma = weapon.Item2;
 			if (targetPlayer.hasWeapon(weaponName))
 				player.showNotification($"{player.FullName} ha già quest'arma!");
 			else
@@ -559,7 +559,7 @@ namespace TheLastPlanet.Server.Core
 				player.removeWeapon(weaponName);
 				player.showNotification($"Hai dato la tua arma a {targetPlayer.FullName}");
 				targetPlayer.addWeapon(weaponName, ammo);
-				foreach (var comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
+				foreach (Components comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
 				if (arma.tint != 0) targetPlayer.addWeaponTint(weaponName, arma.tint);
 				targetPlayer.p.TriggerEvent("lprp:riceviOggettoAnimazione");
 				targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");

@@ -108,7 +108,7 @@ namespace TheLastPlanet.Server.Interactions
 		private static void OnPickup([FromSource] Player source, int id)
 		{
 			User user = source.GetCurrentChar();
-			var pickup = Pickups[id];
+			OggettoRaccoglibile pickup = Pickups[id];
 			bool success = false;
 			switch (pickup.type)
 			{
@@ -126,7 +126,7 @@ namespace TheLastPlanet.Server.Interactions
 						user.addWeapon(pickup.name, pickup.amount);
 						if (pickup.tintIndex != 0)
 							user.addWeaponTint(pickup.name, pickup.tintIndex);
-						foreach (var comp in pickup.componenti)
+						foreach (Components comp in pickup.componenti)
 							user.addWeaponComponent(pickup.name, comp.name);
 
 					}

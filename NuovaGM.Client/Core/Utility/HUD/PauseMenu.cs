@@ -14,6 +14,7 @@ using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
 using Logger;
+using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Personale;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
@@ -94,7 +95,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
-			var pl = Cache.Char;
+			PlayerChar pl = Cache.Char;
 			TabInteractiveListItem HUD = null;
 			TabInteractiveListItem Telecamere = null;
 			#region HUD MenuItems

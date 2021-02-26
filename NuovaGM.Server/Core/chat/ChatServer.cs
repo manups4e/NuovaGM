@@ -64,8 +64,8 @@ namespace TheLastPlanet.Server.Core
 
 		public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm)
 		{
-			var data = DateTime.Now;
-			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
+			DateTime data = DateTime.Now;
+			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (comm != null)
 			{
 				if (user.group_level >= comm.Restriction)
@@ -96,10 +96,10 @@ namespace TheLastPlanet.Server.Core
 		private static void SendComms([FromSource] Player p)
 		{
 			List<object> suggestions = new List<object>();
-			foreach (var sug in Suggestions)
+			foreach (ChatSuggestion sug in Suggestions)
 			{
 				List<object> paramss = new List<object>();
-				foreach (var par in sug.@params)
+				foreach (SuggestionParam par in sug.@params)
 				{
 					paramss.Add(new { par.name, par.help });
 				}

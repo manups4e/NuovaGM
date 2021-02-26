@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					HUD.DrawText3D(PuntoDiConsegna.Position, Colors.WhiteSmoke, "Sgancia qui il veicolo per depositarlo!");
 				else
 				{
-					var money = 200 + VeicoloDaRimuovere.BodyHealth / 10;
+					float money = 200 + VeicoloDaRimuovere.BodyHealth / 10;
 					BaseScript.TriggerServerEvent("lprp:givebank", money);
 					BlipVeicoloDaRimuovere.Delete();
 					BlipVeicoloDaRimuovere = null;

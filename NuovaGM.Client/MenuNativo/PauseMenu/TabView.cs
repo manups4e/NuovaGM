@@ -261,7 +261,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 
         public void RefreshIndex()
         {
-            foreach (var item in Tabs)
+            foreach (TabItem item in Tabs)
             {
                 item.Focused = false;
                 item.Active = false;
@@ -283,21 +283,21 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             API.ShowCursorThisFrame();
 
 
-            var safe = new PointF(300, SubTitle != null && SubTitle != "" ? 205 : 195);
+            PointF safe = new PointF(300, SubTitle != null && SubTitle != "" ? 205 : 195);
             if (!HideTabs)
             {
                 for (int i = 0; i < Tabs.Count; i++)
                 {
-                    var activeSize = Resolution.Width - 2 * safe.X;
+                    float activeSize = Resolution.Width - 2 * safe.X;
                     activeSize -= 5;
                     float tabWidth = ((int)activeSize / Tabs.Count) - 1.95f;
                     Game.EnableControlThisFrame(0, Control.CursorX);
                     Game.EnableControlThisFrame(0, Control.CursorY);
 
-                    var hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)),
+                    bool hovering = ScreenTools.IsMouseInBounds(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)),
                         new SizeF(tabWidth, 40));
 
-                    var tabColor = Tabs[i].Active ? Colors.White : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
+                    Color tabColor = Tabs[i].Active ? Colors.White : hovering ? Color.FromArgb(100, 50, 50, 50) : Colors.Black;
                     new UIResRectangle(safe.AddPoints(new PointF((tabWidth + 5) * i, 0)), new SizeF(tabWidth, 40), Color.FromArgb(Tabs[i].Active ? 255 : 200, tabColor)).Draw();
                     if (Tabs[i].Active)
                         new UIResRectangle(safe.SubtractPoints(new PointF(-((tabWidth + 5) * i), 10)), new SizeF(tabWidth, 10), Colors.DodgerBlue).Draw();

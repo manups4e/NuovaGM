@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client
 	{
 		public async static Task GestioneDecors()
 		{
-			foreach (var player in Client.Instance.GetPlayers)
+			foreach (Player player in Client.Instance.GetPlayers)
 			{
 				if (player.GetPlayerData() != null)
 				{

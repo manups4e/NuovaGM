@@ -66,8 +66,8 @@ namespace TheLastPlanet.Client.MenuNativo
 
         public static float QuadraticEasingLerp(float start, float end, int currentTime, int duration)
         {
-            var time = (float)currentTime;
-            var dur = (float)duration;
+            float time = (float)currentTime;
+            float dur = (float)duration;
 
             float change = end - start;
 

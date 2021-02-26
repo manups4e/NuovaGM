@@ -11,6 +11,7 @@ using TheLastPlanet.Client.MenuNativo;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
@@ -32,7 +33,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static void Spawnato()
 		{
-			foreach (var stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
+			foreach (StazioniDiPolizia stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
 			{
 				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords[0], stazione.Blip.Coords[1], stazione.Blip.Coords[2]))
 				{
@@ -182,7 +183,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						{
 							if (!Funzioni.IsSpawnPointClear(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 2f))
 							{
-								foreach (var veh in Funzioni.GetVehiclesInArea(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(Client.Impostazioni.Lavori.Polizia.Config.Stazioni[stazione].Elicotteri[eli].Deleters[del], 2f))
 								{
 									if (!veh.HasDecor("VeicoloPolizia"))
 										veh.Delete();
@@ -228,7 +229,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			await BaseScript.Delay(1000);
 			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
-				foreach (var p in Eventi.GiocatoriOnline)
+				foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
 				{
 					if (p.Value.CurrentChar.job.name == "Polizia")
 					{

@@ -150,15 +150,15 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             if (Heists.Count == 0) return;
 
 
-            var alpha = Focused ? 120 : 30;
-            var blackAlpha = Focused ? 200 : 100;
-            var fullAlpha = Focused ? 255 : 150;
+            int alpha = Focused ? 120 : 30;
+            int blackAlpha = Focused ? 200 : 100;
+            int fullAlpha = Focused ? 255 : 150;
             Debug.WriteLine("_add = " + _add);
-            var activeWidth = Resolution.Width - SafeSize.X * 2;
-            var itemSize = new SizeF((int)activeWidth - (_add + 515), 40);
+            float activeWidth = Resolution.Width - SafeSize.X * 2;
+            SizeF itemSize = new SizeF((int)activeWidth - (_add + 515), 40);
             Debug.WriteLine("itemsize = " + itemSize);
             Debug.WriteLine("activeWidth = " + activeWidth);
-            var counter = 0;
+            int counter = 0;
             for (int i = _minItem; i < Math.Min(Heists.Count, _maxItem); i++)
             {
                 new UIResRectangle(SafeSize.AddPoints(new PointF(0, 43 * counter)), itemSize, (Index == i && Focused) ? Color.FromArgb(fullAlpha, Colors.White) : Color.FromArgb(blackAlpha, Colors.Black)).Draw();
@@ -180,7 +180,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             else if (Heists[Index].Logo != null && Heists[Index].Logo.FileName != null &&
                      Heists[Index].Logo.IsGameTexture)
             {
-                var newLogo = new Sprite(Heists[Index].Logo.DictionaryName, Heists[Index].Logo.FileName, new PointF((int)Resolution.Width - SafeSize.X - (512 + _add), SafeSize.Y), new SizeF(512, 256))
+                Sprite newLogo = new Sprite(Heists[Index].Logo.DictionaryName, Heists[Index].Logo.FileName, new PointF((int)Resolution.Width - SafeSize.X - (512 + _add), SafeSize.Y), new SizeF(512, 256))
                 {
                     Color = Color.FromArgb(blackAlpha, 0, 0, 0)
                 };
@@ -195,8 +195,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             {
                 new UIResRectangle(new PointF((int)Resolution.Width - SafeSize.X - (512 + _add), SafeSize.Y + 256 + 40 + (40 * i)),
                     new SizeF(512, 40), i % 2 == 0 ? Color.FromArgb(alpha, 0, 0, 0) : Color.FromArgb(blackAlpha, 0, 0, 0)).Draw();
-                var text = Heists[Index].ValueList[i].Item1;
-                var label = Heists[Index].ValueList[i].Item2;
+                string text = Heists[Index].ValueList[i].Item1;
+                string label = Heists[Index].ValueList[i].Item2;
 
 
                 new UIResText(text, new PointF((int)Resolution.Width - SafeSize.X - (506 + _add), SafeSize.Y + 260 + 42 + (40 * i)), 0.35f, Color.FromArgb(fullAlpha, Colors.White)).Draw();
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 
             if (!string.IsNullOrEmpty(Heists[Index].Description))
             {
-                var propLen = Heists[Index].ValueList.Count;
+                int propLen = Heists[Index].ValueList.Count;
                 new UIResRectangle(new PointF((int)Resolution.Width - SafeSize.X - (512 + _add), SafeSize.Y + 256 + 42 + 40 * propLen),
                     new SizeF(512, 2), Color.FromArgb(fullAlpha, Colors.White)).Draw();
                 new UIResText(Heists[Index].Description,

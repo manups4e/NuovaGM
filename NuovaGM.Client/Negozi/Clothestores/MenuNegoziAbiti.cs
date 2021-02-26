@@ -503,7 +503,7 @@ namespace TheLastPlanet.Client.Negozi
 			Cache.PlayerPed.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_shirt_base", 4.0f, true);
 			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-			var completi = Completi.OrderBy(x => x.Price).ToList();
+			List<Completo> completi = Completi.OrderBy(x => x.Price).ToList();
 			_menuVestiti.Add(MenuVest);
 			for (int i = 0; i < completi.Count; i++)
 			{
@@ -601,16 +601,16 @@ namespace TheLastPlanet.Client.Negozi
 			Cache.PlayerPed.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_trousers_base", 4.0f, true);
 			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_trousers_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-			var completi = Completi.OrderBy(x => x.Price).ToList();
+			List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
 			int text = 0;
-			foreach (var v in completi)
+			foreach (Singolo v in completi)
 			{
 				UIMenu Pant = pool.AddSubMenu(MenuPant, v.Title, v.Description);
 				Pant.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Pant);
-				foreach (var texture in v.Text)
+				foreach (int texture in v.Text)
 				{
 					UIMenuItem pant = new UIMenuItem("Modello " + v.Text.IndexOf(texture));
 					Pant.AddItem(pant);
@@ -776,16 +776,16 @@ namespace TheLastPlanet.Client.Negozi
 			Cache.PlayerPed.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "try_shoes_base", 4.0f, true);
 			await Cache.PlayerPed.Task.PlayAnimation(anim, "try_shoes_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-			var completi = Completi.OrderBy(x => x.Price).ToList();
+			List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
 			int text = 0;
-			foreach (var v in completi)
+			foreach (Singolo v in completi)
 			{
 				UIMenu Scarp = pool.AddSubMenu(MenuScarpe, v.Title, v.Description);
 				Scarp.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Scarp);
-				foreach (var texture in v.Text)
+				foreach (int texture in v.Text)
 				{
 					UIMenuItem pant = new UIMenuItem("Modello " + v.Text.IndexOf(texture));
 					Scarp.AddItem(pant);
@@ -949,16 +949,16 @@ namespace TheLastPlanet.Client.Negozi
 			Cache.PlayerPed.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.PlayerPed.Handle, 0, anim, "Try_Glasses_Base", 4.0f, true);
 			await Cache.PlayerPed.Task.PlayAnimation(anim, "Try_Glasses_Base", 8f, -8f, -1, AnimationFlags.Loop, 0);
-			var completi = Completi.OrderBy(x => x.Price).ToList();
+			List<Singolo> completi = Completi.OrderBy(x => x.Price).ToList();
 			int money = 0;
 			int mod = 0;
 			int text = 0;
-			foreach (var v in completi)
+			foreach (Singolo v in completi)
 			{
 				UIMenu Scarp = pool.AddSubMenu(MenuOcchiali, v.Title, v.Description);
 				Scarp.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Scarp);
-				foreach (var texture in v.Text)
+				foreach (int texture in v.Text)
 				{
 					UIMenuItem pant = new UIMenuItem("Colore " + v.Text.IndexOf(texture));
 					Scarp.AddItem(pant);
@@ -1187,7 +1187,7 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenuListItem braccialetti = new UIMenuListItem("Braccialetti", bra, 0, "Scegli qui il tuo bracciale preferito");
 			Brac.AddItem(braccialetti);
 
-			foreach (var borsa in Accessorio.Borse)
+			foreach (Singolo borsa in Accessorio.Borse)
 			{
 				money = borsa.Price;
 				UIMenuItem bors = new UIMenuItem(borsa.Title, borsa.Description);
@@ -1286,7 +1286,7 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenuItem newCap = new UIMenuItem("");
 			UIMenuItem capelino = new UIMenuItem("");
 			UIMenu Capelino = new UIMenu("", "");
-			foreach (var cappellino in Accessorio.Testa.Cappellini)
+			foreach (Singolo cappellino in Accessorio.Testa.Cappellini)
 			{
 				if (Accessorio.Testa.Cappellini.IndexOf(cappellino) != 0)
 				{
@@ -1310,7 +1310,7 @@ namespace TheLastPlanet.Client.Negozi
 					capelino.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt = CappRim;
 				}
-				foreach (var texture in cappellino.Text)
+				foreach (int texture in cappellino.Text)
 				{
 					newCap = new UIMenuItem("Modello " + cappellino.Text.IndexOf(texture), cappellino.Description);
 					Capelino.AddItem(newCap);
@@ -1560,7 +1560,7 @@ namespace TheLastPlanet.Client.Negozi
 				}
 			};
 
-			foreach (var aurico in Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList())
+			foreach (Singolo aurico in Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList())
 			{
 				UIMenuItem auricolari = new UIMenuItem(aurico.Title, aurico.Description);
 				if (Cache.Char.Money >= aurico.Price)
@@ -1641,7 +1641,7 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenuItem OrologinoItem = new UIMenuItem("");
 			UIMenuItem NoOrol = new UIMenuItem("");
 			UIMenuItem NewOrol = new UIMenuItem("");
-			foreach (var orologio in Accessorio.Orologi)
+			foreach (Singolo orologio in Accessorio.Orologi)
 			{
 				if (Accessorio.Orologi.IndexOf(orologio) != 0)
 				{
@@ -1670,7 +1670,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 
-				foreach (var v in orologio.Text)
+				foreach (int v in orologio.Text)
 				{
 					NewOrol = new UIMenuItem("Modello " + orologio.Text.IndexOf(v), orologio.Description);
 					Orologino.AddItem(NewOrol);

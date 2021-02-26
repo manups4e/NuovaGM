@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			var playerPos = Cache.Char.posizione.ToVector3();
+			Vector3 playerPos = Cache.Char.posizione.ToVector3();
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

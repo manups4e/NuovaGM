@@ -76,12 +76,12 @@ namespace TheLastPlanet.Client.Interactions
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					var inv = Cache.Char.Inventory;
+					List<Inventory> inv = Cache.Char.Inventory;
 					if (inv.Count > 0)
 					{
 						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");
 						HUD.MenuPool.Add(GettaMenu);
-						foreach (var it in inv)
+						foreach (Inventory it in inv)
 						{
 							if (it.amount > 0)
 							{

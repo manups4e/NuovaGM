@@ -80,7 +80,7 @@ namespace TheLastPlanet.Client.Personale
 		{
 			Ped playerPed = Cache.PlayerPed;
 			Player me = Cache.Player;
-			var pos = new System.Drawing.Point(50, 50);
+			Point pos = new System.Drawing.Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
 
@@ -269,7 +269,7 @@ namespace TheLastPlanet.Client.Personale
 					UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
 					UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
 					name.SetRightLabel(me.GetPlayerData().FullName);
-					dob.SetRightLabel(me.GetPlayerData().DOB);
+					dob.SetRightLabel(me.GetPlayerData().DoB);
 					alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.height);
 					nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.phoneNumber);
 					nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.insurance);
@@ -383,11 +383,10 @@ namespace TheLastPlanet.Client.Personale
 				if (state == MenuState.ChangeForward && menu == Inventory)
 				{
 					Inventory.Clear();
-					int rimozione = 5;
-					var inv = me.GetPlayerData().Inventory;
+					List<Inventory> inv = me.GetPlayerData().Inventory;
 					if (inv.Count > 0)
 					{
-						foreach (var it in inv)
+						foreach (Inventory it in inv)
 						{
 							if (it.amount > 0)
 							{
@@ -417,10 +416,10 @@ namespace TheLastPlanet.Client.Personale
 									giveButton.ParentItem.HighlightColor = Colors.Cyan;
 									giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 									List<int> playerId = new List<int>();
-									var players = Funzioni.GetPlayersInArea(me.GetPlayerData().posizione.ToVector3(), 3f);
+									List<Player> players = Funzioni.GetPlayersInArea(me.GetPlayerData().posizione.ToVector3(), 3f);
 									if (players.Count > 0)
 									{
-										foreach (var player in players)
+										foreach (Player player in players)
 										{
 											UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
 											playerId.Add(player.ServerId);

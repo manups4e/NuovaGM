@@ -49,7 +49,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <param name="showJPicon"></param>
 		private static async void SetPlayerConfig(int playerServerId, string crewname, int jobpoints, bool showJPicon)
 		{
-			var cfg = new PlayerRowConfig()
+			PlayerRowConfig cfg = new PlayerRowConfig()
 			{
 				crewName = crewname ?? "",
 				jobPoints = jobpoints,
@@ -69,8 +69,8 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task BackupTimer()
 		{
-			var timer = GetGameTimer();
-			var oldPage = currentPage;
+			int timer = GetGameTimer();
+			int oldPage = currentPage;
 			while (GetGameTimer() - timer < 8000 && currentPage > 0 && currentPage == oldPage)
 				await BaseScript.Delay(0);
 			if (oldPage == currentPage)
@@ -106,7 +106,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 							Banking.BankingClient.NascondiMoney();
 					}
 					await LoadScale();
-					var timer = GetGameTimer();
+					int timer = GetGameTimer();
 					bool nextPage = false;
 					while (GetGameTimer() - timer < 5000)
 					{
@@ -173,8 +173,8 @@ namespace TheLastPlanet.Client.ListaPlayers
 					float y = 50f;
 					y -= change * 50f;
 
-					var width = 350f;
-					var height = 490f;
+					float width = 350f;
+					float height = 490f;
 					if (scale != null)
 					{
 						if (scale.IsLoaded)
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 		{
 			if (scale != null)
 			{
-				for (var i = 0; i < maxClients * 2; i++)
+				for (int i = 0; i < maxClients * 2; i++)
 				{
 					scale.CallFunction("SET_DATA_SLOT_EMPTY", i);
 				}
@@ -207,9 +207,9 @@ namespace TheLastPlanet.Client.ListaPlayers
 				await BaseScript.Delay(0);
 			}
 			scale = new Scaleform("MP_MM_CARD_FREEMODE");
-			var titleIcon = "2";
-			var titleLeftText = Client.Impostazioni.Main.NomeServer;
-			var titleRightText = $"Players {NetworkGetNumConnectedPlayers()}/{maxClients}";
+			string titleIcon = "2";
+			string titleLeftText = Client.Impostazioni.Main.NomeServer;
+			string titleRightText = $"Players {NetworkGetNumConnectedPlayers()}/{maxClients}";
 			scale.CallFunction("SET_TITLE", titleLeftText, titleRightText, titleIcon);
 			await UpdateScale();
 			scale.CallFunction("DISPLAY_VIEW");
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task<string> GetHeadshotImage(int ped)
 		{
-			var headshotHandle = RegisterPedheadshot(ped);
+			int headshotHandle = RegisterPedheadshot(ped);
 			while (!IsPedheadshotReady(headshotHandle))
 				await BaseScript.Delay(0);
 			return GetPedheadshotTxdString(headshotHandle) ?? "";
@@ -277,10 +277,10 @@ namespace TheLastPlanet.Client.ListaPlayers
 		{
 			List<PlayerRow> rows = new List<PlayerRow>();
 
-			for (var x = 0; x < 128; x++) // cleaning up in case of a reload, this frees up all ped headshot handles :)
+			for (int x = 0; x < 128; x++) // cleaning up in case of a reload, this frees up all ped headshot handles :)
 				UnregisterPedheadshot(x);
 
-			var amount = 0;
+			int amount = 0;
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
 				if (IsRowSupposedToShow(amount))
@@ -326,11 +326,11 @@ namespace TheLastPlanet.Client.ListaPlayers
 				amount++;
 			}
 			rows.Sort((row1, row2) => row1.serverId.CompareTo(row2.serverId));
-			for (var i = 0; i < maxClients * 2; i++)
+			for (int i = 0; i < maxClients * 2; i++)
 			{
 				scale.CallFunction("SET_DATA_SLOT_EMPTY", i);
 			}
-			var index = 0;
+			int index = 0;
 			foreach (PlayerRow row in rows)
 			{
 				if (row.crewLabelText != "")
@@ -356,8 +356,8 @@ namespace TheLastPlanet.Client.ListaPlayers
 		{
 			if (currentPage > 0)
 			{
-				var max = currentPage * 16;
-				var min = (currentPage * 16) - 16;
+				int max = currentPage * 16;
+				int min = (currentPage * 16) - 16;
 				if (row >= min && row < max)
 				{
 					return true;

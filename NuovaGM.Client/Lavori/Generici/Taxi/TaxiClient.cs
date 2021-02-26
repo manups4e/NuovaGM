@@ -224,8 +224,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 												NPCPasseggero.IsPersistent = true;
 												NPCPasseggero.BlockPermanentEvents = true;
 												SetPedCombatAttributes(NPCPasseggero.Handle, 17, true);
-												var offs = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, 1.5f, 0.0f, 0.0f);
-												var offs2 = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, -1.5f, 0.0f, 0.0f);
+												Vector3 offs = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, 1.5f, 0.0f, 0.0f);
+												Vector3 offs2 = GetOffsetFromEntityInWorldCoords(VeicoloServizio.Handle, -1.5f, 0.0f, 0.0f);
 												if (Vector3.Distance(offs, NPCPasseggero.Position) < Vector3.Distance(offs2, NPCPasseggero.Position))
 													TaskEnterVehicle(NPCPasseggero.Handle, VeicoloServizio.Handle, -1, 2, 1.0001f, 1, 0);
 												else
@@ -478,8 +478,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 		}
 		public Prop CreateTaxiMeter(Vehicle veh)
 		{
-			var c = veh.Position;
-			var meter = GetClosestObjectOfType(c.X, c.Y, c.Z, 2.0f, (uint)GetHashKey("prop_taxi_meter_2"), false, false, false);
+			Vector3 c = veh.Position;
+			int meter = GetClosestObjectOfType(c.X, c.Y, c.Z, 2.0f, (uint)GetHashKey("prop_taxi_meter_2"), false, false, false);
 			if (!DoesEntityExist(meter))
 			{
 				meter = CreateObject(GetHashKey("prop_taxi_meter_2"), c.X, c.Y, c.Z, true, true, false);

@@ -115,7 +115,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 			if (Cache.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
 			{
-				var p = Cache.PlayerPed;
+				Ped p = Cache.PlayerPed;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				while (Cache.Char == null) await BaseScript.Delay(0);

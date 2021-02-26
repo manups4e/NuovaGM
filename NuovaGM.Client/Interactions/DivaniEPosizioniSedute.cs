@@ -235,7 +235,7 @@ namespace TheLastPlanet.Client.Interactions
 					SediaClosest.IsPositionFrozen = true;
 					if (!Seduto)
 					{
-						var ped = SediaClosest.GetClosestPed();
+						Ped ped = SediaClosest.GetClosestPed();
 						if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f) {
 							if (!IsPedActiveInScenario(ped.Handle))
 							{

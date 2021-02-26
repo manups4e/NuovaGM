@@ -789,7 +789,7 @@ namespace TheLastPlanet.Client.Giostre
 
 		private static int GetCabIndex(Prop cab)
 		{
-			foreach (var cabina in Cabine)
+			foreach (CabinaPan cabina in Cabine)
 			{
 				if (cab == cabina.Entity)
 					return cabina.Index;

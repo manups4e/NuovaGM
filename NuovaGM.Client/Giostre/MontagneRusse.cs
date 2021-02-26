@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Giostre
 		private static void OnStop(string name)
 		{
 			if (GetCurrentResourceName() == name)
-				foreach (var v in Montagna.Carrelli)
+				foreach (CarrelloMontagna v in Montagna.Carrelli)
 					v.Entity.Delete();
 		}
 
@@ -345,7 +345,7 @@ namespace TheLastPlanet.Client.Giostre
 
 		private static async Task ControlloMontagne()
 		{
-			foreach (var v in ingressi)
+			foreach (Vector3 v in ingressi)
 			{
 				if (Cache.PlayerPed.IsInRangeOf(v,  1.3f) && Montagna.State == "ATTESA" && tempo > 0)
 				{
@@ -605,9 +605,9 @@ namespace TheLastPlanet.Client.Giostre
 			int iVar2;
 			int iVar3;
 			float fVar4;
-			var uVar5 = new float[4];
-			var uVar6 = new float[4];
-			var uVar7 = new float[4];
+			float[] uVar5 = new float[4];
+			float[] uVar6 = new float[4];
+			float[] uVar7 = new float[4];
 			float fVar8;
 
 			iVar0 = func_47(iParam1);

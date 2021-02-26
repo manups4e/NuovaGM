@@ -264,7 +264,7 @@ namespace TheLastPlanet.Client.MenuNativo
         /// </summary>
         public void CloseAllMenus()
         {
-            foreach (var menu in _menuList.Where(menu => menu.Visible))
+            foreach (UIMenu menu in _menuList.Where(menu => menu.Visible))
             {
                 menu.Visible = false;
             }

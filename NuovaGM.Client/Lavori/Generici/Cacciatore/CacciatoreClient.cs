@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 					if (assassino.Character == Cache.PlayerPed) // rimuovere questo controllo
 					{
 						if (!animaliUccisi.ContainsKey(animale.Handle)) animaliUccisi.Add(animale.Handle, an);
-						var hash = animale.Model.Hash;
+						int hash = animale.Model.Hash;
 						float aggValore = 0;
 						switch ((uint)hash)
 						{
@@ -139,7 +139,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 		public static async Task ControlloUccisi()
 		{
 			Ped p = Cache.PlayerPed;
-			foreach (var anim in animaliUccisi)
+			foreach (KeyValuePair<int, AnimaleDaCacciare> anim in animaliUccisi)
 			{
 				if (p.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion)
 				{
@@ -153,7 +153,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 							TaskStartScenarioInPlace(PlayerPedId(), "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true); // oppure CODE_HUMAN_MEDIC_KNEEL 
 							Screen.Fading.FadeOut(2000);
 							await BaseScript.Delay(2001);
-							var hash = anim.Value.Entity.Model.Hash;
+							int hash = anim.Value.Entity.Model.Hash;
 							string msg = "";
 							float aggValore = 0;
 							string carne = "";

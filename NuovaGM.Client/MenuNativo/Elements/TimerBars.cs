@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
             base.Draw(interval);
 
-            var start = new PointF((int)res.Width - safe.X - 160, (int)res.Height - safe.Y - (28 + (4 * interval)));
+            PointF start = new PointF((int)res.Width - safe.X - 160, (int)res.Height - safe.Y - (28 + (4 * interval)));
 
             new UIResRectangle(start, new SizeF(150, 15), BackgroundColor).Draw();
             new UIResRectangle(start, new SizeF((int)(150 * Percentage), 15), ForegroundColor).Draw();

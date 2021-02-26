@@ -50,10 +50,10 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
 			Phone.Scaleform.CallFunction("SET_DATA_SLOT_EMPTY", 2);
 
-			var appName = "Contatti";
+			string appName = "Contatti";
 			if (CurrentSubMenu != null)
 			{
-				foreach (var subMenu in MenuContatti)
+				foreach (ContactsSubMenuItem subMenu in MenuContatti)
 					Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, MenuContatti.IndexOf(subMenu), subMenu.Icon, "~l~" + subMenu.Name);
 				if (SelectedItem < Phone.getCurrentCharPhone().contatti.Count)
 					if (!String.IsNullOrEmpty(CurrentSubMenu.Name))
@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 			}
 			else
 			{
-				foreach (var contatto in Phone.getCurrentCharPhone().contatti)
+				foreach (Contatto contatto in Phone.getCurrentCharPhone().contatti)
 				{
 					Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
 				}
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 			Phone.Scaleform.CallFunction("SET_HEADER", appName);
 			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 2, SelectedItem);
 
-			var navigated = true;
+			bool navigated = true;
 			if (Input.IsControlJustPressed(Control.PhoneUp))
 			{
 				MoveFinger(1);
@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 				{
 					if (MenuContatti[SelectedItem].Name == "Scrivi un Messaggio")
 					{
-						var msg = await HUD.GetUserInput("Inserisci un Messaggio", "", 100);
+						string msg = await HUD.GetUserInput("Inserisci un Messaggio", "", 100);
 						BaseScript.TriggerServerEvent("phone_server:receiveMessage", CurrentSubMenu.TelephoneNumber, Cache.Char.FullName, GetPlayerName(PlayerId()), msg, GetPlayerServerId(Convert.ToInt32(Cache.Char.source)));
 					}
 					if (MenuContatti[SelectedItem].Name == "Chiama")
@@ -172,7 +172,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 		{
 			for (int i = start; i < end + 1; i++)
 			{
-				var contatto = Phone.getCurrentCharPhone().contatti[i];
+				Contatto contatto = Phone.getCurrentCharPhone().contatti[i];
 				Phone.Scaleform.CallFunction("SET_DATA_SLOT", 2, Phone.getCurrentCharPhone().contatti.IndexOf(contatto), 0, contatto.Name, "", contatto.Icon);
 				/*
 				BeginScaleformMovieMethod(Phone.Scaleform.Handle, "SET_DATA_SLOT");

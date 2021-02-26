@@ -75,7 +75,7 @@ namespace TheLastPlanet.Server.Veicoli
 				if (vehs.Count > 0)
 				{
 					p.GetCurrentChar().CurrentChar.Veicoli.Clear();
-					foreach (var veh in vehs)
+					foreach (dynamic veh in vehs)
 					{
 						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
 					}

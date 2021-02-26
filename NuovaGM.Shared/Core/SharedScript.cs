@@ -25,24 +25,24 @@ namespace TheLastPlanet.Shared
 
 		public static bool hasWeaponComponent(string weapon, string component)
 		{
-			foreach (var weap in ConfigShared.SharedConfig.Main.Generici.Armi)
+			foreach (KeyValuePair<string, Arma> weap in ConfigShared.SharedConfig.Main.Generici.Armi)
 				if (weap.Key == weapon)
-					foreach (var com in weap.Value.components)
+					foreach (Components com in weap.Value.components)
 						if(com.name == component)
 						return true;
 			return false;
 		}
 		public static bool hasWeaponTint(string weapon, int tint)
 		{
-			foreach (var weap in ConfigShared.SharedConfig.Main.Generici.Armi)
+			foreach (KeyValuePair<string, Arma> weap in ConfigShared.SharedConfig.Main.Generici.Armi)
 				if (weap.Key == weapon)
-					foreach (var tin in weap.Value.tints)
+					foreach (Tinte tin in weap.Value.tints)
 						if (tin.value == tint) return true;
 			return false;
 		}
 		public static bool hasComponents(string weapon)
 		{
-			foreach (var arma in ConfigShared.SharedConfig.Main.Generici.Armi)
+			foreach (KeyValuePair<string, Arma> arma in ConfigShared.SharedConfig.Main.Generici.Armi)
 				if (arma.Key == weapon)
 					if (arma.Value.components.Count > 0) return true;
 			return false;
@@ -50,7 +50,7 @@ namespace TheLastPlanet.Shared
 
 		public static bool hasTints(string weapon)
 		{
-			foreach (var arma in ConfigShared.SharedConfig.Main.Generici.Armi)
+			foreach (KeyValuePair<string, Arma> arma in ConfigShared.SharedConfig.Main.Generici.Armi)
 				if (arma.Key == weapon)
 					if (arma.Value.tints.Count > 0) return true;
 			return false;

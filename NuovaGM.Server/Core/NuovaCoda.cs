@@ -216,7 +216,7 @@ namespace TheLastPlanet.Server.Core
                         RemoveFrom(license, true, true, true, true, true, true);
                         if (stateChangeMessages)
                         {
-                            var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+                            Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
                             Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}");
                         }
                         continue;
@@ -265,7 +265,7 @@ namespace TheLastPlanet.Server.Core
                         RemoveFrom(license, true, true, true, true, true, true);
                         if (stateChangeMessages) 
                         {
-                            var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+                            Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
                             Log.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}"); 
                         }
                         continue;
@@ -331,7 +331,7 @@ namespace TheLastPlanet.Server.Core
                     session.TryUpdate(license, SessionState.Caricamento, oldState);
                     if (stateChangeMessages) 
                     {
-                        var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+                        Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
                         Log.Printa(LogType.Info, player!= null? $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}"); 
                     }
                 }
@@ -414,7 +414,7 @@ namespace TheLastPlanet.Server.Core
                                 UpdateTimer(license);
                                 if (stateChangeMessages) 
                                 {
-                                    var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+                                    Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
                                     Log.Printa(LogType.Info, $"[{resourceName}]: CARICAMENTO -> GRAZIA -> Licenza: {license}"); 
                                 }
                             }
@@ -449,7 +449,7 @@ namespace TheLastPlanet.Server.Core
                                     RemoveFrom(license, true, true, true, true, true, true);
                                     if (stateChangeMessages) 
                                     {
-                                        var player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+                                        Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
                                         Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}"); 
                                     }
                                 }

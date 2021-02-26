@@ -209,7 +209,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_afterhours
 					{
 						API.RequestNamedPtfxAsset("scr_ba_club");
 						while (!API.HasNamedPtfxAssetLoaded("scr_ba_club")) await BaseScript.Delay(0);
-						foreach (var emitter in Emitters)
+						foreach (Tuple<Vector3, Vector3> emitter in Emitters)
 						{
 							API.UseParticleFxAsset("scr_ba_club");
 							API.StartParticleFxLoopedAtCoord("scr_ba_club_smoke_machine", emitter.Item1.X, emitter.Item1.Y, emitter.Item1.Z, emitter.Item2.X, emitter.Item2.Y, emitter.Item2.Z, Scale, false, false, false, true);
@@ -217,7 +217,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_afterhours
 					}
 					else
 					{
-						foreach (var emitter in Emitters)
+						foreach (Tuple<Vector3, Vector3> emitter in Emitters)
 							API.RemoveParticleFxInRange(emitter.Item1.X, emitter.Item1.Y, emitter.Item1.Z, 1f);
 					}
 				}

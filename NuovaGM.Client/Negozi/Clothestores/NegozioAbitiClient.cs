@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void Spawnato()
 		{
 	
-			foreach (var v in ConfigClothes.Binco)
+			foreach (NegozioAbiti v in ConfigClothes.Binco)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z))
 				{
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.Negozi
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
 			}
-			foreach (var v in ConfigClothes.Discount)
+			foreach (NegozioAbiti v in ConfigClothes.Discount)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z))
 				{
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.Negozi
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
 			}
-			foreach (var v in ConfigClothes.Suburban)
+			foreach (NegozioAbiti v in ConfigClothes.Suburban)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z))
 				{
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Negozi
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Occhiali, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v.Accessori, new Radius(0.8f, 1f), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, PadCheck.Any, ControlModifier.None,new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
 			}
-			foreach (var v in ConfigClothes.Ponsombys)
+			foreach (NegozioAbiti v in ConfigClothes.Ponsombys)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z))
 				{

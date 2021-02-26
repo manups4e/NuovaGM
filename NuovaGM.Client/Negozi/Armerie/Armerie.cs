@@ -363,7 +363,7 @@ namespace TheLastPlanet.Client.Negozi
 						if (Hastints)
 						{
 							UIMenu Tnt = pool.AddSubMenu(Tinte, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
-							foreach (var tin in tinte)
+							foreach (ArmiLicenza tin in tinte)
 							{
 								UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
 								Tnt.AddItem(tintina);

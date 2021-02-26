@@ -286,7 +286,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static async Task SalvaPersonaggio(Player player)
 		{
-			var ped = GetUserFromPlayerId(player.Handle);
+			User ped = GetUserFromPlayerId(player.Handle);
 			await Server.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
 			{
 				name = player.Name,
@@ -322,7 +322,7 @@ namespace TheLastPlanet.Server.Core
 						string name = player.Name;
 						if (Server.PlayerList.ContainsKey(player.Handle))
 						{
-							var ped = Funzioni.GetUserFromPlayerId(player.Handle);
+							User ped = Funzioni.GetUserFromPlayerId(player.Handle);
 							if (ped.status.spawned)
 							{
 								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");

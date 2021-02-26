@@ -13,6 +13,7 @@ using CitizenFX.Core.UI;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 {
@@ -31,7 +32,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		private static async void Spawnato()
 		{
-			foreach (var ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+			foreach (Ospedale ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 			{
 				Blip blip = World.CreateBlip(ospedale.Blip.Coords);
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
@@ -82,9 +83,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Ped p = Cache.PlayerPed;
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
-				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (var vettore in osp.Spogliatoio)
+					foreach (Vector3 vettore in osp.Spogliatoio)
 					{
 						if (p.IsInRangeOf(vettore,2f))
 						{
@@ -96,7 +97,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var vettore in osp.Farmacia)
+					foreach (Vector3 vettore in osp.Farmacia)
 					{
 						if (p.IsInRangeOf(vettore,1.5f))
 						{
@@ -108,7 +109,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var vettore in osp.IngressoVisitatori)
+					foreach (Vector3 vettore in osp.IngressoVisitatori)
 					{
 						if (p.IsInRangeOf(vettore,1.375f))
 						{
@@ -129,7 +130,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var vettore in osp.UscitaVisitatori)
+					foreach (Vector3 vettore in osp.UscitaVisitatori)
 					{
 						if (p.IsInRangeOf(vettore,1.375f))
 						{
@@ -150,7 +151,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var vehicle in osp.Veicoli)
+					foreach (SpawnerSpawn vehicle in osp.Veicoli)
 					{
 						if (!p.IsInVehicle())
 						{
@@ -169,7 +170,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						for (int i = 0; i < vehicle.Deleters.Count; i++)
 						{
 							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i], 2f))
-								foreach (var veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i], 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (p.IsInVehicle())
@@ -197,7 +198,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var heli in osp.Elicotteri)
+					foreach (SpawnerSpawn heli in osp.Elicotteri)
 					{
 						if (!p.IsInVehicle())
 							World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
@@ -214,7 +215,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						for (int i = 0; i < heli.Deleters.Count; i++)
 						{
 							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i], 2f))
-								foreach (var veh in Funzioni.GetVehiclesInArea(heli.Deleters[i], 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(heli.Deleters[i], 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 							if (p.IsInVehicle())
@@ -249,9 +250,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Ped p = Cache.PlayerPed;
 			if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" || Cache.Char.CurrentChar.job.name.ToLower() != "medici")
 			{
-				foreach (var osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (var vettore in osp.IngressoVisitatori)
+					foreach (Vector3 vettore in osp.IngressoVisitatori)
 					{
 						if (p.IsInRangeOf(vettore,1.375f))
 						{
@@ -272,7 +273,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						}
 					}
 
-					foreach (var vettore in osp.UscitaVisitatori)
+					foreach (Vector3 vettore in osp.UscitaVisitatori)
 					{
 						if (p.IsInRangeOf(vettore, 1.375f))
 						{
@@ -302,7 +303,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			await BaseScript.Delay(1000);
 			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
-				foreach (var p in Eventi.GiocatoriOnline)
+				foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
 				{
 					if (p.Value.CurrentChar.job.name == "Medici")
 					{
@@ -400,10 +401,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (Cache.Char.StatiPlayer.InServizio)
-					foreach(var morto in Morti)
+					foreach(KeyValuePair<Ped, Blip> morto in Morti)
 						morto.Value.Alpha = 255;
 				else
-					foreach (var morto in Morti)
+					foreach (KeyValuePair<Ped, Blip> morto in Morti)
 						morto.Value.Alpha = 0;
 			}
 		}

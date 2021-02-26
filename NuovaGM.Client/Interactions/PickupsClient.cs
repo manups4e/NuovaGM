@@ -28,8 +28,8 @@ namespace TheLastPlanet.Client.Interactions
 		public static async Task PickupsMain()
 		{
 			bool letSleep = true;
-			var closest = Funzioni.GetClosestPlayer();
-			foreach (var pickup in Pickups)
+			Tuple<Player, float> closest = Funzioni.GetClosestPlayer();
+			foreach (OggettoRaccoglibile pickup in Pickups)
 			{
 				if (pickup != null)
 				{
@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Interactions
 					pickupObject.SetDecor("PickupArma", oggetto.amount);
 					oggetto.propObj = pickupObject.Handle;
 					SetWeaponObjectTintIndex(pickupObject.Handle, oggetto.tintIndex);
-					foreach (var comp in oggetto.componenti)
+					foreach (Components comp in oggetto.componenti)
 					{
 						GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
 						if (comp.name.Contains("FLSH")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static void RimuoviPickup(int id)
 		{
-			var pickup = Pickups[id];
+			OggettoRaccoglibile pickup = Pickups[id];
 			if (pickup != null && pickup.propObj != 0)
 			{
 				if (pickup.obj == ObjectHash.a_c_fish)
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.Interactions
 			Pickups = jsonPickups.Deserialize<List<OggettoRaccoglibile>>();
 			if (Pickups.Count > 0)
 			{
-				foreach (var pickup in Pickups)
+				foreach (OggettoRaccoglibile pickup in Pickups)
 				{
 					if (pickup != null)
 					{
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Client.Interactions
 							pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, true, 1.0f, 0));
 							pickupObject.SetDecor("PickupArma", pickup.amount);
 							SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
-							foreach (var comp in pickup.componenti)
+							foreach (Components comp in pickup.componenti)
 							{
 								GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
 								if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);

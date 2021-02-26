@@ -48,8 +48,8 @@ namespace TheLastPlanet.Client.MenuNativo
 		{
 			//var Y = y - 205;
 			float Y = y;
-			var ParentOffsetX = ParentItem.Offset.X;
-			var ParentOffsetWidth = ParentItem.Parent.WidthOffset;
+			float ParentOffsetX = ParentItem.Offset.X;
+			int ParentOffsetWidth = ParentItem.Parent.WidthOffset;
 			Background.Position = new PointF(ParentOffsetX, Y);
 			Grid.Position = new PointF(ParentOffsetX + 115.5f + (ParentOffsetWidth / 2), 37.5f + Y);
 			Top.Position = new PointF(ParentOffsetX + 215.5f + (ParentOffsetWidth / 2), 5f + Y);
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.MenuNativo
 					float mouseY = API.GetDisabledControlNormal(0, 240) * res.Height;
 					mouseY -= (Circle.Size.Height / 2) + safezoneOffset.Y;
 					Circle.Position = new PointF(Circle.Position.X, mouseY > (Grid.Position.Y + 10 + Grid.Size.Height - 40) ? (Grid.Position.Y + 10 + Grid.Size.Height - 40) : ((mouseY < (Grid.Position.Y + 20 - (Circle.Size.Height / 2))) ? (Grid.Position.Y + 20 - (Circle.Size.Height / 2)) : mouseY));
-					var resultY = (float)Math.Round((Circle.Position.Y - (Grid.Position.Y + 20) + (Circle.Size.Height + 20)) / (Grid.Size.Height - 40), 2) + safezoneOffset.Y;
+					float resultY = (float)Math.Round((Circle.Position.Y - (Grid.Position.Y + 20) + (Circle.Size.Height + 20)) / (Grid.Size.Height - 40), 2) + safezoneOffset.Y;
 					UpdateParent(((resultY >= 0.0f && resultY <= 1.0f) ? resultY : ((resultY <= 0f) ? 0.0f : 1.0f) * 2f) - 1f);
 				}
 				if (API.IsDisabledControlJustReleased(0, 24))

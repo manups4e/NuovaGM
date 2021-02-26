@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 			{
 				Dictionary<string, string> apart = new Dictionary<string, string>();
 				Dictionary<string, string> garag = new Dictionary<string, string>();
-				foreach (var p in aparts)
+				foreach (dynamic p in aparts)
 				{
 					if (p.tipo == "casa")
 						apart.Add(p.abbreviazione, p.datiImmobile);

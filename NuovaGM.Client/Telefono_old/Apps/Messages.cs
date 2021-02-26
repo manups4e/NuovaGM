@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.Native;
+using TheLastPlanet.Shared;
 
 
 namespace TheLastPlanet.Client.Telefono.Apps
@@ -67,9 +68,9 @@ namespace TheLastPlanet.Client.Telefono.Apps
 			
 			Phone.Scaleform.CallFunction("SET_DATA_SLOT_EMPTY", 8);
 
-			var appName = "Messaggi";
+			string appName = "Messaggi";
 
-			foreach (var messaggio in Phone.getCurrentCharPhone().messaggi)
+			foreach (Message messaggio in Phone.getCurrentCharPhone().messaggi)
 			{
 				AddMessage(Phone.getCurrentCharPhone().messaggi.IndexOf(messaggio), messaggio.From, messaggio.Messaggio, false);
 				messageCount += 1;
@@ -77,7 +78,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 			Phone.Scaleform.CallFunction("SET_HEADER", appName);
 			Phone.Scaleform.CallFunction("DISPLAY_VIEW", 8, SelectedItem);
 
-			var navigated = true;
+			bool navigated = true;
 			if (Input.IsControlJustPressed(Control.PhoneUp))
 			{
 				MoveFinger(1);

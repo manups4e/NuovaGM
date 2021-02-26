@@ -27,11 +27,11 @@ namespace FivemPlayerlistServer
 			{
 				if (list.ContainsKey(int.Parse(p.Handle)))
 				{
-					var listItem = list[int.Parse(p.Handle)];
-					var p1 = listItem[0];
-					var p2 = listItem[1];
-					var p3 = listItem[2];
-					var p4 = listItem[3];
+					dynamic[] listItem = list[int.Parse(p.Handle)];
+					dynamic p1 = listItem[0];
+					dynamic p2 = listItem[1];
+					dynamic p3 = listItem[2];
+					dynamic p4 = listItem[3];
 					source.TriggerEvent("lprp:fs:setPlayerRowConfig", p1, p2, p3, p4);
 					await BaseScript.Delay(1);
 				}

@@ -47,8 +47,8 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		internal override void Position(float y)
 		{
-			var ParentOffsetX = ParentItem.Offset.X;
-			var ParentOffsetWidth = ParentItem.Parent.WidthOffset;
+			float ParentOffsetX = ParentItem.Offset.X;
+			int ParentOffsetWidth = ParentItem.Parent.WidthOffset;
 			Background.Position = new PointF(ParentOffsetX, 35f + y);
 			ActiveBar.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 9, 50 + 35f + y);
 			BackgroundBar.Position = ActiveBar.Position;

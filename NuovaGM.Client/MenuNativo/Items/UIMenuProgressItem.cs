@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		public void CalculateProgress(float CursorX)
 		{
-			var Progress = CursorX - _bar.Position.X;
+			float Progress = CursorX - _bar.Position.X;
 			Index = (int)Math.Round(Items * ((Progress >= 0f && Progress <= _max ) ? Progress : (Progress < 0) ? 0 : _max) / _max);
 		}
 

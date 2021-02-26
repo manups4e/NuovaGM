@@ -38,7 +38,7 @@ namespace TheLastPlanet.Server.Appartamenti
 				pers = p.GetCurrentChar().FullName
 			});
 			if (result.Count > 0)
-				foreach (var ap in result)
+				foreach (dynamic ap in result)
 					p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);
 			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}

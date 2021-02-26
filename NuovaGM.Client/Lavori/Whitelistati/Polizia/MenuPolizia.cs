@@ -103,7 +103,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					if (!Cache.Char.StatiPlayer.InServizio)
 					{
-						foreach (var Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
+						foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Polizia.Gradi)
 						{
 							if (Cache.Char.CurrentChar.job.name == "Polizia")
 							{
@@ -262,7 +262,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 							UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
 							nomeCognome.SetRightLabel(player.FullName);
 							UIMenuItem dDN = new UIMenuItem("Data di Nascita");
-							dDN.SetRightLabel(player.DOB);
+							dDN.SetRightLabel(player.DoB);
 							UIMenuItem sesso = new UIMenuItem("Sesso");
 							sesso.SetRightLabel(Cache.Char.CurrentChar.skin.sex);
 							UIMenuItem altezza = new UIMenuItem("Altezza");
@@ -308,10 +308,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						float distance = Player_Distance.Item2;
 						if (distance < 3f)
 						{
-							var inv = Cache.Char.Inventory;
+							List<Inventory> inv = Cache.Char.Inventory;
 							if (inv.Count > 0)
 							{
-								foreach (var it in inv)
+								foreach (Inventory it in inv)
 								{
 									if (it.amount > 0)
 									{
@@ -721,7 +721,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		}
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
 		{
-			foreach (var veh in veicoliParcheggio) veh.Delete();
+			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
 			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage*10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
@@ -770,7 +770,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
 								int model = p.CurrentVehicle.Model.Hash;
-								foreach (var vehicle in veicoliParcheggio) vehicle.Delete();
+								foreach (Vehicle vehicle in veicoliParcheggio) vehicle.Delete();
 								veicoliParcheggio.Clear();
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
 								{

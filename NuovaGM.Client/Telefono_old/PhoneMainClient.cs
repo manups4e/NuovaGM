@@ -8,6 +8,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Telefono.Models;
 
 namespace TheLastPlanet.Client.Telefono
 {
@@ -43,7 +44,7 @@ namespace TheLastPlanet.Client.Telefono
 
 		public static async Task ControlloApertura()
 		{
-			var ped = Cache.PlayerPed;
+			Ped ped = Cache.PlayerPed;
 			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
 			{
 				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
@@ -96,12 +97,12 @@ namespace TheLastPlanet.Client.Telefono
 				Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 
-				var lastApp = Phone.currentApp;
+				App lastApp = Phone.currentApp;
 				Phone.currentApp = null;
 
 				if (lastApp.Name == "Main")
 				{
-					foreach (var app in Phone.apps)
+					foreach (App app in Phone.apps)
 					{
 						app.Kill();
 						Client.Instance.RemoveTick(app.Tick);

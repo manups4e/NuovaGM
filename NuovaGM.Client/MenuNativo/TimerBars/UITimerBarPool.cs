@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.MenuNativo
 		{
 			for (int i=0; i<TimerBars.Count; i++)
 			{
-				var item = TimerBars[i];
+				UITimerBarItem item = TimerBars[i];
 				item.Draw(38 + 38 * i + (Screen.LoadingPrompt.IsActive || HUD.MenuPool.IsAnyMenuOpen ? 38 : 0));
 			}
 //			for (int i = 6; i < 10; i++)

@@ -48,7 +48,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		private static void RimuoviVeicoloLavoroEAffitto(string jsonVeicolo)
 		{
-			foreach (var veicolo in NonPersonali)
+			foreach (VeicoloLavorativoEAffitto veicolo in NonPersonali)
 			{
 				if (veicolo == jsonVeicolo.Deserialize<VeicoloLavorativoEAffitto>())
 				{

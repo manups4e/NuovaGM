@@ -34,7 +34,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static void NegozioPubblico(string tipo)
 		{
-			var neg = Main.Textures[tipo];
+			KeyValuePair<string, string> neg = Main.Textures[tipo];
 			string description = "";
 			List<OggettoVendita> oggettidaaggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared;
 
@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.Negozi
 			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
 			HUD.MenuPool.Add(Negozio);
 
-			foreach (var ogg in oggettidaaggiungere)
+			foreach (OggettoVendita ogg in oggettidaaggiungere)
 			{
 				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
 				if (Cache.Char.Money >= ogg.prezzo || Cache.Char.Bank >= ogg.prezzo)

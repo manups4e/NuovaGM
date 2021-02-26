@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 
         public void RefreshIndex()
         {
-            foreach (var item in Items)
+            foreach (TabItem item in Items)
             {
                 item.Focused = false;
                 item.Active = false;
@@ -96,17 +96,17 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             if (!Visible) return;
             base.Draw();
 
-            var alpha = Focused ? 120 : 30;
-            var blackAlpha = Focused ? 200 : 100;
-            var fullAlpha = Focused ? 255 : 150;
+            int alpha = Focused ? 120 : 30;
+            int blackAlpha = Focused ? 200 : 100;
+            int fullAlpha = Focused ? 255 : 150;
 
-            var activeWidth = Resolution.Width - SafeSize.X * 2;
-            var submenuWidth = (int)(activeWidth * 0.6818f);
-            var itemSize = new SizeF((int)activeWidth - (submenuWidth + 3), 40);
+            float activeWidth = Resolution.Width - SafeSize.X * 2;
+            int submenuWidth = (int)(activeWidth * 0.6818f);
+            SizeF itemSize = new SizeF((int)activeWidth - (submenuWidth + 3), 40);
 
             for (int i = 0; i < Items.Count; i++)
             {
-                var hovering = ScreenTools.IsMouseInBounds(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)),
+                bool hovering = ScreenTools.IsMouseInBounds(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)),
                     itemSize);
 
                 new UIResRectangle(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)), itemSize, (Index == i && Focused) ? Color.FromArgb(fullAlpha, Colors.White) : hovering && Focused ? Color.FromArgb(100, 50, 50, 50) : Color.FromArgb(blackAlpha, Colors.Black)).Draw();

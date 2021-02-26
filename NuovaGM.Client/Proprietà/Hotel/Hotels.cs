@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			{
 				Log.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
-			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
+			foreach (Hotel hotel in Client.Impostazioni.Proprieta.hotels)
 			{
 				Blip p = new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 				{
@@ -49,7 +49,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
-			foreach (var hotel in Client.Impostazioni.Proprieta.hotels)
+			foreach (Hotel hotel in Client.Impostazioni.Proprieta.hotels)
 			{
 				Blip p = new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 				{

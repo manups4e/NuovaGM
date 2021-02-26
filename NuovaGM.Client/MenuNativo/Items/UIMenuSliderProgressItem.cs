@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.MenuNativo
 						{
 							await BaseScript.Delay(0);
 							float CursorX = API.GetDisabledControlNormal(0, 239) * res.Width;
-							var Progress = CursorX - _rectangleSlider.Position.X;
+							float Progress = CursorX - _rectangleSlider.Position.X;
 							Value = (int)Math.Round(_max * ((Progress >= 0f && Progress <= 150f) ? Progress : (Progress < 0) ? 0 : 150f) / 150f);
 							SliderProgressChanged(Value);
 						}

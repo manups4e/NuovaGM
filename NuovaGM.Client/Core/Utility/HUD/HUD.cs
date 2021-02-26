@@ -1,4 +1,5 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MenuNativo;
@@ -150,7 +151,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async void ShowStatNotification(int value, string title)
 		{
-			var mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerPed);
+			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerPed);
 			BeginTextCommandThefeedPost("PS_UPDATE");
 			AddTextComponentInteger(value);
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);
@@ -224,7 +225,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static void CallFunctionFrontendHeader(string function, params object[] arguments)
 		{
 			BeginScaleformMovieMethodOnFrontendHeader(function);
-			foreach (var argument in arguments)
+			foreach (object argument in arguments)
 			{
 				if (argument is int)
 					PushScaleformMovieMethodParameterInt((int)argument);
@@ -353,7 +354,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			int screenh = Screen.Resolution.Height;
 			const float height = 1080f;
 			float ratio = (float)screenw / screenh;
-			var width = height * ratio;
+			float width = height * ratio;
 
 			SetTextFont((int)font);
 			SetTextScale(0.0f, 0.5f);

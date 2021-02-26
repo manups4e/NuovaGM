@@ -57,10 +57,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 
 		[JsonIgnore]
-		public string FullName { get { return CurrentChar.info.firstname + " " + CurrentChar.info.lastname; } }
+		public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
 
 		[JsonIgnore]
-		public string DOB { get { return CurrentChar.info.dateOfBirth; } }
+		public string DoB => CurrentChar.info.dateOfBirth;
 
 		[JsonIgnore]
 		public bool DeathStatus { get { return CurrentChar.is_dead; } }
@@ -204,7 +204,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.InPausa = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Svenuto = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -232,7 +232,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Ammanettato = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -245,7 +245,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.InCasa = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -258,7 +258,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.InServizio = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -271,7 +271,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.FinDiVita = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -284,7 +284,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.AdminSpecta = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -303,7 +303,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set 
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Stanziato = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -316,7 +316,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Istanza.ServerIdProprietario = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -329,7 +329,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set 
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Istanza.IsProprietario = value;
 				player.State.Set("PlayerStates", p, true);
 			}
@@ -343,7 +343,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 			set 
 			{
-				var p = player.State["PlayerStates"];
+				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Instance = value;
 				player.State.Set("PlayerStates", p, true);
 			}

@@ -21,8 +21,8 @@ namespace TheLastPlanet.Client.MenuNativo
         {
             if (_sc != null) return;
             _sc = new Scaleform("MP_BIG_MESSAGE_FREEMODE");
-            var timeout = 1000;
-            var start = DateTime.Now;
+            int timeout = 1000;
+            DateTime start = DateTime.Now;
             while (!API.HasScaleformMovieLoaded(_sc.Handle) && DateTime.Now.Subtract(start).TotalMilliseconds < timeout) await BaseScript.Delay(0);
         }
 

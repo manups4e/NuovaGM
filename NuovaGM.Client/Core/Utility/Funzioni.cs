@@ -124,8 +124,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
 		{
-			var players = GetPlayersInArea(coord, radius);
-			foreach (var pl in players)
+			List<Player> players = GetPlayersInArea(coord, radius);
+			foreach (Player pl in players)
 				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, true, true);
 		}
@@ -137,8 +137,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void RevealPlayersNearby(Vector3 coord, float radius)
 		{
-			var players = GetPlayersInArea(coord, radius);
-			foreach (var pl in players)
+			List<Player> players = GetPlayersInArea(coord, radius);
+			foreach (Player pl in players)
 				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, false, false);
 		}
@@ -261,7 +261,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			for (int i = 0; i < 13; i++) extras[i] = veh.IsExtraOn(i);
 
 			List<VehMod> mods = new List<VehMod>();
-			foreach (var mod in veh.Mods.GetAllMods())
+			foreach (VehicleMod mod in veh.Mods.GetAllMods())
 				mods.Add(new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName));
 
 			VehProp vehi = new VehProp(
@@ -319,8 +319,8 @@ namespace TheLastPlanet.Client.Core.Utility
 				veh.ToggleExtra(i, props.Extras[i]);
 			veh.Mods.NeonLightsColor = props.NeonColor;
 			veh.Mods.TireSmokeColor = props.TireSmokeColor;
-			var mods = veh.Mods.GetAllMods();
-			foreach (var mod in props.Mods)
+			VehicleMod[] mods = veh.Mods.GetAllMods();
+			foreach (VehMod mod in props.Mods)
 				SetVehicleMod(veh.Handle, mod.ModIndex, mod.Value, mods.ToList().FirstOrDefault(x=>(int)x.ModType == mod.ModIndex).Variation);
 			veh.Mods.Livery = props.ModLivery;
 		}
@@ -573,7 +573,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task<Vehicle> SpawnLocalVehicle(dynamic modelName, Vector3 coords, float heading)
 		{
-			var vehicleModel = new Model(modelName);
+			Model vehicleModel = new Model(modelName);
 			if (vehicleModel.IsValid)
 			{
 				if (!vehicleModel.IsLoaded)
@@ -646,7 +646,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
 		public static async Task<Ped> SpawnPed(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
-			var pedModel = new Model(model);
+			Model pedModel = new Model(model);
 			if (pedModel.IsValid)
 			{
 				if (!pedModel.IsLoaded)
@@ -786,7 +786,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static Tuple<Vehicle, float> GetClosestVehicleWithDistance(this Ped entity)
 		{
-			var veh = World.GetClosest(entity.Position, World.GetAllVehicles());
+			Vehicle veh = World.GetClosest(entity.Position, World.GetAllVehicles());
 			float dist = Vector3.Distance(entity.Position, veh.Position);
 			return new Tuple<Vehicle, float>(veh, dist);
 		}
@@ -1003,8 +1003,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static Vector2 WorldToScreen(Vector3 position)
 		{
-			var screenX = new OutputArgument();
-			var screenY = new OutputArgument();
+			OutputArgument screenX = new OutputArgument();
+			OutputArgument screenY = new OutputArgument();
 			return !Function.Call<bool>(Hash._WORLD3D_TO_SCREEN2D, position.X, position.Y, position.Z, screenX, screenY) ?
 				Vector2.Zero :
 				new Vector2(screenX.GetResult<float>(), screenY.GetResult<float>());

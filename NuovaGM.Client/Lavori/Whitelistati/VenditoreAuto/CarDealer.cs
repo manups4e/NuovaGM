@@ -91,7 +91,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					players = Funzioni.GetPlayersInArea(Cache.Char.posizione.ToVector3(), 3f);
 					List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 					string txt = "";
-					foreach (var t in texts) txt = t + "~n~";
+					foreach (string t in texts) txt = t + "~n~";
 					UIMenu mostraCatalogoAlcuni = mostraCatalogo.AddSubMenu("Mostra a scelta");
 					if (players.Count == 0)
 					{
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 						{
 							_newsubmenu.Clear();
 							List<int> persone = new List<int>();
-							foreach (var p in players)
+							foreach (Player p in players)
 							{
 								UIMenuCheckboxItem persona = new UIMenuCheckboxItem(p.GetPlayerData().FullName, false);
 								persona.CheckboxEvent += (_item, _activated) =>
@@ -158,12 +158,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 			HUD.MenuPool.Add(catalogo);
 			Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 			string SelectedVeh = "";
-			foreach (var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
+			foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 			{
 				UIMenu sezione = catalogo.AddSubMenu(p.Key);
 				sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 				List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
-				foreach(var i in p.Value.OrderBy(x => x.price))
+				foreach(VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
 				{
 					UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
 					vah.ParentItem.SetRightLabel("~g~$" + i.price);
@@ -192,11 +192,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 							_newsubmenu.Clear();
 							if (Cache.Char.CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
 							{
-								foreach (var pro in Client.Impostazioni.Proprieta.Appartamenti)
+								foreach (KeyValuePair<string, ConfigCase> pro in Client.Impostazioni.Proprieta.Appartamenti)
 								{
 									if (pro.Value.GarageIncluso)
 									{
-										foreach (var a in Cache.Char.CurrentChar.Proprietà)
+										foreach (string a in Cache.Char.CurrentChar.Proprietà)
 										{
 											if (a == pro.Key)
 											{
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 													string s2 = await Funzioni.GetRandomString(2);
 													string plate = s1 + " " + Funzioni.GetRandomInt(001, 999).ToString("000") + s2;
 													PreviewVeh.Mods.LicensePlate = plate;
-													var prop = await PreviewVeh.GetVehicleProperties();
+													VehProp prop = await PreviewVeh.GetVehicleProperties();
 													OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Cache.Char.CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, Cache.Char.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
 													BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize(includeEverything: true));
 													HUD.MenuPool.CloseAllMenus();
@@ -300,24 +300,24 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
 				HUD.MenuPool.Add(catalogo);
 				Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
-				foreach (var p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
+				foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 				{
 					UIMenu sezione = catalogo.AddSubMenu(p.Key);
 					sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 					List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
-					foreach (var i in p.Value.OrderBy(x => x.price))
+					foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
 					{
 						UIMenu vah = sezione.AddSubMenu(Game.GetGXTEntry(i.name), i.description);
 						vah.ParentItem.SetRightLabel("~g~$" + i.price);
 						vehs.Add(i);
-						foreach(var pl in players)
+						foreach(int pl in players)
 						{
-							var user = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
+							Player user = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
 							UIMenu player = vah.AddSubMenu(user.GetPlayerData().FullName);
 							if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
 							{
 								List<string> prop = new List<string>();
-								foreach(var gar in user.GetPlayerData().CurrentChar.Proprietà)
+								foreach(string gar in user.GetPlayerData().CurrentChar.Proprietà)
 								{
 									if (Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(gar)) 
 									{
@@ -401,7 +401,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					if (PreviewVeh.Model.IsCar)
 					{
 						PreviewVeh.IsPositionFrozen = false;
-						foreach (var d in PreviewVeh.Doors.GetAll())
+						foreach (VehicleDoor d in PreviewVeh.Doors.GetAll())
 						{
 							d.CanBeBroken = false;
 							if (d.IsOpen) d.Close();

@@ -252,7 +252,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_doomsday
 
 				public async void Enable(bool state)
 				{
-					foreach (var glass in Glasses)
+					foreach (Glass glass in Glasses)
 					{
 						int handle = API.GetClosestObjectOfType(glass.EntityPos.X, glass.EntityPos.Y, glass.EntityPos.Z, 1.0f, (uint)glass.ModelHash, false, false, false);
 

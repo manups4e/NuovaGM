@@ -324,8 +324,8 @@ namespace TheLastPlanet.Client.Sport
 			int iVar2 = 0;
 			int iVar3 = 0;
 			float fVar4;
-			var uVar5 = 0;
-			var uVar6 = 0;
+			int uVar5 = 0;
+			int uVar6 = 0;
 
 			func_348(ref iVar0, ref iVar1, ref iVar2, ref iVar3, false);
 			if (IsInputDisabled(0))
@@ -533,8 +533,8 @@ namespace TheLastPlanet.Client.Sport
 			int iVar3 = 0;
 			int iVar4 = 0;
 			int iVar5 = 0;
-			var uVar6 = 0;
-			var uVar7 = 0;
+			int uVar6 = 0;
+			int uVar7 = 0;
 
 			func_350(ref iVar2, ref iVar3, ref iVar4, ref iVar5, false, false);
 			if (IsInputDisabled(2))

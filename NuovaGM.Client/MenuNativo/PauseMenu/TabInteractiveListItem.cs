@@ -216,24 +216,24 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             if (!Visible) return;
             base.Draw();
 
-            var alpha = Focused ? 120 : 30;
-            var blackAlpha = Focused ? 200 : 100;
-            var fullAlpha = Focused ? 250 : 150;
+            int alpha = Focused ? 120 : 30;
+            int blackAlpha = Focused ? 200 : 100;
+            int fullAlpha = Focused ? 250 : 150;
 
-            var submenuWidth = (BottomRight.X - TopLeft.X);
-            var itemSize = new SizeF(submenuWidth, 40);
+            float submenuWidth = (BottomRight.X - TopLeft.X);
+            SizeF itemSize = new SizeF(submenuWidth, 40);
 
             int i = 0;
             for (int c = _minItem; c < Math.Min(Items.Count, _maxItem); c++)
             {
-                var hovering = ScreenTools.IsMouseInBounds(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)),
+                bool hovering = ScreenTools.IsMouseInBounds(SafeSize.AddPoints(new PointF(0, (itemSize.Height + 3) * i)),
                     itemSize);
 
-                var hasLeftBadge = Items[c].LeftBadge != BadgeStyle.None;
-                var hasRightBadge = Items[c].RightBadge != BadgeStyle.None;
+                bool hasLeftBadge = Items[c].LeftBadge != BadgeStyle.None;
+                bool hasRightBadge = Items[c].RightBadge != BadgeStyle.None;
 
-                var hasBothBadges = hasRightBadge && hasLeftBadge;
-                var hasAnyBadge = hasRightBadge || hasLeftBadge;
+                bool hasBothBadges = hasRightBadge && hasLeftBadge;
+                bool hasAnyBadge = hasRightBadge || hasLeftBadge;
 
 
 
@@ -282,8 +282,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 }
                 else if (Items[c] is UIMenuListItem listItem)
                 {
-                    var yoffset = 5;
-                    var basePos =
+                    int yoffset = 5;
+                    PointF basePos =
                         SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 30, yoffset + (itemSize.Height + 3) * i));
 
                     listItem._arrowLeft.Position = basePos;
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                     string caption = listItem.Items[listItem.Index].ToString();
 					float offset = ScreenTools.GetTextWidth(caption, listItem._itemText.Font, listItem._itemText.Scale);
 
-                    var selected = c == Index && Focused;
+                    bool selected = c == Index && Focused;
                     listItem.Selected = selected;
 
                     listItem._itemText.Color = listItem.Enabled ? listItem.Selected ? Colors.Black : Colors.WhiteSmoke : Color.FromArgb(163, 159, 148);
@@ -320,8 +320,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 }
                 else if (Items[c] is UIMenuSliderItem sliderItem)
                 {
-                    var yoffset = 15;
-                    var basePos = SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 210, yoffset + (itemSize.Height + 3) * i));
+                    int yoffset = 15;
+                    PointF basePos = SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 210, yoffset + (itemSize.Height + 3) * i));
                     sliderItem._rectangleBackground.Position = basePos;
                     sliderItem._rectangleBackground.Size = new SizeF(200f, 10);
 
@@ -342,8 +342,8 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 }
                 else if (Items[c] is UIMenuSliderProgressItem sliderProgressItem)
                 {
-                    var yoffset = 15;
-                    var basePos = SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 210, yoffset + (itemSize.Height + 3) * i));
+                    int yoffset = 15;
+                    PointF basePos = SafeSize.AddPoints(new PointF(BottomRight.X - SafeSize.X - 210, yoffset + (itemSize.Height + 3) * i));
                     sliderProgressItem.Value = sliderProgressItem.Value;
                     sliderProgressItem._rectangleBackground.Position = basePos;
                     sliderProgressItem._rectangleBackground.Size = new SizeF(200, 10);
@@ -372,7 +372,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                                 API.PlaySoundFrontend(sliderProgressItem.Audio.Id, sliderProgressItem.Audio.Slider, sliderProgressItem.Audio.Library, true);
                             }
                             float CursorX = API.GetDisabledControlNormal(0, 239) * Resolution.Width;
-                            var Progress = CursorX - sliderProgressItem._rectangleSlider.Position.X;
+                            float Progress = CursorX - sliderProgressItem._rectangleSlider.Position.X;
                             sliderProgressItem.Value = (int)Math.Round(sliderProgressItem._max * ((Progress >= 0f && Progress <= 200f) ? Progress : (Progress < 0) ? 0 : 200f) / 200f);
                             sliderProgressItem.SliderProgressChanged(sliderProgressItem.Value);
                         }

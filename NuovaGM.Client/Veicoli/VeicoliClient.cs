@@ -534,7 +534,7 @@ namespace TheLastPlanet.Client.Veicoli
 		public static async void SpawnVehiclePreview(string name, Vector3 coords, float heading)
 		{
 			Vehicle[] vehs = Funzioni.GetVehiclesInArea(coords, 3f);
-			foreach (var v in vehs)
+			foreach (Vehicle v in vehs)
 			{
 				v.Delete();
 			}

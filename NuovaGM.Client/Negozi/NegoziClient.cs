@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static void NegoziSpawn()
 		{
-			foreach (var v in NegoziGenerici.tfs)
+			foreach (Vector3 v in NegoziGenerici.tfs)
 			{
 				Blip bliptfs = World.CreateBlip(v);
 				bliptfs.Sprite = BlipSprite.Store;
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptfs.Name = "24/7";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(tfs)));
 			}
-			foreach (var v in NegoziGenerici.rq)
+			foreach (Vector3 v in NegoziGenerici.rq)
 			{
 				Blip bliptrq = World.CreateBlip(v);
 				bliptrq.Sprite = BlipSprite.Store;
@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptrq.Name = "Robs Liquor";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(rq)));
 			}
-			foreach (var v in NegoziGenerici.ltd)
+			foreach (Vector3 v in NegoziGenerici.ltd)
 			{
 				Blip blipltd = World.CreateBlip(v);
 				blipltd.Sprite = BlipSprite.Store;
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.Negozi
 				blipltd.Name = "Limited Gasoline";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(ltd)));
 			}
-			foreach (var v in NegoziGenerici.armerie)
+			foreach (Vector3 v in NegoziGenerici.armerie)
 			{
 				Blip bliparmi = World.CreateBlip(v);
 				bliparmi.Sprite = BlipSprite.AmmuNation;

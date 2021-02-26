@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client
 				if (Medici)
 				{
 					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-					foreach (var morto in MediciMainClient.Morti)
+					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti)
 						morto.Value.Delete();
 					if (MediciMainClient.Morti.Count > 0)
 					{
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client
 				if (Medici)
 				{
 					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-					foreach (var morto in MediciMainClient.Morti)
+					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti)
 						morto.Value.Delete();
 					if (MediciMainClient.Morti.Count > 0)
 					{

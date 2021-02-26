@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			UIMenu appart = venditore.AddSubMenu("Appartamenti");
 			UIMenu gara = venditore.AddSubMenu("Garages");
 			Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, GameplayCamera.FieldOfView);
-			foreach (var app in Appartamenti.OrderBy(x=>x.Value.Price))
+			foreach (KeyValuePair<string, ConfigCase> app in Appartamenti.OrderBy(x=>x.Value.Price))
 			{
 				UIMenu appartamento = appart.AddSubMenu(app.Value.Label);
 				appartamento.ParentItem.SetRightLabel("Rif. ~g~$" + app.Value.Price);
@@ -101,8 +101,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					if (newmenu == appartamento && state == MenuState.ChangeForward)
 					{
 						newmenu.Clear();
-						var players = Funzioni.GetPlayersInArea(Cache.Char.posizione.ToVector3(), 3.5f, false);
-						foreach (var p in players)
+						List<Player> players = Funzioni.GetPlayersInArea(Cache.Char.posizione.ToVector3(), 3.5f, false);
+						foreach (Player p in players)
 						{
 							UIMenu persona = newmenu.AddSubMenu(p.GetPlayerData().FullName);
 							UIMenuListItem mostra = new UIMenuListItem("Mostra Appartamento", new List<dynamic>() { "Nulla", "Esterno", "Interno", "Bagno", "Garage" }, 0);
@@ -243,7 +243,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					}
 				};
 			}
-			foreach (var gar in Garages)
+			foreach (KeyValuePair<string, Garages> gar in Garages)
 			{
 				UIMenu garage = gara.AddSubMenu(gar.Value.Label);
 			}

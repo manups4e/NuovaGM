@@ -47,10 +47,10 @@ namespace TheLastPlanet.Client.Manager
 						return;
 					}
 					*/
-					foreach (var p in Client.Instance.GetPlayers)
+					foreach (Player p in Client.Instance.GetPlayers)
 					{
 						//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
-						var player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
+						PlayerChar player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 						string charscount;
 						if (player.char_data.Count == 1)
 							charscount = "1 personaggio";

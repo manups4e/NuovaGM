@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dapper;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
@@ -20,7 +21,7 @@ namespace TheLastPlanet.Server
 				using (MySqlConnection _conn = new MySqlConnection(_connectionString))
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
-					var result = await _conn.QueryAsync<dynamic>(def);
+					IEnumerable<dynamic> result = await _conn.QueryAsync<dynamic>(def);
 					await _conn.CloseAsync();
 					await BaseScript.Delay(0);
 					return result;

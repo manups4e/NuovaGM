@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -24,7 +25,7 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			// alleggerire carico peso
 			//Ped playerPed = Cache.PlayerPed;
-			var closest = Funzioni.GetClosestPlayer();
+			Tuple<Player, float> closest = Funzioni.GetClosestPlayer();
 
 			if (!Cache.Char.StatiPlayer.InServizio)
 			{
@@ -45,7 +46,7 @@ namespace TheLastPlanet.Client.Interactions
 		private static async void LootMenu(Player target)
 		{
 			Ped playerPed = Cache.PlayerPed;
-			var targetData = target.GetPlayerData();
+			PlayerChar targetData = target.GetPlayerData();
 			UIMenu loot = new UIMenu(targetData.FullName, "Looting Menu");
 			HUD.MenuPool.Add(loot);
 

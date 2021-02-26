@@ -93,8 +93,8 @@ namespace TheLastPlanet.Shared
 		{
 			if (rand is null)
 				rand = new Random();
-			var d = Enumerable.Range(0, 29).Select(x => rand.Next(10).ToString());
-			var result = decimal.Parse($"0.{string.Join(string.Empty, d)}");
+			IEnumerable<string> d = Enumerable.Range(0, 29).Select(x => rand.Next(10).ToString());
+			decimal result = decimal.Parse($"0.{string.Join(string.Empty, d)}");
 			return result / 1.000000000000000000000000000000000m;
 		}
 
@@ -457,7 +457,7 @@ namespace TheLastPlanet.Shared
 
 		public static async Task ForEachAsync<T>(this List<T> list, Func<T, Task> Funzioni)
 		{
-			foreach (var value in list)
+			foreach (T value in list)
 			{
 				await Funzioni(value);
 			}
@@ -734,7 +734,7 @@ namespace TheLastPlanet.Shared
 		protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
 		{
 			IList<JsonProperty> props = base.CreateProperties(type, memberSerialization);
-			foreach (var prop in props)
+			foreach (JsonProperty prop in props)
 			{
 				prop.Ignored = false;   // Ignore [JsonIgnore]
 				//prop.Converter = null;  // Ignore [JsonConverter]

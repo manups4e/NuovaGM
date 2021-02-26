@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client
         /// <returns>Ritorna se il player ha tenuto premuto più del tempo specificato</returns>
         public static async Task<bool> IsControlStillPressed(Control control, PadCheck keyboardOnly = PadCheck.Any,  ControlModifier modifier = ControlModifier.None, int timeout = 1000)
         {
-            var currentTicks = Game.GameTime + 1;
+            int currentTicks = Game.GameTime + 1;
 
             while (IsControlPressed(control, keyboardOnly, modifier) && Game.GameTime - currentTicks < timeout)
                 await BaseScript.Delay(0);

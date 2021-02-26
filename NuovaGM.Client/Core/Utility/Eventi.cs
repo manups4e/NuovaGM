@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async void SpawnVehicle(string model)
 		{
 			Vector3 coords = Cache.Char.posizione.ToVector3();
-			var Veh = await Funzioni.SpawnVehicle(model, coords, Cache.PlayerPed.Heading);
+			Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.PlayerPed.Heading);
 			if (Veh != null)
 				Veh.PreviouslyOwnedByPlayer = true;
 		}

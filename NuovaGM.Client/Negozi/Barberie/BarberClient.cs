@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static async void Spawnato()
 		{
-			foreach (var barbiere in ConfigBarbieri.Kuts)
+			foreach (NegozioBarbiere barbiere in ConfigBarbieri.Kuts)
 			{
 				Blip kuts = World.CreateBlip(barbiere.Coord);
 				kuts.Sprite = (BlipSprite)71;
@@ -356,23 +356,23 @@ namespace TheLastPlanet.Client.Negozi
 			List<dynamic> capcombo = new List<dynamic>();
 			List<dynamic> capmulet = new List<dynamic>();
 
-			foreach (var b in Tipo.barba)
+			foreach (Capigliature b in Tipo.barba)
 				barbe.Add(b.Name);
-			foreach (var b in Tipo.trucco)
+			foreach (Capigliature b in Tipo.trucco)
 				trucco.Add(b.Name);
-			foreach (var b in Tipo.sopr)
+			foreach (Capigliature b in Tipo.sopr)
 				sopr.Add(b.Name);
-			foreach (var b in Tipo.ross)
+			foreach (Capigliature b in Tipo.ross)
 				ross.Add(b.Name);
-			foreach (var b in Tipo.capelli.kuts)
+			foreach (Capigliature b in Tipo.capelli.kuts)
 				capkuts.Add(b.Name);
-			foreach (var b in Tipo.capelli.hawick)
+			foreach (Capigliature b in Tipo.capelli.hawick)
 				caphawick.Add(b.Name);
-			foreach (var b in Tipo.capelli.osheas)
+			foreach (Capigliature b in Tipo.capelli.osheas)
 				caposheas.Add(b.Name);
-			foreach (var b in Tipo.capelli.beach)
+			foreach (Capigliature b in Tipo.capelli.beach)
 				capcombo.Add(b.Name);
-			foreach (var b in Tipo.capelli.mulet)
+			foreach (Capigliature b in Tipo.capelli.mulet)
 				capmulet.Add(b.Name);
 
 			MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);

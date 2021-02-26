@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 BottomRight = new PointF((int)Resolution.Width - SafeSize.X, (int)Resolution.Height - SafeSize.Y);
             }
 
-            var rectSize = new SizeF(BottomRight.SubtractPoints(TopLeft));
+            SizeF rectSize = new SizeF(BottomRight.SubtractPoints(TopLeft));
 
             DrawInstructionalButtons?.Invoke(this, EventArgs.Empty);
 
@@ -72,11 +72,11 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
                 new UIResRectangle(TopLeft, rectSize,
                     Color.FromArgb((Focused || !FadeInWhenFocused) ? 200 : 120, 0, 0, 0)).Draw();
 
-                var titleSize = 100;
+                int titleSize = 100;
                 RockstarTile.Size = new SizeF(titleSize, titleSize);
 
-                var cols = rectSize.Width / titleSize;
-                var fils = 4;
+                float cols = rectSize.Width / titleSize;
+                int fils = 4;
 
                 for (int i = 0; i < cols * fils; i++)
                 {

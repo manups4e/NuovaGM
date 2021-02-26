@@ -68,7 +68,7 @@ namespace TheLastPlanet.Server.TimeWeather
 						List<int> currentOptions = ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition[currentWeather];
 						currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
 						if (ConfigShared.SharedConfig.Main.Meteo.ss_reduce_rain_chance)
-							foreach (var p in currentOptions)
+							foreach (int p in currentOptions)
 								if (p == 7 || p == 8)
 									currentWeather = currentOptions[new Random(DateTime.Now.Millisecond).Next(currentOptions.Count - 1)];
 

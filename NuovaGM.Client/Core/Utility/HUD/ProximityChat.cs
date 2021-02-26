@@ -34,7 +34,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Ped myPed = new Ped(API.PlayerPedId());
 			if (Messaggi.Count > 0)
 			{
-				foreach (var p in Messaggi)
+				foreach (KeyValuePair<int, List<ProxMess>> p in Messaggi)
 				{
 					Player player = new Player(API.GetPlayerFromServerId(p.Key));
 					Ped ped = player.Character;
@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						if (p.Value.Count > 0)
 						{
 							canDraw = ProximityVehCheck(myPed, ped);
-							foreach (var m in p.Value.ToList())
+							foreach (ProxMess m in p.Value.ToList())
 							{
 								if (canDraw)
 									m.Draw(p.Value.Count - p.Value.IndexOf(m), ped);

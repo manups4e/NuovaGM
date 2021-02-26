@@ -249,7 +249,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#region Dichiarazione
 				#region Menu Principale
 				Screen.Fading.FadeIn(800);
-				var offset = new Point(50, 50);
+				Point offset = new Point(50, 50);
 				pool.MouseEdgeEnabled = false;
 				InstructionalButton gzmgp = new InstructionalButton(Control.FrontendLt, "ZOOM");
 				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
@@ -315,7 +315,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				#region Genitori
-				var heritageWindow = new UIMenuHeritageWindow(data.skin.face.mom, data.skin.face.dad);
+				UIMenuHeritageWindow heritageWindow = new UIMenuHeritageWindow(data.skin.face.mom, data.skin.face.dad);
 				Genitori.AddWindow(heritageWindow);
 				List<dynamic> lista = new List<dynamic>();
 				for (int i = 0; i < 101; i++)
@@ -323,14 +323,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					lista.Add(i);
 				}
 
-				var mamma = new UIMenuListItem("Mamma", momfaces, data.skin.face.mom);
-				var papa = new UIMenuListItem("Papà", dadfaces, data.skin.face.dad);
-				var resemblance = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_DOM"), "", true)
+				UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, data.skin.face.mom);
+				UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, data.skin.face.dad);
+				UIMenuSliderHeritageItem resemblance = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_DOM"), "", true)
 				{
 					Multiplier = 2,
 					Value = (int)Math.Round(data.skin.resemblance * 100)
 				};
-				var skinmix = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_STON"), "", true)
+				UIMenuSliderHeritageItem skinmix = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_STON"), "", true)
 				{
 					Multiplier = 2,
 					Value = (int)Math.Round(data.skin.skinmix * 100)
@@ -383,8 +383,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#region Apparenze
 				UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, data.skin.hair.style);
 				UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, data.skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-				var soprCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
-				var soprCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
+				UIMenuColorPanel soprCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
+				UIMenuColorPanel soprCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
 				UIMenuPercentagePanel soprOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				sopracciglia.AddPanel(soprCol1);
 				sopracciglia.AddPanel(soprCol2);
@@ -1046,13 +1046,13 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				{
 					if (data.skin.sex == "Maschio")
 					{
-						var dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
+						Dressing dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
 						data.dressing = dress;
 						dataMaschio = data;
 					}
 					else
 					{
-						var dress = new Dressing(CompletiFemmina[index].Name, CompletiFemmina[index].Description, CompletiFemmina[index].ComponentDrawables, CompletiFemmina[index].ComponentTextures, CompletiFemmina[index].PropIndices, CompletiFemmina[index].PropTextures);
+						Dressing dress = new Dressing(CompletiFemmina[index].Name, CompletiFemmina[index].Description, CompletiFemmina[index].ComponentDrawables, CompletiFemmina[index].ComponentTextures, CompletiFemmina[index].PropIndices, CompletiFemmina[index].PropTextures);
 						data.dressing = dress;
 						dataFemmina = data;
 					}

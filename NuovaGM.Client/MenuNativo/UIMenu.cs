@@ -1805,7 +1805,7 @@ namespace TheLastPlanet.Client.MenuNativo
 		{
 			//_descriptionText.WordWrap = new SizeF(425 + WidthOffset, 0);
 
-			var WindowHeight = CalculateWindowHeight();
+			float WindowHeight = CalculateWindowHeight();
 			float Cinematic = CalculateCinematicHeight();
 
 			_descriptionBar.Position = new PointF(Offset.X, 149 - 37 + _extraYOffset + Offset.Y + WindowHeight + Cinematic);

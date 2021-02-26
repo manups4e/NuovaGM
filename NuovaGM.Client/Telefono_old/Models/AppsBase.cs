@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Telefono.Models
                 CurrentApp.Kill();
             }
 
-            var lastApp = CurrentApp;
+            App lastApp = CurrentApp;
             CurrentApp = null;
 
             if (lastApp.Name == "Main")

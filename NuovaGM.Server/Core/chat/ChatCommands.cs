@@ -80,7 +80,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Pol(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
+			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "polizia")
 				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Pil(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
+			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "pilota")
 				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Med(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
+			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "medico")
 				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Mec(Player sender, List<string> args, string rawCommand)
 		{
-			var user = Funzioni.GetUserFromPlayerId(sender.Handle);
+			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "meccanico")
 				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else user.showNotification("Non puoi usare questo comando!");
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (Server.PlayerList.ContainsKey(args[0]))
 			{
-				var player = Funzioni.GetUserFromPlayerId(args[0]);
+				User player = Funzioni.GetUserFromPlayerId(args[0]);
 				if (args[1] == "soldi")
 				{
 					player.Money -= player.Money;
@@ -282,7 +282,7 @@ namespace TheLastPlanet.Server.Core
 		// REVIVE
 		public static void Revive(Player sender, List<string> args, string rawCommand)
 		{
-			var now = DateTime.Now;
+			DateTime now = DateTime.Now;
 			if (args != null && args.Count > 0)
 			{
 				if (GetPlayerName(args[0]) != ".")
@@ -302,7 +302,7 @@ namespace TheLastPlanet.Server.Core
 		public static async void SetGroup(Player sender, List<string> args, string rawCommand)
 		{
 			await BaseScript.Delay(0);
-			var now = DateTime.Now;
+			DateTime now = DateTime.Now;
 			if (Convert.ToInt32(args[0]) > 0)
 			{
 				string group = "normal";
@@ -348,7 +348,7 @@ namespace TheLastPlanet.Server.Core
 						groupL = group_level,
 						disc = License.GetLicense(ricevitore, Identifier.Discord)
 					});
-					var user = Funzioni.GetUserFromPlayerId(ricevitore.Handle);
+					User user = Funzioni.GetUserFromPlayerId(ricevitore.Handle);
 					user.group = group;
 					user.group_level = (UserGroup)group_level;
 					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
@@ -397,8 +397,8 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				var now = DateTime.Now;
-				foreach (var player in Server.PlayerList)
+				DateTime now = DateTime.Now;
+				foreach (KeyValuePair<string, User> player in Server.PlayerList)
 				{
 					if (player.Value.status.spawned)
 					{

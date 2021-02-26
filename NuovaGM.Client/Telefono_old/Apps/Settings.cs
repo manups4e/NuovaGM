@@ -106,10 +106,10 @@ namespace TheLastPlanet.Client.Telefono.Apps
             }
             Phone.Scaleform.CallFunction("SET_DATA_SLOT_EMPTY", 13);
 
-            var appName = GetLabelText("CELL_16");
+            string appName = GetLabelText("CELL_16");
             if (CurrentSubMenu != null)
             {
-                foreach (var item in CurrentSubMenu.Items)
+                foreach (SettingsSubMenuItem item in CurrentSubMenu.Items)
                 {
                     Phone.Scaleform.CallFunction("SET_DATA_SLOT", 13, CurrentSubMenu.Items.IndexOf(item), item.Icon, item.Name);
                 }
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
             }
             else
             {
-                foreach (var subMenu in SubMenus)
+                foreach (SettingsSubMenu subMenu in SubMenus)
                 {
                     Phone.Scaleform.CallFunction("SET_DATA_SLOT", 13, SubMenus.IndexOf(subMenu), subMenu.Icon, "~l~" + subMenu.Name);
                 }                
@@ -133,7 +133,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
             Phone.Scaleform.CallFunction("DISPLAY_VIEW", 13, SelectedItem);
 
-            var navigated = true;
+            bool navigated = true;
 			if (Input.IsControlJustPressed(Control.PhoneUp))
 			{
 				MoveFinger(1);

@@ -172,7 +172,7 @@ namespace TheLastPlanet.Server.Core
 		public void addInventoryItem(string item, int amount, float weight)
 		{
 			bool vero = getInventoryItem(item).Item1;
-			var checkedItem = getInventoryItem(item).Item2;
+			Inventory checkedItem = getInventoryItem(item).Item2;
 			if (vero)
 			{
 				checkedItem.amount += amount;
@@ -192,7 +192,7 @@ namespace TheLastPlanet.Server.Core
 		public void removeInventoryItem(string item, int amount)
 		{
 			bool vero = getInventoryItem(item).Item1;
-			var checkedItem = getInventoryItem(item).Item2;
+			Inventory checkedItem = getInventoryItem(item).Item2;
 
 			if (vero)
 			{
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Server.Core
 
 		public void updateWeaponAmmo(string weaponName, int ammo)
 		{
-			var weapon = getWeapon(weaponName);
+			Tuple<int, Weapons> weapon = getWeapon(weaponName);
 			if (weapon.Item2.ammo > ammo)
 				CurrentChar.weapons[weapon.Item1].ammo = ammo;
 		}
@@ -301,7 +301,7 @@ namespace TheLastPlanet.Server.Core
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
-			var weapon = CurrentChar.weapons.FirstOrDefault(x => x.name == weaponName);
+			Weapons weapon = CurrentChar.weapons.FirstOrDefault(x => x.name == weaponName);
 			return weapon != null ? new Tuple<int, Weapons>(CurrentChar.weapons.IndexOf(weapon), weapon) : new Tuple<int, Weapons>(0, null);
 		}
 
@@ -329,7 +329,7 @@ namespace TheLastPlanet.Server.Core
 
 		public void removeLicense(string license)
 		{
-			foreach (var licen in CurrentChar.licenze)
+			foreach (Licenses licen in CurrentChar.licenze)
 				if (licen.name == license)
 					CurrentChar.licenze.Remove(licen);
 				else Log.Printa(LogType.Warning, $"Il player {p.Name} non ha una licenza con nome '{license}'");

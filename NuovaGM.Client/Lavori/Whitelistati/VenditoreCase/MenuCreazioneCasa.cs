@@ -1213,7 +1213,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				AsyncRaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
 				Vector3 direction = res.HitPosition;
-				var pos = new Vector3(direction.X, direction.Y, curLocation.Z);
+				Vector3 pos = new Vector3(direction.X, direction.Y, curLocation.Z);
 				string val = (blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string);
 				World.DrawMarker((MarkerType)8, pos, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(5f), blipColor.CurrentColor, true, false, true, "blips", val.Substring(1, val.Length - 2).ToLower());
 				//metto un marker sotto

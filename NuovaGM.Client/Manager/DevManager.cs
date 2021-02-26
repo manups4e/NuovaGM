@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Manager
 		public static async Task OnTickSviluppo()
 		{
 			Ped pl = Cache.PlayerPed;
-			var ray = await WorldProbe.GamePlayCamCrosshairRaycast();
+			AsyncRaycastResult ray = await WorldProbe.GamePlayCamCrosshairRaycast();
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
@@ -59,13 +59,13 @@ namespace TheLastPlanet.Client.Manager
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
 				VehProp props = await veicolo.GetVehicleProperties();
-				var entityPos = veicolo.Position;
-				var pos = Funzioni.WorldToScreen(entityPos);
+				Vector3 entityPos = veicolo.Position;
+				Vector2 pos = Funzioni.WorldToScreen(entityPos);
 				if (pos.X <= 0f || pos.Y <= 0f || pos.X >= 1f || pos.Y >= 1f) pos = DefaultPos;
-				var dist = Vector3.Distance(pl.Position, entityPos);
-				var offsetX = MathUtil.Clamp((1f - dist / 100f) * 0.1f, 0f, 0.1f);
+				float dist = Vector3.Distance(pl.Position, entityPos);
+				float offsetX = MathUtil.Clamp((1f - dist / 100f) * 0.1f, 0f, 0.1f);
 				pos.X += offsetX;
-				var data = new Dictionary<string, string>
+				Dictionary<string, string> data = new Dictionary<string, string>
 				{
 					["Modello Veicolo"] = GetDisplayNameFromVehicleModel((uint)props.Model),
 					["Hash Modello"] = $"{(uint)props.Model}",
@@ -82,11 +82,11 @@ namespace TheLastPlanet.Client.Manager
 					["Trazione Massima"] = $"{Math.Round(veicolo.MaxTraction, 3)}"
 				};
 				DrawRect(pos.X + 0.12f, pos.Y, 0.24f, data.Count * 0.024f + 0.048f, 0, 0, 0, 120);
-				var offsetY = data.Count * 0.012f;
+				float offsetY = data.Count * 0.012f;
 				pos.Y -= offsetY;
 				pos.X += 0.13f;
 				// Draw data
-				foreach (var entry in data)
+				foreach (KeyValuePair<string, string> entry in data)
 				{
 					if (!string.IsNullOrEmpty(entry.Value))
 						HUD.DrawText(pos.X, pos.Y, $"{entry.Key}: {entry.Value}");
@@ -95,13 +95,13 @@ namespace TheLastPlanet.Client.Manager
 			}
 			else
 			{
-				foreach (var p in World.GetAllProps())
+				foreach (Prop p in World.GetAllProps())
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
-				foreach (var p in World.GetAllPeds())
+				foreach (Ped p in World.GetAllPeds())
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f) && p != Cache.PlayerPed)
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
-				foreach (var p in World.GetAllVehicles())
+				foreach (Vehicle p in World.GetAllVehicles())
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}

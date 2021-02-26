@@ -7,11 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
-using CitizenFX.Core.UI;
-using TheLastPlanet.Client.MenuNativo;
-using Logger;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Banking
 {
@@ -136,7 +132,7 @@ namespace TheLastPlanet.Client.Banking
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-			foreach (var pos in atmpos)
+			foreach (Vector3 pos in atmpos)
 				InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
 
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
@@ -145,12 +141,12 @@ namespace TheLastPlanet.Client.Banking
 		}
 		private static async void AggMon(int mon)
 		{
-			var mone = Cache.Char.Money + mon;
+			int mone = Cache.Char.Money + mon;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), mone, true);
 		}
 		private static async void AggDirty(int mon)
 		{
-			var mone = Cache.Char.DirtyMoney + mon;
+			int mone = Cache.Char.DirtyMoney + mon;
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), mone, true);
 		}
 
