@@ -531,14 +531,14 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 				{
-					Log.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.currentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+					Log.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 					return;
 				}
 				else
 				{
-					TimeWeather.Meteo.currentWeather = Convert.ToInt32(args[0]);
-					Log.Printa(LogType.Debug, TimeWeather.Meteo.currentWeather + "");
-					TimeWeather.Meteo.weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+					TimeWeather.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
+					Log.Printa(LogType.Debug, TimeWeather.Meteo.CurrentWeather + "");
+					TimeWeather.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 					BaseScript.TriggerEvent("changeWeather", false);
 				}
 			}
@@ -548,8 +548,8 @@ namespace TheLastPlanet.Server.Core
 					sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO weather] = ", "Errore weather, argomenti disponibili: ~n~0 = EXTRASUNNY, 1 = CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, ~n~9 = NEUTRAL, 10 = SNOW, 11 = BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN!" }, color = new[] { 255, 0, 0 } });
 				else
 				{
-					TimeWeather.Meteo.currentWeather = Convert.ToInt32(args[0]);
-					TimeWeather.Meteo.weatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+					TimeWeather.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
+					TimeWeather.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 					BaseScript.TriggerEvent("changeWeather", false);
 					string meteo = "";
 					int a = Convert.ToInt32(args[0]);
