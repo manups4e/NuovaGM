@@ -75,8 +75,11 @@ namespace TheLastPlanet.Client.Veicoli
 			}
 
 			if (blinkerleft || blinkerright)
-				if (!(veh is null))
-					showBlinker = veh.IsLeftIndicatorLightOn || veh.IsRightIndicatorLightOn;
+				if (Game.GameTime - _timer1 > 500)
+				{
+					_timer1 = Game.GameTime;
+					showBlinker = !showBlinker;
+				}
 
 			if (!beltOn)
 				if (Game.GameTime - _timer2 > 500)
