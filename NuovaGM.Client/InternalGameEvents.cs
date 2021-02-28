@@ -230,9 +230,6 @@ namespace TheLastPlanet.Client
 					if (victimDied) PedDied(victim.Handle, -1, weaponHash, isMeleeDamage);
 				}
 			}
-
-			Log.Printa(LogType.Debug, eventName);
-			Log.Printa(LogType.Debug, data.Serialize());
 		}
 	}
 }
