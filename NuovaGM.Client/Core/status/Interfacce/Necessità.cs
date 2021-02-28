@@ -15,11 +15,10 @@ namespace TheLastPlanet.Client.Core.status.Interfacce
 		private float _val;
 		public string Name;
 		public float ChangeVal;
-		[JsonIgnore]
-		public Delegate TickCallback;
+		[JsonIgnore] public Delegate TickCallback;
 		public float Val
 		{
-			get { return _val; }
+			get => _val;
 			set
 			{
 				float var = value - _val;
@@ -40,9 +39,10 @@ namespace TheLastPlanet.Client.Core.status.Interfacce
 			TickCallback = callback;
 		}
 
-		public void OnTick(Ped ped, Player me) => TickCallback.DynamicInvoke(ped, me, this);
-		public float GetPercent(float max) => _val / max * 100;
-		public float GetPercent() => _val / StatsNeeds.StatusMax * 100;
+		public void OnTick(Ped ped, Player me) { TickCallback.DynamicInvoke(ped, me, this); }
 
+		public float GetPercent(float max) { return _val / max * 100; }
+
+		public float GetPercent() { return _val / StatsNeeds.StatusMax * 100; }
 	}
 }

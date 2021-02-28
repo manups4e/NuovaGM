@@ -10,12 +10,9 @@ using TheLastPlanet.Client.MenuNativo;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
-	static class ProximityChat
+	internal static class ProximityChat
 	{
-		public static void Init()
-		{
-			Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
-		}
+		public static void Init() { Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay)); }
 
 		private static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();
 
@@ -30,89 +27,66 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task Prossimità()
 		{
-			bool canDraw = false;
+			bool canDraw;
 			Ped myPed = new Ped(API.PlayerPedId());
+
 			if (Messaggi.Count > 0)
-			{
 				foreach (KeyValuePair<int, List<ProxMess>> p in Messaggi)
 				{
 					Player player = new Player(API.GetPlayerFromServerId(p.Key));
 					Ped ped = player.Character;
-					if (myPed.IsInRangeOf(ped.Position, 19f))
+
+					if (!myPed.IsInRangeOf(ped.Position, 19f)) continue;
+					if (p.Value.Count < 1) continue;
+					canDraw = ProximityVehCheck(myPed, ped);
+
+					foreach (ProxMess m in p.Value.ToList())
 					{
-						if (p.Value.Count > 0)
-						{
-							canDraw = ProximityVehCheck(myPed, ped);
-							foreach (ProxMess m in p.Value.ToList())
-							{
-								if (canDraw)
-									m.Draw(p.Value.Count - p.Value.IndexOf(m), ped);
-								if (Game.GameTime - m.Timer >= 1000)
-								{
-									m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
-									m.Timer = Game.GameTime;
-									if (m.Tempo.TotalSeconds == TimeSpan.Zero.TotalSeconds)
-										p.Value.Remove(m);
-								}
-							}
-						}
-						//else Messaggi.Remove(p.Key);
+						if (canDraw) m.Draw(p.Value.Count - p.Value.IndexOf(m), ped);
+
+						if (Game.GameTime - m.Timer < 1000) continue;
+						m.Tempo = m.Tempo.Subtract(TimeSpan.FromSeconds(1));
+						m.Timer = Game.GameTime;
+
+						if (m.Tempo != TimeSpan.Zero) continue;
+						p.Value.Remove(m);
 					}
+
+					//else Messaggi.Remove(p.Key);
 				}
-			}
+
 			await Task.FromResult(0);
 		}
 
 		private static bool ProximityVehCheck(Ped io, Ped lui)
 		{
-			bool ioInVeh = io.IsInVehicle();
+			bool ioInVeh = Cache.Char.StatiPlayer.InVeicolo;
 			bool luiInVeh = lui.IsInVehicle();
 
-			if (ioInVeh || luiInVeh)
+			switch (ioInVeh)
 			{
-				if (ioInVeh && !luiInVeh)
-				{
-					if (!io.CurrentVehicle.Windows.AreAllWindowsIntact)
-						return true;
-					else
-						return false;
-				}
-				else if (!ioInVeh && luiInVeh)
-				{
-					if (!lui.CurrentVehicle.Windows.AreAllWindowsIntact)
-						return true;
-					else
-						return false;
-				}
-				if (ioInVeh && luiInVeh)
-				{
-					if (io.CurrentVehicle == lui.CurrentVehicle)
-						return true;
-					else if (!lui.CurrentVehicle.Windows.AreAllWindowsIntact && !io.CurrentVehicle.Windows.AreAllWindowsIntact)
-						return true;
-					else
-						return false;
-				}
+				case false when !luiInVeh:
+					return true;
+				case true when !luiInVeh:
+					return !io.CurrentVehicle.Windows.AreAllWindowsIntact || io.CurrentVehicle.Doors.GetAll().Any(x => x.IsOpen);
+				case false when luiInVeh:
+					return !lui.CurrentVehicle.Windows.AreAllWindowsIntact || lui.CurrentVehicle.Doors.GetAll().Any(x => x.IsOpen);
 			}
-			return true;
-		}
 
-		private static bool ProximityCheck(Ped myPed, Ped lui)
-		{
+			if (io.CurrentVehicle == lui.CurrentVehicle) return true;
 
-			return true;
+			return !lui.CurrentVehicle.Windows.AreAllWindowsIntact && !io.CurrentVehicle.Windows.AreAllWindowsIntact || io.CurrentVehicle.Doors.GetAll().Any(x => x.IsOpen) || lui.CurrentVehicle.Doors.GetAll().Any(x => x.IsOpen);
 		}
 	}
 
-
 	public class ProxMess
 	{
-
 		public string Message;
 		public Color Color;
 		public Vector3 Position;
 		public TimeSpan Tempo = new TimeSpan(0, 0, 5); // cambiare con 5 secondi
 		public int Timer = 0;
+
 		public ProxMess(string mess, Color color, Vector3 pos)
 		{
 			Message = mess;
@@ -127,27 +101,35 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			if (Timer == 0) Timer = Game.GameTime;
 			Color textColor = Colors.WhiteSmoke;
+
 			switch (index)
 			{
 				case 1:
 					textColor = Colors.Green;
+
 					break;
 				case 2:
 					textColor = Colors.Cyan;
+
 					break;
 				case 3:
 					textColor = Colors.PurpleLight;
+
 					break;
 				case 4:
 					textColor = Colors.RedLight;
+
 					break;
 				case 5:
 					textColor = Colors.Orange;
+
 					break;
 				case 6:
 					textColor = Colors.Yellow;
+
 					break;
 			}
+
 			Color = textColor;
 			Position = p.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.4f + index * 0.24f);
 			HUD.DrawText3D(Position, Color, Message, CitizenFX.Core.UI.Font.ChaletLondon);

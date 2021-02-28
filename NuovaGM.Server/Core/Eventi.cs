@@ -13,9 +13,10 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
 {
-	static class Eventi
+	internal static class Eventi
 	{
-		static int EarlyRespawnFineAmount = 5000;
+		private static int EarlyRespawnFineAmount = 5000;
+
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
@@ -79,15 +80,13 @@ namespace TheLastPlanet.Server.Core
 				SetEntityDistanceCullingRadius(entity, 10000f);
 				cb.DynamicInvoke(true);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				cb.DynamicInvoke(true);
 			}
 		}
-		private static void GetPlayersOnline(Player player, Delegate cb, dynamic _)
-		{
-			cb.DynamicInvoke(Server.PlayerList.Serialize());
-		}
+
+		private static void GetPlayersOnline(Player player, Delegate cb, dynamic _) { cb.DynamicInvoke(Server.PlayerList.Serialize()); }
 
 		private static async void GetPlayersFromDB(Player player, Delegate cb, dynamic _)
 		{
@@ -101,14 +100,12 @@ namespace TheLastPlanet.Server.Core
 						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
 				cb.DynamicInvoke(personaggi.Serialize());
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
 				cb.DynamicInvoke(new ConcurrentDictionary<string, User>().Serialize());
 			}
-
 		}
-
 
 		public static void FinishChar([FromSource] Player p, string data)
 		{
@@ -120,98 +117,91 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"{ e.Message}");
+				Log.Printa(LogType.Error, $"{e.Message}");
 			}
-
 		}
 
-		public static void Drop([FromSource]Player player, string reason)
-		{
-			player.Drop(reason);
-		}
+		public static void Drop([FromSource] Player player, string reason) { player.Drop(reason); }
 
 		public static void Ping([FromSource] Player player)
 		{
-			if (player.Ping >= Server.Impostazioni.Main.PingMax)
-			{
-				player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + player.Ping + ")");
-			}
+			if (player.Ping >= Server.Impostazioni.Main.PingMax) player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + player.Ping + ")");
 		}
 
-		public static void AFK([FromSource] Player p)
-		{
-			p.Drop("Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo in AFK");
-		}
+		public static void AFK([FromSource] Player p) { p.Drop("Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo in AFK"); }
 
 		public static void UpdateChar([FromSource] Player player, string type, dynamic data, float h)
 		{
 			User user = Funzioni.GetUserFromPlayerId(player.Handle);
-			if (type == "char_current")
+
+			switch (type)
 			{
-				user.char_current = (int)data;
+				case "char_current":
+					user.char_current = (int)data;
+
+					break;
+				case "char_data":
+					user.char_data = (data as string).Deserialize<List<Char_data>>();
+
+					break;
+				case "status":
+					user.status.spawned = (bool)data;
+
+					break;
+				case "charlocation":
+					user.CurrentChar.location.position = data;
+					user.CurrentChar.location.h = h;
+
+					break;
+				case "skin":
+					user.CurrentChar.skin = (data as string).Deserialize<Skin>();
+
+					break;
+				case "needs":
+					user.CurrentChar.needs = (data as string).Deserialize<Needs>();
+
+					break;
+				case "skill":
+					user.CurrentChar.statistiche = (data as string).Deserialize<Statistiche>();
+
+					break;
+				case "chardressing":
+					user.CurrentChar.dressing = (data as string).Deserialize<Dressing>();
+
+					break;
+				case "weapons":
+					user.CurrentChar.weapons = (data as string).Deserialize<List<Weapons>>();
+
+					break;
+				case "job":
+					user.CurrentChar.job = (data as string).Deserialize<Job>();
+
+					break;
+				case "gang":
+					user.CurrentChar.gang = (data as string).Deserialize<Gang>();
+
+					break;
+				case "group":
+					user.@group = data;
+
+					break;
+				case "groupL":
+					user.group_level = data;
+
+					break;
 			}
-			else if (type == "char_data")
-			{
-				user.char_data = (data as string).Deserialize<List<Char_data>>();
-			}
-			else if (type == "status")
-			{
-				user.status.spawned = (bool)data;
-			}
-			else if (type == "charlocation")
-			{
-				user.CurrentChar.location.position = data;
-				user.CurrentChar.location.h = h;
-			}
-			else if (type == "skin")
-			{
-				user.CurrentChar.skin = (data as string).Deserialize<Skin>();
-			}
-			else if (type == "needs")
-			{
-				user.CurrentChar.needs = (data as string).Deserialize<Needs>();
-			}
-			else if (type == "skill")
-			{
-				user.CurrentChar.statistiche = (data as string).Deserialize<Statistiche>();
-			}
-			else if (type == "chardressing")
-			{
-				user.CurrentChar.dressing = (data as string).Deserialize<Dressing>();
-			}
-			else if (type == "weapons")
-			{
-				user.CurrentChar.weapons = (data as string).Deserialize<List<Weapons>>();
-			}
-			else if (type == "job")
-			{
-				user.CurrentChar.job = (data as string).Deserialize<Job>();
-			}
-			else if (type == "gang")
-			{
-				user.CurrentChar.gang = (data as string).Deserialize<Gang>();
-			}
-			else if (type == "group")
-			{
-				user.group = data;
-			}
-			else if (type == "groupL")
-			{
-				user.group_level = data;
-			}
+
 			string _char_data = user.char_data.Serialize(includeEverything: true);
 			BaseScript.TriggerClientEvent(player, "lprp:sendUserInfo", _char_data, user.char_current, user.group);
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 		}
 
-		public static void deathStatus([FromSource] Player source, bool value)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).DeathStatus = value;
-		}
+		public static void deathStatus([FromSource] Player source, bool value) { Funzioni.GetUserFromPlayerId(source.Handle).DeathStatus = value; }
 
 		public static void PayFine([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
+
 			if (amount == EarlyRespawnFineAmount)
 			{
 				player.Money -= EarlyRespawnFineAmount;
@@ -230,10 +220,10 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in citta'");
-			BaseScript.TriggerEvent("lprp:serverLog",user.FullName + "(" + source.Name + ") è entrato in città");
+			BaseScript.TriggerEvent("lprp:serverLog", user.FullName + "(" + source.Name + ") è entrato in città");
 			foreach (Player player in Server.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
-					player.TriggerEvent("lprp:ShowNotification", "~g~" +user.FullName + " (" + source.Name + ")~w~ è entrato in città");
+					player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.Serialize());
 		}
@@ -245,19 +235,29 @@ namespace TheLastPlanet.Server.Core
 			string handle = p.Handle;
 			DateTime now = DateTime.Now;
 			string text = name + " e' uscito.";
+
 			if (reason != "")
-			{
-				if (reason == "Timed out after 10 seconds.")
-					text = name + " e' crashato.";
-				else if (reason == "Disconnected." || reason == "Exited.")
-					text = name + " si e' disconnesso.";
-				else
-					text = name + " si e' disconnesso: " + reason;
-			}
+				switch (reason)
+				{
+					case "Timed out after 10 seconds.":
+						text = name + " e' crashato.";
+
+						break;
+					case "Disconnected.":
+					case "Exited.":
+						text = name + " si e' disconnesso.";
+
+						break;
+					default:
+						text = name + " si e' disconnesso: " + reason;
+
+						break;
+				}
+
 			if (Server.PlayerList.ContainsKey(handle))
 			{
-				User ped;
-				Server.PlayerList.TryGetValue(handle, out ped);
+				Server.PlayerList.TryGetValue(handle, out User ped);
+
 				if (ped.status.spawned)
 				{
 					await Funzioni.SalvaPersonaggio(p);
@@ -269,8 +269,10 @@ namespace TheLastPlanet.Server.Core
 					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 				}
+
 				Server.PlayerList.TryRemove(handle, out ped);
 			}
+
 			Log.Printa(LogType.Info, text);
 			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
@@ -281,9 +283,11 @@ namespace TheLastPlanet.Server.Core
 		{
 			await BaseScript.Delay(0);
 			string name = player.Name;
+
 			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
 				User ped = Funzioni.GetUserFromPlayerId(player.Handle);
+
 				if (ped.status.spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
@@ -292,6 +296,7 @@ namespace TheLastPlanet.Server.Core
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord + ", tramite telefono");
 				}
 			}
+
 			await Task.FromResult(0);
 		}
 
@@ -308,24 +313,19 @@ namespace TheLastPlanet.Server.Core
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			int money = player.Money;
 			int dirty = player.DirtyMoney;
-
-			foreach(Inventory inv in player.CurrentChar.inventory.ToList())
-				player.removeInventoryItem(inv.item, inv.amount);
-
-			foreach (Weapons inv in player.CurrentChar.weapons.ToList())
-				player.removeWeapon(inv.name);
-
+			foreach (Inventory inv in player.CurrentChar.inventory.ToList()) player.removeInventoryItem(inv.item, inv.amount);
+			foreach (Weapons inv in player.CurrentChar.weapons.ToList()) player.removeWeapon(inv.name);
 			player.Money -= money;
 			player.DirtyMoney -= dirty;
 		}
 
-		public static void GiveMoney([FromSource]Player source, int amount)
+		public static void GiveMoney([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-			player.Money += (amount);
+			player.Money += amount;
 		}
 
-		public static void RemoveMoney([FromSource]Player source, int amount)
+		public static void RemoveMoney([FromSource] Player source, int amount)
 		{
 			if (amount != 0)
 			{
@@ -333,79 +333,59 @@ namespace TheLastPlanet.Server.Core
 				player.Money -= amount;
 			}
 			else
+			{
 				source.Drop("Rilevata possibile modifica ai valori di gioco");
+			}
 		}
 
-		public static void GiveBank([FromSource]Player source, int amount)
+		public static void GiveBank([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank += amount;
 		}
 
-		public static void RemoveBank([FromSource]Player source, int amount)
+		public static void RemoveBank([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.Bank -= amount;
 		}
 
-		public static void GiveDirty([FromSource]Player source, int amount)
+		public static void GiveDirty([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney += amount;
 		}
 
-		public static void RemoveDirty([FromSource]Player source, int amount)
+		public static void RemoveDirty([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			player.DirtyMoney -= amount;
 		}
 
-		public static void AddInventory([FromSource]Player source, string item, int amount, float peso)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).addInventoryItem(item, amount, peso>0?peso:ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
-		}
+		public static void AddInventory([FromSource] Player source, string item, int amount, float peso) { Funzioni.GetUserFromPlayerId(source.Handle).addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso); }
 
-		public static void RemoveInventory([FromSource]Player source, string item, int amount)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).removeInventoryItem(item, amount);
-		}
+		public static void RemoveInventory([FromSource] Player source, string item, int amount) { Funzioni.GetUserFromPlayerId(source.Handle).removeInventoryItem(item, amount); }
 
-		public static void AddWeapon([FromSource]Player source, string weaponName, int ammo)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).addWeapon(weaponName, ammo);
-		}
+		public static void AddWeapon([FromSource] Player source, string weaponName, int ammo) { Funzioni.GetUserFromPlayerId(source.Handle).addWeapon(weaponName, ammo); }
 
-		public static void RemoveWeapon([FromSource]Player source, string weaponName)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).removeWeapon(weaponName);
-		}
+		public static void RemoveWeapon([FromSource] Player source, string weaponName) { Funzioni.GetUserFromPlayerId(source.Handle).removeWeapon(weaponName); }
 
-		public static void AddWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).addWeaponComponent(weaponName, weaponComponent);
-		}
-		public static void RemoveWeaponComp([FromSource]Player source, string weaponName, string weaponComponent)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).removeWeaponComponent(weaponName, weaponComponent);
-		}
-		public static void AddWeaponTint([FromSource]Player source, string weaponName, int tint)
-		{
-			Funzioni.GetUserFromPlayerId(source.Handle).addWeaponTint(weaponName, tint);
-		}
+		public static void AddWeaponComp([FromSource] Player source, string weaponName, string weaponComponent) { Funzioni.GetUserFromPlayerId(source.Handle).addWeaponComponent(weaponName, weaponComponent); }
+		public static void RemoveWeaponComp([FromSource] Player source, string weaponName, string weaponComponent) { Funzioni.GetUserFromPlayerId(source.Handle).removeWeaponComponent(weaponName, weaponComponent); }
+		public static void AddWeaponTint([FromSource] Player source, string weaponName, int tint) { Funzioni.GetUserFromPlayerId(source.Handle).addWeaponTint(weaponName, tint); }
 
 		public static void GiveMoneyToChar(string target, int charId, int amount)
 		{
+			if (amount < 1) return;
 			User player = Funzioni.GetUserFromPlayerId(target);
-			player.Money += (amount);
+			player.Money += amount;
 		}
 
 		public static void RemoveMoneyToChar(string target, int charId, int amount)
 		{
-			if (amount != 0)
-			{
-				User player = Funzioni.GetUserFromPlayerId(target);
-				player.Money -= amount;
-			}
+			if (amount < 1) return;
+			User player = Funzioni.GetUserFromPlayerId(target);
+			player.Money -= amount;
 		}
 
 		public static void GiveBankToChar(string target, int charId, int amount)
@@ -422,55 +402,33 @@ namespace TheLastPlanet.Server.Core
 
 		public static void GiveDirtyToChar(string target, int charId, int amount)
 		{
-						User player = Funzioni.GetUserFromPlayerId(target);
+			User player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney += amount;
 		}
 
 		public static void RemoveDirtyToChar(string target, int charId, int amount)
 		{
-						User player = Funzioni.GetUserFromPlayerId(target);
+			User player = Funzioni.GetUserFromPlayerId(target);
 			player.DirtyMoney -= amount;
 		}
 
-		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)
-		{
-			Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount, peso>0?peso:ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
-		}
+		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso) { Funzioni.GetUserFromPlayerId(target).addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso); }
 
-		public static void RemoveInventoryToChar(string target, int charId, string item, int amount)
-		{
-			Funzioni.GetUserFromPlayerId(target).removeInventoryItem(item, amount);
-		}
+		public static void RemoveInventoryToChar(string target, int charId, string item, int amount) { Funzioni.GetUserFromPlayerId(target).removeInventoryItem(item, amount); }
 
-		public static void AddWeaponToChar(string target, int charId, string weaponName, int ammo)
-		{
-			Funzioni.GetUserFromPlayerId(target).addWeapon(weaponName, ammo);
-		}
-		public static void RemoveWeaponToChar(string target, int charId, string weaponName)
-		{
-			Funzioni.GetUserFromPlayerId(target).removeWeapon(weaponName);
-		}
+		public static void AddWeaponToChar(string target, int charId, string weaponName, int ammo) { Funzioni.GetUserFromPlayerId(target).addWeapon(weaponName, ammo); }
+		public static void RemoveWeaponToChar(string target, int charId, string weaponName) { Funzioni.GetUserFromPlayerId(target).removeWeapon(weaponName); }
 
-		public static void AddWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
-		{
-			Funzioni.GetUserFromPlayerId(target).addWeaponComponent(weaponName, weaponComponent);
-		}
-		public static void RemoveWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent)
-		{
-			Funzioni.GetUserFromPlayerId(target).removeWeaponComponent(weaponName, weaponComponent);
-		}
-		public static void AddWeaponTintToChar(string target, int charId, string weaponName, int tint)
-		{
-			Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint);
-		}
+		public static void AddWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent) { Funzioni.GetUserFromPlayerId(target).addWeaponComponent(weaponName, weaponComponent); }
+		public static void RemoveWeaponCompToChar(string target, int charId, string weaponName, string weaponComponent) { Funzioni.GetUserFromPlayerId(target).removeWeaponComponent(weaponName, weaponComponent); }
+		public static void AddWeaponTintToChar(string target, int charId, string weaponName, int tint) { Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint); }
 
 		private static async void BannaPlayer(string target, string motivazione, bool temporaneo, long tempodiban, int banner)
 		{
 			DateTime TempoBan = new DateTime(tempodiban);
 			Player Target = Funzioni.GetPlayerFromId(target);
 			List<string> Tokens = new List<string>();
-			for (int i = 0; i < GetNumPlayerTokens(target); i++)
-				Tokens.Add(GetPlayerToken(target, i));
+			for (int i = 0; i < GetNumPlayerTokens(target); i++) Tokens.Add(GetPlayerToken(target, i));
 			RequestResponse pippo = await Discord.BotDiscordHandler.InviaAlBotERicevi(new
 			{
 				tipo = "BannaPlayer",
@@ -485,6 +443,7 @@ namespace TheLastPlanet.Server.Core
 					Tokens = Tokens.Serialize()
 				}
 			});
+
 			if (pippo.content.Deserialize<bool>())
 			{
 				Log.Printa(LogType.Warning, $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
@@ -514,19 +473,16 @@ namespace TheLastPlanet.Server.Core
 		private static void GiveLicenseToChar([FromSource] Player source, int target, string license)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-
 		}
 
 		private static void RemoveLicense([FromSource] Player source, string license)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-
 		}
 
 		private static void RemoveLicenseToChar([FromSource] Player source, int target, string license)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-
 		}
 
 		private static void AggiornaAmmo([FromSource] Player source, string weaponName, int ammo)
@@ -534,11 +490,11 @@ namespace TheLastPlanet.Server.Core
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			user.updateWeaponAmmo(weaponName, ammo);
 		}
+
 		private static void GiveItemToOtherPlayer([FromSource] Player source, int target, string itemName, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-			User targetPlayer = Funzioni.GetUserFromPlayerId(""+target);
-
+			User targetPlayer = Funzioni.GetUserFromPlayerId("" + target);
 			player.removeInventoryItem(itemName, amount);
 			player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
 			targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].peso);
@@ -546,14 +502,17 @@ namespace TheLastPlanet.Server.Core
 			targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
 		}
 
-		private static  void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
+		private static void GiveWeaponToOtherPlayer([FromSource] Player source, int target, string weaponName, int ammo)
 		{
 			User player = source.GetCurrentChar();
 			User targetPlayer = Funzioni.GetPlayerFromId(target).GetCurrentChar();
 			Tuple<int, Weapons> weapon = player.getWeapon(weaponName);
 			Weapons arma = weapon.Item2;
+
 			if (targetPlayer.hasWeapon(weaponName))
+			{
 				player.showNotification($"{player.FullName} ha già quest'arma!");
+			}
 			else
 			{
 				player.removeWeapon(weaponName);

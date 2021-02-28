@@ -9,7 +9,6 @@ using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;

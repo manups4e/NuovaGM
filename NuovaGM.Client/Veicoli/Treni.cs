@@ -7,9 +7,9 @@ using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.Veicoli
 {
-	static class Treni
+	internal static class Treni
 	{
-		static List<Vector3> MetroTrainStations = new List<Vector3>
+		private static List<Vector3> MetroTrainStations = new List<Vector3>
 		{
 			new Vector3(-547.34057617188f, -1286.1752929688f, 25.3059978411511f),
 			new Vector3(-892.66284179688f, -2322.5168457031f, -13.246466636658f),
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.Veicoli
 			new Vector3(262.01733398438f, -1198.6135253906f, 37.448017120361f)
 		};
 
-		static List<Vector3> train1platforms = new List<Vector3>
+		private static List<Vector3> train1platforms = new List<Vector3>
 		{
 			new Vector3(-543.84686279297f, -1287.7620849609f, 26.901607513428f),
 			new Vector3(-883.95007324219f, -2318.7321777344f, -11.732789993286f),
@@ -48,12 +48,12 @@ namespace TheLastPlanet.Client.Veicoli
 			new Vector3(-212.40980529785f, -1035.8253173828f, 30.139507293701f)
 		};
 
-		static List<Vector3> trainstations2 = new List<Vector3>
+		private static List<Vector3> trainstations2 = new List<Vector3>
 		{
-//			new Vector3(2072.4086914063f, 1569.0856933594f, 76.712524414063f),
+			//			new Vector3(2072.4086914063f, 1569.0856933594f, 76.712524414063f),
 			new Vector3(664.93090820313f, -997.59942626953f, 22.261747360229f),
 			new Vector3(190.62687683105f, -1956.8131103516f, 19.520135879517f),
-//		    new Vector3(2611.0278320313f, 1675.3806152344f, 26.578210830688f),
+			//		    new Vector3(2611.0278320313f, 1675.3806152344f, 26.578210830688f),
 			new Vector3(2615.3901367188f, 2934.8666992188f, 39.312232971191f),
 			new Vector3(2885.5346679688f, 4862.0146484375f, 62.551517486572f),
 			new Vector3(47.061096191406f, 6280.8969726563f, 31.580261230469f),
@@ -61,9 +61,9 @@ namespace TheLastPlanet.Client.Veicoli
 			new Vector3(2609.7016601563f, 2937.11328125f, 39.418235778809f)
 		};
 
-		static string[] trainmodels = { "freight", "freightcar", "freightgrain", "freightcont1", "freightcont2", "freighttrailer", "tankercar", "metrotrain", "s_m_m_lsmetro_01" };
-		static List<Treno> Trains = new List<Treno>();
-		static List<Vector3> trainLocations = new List<Vector3>()
+		private static string[] trainmodels = { "freight", "freightcar", "freightgrain", "freightcont1", "freightcont2", "freighttrailer", "tankercar", "metrotrain", "s_m_m_lsmetro_01" };
+		private static List<Treno> Trains = new List<Treno>();
+		private static List<Vector3> trainLocations = new List<Vector3>()
 		{
 			new Vector3(2606.0f, 2927.0f, 40.0f),
 			new Vector3(2463.0f, 3872.0f, 38.8f),
@@ -71,8 +71,6 @@ namespace TheLastPlanet.Client.Veicoli
 			new Vector3(537.0f, -1324.1f, 29.1f),
 			new Vector3(219.1f, -2487.7f, 6.0f)
 		};
-
-
 
 		public static void Init()
 		{
@@ -84,13 +82,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			foreach (Vector3 v in MetroTrainStations)
 			{
-				Blip p = new Blip(AddBlipForCoord(v.X, v.Y, v.Z))
-				{
-					Color = BlipColor.Green,
-					Sprite = BlipSprite.Lift,
-					Scale = 0.75f,
-					Name = "Metropolitana"
-				};
+				Blip p = new Blip(AddBlipForCoord(v.X, v.Y, v.Z)) { Color = BlipColor.Green, Sprite = BlipSprite.Lift, Scale = 0.75f, Name = "Metropolitana" };
 				SetBlipAsShortRange(p.Handle, true);
 			}
 		}
@@ -148,11 +140,6 @@ namespace TheLastPlanet.Client.Veicoli
 			SetRandomTrains(true);
 		}
 
-
-		private static async Task Metropolitana()
-		{
-
-		}
-
+		private static async Task Metropolitana() { }
 	}
 }

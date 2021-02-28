@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client
 {
-	static class ConfigClient
+	internal static class ConfigClient
 	{
 		public static async Task Init()
 		{
@@ -50,6 +50,7 @@ namespace TheLastPlanet.Client
 		public bool ForzaPrimaPersona_Mira;
 		public bool ForzaPrimaPersona_InCopertura;
 		public bool ForzaPrimaPersona_InAuto;
+
 		public ClientConfigKVP()
 		{
 			ModCinema = false;
@@ -65,7 +66,6 @@ namespace TheLastPlanet.Client
 			ForzaPrimaPersona_InAuto = false;
 		}
 	}
-
 
 	public class ConfPrincipale
 	{
@@ -142,6 +142,7 @@ namespace TheLastPlanet.Client
 		public VeicoliAffitto veicoliAff = new VeicoliAffitto();
 		public ConfVeicoli DanniVeicoli = new ConfVeicoli();
 	}
+
 	public class ConfigNegozi
 	{
 		public ConfigNegoziAbiti Abiti = new ConfigNegoziAbiti();
@@ -157,6 +158,7 @@ namespace TheLastPlanet.Client
 		public List<Vector3> armerie = new List<Vector3>();
 		public OggettiDaVendere OggettiDaVendere;
 	}
+
 	public class OggettiDaVendere
 	{
 		public List<OggettoVendita> shared = new List<OggettoVendita>();
@@ -164,6 +166,7 @@ namespace TheLastPlanet.Client
 		public List<OggettoVendita> rq = new List<OggettoVendita>();
 		public List<OggettoVendita> ltd = new List<OggettoVendita>();
 	}
+
 	public class OggettoVendita
 	{
 		public string oggetto;
@@ -175,11 +178,13 @@ namespace TheLastPlanet.Client
 		public Abiti Femmina = new Abiti();
 		public Abiti Maschio = new Abiti();
 	}
+
 	public class ConfigNegoziBarbieri
 	{
 		public BarbieriTesta Femmina = new BarbieriTesta();
 		public BarbieriTesta Maschio = new BarbieriTesta();
 	}
+
 	public class ConfigProprieta
 	{
 		public List<Hotel> hotels = new List<Hotel>();
@@ -195,7 +200,7 @@ namespace TheLastPlanet.Client
 		public List<Capigliature> barba = new List<Capigliature>();
 		public List<Capigliature> ross = new List<Capigliature>();
 	}
- 
+
 	public class Capelli
 	{
 		public List<Capigliature> kuts = new List<Capigliature>();
@@ -343,13 +348,14 @@ namespace TheLastPlanet.Client
 		public bool Booze;
 		public bool Smoke;
 	}
+
 	public class ConfigCaseCamInt
 	{
 		public ConfigCaseCamExt Interno = new ConfigCaseCamExt();
 		public ConfigCaseCamExt Bagno = new ConfigCaseCamExt();
 		public ConfigCaseCamExt Garage = new ConfigCaseCamExt();
-
 	}
+
 	public class ConfigCaseCamExt
 	{
 		public Vector3 pos;

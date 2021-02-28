@@ -13,8 +13,8 @@ namespace TheLastPlanet.Server.TimeWeather
 		public static int CurrentWeather;
 		private static bool _blackout;
 		private static bool _rainPossible;
-		public static int WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-		private static int _rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
+		public static int WeatherTimer;
+		private static int _rainTimer;
 
 		public static void Init()
 		{

@@ -15,12 +15,12 @@ using TheLastPlanet.Client.Veicoli;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
-	enum PedTypes
+	internal enum PedTypes
 	{
-		Player0,// michael  
-		Player1,// franklin  
-		MPPlayer,    // mp character  
-		Player2,// trevor  
+		Player0,  // michael  
+		Player1,  // franklin  
+		MPPlayer, // mp character  
+		Player2,  // trevor  
 		CivMale,
 		CivFemale,
 		Cop,
@@ -48,79 +48,70 @@ namespace TheLastPlanet.Client.Core.Utility
 		Animal,
 		Army
 	};
-	static class Funzioni
+
+	internal static class Funzioni
 	{
 		/// <summary>
 		/// Salva clientside dei dati arbitrari
 		/// </summary>
-		public static void SalvaKVPString(string key, string value) => SetResourceKvp(key, value);
-		/// <summary>
-		/// Salva clientside dei dati arbitrari
-		/// </summary>
-		public static void SalvaKVP(string key, object value) => SetResourceKvp(key, JsonConvert.SerializeObject(value));
+		public static void SalvaKVPString(string key, string value) { SetResourceKvp(key, value); }
 
 		/// <summary>
 		/// Salva clientside dei dati arbitrari
 		/// </summary>
-		public static void SalvaKVPInt(string key, int value) => SetResourceKvpInt(key, value);
+		public static void SalvaKVP(string key, object value) { SetResourceKvp(key, JsonConvert.SerializeObject(value)); }
 
 		/// <summary>
 		/// Salva clientside dei dati arbitrari
 		/// </summary>
-		public static void SalvaKVPFloat(string key, float value) => SetResourceKvpFloat(key, value);
+		public static void SalvaKVPInt(string key, int value) { SetResourceKvpInt(key, value); }
+
+		/// <summary>
+		/// Salva clientside dei dati arbitrari
+		/// </summary>
+		public static void SalvaKVPFloat(string key, float value) { SetResourceKvpFloat(key, value); }
 
 		/// <summary>
 		/// Recupera un dato arbitrario salvato clientside
 		/// </summary>
-		public static int CaricaKVPInt(string key) => GetResourceKvpInt(key);
-		/// <summary>
-		/// Recupera un dato arbitrario salvato clientside
-		/// </summary>
-		public static float CaricaKVPFloat(string key) => GetResourceKvpFloat(key);
-		/// <summary>
-		/// Recupera un dato arbitrario salvato clientside
-		/// </summary>
-		public static string CaricaKVPString(string key) => GetResourceKvpString(key);
+		public static int CaricaKVPInt(string key) { return GetResourceKvpInt(key); }
 
 		/// <summary>
 		/// Recupera un dato arbitrario salvato clientside
 		/// </summary>
-		public static T CaricaKVP<T>(string key)
-		{
-			return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key));
-		}
+		public static float CaricaKVPFloat(string key) { return GetResourceKvpFloat(key); }
 
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static string CaricaKVPString(string key) { return GetResourceKvpString(key); }
 
+		/// <summary>
+		/// Recupera un dato arbitrario salvato clientside
+		/// </summary>
+		public static T CaricaKVP<T>(string key) { return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key)); }
 
 		public static PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
-			{
 				if (GetPlayerFromServerId(Convert.ToInt32(p.Key)) == id)
 					return p.Value;
-			}
+
 			return null;
 		}
 
 		public static PlayerChar GetPlayerCharFromServerId(int id)
 		{
 			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
-			{
 				if (Convert.ToInt32(p.Key) == id)
 					return p.Value;
-			}
+
 			return null;
 		}
 
-		public static PlayerChar GetPlayerData(this Player player)
-		{
-			return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
-		}
+		public static PlayerChar GetPlayerData(this Player player) { return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId); }
 
-		public static void SendNuiMessage(object message)
-		{
-			API.SendNuiMessage(message.Serialize());
-		}
+		public static void SendNuiMessage(object message) { API.SendNuiMessage(message.Serialize()); }
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
 		{
@@ -132,7 +123,10 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void ConcealAllPlayers()
 		{
-			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) { NetworkConcealPlayer(pl.Handle, true, true); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl =>
+			{
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
+			});
 		}
 
 		public static void RevealPlayersNearby(Vector3 coord, float radius)
@@ -145,9 +139,11 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void RevealAllPlayers()
 		{
-			Client.Instance.GetPlayers.ToList().ForEach(pl => { if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) { NetworkConcealPlayer(pl.Handle, false, false); } });
+			Client.Instance.GetPlayers.ToList().ForEach(pl =>
+			{
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
+			});
 		}
-
 
 		public static async Task UpdateFace(Skin skin)
 		{
@@ -170,11 +166,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			SetPedComponentVariation(id, 2, skin.hair.style, 0, 0);
 			SetPedHairColor(id, skin.hair.color[0], skin.hair.color[1]);
 			SetPedPropIndex(id, 2, skin.ears.style, skin.ears.color, true);
-			for (int i = 0; i < skin.face.tratti.Length; i++)
-			{
-				SetPedFaceFeature(PlayerPedId(), i, skin.face.tratti[i]);
-			}
-
+			for (int i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(PlayerPedId(), i, skin.face.tratti[i]);
 			await Task.FromResult(0);
 		}
 
@@ -192,7 +184,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
 			SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
 			SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
-
 			if (dress.PropIndices.Cappelli_Maschere == -1) ClearPedProp(id, 0);
 			SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
 			if (dress.PropIndices.Orecchie == -1) ClearPedProp(id, 2);
@@ -211,7 +202,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
 			if (dress.PropIndices.Unk_8 == -1) ClearPedProp(id, 8);
 			SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
-
 			await Task.FromResult(0);
 		}
 
@@ -223,11 +213,11 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<Tuple<int, string>> GetPedMugshotAsync(Ped ped, bool transparent = false)
 		{
 			int mugshot;
-			if (transparent)
-				mugshot = RegisterPedheadshotTransparent(ped.Handle);
+			if (transparent) mugshot = RegisterPedheadshotTransparent(ped.Handle);
 			mugshot = RegisterPedheadshot(ped.Handle);
 			while (!IsPedheadshotReady(mugshot)) await BaseScript.Delay(1);
 			string Txd = GetPedheadshotTxdString(mugshot);
+
 			return new Tuple<int, string>(mugshot, Txd);
 		}
 
@@ -235,69 +225,36 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 			string result = "";
+
 			for (int i = 0; i < maxChars; i++)
 			{
 				await BaseScript.Delay(1);
 				result += chars.PickOneChar();
 				await BaseScript.Delay(1);
 			}
+
 			return result;
 		}
 
-		public static bool IsAnyControlJustPressed()
-		{
-			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlJustPressed(value));
-		}
+		public static bool IsAnyControlJustPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlJustPressed(value)); }
 
-		public static bool IsAnyControlPressed()
-		{
-			return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlPressed(value));
-		}
-
+		public static bool IsAnyControlPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlPressed(value)); }
 
 		public static async Task<VehProp> GetVehicleProperties(this Vehicle veh)
 		{
 			bool[] extras = new bool[13];
 			for (int i = 0; i < 13; i++) extras[i] = veh.IsExtraOn(i);
-
-			List<VehMod> mods = new List<VehMod>();
-			foreach (VehicleMod mod in veh.Mods.GetAllMods())
-				mods.Add(new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName));
-
-			VehProp vehi = new VehProp(
-			veh.Model,
-			veh.LocalizedName,
-			veh.Mods.LicensePlate,
-			(int)veh.Mods.LicensePlateStyle,
-			veh.BodyHealth,
-			veh.EngineHealth,
-			veh.FuelLevel,
-			veh.DirtLevel,
-
-			(int)veh.Mods.PrimaryColor, (int)veh.Mods.SecondaryColor,
-			veh.Mods.CustomPrimaryColor, veh.Mods.CustomSecondaryColor,
-			veh.Mods.IsPrimaryColorCustom, veh.Mods.IsSecondaryColorCustom,
-			(int)veh.Mods.PearlescentColor, (int)veh.Mods.RimColor,
-			(int)veh.Mods.WheelType,
-			(int)veh.Mods.WindowTint,
-
-			new bool[4] { veh.Mods.HasNeonLight(VehicleNeonLight.Left), veh.Mods.HasNeonLight(VehicleNeonLight.Right), veh.Mods.HasNeonLight(VehicleNeonLight.Front), veh.Mods.HasNeonLight(VehicleNeonLight.Back) },
-			extras,
-			veh.Mods.NeonLightsColor,
-			veh.Mods.TireSmokeColor,
-			!(GetVehicleModKit(veh.Handle) == 65535),
-			mods,
-			veh.Mods.Livery
-			);
+			List<VehMod> mods = veh.Mods.GetAllMods().Select(mod => new VehMod((int)mod.ModType, mod.Index, mod.LocalizedModName, mod.LocalizedModTypeName)).ToList();
+			VehProp vehi = new VehProp(veh.Model, veh.LocalizedName, veh.Mods.LicensePlate, (int)veh.Mods.LicensePlateStyle, veh.BodyHealth, veh.EngineHealth, veh.FuelLevel, veh.DirtLevel, (int)veh.Mods.PrimaryColor, (int)veh.Mods.SecondaryColor, veh.Mods.CustomPrimaryColor, veh.Mods.CustomSecondaryColor, veh.Mods.IsPrimaryColorCustom, veh.Mods.IsSecondaryColorCustom, (int)veh.Mods.PearlescentColor, (int)veh.Mods.RimColor, (int)veh.Mods.WheelType, (int)veh.Mods.WindowTint, new bool[4] { veh.Mods.HasNeonLight(VehicleNeonLight.Left), veh.Mods.HasNeonLight(VehicleNeonLight.Right), veh.Mods.HasNeonLight(VehicleNeonLight.Front), veh.Mods.HasNeonLight(VehicleNeonLight.Back) }, extras, veh.Mods.NeonLightsColor, veh.Mods.TireSmokeColor, !(GetVehicleModKit(veh.Handle) == 65535), mods, veh.Mods.Livery);
 			await Task.FromResult(0);
+
 			return vehi;
 		}
 
 		public static async Task SetVehicleProperties(this Vehicle veh, VehProp props)
 		{
 			veh.Mods.LicensePlate = props.Plate;
-			if (props.ModKitInstalled)
-				veh.Mods.InstallModKit();
+			if (props.ModKitInstalled) veh.Mods.InstallModKit();
 			veh.Mods.LicensePlateStyle = (LicensePlateStyle)props.PlateIndex;
 			veh.BodyHealth = props.BodyHealth;
 			veh.EngineHealth = props.EngineHealth;
@@ -309,19 +266,16 @@ namespace TheLastPlanet.Client.Core.Utility
 			veh.Mods.CustomSecondaryColor = props.CustomSecondaryColor;
 			//veh.Mods.IsPrimaryColorCustom = props.HasCustomPrimaryColor;
 			//veh.Mods.IsSecondaryColorCustom = props.HasCustomSecondaryColor;
-			veh.Mods.PearlescentColor = (VehicleColor)props.PearlescentColor; 
+			veh.Mods.PearlescentColor = (VehicleColor)props.PearlescentColor;
 			veh.Mods.RimColor = (VehicleColor)props.WheelColor;
 			veh.Mods.WheelType = (VehicleWheelType)props.Wheels;
 			veh.Mods.WindowTint = (VehicleWindowTint)props.WindowTint;
-			for (int i = 0; i < props.NeonEnabled.Length; i++)
-				veh.Mods.SetNeonLightsOn((VehicleNeonLight)i, props.NeonEnabled[i]);
-			for(int i=0; i<13; i++)
-				veh.ToggleExtra(i, props.Extras[i]);
+			for (int i = 0; i < props.NeonEnabled.Length; i++) veh.Mods.SetNeonLightsOn((VehicleNeonLight)i, props.NeonEnabled[i]);
+			for (int i = 0; i < 13; i++) veh.ToggleExtra(i, props.Extras[i]);
 			veh.Mods.NeonLightsColor = props.NeonColor;
 			veh.Mods.TireSmokeColor = props.TireSmokeColor;
 			VehicleMod[] mods = veh.Mods.GetAllMods();
-			foreach (VehMod mod in props.Mods)
-				SetVehicleMod(veh.Handle, mod.ModIndex, mod.Value, mods.ToList().FirstOrDefault(x=>(int)x.ModType == mod.ModIndex).Variation);
+			foreach (VehMod mod in props.Mods) SetVehicleMod(veh.Handle, mod.ModIndex, mod.Value, mods.ToList().FirstOrDefault(x => (int)x.ModType == mod.ModIndex).Variation);
 			veh.Mods.Livery = props.ModLivery;
 		}
 
@@ -331,17 +285,15 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				if (IsEntityAPed(entityHandle))
-					return "PED";
-				else if (IsEntityAVehicle(entityHandle))
-					return "VEH";
-				else if (IsEntityAnObject(entityHandle))
-					return "OBJ";
+				if (IsEntityAPed(entityHandle)) return "PED";
+				if (IsEntityAVehicle(entityHandle)) return "VEH";
+				if (IsEntityAnObject(entityHandle)) return "OBJ";
 			}
 			catch (Exception ex)
 			{
 				Log.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
+
 			return "UNK";
 		}
 
@@ -349,6 +301,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<float> FindGroundZ(Vector2 position)
 		{
 			float result = -199f;
+
 			try
 			{
 				float[] groundCheckHeight = new float[] { -100.0f, -50.0f, 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
@@ -357,28 +310,25 @@ namespace TheLastPlanet.Client.Core.Utility
 				{
 					await BaseScript.Delay(1);
 					float z = 0;
-					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false))
-					{
-						result = z;
-					}
+					if (GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false)) result = z;
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
+
 			await Task.FromResult(0);
+
 			return result;
 		}
-
 
 		public static async void Teleport(Vector3 coords)
 		{
 			Ped playerPed = Cache.PlayerPed;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
-			if (playerPed.IsVisible)
-				NetworkFadeOutEntity(playerPed.Handle, true, false);
+			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
 			DoScreenFadeOut(500);
 			while (!IsScreenFadedOut()) await BaseScript.Delay(0);
 			RequestCollisionAtCoord(coords.X, coords.Y, coords.Z);
@@ -392,10 +342,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (GetGameTimer() - tempTimer > 1000)
 				{
 					Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+
 					break;
 				}
+
 				await BaseScript.Delay(0);
 			}
+
 			SetEntityCoords(playerPed.Handle, coords.X, coords.Y, coords.Z, false, false, false, false);
 			tempTimer = GetGameTimer();
 
@@ -406,8 +359,10 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (GetGameTimer() - tempTimer > 1000)
 				{
 					Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+
 					break;
 				}
+
 				await BaseScript.Delay(0);
 			}
 
@@ -422,8 +377,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			Ped playerPed = Cache.PlayerPed;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
-			if (playerPed.IsVisible)
-				NetworkFadeOutEntity(playerPed.Handle, true, false);
+			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
 			DoScreenFadeOut(500);
 			while (!IsScreenFadedOut()) await BaseScript.Delay(0);
 			RequestCollisionAtCoord(coords.X, coords.Y, coords.Z);
@@ -437,10 +391,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (GetGameTimer() - tempTimer > 1000)
 				{
 					Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+
 					break;
 				}
+
 				await BaseScript.Delay(0);
 			}
+
 			SetPedCoordsKeepVehicle(playerPed.Handle, coords.X, coords.Y, coords.Z);
 			tempTimer = GetGameTimer();
 
@@ -451,8 +408,10 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (GetGameTimer() - tempTimer > 1000)
 				{
 					Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+
 					break;
 				}
+
 				await BaseScript.Delay(0);
 			}
 
@@ -479,26 +438,22 @@ namespace TheLastPlanet.Client.Core.Utility
 			Vector3 c = new Vector3();
 			int vehicle = 0;
 			GetRaycastResult(rayHandle, ref a, ref b, ref c, ref vehicle);
+
 			return vehicle;
 		}
 
 		public static async Task<Vehicle> SpawnVehicle(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
+
 			if (vehicleModel.IsValid)
 			{
-				if (!vehicleModel.IsLoaded)
-				{
-					await vehicleModel.Request(3000); // for when you stream resources.
-				}
+				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
 				{
 					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs)
-					{
-						v.Delete();
-					}
+					foreach (Vehicle v in vehs) v.Delete();
 				}
 
 				Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false))
@@ -519,11 +474,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				bool ready = false;
 				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
+
 				return Cache.PlayerPed.CurrentVehicle;
 			}
 			else
 			{
 				BaseScript.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO car] = ", "nome modello non corretto!" }, color = new[] { 255, 0, 0 } });
+
 				return null;
 			}
 		}
@@ -531,21 +488,17 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<Vehicle> SpawnVehicleNoPlayerInside(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
+
 			if (vehicleModel.IsValid)
 			{
-				if (!vehicleModel.IsLoaded)
-				{
-					await vehicleModel.Request(3000); //for when you stream resources.
-				}
+				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); //for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
 				{
 					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs)
-					{
-						v.Delete();
-					}
+					foreach (Vehicle v in vehs) v.Delete();
 				}
+
 				Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false))
 				{
 					NeedsToBeHotwired = false,
@@ -562,11 +515,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				int netid = vehicle.NetworkId;
 				Client.Instance.TriggerServerCallback("cullingEntity", new Action<dynamic>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
+
 				return vehicle;
 			}
 			else
 			{
 				BaseScript.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO car] = ", "nome modello non corretto!" }, color = new[] { 255, 0, 0 } });
+
 				return null;
 			}
 		}
@@ -574,10 +529,10 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<Vehicle> SpawnLocalVehicle(dynamic modelName, Vector3 coords, float heading)
 		{
 			Model vehicleModel = new Model(modelName);
+
 			if (vehicleModel.IsValid)
 			{
-				if (!vehicleModel.IsLoaded)
-					await vehicleModel.Request(3000); // for when you stream resources.
+				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
 				{
@@ -598,26 +553,24 @@ namespace TheLastPlanet.Client.Core.Utility
 				vehicle.PlaceOnGround();
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
+
 				//SetVehicleEngineOn(vehicle.Handle, false, true, true);
 				return vehicle;
 			}
-			else
-				return null;
+
+			return null;
 		}
 
 		public static async Task<Prop> SpawnLocalProp(dynamic modelName, Vector3 coords, bool dynamic, bool placeOnGround)
 		{
 			Model model = new Model(modelName);
-			if (!await model.Request(1000))
-			{
-				return null;
-			}
-			Prop p = new Prop(API.CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
-			if (placeOnGround)
-				PlaceObjectOnGroundProperly(p.Handle);
+
+			if (!await model.Request(1000)) return null;
+			Prop p = new Prop(CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
+			if (placeOnGround) PlaceObjectOnGroundProperly(p.Handle);
+
 			return p;
 		}
-
 
 		/// <summary>
 		/// Spawns a <see cref="Ped"/> of the given <see cref="Model"/> at the position and heading specified.
@@ -629,11 +582,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<Ped> CreatePedLocally(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
 			Model mod = new Model(model);
-			if (!mod.IsPed || !await mod.Request(3000))
-				return null;
+
+			if (!mod.IsPed || !await mod.Request(3000)) return null;
 			Ped p = new Ped(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
 			while (!p.Exists()) await BaseScript.Delay(0);
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
+
 			return p;
 		}
 
@@ -647,10 +601,10 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task<Ped> SpawnPed(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
 			Model pedModel = new Model(model);
+
 			if (pedModel.IsValid)
 			{
-				if (!pedModel.IsLoaded)
-					await pedModel.Request(3000); // for when you stream resources.
+				if (!pedModel.IsLoaded) await pedModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPedPointClear(position, 2f))
 				{
@@ -668,8 +622,10 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
 			while (!ready) await BaseScript.Delay(0);
 			p.IsPersistent = true;
+
 			return p;
 		}
+
 		/// <summary>
 		/// Spawns a <see cref="Ped"/> of a random <see cref="Model"/> at the position specified.
 		/// </summary>
@@ -682,19 +638,21 @@ namespace TheLastPlanet.Client.Core.Utility
 			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 			Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), p.NetworkId);
 			while (!ready) await BaseScript.Delay(0);
+
 			return p;
 		}
-
 
 		public static void spectatePlayer(int targetPed, int targetId, string name, bool enableSpectate)
 		{
 			int mio = PlayerPedId();
 			enableSpectate = true;
+
 			if (targetId == mio)
 			{
 				enableSpectate = false;
 				HUD.HUD.ShowNotification("~r~Non puoi spectare te stesso!!");
 			}
+
 			if (enableSpectate)
 			{
 				Vector3 coords = GetEntityCoords(PlayerPedId(), true);
@@ -717,8 +675,9 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> PlayersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area) && p != Cache.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => (Vector3.Distance(p.Character.Position, coords) < area));
-			return PlayersInArea;
+			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
+
+			return playersInArea;
 		}
 
 		/// <summary>
@@ -727,193 +686,130 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="coords"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
-		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area)
-		{
-			List<Ped> PlayersPedsInArea = new List<Ped>();
-			foreach (Player p in Client.Instance.GetPlayers.ToList())
-			{
-				Ped target = p.Character;
-				if (target.IsInRangeOf(coords, area))
-				{
-					PlayersPedsInArea.Add(target);
-				}
-			}
-			return PlayersPedsInArea;
-		}
+		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area) { return Client.Instance.GetPlayers.ToList().Select(p => p.Character).Where(target => target.IsInRangeOf(coords, area)).ToList(); }
 
 		#region Closest Methodi
 
 		#region Veicoli
 
-		public static Vehicle GetClosestVehicle(this Entity entity)
-		{
-			return World.GetClosest(entity.Position, World.GetAllVehicles());
-		}
+		public static Vehicle GetClosestVehicle(this Entity entity) { return World.GetClosest(entity.Position, World.GetAllVehicles()); }
 
-		public static Vehicle GetClosestVehicle(this Entity entity, string model)
-		{
-			return GetClosestVehicle(entity, new Model(model));
-		}
+		public static Vehicle GetClosestVehicle(this Entity entity, string model) { return GetClosestVehicle(entity, new Model(model)); }
 
 		public static Vehicle GetClosestVehicle(this Entity entity, Model model)
 		{
-			if (model.IsValid && model.IsVehicle)
-				return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == model.Hash).ToArray());
-			else
-				return null;
+			if (model.IsValid && model.IsVehicle) return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == model.Hash).ToArray());
+
+			return null;
 		}
 
-		public static Vehicle GetClosestVehicle(this Entity entity, VehicleHash hash)
-		{
-			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == (int)hash).ToArray());
-		}
+		public static Vehicle GetClosestVehicle(this Entity entity, VehicleHash hash) { return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => x.Model.Hash == (int)hash).ToArray()); }
 
-		public static Vehicle GetClosestVehicle(this Entity entity, List<VehicleHash> hashes)
-		{
-			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => hashes.Contains((VehicleHash)x.Model.Hash)).ToArray());
-		}
+		public static Vehicle GetClosestVehicle(this Entity entity, List<VehicleHash> hashes) { return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => hashes.Contains((VehicleHash)x.Model.Hash)).ToArray()); }
 
 		public static Vehicle GetClosestVehicle(this Entity entity, List<string> models)
 		{
 			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+
 			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
 		}
 
-		public static Vehicle GetClosestVehicle(this Entity entity, List<Model> models)
-		{
-			return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => models.Contains(x.Model)).ToArray());
-		}
+		public static Vehicle GetClosestVehicle(this Entity entity, List<Model> models) { return World.GetClosest(entity.Position, World.GetAllVehicles().Where(x => models.Contains(x.Model)).ToArray()); }
 
 		public static Tuple<Vehicle, float> GetClosestVehicleWithDistance(this Ped entity)
 		{
 			Vehicle veh = World.GetClosest(entity.Position, World.GetAllVehicles());
 			float dist = Vector3.Distance(entity.Position, veh.Position);
+
 			return new Tuple<Vehicle, float>(veh, dist);
 		}
+
 		#endregion
 
 		#region Peds
-		public static Ped GetClosestPed(this Entity entity)
-		{
-			return World.GetClosest(entity.Position, World.GetAllPeds());
-		}
 
-		public static Ped GetClosestPed(this Entity entity, string model)
-		{
-			return GetClosestPed(entity, new Model(model));
-		}
+		public static Ped GetClosestPed(this Entity entity) { return World.GetClosest(entity.Position, World.GetAllPeds()); }
+
+		public static Ped GetClosestPed(this Entity entity, string model) { return GetClosestPed(entity, new Model(model)); }
 
 		public static Ped GetClosestPed(this Entity entity, Model model)
 		{
-			if (model.IsValid && model.IsPed)
-				return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => x.Model.Hash == model.Hash).ToArray());
-			else
-				return null;
+			if (model.IsValid && model.IsPed) return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => x.Model.Hash == model.Hash).ToArray());
+
+			return null;
 		}
 
-		public static Ped GetClosestPed(this Entity entity, PedHash hash)
-		{
-			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => (PedHash)x.Model.Hash == hash).ToArray());
-		}
+		public static Ped GetClosestPed(this Entity entity, PedHash hash) { return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => (PedHash)x.Model.Hash == hash).ToArray()); }
 
-		public static Ped GetClosestPed(this Entity entity, List<PedHash> hashes)
-		{
-			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => hashes.Contains((PedHash)x.Model.Hash)).ToArray());
-		}
+		public static Ped GetClosestPed(this Entity entity, List<PedHash> hashes) { return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => hashes.Contains((PedHash)x.Model.Hash)).ToArray()); }
 
 		public static Ped GetClosestPed(this Entity entity, List<string> models)
 		{
 			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+
 			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
 		}
 
-		public static Ped GetClosestPed(this Entity entity, List<Model> models)
-		{
-			return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => models.Contains(x.Model)).ToArray());
-		}
+		public static Ped GetClosestPed(this Entity entity, List<Model> models) { return World.GetClosest(entity.Position, World.GetAllPeds().Where(x => models.Contains(x.Model)).ToArray()); }
 
 		public static Tuple<Ped, float> GetClosestPedWithDistance(this Ped entity)
 		{
 			Ped ped = World.GetClosest(entity.Position, World.GetAllPeds());
 			float dist = Vector3.Distance(entity.Position, ped.Position);
+
 			return new Tuple<Ped, float>(ped, dist);
 		}
+
 		#endregion
 
 		#region Props
-		public static Prop GetClosestProp(this Entity entity)
-		{
-			return World.GetClosest(entity.Position, World.GetAllProps());
-		}
 
-		public static Prop GetClosestProp(this Entity entity, string model)
-		{
-			return GetClosestProp(entity, new Model(model));
-		}
+		public static Prop GetClosestProp(this Entity entity) { return World.GetClosest(entity.Position, World.GetAllProps()); }
+
+		public static Prop GetClosestProp(this Entity entity, string model) { return GetClosestProp(entity, new Model(model)); }
 
 		public static Prop GetClosestProp(this Entity entity, Model model)
 		{
-			if (model.IsValid && model.IsProp)
-				return World.GetClosest(entity.Position, World.GetAllProps().Where(x => x.Model.Hash == model.Hash).ToArray());
-			else
-				return null;
+			if (model.IsValid && model.IsProp) return World.GetClosest(entity.Position, World.GetAllProps().Where(x => x.Model.Hash == model.Hash).ToArray());
+
+			return null;
 		}
 
-		public static Prop GetClosestProp(this Entity entity, ObjectHash hash)
-		{
-			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => (ObjectHash)x.Model.Hash == hash).ToArray());
-		}
+		public static Prop GetClosestProp(this Entity entity, ObjectHash hash) { return World.GetClosest(entity.Position, World.GetAllProps().Where(x => (ObjectHash)x.Model.Hash == hash).ToArray()); }
 
-		public static Prop GetClosestProp(this Entity entity, List<ObjectHash> hashes)
-		{
-			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => hashes.Contains((ObjectHash)x.Model.Hash)).ToArray());
-		}
+		public static Prop GetClosestProp(this Entity entity, List<ObjectHash> hashes) { return World.GetClosest(entity.Position, World.GetAllProps().Where(x => hashes.Contains((ObjectHash)x.Model.Hash)).ToArray()); }
 
 		public static Prop GetClosestProp(this Entity entity, List<string> models)
 		{
 			List<int> hashes = models.ConvertAll(x => GetHashKey(x));
+
 			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => hashes.Contains(x.Model.Hash)).ToArray());
 		}
 
-		public static Prop GetClosestProp(this Entity entity, List<Model> models)
-		{
-			return World.GetClosest(entity.Position, World.GetAllProps().Where(x => models.Contains(x.Model)).ToArray());
-		}
+		public static Prop GetClosestProp(this Entity entity, List<Model> models) { return World.GetClosest(entity.Position, World.GetAllProps().Where(x => models.Contains(x.Model)).ToArray()); }
 
 		public static Tuple<Prop, float> GetClosestPropWithDistance(this Prop entity)
 		{
 			Prop ped = World.GetClosest(entity.Position, World.GetAllProps());
 			float dist = Vector3.Distance(entity.Position, ped.Position);
+
 			return new Tuple<Prop, float>(ped, dist);
 		}
-		#endregion
 
 		#endregion
-		public static float Rad2deg(float rad)
-		{
-			return rad * (180.0f / (float)Math.PI);
-		}
 
-		public static float Deg2rad(float deg)
-		{
-			return deg * ((float)Math.PI / 180.0f);
-		}
+		#endregion
 
-		public static Player GetPlayerFromPed(Ped ped)
-		{
-			foreach (Player pl in Client.Instance.GetPlayers.ToList())
-				if (pl.Character.NetworkId == ped.NetworkId)
-					return pl;
-			return null;
-		}
+		public static float Rad2deg(float rad) { return rad * (180.0f / (float)Math.PI); }
+
+		public static float Deg2rad(float deg) { return deg * ((float)Math.PI / 180.0f); }
+
+		public static Player GetPlayerFromPed(Ped ped) { return Client.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId); }
 
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer()
-		{
-			return GetClosestPlayer(Cache.Char.posizione.ToVector3());
-		}
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.Char.posizione.ToVector3()); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
@@ -921,23 +817,25 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="coords"></param>
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
-			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x=>Vector3.Distance(x.Character.Position, coords)).FirstOrDefault();
+			if (Client.Instance.GetPlayers.ToList().Count <= 1) return new Tuple<Player, float>(null, -1);
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.Player);
+
 			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
-					}
+		}
 
 		/// <summary>
 		/// GetHashKey uint
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static uint HashUint(string str) => (uint)Game.GenerateHash(str);
+		public static uint HashUint(string str) { return (uint)Game.GenerateHash(str); }
 
 		/// <summary>
 		/// GetHashKey int
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static int HashInt(string str) => Game.GenerateHash(str);
+		public static int HashInt(string str) { return Game.GenerateHash(str); }
 
 		/// <summary>
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
@@ -951,6 +849,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
+
 			return players;
 		}
 
@@ -966,85 +865,71 @@ namespace TheLastPlanet.Client.Core.Utility
 				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
+
 			return players;
 		}
 
 		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)
 		{
 			Vehicle[] vehs = GetVehiclesInArea(pos, Radius);
+
 			return vehs.Length < 1 ? true : false;
 		}
 
 		public static bool IsSpawnObjPointClear(this Vector3 pos, float Radius)
 		{
 			Prop[] vehs = GetPropsInArea(pos, Radius);
+
 			return vehs.Length < 1 ? true : false;
 		}
+
 		public static bool IsSpawnPedPointClear(this Vector3 pos, float Radius)
 		{
 			Ped[] vehs = GetPedsInArea(pos, Radius);
+
 			return vehs.Length < 1;
 		}
 
-		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius)
-		{
-			return World.GetAllVehicles().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
-		}
+		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius) { return World.GetAllVehicles().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
 
-		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius)
-		{
-			return World.GetAllProps().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
-		}
+		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius) { return World.GetAllProps().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
 
-		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius)
-		{
-			return World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
-		}
+		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius) { return World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
 
 		public static Vector2 WorldToScreen(Vector3 position)
 		{
 			OutputArgument screenX = new OutputArgument();
 			OutputArgument screenY = new OutputArgument();
-			return !Function.Call<bool>(Hash._WORLD3D_TO_SCREEN2D, position.X, position.Y, position.Z, screenX, screenY) ?
-				Vector2.Zero :
-				new Vector2(screenX.GetResult<float>(), screenY.GetResult<float>());
+
+			return !Function.Call<bool>(Hash._WORLD3D_TO_SCREEN2D, position.X, position.Y, position.Z, screenX, screenY) ? Vector2.Zero : new Vector2(screenX.GetResult<float>(), screenY.GetResult<float>());
 		}
 
-		public static void StartScenario(Ped ped, string scenario)
-		{
-			TaskStartScenarioInPlace(ped.Handle, scenario, 0, true);
-		}
+		public static void StartScenario(Ped ped, string scenario) { TaskStartScenarioInPlace(ped.Handle, scenario, 0, true); }
 
-		public static int GetRandomInt(int end)
-		{
-			return new Random(GetGameTimer()).Next(end);
-		}
+		public static int GetRandomInt(int end) { return new Random(GetGameTimer()).Next(end); }
 
-		public static int GetRandomInt(int start, int end)
-		{
-			return new Random(GetGameTimer()).Next(start, end);
-		}
+		public static int GetRandomInt(int start, int end) { return new Random(GetGameTimer()).Next(start, end); }
 
 		public static long GetRandomLong(long end)
 		{
 			Random rand = new Random(GetGameTimer());
+
 			return rand.NextLong(end);
 		}
 
 		public static long GetRandomLong(long start, long end)
 		{
 			Random rand = new Random(GetGameTimer());
+
 			return rand.NextLong(start, end);
 		}
 
-		public static float GetRandomFloat(float end)
-		{
-			return GetRandomFloat(0, end);
-		}
+		public static float GetRandomFloat(float end) { return GetRandomFloat(0, end); }
 
 		public static float GetRandomFloat(float start, float end)
 		{
 			Random rand = new Random(GetGameTimer());
+
 			return (float)Math.Round(rand.NextFloat(start, end), 3);
 		}
 
@@ -1054,463 +939,236 @@ namespace TheLastPlanet.Client.Core.Utility
 			int hours;
 			int mins;
 			int secs;
-			if (seconds <= 0)
-			{
-				return new Tuple<int, int>(mins = 0, secs = 0);
-			}
-			else
-			{
-				hours = (int)(Math.Floor((float)(seconds / 3600)));
-				mins = (int)(Math.Floor((float)(seconds / 60 - (hours * 60))));
-				secs = (int)(Math.Floor((float)(seconds - hours * 3600 - mins * 60)));
-				return new Tuple<int, int>(mins, secs);
-			}
+
+			if (seconds <= 0) return new Tuple<int, int>(mins = 0, secs = 0);
+			hours = (int)Math.Floor((float)(seconds / 3600));
+			mins = (int)Math.Floor((float)(seconds / 60 - hours * 60));
+			secs = (int)Math.Floor((float)(seconds - hours * 3600 - mins * 60));
+
+			return new Tuple<int, int>(mins, secs);
 		}
 
 		public static string GetWeaponLabel(uint hash)
 		{
-			if (hash == HashUint("WEAPON_UNARMED"))
-				return Game.GetGXTEntry("WT_UNARMED");
-			else if (hash == HashUint("WEAPON_COUGAR"))
-				return Game.GetGXTEntry("WT_RAGE");
-			else if (hash == HashUint("WEAPON_KNIFE"))
-				return Game.GetGXTEntry("WT_KNIFE");
-			else if (hash == HashUint("WEAPON_NIGHTSTICK"))
-				return Game.GetGXTEntry("WT_NGTSTK");
-			else if (hash == HashUint("WEAPON_HAMMER"))
-				return Game.GetGXTEntry("WT_HAMMER");
-			else if (hash == HashUint("WEAPON_BAT"))
-				return Game.GetGXTEntry("WT_BAT");
-			else if (hash == HashUint("WEAPON_GOLFCLUB"))
-				return Game.GetGXTEntry("WT_GOLFCLUB");
-			else if (hash == HashUint("WEAPON_CROWBAR"))
-				return Game.GetGXTEntry("WT_CROWBAR");
-			else if (hash == HashUint("WEAPON_PISTOL"))
-				return Game.GetGXTEntry("WT_PIST");
-			else if (hash == HashUint("WEAPON_COMBATPISTOL"))
-				return Game.GetGXTEntry("WT_PIST_CBT");
-			else if (hash == HashUint("WEAPON_APPISTOL"))
-				return Game.GetGXTEntry("WT_PIST_AP");
-			else if (hash == HashUint("WEAPON_PISTOL50"))
-				return Game.GetGXTEntry("WT_PIST_50");
-			else if (hash == HashUint("WEAPON_MICROSMG"))
-				return Game.GetGXTEntry("WT_SMG_MCR");
-			else if (hash == HashUint("WEAPON_SMG"))
-				return Game.GetGXTEntry("WT_SMG");
-			else if (hash == HashUint("WEAPON_ASSAULTSMG"))
-				return Game.GetGXTEntry("WT_SMG_ASL");
-			else if (hash == HashUint("WEAPON_ASSAULTRIFLE"))
-				return Game.GetGXTEntry("WT_RIFLE_ASL");
-			else if (hash == HashUint("WEAPON_CARBINERIFLE"))
-				return Game.GetGXTEntry("WT_RIFLE_CBN");
-			else if (hash == HashUint("WEAPON_ADVANCEDRIFLE"))
-				return Game.GetGXTEntry("WT_RIFLE_ADV");
-			else if (hash == HashUint("WEAPON_MG"))
-				return Game.GetGXTEntry("WT_MG");
-			else if (hash == HashUint("WEAPON_COMBATMG"))
-				return Game.GetGXTEntry("WT_MG_CBT");
-			else if (hash == HashUint("WEAPON_PUMPSHOTGUN"))
-				return Game.GetGXTEntry("WT_SG_PMP");
-			else if (hash == HashUint("WEAPON_SAWNOFFSHOTGUN"))
-				return Game.GetGXTEntry("WT_SG_SOF");
-			else if (hash == HashUint("WEAPON_ASSAULTSHOTGUN"))
-				return Game.GetGXTEntry("WT_SG_ASL");
-			else if (hash == HashUint("WEAPON_BULLPUPSHOTGUN"))
-				return Game.GetGXTEntry("WT_SG_BLP");
-			else if (hash == HashUint("WEAPON_STUNGUN"))
-				return Game.GetGXTEntry("WT_STUN");
-			else if (hash == HashUint("WEAPON_SNIPERRIFLE"))
-				return Game.GetGXTEntry("WT_SNIP_RIF");
-			else if (hash == HashUint("WEAPON_HEAVYSNIPER"))
-				return Game.GetGXTEntry("WT_SNIP_HVY");
-			else if (hash == HashUint("WEAPON_REMOTESNIPER"))
-				return Game.GetGXTEntry("WT_SNIP_RMT");
-			else if (hash == HashUint("WEAPON_GRENADELAUNCHER"))
-				return Game.GetGXTEntry("WT_GL");
-			else if (hash == HashUint("WEAPON_GRENADELAUNCHER_SMOKE"))
-				return Game.GetGXTEntry("WT_GL_SMOKE");
-			else if (hash == HashUint("WEAPON_RPG"))
-				return Game.GetGXTEntry("WT_RPG");
-			else if (hash == HashUint("WEAPON_STINGER"))
-				return Game.GetGXTEntry("WT_RPG");
-			else if (hash == HashUint("WEAPON_MINIGUN"))
-				return Game.GetGXTEntry("WT_MINIGUN");
-			else if (hash == HashUint("WEAPON_GRENADE"))
-				return Game.GetGXTEntry("WT_GNADE");
-			else if (hash == HashUint("WEAPON_STICKYBOMB"))
-				return Game.GetGXTEntry("WT_GNADE_STK");
-			else if (hash == HashUint("WEAPON_SMOKEGRENADE"))
-				return Game.GetGXTEntry("WT_GNADE_SMK");
-			else if (hash == HashUint("WEAPON_BZGAS"))
-				return Game.GetGXTEntry("WT_BZGAS");
-			else if (hash == HashUint("WEAPON_MOLOTOV"))
-				return Game.GetGXTEntry("WT_MOLOTOV");
-			else if (hash == HashUint("WEAPON_FIREEXTINGUISHER"))
-				return Game.GetGXTEntry("WT_FIRE");
-			else if (hash == HashUint("WEAPON_PETROLCAN"))
-				return Game.GetGXTEntry("WT_PETROL");
-			else if (hash == HashUint("WEAPON_DIGISCANNER"))
-				return Game.GetGXTEntry("WT_DIGI");
-			else if (hash == HashUint("GADGET_NIGHTVISION"))
-				return Game.GetGXTEntry("WT_NV");
-			else if (hash == HashUint("OBJECT"))
-				return Game.GetGXTEntry("WT_OBJECT");
-			else if (hash == HashUint("WEAPON_BALL"))
-				return Game.GetGXTEntry("WT_BALL");
-			else if (hash == HashUint("WEAPON_FLARE"))
-				return Game.GetGXTEntry("WT_FLARE");
-			else if (hash == HashUint("WEAPON_ELECTRIC_FENCE"))
-				return Game.GetGXTEntry("WT_ELCFEN");
-			else if (hash == HashUint("VEHICLE_WEAPON_TANK"))
-				return Game.GetGXTEntry("WT_V_TANK");
-			else if (hash == HashUint("VEHICLE_WEAPON_SPACE_ROCKET"))
-				return Game.GetGXTEntry("WT_V_SPACERKT");
-			else if (hash == HashUint("VEHICLE_WEAPON_PLAYER_LASER"))
-				return Game.GetGXTEntry("WT_V_PLRLSR");
-			else if (hash == HashUint("AMMO_RPG"))
-				return Game.GetGXTEntry("WT_A_RPG");
-			else if (hash == HashUint("AMMO_TANK"))
-				return Game.GetGXTEntry("WT_A_TANK");
-			else if (hash == HashUint("AMMO_SPACE_ROCKET"))
-				return Game.GetGXTEntry("WT_A_SPACERKT");
-			else if (hash == HashUint("AMMO_PLAYER_LASER"))
-				return Game.GetGXTEntry("WT_A_PLRLSR");
-			else if (hash == HashUint("AMMO_ENEMY_LASER"))
-				return Game.GetGXTEntry("WT_A_ENMYLSR");
-			else if (hash == HashUint("WEAPON_RAMMED_BY_CAR"))
-				return Game.GetGXTEntry("WT_PIST");
-			else if (hash == HashUint("WEAPON_BOTTLE"))
-				return Game.GetGXTEntry("WT_BOTTLE");
-			else if (hash == HashUint("WEAPON_GUSENBERG"))
-				return Game.GetGXTEntry("WT_GUSENBERG");
-			else if (hash == HashUint("WEAPON_SNSPISTOL"))
-				return Game.GetGXTEntry("WT_SNSPISTOL");
-			else if (hash == HashUint("WEAPON_VINTAGEPISTOL"))
-				return Game.GetGXTEntry("WT_VPISTOL");
-			else if (hash == HashUint("WEAPON_DAGGER"))
-				return Game.GetGXTEntry("WT_DAGGER");
-			else if (hash == HashUint("WEAPON_FLAREGUN"))
-				return Game.GetGXTEntry("WT_FLAREGUN");
-			else if (hash == HashUint("WEAPON_HEAVYPISTOL"))
-				return Game.GetGXTEntry("WT_HEAVYPSTL");
-			else if (hash == HashUint("WEAPON_SPECIALCARBINE"))
-				return Game.GetGXTEntry("WT_RIFLE_SCBN");
-			else if (hash == HashUint("WEAPON_MUSKET"))
-				return Game.GetGXTEntry("WT_MUSKET");
-			else if (hash == HashUint("WEAPON_FIREWORK"))
-				return Game.GetGXTEntry("WT_FWRKLNCHR");
-			else if (hash == HashUint("WEAPON_MARKSMANRIFLE"))
-				return Game.GetGXTEntry("WT_MKRIFLE");
-			else if (hash == HashUint("WEAPON_HEAVYSHOTGUN"))
-				return Game.GetGXTEntry("WT_HVYSHOT");
-			else if (hash == HashUint("WEAPON_PROXMINE"))
-				return Game.GetGXTEntry("WT_PRXMINE");
-			else if (hash == HashUint("WEAPON_HOMINGLAUNCHER"))
-				return Game.GetGXTEntry("WT_HOMLNCH");
-			else if (hash == HashUint("WEAPON_HATCHET"))
-				return Game.GetGXTEntry("WT_HATCHET");
-			else if (hash == HashUint("WEAPON_COMBATPDW"))
-				return Game.GetGXTEntry("WT_COMBATPDW");
-			else if (hash == HashUint("WEAPON_KNUCKLE"))
-				return Game.GetGXTEntry("WT_KNUCKLE");
-			else if (hash == HashUint("WEAPON_MARKSMANPISTOL"))
-				return Game.GetGXTEntry("WT_MKPISTOL");
-			else if (hash == HashUint("WEAPON_MACHETE"))
-				return Game.GetGXTEntry("WT_MACHETE");
-			else if (hash == HashUint("WEAPON_MACHINEPISTOL"))
-				return Game.GetGXTEntry("WT_MCHPIST");
-			else if (hash == HashUint("WEAPON_FLASHLIGHT"))
-				return Game.GetGXTEntry("WT_FLASHLIGHT");
-			else if (hash == HashUint("WEAPON_DBSHOTGUN"))
-				return Game.GetGXTEntry("WT_DBSHGN");
-			else if (hash == HashUint("WEAPON_COMPACTRIFLE"))
-				return Game.GetGXTEntry("WT_CMPRIFLE");
-			else if (hash == HashUint("WEAPON_SWITCHBLADE"))
-				return Game.GetGXTEntry("WT_SWBLADE");
-			else if (hash == HashUint("WEAPON_REVOLVER"))
-				return Game.GetGXTEntry("WT_REVOLVER");
-			else if (hash == HashUint("WEAPON_SNSPISTOL_MK2"))
-				return Game.GetGXTEntry("WT_SNSPISTOL2");
-			else if (hash == HashUint("WEAPON_REVOLVER_MK2"))
-				return Game.GetGXTEntry("WT_REVOLVER2");
-			else if (hash == HashUint("WEAPON_DOUBLEACTION"))
-				return Game.GetGXTEntry("WT_REV_DA");
-			else if (hash == HashUint("WEAPON_SPECIALCARBINE_MK2"))
-				return Game.GetGXTEntry("WT_SPCARBINE2");
-			else if (hash == HashUint("WEAPON_BULLPUPRIFLE_MK2"))
-				return Game.GetGXTEntry("WT_BULLRIFLE2");
-			else if (hash == HashUint("WEAPON_PUMPSHOTGUN_MK2"))
-				return Game.GetGXTEntry("WT_SG_PMP2");
-			else if (hash == HashUint("WEAPON_MARKSMANRIFLE_MK2"))
-				return Game.GetGXTEntry("WT_MKRIFLE2");
-			else if (hash == HashUint("WEAPON_POOLCUE"))
-				return Game.GetGXTEntry("WT_POOLCUE");
-			else if (hash == HashUint("WEAPON_WRENCH"))
-				return Game.GetGXTEntry("WT_WRENCH");
-			else if (hash == HashUint("WEAPON_BATTLEAXE"))
-				return Game.GetGXTEntry("WT_BATTLEAXE");
-			else if (hash == HashUint("WEAPON_MINISMG"))
-				return Game.GetGXTEntry("WT_MINISMG");
-			else if (hash == HashUint("WEAPON_BULLPUPRIFLE"))
-				return Game.GetGXTEntry("WT_BULLRIFLE");
-			else if (hash == HashUint("WEAPON_AUTOSHOTGUN"))
-				return Game.GetGXTEntry("WT_AUTOSHGN");
-			else if (hash == HashUint("WEAPON_RAILGUN"))
-				return Game.GetGXTEntry("WT_RAILGUN");
-			else if (hash == HashUint("WEAPON_COMPACTLAUNCHER"))
-				return Game.GetGXTEntry("WT_CMPGL");
-			else if (hash == HashUint("WEAPON_SNOWBALL"))
-				return Game.GetGXTEntry("WT_SNWBALL");
-			else if (hash == HashUint("WEAPON_PIPEBOMB"))
-				return Game.GetGXTEntry("WT_PIPEBOMB");
-			else if (hash == HashUint("GADGET_NIGHTVISION"))
-				return Game.GetGXTEntry("WT_NV");
-			else if (hash == HashUint("GADGET_PARACHUTE"))
-				return Game.GetGXTEntry("WT_PARA");
-			else if (hash == HashUint("WEAPON_STONE_HATCHET"))
-				return Game.GetGXTEntry("WT_SHATCHET");
-			else if (hash == HashUint("COMPONENT_AT_PI_FLSH"))
-				return Game.GetGXTEntry("WCT_FLASH");
-			else if (hash == HashUint("COMPONENT_PISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_PISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_PI_SUPP_02"))
-				return Game.GetGXTEntry("WCT_SUPP");
-			else if (hash == HashUint("COMPONENT_PISTOL_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_PI_SUPP"))
-				return Game.GetGXTEntry("WCT_SUPP");
-			else if (hash == HashUint("COMPONENT_COMBATPISTOL_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_APPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_APPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_APPISTOL_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_PISTOL50_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_PISTOL50_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_AR_SUPP_02"))
-				return Game.GetGXTEntry("WCT_SUPP");
-			else if (hash == HashUint("COMPONENT_PISTOL50_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_SNSPISTOL_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_HEAVYPISTOL_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_MICROSMG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_MICROSMG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO"))
-				return Game.GetGXTEntry("WCT_SCOPE_MAC");
-			else if (hash == HashUint("COMPONENT_MICROSMG_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_SMG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_SMG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_SMG_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO_02"))
-				return Game.GetGXTEntry("WCT_SCOPE_MAC");
-			else if (hash == HashUint("COMPONENT_SMG_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_ASSAULTSMG_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_MINISMG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_MINISMG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_AT_AR_AFGRIP"))
-				return Game.GetGXTEntry("WCT_GRIP");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_SMALL"))
-				return Game.GetGXTEntry("WCT_SCOPE_SML");
-			else if (hash == HashUint("COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_SAWNOFfsHOTGUN_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_ASSAULTRIFLE_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_MEDIUM"))
-				return Game.GetGXTEntry("WCT_SCOPE_MED");
-			else if (hash == HashUint("COMPONENT_CARBINERIFLE_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_SPECIALCARBINE_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_BULLPUPRIFLE_VARMOD_LOW"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_03"))
-				return Game.GetGXTEntry("WCT_CLIP_DRM");
-			else if (hash == HashUint("COMPONENT_MG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_MG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_MG_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_COMBATMG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_COMBATMG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_COMBATMG_VARMOD_LOWRIDER"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE"))
-				return Game.GetGXTEntry("WCT_SCOPE_LRG");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_MAX"))
-				return Game.GetGXTEntry("WCT_SCOPE_MAX");
-			else if (hash == HashUint("COMPONENT_SNIPERRIFLE_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_01"))
-				return Game.GetGXTEntry("WCT_CLIP1");
-			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_02"))
-				return Game.GetGXTEntry("WCT_CLIP2");
-			else if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM"))
-				return Game.GetGXTEntry("WCT_SCOPE_LRG");
-			else if (hash == HashUint("COMPONENT_MARKSMANRIFLE_VARMOD_LUXE"))
-				return Game.GetGXTEntry("WCT_VAR_GOLD");
-			else if (hash == HashUint("WM_TINT0"))
-				return Game.GetGXTEntry("WM_TINT0");
-			else if (hash == HashUint("WM_TINT1"))
-				return Game.GetGXTEntry("WM_TINT1");
-			else if (hash == HashUint("WM_TINT2"))
-				return Game.GetGXTEntry("WM_TINT2");
-			else if (hash == HashUint("WM_TINT3"))
-				return Game.GetGXTEntry("WM_TINT3");
-			else if (hash == HashUint("WM_TINT4"))
-				return Game.GetGXTEntry("WM_TINT4");
-			else if (hash == HashUint("WM_TINT5"))
-				return Game.GetGXTEntry("WM_TINT5");
-			else if (hash == HashUint("WM_TINT6"))
-				return Game.GetGXTEntry("WM_TINT6");
-			else if (hash == HashUint("WM_TINT7"))
-				return Game.GetGXTEntry("WM_TINT7");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BASE"))
-				return Game.GetGXTEntry("WCT_KNUCK_01");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PIMP"))
-				return Game.GetGXTEntry("WCT_KNUCK_02");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BALLAS"))
-				return Game.GetGXTEntry("WCT_KNUCK_BG");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DOLLAR"))
-				return Game.GetGXTEntry("WCT_KNUCK_DLR");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DIAMOND"))
-				return Game.GetGXTEntry("WCT_KNUCK_DMD");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_HATE"))
-				return Game.GetGXTEntry("WCT_KNUCK_HT");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_LOVE"))
-				return Game.GetGXTEntry("WCD_VAR_DESC");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PLAYER"))
-				return Game.GetGXTEntry("WCT_KNUCK_PC");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_KING"))
-				return Game.GetGXTEntry("WCT_KNUCK_SLG");
-			else if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_VAGOS"))
-				return Game.GetGXTEntry("WCT_KNUCK_VG");
-			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_BASE"))
-				return Game.GetGXTEntry("WCT_SB_BASE");
-			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR1"))
-				return Game.GetGXTEntry("WCT_SB_VAR1");
-			else if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR2"))
-				return Game.GetGXTEntry("WCT_SB_VAR2");
-			else if (hash == HashUint("WEAPON_ANIMAL")
-			|| hash == HashUint("WEAPON_PASSENGER_ROCKET")
-			|| hash == HashUint("WEAPON_AIRSTRIKE_ROCKET")
-			|| hash == HashUint("WEAPON_BRIEFCASE")
-			|| hash == HashUint("WEAPON_BRIEFCASE_02")
-			|| hash == HashUint("WEAPON_FIRE")
-			|| hash == HashUint("WEAPON_HELI_CRASH")
-			|| hash == HashUint("WEAPON_RUN_OVER_BY_CAR")
-			|| hash == HashUint("WEAPON_HIT_BY_WATER_CANNON")
-			|| hash == HashUint("WEAPON_EXHAUSTION")
-			|| hash == HashUint("WEAPON_FALL")
-			|| hash == HashUint("WEAPON_EXPLOSION")
-			|| hash == HashUint("WEAPON_BLEEDING")
-			|| hash == HashUint("WEAPON_DROWNING_IN_VEHICLE")
-			|| hash == HashUint("WEAPON_DROWNING")
-			|| hash == HashUint("WEAPON_BARBED_WIRE")
-			|| hash == HashUint("WEAPON_VEHICLE_ROCKET"))
+			if (hash == HashUint("WEAPON_UNARMED")) return Game.GetGXTEntry("WT_UNARMED");
+			if (hash == HashUint("WEAPON_COUGAR")) return Game.GetGXTEntry("WT_RAGE");
+			if (hash == HashUint("WEAPON_KNIFE")) return Game.GetGXTEntry("WT_KNIFE");
+			if (hash == HashUint("WEAPON_NIGHTSTICK")) return Game.GetGXTEntry("WT_NGTSTK");
+			if (hash == HashUint("WEAPON_HAMMER")) return Game.GetGXTEntry("WT_HAMMER");
+			if (hash == HashUint("WEAPON_BAT")) return Game.GetGXTEntry("WT_BAT");
+			if (hash == HashUint("WEAPON_GOLFCLUB")) return Game.GetGXTEntry("WT_GOLFCLUB");
+			if (hash == HashUint("WEAPON_CROWBAR")) return Game.GetGXTEntry("WT_CROWBAR");
+			if (hash == HashUint("WEAPON_PISTOL")) return Game.GetGXTEntry("WT_PIST");
+			if (hash == HashUint("WEAPON_COMBATPISTOL")) return Game.GetGXTEntry("WT_PIST_CBT");
+			if (hash == HashUint("WEAPON_APPISTOL")) return Game.GetGXTEntry("WT_PIST_AP");
+			if (hash == HashUint("WEAPON_PISTOL50")) return Game.GetGXTEntry("WT_PIST_50");
+			if (hash == HashUint("WEAPON_MICROSMG")) return Game.GetGXTEntry("WT_SMG_MCR");
+			if (hash == HashUint("WEAPON_SMG")) return Game.GetGXTEntry("WT_SMG");
+			if (hash == HashUint("WEAPON_ASSAULTSMG")) return Game.GetGXTEntry("WT_SMG_ASL");
+			if (hash == HashUint("WEAPON_ASSAULTRIFLE")) return Game.GetGXTEntry("WT_RIFLE_ASL");
+			if (hash == HashUint("WEAPON_CARBINERIFLE")) return Game.GetGXTEntry("WT_RIFLE_CBN");
+			if (hash == HashUint("WEAPON_ADVANCEDRIFLE")) return Game.GetGXTEntry("WT_RIFLE_ADV");
+			if (hash == HashUint("WEAPON_MG")) return Game.GetGXTEntry("WT_MG");
+			if (hash == HashUint("WEAPON_COMBATMG")) return Game.GetGXTEntry("WT_MG_CBT");
+			if (hash == HashUint("WEAPON_PUMPSHOTGUN")) return Game.GetGXTEntry("WT_SG_PMP");
+			if (hash == HashUint("WEAPON_SAWNOFFSHOTGUN")) return Game.GetGXTEntry("WT_SG_SOF");
+			if (hash == HashUint("WEAPON_ASSAULTSHOTGUN")) return Game.GetGXTEntry("WT_SG_ASL");
+			if (hash == HashUint("WEAPON_BULLPUPSHOTGUN")) return Game.GetGXTEntry("WT_SG_BLP");
+			if (hash == HashUint("WEAPON_STUNGUN")) return Game.GetGXTEntry("WT_STUN");
+			if (hash == HashUint("WEAPON_SNIPERRIFLE")) return Game.GetGXTEntry("WT_SNIP_RIF");
+			if (hash == HashUint("WEAPON_HEAVYSNIPER")) return Game.GetGXTEntry("WT_SNIP_HVY");
+			if (hash == HashUint("WEAPON_REMOTESNIPER")) return Game.GetGXTEntry("WT_SNIP_RMT");
+			if (hash == HashUint("WEAPON_GRENADELAUNCHER")) return Game.GetGXTEntry("WT_GL");
+			if (hash == HashUint("WEAPON_GRENADELAUNCHER_SMOKE")) return Game.GetGXTEntry("WT_GL_SMOKE");
+			if (hash == HashUint("WEAPON_RPG")) return Game.GetGXTEntry("WT_RPG");
+			if (hash == HashUint("WEAPON_STINGER")) return Game.GetGXTEntry("WT_RPG");
+			if (hash == HashUint("WEAPON_MINIGUN")) return Game.GetGXTEntry("WT_MINIGUN");
+			if (hash == HashUint("WEAPON_GRENADE")) return Game.GetGXTEntry("WT_GNADE");
+			if (hash == HashUint("WEAPON_STICKYBOMB")) return Game.GetGXTEntry("WT_GNADE_STK");
+			if (hash == HashUint("WEAPON_SMOKEGRENADE")) return Game.GetGXTEntry("WT_GNADE_SMK");
+			if (hash == HashUint("WEAPON_BZGAS")) return Game.GetGXTEntry("WT_BZGAS");
+			if (hash == HashUint("WEAPON_MOLOTOV")) return Game.GetGXTEntry("WT_MOLOTOV");
+			if (hash == HashUint("WEAPON_FIREEXTINGUISHER")) return Game.GetGXTEntry("WT_FIRE");
+			if (hash == HashUint("WEAPON_PETROLCAN")) return Game.GetGXTEntry("WT_PETROL");
+			if (hash == HashUint("WEAPON_DIGISCANNER")) return Game.GetGXTEntry("WT_DIGI");
+			if (hash == HashUint("GADGET_NIGHTVISION")) return Game.GetGXTEntry("WT_NV");
+			if (hash == HashUint("OBJECT")) return Game.GetGXTEntry("WT_OBJECT");
+			if (hash == HashUint("WEAPON_BALL")) return Game.GetGXTEntry("WT_BALL");
+			if (hash == HashUint("WEAPON_FLARE")) return Game.GetGXTEntry("WT_FLARE");
+			if (hash == HashUint("WEAPON_ELECTRIC_FENCE")) return Game.GetGXTEntry("WT_ELCFEN");
+			if (hash == HashUint("VEHICLE_WEAPON_TANK")) return Game.GetGXTEntry("WT_V_TANK");
+			if (hash == HashUint("VEHICLE_WEAPON_SPACE_ROCKET")) return Game.GetGXTEntry("WT_V_SPACERKT");
+			if (hash == HashUint("VEHICLE_WEAPON_PLAYER_LASER")) return Game.GetGXTEntry("WT_V_PLRLSR");
+			if (hash == HashUint("AMMO_RPG")) return Game.GetGXTEntry("WT_A_RPG");
+			if (hash == HashUint("AMMO_TANK")) return Game.GetGXTEntry("WT_A_TANK");
+			if (hash == HashUint("AMMO_SPACE_ROCKET")) return Game.GetGXTEntry("WT_A_SPACERKT");
+			if (hash == HashUint("AMMO_PLAYER_LASER")) return Game.GetGXTEntry("WT_A_PLRLSR");
+			if (hash == HashUint("AMMO_ENEMY_LASER")) return Game.GetGXTEntry("WT_A_ENMYLSR");
+			if (hash == HashUint("WEAPON_RAMMED_BY_CAR")) return Game.GetGXTEntry("WT_PIST");
+			if (hash == HashUint("WEAPON_BOTTLE")) return Game.GetGXTEntry("WT_BOTTLE");
+			if (hash == HashUint("WEAPON_GUSENBERG")) return Game.GetGXTEntry("WT_GUSENBERG");
+			if (hash == HashUint("WEAPON_SNSPISTOL")) return Game.GetGXTEntry("WT_SNSPISTOL");
+			if (hash == HashUint("WEAPON_VINTAGEPISTOL")) return Game.GetGXTEntry("WT_VPISTOL");
+			if (hash == HashUint("WEAPON_DAGGER")) return Game.GetGXTEntry("WT_DAGGER");
+			if (hash == HashUint("WEAPON_FLAREGUN")) return Game.GetGXTEntry("WT_FLAREGUN");
+			if (hash == HashUint("WEAPON_HEAVYPISTOL")) return Game.GetGXTEntry("WT_HEAVYPSTL");
+			if (hash == HashUint("WEAPON_SPECIALCARBINE")) return Game.GetGXTEntry("WT_RIFLE_SCBN");
+			if (hash == HashUint("WEAPON_MUSKET")) return Game.GetGXTEntry("WT_MUSKET");
+			if (hash == HashUint("WEAPON_FIREWORK")) return Game.GetGXTEntry("WT_FWRKLNCHR");
+			if (hash == HashUint("WEAPON_MARKSMANRIFLE")) return Game.GetGXTEntry("WT_MKRIFLE");
+			if (hash == HashUint("WEAPON_HEAVYSHOTGUN")) return Game.GetGXTEntry("WT_HVYSHOT");
+			if (hash == HashUint("WEAPON_PROXMINE")) return Game.GetGXTEntry("WT_PRXMINE");
+			if (hash == HashUint("WEAPON_HOMINGLAUNCHER")) return Game.GetGXTEntry("WT_HOMLNCH");
+			if (hash == HashUint("WEAPON_HATCHET")) return Game.GetGXTEntry("WT_HATCHET");
+			if (hash == HashUint("WEAPON_COMBATPDW")) return Game.GetGXTEntry("WT_COMBATPDW");
+			if (hash == HashUint("WEAPON_KNUCKLE")) return Game.GetGXTEntry("WT_KNUCKLE");
+			if (hash == HashUint("WEAPON_MARKSMANPISTOL")) return Game.GetGXTEntry("WT_MKPISTOL");
+			if (hash == HashUint("WEAPON_MACHETE")) return Game.GetGXTEntry("WT_MACHETE");
+			if (hash == HashUint("WEAPON_MACHINEPISTOL")) return Game.GetGXTEntry("WT_MCHPIST");
+			if (hash == HashUint("WEAPON_FLASHLIGHT")) return Game.GetGXTEntry("WT_FLASHLIGHT");
+			if (hash == HashUint("WEAPON_DBSHOTGUN")) return Game.GetGXTEntry("WT_DBSHGN");
+			if (hash == HashUint("WEAPON_COMPACTRIFLE")) return Game.GetGXTEntry("WT_CMPRIFLE");
+			if (hash == HashUint("WEAPON_SWITCHBLADE")) return Game.GetGXTEntry("WT_SWBLADE");
+			if (hash == HashUint("WEAPON_REVOLVER")) return Game.GetGXTEntry("WT_REVOLVER");
+			if (hash == HashUint("WEAPON_SNSPISTOL_MK2")) return Game.GetGXTEntry("WT_SNSPISTOL2");
+			if (hash == HashUint("WEAPON_REVOLVER_MK2")) return Game.GetGXTEntry("WT_REVOLVER2");
+			if (hash == HashUint("WEAPON_DOUBLEACTION")) return Game.GetGXTEntry("WT_REV_DA");
+			if (hash == HashUint("WEAPON_SPECIALCARBINE_MK2")) return Game.GetGXTEntry("WT_SPCARBINE2");
+			if (hash == HashUint("WEAPON_BULLPUPRIFLE_MK2")) return Game.GetGXTEntry("WT_BULLRIFLE2");
+			if (hash == HashUint("WEAPON_PUMPSHOTGUN_MK2")) return Game.GetGXTEntry("WT_SG_PMP2");
+			if (hash == HashUint("WEAPON_MARKSMANRIFLE_MK2")) return Game.GetGXTEntry("WT_MKRIFLE2");
+			if (hash == HashUint("WEAPON_POOLCUE")) return Game.GetGXTEntry("WT_POOLCUE");
+			if (hash == HashUint("WEAPON_WRENCH")) return Game.GetGXTEntry("WT_WRENCH");
+			if (hash == HashUint("WEAPON_BATTLEAXE")) return Game.GetGXTEntry("WT_BATTLEAXE");
+			if (hash == HashUint("WEAPON_MINISMG")) return Game.GetGXTEntry("WT_MINISMG");
+			if (hash == HashUint("WEAPON_BULLPUPRIFLE")) return Game.GetGXTEntry("WT_BULLRIFLE");
+			if (hash == HashUint("WEAPON_AUTOSHOTGUN")) return Game.GetGXTEntry("WT_AUTOSHGN");
+			if (hash == HashUint("WEAPON_RAILGUN")) return Game.GetGXTEntry("WT_RAILGUN");
+			if (hash == HashUint("WEAPON_COMPACTLAUNCHER")) return Game.GetGXTEntry("WT_CMPGL");
+			if (hash == HashUint("WEAPON_SNOWBALL")) return Game.GetGXTEntry("WT_SNWBALL");
+			if (hash == HashUint("WEAPON_PIPEBOMB")) return Game.GetGXTEntry("WT_PIPEBOMB");
+			if (hash == HashUint("GADGET_NIGHTVISION")) return Game.GetGXTEntry("WT_NV");
+			if (hash == HashUint("GADGET_PARACHUTE")) return Game.GetGXTEntry("WT_PARA");
+			if (hash == HashUint("WEAPON_STONE_HATCHET")) return Game.GetGXTEntry("WT_SHATCHET");
+			if (hash == HashUint("COMPONENT_AT_PI_FLSH")) return Game.GetGXTEntry("WCT_FLASH");
+			if (hash == HashUint("COMPONENT_PISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_PISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_PI_SUPP_02")) return Game.GetGXTEntry("WCT_SUPP");
+			if (hash == HashUint("COMPONENT_PISTOL_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_COMBATPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_PI_SUPP")) return Game.GetGXTEntry("WCT_SUPP");
+			if (hash == HashUint("COMPONENT_COMBATPISTOL_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_APPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_APPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_APPISTOL_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_PISTOL50_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_PISTOL50_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_AR_SUPP_02")) return Game.GetGXTEntry("WCT_SUPP");
+			if (hash == HashUint("COMPONENT_PISTOL50_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_SNSPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_SNSPISTOL_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_HEAVYPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_HEAVYPISTOL_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_VINTAGEPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_MICROSMG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_MICROSMG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO")) return Game.GetGXTEntry("WCT_SCOPE_MAC");
+			if (hash == HashUint("COMPONENT_MICROSMG_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_SMG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_SMG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_SMG_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_MACRO_02")) return Game.GetGXTEntry("WCT_SCOPE_MAC");
+			if (hash == HashUint("COMPONENT_SMG_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_ASSAULTSMG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_ASSAULTSMG_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_MINISMG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_MINISMG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_MACHINEPISTOL_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_COMBATPDW_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_AT_AR_AFGRIP")) return Game.GetGXTEntry("WCT_GRIP");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_SMALL")) return Game.GetGXTEntry("WCT_SCOPE_SML");
+			if (hash == HashUint("COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_SAWNOFfsHOTGUN_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_ASSAULTSHOTGUN_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_ASSAULTRIFLE_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_ASSAULTRIFLE_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_CARBINERIFLE_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_MEDIUM")) return Game.GetGXTEntry("WCT_SCOPE_MED");
+			if (hash == HashUint("COMPONENT_CARBINERIFLE_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_ADVANCEDRIFLE_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_SPECIALCARBINE_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_SPECIALCARBINE_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_BULLPUPRIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_BULLPUPRIFLE_VARMOD_LOW")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_COMPACTRIFLE_CLIP_03")) return Game.GetGXTEntry("WCT_CLIP_DRM");
+			if (hash == HashUint("COMPONENT_MG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_MG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_MG_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_COMBATMG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_COMBATMG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_COMBATMG_VARMOD_LOWRIDER")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_GUSENBERG_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE")) return Game.GetGXTEntry("WCT_SCOPE_LRG");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_MAX")) return Game.GetGXTEntry("WCT_SCOPE_MAX");
+			if (hash == HashUint("COMPONENT_SNIPERRIFLE_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_01")) return Game.GetGXTEntry("WCT_CLIP1");
+			if (hash == HashUint("COMPONENT_MARKSMANRIFLE_CLIP_02")) return Game.GetGXTEntry("WCT_CLIP2");
+			if (hash == HashUint("COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM")) return Game.GetGXTEntry("WCT_SCOPE_LRG");
+			if (hash == HashUint("COMPONENT_MARKSMANRIFLE_VARMOD_LUXE")) return Game.GetGXTEntry("WCT_VAR_GOLD");
+			if (hash == HashUint("WM_TINT0")) return Game.GetGXTEntry("WM_TINT0");
+			if (hash == HashUint("WM_TINT1")) return Game.GetGXTEntry("WM_TINT1");
+			if (hash == HashUint("WM_TINT2")) return Game.GetGXTEntry("WM_TINT2");
+			if (hash == HashUint("WM_TINT3")) return Game.GetGXTEntry("WM_TINT3");
+			if (hash == HashUint("WM_TINT4")) return Game.GetGXTEntry("WM_TINT4");
+			if (hash == HashUint("WM_TINT5")) return Game.GetGXTEntry("WM_TINT5");
+			if (hash == HashUint("WM_TINT6")) return Game.GetGXTEntry("WM_TINT6");
+			if (hash == HashUint("WM_TINT7")) return Game.GetGXTEntry("WM_TINT7");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BASE")) return Game.GetGXTEntry("WCT_KNUCK_01");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PIMP")) return Game.GetGXTEntry("WCT_KNUCK_02");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_BALLAS")) return Game.GetGXTEntry("WCT_KNUCK_BG");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DOLLAR")) return Game.GetGXTEntry("WCT_KNUCK_DLR");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_DIAMOND")) return Game.GetGXTEntry("WCT_KNUCK_DMD");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_HATE")) return Game.GetGXTEntry("WCT_KNUCK_HT");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_LOVE")) return Game.GetGXTEntry("WCD_VAR_DESC");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_PLAYER")) return Game.GetGXTEntry("WCT_KNUCK_PC");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_KING")) return Game.GetGXTEntry("WCT_KNUCK_SLG");
+			if (hash == HashUint("COMPONENT_KNUCKLE_VARMOD_VAGOS")) return Game.GetGXTEntry("WCT_KNUCK_VG");
+			if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_BASE")) return Game.GetGXTEntry("WCT_SB_BASE");
+			if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR1")) return Game.GetGXTEntry("WCT_SB_VAR1");
+			if (hash == HashUint("COMPONENT_SWITCHBLADE_VARMOD_VAR2")) return Game.GetGXTEntry("WCT_SB_VAR2");
+
+			if (hash == HashUint("WEAPON_ANIMAL") || hash == HashUint("WEAPON_PASSENGER_ROCKET") || hash == HashUint("WEAPON_AIRSTRIKE_ROCKET") || hash == HashUint("WEAPON_BRIEFCASE") || hash == HashUint("WEAPON_BRIEFCASE_02") || hash == HashUint("WEAPON_FIRE") || hash == HashUint("WEAPON_HELI_CRASH") || hash == HashUint("WEAPON_RUN_OVER_BY_CAR") || hash == HashUint("WEAPON_HIT_BY_WATER_CANNON") || hash == HashUint("WEAPON_EXHAUSTION") || hash == HashUint("WEAPON_FALL") || hash == HashUint("WEAPON_EXPLOSION") || hash == HashUint("WEAPON_BLEEDING") || hash == HashUint("WEAPON_DROWNING_IN_VEHICLE") || hash == HashUint("WEAPON_DROWNING") || hash == HashUint("WEAPON_BARBED_WIRE") || hash == HashUint("WEAPON_VEHICLE_ROCKET"))
 			{
 				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+
 				return Game.GetGXTEntry("WT_INVALID");
 			}
-			else
-			{
-				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
-				return Game.GetGXTEntry("WT_INVALID");
-			}
+
+			Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+
+			return Game.GetGXTEntry("WT_INVALID");
 		}
 
 		public static string GetVehColorLabel(int color)
@@ -1723,15 +1381,11 @@ namespace TheLastPlanet.Client.Core.Utility
 					return Game.GetGXTEntry("GOLD_P");
 				case 159:
 					return Game.GetGXTEntry("GOLD_S");
-
 				default:
 					return "Nome colore non trovato";
 			}
 		}
 
-		public static string GetSourceOfDeath(uint hash)
-		{
-			return ConfigShared.SharedConfig.Main.Generici.DeathReasons[hash];
-		}
+		public static string GetSourceOfDeath(uint hash) { return ConfigShared.SharedConfig.Main.Generici.DeathReasons[hash]; }
 	}
 }

@@ -14,7 +14,7 @@ using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.Manager
 {
-	static class DevManager
+	internal static class DevManager
 	{
 		private static bool attivo = false;
 		private static readonly Color DefaultCrosshair = Color.FromArgb(120, 120, 120);
@@ -22,10 +22,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static readonly Vector2 DefaultPos = new Vector2(0.6f, 0.5f);
 
-		public static void Init()
-		{
-			Client.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
-		}
+		public static void Init() { Client.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore)); }
 
 		public static void Sviluppatore(bool toggle)
 		{
@@ -37,25 +34,28 @@ namespace TheLastPlanet.Client.Manager
 					HUD.ShowNotification("Devi essere spawnato prima! Scegli un personaggio!!");
 			}
 			else
+			{
 				Client.Instance.RemoveTick(OnTickSviluppo);
+			}
 		}
 
 		public static async Task OnTickSviluppo()
 		{
 			Ped pl = Cache.PlayerPed;
 			AsyncRaycastResult ray = await WorldProbe.GamePlayCamCrosshairRaycast();
-			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(pl.IsInVehicle() ? pl.CurrentVehicle.Position : pl.Position)} H:{(pl.IsInVehicle() ? pl.CurrentVehicle.Heading : pl.Heading)}");
-			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(pl.IsInVehicle() ? pl.CurrentVehicle.Rotation:pl.Rotation)}");
+			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
+			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
 			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {ray.HitPosition}");
+
 			if (pl.IsAiming)
 			{
 				Entity ent = Cache.Player.GetTargetedEntity();
-				if (ent.Exists())
-					HUD.DrawText3D(ent.GetOffsetPosition(new Vector3(0, 0, 1)), Colors.DarkSeaGreen, "Hash = " + ent.Model.Hash);
+				if (ent.Exists()) HUD.DrawText3D(ent.GetOffsetPosition(new Vector3(0, 0, 1)), Colors.DarkSeaGreen, "Hash = " + ent.Model.Hash);
 			}
-			if (pl.IsInVehicle())
+
+			if (Cache.Char.StatiPlayer.InVeicolo)
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
 				VehProp props = await veicolo.GetVehicleProperties();
@@ -85,11 +85,11 @@ namespace TheLastPlanet.Client.Manager
 				float offsetY = data.Count * 0.012f;
 				pos.Y -= offsetY;
 				pos.X += 0.13f;
+
 				// Draw data
 				foreach (KeyValuePair<string, string> entry in data)
 				{
-					if (!string.IsNullOrEmpty(entry.Value))
-						HUD.DrawText(pos.X, pos.Y, $"{entry.Key}: {entry.Value}");
+					if (!string.IsNullOrEmpty(entry.Value)) HUD.DrawText(pos.X, pos.Y, $"{entry.Key}: {entry.Value}");
 					pos.Y += 0.024f;
 				}
 			}
@@ -105,6 +105,7 @@ namespace TheLastPlanet.Client.Manager
 					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}
+
 			await Task.FromResult(0);
 		}
 	}

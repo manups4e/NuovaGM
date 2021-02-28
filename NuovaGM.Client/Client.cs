@@ -13,15 +13,12 @@ namespace TheLastPlanet.Client
 	public class Client : BaseScript
 	{
 		public static Client Instance { get; protected set; }
-		public ExportDictionary GetExports { get { return Exports; } }
-		public PlayerList GetPlayers { get { return Players; } }
+		public ExportDictionary GetExports => Exports;
+		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		private static Dictionary<int, Delegate> ServerCallbacks = new Dictionary<int, Delegate>();
 		private static int CurrentRequestId = 0;
-		public Client()
-		{
-			Inizializza();
-		}
+		public Client() { Inizializza(); }
 
 		private async void Inizializza()
 		{
@@ -47,6 +44,7 @@ namespace TheLastPlanet.Client
 			ServerCallbacks[reqId].DynamicInvoke(args);
 			ServerCallbacks.ToList().RemoveAt(reqId);
 		}
+
 		#endregion
 
 		/// <summary>
@@ -54,14 +52,14 @@ namespace TheLastPlanet.Client
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
+		public void AddEventHandler(string eventName, Delegate action) { EventHandlers[eventName] += action; }
 
 		/// <summary>
 		/// Rimuove un evento client (TriggerEvent)
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void DeAddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
+		public void DeAddEventHandler(string eventName, Delegate action) { EventHandlers[eventName] -= action; }
 
 		/// <summary>
 		/// Registra un evento NUI/CEF 
@@ -85,21 +83,20 @@ namespace TheLastPlanet.Client
 		/// Registra una funzione OnTick
 		/// </summary>
 		/// <param name="onTick"></param>
-		public void AddTick(Func<Task> onTick) => Tick += onTick;
+		public void AddTick(Func<Task> onTick) { Tick += onTick; }
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
 		/// <param name="onTick"></param>
-		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
-
+		public void RemoveTick(Func<Task> onTick) { Tick -= onTick; }
 
 		/// <summary>
 		/// registra un export, Registered exports still have to be defined in the fxmanifest.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>
-		public void RegisterExport(string name, Delegate action) => Exports.Add(name, action);
+		public void RegisterExport(string name, Delegate action) { Exports.Add(name, action); }
 
 		/// <summary>
 		/// registra un comando di chat
@@ -107,6 +104,6 @@ namespace TheLastPlanet.Client
 		/// <param name="commandName">Nome comando</param>
 		/// <param name="handler">Una nuova Action<int source, List<dynamic> args, string rawCommand></param>
 		/// <param name="restricted">tutti o solo chi può?</param>
-		public void AddCommand(string commandName, InputArgument handler) => API.RegisterCommand(commandName, handler, false);
+		public void AddCommand(string commandName, InputArgument handler) { API.RegisterCommand(commandName, handler, false); }
 	}
 }

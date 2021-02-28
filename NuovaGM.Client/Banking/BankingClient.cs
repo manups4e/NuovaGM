@@ -11,26 +11,24 @@ using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.Banking
 {
-	public class BankingClient
+	static class BankingClient
 	{
-		static List<dynamic> lista = new List<dynamic>() { "100", "200", "500", "1000", "2000", "5000", "10000", "20000", "50000", "Altro Importo" };
-
-		static public List<Vector3> atmpos = new List<Vector3>() // DA DIVIDERE TRA FLEECA, MAZEBANK Ed eventuali 
-        {
-			new Vector3(-717.651f, -915.619f,  19.215f),
+		private static List<Vector3> _atmpos = new List<Vector3>() // DA DIVIDERE TRA FLEECA, MAZEBANK Ed eventuali 
+		{
+			new Vector3(-717.651f, -915.619f, 19.215f),
 			new Vector3(147.657f, -1035.346f, 29.343f),
 			new Vector3(146.091f, -1035.148f, 29.343f),
-			new Vector3(-1315.867f, -834.832f,  16.961f),
-			new Vector3(288.923f, -1256.765f,  29.441f),
-			new Vector3(-56.838f, -1752.119f,  29.421f),
-			new Vector3(-845.966f, -341.163f,  38.681f),
-			new Vector3(1153.797f, -326.707f,  69.205f),
-			new Vector3(1769.342f, 3337.526f,  41.433f),
+			new Vector3(-1315.867f, -834.832f, 16.961f),
+			new Vector3(288.923f, -1256.765f, 29.441f),
+			new Vector3(-56.838f, -1752.119f, 29.421f),
+			new Vector3(-845.966f, -341.163f, 38.681f),
+			new Vector3(1153.797f, -326.707f, 69.205f),
+			new Vector3(1769.342f, 3337.526f, 41.433f),
 			new Vector3(1769.801f, 3336.802f, 41.433f),
-			new Vector3(174.312f, 6637.667f,  31.573f),
-			new Vector3(-2538.903f, 2317.082f,  33.215f),
-			new Vector3(-2538.834f, 2315.985f,  33.215f),
-			new Vector3(2559.105f, 350.899f,  108.621f),
+			new Vector3(174.312f, 6637.667f, 31.573f),
+			new Vector3(-2538.903f, 2317.082f, 33.215f),
+			new Vector3(-2538.834f, 2315.985f, 33.215f),
+			new Vector3(2559.105f, 350.899f, 108.621f),
 			new Vector3(-386.733f, 6045.953f, 31.501f),
 			new Vector3(-283.0f, 6225.99f, 31.49f),
 			new Vector3(-135.165f, 6365.738f, 31.101f),
@@ -103,47 +101,32 @@ namespace TheLastPlanet.Client.Banking
 			new Vector3(89.69f, 2.38f, 68.31f)
 		};
 
-		static public List<Vector3> bankCoordsVaults = new List<Vector3>()
-		{
-			new Vector3(-105.929f, 6477.292f, 31.626f),
-			new Vector3(254.509f, 225.887f, 101.875f),
-			new Vector3(-2957.678f, 480.944f, 15.706f),
-			new Vector3(146.997f, -1045.069f, 29.368f)
-		};
+		public static List<Vector3> bankCoordsVaults = new List<Vector3>() { new Vector3(-105.929f, 6477.292f, 31.626f), new Vector3(254.509f, 225.887f, 101.875f), new Vector3(-2957.678f, 480.944f, 15.706f), new Vector3(146.997f, -1045.069f, 29.368f) };
 
-		static public List<Vector3> cleanspotcoords = new List<Vector3>()
-		{
-			new Vector3(1274.053f, -1711.756f, 54.771f),
-			new Vector3(-1096.847f, 4947.532f, 218.354f)
-		};
+		public static List<Vector3> cleanspotcoords = new List<Vector3>() { new Vector3(1274.053f, -1711.756f, 54.771f), new Vector3(-1096.847f, 4947.532f, 218.354f) };
 
-		private static List<ObjectHash> ATMs = new List<ObjectHash>()
-		{
-			ObjectHash.prop_atm_01,
-			ObjectHash.prop_atm_02,
-			ObjectHash.prop_atm_03,
-			ObjectHash.prop_fleeca_atm
-		};
+		private static List<ObjectHash> ATMs = new List<ObjectHash>() { ObjectHash.prop_atm_01, ObjectHash.prop_atm_02, ObjectHash.prop_atm_03, ObjectHash.prop_fleeca_atm };
 
 		private static Prop ClosestATM;
 		public static bool InterfacciaAperta = false;
+
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-			foreach (Vector3 pos in atmpos)
-				InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
-
+			foreach (Vector3 pos in _atmpos) InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
 			AddTextEntry("HUD_CASH", "€~1~");
 			AddTextEntry("HUD_CASH_S", "€~a~");
 		}
+
 		private static async void AggMon(int mon)
 		{
 			int mone = Cache.Char.Money + mon;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), mone, true);
 		}
+
 		private static async void AggDirty(int mon)
 		{
 			int mone = Cache.Char.DirtyMoney + mon;
@@ -170,13 +153,12 @@ namespace TheLastPlanet.Client.Banking
 			await BaseScript.Delay(250);
 		}
 
-		static public void ApriConto(Ped _, object[] args)
+		public static void ApriConto(Ped _, object[] args)
 		{
-			if (ClosestATM != null && !InterfacciaAperta)
-				AttivaBanca();
+			if (ClosestATM != null && !InterfacciaAperta) AttivaBanca();
 		}
 
-		/*		static public async void BankMenu()
+		/*		public static async void BankMenu()
 				{
 					UIMenu Banca = new UIMenu(" ", "~y~Desanta Banking, Benvenuto!", new Point(0, 0), Main.Textures["Michael"].Key, Main.Textures["Michael"].Value);
 					HUD.MenuPool.Add(Banca);
@@ -318,7 +300,7 @@ namespace TheLastPlanet.Client.Banking
 					await Task.FromResult(0);
 				}
 		*/
-		static public void Status(bool success, string msg)
+		public static void Status(bool success, string msg)
 		{
 			if (success)
 				HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + msg + "$", NotificationColor.GreenLight);
@@ -327,23 +309,21 @@ namespace TheLastPlanet.Client.Banking
 		}
 
 		private static Scaleform atm = new Scaleform("ATM");
-		private static int currentSelection = 0;
-		private static int MenuAttuale = 0;
-		private static int iLocal_674 = 0;
-		private static int iLocal_675 = 0;
+		private static int _currentSelection;
+		private static int _menuAttuale;
+		private static int iLocal_674;
+		private static int iLocal_675;
 		private static float fLocal_591 = -1f;
-		private static float fLocal_592 = 0;
-		private static int SoldiTransazione;
-		private static string Destinatario;
-
-
+		private static float fLocal_592;
+		private static int _soldiTransazione;
+		private static string _destinatario;
 
 		private static async void AttivaBanca()
 		{
 			StartAudioScene("ATM_PLAYER_SCENE");
 			atm = new Scaleform("ATM");
-			MenuAttuale = 0;
-			currentSelection = 0;
+			_menuAttuale = 0;
+			_currentSelection = 0;
 			TryBankingNew(true, 0);
 			Client.Instance.AddTick(ControlliBank);
 			Client.Instance.AddTick(AtmDisegna);
@@ -352,9 +332,7 @@ namespace TheLastPlanet.Client.Banking
 
 		private static async Task AtmDisegna()
 		{
-
-			if (atm.IsLoaded)
-				atm.Render2D(); // qui si mostra nel suo splendore!
+			if (atm.IsLoaded) atm.Render2D(); // qui si mostra nel suo splendore!
 		}
 
 		private async static Task ControlliBank()
@@ -373,22 +351,24 @@ namespace TheLastPlanet.Client.Banking
 			Game.EnableControlThisFrame(2, Control.CursorAccept);
 			Game.EnableControlThisFrame(2, Control.CursorCancel);
 
-
 			if (Game.IsControlJustPressed(2, Control.FrontendUp))
 			{
 				atm.CallFunction("SET_INPUT_EVENT", 8);
 				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
 			}
+
 			if (Game.IsControlJustPressed(2, Control.FrontendDown))
 			{
-				atm.CallFunction("SET_INPUT_EVENT", 9); 
+				atm.CallFunction("SET_INPUT_EVENT", 9);
 				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
 			}
+
 			if (Game.IsControlJustPressed(2, Control.FrontendLeft))
 			{
 				atm.CallFunction("SET_INPUT_EVENT", 10);
 				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
 			}
+
 			if (Game.IsControlJustPressed(2, Control.FrontendRight))
 			{
 				atm.CallFunction("SET_INPUT_EVENT", 11);
@@ -413,19 +393,14 @@ namespace TheLastPlanet.Client.Banking
 				{
 					atm.CallFunction("SHOW_CURSOR", true);
 				}
-				ShowCursorThisFrame();
 
+				ShowCursorThisFrame();
 				fVar0 = Game.GetControlNormal(2, Control.CursorX);
 				fVar1 = Game.GetControlNormal(2, Control.CursorY);
-
-				if (((fVar0 >= 0f && fVar0 <= 1f) && fVar1 >= 0f) && fVar1 <= 1f)
-					atm.CallFunction("SET_MOUSE_INPUT", fVar0, fVar1);
-
+				if (((fVar0 >= 0f && fVar0 <= 1f) && fVar1 >= 0f) && fVar1 <= 1f) atm.CallFunction("SET_MOUSE_INPUT", fVar0, fVar1);
 				fVar2 = 1f + (10f * Timestep());
-				if (Game.IsControlPressed(2, Control.CursorScrollDown) || Game.IsControlPressed(2, Control.FrontendDown))
-					iVar1 = -200;
-				if (Game.IsControlPressed(2, Control.CursorScrollUp) || Game.IsControlPressed(2, Control.FrontendUp))
-					iVar1 = 200;
+				if (Game.IsControlPressed(2, Control.CursorScrollDown) || Game.IsControlPressed(2, Control.FrontendDown)) iVar1 = -200;
+				if (Game.IsControlPressed(2, Control.CursorScrollUp) || Game.IsControlPressed(2, Control.FrontendUp)) iVar1 = 200;
 				atm.CallFunction("SET_ANALOG_STICK_INPUT", 0f, 0f, iVar1 * fVar2);
 			}
 			else
@@ -436,11 +411,10 @@ namespace TheLastPlanet.Client.Banking
 				Game.EnableControlThisFrame(2, Control.FrontendRightAxisY);
 				iVar0 = Game.GetControlValue(0, Control.FrontendRightAxisX) - 128;
 				iVar1 = Game.GetControlValue(0, Control.FrontendRightAxisY) - 128;
-				if (iVar0 < 10 && iVar0 > -10)
-					iVar0 = 0;
-				if (iVar1 < 10 && iVar1 > -10)
-					iVar1 = 0;
+				if (iVar0 < 10 && iVar0 > -10) iVar0 = 0;
+				if (iVar1 < 10 && iVar1 > -10) iVar1 = 0;
 				fVar2 = 1f + (10f * Timestep());
+
 				if (iLocal_674 != iVar0 || iLocal_675 != iVar1)
 				{
 					atm.CallFunction("SET_ANALOG_STICK_INPUT", 0f, -iVar0 * fVar2, -iVar1 * fVar2);
@@ -455,100 +429,113 @@ namespace TheLastPlanet.Client.Banking
 				BeginScaleformMovieMethod(atm.Handle, "GET_CURRENT_SELECTION");
 				int ind = EndScaleformMovieMethodReturn();
 				while (!IsScaleformMovieMethodReturnValueReady(ind)) await BaseScript.Delay(0);
-				currentSelection = GetScaleformMovieFunctionReturnInt(ind);
+				_currentSelection = GetScaleformMovieFunctionReturnInt(ind);
 				Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
-				switch (MenuAttuale)
+
+				switch (_menuAttuale)
 				{
 					case 0: // menu principale
-						switch (currentSelection)
+						switch (_currentSelection)
 						{
 							case 0:
 								TryBankingNew(false, 0); // torna al menu principale
-								MenuAttuale = 0;
+								_menuAttuale = 0;
+
 								break;
 							case 1:
 								TryBankingNew(false, 1); // ritira
-								MenuAttuale = 1;
+								_menuAttuale = 1;
+
 								break;
-							case 2: 
+							case 2:
 								TryBankingNew(false, 2); // deposita
-								MenuAttuale = 2;
+								_menuAttuale = 2;
+
 								break;
 							case 3:
 								TryBankingNew(false, 3); // giroconto
-								MenuAttuale = 3;
+								_menuAttuale = 3;
+
 								break;
 							case 4:
 								TryBankingNew(false, 4); // lista transazioni
-								MenuAttuale = 4;
+								_menuAttuale = 4;
+
 								break;
 						}
+
 						break;
 					case 1: // ritira
-						switch (currentSelection)
+						switch (_currentSelection)
 						{
 							case 1: // 50
 								if (Cache.Char.Bank >= 50)
 								{
 									TryBankingNew(false, 5, 50);
-									MenuAttuale = 5;
+									_menuAttuale = 5;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 2: // 100
 								if (Cache.Char.Bank >= 100)
 								{
 									TryBankingNew(false, 5, 100);
-									MenuAttuale = 5;
+									_menuAttuale = 5;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 3: // 200
 								if (Cache.Char.Bank >= 200)
 								{
 									TryBankingNew(false, 5, 200);
-									MenuAttuale = 5;
+									_menuAttuale = 5;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 5: // 500
 								if (Cache.Char.Bank >= 500)
 								{
 									TryBankingNew(false, 5, 500);
-									MenuAttuale = 5;
+									_menuAttuale = 5;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 6: // 1000
 								if (Cache.Char.Bank >= 1000)
 								{
 									TryBankingNew(false, 5, 1000);
-									MenuAttuale = 5;
+									_menuAttuale = 5;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 7: // personalizzato
 								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Cache.Char.Bank.ToString().Length);
+
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
@@ -556,93 +543,101 @@ namespace TheLastPlanet.Client.Banking
 										if (Cache.Char.Bank >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 5, Convert.ToInt32(valore));
-											MenuAttuale = 5;
+											_menuAttuale = 5;
 										}
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-											MenuAttuale = 0;
+											_menuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 0;
+										_menuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 0;
+									_menuAttuale = 0;
 								}
+
 								break;
 						}
+
 						break;
 					case 2: // deposita
-						switch (currentSelection)
+						switch (_currentSelection)
 						{
 							case 1: // 50
 								if (Cache.Char.Money >= 50)
 								{
 									TryBankingNew(false, 6, 50);
-									MenuAttuale = 6;
+									_menuAttuale = 6;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-									MenuAttuale = 2;
+									_menuAttuale = 2;
 								}
+
 								break;
 							case 2: // 100
 								if (Cache.Char.Money >= 100)
 								{
 									TryBankingNew(false, 6, 100);
-									MenuAttuale = 6;
+									_menuAttuale = 6;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-									MenuAttuale = 2;
+									_menuAttuale = 2;
 								}
+
 								break;
 							case 3: // 200
 								if (Cache.Char.Money >= 200)
 								{
 									TryBankingNew(false, 6, 200);
-									MenuAttuale = 6;
+									_menuAttuale = 6;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-									MenuAttuale = 2;
+									_menuAttuale = 2;
 								}
+
 								break;
 							case 5: // 500
 								if (Cache.Char.Money >= 500)
 								{
 									TryBankingNew(false, 6, 500);
-									MenuAttuale = 6;
+									_menuAttuale = 6;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-									MenuAttuale = 2;
+									_menuAttuale = 2;
 								}
+
 								break;
 							case 6: // 1000
 								if (Cache.Char.Money >= 1000)
 								{
 									TryBankingNew(false, 6, 1000);
-									MenuAttuale = 6;
+									_menuAttuale = 6;
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-									MenuAttuale = 2;
+									_menuAttuale = 2;
 								}
+
 								break;
 							case 7: // personalizzato
 								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Cache.Char.Money.ToString().Length);
+
 								if (!string.IsNullOrEmpty(valore))
 								{
 									if (valore.All(o => char.IsDigit(o)))
@@ -650,33 +645,34 @@ namespace TheLastPlanet.Client.Banking
 										if (Cache.Char.Money >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 6, Convert.ToInt32(valore));
-											MenuAttuale = 6;
+											_menuAttuale = 6;
 										}
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi addosso!");
-											MenuAttuale = 0;
+											_menuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 0;
+										_menuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 0;
+									_menuAttuale = 0;
 								}
+
 								break;
-
 						}
-						break;
 
+						break;
 					case 3: // GIROCONTO
 						int soldi = 0;
-						switch (currentSelection)
+
+						switch (_currentSelection)
 						{
 							case 1: // 50
 								if (Cache.Char.Money >= 50)
@@ -684,8 +680,9 @@ namespace TheLastPlanet.Client.Banking
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 2: // 100
 								if (Cache.Char.Money >= 100)
@@ -693,8 +690,9 @@ namespace TheLastPlanet.Client.Banking
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 3: // 200
 								if (Cache.Char.Money >= 200)
@@ -702,8 +700,9 @@ namespace TheLastPlanet.Client.Banking
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 5: // 500
 								if (Cache.Char.Money >= 500)
@@ -711,8 +710,9 @@ namespace TheLastPlanet.Client.Banking
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 6: // 1000
 								if (Cache.Char.Money >= 1000)
@@ -720,11 +720,13 @@ namespace TheLastPlanet.Client.Banking
 								else
 								{
 									TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-									MenuAttuale = 1;
+									_menuAttuale = 1;
 								}
+
 								break;
 							case 7: // personalizzato
 								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", Cache.Char.Bank.ToString().Length);
+
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
@@ -734,43 +736,51 @@ namespace TheLastPlanet.Client.Banking
 										else
 										{
 											TryBankingNew(false, 13, 0, "Non hai abbastanza soldi sul conto!");
-											MenuAttuale = 0;
+											_menuAttuale = 0;
 										}
 									}
 									else
 									{
 										TryBankingNew(false, 13, 0, "Devi inserire solo numeri!");
-										MenuAttuale = 0;
+										_menuAttuale = 0;
 									}
 								}
 								else
 								{
 									TryBankingNew(false, 13, 0, "Devi inserire almeno una cifra!");
-									MenuAttuale = 0;
+									_menuAttuale = 0;
 								}
+
 								break;
 						}
+
 						if (soldi != 0)
 						{
 							string destinatario = await HUD.GetUserInput("A chi vuoi trasferire i soldi?", "", 100);
+
 							if (destinatario.Length < 3)
 							{
 								TryBankingNew(false, 13, 0, "Nome inserito troppo corto!");
+
 								break;
 							}
 							else if (!destinatario.Contains(" "))
 							{
 								TryBankingNew(false, 13, 0, "Errore! Devi inserire Nome e Cognome del destinatario separati da uno spazio!");
+
 								break;
 							}
 							else if (destinatario.Any(o => char.IsDigit(o)))
 							{
 								TryBankingNew(false, 13, 0, "Errore! I nomi non possono contenere numeri!");
+
 								break;
 							}
+
 							TryBankingNew(false, 9, soldi, "", "", destinatario);
-							MenuAttuale = 9;
+							_menuAttuale = 9;
 						}
+
 						break;
 					case 4: // Esci
 						Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
@@ -779,51 +789,62 @@ namespace TheLastPlanet.Client.Banking
 						atm.Dispose();
 						StopAudioScene("ATM_PLAYER_SCENE");
 						InterfacciaAperta = false;
+
 						break;
 					case 5: // ritiro
-						switch(currentSelection)
+						switch (_currentSelection)
 						{
 							case 1:
 								TryBankingNew(false, 7, 0, "", "atmwithdraw"); // ritira
-								MenuAttuale = 0;
+								_menuAttuale = 0;
+
 								break;
 							case 2:
 								TryBankingNew(false, 1); // ritira
-								MenuAttuale = 1;
+								_menuAttuale = 1;
+
 								break;
 						}
+
 						break;
 					case 6:
-						switch (currentSelection)
+						switch (_currentSelection)
 						{
 							case 1:
 								TryBankingNew(false, 7, 0, "", "atmdeposit"); // deposita
-								MenuAttuale = 0;
+								_menuAttuale = 0;
+
 								break;
 							case 2:
 								TryBankingNew(false, 2); // deposita
-								MenuAttuale = 2;
+								_menuAttuale = 2;
+
 								break;
 						}
+
 						break;
 					case 9:
-						switch (currentSelection)
+						switch (_currentSelection)
 						{
 							case 1:
 								TryBankingNew(false, 10, 0, "", "sendMoney"); // invia
-								MenuAttuale = 0;
+								_menuAttuale = 0;
+
 								break;
 							case 2:
 								TryBankingNew(false, 3);
-								MenuAttuale = 3;
+								_menuAttuale = 3;
+
 								break;
 						}
+
 						break;
 				}
 			}
+
 			if (Game.IsControlJustPressed(2, Control.FrontendCancel) || Game.IsControlJustPressed(2, Control.CursorCancel))
 			{
-				if (MenuAttuale == 0)
+				if (_menuAttuale == 0)
 				{
 					Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
 					Client.Instance.RemoveTick(AtmDisegna);
@@ -834,25 +855,30 @@ namespace TheLastPlanet.Client.Banking
 				}
 				else
 				{
-					switch (MenuAttuale)
+					switch (_menuAttuale)
 					{
 						case 1:
 						case 2:
 						case 3:
 						case 4:
-							MenuAttuale = 0;
+							_menuAttuale = 0;
+
 							break;
 						case 5:
-							MenuAttuale = 1;
+							_menuAttuale = 1;
+
 							break;
 						case 6:
-							MenuAttuale = 2;
+							_menuAttuale = 2;
+
 							break;
 						case 7:
-							MenuAttuale = 3;
+							_menuAttuale = 3;
+
 							break;
 					}
-					TryBankingNew(false, MenuAttuale);
+
+					TryBankingNew(false, _menuAttuale);
 				}
 			}
 		}
@@ -876,132 +902,116 @@ namespace TheLastPlanet.Client.Banking
 					ScaleformMovieMethodAddParamInt(0);
 					AddText("MPATM_SER");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					AddText("MPATM_DIDM");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					AddText("MPATM_WITM");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(3);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform("Bonifico");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(4);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform("Esci");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MENU");
+
 					break;
 				case 1:
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					AddText("MPATM_WITMT");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(50, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(100, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(3);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(200, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(5);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(500, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(6);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(1000, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(7);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform("Personalizzato");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+
 					break;
 				case 2:
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					AddText("MPATM_DITMT");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(50, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(100, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(3);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(200, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(5);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(500, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(6);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(1000, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(7);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform("Personalizzato");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+
 					break;
 				case 3:
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
@@ -1010,152 +1020,134 @@ namespace TheLastPlanet.Client.Banking
 					AddTextComponentScaleform("Seleziona l'ammontare da trasferire");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(50, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(100, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(3);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(200, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(5);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(500, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(6);
 					BeginTextCommandScaleformString("ESDOLLA");
 					AddTextComponentFormattedInteger(1000, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(7);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform("Personalizzato");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_CASH_OPTIONS");
+
 					break;
 				case 4:
-
 					break;
-
 				case 5: // Conferma ritiro
-					SoldiTransazione = soldi;
+					_soldiTransazione = soldi;
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					BeginTextCommandScaleformString("MPATC_CONFW");
 					AddTextComponentFormattedInteger(soldi, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					AddText("MO_YES");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					AddText("MO_NO");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "DISPLAY_MESSAGE");
 					EndScaleformMovieMethod();
+
 					break;
 				case 6: // Conferma deposito
-					SoldiTransazione = soldi;
+					_soldiTransazione = soldi;
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					BeginTextCommandScaleformString("MPATM_CONF");
 					AddTextComponentFormattedInteger(soldi, true);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					AddText("MO_YES");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					AddText("MO_NO");
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MESSAGE");
+
 					break;
 				case 7: // ATTESA
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					AddText("MPATM_PEND");
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MESSAGE");
-					
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
-
-					BaseScript.TriggerServerEvent("lprp:banking:"+evento, SoldiTransazione);
-					SoldiTransazione = 0;
+					BaseScript.TriggerServerEvent("lprp:banking:" + evento, _soldiTransazione);
+					_soldiTransazione = 0;
 					TryBankingNew(false, 13, 0, GetLabelText("MPATM_TRANCOM"));
-					MenuAttuale = 0;
-					currentSelection = 0;
+					_menuAttuale = 0;
+					_currentSelection = 0;
+
 					break;
 				case 9:
-					SoldiTransazione = soldi;
-					Destinatario = destinatario;
+					_soldiTransazione = soldi;
+					_destinatario = destinatario;
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					BeginTextCommandScaleformString("STRING");
 					AddTextComponentScaleform($"Desideri trasferire ${soldi} a {destinatario}?");
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(1);
 					AddText("MO_YES");
 					EndScaleformMovieMethod();
-
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(2);
 					AddText("MO_NO");
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MESSAGE");
+
 					break;
 				case 10:
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
 					ScaleformMovieMethodAddParamInt(0);
 					AddText("MPATM_PEND");
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MESSAGE");
-
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
-
-					BaseScript.TriggerServerEvent("lprp:banking:" + evento, Destinatario, SoldiTransazione);
-					SoldiTransazione = 0;
-					Destinatario = "";
+					BaseScript.TriggerServerEvent("lprp:banking:" + evento, _destinatario, _soldiTransazione);
+					_soldiTransazione = 0;
+					_destinatario = "";
 					TryBankingNew(false, 13, 0, GetLabelText("MPATM_TRANCOM"));
-					MenuAttuale = 0;
-					currentSelection = 0;
+					_menuAttuale = 0;
+					_currentSelection = 0;
+
 					break;
 				case 13: // messaggio di errore personalizzato
 					BeginScaleformMovieMethod(atm.Handle, "SET_DATA_SLOT");
@@ -1164,11 +1156,10 @@ namespace TheLastPlanet.Client.Banking
 					AddTextComponentScaleform(messaggio);
 					EndTextCommandScaleformString();
 					EndScaleformMovieMethod();
-
 					atm.CallFunction("DISPLAY_MESSAGE");
-
 					await BaseScript.Delay(2000);
 					TryBankingNew(false, 0);
+
 					break;
 			}
 

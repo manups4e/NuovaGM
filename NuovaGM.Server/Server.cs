@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Resources;
 using TheLastPlanet.Shared;
 using System.Reflection;
+
 // ReSharper disable All
 
 namespace TheLastPlanet.Server
@@ -18,8 +19,14 @@ namespace TheLastPlanet.Server
 	{
 		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
 		public static Server Instance { get; protected set; }
-		public ExportDictionary GetExports { get { return Exports; } }
-		public PlayerList GetPlayers { get { return Players; } }
+		public ExportDictionary GetExports
+		{
+			get { return Exports; }
+		}
+		public PlayerList GetPlayers
+		{
+			get { return Players; }
+		}
 		public static Configurazione Impostazioni = null;
 		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
@@ -32,20 +39,21 @@ namespace TheLastPlanet.Server
 		}
 
 		#region ServerCallbacks
-		public void RegisterServerCallback(string eventName, Action<Player, Delegate, dynamic> action)
-		{
-			ServerCallbacks[eventName] = action;
-		}
+
+		public void RegisterServerCallback(string eventName, Action<Player, Delegate, dynamic> action) { ServerCallbacks[eventName] = action; }
 
 		private void callbacks([FromSource] Player p, string eventName, int reqId, List<object> args)
 		{
 			if (!ServerCallbacks.ContainsKey(eventName))
 			{
 				Log.Printa(LogType.Error, "non ci sono callbacks col nome: \"" + eventName + "\"");
+
 				return;
 			}
+
 			ServerCallbacks[eventName].DynamicInvoke(p, new Action<dynamic>(value => p.TriggerEvent("lprp:serverCallBack", reqId, value)), args);
 		}
+
 		#endregion
 
 		/// <summary>
@@ -90,7 +98,6 @@ namespace TheLastPlanet.Server
 		/// <param name="action"></param>
 		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
 
-
 		/// <summary>
 		/// registra un export, Registered exports still have to be defined in the __resource.lua file
 		/// </summary>
@@ -109,12 +116,12 @@ namespace TheLastPlanet.Server
 		{
 			//API.RegisterCommand(commandName, handler, restricted);
 			ChatServer.Commands.Add(new ChatCommand(commandName, restricted, handler));
+
 			if (suggestion != null)
 			{
-				suggestion.name = "/"+ commandName;
+				suggestion.name = "/" + commandName;
 				ChatServer.Suggestions.Add(suggestion);
 			}
-
 		}
 	}
 }

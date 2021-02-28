@@ -9,14 +9,10 @@ using System.Linq;
 
 namespace TheLastPlanet.Client.Negozi
 {
-	static class NegoziBusiness
+	internal static class NegoziBusiness
 	{
-		static string identifier = "";
-		static bool interactWait = false;
-
 		public static void Init()
 		{
-
 			/*
 			Client.Instance().AddEventHandler("lprp:negozi:setstations", new Action<string, string>(SetStations));
 			Client.Instance().AddEventHandler("lprp:negozi:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
@@ -43,18 +39,20 @@ namespace TheLastPlanet.Client.Negozi
 				case "247":
 					description = "Aperti 24/7!";
 					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
-					break;
 
+					break;
 				case "ltd":
 					description = "Non è mica infinita!";
 					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
-					break;
 
+					break;
 				case "rq":
 					description = "I liquori migliori!";
 					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
+
 					break;
 			}
+
 			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
 			HUD.MenuPool.Add(Negozio);
 
@@ -71,9 +69,11 @@ namespace TheLastPlanet.Client.Negozi
 			Negozio.OnItemSelect += (menu, item, index) =>
 			{
 				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
-				if (!string.IsNullOrEmpty(nome)) 
+
+				if (!string.IsNullOrEmpty(nome))
 				{
 					OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
+
 					if (Cache.Char.Money >= ogg.prezzo)
 					{
 						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
@@ -87,11 +87,12 @@ namespace TheLastPlanet.Client.Negozi
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
 						}
 						else
+						{
 							HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
+						}
 					}
 				}
 			};
-
 			Negozio.Visible = true;
 		}
 

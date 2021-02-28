@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server.TimeWeather
 {
-	static class Orario
+	internal static class Orario
 	{
 		private static DateTime Date = DateTime.Now;
 		private static float _timeBuffer;
-//		private static int h;
-//		private static int m;
-//		private static int s;
-		public static int secondOfDay = (new Random().Next(0, 23) * 3600) + (new Random().Next(0, 59) * 60) + new Random().Next(0, 59);
+		//		private static int h;
+		//		private static int m;
+		//		private static int s;
+		public static int secondOfDay = new Random().Next(0, 23) * 3600 + new Random().Next(0, 59) * 60 + new Random().Next(0, 59);
 		public static bool frozen = false;
 
 		public static void Init()
@@ -31,7 +31,7 @@ namespace TheLastPlanet.Server.TimeWeather
 			BaseScript.TriggerClientEvent("UpdateFromServerTime", secondOfDay, Date.Ticks, frozen, true);
 		}
 
-		private static void FreezeTime(bool freeze) => frozen = freeze;
+		private static void FreezeTime(bool freeze) { frozen = freeze; }
 
 		public static async Task SetTime()
 		{
@@ -43,9 +43,11 @@ namespace TheLastPlanet.Server.TimeWeather
 		public static async Task UpdateTime()
 		{
 			await BaseScript.Delay(33);
+
 			if (!frozen)
 			{
 				_timeBuffer += 0.9900f;
+
 				if (_timeBuffer > 1f)
 				{
 					secondOfDay += (int)Math.Floor(_timeBuffer);

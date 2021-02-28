@@ -20,6 +20,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public bool BobUpDown = false;
 		public bool Rotate = false;
 		public bool FaceCamera = false;
+
 		public Marker(MarkerType type, Vector3 position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
 			MarkerType = type;
@@ -29,6 +30,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Rotate = rotate;
 			FaceCamera = faceCamera;
 		}
+
 		public Marker(MarkerType type, Vector3 position, Vector3 scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
 			MarkerType = type;
@@ -40,9 +42,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			FaceCamera = faceCamera;
 		}
 
-		public async void Draw()
-		{
-			World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate);
-		}
+		public async void Draw() { World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate); }
 	}
 }

@@ -12,13 +12,13 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core.Status
 {
-	static class Death
+	internal static class Death
 	{
-		static private int ReviveReward;
-		static private bool EarlyRespawnFine;
-		static private int EarlyRespawnFineAmount;
-		static private bool EarlyRespawn;
-		static private bool canPayFine = false;
+		private static int ReviveReward;
+		private static bool EarlyRespawnFine;
+		private static int EarlyRespawnFineAmount;
+		private static bool EarlyRespawn;
+		private static bool canPayFine = false;
 
 		public static bool guarito = true;
 		public static bool ferito = false;
@@ -27,14 +27,13 @@ namespace TheLastPlanet.Client.Core.Status
 		private static int earlySpawnTimer = 0;
 		private static int bleedoutTimer = 0;
 
-
 		private static List<Vector3> hospitals = new List<Vector3>()
 		{
 			new Vector3(311.947f, -1444.343f, 29.804f),
 			new Vector3(-675.614f, 313.773f, 83.084f),
 			new Vector3(357.692f, -591.341f, 28.788f),
 			new Vector3(1838.892f, 3673.619f, 34.276f),
-			new Vector3(-245.168f, 6327.249f, 32.426f),
+			new Vector3(-245.168f, 6327.249f, 32.426f)
 		};
 
 		public static void Init()
@@ -43,28 +42,24 @@ namespace TheLastPlanet.Client.Core.Status
 
 			//Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 			//Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
-
-
 			Client.Instance.AddEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
 			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(PedKilledByPlayer));
 			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPed", new Action<int, int, uint, bool>(PedKilledByPed));
 			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, int, uint, bool>(PedDied));
 			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
 			Client.Instance.AddEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
-
-
 			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
 			Client.Instance.AddTick(Injuried);
 		}
 
 		#region events
+
 		private static async void EntityDamaged(int entity, int attacker, uint weaponHash, bool isMeleeDamage)
 		{
 			Entity ent = Entity.FromHandle(entity);
-			if(ent is Ped ped)
-			{
-				if(ped == Cache.PlayerPed)
-				{
+
+			if (ent is Ped ped)
+				if (ped == Cache.PlayerPed)
 					if (ped.Health < 55 && !ped.IsDead && guarito && !ferito)
 					{
 						RequestAnimSet("move_injured_generic");
@@ -75,71 +70,50 @@ namespace TheLastPlanet.Client.Core.Status
 						guarito = false;
 						RemoveAnimSet("move_injured_generic");
 					}
-				}
-			}
 		}
+
 		private static void PedKilledByVehicle(int ped, int vehicle)
 		{
-			DatiMorte morte = new DatiMorte
-			{
-				Vittima = new Ped(ped),
-				VeicoloAssassino = new Vehicle(vehicle)
-			};
+			DatiMorte morte = new DatiMorte { Vittima = new Ped(ped), VeicoloAssassino = new Vehicle(vehicle) };
 			morte.Assassino = morte.VeicoloAssassino.Driver;
 			morte.PosizioneVittima = morte.Vittima.Position;
-			if(ped == PlayerPedId())
-			{
-				onPlayerDeath(morte);
-				StartDeathTimer();
-			}
+
+			if (ped != PlayerPedId()) return;
+			onPlayerDeath(morte);
+			StartDeathTimer();
 		}
+
 		private static void PedKilledByPlayer(int ped, int player, uint weaponHash, bool isMeleeDamage)
 		{
-			DatiMorte morte = new DatiMorte
-			{
-				Vittima = new Ped(ped),
-				Assassino = new Ped(GetPlayerPed(player)),
-				CausaDellaMorte = weaponHash,
-			};
+			DatiMorte morte = new DatiMorte { Vittima = new Ped(ped), Assassino = new Ped(GetPlayerPed(player)), CausaDellaMorte = weaponHash };
 			morte.PosizioneVittima = morte.Vittima.Position;
 			morte.PosizioneAssassino = morte.Assassino.Position;
-			if (ped == PlayerPedId())
-			{
-				onPlayerDeath(morte);
-				StartDeathTimer();
-			}
+
+			if (ped != PlayerPedId()) return;
+			onPlayerDeath(morte);
+			StartDeathTimer();
 		}
+
 		private static void PedKilledByPed(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage)
 		{
-			DatiMorte morte = new DatiMorte
-			{
-				Vittima = new Ped(ped),
-				Assassino = new Ped(attackerPed),
-				CausaDellaMorte = weaponHash,
-			};
+			DatiMorte morte = new DatiMorte { Vittima = new Ped(ped), Assassino = new Ped(attackerPed), CausaDellaMorte = weaponHash };
 			morte.PosizioneVittima = morte.Vittima.Position;
 			morte.PosizioneAssassino = morte.Assassino.Position;
-			if (ped == PlayerPedId())
-			{
-				onPlayerDeath(morte);
-				StartDeathTimer();
-			}
+
+			if (ped != PlayerPedId()) return;
+			onPlayerDeath(morte);
+			StartDeathTimer();
 		}
+
 		private static void PedDied(int ped, int attacker, uint weaponHash, bool isMeleeDamage)
 		{
-			DatiMorte morte = new DatiMorte
-			{
-				Vittima = new Ped(ped),
-				Assassino = new Ped(attacker),
-				CausaDellaMorte = weaponHash,
-			};
+			DatiMorte morte = new DatiMorte { Vittima = new Ped(ped), Assassino = new Ped(attacker), CausaDellaMorte = weaponHash };
 			morte.PosizioneVittima = morte.Vittima.Position;
 			morte.PosizioneAssassino = morte.Assassino.Position;
-			if (ped == PlayerPedId())
-			{
-				StartDeathTimer();
-				onPlayerDeath(morte);
-			}
+
+			if (ped != PlayerPedId()) return;
+			StartDeathTimer();
+			onPlayerDeath(morte);
 		}
 
 		public static void Spawnato()
@@ -157,6 +131,7 @@ namespace TheLastPlanet.Client.Core.Status
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			StartScreenEffect("DeathFailOut", 0, false);
 		}
+
 		#endregion
 
 		/*
@@ -217,48 +192,44 @@ namespace TheLastPlanet.Client.Core.Status
 			Cache.Char.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			if (EarlyRespawn)
-			{
 				if (EarlyRespawnFine)
 					if (Cache.Char.Money >= EarlyRespawnFineAmount || Cache.Char.Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
-			}
-			if (Main.IsDead)
-				Client.Instance.AddTick(ConteggioMorte);
+			if (Main.IsDead) Client.Instance.AddTick(ConteggioMorte);
 		}
 
-		static string text = "";
+		private static string text = "";
+
 		public static async Task ConteggioMorte()
 		{
 			try
 			{
 				if (EarlyRespawn)
-				{
 					if (GetGameTimer() - earlySpawnTimer > 1000)
 					{
-						if (EarlyRespawnTimer.TotalSeconds > 0)
-							EarlyRespawnTimer = EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
+						if (EarlyRespawnTimer.TotalSeconds > 0) EarlyRespawnTimer = EarlyRespawnTimer.Subtract(TimeSpan.FromSeconds(1));
 						earlySpawnTimer = GetGameTimer();
 						// spostare text
 						text = $"Avrai possibilità di respawnare tra ~b~ {EarlyRespawnTimer:mm\\:ss}";
 					}
-				}
 
-				if ((EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0) || !EarlyRespawn)
-				{
+				if (EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0 || !EarlyRespawn)
 					if (BleedoutTimer.TotalSeconds > 0)
 					{
 						if (EarlyRespawn && EarlyRespawnTimer.TotalSeconds == 0)
 						{
 							if (GetGameTimer() - bleedoutTimer > 1000)
 							{
-								if (BleedoutTimer.TotalSeconds > 0)
-									BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+								if (BleedoutTimer.TotalSeconds > 0) BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
 								bleedoutTimer = GetGameTimer();
 							}
+
 							text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
+
 							if (!EarlyRespawnFine)
 							{
 								text += "\nTieni premuto [~b~E~s~] per respawnare";
+
 								if (await Input.IsControlStillPressed(Control.Context))
 								{
 									Client.Instance.RemoveTick(ConteggioMorte);
@@ -266,12 +237,14 @@ namespace TheLastPlanet.Client.Core.Status
 									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 									text = "";
+
 									return;
 								}
 							}
 							else if (EarlyRespawnFine && canPayFine)
 							{
 								text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
+
 								if (await Input.IsControlStillPressed(Control.Context))
 								{
 									BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
@@ -280,6 +253,7 @@ namespace TheLastPlanet.Client.Core.Status
 									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 									text = "";
+
 									return;
 								}
 							}
@@ -292,12 +266,13 @@ namespace TheLastPlanet.Client.Core.Status
 						{
 							if (GetGameTimer() - bleedoutTimer > 1000)
 							{
-								if (BleedoutTimer.TotalSeconds > 0)
-									BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
+								if (BleedoutTimer.TotalSeconds > 0) BleedoutTimer = BleedoutTimer.Subtract(TimeSpan.FromSeconds(1));
 								bleedoutTimer = GetGameTimer();
 							}
+
 							text = $"Morirai dissanguato tra ~b~{BleedoutTimer:mm\\:ss}~w~.";
 						}
+
 						if (BleedoutTimer.TotalSeconds == 0 && Main.IsDead)
 						{
 							Client.Instance.RemoveTick(ConteggioMorte);
@@ -307,13 +282,14 @@ namespace TheLastPlanet.Client.Core.Status
 							text = "";
 						}
 					}
-				}
+
 				HUD.DrawText(text);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
 			}
+
 			await Task.FromResult(0);
 		}
 
@@ -345,7 +321,8 @@ namespace TheLastPlanet.Client.Core.Status
 		{
 			await BaseScript.Delay(1000);
 			Ped playerPed = Cache.PlayerPed;
-			if ((playerPed.Health > 55) && ferito && !guarito && (StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80))
+
+			if (playerPed.Health > 55 && ferito && !guarito && StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80)
 			{
 				playerPed.MovementAnimationSet = null;
 				ferito = false;

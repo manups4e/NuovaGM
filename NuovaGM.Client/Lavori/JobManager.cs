@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.Lavori
 {
-	static class JobManager
+	internal static class JobManager
 	{
-		private static void Init()
-		{
-
-		}
+		private static void Init() { }
 	}
 }

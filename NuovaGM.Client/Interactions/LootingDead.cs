@@ -14,8 +14,10 @@ using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Interactions
 {
-	static class LootingDead
+	internal static class LootingDead
 	{
+		private static int _checkTimer;
+
 		public static void Init()
 		{
 			// Loot da tutti o solo chi mi ha ucciso?
@@ -25,22 +27,23 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			// alleggerire carico peso
 			//Ped playerPed = Cache.PlayerPed;
-			Tuple<Player, float> closest = Funzioni.GetClosestPlayer();
+			Tuple<Player, float> closest = new Tuple<Player, float>(new Player(0), -1);
+
+			if (Game.GameTime - _checkTimer > 1000)
+			{
+				closest = Funzioni.GetClosestPlayer();
+				_checkTimer = Game.GameTime;
+			}
 
 			if (!Cache.Char.StatiPlayer.InServizio)
-			{
-				if (closest.Item2 < 3f)
-				{
+				if (closest.Item2 > -1 && closest.Item2 < 3f)
 					if (closest.Item1.GetPlayerData().StatiPlayer.Svenuto || closest.Item1.GetPlayerData().StatiPlayer.FinDiVita)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							LootMenu(closest.Item1);
-						}
+						if (Input.IsControlJustPressed(Control.Context)) LootMenu(closest.Item1);
 					}
-				}
-			}
+
+			await Task.FromResult(0);
 		}
 
 		private static async void LootMenu(Player target)
@@ -49,11 +52,9 @@ namespace TheLastPlanet.Client.Interactions
 			PlayerChar targetData = target.GetPlayerData();
 			UIMenu loot = new UIMenu(targetData.FullName, "Looting Menu");
 			HUD.MenuPool.Add(loot);
-
 			UIMenu soldi = loot.AddSubMenu("Portafoglio");
 			UIMenu Inventario = loot.AddSubMenu("Inventario");
 			UIMenu Armi = loot.AddSubMenu("Armi");
-
 			HUD.MenuPool.OnMenuStateChanged += (_old, _new, _state) =>
 			{
 				switch (_state)
@@ -61,15 +62,16 @@ namespace TheLastPlanet.Client.Interactions
 					case MenuState.Opened:
 						playerPed.Task.PlayAnimation("amb@medic@standing@kneel@base", "base");
 						playerPed.Task.PlayAnimation("anim@gangops@facility@servers@bodysearch@", "player_search", 8f, -1, AnimationFlags.Loop);
+
 						break;
 					case MenuState.Closed:
-						if (IsEntityPlayingAnim(playerPed.Handle, "anim@gangops@facility@servers@bodysearch@", "player_search", 3))
-							StopAnimTask(playerPed.Handle, "anim@gangops@facility@servers@bodysearch@", "player_search", 1f);
+						if (IsEntityPlayingAnim(playerPed.Handle, "anim@gangops@facility@servers@bodysearch@", "player_search", 3)) StopAnimTask(playerPed.Handle, "anim@gangops@facility@servers@bodysearch@", "player_search", 1f);
+
 						break;
 					case MenuState.ChangeForward:
-						if(_new == soldi)
+						if (_new == soldi)
 						{
-							if(targetData.Money > 0)
+							if (targetData.Money > 0)
 							{
 								UIMenuItem cash = new UIMenuItem("Soldi");
 								cash.SetRightLabel($"${targetData.Money}");
@@ -77,9 +79,11 @@ namespace TheLastPlanet.Client.Interactions
 								cash.Activated += async (a, b) =>
 								{
 									string val = await HUD.GetUserInput("Inserisci quantità", "", 10);
+
 									if (val.All(x => char.IsDigit(x)))
 									{
 										int qt = Convert.ToInt32(val);
+
 										if (qt <= targetData.Money)
 										{
 											if (qt >= 1)
@@ -90,22 +94,26 @@ namespace TheLastPlanet.Client.Interactions
 											else
 											{
 												HUD.ShowNotification("Non puoi inserire 0 o meno!");
+
 												return;
 											}
 										}
 										else
 										{
 											HUD.ShowNotification("Non puoi superare la cifra della vittima!");
+
 											return;
 										}
 									}
 									else
 									{
 										HUD.ShowNotification("Devi inserire solo cifre!");
+
 										return;
 									}
 								};
 							}
+
 							if (targetData.DirtyMoney > 0)
 							{
 								UIMenuItem dirty = new UIMenuItem("Soldi Sporchi");
@@ -114,9 +122,11 @@ namespace TheLastPlanet.Client.Interactions
 								dirty.Activated += async (a, b) =>
 								{
 									string val = await HUD.GetUserInput("Inserisci quantità", "", 10);
+
 									if (val.All(x => char.IsDigit(x)))
 									{
 										int qt = Convert.ToInt32(val);
+
 										if (qt <= targetData.Money)
 										{
 											if (qt >= 1)
@@ -127,18 +137,21 @@ namespace TheLastPlanet.Client.Interactions
 											else
 											{
 												HUD.ShowNotification("Non puoi inserire 0 o meno!");
+
 												return;
 											}
 										}
 										else
 										{
 											HUD.ShowNotification("Non puoi superare la cifra della vittima!");
+
 											return;
 										}
 									}
 									else
 									{
 										HUD.ShowNotification("Devi inserire solo cifre!");
+
 										return;
 									}
 								};
@@ -146,17 +159,14 @@ namespace TheLastPlanet.Client.Interactions
 						}
 						else if (_new == Inventario)
 						{
-
 						}
 						else if (_new == Armi)
 						{
-
 						}
+
 						break;
-				}	
-
+				}
 			};
-
 		}
 	}
 }

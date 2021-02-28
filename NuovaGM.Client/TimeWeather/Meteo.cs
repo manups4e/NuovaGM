@@ -10,7 +10,7 @@ using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
-	static class Meteo
+	internal static class Meteo
 	{
 		public static int CurrentWeather;
 		public static int OldWeather;
@@ -19,33 +19,36 @@ namespace TheLastPlanet.Client.TimeWeather
 		private static float _windCostantDirectRad = 51.4285714286f;
 		private static Prop xMas;
 		private static int blockArea;
-		private static float RandomWindDirection { get { return Funzioni.GetRandomInt(0, 359) / _windCostantDirectRad; } }
+		private static float RandomWindDirection => Funzioni.GetRandomInt(0, 359) / _windCostantDirectRad;
 
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
 			Client.Instance.AddEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
 		}
-		public static void SetDynamic(bool dynamic)
-		{
-			ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic;
-		}
+
+		public static void SetDynamic(bool dynamic) { ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic; }
 
 		public static async void SetMeteo(int newWeather, bool blackout, bool startup)
 		{
 			Transitioning = false;
 			BlackOut = blackout;
+
 			if (newWeather != CurrentWeather)
 			{
 				OldWeather = CurrentWeather;
 				CurrentWeather = newWeather;
+
 				if (startup)
+				{
 					World.TransitionToWeather((Weather)CurrentWeather, 1f);
+				}
 				else
 				{
 					World.TransitionToWeather((Weather)CurrentWeather, 45f);
 					Transitioning = true;
 				}
+
 				await BaseScript.Delay(100);
 				Transitioning = false;
 			}

@@ -9,16 +9,18 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server
 {
-	static class ConfigServer
+	internal static class ConfigServer
 	{
 		private static string ConfigClient;
 		private static string ConfigShared;
+
 		public static async Task Init()
 		{
 			Server.Instance.AddEventHandler("lprp:RiceviConfig", new Action<dynamic>(Configurazione));
 			Server.Instance.AddEventHandler("lprp:riavvioApp", new Action<Player>(InviaAlClient));
 			BaseScript.TriggerEvent("lprp:chiamaConfigServer");
 			await BaseScript.Delay(1000);
+
 			while (Server.Impostazioni == null)
 			{
 				BaseScript.TriggerEvent("lprp:chiamaConfigServer");

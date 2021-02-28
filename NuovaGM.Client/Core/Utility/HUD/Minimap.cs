@@ -11,63 +11,72 @@ using CitizenFX.Core.UI;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
-	static class Minimap
+	internal static class Minimap
 	{
 		//public static Scaleform minimap = new Scaleform("MINIMAP");
-		public static void Init()
-		{
-			Client.Instance.AddTick(MinimapDrawing);
-		}
+		public static void Init() { Client.Instance.AddTick(MinimapDrawing); }
 
 		public static async Task MinimapDrawing()
 		{
 			Ped p = Cache.PlayerPed;
+
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
 			{
 				if (Main.ImpostazioniClient.MiniMappaAttiva)
 				{
-					if (!IsRadarEnabled())
-						Screen.Hud.IsRadarVisible = true;
+					if (!IsRadarEnabled()) Screen.Hud.IsRadarVisible = true;
 
-					if (Main.ImpostazioniClient.DimensioniMinimappa == 0) // se ho settato la minimappa piccina
+					switch (Main.ImpostazioniClient.DimensioniMinimappa)
 					{
-						if (IsBigmapActive()) // se attualmente la minimappa è ingrandita
+						// se ho settato la minimappa piccina
+						case 0:
 						{
-							SetBigmapActive(false, false); // riduciamola
+							if (IsBigmapActive())              // se attualmente la minimappa è ingrandita
+								SetBigmapActive(false, false); // riduciamola
+
+							break;
+						}
+						// altrimenti
+						case 1:
+						{
+							if (!IsBigmapActive())            // se è piccina
+								SetBigmapActive(true, false); // ingrandiscila
+
+							break;
 						}
 					}
-					else if (Main.ImpostazioniClient.DimensioniMinimappa == 1) // altrimenti
-					{
-						if (!IsBigmapActive()) // se è piccina
-							SetBigmapActive(true, false); // ingrandiscila
-					}
 
-					//se non sono su un veicolo e non ho il menu di pausa attivo.
-					if (!p.IsInVehicle() && (!IsPauseMenuActive()))
-						DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
-					if (p.IsInVehicle())
+					switch (Cache.Char.StatiPlayer.InVeicolo)
 					{
-						if (Main.ImpostazioniClient.MiniMappaInAuto)
+						//se non sono su un veicolo e non ho il menu di pausa attivo.
+						case false when !IsPauseMenuActive():
+							DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
+
+							break;
+						case true when Main.ImpostazioniClient.MiniMappaInAuto:
 						{
 							Vehicle veh = p.CurrentVehicle;
-							if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning)
-								DisableRadarThisFrame();
+
+							if (veh == null) return;
+							if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning) DisableRadarThisFrame();
+
+							break;
 						}
-						else
+						case true:
 							DisableRadarThisFrame();
+
+							break;
 					}
 				}
 				else
 				{
-					if (IsRadarEnabled())
-						Screen.Hud.IsRadarVisible = false;
+					if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
 				}
 			}
 			else
 			{
-				if (IsRadarEnabled())
-					Screen.Hud.IsRadarVisible = false;
+				if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
 			}
 
 			await Task.FromResult(0);

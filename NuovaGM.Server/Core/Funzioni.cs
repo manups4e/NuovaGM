@@ -13,27 +13,23 @@ namespace TheLastPlanet.Server.Core
 {
 	public static class Funzioni
 	{
-		public static void Init()
-		{
-			Server.Instance.AddTick(Salvataggio);
-		}
+		public static void Init() { Server.Instance.AddTick(Salvataggio); }
 
 		public static Player GetPlayerFromId(int id)
 		{
 			foreach (Player p in Server.Instance.GetPlayers.ToList())
-			{
 				if (p.Handle == id.ToString())
 					return p;
-			}
+
 			return null;
 		}
+
 		public static Player GetPlayerFromId(string id)
 		{
 			foreach (Player p in Server.Instance.GetPlayers.ToList())
-			{
 				if (p.Handle == id)
 					return p;
-			}
+
 			return null;
 		}
 
@@ -271,10 +267,8 @@ namespace TheLastPlanet.Server.Core
 			if (HASH_TO_LABEL.ContainsKey(hash.ToString()))
 			{
 				string label = HASH_TO_LABEL[hash.ToString()];
-				if (label != null)
-				{
-					return label;
-				}
+
+				if (label != null) return label;
 			}
 			else
 			{
@@ -297,7 +291,7 @@ namespace TheLastPlanet.Server.Core
 				data = ped.char_data.Serialize(),
 				id = ped.identifiers.discord
 			});
-			player.TriggerEvent("lprp:salvataggioClient", JsonConvert.SerializeObject(new 
+			player.TriggerEvent("lprp:salvataggioClient", JsonConvert.SerializeObject(new
 			{
 				name = player.Name,
 				gr = ped.group,
@@ -317,12 +311,15 @@ namespace TheLastPlanet.Server.Core
 				if (Server.PlayerList.Count > 0)
 				{
 					await BaseScript.Delay(Server.Impostazioni.Main.SalvataggioTutti * 60000);
+
 					foreach (Player player in Server.Instance.GetPlayers.ToList())
 					{
 						string name = player.Name;
+
 						if (Server.PlayerList.ContainsKey(player.Handle))
 						{
-							User ped = Funzioni.GetUserFromPlayerId(player.Handle);
+							User ped = GetUserFromPlayerId(player.Handle);
+
 							if (ped.status.spawned)
 							{
 								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
@@ -332,10 +329,13 @@ namespace TheLastPlanet.Server.Core
 							}
 						}
 					}
+
 					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
 				}
 				else
+				{
 					await BaseScript.Delay(10000);
+				}
 			}
 			catch (Exception e)
 			{
@@ -349,75 +349,54 @@ namespace TheLastPlanet.Server.Core
 			{
 				Player p = GetPlayerFromId(player);
 				User Char = GetUserFromPlayerId(p.Handle);
+
 				if ((int)Char.group_level >= level) return true;
 			}
-			return false;
-		}
-		public static bool IsPlayerAndHasPermission(int player, UserGroup level)
-		{
-			if (player != 0)
-			{
-				Player p = GetPlayerFromId(player);
-				User Char = GetUserFromPlayerId(p.Handle);
-				if (Char.group_level >= level) return true;
-			}
-			return false;
-		}
-		public static bool IsPlayerAndHasPermission(Player player, int level)
-		{
-			User Char = GetUserFromPlayerId(player.Handle);
-			if ((int)Char.group_level >= level) return true;
-			return false;
-		}
-		public static bool IsPlayerAndHasPermission(Player player, UserGroup level)
-		{
-			User Char = GetUserFromPlayerId(player.Handle);
-			if (Char.group_level >= level) return true;
+
 			return false;
 		}
 
+		public static bool IsPlayerAndHasPermission(int player, UserGroup level)
+		{
+			if (player == 0) return false;
+			Player p = GetPlayerFromId(player);
+			User Char = GetUserFromPlayerId(p.Handle);
+
+			return Char.group_level >= level;
+		}
+
+		public static bool IsPlayerAndHasPermission(Player player, int level)
+		{
+			User Char = GetUserFromPlayerId(player.Handle);
+
+			return (int)Char.group_level >= level;
+		}
+
+		public static bool IsPlayerAndHasPermission(Player player, UserGroup level)
+		{
+			User Char = GetUserFromPlayerId(player.Handle);
+
+			return Char.group_level >= level;
+		}
 
 		public static DateTime TimeStamp2DateTime(double unixTimeStamp)
 		{
 			// Unix timestamp is seconds past epoch
-			System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+
 			return dtDateTime;
 		}
 
-		public static double DateTime2TimeStamp(DateTime dateTime)
-		{
-			return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
-		}
+		public static double DateTime2TimeStamp(DateTime dateTime) { return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds; }
 
-		public static User GetUserFromPlayerId(string id)
-		{
-			User user;
-			if (Server.PlayerList.TryGetValue(id, out user))
-				return user;
-			return null;
-		}
+		public static User GetUserFromPlayerId(string id) { return Server.PlayerList.TryGetValue(id, out User user) ? user : null; }
 
-		public static User GetUserFromPlayerId(int id)
-		{
-			User user;
-			if (Server.PlayerList.TryGetValue(id.ToString(), out user))
-				return user;
-			return null;
-		}
+		public static User GetUserFromPlayerId(int id) { return Server.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
 
-		public static User GetCurrentChar(this Player player)
-		{
-			User user;
-			if (Server.PlayerList.TryGetValue(player.Handle, out user))
-				return user;
-			return null;
-		}
+		public static User GetCurrentChar(this Player player) { return Server.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
 
 		private static Random random = new Random();
-		public static float RandomFloatInRange(float minimum, float maximum)
-		{
-			return (float)random.NextDouble() * (maximum - minimum) + minimum;
-		}
+		public static float RandomFloatInRange(float minimum, float maximum) { return (float)random.NextDouble() * (maximum - minimum) + minimum; }
 	}
 }

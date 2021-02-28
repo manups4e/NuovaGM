@@ -21,6 +21,7 @@ namespace TheLastPlanet.Client
 		public ControlModifier Modifier;
 		public Delegate Action;
 		public object[] parameters;
+
 		public InputController(Control control, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
@@ -29,6 +30,7 @@ namespace TheLastPlanet.Client
 			Action = action;
 			parameters = args;
 		}
+
 		public InputController(Control control, Vector3 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
@@ -41,6 +43,7 @@ namespace TheLastPlanet.Client
 			Marker = marker;
 			parameters = args;
 		}
+
 		public InputController(Control control, Vector4 position, Radius radius, string message, Marker marker, PadCheck check = PadCheck.Any, ControlModifier modifier = ControlModifier.None, Delegate action = null, params object[] args)
 		{
 			Control = control;
@@ -59,7 +62,8 @@ namespace TheLastPlanet.Client
 	public class Radius
 	{
 		public float MinInputDistance = 1.375f; // default R* inside marker distance to press input
-		public float MarkerDistance = 100f; // default 100
+		public float MarkerDistance = 100f;     // default 100
+
 		public Radius(float minimum, float markerDistance)
 		{
 			MinInputDistance = minimum;

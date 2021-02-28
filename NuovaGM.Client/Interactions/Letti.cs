@@ -8,8 +8,8 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.LogIn;
 
 namespace TheLastPlanet.Client.Interactions
 {

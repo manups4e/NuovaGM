@@ -13,7 +13,7 @@ using Logger;
 
 namespace TheLastPlanet.Client.Veicoli
 {
-	static class EffettiRuote
+	internal static class EffettiRuote
 	{
 		private static float heat_front = 0.0f;
 		private static bool glow_front = false;
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		private static void RemRear(int NetVeh)
 		{
-			foreach (Vehicle veh in rearvehicles.ToList()) 
+			foreach (Vehicle veh in rearvehicles.ToList())
 				if (veh.NetworkId == NetVeh)
 					rearvehicles.Remove(veh);
 		}
@@ -62,30 +62,24 @@ namespace TheLastPlanet.Client.Veicoli
 			try
 			{
 				Ped playerPed = Cache.PlayerPed;
-				if (playerPed.IsInVehicle())
+
+				if (Cache.Char.StatiPlayer.InVeicolo)
 				{
-					if (playerPed.CurrentVehicle.Driver == playerPed)
+					if (playerPed.SeatIndex == VehicleSeat.Driver)
 					{
 						if (playerPed.CurrentVehicle.IsHandbrakeForcedOn && playerPed.CurrentVehicle.Speed > 2f)
-						{
 							if (heat_rear < 300f)
 								heat_rear += 2f;
-						}
 						if (playerPed.CurrentVehicle.IsInBurnout)
-						{
 							if (heat_rear < 300f)
 								heat_rear += 2f;
-						}
+
 						if (playerPed.CurrentVehicle.Speed > 2f && playerPed.CurrentVehicle.CurrentGear != 0)
-						{
 							if (Game.IsControlPressed(27, Control.VehicleBrake))
 							{
-								if (heat_rear < 300f)
-									heat_rear += 2f;
-								if (heat_front < 300f)
-									heat_front += 2f;
+								if (heat_rear < 300f) heat_rear += 2f;
+								if (heat_front < 300f) heat_front += 2f;
 							}
-						}
 					}
 					else
 					{
@@ -95,6 +89,7 @@ namespace TheLastPlanet.Client.Veicoli
 						heat_front = 0f;
 					}
 				}
+
 				if (!glow_rear)
 				{
 					if (heat_rear > 30f)
@@ -111,6 +106,7 @@ namespace TheLastPlanet.Client.Veicoli
 						BaseScript.TriggerServerEvent("brakes:rem_rear", VehToNet(playerPed.CurrentVehicle.Handle));
 					}
 				}
+
 				if (!glow_front)
 				{
 					if (heat_front > 30f)
@@ -127,24 +123,25 @@ namespace TheLastPlanet.Client.Veicoli
 						BaseScript.TriggerServerEvent("brakes:rem_front", VehToNet(playerPed.CurrentVehicle.Handle));
 					}
 				}
-				if (heat_rear > 1)
-					heat_rear -= 1;
-				if (heat_front > 1)
-					heat_front -= 1;
+
+				if (heat_rear > 1) heat_rear -= 1;
+				if (heat_front > 1) heat_front -= 1;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Log.Printa(LogType.Warning, e.ToString());
 			}
+
 			await Task.FromResult(0);
 		}
 
 		public static async Task WheelGlow()
 		{
 			foreach (Vehicle veh in rearvehicles.ToList())
-			{
 				if (veh.IsSeatFree(VehicleSeat.Driver))
+				{
 					rearvehicles.Remove(veh);
+				}
 				else
 				{
 					UseParticleFxAsset("core");
@@ -154,11 +151,12 @@ namespace TheLastPlanet.Client.Veicoli
 					int disc_RR = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_rr"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_RR, true);
 				}
-			}
+
 			foreach (Vehicle veh in frontvehicles.ToList())
-			{
 				if (veh.IsSeatFree(VehicleSeat.Driver))
+				{
 					frontvehicles.Remove(veh);
+				}
 				else
 				{
 					UseParticleFxAsset("core");
@@ -168,7 +166,7 @@ namespace TheLastPlanet.Client.Veicoli
 					int disc_RF = StartParticleFxLoopedOnEntityBone("veh_exhaust_afterburner", veh.Handle, 0 - 0.03f, 0, 0, 0, 0, 90.0f, GetEntityBoneIndexByName(veh.Handle, "wheel_rf"), 0.45f, false, false, false);
 					StopParticleFxLooped(disc_RF, true);
 				}
-			}
+
 			await Task.FromResult(0);
 		}
 	}

@@ -21,6 +21,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public Color Color = Colors.WhiteSmoke;
 		public Font Font = Font.ChaletLondon;
 		public DropShadow DropShadow;
+
 		public UIRes3dText(string caption, Vector3 position)
 		{
 			Text = caption;
@@ -29,6 +30,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Color = Colors.WhiteSmoke;
 			Font = Font.ChaletLondon;
 		}
+
 		public UIRes3dText(string caption, Vector3 position, float scale)
 		{
 			Text = caption;
@@ -37,6 +39,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Color = Colors.WhiteSmoke;
 			Font = Font.ChaletLondon;
 		}
+
 		public UIRes3dText(string caption, Vector3 position, float scale, Color color)
 		{
 			Text = caption;
@@ -45,6 +48,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Color = color;
 			Font = Font.ChaletLondon;
 		}
+
 		public UIRes3dText(string caption, Vector3 position, float scale, Color color, Font font)
 		{
 			Text = caption;
@@ -53,6 +57,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Color = color;
 			Font = font;
 		}
+
 		public UIRes3dText(string caption, Vector3 position, float scale, Color color, Font font, DropShadow dropShadow)
 		{
 			Text = caption;
@@ -68,8 +73,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			if (!Enabled) return;
 			Vector3 cam = GameplayCamera.Position;
 			float dist = Vector3.Distance(Position, cam);
-			float _scale = (1 / dist) * 20;
-			float fov = (1 / GameplayCamera.FieldOfView) * 100;
+			float _scale = 1 / dist * 20;
+			float fov = 1 / GameplayCamera.FieldOfView * 100;
 			float scale = _scale * fov;
 			SetTextScale(0.1f * scale, 0.15f * scale);
 			SetTextFont((int)Font);
@@ -96,5 +101,4 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public int distance;
 		public Color Color;
 	}
-
 }

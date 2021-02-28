@@ -13,29 +13,26 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Giostre
 {
-	static class MontagneRusse
+	internal static class MontagneRusse
 	{
 		// NEXT STEP => QUANDO IL PLAYER VUOLE SALIRE, TRIGGERA EVENTO E LUI SALE.. GLI ALTRI VEDONO IL SUO PED SALIRE..
 		// ALTRIMENTI NON SO CHE FARE....
 		//Montagna.Index == index
 
-		static int iLocal_715 = 0;
-		static float fLocal_716 = 0;
-		static int ValoreIndiceSconosciuto = 0;
+		private static int iLocal_715 = 0;
+		private static float fLocal_716 = 0;
+		private static int ValoreIndiceSconosciuto = 0;
 		private static readonly string RollerAnim = "anim@mp_rollarcoaster";
 		private static string Posto;
-		static MontagnaRussaNew Montagna = new MontagnaRussaNew();
-		static Vector3 Coord = new Vector3(0);
-		static bool Attivato = false;
+		private static MontagnaRussaNew Montagna = new MontagnaRussaNew();
+		private static Vector3 Coord = new Vector3(0);
+		private static bool Attivato = false;
 		public static bool SonoSeduto = false;
-		static bool Scaleform = false;
-		static Scaleform Buttons = new Scaleform("instructional_buttons");
-		static UITimerBarItem montagna = new UITimerBarItem("Montagne Russe:")
-		{
-			Enabled = false
-		};
+		private static bool Scaleform = false;
+		private static Scaleform Buttons = new Scaleform("instructional_buttons");
+		private static UITimerBarItem montagna = new UITimerBarItem("Montagne Russe:") { Enabled = false };
 
-		static List<Vector3> ingressi = new List<Vector3>
+		private static List<Vector3> ingressi = new List<Vector3>
 		{
 			new Vector3(-1644.316f, -1123.53f, 17.3447f),
 			new Vector3(-1644.92f, -1124.281f, 17.3447f),
@@ -44,28 +41,22 @@ namespace TheLastPlanet.Client.Giostre
 			new Vector3(-1647.498f, -1127.438f, 17.3447f),
 			new Vector3(-1648.23f, -1128.184f, 17.3447f),
 			new Vector3(-1649.233f, -1129.399f, 17.3447f),
-			new Vector3(-1649.937f, -1130.203f, 17.3447f),
+			new Vector3(-1649.937f, -1130.203f, 17.3447f)
 		};
 
-		static List<Vector3> uscite = new List<Vector3>
+		private static List<Vector3> uscite = new List<Vector3>
 		{
 			new Vector3(-1641.914f, -1125.268f, 17.3424f),
 			new Vector3(-1642.606f, -1126.24f, 17.3424f),
-			new Vector3(-1643.573f, -1127.39f, 17.3424f ),
+			new Vector3(-1643.573f, -1127.39f, 17.3424f),
 			new Vector3(-1644.271f, -1128.2f, 17.3424f),
 			new Vector3(-1645.343f, -1129.313f, 17.3424f),
 			new Vector3(-1645.966f, -1130.067f, 17.3424f),
 			new Vector3(-1647.022f, -1131.291f, 17.3424f),
-			new Vector3(-1647.645f, -1132.016f, 17.3424f),
+			new Vector3(-1647.645f, -1132.016f, 17.3424f)
 		};
 
-		static List<Vector3> necessari_non_so_a_cosa = new List<Vector3>
-		{
-			new Vector3(-1644.153f, -1125.433f, 18.3447f),
-			new Vector3(-1645.723f, -1127.408f, 18.3447f ),
-			new Vector3(-1647.315f, -1129.374f, 18.3447f),
-			new Vector3(-1648.95f, -1131.299f, 18.3447f),
-		};
+		private static List<Vector3> necessari_non_so_a_cosa = new List<Vector3> { new Vector3(-1644.153f, -1125.433f, 18.3447f), new Vector3(-1645.723f, -1127.408f, 18.3447f), new Vector3(-1647.315f, -1129.374f, 18.3447f), new Vector3(-1648.95f, -1131.299f, 18.3447f) };
 
 		public static async void Init()
 		{
@@ -76,12 +67,7 @@ namespace TheLastPlanet.Client.Giostre
 			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(PlayerScende));
 			Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
-			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f))
-			{
-				Sprite = BlipSprite.Fairground,
-				IsShortRange = true,
-				Name = "Montagne Russe"
-			};
+			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Montagne Russe" };
 			SetBlipDisplay(roller.Handle, 4);
 			CaricaTutto();
 		}
@@ -111,21 +97,13 @@ namespace TheLastPlanet.Client.Giostre
 			Client.Instance.AddTick(MuoveMontagneRusse);
 			HUD.TimerBarPool.Add(montagna);
 			Client.Instance.AddTick(ControlloMontagne);
-
 		}
 
-		private static async void Spawnato()
-		{
-			Client.Instance.AddTick(EliminaGialli);
-		}
+		private static async void Spawnato() { Client.Instance.AddTick(EliminaGialli); }
 
-		static List<ObjectHash> DaEliminare = new List<ObjectHash>()
-		{
-			ObjectHash.prop_roller_car_01,
-			ObjectHash.prop_roller_car_02
-		};
+		private static List<ObjectHash> DaEliminare = new List<ObjectHash>() { ObjectHash.prop_roller_car_01, ObjectHash.prop_roller_car_02 };
 
-		static Prop MRClosest = new Prop(0);
+		private static Prop MRClosest = new Prop(0);
 
 		private static async Task EliminaGialli()
 		{
@@ -134,14 +112,16 @@ namespace TheLastPlanet.Client.Giostre
 				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(Cache.PlayerPed.Position, o.Position) < 300f);
 				if (MRClosest != null && MRClosest.Exists()) MRClosest.Delete();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, "errore montagne\n" +e.ToString() +"\n" + e.StackTrace);
+				Log.Printa(LogType.Error, "errore montagne\n" + e.ToString() + "\n" + e.StackTrace);
 			}
+
 			await BaseScript.Delay(500);
 		}
 
-		static int tempo = 30;
+		private static int tempo = 30;
+
 		private static async Task MuoveMontagneRusse()
 		{
 			try
@@ -150,16 +130,19 @@ namespace TheLastPlanet.Client.Giostre
 				{
 					case "ATTESA":
 						montagna.TextTimerBar.Caption = tempo + " sec.";
+
 						while (tempo > 0)
 						{
 							await BaseScript.Delay(1000);
 							tempo--;
 							montagna.TextTimerBar.Caption = tempo + "sec.";
-							if (Montagna.State != "ATTESA")
-								return;
+
+							if (Montagna.State != "ATTESA") return;
 						}
+
 						await BaseScript.Delay(6000);
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "PARTENZA");
+
 						break;
 					case "PARTENZA":
 						if (!Attivato)
@@ -168,21 +151,28 @@ namespace TheLastPlanet.Client.Giostre
 							while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 							Montagna.Carrelli.ToList().ForEach(o => PlayEntityAnim(o.Entity.Handle, "safety_bar_enter_roller_car", RollerAnim, 8f, false, true, false, 0f, 0));
 							PlaySoundFromEntity(-1, "Bar_Lower_And_Lock", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0); //safety_bar_enter_player_  + Posto per entrare
+
 							if (SonoSeduto)
 							{
 								TaskPlayAnim(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto, 8f, -8f, -1, 2, 0, false, false, false);
 								while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "safety_bar_enter_player_" + Posto) < 0.2f) await BaseScript.Delay(0);
 								RemoveAnimDict(RollerAnim);
 							}
-							else await BaseScript.Delay(5000);
+							else
+							{
+								await BaseScript.Delay(5000);
+							}
+
 							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "VIAGGIO");
 							Attivato = true;
 						}
+
 						break;
 					case "VIAGGIO":
 						if (ValoreIndiceSconosciuto != 0)
 						{
 							func_46(true);
+
 							if (SonoSeduto)
 							{
 								UpdateTasti();
@@ -190,8 +180,8 @@ namespace TheLastPlanet.Client.Giostre
 								PlayStreamFromPed(PlayerPedId());
 								RequestAnimDict(RollerAnim);
 								while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
-								if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3))
-									Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+								if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3) && !IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto, 3)) Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
+
 								if (Input.IsControlJustPressed(Control.FrontendX))
 								{
 									if (!IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
@@ -207,23 +197,32 @@ namespace TheLastPlanet.Client.Giostre
 										Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 									}
 								}
+
 								RemoveAnimDict(RollerAnim);
 							}
 							else
+							{
 								PlayStreamFromObject(Montagna.Carrelli[2].Entity.Handle);
+							}
 						}
 						else
+						{
 							BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "ARRIVO");
+						}
+
 						break;
 					case "ARRIVO":
 						PlaySoundFromEntity(-1, "Ride_Stop", Montagna.Carrelli[1].Entity.Handle, "DLC_IND_ROLLERCOASTER_SOUNDS", false, 0);
+
 						if (IsEntityPlayingAnim(PlayerPedId(), RollerAnim, "hands_up_idle_a_player_" + Posto, 3))
 						{
 							Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "hands_up_exit_player_" + Posto, 8f, -1, AnimationFlags.StayInEndFrame);
 							while (GetEntityAnimCurrentTime(PlayerPedId(), RollerAnim, "hands_up_exit_player_" + Posto) < 0.99f) await BaseScript.Delay(0);
 							Cache.PlayerPed.Task.PlayAnimation(RollerAnim, "safety_bar_grip_move_a_player_" + Posto, 8f, -1, AnimationFlags.Loop);
 						}
+
 						BaseScript.TriggerServerEvent("lprp:montagnerusse:syncState", "FERMATA");
+
 						break;
 					case "FERMATA":
 						if (Montagna.VariabileVelocità > 1)
@@ -257,6 +256,7 @@ namespace TheLastPlanet.Client.Giostre
 								Attivato = false;
 							}
 						}
+
 						break;
 				}
 			}
@@ -266,7 +266,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 		}
 
-		private static async void SyncCarrelli(int carrello, int occupato) => Montagna.Carrelli[carrello].Occupato = occupato;
+		private static async void SyncCarrelli(int carrello, int occupato) { Montagna.Carrelli[carrello].Occupato = occupato; }
 
 		private static async void PlayerSale(int playernetid, int index, int carrellonetid)
 		{
@@ -275,43 +275,48 @@ namespace TheLastPlanet.Client.Giostre
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
 			if (personaggio.NetworkId != Cache.PlayerPed.NetworkId)
 				if (!NetworkHasControlOfNetworkId(playernetid))
-					while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
+					while (!NetworkRequestControlOfNetworkId(playernetid))
+						await BaseScript.Delay(0);
 			Prop Carrello = (Prop)Entity.FromNetworkId(carrellonetid);
+			if (Carrello == null) Carrello = Montagna.Carrelli[index].Entity;
 
-			if (Carrello == null)
-				Carrello = Montagna.Carrelli[index].Entity;
 			switch (Montagna.Carrelli[index].Occupato)
 			{
 				case 0:
 					Posto = "one";
 					Montagna.Carrelli[index].Occupato = 1;
+
 					break;
 				case 1:
 					Posto = "two";
 					Montagna.Carrelli[index].Occupato = 2;
+
 					break;
 				case 2:
 					HUD.ShowNotification("Questo carrello è pieno!", NotificationColor.Red, true);
+
 					return;
 			}
+
 			TaskGoStraightToCoord(personaggio.Handle, Coord.X, Coord.Y, Coord.Z, 1f, -1, 229.3511f, 0.2f);
 			await BaseScript.Delay(1000);
 			int iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
 			NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "enter_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 			NetworkStartSynchronisedScene(iLocal_1442);
 			int iVar1 = NetworkConvertSynchronisedSceneToSynchronizedScene(iLocal_1442);
+
 			if (GetSynchronizedScenePhase(iVar1) > 0.99f)
 			{
 				iLocal_1442 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, false, true, 1065353216, 0, 1065353216);
 				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1442, RollerAnim, "idle_a_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 				NetworkStartSynchronisedScene(iLocal_1442);
 			}
+
 			await BaseScript.Delay(5000);
 			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
 			Function.Call((Hash)0x267c78c60e806b9a, personaggio.Handle, true);
-			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, (personaggio.Heading - 139.96f), false, false, false, false, 0, true);
-			if (personaggio.NetworkId == Cache.PlayerPed.NetworkId)
-				SonoSeduto = true;
+			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, personaggio.Heading - 139.96f, false, false, false, false, 0, true);
+			if (personaggio.NetworkId == Cache.PlayerPed.NetworkId) SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
 			RemoveAnimDict(RollerAnim);
 		}
@@ -321,15 +326,15 @@ namespace TheLastPlanet.Client.Giostre
 			RequestAnimDict(RollerAnim);
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
 			Ped personaggio = (Ped)Entity.FromNetworkId(playernetid);
+
 			if (personaggio != null)
 			{
 				if (personaggio.NetworkId != Cache.PlayerPed.NetworkId)
 					if (!NetworkHasControlOfNetworkId(playernetid))
-						while (!NetworkRequestControlOfNetworkId(playernetid)) await BaseScript.Delay(0);
-				if (personaggio.IsAttached())
-					personaggio.Detach();
-				if (personaggio.NetworkId == Cache.PlayerPed.NetworkId)
-					SonoSeduto = false;
+						while (!NetworkRequestControlOfNetworkId(playernetid))
+							await BaseScript.Delay(0);
+				if (personaggio.IsAttached()) personaggio.Detach();
+				if (personaggio.NetworkId == Cache.PlayerPed.NetworkId) SonoSeduto = false;
 				int iLocal_1443 = NetworkCreateSynchronisedScene(Coord.X, Coord.Y, Coord.Z, 0f, 0f, 139.96f, 2, true, false, 1065353216, 0, 1065353216);
 				NetworkAddPedToSynchronisedScene(personaggio.Handle, iLocal_1443, RollerAnim, "safety_bar_exit_player_" + Posto, 8f, -8f, 131072, 0, 1148846080, 0);
 				NetworkStartSynchronisedScene(iLocal_1443);
@@ -346,10 +351,10 @@ namespace TheLastPlanet.Client.Giostre
 		private static async Task ControlloMontagne()
 		{
 			foreach (Vector3 v in ingressi)
-			{
-				if (Cache.PlayerPed.IsInRangeOf(v,  1.3f) && Montagna.State == "ATTESA" && tempo > 0)
+				if (Cache.PlayerPed.IsInRangeOf(v, 1.3f) && Montagna.State == "ATTESA" && tempo > 0)
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulle montagne russe");
+
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						float fVar2;
@@ -357,20 +362,18 @@ namespace TheLastPlanet.Client.Giostre
 							fVar2 = 0;
 						else
 							fVar2 = -1.017f;
-						Coord = GetOffsetFromEntityInWorldCoords(Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.Handle, 0, fVar2, 0);
-						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", Cache.PlayerPed.NetworkId, ingressi.IndexOf(v) / 2, Montagna.Carrelli[(ingressi.IndexOf(v) / 2)].Entity.NetworkId);
+						Coord = GetOffsetFromEntityInWorldCoords(Montagna.Carrelli[ingressi.IndexOf(v) / 2].Entity.Handle, 0, fVar2, 0);
+						BaseScript.TriggerServerEvent("lprp:montagnerusse:playerSale", Cache.PlayerPed.NetworkId, ingressi.IndexOf(v) / 2, Montagna.Carrelli[ingressi.IndexOf(v) / 2].Entity.NetworkId);
 					}
 				}
-			}
+
 			if (SonoSeduto)
 			{
-				if (!LoadStreamWithStartOffset("Player_Ride", 0, "DLC_IND_ROLLERCOASTER_SOUNDS"))
-					LoadStreamWithStartOffset("Player_Ride", 0, "DLC_IND_ROLLERCOASTER_SOUNDS");
+				if (!LoadStreamWithStartOffset("Player_Ride", 0, "DLC_IND_ROLLERCOASTER_SOUNDS")) LoadStreamWithStartOffset("Player_Ride", 0, "DLC_IND_ROLLERCOASTER_SOUNDS");
 			}
 			else
 			{
-				if (!LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS"))
-					LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS");
+				if (!LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS")) LoadStreamWithStartOffset("Ambient_Ride", 1, "DLC_IND_ROLLERCOASTER_SOUNDS");
 			}
 
 			if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1646.863f, -1125.135f, 17.338f), 30f))
@@ -381,19 +384,19 @@ namespace TheLastPlanet.Client.Giostre
 					montagna.Enabled = false;
 			}
 			else
+			{
 				montagna.Enabled = false;
+			}
 		}
 
-		static private async void UpdateTasti()
+		private static async void UpdateTasti()
 		{
 			if (!Scaleform)
 			{
 				Buttons = new Scaleform("instructional_buttons");
 				while (!HasScaleformMovieLoaded(Buttons.Handle)) await BaseScript.Delay(0);
-
 				Buttons.CallFunction("CLEAR_ALL");
 				Buttons.CallFunction("TOGGLE_MOUSE_BUTTONS", false);
-
 				Buttons.CallFunction("SET_DATA_SLOT", 0, GetControlInstructionalButton(2, 203, 1), "Alza/Abbassa le braccia");
 				if (IsInputDisabled(2))
 					Buttons.CallFunction("SET_DATA_SLOT", 2, GetControlInstructionalButton(2, 0, 1), "Cambia Visuale");
@@ -402,30 +405,36 @@ namespace TheLastPlanet.Client.Giostre
 				Buttons.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 				Scaleform = true;
 			}
-			if (Scaleform)
-				Buttons.Render2D();
+
+			if (Scaleform) Buttons.Render2D();
 		}
 
-		static async void func_191()
+		private static async void func_191()
 		{
 			int iVar0;
 			int iVar1;
 			Vector3 vVar2;
-			for (iVar0=0; iVar0 < Montagna.Carrelli.Length; iVar0++)
+
+			for (iVar0 = 0; iVar0 < Montagna.Carrelli.Length; iVar0++)
 			{
-				iVar1 = await func_138((Montagna.Velocità - (2.55f * (iVar0))), ValoreIndiceSconosciuto);
-				vVar2 = func_50((Montagna.Velocità - (2.55f * (iVar0))), iVar1);
+				iVar1 = await func_138(Montagna.Velocità - 2.55f * iVar0, ValoreIndiceSconosciuto);
+				vVar2 = func_50(Montagna.Velocità - 2.55f * iVar0, iVar1);
+
 				if (iVar0 == 0)
+				{
 					Montagna.Carrelli[0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car"), func_51(1).X, func_51(1).Y, func_51(1).Z, false, false, false));
+				}
 				else
 				{
 					Montagna.Carrelli[iVar0].Entity = new Prop(CreateObject(GetHashKey("ind_prop_dlc_roller_car_02"), vVar2.X, vVar2.Y, vVar2.Z, false, false, false));
-					func_134(iVar0, iVar1, (Montagna.Velocità - (2.55f * (iVar0))));
+					func_134(iVar0, iVar1, Montagna.Velocità - 2.55f * iVar0);
 				}
+
 				FreezeEntityPosition(Montagna.Carrelli[iVar0].Entity.Handle, true);
 				SetEntityLodDist(Montagna.Carrelli[iVar0].Entity.Handle, 300);
 				SetEntityInvincible(Montagna.Carrelli[iVar0].Entity.Handle, true);
 			}
+
 			Montagna.Velocità = Montagna.Valore3[1 /*5*/];
 			func_46(false);
 			RequestAnimDict(RollerAnim);
@@ -436,7 +445,7 @@ namespace TheLastPlanet.Client.Giostre
 			func_133();
 		}
 
-		static async void func_133()
+		private static async void func_133()
 		{
 			int iVar0;
 			int iVar1;
@@ -444,14 +453,14 @@ namespace TheLastPlanet.Client.Giostre
 
 			for (iVar0 = 0; iVar0 < Montagna.Carrelli.Length; iVar0++)
 			{
-				iVar1 = await func_138(Montagna.Velocità - (2.55f * iVar0), ValoreIndiceSconosciuto);
-				vVar2 = func_50(Montagna.Velocità - (2.55f * iVar0), iVar1);
+				iVar1 = await func_138(Montagna.Velocità - 2.55f * iVar0, ValoreIndiceSconosciuto);
+				vVar2 = func_50(Montagna.Velocità - 2.55f * iVar0, iVar1);
 				SetEntityCoordsNoOffset(Montagna.Carrelli[iVar0].Entity.Handle, vVar2.X, vVar2.Y, vVar2.Z, true, false, false);
-				func_134(iVar0, iVar1, Montagna.Velocità - (2.55f * iVar0));
+				func_134(iVar0, iVar1, Montagna.Velocità - 2.55f * iVar0);
 			}
 		}
 
-		static async void func_46(bool bParam0)
+		private static async void func_46(bool bParam0)
 		{
 			float fVar0;
 			bool bVar1;
@@ -459,52 +468,58 @@ namespace TheLastPlanet.Client.Giostre
 
 			if (bParam0)
 			{
-				if (iLocal_715 != 0)
-					fLocal_716 = ((GetTimeDifference(GetNetworkTimeAccurate(), iLocal_715)) / 1000f);
+				if (iLocal_715 != 0) fLocal_716 = GetTimeDifference(GetNetworkTimeAccurate(), iLocal_715) / 1000f;
 				iLocal_715 = GetNetworkTimeAccurate();
 			}
+
 			fVar0 = func_49();
+
 			if (ValoreIndiceSconosciuto < 20)
 			{
 				if (Montagna.VariabileVelocità < 3f)
-					Montagna.VariabileVelocità = (Montagna.VariabileVelocità + 0.3f);
+					Montagna.VariabileVelocità = Montagna.VariabileVelocità + 0.3f;
 				else
-					Montagna.VariabileVelocità = (Montagna.VariabileVelocità - 0.3f);
-				if (Absf((Montagna.VariabileVelocità - 3f)) < 0.3f)
-					Montagna.VariabileVelocità = 3f;
+					Montagna.VariabileVelocità = Montagna.VariabileVelocità - 0.3f;
+				if (Absf(Montagna.VariabileVelocità - 3f) < 0.3f) Montagna.VariabileVelocità = 3f;
 			}
 			else
 			{
-				Montagna.VariabileVelocità = (Montagna.VariabileVelocità + (fVar0 * fLocal_716));
-				Montagna.VariabileVelocità = (Montagna.VariabileVelocità * 1f);
+				Montagna.VariabileVelocità = Montagna.VariabileVelocità + fVar0 * fLocal_716;
+				Montagna.VariabileVelocità = Montagna.VariabileVelocità * 1f;
 			}
-			if ((Montagna.Velocità < Montagna.Valore3[1 /*5*/] && (Montagna.Velocità + (Montagna.VariabileVelocità * fLocal_716)) >= Montagna.Valore3[1 /*5*/]))
+
+			if (Montagna.Velocità < Montagna.Valore3[1 /*5*/] && Montagna.Velocità + Montagna.VariabileVelocità * fLocal_716 >= Montagna.Valore3[1 /*5*/])
 				Montagna.Velocità = Montagna.Valore3[1 /*5*/];
 			else
-				Montagna.Velocità = (Montagna.Velocità + (Montagna.VariabileVelocità * fLocal_716));
+				Montagna.Velocità = Montagna.Velocità + Montagna.VariabileVelocità * fLocal_716;
 			bVar1 = false;
+
 			if (Montagna.VariabileVelocità >= 0f)
 			{
-				if (Montagna.Velocità >= Montagna.Valore3[(Montagna.Index - 1) /*5*/])
+				if (Montagna.Velocità >= Montagna.Valore3[Montagna.Index - 1 /*5*/])
 				{
 					if (Montagna.State != "ARRIVO") // aggiungere un qualche state di controllo
-						Montagna.Velocità = (Montagna.Velocità - Montagna.Valore3[(Montagna.Index - 1) /*5*/]);
+						Montagna.Velocità = Montagna.Velocità - Montagna.Valore3[Montagna.Index - 1 /*5*/];
 					else
 						Montagna.Velocità = Montagna.Valore3[1 /*5*/];
 					ValoreIndiceSconosciuto = 0;
 				}
+
 				iVar2 = func_48(ValoreIndiceSconosciuto);
+
 				while (!bVar1)
 				{
 					await BaseScript.Delay(0);
+
 					if (Montagna.Velocità < Montagna.Valore3[iVar2 /*5*/])
 					{
 						bVar1 = true;
-						if (ValoreIndiceSconosciuto != (iVar2 - 1))
-							if (Montagna.Valore4[(iVar2 - 1) /*5*/] != Montagna.VariabileVelocità)
-								Montagna.VariabileVelocità = Montagna.Valore4[(iVar2 - 1) /*5*/];
-						ValoreIndiceSconosciuto = (iVar2 - 1);
+						if (ValoreIndiceSconosciuto != iVar2 - 1)
+							if (Montagna.Valore4[iVar2 - 1 /*5*/] != Montagna.VariabileVelocità)
+								Montagna.VariabileVelocità = Montagna.Valore4[iVar2 - 1 /*5*/];
+						ValoreIndiceSconosciuto = iVar2 - 1;
 					}
+
 					iVar2 = func_48(iVar2);
 				}
 			}
@@ -512,60 +527,63 @@ namespace TheLastPlanet.Client.Giostre
 			{
 				if (Montagna.Velocità < 0f)
 				{
-					Montagna.Velocità = (Montagna.Velocità + Montagna.Valore3[(Montagna.Index - 1) /*5*/]);
-					ValoreIndiceSconosciuto = (Montagna.Index - 2);
+					Montagna.Velocità = Montagna.Velocità + Montagna.Valore3[Montagna.Index - 1 /*5*/];
+					ValoreIndiceSconosciuto = Montagna.Index - 2;
 				}
+
 				iVar2 = ValoreIndiceSconosciuto;
+
 				while (!bVar1)
 				{
 					await BaseScript.Delay(0);
+
 					if (Montagna.Valore3[iVar2 /*5*/] < Montagna.Velocità)
 					{
 						bVar1 = true;
 						ValoreIndiceSconosciuto = iVar2;
 					}
+
 					iVar2 = func_47(iVar2);
 				}
 			}
+
 			func_133();
 		}
 
-		static int func_47(int iParam0)
+		private static int func_47(int iParam0)
 		{
 			int iVar0;
+			iVar0 = iParam0 - 1;
+			if (iVar0 < 0) iVar0 = Montagna.Index - 2;
 
-			iVar0 = (iParam0 - 1);
-			if (iVar0 < 0)
-				iVar0 = (Montagna.Index - 2);
 			return iVar0;
 		}
 
-		static int func_48(int iParam0)
+		private static int func_48(int iParam0)
 		{
 			int iVar0;
 			iVar0 = iParam0 + 1;
-			if (iVar0 >= Montagna.Index)
-				iVar0 = 1;
+			if (iVar0 >= Montagna.Index) iVar0 = 1;
+
 			return iVar0;
 		}
 
-		static float func_49()
+		private static float func_49()
 		{
 			int iVar0;
 			float fVar1;
 			float fVar2;
 			float fVar3;
-
 			iVar0 = func_48(ValoreIndiceSconosciuto);
-			fVar1 = (Montagna.Valore0[ValoreIndiceSconosciuto /*5*/].Z - Montagna.Valore0[iVar0 /*5*/].Z);
-			fVar2 = (Montagna.Valore3[iVar0 /*5*/] - Montagna.Valore3[ValoreIndiceSconosciuto /*5*/]);
-			if (fVar2 < 0f)
-				fVar2 = (fVar2 + Montagna.Valore3[224 /*5*/]);
+			fVar1 = Montagna.Valore0[ValoreIndiceSconosciuto /*5*/].Z - Montagna.Valore0[iVar0 /*5*/].Z;
+			fVar2 = Montagna.Valore3[iVar0 /*5*/] - Montagna.Valore3[ValoreIndiceSconosciuto /*5*/];
+			if (fVar2 < 0f) fVar2 = fVar2 + Montagna.Valore3[224 /*5*/];
 			fVar3 = Funzioni.Rad2deg((float)Math.Asin(Funzioni.Deg2rad(fVar1 / fVar2)));
-			return (10f * Funzioni.Rad2deg((float)Math.Sin(Funzioni.Deg2rad(fVar3))));
+
+			return 10f * Funzioni.Rad2deg((float)Math.Sin(Funzioni.Deg2rad(fVar3)));
 		}
 
-		static Vector3 func_50(float fParam0, int iParam1)
+		private static Vector3 func_50(float fParam0, int iParam1)
 		{
 			Vector3 vVar0;
 			int iVar1;
@@ -574,9 +592,8 @@ namespace TheLastPlanet.Client.Giostre
 			float fVar4;
 			float fVar5;
 			Vector3 vVar6;
+			if (fParam0 < 0f) fParam0 = fParam0 + Montagna.Valore3[Montagna.Index - 1 /*5*/];
 
-			if (fParam0 < 0f)
-				fParam0 = (fParam0 + Montagna.Valore3[(Montagna.Index - 1) /*5*/]);
 			if (Montagna.VariabileVelocità >= 0f)
 			{
 				iVar1 = iParam1;
@@ -587,18 +604,20 @@ namespace TheLastPlanet.Client.Giostre
 				iVar1 = func_48(iParam1);
 				iVar2 = iParam1;
 			}
-			fVar3 = Absf((Montagna.Valore3[iVar2 /*5*/] - Montagna.Valore3[iVar1 /*5*/]));
-			fVar4 = (fParam0 - Montagna.Valore3[iVar1 /*5*/]);
-			fVar5 = (fVar4 / fVar3);
+
+			fVar3 = Absf(Montagna.Valore3[iVar2 /*5*/] - Montagna.Valore3[iVar1 /*5*/]);
+			fVar4 = fParam0 - Montagna.Valore3[iVar1 /*5*/];
+			fVar5 = fVar4 / fVar3;
 			vVar6 = Vector3.Subtract(func_51(iVar2), func_51(iVar1));
 			if (Montagna.VariabileVelocità >= 0f)
 				vVar0 = Vector3.Add(func_51(iVar1), Vector3.Multiply(vVar6, fVar5));
 			else
 				vVar0 = Vector3.Subtract(func_51(iVar1), Vector3.Multiply(vVar6, fVar5));
+
 			return vVar0;
 		}
 
-		static async void func_134(int iParam0, int iParam1, float fParam2)
+		private static async void func_134(int iParam0, int iParam1, float fParam2)
 		{
 			int iVar0;
 			int iVar1;
@@ -609,26 +628,26 @@ namespace TheLastPlanet.Client.Giostre
 			float[] uVar6 = new float[4];
 			float[] uVar7 = new float[4];
 			float fVar8;
-
 			iVar0 = func_47(iParam1);
 			iVar1 = iParam1;
 			iVar2 = func_48(iParam1);
 			iVar3 = func_48(iVar2);
-			if (fParam2 < 0f)
-				fParam2 = (fParam2 + Montagna.Valore3[(Montagna.Index - 1) /*5*/]);
-			fVar8 = ((fParam2 - Montagna.Valore3[iVar1 /*5*/]) / (Montagna.Valore3[iVar2 /*5*/] - Montagna.Valore3[iVar1 /*5*/]));
+			if (fParam2 < 0f) fParam2 = fParam2 + Montagna.Valore3[Montagna.Index - 1 /*5*/];
+			fVar8 = (fParam2 - Montagna.Valore3[iVar1 /*5*/]) / (Montagna.Valore3[iVar2 /*5*/] - Montagna.Valore3[iVar1 /*5*/]);
+
 			if (fVar8 < 0.5f)
 			{
-				fVar4 = (fVar8 + 0.5f);
+				fVar4 = fVar8 + 0.5f;
 				func_135(func_136(iVar0, iVar1), ref uVar5[0], ref uVar5[1], ref uVar5[2], ref uVar5[3]);
 				func_135(func_136(iVar1, iVar2), ref uVar6[0], ref uVar6[1], ref uVar6[2], ref uVar6[3]);
 			}
 			else
 			{
-				fVar4 = (fVar8 - 0.5f);
+				fVar4 = fVar8 - 0.5f;
 				func_135(func_136(iVar1, iVar2), ref uVar5[0], ref uVar5[1], ref uVar5[2], ref uVar5[3]);
 				func_135(func_136(iVar2, iVar3), ref uVar6[0], ref uVar6[1], ref uVar6[2], ref uVar6[3]);
 			}
+
 			SlerpNearQuaternion(fVar4, uVar5[0], uVar5[1], uVar5[2], uVar5[3], uVar6[0], uVar6[1], uVar6[2], uVar6[3], ref uVar7[0], ref uVar7[1], ref uVar7[2], ref uVar7[3]);
 			SetEntityQuaternion(Montagna.Carrelli[iParam0].Entity.Handle, uVar7[0], uVar7[1], uVar7[2], uVar7[3]);
 			if (Cache.PlayerPed.IsInRangeOf(Montagna.Carrelli[0].Entity.Position, 50f))
@@ -636,7 +655,7 @@ namespace TheLastPlanet.Client.Giostre
 					SetPadShake(0, 32, 32);
 		}
 
-		static void func_135(Vector3 Param0, ref float uParam1, ref float uParam2, ref float uParam3, ref float uParam4)
+		private static void func_135(Vector3 Param0, ref float uParam1, ref float uParam2, ref float uParam3, ref float uParam4)
 		{
 			float fVar0;
 			float fVar1;
@@ -647,44 +666,42 @@ namespace TheLastPlanet.Client.Giostre
 			float fVar6;
 			float fVar7;
 			float fVar8;
-
-			fVar0 = (Param0.Y / 2f);
-			fVar1 = (Param0.Z / 2f);
-			fVar2 = (Param0.X / 2f);
+			fVar0 = Param0.Y / 2f;
+			fVar1 = Param0.Z / 2f;
+			fVar2 = Param0.X / 2f;
 			fVar3 = Funzioni.Rad2deg((float)Math.Sin(Funzioni.Deg2rad(fVar0)));
 			fVar4 = Funzioni.Rad2deg((float)Math.Sin(Funzioni.Deg2rad(fVar1)));
 			fVar5 = Funzioni.Rad2deg((float)Math.Sin(Funzioni.Deg2rad(fVar2)));
 			fVar6 = Funzioni.Rad2deg((float)Math.Cos(Funzioni.Deg2rad(fVar0)));
 			fVar7 = Funzioni.Rad2deg((float)Math.Cos(Funzioni.Deg2rad(fVar1)));
 			fVar8 = Funzioni.Rad2deg((float)Math.Cos(Funzioni.Deg2rad(fVar2)));
-			uParam1 = (((fVar5 * fVar6) * fVar7) - ((fVar8 * fVar3) * fVar4));
-			uParam2 = (((fVar8 * fVar3) * fVar7) + ((fVar5 * fVar6) * fVar4));
-			uParam3 = (((fVar8 * fVar6) * fVar4) - ((fVar5 * fVar3) * fVar7));
-			uParam4 = (((fVar8 * fVar6) * fVar7) + ((fVar5 * fVar3) * fVar4));
+			uParam1 = fVar5 * fVar6 * fVar7 - fVar8 * fVar3 * fVar4;
+			uParam2 = fVar8 * fVar3 * fVar7 + fVar5 * fVar6 * fVar4;
+			uParam3 = fVar8 * fVar6 * fVar4 - fVar5 * fVar3 * fVar7;
+			uParam4 = fVar8 * fVar6 * fVar7 + fVar5 * fVar3 * fVar4;
 		}
 
-
-		static Vector3 func_136(int iParam0, int iParam1)
+		private static Vector3 func_136(int iParam0, int iParam1)
 		{
 			Vector3 vVar0;
 			float fVar1;
 			float fVar2;
-
 			vVar0 = func_137(Montagna.Valore0[iParam1 /*5*/] - Montagna.Valore0[iParam0 /*5*/]);
 			fVar1 = Atan2(vVar0.X, vVar0.Y);
-			fVar2 = Atan2(vVar0.Z, Sqrt(((vVar0.X * vVar0.X) + (vVar0.Y * vVar0.Y))));
-			return new Vector3(-fVar2, 0f, (-fVar1 - 180f));
+			fVar2 = Atan2(vVar0.Z, Sqrt(vVar0.X * vVar0.X + vVar0.Y * vVar0.Y));
+
+			return new Vector3(-fVar2, 0f, -fVar1 - 180f);
 		}
 
-		static Vector3 func_137(Vector3 vParam0)
+		private static Vector3 func_137(Vector3 vParam0)
 		{
 			float fVar0;
 			float fVar1;
-
 			fVar0 = Vmag(vParam0.X, vParam0.Y, vParam0.Z);
+
 			if (fVar0 != 0f)
 			{
-				fVar1 = (1f / fVar0);
+				fVar1 = 1f / fVar0;
 				vParam0 *= fVar1;
 			}
 			else
@@ -693,30 +710,34 @@ namespace TheLastPlanet.Client.Giostre
 				vParam0.Y = 0f;
 				vParam0.Z = 0f;
 			}
+
 			return vParam0;
 		}
 
-		static async Task<int> func_138(float fParam0, int iParam1)
+		private static async Task<int> func_138(float fParam0, int iParam1)
 		{
 			int iVar0;
 
 			if (fParam0 <= 0f)
 			{
-				fParam0 = (fParam0 + Montagna.Valore3[(Montagna.Index - 1) /*5*/]);
-				iParam1 = (Montagna.Index - 1);
+				fParam0 = fParam0 + Montagna.Valore3[Montagna.Index - 1 /*5*/];
+				iParam1 = Montagna.Index - 1;
 			}
+
 			iVar0 = iParam1;
+
 			while (iVar0 >= 0)
 			{
 				await BaseScript.Delay(0);
-				if (Montagna.Valore3[iVar0 /*5*/] < fParam0)
-					return iVar0;
-				iVar0 = (iVar0 + -1);
+
+				if (Montagna.Valore3[iVar0 /*5*/] < fParam0) return iVar0;
+				iVar0 = iVar0 + -1;
 			}
+
 			return 0;
 		}
 
-		static void func_220()
+		private static void func_220()
 		{
 			func_226(new Vector3(-1659.01f, -1143.129f, 17.4192f));
 			func_226(new Vector3(-1643.524f, -1124.681f, 17.4326f));
@@ -942,7 +963,7 @@ namespace TheLastPlanet.Client.Giostre
 			func_226(new Vector3(-1662.033f, -1146.731f, 16.6412f));
 			func_226(new Vector3(-1660.556f, -1144.97f, 17.1643f));
 			func_226(new Vector3(-1659.01f, -1143.129f, 17.4192f));
-			func_225((Montagna.Index - 1), Montagna.Valore0[0 /*5*/]);
+			func_225(Montagna.Index - 1, Montagna.Valore0[0 /*5*/]);
 			func_221();
 			Montagna.Valore4[0 /*5*/] = 0;
 			Montagna.Valore4[1 /*5*/] = 0.3f;
@@ -1170,48 +1191,45 @@ namespace TheLastPlanet.Client.Giostre
 			Montagna.Valore4[223 /*5*/] = 16.8458f;
 		}
 
+		private static void ForceState(string state) { Montagna.State = state; }
 
-		private static void ForceState(string state) => Montagna.State = state;
+		private static Vector3 func_51(int iParam0) { return Montagna.Valore0[iParam0 /*5*/]; }
 
-		static Vector3 func_51(int iParam0) => Montagna.Valore0[iParam0 /*5*/];
-
-
-		static async void func_221()
+		private static async void func_221()
 		{
 			int iVar0;
 			float fVar1;
-
 			fVar1 = 0f;
+
 			for (iVar0 = 0; iVar0 < Montagna.Valore0.Length; iVar0++)
-			{
 				if (!func_222(iVar0))
 				{
 					Montagna.Valore3[iVar0 /*5*/] = fVar1;
-					if (iVar0 < 224)
-					{
-						fVar1 = (fVar1 + Vdist(func_51(iVar0).X, func_51(iVar0).Y, func_51(iVar0).Z, func_51(iVar0 + 1).X, func_51(iVar0 + 1).Y, func_51(iVar0 + 1).Z));
-					}
+					if (iVar0 < 224) fVar1 = fVar1 + Vdist(func_51(iVar0).X, func_51(iVar0).Y, func_51(iVar0).Z, func_51(iVar0 + 1).X, func_51(iVar0 + 1).Y, func_51(iVar0 + 1).Z);
 				}
-				else return;
-			}
+				else
+				{
+					return;
+				}
 		}
 
-		static bool func_222(int iParam0) => func_223(Montagna.Valore0[iParam0 /*5*/]);
-		static bool func_223(Vector3 vParam0) => func_224(vParam0, new Vector3(0), false);
+		private static bool func_222(int iParam0) { return func_223(Montagna.Valore0[iParam0 /*5*/]); }
 
-		static bool func_224(Vector3 vParam0, Vector3 vParam1, bool bParam2)
+		private static bool func_223(Vector3 vParam0) { return func_224(vParam0, new Vector3(0), false); }
+
+		private static bool func_224(Vector3 vParam0, Vector3 vParam1, bool bParam2)
 		{
 			if (bParam2) return vParam0.X == vParam1.X && vParam0.Y == vParam1.Y;
+
 			return vParam0.X == vParam1.X && vParam0.Y == vParam1.Y && vParam0.Z == vParam1.Z;
 		}
 
-		static void func_225(int iParam0, Vector3 vParam1)
+		private static void func_225(int iParam0, Vector3 vParam1)
 		{
-			if (iParam0 >= 0 && iParam0 <= 225)
-				Montagna.Valore0[iParam0 /*5*/] = vParam1;
+			if (iParam0 >= 0 && iParam0 <= 225) Montagna.Valore0[iParam0 /*5*/] = vParam1;
 		}
 
-		static void func_226(Vector3 vParam0)
+		private static void func_226(Vector3 vParam0)
 		{
 			if (Montagna.Index < 225 && Montagna.Index >= 0)
 			{
@@ -1227,13 +1245,7 @@ namespace TheLastPlanet.Client.Giostre
 		public float VariabileVelocità = 0;
 		public int Index = 0;
 		public string State = "ATTESA";
-		public CarrelloMontagna[] Carrelli = new CarrelloMontagna[4]
-		{
-			new CarrelloMontagna(),
-			new CarrelloMontagna(),
-			new CarrelloMontagna(),
-			new CarrelloMontagna()
-		};
+		public CarrelloMontagna[] Carrelli = new CarrelloMontagna[4] { new CarrelloMontagna(), new CarrelloMontagna(), new CarrelloMontagna(), new CarrelloMontagna() };
 		public Vector3[] Valore0 = new Vector3[225];
 		public float[] Valore4 = new float[225];
 		public float[] Valore3 = new float[225];

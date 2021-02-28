@@ -20,12 +20,12 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		public Identifiers identifiers;
 		public string lastConnection;
 		public Status status = new Status();
-		[JsonIgnore]
-		public PlayerStateBags StatiPlayer = new PlayerStateBags();
+		[JsonIgnore] public PlayerStateBags StatiPlayer = new PlayerStateBags();
 		public List<Char_data> char_data = new List<Char_data>();
 		public dynamic data;
 		public Vector4 posizione = Vector4.Zero;
 		public PlayerChar() { }
+
 		public PlayerChar(dynamic result)
 		{
 			char_current = result.char_current;
@@ -38,145 +38,65 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			status = new Status();
 		}
 
-		public Char_data CurrentChar
-		{
-			get
-			{
-				return char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
-				/*
-				for (int i = 0; i < char_data.Count; i++)
-				{
-					if ((char_current - 1) == char_data[i].id - 1)
-					{
-						return char_data[i];
-					}
-				}
-				return null;
-				*/
-			}
-		}
+		public Char_data CurrentChar => char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
 
-		[JsonIgnore]
-		public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
+		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
 
-		[JsonIgnore]
-		public string DoB => CurrentChar.info.dateOfBirth;
+		[JsonIgnore] public string DoB => CurrentChar.info.dateOfBirth;
 
-		[JsonIgnore]
-		public bool DeathStatus { get { return CurrentChar.is_dead; } }
+		[JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
 
-		[JsonIgnore]
-		public int Money { get { return CurrentChar.finance.money; } }
+		[JsonIgnore] public int Money => CurrentChar.finance.money;
 
-		[JsonIgnore]
-		public int Bank { get { return CurrentChar.finance.bank; } }
+		[JsonIgnore] public int Bank => CurrentChar.finance.bank;
 
-		[JsonIgnore]
-		public int DirtyMoney { get { return CurrentChar.finance.dirtyCash; } }
+		[JsonIgnore] public int DirtyMoney => CurrentChar.finance.dirtyCash;
 
-		[JsonIgnore]
-		public List<Inventory> Inventory { get { return getCharInventory(); } }
+		[JsonIgnore] public List<Inventory> Inventory => getCharInventory();
 
 		public Tuple<bool, Inventory, Item> getInventoryItem(string item)
 		{
-			for (int i = 0; i < CurrentChar.inventory.Count; i++)
-			{
-				if (CurrentChar.inventory[i].item == item)
-				{
-					return new Tuple<bool, Inventory, Item>(true, CurrentChar.inventory[i], ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
-				}
-			}
+			foreach (Inventory t in CurrentChar.inventory)
+				if (t.item == item)
+					return new Tuple<bool, Inventory, Item>(true, t, ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
+
 			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 
-		private List<Inventory> getCharInventory()
-		{
-			return getCharInventory(char_current);
-		}
-		private List<Inventory> getCharInventory(int charId)
-		{
-			for (int i = 0; i < char_data.Count; i++)
-			{
-				if (char_data[i].id == charId)
-				{
-					return char_data[i].inventory;
-				}
-			}
-			return null;
-		}
+		private List<Inventory> getCharInventory() { return getCharInventory(char_current); }
 
-		public List<Weapons> getCharWeapons(int charId)
-		{
-			for (int i = 0; i < char_data.Count; i++)
-			{
-				if (char_data[i].id == charId)
-				{
-					return char_data[i].weapons;
-				}
-			}
-			return null;
-		}
+		private List<Inventory> getCharInventory(int charId) { return (from t in char_data where t.id == charId select t.inventory).FirstOrDefault(); }
 
+		public List<Weapons> getCharWeapons(int charId) { return (from t in char_data where t.id == charId select t.weapons).FirstOrDefault(); }
 
-		public bool hasWeapon(string weaponName)
-		{
-			return CurrentChar.weapons.Any(x => x.name == weaponName);
-		}
+		public bool hasWeapon(string weaponName) { return CurrentChar.weapons.Any(x => x.name == weaponName); }
 
-		public bool hasWeapon(WeaponHash weaponName)
-		{
-			return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
-		}
+		public bool hasWeapon(WeaponHash weaponName) { return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName); }
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
 			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-			{
 				if (CurrentChar.weapons[i].name == weaponName)
-				{
 					return new Tuple<int, Weapons>(i, CurrentChar.weapons[i]);
-				}
-			}
+
 			return new Tuple<int, Weapons>(0, null);
 		}
 
 		public bool hasWeaponTint(string weaponName, int tint)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
-			if (weapon == null)
-			{
-				return false;
-			}
 
-			return weapon.tint == tint;
+			return weapon != null && weapon.tint == tint;
 		}
 
 		public bool hasWeaponComponent(string weaponName, string weaponComponent)
 		{
 			Weapons weapon = getWeapon(weaponName).Item2;
-			if (weapon == null)
-			{
-				return false;
-			}
 
-			return weapon.components.Any(x => x.name == weaponComponent);
-
-			/*
-			for (int i = 0; i < weapon.components.Count; i++)
-			{
-				if (weapon.components[i].name == weaponComponent)
-				{
-					return true;
-				}
-			}
-			return false;
-			*/
+			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		public bool hasLicense(string license)
-		{
-			return CurrentChar.licenze.Any(x => x.name == license);
-		}
+		public bool hasLicense(string license) { return CurrentChar.licenze.Any(x => x.name == license); }
 	}
 
 	public class Identifiers
@@ -194,16 +114,23 @@ namespace TheLastPlanet.Client.Core.Personaggio
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore]
-		Player player = Cache.Player;
+		[JsonIgnore] private Player player = Cache.Player;
+
+		private bool _inPausa;
+		private bool _svenuto;
+		private bool _ammanettato;
+		private bool _inCasa;
+		private bool _inServizio;
+		private bool _finDiVita;
+		private bool _adminSpecta;
+		private bool _inVeh;
+
 		public bool InPausa
 		{
-			get
-			{
-				return player.State["PlayerStates"].InPausa;
-			}
+			get => _inPausa;
 			set
 			{
+				_inPausa = value;
 				dynamic p = player.State["PlayerStates"];
 				p.InPausa = value;
 				player.State.Set("PlayerStates", p, true);
@@ -212,12 +139,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 
 		public bool Svenuto
 		{
-			get
-			{
-				return player.State["PlayerStates"].Svenuto;
-			}
+			get => _svenuto;
 			set
 			{
+				_svenuto = value;
 				dynamic p = player.State["PlayerStates"];
 				p.Svenuto = value;
 				player.State.Set("PlayerStates", p, true);
@@ -226,12 +151,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 
 		public bool Ammanettato
 		{
-			get
-			{
-				return player.State["PlayerStates"].Ammanettato;
-			}
+			get => _ammanettato;
 			set
 			{
+				_ammanettato = value;
 				dynamic p = player.State["PlayerStates"];
 				p.Ammanettato = value;
 				player.State.Set("PlayerStates", p, true);
@@ -239,12 +162,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public bool InCasa
 		{
-			get
-			{
-				return player.State["PlayerStates"].InCasa;
-			}
+			get => _inCasa;
 			set
 			{
+				_inCasa = value;
 				dynamic p = player.State["PlayerStates"];
 				p.InCasa = value;
 				player.State.Set("PlayerStates", p, true);
@@ -252,12 +173,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public bool InServizio
 		{
-			get
-			{
-				return player.State["PlayerStates"].InServizio;
-			}
+			get => _inServizio;
 			set
 			{
+				_inServizio = value;
 				dynamic p = player.State["PlayerStates"];
 				p.InServizio = value;
 				player.State.Set("PlayerStates", p, true);
@@ -265,12 +184,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public bool FinDiVita
 		{
-			get
-			{
-				return player.State["PlayerStates"].FinDiVita;
-			}
+			get => _finDiVita;
 			set
 			{
+				_finDiVita = value;
 				dynamic p = player.State["PlayerStates"];
 				p.FinDiVita = value;
 				player.State.Set("PlayerStates", p, true);
@@ -278,30 +195,38 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public bool AdminSpecta
 		{
-			get
-			{
-				return player.State["PlayerStates"].AdminSpecta;
-			}
+			get => _adminSpecta;
 			set
 			{
+				_adminSpecta = value;
 				dynamic p = player.State["PlayerStates"];
 				p.AdminSpecta = value;
 				player.State.Set("PlayerStates", p, true);
 			}
 		}
-		public Istanza Istanza = new Istanza();
 
+		public bool InVeicolo
+		{
+			get => _inVeh;
+			set
+			{
+				_inVeh = value;
+				dynamic p = player.State["PlayerStates"];
+				p.InVeicolo = value;
+				player.State.Set("PlayerStates", p, true);
+			}
+		}
+
+		public Istanza Istanza = new Istanza();
 	}
+
 	public class Istanza
 	{
-		[JsonIgnore]
-		Player player = Cache.Player;
-		public bool Stanziato { 
-			get 
-			{
-				return player.State["PlayerStates"].Istanza.Stanziato;
-			}
-			set 
+		[JsonIgnore] private Player player = Cache.Player;
+		public bool Stanziato
+		{
+			get => player.State["PlayerStates"].Istanza.Stanziato;
+			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Stanziato = value;
@@ -310,10 +235,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public int ServerIdProprietario
 		{
-			get
-			{
-				return player.State["PlayerStates"].Istanza.ServerIdProprietario;
-			}
+			get => player.State["PlayerStates"].Istanza.ServerIdProprietario;
 			set
 			{
 				dynamic p = player.State["PlayerStates"];
@@ -323,11 +245,8 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		}
 		public bool IsProprietario
 		{
-			get 
-			{
-				return player.State["PlayerStates"].Istanza.IsProprietario;
-			}
-			set 
+			get => player.State["PlayerStates"].Istanza.IsProprietario;
+			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.IsProprietario = value;
@@ -337,11 +256,8 @@ namespace TheLastPlanet.Client.Core.Personaggio
 
 		public string Instance
 		{
-			get 
-			{
-				return player.State["PlayerStates"].Istanza.Instance;
-			}
-			set 
+			get => player.State["PlayerStates"].Istanza.Instance;
+			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Instance = value;
@@ -359,6 +275,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			IsProprietario = true;
 			Instance = string.Empty;
 		}
+
 		/// <summary>
 		/// Istanza generica specificando quale Istanza
 		/// </summary>
@@ -369,6 +286,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			IsProprietario = true;
 			this.Instance = Instance;
 		}
+
 		/// <summary>
 		/// Istanza specifica
 		/// </summary>
@@ -397,19 +315,18 @@ namespace TheLastPlanet.Client.Core.Personaggio
 		/// <param name="instance">Specifica quale istanza</param>
 		public void CambiaIstanza(string instance)
 		{
-			if(Stanziato)
-				if(Instance != instance)
-					Instance = instance;
+			if (!Stanziato) return;
+			if (Instance != instance) Instance = instance;
 		}
+
 		/// <summary>
 		/// Cambia Proprietario dell'istanza
 		/// </summary>
 		/// <param name="netId">networkId del proprietario</param>
 		public void CambiaIstanza(int netId)
 		{
-			if (Stanziato)
-				if(ServerIdProprietario != netId)
-					ServerIdProprietario = netId;
+			if (!Stanziato) return;
+			if (ServerIdProprietario != netId) ServerIdProprietario = netId;
 		}
 	}
 }

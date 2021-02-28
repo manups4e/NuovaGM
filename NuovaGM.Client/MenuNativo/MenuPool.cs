@@ -44,8 +44,8 @@ namespace TheLastPlanet.Client.MenuNativo
 		public bool OffsetInheritance = true;
 
 		private readonly List<UIMenu> _menuList = new List<UIMenu>();
-        public List<TabView> PauseMenus = new List<TabView>();
-        /// <summary>
+		public readonly List<TabView> PauseMenus = new List<TabView>();
+		/// <summary>
         /// Called when user either clicks on a binded button or goes back to a parent menu.
         /// </summary>
         public event MenuStateChangeEvent OnMenuStateChanged;

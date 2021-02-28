@@ -13,7 +13,7 @@ using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
-	static class Spazzatura
+	internal static class Spazzatura
 	{
 		private static readonly List<ObjectHash> Cestini = new List<ObjectHash>()
 		{
@@ -59,8 +59,8 @@ namespace TheLastPlanet.Client.Interactions
 			ObjectHash.v_serv_tc_bin3_,
 			ObjectHash.zprop_bin_01a_old
 		};
-		static float TrashRange = 1.375f;
-		static Prop BinClosest;
+		private static float TrashRange = 1.375f;
+		private static Prop BinClosest;
 
 		public static async Task ControlloSpazzatura()
 		{
@@ -71,71 +71,82 @@ namespace TheLastPlanet.Client.Interactions
 		public static async Task CestiSpazzatura()
 		{
 			Ped p = Cache.PlayerPed;
+
 			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
 				HUD.ShowHelp("Premid ~INPUT_CONTEXT~ per gettare via qualcosa.~n~Premi ~INPUT_DETONATE~ per cercare qualcosa nella spazzatura.");
+
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					List<Inventory> inv = Cache.Char.Inventory;
+
 					if (inv.Count > 0)
 					{
 						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");
 						HUD.MenuPool.Add(GettaMenu);
+
 						foreach (Inventory it in inv)
-						{
 							if (it.amount > 0)
-							{
 								if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.drop)
 								{
 									List<dynamic> list = new List<dynamic>();
-									for (int obj = 1; obj < it.amount+1; obj++) list.Add(obj);
+									for (int obj = 1; obj < it.amount + 1; obj++) list.Add(obj);
 									UIMenuListItem buttavia = new UIMenuListItem(it.item, list, 0);
 									GettaMenu.AddItem(buttavia);
 								}
-							}
-						}
+
 						GettaMenu.OnItemSelect += async (menu, item, index) =>
 						{
-							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", item.Text, (item as UIMenuListItem).Index +1);
-							HUD.ShowNotification($"Hai gettato nella spazzatura ~y~{(item as UIMenuListItem).Index +1}x {item.Text}~w~");
+							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", item.Text, (item as UIMenuListItem).Index + 1);
+							HUD.ShowNotification($"Hai gettato nella spazzatura ~y~{(item as UIMenuListItem).Index + 1}x {item.Text}~w~");
 						};
 						GettaMenu.Visible = true;
 					}
 					else
+					{
 						HUD.ShowNotification("Non hai oggetti nell'inventario!!", NotificationColor.Red, true);
+					}
 				}
 				else if (Input.IsControlJustPressed(Control.Detonate) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					Vector3 offset = GetOffsetFromEntityInWorldCoords(BinClosest.Handle, 0f, -0.97f, 0.05f);
 					p.Task.LookAt(BinClosest);
-					TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z+1, 1f, 20000, BinClosest.Heading, 0.1f);
+					TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z + 1, 1f, 20000, BinClosest.Heading, 0.1f);
 					TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true);
 					await BaseScript.Delay(5000);
 					int random = Funzioni.GetRandomInt(0, 100);
+
 					switch (random)
 					{
 						case int n when n < 16:
 							HUD.ShowNotification("Qualcuno ha gettato via dei soldi!!");
 							BaseScript.TriggerServerEvent("lprp:givemoney", Funzioni.GetRandomInt(10, 50));
+
 							break;
 						case int n when n > 15 && n < 41:
-							int rd = Funzioni.GetRandomInt(1,2);
-							switch (rd) 
+							int rd = Funzioni.GetRandomInt(1, 2);
+
+							switch (rd)
 							{
 								case 1:
 									HUD.ShowNotification("Hai trovato un panino mezzo mangiato.. Meglio mangiarlo subito!");
 									StatsNeeds.Needs["Fame"].Val -= 20;
+
 									break;
 								case 2:
 									HUD.ShowNotification("Hai trovato una bottiglietta d'acqua non finita.. Meglio berla subito!");
 									StatsNeeds.Needs["Sete"].Val -= 20;
+
 									break;
 							}
+
 							break;
 						case int n when n > 40 && n < 100:
 							HUD.ShowNotification("Oh beh.. non hai trovato nulla..");
+
 							break;
 					}
+
 					await BaseScript.Delay(1000);
 					p.Task.ClearAll();
 				}

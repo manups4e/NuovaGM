@@ -6,19 +6,20 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Businesses
 {
-	class PompeDiBenzinaClient
+	internal class PompeDiBenzinaClient
 	{
-		static string identifier = "";
-		static bool interactWait = false;
-		static List<GasStation> stations = new List<GasStation>();
-		static List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
-		static Scaleform info = new Scaleform("mp_mission_name_freemode");
+		private static bool _interactWait = false;
+		private static List<GasStation> _stations = new List<GasStation>();
+		private static List<StationDiBenzina> _playerstations = new List<StationDiBenzina>();
+		private static Scaleform _info = new Scaleform("mp_mission_name_freemode");
+
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
@@ -35,64 +36,78 @@ namespace TheLastPlanet.Client.Businesses
 			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(RemStationFunds));
 		}
 
-		public static StationDiBenzina GetStationInfo(int index)
+		private static StationDiBenzina GetStationInfo(int index)
 		{
-			foreach (StationDiBenzina s in playerstations)
+			foreach (StationDiBenzina s in _playerstations)
 				if (s.stationindex == index)
 					return s;
+
 			return null;
 		}
 
-		public StationDiBenzina GetPlayerStationsNearCoords(Vector3 pos)
+		private StationDiBenzina GetPlayerStationsNearCoords(Vector3 pos)
 		{
 			int mstation = 0;
-			for (int i = 0; i < stations.Count; i++)
+
+			for (int i = 0; i < _stations.Count; i++)
 			{
 				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), pos);
+
 				if (dist < 50f)
 				{
 					mstation = i;
+
 					break;
 				}
 			}
-			return mstation > 0 ? playerstations[mstation] : null;
+
+			return mstation > 0 ? _playerstations[mstation] : null;
 		}
 
-		public static void SetStations(string pompeBenza, string stazioniPlayer)
+		private static void SetStations(string pompeBenza, string stazioniPlayer)
 		{
-			if (stations.Count > 0)
-				stations.Clear();
-			if (playerstations.Count > 0)
-				playerstations.Clear();
-			stations = pompeBenza.Deserialize<List<GasStation>>();
-			playerstations = stazioniPlayer.Deserialize<List<StationDiBenzina>>();
+			if (_stations.Count > 0) _stations.Clear();
+			if (_playerstations.Count > 0) _playerstations.Clear();
+			_stations = pompeBenza.Deserialize<List<GasStation>>();
+			_playerstations = stazioniPlayer.Deserialize<List<StationDiBenzina>>();
 		}
 
-		public static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)
+		private static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)
 		{
 			if (canmanage)
 			{
-				StationDiBenzina station = playerstations[manageid];
+				StationDiBenzina station = _playerstations[manageid];
 				string pfmtstr = "";
 				string[] allow = station.deliverallow.Split(';');
-				if (allow.Length > 0)
-					foreach (string s in allow)
-						pfmtstr += " " + s;
+				if (allow.Length > 0) pfmtstr = allow.Aggregate(pfmtstr, (current, s) => current + " " + s);
 				SetNuiFocus(true, true);
-				Funzioni.SendNuiMessage(new { showManager = true, manageid = manageid, stationname = station.stationname, thanksmessage = station.thanksmessage, fuelcost = station.fuelprice, deltype = station.delivertype, funds = funds, deliverylist = pfmtstr});
+				Funzioni.SendNuiMessage(new
+				{
+					showManager = true,
+					manageid,
+					station.stationname,
+					station.thanksmessage,
+					fuelcost = station.fuelprice,
+					deltype = station.delivertype,
+					funds,
+					deliverylist = pfmtstr
+				});
 			}
 			else
+			{
 				HUD.ShowNotification("Puoi gestire la stazione una volta ogni 24 ore.~n~Torna domani alle ore ~r~" + managetime + "~w~.", NotificationColor.RedDifferent);
-			interactWait = false;
+			}
+
+			_interactWait = false;
 		}
 
-		public static void GetStationCash(int payout)
+		private static void GetStationCash(int payout)
 		{
 			HUD.ShowNotification("Sei stato pagato ~b~" + payout + "$~w~ da questa stazione.");
-			interactWait = false;
+			_interactWait = false;
 		}
 
-		public static void SellStation(bool success, string msg, string name)
+		private static void SellStation(bool success, string msg, string name)
 		{
 			if (success)
 			{
@@ -101,10 +116,12 @@ namespace TheLastPlanet.Client.Businesses
 				HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
 			}
 			else
+			{
 				HUD.ShowNotification(msg, NotificationColor.Red);
+			}
 		}
 
-		public static void PurchaseStation(bool success, string msg, int sidx, int sellprice)
+		private static void PurchaseStation(bool success, string msg, int sidx, int sellprice)
 		{
 			if (success)
 			{
@@ -114,20 +131,18 @@ namespace TheLastPlanet.Client.Businesses
 			else
 			{
 				HUD.ShowNotification(msg, NotificationColor.Red);
-				interactWait = false;
+				_interactWait = false;
 			}
 		}
 
-		public static void StationFundsChange(bool success, string msg)
+		private static void StationFundsChange(bool success, string msg)
 		{
-			object a = null;
+			object a;
 			if (success)
-				a = new {setFunds = true, stationmoney = msg};
+				a = new { setFunds = true, stationmoney = msg };
 			else
-			{
 				//HUD.ShowNotification(msg);
 				a = new { setStatus = true, text = msg };
-			}
 			Funzioni.SendNuiMessage(a);
 		}
 
@@ -139,12 +154,10 @@ namespace TheLastPlanet.Client.Businesses
 			string thks = data["thanksmessage"] as string;
 			int deltype = Convert.ToInt32(data["deltype"]);
 			string deliverylist = data["deliverylist"] as string;
-
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
 			SetNuiFocus(false, false);
 			cb("ok");
 		}
-
 
 		private static void SellStation(IDictionary<string, object> data, CallbackDelegate cb)
 		{
@@ -174,7 +187,6 @@ namespace TheLastPlanet.Client.Businesses
 			cb("ok");
 		}
 
-
 		private static void RemStationFunds(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			int amount = Convert.ToInt32(data["amount"]);
@@ -185,53 +197,50 @@ namespace TheLastPlanet.Client.Businesses
 
 		public static async Task BusinessesPumps()
 		{
-			Ped playerPed = Cache.PlayerPed;
-			for (int i = 0; i < stations.Count; i++)
-			{ 
-				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), stations[i].ppos);
-				if (dist < 80)
-				{
-					StationDiBenzina stationinfo = GetStationInfo(i + 1);
-					World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(stations[i].ppos[0], stations[i].ppos[1], stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
-					if (dist < 1.3f)
+			for (int i = 0; i < _stations.Count; i++)
+			{
+				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), _stations[i].ppos);
+
+				if (!(dist < 80)) continue;
+				StationDiBenzina stationinfo = GetStationInfo(i + 1);
+				World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(_stations[i].ppos[0], _stations[i].ppos[1], _stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
+
+				if (dist < 1.3f)
+					if (!Cache.Char.StatiPlayer.InVeicolo)
 					{
-						if (!playerPed.IsInVehicle())
+						if (string.Equals(stationinfo.ownerchar, Cache.Char.FullName, StringComparison.CurrentCultureIgnoreCase))
 						{
-							if (stationinfo.ownerchar.ToLower() == Cache.Char.FullName.ToLower())
-							{
-								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
-								if (!interactWait)
+							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
+
+							if (!_interactWait)
+								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
 								{
-									if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
-									{
-										interactWait = true;
-										BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
-									}
+									_interactWait = true;
+									BaseScript.TriggerServerEvent("lprp:businesses:checkcanmanage", i + 1);
 								}
-							}
-							else if (stationinfo.ownerchar == "")
-							{
-								HUD.ShowHelp("Questa stazione è in vendita a ~g~" + stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
-								if (!interactWait)
+						}
+						else if (stationinfo.ownerchar == "")
+						{
+							HUD.ShowHelp("Questa stazione è in vendita a ~g~" + _stations[i].sellprice.ToString() + "$~w~.\nPremi ~b~~INPUT_CONTEXT~~w~ per comprarla.");
+
+							if (!_interactWait)
+								if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
 								{
-									if (Input.IsControlJustPressed(Control.Context) || Input.IsDisabledControlJustPressed(Control.Context))
-									{
-										interactWait = true;
-										BaseScript.TriggerServerEvent("lprp:businesses:purchasestation", i + 1);
-									}
+									_interactWait = true;
+									BaseScript.TriggerServerEvent("lprp:businesses:purchasestation", i + 1);
 								}
-							}
 						}
 					}
-					info = new Scaleform("mp_mission_name_freemode");
-					while (!info.IsLoaded) await BaseScript.Delay(10);
-					if (stationinfo.ownerchar == null || stationinfo.ownerchar == "")
-						info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
-					else
-						info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: " + stationinfo.ownerchar, "", "", "", "", "", "", "", "");
-					info.Render3D(stations[i].ppos, GetGameplayCamRot(0), new Vector3(2.0f, 2.0f, 2.0f));
-				}
+
+				_info = new Scaleform("mp_mission_name_freemode");
+				while (!_info.IsLoaded) await BaseScript.Delay(10);
+				if (string.IsNullOrEmpty(stationinfo.ownerchar))
+					_info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: Nessuno", "", "", "", "", "", "", "", "");
+				else
+					_info.CallFunction("SET_MISSION_INFO", stationinfo.stationname, "\nProprietario: " + stationinfo.ownerchar, "", "", "", "", "", "", "", "");
+				_info.Render3D(_stations[i].ppos, GetGameplayCamRot(0), new Vector3(2.0f, 2.0f, 2.0f));
 			}
+
 			await Task.FromResult(0);
 		}
 	}

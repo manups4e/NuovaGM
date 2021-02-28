@@ -15,83 +15,76 @@ namespace TheLastPlanet.Client.Handlers
 	public enum InputCallingModifier
 	{
 		OnFoot,
-		InVehicle,
+		InVehicle
 	}
 
-	static class InputHandler
+	internal static class InputHandler
 	{
 		public static List<InputController> ListaInput = new List<InputController>();
-		public static void Init()
-		{
-			Client.Instance.AddTick(InputHandling);
-		}
+		public static void Init() { Client.Instance.AddTick(InputHandling); }
+
 		public static async Task InputHandling()
 		{
 			try
 			{
 				Ped p = Cache.PlayerPed;
-				foreach(InputController input in ListaInput)
-				{
+
+				foreach (InputController input in ListaInput)
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)
 					{
 						if (p.IsInRangeOf(input.Position, input.Radius.MarkerDistance)) // big range personalizzato sennò default 50f
 						{
-							if (input.Marker != null)
-								input.Marker.Draw();
+							if (input.Marker != null) input.Marker.Draw();
+
 							if (p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
-								if (!string.IsNullOrWhiteSpace(input.InputMessage))
-									HUD.ShowHelp(input.InputMessage);
+								if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
+
 								if (Game.IsControlJustPressed(0, input.Control))
-								{
 									if (Input.IsControlModifierPressed(input.Modifier))
-									{
 										switch (input.Check)
 										{
 											case PadCheck.Any:
 												input.Action.DynamicInvoke(p, input.parameters);
+
 												break;
 											case PadCheck.Controller:
-												if (Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(p, input.parameters);
+												if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+
 												break;
 											case PadCheck.Keyboard:
-												if (!Input.WasLastInputFromController())
-													input.Action.DynamicInvoke(p, input.parameters);
+												if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+
 												break;
 										}
-									}
-								}
 							}
 						}
 					}
 					else
 					{
 						if (Game.IsControlJustPressed(0, input.Control) && !HUD.MenuPool.IsAnyMenuOpen)
-						{
 							if (Input.IsControlModifierPressed(input.Modifier))
-							{
 								switch (input.Check)
 								{
 									case PadCheck.Any:
 										input.Action.DynamicInvoke(p, input.parameters);
+
 										break;
 									case PadCheck.Controller:
-										if (Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p, input.parameters);
+										if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+
 										break;
 									case PadCheck.Keyboard:
-										if (!Input.WasLastInputFromController())
-											input.Action.DynamicInvoke(p, input.parameters);
+										if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+
 										break;
 								}
-							}
-						}
 					}
-				};
+
+				;
 				await Task.FromResult(0);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Printa(LogType.Warning, e.ToString());
 			}

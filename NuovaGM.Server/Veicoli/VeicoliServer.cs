@@ -8,13 +8,12 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
-
 namespace TheLastPlanet.Server.Veicoli
 {
-	static class VeicoliServer
+	internal static class VeicoliServer
 	{
+		private static string lasthost = "";
 
-		static string lasthost = "";
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
@@ -27,9 +26,11 @@ namespace TheLastPlanet.Server.Veicoli
 			Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
 			Server.Instance.RegisterServerCallback("caricaVeicoli", new Action<Player, Delegate, dynamic>(CaricaVeicoli));
 		}
+
 		public static async void onPlayerSpawn([FromSource] Player p)
 		{
 			await BaseScript.Delay(0);
+
 			if (p.Handle == "1")
 			{
 				Debug.WriteLine("train timeout activated.");
@@ -39,47 +40,29 @@ namespace TheLastPlanet.Server.Veicoli
 			}
 		}
 
-		public static void SilentSiren([FromSource]Player player, bool toggle) => BaseScript.TriggerClientEvent("lprp:updateSirens", player.Handle, toggle);
+		public static void SilentSiren([FromSource] Player player, bool toggle) { BaseScript.TriggerClientEvent("lprp:updateSirens", player.Handle, toggle); }
 
-		public static void lvc_TogIndicState_s([FromSource] Player player, int newstate) => BaseScript.TriggerClientEvent("lprp:lvc_TogIndicState_c", player.Handle, newstate);
+		public static void lvc_TogIndicState_s([FromSource] Player player, int newstate) { BaseScript.TriggerClientEvent("lprp:lvc_TogIndicState_c", player.Handle, newstate); }
 
-		public static void activateTrain() => BaseScript.TriggerClientEvent("lprp:spawntrain");
+		public static void activateTrain() { BaseScript.TriggerClientEvent("lprp:spawntrain"); }
 
-
-		private static void AddRear(int veh) 
-		{ 
-			BaseScript.TriggerClientEvent("cBrakes:add_rear", veh); 
-		}
-		private static void AddFront(int veh) 
-		{ 
-			BaseScript.TriggerClientEvent("cBrakes:add_front", veh);
-		}
-		private static void RemRear(int veh) 
-		{ 
-			BaseScript.TriggerClientEvent("cBrakes:rem_rear", veh);
-		}
-		private static void RemFront(int veh) 
-		{ 
-			BaseScript.TriggerClientEvent("cBrakes:rem_front", veh);
-		}
+		private static void AddRear(int veh) { BaseScript.TriggerClientEvent("cBrakes:add_rear", veh); }
+		private static void AddFront(int veh) { BaseScript.TriggerClientEvent("cBrakes:add_front", veh); }
+		private static void RemRear(int veh) { BaseScript.TriggerClientEvent("cBrakes:rem_rear", veh); }
+		private static void RemFront(int veh) { BaseScript.TriggerClientEvent("cBrakes:rem_front", veh); }
 
 		private static async void CaricaVeicoli([FromSource] Player p, Delegate cb, dynamic _)
 		{
 			try
 			{
-				dynamic vehs = await Server.Instance.Query("SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers", new
-				{
-					disc = p.GetLicense(Identifier.Discord),
-					pers = p.GetCurrentChar().FullName
-				});
+				dynamic vehs = await Server.Instance.Query("SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers", new { disc = p.GetLicense(Identifier.Discord), pers = p.GetCurrentChar().FullName });
+
 				if (vehs.Count > 0)
 				{
 					p.GetCurrentChar().CurrentChar.Veicoli.Clear();
-					foreach (dynamic veh in vehs)
-					{
-						p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
-					}
+					foreach (dynamic veh in vehs) p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
 				}
+
 				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 				cb.DynamicInvoke(p.GetCurrentChar().CurrentChar.Veicoli.Serialize(includeEverything: true));
 			}
@@ -93,24 +76,17 @@ namespace TheLastPlanet.Server.Veicoli
 		private static async void InGarage([FromSource] Player p, string plate, bool inGarage, string props)
 		{
 			p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.InGarage = inGarage;
+
 			if (inGarage)
 			{
 				p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props = props.Deserialize<VehProp>(true);
-				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new
-				{
-					gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(),
-					dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.Serialize(includeEverything: true),
-					t = plate
-				});
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.Serialize(includeEverything: true), t = plate });
 			}
 			else
 			{
-				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new
-				{
-					gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(),
-					t = plate
-				});
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(), t = plate });
 			}
+
 			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 	}

@@ -1,40 +1,27 @@
-﻿using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CitizenFX.Core;
 using TheLastPlanet.Client.Banking;
 using TheLastPlanet.Client.Businesses;
-using TheLastPlanet.Client.Giostre;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.CharCreation;
 using TheLastPlanet.Client.Core.Status;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Interactions;
-using TheLastPlanet.Client.Lavori;
-using TheLastPlanet.Client.Lavori.Whitelistati.Medici;
-using TheLastPlanet.Client.ListaPlayers;
-using TheLastPlanet.Client.Manager;
-using TheLastPlanet.Client.Negozi;
-using TheLastPlanet.Client.Personale;
-using TheLastPlanet.Client.Sport;
-using TheLastPlanet.Client.Veicoli;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheLastPlanet.Client.Lavori.Whitelistati.Polizia;
-using TheLastPlanet.Client.Lavori.Generici.Rimozione;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Interactions;
 using TheLastPlanet.Client.Lavori.Generici.Cacciatore;
 using TheLastPlanet.Client.Lavori.Generici.Pescatore;
-using TheLastPlanet.Client.Proprietà.Hotel;
-using Logger;
-using Newtonsoft.Json;
+using TheLastPlanet.Client.Lavori.Generici.Rimozione;
+using TheLastPlanet.Client.Lavori.Whitelistati.Medici;
+using TheLastPlanet.Client.Lavori.Whitelistati.Polizia;
 using TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Negozi;
+using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.Veicoli;
 
-namespace TheLastPlanet.Client
+namespace TheLastPlanet.Client.Handlers
 {
-	static class TickController
+	internal static class TickController
 	{
 		public static List<Func<Task>> TickAPiedi = new List<Func<Task>>();
 		public static List<Func<Task>> TickVeicolo = new List<Func<Task>>();
@@ -44,31 +31,28 @@ namespace TheLastPlanet.Client
 		public static List<Func<Task>> TickPolizia = new List<Func<Task>>();
 		public static List<Func<Task>> TickMedici = new List<Func<Task>>();
 
+		private static bool _inUnVeicolo;
+		private static bool _hideHud;
+		private static bool _inAppartamento;
+		private static bool _polizia;
+		private static bool _medici;
+		private static int _timer;
 
-		private static bool InUnVeicolo = false;
-		private static bool HideHud = false;
-		private static bool InAppartamento = false;
-		private static bool Polizia = false;
-		private static bool Medici = false;
 		public static void Init()
 		{
 			Client.Instance.AddTick(HUD.Menus);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			// TICK HUD \\
-
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 
 			// TICK GENERICI \\ ATTIVI SEMPRE
 			TickGenerici.Add(StatsNeeds.GestioneStatsSkill);
 			//TickGenerici.Add(StatsNeeds.Agg);
 			TickGenerici.Add(Main.MainTick);
-			TickGenerici.Add(Main.Armi);
 			TickGenerici.Add(PersonalMenu.attiva);
-			TickGenerici.Add(Main.Recoil);
 			TickGenerici.Add(FuelClient.FuelCount);
 			TickGenerici.Add(FuelClient.FuelTruck);
 			TickGenerici.Add(PompeDiBenzinaClient.BusinessesPumps);
-			TickGenerici.Add(aggiornaPl);
 			TickGenerici.Add(ProximityChat.Prossimità);
 
 			// TICK A PIEDI \\
@@ -95,11 +79,9 @@ namespace TheLastPlanet.Client
 			TickAPiedi.Add(CarDealer.Markers);
 			TickAPiedi.Add(LootingDead.Looting);
 
-
 			// TICK NEL VEICOLO \\
 			TickVeicolo.Add(VehicleDamage.OnTick);
-			if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode)
-				TickVeicolo.Add(VehicleDamage.IfNeeded);
+			if (VehicleDamage.torqueMultiplierEnabled || VehicleDamage.preventVehicleFlip || VehicleDamage.limpMode) TickVeicolo.Add(VehicleDamage.IfNeeded);
 			TickVeicolo.Add(VeicoliClient.Lux);
 			TickVeicolo.Add(VeicoliClient.gestioneVeh);
 			TickVeicolo.Add(Prostitute.LoopProstitute);
@@ -117,15 +99,14 @@ namespace TheLastPlanet.Client
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
 			TickPolizia.Add(PoliziaMainClient.MainTickPolizia);
-			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-				TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
+			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
 
 			// TICK MEDICI \\
 			TickMedici.Add(MediciMainClient.MarkersMedici);
 			TickMedici.Add(MediciMainClient.BlipMorti);
 		}
 
-		private static async void Spawnato()
+		private static void Spawnato()
 		{
 			TickGenerici.ForEach(x => Client.Instance.AddTick(x));
 			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
@@ -135,128 +116,142 @@ namespace TheLastPlanet.Client
 
 		private static async Task TickHandler()
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			if (Cache.Char.StatiPlayer.InVeicolo)
 			{
-				if (!InUnVeicolo)
+				if (!_inUnVeicolo)
 				{
 					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
 					TickVeicolo.ForEach(x => Client.Instance.AddTick(x));
-					InUnVeicolo = true;
+					_inUnVeicolo = true;
 				}
 			}
 			else
 			{
-				if (InUnVeicolo)
+				if (_inUnVeicolo)
 				{
 					TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
 					TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
-					VehHUD.NUIBuckled(false);
-					InUnVeicolo = false;
+					VehHud.NUIBuckled(false);
+					_inUnVeicolo = false;
 				}
 			}
+
 			if (Main.ImpostazioniClient.ModCinema)
 			{
-				if (!HideHud)
+				if (!_hideHud)
 				{
 					TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
 					Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
-					HideHud = true;
+					_hideHud = true;
 				}
 			}
 			else
 			{
-				if (HideHud)
+				if (_hideHud)
 				{
 					TickHUD.ForEach(x => Client.Instance.AddTick(x));
 					Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
-					HideHud = false;
+					_hideHud = false;
 				}
 			}
+
 			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
 			{
-				if (!InAppartamento)
+				if (!_inAppartamento)
 				{
 					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
 					// verrà aggiunta gestione garage
 					TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
-					InAppartamento = true;
+					_inAppartamento = true;
 				}
 			}
 			else
 			{
-				if (InAppartamento)
+				if (_inAppartamento)
 				{
 					TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
 					// verrà aggiunta gestione garage
 					TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
-					InAppartamento = false;
+					_inAppartamento = false;
 				}
 			}
 
 			if (Cache.Char.CurrentChar.job.name.ToLower() == "polizia")
 			{
-				if (Medici)
+				if (_medici)
 				{
 					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti)
-						morto.Value.Delete();
+					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
+
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
 						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
-					Medici = false;
+
+					_medici = false;
 				}
-				if (!Polizia)
+
+				if (!_polizia)
 				{
 					Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
-					Polizia = true;
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
+					_polizia = true;
 				}
 			}
 			else if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
 			{
-				if (Polizia)
+				if (_polizia)
 				{
 					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
-					Polizia = false;
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					_polizia = false;
 				}
-				if (!Medici)
+
+				if (!_medici)
 				{
 					Client.Instance.AddTick(MediciMainClient.MarkersMedici);
 					Client.Instance.AddTick(MediciMainClient.BlipMorti);
-					Medici = true;
+					_medici = true;
 				}
 			}
 			else if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" && Cache.Char.CurrentChar.job.name.ToLower() != "polizia")
 			{
-				if (Polizia)
+				if (_polizia)
 				{
 					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
-						Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
-					Polizia = false;
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					_polizia = false;
 				}
-				if (Medici)
+
+				if (_medici)
 				{
 					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
-					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti)
-						morto.Value.Delete();
+					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
+
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
 						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
-					Medici = false;
+
+					_medici = false;
 				}
 			}
+
+			if (Game.GameTime - _timer >= 5000)
+			{
+				_timer = Game.GameTime;
+				await Eventi.AggiornaPlayers();
+			}
+
+			await BaseScript.Delay(250);
+			// 4 volte al secondo bastano per gestire i tick.. non serve che siano tutti immediatamente attivati / disattivati
 		}
+
 		private static bool CheckAppartamento(int iParam1)
 		{
 			switch (iParam1)
@@ -300,13 +295,8 @@ namespace TheLastPlanet.Client
 				case 149761:
 					return true;
 			}
-			return false;
-		}
 
-		private static async Task aggiornaPl()
-		{
-			await Eventi.AggiornaPlayers();
-			await BaseScript.Delay(5000);
+			return false;
 		}
 	}
 }

@@ -31,14 +31,17 @@ namespace TheLastPlanet.Client.Core
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);
 			string NomeVia = GetStreetNameFromHashKey(StreetName);
 			string NomeAngolo = GetStreetNameFromHashKey(StreetAngolo);
+
 			if (!Main.spawned)
 			{
-				if (!Ingresso.LogIn.guiEnabled)
+				if (!LogIn.LogIn.GuiEnabled)
 				{
-					if (Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)
-						SetRichPresence("Sta creando un personaggio");
+					if (Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible) SetRichPresence("Sta creando un personaggio");
 				}
-				else SetRichPresence("Sta selezionando un personaggio");
+				else
+				{
+					SetRichPresence("Sta selezionando un personaggio");
+				}
 			}
 			else
 			{
@@ -73,10 +76,11 @@ namespace TheLastPlanet.Client.Core
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (playerPed.IsInVehicle() && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
+				else if (Cache.Char.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
 					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
+
 					if (KMH > 50)
 					{
 						if (StreetAngolo != 0)
@@ -102,6 +106,7 @@ namespace TheLastPlanet.Client.Core
 				else if (playerPed.IsInHeli || playerPed.IsInPlane)
 				{
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
+
 					if (playerPed.CurrentVehicle.IsInAir || GetEntityHeightAboveGround(playerPed.CurrentVehicle.Handle) > 2f)
 					{
 						if (StreetAngolo != 0)
@@ -111,34 +116,59 @@ namespace TheLastPlanet.Client.Core
 					}
 				}
 				else if (playerPed.IsSwimming)
+				{
 					SetRichPresence("Sta nuotando");
+				}
 				else if (playerPed.IsSwimmingUnderWater || playerPed.IsDiving)
+				{
 					SetRichPresence("Sta nuotando sott'acqua");
+				}
 				else if (playerPed.IsInBoat && playerPed.CurrentVehicle.IsInWater)
 				{
 					SetRichPresence("Sta navigando in barca: " + playerPed.CurrentVehicle.LocalizedName);
 				}
 				else if (playerPed.IsInSub && playerPed.CurrentVehicle.IsInWater)
+				{
 					SetRichPresence("Sta esplorando i fondali in un sottomarino");
+				}
 				else if (playerPed.IsAiming || playerPed.IsAimingFromCover || playerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+				{
 					SetRichPresence("E' in uno scontro a fuoco");
+				}
 				else if (player.GetPlayerData().StatiPlayer.Ammanettato)
+				{
 					SetRichPresence("Legato o ammanettato");
+				}
 				else if (Main.IsDead)
+				{
 					SetRichPresence("Sta morendo");
+				}
 				else if (playerPed.IsDoingDriveBy)
+				{
 					SetRichPresence("In uno scontro a fuoco da veicolo");
+				}
 				else if (playerPed.IsInParachuteFreeFall || playerPed.ParachuteState == ParachuteState.FreeFalling)
+				{
 					SetRichPresence("Fa paracadutismo");
-				else if (IsPedStill(PlayerPedId()) || (playerPed.IsInVehicle() && playerPed.CurrentVehicle.Speed == 0) && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
+				}
+				else if (IsPedStill(PlayerPedId()) || Cache.Char.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
+				{
 					SetRichPresence("AFK in gioco");
+				}
 				else if (player.GetPlayerData().StatiPlayer.InPausa)
+				{
 					SetRichPresence("In Pausa");
+				}
 				else if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
+				{
 					SetRichPresence("Sta pescando");
+				}
 				else if (Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+				{
 					SetRichPresence("Sta cacciando");
+				}
 			}
+
 			await BaseScript.Delay(1000);
 		}
 	}

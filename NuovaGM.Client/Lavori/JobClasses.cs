@@ -30,8 +30,6 @@ namespace TheLastPlanet.Client.Lavori
 		public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
 	}
 
-
-
 	public class VeicoloCatalogoVenditore
 	{
 		public string name;

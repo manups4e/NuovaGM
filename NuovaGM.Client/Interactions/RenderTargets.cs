@@ -3,20 +3,17 @@ using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Interactions
 {
-	static class RenderTargets
+	internal static class RenderTargets
 	{
 		public static int CreateNamedRenderTargetForModel(string name, uint model)
 		{
 			int handle = 0;
-			if (!IsNamedRendertargetRegistered(name))
-				RegisterNamedRendertarget(name, false);
-			if (!IsNamedRendertargetLinked(model))
-				LinkNamedRendertarget(model);
-			if (IsNamedRendertargetRegistered(name))
-				handle = GetNamedRendertargetRenderId(name);
+			if (!IsNamedRendertargetRegistered(name)) RegisterNamedRendertarget(name, false);
+			if (!IsNamedRendertargetLinked(model)) LinkNamedRendertarget(model);
+			if (IsNamedRendertargetRegistered(name)) handle = GetNamedRendertargetRenderId(name);
+
 			return handle;
 		}
-
 
 		public static string GetTargetFromObjHash(ObjectHash target)
 		{
@@ -59,6 +56,7 @@ namespace TheLastPlanet.Client.Interactions
 				case ObjectHash.prop_taxi_meter_2:
 					return "taxi";
 			}
+
 			return null;
 		}
 	}

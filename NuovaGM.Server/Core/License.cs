@@ -10,11 +10,11 @@ namespace TheLastPlanet.Server.Core
 		Fivem,
 		Ip
 	}
+
 	public static class License
 	{
 		public static string GetLicense(this Player player, Identifier identifier)
 		{
-
 			switch (identifier)
 			{
 				case Identifier.Steam:

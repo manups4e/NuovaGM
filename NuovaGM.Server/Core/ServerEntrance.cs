@@ -11,7 +11,6 @@ namespace TheLastPlanet.Server.Core
 {
 	public static class ServerEntrance
 	{
-
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:setupUser", new Action<Player>(setupUser));
@@ -23,14 +22,13 @@ namespace TheLastPlanet.Server.Core
 		{
 			await BaseScript.Delay(0);
 			string handle = player.Handle;
-			dynamic result = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @disc", new
-			{
-				disc = License.GetLicense(player, Identifier.Discord)
-			});
+			dynamic result = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 			await BaseScript.Delay(0);
+
 			if (result != null)
 			{
 				string stringa = JsonConvert.SerializeObject(result);
+
 				if (stringa != "[]" && stringa != "{}" && stringa != null)
 				{
 					User user = new User(player, result[0]);
@@ -50,14 +48,10 @@ namespace TheLastPlanet.Server.Core
 						time = 0,
 						last = DateTime.Now,
 						current = 0,
-						data = (new object[] { }).Serialize()
+						data = new object[] { }.Serialize()
 					});
 					await BaseScript.Delay(0);
-
-					dynamic created = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @discord", new
-					{
-						discord = License.GetLicense(player, Identifier.Discord)
-					});
+					dynamic created = await Server.Instance.Query($"SELECT * FROM users WHERE discord = @discord", new { discord = License.GetLicense(player, Identifier.Discord) });
 					await BaseScript.Delay(0);
 					User user = new User(player, created[0]);
 					Server.PlayerList.TryAdd(handle, user);
@@ -65,6 +59,7 @@ namespace TheLastPlanet.Server.Core
 					player.TriggerEvent("lprp:setupClientUser", playerino);
 				}
 			}
+
 			EntratoMaProprioSulSerio(player);
 		}
 
@@ -75,6 +70,7 @@ namespace TheLastPlanet.Server.Core
 		}
 
 		public static long starttick = GetGameTimer();
+
 		public static async Task Orario()
 		{
 			try
@@ -98,13 +94,9 @@ namespace TheLastPlanet.Server.Core
 			{
 				await BaseScript.Delay(60000);
 				if (Server.PlayerList.Count > 0)
-				{
 					foreach (KeyValuePair<string, User> user in Server.PlayerList)
-					{
 						if (user.Value.status.spawned)
 							user.Value.playTime += 60;
-					}
-				}
 			}
 			catch (Exception e)
 			{

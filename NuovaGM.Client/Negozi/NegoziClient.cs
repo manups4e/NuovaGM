@@ -11,9 +11,10 @@ using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.Negozi
 {
-	static class NegoziClient
+	internal static class NegoziClient
 	{
 		private static ConfigNegoziGenerici NegoziGenerici;
+
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(NegoziSpawn));
@@ -33,6 +34,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptfs.Name = "24/7";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(tfs)));
 			}
+
 			foreach (Vector3 v in NegoziGenerici.rq)
 			{
 				Blip bliptrq = World.CreateBlip(v);
@@ -44,6 +46,7 @@ namespace TheLastPlanet.Client.Negozi
 				bliptrq.Name = "Robs Liquor";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(rq)));
 			}
+
 			foreach (Vector3 v in NegoziGenerici.ltd)
 			{
 				Blip blipltd = World.CreateBlip(v);
@@ -55,6 +58,7 @@ namespace TheLastPlanet.Client.Negozi
 				blipltd.Name = "Limited Gasoline";
 				InputHandler.ListaInput.Add(new InputController(Control.Context, v, new Radius(1.375f, 1.4f), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(ltd)));
 			}
+
 			foreach (Vector3 v in NegoziGenerici.armerie)
 			{
 				Blip bliparmi = World.CreateBlip(v);
@@ -68,17 +72,8 @@ namespace TheLastPlanet.Client.Negozi
 			}
 		}
 
-		private static void tfs(Ped _, object[] args)
-		{
-			NegoziBusiness.NegozioPubblico("247");
-		}
-		private static void rq(Ped _, object[] args)
-		{
-			NegoziBusiness.NegozioPubblico("rq");
-		}
-		private static void ltd(Ped _, object[] args)
-		{
-			NegoziBusiness.NegozioPubblico("ltd");
-		}
+		private static void tfs(Ped _, object[] args) { NegoziBusiness.NegozioPubblico("247"); }
+		private static void rq(Ped _, object[] args) { NegoziBusiness.NegozioPubblico("rq"); }
+		private static void ltd(Ped _, object[] args) { NegoziBusiness.NegozioPubblico("ltd"); }
 	}
 }

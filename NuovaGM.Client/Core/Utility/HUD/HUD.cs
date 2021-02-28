@@ -6,7 +6,6 @@ using TheLastPlanet.Client.MenuNativo;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.Ingresso;
 using Font = CitizenFX.Core.UI.Font;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
@@ -107,7 +106,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		/// <param name="helpText">Testo da mostrare</param>
 		public static void ShowHelp(string helpText)
 		{
-			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.guiEnabled)
+			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.LogIn.GuiEnabled)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
@@ -115,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		}
 		public static void ShowHelpNoMenu(string helpText)
 		{
-			if (!IsPlayerSwitchInProgress() && !LogIn.guiEnabled)
+			if (!IsPlayerSwitchInProgress() && !LogIn.LogIn.GuiEnabled)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
@@ -198,9 +197,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			ClearKeyboard(windowTitle, defaultText, maxLength);
 			while (UpdateOnscreenKeyboard() == 0)
 				await BaseScript.Delay(0);
-			if (UpdateOnscreenKeyboard() == 2)
-				return "";
-			return GetOnscreenKeyboardResult();
+
+			return UpdateOnscreenKeyboard() == 2 ? "" : GetOnscreenKeyboardResult();
 		}
 		private static void ClearKeyboard(string windowTitle, string defaultText, int maxLength)
 		{
@@ -226,7 +224,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			BeginScaleformMovieMethodOnFrontendHeader(function);
 			foreach (object argument in arguments)
-			{
 				if (argument is int)
 					PushScaleformMovieMethodParameterInt((int)argument);
 				else if (argument is string)
@@ -237,9 +234,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 					PushScaleformMovieMethodParameterFloat((float)argument);
 				else if (argument is double)
 					PushScaleformMovieMethodParameterFloat((float)(double)argument);
-				else if (argument is bool)
-					PushScaleformMovieMethodParameterBool((bool)argument);
-			}
+				else if (argument is bool) PushScaleformMovieMethodParameterBool((bool)argument);
 			EndScaleformMovieMethod();
 		}
 

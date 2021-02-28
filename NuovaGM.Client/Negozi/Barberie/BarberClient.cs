@@ -8,26 +8,24 @@ using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Negozi
 {
-	static class BarberClient
+	internal static class BarberClient
 	{
-		static Ped CurrentBarber = new Ped(0);
-		static Vector3 S1 = new Vector3(0);
-		static Vector3 S2 = new Vector3(0);
-		static Vector3 S3 = new Vector3(0);
-		static Camera Camm = new Camera(0);
-		static bool CreatoKuts = false;
-		static bool CreatoHawick = false;
-		static bool CreatoOsheas = false;
-		static bool CreatoCombo = false;
-		public static void Init()
-		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-		}
+		private static Ped CurrentBarber = new Ped(0);
+		private static Vector3 S1 = new Vector3(0);
+		private static Vector3 S2 = new Vector3(0);
+		private static Vector3 S3 = new Vector3(0);
+		private static Camera Camm = new Camera(0);
+		private static bool CreatoKuts = false;
+		private static bool CreatoHawick = false;
+		private static bool CreatoOsheas = false;
+		private static bool CreatoCombo = false;
+		public static void Init() { Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
 
 		public static async void Spawnato()
 		{
@@ -40,29 +38,9 @@ namespace TheLastPlanet.Client.Negozi
 				kuts.Name = "Herr Kuts";
 			}
 
-			Blip Hawick = new Blip(AddBlipForCoord(ConfigBarbieri.Hawick.Coord.X, ConfigBarbieri.Hawick.Coord.Y, ConfigBarbieri.Hawick.Coord.Z))
-			{
-				Sprite = (BlipSprite)71,
-				Color = (BlipColor)17,
-				IsShortRange = true,
-				Name = "Barbieri Hair On Hawick"
-			};
-
-			Blip Combo = new Blip(AddBlipForCoord(ConfigBarbieri.Combo.Coord.X, ConfigBarbieri.Combo.Coord.Y, ConfigBarbieri.Combo.Coord.Z))
-			{
-				Sprite = (BlipSprite)71,
-				Color = (BlipColor)66,
-				IsShortRange = true,
-				Name = "Barbieri Beachcombover",
-			};
-
-			Blip Osheas = new Blip(AddBlipForCoord(ConfigBarbieri.Osheas.Coord.X, ConfigBarbieri.Osheas.Coord.Y, ConfigBarbieri.Osheas.Coord.Z))
-			{
-				Sprite = (BlipSprite)71,
-				Color = (BlipColor)38,
-				IsShortRange = true,
-				Name = "Barbieri Oshea's"
-			};
+			Blip Hawick = new Blip(AddBlipForCoord(ConfigBarbieri.Hawick.Coord.X, ConfigBarbieri.Hawick.Coord.Y, ConfigBarbieri.Hawick.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)17, IsShortRange = true, Name = "Barbieri Hair On Hawick" };
+			Blip Combo = new Blip(AddBlipForCoord(ConfigBarbieri.Combo.Coord.X, ConfigBarbieri.Combo.Coord.Y, ConfigBarbieri.Combo.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)66, IsShortRange = true, Name = "Barbieri Beachcombover" };
+			Blip Osheas = new Blip(AddBlipForCoord(ConfigBarbieri.Osheas.Coord.X, ConfigBarbieri.Osheas.Coord.Y, ConfigBarbieri.Osheas.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)38, IsShortRange = true, Name = "Barbieri Oshea's" };
 		}
 
 		public static async Task<Ped> CreateBarber(BarberModel ped)
@@ -70,13 +48,13 @@ namespace TheLastPlanet.Client.Negozi
 			Model model = new Model(ped.Model);
 			model.Request();
 			while (!model.IsLoaded) await BaseScript.Delay(1);
-
 			Ped barber = new Ped(CreatePed(4, (uint)model.Hash, ped.Coords.X, ped.Coords.Y, ped.Coords.Z, ped.Coords.W, false, false));
 			barber.BlockPermanentEvents = true;
 			barber.Voice = ped.Voice;
 			barber.Task.StartScenario("WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", barber.Position);
 			model.MarkAsNoLongerNeeded();
 			SetPedCanPlayAmbientAnims(barber.Handle, true);
+
 			return barber;
 		}
 
@@ -88,10 +66,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
-				if (Cache.Char.CurrentChar.skin.sex == "Maschio")
-					BarberMenu(Client.Impostazioni.Negozi.Barbieri.Maschio, Menu);
-				else
-					BarberMenu(Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
+				BarberMenu(Cache.Char.CurrentChar.skin.sex == "Maschio" ? Client.Impostazioni.Negozi.Barbieri.Maschio : Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 
@@ -109,58 +84,56 @@ namespace TheLastPlanet.Client.Negozi
 		public static async Task Sedie()
 		{
 			Ped p = Cache.PlayerPed;
-			for (int i = 0; i < ConfigBarbieri.Kuts.Count; i++)
-			{
-				if (p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50f) && !CreatoKuts)
+
+			foreach (NegozioBarbiere t in ConfigBarbieri.Kuts)
+				if (p.IsInRangeOf(t.Coord, 50f) && !CreatoKuts)
 				{
-					S1 = ConfigBarbieri.Kuts[i].Sedia1;
-					S2 = ConfigBarbieri.Kuts[i].Sedia2;
-					S3 = ConfigBarbieri.Kuts[i].Sedia3;
-					CurrentBarber = await CreateBarber(ConfigBarbieri.Kuts[i].Model);
+					S1 = t.Sedia1;
+					S2 = t.Sedia2;
+					S3 = t.Sedia3;
+					CurrentBarber = await CreateBarber(t.Model);
 					CreatoKuts = true;
 				}
-				else if (!p.IsInRangeOf(ConfigBarbieri.Kuts[i].Coord, 50))
+				else if (!p.IsInRangeOf(t.Coord, 50))
 				{
-					if (CreatoKuts)
-					{
-						CurrentBarber.Delete();
-						CreatoKuts = false;
-					}
+					if (!CreatoKuts) continue;
+					CurrentBarber.Delete();
+					CreatoKuts = false;
 				}
 				else if (p.IsInRangeOf(CurrentBarber.Position, 2f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
-					if (Input.IsControlJustPressed(Control.Context))
+
+					if (!Input.IsControlJustPressed(Control.Context)) continue;
+					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
+
+					if (!IsAnyPedNearPoint(S1.X, S1.Y, S1.Z, 0.35f))
 					{
-						TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
-						if (!IsAnyPedNearPoint(S1.X, S1.Y, S1.Z, 0.35f))
+						TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S1.X, S1.Y, S1.Z, t.Heading, 0, true, false);
+						Controlla(S1, t.Cam, t.CXYZ, "Kuts");
+					}
+					else
+					{
+						if (!IsAnyPedNearPoint(S2.X, S2.Y, S2.Z, 0.35f))
 						{
-							TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S1.X, S1.Y, S1.Z, ConfigBarbieri.Kuts[i].Heading, 0, true, false);
-							Controlla(S1, ConfigBarbieri.Kuts[i].Cam, ConfigBarbieri.Kuts[i].CXYZ, "Kuts");
+							TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S2.X, S2.Y, S2.Z, t.Heading, 0, true, false);
+							Controlla(S2, t.Cam, t.CXYZ, "Kuts");
 						}
 						else
 						{
-							if (!IsAnyPedNearPoint(S2.X, S2.Y, S2.Z, 0.35f))
+							if (!IsAnyPedNearPoint(S3.X, S3.Y, S3.Z, 0.35f))
 							{
-								TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S2.X, S2.Y, S2.Z, ConfigBarbieri.Kuts[i].Heading, 0, true, false);
-								Controlla(S2, ConfigBarbieri.Kuts[i].Cam, ConfigBarbieri.Kuts[i].CXYZ, "Kuts");
+								TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S3.X, S3.Y, S3.Z, t.Heading, 0, true, false);
+								Controlla(S3, t.Cam, t.CXYZ, "Kuts");
 							}
 							else
 							{
-								if (!IsAnyPedNearPoint(S3.X, S3.Y, S3.Z, 0.35f))
-								{
-									TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", S3.X, S3.Y, S3.Z, ConfigBarbieri.Kuts[i].Heading, 0, true, false);
-									Controlla(S3, ConfigBarbieri.Kuts[i].Cam, ConfigBarbieri.Kuts[i].CXYZ, "Kuts");
-								}
-								else
-								{
-									HUD.ShowNotification("Attendi... Non ci sono posti liberi.", true);
-								}
+								HUD.ShowNotification("Attendi... Non ci sono posti liberi.", true);
 							}
 						}
 					}
 				}
-			}
+
 			if (p.IsInRangeOf(ConfigBarbieri.Hawick.Coord, 50) && !CreatoHawick)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Hawick.Model);
@@ -177,9 +150,11 @@ namespace TheLastPlanet.Client.Negozi
 			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
+
 				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
+
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Hawick.Sedia1.X, ConfigBarbieri.Hawick.Sedia1.Y, ConfigBarbieri.Hawick.Sedia1.Z, 0.35f))
 					{
 						TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", ConfigBarbieri.Hawick.Sedia1.X, ConfigBarbieri.Hawick.Sedia1.Y, ConfigBarbieri.Hawick.Sedia1.Z, ConfigBarbieri.Hawick.Heading, 0, true, false);
@@ -213,7 +188,6 @@ namespace TheLastPlanet.Client.Negozi
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Osheas.Model);
 				CreatoOsheas = true;
 			}
-
 			else if (!p.IsInRangeOf(ConfigBarbieri.Osheas.Coord, 50))
 			{
 				if (CreatoOsheas)
@@ -225,9 +199,11 @@ namespace TheLastPlanet.Client.Negozi
 			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
+
 				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
+
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Osheas.Sedia1.X, ConfigBarbieri.Osheas.Sedia1.Y, ConfigBarbieri.Osheas.Sedia1.Z, 0.35f))
 					{
 						TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", ConfigBarbieri.Osheas.Sedia1.X, ConfigBarbieri.Osheas.Sedia1.Y, ConfigBarbieri.Osheas.Sedia1.Z, ConfigBarbieri.Osheas.Heading, 0, true, false);
@@ -255,6 +231,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 			}
+
 			if (p.IsInRangeOf(ConfigBarbieri.Combo.Coord, 50) && !CreatoCombo)
 			{
 				CurrentBarber = await CreateBarber(ConfigBarbieri.Combo.Model);
@@ -271,9 +248,11 @@ namespace TheLastPlanet.Client.Negozi
 			else if (p.IsInRangeOf(CurrentBarber.Position, 2))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per andare a sederti al salone");
+
 				if (Input.IsControlJustPressed(Control.Context))
 				{
 					TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
+
 					if (!IsAnyPedNearPoint(ConfigBarbieri.Combo.Sedia1.X, ConfigBarbieri.Combo.Sedia1.Y, ConfigBarbieri.Combo.Sedia1.Z, 0.35f))
 					{
 						TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", ConfigBarbieri.Combo.Sedia1.X, ConfigBarbieri.Combo.Sedia1.Y, ConfigBarbieri.Combo.Sedia1.Z, ConfigBarbieri.Combo.Heading, 0, true, false);
@@ -303,7 +282,8 @@ namespace TheLastPlanet.Client.Negozi
 			}
 		}
 
-		static UIMenu MenuPrincipale = new UIMenu("", "");
+		private static UIMenu MenuPrincipale = new UIMenu("", "");
+
 		private static async void BarberMenu(BarbieriTesta Tipo, string NomeNegozio)
 		{
 			#region DICHIARAZIONE
@@ -329,67 +309,69 @@ namespace TheLastPlanet.Client.Negozi
 			float brbAttOp = skin.facialHair.beard.opacity;
 			string desc = "";
 			string title = "";
+			desc = skin.sex == "Maschio" ? "Ma davvero?!?!" : "Scegli il trucco perfetto!";
 
-			if (skin.sex == "Maschio")
-				desc = "Ma davvero?!?!";
-			else
-				desc = "Scegli il trucco perfetto!";
+			switch (NomeNegozio)
+			{
+				case "Kuts":
+					title = "Benvenuto da Herr Kuts!";
 
-			if (NomeNegozio == "Kuts")
-				title = "Benvenuto da Herr Kuts!";
-			else if (NomeNegozio == "Hawick")
-				title = "Benvenuto da Hair On Hawick!";
-			else if (NomeNegozio == "Osheas")
-				title = "Benvenuto da O'Sheas!";
-			else if (NomeNegozio == "Combo")
-				title = "Benvenuto da Beachcombover!";
-			else if (NomeNegozio == "Mulet")
-				title = "Benvenuto da Bob Mulet!";
+					break;
+				case "Hawick":
+					title = "Benvenuto da Hair On Hawick!";
 
-			List<dynamic> barbe = new List<dynamic>();
-			List<dynamic> trucco = new List<dynamic>();
-			List<dynamic> sopr = new List<dynamic>();
-			List<dynamic> ross = new List<dynamic>();
-			List<dynamic> capkuts = new List<dynamic>();
-			List<dynamic> caphawick = new List<dynamic>();
-			List<dynamic> caposheas = new List<dynamic>();
-			List<dynamic> capcombo = new List<dynamic>();
-			List<dynamic> capmulet = new List<dynamic>();
+					break;
+				case "Osheas":
+					title = "Benvenuto da O'Sheas!";
 
-			foreach (Capigliature b in Tipo.barba)
-				barbe.Add(b.Name);
-			foreach (Capigliature b in Tipo.trucco)
-				trucco.Add(b.Name);
-			foreach (Capigliature b in Tipo.sopr)
-				sopr.Add(b.Name);
-			foreach (Capigliature b in Tipo.ross)
-				ross.Add(b.Name);
-			foreach (Capigliature b in Tipo.capelli.kuts)
-				capkuts.Add(b.Name);
-			foreach (Capigliature b in Tipo.capelli.hawick)
-				caphawick.Add(b.Name);
-			foreach (Capigliature b in Tipo.capelli.osheas)
-				caposheas.Add(b.Name);
-			foreach (Capigliature b in Tipo.capelli.beach)
-				capcombo.Add(b.Name);
-			foreach (Capigliature b in Tipo.capelli.mulet)
-				capmulet.Add(b.Name);
+					break;
+				case "Combo":
+					title = "Benvenuto da Beachcombover!";
 
+					break;
+				case "Mulet":
+					title = "Benvenuto da Bob Mulet!";
+
+					break;
+			}
+
+			List<dynamic> barbe = Tipo.barba.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> trucco = Tipo.trucco.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> sopr = Tipo.sopr.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> ross = Tipo.ross.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> capkuts = Tipo.capelli.kuts.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> caphawick = Tipo.capelli.hawick.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> caposheas = Tipo.capelli.osheas.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> capcombo = Tipo.capelli.beach.Select(b => b.Name).Cast<dynamic>().ToList();
+			List<dynamic> capmulet = Tipo.capelli.mulet.Select(b => b.Name).Cast<dynamic>().ToList();
 			MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);
 			HUD.MenuPool.Add(MenuPrincipale);
 			MenuPrincipale.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
-
 			UIMenuListItem Capelli = new UIMenuListItem("Capelli", new List<dynamic>() { 0 }, 0);
-			if (NomeNegozio == "Kuts")
-				Capelli = new UIMenuListItem("Capelli", capkuts, 0);
-			else if (NomeNegozio == "Hawick")
-				Capelli = new UIMenuListItem("Capelli", caphawick, 0);
-			else if (NomeNegozio == "Osheas")
-				Capelli = new UIMenuListItem("Capelli", caposheas, 0);
-			else if (NomeNegozio == "Combo")
-				Capelli = new UIMenuListItem("Capelli", capcombo, 0);
-			else if (NomeNegozio == "Mulet")
-				Capelli = new UIMenuListItem("Capelli", capmulet, 0);
+
+			switch (NomeNegozio)
+			{
+				case "Kuts":
+					Capelli = new UIMenuListItem("Capelli", capkuts, 0);
+
+					break;
+				case "Hawick":
+					Capelli = new UIMenuListItem("Capelli", caphawick, 0);
+
+					break;
+				case "Osheas":
+					Capelli = new UIMenuListItem("Capelli", caposheas, 0);
+
+					break;
+				case "Combo":
+					Capelli = new UIMenuListItem("Capelli", capcombo, 0);
+
+					break;
+				case "Mulet":
+					Capelli = new UIMenuListItem("Capelli", capmulet, 0);
+
+					break;
+			}
 
 			UIMenuColorPanel capCol1 = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
 			UIMenuColorPanel capCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
@@ -403,7 +385,6 @@ namespace TheLastPlanet.Client.Negozi
 			int colorecap1 = 0;
 			int colorecap2 = 0;
 			int capvar;
-
 			UIMenuListItem Sopracciglia = new UIMenuListItem("Sopracciglia", sopr, 0);
 			UIMenuColorPanel soprBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
 			UIMenuColorPanel soprSec = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
@@ -422,7 +403,6 @@ namespace TheLastPlanet.Client.Negozi
 			int soprcol1;
 			int soprcol2;
 			int soprvar;
-
 			UIMenuListItem Barba = null;
 			UIMenuColorPanel beardBase = null;
 			UIMenuColorPanel beardSec = null;
@@ -435,7 +415,6 @@ namespace TheLastPlanet.Client.Negozi
 			if (Cache.Char.CurrentChar.skin.sex == "Maschio")
 			{
 				Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
-
 				beardBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
 				beardSec = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 				beardOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
@@ -443,11 +422,7 @@ namespace TheLastPlanet.Client.Negozi
 				Barba.AddPanel(beardBase);
 				Barba.AddPanel(beardSec);
 				Barba.AddPanel(beardOp);
-				if (skin.sex == "Maschio")
-				{
-					MenuPrincipale.AddItem(Barba);
-				}
-
+				if (skin.sex == "Maschio") MenuPrincipale.AddItem(Barba);
 				beardOp.Enabled = false;
 				beardBase.Enabled = false;
 				beardSec.Enabled = false;
@@ -462,7 +437,6 @@ namespace TheLastPlanet.Client.Negozi
 			trOp.Enabled = false;
 			trOp.Percentage = trcOpAtt;
 			int tru = 0;
-
 			MenuPrincipale.AddItem(Trucco);
 			UIMenuListItem Rossetto = new UIMenuListItem("Rossetto", ross, 0, desc);
 			UIMenuColorPanel rossColBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Makeup);
@@ -482,35 +456,40 @@ namespace TheLastPlanet.Client.Negozi
 
 			//UIMenuListItem Fard = new UIMenuListItem("Fard", trucco, 0, desc);
 
-
 			#endregion
+
 			#region CORPO MENU
 
 			#region ON_LIST_CHANGED
+
 			MenuPrincipale.OnListChange += (menu, item, index) =>
 			{
 				if (item == Capelli)
 				{
 					List<Capigliature> obj = new List<Capigliature>();
-					if (NomeNegozio == "Kuts")
+
+					switch (NomeNegozio)
 					{
-						obj = Tipo.capelli.kuts;
-					}
-					else if (NomeNegozio == "Hawick")
-					{
-						obj = Tipo.capelli.hawick;
-					}
-					else if (NomeNegozio == "Osheas")
-					{
-						obj = Tipo.capelli.osheas;
-					}
-					else if (NomeNegozio == "Combo")
-					{
-						obj = Tipo.capelli.beach;
-					}
-					else if (NomeNegozio == "Mulet")
-					{
-						obj = Tipo.capelli.mulet;
+						case "Kuts":
+							obj = Tipo.capelli.kuts;
+
+							break;
+						case "Hawick":
+							obj = Tipo.capelli.hawick;
+
+							break;
+						case "Osheas":
+							obj = Tipo.capelli.osheas;
+
+							break;
+						case "Combo":
+							obj = Tipo.capelli.beach;
+
+							break;
+						case "Mulet":
+							obj = Tipo.capelli.mulet;
+
+							break;
 					}
 
 					if (obj[index].var == 0)
@@ -525,14 +504,9 @@ namespace TheLastPlanet.Client.Negozi
 					}
 
 					if (capAttuali == obj[index].var)
-					{
 						item.Description = "Stile ~b~Attuale~w~!";
-					}
 					else
-					{
 						item.Description = obj[index].Description + " - Prezzo: ~g~$" + obj[index].price;
-					}
-
 					colorecap1 = (capCol1 as UIMenuColorPanel).CurrentSelection;
 					colorecap2 = (capCol2 as UIMenuColorPanel).CurrentSelection;
 					capvar = obj[index].var;
@@ -543,6 +517,7 @@ namespace TheLastPlanet.Client.Negozi
 				else if (item == Sopracciglia)
 				{
 					soprvar = Tipo.sopr[index].var;
+
 					if (soprvar == -1)
 					{
 						soprOp.Enabled = false;
@@ -555,18 +530,14 @@ namespace TheLastPlanet.Client.Negozi
 						soprBase.Enabled = true;
 						soprSec.Enabled = true;
 					}
+
 					soprcol1 = (item.Panels[0] as UIMenuColorPanel).CurrentSelection;
 					soprcol2 = (item.Panels[1] as UIMenuColorPanel).CurrentSelection;
 					soprop = (item.Panels[2] as UIMenuPercentagePanel).Percentage;
-					if ((soprAtt == soprvar) && (soprOpAtt == soprop) && (soprcol1 == soprCAtt) && (soprcol2 == soprC1Att))
-					{
+					if (soprAtt == soprvar && soprOpAtt == soprop && soprcol1 == soprCAtt && soprcol2 == soprC1Att)
 						item.Description = "Stile ~b~Attuale~w~!";
-					}
 					else
-					{
 						item.Description = Tipo.sopr[index].Description + " - Prezzo: ~g~$" + Tipo.sopr[index].price;
-					}
-
 					SetPedHeadOverlay(PlayerPedId(), 2, soprvar, soprop);
 					SetPedHeadOverlayColor(PlayerPedId(), 2, 1, soprcol1, soprcol2);
 					item.Parent.UpdateDescription();
@@ -585,44 +556,24 @@ namespace TheLastPlanet.Client.Negozi
 						beardBase.Enabled = true;
 						beardSec.Enabled = true;
 					}
+
 					brbcol1 = (Barba.Panels[0] as UIMenuColorPanel).CurrentSelection;
 					brbcol2 = (Barba.Panels[1] as UIMenuColorPanel).CurrentSelection;
 					brbop = (Barba.Panels[2] as UIMenuPercentagePanel).Percentage;
 					brbvar = Tipo.barba[index].var;
-					if ((brbAtt == brbvar) && (brbAttOp == brbop) && (brbcol1 == brbAttC1) && (brbcol2 == brbAttC2))
-					{
+					if (brbAtt == brbvar && brbAttOp == brbop && brbcol1 == brbAttC1 && brbcol2 == brbAttC2)
 						item.Description = "Stile ~b~Attuale~w~!";
-					}
 					else
-					{
 						item.Description = Tipo.barba[index].Description + " - Prezzo: ~g~$" + Tipo.barba[index].price;
-					}
-
 					item.Parent.UpdateDescription();
 					SetPedHeadOverlay(PlayerPedId(), 1, brbvar, brbop);
 					SetPedHeadOverlayColor(PlayerPedId(), 1, 1, brbcol1, brbcol2);
 				}
 				else if (item == Trucco)
 				{
-					if (Tipo.trucco[index].var == -1)
-					{
-						trOp.Enabled = false;
-					}
-					else
-					{
-						trOp.Enabled = true;
-					}
-
+					trOp.Enabled = Tipo.trucco[index].var != -1;
 					tru = Tipo.trucco[index].var;
-					if ((trcAtt == tru) && (trcOpAtt == (item.Panels[0] as UIMenuPercentagePanel).Percentage))
-					{
-						item.Description = "Stile ~b~Attuale~w~!";
-					}
-					else
-					{
-						item.Description = Tipo.trucco[index].Description + " - Prezzo: ~g~$" + Tipo.trucco[index].price;
-					}
-
+					item.Description = trcAtt == tru && trcOpAtt == (item.Panels[0] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.trucco[index].Description + " - Prezzo: ~g~$" + Tipo.trucco[index].price;
 					SetPedHeadOverlay(PlayerPedId(), 4, tru, (item.Panels[0] as UIMenuPercentagePanel).Percentage);
 					item.Parent.UpdateDescription();
 				}
@@ -640,319 +591,327 @@ namespace TheLastPlanet.Client.Negozi
 						rossColBase.Enabled = true;
 						rossColSec.Enabled = true;
 					}
-					rosset = Tipo.ross[index].var;
-					if ((rossAttuali == rosset) && (rossAttualiC == (item.Panels[0] as UIMenuColorPanel).CurrentSelection) && rossAttualiO == (item.Panels[2] as UIMenuPercentagePanel).Percentage)
-					{
-						item.Description = "Stile ~b~Attuale~w~!";
-					}
-					else
-					{
-						item.Description = Tipo.ross[index].Description + " - Prezzo: ~g~$" + Tipo.ross[index].price;
-					}
 
+					rosset = Tipo.ross[index].var;
+					item.Description = rossAttuali == rosset && rossAttualiC == (item.Panels[0] as UIMenuColorPanel).CurrentSelection && rossAttualiO == (item.Panels[2] as UIMenuPercentagePanel).Percentage ? "Stile ~b~Attuale~w~!" : Tipo.ross[index].Description + " - Prezzo: ~g~$" + Tipo.ross[index].price;
 					SetPedHeadOverlay(PlayerPedId(), 8, tru, (item.Panels[2] as UIMenuPercentagePanel).Percentage);
 					SetPedHeadOverlayColor(PlayerPedId(), 8, 1, (item.Panels[0] as UIMenuColorPanel).CurrentSelection, (item.Panels[1] as UIMenuColorPanel).CurrentSelection);
 					item.Parent.UpdateDescription();
 				}
+
 				//				else if (item == )
 				//				{
 				//				}
 			};
+
 			#endregion
-			#region	ON_ITEM_SELECT
+
+			#region ON_ITEM_SELECT
+
 			MenuPrincipale.OnListSelect += async (menu, _listItem, itemindex) =>
 			{
-				 if (_listItem == Capelli)
-				 {
-					 Capigliature obj = new Capigliature();
-					 if (NomeNegozio == "Kuts")
-					 {
-						 obj = Tipo.capelli.kuts[(_listItem).Index];
-					 }
-					 else if (NomeNegozio == "Hawick")
-					 {
-						 obj = Tipo.capelli.hawick[(_listItem).Index];
-					 }
-					 else if (NomeNegozio == "Osheas")
-					 {
-						 obj = Tipo.capelli.osheas[(_listItem).Index];
-					 }
-					 else if (NomeNegozio == "Combo")
-					 {
-						 obj = Tipo.capelli.beach[(_listItem).Index];
-					 }
-					 else if (NomeNegozio == "Mulet")
-					 {
-						 obj = Tipo.capelli.mulet[(_listItem).Index];
-					 }
+				if (_listItem == Capelli)
+				{
+					Capigliature obj = new Capigliature();
 
-					 if (obj.var == 0 && obj.var == capAttuali)
-					 {
-						 HUD.ShowNotification("Non puoi rasare i capelli 2 volte!!", NotificationColor.Red, true);
-					 }
-					 else if (obj.var == capAttuali && colAttuale1 == capCol1.CurrentSelection && colAttuale2 == capCol2.CurrentSelection)
-					 {
-						 HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare Colore", NotificationColor.Red, true);
-					 }
-					 else
-					 {
-						 if (Cache.Char.Money >= obj.price)
-						 {
-							 skin.hair.style = obj.var;
-							 skin.hair.color[0] = capCol1.CurrentSelection;
-							 skin.hair.color[1] = capCol2.CurrentSelection;
-							 colAttuale1 = capCol1.CurrentSelection;
-							 colAttuale2 = capCol2.CurrentSelection;
-							 capAttuali = obj.var;
-							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
-							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
-						 }
-						 else
-						 {
-							 if (Cache.Char.Bank >= obj.price)
-							 {
-								 skin.hair.style = obj.var;
-								 skin.hair.color[0] = capCol1.CurrentSelection;
-								 skin.hair.color[1] = capCol2.CurrentSelection;
-								 colAttuale1 = capCol1.CurrentSelection;
-								 colAttuale2 = capCol2.CurrentSelection;
-								 capAttuali = obj.var;
-								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
-								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
-							 }
-							 else
-							 {
-								 HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa capigliatura!", NotificationColor.Red, true);
-							 }
-						 }
-					 }
-				 }
-				 else if (_listItem == Sopracciglia)
-				 {
-					 Capigliature obj = Tipo.sopr[(_listItem).Index];
+					switch (NomeNegozio)
+					{
+						case "Kuts":
+							obj = Tipo.capelli.kuts[_listItem.Index];
 
-					 if (obj.var == -1 && obj.var == soprAtt)
-					 {
-						 HUD.ShowNotification("Non puoi rimuovere le sopracciglia 2 volte!!", NotificationColor.Red, true);
-					 }
-					 else if (obj.var == soprAtt && soprBase.CurrentSelection == soprCAtt && soprSec.CurrentSelection == soprC1Att && soprOp.Percentage == soprOpAtt)
-					 {
-						 HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
-					 }
-					 else
-					 {
-						 if (Cache.Char.Money >= obj.price)
-						 {
-							 skin.facialHair.eyebrow.style = obj.var;
-							 skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
-							 skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
-							 skin.facialHair.eyebrow.opacity = soprOp.Percentage;
-							 soprAtt = obj.var;
-							 soprCAtt = soprBase.CurrentSelection;
-							 soprC1Att = soprSec.CurrentSelection;
-							 soprOpAtt = soprOp.Percentage;
-							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
-							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
-						 }
-						 else
-						 {
-							 if (Cache.Char.Bank >= obj.price)
-							 {
-								 skin.facialHair.eyebrow.style = obj.var;
-								 skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
-								 skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
-								 skin.facialHair.eyebrow.opacity = soprOp.Percentage;
-								 soprAtt = obj.var;
-								 soprCAtt = soprBase.CurrentSelection;
-								 soprC1Att = soprSec.CurrentSelection;
-								 soprOpAtt = soprOp.Percentage;
-								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
-								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
-							 }
-							 else
-							 {
-								 HUD.ShowNotification("NON hai abbastanza soldi per acquistare queste sopracciglia!", NotificationColor.Red, true);
-							 }
-						 }
-					 }
-				 }
-				 else if (_listItem == Barba)
-				 {
-					 Capigliature obj = Tipo.barba[(_listItem).Index];
-					 if (obj.var == -1 && obj.var == brbAtt)
-					 {
-						 HUD.ShowNotification("Non puoi rasare la barba 2 volte!!", NotificationColor.Red, true);
-					 }
-					 else if (obj.var == brbAtt && beardBase.CurrentSelection == brbAttC1 && beardSec.CurrentSelection == brbAttC2 && beardOp.Percentage == brbAttOp)
-					 {
-						 HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
-					 }
-					 else
-					 {
-						 if (Cache.Char.Money >= obj.price)
-						 {
-							 skin.facialHair.beard.style = obj.var;
-							 skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
-							 skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
-							 skin.facialHair.beard.opacity = beardOp.Percentage;
-							 brbAtt = obj.var;
-							 brbAttC1 = beardBase.CurrentSelection;
-							 brbAttC2 = beardSec.CurrentSelection;
-							 brbAttOp = beardOp.Percentage;
-							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
-							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
-						 }
-						 else
-						 {
-							 if (Cache.Char.Bank >= obj.price)
-							 {
-								 skin.facialHair.beard.style = obj.var;
-								 skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
-								 skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
-								 skin.facialHair.beard.opacity = beardOp.Percentage;
-								 brbAtt = obj.var;
-								 brbAttC1 = beardBase.CurrentSelection;
-								 brbAttC2 = beardSec.CurrentSelection;
-								 brbAttOp = beardOp.Percentage;
-								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
-								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
-							 }
-							 else
-							 {
-								 HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa rasatura!", NotificationColor.Red, true);
-							 }
-						 }
-					 }
-				 }
-				 else if (_listItem == Trucco)
-				 {
-					 Capigliature obj = Tipo.trucco[(_listItem).Index];
-					 if (obj.var == -1 && obj.var == brbAtt)
-					 {
-						 HUD.ShowNotification("Non puoi rimuovere il trucco 2 volte!!", NotificationColor.Red, true);
-					 }
-					 else if (obj.var == trcAtt && trOp.Percentage == trcOpAtt)
-					 {
-						 HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
-					 }
-					 else
-					 {
-						 if (Cache.Char.Money >= obj.price)
-						 {
-							 skin.makeup.style = obj.var;
-							 skin.makeup.opacity = trOp.Percentage;
-							 trcAtt = obj.var;
-							 trcOpAtt = trOp.Percentage;
-							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
-							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
-						 }
-						 else
-						 {
-							 if (Cache.Char.Bank >= obj.price)
-							 {
-								 skin.makeup.style = obj.var;
-								 skin.makeup.opacity = trOp.Percentage;
-								 trcAtt = obj.var;
-								 trcOpAtt = trOp.Percentage;
-								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
-								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
-							 }
-							 else
-							 {
-								 HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo trucco!", NotificationColor.Red, true);
-							 }
-						 }
-					 }
-				 }
-				 else if (_listItem == Rossetto)
-				 {
-					 Capigliature obj = Tipo.ross[(_listItem).Index];
-					 if (obj.var == -1 && obj.var == rossAttuali)
-					 {
-						 HUD.ShowNotification("Non puoi rimuovere lo stesso rossetto 2 volte!!", NotificationColor.Red, true);
-					 }
-					 else if (obj.var == rossAttuali && rossColBase.CurrentSelection == rossAttualiC && rossColSec.CurrentSelection == rossAttualiC2 && rossOp.Percentage == rossAttualiO)
-					 {
-						 HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
-					 }
-					 else
-					 {
-						 if (Cache.Char.Money >= obj.price)
-						 {
-							 skin.lipstick.style = obj.var;
-							 skin.lipstick.color[0] = rossColBase.CurrentSelection;
-							 skin.lipstick.color[1] = rossColSec.CurrentSelection;
-							 skin.lipstick.opacity = rossOp.Percentage;
-							 rossAttuali = obj.var;
-							 rossAttualiC = rossColBase.CurrentSelection;
-							 rossAttualiC2 = rossColSec.CurrentSelection;
-							 rossAttualiO = rossOp.Percentage;
-							 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
-							 await BaseScript.Delay(100);
-							 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-							 HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
-						 }
-						 else
-						 {
-							 if (Cache.Char.Bank >= obj.price)
-							 {
-								 skin.lipstick.style = obj.var;
-								 skin.lipstick.color[0] = rossColBase.CurrentSelection;
-								 skin.lipstick.color[1] = rossColSec.CurrentSelection;
-								 skin.lipstick.opacity = rossOp.Percentage;
-								 rossAttuali = obj.var;
-								 rossAttualiC = rossColBase.CurrentSelection;
-								 rossAttualiC2 = rossColSec.CurrentSelection;
-								 rossAttualiO = rossOp.Percentage;
-								 BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
-								 await BaseScript.Delay(100);
-								 BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
-								 HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
-							 }
-							 else
-							 {
-								 HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo rossetto!", NotificationColor.Red, true);
-							 }
-						 }
-					 }
-				 }
-				 //				else if (_listItem == )
-				 //				{
-				 //				}
-			 };
+							break;
+						case "Hawick":
+							obj = Tipo.capelli.hawick[_listItem.Index];
+
+							break;
+						case "Osheas":
+							obj = Tipo.capelli.osheas[_listItem.Index];
+
+							break;
+						case "Combo":
+							obj = Tipo.capelli.beach[_listItem.Index];
+
+							break;
+						case "Mulet":
+							obj = Tipo.capelli.mulet[_listItem.Index];
+
+							break;
+					}
+
+					if (obj.var == 0 && obj.var == capAttuali)
+					{
+						HUD.ShowNotification("Non puoi rasare i capelli 2 volte!!", NotificationColor.Red, true);
+					}
+					else if (obj.var == capAttuali && colAttuale1 == capCol1.CurrentSelection && colAttuale2 == capCol2.CurrentSelection)
+					{
+						HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare Colore", NotificationColor.Red, true);
+					}
+					else
+					{
+						if (Cache.Char.Money >= obj.price)
+						{
+							skin.hair.style = obj.var;
+							skin.hair.color[0] = capCol1.CurrentSelection;
+							skin.hair.color[1] = capCol2.CurrentSelection;
+							colAttuale1 = capCol1.CurrentSelection;
+							colAttuale2 = capCol2.CurrentSelection;
+							capAttuali = obj.var;
+							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
+							await BaseScript.Delay(100);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+						}
+						else
+						{
+							if (Cache.Char.Bank >= obj.price)
+							{
+								skin.hair.style = obj.var;
+								skin.hair.color[0] = capCol1.CurrentSelection;
+								skin.hair.color[1] = capCol2.CurrentSelection;
+								colAttuale1 = capCol1.CurrentSelection;
+								colAttuale2 = capCol2.CurrentSelection;
+								capAttuali = obj.var;
+								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
+								await BaseScript.Delay(100);
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+							}
+							else
+							{
+								HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa capigliatura!", NotificationColor.Red, true);
+							}
+						}
+					}
+				}
+				else if (_listItem == Sopracciglia)
+				{
+					Capigliature obj = Tipo.sopr[_listItem.Index];
+
+					if (obj.var == -1 && obj.var == soprAtt)
+					{
+						HUD.ShowNotification("Non puoi rimuovere le sopracciglia 2 volte!!", NotificationColor.Red, true);
+					}
+					else if (obj.var == soprAtt && soprBase.CurrentSelection == soprCAtt && soprSec.CurrentSelection == soprC1Att && soprOp.Percentage == soprOpAtt)
+					{
+						HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+					}
+					else
+					{
+						if (Cache.Char.Money >= obj.price)
+						{
+							skin.facialHair.eyebrow.style = obj.var;
+							skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
+							skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
+							skin.facialHair.eyebrow.opacity = soprOp.Percentage;
+							soprAtt = obj.var;
+							soprCAtt = soprBase.CurrentSelection;
+							soprC1Att = soprSec.CurrentSelection;
+							soprOpAtt = soprOp.Percentage;
+							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
+							await BaseScript.Delay(100);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+						}
+						else
+						{
+							if (Cache.Char.Bank >= obj.price)
+							{
+								skin.facialHair.eyebrow.style = obj.var;
+								skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
+								skin.facialHair.eyebrow.color[1] = soprSec.CurrentSelection;
+								skin.facialHair.eyebrow.opacity = soprOp.Percentage;
+								soprAtt = obj.var;
+								soprCAtt = soprBase.CurrentSelection;
+								soprC1Att = soprSec.CurrentSelection;
+								soprOpAtt = soprOp.Percentage;
+								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
+								await BaseScript.Delay(100);
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+							}
+							else
+							{
+								HUD.ShowNotification("NON hai abbastanza soldi per acquistare queste sopracciglia!", NotificationColor.Red, true);
+							}
+						}
+					}
+				}
+				else if (_listItem == Barba)
+				{
+					Capigliature obj = Tipo.barba[_listItem.Index];
+
+					if (obj.var == -1 && obj.var == brbAtt)
+					{
+						HUD.ShowNotification("Non puoi rasare la barba 2 volte!!", NotificationColor.Red, true);
+					}
+					else if (obj.var == brbAtt && beardBase.CurrentSelection == brbAttC1 && beardSec.CurrentSelection == brbAttC2 && beardOp.Percentage == brbAttOp)
+					{
+						HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+					}
+					else
+					{
+						if (Cache.Char.Money >= obj.price)
+						{
+							skin.facialHair.beard.style = obj.var;
+							skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
+							skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
+							skin.facialHair.beard.opacity = beardOp.Percentage;
+							brbAtt = obj.var;
+							brbAttC1 = beardBase.CurrentSelection;
+							brbAttC2 = beardSec.CurrentSelection;
+							brbAttOp = beardOp.Percentage;
+							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
+							await BaseScript.Delay(100);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+						}
+						else
+						{
+							if (Cache.Char.Bank >= obj.price)
+							{
+								skin.facialHair.beard.style = obj.var;
+								skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
+								skin.facialHair.beard.color[1] = beardSec.CurrentSelection;
+								skin.facialHair.beard.opacity = beardOp.Percentage;
+								brbAtt = obj.var;
+								brbAttC1 = beardBase.CurrentSelection;
+								brbAttC2 = beardSec.CurrentSelection;
+								brbAttOp = beardOp.Percentage;
+								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
+								await BaseScript.Delay(100);
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+							}
+							else
+							{
+								HUD.ShowNotification("NON hai abbastanza soldi per acquistare questa rasatura!", NotificationColor.Red, true);
+							}
+						}
+					}
+				}
+				else if (_listItem == Trucco)
+				{
+					Capigliature obj = Tipo.trucco[_listItem.Index];
+
+					if (obj.var == -1 && obj.var == brbAtt)
+					{
+						HUD.ShowNotification("Non puoi rimuovere il trucco 2 volte!!", NotificationColor.Red, true);
+					}
+					else if (obj.var == trcAtt && trOp.Percentage == trcOpAtt)
+					{
+						HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+					}
+					else
+					{
+						if (Cache.Char.Money >= obj.price)
+						{
+							skin.makeup.style = obj.var;
+							skin.makeup.opacity = trOp.Percentage;
+							trcAtt = obj.var;
+							trcOpAtt = trOp.Percentage;
+							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
+							await BaseScript.Delay(100);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+						}
+						else
+						{
+							if (Cache.Char.Bank >= obj.price)
+							{
+								skin.makeup.style = obj.var;
+								skin.makeup.opacity = trOp.Percentage;
+								trcAtt = obj.var;
+								trcOpAtt = trOp.Percentage;
+								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
+								await BaseScript.Delay(100);
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+							}
+							else
+							{
+								HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo trucco!", NotificationColor.Red, true);
+							}
+						}
+					}
+				}
+				else if (_listItem == Rossetto)
+				{
+					Capigliature obj = Tipo.ross[_listItem.Index];
+
+					if (obj.var == -1 && obj.var == rossAttuali)
+					{
+						HUD.ShowNotification("Non puoi rimuovere lo stesso rossetto 2 volte!!", NotificationColor.Red, true);
+					}
+					else if (obj.var == rossAttuali && rossColBase.CurrentSelection == rossAttualiC && rossColSec.CurrentSelection == rossAttualiC2 && rossOp.Percentage == rossAttualiO)
+					{
+						HUD.ShowNotification("Non puoi acquistare lo stile che già hai! Prova a cambiare stile o cambia colore!", NotificationColor.Red, true);
+					}
+					else
+					{
+						if (Cache.Char.Money >= obj.price)
+						{
+							skin.lipstick.style = obj.var;
+							skin.lipstick.color[0] = rossColBase.CurrentSelection;
+							skin.lipstick.color[1] = rossColSec.CurrentSelection;
+							skin.lipstick.opacity = rossOp.Percentage;
+							rossAttuali = obj.var;
+							rossAttualiC = rossColBase.CurrentSelection;
+							rossAttualiC2 = rossColSec.CurrentSelection;
+							rossAttualiO = rossOp.Percentage;
+							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
+							await BaseScript.Delay(100);
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
+						}
+						else
+						{
+							if (Cache.Char.Bank >= obj.price)
+							{
+								skin.lipstick.style = obj.var;
+								skin.lipstick.color[0] = rossColBase.CurrentSelection;
+								skin.lipstick.color[1] = rossColSec.CurrentSelection;
+								skin.lipstick.opacity = rossOp.Percentage;
+								rossAttuali = obj.var;
+								rossAttualiC = rossColBase.CurrentSelection;
+								rossAttualiC2 = rossColSec.CurrentSelection;
+								rossAttualiO = rossOp.Percentage;
+								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
+								await BaseScript.Delay(100);
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.Serialize());
+								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
+							}
+							else
+							{
+								HUD.ShowNotification("NON hai abbastanza soldi per acquistare questo rossetto!", NotificationColor.Red, true);
+							}
+						}
+					}
+				}
+
+				//				else if (_listItem == )
+				//				{
+				//				}
+			};
+
 			#endregion
+
 			MenuPrincipale.OnMenuStateChanged += async (a, b, c) =>
 			{
-				if (c == MenuState.Closed && a == MenuPrincipale)
-				{
-					ClearPedTasks(PlayerPedId());
-					await Funzioni.UpdateFace(skin);
-					RenderScriptCams(false, true, 1000, true, false);
-					Client.Instance.RemoveTick(NuovaCam);
-				}
+				if (c != MenuState.Closed || a != MenuPrincipale) return;
+				ClearPedTasks(PlayerPedId());
+				await Funzioni.UpdateFace(skin);
+				RenderScriptCams(false, true, 1000, true, false);
+				Client.Instance.RemoveTick(NuovaCam);
 			};
+
 			#endregion
+
 			MenuPrincipale.Visible = true;
 			Client.Instance.AddTick(NuovaCam);
 		}
 
-		static float fov = 0;
+		private static float fov = 0;
+
 		private static async Task NuovaCam()
 		{
 			if (MenuPrincipale.Visible)
@@ -960,8 +919,7 @@ namespace TheLastPlanet.Client.Negozi
 				if (Input.IsControlPressed(Control.FrontendLt))
 				{
 					fov -= .7f;
-					if (fov <= 23f)
-						fov = 23f;
+					if (fov <= 23f) fov = 23f;
 					Camm.FieldOfView = fov;
 				}
 				else if (Input.IsControlJustReleased(Control.FrontendLt))
@@ -970,18 +928,14 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						await BaseScript.Delay(0);
 						fov += .7f;
-						if (fov >= 35f)
-							fov = 35f;
+						if (fov >= 35f) fov = 35f;
 						Camm.FieldOfView = fov;
-					} while ((fov != 23f) && (!Input.IsControlPressed(Control.FrontendLt)));
+					} while (fov != 23f && !Input.IsControlPressed(Control.FrontendLt));
 				}
 			}
 		}
 	}
 }
-
-
-
 
 /*
  *				DA AGGIUNGERE IN UN NUOVO TICK A MENU APERTO! ANCHE PER CAPELLI E ALTRO

@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.Interactions
 		Resto = 2
 	}
 
-	static class Televisioni
+	internal static class Televisioni
 	{
 		private static Prop FakeTV;
 		private static Prop Telecomando;
@@ -49,16 +49,10 @@ namespace TheLastPlanet.Client.Interactions
 			(ObjectHash)(-1949621260),
 			(ObjectHash)(-240931727),
 			(ObjectHash)(-897601557),
-			(ObjectHash)777010715,
+			(ObjectHash)777010715
 		};
 
-		private static List<TvCoord> TvLocali = new List<TvCoord>()
-		{
-			new TvCoord(new Vector3(1120.1711f, -3144.5613f, -35.8581f), new Vector3(0.0000f, 0.0000f, 90.0000f)),
-			new TvCoord(new Vector3(1010.6960f, -3164.1321f, -34.1590f), new Vector3(0.0000f, 0.0000f, -63.9800f)),
-			new TvCoord(new Vector3(364.0089f, 4838.958f, -58.8157f), new Vector3(0f, 0f, 163f)),
-			new TvCoord(new Vector3(228.8359f, -974.6591f, -98.3713f), new Vector3(0)),
-		};
+		private static List<TvCoord> TvLocali = new List<TvCoord>() { new TvCoord(new Vector3(1120.1711f, -3144.5613f, -35.8581f), new Vector3(0.0000f, 0.0000f, 90.0000f)), new TvCoord(new Vector3(1010.6960f, -3164.1321f, -34.1590f), new Vector3(0.0000f, 0.0000f, -63.9800f)), new TvCoord(new Vector3(364.0089f, 4838.958f, -58.8157f), new Vector3(0f, 0f, 163f)), new TvCoord(new Vector3(228.8359f, -974.6591f, -98.3713f), new Vector3(0)) };
 
 		private static List<string> CanaliTV = new List<string>
 		{
@@ -92,7 +86,7 @@ namespace TheLastPlanet.Client.Interactions
 			"PL_WEB_RANGERS",
 			"PL_WEB_PRB2",
 			"PL_WEB_KFLF",
-			"PL_WEB_RS",
+			"PL_WEB_RS"
 		};
 
 		public static async void AccendiTV()
@@ -120,6 +114,7 @@ namespace TheLastPlanet.Client.Interactions
 		private static Tuple<Vector3, Vector3> OttieniCoords(int iParam1)
 		{
 			Prop tv = new Prop(GetClosestObjectOfType(Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
+
 			switch (iParam1)
 			{
 				case 227329:
@@ -176,11 +171,14 @@ namespace TheLastPlanet.Client.Interactions
 				case 144897:
 				case 145153:
 					tv = new Prop(GetClosestObjectOfType(Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
+
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.13f), tv.Rotation);
 				case 149761:
 					tv = new Prop(GetClosestObjectOfType(Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.Char.posizione.ToVector3(), o.Position) < 5f).Model.Hash, false, false, true));
+
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.21f), tv.Rotation);
 			}
+
 			return new Tuple<Vector3, Vector3>(new Vector3(), new Vector3());
 		}
 
@@ -193,22 +191,19 @@ namespace TheLastPlanet.Client.Interactions
 				while (!HasScaleformMovieLoaded(Buttons.Handle)) await BaseScript.Delay(0);
 				Buttons.CallFunction("CLEAR_ALL");
 				Buttons.CallFunction("TOGGLE_MOUSE_BUTTONS", false);
-
 				Buttons.CallFunction("SET_DATA_SLOT", 0, GetControlInstructionalButton(0, IsInputDisabled(2) ? 177 : 202, 1), GetLabelText("HUD_INPUT3"));
 				if (!TV.Accesa)
 					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT81"));
 				else
 					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT82"));
-
 				Buttons.CallFunction("SET_DATA_SLOT", 2, GetControlInstructionalButton(2, 218, 1), GetLabelText("HUD_INPUT75"));
 				Buttons.CallFunction("SET_DATA_SLOT", 3, GetControlInstructionalButton(2, 219, 1), GetLabelText("HUD_INPUT77"));
 				Buttons.CallFunction("SET_DATA_SLOT", 4, GetControlInstructionalButton(0, 236, 1), GetLabelText("HUD_INPUT87"));
-
 				Buttons.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 				Scaleform = true;
 			}
-			if (Scaleform)
-				Buttons.Render2D();
+
+			if (Scaleform) Buttons.Render2D();
 		}
 
 		public static async Task DrawTV()
@@ -222,6 +217,7 @@ namespace TheLastPlanet.Client.Interactions
 			SetTextRenderId(GetDefaultScriptRendertargetRenderId());
 			SetScriptGfxDrawBehindPausemenu(false);
 		}
+
 		public static async Task ControllaTV()
 		{
 			UpdateTasti();
@@ -232,6 +228,7 @@ namespace TheLastPlanet.Client.Interactions
 			Game.DisableControlThisFrame(0, Control.MoveDownOnly);
 			Game.DisableControlThisFrame(0, Control.ScriptRUp);
 			Game.DisableControlThisFrame(0, Control.Context);
+
 			if (!TV.Accesa && DivaniEPosizioniSedute.Seduto)
 			{
 				if (IsDisabledControlJustPressed(0, IsInputDisabled(2) ? 51 : 222))
@@ -242,7 +239,7 @@ namespace TheLastPlanet.Client.Interactions
 			}
 			else if (TV.Accesa && DivaniEPosizioniSedute.Seduto)
 			{
-//				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
+				//				HUD.ShowHelp("~INPUTGROUP_FRONTEND_DPAD_LR~ per cambiare ~y~canale~w~.\n~INPUTGROUP_FRONTEND_DPAD_UD~ per cambiare il ~b~volume~w~.\n~INPUT_VEH_EXIT~ per spegnere la TV");
 				if (Input.IsDisabledControlJustPressed(Control.MoveLeftOnly)) // canale-
 				{
 					--TV.Canale;
@@ -251,6 +248,7 @@ namespace TheLastPlanet.Client.Interactions
 					SetTvChannel((int)TVChannel.TV);
 					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
 				}
+
 				if (Input.IsDisabledControlJustPressed(Control.MoveRightOnly)) // canale+ 
 				{
 					++TV.Canale;
@@ -259,30 +257,30 @@ namespace TheLastPlanet.Client.Interactions
 					SetTvChannel((int)TVChannel.TV);
 					Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_TV_CHANGE_CHANNEL_MASTER");
 				}
+
 				if (Input.IsDisabledControlPressed(Control.MoveUpOnly)) // volume su
 				{
 					TV.Volume += 0.5f;
 					if (TV.Volume > 0) TV.Volume = 0;
 					SetTvVolume(TV.Volume);
-					if (TV.Volume > -36 && TV.Volume < 0)
-						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
+					if (TV.Volume > -36 && TV.Volume < 0) Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
 				}
+
 				if (Input.IsDisabledControlPressed(Control.MoveDownOnly)) // volume giu
 				{
 					TV.Volume -= 0.5f;
 					if (TV.Volume < -36) TV.Volume = -36;
 					SetTvVolume(TV.Volume);
-					if (TV.Volume > -36 && TV.Volume < 0)
-						Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
+					if (TV.Volume > -36 && TV.Volume < 0) Game.PlaySound("SAFEHOUSE_MICHAEL_SIT_SOFA", "MICHAEL_SOFA_REMOTE_CLICK_VOLUME_MASTER");
 				}
+
 				if (IsDisabledControlJustPressed(0, IsInputDisabled(2) ? 51 : 222))
 				{
 					ClearTvChannelPlaylist(1);
 					SetTvChannel(-1);
 					if (IsNamedRendertargetRegistered("tvscreen"))
 						ReleaseNamedRendertarget("tvscreen");
-					else if (IsNamedRendertargetRegistered("ex_tvscreen"))
-						ReleaseNamedRendertarget("ex_tvscreen");
+					else if (IsNamedRendertargetRegistered("ex_tvscreen")) ReleaseNamedRendertarget("ex_tvscreen");
 					RenderTarget = -1;
 					SetTextRenderId(GetDefaultScriptRendertargetRenderId());
 					TV.Accesa = false;
@@ -297,18 +295,18 @@ namespace TheLastPlanet.Client.Interactions
 			}
 		}
 
-		static void CalcolaAspectRatioRenderTarget(ref float fParam0)
+		private static void CalcolaAspectRatioRenderTarget(ref float fParam0)
 		{
 			float fVar0;
 			float fVar1;
 			float fVar2;
-
 			fVar0 = GetAspectRatio(false);
-			if (fVar0 <= (16f / 9f))
+
+			if (fVar0 <= 16f / 9f)
 			{
-				fVar1 = (fVar0 / (16f / 9f));
+				fVar1 = fVar0 / (16f / 9f);
 				fVar2 = fParam0;
-				fParam0 = (fVar2 * fVar1);
+				fParam0 = fVar2 * fVar1;
 			}
 		}
 	}
@@ -327,6 +325,7 @@ namespace TheLastPlanet.Client.Interactions
 		public Vector3 Rot = new Vector3();
 
 		public TvCoord() { }
+
 		public TvCoord(Vector3 coord, Vector3 rot)
 		{
 			Coord = coord;
@@ -334,5 +333,3 @@ namespace TheLastPlanet.Client.Interactions
 		}
 	}
 }
-
-

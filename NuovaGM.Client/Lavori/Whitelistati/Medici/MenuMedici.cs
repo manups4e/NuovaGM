@@ -12,50 +12,44 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.Veicoli;
-
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 {
-	static class MenuMedici
+	internal static class MenuMedici
 	{
-
 		#region Spogliatoio
+
 		public static async void MenuSpogliatoio()
 		{
 			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			if (!Cache.Char.StatiPlayer.InServizio)
-				cambio = new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.");
-			else
-				cambio = new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+			cambio = !Cache.Char.StatiPlayer.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
 			spogliatoio.AddItem(cambio);
-
 			cambio.Activated += async (item, index) =>
 			{
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
 				HUD.MenuPool.CloseAllMenus();
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
-				if (!Cache.Char.StatiPlayer.InServizio) 
+
+				if (!Cache.Char.StatiPlayer.InServizio)
 				{
-					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi)
-					{
-						if (Grado.Value.Id == Cache.Char.CurrentChar.job.grade)
+					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.Char.CurrentChar.job.grade))
+						switch (Cache.Char.CurrentChar.skin.sex)
 						{
-							switch (Cache.Char.CurrentChar.skin.sex)
-							{
-								case "Maschio":
-									CambiaVestito(Grado.Value.Vestiti.Maschio);
-									break;
-								case "Femmina":
-									CambiaVestito(Grado.Value.Vestiti.Femmina);
-									break;
-							}
+							case "Maschio":
+								CambiaVestito(Grado.Value.Vestiti.Maschio);
+
+								break;
+							case "Femmina":
+								CambiaVestito(Grado.Value.Vestiti.Femmina);
+
+								break;
 						}
-					}
+
 					Cache.Char.StatiPlayer.InServizio = true;
 				}
 				else
@@ -63,6 +57,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 					Cache.Char.StatiPlayer.InServizio = false;
 					await Funzioni.UpdateDress(Cache.Char.CurrentChar.dressing);
 				}
+
 				await BaseScript.Delay(500);
 				Screen.Fading.FadeIn(800);
 				NetworkFadeInEntity(PlayerPedId(), true);
@@ -98,16 +93,18 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		#endregion
 
 		#region Farmacia
+
 		public static async void MenuFarmacia()
 		{
 			UIMenu farmacia = new UIMenu("Farmacia e Medicinali", "Con prescrizione o senza?");
 			HUD.MenuPool.Add(farmacia);
-
 			farmacia.Visible = true;
 		}
+
 		#endregion
 
 		#region MenuF6
+
 		public static async void InteractionMenu()
 		{
 			UIMenu MenuMedico = new UIMenu("Menu Medico", "Salviamo qualche vita!");
@@ -116,12 +113,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			UIMenuItem rianima = new UIMenuItem("Tenta rianimazione", "Attenzione: potrebbe fallire!");
 			MenuMedico.AddItem(controlloFerite);
 			MenuMedico.AddItem(rianima);
-
 			MenuMedico.Visible = true;
 		}
+
 		#endregion
 
 		#region MenuVeicoli
+
 		private static List<Vehicle> veicoliParcheggio = new List<Vehicle>();
 		private static Ospedale StazioneAttuale = new Ospedale();
 		private static int LivelloGarage = 0;
@@ -136,10 +134,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			new Vector4(232.500f, -986.628f, -99.6f, 135.0f),
 			new Vector4(232.500f, -990.255f, -99.6f, 135.0f),
 			new Vector4(232.500f, -994.630f, -99.6f, 135.0f),
-			new Vector4(232.500f, -998.695f, -99.6f, 135.0f),
+			new Vector4(232.500f, -998.695f, -99.6f, 135.0f)
 		};
 		private static SpawnerSpawn PuntoAttuale = new SpawnerSpawn();
 		private static bool InGarage = false;
+
 		public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
 		{
 			Cache.Char.StatiPlayer.Istanza.Istanzia("SceltaVeicoliMedici");
@@ -148,8 +147,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Cache.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
 			Cache.PlayerPed.Heading = 85.162f;
 			InGarage = true;
+
 			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade)) <= 10)
-			{
 				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
@@ -164,24 +163,24 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 					veicoliParcheggio[i].IsSirenSilent = true;
 					veicoliParcheggio[i].SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
 				}
-			}
 			else
-			{
 				await GarageConPiuVeicoli(Stazione.VeicoliAutorizzati, LivelloGarage);
-			}
+
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeIn(800);
 			Client.Instance.AddTick(ControlloGarage);
 		}
+
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
 		{
 			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
 			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
-			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : (totale - (livelloGarage * 10));
+			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : totale - livelloGarage * 10;
+
 			for (int i = 0; i < LivelloGarageAttuali; i++)
 			{
-				veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(autorizzati[i + (livelloGarage * 10)].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
+				veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(autorizzati[i + livelloGarage * 10].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 				veicoliParcheggio[i].PlaceOnGround();
 				veicoliParcheggio[i].IsPersistent = true;
 				veicoliParcheggio[i].LockStatus = VehicleLockStatus.Unlocked;
@@ -198,23 +197,21 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		private static async Task ControlloGarage()
 		{
 			Ped p = Cache.PlayerPed;
+
 			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
-			{
 				if (InGarage)
 				{
 					if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiare piano");
-						if (Input.IsControlJustPressed(Control.Context))
-						{
-							MenuPiano();
-						}
+						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
-					if (p.IsInVehicle())
-					{
+
+					if (Cache.Char.StatiPlayer.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
+
 							if (Input.IsControlJustPressed(Control.VehicleAccelerate) && p.CurrentVehicle.IsEngineRunning)
 							{
 								Screen.Fading.FadeOut(800);
@@ -222,21 +219,25 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								int model = p.CurrentVehicle.Model.Hash;
 								foreach (Vehicle vehicle in veicoliParcheggio) vehicle.Delete();
 								veicoliParcheggio.Clear();
+
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
-								{
 									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
+									{
 										continue;
+									}
 									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
 									{
 										MediciMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords, PuntoAttuale.SpawnPoints[i].Heading);
+
 										break;
 									}
 									else
 									{
 										MediciMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords, PuntoAttuale.SpawnPoints[0].Heading);
+
 										break;
 									}
-								}
+
 								p.CurrentVehicle.SetVehicleFuelLevel(100f);
 								p.CurrentVehicle.IsEngineRunning = true;
 								p.CurrentVehicle.IsDriveable = true;
@@ -254,9 +255,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								Client.Instance.RemoveTick(ControlloGarage);
 							}
 						}
-					}
 				}
-			}
 		}
 
 		private static async void MenuPiano()
@@ -268,26 +267,28 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
-			{
-				if (i % 10 == 0) piani++;
-			}
+				if (i % 10 == 0)
+					piani++;
+
 			for (int i = 0; i < piani; i++)
 			{
 				UIMenuItem piano = new UIMenuItem($"{i + 1}° piano");
 				Ascensore.AddItem(piano);
-				if (i == LivelloGarage)
-					piano.SetRightBadge(BadgeStyle.Car);
+				if (i == LivelloGarage) piano.SetRightBadge(BadgeStyle.Car);
 			}
+
 			Ascensore.OnItemSelect += async (menu, item, index) =>
 			{
-
 				if (item.RightBadge == BadgeStyle.Car)
+				{
 					HUD.ShowNotification("Questo è il garage attuale!!", true);
+				}
 				else
 				{
 					HUD.MenuPool.CloseAllMenus();
 					Screen.Fading.FadeOut(800);
 					await BaseScript.Delay(1000);
+
 					if (item == esci)
 					{
 						Cache.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
@@ -303,17 +304,21 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						LivelloGarage = index - 1;
 						await GarageConPiuVeicoli(StazioneAttuale.VeicoliAutorizzati, LivelloGarage);
 					}
+
 					await BaseScript.Delay(1000);
 					Screen.Fading.FadeIn(800);
 				}
 			};
 			Ascensore.Visible = true;
 		}
+
 		#endregion
-		
+
 		#region MenuElicotteri
-		static Vehicle PreviewHeli = new Vehicle(0);
-		static Camera HeliCam = new Camera(0);
+
+		private static Vehicle PreviewHeli = new Vehicle(0);
+		private static Camera HeliCam = new Camera(0);
+
 		public static async void HeliMenu(Ospedale Stazione, SpawnerSpawn Punto)
 		{
 			LoadInterior(GetInteriorAtCoords(-1267.0f, -3013.135f, -48.5f));
@@ -325,8 +330,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			await BaseScript.Delay(1000);
 			UIMenu MenuElicotteri = new UIMenu("Elicotteri Medici", "Cura le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
-
-
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
 			{
@@ -341,55 +344,50 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				PreviewHeli.IsPersistent = true;
 				PreviewHeli.PlaceOnGround();
 				PreviewHeli.IsPositionFrozen = true;
-				if (PreviewHeli.Model.Hash == 353883353)
-					SetVehicleLivery(PreviewHeli.Handle, 1);
+				if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 1);
 				PreviewHeli.LockStatus = VehicleLockStatus.Locked;
 				SetHeliBladesFullSpeed(PreviewHeli.Handle);
 				PreviewHeli.IsInvincible = true;
 				PreviewHeli.IsEngineRunning = true;
 				PreviewHeli.IsDriveable = false;
-				if (HeliCam.IsActive && PreviewHeli.Exists())
-				{
-					HeliCam.PointAt(PreviewHeli);
-				}
+				if (HeliCam.IsActive && PreviewHeli.Exists()) HeliCam.PointAt(PreviewHeli);
 			};
-
 			MenuElicotteri.OnItemSelect += async (menu, item, index) =>
 			{
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
 				HeliCam.IsActive = false;
 				RenderScriptCams(false, false, 0, false, false);
-				for (int i = 0; i < Punto.SpawnPoints.Count; i++)
-				{
-					if (!Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
+
+				foreach (SpawnPoints t in Punto.SpawnPoints)
+					if (!Funzioni.IsSpawnPointClear(t.Coords, 2f))
 					{
 						continue;
 					}
-					else if (Funzioni.IsSpawnPointClear(Punto.SpawnPoints[i].Coords, 2f))
+					else if (Funzioni.IsSpawnPointClear(t.Coords, 2f))
 					{
-						MediciMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[i].Coords, Punto.SpawnPoints[i].Heading);
+						MediciMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, t.Coords, t.Heading);
+
 						break;
 					}
 					else
 					{
 						MediciMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[0].Coords, Punto.SpawnPoints[0].Heading);
+
 						break;
 					}
-				}
+
 				Cache.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
 				Cache.PlayerPed.CurrentVehicle.IsDriveable = true;
 				Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
 				Cache.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
-				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353)
-					SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 1);
+				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 1);
 				VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
 				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();
 			};
-
 			HUD.MenuPool.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
 			{
 				if (state == MenuState.Opened && newmenu == MenuElicotteri)
@@ -399,16 +397,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 					PreviewHeli.IsPersistent = true;
 					PreviewHeli.PlaceOnGround();
 					PreviewHeli.IsPositionFrozen = true;
-					if (PreviewHeli.Model.Hash == 353883353)
-						SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
+					if (PreviewHeli.Model.Hash == 353883353) SetVehicleLivery(PreviewHeli.Handle, 1); // 0 per pula, 1 per medici.. funziona solo per i veicoli d'emergenza!
 					PreviewHeli.LockStatus = VehicleLockStatus.Locked;
 					PreviewHeli.IsInvincible = true;
 					PreviewHeli.IsEngineRunning = true;
 					PreviewHeli.IsDriveable = false;
 					Client.Instance.AddTick(Heading);
 					HeliCam.PointAt(PreviewHeli);
-					if (GetInteriorFromEntity(PreviewHeli.Handle) != 0)
-						SetFocusEntity(PreviewHeli.Handle);
+					if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
 					while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
 					RenderScriptCams(true, false, 0, false, false);
 					Screen.Fading.FadeIn(800);
@@ -429,8 +425,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			};
 			MenuElicotteri.Visible = true;
 		}
-		#endregion
 
+		#endregion
 
 		private static async Task Heading()
 		{
@@ -438,12 +434,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			{
 				RequestCollisionAtCoord(-1267.0f, -3013.135f, -48.5f);
 				PreviewHeli.Heading += 1;
-				if (!PreviewHeli.IsEngineRunning)
-				{
-					SetHeliBladesFullSpeed(PreviewHeli.Handle);
-				}
+				if (!PreviewHeli.IsEngineRunning) SetHeliBladesFullSpeed(PreviewHeli.Handle);
 			}
 		}
-
 	}
 }

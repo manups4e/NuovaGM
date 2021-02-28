@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Status;
 
 namespace TheLastPlanet.Client.Core.Utility
@@ -81,7 +80,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Cache.AddPlayer(data);
 			DisplayRadar(false);
-			LogIn.charSelect();
+			LogIn.LogIn.charSelect();
 		}
 
 		public static async void teleportCoords(float x, float y, float z)
@@ -108,23 +107,26 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static bool On = false;
 		public static void DelGun(string toggle)
 		{
-			if (toggle == "on" && (!On))
+			switch (toggle)
 			{
-				HUD.HUD.ShowNotification("~g~DelGun Attivata!");
-				On = true;
-			}
-			else if (toggle == "on" && On)
-			{
-				HUD.HUD.ShowNotification("~y~DelGun già attivata!");
-			}
-			else if (toggle == "off" && On)
-			{
-				HUD.HUD.ShowNotification("~b~DelGun Disattivata!");
-				On = false;
-			}
-			else if (toggle == "off" && (!On))
-			{
-				HUD.HUD.ShowNotification("~y~DelGun già Disattivata!");
+				case "on" when !On:
+					HUD.HUD.ShowNotification("~g~DelGun Attivata!");
+					On = true;
+
+					break;
+				case "on" when On:
+					HUD.HUD.ShowNotification("~y~DelGun già attivata!");
+
+					break;
+				case "off" when On:
+					HUD.HUD.ShowNotification("~b~DelGun Disattivata!");
+					On = false;
+
+					break;
+				case "off" when !On:
+					HUD.HUD.ShowNotification("~y~DelGun già Disattivata!");
+
+					break;
 			}
 		}
 
@@ -186,10 +188,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static void DeleteVehicle()
 		{
 			Entity vehicle = new Vehicle(Funzioni.GetVehicleInDirection());
-			if (Cache.PlayerPed.IsInVehicle())
-			{
-				vehicle = Cache.PlayerPed.CurrentVehicle;
-			}
+			if (Cache.Char.StatiPlayer.InVeicolo) vehicle = Cache.PlayerPed.CurrentVehicle;
 
 			if (vehicle.Exists())
 			{
@@ -311,24 +310,19 @@ namespace TheLastPlanet.Client.Core.Utility
 					int tint = Cache.Char.getCharWeapons(Cache.Char.char_current)[i].tint;
 					Cache.PlayerPed.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
 					int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
+
 					if (Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components.Count > 0)
-					{
-						for (int j = 0; j < Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components.Count; j++)
+						foreach (Components weaponComponent in Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components)
 						{
-							Components weaponComponent = Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components[j];
 							uint componentHash = Funzioni.HashUint(weaponComponent.name);
-							if (weaponComponent.active)
-							{
-								GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
-							}
+							if (weaponComponent.active) GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
 						}
-					}
+
 					SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
-					if (!ammoTypes.ContainsKey(ammoType))
-					{
-						AddAmmoToPed(PlayerPedId(), weaponHash, Cache.Char.getCharWeapons(Cache.Char.char_current)[i].ammo);
-						ammoTypes[ammoType] = true;
-					}
+
+					if (ammoTypes.ContainsKey(ammoType)) continue;
+					AddAmmoToPed(PlayerPedId(), weaponHash, Cache.Char.getCharWeapons(Cache.Char.char_current)[i].ammo);
+					ammoTypes[ammoType] = true;
 				}
 			}
 			Main.LoadoutLoaded = true;

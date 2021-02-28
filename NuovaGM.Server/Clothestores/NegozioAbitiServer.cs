@@ -1,12 +1,11 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Server.Core;
-
 using System;
 
 namespace TheLastPlanet.Server.Clothestores
 {
-	static class NegozioAbitiServer
+	internal static class NegozioAbitiServer
 	{
 		public static void Init()
 		{
@@ -18,6 +17,7 @@ namespace TheLastPlanet.Server.Clothestores
 		{
 			User user;
 			Server.PlayerList.TryGetValue(p.Handle, out user);
+
 			if (num == 1)
 			{
 				user.Money -= price;
@@ -36,6 +36,7 @@ namespace TheLastPlanet.Server.Clothestores
 		{
 			User user;
 			Server.PlayerList.TryGetValue(p.Handle, out user);
+
 			if (num == 1)
 			{
 				user.Money -= price;

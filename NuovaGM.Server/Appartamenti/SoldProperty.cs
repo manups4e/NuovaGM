@@ -19,12 +19,11 @@ namespace TheLastPlanet.Server.Proprietà
 		public string Guardaroba;
 		public string Inventario;
 		public string Armeria;
-		[JsonProperty("last_bollette")]
-		public DateTime Bollette;
-		[JsonProperty("data_acquisto")]
-		public DateTime Acquisto;
+		[JsonProperty("last_bollette")] public DateTime Bollette;
+		[JsonProperty("data_acquisto")] public DateTime Acquisto;
 
 		public SoldProperty() { }
+
 		public SoldProperty(string discord, string personaggio, string tipo, bool affitto, int prezzo, string nome, string label, string garage, string guardaroba, string inventario, string armeria, DateTime bollette, DateTime acquisto)
 		{
 			DiscordId = discord;
@@ -41,6 +40,7 @@ namespace TheLastPlanet.Server.Proprietà
 			Bollette = bollette;
 			Acquisto = acquisto;
 		}
+
 		public SoldProperty(dynamic data)
 		{
 			DiscordId = data.DiscordId;

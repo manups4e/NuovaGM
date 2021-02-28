@@ -57,6 +57,7 @@ namespace TheLastPlanet.Server
 			while (!responseDictionary.ContainsKey(token)) await BaseScript.Delay(0);
 			ConcurrentDictionary<string, dynamic> res = responseDictionary[token];
 			responseDictionary.TryRemove(token, out res);
+
 			return res;
 		}
 	}
@@ -65,7 +66,8 @@ namespace TheLastPlanet.Server
 	{
 		public static async Task<RequestResponse> Http(string url, string method = "GET", string data = "", ConcurrentDictionary<string, string> headers = null)
 		{
-			headers = (headers == null) ? new ConcurrentDictionary<string, string>() : headers;
+			headers = headers == null ? new ConcurrentDictionary<string, string>() : headers;
+
 			return ParseRequestResponseInternal(await RequestInternal.Http(url, method, data, headers));
 		}
 
@@ -73,15 +75,12 @@ namespace TheLastPlanet.Server
 		{
 			WebHeaderCollection headers = new WebHeaderCollection();
 			IDictionary<string, object> headerDict = (IDictionary<string, object>)headerDyn;
-			foreach (KeyValuePair<string, object> entry in headerDict)
-				headers.Add(entry.Key, entry.Value.ToString());
+			foreach (KeyValuePair<string, object> entry in headerDict) headers.Add(entry.Key, entry.Value.ToString());
+
 			return headers;
 		}
 
-		private static HttpStatusCode ParseStatusInternal(int status)
-		{
-			return (HttpStatusCode)Enum.ToObject(typeof(HttpStatusCode), status);
-		}
+		private static HttpStatusCode ParseStatusInternal(int status) { return (HttpStatusCode)Enum.ToObject(typeof(HttpStatusCode), status); }
 
 		private static RequestResponse ParseRequestResponseInternal(IDictionary<string, dynamic> rr)
 		{
@@ -89,9 +88,8 @@ namespace TheLastPlanet.Server
 			result.status = ParseStatusInternal(rr["status"]);
 			result.headers = ParseHeadersInternal(rr["headers"]);
 			result.content = rr["content"];
+
 			return result;
 		}
-
 	}
-
 }

@@ -70,24 +70,24 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
 
         public bool Visible
         {
-            get { return _visible; }
-            set
-            {
-                if (value)
-                {
-                    API.SetPauseMenuActive(true);
-                    Screen.Effects.Start(ScreenEffect.FocusOut, 800);
-                    API.TransitionToBlurred(700);
-                }
-                else
-                {
-                    API.SetPauseMenuActive(false);
-                    Screen.Effects.Start(ScreenEffect.FocusOut, 500);
-                    API.TransitionFromBlurred(400);
-                }
-                _visible = value;
-                Cache.Char.StatiPlayer.InPausa = value;
-            }
+	        get => _visible;
+	        set
+	        {
+		        if (value)
+		        {
+			        API.SetPauseMenuActive(true);
+			        Screen.Effects.Start(ScreenEffect.FocusOut, 800);
+			        API.TransitionToBlurred(700);
+		        }
+		        else
+		        {
+			        API.SetPauseMenuActive(false);
+			        Screen.Effects.Start(ScreenEffect.FocusOut, 500);
+			        API.TransitionFromBlurred(400);
+		        }
+
+		        _visible = value;
+	        }
         }
         public void AddTab(TabItem item)
         {

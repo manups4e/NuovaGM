@@ -12,10 +12,10 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Negozi
 {
-	static class Armerie
+	internal static class Armerie
 	{
 		private static MenuPool pool = HUD.MenuPool;
-		static List<ArmiLicenza> armi1 = new List<ArmiLicenza>()
+		private static List<ArmiLicenza> armi1 = new List<ArmiLicenza>()
 		{
 			new ArmiLicenza("WEAPON_PISTOL", 300),
 			new ArmiLicenza("WEAPON_FLASHLIGHT", 60),
@@ -24,19 +24,19 @@ namespace TheLastPlanet.Client.Negozi
 			new ArmiLicenza("WEAPON_BAT", 100),
 			new ArmiLicenza("WEAPON_FIREEXTINGUISHER", 100),
 			new ArmiLicenza("WEAPON_BALL", 50),
-			new ArmiLicenza("WEAPON_SMOKEGRENADE", 100),
+			new ArmiLicenza("WEAPON_SMOKEGRENADE", 100)
 		};
 
-		static List<ArmiLicenza> armi2 = new List<ArmiLicenza>()
+		private static List<ArmiLicenza> armi2 = new List<ArmiLicenza>()
 		{
 			new ArmiLicenza("WEAPON_MICROSMG", 1400),
 			new ArmiLicenza("WEAPON_PUMPSHOTGUN", 3400),
 			new ArmiLicenza("WEAPON_ASSAULTRIFLE", 10000),
 			new ArmiLicenza("WEAPON_SPECIALCARBINE", 15000),
-			new ArmiLicenza("WEAPON_SNIPERRIFLE", 22000),
+			new ArmiLicenza("WEAPON_SNIPERRIFLE", 22000)
 		};
 
-		static List<ArmiLicenza> armi3 = new List<ArmiLicenza>()
+		private static List<ArmiLicenza> armi3 = new List<ArmiLicenza>()
 		{
 			new ArmiLicenza("WEAPON_APPISTOL", 1100),
 			new ArmiLicenza("WEAPON_CARBINERIFLE", 12000),
@@ -46,11 +46,7 @@ namespace TheLastPlanet.Client.Negozi
 			new ArmiLicenza("WEAPON_STICKYBOMB", 500)
 		};
 
-		static List<ArmiLicenza> componenti = new List<ArmiLicenza>()
-		{
-			new ArmiLicenza("COMPONENT_AT_SCOPE_MACRO", 1000),
-			new ArmiLicenza("COMPONENT_AT_PI_FLSH", 500),
-		};
+		private static List<ArmiLicenza> componenti = new List<ArmiLicenza>() { new ArmiLicenza("COMPONENT_AT_SCOPE_MACRO", 1000), new ArmiLicenza("COMPONENT_AT_PI_FLSH", 500) };
 
 		public static List<ArmiLicenza> tinte = new List<ArmiLicenza>()
 		{
@@ -61,10 +57,10 @@ namespace TheLastPlanet.Client.Negozi
 			new ArmiLicenza("WM_TINT4", 500),
 			new ArmiLicenza("WM_TINT5", 500),
 			new ArmiLicenza("WM_TINT6", 500),
-			new ArmiLicenza("WM_TINT7", 500),
+			new ArmiLicenza("WM_TINT7", 500)
 		};
 
-		static UIMenuItem attTi = null;
+		private static UIMenuItem attTi = null;
 
 		public static async void NuovaArmeria(Ped playerPed, object[] args)
 		{
@@ -84,40 +80,43 @@ namespace TheLastPlanet.Client.Negozi
 						ArmiLic1.ParentItem.Enabled = false;
 						ArmiLic1.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
+
 					if (!Cache.Char.hasLicense("Armi2"))
 					{
 						ArmiLic2.ParentItem.Enabled = false;
 						ArmiLic2.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
+
 					if (!Cache.Char.hasLicense("Armi3"))
 					{
 						ArmiLic3.ParentItem.Enabled = false;
 						ArmiLic3.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
-					if (Cache.Char.CurrentChar.weapons.Count == 0)
-					{
-						component.ParentItem.Enabled = false;
-						component.ParentItem.SetRightBadge(BadgeStyle.Lock);
-						Tinte.ParentItem.Enabled = false;
-						Tinte.ParentItem.SetRightBadge(BadgeStyle.Lock);
-					}
+
+					if (Cache.Char.CurrentChar.weapons.Count != 0) return;
+					component.ParentItem.Enabled = false;
+					component.ParentItem.SetRightBadge(BadgeStyle.Lock);
+					Tinte.ParentItem.Enabled = false;
+					Tinte.ParentItem.SetRightBadge(BadgeStyle.Lock);
 				}
+
 				#region ArmiBase
+
 				else if (state == MenuState.ChangeForward && newmenu == ArmiLic1)
 				{
 					ArmiLic1.Clear();
+
 					for (int i = 0; i < armi1.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[i].name)));
-						if ((Cache.Char.Money >= armi1[i].price) || (Cache.Char.Bank >= armi1[i].price))
+						if (Cache.Char.Money >= armi1[i].price || Cache.Char.Bank >= armi1[i].price)
 							arma.SetRightLabel("~g~" + armi1[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi1[i].price + "$");
-
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name)))
-							arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
 						ArmiLic1.AddItem(arma);
 					}
+
 					ArmiLic1.OnItemSelect += (_menu, _item, _index) =>
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[_index].name)))
@@ -137,7 +136,9 @@ namespace TheLastPlanet.Client.Negozi
 									BaseScript.TriggerServerEvent("lprp:removebank", 150);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
+								}
 							}
 						}
 						else
@@ -159,28 +160,33 @@ namespace TheLastPlanet.Client.Negozi
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
+								}
 							}
 						}
 					};
 				}
+
 				#endregion
+
 				#region ArmiMedie
+
 				else if (state == MenuState.ChangeForward && newmenu == ArmiLic2)
 				{
 					ArmiLic2.Clear();
+
 					for (int i = 0; i < armi2.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[i].name)));
-						if ((Cache.Char.Money >= armi2[i].price) || (Cache.Char.Bank >= armi2[i].price))
+						if (Cache.Char.Money >= armi2[i].price || Cache.Char.Bank >= armi2[i].price)
 							arma.SetRightLabel("~g~" + armi2[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi2[i].price + "$");
-
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name)))
-							arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
 						ArmiLic2.AddItem(arma);
 					}
+
 					ArmiLic2.OnItemSelect += (_menu, _item, _index) =>
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[_index].name)))
@@ -200,7 +206,9 @@ namespace TheLastPlanet.Client.Negozi
 									BaseScript.TriggerServerEvent("lprp:removebank", 150);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
+								}
 							}
 						}
 						else
@@ -222,28 +230,33 @@ namespace TheLastPlanet.Client.Negozi
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
+								}
 							}
 						}
 					};
 				}
+
 				#endregion
+
 				#region ArmiAvanzate
+
 				else if (state == MenuState.ChangeForward && newmenu == ArmiLic3)
 				{
 					ArmiLic3.Clear();
+
 					for (int i = 0; i < armi3.Count; i++)
 					{
 						UIMenuItem arma = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[i].name)));
-						if ((Cache.Char.Money >= armi3[i].price) || (Cache.Char.Bank >= armi3[i].price))
+						if (Cache.Char.Money >= armi3[i].price || Cache.Char.Bank >= armi3[i].price)
 							arma.SetRightLabel("~g~" + armi3[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi3[i].price + "$");
-
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name)))
-							arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
 						ArmiLic3.AddItem(arma);
 					}
+
 					ArmiLic3.OnItemSelect += (_menu, _item, _index) =>
 					{
 						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[_index].name)))
@@ -263,7 +276,9 @@ namespace TheLastPlanet.Client.Negozi
 									BaseScript.TriggerServerEvent("lprp:removebank", 150);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare le munizioni per quest'arma!");
+								}
 							}
 						}
 						else
@@ -285,23 +300,28 @@ namespace TheLastPlanet.Client.Negozi
 									_item.SetRightBadge(BadgeStyle.Gun);
 								}
 								else
+								{
 									HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare quest'arma!");
+								}
 							}
 						}
 					};
 				}
+
 				#endregion
+
 				#region Componenti
+
 				else if (state == MenuState.ChangeForward && newmenu == component)
 				{
 					component.Clear();
+
 					foreach (Weapons armi in Cache.Char.CurrentChar.weapons)
-					{
 						if (SharedScript.hasComponents(armi.name))
 						{
 							UIMenu Arma = pool.AddSubMenu(component, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i componenti acquistabili per la tua arma");
+
 							foreach (ArmiLicenza co in componenti)
-							{
 								if (SharedScript.hasWeaponComponent(armi.name, co.name))
 								{
 									UIMenuItem compon = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(co.name)));
@@ -313,19 +333,20 @@ namespace TheLastPlanet.Client.Negozi
 									for (int k = 0; k < armi.components.Count; k++)
 										if (armi.components[k].name == co.name)
 											compon.SetRightBadge(BadgeStyle.Ammo);
-
 								}
-							}
+
 							Arma.OnItemSelect += async (_menu, _item, _index) =>
 							{
 								if (_item.RightBadge == BadgeStyle.Ammo)
+								{
 									HUD.ShowNotification("Hai già acquistato questo componente!!", true);
+								}
 								else
 								{
 									ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Text);
-
 									Log.Printa(LogType.Debug, "Prezzo = " + arm.price);
 									Log.Printa(LogType.Debug, "name = " + arm.name);
+
 									if (Cache.Char.Money >= arm.price)
 									{
 										BaseScript.TriggerServerEvent("lprp:addWeaponComponent", armi.name, arm.name);
@@ -350,41 +371,58 @@ namespace TheLastPlanet.Client.Negozi
 								}
 							};
 						}
-					}
 				}
+
 				#endregion
+
 				#region Tinte
+
 				else if (state == MenuState.ChangeForward && newmenu == Tinte)
 				{
 					Tinte.Clear();
+
 					foreach (Weapons armi in Cache.Char.CurrentChar.weapons)
 					{
 						bool Hastints = SharedScript.hasTints(armi.name);
-						if (Hastints)
+
+						if (!Hastints) continue;
+						UIMenu Tnt = pool.AddSubMenu(Tinte, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
+
+						foreach (ArmiLicenza tin in tinte)
 						{
-							UIMenu Tnt = pool.AddSubMenu(Tinte, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i colori acquistabili per la tua arma");
-							foreach (ArmiLicenza tin in tinte)
+							UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
+							Tnt.AddItem(tintina);
+							if (Cache.Char.Money >= tin.price || Cache.Char.Bank >= tin.price)
+								tintina.SetRightLabel("~g~" + tin.price + "$");
+							else
+								tintina.SetRightLabel("~r~" + tin.price + "$");
+							if (Cache.Char.hasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeStyle.Ammo);
+						}
+
+						Tnt.OnItemSelect += async (_menu, _item, _index) =>
+						{
+							if (_item.RightBadge == BadgeStyle.Ammo)
 							{
-								UIMenuItem tintina = new UIMenuItem(Funzioni.GetWeaponLabel(Funzioni.HashUint(tin.name)));
-								Tnt.AddItem(tintina);
-								if ((Cache.Char.Money >= tin.price) || (Cache.Char.Bank >= tin.price))
-									tintina.SetRightLabel("~g~" + tin.price + "$");
-								else
-									tintina.SetRightLabel("~r~" + tin.price + "$");
-
-								if (Cache.Char.hasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7))))
-									tintina.SetRightBadge(BadgeStyle.Ammo);
-
+								HUD.ShowNotification("Hai già acquistato questo colore!!", true);
 							}
-							Tnt.OnItemSelect += async (_menu, _item, _index) =>
+							else
 							{
-								if (_item.RightBadge == BadgeStyle.Ammo)
-									HUD.ShowNotification("Hai già acquistato questo colore!!", true);
+								if (Cache.Char.Money >= tinte[_index].price)
+								{
+									BaseScript.TriggerServerEvent("lprp:removemoney", tinte[_index].price);
+									BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
+									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
+									_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
+									//attTi.SetRightBadge(BadgeStyle.None);
+									//attTi = _item;
+									_item.SetRightBadge(BadgeStyle.Ammo);
+									armi.tint = _index;
+								}
 								else
 								{
-									if (Cache.Char.Money >= tinte[_index].price)
+									if (Cache.Char.Bank >= tinte[_index].price)
 									{
-										BaseScript.TriggerServerEvent("lprp:removemoney", tinte[_index].price);
+										BaseScript.TriggerServerEvent("lprp:removebank", tinte[_index].price);
 										BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
 										HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
 										_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
@@ -395,36 +433,25 @@ namespace TheLastPlanet.Client.Negozi
 									}
 									else
 									{
-										if (Cache.Char.Bank >= tinte[_index].price)
-										{
-											BaseScript.TriggerServerEvent("lprp:removebank", tinte[_index].price);
-											BaseScript.TriggerServerEvent("lprp:addWeaponTint", armi.name, _index);
-											HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
-											_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
-											//attTi.SetRightBadge(BadgeStyle.None);
-											//attTi = _item;
-											_item.SetRightBadge(BadgeStyle.Ammo);
-											armi.tint = _index;
-										}
-										else
-											HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare questo colore!", true);
+										HUD.ShowNotification("Non possiedi i soldi necessari ad acquistare questo colore!", true);
 									}
 								}
-							};
-						}
+							}
+						};
 					}
-				};
+				}
+
 				#endregion
 			};
 			Armeria.Visible = true;
 		}
-
 	}
 
 	public class ArmiLicenza
 	{
 		public string name;
 		public int price;
+
 		public ArmiLicenza(string name, int price)
 		{
 			this.name = name;

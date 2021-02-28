@@ -16,15 +16,15 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 {
 	public class RimozioneClient
 	{
-		static Towing Rimozione;
-		static Vehicle VeicoloLavorativo;
-		static Vehicle VeicoloDaRimuovere;
-		static Blip BlipVeicoloDaRimuovere;
-		static Blip PuntoDiConsegna;
-		static Vector4 puntoDiSpawn;
-		static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
-		static int TempoRimozione;
-		static bool distwarn = false;
+		private static Towing Rimozione;
+		private static Vehicle VeicoloLavorativo;
+		private static Vehicle VeicoloDaRimuovere;
+		private static Blip BlipVeicoloDaRimuovere;
+		private static Blip PuntoDiConsegna;
+		private static Vector4 puntoDiSpawn;
+		private static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
+		private static int TempoRimozione;
+		private static bool distwarn = false;
 
 		public static void Init()
 		{
@@ -51,8 +51,6 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			*/
 
 			// cercare "hint" per le telecamere.. fiiiiiigo
-
-
 			Blip Rim = World.CreateBlip(Rimozione.InizioLavoro);
 			Rim.Sprite = BlipSprite.TowTruck;
 			Rim.Name = "Soccorso Stradale";
@@ -60,17 +58,18 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			SetBlipDisplay(Rim.Handle, 4);
 		}
 
-
 		public static async Task InizioLavoro()
 		{
 			Ped p = Cache.PlayerPed;
+
 			if (Cache.Char.CurrentChar.job.name != "Rimozione forzata")
 			{
-				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50))
-					World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
+				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50)) World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
+
 				if (p.IsInRangeOf(Rimozione.InizioLavoro, 1.375f))
 				{
 					HUD.ShowHelp("Vuoi lavorare nel magico mondo del ~y~soccorso stradale~w~?\nPremi ~INPUT_CONTEXT~ per accettare un contratto lavorativo!");
+
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Screen.Fading.FadeOut(800);
@@ -91,6 +90,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					}
 				}
 			}
+
 			await Task.FromResult(0);
 		}
 
@@ -99,33 +99,36 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			if (VeicoloLavorativo != null)
 			{
 				float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), VeicoloLavorativo.Position);
-				if (dist > 48 && dist < 80)
-					Screen.ShowSubtitle("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!", 1);
+				if (dist > 48 && dist < 80) Screen.ShowSubtitle("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!", 1);
+
 				if (dist > 80)
 				{
 					Client.Instance.RemoveTick(LavoroRimozioneForzata);
 					Client.Instance.RemoveTick(ControlloRimozione);
 					Client.Instance.AddTick(InizioLavoro);
-					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo))
-						HUD.TimerBarPool.Remove(timerVeicolo);
+					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
 					Cache.Char.CurrentChar.job.name = "Disoccupato";
 					Cache.Char.CurrentChar.job.grade = 0;
+
 					if (VeicoloLavorativo != null && VeicoloLavorativo.Exists())
 					{
 						VeicoloLavorativo.Delete();
 						VeicoloLavorativo = null;
 					}
+
 					if (BlipVeicoloDaRimuovere != null && BlipVeicoloDaRimuovere.Exists())
 					{
 						BlipVeicoloDaRimuovere.Delete();
 						BlipVeicoloDaRimuovere = null;
 					}
+
 					if (PuntoDiConsegna != null && PuntoDiConsegna.Exists())
 					{
 						PuntoDiConsegna.Delete();
 						PuntoDiConsegna = null;
 					}
+
 					if (VeicoloDaRimuovere != null && VeicoloDaRimuovere.Exists())
 					{
 						VeicoloDaRimuovere.Delete();
@@ -141,6 +144,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			{
 				await BaseScript.Delay(10000);
 				puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
+
 				while (Funzioni.GetVehiclesInArea(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), 3f).ToList().FirstOrDefault(x => x.HasDecor("VeicoloRimozione")) != null)
 				{
 					await BaseScript.Delay(0);
@@ -149,7 +153,6 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 
 				// DEBUG
 				Log.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
-
 				uint streename = 0;
 				uint crossing = 0;
 				GetStreetNameAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z, ref streename, ref crossing);
@@ -161,17 +164,16 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 				BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
 				BlipVeicoloDaRimuovere.Color = BlipColor.Red;
 				BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
-				if (Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Cache.Char.posizione.ToVector3()) < 1000)
-					TempoRimozione = Funzioni.GetRandomInt(60, 120);
-				else
-					TempoRimozione = Funzioni.GetRandomInt(120, 240);
+				TempoRimozione = Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Cache.Char.posizione.ToVector3()) < 1000 ? Funzioni.GetRandomInt(60, 120) : Funzioni.GetRandomInt(120, 240);
 				HUD.TimerBarPool.Add(timerVeicolo);
 				Client.Instance.AddTick(TimerVeicolo);
+
 				while (Vector3.Distance(Cache.Char.posizione.ToVector3(), new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z)) > 200 && TempoRimozione > 0)
 				{
 					if (VeicoloLavorativo == null) return;
 					await BaseScript.Delay(0);
 				}
+
 				if (TempoRimozione > 0)
 				{
 					VeicoloDaRimuovere = await Funzioni.SpawnVehicleNoPlayerInside(veicolo, new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), puntoDiSpawn.W);
@@ -190,12 +192,12 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Il veicolo da rimuovere e' un modello ~y~{VeicoloDaRimuovere.LocalizedName}~w~ con targa ~y~{VeicoloDaRimuovere.Mods.LicensePlate}~w~", "CHAR_CALL911", IconType.DollarIcon);
 				}
 			}
+
 			if (VeicoloLavorativo == null) return;
 			while (Vector3.Distance(Cache.Char.posizione.ToVector3(), VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0 && VeicoloDaRimuovere != null) await BaseScript.Delay(0);
-			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Cache.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10))
-				HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
-			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle)
-				HUD.ShowHelp("Hai agganciato il veicolo sbagliato!");
+			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && Cache.PlayerPed.IsInRangeOf(VeicoloDaRimuovere.Position, 10)) HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
+			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle) HUD.ShowHelp("Hai agganciato il veicolo sbagliato!");
+
 			//while (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle && Vector3.Distance(VeicoloDaRimuovere.Position, PuntoDiConsegna.Position) > 25) await BaseScript.Delay(0);
 			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == VeicoloDaRimuovere.Handle)
 			{
@@ -218,10 +220,13 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					PuntoDiConsegna = null;
 				}
 			}
+
 			if (PuntoDiConsegna != null && VeicoloDaRimuovere.IsInRangeOf(PuntoDiConsegna.Position, 25))
 			{
 				if (IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloDaRimuovere.Handle))
+				{
 					HUD.DrawText3D(PuntoDiConsegna.Position, Colors.WhiteSmoke, "Sgancia qui il veicolo per depositarlo!");
+				}
 				else
 				{
 					float money = 200 + VeicoloDaRimuovere.BodyHealth / 10;
@@ -245,26 +250,32 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 				timerVeicolo.TextTimerBar.Caption = tempo;
 				await BaseScript.Delay(1000);
 				TempoRimozione--;
+
 				if (VeicoloLavorativo != null && VeicoloLavorativo.Exists() && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == VeicoloDaRimuovere.Handle)
 				{
 					HUD.TimerBarPool.Remove(timerVeicolo);
 					Client.Instance.RemoveTick(TimerVeicolo);
+
 					break;
 				}
-				if ((VeicoloLavorativo != null && !VeicoloLavorativo.Exists()) || VeicoloLavorativo == null)
+
+				if (VeicoloLavorativo != null && !VeicoloLavorativo.Exists() || VeicoloLavorativo == null)
 				{
 					Client.Instance.RemoveTick(TimerVeicolo);
+
 					return;
 				}
+
 				await BaseScript.Delay(0);
 			}
+
 			if (TempoRimozione == 0)
-			{
 				if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) == 0)
 				{
 					HUD.TimerBarPool.Remove(timerVeicolo);
 					timerVeicolo = null;
 					HUD.ShowNotification("Il veicolo da rimuovere se n'è andato!!", NotificationColor.Red, true);
+
 					if (VeicoloDaRimuovere != null)
 					{
 						VeicoloDaRimuovere.IsPersistent = false;
@@ -272,11 +283,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 						VeicoloDaRimuovere.Delete();
 						VeicoloDaRimuovere = null;
 					}
+
 					BlipVeicoloDaRimuovere.Delete();
 					BlipVeicoloDaRimuovere = null;
 					Client.Instance.RemoveTick(TimerVeicolo);
 				}
-			}
 		}
 	}
 }

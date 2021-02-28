@@ -1,14 +1,13 @@
 ﻿using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Server.Core;
-
 using System;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.banking
 {
-	static class BankingServer
+	internal static class BankingServer
 	{
 		public static void Init()
 		{
@@ -17,13 +16,12 @@ namespace TheLastPlanet.Server.banking
 			Server.Instance.AddEventHandler("lprp:banking:atmdeposit", new Action<Player, int>(Deposita));
 		}
 
-		public static void SendMoney([FromSource]Player player, string name, int amount)
+		public static void SendMoney([FromSource] Player player, string name, int amount)
 		{
 			User user = player.GetCurrentChar();
+
 			if (user.Bank >= amount)
-			{
 				foreach (Player p in Server.Instance.GetPlayers.ToList())
-				{
 					if (user.FullName.ToLower() == name.ToLower())
 					{
 						user.Bank -= amount;
@@ -35,15 +33,11 @@ namespace TheLastPlanet.Server.banking
 					{
 						BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", false, "Persona non trovata!");
 					}
-				}
-			}
 			else
-			{
 				BaseScript.TriggerClientEvent(player, "lprp:banking:transactionstatus", false, "I tuoi fondi bancari non coprono la transazione!");
-			}
 		}
 
-		public static void Ritira([FromSource]Player p, int amount)
+		public static void Ritira([FromSource] Player p, int amount)
 		{
 			if (amount > 0)
 			{
@@ -52,6 +46,7 @@ namespace TheLastPlanet.Server.banking
 				int newamt = bal - amount;
 				Debug.WriteLine("bal = " + bal);
 				Debug.WriteLine("newamt = " + newamt);
+
 				if (bal >= amount)
 				{
 					user.Money += amount;
@@ -70,7 +65,8 @@ namespace TheLastPlanet.Server.banking
 				BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", false, "Devi inserire un valore positivo.");
 			}
 		}
-		public static void Deposita([FromSource]Player p, int amount)
+
+		public static void Deposita([FromSource] Player p, int amount)
 		{
 			if (amount > 0)
 			{
@@ -78,6 +74,7 @@ namespace TheLastPlanet.Server.banking
 				int money = user.Money;
 				int bankmoney = user.Bank;
 				int newamt = bankmoney + amount;
+
 				if (amount <= money)
 				{
 					user.Money -= amount;
@@ -96,6 +93,5 @@ namespace TheLastPlanet.Server.banking
 				BaseScript.TriggerClientEvent(p, "lprp:banking:transactionstatus", false, "Devi inserire un valore positivo.");
 			}
 		}
-
 	}
 }

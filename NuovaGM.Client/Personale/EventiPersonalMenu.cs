@@ -13,7 +13,7 @@ using TheLastPlanet.Client.Core.Status;
 
 namespace TheLastPlanet.Client.Personale
 {
-	static class EventiPersonalMenu
+	internal static class EventiPersonalMenu
 	{
 		public static bool WindowsGiu = false;
 		public static bool MostraStatus = true;
@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Personale
 				else
 					Client.Instance.RemoveTick(CinematicMode);
 */
-		static List<HudComponent> hideComponents = new List<HudComponent>()
+		private static List<HudComponent> hideComponents = new List<HudComponent>()
 		{
 			HudComponent.WantedStars,
 			HudComponent.WeaponIcon,
@@ -45,235 +45,208 @@ namespace TheLastPlanet.Client.Personale
 			HudComponent.RadioStationsWheel,
 			HudComponent.Saving,
 			HudComponent.GamingStreamUnusde,
-            //HudComponent.WeaponWheel, // forse per questo non potevo cambiare arma???
-            HudComponent.WeaponWheelStats
+			//HudComponent.WeaponWheel, // forse per questo non potevo cambiare arma???
+			HudComponent.WeaponWheelStats
 		};
 
-		static public async Task CinematicMode()
+		public static async Task CinematicMode()
 		{
 			hideComponents.ForEach(c => Screen.Hud.HideComponentThisFrame(c));
+
 			if (Main.ImpostazioniClient.LetterBox > 0f)
 			{
-				DrawRect(0.5f, Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, (Main.ImpostazioniClient.LetterBox / 1000), 0, 0, 0, 255);
-				DrawRect(0.5f, 1 - Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, (Main.ImpostazioniClient.LetterBox / 1000), 0, 0, 0, 255);
+				DrawRect(0.5f, Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, Main.ImpostazioniClient.LetterBox / 1000, 0, 0, 0, 255);
+				DrawRect(0.5f, 1 - Main.ImpostazioniClient.LetterBox / 1000 / 2, 1f, Main.ImpostazioniClient.LetterBox / 1000, 0, 0, 0, 255);
 			}
+
 			await Task.FromResult(0);
 		}
-
 
 		public static void Portiere(string portiera)
 		{
 			int port = 0;
 
-			if (portiera == "Anteriore Sinistra")
+			switch (portiera)
 			{
-				port = 0;
-			}
-			else if (portiera == "Anteriore Destra")
-			{
-				port = 1;
-			}
-			else if (portiera == "Posteriore Sinistra")
-			{
-				port = 2;
-			}
-			else if (portiera == "Posteriore Destra")
-			{
-				port = 3;
-			}
-			else if (portiera == "Cofano")
-			{
-				port = 4;
-			}
-			else if (portiera == "Bagagliaio")
-			{
-				port = 5;
+				case "Anteriore Sinistra":
+					port = 0;
+
+					break;
+				case "Anteriore Destra":
+					port = 1;
+
+					break;
+				case "Posteriore Sinistra":
+					port = 2;
+
+					break;
+				case "Posteriore Destra":
+					port = 3;
+
+					break;
+				case "Cofano":
+					port = 4;
+
+					break;
+				case "Bagagliaio":
+					port = 5;
+
+					break;
 			}
 
 			Vehicle vehicle = saveVehicle;
-			if (Cache.PlayerPed.IsInVehicle())
+
+			if (Cache.Char.StatiPlayer.InVeicolo)
 			{
 				Vehicle veh = Cache.PlayerPed.CurrentVehicle;
-				if (veh.Doors.HasDoor((VehicleDoorIndex)(port)))
+
+				if (veh.Doors.HasDoor((VehicleDoorIndex)port))
 				{
-					if (veh.Doors[(VehicleDoorIndex)(port)].IsOpen)
+					if (veh.Doors[(VehicleDoorIndex)port].IsOpen)
 					{
-						veh.Doors[(VehicleDoorIndex)(port)].Close();
+						veh.Doors[(VehicleDoorIndex)port].Close();
 						if (portiera == "Cofano" || portiera == "Bagagliaio")
-						{
 							HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-						}
 						else
-						{
 							HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-						}
 					}
 					else
 					{
-						veh.Doors[(VehicleDoorIndex)(port)].Open();
+						veh.Doors[(VehicleDoorIndex)port].Open();
 						if (portiera == "Cofano" || portiera == "Bagagliaio")
-						{
 							HUD.ShowNotification("Hai aperto il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-						}
 						else
-						{
 							HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-						}
 					}
 				}
 				else
 				{
 					if (portiera == "Cofano" || portiera == "Bagagliaio")
-					{
 						HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
-					}
 					else
-					{
 						HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
-					}
 				}
 			}
 			else
 			{
-				if (vehicle != null && vehicle.Exists())
+				if (vehicle == null || !vehicle.Exists()) return;
+				float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
+
+				if (distanceToVeh <= 20f)
 				{
-					float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
-					if (distanceToVeh <= 20f)
+					if (vehicle.Doors.HasDoor((VehicleDoorIndex)port))
 					{
-						if (vehicle.Doors.HasDoor((VehicleDoorIndex)port))
+						if (vehicle.Doors[(VehicleDoorIndex)port].IsOpen)
 						{
-							if (vehicle.Doors[(VehicleDoorIndex)(port)].IsOpen)
-							{
-								vehicle.Doors[(VehicleDoorIndex)(port)].Close();
-								if (portiera == "Cofano" || portiera == "Bagagliaio")
-								{
-									HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-								}
-								else
-								{
-									HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-								}
-							}
+							vehicle.Doors[(VehicleDoorIndex)port].Close();
+							if (portiera == "Cofano" || portiera == "Bagagliaio")
+								HUD.ShowNotification("Hai chiuso il ~y~ " + portiera + "~w~.", NotificationColor.Cyan);
 							else
-							{
-								vehicle.Doors[(VehicleDoorIndex)(port)].Open();
-								HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
-							}
+								HUD.ShowNotification("Hai chiuso la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
 						}
 						else
 						{
-							if (portiera == "Cofano" || portiera == "Bagagliaio")
-							{
-								HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
-							}
-							else
-							{
-								HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
-							}
+							vehicle.Doors[(VehicleDoorIndex)port].Open();
+							HUD.ShowNotification("Hai aperto la portiera~y~ " + portiera + "~w~.", NotificationColor.Cyan);
 						}
 					}
 					else
 					{
-						HUD.ShowNotification("Sei troppo distante dal tuo veicolo salvato!", NotificationColor.Red, true);
+						if (portiera == "Cofano" || portiera == "Bagagliaio")
+							HUD.ShowNotification("Questo veicolo non ha il ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
+						else
+							HUD.ShowNotification("Questo veicolo non ha la portiera ~b~ " + portiera + "~w~!", NotificationColor.Red, true);
 					}
+				}
+				else
+				{
+					HUD.ShowNotification("Sei troppo distante dal tuo veicolo salvato!", NotificationColor.Red, true);
 				}
 			}
 		}
 
-		static bool window0up = true;
-		static bool window1up = true;
-		static bool window2up = true;
-		static bool window3up = true;
+		private static bool window0up = true;
+		private static bool window1up = true;
+		private static bool window2up = true;
+		private static bool window3up = true;
+
 		public static void Finestrini(string finestrini)
 		{
-			if (Cache.PlayerPed.IsInVehicle())
+			if (!Cache.Char.StatiPlayer.InVeicolo) return;
+			if (Cache.PlayerPed.CurrentVehicle.Driver != Cache.PlayerPed) return;
+
+			switch (finestrini)
 			{
-				if (Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
-				{
-					if (finestrini == "Anteriore Sinistro")
-					{
-						if (window1up)
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollDown();
-							window1up = false;
-							WindowsGiu = true;
-						}
-						else
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollUp();
-							window1up = true;
-							WindowsGiu = false;
-						}
-					}
-					else if (finestrini == "Anteriore Destro")
-					{
-						if (window0up)
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollDown();
-							window0up = false;
-							WindowsGiu = true;
-						}
-						else
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollUp();
-							window0up = true;
-							WindowsGiu = false;
-						}
-					}
-					else if (finestrini == "Posteriore Sinistro")
-					{
-						if (window3up)
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollDown();
-							window3up = false;
-							WindowsGiu = true;
-						}
-						else
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollUp();
-							window3up = true;
-							WindowsGiu = false;
-						}
-					}
-					else if (finestrini == "Posteriore Destro")
-					{
-						if (window2up)
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollDown();
-							window2up = false;
-							WindowsGiu = true;
-						}
-						else
-						{
-							Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollUp();
-							window2up = true;
-							WindowsGiu = false;
-						}
-					}
-				}
+				case "Anteriore Sinistro" when window1up:
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollDown();
+					window1up = false;
+					WindowsGiu = true;
+
+					break;
+				case "Anteriore Sinistro":
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollUp();
+					window1up = true;
+					WindowsGiu = false;
+
+					break;
+				case "Anteriore Destro" when window0up:
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollDown();
+					window0up = false;
+					WindowsGiu = true;
+
+					break;
+				case "Anteriore Destro":
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollUp();
+					window0up = true;
+					WindowsGiu = false;
+
+					break;
+				case "Posteriore Sinistro" when window3up:
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollDown();
+					window3up = false;
+					WindowsGiu = true;
+
+					break;
+				case "Posteriore Sinistro":
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollUp();
+					window3up = true;
+					WindowsGiu = false;
+
+					break;
+				case "Posteriore Destro" when window2up:
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollDown();
+					window2up = false;
+					WindowsGiu = true;
+
+					break;
+				case "Posteriore Destro":
+					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollUp();
+					window2up = true;
+					WindowsGiu = false;
+
+					break;
 			}
 		}
 
 		public static void Save(bool saved)
 		{
-			if (Cache.PlayerPed.IsSittingInVehicle() && Cache.PlayerPed.CurrentVehicle.Driver == Cache.PlayerPed)
+			if (!Cache.PlayerPed.IsSittingInVehicle() || Cache.PlayerPed.CurrentVehicle.Driver != Cache.PlayerPed) return;
+
+			if (!saved)
 			{
-				if (!saved)
-				{
-					saveVehicle.AttachedBlip.Delete();
-					saveVehicle = null;
-					HUD.ShowNotification("Veicolo salvato ~r~rimosso~w~ attento se ti allontani verrà eliminato.", NotificationColor.Blue);
-					PersonalMenu.salvato = true;
-				}
-				else
-				{
-					saveVehicle = Cache.PlayerPed.CurrentVehicle;
-					saveVehicle.AttachBlip();
-					saveVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
-					saveVehicle.AttachedBlip.Color = BlipColor.Green;
-					HUD.ShowNotification("Questa ~y~" + saveVehicle.LocalizedName + "~w~ è stata~g~ salvata ~w~e non verrà eliminata se ti allontani.", NotificationColor.GreenDark);
-					PersonalMenu.salvato = true;
-				}
+				saveVehicle.AttachedBlip.Delete();
+				saveVehicle = null;
+				HUD.ShowNotification("Veicolo salvato ~r~rimosso~w~ attento se ti allontani verrà eliminato.", NotificationColor.Blue);
+				PersonalMenu.salvato = true;
+			}
+			else
+			{
+				saveVehicle = Cache.PlayerPed.CurrentVehicle;
+				saveVehicle.AttachBlip();
+				saveVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
+				saveVehicle.AttachedBlip.Color = BlipColor.Green;
+				HUD.ShowNotification("Questa ~y~" + saveVehicle.LocalizedName + "~w~ è stata~g~ salvata ~w~e non verrà eliminata se ti allontani.", NotificationColor.GreenDark);
+				PersonalMenu.salvato = true;
 			}
 		}
 
@@ -291,6 +264,7 @@ namespace TheLastPlanet.Client.Personale
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
 				float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
+
 				if (toggle)
 				{
 					if (vehicle.Exists())
@@ -394,10 +368,9 @@ namespace TheLastPlanet.Client.Personale
 		public static async Task MostramiStatus()
 		{
 			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
-			{
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || (Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerPed.IsWalking || Cache.PlayerPed.IsInVehicle() && !Cache.PlayerPed.CurrentVehicle.IsEngineRunning)))
+					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerPed.IsWalking || Cache.Char.StatiPlayer.InVeicolo && !Cache.PlayerPed.CurrentVehicle.IsEngineRunning))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
 						if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)
@@ -408,7 +381,6 @@ namespace TheLastPlanet.Client.Personale
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						else
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
-
 						if (StatsNeeds.Needs["Sete"].GetPercent() > 30f)
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Sete"].GetPercent() > 60f)
@@ -417,7 +389,6 @@ namespace TheLastPlanet.Client.Personale
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
-
 						if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 30f)
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 60f)
@@ -427,10 +398,9 @@ namespace TheLastPlanet.Client.Personale
 						else
 							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 					}
-					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
-						Cache.PlayerPed.Task.ClearAll();
+
+					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard) Cache.PlayerPed.Task.ClearAll();
 				}
-			}
 
 			await Task.FromResult(0);
 		}

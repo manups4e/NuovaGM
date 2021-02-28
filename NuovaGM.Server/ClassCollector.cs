@@ -11,11 +11,10 @@ using TheLastPlanet.Server.Interactions;
 using TheLastPlanet.Server.Lavori.Whitelistati;
 using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.Veicoli;
-using System;
 
 namespace TheLastPlanet.Server
 {
-	static class ClassCollector
+	internal static class ClassCollector
 	{
 		public static async void Init()
 		{

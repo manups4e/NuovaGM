@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Dapper;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
-
 using CitizenFX.Core;
 using Logger;
 using MySqlConnector;
@@ -23,13 +22,14 @@ namespace TheLastPlanet.Server
 					CommandDefinition def = new CommandDefinition(query, parameters);
 					IEnumerable<dynamic> result = await _conn.QueryAsync<dynamic>(def);
 					await _conn.CloseAsync();
-					await BaseScript.Delay(0);
+
 					return result;
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Printa(LogType.Fatal, ex.ToString());
+
 				return null;
 			}
 		}
@@ -42,9 +42,7 @@ namespace TheLastPlanet.Server
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
 					await _conn.ExecuteAsync(def);
-					await BaseScript.Delay(0);
 					await _conn.CloseAsync();
-					await BaseScript.Delay(0);
 				}
 			}
 			catch (Exception ex)

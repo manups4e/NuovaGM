@@ -10,7 +10,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Veicoli
 {
-	static class MenuAffittoVeicoli
+	internal static class MenuAffittoVeicoli
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		public static VeicoloAffitto veicoloInAffitto = null;
@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 5f);
 			foreach (Vehicle v in vehs) v.Delete();
-
 			UIMenu MenuAffitto = new UIMenu("LastPlanet Garages", "~b~Affittasi veicoli di tutte le marche!!", new System.Drawing.Point(0, 0), Main.Textures["ModGarage"].Key, Main.Textures["ModGarage"].Value);
 			pool.Add(MenuAffitto);
 			UIMenuItem rest = new UIMenuItem("Restituisci Veicolo", "E' inutile pagarlo se non ti serve più... ridaccelo!");
@@ -41,6 +40,7 @@ namespace TheLastPlanet.Client.Veicoli
 				veicoloB.SetRightLabel("~g~$" + veicoliAff.biciclette[i].price + " ~b~ogni 20 mins.");
 				Bikes.AddItem(veicoloB);
 			}
+
 			for (int i = 0; i < veicoliAff.macchineGeneric.Count; i++)
 			{
 				UIMenuItem veicoloGC = new UIMenuItem(veicoliAff.macchineGeneric[i].name, veicoliAff.macchineGeneric[i].description);
@@ -95,6 +95,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				};
 			}
+
 			for (int i = 0; i < veicoliAff.macchineMedium.Count; i++)
 			{
 				UIMenuItem veicoloMC = new UIMenuItem(veicoliAff.macchineMedium[i].name, veicoliAff.macchineMedium[i].description);
@@ -149,6 +150,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				};
 			}
+
 			for (int i = 0; i < veicoliAff.macchineSuper.Count; i++)
 			{
 				UIMenuItem veicoloSC = new UIMenuItem(veicoliAff.macchineSuper[i].name, veicoliAff.macchineSuper[i].description);
@@ -203,6 +205,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				};
 			}
+
 			for (int i = 0; i < veicoliAff.motoGeneric.Count; i++)
 			{
 				UIMenuItem veicoloMG = new UIMenuItem(veicoliAff.motoGeneric[i].name, veicoliAff.motoGeneric[i].description);
@@ -257,6 +260,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				};
 			}
+
 			for (int i = 0; i < veicoliAff.motoMedium.Count; i++)
 			{
 				UIMenuItem veicoloMM = new UIMenuItem(veicoliAff.motoMedium[i].name, veicoliAff.motoMedium[i].description);
@@ -311,6 +315,7 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				};
 			}
+
 			for (int i = 0; i < veicoliAff.motoSuper.Count; i++)
 			{
 				UIMenuItem veicoloMS = new UIMenuItem(veicoliAff.motoSuper[i].name, veicoliAff.motoSuper[i].description);
@@ -414,8 +419,6 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				}
 			};
-
-
 			Bikes.OnIndexChange += async (_menu, _newIndex) =>
 			{
 				VeicoliClient.SpawnVehiclePreview(veicoliAff.biciclette[_newIndex].model, new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), VeicoliClient.carGaragePrev[num].W);
@@ -444,20 +447,19 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				VeicoliClient.SpawnVehiclePreview(veicoliAff.motoSuper[_newIndex].model, new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), VeicoliClient.carGaragePrev[num].W);
 			};
-
 			pool.OnMenuStateChanged += async (a, b, c) =>
 			{
 				if (c == MenuState.ChangeForward && b == affittaVeh)
 				{
 					await BaseScript.Delay(100);
 					Vehicle[] ves = Funzioni.GetVehiclesInArea(new Vector3(VeicoliClient.carGaragePrev[num].X, VeicoliClient.carGaragePrev[num].Y, VeicoliClient.carGaragePrev[num].Z), 1.0f);
-					foreach (Vehicle v in ves)
-						v.Delete();
+					foreach (Vehicle v in ves) v.Delete();
 					VeicoliClient.setupGarageCamera(true, num);
 				}
 				else if (c == MenuState.Closed && b == MenuAffitto)
 				{
 					await BaseScript.Delay(100);
+
 					if (!Bikes.Visible && !GenericCars.Visible && !MediumCars.Visible && !SuperCars.Visible && !GenericMoto.Visible && !MediumMoto.Visible && !SuperMoto.Visible)
 					{
 						if (!affittaVeh.Visible) VeicoliClient.setupGarageCamera(false, 0);
@@ -466,7 +468,6 @@ namespace TheLastPlanet.Client.Veicoli
 					}
 				}
 			};
-
 			MenuAffitto.OnItemSelect += async (_menu, _item, _index) =>
 			{
 				if (_item == rest)
@@ -484,11 +485,12 @@ namespace TheLastPlanet.Client.Veicoli
 		}
 	}
 
-	class VeicoloAffitto
+	internal class VeicoloAffitto
 	{
 		public int price;
 		public string name;
 		public string model;
+
 		public VeicoloAffitto(string model, string name, int price)
 		{
 			this.model = model;

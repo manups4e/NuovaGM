@@ -8,7 +8,7 @@ using System.Text;
 
 namespace TheLastPlanet.Server.Appartamenti
 {
-	static class AppartamentiServer
+	internal static class AppartamentiServer
 	{
 		public static void Init()
 		{
@@ -32,11 +32,7 @@ namespace TheLastPlanet.Server.Appartamenti
 
 		private static async void CaricaProprietà([FromSource] Player p)
 		{
-			dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @id AND Personaggio = @pers", new
-			{
-				id = p.GetLicense(Identifier.Discord),
-				pers = p.GetCurrentChar().FullName
-			});
+			dynamic result = await Server.Instance.Query("SELECT * FROM proprietà WHERE DiscordId = @id AND Personaggio = @pers", new { id = p.GetLicense(Identifier.Discord), pers = p.GetCurrentChar().FullName });
 			if (result.Count > 0)
 				foreach (dynamic ap in result)
 					p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);

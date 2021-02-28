@@ -12,15 +12,14 @@ using TheLastPlanet.Client.Core;
 
 namespace TheLastPlanet.Client.Interactions
 {
-	static class PickupsClient
+	internal static class PickupsClient
 	{
-
 		// raccogliere pickup random@domestic", "pickup_low"
 		public static List<OggettoRaccoglibile> Pickups = new List<OggettoRaccoglibile>();
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:createPickup", new Action<string,string>(CreatePickup));
+			Client.Instance.AddEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
 			Client.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
 			Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
@@ -29,27 +28,32 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			bool letSleep = true;
 			Tuple<Player, float> closest = Funzioni.GetClosestPlayer();
+
 			foreach (OggettoRaccoglibile pickup in Pickups)
-			{
 				if (pickup != null)
 				{
 					Prop pick = new Prop(pickup.propObj);
+
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
 						float dist = Vector3.Distance(Cache.Char.posizione.ToVector3(), pick.Position);
+
 						if (dist < 5)
 						{
 							string label = pickup.label;
 							letSleep = false;
+
 							if (dist < 1.5)
-							{
 								if (Cache.PlayerPed.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
+
 									if (Input.IsControlJustPressed(Control.Context))
 									{
-										if (closest.Item2 != -1 && closest.Item2 <= 3)
+										if (closest.Item2 > -1 && closest.Item2 <= 3)
+										{
 											HUD.ShowNotification("Non puoi con qualcuno nelle vicinanze");
+										}
 										else
 										{
 											if (!pickup.inRange)
@@ -63,19 +67,24 @@ namespace TheLastPlanet.Client.Interactions
 										}
 									}
 								}
-							}
+
 							if (!pick.HasDecor("PickupArma"))
 								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, CitizenFX.Core.UI.Font.HouseScript);
-							else 
+							else
 								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", CitizenFX.Core.UI.Font.HouseScript);
 						}
-						else if (pickup.inRange) pickup.inRange = false;
+						else if (pickup.inRange)
+						{
+							pickup.inRange = false;
+						}
 					}
-					else pick.Delete();
+					else
+					{
+						pick.Delete();
+					}
 				}
-			}
-			if(letSleep)
-				await BaseScript.Delay(500);
+
+			if (letSleep) await BaseScript.Delay(500);
 		}
 
 		private static async void CreatePickup(string jsonOggetto, string userId)
@@ -89,6 +98,7 @@ namespace TheLastPlanet.Client.Interactions
 			Model model = new Model((int)oggetto.obj);
 			model.Request();
 			Entity pickupObject = null;
+
 			switch (oggetto.type)
 			{
 				case "item":
@@ -97,6 +107,7 @@ namespace TheLastPlanet.Client.Interactions
 					else
 						pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
 					pickupObject.SetDecor("PickupOggetto", oggetto.amount);
+
 					break;
 				case "weapon":
 					RequestWeaponAsset(Funzioni.HashUint(oggetto.name), 31, 0);
@@ -105,17 +116,21 @@ namespace TheLastPlanet.Client.Interactions
 					pickupObject.SetDecor("PickupArma", oggetto.amount);
 					oggetto.propObj = pickupObject.Handle;
 					SetWeaponObjectTintIndex(pickupObject.Handle, oggetto.tintIndex);
+
 					foreach (Components comp in oggetto.componenti)
 					{
 						GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
 						if (comp.name.Contains("FLSH")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
 					}
+
 					break;
 				case "account":
 					pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
 					pickupObject.SetDecor("PickupAccount", oggetto.amount);
+
 					break;
 			}
+
 			pickupObject.IsPersistent = true;
 			PlaceObjectOnGroundProperly(pickupObject.Handle);
 			SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(pickupObject.Handle, true);
@@ -128,6 +143,7 @@ namespace TheLastPlanet.Client.Interactions
 		private static void RimuoviPickup(int id)
 		{
 			OggettoRaccoglibile pickup = Pickups[id];
+
 			if (pickup != null && pickup.propObj != 0)
 			{
 				if (pickup.obj == ObjectHash.a_c_fish)
@@ -141,13 +157,13 @@ namespace TheLastPlanet.Client.Interactions
 		private static async void CreaMissingPickups(string jsonPickups)
 		{
 			Pickups = jsonPickups.Deserialize<List<OggettoRaccoglibile>>();
+
 			if (Pickups.Count > 0)
-			{
 				foreach (OggettoRaccoglibile pickup in Pickups)
-				{
 					if (pickup != null)
 					{
 						Entity pickupObject = null;
+
 						if (pickup.type == "item" || pickup.type == "account")
 						{
 							Model model = new Model((int)pickup.obj);
@@ -156,7 +172,8 @@ namespace TheLastPlanet.Client.Interactions
 								pickupObject = await World.CreatePed(model, pickup.coords);
 							else
 								pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, false, false, true));
-							if (pickup.type == "item") pickupObject.SetDecor("PickupOggetto", pickup.amount);
+							if (pickup.type == "item")
+								pickupObject.SetDecor("PickupOggetto", pickup.amount);
 							else if (pickup.type == "account") pickupObject.SetDecor("PickupAccount", pickup.amount);
 						}
 						else if (pickup.type == "weapon")
@@ -166,12 +183,14 @@ namespace TheLastPlanet.Client.Interactions
 							pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(pickup.name), 50, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, true, 1.0f, 0));
 							pickupObject.SetDecor("PickupArma", pickup.amount);
 							SetWeaponObjectTintIndex(pickupObject.Handle, pickup.tintIndex);
+
 							foreach (Components comp in pickup.componenti)
 							{
 								GiveWeaponComponentToWeaponObject(pickupObject.Handle, Funzioni.HashUint(comp.name));
 								if (comp.name.EndsWith("flsh")) SetCreateWeaponObjectLightSource(pickupObject.Handle, true);
 							}
 						}
+
 						pickup.propObj = pickupObject.Handle;
 						pickupObject.IsPersistent = true;
 						PlaceObjectOnGroundProperly(pickupObject.Handle);
@@ -180,8 +199,6 @@ namespace TheLastPlanet.Client.Interactions
 						pickup.inRange = false;
 						pickup.coords = pickupObject.Position;
 					}
-				}
-			}
 		}
 	}
 }

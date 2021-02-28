@@ -9,16 +9,10 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core.CharCreation
 {
-	static class CamerasFirstTime
+	internal static class CamerasFirstTime
 	{
-		static Scaleform Credits = new Scaleform("OPENING_CREDITS");
-		static List<Vector4> SpawnPoints = new List<Vector4>
-		{
-			new Vector4(232.412f, -878.302f, 29.492f, 312.905f),
-			new Vector4(216.779f, -1040.771f, 29.140f, 60.056f),
-			new Vector4(766.765f, -1024.438f, 24.924f, 323.522f),
-			new Vector4(-952.488f, -414.614f, 37.807f, 186.983f),
-		};
+		private static Scaleform Credits = new Scaleform("OPENING_CREDITS");
+		private static List<Vector4> SpawnPoints = new List<Vector4> { new Vector4(232.412f, -878.302f, 29.492f, 312.905f), new Vector4(216.779f, -1040.771f, 29.140f, 60.056f), new Vector4(766.765f, -1024.438f, 24.924f, 323.522f), new Vector4(-952.488f, -414.614f, 37.807f, 186.983f) };
 
 		public static void Init()
 		{
@@ -37,16 +31,11 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", 34, "lprp:sceltaSalta");
 		}
 
-		public static async void SceltaSalta(string scelta)
+		private static async void SceltaSalta(string scelta)
 		{
 			if (scelta == "select" || scelta == "ok")
-			{
 				SiFinisce();
-			}
-			else if (scelta == "back" || scelta == "no")
-			{
-				await SiComincia();
-			}
+			else if (scelta == "back" || scelta == "no") await SiComincia();
 		}
 
 		public static async Task SiComincia()
@@ -60,19 +49,11 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			playerPed.IsVisible = false;
 			Cache.Char.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
 			playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
-			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(745.877f, 1215.591f, 359.405f),
-			};
+			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
 			Cam1.IsActive = true;
 			Cam1.PointAt(new Vector3(657.620f, 906.617f, 276.418f));
 			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
-			Camera Cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(738.474f, 1188.959f, 347.068f)
-			};
+			Camera Cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(738.474f, 1188.959f, 347.068f) };
 			Cam2.PointAt(new Vector3(657.620f, 906.617f, 276.418f));
 			Cam1.InterpTo(Cam2, 10000, 0, 0);
 			Screen.Fading.FadeIn(800);
@@ -88,23 +69,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await BaseScript.Delay(1000);
 			playerPed.Position = new Vector3(-241.502f, -534.627f, 148.902f);
 			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
-
 			Cam1.IsActive = false;
 			Cam2.IsActive = false;
 			Cam1.Delete();
 			Cam2.Delete();
-			Camera Cam3 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-264.303f, -567.568f, 148.302f)
-			};
+			Camera Cam3 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-264.303f, -567.568f, 148.302f) };
 			Cam3.IsActive = true;
 			Cam3.PointAt(new Vector3(-165.131f, -704.744f, 196.705f));
-			Camera Cam4 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-264.563f, -599.100f, 148.302f)
-			};
+			Camera Cam4 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-264.563f, -599.100f, 148.302f) };
 			Cam4.PointAt(new Vector3(-165.131f, -704.744f, 196.705f));
 			Screen.Fading.FadeIn(800);
 			Cam3.InterpTo(Cam4, 7000, 0, 1);
@@ -122,19 +94,11 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Cam4.Delete();
 			playerPed.Position = new Vector3(-1604.552f, -1048.718f, 17.027f);
 			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
-			Camera Cam5 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-1593.578f, -1042.522f, 12.527f)
-			};
+			Camera Cam5 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-1593.578f, -1042.522f, 12.527f) };
 			Cam5.PointAt(new Vector3(-1604.552f, -1048.718f, 17.027f));
 			Cam5.IsActive = true;
 			Screen.Fading.FadeIn(800);
-			Camera Cam6 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-1604.543f, -1037.229f, 12.527f)
-			};
+			Camera Cam6 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-1604.543f, -1037.229f, 12.527f) };
 			Cam6.PointAt(new Vector3(-1604.552f, -1048.718f, 17.027f));
 			Cam5.InterpTo(Cam6, 7000, 0, 1);
 			await BaseScript.Delay(2000);
@@ -151,19 +115,11 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			while (!HasCollisionLoadedAroundEntity(playerPed.Handle)) await BaseScript.Delay(1000);
 			Cam5.Delete();
 			Cam6.Delete();
-			Camera Cam7 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-552.468f, -513.632f, 30.427f)
-			};
+			Camera Cam7 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-552.468f, -513.632f, 30.427f) };
 			Cam7.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.IsActive = true;
 			Screen.Fading.FadeIn(800);
-			Camera Cam8 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(-552.468f, -513.632f, 150.427f)
-			};
+			Camera Cam8 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(-552.468f, -513.632f, 150.427f) };
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
@@ -181,28 +137,23 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Ped playerPed = Cache.PlayerPed;
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
-			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-			};
+			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f };
 			Model tassista = new Model(PedHash.Stlat01AMY);
 			tassista.Request();
-			while (!tassista.IsLoaded) await tassista.Request(1); 
+			while (!tassista.IsLoaded) await tassista.Request(1);
 
 			if (!Funzioni.IsSpawnPointClear(new Vector3(-640.411f, -525.006f, 25.331f), 2f))
 			{
 				Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(-640.411f, -525.006f, 25.331f), 2f);
+
 				foreach (Vehicle v in vehs)
 				{
 					foreach (Player p in Client.Instance.GetPlayers.ToList())
-					{
 						if (v.Driver != new Ped(GetPlayerPed(p.Handle)))
-						{
 							v.Delete();
-						}
-					}
 				}
 			}
+
 			Vehicle taxi = await Funzioni.SpawnLocalVehicle("taxi", new Vector3(-640.411f, -525.006f, 25.331f), 268.927f);
 			EntityDecoration.SetDecor(taxi, Main.decorName, Main.decorInt);
 			Ped Tax = await taxi.CreatePedOnSeat(VehicleSeat.Driver, tassista);
@@ -226,12 +177,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			sub_11fbe("prog", "Con l'aiuto e il supporto di", 35.0f, "HUD_COLOUR_NET_PLAYER2", true);
 			sub_11f63("prog", "THESTRONGHT|", 100.0f, "|", true);
 			sub_11f32("prog", 0.16f);
+
 			while (i > 0)
 			{
 				await BaseScript.Delay(0);
 				Cam9.Rotation = taxi.Rotation;
 				--i;
 			}
+
 			sub_11f01("prog", 0.16f);
 			Cam9.Detach();
 			Cam9.AttachTo(playerPed.Bones[Bone.SKEL_Head], new Vector3(1f, 1f, 1f));
@@ -244,12 +197,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await BaseScript.Delay(4000);
 			sub_11f01("scrlead", 0.16f);
 			Client.Instance.RemoveTick(Crediti);
-
-			Camera cam10 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				FieldOfView = 60f,
-				Position = new Vector3(Cam9.Position.X, Cam9.Position.Y, Cam9.Position.Z + 50)
-			};
+			Camera cam10 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(Cam9.Position.X, Cam9.Position.Y, Cam9.Position.Z + 50) };
 			cam10.PointAt(taxi);
 			Cam9.InterpTo(cam10, 5000, 1, 1);
 			await BaseScript.Delay(7000);
@@ -266,7 +214,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			SiFinisce();
 		}
 
-		public static async void SiFinisce()
+		private static async void SiFinisce()
 		{
 			Ped playerPed = Cache.PlayerPed;
 			TriggerMusicEvent("GLOBAL_KILL_MUSIC");
@@ -285,7 +233,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 		}
 
-		public static async Task Controllo()
+		private static async Task Controllo()
 		{
 			Game.DisableAllControlsThisFrame(0);
 			Game.DisableAllControlsThisFrame(1);
@@ -293,21 +241,18 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await Task.FromResult(0);
 		}
 
-		public static async Task Crediti()
+		private static async Task Crediti()
 		{
 			Credits.Render2D();
 			await Task.FromResult(0);
 		}
 
-		static void func_381()
+		private static void func_381()
 		{
-			if (Credits.IsLoaded)
-			{
-				Credits.CallFunction("REMOVE_ALL");
-			}
+			if (Credits.IsLoaded) Credits.CallFunction("REMOVE_ALL");
 		}
 
-		static void func_382(string sParam0, float fParam1)
+		private static void func_382(string sParam0, float fParam1)
 		{
 			PushScaleformMovieFunction(Credits.Handle, "HIDE");
 			BeginTextComponent("STRING");
@@ -317,7 +262,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			PopScaleformMovieFunction();
 		}
 
-		static async void func_383(string sParam0, float fParam1)
+		private static async void func_383(string sParam0, float fParam1)
 		{
 			PushScaleformMovieFunction(Credits.Handle, "SHOW_SINGLE_LINE");
 			BeginTextComponent("STRING");
@@ -328,7 +273,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await Task.FromResult(0);
 		}
 
-		static async void func_384(string sParam0, string sParam1, string sParam2, string sParam3, bool iParam4)
+		private static async void func_384(string sParam0, string sParam1, string sParam2, string sParam3, bool iParam4)
 		{
 			PushScaleformMovieFunction(Credits.Handle, "ADD_TEXT_TO_SINGLE_LINE");
 			BeginTextComponent("STRING");
@@ -348,7 +293,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await Task.FromResult(0);
 		}
 
-		static async void func_385(string sParam0, float fParam1, float fParam2, float fParam3, float fParam4, string sParam5)
+		private static async void func_385(string sParam0, float fParam1, float fParam2, float fParam3, float fParam4, string sParam5)
 		{
 			PushScaleformMovieFunction(Credits.Handle, "SETUP_SINGLE_LINE");
 			BeginTextComponent("STRING");
@@ -365,7 +310,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			await Task.FromResult(0);
 		}
 
-		static async void sub_200(string a_0, float a_1, float a_2, float a_3, float a_4, float a_5, float a_6, float a_7)
+		private static async void sub_200(string a_0, float a_1, float a_2, float a_3, float a_4, float a_5, float a_6, float a_7)
 		{
 			PushScaleformMovieFunction(Credits.Handle, "SHOW_LOGO");
 			BeginTextComponent("STRING");

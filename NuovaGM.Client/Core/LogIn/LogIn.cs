@@ -4,20 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using Newtonsoft.Json;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.CharCreation;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
-using Logger;
 using TheLastPlanet.Shared.Veicoli;
+using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Core.Ingresso
+namespace TheLastPlanet.Client.Core.LogIn
 {
 	static class LogIn
 	{
-		public static bool guiEnabled = false;
+		public static bool GuiEnabled = false;
 		public static List<Vector4> SelectFirstCoords = new List<Vector4>
 		{
 			new Vector4(-1503.000f, -1143.462f, 34.670f, 64.692f),
@@ -163,8 +161,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			dummyPed.IsCollisionEnabled = false;
 			dummyPed.IsCollisionProof = false;
 			dummyPed.BlockPermanentEvents = true;
-
-			guiEnabled = true;
+			GuiEnabled = true;
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			ShutdownLoadingScreen();
@@ -220,7 +217,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		{
 			if (p1 != null) if (p1.Exists()) p1.Delete();
 			if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
-			guiEnabled = false;
+			GuiEnabled = false;
 			ToggleMenu(false);
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
@@ -232,11 +229,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Char_data Data = Cache.Char.CurrentChar;
 
 			int switchType = 1;
-			if (!Data.location.position.IsZero)
-				switchType = GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z);
-			else
-				switchType = GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
-
+			switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
@@ -254,16 +247,16 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
-			if (!Data.location.position.IsZero)
+			if (Data.location.position.IsZero)
 			{
-				Cache.PlayerPed.Position = Data.location.position;
-				Cache.PlayerPed.Heading = Data.location.h;
+				Cache.PlayerPed.Position = Main.firstSpawnCoords.ToVector3();
+				Cache.PlayerPed.Heading = Main.firstSpawnCoords.W;
 				await BaseScript.Delay(2000);
 			}
 			else
 			{
-				Cache.PlayerPed.Position = Main.firstSpawnCoords.ToVector3();
-				Cache.PlayerPed.Heading = Main.firstSpawnCoords.W;
+				Cache.PlayerPed.Position = Data.location.position;
+				Cache.PlayerPed.Heading = Data.location.h;
 				await BaseScript.Delay(2000);
 			}
 
@@ -403,7 +396,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 		private static void Disconnetti(IDictionary<string, object>data, CallbackDelegate cb)
 		{
-			guiEnabled = false;
+			GuiEnabled = false;
 			ToggleMenu(false);
 			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
 			cb("ok");
@@ -451,7 +444,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
-			guiEnabled = false;
+			GuiEnabled = false;
 			ToggleMenu(false);
 			Creator.CharCreationMenu(data);
 			cb("ok");
