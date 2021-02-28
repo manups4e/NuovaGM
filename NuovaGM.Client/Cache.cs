@@ -34,6 +34,7 @@ namespace TheLastPlanet.Client
 		public static async Task TickStatiPlayer()
 		{
 			while (Char == null) await BaseScript.Delay(0);
+			await BaseScript.Delay(20);
 
 			#region Check Veicolo
 
