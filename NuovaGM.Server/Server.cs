@@ -76,7 +76,7 @@ namespace TheLastPlanet.Server
 		/// <param name="query">Testo della query</param>
 		/// <param name="parameters">Parametri da passare</param>
 		/// <returns>dynamic List if more than one or a dynamic object if only one</returns>
-		public async Task<dynamic> Query(string query, object parameters = null) => await MySQL.QueryAsync(query, parameters);
+		public async Task<dynamic> Query(string query, object parameters = null) => await MySQL.QueryListAsync(query, parameters);
 
 		/// <summary>
 		/// Esegue una query sul db modificandone il contenuto

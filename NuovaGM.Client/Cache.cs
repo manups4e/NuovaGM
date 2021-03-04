@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using Logger;
+using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
@@ -12,7 +15,7 @@ namespace TheLastPlanet.Client
 	{
 		private static bool _inVeh;
 		private static bool _inPausa;
-		public static PlayerChar Char { get; private set; }
+		public static User Char { get; private set; }
 		public static Ped PlayerPed { get; private set; }
 		public static Player Player { get; private set; }
 
@@ -23,7 +26,14 @@ namespace TheLastPlanet.Client
 			Client.Instance.AddTick(TickStatiPlayer);
 		}
 
-		public static void AddPlayer(string jsonData) { Char = jsonData.Deserialize<PlayerChar>(); }
+		public static async void AddPlayer(byte[] Data)
+		{
+			string hexString = BitConverter.ToString(Data);
+			string hexStringWithoutDashes = string.Join(" ", hexString.Split('-'));
+			await BaseScript.Delay(1);
+			Log.Printa(LogType.Debug, hexStringWithoutDashes);
+			Char = await Data.Deserialize<User>();
+		}
 
 		public static void UpdatePedId() { PlayerPed = new Ped(PlayerPedId()); }
 

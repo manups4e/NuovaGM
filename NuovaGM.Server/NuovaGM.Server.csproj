@@ -5,6 +5,7 @@
     <UserSecretsId>1df517d5-02d3-48ad-b0f5-f417f27ca1b2</UserSecretsId>
     <AssemblyName>TheLastPlanet.Server.net</AssemblyName>
     <RootNamespace>TheLastPlanet.Server</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +18,7 @@
     <PackageReference Include="CitizenFX.Core.Server" Version="1.0.3563" />
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MsgPack.Cli" Version="1.0.1" />
     <PackageReference Include="MySqlConnector" Version="1.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <Compile Include="..\NuovaGm.Shared\**\*.cs" />

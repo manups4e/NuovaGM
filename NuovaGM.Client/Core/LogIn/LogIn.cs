@@ -64,6 +64,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
+			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<byte[]>(setupClientUser));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
@@ -151,6 +152,14 @@ namespace TheLastPlanet.Client.Core.LogIn
 			RenderScriptCams(true, false, 0, false, false);
 			await Task.FromResult(0);
 		}
+
+		public static void setupClientUser(byte[] data)
+		{
+			Cache.AddPlayer(data);
+			DisplayRadar(false);
+			charSelect();
+		}
+
 		#endregion
 
 		public static async void Attiva()
@@ -175,7 +184,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "")
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Char.char_data.Serialize() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Char.char_data.SerializeToJson() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
@@ -290,7 +299,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
 			{
 				Cache.Char.CurrentChar.Veicoli.Clear();
-				Cache.Char.CurrentChar.Veicoli = (vehs as string).Deserialize<List<OwnedVehicle>>(true);
+				Cache.Char.CurrentChar.Veicoli = (vehs as string).DeserializeFromJson<List<OwnedVehicle>>(true);
 			}));
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Cache.PlayerPed.Handle);

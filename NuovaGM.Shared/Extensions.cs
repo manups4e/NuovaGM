@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MsgPack.Serialization;
 using Newtonsoft.Json.Serialization;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
@@ -671,24 +673,16 @@ namespace TheLastPlanet.Shared
 		public static bool Intersects(float[] A, float[] B, float[] P)
 		{
 			if (A[1] > B[1])
-			{
 				return Intersects(B, A, P);
-			}
 
 			if (P[1] == A[1] || P[1] == B[1])
-			{
 				P[1] += 0.0001f;
-			}
 
 			if (P[1] > B[1] || P[1] < A[1] || P[0] > Math.Max(A[0], B[00]))
-			{
 				return false;
-			}
 
 			if (P[0] < Math.Min(A[0], B[0]))
-			{
 				return true;
-			}
 
 			double red = (P[1] - A[1]) / (double)(P[0] - A[0]);
 			double blue = (B[1] - A[1]) / (double)(B[0] - A[0]);
@@ -702,16 +696,18 @@ namespace TheLastPlanet.Shared
 			for (int i = 0; i < len; i++)
 			{
 				if (Intersects(shape[i], shape[(1 + i) % len], pnt))
-				{
 					inside = !inside;
-				}
 			}
 			return inside;
 		}
 
-		public static string Serialize(this object param, Formatting format = Formatting.None, bool includeEverything = false)
+		#region Serialization
+		
+		#region Json
+		
+		public static string SerializeToJson(this object param, Formatting format = Formatting.None, bool includeEverything = false)
 		{
-			JsonSerializerSettings settings = new JsonSerializerSettings
+			JsonSerializerSettings settings = new()
 			{
 				Formatting = format
 			};
@@ -720,13 +716,69 @@ namespace TheLastPlanet.Shared
 				settings.ContractResolver = new IgnoreJsonAttributesResolver();
 			return JsonConvert.SerializeObject(param, format, settings);
 		}
-		public static T Deserialize<T>(this string param, bool includeEverything = false)
+		
+		public static T DeserializeFromJson<T>(this string param, bool includeEverything = false)
 		{
-			JsonSerializerSettings settings = new JsonSerializerSettings();
+			JsonSerializerSettings settings = new();
 			if (includeEverything)
 				settings.ContractResolver = new IgnoreJsonAttributesResolver();
 			return JsonConvert.DeserializeObject<T>(param, settings);
 		}
+
+		#endregion
+
+		#region MsgPack
+
+		public static async Task<byte[]> Serialize<T>(this T obj)
+		{
+			try
+			{
+				SerializationContext context = new() { SerializationMethod = SerializationMethod.Map };
+				MessagePackSerializer<T> serializer = MessagePackSerializer.Get<T>(context);
+				using MemoryStream byteStream = new();
+#if SERVER
+				await serializer.PackAsync(byteStream, obj);
+#elif CLIENT
+				serializer.Pack(byteStream, obj);
+#endif
+				byteStream.Position = 0;
+				return byteStream.ToArray();
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+
+				return default;
+			}
+		}
+
+		public static async Task<T> Deserialize<T>(this byte[] serializedObject)
+		{
+			try
+			{
+				MessagePackSerializer<T> deserializer = MessagePackSerializer.Get<T>();
+				using MemoryStream byteStream = new(serializedObject);
+#if SERVER
+				T result = await deserializer.UnpackAsync(byteStream);
+#elif CLIENT
+				T result = deserializer.Unpack(byteStream);
+#endif
+				return result;
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+
+				return default;
+			}
+		}
+
+		#endregion
+
+		#endregion
+
+
+
 	}
 
 	class IgnoreJsonAttributesResolver : DefaultContractResolver

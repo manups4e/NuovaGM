@@ -8,6 +8,7 @@
     <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <RootNamespace>TheLastPlanet.Client</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,6 +30,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+
+    <PackageReference Include="MsgPack.Cli" Version="1.0.1" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="MsgPack.Cli">
+      <HintPath>$(PkgMsgPack_Cli)\lib\sl5\MsgPack.dll</HintPath>
     </Reference>
 
     <Reference Include="Microsoft.CSharp" />
