@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client
 	{
 		private static bool _inVeh;
 		private static bool _inPausa;
-		public static User Char { get; private set; }
+		public static PlayerChar Char { get; private set; }
 		public static Ped PlayerPed { get; private set; }
 		public static Player Player { get; private set; }
 
@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client
 			string hexStringWithoutDashes = string.Join(" ", hexString.Split('-'));
 			await BaseScript.Delay(1);
 			Log.Printa(LogType.Debug, hexStringWithoutDashes);
-			Char = await Data.Deserialize<User>();
+			Char = await Data.Deserialize<PlayerChar>();
 		}
 
 		public static void UpdatePedId() { PlayerPed = new Ped(PlayerPedId()); }
