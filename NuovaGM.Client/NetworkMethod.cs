@@ -44,14 +44,14 @@ namespace TheLastPlanet.Client
 		{
 			if (text == null) return default;
 
-			return text.Deserialize<T>();
+			return text.DeserializeFromJson<T>();
 		}
 
 		protected static string SerializeObject(object o)
 		{
 			if (o == null) return null;
 
-			return o.Serialize();
+			return o.SerializeToJson();
 		}
 	}
 

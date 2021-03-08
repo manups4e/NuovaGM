@@ -1,44 +1,36 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CitizenFX.Core;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using CitizenFX.Core.Native;
+using TheLastPlanet.Shared.PlayerChar;
 
-namespace TheLastPlanet.Client.Core.Personaggio
+namespace TheLastPlanet.Client.Core.PlayerChar
 {
-	public class PlayerChar
+	public class PlayerChar : BasePlayerShared
 	{
 		public int source;
-		private int playerId;
-		public string group;
-		public UserGroup group_level;
-		public int char_current;
-		public long playTime;
-		public Identifiers identifiers;
-		public string lastConnection;
-		public Status status = new Status();
-		[JsonIgnore] public PlayerStateBags StatiPlayer = new PlayerStateBags();
-		public List<Char_data> char_data = new List<Char_data>();
-		public dynamic data;
 		public Vector4 posizione = Vector4.Zero;
-		public PlayerChar() { }
 
 		public PlayerChar(dynamic result)
 		{
 			char_current = result.char_current;
-			lastConnection = DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss");
 			source = Cache.Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
-			char_data = (result.char_data as string).Deserialize<List<Char_data>>();
-			status = new Status();
+			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			status = new Shared.PlayerChar.Status();
 		}
 
-		public Char_data CurrentChar => char_data.FirstOrDefault(x => x.id - 1 == char_current - 1);
+		public PlayerChar()
+		{
+			StatiPlayer = new PlayerStateBags();
+		}
+
+		[JsonIgnore] public Char_data CurrentChar => Characters.FirstOrDefault(x => x.id - 1 == char_current - 1);
 
 		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
 
@@ -63,15 +55,30 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 
-		private List<Inventory> getCharInventory() { return getCharInventory(char_current); }
+		private List<Inventory> getCharInventory()
+		{
+			return getCharInventory(char_current);
+		}
 
-		private List<Inventory> getCharInventory(int charId) { return (from t in char_data where t.id == charId select t.inventory).FirstOrDefault(); }
+		private List<Inventory> getCharInventory(uint charId)
+		{
+			return (from t in Characters where t.id == charId select t.inventory).FirstOrDefault();
+		}
 
-		public List<Weapons> getCharWeapons(int charId) { return (from t in char_data where t.id == charId select t.weapons).FirstOrDefault(); }
+		public List<Weapons> getCharWeapons(uint charId)
+		{
+			return (from t in Characters where t.id == charId select t.weapons).FirstOrDefault();
+		}
 
-		public bool hasWeapon(string weaponName) { return CurrentChar.weapons.Any(x => x.name == weaponName); }
+		public bool hasWeapon(string weaponName)
+		{
+			return CurrentChar.weapons.Any(x => x.name == weaponName);
+		}
 
-		public bool hasWeapon(WeaponHash weaponName) { return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName); }
+		public bool hasWeapon(WeaponHash weaponName)
+		{
+			return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
+		}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
@@ -96,20 +103,10 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		public bool hasLicense(string license) { return CurrentChar.licenze.Any(x => x.name == license); }
-	}
-
-	public class Identifiers
-	{
-		public string steam;
-		public string license;
-		public string discord;
-	}
-
-	public class Status
-	{
-		public bool connected = true;
-		public bool spawned = false;
+		public bool hasLicense(string license)
+		{
+			return CurrentChar.licenze.Any(x => x.name == license);
+		}
 	}
 
 	public class PlayerStateBags
@@ -217,7 +214,7 @@ namespace TheLastPlanet.Client.Core.Personaggio
 			}
 		}
 
-		public Istanza Istanza = new Istanza();
+		public Istanza Istanza = new();
 	}
 
 	public class Istanza

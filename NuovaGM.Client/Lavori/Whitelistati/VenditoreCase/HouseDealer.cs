@@ -103,7 +103,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 					foreach (Player p in players)
 					{
 						UIMenu persona = newmenu.AddSubMenu(p.GetPlayerData().FullName);
-						UIMenuListItem mostra = new UIMenuListItem("Mostra Appartamento", new List<dynamic>()
+						UIMenuListItem mostra = new("Mostra Appartamento", new List<dynamic>()
 						{
 							"Nulla",
 							"Esterno",
@@ -111,8 +111,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							"Bagno",
 							"Garage"
 						}, 0);
-						UIMenuItem affitta = new UIMenuItem("Affitta");
-						UIMenuItem vendi = new UIMenuItem("Vendi");
+						UIMenuItem affitta = new("Affitta");
+						UIMenuItem vendi = new("Vendi");
 						persona.AddItem(mostra);
 						persona.AddItem(affitta);
 						persona.AddItem(vendi);
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								return;
 							}
 
-							BaseScript.TriggerServerEvent("housedealer:vendi", false, p.ServerId, app.Serialize(), aff);
+							BaseScript.TriggerServerEvent("housedealer:vendi", false, p.ServerId, app.SerializeToJson(), aff);
 						};
 						vendi.Activated += async (_menu, _item) =>
 						{
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								return;
 							}
 
-							BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.Serialize(), aff);
+							BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.SerializeToJson(), aff);
 						};
 						persona.OnMenuStateChanged += async (a, _menu, c) =>
 						{

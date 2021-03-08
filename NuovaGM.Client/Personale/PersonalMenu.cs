@@ -430,7 +430,7 @@ namespace TheLastPlanet.Client.Personale
 								{
 									foreach (Player player in players)
 									{
-										UIMenuListItem playerItem = new UIMenuListItem(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
+										UIMenuListItem playerItem = new(Funzioni.GetPlayerCharFromServerId(player.ServerId).FullName, amountino, 0, "Scegli la quantità e procedi..");
 										playerId.Add(player.ServerId);
 										giveButton.AddItem(playerItem);
 										playerPed.Task.PlayAnimation("mp_common", "givetake1_a");
@@ -508,7 +508,7 @@ namespace TheLastPlanet.Client.Personale
 											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
 											me.GetPlayerData().CurrentChar.weapons = armiAgg;
-											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.Serialize());
+											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.SerializeToJson());
 
 											if (_checked)
 											{
@@ -1189,7 +1189,7 @@ namespace TheLastPlanet.Client.Personale
 							pool.CloseAllMenus();
 							BigMessageThread.MessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang(gname, 5).Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang(gname, 5).SerializeToJson());
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
 						}
 						else
@@ -1218,7 +1218,7 @@ namespace TheLastPlanet.Client.Personale
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.gang);
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
 					};
 				}
 				else
@@ -1230,7 +1230,7 @@ namespace TheLastPlanet.Client.Personale
 						pool.CloseAllMenus();
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
 					};
 				}
 			}

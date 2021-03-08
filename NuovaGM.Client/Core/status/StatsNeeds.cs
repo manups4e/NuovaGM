@@ -10,7 +10,6 @@ using TheLastPlanet.Client.Core.status.Interfacce;
 using System.Collections.Generic;
 using System.Linq;
 using Logger;
-using TheLastPlanet.Client.Core.Personaggio;
 
 namespace TheLastPlanet.Client.Core.Status
 {
@@ -68,7 +67,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Eccolo()
 		{
-			PlayerChar me = Cache.Char;
+			PlayerChar.PlayerChar me = Cache.Char;
 			Needs["Fame"].Val = me.CurrentChar.needs.fame;
 			Needs["Sete"].Val = me.CurrentChar.needs.sete;
 			Needs["Stanchezza"].Val = me.CurrentChar.needs.stanchezza;
@@ -151,8 +150,8 @@ namespace TheLastPlanet.Client.Core.Status
 				FISHING = Statistics["FISHING"].Val,
 				HUNTING = Statistics["HUNTING"].Val
 			};
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.Serialize());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.SerializeToJson());
 			await Task.FromResult(0);
 		}
 

@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -32,12 +32,9 @@
       <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
 
-    <PackageReference Include="MsgPack.Cli" Version="1.0.1" ExcludeAssets="Compile" GeneratePathProperty="true" />
-    <Reference Include="MsgPack.Cli">
-      <HintPath>$(PkgMsgPack_Cli)\lib\sl5\MsgPack.dll</HintPath>
-    </Reference>
-
     <Reference Include="Microsoft.CSharp" />
+
+    <Reference Include="System.Windows" />
 
     <Compile Include="..\NuovaGm.Shared\**\*.cs" />
   </ItemGroup>

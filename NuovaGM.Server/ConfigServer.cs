@@ -33,8 +33,8 @@ namespace TheLastPlanet.Server
 			ConfigShared = JsonConvert.SerializeObject(JsonConfig.Shared);
 			ConfigClient = JsonConvert.SerializeObject(JsonConfig.Client);
 			string ConfigServer = JsonConvert.SerializeObject(JsonConfig.Server);
-			Server.Impostazioni = ConfigServer.Deserialize<Configurazione>();
-			Shared.ConfigShared.SharedConfig = ConfigShared.Deserialize<SharedConfig>();
+			Server.Impostazioni = ConfigServer.DeserializeFromJson<Configurazione>();
+			Shared.ConfigShared.SharedConfig = ConfigShared.DeserializeFromJson<SharedConfig>();
 		}
 
 		private static void InviaAlClient([FromSource] Player p)

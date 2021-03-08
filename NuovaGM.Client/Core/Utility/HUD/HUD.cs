@@ -129,6 +129,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static void ShowHelp(string helpText, int tempo)
 		{
 			if (tempo > 5000) tempo = 5000;
+
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
 			{
 				AddTextEntry("LastPlanetHelpText", helpText);

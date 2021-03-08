@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Job tass = new Job("Taxi", 0);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", tass.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", tass.SerializeToJson());
 						}
 					}
 					else
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Job disoc = new Job("Disoccupato", 0);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", disoc.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", disoc.SerializeToJson());
 						}
 					}
 				}

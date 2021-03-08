@@ -63,8 +63,8 @@ namespace TheLastPlanet.Client.Giostre
 			func_220();
 			Client.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(PlayerSale));
-			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(PlayerScende));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
+			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
 			Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
 			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
 			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Montagne Russe" };
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.Giostre
 
 		private static async void SyncCarrelli(int carrello, int occupato) { Montagna.Carrelli[carrello].Occupato = occupato; }
 
-		private static async void PlayerSale(int playernetid, int index, int carrellonetid)
+		private static async void playerSale(int playernetid, int index, int carrellonetid)
 		{
 			RequestAnimDict(RollerAnim);
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Client.Giostre
 			RemoveAnimDict(RollerAnim);
 		}
 
-		private static async void PlayerScende(int playernetid)
+		private static async void playerScende(int playernetid)
 		{
 			RequestAnimDict(RollerAnim);
 			while (!HasAnimDictLoaded(RollerAnim)) await BaseScript.Delay(100);

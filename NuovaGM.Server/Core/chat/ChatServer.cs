@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.Core
 			User user = p.GetCurrentChar();
 
 			if ((int)user.group_level <= -1) return;
-			if (!user.status.spawned && user.group_level <= UserGroup.Helper) return;
+			if (!user.status.Spawned && user.group_level <= UserGroup.Helper) return;
 
 			if (message.StartsWith("/"))
 			{

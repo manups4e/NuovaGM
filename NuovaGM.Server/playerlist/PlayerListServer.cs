@@ -23,8 +23,8 @@ namespace FivemPlayerlistServer
 		{
 			await BaseScript.Delay(0);
 			source.TriggerEvent("lprp:fs:setMaxPlayers", int.Parse(GetConvar("sv_maxClients", "30").ToString()));
+
 			foreach (Player p in Server.Instance.GetPlayers.ToList())
-			{
 				if (list.ContainsKey(int.Parse(p.Handle)))
 				{
 					dynamic[] listItem = list[int.Parse(p.Handle)];
@@ -35,7 +35,6 @@ namespace FivemPlayerlistServer
 					source.TriggerEvent("lprp:fs:setPlayerRowConfig", p1, p2, p3, p4);
 					await BaseScript.Delay(1);
 				}
-			}
 		}
 
 		private static void SetPlayerConfig2(string playerServerId, string crewName, string jobPoints, string showJobPointsIcon)

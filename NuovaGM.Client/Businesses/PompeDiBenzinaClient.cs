@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.Businesses
 	{
 		private static bool _interactWait = false;
 		private static List<GasStation> _stations = new List<GasStation>();
-		private static List<StationDiBenzina> _playerstations = new List<StationDiBenzina>();
+		private static List<StationDiBenzina> _playerstations = new();
 		private static Scaleform _info = new Scaleform("mp_mission_name_freemode");
 
 		public static void Init()
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.Businesses
 			return null;
 		}
 
-		private StationDiBenzina GetPlayerStationsNearCoords(Vector3 pos)
+		private StationDiBenzina GetPlayerstationsNearCoords(Vector3 pos)
 		{
 			int mstation = 0;
 
@@ -68,8 +68,8 @@ namespace TheLastPlanet.Client.Businesses
 		{
 			if (_stations.Count > 0) _stations.Clear();
 			if (_playerstations.Count > 0) _playerstations.Clear();
-			_stations = pompeBenza.Deserialize<List<GasStation>>();
-			_playerstations = stazioniPlayer.Deserialize<List<StationDiBenzina>>();
+			_stations = pompeBenza.DeserializeFromJson<List<GasStation>>();
+			_playerstations = stazioniPlayer.DeserializeFromJson<List<StationDiBenzina>>();
 		}
 
 		private static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)

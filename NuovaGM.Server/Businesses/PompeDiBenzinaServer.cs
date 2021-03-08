@@ -37,7 +37,7 @@ namespace TheLastPlanet.Server.Businesses
 
 		public static async void SendStationsUpdate()
 		{
-			List<StationDiBenzina> playerstations = new List<StationDiBenzina>();
+			List<StationDiBenzina> playerstations = new();
 			dynamic result = await Server.Instance.Query($"SELECT * FROM `businesses` WHERE businessid = {1}");
 			await BaseScript.Delay(0);
 			if (result.Count > 0)
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Server.Businesses
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
 				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
-			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.Serialize(), playerstations.Serialize());
+			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.SerializeToJson(), playerstations.SerializeToJson());
 		}
 
 		public static async void checkRent(User p)
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Server.Businesses
 
 		public static async void CheckCanManage([FromSource] Player p, int sidx)
 		{
-			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = p.GetCurrentChar().identifiers.discord });
+			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting`, `ownerchar` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @ident", new { idx = sidx, ident = p.GetCurrentChar().identifiers.Discord });
 			await BaseScript.Delay(0);
 
 			if (result != null)
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Server.Businesses
 		public static async void GetStationCash([FromSource] Player p, int sidx)
 		{
 			User user = Funzioni.GetUserFromPlayerId(p.Handle);
-			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = p.GetCurrentChar().identifiers.discord });
+			dynamic result = await Server.Instance.Query($"SELECT `lastmanaged`, `cashwaiting` FROM `businesses` WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = p.GetCurrentChar().identifiers.Discord });
 			await BaseScript.Delay(0);
 
 			if (result.Count > 0)
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Server.Businesses
 				if (payout > 0)
 				{
 					user.Bank += payout;
-					await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = {0} WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = p.GetCurrentChar().identifiers.discord });
+					await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = {0} WHERE `stationindex` = @idx AND `identifier` = @id", new { idx = sidx, id = p.GetCurrentChar().identifiers.Discord });
 					p.TriggerEvent("lprp:businesses:getstationcash", payout);
 				}
 				else
@@ -149,9 +149,9 @@ namespace TheLastPlanet.Server.Businesses
 					thx = thanks,
 					last = lastmanaged.ToString("yyyy-MM-dd HH:mm:ss"),
 					deliver = deltype,
-					allow = deliverylist.Serialize(),
+					allow = deliverylist.SerializeToJson(),
 					idx = manageid,
-					id = p.GetCurrentChar().identifiers.discord
+					id = p.GetCurrentChar().identifiers.Discord
 				});
 				SendStationsUpdate();
 				p.TriggerEvent("lprp:ShowNotification", "Le impostazioni della tua stazione sono state aggiornate.");
@@ -170,7 +170,7 @@ namespace TheLastPlanet.Server.Businesses
 
 					if (user.FullName == name)
 					{
-						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier` = @id, ownerchar = @owner WHERE stationindex = @idx", new { id = user.identifiers.discord, owner = user.FullName, idx = manageid });
+						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier` = @id, ownerchar = @owner WHERE stationindex = @idx", new { id = user.identifiers.Discord, owner = user.FullName, idx = manageid });
 						SendStationsUpdate();
 						p.TriggerEvent("lprp:businesses:sellstation", true, name);
 					}
@@ -221,7 +221,7 @@ namespace TheLastPlanet.Server.Businesses
 						{
 							if (deltype == 1)
 							{
-								if (user.identifiers.discord == result[0].identifier && user.FullName == result[0].ownerchar) allowdelivery = true;
+								if (user.identifiers.Discord == result[0].identifier && user.FullName == result[0].ownerchar) allowdelivery = true;
 							}
 							else if (deltype == 2)
 							{
@@ -229,7 +229,7 @@ namespace TheLastPlanet.Server.Businesses
 							}
 							else if (deltype == 3)
 							{
-								string[] allowList = (result[0].deliveryallow as string).Deserialize<string[]>();
+								string[] allowList = (result[0].deliveryallow as string).DeserializeFromJson<string[]>();
 
 								foreach (string s in allowList)
 									if (user.FullName == s)
@@ -347,7 +347,7 @@ namespace TheLastPlanet.Server.Businesses
 					{
 						await Server.Instance.Execute($"UPDATE `businesses` SET `identifier`= @id, `ownerchar`= @owner, `Name`= @name, `stationname`= @stname, `lastpaidrent` = @last WHERE `stationindex`= {sidx}", new
 						{
-							id = user.identifiers.discord,
+							id = user.identifiers.Discord,
 							owner = user.FullName,
 							name = p.Name,
 							stname = "Una Pompa di Benzina",

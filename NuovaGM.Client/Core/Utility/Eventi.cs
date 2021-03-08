@@ -2,7 +2,6 @@
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Negozi;
 using System;
 using System.Collections.Generic;
@@ -15,15 +14,13 @@ namespace TheLastPlanet.Client.Core.Utility
 {
 	static class Eventi
 	{
-		public static Dictionary<string, PlayerChar> GiocatoriOnline = new Dictionary<string, PlayerChar>();
 		private static int timer = 0;
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
 			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-			Client.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, int, string>(sendUserInfo));
+			Client.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, uint, string>(sendUserInfo));
 			Client.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
 			Client.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
 			Client.Instance.AddEventHandler("lprp:death", new Action(death));
@@ -53,12 +50,12 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			GiocatoriOnline.Clear();
+			Cache.GiocatoriOnline.Clear();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((arg) =>
- 		    {
-				 GiocatoriOnline = (arg as string).Deserialize<Dictionary<string, PlayerChar>>();
-		    }));
-			while (GiocatoriOnline.Serialize() == "{}") await BaseScript.Delay(0);
+			{
+				Cache.GiocatoriOnline = (arg as string).DeserializeFromJson<Dictionary<string, PlayerChar.PlayerChar>>();
+			}));
+			while (Cache.GiocatoriOnline.SerializeToJson() == "{}") await BaseScript.Delay(0);
 		}
 
 		public static async void LoadModel()
@@ -76,13 +73,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			BaseScript.TriggerEvent("lprp:StartLocationSave");
 		}
 
-		public static void setupClientUser(string data)
-		{
-			Cache.AddPlayer(data);
-			DisplayRadar(false);
-			LogIn.LogIn.charSelect();
-		}
-
 		public static async void teleportCoords(float x, float y, float z)
 		{
 			Screen.Fading.FadeOut(500);
@@ -94,12 +84,10 @@ namespace TheLastPlanet.Client.Core.Utility
 			//Funzioni.Teleport(pos);
 		}
 
-
-		public static void sendUserInfo(string _char_data, int _char_current, string _group)
+		public static void sendUserInfo(string _char_data, uint _char_current, string _group)
 		{
-			List<Char_data> data = _char_data.Deserialize<List<Char_data>>(true);
-			Cache.Char.char_data.Clear();
-			Cache.Char.char_data = data;
+			Log.Printa(LogType.Debug, _char_data);
+			Cache.Char.char_data = _char_data;
 			Cache.Char.char_current = _char_current;
 			Cache.Char.group = _group;
 		}
@@ -168,7 +156,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				stanchezza = StatsNeeds.Needs["Stanchezza"].Val,
 				malattia = Cache.Char.CurrentChar.needs.malattia
 			};
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.Serialize());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();

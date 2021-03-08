@@ -44,7 +44,7 @@ namespace TheLastPlanet.Server.Core
 				await BaseScript.Delay(60000);
 				if (Server.PlayerList.Count > 0)
 					foreach (KeyValuePair<string, User> user in Server.PlayerList)
-						if (user.Value.status.spawned)
+						if (user.Value.status.Spawned)
 							user.Value.playTime += 60;
 			}
 			catch (Exception e)

@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
@@ -15,7 +14,11 @@ namespace TheLastPlanet.Client.Negozi
 	{
 		private static bool menu = false;
 		public static Camera camm = new Camera(0);
-		public static void Init() { Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
+
+		public static void Init()
+		{
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
 
 		public static async void Spawnato()
 		{

@@ -6,8 +6,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading.Tasks;
-using MsgPack.Serialization;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
@@ -18,6 +21,10 @@ namespace TheLastPlanet.Shared
 {
 	public static class RandomExtensionSuperMethod
 	{
+
+		static RandomExtensionSuperMethod()
+		{
+		}
 		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>
@@ -27,11 +34,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A double-precision floating point number that is greater than or equal to minValue, and less than maxValue.</returns>
 		public static double NextDouble(this Random rand, double minValue, double maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (maxValue - minValue) * rand.NextDouble() + minValue;
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (maxValue - minValue) * rand.NextDouble() + minValue;
 		}
 
 		/// <summary>
@@ -55,11 +60,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A single-precision floating point number that is greater than or equal to minValue, and less than maxValue.</returns>
 		public static float NextFloat(this Random rand, float minValue, float maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (float)rand.NextDouble(minValue, maxValue);
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (float)rand.NextDouble(minValue, maxValue);
 		}
 
 		/// <summary>
@@ -70,8 +73,8 @@ namespace TheLastPlanet.Shared
 		/// <returns></returns>
 		public static char PickOneChar(this string chars, Random rnd)
 		{
-			if (rnd is null)
-				rnd = new Random();
+			rnd ??= new Random();
+
 			return chars[rnd.Next(chars.Length)];
 		}
 
@@ -93,8 +96,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A decimal number that is greater than or equal to 0.0m, and less than 1.0m.</returns>
 		public static decimal NextDecimal(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			IEnumerable<string> d = Enumerable.Range(0, 29).Select(x => rand.Next(10).ToString());
 			decimal result = decimal.Parse($"0.{string.Join(string.Empty, d)}");
 			return result / 1.000000000000000000000000000000000m;
@@ -109,11 +111,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A decimal number that is greater than or equal to minValue, and less than maxValue.</returns>
 		public static decimal NextDecimal(this Random rand, decimal minValue, decimal maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (maxValue - minValue) * rand.NextDecimal() + minValue;
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (maxValue - minValue) * rand.NextDecimal() + minValue;
 		}
 
 		/// <summary>
@@ -123,8 +123,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit unsigned integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static byte NextByte(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (byte)rand.Next(byte.MaxValue);
 		}
 
@@ -136,8 +136,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
 		public static byte NextByte(this Random rand, byte maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (byte)rand.Next(maxValue);
 		}
 
@@ -150,11 +150,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static byte NextByte(this Random rand, byte minValue, byte maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (byte)rand.Next(minValue, maxValue);
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (byte)rand.Next(minValue, maxValue);
 		}
 
 		/// <summary>
@@ -164,8 +162,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit signed integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static sbyte NextSByte(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (sbyte)rand.Next(sbyte.MaxValue);
 		}
 
@@ -177,11 +175,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
 		public static sbyte NextSByte(this Random rand, sbyte maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (maxValue < 0)
-				throw new MinMaggioreDiMax();
-			return (sbyte)rand.Next(maxValue);
+			rand ??= new Random();
+
+			return maxValue < 0 ? throw new MinMaggioreDiMax() : (sbyte)rand.Next(maxValue);
 		}
 
 		/// <summary>
@@ -193,11 +189,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 8-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static sbyte NextSByte(this Random rand, sbyte minValue, sbyte maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (sbyte)rand.Next(minValue, maxValue);
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (sbyte)rand.Next(minValue, maxValue);
 		}
 
 		/// <summary>
@@ -207,8 +201,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit signed integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static short NextShort(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (short)rand.Next(short.MaxValue);
 		}
 
@@ -220,11 +214,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
 		public static short NextShort(this Random rand, short maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (maxValue < 0)
-				throw new MinMaggioreDiMax();
-			return (short)rand.Next(maxValue);
+			rand ??= new Random();
+
+			return maxValue < 0 ? throw new MinMaggioreDiMax() : (short)rand.Next(maxValue);
 		}
 
 		/// <summary>
@@ -236,11 +228,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static short NextShort(this Random rand, short minValue, short maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (short)rand.Next(minValue, maxValue);
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (short)rand.Next(minValue, maxValue);
 		}
 
 		/// <summary>
@@ -250,8 +240,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit unsigned integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static ushort NextUShort(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (ushort)rand.Next(ushort.MaxValue);
 		}
 
@@ -263,8 +253,8 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit unsigned integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
 		public static ushort NextUShort(this Random rand, ushort maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
+
 			return (ushort)rand.Next(maxValue);
 		}
 
@@ -277,11 +267,9 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 16-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static ushort NextUShort(this Random rand, ushort minValue, ushort maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
-			if (minValue > maxValue)
-				throw new MinMaggioreDiMax();
-			return (ushort)rand.Next(minValue, maxValue);
+			rand ??= new Random();
+
+			return minValue > maxValue ? throw new MinMaggioreDiMax() : (ushort)rand.Next(minValue, maxValue);
 		}
 
 		/// <summary>
@@ -291,8 +279,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 32-bit unsigned integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static uint NextUInt(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			byte[] buffer = new byte[4];
 			rand.NextBytes(buffer);
 			return BitConverter.ToUInt32(buffer, 0);
@@ -318,8 +305,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 32-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static uint NextUInt(this Random rand, uint minValue, uint maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			if (minValue > maxValue)
 				throw new MinMaggioreDiMax();
 			else if (minValue == maxValue)
@@ -353,9 +339,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 64-bit signed integer that is greater than or equal to 0 and less than maxValue; that is, the range of return values ordinarily inclueds 0 but not maxValue. However, if maxValue equals 0, maxValue is return.</returns>
 		public static long NextLong(this Random rand, long maxValue)
 		{
-			if (maxValue < 0)
-				throw new MinMaggioreDiMax();
-			return (long)rand.NextULong((ulong)maxValue);
+			return maxValue < 0 ? throw new MinMaggioreDiMax() : (long)rand.NextULong((ulong)maxValue);
 		}
 
 		/// <summary>
@@ -367,8 +351,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 64-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static long NextLong(this Random rand, long minValue, long maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			if (minValue > maxValue)
 				throw new MinMaggioreDiMax();
 			else if (minValue == maxValue)
@@ -392,8 +375,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 64-bit unsigned integer that is greater than or equal to 0 and less than MaxValue.</returns>
 		public static ulong NextULong(this Random rand)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			byte[] buffer = new byte[8];
 			rand.NextBytes(buffer);
 			return BitConverter.ToUInt64(buffer, 0);
@@ -419,8 +401,7 @@ namespace TheLastPlanet.Shared
 		/// <returns>A 64-bit unsigned integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
 		public static ulong NextULong(this Random rand, ulong minValue, ulong maxValue)
 		{
-			if (rand is null)
-				rand = new Random();
+			rand ??= new Random();
 			if (minValue > maxValue)
 				throw new MinMaggioreDiMax();
 			/*else*/ if (minValue == maxValue)
@@ -440,14 +421,10 @@ namespace TheLastPlanet.Shared
 		{
 			T result = value;
 			if (value.CompareTo(max) > 0)
-			{
 				result = max;
-			}
 
 			if (value.CompareTo(min) < 0)
-			{
 				result = min;
-			}
 
 			return result;
 		}
@@ -727,50 +704,23 @@ namespace TheLastPlanet.Shared
 
 		#endregion
 
-		#region MsgPack
+		#region Byte Serialization
 
-		public static async Task<byte[]> Serialize<T>(this T obj)
+		public static byte[] SerializeBytes<T>(this T parameter)
 		{
-			try
-			{
-				SerializationContext context = new() { SerializationMethod = SerializationMethod.Map };
-				MessagePackSerializer<T> serializer = MessagePackSerializer.Get<T>(context);
-				using MemoryStream byteStream = new();
-#if SERVER
-				await serializer.PackAsync(byteStream, obj);
-#elif CLIENT
-				serializer.Pack(byteStream, obj);
-#endif
-				byteStream.Position = 0;
-				return byteStream.ToArray();
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString());
-
-				return default;
-			}
+			using MemoryStream memory = new();
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Serialize(memory, parameter);
+			memory.Position = 0;
+			return memory.ToArray();
 		}
 
-		public static async Task<T> Deserialize<T>(this byte[] serializedObject)
+		public static T DeserializeBytes<T>(this byte[] parameter)
 		{
-			try
-			{
-				MessagePackSerializer<T> deserializer = MessagePackSerializer.Get<T>();
-				using MemoryStream byteStream = new(serializedObject);
-#if SERVER
-				T result = await deserializer.UnpackAsync(byteStream);
-#elif CLIENT
-				T result = deserializer.Unpack(byteStream);
-#endif
-				return result;
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString());
+			using MemoryStream memory = new(parameter);
+			BinaryFormatter formatter = new();
 
-				return default;
-			}
+			return (T)formatter.Deserialize(memory);
 		}
 
 		#endregion
@@ -781,7 +731,7 @@ namespace TheLastPlanet.Shared
 
 	}
 
-	class IgnoreJsonAttributesResolver : DefaultContractResolver
+	internal class IgnoreJsonAttributesResolver : DefaultContractResolver
 	{
 		protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
 		{

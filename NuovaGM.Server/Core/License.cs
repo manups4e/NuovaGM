@@ -15,21 +15,15 @@ namespace TheLastPlanet.Server.Core
 	{
 		public static string GetLicense(this Player player, Identifier identifier)
 		{
-			switch (identifier)
+			return identifier switch
 			{
-				case Identifier.Steam:
-					return "steam:" + player.Identifiers["steam"];
-				case Identifier.License:
-					return "license:" + player.Identifiers["license"];
-				case Identifier.Discord:
-					return "discord:" + player.Identifiers["discord"];
-				case Identifier.Fivem:
-					return "FiveM:" + player.Identifiers["fivem"];
-				case Identifier.Ip:
-					return "ip:" + player.Identifiers["ip"];
-				default:
-					return null;
-			}
+				Identifier.Steam   => player.Identifiers["steam"],
+				Identifier.License => player.Identifiers["license"],
+				Identifier.Discord => player.Identifiers["discord"],
+				Identifier.Fivem   => player.Identifiers["fivem"],
+				Identifier.Ip      => player.Identifiers["ip"],
+				_                  => null
+			};
 		}
 	}
 }

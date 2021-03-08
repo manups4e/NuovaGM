@@ -13,7 +13,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using Logger;
 using System.Drawing;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 {
@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem posCamera;
 		private static UIMenuColorPanel blipColor;
 		private static Prop renderCamObject;
-		private static Marker dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+		private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
 		private static int interno = 0;
 		private static string abbreviazione;
 
@@ -68,20 +68,20 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
 			interno = 0;
 			abbreviazione = "";
-			Istanza oldInstance = new Istanza();
-			ConfigCase casaDummy = new ConfigCase();
+			Istanza oldInstance = new();
+			ConfigCase casaDummy = new();
 			casaDummy.VehCapacity = 2;
-			Garages garageDummy = new Garages();
+			Garages garageDummy = new();
 			bool includiGarage = false;
 			bool includiTetto = false;
 			TipoImmobile immobile = TipoImmobile.Casa;
 
 			#region dichiarazione
 
-			UIMenu creazione = new UIMenu("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0));
+			UIMenu creazione = new("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0));
 			HUD.MenuPool.Add(creazione);
 			creazione.MouseControlsEnabled = false;
-			UIMenuListItem tipo = new UIMenuListItem("Tipo di immobile", new List<dynamic>() { "Casa", "Garage" }, 0);
+			UIMenuListItem tipo = new("Tipo di immobile", new List<dynamic>() { "Casa", "Garage" }, 0);
 			creazione.AddItem(tipo);
 			tipo.OnListChanged += (item, index) => immobile = (TipoImmobile)index;
 			UIMenu datiCasa = creazione.AddSubMenu("1. Dati dell'immobile"); // NB: nome provvisorio
@@ -101,8 +101,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				if (_new == datiCasa)
 				{
 					datiCasa.Clear();
-					UIMenuItem nomeImmobile = new UIMenuItem("Nome dell'immobile", "Sarebbe preferibile inserire la via e il numero civico nel nome, ma puoi decidere tu il nome come vuoi!");
-					UIMenuItem nomeAbbreviato = new UIMenuItem("Nome Abbreviato", "Per questioni di salvataggio, serve un nome abbreviato per indicizzare l'immobile nel catabase del giocatore.. ad esempio: 0232 Paleto Boulevard => 0232PB");
+					UIMenuItem nomeImmobile = new("Nome dell'immobile", "Sarebbe preferibile inserire la via e il numero civico nel nome, ma puoi decidere tu il nome come vuoi!");
+					UIMenuItem nomeAbbreviato = new("Nome Abbreviato", "Per questioni di salvataggio, serve un nome abbreviato per indicizzare l'immobile nel catabase del giocatore.. ad esempio: 0232 Paleto Boulevard => 0232PB");
 
 					switch (immobile)
 					{
@@ -129,8 +129,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 					if (immobile == TipoImmobile.Casa)
 					{
-						UIMenuCheckboxItem garageIncluso = new UIMenuCheckboxItem("Garage incluso", UIMenuCheckboxStyle.Tick, includiGarage, "Se attivato l'immobile avrà il garage incluso");
-						UIMenuCheckboxItem tettoIncluso = new UIMenuCheckboxItem("Tetto incluso", UIMenuCheckboxStyle.Tick, includiTetto, "Se attivato l'immobile avrà il tetto raggiungibile");
+						UIMenuCheckboxItem garageIncluso = new("Garage incluso", UIMenuCheckboxStyle.Tick, includiGarage, "Se attivato l'immobile avrà il garage incluso");
+						UIMenuCheckboxItem tettoIncluso = new("Tetto incluso", UIMenuCheckboxStyle.Tick, includiTetto, "Se attivato l'immobile avrà il tetto raggiungibile");
 						datiCasa.AddItem(garageIncluso);
 						datiCasa.AddItem(tettoIncluso);
 						garageIncluso.CheckboxEvent += (item, _checked) =>
@@ -145,7 +145,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						};
 					}
 
-					UIMenuItem prezzo = new UIMenuItem("Prezzo di vendita", "Inserisci un prezzo base di vendita, in modo che tutti abbiate un'idea di quanto costa comprandolo");
+					UIMenuItem prezzo = new("Prezzo di vendita", "Inserisci un prezzo base di vendita, in modo che tutti abbiate un'idea di quanto costa comprandolo");
 
 					switch (immobile)
 					{
@@ -324,7 +324,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			gestioneInteriorCasa.OnMenuStateChanged += async (_old, _new, _state) =>
 			{
-				UIMenuListItem interior = new UIMenuListItem("", new List<dynamic>() { "" }, 0);
+				UIMenuListItem interior = new("", new List<dynamic>() { "" }, 0);
 
 				if (_new == gestioneInteriorCasa)
 				{
@@ -351,7 +351,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 								if (includiGarage)
 								{
-									UIMenuListItem garageInterior = new UIMenuListItem("Tipo di Garage", new List<dynamic>() { "Base", "Medio [4]", "Medio [6]", "Alto [10]" }, 0);
+									UIMenuListItem garageInterior = new("Tipo di Garage", new List<dynamic>() { "Base", "Medio [4]", "Medio [6]", "Alto [10]" }, 0);
 									gestioneInteriorCasa.AddItem(garageInterior);
 									garageInterior.OnListChanged += (item, index) =>
 									{
@@ -566,9 +566,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						case 0: // low
 							if (immobile == TipoImmobile.Casa)
 							{
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(strip);
 								_new.AddItem(booze);
 								_new.AddItem(smoke);
@@ -613,9 +613,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						case 1:
 							if (immobile == TipoImmobile.Casa)
 							{
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(strip);
 								_new.AddItem(booze);
 								_new.AddItem(smoke);
@@ -660,9 +660,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						case 2:
 							if (immobile == TipoImmobile.Casa)
 							{
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(strip);
 								_new.AddItem(booze);
 								_new.AddItem(smoke);
@@ -707,9 +707,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						case 3:
 							if (immobile == TipoImmobile.Casa)
 							{
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(strip);
 								_new.AddItem(booze);
 								_new.AddItem(smoke);
@@ -754,9 +754,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						case 4:
 							if (immobile == TipoImmobile.Casa)
 							{
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(strip);
 								_new.AddItem(booze);
 								_new.AddItem(smoke);
@@ -802,7 +802,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							if (immobile == TipoImmobile.Casa)
 							{
 								int idx = 0;
-								UIMenuListItem tema = new UIMenuListItem("Stile appartamento", new List<dynamic>()
+								UIMenuListItem tema = new("Stile appartamento", new List<dynamic>()
 								{
 									"Modern",
 									"Moody",
@@ -812,10 +812,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 									"Seductive",
 									"Regal",
 									"Aqua"
-								}, casaDummy.Stile);                                                                     // cambiare index
-								UIMenuCheckboxItem strip = new UIMenuCheckboxItem("Biancheria sparsa", casaDummy.Strip); // cambiare checked
-								UIMenuCheckboxItem booze = new UIMenuCheckboxItem("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
-								UIMenuCheckboxItem smoke = new UIMenuCheckboxItem("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
+								}, casaDummy.Stile);                                                  // cambiare index
+								UIMenuCheckboxItem strip = new("Biancheria sparsa", casaDummy.Strip); // cambiare checked
+								UIMenuCheckboxItem booze = new("Bottiglie sparse", casaDummy.Booze);  // cambiare checked
+								UIMenuCheckboxItem smoke = new("Posacenere sparsi", casaDummy.Smoke); // cambiare checked
 								_new.AddItem(tema);
 								_new.AddItem(strip);
 								_new.AddItem(booze);
@@ -1021,7 +1021,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 			#endregion
 
-			UIMenuItem Salva = new UIMenuItem("Salva immobile", "Attenzione la cosa non sarà reversibile se non contattando un ADMIN!");
+			UIMenuItem Salva = new("Salva immobile", "Attenzione la cosa non sarà reversibile se non contattando un ADMIN!");
 			creazione.AddItem(Salva);
 			Salva.Activated += async (menu, item) =>
 			{
@@ -1045,7 +1045,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 												{
 													if (casaDummy.MarkerTetto != Vector3.Zero)
 													{
-														BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+														BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
 														HUD.MenuPool.CloseAllMenus();
 													}
 													else
@@ -1056,7 +1056,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 												else
 												{
 													// non tetto incluso
-													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
 													HUD.MenuPool.CloseAllMenus();
 												}
 											}
@@ -1071,7 +1071,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 											{
 												if (casaDummy.MarkerTetto != Vector3.Zero)
 												{
-													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
 													Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 													HUD.MenuPool.CloseAllMenus();
 												}
@@ -1083,7 +1083,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 											else
 											{
 												// non tetto incluso
-												BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.Serialize(), abbreviazione);
+												BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
 												Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 												HUD.MenuPool.CloseAllMenus();
 											}
@@ -1125,7 +1125,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								{
 									if (garageDummy.TelecameraFuori.pos != Vector3.Zero && garageDummy.TelecameraFuori.guarda != Vector3.Zero)
 									{
-										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.Serialize(), abbreviazione);
+										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.SerializeToJson(), abbreviazione);
 										Client.Impostazioni.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
 										HUD.MenuPool.CloseAllMenus();
 									}
@@ -1358,7 +1358,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			{
 				AsyncRaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
 				Vector3 direction = res.HitPosition;
-				Vector3 pos = new Vector3(direction.X, direction.Y, curLocation.Z);
+				Vector3 pos = new(direction.X, direction.Y, curLocation.Z);
 				string val = blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string;
 				World.DrawMarker((MarkerType)8, pos, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(5f), blipColor.CurrentColor, true, false, true, "blips", val.Substring(1, val.Length - 2).ToLower());
 				//metto un marker sotto

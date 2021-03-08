@@ -7,6 +7,7 @@ using TheLastPlanet.Server.Businesses;
 using TheLastPlanet.Server.Clothestores;
 using TheLastPlanet.Server.Discord;
 using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Core.PlayerJoining;
 using TheLastPlanet.Server.Interactions;
 using TheLastPlanet.Server.Lavori.Whitelistati;
 using TheLastPlanet.Server.manager;
@@ -21,8 +22,9 @@ namespace TheLastPlanet.Server
 			RequestInternal.Init();
 			await ConfigServer.Init();
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);
+			NewServerEntrance.Init();
 			ServerManager.Init();
-			ServerEntrance.Init();
+			Main.Init();
 			Eventi.Init();
 			Funzioni.Init();
 			ChatServer.Init();

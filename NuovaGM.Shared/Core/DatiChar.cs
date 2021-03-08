@@ -37,7 +37,7 @@ namespace TheLastPlanet.Shared
 
 	public class Char_data
 	{
-		public int id;
+		public uint id;
 		public bool is_dead;
 		public Info info = new Info();
 		public Finance finance = new Finance();
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Shared
 		public Statistiche statistiche = new Statistiche();
 		public Char_data() { }
 
-		public Char_data(int id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
+		public Char_data(uint id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
 			this.id = id;
 			this.info = info;

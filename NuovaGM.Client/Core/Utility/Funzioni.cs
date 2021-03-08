@@ -2,7 +2,6 @@
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Personaggio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -91,27 +90,33 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		public static T CaricaKVP<T>(string key) { return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key)); }
 
-		public static PlayerChar GetPlayerCharFromPlayerId(int id)
+		public static PlayerChar.PlayerChar GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
+			foreach (KeyValuePair<string, PlayerChar.PlayerChar> p in Cache.GiocatoriOnline)
 				if (GetPlayerFromServerId(Convert.ToInt32(p.Key)) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static PlayerChar GetPlayerCharFromServerId(int id)
+		public static PlayerChar.PlayerChar GetPlayerCharFromServerId(int id)
 		{
-			foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
+			foreach (KeyValuePair<string, PlayerChar.PlayerChar> p in Cache.GiocatoriOnline)
 				if (Convert.ToInt32(p.Key) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static PlayerChar GetPlayerData(this Player player) { return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId); }
+		public static PlayerChar.PlayerChar GetPlayerData(this Player player)
+		{
+			return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
+		}
 
-		public static void SendNuiMessage(object message) { API.SendNuiMessage(message.Serialize()); }
+		public static void SendNuiMessage(object message)
+		{
+			API.SendNuiMessage(message.SerializeToJson());
+		}
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
 		{
@@ -686,7 +691,10 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="coords"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
-		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area) { return Client.Instance.GetPlayers.ToList().Select(p => p.Character).Where(target => target.IsInRangeOf(coords, area)).ToList(); }
+		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area)
+		{
+			return Client.Instance.GetPlayers.ToList().Select(p => p.Character).Where(target => target.IsInRangeOf(coords, area)).ToList();
+		}
 
 		#region Closest Methodi
 
@@ -804,7 +812,10 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static float Deg2rad(float deg) { return deg * ((float)Math.PI / 180.0f); }
 
-		public static Player GetPlayerFromPed(Ped ped) { return Client.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId); }
+		public static Player GetPlayerFromPed(Ped ped)
+		{
+			return Client.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId);
+		}
 
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
@@ -841,12 +852,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, PlayerChar>> GetOnlinePlayersAndTheirData()
+		public static async Task<Dictionary<string, PlayerChar.PlayerChar>> GetOnlinePlayersAndTheirData()
 		{
-			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
+			Dictionary<string, PlayerChar.PlayerChar> players = new();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((result) =>
 			{
-				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
+				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 
@@ -857,12 +868,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// Si connette al server e al DB e ritorna tutti i personaggi salvati nel db stesso
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, PlayerChar>> GetAllPlayersAndTheirData()
+		public static async Task<Dictionary<string, PlayerChar.PlayerChar>> GetAllPlayersAndTheirData()
 		{
-			Dictionary<string, PlayerChar> players = new Dictionary<string, PlayerChar>();
+			Dictionary<string, PlayerChar.PlayerChar> players = new();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<dynamic>((result) =>
 			{
-				players = (result as string).Deserialize<Dictionary<string, PlayerChar>>();
+				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.PlayerChar>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 

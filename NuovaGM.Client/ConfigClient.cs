@@ -23,8 +23,8 @@ namespace TheLastPlanet.Client
 
 		public static void Configurazione(string JsonMain, string JsonShared)
 		{
-			Client.Impostazioni = JsonMain.Deserialize<Configurazione>();
-			ConfigShared.SharedConfig = JsonShared.Deserialize<SharedConfig>();
+			Client.Impostazioni = JsonMain.DeserializeFromJson<Configurazione>();
+			ConfigShared.SharedConfig = JsonShared.DeserializeFromJson<SharedConfig>();
 		}
 	}
 

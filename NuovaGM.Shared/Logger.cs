@@ -20,7 +20,7 @@ namespace Logger
 		/// </summary>
 		/// <param name="tipo">La gravità della situazione</param>
 		/// <param name="text">Testo del messaggio</param>
-		public static void Printa(LogType tipo, string text)
+		public static async void Printa(LogType tipo, string text)
 		{
 			string err = "-- [INFO] -- ";
 			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm:ss}";
@@ -51,6 +51,8 @@ namespace Logger
 					colore = "^9";
 					break;
 			}
+
+			await BaseScript.Delay(1); // aspettiamo 1ms per gestire tutti i SIGSEGV che appaiono a causa della mancata attesa dopo il Database
 			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 		}
 	}

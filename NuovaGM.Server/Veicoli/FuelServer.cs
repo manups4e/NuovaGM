@@ -63,14 +63,14 @@ namespace TheLastPlanet.Server.Veicoli
 		public static void BuyTanker([FromSource] Player p, string Json)
 		{
 			User user = p.GetCurrentChar();
-			Tanker t = Json.Deserialize<Tanker>();
+			Tanker t = Json.DeserializeFromJson<Tanker>();
 			int amount = (int)Math.Ceiling(t.ppu * t.fuelForTanker);
 			if (user.Money >= amount)
 			{
 				user.Money -= amount;
 				Log.Printa(LogType.Info, "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
-				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, t.Serialize());
+				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, t.SerializeToJson());
 			}
 			else
 			{

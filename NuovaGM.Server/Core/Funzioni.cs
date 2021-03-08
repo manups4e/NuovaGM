@@ -17,23 +17,15 @@ namespace TheLastPlanet.Server.Core
 
 		public static Player GetPlayerFromId(int id)
 		{
-			foreach (Player p in Server.Instance.GetPlayers.ToList())
-				if (p.Handle == id.ToString())
-					return p;
-
-			return null;
+			return Server.Instance.GetPlayers[id];
 		}
 
 		public static Player GetPlayerFromId(string id)
 		{
-			foreach (Player p in Server.Instance.GetPlayers.ToList())
-				if (p.Handle == id)
-					return p;
-
-			return null;
+			return Server.Instance.GetPlayers[Convert.ToInt32(id)];
 		}
 
-		public static ConcurrentDictionary<string, string> HASH_TO_LABEL = new ConcurrentDictionary<string, string>()
+		public static ConcurrentDictionary<string, string> HASH_TO_LABEL = new()
 		{
 			[Convert.ToString((uint)GetHashKey("WEAPON_UNARMED"))] = "WT_UNARMED",
 			[Convert.ToString((uint)GetHashKey("WEAPON_ANIMAL"))] = "WT_INVALID",
@@ -288,8 +280,8 @@ namespace TheLastPlanet.Server.Core
 				level = ped.group_level,
 				time = ped.playTime,
 				current = ped.char_current,
-				data = ped.char_data.Serialize(),
-				id = ped.identifiers.discord
+				data = ped.Characters.SerializeToJson(),
+				id = ped.identifiers.Discord
 			});
 			player.TriggerEvent("lprp:salvataggioClient", JsonConvert.SerializeObject(new
 			{
@@ -298,8 +290,8 @@ namespace TheLastPlanet.Server.Core
 				level = ped.group_level,
 				time = ped.playTime,
 				current = ped.char_current,
-				data = ped.char_data.Serialize(),
-				id = ped.identifiers.discord
+				data = ped.Characters.SerializeToJson(),
+				id = ped.identifiers.Discord
 			}));
 			await Task.FromResult(0);
 		}
@@ -320,17 +312,17 @@ namespace TheLastPlanet.Server.Core
 						{
 							User ped = GetUserFromPlayerId(player.Handle);
 
-							if (ped.status.spawned)
+							if (ped.status.Spawned)
 							{
 								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
 								await SalvaPersonaggio(player);
-								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
-								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.discord);
+								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
+								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
 							}
 						}
 					}
 
-					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
+					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.SerializeToJson());
 				}
 				else
 				{

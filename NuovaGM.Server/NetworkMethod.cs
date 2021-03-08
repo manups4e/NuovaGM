@@ -67,7 +67,7 @@ namespace TheLastPlanet.Server
             if (text == null)
                 return default(T);
 
-            return text.Deserialize<T>();
+            return text.DeserializeFromJson<T>();
         }
 
         protected static string SerializeObject(object o)
@@ -75,7 +75,7 @@ namespace TheLastPlanet.Server
             if (o == null)
                 return null;
 
-            return o.Serialize();
+            return o.SerializeToJson();
         }
     }
 

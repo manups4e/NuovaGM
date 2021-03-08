@@ -15,7 +15,7 @@ using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Veicoli;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
@@ -34,10 +34,10 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		private static async void CaricaCaseDaDb(string JsonCase, string jsonGarage)
 		{
-			Dictionary<string, string> aparts = JsonCase.Deserialize<Dictionary<string, string>>();
-			Dictionary<string, string> garages = jsonGarage.Deserialize<Dictionary<string, string>>();
-			foreach (KeyValuePair<string, string> a in aparts) Client.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.Deserialize<ConfigCase>());
-			foreach (KeyValuePair<string, string> a in garages) Client.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.Deserialize<Garages>());
+			Dictionary<string, string> aparts = JsonCase.DeserializeFromJson<Dictionary<string, string>>();
+			Dictionary<string, string> garages = jsonGarage.DeserializeFromJson<Dictionary<string, string>>();
+			foreach (KeyValuePair<string, string> a in aparts) Client.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.DeserializeFromJson<ConfigCase>());
+			foreach (KeyValuePair<string, string> a in garages) Client.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.DeserializeFromJson<Garages>());
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 								it.Activated += (_submenu, _subitem) =>
 								{
 									Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-									BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.Serialize()); // params: personaincasa.serverid, fromsource chi suona
+									BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.SerializeToJson()); // params: personaincasa.serverid, fromsource chi suona
 									HUD.MenuPool.CloseAllMenus();
 								};
 							}
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		public static void PuoiEntrare(int serverIdInCasa, string appartamento)
 		{
-			KeyValuePair<string, ConfigCase> app = appartamento.Deserialize<KeyValuePair<string, ConfigCase>>();
+			KeyValuePair<string, ConfigCase> app = appartamento.DeserializeFromJson<KeyValuePair<string, ConfigCase>>();
 			Player InCasa = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
 
 			if (InCasa == null) return;

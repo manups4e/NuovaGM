@@ -25,14 +25,14 @@ namespace TheLastPlanet.Server.Interactions
 		{
 			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.item].prop, 0, label, user.getCoords);
 			Pickups.Add(pickup);
-			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.Serialize(), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.SerializeToJson(), user.Player.Handle);
 		}
 
 		public static void CreatePickup(Weapons oggetto, string label, User user)
 		{
 			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords, "weapon", oggetto.components, oggetto.tint);
 			Pickups.Add(arma);
-			BaseScript.TriggerClientEvent("lprp:createPickup", arma.Serialize(), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", arma.SerializeToJson(), user.Player.Handle);
 		}
 
 		public static void CreatePickup(string name, int count, string label, User user)
@@ -65,7 +65,7 @@ namespace TheLastPlanet.Server.Interactions
 
 			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords, "account");
 			Pickups.Add(soldo);
-			BaseScript.TriggerClientEvent("lprp:createPickup", soldo.Serialize(), user.p.Handle);
+			BaseScript.TriggerClientEvent("lprp:createPickup", soldo.SerializeToJson(), user.Player.Handle);
 		}
 
 		private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)

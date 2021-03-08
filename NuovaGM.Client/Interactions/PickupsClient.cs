@@ -91,7 +91,7 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			int playerId = Convert.ToInt32(userId);
 			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
-			OggettoRaccoglibile oggetto = jsonOggetto.Deserialize<OggettoRaccoglibile>();
+			OggettoRaccoglibile oggetto = jsonOggetto.DeserializeFromJson<OggettoRaccoglibile>();
 			Vector3 entityCoords = playerPed.Position;
 			Vector3 forward = playerPed.ForwardVector;
 			Vector3 objectCoords = entityCoords + forward * 1.0f;
@@ -156,7 +156,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static async void CreaMissingPickups(string jsonPickups)
 		{
-			Pickups = jsonPickups.Deserialize<List<OggettoRaccoglibile>>();
+			Pickups = jsonPickups.DeserializeFromJson<List<OggettoRaccoglibile>>();
 
 			if (Pickups.Count > 0)
 				foreach (OggettoRaccoglibile pickup in Pickups)

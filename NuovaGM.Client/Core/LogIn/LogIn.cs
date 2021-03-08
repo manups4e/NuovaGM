@@ -13,67 +13,107 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core.LogIn
 {
-	static class LogIn
+	internal static class LogIn
 	{
 		public static bool GuiEnabled = false;
-		public static List<Vector4> SelectFirstCoords = new List<Vector4>
+		public static List<Vector4> SelectFirstCoords = new()
 		{
-			new Vector4(-1503.000f, -1143.462f, 34.670f, 64.692f),
-			new Vector4(747.339f, 525.837f, 345.395f, 39.975f),
-			new Vector4(-2162.689f, -469.343f, 3.396f, 150.975f),
-			new Vector4(-170.256f, -2357.418f, 100.596f, 95.975f),
-			new Vector4(2126.171f, 3014.593f, 59.196f, 115.975f),
-			new Vector4(-103.310f, -1215.578f, 53.796f, 270.975f),
-			new Vector4(-3032.130f, 22.216f, 11.118f, 0f),
+			new(-1503.000f, -1143.462f, 34.670f, 64.692f),
+			new(747.339f, 525.837f, 345.395f, 39.975f),
+			new(-2162.689f, -469.343f, 3.396f, 150.975f),
+			new(-170.256f, -2357.418f, 100.596f, 95.975f),
+			new(2126.171f, 3014.593f, 59.196f, 115.975f),
+			new(-103.310f, -1215.578f, 53.796f, 270.975f),
+			new(-3032.130f, 22.216f, 11.118f, 0f)
 		};
-		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
+		public static Vector4 charCreateCoords = new(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Camera charSelectionCam;
 		public static Camera charCreationCam;
 		private static bool cambiato = false;
 
-		static List<string> scenari = new List<string>
+		private static List<string> scenari = new()
 		{
-			"WORLD_HUMAN_AA_SMOKE", "WORLD_HUMAN_BINOCULARS", "WORLD_HUMAN_BUM_FREEWAY",
-			"WORLD_HUMAN_BUM_SLUMPED", "WORLD_HUMAN_BUM_STANDING", "WORLD_HUMAN_BUM_WASH",
-			"WORLD_HUMAN_CAR_PARK_ATTENDANT", "WORLD_HUMAN_CHEERING", "WORLD_HUMAN_CLIPBOARD",
-			"WORLD_HUMAN_CONST_DRILL", "WORLD_HUMAN_COP_IDLES", "WORLD_HUMAN_DRINKING",
-			"WORLD_HUMAN_DRUG_DEALER", "WORLD_HUMAN_DRUG_DEALER_HARD", "WORLD_HUMAN_MOBILE_FILM_SHOCKING",
-			"WORLD_HUMAN_GARDENER_LEAF_BLOWER", "WORLD_HUMAN_GARDENER_PLANT", "WORLD_HUMAN_GOLF_PLAYER",
-			"WORLD_HUMAN_GUARD_PATROL", "WORLD_HUMAN_GUARD_STAND", "WORLD_HUMAN_GUARD_STAND_ARMY",
-			"WORLD_HUMAN_HAMMERING", "WORLD_HUMAN_HANG_OUT_STREET", "WORLD_HUMAN_HUMAN_STATUE",
-			"WORLD_HUMAN_JANITOR", "WORLD_HUMAN_JOG_STANDING", "WORLD_HUMAN_LEANING",
-			"WORLD_HUMAN_MAID_CLEAN", "WORLD_HUMAN_MUSCLE_FLEX", "WORLD_HUMAN_MUSCLE_FREE_WEIGHTS",
-			"WORLD_HUMAN_MUSICIAN",	"WORLD_HUMAN_PAPARAZZI", "WORLD_HUMAN_PARTYING",
-			"WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", "WORLD_HUMAN_PUSH_UPS", "WORLD_HUMAN_SECURITY_SHINE_TORCH",
-			"WORLD_HUMAN_SIT_UPS", "WORLD_HUMAN_SMOKING", "WORLD_HUMAN_SMOKING_POT",
-			"WORLD_HUMAN_STAND_FISHING", "WORLD_HUMAN_STAND_MOBILE", "WORLD_HUMAN_STRIP_WATCH_STAND",
-			"WORLD_HUMAN_TENNIS_PLAYER", "WORLD_HUMAN_TOURIST_MAP", "WORLD_HUMAN_TOURIST_MOBILE",
-			"WORLD_HUMAN_WELDING", "WORLD_HUMAN_YOGA", "CODE_HUMAN_MEDIC_KNEEL",
-			"CODE_HUMAN_MEDIC_TEND_TO_DEAD", "CODE_HUMAN_MEDIC_TIME_OF_DEATH",
+			"WORLD_HUMAN_AA_SMOKE",
+			"WORLD_HUMAN_BINOCULARS",
+			"WORLD_HUMAN_BUM_FREEWAY",
+			"WORLD_HUMAN_BUM_SLUMPED",
+			"WORLD_HUMAN_BUM_STANDING",
+			"WORLD_HUMAN_BUM_WASH",
+			"WORLD_HUMAN_CAR_PARK_ATTENDANT",
+			"WORLD_HUMAN_CHEERING",
+			"WORLD_HUMAN_CLIPBOARD",
+			"WORLD_HUMAN_CONST_DRILL",
+			"WORLD_HUMAN_COP_IDLES",
+			"WORLD_HUMAN_DRINKING",
+			"WORLD_HUMAN_DRUG_DEALER",
+			"WORLD_HUMAN_DRUG_DEALER_HARD",
+			"WORLD_HUMAN_MOBILE_FILM_SHOCKING",
+			"WORLD_HUMAN_GARDENER_LEAF_BLOWER",
+			"WORLD_HUMAN_GARDENER_PLANT",
+			"WORLD_HUMAN_GOLF_PLAYER",
+			"WORLD_HUMAN_GUARD_PATROL",
+			"WORLD_HUMAN_GUARD_STAND",
+			"WORLD_HUMAN_GUARD_STAND_ARMY",
+			"WORLD_HUMAN_HAMMERING",
+			"WORLD_HUMAN_HANG_OUT_STREET",
+			"WORLD_HUMAN_HUMAN_STATUE",
+			"WORLD_HUMAN_JANITOR",
+			"WORLD_HUMAN_JOG_STANDING",
+			"WORLD_HUMAN_LEANING",
+			"WORLD_HUMAN_MAID_CLEAN",
+			"WORLD_HUMAN_MUSCLE_FLEX",
+			"WORLD_HUMAN_MUSCLE_FREE_WEIGHTS",
+			"WORLD_HUMAN_MUSICIAN",
+			"WORLD_HUMAN_PAPARAZZI",
+			"WORLD_HUMAN_PARTYING",
+			"WORLD_HUMAN_PROSTITUTE_HIGH_CLASS",
+			"WORLD_HUMAN_PUSH_UPS",
+			"WORLD_HUMAN_SECURITY_SHINE_TORCH",
+			"WORLD_HUMAN_SIT_UPS",
+			"WORLD_HUMAN_SMOKING",
+			"WORLD_HUMAN_SMOKING_POT",
+			"WORLD_HUMAN_STAND_FISHING",
+			"WORLD_HUMAN_STAND_MOBILE",
+			"WORLD_HUMAN_STRIP_WATCH_STAND",
+			"WORLD_HUMAN_TENNIS_PLAYER",
+			"WORLD_HUMAN_TOURIST_MAP",
+			"WORLD_HUMAN_TOURIST_MOBILE",
+			"WORLD_HUMAN_WELDING",
+			"WORLD_HUMAN_YOGA",
+			"CODE_HUMAN_MEDIC_KNEEL",
+			"CODE_HUMAN_MEDIC_TEND_TO_DEAD",
+			"CODE_HUMAN_MEDIC_TIME_OF_DEATH"
 		};
 
 		private static Ped dummyPed;
+
 		public static void Init()
 		{
 			ClearFocus();
 			Client.Instance.AddTick(Entra);
-			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) => { ToggleMenu(true, "charloading"); cb("ok"); }));
+			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) =>
+			{
+				ToggleMenu(true, "charloading");
+				cb("ok");
+			}));
 			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
 			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
 			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
 			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
-			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<byte[]>(setupClientUser));
+			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
 		}
 
 		#region INGRESSO NEL SERVER
+
 		public static async Task Entra()
 		{
 			await BaseScript.Delay(50);
+
 			if (NetworkIsSessionStarted())
 			{
 				BaseScript.TriggerServerEvent("lprp:setupUser");
@@ -100,8 +140,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void charSelect()
 		{
-			if (Cache.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
 			Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
 			Cache.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
@@ -132,7 +171,10 @@ namespace TheLastPlanet.Client.Core.LogIn
 				RenderScriptCams(true, false, 0, false, false);
 				Attiva();
 			}
-			else charSelect();
+			else
+			{
+				charSelect();
+			}
 		}
 
 		public static async void charCreate()
@@ -143,17 +185,14 @@ namespace TheLastPlanet.Client.Core.LogIn
 			SetEntityHeading(Cache.PlayerPed.Handle, charCreateCoords.W);
 			Vector3 h = GetPedBoneCoords(Cache.PlayerPed.Handle, 24818, 0.0f, 0.0f, 0.0f);
 			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Cache.PlayerPed.Handle, 0.0f, 2.0f, 0.8f);
-			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
-			{
-				Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f)
-			};
+			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f) };
 			charCreationCam.PointAt(h);
 			charCreationCam.IsActive = true;
 			RenderScriptCams(true, false, 0, false, false);
 			await Task.FromResult(0);
 		}
 
-		public static void setupClientUser(byte[] data)
+		public static void setupClientUser(string data)
 		{
 			Cache.AddPlayer(data);
 			DisplayRadar(false);
@@ -184,25 +223,28 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "")
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Char.char_data.SerializeToJson() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Char.Characters.SerializeToJson() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
 		}
 
-		static Ped p1;
+		private static Ped p1;
+
 		private static async void SelezionatoPreview(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Cache.PlayerPed;
-			Char_data pers = Cache.Char.char_data.FirstOrDefault(x => x.id == (int)data["id"]);
+			Char_data pers = Cache.Char.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
+
 			if (p1 != null)
 			{
 				Client.Instance.RemoveTick(Controllo);
 				p1.Delete();
 			}
+
 			p1 = await Funzioni.CreatePedLocally(pers.skin.sex == "Maschio" ? m : f, ped.Position + new Vector3(0, 0.5f, -1f));
 			p1.IsPositionFrozen = true;
 			p1.BlockPermanentEvents = true;
@@ -213,19 +255,25 @@ namespace TheLastPlanet.Client.Core.LogIn
 			p1.Task.StartScenario(scena, p1.Position);
 			Client.Instance.AddTick(Controllo);
 			int i = 0;
+
 			while (i < 255)
 			{
 				await BaseScript.Delay(25);
 				SetEntityAlpha(p1.Handle, i, 0);
 				i += 25;
 			}
+
 			cb("ok");
 		}
 
 		private static async void Selezionato(IDictionary<string, object> data, CallbackDelegate cb)
 		{
-			if (p1 != null) if (p1.Exists()) p1.Delete();
-			if (dummyPed != null) if (dummyPed.Exists()) dummyPed.Delete();
+			if (p1 != null)
+				if (p1.Exists())
+					p1.Delete();
+			if (dummyPed != null)
+				if (dummyPed.Exists())
+					dummyPed.Delete();
 			GuiEnabled = false;
 			ToggleMenu(false);
 			Screen.Fading.FadeOut(800);
@@ -233,10 +281,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			Cache.Char.char_current = (int)data["id"];
+			Cache.Char.char_current = Convert.ToUInt32(data["id"]);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Char.char_current);
 			Char_data Data = Cache.Char.CurrentChar;
-
 			int switchType = 1;
 			switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
@@ -251,9 +298,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(4000);
 			Cache.PlayerPed.IsInvincible = false;
 			await BaseScript.Delay(1000);
-
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
 			if (Data.location.position.IsZero)
@@ -270,31 +315,22 @@ namespace TheLastPlanet.Client.Core.LogIn
 			}
 
 			Eventi.LoadModel();
-			if (Cache.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(PlayerPedId(), true, false);
+			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
 			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
 			Cache.PlayerPed.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.PlayerPed.Handle);
 			Cache.Char.StatiPlayer.Istanza.Istanzia("Ingresso");
-
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
-
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
-			if (Cache.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(7000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
-
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);
-
 			await BaseScript.Delay(5000);
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
 			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
 			{
@@ -306,11 +342,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Vector3 pos = await Cache.PlayerPed.Position.GetVector3WithGroundZ();
 			Cache.PlayerPed.Position = pos;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Client.Instance.RemoveTick(Controllo);
-			if (Cache.PlayerPed.IsVisible)
-				NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
 			await BaseScript.Delay(1000);
 			Cache.PlayerPed.IsPositionFrozen = false;
 			Cache.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
@@ -320,8 +354,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			NetworkFadeInEntity(Cache.PlayerPed.Handle, true);
 			Cache.PlayerPed.IsVisible = true;
 			Cache.PlayerPed.IsCollisionEnabled = true;
-//			Client.Instance.RemoveTick(Scaleform);
-//			Client.Instance.RemoveTick(TastiMenu);
+			//			Client.Instance.RemoveTick(Scaleform);
+			//			Client.Instance.RemoveTick(TastiMenu);
 			cb("ok");
 		}
 
@@ -346,9 +380,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			SetPedComponentVariation(p.Handle, 2, data.skin.hair.style, 0, 0);
 			SetPedHairColor(p.Handle, data.skin.hair.color[0], data.skin.hair.color[1]);
 			SetPedPropIndex(p.Handle, 2, data.skin.ears.style, data.skin.ears.color, false);
-			for (int i = 0; i < data.skin.face.tratti.Length; i++)
-				SetPedFaceFeature(p.Handle, i, data.skin.face.tratti[i]);
-
+			for (int i = 0; i < data.skin.face.tratti.Length; i++) SetPedFaceFeature(p.Handle, i, data.skin.face.tratti[i]);
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, data.dressing.ComponentDrawables.Faccia, data.dressing.ComponentTextures.Faccia, 2);
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, data.dressing.ComponentDrawables.Maschera, data.dressing.ComponentTextures.Maschera, 2);
 			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso, data.dressing.ComponentDrawables.Torso, data.dressing.ComponentTextures.Torso, 2);
@@ -396,14 +428,12 @@ namespace TheLastPlanet.Client.Core.LogIn
 				ClearPedProp(p.Handle, 8);
 			else
 				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, data.dressing.PropIndices.Unk_8, data.dressing.PropTextures.Unk_8, true);
-
 			while (GetPedDrawableVariation(p.Handle, (int)DrawableIndexes.Torso_2) != data.dressing.ComponentDrawables.Torso_2) await BaseScript.Delay(0);
 			cambiato = true;
-
 			await Task.FromResult(0);
 		}
 
-		private static void Disconnetti(IDictionary<string, object>data, CallbackDelegate cb)
+		private static void Disconnetti(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
@@ -445,11 +475,10 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Game.DisableAllControlsThisFrame(29);
 			Game.DisableAllControlsThisFrame(30);
 			Game.DisableAllControlsThisFrame(31);
-			if (p1.Exists())
-				p1.Heading += 1.2f;
+			if (p1.Exists()) p1.Heading += 1.2f;
 		}
 
-		private static async void NuovoPersonaggio(IDictionary<string, object>data, CallbackDelegate cb)
+		private static async void NuovoPersonaggio(IDictionary<string, object> data, CallbackDelegate cb)
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);

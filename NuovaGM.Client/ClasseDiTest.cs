@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
@@ -9,7 +11,6 @@ using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -19,27 +20,32 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
-	static class ClasseDiTest
+	internal static class ClasseDiTest
 	{
-		public static async void Init()
+		public static void Init()
 		{
 			Client.Instance.AddTick(test);
+			Client.Instance.AddEventHandler("TestEvent", new Action<byte[]>(TestEvent));
+		}
+
+		private static void TestEvent(byte[] param)
+		{
+			string pp = param.DeserializeBytes<string>();
+			Log.Printa(LogType.Debug, pp);
 		}
 
 		private static async void AttivaMenu()
 		{
-			UIMenu Test = new UIMenu("Test", "test", new System.Drawing.PointF(700, 300));
+			UIMenu Test = new("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(Test);
-
-			UIMenuItem b = new UIMenuItem("ResetTime");
-			UIMenuItem c = new UIMenuItem("SetTime1");
-			UIMenuItem d = new UIMenuItem("SetTime2");
-			UIMenuItem e = new UIMenuItem("SetTime3");
+			UIMenuItem b = new("ResetTime");
+			UIMenuItem c = new("SetTime1");
+			UIMenuItem d = new("SetTime2");
+			UIMenuItem e = new("SetTime3");
 			Test.AddItem(b);
 			Test.AddItem(c);
 			Test.AddItem(d);
 			Test.AddItem(e);
-
 			Test.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == b)
@@ -48,28 +54,28 @@ namespace TheLastPlanet.Client
 					AdvanceClockTimeTo(23, 0, 0);
 				else if (item == d)
 					SetClockTime(15, 0, 0);
-				else if (item == e)
-					NetworkOverrideClockTime(12, 0, 0);
-
+				else if (item == e) NetworkOverrideClockTime(12, 0, 0);
 			};
 			Test.Visible = true;
 		}
 
 		/*
 		static TabView b = new TabView("New");
-		static List<UIMenuItem> Players = new List<UIMenuItem>()
+		static List<UIMenuItem> players = new List<UIMenuItem>()
 				{
 					new UIMenuItem(Cache.Player.Name)
 				};
-		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", Players);
+		static TabInteractiveListItem item2 = new TabInteractiveListItem("Item 2", GetPlayers);
 		*/
-		static int timer = 0;
+		private static int timer = 0;
+
 		public static async Task test()
 		{
 			if (Cache.Char != null)
 			{
-//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Cache.Char.StatiPlayer.Istanza));
+				//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Cache.Char.StatiPlayer.Istanza));
 			}
+
 			/*
 			b.ProcessControls();
 			b.Update();

@@ -12,7 +12,7 @@ using CitizenFX.Core.UI;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 {
@@ -176,7 +176,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
 											VeicoloPol vehicl = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", vehicl.Serialize());
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", vehicl.SerializeToJson());
 											p.CurrentVehicle.Delete();
 											VeicoloAttuale = new Vehicle(0);
 										}
@@ -226,7 +226,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
 											VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", veh.Serialize());
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", veh.SerializeToJson());
 											p.CurrentVehicle.Delete();
 											ElicotteroAttuale = new Vehicle(0);
 										}
@@ -286,13 +286,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
-				foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
+				foreach (KeyValuePair<string, PlayerChar> p in Cache.GiocatoriOnline)
 					if (p.Value.CurrentChar.job.name == "Medici")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
 
 						if (!NetworkIsPlayerActive(id) || GetPlayerPed(id) == PlayerPedId()) continue;
-						Ped playerPed = new Ped(GetPlayerPed(id));
+						Ped playerPed = new(GetPlayerPed(id));
 
 						if (Cache.Char.StatiPlayer.InVeicolo)
 						{

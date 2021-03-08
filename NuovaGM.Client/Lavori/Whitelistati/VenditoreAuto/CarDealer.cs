@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				MostraAMe();
 			};
 			UIMenu mostraCatalogo = menuVenditore.AddSubMenu("Mostra catalogo", "Scegli a chi");
-			List<Player> players = new List<Player>();
+			List<Player> players = new();
 			HUD.MenuPool.OnMenuStateChanged += async (_oldmenu, _newmenu, _state) =>
 			{
 				if (_newmenu != mostraCatalogo) return;
@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 					foreach (Player p in players)
 					{
-						UIMenuCheckboxItem persona = new UIMenuCheckboxItem(p.GetPlayerData().FullName, false);
+						UIMenuCheckboxItem persona = new(p.GetPlayerData().FullName, false);
 						persona.CheckboxEvent += (_item, _activated) =>
 						{
 							if (!_activated) return;
@@ -201,7 +201,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 											PreviewVeh.Mods.LicensePlate = plate;
 											VehProp prop = await PreviewVeh.GetVehicleProperties();
 											OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Cache.Char.CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, Cache.Char.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
-											BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.Serialize(includeEverything: true));
+											BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.SerializeToJson(includeEverything: true));
 											HUD.MenuPool.CloseAllMenus();
 											HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");
 											Screen.Fading.FadeOut(800);
@@ -309,18 +309,18 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 							if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
 							{
-								List<string> prop = new List<string>();
+								List<string> prop = new();
 
 								foreach (string gar in user.GetPlayerData().CurrentChar.Proprietà)
 								{
 									if (Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(gar))
 									{
-										UIMenuItem posto = new UIMenuItem(Client.Impostazioni.Proprieta.Garages.Garages[gar].Label);
+										UIMenuItem posto = new(Client.Impostazioni.Proprieta.Garages.Garages[gar].Label);
 										player.AddItem(posto);
 									}
 									else if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(gar) && Client.Impostazioni.Proprieta.Appartamenti[gar].GarageIncluso)
 									{
-										UIMenuItem posto = new UIMenuItem(Client.Impostazioni.Proprieta.Appartamenti[gar].Label);
+										UIMenuItem posto = new(Client.Impostazioni.Proprieta.Appartamenti[gar].Label);
 										player.AddItem(posto);
 									}
 

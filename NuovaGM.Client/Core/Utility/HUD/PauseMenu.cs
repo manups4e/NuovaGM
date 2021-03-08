@@ -14,7 +14,6 @@ using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Personale;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
@@ -133,7 +132,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
-			PlayerChar pl = Cache.Char;
+			PlayerChar.PlayerChar pl = Cache.Char;
 			TabInteractiveListItem HUD = null;
 			TabInteractiveListItem Telecamere = null;
 
@@ -292,7 +291,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			intro.Visible = true;
 			MainMenu.OnMenuClose += () =>
 			{
-				Funzioni.SalvaKVPString("SettingsClient", Main.ImpostazioniClient.Serialize());
+				Funzioni.SalvaKVPString("SettingsClient", Main.ImpostazioniClient.SerializeToJson());
 				Log.Printa(LogType.Debug, Funzioni.CaricaKVPString("SettingsClient"));
 			};
 			MainMenu.Visible = true;

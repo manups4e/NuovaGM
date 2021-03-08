@@ -63,8 +63,8 @@ namespace TheLastPlanet.Server.Veicoli
 					foreach (dynamic veh in vehs) p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
 				}
 
-				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
-				cb.DynamicInvoke(p.GetCurrentChar().CurrentChar.Veicoli.Serialize(includeEverything: true));
+				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+				cb.DynamicInvoke(p.GetCurrentChar().CurrentChar.Veicoli.SerializeToJson(includeEverything: true));
 			}
 			catch (Exception e)
 			{
@@ -79,15 +79,15 @@ namespace TheLastPlanet.Server.Veicoli
 
 			if (inGarage)
 			{
-				p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props = props.Deserialize<VehProp>(true);
-				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.Serialize(includeEverything: true), t = plate });
+				p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props = props.DeserializeFromJson<VehProp>(true);
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.SerializeToJson(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.SerializeToJson(includeEverything: true), t = plate });
 			}
 			else
 			{
-				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.Serialize(), t = plate });
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.SerializeToJson(), t = plate });
 			}
 
-			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 	}
 }

@@ -15,40 +15,40 @@ namespace TheLastPlanet.Server.Core
 	{
 		public static void Init()
 		{
-			Server.Instance.AddCommand("ooc", new Action<Player, List<string>, string>(Ooc), UserGroup.User, new ChatSuggestion("Scrivi in chat ~y~fuori dal personaggio~w~", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("pol", new Action<Player, List<string>, string>(Pol), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("pil", new Action<Player, List<string>, string>(Pil), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~piloti~w~", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("med", new Action<Player, List<string>, string>(Med), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("mec", new Action<Player, List<string>, string>(Mec), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("me", new Action<Player, List<string>, string>(Me), UserGroup.User, new ChatSuggestion("Descrivi i tuoi stati d'animo e personali", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("do", new Action<Player, List<string>, string>(Do), UserGroup.User, new ChatSuggestion("Descrivi le tue azioni personali e interpersonali", new SuggestionParam[1] { new SuggestionParam("Testo", "Il testo da inserire") }));
-			Server.Instance.AddCommand("giveitem", new Action<Player, List<string>, string>(GiveItem), UserGroup.Moderatore, new ChatSuggestion("Dai un oggetto a un player", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Oggetto", "L'oggetto da dare al player"), new SuggestionParam("Quantità", "Quantità dell'oggetto da dare") }));
-			Server.Instance.AddCommand("removeitem", new Action<Player, List<string>, string>(RemoveItem), UserGroup.Moderatore, new ChatSuggestion("Togli un oggetto a un player", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Oggetto", "L'oggetto da togliere al player"), new SuggestionParam("Quantità", "Quantità dell'oggetto da togliere") }));
-			Server.Instance.AddCommand("giveweapon", new Action<Player, List<string>, string>(GiveWeapon), UserGroup.Moderatore, new ChatSuggestion("Dai un'arma a un player", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Arma", "L'arma da dare al player [es. weapon_pistol]"), new SuggestionParam("Quantità", "Quantità di munizioni da dare") }));
-			Server.Instance.AddCommand("removeweapon", new Action<Player, List<string>, string>(RemoveWeapon), UserGroup.Moderatore, new ChatSuggestion("Togli un'arma a un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Arma", "L'arma da togliere al player [es. weapon_pistol]") }));
-			Server.Instance.AddCommand("givemoney", new Action<Player, List<string>, string>(GiveMoney), UserGroup.Moderatore, new ChatSuggestion("Dai soldi nel portafoglio ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi dargli?") }));
-			Server.Instance.AddCommand("givebank", new Action<Player, List<string>, string>(GiveBank), UserGroup.Moderatore, new ChatSuggestion("Dai soldi in banca ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi dargli?") }));
-			Server.Instance.AddCommand("givedirty", new Action<Player, List<string>, string>(GiveDirty), UserGroup.Moderatore, new ChatSuggestion("Dai soldi sporchi ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi dargli?") }));
-			Server.Instance.AddCommand("removemoney", new Action<Player, List<string>, string>(RemoveMoney), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi nel portafoglio ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi togliere?") }));
-			Server.Instance.AddCommand("removebank", new Action<Player, List<string>, string>(RemoveBank), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi in banca ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi togliere?") }));
-			Server.Instance.AddCommand("removedirty", new Action<Player, List<string>, string>(RemoveDirty), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi sporchi ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Quantità", "Quanti soldi vuoi togliere?") }));
-			Server.Instance.AddCommand("setmoney", new Action<Player, List<string>, string>(SetFinances), UserGroup.Moderatore, new ChatSuggestion("Modifica definitivamente un account monetario del player", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Account", "cash = soldi, bank = banca, dirty = sporchi"), new SuggestionParam("Quantità", "Attenzione, se ho 10 e metto 1, la quantità diventa 1") }));
-			Server.Instance.AddCommand("annuncio", new Action<Player, List<string>, string>(Annuncio), UserGroup.Moderatore, new ChatSuggestion("Annuncio a tutti i giocatori", new SuggestionParam[1] { new SuggestionParam("Annuncio", "Messaggio da far leggere a tutti") }));
-			Server.Instance.AddCommand("revive", new Action<Player, List<string>, string>(Revive), UserGroup.Moderatore, new ChatSuggestion("Rianima un giocatore", new SuggestionParam[1] { new SuggestionParam("ID Player", "[Opzionale] Il Server ID del player, se non inserisci niente rianimi te stesso") }));
-			Server.Instance.AddCommand("setgroup", new Action<Player, List<string>, string>(SetGroup), UserGroup.Admin, new ChatSuggestion("Cambia gruppo al player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Id Gruppo", "0 = User, 1 = Helper, 2 = Moderatore, 3 = Admin, 4 = Founder, 5 = Sviluppatore") }));
-			Server.Instance.AddCommand("tp", new Action<Player, List<string>, string>(Teleport), UserGroup.Moderatore, new ChatSuggestion("Teletrasportati alle coordinate", new SuggestionParam[3] { new SuggestionParam("X", ""), new SuggestionParam("Y", ""), new SuggestionParam("Z", "") }));
+			Server.Instance.AddCommand("ooc", new Action<Player, List<string>, string>(Ooc), UserGroup.User, new ChatSuggestion("Scrivi in chat ~y~fuori dal personaggio~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("pol", new Action<Player, List<string>, string>(Pol), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("pil", new Action<Player, List<string>, string>(Pil), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~piloti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("med", new Action<Player, List<string>, string>(Med), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("mec", new Action<Player, List<string>, string>(Mec), UserGroup.User, new ChatSuggestion("Scrivi in chat con i tuoi colleghi ~y~poliziotti~w~", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("me", new Action<Player, List<string>, string>(Me), UserGroup.User, new ChatSuggestion("Descrivi i tuoi stati d'animo e personali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("do", new Action<Player, List<string>, string>(Do), UserGroup.User, new ChatSuggestion("Descrivi le tue azioni personali e interpersonali", new SuggestionParam[1] { new("Testo", "Il testo da inserire") }));
+			Server.Instance.AddCommand("giveitem", new Action<Player, List<string>, string>(GiveItem), UserGroup.Moderatore, new ChatSuggestion("Dai un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da dare al player"), new("Quantità", "Quantità dell'oggetto da dare") }));
+			Server.Instance.AddCommand("removeitem", new Action<Player, List<string>, string>(RemoveItem), UserGroup.Moderatore, new ChatSuggestion("Togli un oggetto a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Oggetto", "L'oggetto da togliere al player"), new("Quantità", "Quantità dell'oggetto da togliere") }));
+			Server.Instance.AddCommand("giveweapon", new Action<Player, List<string>, string>(GiveWeapon), UserGroup.Moderatore, new ChatSuggestion("Dai un'arma a un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da dare al player [es. weapon_pistol]"), new("Quantità", "Quantità di munizioni da dare") }));
+			Server.Instance.AddCommand("removeweapon", new Action<Player, List<string>, string>(RemoveWeapon), UserGroup.Moderatore, new ChatSuggestion("Togli un'arma a un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Arma", "L'arma da togliere al player [es. weapon_pistol]") }));
+			Server.Instance.AddCommand("givemoney", new Action<Player, List<string>, string>(GiveMoney), UserGroup.Moderatore, new ChatSuggestion("Dai soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+			Server.Instance.AddCommand("givebank", new Action<Player, List<string>, string>(GiveBank), UserGroup.Moderatore, new ChatSuggestion("Dai soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+			Server.Instance.AddCommand("givedirty", new Action<Player, List<string>, string>(GiveDirty), UserGroup.Moderatore, new ChatSuggestion("Dai soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi dargli?") }));
+			Server.Instance.AddCommand("removemoney", new Action<Player, List<string>, string>(RemoveMoney), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi nel portafoglio ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+			Server.Instance.AddCommand("removebank", new Action<Player, List<string>, string>(RemoveBank), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi in banca ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+			Server.Instance.AddCommand("removedirty", new Action<Player, List<string>, string>(RemoveDirty), UserGroup.Moderatore, new ChatSuggestion("Rimuovi soldi sporchi ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Quantità", "Quanti soldi vuoi togliere?") }));
+			Server.Instance.AddCommand("setmoney", new Action<Player, List<string>, string>(SetFinances), UserGroup.Moderatore, new ChatSuggestion("Modifica definitivamente un account monetario del player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Account", "cash = soldi, bank = banca, dirty = sporchi"), new("Quantità", "Attenzione, se ho 10 e metto 1, la quantità diventa 1") }));
+			Server.Instance.AddCommand("annuncio", new Action<Player, List<string>, string>(Annuncio), UserGroup.Moderatore, new ChatSuggestion("Annuncio a tutti i giocatori", new SuggestionParam[1] { new("Annuncio", "Messaggio da far leggere a tutti") }));
+			Server.Instance.AddCommand("revive", new Action<Player, List<string>, string>(Revive), UserGroup.Moderatore, new ChatSuggestion("Rianima un giocatore", new SuggestionParam[1] { new("ID Player", "[Opzionale] Il Server ID del player, se non inserisci niente rianimi te stesso") }));
+			Server.Instance.AddCommand("setgroup", new Action<Player, List<string>, string>(SetGroup), UserGroup.Admin, new ChatSuggestion("Cambia gruppo al player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Id Gruppo", "0 = User, 1 = Helper, 2 = Moderatore, 3 = Admin, 4 = Founder, 5 = Sviluppatore") }));
+			Server.Instance.AddCommand("tp", new Action<Player, List<string>, string>(Teleport), UserGroup.Moderatore, new ChatSuggestion("Teletrasportati alle coordinate", new SuggestionParam[3] { new("X", ""), new("Y", ""), new("Z", "") }));
 			Server.Instance.AddCommand("suicidati", new Action<Player, List<string>, string>(Muori), UserGroup.Moderatore, new ChatSuggestion("Uccide il tuo personaggio"));
-			Server.Instance.AddCommand("car", new Action<Player, List<string>, string>(SpawnVehicle), UserGroup.Moderatore, new ChatSuggestion("Spawna un'auto e ti ci porta dentro", new SuggestionParam[1] { new SuggestionParam("Modello", "Il modello del veicolo da spawnare") }));
+			Server.Instance.AddCommand("car", new Action<Player, List<string>, string>(SpawnVehicle), UserGroup.Moderatore, new ChatSuggestion("Spawna un'auto e ti ci porta dentro", new SuggestionParam[1] { new("Modello", "Il modello del veicolo da spawnare") }));
 			Server.Instance.AddCommand("dv", new Action<Player, List<string>, string>(Dv), UserGroup.Moderatore, new ChatSuggestion("Elimina il veicolo corrente o quello a cui guardi"));
 			Server.Instance.AddCommand("salvatutti", new Action<Player, List<string>, string>(Salvatutti), UserGroup.Moderatore, new ChatSuggestion("Salva tutti i giocatori subito"));
-			Server.Instance.AddCommand("sviluppatore", new Action<Player, List<string>, string>(Sviluppatore), UserGroup.Sviluppatore, new ChatSuggestion("Attiva le funzioni dello sviluppatore", new SuggestionParam[1] { new SuggestionParam("Accensione", "On/Off") }));
-			Server.Instance.AddCommand("setjob", new Action<Player, List<string>, string>(SetJob), UserGroup.Moderatore, new ChatSuggestion("Cambia lavoro ad un player", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Lavoro", "Il lavoro da attivare"), new SuggestionParam("Grado", "Il grado lavorativo") }));
-			Server.Instance.AddCommand("setgang", new Action<Player, List<string>, string>(SetGang), UserGroup.Moderatore, new ChatSuggestion("Cambia gang ad un giocatore", new SuggestionParam[3] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Gang", "La gang da settare"), new SuggestionParam("Grado", "Il grado della gang") }));
-			Server.Instance.AddCommand("cambiaora", new Action<Player, List<string>, string>(Time), UserGroup.Admin, new ChatSuggestion("Cambia ora nel server", new SuggestionParam[2] { new SuggestionParam("Ore", ""), new SuggestionParam("Minuti", "") }));
-			Server.Instance.AddCommand("bloccatempo", new Action<Player, List<string>, string>(FreezeTime), UserGroup.Admin, new ChatSuggestion("Frezza il tempo e non cambia piu ora", new SuggestionParam[1] { new SuggestionParam("Blocca / sblocca", "Si/True/Vero/1 - No/False/Falso/0") }));
-			Server.Instance.AddCommand("setmeteo", new Action<Player, List<string>, string>(Weather), UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new SuggestionParam("Meteo", "Inserisci il numero") }));
-			Server.Instance.AddCommand("dailicenza", new Action<Player, List<string>, string>(DaiLicenza), UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Licenza", "La licenza da dare") }));
-			Server.Instance.AddCommand("rimuovilicenza", new Action<Player, List<string>, string>(RimuoviLicenza), UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new SuggestionParam("ID Player", "Il Server ID del player"), new SuggestionParam("Licenza", "La licenza da togliere") }));
+			Server.Instance.AddCommand("sviluppatore", new Action<Player, List<string>, string>(Sviluppatore), UserGroup.Sviluppatore, new ChatSuggestion("Attiva le funzioni dello sviluppatore", new SuggestionParam[1] { new("Accensione", "On/Off") }));
+			Server.Instance.AddCommand("setjob", new Action<Player, List<string>, string>(SetJob), UserGroup.Moderatore, new ChatSuggestion("Cambia lavoro ad un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Lavoro", "Il lavoro da attivare"), new("Grado", "Il grado lavorativo") }));
+			Server.Instance.AddCommand("setgang", new Action<Player, List<string>, string>(SetGang), UserGroup.Moderatore, new ChatSuggestion("Cambia gang ad un giocatore", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Gang", "La gang da settare"), new("Grado", "Il grado della gang") }));
+			Server.Instance.AddCommand("cambiaora", new Action<Player, List<string>, string>(Time), UserGroup.Admin, new ChatSuggestion("Cambia ora nel server", new SuggestionParam[2] { new("Ore", ""), new("Minuti", "") }));
+			Server.Instance.AddCommand("bloccatempo", new Action<Player, List<string>, string>(FreezeTime), UserGroup.Admin, new ChatSuggestion("Frezza il tempo e non cambia piu ora", new SuggestionParam[1] { new("Blocca / sblocca", "Si/True/Vero/1 - No/False/Falso/0") }));
+			Server.Instance.AddCommand("setmeteo", new Action<Player, List<string>, string>(Weather), UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
+			Server.Instance.AddCommand("dailicenza", new Action<Player, List<string>, string>(DaiLicenza), UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
+			Server.Instance.AddCommand("rimuovilicenza", new Action<Player, List<string>, string>(RimuoviLicenza), UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
 
 			//			Server.Instance.AddCommand("nome comando", new Action<Player, List<string>, string>(funzione comando), false, new ChatSuggestion("", new SuggestionParam[] { new SuggestionParam() }));
 		}
@@ -61,7 +61,7 @@ namespace TheLastPlanet.Server.Core
 				if (args.Count <= 0) return;
 				string noCom = rawCommand.Substring(5);
 				string filtro = $"({Server.Impostazioni.Main.BadWords.Keys.Aggregate((i, j) => i + "|" + j)})";
-				Regex filter = new Regex(filtro, RegexOptions.IgnoreCase);
+				Regex filter = new(filtro, RegexOptions.IgnoreCase);
 				MatchCollection matches = filter.Matches(noCom);
 				noCom = matches.Cast<Match>().Aggregate(noCom, (current, m) => filter.Replace(current, Server.Impostazioni.Main.BadWords[m.Value], 1));
 				BaseScript.TriggerClientEvent("chat:addMessage", new { color = new[] { 0, 255, 153 }, multiline = true, args = new[] { "[FUORI RP] | " + sender.Name, noCom } });
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "polizia")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "pilota")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "medico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -103,14 +103,20 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.job.name.ToLower() == "meccanico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.p.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
 
-		public static void Me(Player sender, List<string> args, string rawCommand) { BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", rawCommand.Substring(4), 0, 255, 153); }
+		public static void Me(Player sender, List<string> args, string rawCommand)
+		{
+			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[ME]: ", rawCommand.Substring(4), 0, 255, 153);
+		}
 
-		public static void Do(Player sender, List<string> args, string rawCommand) { BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", rawCommand.Substring(4), 0, 255, 153); }
+		public static void Do(Player sender, List<string> args, string rawCommand)
+		{
+			BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", sender, "[DO]: ", rawCommand.Substring(4), 0, 255, 153);
+		}
 
 		// FINE CHAT
 		// GESTIONE INVENTARIO
@@ -278,8 +284,11 @@ namespace TheLastPlanet.Server.Core
 		}
 
 		// FINE GESTIONE FINANZE
-		// ANNUNCIO PLAYERS
-		public static void Annuncio(Player sender, List<string> args, string rawCommand) { BaseScript.TriggerClientEvent("lprp:announce", rawCommand.Replace("annuncio", string.Empty)); }
+		// ANNUNCIO Players
+		public static void Annuncio(Player sender, List<string> args, string rawCommand)
+		{
+			BaseScript.TriggerClientEvent("lprp:announce", rawCommand.Replace("annuncio", string.Empty));
+		}
 		// FINE ANNUNCIO
 
 		// REVIVE
@@ -353,7 +362,7 @@ namespace TheLastPlanet.Server.Core
 						group_level = (int)UserGroup.Sviluppatore;
 					}
 
-					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.identifiers.discord });
+					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.identifiers.Discord });
 					user.group = group;
 					user.group_level = (UserGroup)group_level;
 					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
@@ -382,13 +391,25 @@ namespace TheLastPlanet.Server.Core
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });
 		}
 
-		public static void Muori(Player sender, List<string> args, string rawCommand) { sender.TriggerEvent("lprp:death"); }
+		public static void Muori(Player sender, List<string> args, string rawCommand)
+		{
+			sender.TriggerEvent("lprp:death");
+		}
 
-		public static void SpawnVehicle(Player sender, List<string> args, string rawCommand) { sender.TriggerEvent("lprp:spawnVehicle", args[0]); }
+		public static void SpawnVehicle(Player sender, List<string> args, string rawCommand)
+		{
+			sender.TriggerEvent("lprp:spawnVehicle", args[0]);
+		}
 
-		public static void Dv(Player sender, List<string> args, string rawCommand) { sender.TriggerEvent("lprp:deleteVehicle"); }
+		public static void Dv(Player sender, List<string> args, string rawCommand)
+		{
+			sender.TriggerEvent("lprp:deleteVehicle");
+		}
 
-		public static void Delgun(Player sender, List<string> args, string rawCommand) { sender.TriggerEvent("lprp:ObjectDeleteGun", args[0]); }
+		public static void Delgun(Player sender, List<string> args, string rawCommand)
+		{
+			sender.TriggerEvent("lprp:ObjectDeleteGun", args[0]);
+		}
 
 		private static async void Salvatutti(Player sender, List<string> args, string rawCommand)
 		{
@@ -397,16 +418,16 @@ namespace TheLastPlanet.Server.Core
 				DateTime now = DateTime.Now;
 
 				foreach (KeyValuePair<string, User> player in Server.PlayerList)
-					if (player.Value.status.spawned)
+					if (player.Value.status.Spawned)
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
 						await Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
-						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
-						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.discord);
+						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
+						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
 						await Task.FromResult(0);
 					}
 
-				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.Serialize());
+				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.SerializeToJson());
 			}
 			catch (Exception ex)
 			{
@@ -431,7 +452,7 @@ namespace TheLastPlanet.Server.Core
 			if (Server.PlayerList.ContainsKey(p.Handle))
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-				if (pers.status.spawned)
+				if (pers.status.Spawned)
 					pers.SetJob(args[1], Convert.ToInt32(args[2]));
 				else
 					sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
@@ -449,7 +470,7 @@ namespace TheLastPlanet.Server.Core
 			if (Server.PlayerList.ContainsKey(p.Handle))
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-				if (pers.status.spawned)
+				if (pers.status.Spawned)
 					pers.SetGang(args[1], Convert.ToInt32(args[2]));
 				else
 					sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });

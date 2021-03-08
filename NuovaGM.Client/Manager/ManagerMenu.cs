@@ -6,12 +6,12 @@ using TheLastPlanet.Client.MenuNativo;
 using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Personaggio;
 using System.Drawing;
 using System.Linq;
 using TheLastPlanet.Shared;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.PlayerChar;
 
 namespace TheLastPlanet.Client.Manager
 {
@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.Manager
 
 		public static async void AdminMenu(UserGroup group_level)
 		{
-			UIMenu AdminMenu = new UIMenu("Admin menu", "Il menu di chi comanda!", new PointF(1439, 50));
+			UIMenu AdminMenu = new("Admin menu", "Il menu di chi comanda!", new PointF(1439, 50));
 			HUD.MenuPool.Add(AdminMenu);
 			UIMenu MenuPlayers = AdminMenu.AddSubMenu("Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
 			UIMenu MenuVehicles = AdminMenu.AddSubMenu("Menu Veicoli");
@@ -52,14 +52,14 @@ namespace TheLastPlanet.Client.Manager
 					//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
 					PlayerChar player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
-					if (player.char_data.Count == 1)
+					if (player.Characters.Count == 1)
 						charscount = "1 personaggio";
 					else
-						charscount = player.char_data.Count + " personaggi";
+						charscount = player.Characters.Count + " personaggi";
 					UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Name, charscount);
-					UIMenuItem Teletrasportami = new UIMenuItem("Teletrasportati alla sua posizione");
-					UIMenuItem Teletrasportalo = new UIMenuItem("Teletrasporta il player alla tua posizione");
-					UIMenuItem Specta = new UIMenuItem("Specta Player");
+					UIMenuItem Teletrasportami = new("Teletrasportati alla sua posizione");
+					UIMenuItem Teletrasportalo = new("Teletrasporta il player alla tua posizione");
+					UIMenuItem Specta = new("Specta Player");
 					Giocatore.AddItem(Teletrasportami);
 					Giocatore.AddItem(Teletrasportalo);
 					Giocatore.AddItem(Specta);
@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.Manager
 
 					DateTime TempoDiBan = DateTime.Now.AddMinutes(10);
 					string Motivazione = "";
-					List<dynamic> tempiban = new List<dynamic>()
+					List<dynamic> tempiban = new()
 					{
 						"10 min",
 						"20 min",
@@ -110,10 +110,10 @@ namespace TheLastPlanet.Client.Manager
 						"100 anni (Perma-ban)"
 					};
 					UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
-					UIMenuItem motivazioneBan = new UIMenuItem("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
-					UIMenuListItem TempoBan = new UIMenuListItem("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
-					UIMenuItem Banna = new UIMenuItem("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
-					UIMenuCheckboxItem temp = new UIMenuCheckboxItem("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
+					UIMenuItem motivazioneBan = new("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
+					UIMenuListItem TempoBan = new("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
+					UIMenuItem Banna = new("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+					UIMenuCheckboxItem temp = new("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
 					Ban.AddItem(motivazioneBan);
 					Ban.AddItem(TempoBan);
 					Ban.AddItem(temp);
@@ -225,8 +225,8 @@ namespace TheLastPlanet.Client.Manager
 
 					string motivazionekick = "";
 					UIMenu Kick = Giocatore.AddSubMenu("~y~Kicka Player~w~");
-					UIMenuItem motivazioneKick = new UIMenuItem("Motivazione");
-					UIMenuItem Kicka = new UIMenuItem("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
+					UIMenuItem motivazioneKick = new("Motivazione");
+					UIMenuItem Kicka = new("Kicka fuori dal server", "NB: ATTENZIONE! IL TUO NOME SARA' INSERITO ALLA FINE DELLA MOTIVAZIONE!");
 					Kick.AddItem(motivazioneKick);
 					Kick.AddItem(Kicka);
 					Kick.OnItemSelect += async (menu, item, index) =>
@@ -247,7 +247,7 @@ namespace TheLastPlanet.Client.Manager
 
 					UIMenu Personaggi = Giocatore.AddSubMenu("~b~Gestione Personaggi~w~", charscount);
 
-					foreach (Char_data chars in player.char_data)
+					foreach (Char_data chars in player.Characters)
 					{
 						UIMenu Character = Personaggi.AddSubMenu(chars.info.firstname + " " + chars.info.lastname);
 						UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
@@ -260,19 +260,19 @@ namespace TheLastPlanet.Client.Manager
 
 						#region Dati Personali
 
-						UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
+						UIMenuItem nomeCognome = new("Nome e Cognome");
 						nomeCognome.SetRightLabel(chars.info.firstname + " " + chars.info.lastname);
-						UIMenuItem dDN = new UIMenuItem("Data di Nascita");
+						UIMenuItem dDN = new("Data di Nascita");
 						dDN.SetRightLabel(chars.info.dateOfBirth);
-						UIMenuItem sesso = new UIMenuItem("Sesso");
+						UIMenuItem sesso = new("Sesso");
 						sesso.SetRightLabel(chars.skin.sex);
-						UIMenuItem altezza = new UIMenuItem("Altezza");
+						UIMenuItem altezza = new("Altezza");
 						altezza.SetRightLabel(chars.info.height + "cm");
-						UIMenuItem job = new UIMenuItem("Occupazione Attuale");
+						UIMenuItem job = new("Occupazione Attuale");
 						job.SetRightLabel(chars.job.name);
-						UIMenuItem telefono = new UIMenuItem("N° di Telefono");
+						UIMenuItem telefono = new("N° di Telefono");
 						telefono.SetRightLabel("" + chars.info.phoneNumber);
-						UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
+						UIMenuItem assicurazione = new("N° di Assicurazione");
 						assicurazione.SetRightLabel("" + chars.info.insurance);
 						DatiPersonali.AddItem(nomeCognome);
 						DatiPersonali.AddItem(dDN);
@@ -286,7 +286,7 @@ namespace TheLastPlanet.Client.Manager
 
 						#region Inventario
 
-						UIMenuItem addItem = new UIMenuItem("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
+						UIMenuItem addItem = new("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
 						Inventario.AddItem(addItem);
 
 						if (chars.inventory.Count > 0)
@@ -294,8 +294,8 @@ namespace TheLastPlanet.Client.Manager
 							{
 								if (item.amount <= 0) continue;
 								UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
-								UIMenuItem add = new UIMenuItem("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
-								UIMenuItem rem = new UIMenuItem("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+								UIMenuItem add = new("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
+								UIMenuItem rem = new("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
 								newItemMenu.AddItem(add);
 								newItemMenu.AddItem(rem);
 								Inventory item1 = item;
@@ -362,11 +362,11 @@ namespace TheLastPlanet.Client.Manager
 
 			#region Veicoli
 
-			UIMenuItem NomeVeh = new UIMenuItem("Nome veicolo da spawnare");
+			UIMenuItem NomeVeh = new("Nome veicolo da spawnare");
 			MenuVehicles.AddItem(NomeVeh);
 			UIMenu VehOptions = MenuVehicles.AddSubMenu("Opzioni di spawn");
-			UIMenuCheckboxItem spawn = new UIMenuCheckboxItem("Spawna nel veicolo", UIMenuCheckboxStyle.Tick, SpawnaNelVeicolo, "");
-			UIMenuCheckboxItem deletepreviousveh = new UIMenuCheckboxItem("Cancella vecchio veicolo", UIMenuCheckboxStyle.Tick, CancellaVecchioVeh, "");
+			UIMenuCheckboxItem spawn = new("Spawna nel veicolo", UIMenuCheckboxStyle.Tick, SpawnaNelVeicolo, "");
+			UIMenuCheckboxItem deletepreviousveh = new("Cancella vecchio veicolo", UIMenuCheckboxStyle.Tick, CancellaVecchioVeh, "");
 			VehOptions.AddItem(spawn);
 			VehOptions.AddItem(deletepreviousveh);
 			NomeVeh.Activated += async (menu, item) =>
@@ -418,7 +418,7 @@ namespace TheLastPlanet.Client.Manager
 
 			#region Oggetti
 
-			UIMenuItem oggettoDaSpawnare = new UIMenuItem("Oggetto da Spawnare");
+			UIMenuItem oggettoDaSpawnare = new("Oggetto da Spawnare");
 			Oggetti.AddItem(oggettoDaSpawnare);
 			Oggetti.OnItemSelect += async (menu, item, index) =>
 			{
@@ -451,25 +451,25 @@ namespace TheLastPlanet.Client.Manager
 			#region Meteo
 
 			UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
-			UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
-			UIMenuCheckboxItem dinamico = new UIMenuCheckboxItem("Meteo Dinamico", UIMenuCheckboxStyle.Tick, ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+			UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
+			UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
 			Meteo.AddItem(blackout);
 			Meteo.AddItem(dinamico);
-			UIMenuItem Soleggiato = new UIMenuItem("Super Soleggiato");
-			UIMenuItem CSgombro = new UIMenuItem("Cielo Sgombro");
-			UIMenuItem Nuvoloso = new UIMenuItem("Nuvoloso");
-			UIMenuItem Smog = new UIMenuItem("Smog");
-			UIMenuItem Nebbioso = new UIMenuItem("Nebbioso");
-			UIMenuItem Nuvoloso2 = new UIMenuItem("Nuvoloso");
-			UIMenuItem Piovoso = new UIMenuItem("Piovoso");
-			UIMenuItem Tempesta = new UIMenuItem("Tempestoso");
-			UIMenuItem Sereno = new UIMenuItem("Sereno");
-			UIMenuItem Neutrale = new UIMenuItem("Neutrale");
-			UIMenuItem Nevoso = new UIMenuItem("Nevoso");
-			UIMenuItem Bufera = new UIMenuItem("Bufera di neve");
-			UIMenuItem NNebbia = new UIMenuItem("Nevoso con Nebbia");
-			UIMenuItem Natalizio = new UIMenuItem("Natalizio");
-			UIMenuItem Halloween = new UIMenuItem("Halloween");
+			UIMenuItem Soleggiato = new("Super Soleggiato");
+			UIMenuItem CSgombro = new("Cielo Sgombro");
+			UIMenuItem Nuvoloso = new("Nuvoloso");
+			UIMenuItem Smog = new("Smog");
+			UIMenuItem Nebbioso = new("Nebbioso");
+			UIMenuItem Nuvoloso2 = new("Nuvoloso");
+			UIMenuItem Piovoso = new("Piovoso");
+			UIMenuItem Tempesta = new("Tempestoso");
+			UIMenuItem Sereno = new("Sereno");
+			UIMenuItem Neutrale = new("Neutrale");
+			UIMenuItem Nevoso = new("Nevoso");
+			UIMenuItem Bufera = new("Bufera di neve");
+			UIMenuItem NNebbia = new("Nevoso con Nebbia");
+			UIMenuItem Natalizio = new("Natalizio");
+			UIMenuItem Halloween = new("Halloween");
 			metei.AddItem(Soleggiato);
 			metei.AddItem(CSgombro);
 			metei.AddItem(Nuvoloso);
@@ -578,10 +578,10 @@ namespace TheLastPlanet.Client.Manager
 
 			#region Orario
 
-			UIMenuItem Mattino = new UIMenuItem("Mattino", "Ore 6:00");
-			UIMenuItem Pomeriggio = new UIMenuItem("Pomeriggio", "Ore 12:00");
-			UIMenuItem Sera = new UIMenuItem("Sera", "Ore 18:00");
-			UIMenuItem Notte = new UIMenuItem("Notte", "Ore 21:00");
+			UIMenuItem Mattino = new("Mattino", "Ore 6:00");
+			UIMenuItem Pomeriggio = new("Pomeriggio", "Ore 12:00");
+			UIMenuItem Sera = new("Sera", "Ore 18:00");
+			UIMenuItem Notte = new("Notte", "Ore 21:00");
 			Orario.AddItem(Mattino);
 			Orario.AddItem(Pomeriggio);
 			Orario.AddItem(Sera);

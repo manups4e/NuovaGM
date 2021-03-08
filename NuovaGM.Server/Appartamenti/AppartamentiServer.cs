@@ -36,7 +36,7 @@ namespace TheLastPlanet.Server.Appartamenti
 			if (result.Count > 0)
 				foreach (dynamic ap in result)
 					p.GetCurrentChar().CurrentChar.Proprietà.Add(ap.Name);
-			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().char_data.Serialize(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 
 		private static void EntraConProprietario([FromSource] Player p, int serverId, Vector3 pos)

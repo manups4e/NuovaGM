@@ -1,7 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -18,7 +17,7 @@ namespace TheLastPlanet.Client.Negozi
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		private static bool AccessoriAttivo = false;
-		private static List<UIMenu> _menuVestiti = new List<UIMenu>();
+		private static List<UIMenu> _menuVestiti = new();
 
 		#region Utili
 
@@ -34,7 +33,10 @@ namespace TheLastPlanet.Client.Negozi
 			await Cache.PlayerPed.Task.PlayAnimation(lib, anim, 4.0f, -2.0f, -1, AnimationFlags.None, 0);
 		}
 
-		private static void StartScenario(string anim) { Cache.PlayerPed.Task.StartScenario(anim, Cache.Char.posizione.ToVector3()); }
+		private static void StartScenario(string anim)
+		{
+			Cache.PlayerPed.Task.StartScenario(anim, Cache.Char.posizione.ToVector3());
+		}
 
 		public static async Task UpdateDress(dynamic dress)
 		{
@@ -77,14 +79,10 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shirt_negative_a";
-						case 1:
-							return "try_shirt_negative_b";
-						case 2:
-							return "try_shirt_negative_c";
-						case 3:
-							return "try_shirt_negative_d";
+						case 0: return "try_shirt_negative_a";
+						case 1: return "try_shirt_negative_b";
+						case 2: return "try_shirt_negative_c";
+						case 3: return "try_shirt_negative_d";
 					}
 
 					break;
@@ -95,12 +93,9 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shirt_neutral_a";
-						case 1:
-							return "try_shirt_neutral_b";
-						case 2:
-							return "try_shirt_neutral_c";
+						case 0: return "try_shirt_neutral_a";
+						case 1: return "try_shirt_neutral_b";
+						case 2: return "try_shirt_neutral_c";
 					}
 
 					break;
@@ -113,14 +108,10 @@ namespace TheLastPlanet.Client.Negozi
 
 						switch (b)
 						{
-							case 0:
-								return "try_shirt_positive_a";
-							case 1:
-								return "try_shirt_positive_b";
-							case 2:
-								return "try_shirt_positive_c";
-							case 3:
-								return "try_shirt_positive_d";
+							case 0: return "try_shirt_positive_a";
+							case 1: return "try_shirt_positive_b";
+							case 2: return "try_shirt_positive_c";
+							case 3: return "try_shirt_positive_d";
 						}
 					}
 
@@ -132,14 +123,10 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shoes_negative_a";
-						case 1:
-							return "try_shoes_negative_b";
-						case 2:
-							return "try_shoes_negative_c";
-						case 3:
-							return "try_shoes_negative_d";
+						case 0: return "try_shoes_negative_a";
+						case 1: return "try_shoes_negative_b";
+						case 2: return "try_shoes_negative_c";
+						case 3: return "try_shoes_negative_d";
 					}
 
 					break;
@@ -150,14 +137,10 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shoes_neutral_a";
-						case 1:
-							return "try_shoes_neutral_b";
-						case 2:
-							return "try_shoes_neutral_c";
-						case 3:
-							return "try_shoes_neutral_d";
+						case 0: return "try_shoes_neutral_a";
+						case 1: return "try_shoes_neutral_b";
+						case 2: return "try_shoes_neutral_c";
+						case 3: return "try_shoes_neutral_d";
 					}
 
 					break;
@@ -170,14 +153,10 @@ namespace TheLastPlanet.Client.Negozi
 
 						switch (b)
 						{
-							case 0:
-								return "try_shoes_positive_a";
-							case 1:
-								return "try_shoes_positive_b";
-							case 2:
-								return "try_shoes_positive_c";
-							case 3:
-								return "try_shoes_positive_d";
+							case 0: return "try_shoes_positive_a";
+							case 1: return "try_shoes_positive_b";
+							case 2: return "try_shoes_positive_c";
+							case 3: return "try_shoes_positive_d";
 						}
 					}
 
@@ -191,18 +170,14 @@ namespace TheLastPlanet.Client.Negozi
 
 						switch (b)
 						{
-							case 0:
-								return "try_glasses_negative_a";
-							case 1:
-								return "try_glasses_negative_c";
+							case 0: return "try_glasses_negative_a";
+							case 1: return "try_glasses_negative_c";
 							default:
 							{
 								switch (a)
 								{
-									case 1:
-										return "try_glasses_neutral_a";
-									case 2:
-										return "try_glasses_positive_c";
+									case 1: return "try_glasses_neutral_a";
+									case 2: return "try_glasses_positive_c";
 								}
 
 								break;
@@ -218,24 +193,15 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (a)
 					{
-						case 0 when b == 0:
-							return "try_glasses_negative_a";
-						case 0 when b == 1:
-							return "try_glasses_negative_b";
-						case 0 when b == 2:
-							return "try_glasses_negative_c";
-						case 1 when b == 0:
-							return "try_glasses_neutral_a";
-						case 1 when b == 1:
-							return "try_glasses_neutral_b";
-						case 1 when b == 2:
-							return "try_glasses_neutral_c";
-						case 2 when b == 0:
-							return "try_glasses_positive_a";
-						case 2 when b == 1:
-							return "try_glasses_positive_b";
-						case 2 when b == 2:
-							return "try_glasses_positive_c";
+						case 0 when b == 0: return "try_glasses_negative_a";
+						case 0 when b == 1: return "try_glasses_negative_b";
+						case 0 when b == 2: return "try_glasses_negative_c";
+						case 1 when b == 0: return "try_glasses_neutral_a";
+						case 1 when b == 1: return "try_glasses_neutral_b";
+						case 1 when b == 2: return "try_glasses_neutral_c";
+						case 2 when b == 0: return "try_glasses_positive_a";
+						case 2 when b == 1: return "try_glasses_positive_b";
+						case 2 when b == 2: return "try_glasses_positive_c";
 					}
 
 					break;
@@ -252,14 +218,10 @@ namespace TheLastPlanet.Client.Negozi
 
 							switch (b)
 							{
-								case 0:
-									return "try_tie_negative_a";
-								case 1:
-									return "try_tie_negative_b";
-								case 2:
-									return "try_tie_negative_c";
-								case 3:
-									return "try_tie_negative_d";
+								case 0: return "try_tie_negative_a";
+								case 1: return "try_tie_negative_b";
+								case 2: return "try_tie_negative_c";
+								case 3: return "try_tie_negative_d";
 							}
 
 							break;
@@ -270,14 +232,10 @@ namespace TheLastPlanet.Client.Negozi
 
 							switch (b)
 							{
-								case 0:
-									return "try_tie_neutral_a";
-								case 1:
-									return "try_tie_neutral_b";
-								case 2:
-									return "try_tie_neutral_c";
-								case 3:
-									return "try_tie_neutral_d";
+								case 0: return "try_tie_neutral_a";
+								case 1: return "try_tie_neutral_b";
+								case 2: return "try_tie_neutral_c";
+								case 3: return "try_tie_neutral_d";
 							}
 
 							break;
@@ -288,14 +246,10 @@ namespace TheLastPlanet.Client.Negozi
 
 							switch (b)
 							{
-								case 0:
-									return "try_tie_positive_a";
-								case 1:
-									return "try_tie_positive_b";
-								case 2:
-									return "try_tie_positive_c";
-								case 3:
-									return "try_tie_positive_d";
+								case 0: return "try_tie_positive_a";
+								case 1: return "try_tie_positive_b";
+								case 2: return "try_tie_positive_c";
+								case 3: return "try_tie_positive_d";
 							}
 
 							break;
@@ -310,14 +264,10 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_trousers_negative_a";
-						case 1:
-							return "try_trousers_negative_b";
-						case 2:
-							return "try_trousers_negative_c";
-						case 3:
-							return "try_trousers_negative_d";
+						case 0: return "try_trousers_negative_a";
+						case 1: return "try_trousers_negative_b";
+						case 2: return "try_trousers_negative_c";
+						case 3: return "try_trousers_negative_d";
 					}
 
 					break;
@@ -328,14 +278,10 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_trousers_neutral_a";
-						case 1:
-							return "try_trousers_neutral_b";
-						case 2:
-							return "try_trousers_neutral_c";
-						case 3:
-							return "try_trousers_neutral_d";
+						case 0: return "try_trousers_neutral_a";
+						case 1: return "try_trousers_neutral_b";
+						case 2: return "try_trousers_neutral_c";
+						case 3: return "try_trousers_neutral_d";
 					}
 
 					break;
@@ -348,14 +294,10 @@ namespace TheLastPlanet.Client.Negozi
 
 						switch (b)
 						{
-							case 0:
-								return "try_trousers_positive_a";
-							case 1:
-								return "try_trousers_positive_b";
-							case 2:
-								return "try_trousers_positive_c";
-							case 3:
-								return "try_trousers_positive_d";
+							case 0: return "try_trousers_positive_a";
+							case 1: return "try_trousers_positive_b";
+							case 2: return "try_trousers_positive_c";
+							case 3: return "try_trousers_positive_d";
 						}
 					}
 
@@ -367,12 +309,9 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shirt_negative_a";
-						case 1:
-							return "try_shirt_neutral_a";
-						case 2:
-							return "try_shirt_positive_a";
+						case 0: return "try_shirt_negative_a";
+						case 1: return "try_shirt_neutral_a";
+						case 2: return "try_shirt_positive_a";
 					}
 
 					break;
@@ -383,12 +322,9 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_trousers_negative_a";
-						case 1:
-							return "try_trousers_neutral_a";
-						case 2:
-							return "try_trousers_positive_a";
+						case 0: return "try_trousers_negative_a";
+						case 1: return "try_trousers_neutral_a";
+						case 2: return "try_trousers_positive_a";
 					}
 
 					break;
@@ -399,12 +335,9 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_shoes_negative_a";
-						case 1:
-							return "try_shoes_neutral_a";
-						case 2:
-							return "try_shoes_positive_a";
+						case 0: return "try_shoes_negative_a";
+						case 1: return "try_shoes_neutral_a";
+						case 2: return "try_shoes_positive_a";
 					}
 
 					break;
@@ -415,12 +348,9 @@ namespace TheLastPlanet.Client.Negozi
 
 					switch (b)
 					{
-						case 0:
-							return "try_glasses_negative_a";
-						case 1:
-							return "try_glasses_neutral_a";
-						case 2:
-							return "try_glasses_positive_a";
+						case 0: return "try_glasses_negative_a";
+						case 1: return "try_glasses_neutral_a";
+						case 2: return "try_glasses_positive_a";
 					}
 
 					break;
@@ -463,8 +393,8 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void MenuVest(List<Completo> Completi, string anim, string nome)
 		{
 			_menuVestiti.Clear();
-			UIMenuItem ciao = new UIMenuItem("");
-			UIMenu MenuVest = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
+			UIMenuItem ciao = new("");
+			UIMenu MenuVest = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuVest);
 			MenuVest.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.PlayerPed.BlockPermanentEvents = true;
@@ -475,7 +405,7 @@ namespace TheLastPlanet.Client.Negozi
 
 			foreach (Completo t in completi)
 			{
-				UIMenuItem vest = new UIMenuItem(t.Name, t.Description);
+				UIMenuItem vest = new(t.Name, t.Description);
 				MenuVest.AddItem(vest);
 
 				if (Cache.Char.Money >= t.Price)
@@ -512,7 +442,7 @@ namespace TheLastPlanet.Client.Negozi
 					if (Cache.Char.Money >= completi[_index].Price)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].SerializeToJson());
 						Cache.Char.CurrentChar.dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = _item;
@@ -524,7 +454,7 @@ namespace TheLastPlanet.Client.Negozi
 						if (Cache.Char.Bank >= completi[_index].Price)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].SerializeToJson());
 							Cache.Char.CurrentChar.dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = _item;
@@ -556,9 +486,9 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void MenuPant(List<Singolo> Completi, string anim, string nome)
 		{
 			_menuVestiti.Clear();
-			UIMenuItem ciao = new UIMenuItem("");
-			UIMenuItem ciaone = new UIMenuItem("");
-			UIMenu MenuPant = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
+			UIMenuItem ciao = new("");
+			UIMenuItem ciaone = new("");
+			UIMenu MenuPant = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuPant);
 			MenuPant.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			_menuVestiti.Add(MenuPant);
@@ -578,7 +508,7 @@ namespace TheLastPlanet.Client.Negozi
 
 				foreach (int texture in v.Text)
 				{
-					UIMenuItem pant = new UIMenuItem("Modello " + v.Text.IndexOf(texture));
+					UIMenuItem pant = new("Modello " + v.Text.IndexOf(texture));
 					Pant.AddItem(pant);
 
 					switch (nome)
@@ -672,7 +602,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -690,7 +620,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -728,9 +658,9 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void MenuScarpe(List<Singolo> Completi, string anim, string nome)
 		{
 			_menuVestiti.Clear();
-			UIMenuItem ciao = new UIMenuItem("");
-			UIMenuItem ciaone = new UIMenuItem("");
-			UIMenu MenuScarpe = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
+			UIMenuItem ciao = new("");
+			UIMenuItem ciaone = new("");
+			UIMenu MenuScarpe = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuScarpe);
 			_menuVestiti.Add(MenuScarpe);
 			MenuScarpe.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
@@ -750,7 +680,7 @@ namespace TheLastPlanet.Client.Negozi
 
 				foreach (int texture in v.Text)
 				{
-					UIMenuItem pant = new UIMenuItem("Modello " + v.Text.IndexOf(texture));
+					UIMenuItem pant = new("Modello " + v.Text.IndexOf(texture));
 					Scarp.AddItem(pant);
 
 					switch (nome)
@@ -843,7 +773,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.ComponentTextures.Scarpe = text;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -861,7 +791,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.ComponentTextures.Scarpe = text;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -901,9 +831,9 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void MenuOcchiali(List<Singolo> Completi, string anim, string nome)
 		{
 			_menuVestiti.Clear();
-			UIMenuItem ciao = new UIMenuItem("");
-			UIMenuItem ciaone = new UIMenuItem("");
-			UIMenu MenuOcchiali = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
+			UIMenuItem ciao = new("");
+			UIMenuItem ciaone = new("");
+			UIMenu MenuOcchiali = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuOcchiali);
 			_menuVestiti.Add(MenuOcchiali);
 			MenuOcchiali.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
@@ -923,7 +853,7 @@ namespace TheLastPlanet.Client.Negozi
 
 				foreach (int texture in v.Text)
 				{
-					UIMenuItem pant = new UIMenuItem("Colore " + v.Text.IndexOf(texture));
+					UIMenuItem pant = new("Colore " + v.Text.IndexOf(texture));
 					Scarp.AddItem(pant);
 
 					switch (nome)
@@ -1016,7 +946,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.PropTextures.Orecchie = text;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -1034,7 +964,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.PropTextures.Orecchie = text;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -1071,31 +1001,31 @@ namespace TheLastPlanet.Client.Negozi
 
 		#region AccessoriMenu
 
-		private static UIMenu Borse = new UIMenu(" ", "Borse");
-		private static UIMenu Orecc = new UIMenu(" ", "Orecchini e Auricolari");
-		private static UIMenu Capp = new UIMenu(" ", "Orologi");
-		private static UIMenu Polso = new UIMenu(" ", "Orologi e Braccialetti");
-		private static UIMenu Orol = new UIMenu(" ", "Orologi");
-		private static UIMenu Brac = new UIMenu(" ", "Orologi");
-		private static UIMenu Orologino = new UIMenu(" ", " ");
-		private static List<UIMenu> SubMenusCapp = new List<UIMenu>();
-		private static List<UIMenu> SubMenusPolso = new List<UIMenu>();
+		private static UIMenu Borse = new(" ", "Borse");
+		private static UIMenu Orecc = new(" ", "Orecchini e Auricolari");
+		private static UIMenu Capp = new(" ", "Orologi");
+		private static UIMenu Polso = new(" ", "Orologi e Braccialetti");
+		private static UIMenu Orol = new(" ", "Orologi");
+		private static UIMenu Brac = new(" ", "Orologi");
+		private static UIMenu Orologino = new(" ", " ");
+		private static List<UIMenu> SubMenusCapp = new();
+		private static List<UIMenu> SubMenusPolso = new();
 
 		private static float fov = 0;
 
 		public static async void MenuAccessori(Accessori Accessorio, string anim, string nome)
 		{
 			AccessoriAttivo = true;
-			UIMenuItem orecAtt = new UIMenuItem("");
-			UIMenuItem coloOreccAtt = new UIMenuItem("");
-			UIMenuItem OrolAtt = new UIMenuItem("");
-			UIMenuItem OrolMod = new UIMenuItem("");
-			UIMenuItem BraccAtt = new UIMenuItem("");
-			UIMenuItem CappAtt = new UIMenuItem("");
-			UIMenuItem CappAttMod = new UIMenuItem("");
-			UIMenuItem BorsAtt = new UIMenuItem("");
-			UIMenuItem CappRim = new UIMenuItem("");
-			UIMenu MenuAccessori = new UIMenu(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
+			UIMenuItem orecAtt = new("");
+			UIMenuItem coloOreccAtt = new("");
+			UIMenuItem OrolAtt = new("");
+			UIMenuItem OrolMod = new("");
+			UIMenuItem BraccAtt = new("");
+			UIMenuItem CappAtt = new("");
+			UIMenuItem CappAttMod = new("");
+			UIMenuItem BorsAtt = new("");
+			UIMenuItem CappRim = new("");
+			UIMenu MenuAccessori = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuAccessori);
 			MenuAccessori.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.PlayerPed.BlockPermanentEvents = true;
@@ -1134,15 +1064,15 @@ namespace TheLastPlanet.Client.Negozi
 
 			List<dynamic> ore = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
 			List<dynamic> bra = Accessorio.Bracciali.OrderBy(x => x.Price).ToList().Select(x => x.Title).ToList().Cast<dynamic>().ToList();
-			UIMenuListItem orecchini = new UIMenuListItem("Orecchini", ore, 0, "Scegli qui i tuoi orecchini preferiti");
+			UIMenuListItem orecchini = new("Orecchini", ore, 0, "Scegli qui i tuoi orecchini preferiti");
 			Orecc.AddItem(orecchini);
-			UIMenuListItem braccialetti = new UIMenuListItem("Braccialetti", bra, 0, "Scegli qui il tuo bracciale preferito");
+			UIMenuListItem braccialetti = new("Braccialetti", bra, 0, "Scegli qui il tuo bracciale preferito");
 			Brac.AddItem(braccialetti);
 
 			foreach (Singolo borsa in Accessorio.Borse)
 			{
 				money = borsa.Price;
-				UIMenuItem bors = new UIMenuItem(borsa.Title, borsa.Description);
+				UIMenuItem bors = new(borsa.Title, borsa.Description);
 
 				if (Cache.Char.Money >= money)
 				{
@@ -1193,7 +1123,7 @@ namespace TheLastPlanet.Client.Negozi
 					Cache.Char.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
 					Cache.Char.CurrentChar.dressing.Name = null;
 					Cache.Char.CurrentChar.dressing.Description = null;
-					BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+					BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 					BorsAtt.SetRightBadge(BadgeStyle.None);
 					BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 					BorsAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1208,7 +1138,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						BorsAtt.SetRightBadge(BadgeStyle.None);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 						BorsAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1220,10 +1150,10 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 			};
-			UIMenuItem CappAtt1 = new UIMenuItem("");
-			UIMenuItem newCap = new UIMenuItem("");
-			UIMenuItem capelino = new UIMenuItem("");
-			UIMenu Capelino = new UIMenu("", "");
+			UIMenuItem CappAtt1 = new("");
+			UIMenuItem newCap = new("");
+			UIMenuItem capelino = new("");
+			UIMenu Capelino = new("", "");
 
 			foreach (Singolo cappellino in Accessorio.Testa.Cappellini)
 			{
@@ -1325,7 +1255,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 							CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1343,7 +1273,7 @@ namespace TheLastPlanet.Client.Negozi
 								Cache.Char.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 								Cache.Char.CurrentChar.dressing.Name = null;
 								Cache.Char.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 								CappAtt.SetRightBadge(BadgeStyle.None);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 								CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1391,7 +1321,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						CappAtt.SetRightBadge(BadgeStyle.None);
 						CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 						CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1406,7 +1336,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 							CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1460,7 +1390,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.skin.ears.color = 0;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1474,7 +1404,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.skin.ears.color = 0;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1487,7 +1417,7 @@ namespace TheLastPlanet.Client.Negozi
 
 			foreach (Singolo aurico in Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList())
 			{
-				UIMenuItem auricolari = new UIMenuItem(aurico.Title, aurico.Description);
+				UIMenuItem auricolari = new(aurico.Title, aurico.Description);
 
 				if (Cache.Char.Money >= aurico.Price)
 				{
@@ -1537,7 +1467,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.skin.ears.color = 0;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1551,7 +1481,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.skin.ears.color = 0;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1561,9 +1491,9 @@ namespace TheLastPlanet.Client.Negozi
 					}
 				}
 			};
-			UIMenuItem OrologinoItem = new UIMenuItem("");
-			UIMenuItem NoOrol = new UIMenuItem("");
-			UIMenuItem NewOrol = new UIMenuItem("");
+			UIMenuItem OrologinoItem = new("");
+			UIMenuItem NoOrol = new("");
+			UIMenuItem NewOrol = new("");
 
 			foreach (Singolo orologio in Accessorio.Orologi)
 			{
@@ -1690,7 +1620,7 @@ namespace TheLastPlanet.Client.Negozi
 							OrolMod.SetRightBadge(BadgeStyle.None);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 							OrolMod.SetRightBadge(BadgeStyle.Clothes);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1708,7 +1638,7 @@ namespace TheLastPlanet.Client.Negozi
 								OrolMod.SetRightBadge(BadgeStyle.Clothes);
 								Cache.Char.CurrentChar.dressing.Name = null;
 								Cache.Char.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 								if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1751,7 +1681,7 @@ namespace TheLastPlanet.Client.Negozi
 						OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 						Cache.Char.CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1766,7 +1696,7 @@ namespace TheLastPlanet.Client.Negozi
 							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1811,7 +1741,7 @@ namespace TheLastPlanet.Client.Negozi
 						Cache.Char.CurrentChar.dressing.PropTextures.Bracciali = 0;
 						Cache.Char.CurrentChar.dressing.Name = null;
 						Cache.Char.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1823,7 +1753,7 @@ namespace TheLastPlanet.Client.Negozi
 							Cache.Char.CurrentChar.dressing.PropTextures.Bracciali = 0;
 							Cache.Char.CurrentChar.dressing.Name = null;
 							Cache.Char.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.Serialize());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", Cache.Char.CurrentChar.dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else

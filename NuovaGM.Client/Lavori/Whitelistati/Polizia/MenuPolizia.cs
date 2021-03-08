@@ -7,12 +7,12 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.Veicoli;
 using Newtonsoft.Json;
+using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
@@ -246,21 +246,21 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 						if (distance < 3f && ClosestPed != null)
 						{
-							UIMenuItem nomeCognome = new UIMenuItem("Nome e Cognome");
+							UIMenuItem nomeCognome = new("Nome e Cognome");
 							nomeCognome.SetRightLabel(player.FullName);
-							UIMenuItem dDN = new UIMenuItem("Data di Nascita");
+							UIMenuItem dDN = new("Data di Nascita");
 							dDN.SetRightLabel(player.DoB);
-							UIMenuItem sesso = new UIMenuItem("Sesso");
+							UIMenuItem sesso = new("Sesso");
 							sesso.SetRightLabel(Cache.Char.CurrentChar.skin.sex);
-							UIMenuItem altezza = new UIMenuItem("Altezza");
+							UIMenuItem altezza = new("Altezza");
 							altezza.SetRightLabel(Cache.Char.CurrentChar.info.height + "cm");
-							UIMenuItem job = new UIMenuItem("Occupazione Attuale");
+							UIMenuItem job = new("Occupazione Attuale");
 							job.SetRightLabel(Cache.Char.CurrentChar.job.name);
-							UIMenuItem telefono = new UIMenuItem("N° di Telefono");
+							UIMenuItem telefono = new("N° di Telefono");
 							telefono.SetRightLabel("" + Cache.Char.CurrentChar.info.phoneNumber);
-							UIMenuItem assicurazione = new UIMenuItem("N° di Assicurazione");
+							UIMenuItem assicurazione = new("N° di Assicurazione");
 							assicurazione.SetRightLabel("" + Cache.Char.CurrentChar.info.insurance);
-							UIMenuItem nomePlayer = new UIMenuItem("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
+							UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
 							nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
 							DatiPlayer.AddItem(nomeCognome);
 							DatiPlayer.AddItem(dDN);
@@ -273,13 +273,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 						else
 						{
-							UIMenuItem noPlayers = new UIMenuItem("Non ci sono Player nelle vicinanze!");
+							UIMenuItem noPlayers = new("Non ci sono Player nelle vicinanze!");
 							DatiPlayer.AddItem(noPlayers);
 						}
 					}
 					else
 					{
-						UIMenuItem noPlayers = new UIMenuItem("Non ci sono altri Player nel server!");
+						UIMenuItem noPlayers = new("Non ci sono altri Player nel server!");
 						DatiPlayer.AddItem(noPlayers);
 					}
 				}
@@ -291,8 +291,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					{
 						Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 						Ped ClosestPed = Player_Distance.Item1.Character;
-						int playerServerId = GetPlayerServerId(Player_Distance.Item1.Handle);
-						PlayerChar player = Funzioni.GetPlayerCharFromServerId(playerServerId);
+						int GetPlayerserverId = GetPlayerServerId(Player_Distance.Item1.Handle);
+						PlayerChar player = Funzioni.GetPlayerCharFromServerId(GetPlayerserverId);
 						float distance = Player_Distance.Item2;
 
 						if (distance < 3f)
@@ -304,7 +304,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								foreach (Inventory it in inv)
 									if (it.amount > 0)
 									{
-										UIMenuItem oggetto = new UIMenuItem(it.item);
+										UIMenuItem oggetto = new(it.item);
 										oggetto.SetRightLabel($"Quantità: {it.amount}");
 										_newMenu.AddItem(oggetto);
 										oggetto.Activated += async (_menu, item) =>
@@ -338,24 +338,24 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 					foreach (KeyValuePair<string, PlayerChar> pers in players.OrderBy(x => x.Key))
 					{
-						foreach (Char_data data in pers.Value.char_data)
+						foreach (Char_data data in pers.Value.Characters)
 							if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
 							{
 								int source = 0;
 								foreach (Player p in Client.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
 								UIMenu Personaggio = CercaPers.AddSubMenu(data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
-								UIMenuItem NomeCognome = new UIMenuItem("Nome:", "Il suo Nome");
+								UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
 								NomeCognome.SetRightLabel(data.info.firstname + " " + data.info.lastname);
 								Personaggio.AddItem(NomeCognome);
-								UIMenuItem DDN = new UIMenuItem("Data di Nascita:", "La sua data di nascita");
+								UIMenuItem DDN = new("Data di Nascita:", "La sua data di nascita");
 								DDN.SetRightLabel(data.info.dateOfBirth);
 								Personaggio.AddItem(DDN);
 								//UIMenuItem Altez = new UIMenuItem("Altezza:");
-								UIMenuItem job = new UIMenuItem("Lavoro: ", "Il suo lavoro");
+								UIMenuItem job = new("Lavoro: ", "Il suo lavoro");
 								job.SetRightLabel(data.job.name);
 								Personaggio.AddItem(job);
 								//UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
-								UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
+								UIMenuItem bank = new("Banca: ", "I soldi in banca");
 								bank.SetRightLabel("$" + data.finance.bank);
 								Personaggio.AddItem(bank);
 								Pos = new UIMenuItem("Ultima Posizione conosciuta");
@@ -420,8 +420,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									HUD.ShowNotification("Non è ammanettato!!");
 
 								break;
-							case UIMenuItem i when i == incarcera:
-								break;
+							case UIMenuItem i when i == incarcera: break;
 						}
 					else
 						HUD.ShowNotification("Nessuno trovato vicino a te..~n~Avvicinati!", NotificationColor.Red, true);
@@ -593,7 +592,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 0);
 				Cache.PlayerPed.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 				VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.Serialize());
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.SerializeToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();
@@ -775,7 +774,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
 								p.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 								VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.Serialize());
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.SerializeToJson());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;

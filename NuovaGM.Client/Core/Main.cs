@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.Core
 			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
 			spawned = true;
-			Cache.Char.status.spawned = true;
+			Cache.Char.status.Spawned = true;
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Char.CurrentChar.id);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
 

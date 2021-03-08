@@ -70,7 +70,10 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <summary>
 		/// Updates the max pages to disaplay based on the player count.
 		/// </summary>
-		private static void UpdateMaxPages() { maxPages = (int)Math.Ceiling((double)Client.Instance.GetPlayers.ToList().Count() / 16.0); }
+		private static void UpdateMaxPages()
+		{
+			maxPages = (int)Math.Ceiling((double)Client.Instance.GetPlayers.ToList().Count() / 16.0);
+		}
 
 		/// <summary>
 		/// Manages the display and page setup of the playerlist.
@@ -134,10 +137,13 @@ namespace TheLastPlanet.Client.ListaPlayers
 		}
 
 		/// <summary>
-		/// Updates the max players (triggered from server event)
+		/// Updates the max Players (triggered from server event)
 		/// </summary>
 		/// <param name="count"></param>
-		private static void SetMaxPlayers(int count) { maxClients = count; }
+		private static void SetMaxPlayers(int count)
+		{
+			maxClients = count;
+		}
 
 		/// <summary>
 		/// Shows the scoreboard.
@@ -269,7 +275,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 				{
 					if (playerConfigs.ContainsKey(p.ServerId))
 					{
-						PlayerRow row = new PlayerRow()
+						PlayerRow row = new()
 						{
 							color = 111,
 							crewLabelText = playerConfigs[p.ServerId].crewName,
@@ -287,7 +293,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 					}
 					else
 					{
-						PlayerRow row = new PlayerRow()
+						PlayerRow row = new()
 						{
 							color = 111,
 							crewLabelText = "",

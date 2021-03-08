@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
@@ -18,26 +21,48 @@ namespace TheLastPlanet.Client
 		public static PlayerChar Char { get; private set; }
 		public static Ped PlayerPed { get; private set; }
 		public static Player Player { get; private set; }
+		public static Dictionary<string, PlayerChar> GiocatoriOnline = new();
 
 		static Cache()
 		{
-			UpdatePedId();
-			UpdatePlayerId();
-			Client.Instance.AddTick(TickStatiPlayer);
+			try
+			{
+				UpdatePedId();
+				UpdatePlayerId();
+				Client.Instance.AddTick(TickStatiPlayer);
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Debug, e.ToString());
+			}
 		}
 
-		public static async void AddPlayer(byte[] Data)
+		public static async Task AddPlayer(string Data)
 		{
-			string hexString = BitConverter.ToString(Data);
-			string hexStringWithoutDashes = string.Join(" ", hexString.Split('-'));
-			await BaseScript.Delay(1);
-			Log.Printa(LogType.Debug, hexStringWithoutDashes);
-			Char = await Data.Deserialize<PlayerChar>();
+			try
+			{
+				Char = Data.DeserializeFromJson<PlayerChar>();
+				Log.Printa(LogType.Debug, Char.SerializeToJson());
+
+				//BasePlayerShared = Data.DeserializeByte<BasePlayerShared>();
+				//Dictionary<string, string> test = Data.DeserializeByte<Dictionary<string, string>>();
+				//Log.Printa(LogType.Debug, test.SerializeToJson());
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+			}
 		}
 
-		public static void UpdatePedId() { PlayerPed = new Ped(PlayerPedId()); }
+		public static void UpdatePedId()
+		{
+			PlayerPed = new Ped(PlayerPedId());
+		}
 
-		public static void UpdatePlayerId() { Player = Game.Player; }
+		public static void UpdatePlayerId()
+		{
+			Player = Game.Player;
+		}
 
 		private static int _checkTimer1;
 

@@ -10,7 +10,7 @@ using TheLastPlanet.Client.MenuNativo;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 
 namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 {
@@ -153,7 +153,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 									{
 										VeicoloPol vehicle = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.Serialize());
+										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.SerializeToJson());
 										p.CurrentVehicle.Delete();
 										VeicoloAttuale = new Vehicle(0);
 									}
@@ -200,7 +200,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 									{
 										VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
-										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.Serialize());
+										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.SerializeToJson());
 										Cache.PlayerPed.CurrentVehicle.Delete();
 										ElicotteroAttuale = new Vehicle(0);
 									}
@@ -228,11 +228,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
-				foreach (KeyValuePair<string, PlayerChar> p in Eventi.GiocatoriOnline)
+				foreach (KeyValuePair<string, PlayerChar> p in Cache.GiocatoriOnline)
 					if (p.Value.CurrentChar.job.name == "Polizia")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
-						Ped playerPed = new Ped(GetPlayerPed(id));
+						Ped playerPed = new(GetPlayerPed(id));
 
 						if (!NetworkIsPlayerActive(id) || playerPed.Handle == Cache.PlayerPed.Handle) continue;
 

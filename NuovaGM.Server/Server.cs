@@ -19,14 +19,8 @@ namespace TheLastPlanet.Server
 	{
 		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
 		public static Server Instance { get; protected set; }
-		public ExportDictionary GetExports
-		{
-			get { return Exports; }
-		}
-		public PlayerList GetPlayers
-		{
-			get { return Players; }
-		}
+		public ExportDictionary GetExports => Exports;
+		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
@@ -99,11 +93,11 @@ namespace TheLastPlanet.Server
 		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
 
 		/// <summary>
-		/// registra un export, Registered exports still have to be defined in the __resource.lua file
+		/// registra un export, Registered GetExports still have to be defined in the __resource.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>
-		public void RegisterExport(string name, Delegate action) => Exports.Add(name, action);
+		public void RegisterExport(string name, Delegate action) => GetExports.Add(name, action);
 
 		/// <summary>
 		/// registra un comando di chat

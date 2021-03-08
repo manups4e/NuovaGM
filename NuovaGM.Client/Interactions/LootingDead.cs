@@ -10,7 +10,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
+using TheLastPlanet.Client.Core.PlayerChar;
 
 namespace TheLastPlanet.Client.Interactions
 {

@@ -92,11 +92,14 @@ namespace TheLastPlanet.Client
 		public void RemoveTick(Func<Task> onTick) { Tick -= onTick; }
 
 		/// <summary>
-		/// registra un export, Registered exports still have to be defined in the fxmanifest.lua file
+		/// registra un export, Registered Exports still have to be defined in the fxmanifest.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>
-		public void RegisterExport(string name, Delegate action) { Exports.Add(name, action); }
+		public void RegisterExport(string name, Delegate action)
+		{
+			GetExports.Add(name, action);
+		}
 
 		/// <summary>
 		/// registra un comando di chat

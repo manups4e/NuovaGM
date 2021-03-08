@@ -29,8 +29,8 @@ namespace TheLastPlanet.Client.Giostre
 			Client.Instance.AddEventHandler("lprp:ruotapanoramica:forceState", new Action<string>(ForceState));
 			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
 			Client.Instance.AddEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
-			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(PlayerSale));
-			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(PlayerScende));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(playerSale));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(playerScende));
 			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
 			Blip Ferris = new Blip(AddBlipForCoord(-1663.97f, -1126.7f, 30.7f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Ruota Panoramica" };
 			SetBlipDisplay(Ferris.Handle, 4);
@@ -63,7 +63,10 @@ namespace TheLastPlanet.Client.Giostre
 			await Task.FromResult(0);
 		}
 
-		private static void AggiornaCabine(int index, int players) { Cabine[index].NPlayer = players; }
+		private static void AggiornaCabine(int index, int player)
+		{
+			Cabine[index].NPlayer = player;
+		}
 
 		private static void StatoRuota(bool stato) { Ruota.Ferma = stato; }
 
@@ -139,7 +142,7 @@ namespace TheLastPlanet.Client.Giostre
 			await Task.FromResult(0);
 		}
 
-		private static async void PlayerSale(int player, int cabina)
+		private static async void playerSale(int player, int cabina)
 		{
 			RequestAnimDict("anim@mp_ferris_wheel");
 			while (!HasAnimDictLoaded("anim@mp_ferris_wheel")) await BaseScript.Delay(100);
@@ -189,7 +192,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 		}
 
-		private static async void PlayerScende(int player, int cabina)
+		private static async void playerScende(int player, int cabina)
 		{
 			RequestAnimDict("anim@mp_ferris_wheel");
 			while (!HasAnimDictLoaded("anim@mp_ferris_wheel")) await BaseScript.Delay(100);

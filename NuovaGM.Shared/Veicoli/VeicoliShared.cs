@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq.Expressions;
 using CitizenFX.Core;
 using Newtonsoft.Json;
 
@@ -8,7 +7,7 @@ namespace TheLastPlanet.Shared.Veicoli
 {
 	public class OwnedVehicle
 	{
-		[JsonIgnore]
+		[JsonIgnore] 
 		Vehicle Vehicle = null;
 		[JsonProperty("targa")]
 		public string Targa;
@@ -38,16 +37,16 @@ namespace TheLastPlanet.Shared.Veicoli
 		public OwnedVehicle(string targa, string data, string garage, string stato)
 		{
 			Targa = targa;
-			DatiVeicolo = data.Deserialize<VehicleData>(true);
-			Garage = garage.Deserialize<VehGarage>(true);
+			DatiVeicolo = data.DeserializeFromJson<VehicleData>(true);
+			Garage = garage.DeserializeFromJson<VehGarage>(true);
 			Stato = stato;
 		}
 
 		public OwnedVehicle(dynamic data)
 		{
 			Targa = data.targa;
-			DatiVeicolo = (data.vehicle_data as string).Deserialize<VehicleData>(true);
-			Garage = (data.garage as string).Deserialize<VehGarage>(true);
+			DatiVeicolo = (data.vehicle_data as string).DeserializeFromJson<VehicleData>(true);
+			Garage = (data.garage as string).DeserializeFromJson<VehGarage>(true);
 			Stato = data.stato;
 		}
 	}
@@ -76,7 +75,7 @@ namespace TheLastPlanet.Shared.Veicoli
 	{
 		[JsonIgnore]
 		public long Assicurazione;
-		[JsonIgnore]
+		[JsonIgnore] 
 		public VehProp props = new VehProp();
 		public bool Rubato;
 		public VehicleData() { }

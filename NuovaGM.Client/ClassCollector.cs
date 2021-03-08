@@ -13,6 +13,7 @@ namespace TheLastPlanet.Client
 	{
 		public static async Task Init()
 		{
+			ClasseDiTest.Init(); // da rimouvere
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
@@ -62,7 +63,6 @@ namespace TheLastPlanet.Client
 			Sport.Yoga.Init();
 
 			//Telefono.PhoneMainClient.Init();
-			ClasseDiTest.Init(); // da rimouvere
 			CodaControl.CodaAdminPanel.Init();
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();

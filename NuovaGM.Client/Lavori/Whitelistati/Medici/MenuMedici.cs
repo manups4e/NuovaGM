@@ -7,7 +7,6 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Personaggio;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -23,7 +22,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async void MenuSpogliatoio()
 		{
-			UIMenu spogliatoio = new UIMenu("Spogliatoio", "Entra / esci in servizio");
+			UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
 			cambio = !Cache.Char.StatiPlayer.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
@@ -96,7 +95,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async void MenuFarmacia()
 		{
-			UIMenu farmacia = new UIMenu("Farmacia e Medicinali", "Con prescrizione o senza?");
+			UIMenu farmacia = new("Farmacia e Medicinali", "Con prescrizione o senza?");
 			HUD.MenuPool.Add(farmacia);
 			farmacia.Visible = true;
 		}
@@ -107,10 +106,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async void InteractionMenu()
 		{
-			UIMenu MenuMedico = new UIMenu("Menu Medico", "Salviamo qualche vita!");
+			UIMenu MenuMedico = new("Menu Medico", "Salviamo qualche vita!");
 			HUD.MenuPool.Add(MenuMedico);
-			UIMenuItem controlloFerite = new UIMenuItem("Controlla ferite", "Dove fa male?");
-			UIMenuItem rianima = new UIMenuItem("Tenta rianimazione", "Attenzione: potrebbe fallire!");
+			UIMenuItem controlloFerite = new("Controlla ferite", "Dove fa male?");
+			UIMenuItem rianima = new("Tenta rianimazione", "Attenzione: potrebbe fallire!");
 			MenuMedico.AddItem(controlloFerite);
 			MenuMedico.AddItem(rianima);
 			MenuMedico.Visible = true;
@@ -120,23 +119,23 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		#region MenuVeicoli
 
-		private static List<Vehicle> veicoliParcheggio = new List<Vehicle>();
-		private static Ospedale StazioneAttuale = new Ospedale();
+		private static List<Vehicle> veicoliParcheggio = new();
+		private static Ospedale StazioneAttuale = new();
 		private static int LivelloGarage = 0;
-		private static List<Vector4> parcheggi = new List<Vector4>()
+		private static List<Vector4> parcheggi = new()
 		{
-			new Vector4(224.500f, -998.695f, -99.6f, 225.0f),
-			new Vector4(224.500f, -994.630f, -99.6f, 225.0f),
-			new Vector4(224.500f, -990.255f, -99.6f, 225.0f),
-			new Vector4(224.500f, -986.628f, -99.6f, 225.0f),
-			new Vector4(224.500f, -982.496f, -99.6f, 225.0f),
-			new Vector4(232.500f, -982.496f, -99.6f, 135.0f),
-			new Vector4(232.500f, -986.628f, -99.6f, 135.0f),
-			new Vector4(232.500f, -990.255f, -99.6f, 135.0f),
-			new Vector4(232.500f, -994.630f, -99.6f, 135.0f),
-			new Vector4(232.500f, -998.695f, -99.6f, 135.0f)
+			new(224.500f, -998.695f, -99.6f, 225.0f),
+			new(224.500f, -994.630f, -99.6f, 225.0f),
+			new(224.500f, -990.255f, -99.6f, 225.0f),
+			new(224.500f, -986.628f, -99.6f, 225.0f),
+			new(224.500f, -982.496f, -99.6f, 225.0f),
+			new(232.500f, -982.496f, -99.6f, 135.0f),
+			new(232.500f, -986.628f, -99.6f, 135.0f),
+			new(232.500f, -990.255f, -99.6f, 135.0f),
+			new(232.500f, -994.630f, -99.6f, 135.0f),
+			new(232.500f, -998.695f, -99.6f, 135.0f)
 		};
-		private static SpawnerSpawn PuntoAttuale = new SpawnerSpawn();
+		private static SpawnerSpawn PuntoAttuale = new();
 		private static bool InGarage = false;
 
 		public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
@@ -243,8 +242,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								p.CurrentVehicle.IsDriveable = true;
 								p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
 								p.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
-								VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
+								VeicoloPol veh = new(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.SerializeToJson());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;
@@ -260,9 +259,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		private static async void MenuPiano()
 		{
-			UIMenu Ascensore = new UIMenu("Seleziona Piano", "Sali o scendi?");
+			UIMenu Ascensore = new("Seleziona Piano", "Sali o scendi?");
 			HUD.MenuPool.Add(Ascensore);
-			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
+			UIMenuItem esci = new("Esci dal Garage");
 			Ascensore.AddItem(esci);
 			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
 			int piani = 1;
@@ -272,7 +271,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 			for (int i = 0; i < piani; i++)
 			{
-				UIMenuItem piano = new UIMenuItem($"{i + 1}° piano");
+				UIMenuItem piano = new($"{i + 1}° piano");
 				Ascensore.AddItem(piano);
 				if (i == LivelloGarage) piano.SetRightBadge(BadgeStyle.Car);
 			}
@@ -316,8 +315,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		#region MenuElicotteri
 
-		private static Vehicle PreviewHeli = new Vehicle(0);
-		private static Camera HeliCam = new Camera(0);
+		private static Vehicle PreviewHeli = new(0);
+		private static Camera HeliCam = new(0);
 
 		public static async void HeliMenu(Ospedale Stazione, SpawnerSpawn Punto)
 		{
@@ -328,12 +327,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			HeliCam.Position = new Vector3(-1268.174f, -2999.561f, -44.215f);
 			HeliCam.IsActive = true;
 			await BaseScript.Delay(1000);
-			UIMenu MenuElicotteri = new UIMenu("Elicotteri Medici", "Cura le strade con stile!");
+			UIMenu MenuElicotteri = new("Elicotteri Medici", "Cura le strade con stile!");
 			HUD.MenuPool.Add(MenuElicotteri);
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)
 			{
-				UIMenuItem veh = new UIMenuItem(Stazione.ElicotteriAutorizzati[i].Nome);
+				UIMenuItem veh = new(Stazione.ElicotteriAutorizzati[i].Nome);
 				MenuElicotteri.AddItem(veh);
 			}
 
@@ -382,8 +381,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
 				Cache.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
 				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 1);
-				VeicoloPol veh = new VeicoloPol(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.Serialize());
+				VeicoloPol veh = new(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.SerializeToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();
