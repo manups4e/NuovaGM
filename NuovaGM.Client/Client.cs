@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.SistemaEventi;
 
 namespace TheLastPlanet.Client
 {
@@ -16,14 +17,16 @@ namespace TheLastPlanet.Client
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		private static Dictionary<int, Delegate> ServerCallbacks = new Dictionary<int, Delegate>();
+		private static Dictionary<int, Delegate> ServerCallbacks = new();
 		private static int CurrentRequestId = 0;
+		public EventSystem Eventi;
 		public Client() { Inizializza(); }
 
 		private async void Inizializza()
 		{
 			EventHandlers.Add("lprp:serverCallBack", new Action<int, List<object>>(returnCallback));
 			Instance = this;
+			Eventi = new EventSystem();
 			await ClassCollector.Init();
 		}
 

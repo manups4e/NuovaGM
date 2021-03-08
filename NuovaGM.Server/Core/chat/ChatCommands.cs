@@ -49,6 +49,11 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddCommand("setmeteo", new Action<Player, List<string>, string>(Weather), UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
 			Server.Instance.AddCommand("dailicenza", new Action<Player, List<string>, string>(DaiLicenza), UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
 			Server.Instance.AddCommand("rimuovilicenza", new Action<Player, List<string>, string>(RimuoviLicenza), UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
+			RegisterCommand("status", new Action<int, List<object>, string>((a, b, c) =>
+			{
+				if (a != 0) return;
+				foreach (Player player in Server.Instance.GetPlayers) Log.Printa(LogType.Info, $"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}");
+			}), true);
 
 			//			Server.Instance.AddCommand("nome comando", new Action<Player, List<string>, string>(funzione comando), false, new ChatSuggestion("", new SuggestionParam[] { new SuggestionParam() }));
 		}

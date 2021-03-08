@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <DebugType>embedded</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>DEBUG;CLIENT</DefineConstants>
@@ -49,6 +49,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\tlp\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\tlp\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\tlp\" />
+    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\tlp\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\tlp\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\tlp\" />
   </Target>
 </Project>

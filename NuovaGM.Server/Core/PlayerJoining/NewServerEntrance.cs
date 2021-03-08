@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Logger;
-using Newtonsoft.Json;
+using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared;
-using System.Linq;
-using System.Net.Http;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using TheLastPlanet.Shared.PlayerChar;
+using TheLastPlanet.Shared.SistemaEventi;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -34,7 +29,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Server.PlayerList.TryAdd(handle, user);
 				player.TriggerEvent("lprp:setupClientUser", user.SerializeToJson());
 				await BaseScript.Delay(1000);
-				player.TriggerEvent("TestEvent", Server.Impostazioni.Main.DiscordToken.SerializeBytes());
 				EntratoMaProprioSulSerio(player);
 			}
 			catch (Exception e)

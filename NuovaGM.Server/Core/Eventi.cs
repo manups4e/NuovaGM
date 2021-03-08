@@ -141,6 +141,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void UpdateChar([FromSource] Player player, string type, dynamic data, float h)
 		{
+			Log.Printa(LogType.Debug, $"{type}, {JsonConvert.SerializeObject(data)}");
 			User user = Funzioni.GetUserFromPlayerId(player.Handle);
 
 			switch (type)

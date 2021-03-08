@@ -41,6 +41,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 		{
 #if SERVER
 			LoadIdentifiers();
+
 #endif
 		}
 

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Resources;
 using TheLastPlanet.Shared;
 using System.Reflection;
+using TheLastPlanet.Server.SistemaEventi;
 
 // ReSharper disable All
 
@@ -24,11 +25,13 @@ namespace TheLastPlanet.Server
 		public static Configurazione Impostazioni = null;
 		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
+		public EventSystem Eventi;
 
 		public Server()
 		{
 			EventHandlers.Add("lprp:serverCallbacks", new Action<Player, string, int, List<object>>(callbacks));
 			Instance = this;
+			Eventi = new();
 			ClassCollector.Init();
 		}
 

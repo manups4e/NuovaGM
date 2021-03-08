@@ -11,27 +11,22 @@ using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
-		public static void Init()
+		public static async void Init()
 		{
 			Client.Instance.AddTick(test);
-			Client.Instance.AddEventHandler("TestEvent", new Action<byte[]>(TestEvent));
-		}
-
-		private static void TestEvent(byte[] param)
-		{
-			string pp = param.DeserializeBytes<string>();
-			Log.Printa(LogType.Debug, pp);
 		}
 
 		private static async void AttivaMenu()
@@ -83,6 +78,8 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
+				PlayerChar Test = await Client.Instance.Eventi.Request<PlayerChar>("chiamaTest", null);
+				Log.Printa(LogType.Debug, Test.SerializeToJson());
 				/*
 				b.Tabs.Clear();
 				TabItem item1 = new TabItem("Item 1");
