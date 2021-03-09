@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 
 		public EventSystem()
 		{
-			Server.Instance.AddEventHandler("qcMjIRRrO6fU8tL98va76a0", new Action<int, string>((handle, payload) =>
+			Server.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<int, string>((handle, payload) =>
 			{
 				Event wrapped = JsonConvert.DeserializeObject<Event>(payload.ToString());
 				wrapped.Sender = handle;
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 								break;
 							}
 
-							if (firewall) Log.Printa(LogType.Info, $"[{wrapped.Seed}] [{wrapped.Target}] [FIREWALL] Request did not get managed by the attacher.");
+							if (firewall) Log.Printa(LogType.Error, $"[{wrapped.Seed}] [{wrapped.Target}] [FIREWALL] Request did not get managed by the attacher.");
 
 							break;
 						}
@@ -115,12 +115,12 @@ namespace TheLastPlanet.Server.SistemaEventi
 			{
 				Player player = Funzioni.GetPlayerFromId(handle);
 				Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the client `{handle}`.");
-				player.TriggerEvent("qcMjIRRrO6fU8tL98va76a0", JsonConvert.SerializeObject(wrapped));
+				player.TriggerEvent("1d446f5702fcd00055ac8b8544479b0e", JsonConvert.SerializeObject(wrapped));
 			}
 			else
 			{
 				Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to every client.");
-				BaseScript.TriggerClientEvent("qcMjIRRrO6fU8tL98va76a0", JsonConvert.SerializeObject(wrapped));
+				BaseScript.TriggerClientEvent("1d446f5702fcd00055ac8b8544479b0e", JsonConvert.SerializeObject(wrapped));
 			}
 		}
 

@@ -38,7 +38,7 @@ namespace TheLastPlanet.Client.Core
 		};
 
 		public static bool ispointing = false;
-		private static RelationshipGroup player = Cache.PlayerPed.RelationshipGroup;
+		private static RelationshipGroup player = new(Funzioni.HashInt("PLAYER"));
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);

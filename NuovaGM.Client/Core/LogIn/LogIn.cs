@@ -18,13 +18,13 @@ namespace TheLastPlanet.Client.Core.LogIn
 		public static bool GuiEnabled = false;
 		public static List<Vector4> SelectFirstCoords = new()
 		{
-			new(-1503.000f, -1143.462f, 34.670f, 64.692f),
-			new(747.339f, 525.837f, 345.395f, 39.975f),
-			new(-2162.689f, -469.343f, 3.396f, 150.975f),
-			new(-170.256f, -2357.418f, 100.596f, 95.975f),
-			new(2126.171f, 3014.593f, 59.196f, 115.975f),
-			new(-103.310f, -1215.578f, 53.796f, 270.975f),
-			new(-3032.130f, 22.216f, 11.118f, 0f)
+			new Vector4(-1503.000f, -1143.462f, 34.670f, 64.692f),
+			new Vector4(747.339f, 525.837f, 345.395f, 39.975f),
+			new Vector4(-2162.689f, -469.343f, 3.396f, 150.975f),
+			new Vector4(-170.256f, -2357.418f, 100.596f, 95.975f),
+			new Vector4(2126.171f, 3014.593f, 59.196f, 115.975f),
+			new Vector4(-103.310f, -1215.578f, 53.796f, 270.975f),
+			new Vector4(-3032.130f, 22.216f, 11.118f, 0f)
 		};
 		public static Vector4 charCreateCoords = new(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Camera charSelectionCam;
@@ -102,7 +102,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(playerSpawned));
-			Client.Instance.AddEventHandler("lprp:setupClientUser", new Action<string>(setupClientUser));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
@@ -116,8 +115,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 			if (NetworkIsSessionStarted())
 			{
-				BaseScript.TriggerServerEvent("lprp:setupUser");
-				while (!NetworkIsPlayerActive(PlayerId())) await BaseScript.Delay(500);
+				await Cache.InitPlayer();
+				charSelect();
+				while (!NetworkIsPlayerActive(Cache.Player.Handle)) await BaseScript.Delay(500);
 				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 				Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
 				Client.Instance.RemoveTick(Entra);
@@ -156,7 +156,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 				Ped p = Cache.PlayerPed;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				while (Cache.Char == null) await BaseScript.Delay(0);
+				await Cache.Loading();
 				Cache.Char.StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
 				Cache.Player.State.Set("Pausa", new { Attivo = false }, true);
@@ -192,13 +192,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await Task.FromResult(0);
 		}
 
-		public static void setupClientUser(string data)
-		{
-			Cache.AddPlayer(data);
-			DisplayRadar(false);
-			charSelect();
-		}
-
 		#endregion
 
 		public static async void Attiva()
@@ -217,7 +210,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Screen.Fading.FadeIn(1000);
 			await BaseScript.Delay(1000);
 			ToggleMenu(true, "charloading");
-			while (Cache.Char == null) await BaseScript.Delay(50);
+			await Cache.Loading();
 			Client.Instance.AddTick(Main.AFK);
 		}
 
@@ -332,11 +325,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			Client.Instance.TriggerServerCallback("caricaVeicoli", new Action<dynamic>((vehs) =>
-			{
-				Cache.Char.CurrentChar.Veicoli.Clear();
-				Cache.Char.CurrentChar.Veicoli = (vehs as string).DeserializeFromJson<List<OwnedVehicle>>(true);
-			}));
+			Cache.Char.CurrentChar.Veicoli = await Client.Instance.Eventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Cache.PlayerPed.Handle);
 			Vector3 pos = await Cache.PlayerPed.Position.GetVector3WithGroundZ();

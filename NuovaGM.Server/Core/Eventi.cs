@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
@@ -67,8 +68,8 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersOnline", new Action<Player, Delegate, dynamic>(GetPlayersOnline));
-			Server.Instance.RegisterServerCallback("ChiamaPlayersDB", new Action<Player, Delegate, dynamic>(GetPlayersFromDB));
+			Server.Instance.Eventi.Attach("lprp:callPlayers", new EventCallback(a => Server.PlayerList));
+			Server.Instance.Eventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
 			Server.Instance.RegisterServerCallback("cullingEntity", new Action<Player, Delegate, dynamic>(CullVehicleServer));
 		}
 
@@ -77,36 +78,12 @@ namespace TheLastPlanet.Server.Core
 			try
 			{
 				int entity = NetworkGetEntityFromNetworkId(NetId[0]);
-				SetEntityDistanceCullingRadius(entity, 10000f);
+				SetEntityDistanceCullingRadius(entity, 5000f);
 				cb.DynamicInvoke(true);
 			}
 			catch (Exception e)
 			{
 				cb.DynamicInvoke(true);
-			}
-		}
-
-		private static void GetPlayersOnline(Player player, Delegate cb, dynamic _)
-		{
-			cb.DynamicInvoke(Server.PlayerList.SerializeToJson());
-		}
-
-		private static async void GetPlayersFromDB(Player player, Delegate cb, dynamic _)
-		{
-			try
-			{
-				dynamic result = await Server.Instance.Query($"SELECT * FROM users");
-				await BaseScript.Delay(0);
-				ConcurrentDictionary<string, User> personaggi = new ConcurrentDictionary<string, User>();
-				for (int i = 0; i < result.Count; i++)
-					if (result[i].char_data != "[]")
-						personaggi.TryAdd((string)result[i].Name, new User(result[i]));
-				cb.DynamicInvoke(personaggi.SerializeToJson());
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString());
-				cb.DynamicInvoke(new ConcurrentDictionary<string, User>().SerializeToJson());
 			}
 		}
 

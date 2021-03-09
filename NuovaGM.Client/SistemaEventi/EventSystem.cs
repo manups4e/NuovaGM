@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 
 		public EventSystem()
 		{
-			Client.Instance.AddEventHandler("qcMjIRRrO6fU8tL98va76a0", new Action<string>(payload =>
+			Client.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<string>(payload =>
 			{
 				Event wrapped = JsonConvert.DeserializeObject<Event>(payload.ToString());
 
@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 							break;
 						}
 
-						if (firewall) Log.Printa(LogType.Info, $"[{wrapped.Seed}] [{wrapped.Target}] [FIREWALL] Request did not get managed by the attacher.");
+						if (firewall) Log.Printa(LogType.Error, $"[{wrapped.Seed}] [{wrapped.Target}] [FIREWALL] Request did not get managed by the attacher.");
 
 						break;
 					}
@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 		public void Send(Event wrapped)
 		{
 			Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the server-side.");
-			BaseScript.TriggerServerEvent("qcMjIRRrO6fU8tL98va76a0", Cache.Player.ServerId, JsonConvert.SerializeObject(wrapped));
+			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", Cache.Player.ServerId, JsonConvert.SerializeObject(wrapped));
 		}
 
 		public Event Construct(string target, object[] payloads)
@@ -118,17 +118,17 @@ namespace TheLastPlanet.Client.SistemaEventi
 		{
 			T response = default;
 			bool completed = false;
-			EventRequest wrapped = new EventRequest(new EventCallback(metadata =>
+			EventRequest wrapped = new(new EventCallback(metadata =>
 			{
-				Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from server-side with metadata {JsonConvert.SerializeObject(metadata)}");
+				//Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from server-side with metadata {JsonConvert.SerializeObject(metadata)}");
 
 				try
 				{
 					response = JsonConvert.DeserializeObject<T>(metadata.Find<string>("__response"));
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
-					Log.Printa(LogType.Info, $"[{metadata.Inherit}] Event request response returned an invalid type.");
+					Log.Printa(LogType.Error, $"[{metadata.Inherit}] Event request response returned an invalid type.\n " + e);
 				}
 
 				completed = true;
@@ -150,7 +150,6 @@ namespace TheLastPlanet.Client.SistemaEventi
 
 		public void Attach(string target, EventCallback callback)
 		{
-			Log.Printa(LogType.Debug, $"[Events] Attaching callback to `{target}`");
 			Attachments.Add(new EventAttachment(target, callback));
 		}
 	}

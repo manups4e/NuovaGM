@@ -20,6 +20,20 @@ namespace TheLastPlanet.Server.Core
 
 		[JsonIgnore] public Player Player;
 
+		public User(Player player, BasePlayerShared result)
+		{
+			lastConnection = DateTime.Now;
+			source = player.Handle;
+			char_current = result.char_current;
+			UserID = result.UserID;
+			group = result.group;
+			group_level = result.group_level;
+			playTime = result.playTime;
+			Player = player;
+			StatiPlayer = new PlayerStateBags(player);
+			char_data = result.char_data;
+		}
+
 		public User(Player player, dynamic result)
 		{
 			lastConnection = DateTime.Now;

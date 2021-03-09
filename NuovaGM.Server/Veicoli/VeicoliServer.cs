@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
@@ -24,7 +26,17 @@ namespace TheLastPlanet.Server.Veicoli
 			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
 			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
 			Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
-			Server.Instance.RegisterServerCallback("caricaVeicoli", new Action<Player, Delegate, dynamic>(CaricaVeicoli));
+			Server.Instance.Eventi.Attach("lprp:caricaVeicoli", new AsyncEventCallback(async a =>
+			{
+				Player player = Funzioni.GetPlayerFromId(a.Sender);
+				IEnumerable<OwnedVehicle> vehs = await MySQL.QueryListAsync<OwnedVehicle>("SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers", new { disc = player.GetLicense(Identifier.Discord), pers = player.GetCurrentChar().FullName });
+				List<OwnedVehicle> ownedVehicles = vehs.ToList();
+
+				if (ownedVehicles.Count <= 0) return player.GetCurrentChar().CurrentChar.Veicoli;
+				foreach (dynamic veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
+
+				return player.GetCurrentChar().CurrentChar.Veicoli;
+			}));
 		}
 
 		public static async void onPlayerSpawn([FromSource] Player p)
@@ -50,28 +62,6 @@ namespace TheLastPlanet.Server.Veicoli
 		private static void AddFront(int veh) { BaseScript.TriggerClientEvent("cBrakes:add_front", veh); }
 		private static void RemRear(int veh) { BaseScript.TriggerClientEvent("cBrakes:rem_rear", veh); }
 		private static void RemFront(int veh) { BaseScript.TriggerClientEvent("cBrakes:rem_front", veh); }
-
-		private static async void CaricaVeicoli([FromSource] Player p, Delegate cb, dynamic _)
-		{
-			try
-			{
-				dynamic vehs = await Server.Instance.Query("SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers", new { disc = p.GetLicense(Identifier.Discord), pers = p.GetCurrentChar().FullName });
-
-				if (vehs.Count > 0)
-				{
-					p.GetCurrentChar().CurrentChar.Veicoli.Clear();
-					foreach (dynamic veh in vehs) p.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
-				}
-
-				p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
-				cb.DynamicInvoke(p.GetCurrentChar().CurrentChar.Veicoli.SerializeToJson(includeEverything: true));
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, "Errore per il player " + p.Name + "\n" + e.ToString());
-				cb.DynamicInvoke("");
-			}
-		}
 
 		private static async void InGarage([FromSource] Player p, string plate, bool inGarage, string props)
 		{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
@@ -23,17 +24,21 @@ namespace TheLastPlanet.Client
 		public static Player Player { get; private set; }
 		public static Dictionary<string, PlayerChar> GiocatoriOnline = new();
 
-		static Cache()
+		public static async Task InitPlayer()
 		{
-			try
+			UpdatePedId();
+			UpdatePlayerId();
+			Client.Instance.AddTick(TickStatiPlayer);
+			Char = await Client.Instance.Eventi.Request<PlayerChar>("lprp:setupUser");
+			await Task.FromResult(0);
+		}
+
+		public static async Task Loading()
+		{
+			while (true)
 			{
-				UpdatePedId();
-				UpdatePlayerId();
-				Client.Instance.AddTick(TickStatiPlayer);
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Debug, e.ToString());
+				if (Char != null && PlayerPed != null && Player != null) break;
+				await BaseScript.Delay(100);
 			}
 		}
 

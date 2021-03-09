@@ -23,13 +23,13 @@ namespace TheLastPlanet.Client.Handlers
 {
 	internal static class TickController
 	{
-		public static List<Func<Task>> TickAPiedi = new List<Func<Task>>();
-		public static List<Func<Task>> TickVeicolo = new List<Func<Task>>();
-		public static List<Func<Task>> TickAppartamento = new List<Func<Task>>();
-		public static List<Func<Task>> TickHUD = new List<Func<Task>>();
-		public static List<Func<Task>> TickGenerici = new List<Func<Task>>();
-		public static List<Func<Task>> TickPolizia = new List<Func<Task>>();
-		public static List<Func<Task>> TickMedici = new List<Func<Task>>();
+		public static List<Func<Task>> TickAPiedi = new();
+		public static List<Func<Task>> TickVeicolo = new();
+		public static List<Func<Task>> TickAppartamento = new();
+		public static List<Func<Task>> TickHUD = new();
+		public static List<Func<Task>> TickGenerici = new();
+		public static List<Func<Task>> TickPolizia = new();
+		public static List<Func<Task>> TickMedici = new();
 
 		private static bool _inUnVeicolo;
 		private static bool _hideHud;
