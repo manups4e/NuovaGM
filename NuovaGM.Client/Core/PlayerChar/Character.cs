@@ -9,15 +9,15 @@ using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar
 {
-	public class PlayerChar : BasePlayerShared
+	public class Character : BasePlayerShared
 	{
 		public int source;
 		public Vector4 posizione = Vector4.Zero;
 
-		public PlayerChar(dynamic result)
+		public Character(dynamic result)
 		{
 			char_current = result.char_current;
-			source = Cache.Player.ServerId;
+			source = Cache.Cache.MyPlayer.Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			status = new Shared.PlayerChar.Status();
 		}
 
-		public PlayerChar()
+		public Character()
 		{
 			StatiPlayer = new PlayerStateBags();
 		}
@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore] private Player player = Cache.Player;
+		[JsonIgnore] private Player player = Cache.Cache.MyPlayer.Player;
 
 		private bool _inPausa;
 		private bool _svenuto;
@@ -219,7 +219,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class Istanza
 	{
-		[JsonIgnore] private Player player = Cache.Player;
+		[JsonIgnore] private Player player = Cache.Cache.MyPlayer.Player;
 		public bool Stanziato
 		{
 			get => player.State["PlayerStates"].Istanza.Stanziato;

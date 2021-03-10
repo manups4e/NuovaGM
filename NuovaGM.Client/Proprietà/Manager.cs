@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerFuori()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 
 			foreach (KeyValuePair<string, ConfigCase> app in Proprietà.Appartamenti)
 			{
@@ -36,27 +36,27 @@ namespace TheLastPlanet.Client.Proprietà
 				}
 
 				if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f)) continue;
-				if (!Cache.Char.CurrentChar.Proprietà.Contains(app.Key)) continue;
+				if (!Cache.Cache.MyPlayer.Character.CurrentChar.Proprietà.Contains(app.Key)) continue;
 
-				if (Cache.Char.StatiPlayer.InVeicolo)
+				if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 				{
 					string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
 					int model = playerPed.CurrentVehicle.Model.Hash;
 
-					if (Cache.Char.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Cache.Char.CurrentChar.info.insurance) == null) continue;
+					if (Cache.Cache.MyPlayer.Character.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == Cache.Cache.MyPlayer.Character.CurrentChar.info.insurance) == null) continue;
 					if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
 					Screen.Fading.FadeOut(500);
 					await BaseScript.Delay(1000);
 					VehProp pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.SerializeToJson(includeEverything: true));
-					Cache.Char.StatiPlayer.Istanza.Istanzia(app.Key);
+					Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia(app.Key);
 					await BaseScript.Delay(1000);
 
 					if (playerPed.CurrentVehicle.PassengerCount > 0)
 						foreach (Ped p in playerPed.CurrentVehicle.Passengers)
 						{
 							Player pl = Funzioni.GetPlayerFromPed(p);
-							pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Cache.Player.ServerId, Cache.Char.StatiPlayer.Istanza.Instance);
+							pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(Cache.Cache.MyPlayer.Player.ServerId, Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance);
 							BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 						}
 
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Proprietà
 						await BaseScript.Delay(0);
 					}
 
-					foreach (OwnedVehicle veh in Cache.Char.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == Cache.Char.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
+					foreach (OwnedVehicle veh in Cache.Cache.MyPlayer.Character.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
 					{
 						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
@@ -123,12 +123,12 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerDentro()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 
-			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
-				if (Proprietà.Appartamenti.ContainsKey(Cache.Char.StatiPlayer.Istanza.Instance))
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Stanziato)
+				if (Proprietà.Appartamenti.ContainsKey(Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance))
 				{
-					ConfigCase app = Proprietà.Appartamenti[Cache.Char.StatiPlayer.Istanza.Instance];
+					ConfigCase app = Proprietà.Appartamenti[Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance];
 
 					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{

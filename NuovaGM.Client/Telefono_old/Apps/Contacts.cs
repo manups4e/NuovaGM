@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 					if (MenuContatti[SelectedItem].Name == "Scrivi un Messaggio")
 					{
 						string msg = await HUD.GetUserInput("Inserisci un Messaggio", "", 100);
-						BaseScript.TriggerServerEvent("phone_server:receiveMessage", CurrentSubMenu.TelephoneNumber, Cache.Char.FullName, GetPlayerName(PlayerId()), msg, GetPlayerServerId(Convert.ToInt32(Cache.Char.source)));
+						BaseScript.TriggerServerEvent("phone_server:receiveMessage", CurrentSubMenu.TelephoneNumber, Cache.Cache.MyPlayer.Character.FullName, GetPlayerName(PlayerId()), msg, GetPlayerServerId(Convert.ToInt32(Cache.Cache.MyPlayer.Character.source)));
 					}
 					if (MenuContatti[SelectedItem].Name == "Chiama")
 						BaseScript.TriggerServerEvent("phoneServer:Chiama", CurrentSubMenu.TelephoneNumber);

@@ -92,12 +92,12 @@ namespace TheLastPlanet.Client.SistemaEventi
 		public void Send(Event wrapped)
 		{
 			Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the server-side.");
-			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", Cache.Player.ServerId, JsonConvert.SerializeObject(wrapped));
+			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", Cache.Cache.MyPlayer != null ? Cache.Cache.MyPlayer.Player.ServerId : Game.Player.ServerId, JsonConvert.SerializeObject(wrapped));
 		}
 
 		public Event Construct(string target, object[] payloads)
 		{
-			Event wrapped = new() { Target = target, Sender = Cache.Player.ServerId };
+			Event wrapped = new() { Target = target, Sender = Cache.Cache.MyPlayer.Player.ServerId };
 			if (payloads != null) WriteMetadata(wrapped, payloads);
 
 			return wrapped;
@@ -120,7 +120,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 			bool completed = false;
 			EventRequest wrapped = new(new EventCallback(metadata =>
 			{
-				//Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from server-side with metadata {JsonConvert.SerializeObject(metadata)}");
+				Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from server-side with metadata {JsonConvert.SerializeObject(metadata)}");
 
 				try
 				{

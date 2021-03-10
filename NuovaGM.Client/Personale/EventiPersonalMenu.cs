@@ -96,9 +96,9 @@ namespace TheLastPlanet.Client.Personale
 
 			Vehicle vehicle = saveVehicle;
 
-			if (Cache.Char.StatiPlayer.InVeicolo)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
-				Vehicle veh = Cache.PlayerPed.CurrentVehicle;
+				Vehicle veh = Cache.Cache.MyPlayer.Ped.CurrentVehicle;
 
 				if (veh.Doors.HasDoor((VehicleDoorIndex)port))
 				{
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Personale
 			else
 			{
 				if (vehicle == null || !vehicle.Exists()) return;
-				float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Cache.Cache.MyPlayer.Character.posizione.ToVector3(), vehicle.Position);
 
 				if (distanceToVeh <= 20f)
 				{
@@ -172,55 +172,55 @@ namespace TheLastPlanet.Client.Personale
 
 		public static void Finestrini(string finestrini)
 		{
-			if (!Cache.Char.StatiPlayer.InVeicolo) return;
-			if (Cache.PlayerPed.CurrentVehicle.Driver != Cache.PlayerPed) return;
+			if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) return;
+			if (Cache.Cache.MyPlayer.Ped.CurrentVehicle.Driver != Cache.Cache.MyPlayer.Ped) return;
 
 			switch (finestrini)
 			{
 				case "Anteriore Sinistro" when window1up:
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollDown();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollDown();
 					window1up = false;
 					WindowsGiu = true;
 
 					break;
 				case "Anteriore Sinistro":
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollUp();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.FrontLeftWindow].RollUp();
 					window1up = true;
 					WindowsGiu = false;
 
 					break;
 				case "Anteriore Destro" when window0up:
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollDown();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollDown();
 					window0up = false;
 					WindowsGiu = true;
 
 					break;
 				case "Anteriore Destro":
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollUp();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.FrontRightWindow].RollUp();
 					window0up = true;
 					WindowsGiu = false;
 
 					break;
 				case "Posteriore Sinistro" when window3up:
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollDown();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollDown();
 					window3up = false;
 					WindowsGiu = true;
 
 					break;
 				case "Posteriore Sinistro":
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollUp();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.BackLeftWindow].RollUp();
 					window3up = true;
 					WindowsGiu = false;
 
 					break;
 				case "Posteriore Destro" when window2up:
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollDown();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollDown();
 					window2up = false;
 					WindowsGiu = true;
 
 					break;
 				case "Posteriore Destro":
-					Cache.PlayerPed.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollUp();
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.Windows[VehicleWindowIndex.BackRightWindow].RollUp();
 					window2up = true;
 					WindowsGiu = false;
 
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static void Save(bool saved)
 		{
-			if (!Cache.PlayerPed.IsSittingInVehicle() || Cache.PlayerPed.CurrentVehicle.Driver != Cache.PlayerPed) return;
+			if (!Cache.Cache.MyPlayer.Ped.IsSittingInVehicle() || Cache.Cache.MyPlayer.Ped.CurrentVehicle.Driver != Cache.Cache.MyPlayer.Ped) return;
 
 			if (!saved)
 			{
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Personale
 			}
 			else
 			{
-				saveVehicle = Cache.PlayerPed.CurrentVehicle;
+				saveVehicle = Cache.Cache.MyPlayer.Ped.CurrentVehicle;
 				saveVehicle.AttachBlip();
 				saveVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
 				saveVehicle.AttachedBlip.Color = BlipColor.Green;
@@ -263,13 +263,13 @@ namespace TheLastPlanet.Client.Personale
 			{
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
-				float distanceToVeh = Vector3.Distance(Cache.Char.posizione.ToVector3(), vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Cache.Cache.MyPlayer.Character.posizione.ToVector3(), vehicle.Position);
 
 				if (toggle)
 				{
 					if (vehicle.Exists())
 					{
-						if (vehicle.Driver == Cache.PlayerPed)
+						if (vehicle.Driver == Cache.Cache.MyPlayer.Ped)
 						{
 							vehicle.LockStatus = VehicleLockStatus.Locked;
 							SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, true);
@@ -307,7 +307,7 @@ namespace TheLastPlanet.Client.Personale
 				{
 					if (vehicle.Exists())
 					{
-						if (vehicle.Driver == Cache.PlayerPed)
+						if (vehicle.Driver == Cache.Cache.MyPlayer.Ped)
 						{
 							vehicle.LockStatus = VehicleLockStatus.Unlocked;
 							SetVehicleDoorsLockedForAllPlayers(vehicle.Handle, false);
@@ -370,36 +370,36 @@ namespace TheLastPlanet.Client.Personale
 			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerPed.IsWalking || Cache.Char.StatiPlayer.InVeicolo && !Cache.PlayerPed.CurrentVehicle.IsEngineRunning))
+					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.Cache.MyPlayer.Ped.IsWalking || Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && !Cache.Cache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
 						if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~y~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Fame"].GetPercent() > 60f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~o~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Fame"].GetPercent() > 90f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~r~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.6f)), Color.FromArgb(255, 255, 255, 255), "FAME = ~g~" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 						if (StatsNeeds.Needs["Sete"].GetPercent() > 30f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~y~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Sete"].GetPercent() > 60f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~o~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Sete"].GetPercent() > 90f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~r~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.4f)), Color.FromArgb(255, 255, 255, 255), "SETE = ~g~" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 						if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 30f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~y~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 60f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~o~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 						else if (StatsNeeds.Needs["Stanchezza"].GetPercent() > 90f)
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 						else
-							HUD.DrawText3D(Cache.PlayerPed.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
+							HUD.DrawText3D(Cache.Cache.MyPlayer.Ped.GetOffsetPosition(new Vector3(0.6f, 0f, 0.2f)), Color.FromArgb(255, 255, 255, 255), "STANCH. = ~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
 					}
 
-					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard) Cache.PlayerPed.Task.ClearAll();
+					if (Game.IsControlJustPressed(1, Control.VehicleDuck) && Game.CurrentInputMode == InputMode.MouseAndKeyboard) Cache.Cache.MyPlayer.Ped.Task.ClearAll();
 				}
 
 			await Task.FromResult(0);

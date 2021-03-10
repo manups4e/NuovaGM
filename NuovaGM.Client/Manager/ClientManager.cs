@@ -94,27 +94,27 @@ namespace TheLastPlanet.Client.Manager
 
 		private static void AdminMenu(Ped p, object[] args)
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.Char.group_level);
+			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.Cache.MyPlayer.Character.group_level);
 		}
 
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (Cache.Char != null && (int)Cache.Char.group_level > 1) TeleportToMarker();
+			if (Cache.Cache.MyPlayer.Character != null && (int)Cache.Cache.MyPlayer.Character.group_level > 1) TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (Cache.Char == null || (int)Cache.Char.group_level < 4) return;
+			if (Cache.Cache.MyPlayer.Character == null || (int)Cache.Cache.MyPlayer.Character.group_level < 4) return;
 
 			if (!NoClip)
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = Cache.Char.posizione.ToVector3();
+					curLocation = Cache.Cache.MyPlayer.Character.posizione.ToVector3();
 					curRotation = p.Rotation;
-					curHeading = Cache.Char.posizione.W;
+					curHeading = Cache.Cache.MyPlayer.Character.posizione.W;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -140,7 +140,7 @@ namespace TheLastPlanet.Client.Manager
 					await BaseScript.Delay(0);
 				}
 
-				if (!Cache.Char.StatiPlayer.InVeicolo)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 				{
 					ClearPedTasksImmediately(PlayerPedId());
 					SetUserRadioControlEnabled(true);
@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.Manager
 			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 		}
 
-		private static void TippaDaMe(Vector3 coords) { Cache.PlayerPed.Position = coords; }
+		private static void TippaDaMe(Vector3 coords) { Cache.Cache.MyPlayer.Ped.Position = coords; }
 
 		public static void UpdateText(string txt, string txt2)
 		{
@@ -283,7 +283,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task noClip()
 		{
-			Ped p = Cache.PlayerPed;
+			Ped p = Cache.Cache.MyPlayer.Ped;
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -345,10 +345,10 @@ namespace TheLastPlanet.Client.Manager
 
 			Vector2 vect = new Vector2(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
 			Entity target = p;
-			if (Cache.Char.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
 			p.Velocity = new Vector3(0);
 
-			if (!Cache.Char.StatiPlayer.InVeicolo)
+			if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				SetUserRadioControlEnabled(false);
 				p.IsInvincible = true;
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async void TeleportToMarker()
 		{
-			Vector3 coords = Cache.PlayerPed.Position;
+			Vector3 coords = Cache.Cache.MyPlayer.Ped.Position;
 			bool success = false;
 			bool blipFound = false;
 			// search for marker blip
@@ -397,8 +397,8 @@ namespace TheLastPlanet.Client.Manager
 			if (blipFound)
 			{
 				// get entity to teleport
-				Entity ent = Cache.PlayerPed;
-				if (Cache.Char.StatiPlayer.InVeicolo) ent = Cache.PlayerPed.CurrentVehicle;
+				Entity ent = Cache.Cache.MyPlayer.Ped;
+				if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) ent = Cache.Cache.MyPlayer.Ped.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;

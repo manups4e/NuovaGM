@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void FirstTimeTransition(bool FirstChar)
 		{
-			Cache.PlayerPed.Detach();
+			Cache.Cache.MyPlayer.Ped.Detach();
 			if (FirstChar)
 				await SiComincia();
 			else
@@ -40,14 +40,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task SiComincia()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 			TriggerMusicEvent("FM_INTRO_START");
 			playerPed.Detach();
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
 			playerPed.IsPositionFrozen = true;
 			playerPed.IsVisible = false;
-			Cache.Char.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
+			Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
 			playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
 			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
 			Cam1.IsActive = true;
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiContinua(Camera Cam)
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 			Client.Instance.AddTick(Controllo);
 			Client.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f };
@@ -216,12 +216,12 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		private static async void SiFinisce()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 			TriggerMusicEvent("GLOBAL_KILL_MUSIC");
 			playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);
 			playerPed.IsVisible = true;
-			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);

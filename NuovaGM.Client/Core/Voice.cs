@@ -38,7 +38,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void UpdateVoices()
 		{
-			Ped pl = Cache.PlayerPed;
+			Ped pl = Cache.Cache.MyPlayer.Ped;
 
 			foreach (Player p in Client.Instance.GetPlayers.ToList())
 			{
@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.Core
 			return InSameVeh || !OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f) && distance < CheckDistance;
 		}
 
-		public static bool ShouldSendVoice() { return NetworkIsPlayerTalking(Cache.Player.Handle) || Input.IsControlPressed(Control.PushToTalk); }
+		public static bool ShouldSendVoice() { return NetworkIsPlayerTalking(Cache.Cache.MyPlayer.Player.Handle) || Input.IsControlPressed(Control.PushToTalk); }
 
 		public static async Task OnTick()
 		{
@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Core
 		public static void UpdateVocalMode(int mode)
 		{
 			int nextMode = mode;
-			if (nextMode > 2 && !Cache.Char.StatiPlayer.InVeicolo) nextMode = 0;
+			if (nextMode > 2 && !Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) nextMode = 0;
 			Mode = (Mode)nextMode;
 			OnModeModified();
 		}
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task OnTick2()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 
 			if (Permesso)
 			{
@@ -147,7 +147,7 @@ namespace TheLastPlanet.Client.Core
 				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift)) UpdateVocalMode();
 			}
 
-			if (Cache.Char.StatiPlayer.InVeicolo)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 

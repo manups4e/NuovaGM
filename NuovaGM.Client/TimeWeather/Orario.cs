@@ -72,17 +72,17 @@ namespace TheLastPlanet.Client.TimeWeather
 				HUD.ShowLoadingSavingNotificationWithTime("Aggiornamento orario del server in corso...", LoadingSpinnerType.Clockwise1, 10000);
 				await BaseScript.Delay(2000);
 				Screen.Fading.FadeOut(800);
-				if (Cache.Char.StatiPlayer.InVeicolo)
-					Cache.PlayerPed.CurrentVehicle.IsPositionFrozen = true;
+				if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = true;
 				else
-					Cache.PlayerPed.IsPositionFrozen = true;
+					Cache.Cache.MyPlayer.Ped.IsPositionFrozen = true;
 				await BaseScript.Delay(2000);
 				AdvanceClockTimeTo(h, m, s);
 				await BaseScript.Delay(1950);
-				if (Cache.Char.StatiPlayer.InVeicolo)
-					Cache.PlayerPed.CurrentVehicle.IsPositionFrozen = false;
+				if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+					Cache.Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = false;
 				else
-					Cache.PlayerPed.IsPositionFrozen = false;
+					Cache.Cache.MyPlayer.Ped.IsPositionFrozen = false;
 				Screen.Fading.FadeIn(800);
 				Cambio = false;
 			}

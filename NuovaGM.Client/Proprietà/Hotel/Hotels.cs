@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			{
 				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
-				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.Char.posizione.ToVector3().X, Cache.Char.posizione.ToVector3().Y, Cache.Char.posizione.ToVector3().Z, true, 1.0f, 0));
+				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.Cache.MyPlayer.Character.posizione.ToVector3().X, Cache.Cache.MyPlayer.Character.posizione.ToVector3().Y, Cache.Cache.MyPlayer.Character.posizione.ToVector3().Z, true, 1.0f, 0));
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
 
@@ -62,11 +62,11 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
-			stanzaPiccola.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.StanzaPiccola || Cache.Char.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
+			stanzaPiccola.SetRightLabel((Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaPiccola || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);
 			UIMenuItem stanzaMedia = new UIMenuItem("Stanza Media", "Costa un po' di più.. ed è un po' più confortevole");
-			stanzaMedia.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.StanzaMedia || Cache.Char.Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
+			stanzaMedia.SetRightLabel((Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaMedia || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.StanzaMedia ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaMedia);
 			UIMenuItem appartamento = new UIMenuItem("Appartamento", "Vorresti viverci.. ma prima o poi dovrai andartene!");
-			appartamento.SetRightLabel((Cache.Char.Money >= hotel.Prezzi.Appartamento || Cache.Char.Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
+			appartamento.SetRightLabel((Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.Appartamento || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.Appartamento ? "~g~$" : "~r~$") + hotel.Prezzi.Appartamento);
 			HotelMenu.AddItem(stanzaPiccola);
 			HotelMenu.AddItem(stanzaMedia);
 			HotelMenu.AddItem(appartamento);
@@ -76,9 +76,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 
 				if (item == stanzaPiccola)
 				{
-					if (Cache.Char.Money >= hotel.Prezzi.StanzaPiccola || Cache.Char.Bank >= hotel.Prezzi.StanzaPiccola)
+					if (Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaPiccola || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.StanzaPiccola)
 					{
-						BaseScript.TriggerServerEvent(Cache.Char.Money >= hotel.Prezzi.StanzaPiccola ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.StanzaPiccola);
+						BaseScript.TriggerServerEvent(Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaPiccola ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.StanzaPiccola);
 						pos = new Vector3(266.094f, -1007.487f, -101.800f);
 						IsInPiccola = true;
 					}
@@ -89,9 +89,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				else if (item == stanzaMedia)
 				{
-					if (Cache.Char.Money >= hotel.Prezzi.StanzaMedia || Cache.Char.Bank >= hotel.Prezzi.StanzaMedia)
+					if (Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaMedia || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.StanzaMedia)
 					{
-						BaseScript.TriggerServerEvent(Cache.Char.Money >= hotel.Prezzi.StanzaMedia ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.StanzaMedia);
+						BaseScript.TriggerServerEvent(Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.StanzaMedia ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.StanzaMedia);
 						pos = new Vector3(346.493f, -1013.031f, -99.196f);
 						IsInMedia = true;
 					}
@@ -102,9 +102,9 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				}
 				else if (item == appartamento)
 				{
-					if (Cache.Char.Money >= hotel.Prezzi.Appartamento || Cache.Char.Bank >= hotel.Prezzi.Appartamento)
+					if (Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.Appartamento || Cache.Cache.MyPlayer.Character.Bank >= hotel.Prezzi.Appartamento)
 					{
-						BaseScript.TriggerServerEvent(Cache.Char.Money >= hotel.Prezzi.Appartamento ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.Appartamento);
+						BaseScript.TriggerServerEvent(Cache.Cache.MyPlayer.Character.Money >= hotel.Prezzi.Appartamento ? "lprp:removemoney" : "lprp:removebank", hotel.Prezzi.Appartamento);
 						pos = new Vector3(-1452.841f, -539.489f, 74.044f);
 						IsInAppartamento = true;
 					}
@@ -118,12 +118,12 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				OldPos = Cache.Char.posizione.ToVector3();
+				OldPos = Cache.Cache.MyPlayer.Character.posizione.ToVector3();
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
-				Cache.PlayerPed.Position = pos;
+				Cache.Cache.MyPlayer.Ped.Position = pos;
 				await BaseScript.Delay(2000);
-				Cache.Char.StatiPlayer.Istanza.Istanzia("Hotel");
-				Cache.Char.StatiPlayer.InCasa = true;
+				Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Hotel");
+				Cache.Cache.MyPlayer.Character.StatiPlayer.InCasa = true;
 				Screen.Fading.FadeIn(800);
 				Client.Instance.AddTick(GestioneHotel);
 			};
@@ -135,7 +135,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			if (!HUD.MenuPool.IsAnyMenuOpen)
 			{
 				if (IsInPiccola)
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))
+					if (Cache.Cache.MyPlayer.Ped.IsInRangeOf(new Vector3(266.094f, -1007.487f, -101.800f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 
@@ -144,20 +144,20 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Cache.Cache.MyPlayer.Ped.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInPiccola = false;
-							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-							Cache.Char.StatiPlayer.InCasa = false;
+							Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Cache.MyPlayer.Character.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
 
 				if (IsInMedia)
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(346.493f, -1013.031f, -99.196f), 1.3f))
+					if (Cache.Cache.MyPlayer.Ped.IsInRangeOf(new Vector3(346.493f, -1013.031f, -99.196f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dalla stanza");
 
@@ -166,20 +166,20 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Cache.Cache.MyPlayer.Ped.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInMedia = false;
-							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-							Cache.Char.StatiPlayer.InCasa = false;
+							Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Cache.MyPlayer.Character.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
 
 				if (IsInAppartamento)
-					if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1452.164f, -540.640f, 74.044f), 1.3f))
+					if (Cache.Cache.MyPlayer.Ped.IsInRangeOf(new Vector3(-1452.164f, -540.640f, 74.044f), 1.3f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'appartamento");
 
@@ -188,13 +188,13 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							Screen.Fading.FadeOut(800);
 							await BaseScript.Delay(1000);
 							RequestCollisionAtCoord(OldPos.X, OldPos.Y, OldPos.Z);
-							Cache.PlayerPed.Position = OldPos;
+							Cache.Cache.MyPlayer.Ped.Position = OldPos;
 							await BaseScript.Delay(2000);
 							Funzioni.RevealAllPlayers();
 							Screen.Fading.FadeIn(800);
 							IsInAppartamento = false;
-							Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-							Cache.Char.StatiPlayer.InCasa = false;
+							Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+							Cache.Cache.MyPlayer.Character.StatiPlayer.InCasa = false;
 							Client.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}

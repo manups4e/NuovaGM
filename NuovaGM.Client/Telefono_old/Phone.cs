@@ -13,6 +13,7 @@ using TheLastPlanet.Client.Telefono.Apps;
 using TheLastPlanet.Client.Telefono.Models;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
+using static TheLastPlanet.Client.Cache.Cache;
 
 namespace TheLastPlanet.Client.Telefono
 {
@@ -59,9 +60,9 @@ namespace TheLastPlanet.Client.Telefono
 			Game.PlaySound("Pull_Out", "Phone_SoundSet_Default");
 			CreateMobilePhone((int)ModelPhone.Micheal);
 			PhoneMainClient.StartApp("Main");
-			Cache.PlayerPed.SetConfigFlag(242, false);
-			Cache.PlayerPed.SetConfigFlag(243, false);
-			Cache.PlayerPed.SetConfigFlag(244, true);
+			MyPlayer.Ped.SetConfigFlag(242, false);
+			MyPlayer.Ped.SetConfigFlag(243, false);
+			MyPlayer.Ped.SetConfigFlag(244, true);
 			VisibleAnimProgress = 21;
 			N_0x83a169eabcdb10a2(PlayerPedId(), getCurrentCharPhone().Theme);
 			if (GetFollowPedCamViewMode() == 4)
@@ -78,9 +79,9 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SHUTDOWN_MOVIE");
 			DestroyMobilePhone();
 			Visible = false;
-			Cache.PlayerPed.SetConfigFlag(242, true);
-			Cache.PlayerPed.SetConfigFlag(243, true);
-			Cache.PlayerPed.SetConfigFlag(244, false);
+			Cache.Cache.MyPlayer.Ped.SetConfigFlag(242, true);
+			Cache.Cache.MyPlayer.Ped.SetConfigFlag(243, true);
+			Cache.Cache.MyPlayer.Ped.SetConfigFlag(244, false);
 			Scaleform.Dispose();
 		}
 
@@ -88,7 +89,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if (Cache.Char.char_current - 1 == phone_data[i].id - 1)
+				if (Cache.Cache.MyPlayer.Character.char_current - 1 == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			return null;
@@ -112,7 +113,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			Vector3 playerPos = Cache.Char.posizione.ToVector3();
+			Vector3 playerPos = Cache.Cache.MyPlayer.Character.posizione.ToVector3();
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				Ped p = Cache.PlayerPed;
+				Ped p = Cache.Cache.MyPlayer.Ped;
 
 				foreach (InputController input in ListaInput)
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)

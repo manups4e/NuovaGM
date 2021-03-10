@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Telefono
 
 		public static async Task ControlloApertura()
 		{
-			Ped ped = Cache.PlayerPed;
+			Ped ped = Cache.Cache.MyPlayer.Ped;
 			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
 			{
 				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))

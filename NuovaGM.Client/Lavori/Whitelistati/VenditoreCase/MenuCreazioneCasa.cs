@@ -333,7 +333,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						_new.Clear();
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-						SetPlayerControl(Cache.Player.Handle, false, 256);
+						SetPlayerControl(Cache.Cache.MyPlayer.Player.Handle, false, 256);
 
 						switch (immobile)
 						{
@@ -387,7 +387,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 						gestioneInteriorCasa.AddItem(interior);
 						if (immobile == TipoImmobile.Casa) opzioniInterior = gestioneInteriorCasa.AddSubMenu("Opzioni interno selezionato");
-						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.Char.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
@@ -424,7 +424,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
 						renderCamObject.IsVisible = false;
-						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.Char.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						Vector3 pos = Vector3.Zero;
@@ -914,24 +914,24 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				switch (state)
 				{
 					case MenuState.Opened:
-						oldInstance = Cache.Char.StatiPlayer.Istanza;
-						Cache.Char.StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
+						oldInstance = Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza;
+						Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
 
 						break;
 					case MenuState.Closed:
 					{
-						if (Cache.Char.StatiPlayer.Istanza.Instance == "Creatore Immobiliare") Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-						Cache.Char.StatiPlayer.Istanza = oldInstance;
+						if (Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance == "Creatore Immobiliare") Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+						Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza = oldInstance;
 
 						break;
 					}
 					case MenuState.ChangeForward when newmenu == selezionePunto:
 					{
-						SetPlayerControl(Cache.Player.Handle, false, 256);
+						SetPlayerControl(Cache.Cache.MyPlayer.Player.Handle, false, 256);
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 						if (MainCamera == null) MainCamera = World.CreateCamera(Vector3.Zero, new Vector3(0, 0, 0), 45f);
-						MainCamera.Position = Cache.Char.posizione.ToVector3() + new Vector3(0, 0, 100);
+						MainCamera.Position = Cache.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						curLocation = MainCamera.Position;
@@ -990,7 +990,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 							MainCamera.IsActive = false;
 						}
 
-						SetPlayerControl(Cache.Player.Handle, true, 256);
+						SetPlayerControl(Cache.Cache.MyPlayer.Player.Handle, true, 256);
 						Screen.Fading.FadeIn(500);
 
 						break;
@@ -1010,7 +1010,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								MainCamera.IsActive = false;
 							}
 
-							SetPlayerControl(Cache.Player.Handle, true, 256);
+							SetPlayerControl(Cache.Cache.MyPlayer.Player.Handle, true, 256);
 							Screen.Fading.FadeIn(500);
 						}
 

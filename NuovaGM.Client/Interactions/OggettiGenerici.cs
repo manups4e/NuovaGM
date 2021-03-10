@@ -9,7 +9,7 @@ namespace TheLastPlanet.Client.Interactions
 	{
 		public static void Init()
 		{
-			Ped p = Cache.PlayerPed;
+			Ped p = Cache.Cache.MyPlayer.Ped;
 			ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
 			{
 				RequestAnimDict("mp_player_inteat@burger");

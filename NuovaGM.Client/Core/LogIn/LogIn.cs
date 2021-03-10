@@ -115,9 +115,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 			if (NetworkIsSessionStarted())
 			{
-				await Cache.InitPlayer();
+				await Cache.Cache.InitPlayer();
 				charSelect();
-				while (!NetworkIsPlayerActive(Cache.Player.Handle)) await BaseScript.Delay(500);
+				while (!NetworkIsPlayerActive(Cache.Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(500);
 				BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 				Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
 				Client.Instance.RemoveTick(Entra);
@@ -128,38 +128,38 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-			await Cache.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.UpdatePedId();
-			Cache.PlayerPed.IsVisible = false;
-			Cache.PlayerPed.IsPositionFrozen = true;
-			Cache.Player.IgnoredByPolice = true;
-			Cache.Player.DispatchsCops = false;
+			await Cache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			Cache.Cache.MyPlayer.UpdatePedId();
+			Cache.Cache.MyPlayer.Ped.IsVisible = false;
+			Cache.Cache.MyPlayer.Ped.IsPositionFrozen = true;
+			Cache.Cache.MyPlayer.Player.IgnoredByPolice = true;
+			Cache.Cache.MyPlayer.Player.DispatchsCops = false;
 			NetworkSetTalkerProximity(-1000f);
 			Screen.Hud.IsRadarVisible = false;
 		}
 
 		public static async void charSelect()
 		{
-			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.Cache.MyPlayer.Ped.Handle, true, false);
 			Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
-			Cache.PlayerPed.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			Cache.PlayerPed.Heading = charSelectCoords.W;
-			await Cache.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.UpdatePedId();
-			Cache.PlayerPed.Style.SetDefaultClothes();
-			while (!await Cache.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			Cache.UpdatePedId();
+			Cache.Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
+			Cache.Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
+			await Cache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			Cache.Cache.MyPlayer.UpdatePedId();
+			Cache.Cache.MyPlayer.Ped.Style.SetDefaultClothes();
+			while (!await Cache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
+			Cache.Cache.MyPlayer.UpdatePedId();
 
-			if (Cache.PlayerPed.Model == new Model(PedHash.FreemodeMale01))
+			if (Cache.Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
 			{
-				Ped p = Cache.PlayerPed;
+				Ped p = Cache.Cache.MyPlayer.Ped;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				await Cache.Loading();
-				Cache.Char.StatiPlayer.Istanza.Istanzia("Ingresso");
+				await Cache.Cache.Loading();
+				Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
-				Cache.Player.State.Set("Pausa", new { Attivo = false }, true);
+				Cache.Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.IsVisible = false;
 				p.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
@@ -179,12 +179,12 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void charCreate()
 		{
-			NetworkFadeInEntity(Cache.PlayerPed.Handle, true);
+			NetworkFadeInEntity(Cache.Cache.MyPlayer.Ped.Handle, true);
 			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-			SetEntityCoords(Cache.PlayerPed.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
-			SetEntityHeading(Cache.PlayerPed.Handle, charCreateCoords.W);
-			Vector3 h = GetPedBoneCoords(Cache.PlayerPed.Handle, 24818, 0.0f, 0.0f, 0.0f);
-			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Cache.PlayerPed.Handle, 0.0f, 2.0f, 0.8f);
+			SetEntityCoords(Cache.Cache.MyPlayer.Ped.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
+			SetEntityHeading(Cache.Cache.MyPlayer.Ped.Handle, charCreateCoords.W);
+			Vector3 h = GetPedBoneCoords(Cache.Cache.MyPlayer.Ped.Handle, 24818, 0.0f, 0.0f, 0.0f);
+			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Cache.Cache.MyPlayer.Ped.Handle, 0.0f, 2.0f, 0.8f);
 			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f) };
 			charCreationCam.PointAt(h);
 			charCreationCam.IsActive = true;
@@ -196,7 +196,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void Attiva()
 		{
-			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Cache.PlayerPed.Position + new Vector3(10));
+			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Cache.Cache.MyPlayer.Ped.Position + new Vector3(10));
 			dummyPed.IsVisible = false;
 			dummyPed.IsPositionFrozen = false;
 			dummyPed.IsCollisionEnabled = false;
@@ -210,13 +210,13 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Screen.Fading.FadeIn(1000);
 			await BaseScript.Delay(1000);
 			ToggleMenu(true, "charloading");
-			await Cache.Loading();
+			await Cache.Cache.Loading();
 			Client.Instance.AddTick(Main.AFK);
 		}
 
 		private static void ToggleMenu(bool menuOpen, string menu = "")
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Char.Characters.SerializeToJson() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = Cache.Cache.MyPlayer.Character.Characters.SerializeToJson() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(PlayerPedId(), menuOpen);
@@ -229,8 +229,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
-			Ped ped = Cache.PlayerPed;
-			Char_data pers = Cache.Char.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
+			Ped ped = Cache.Cache.MyPlayer.Ped;
+			Char_data pers = Cache.Cache.MyPlayer.Character.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
 
 			if (p1 != null)
 			{
@@ -274,49 +274,49 @@ namespace TheLastPlanet.Client.Core.LogIn
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			Cache.Char.char_current = Convert.ToUInt32(data["id"]);
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Char.char_current);
-			Char_data Data = Cache.Char.CurrentChar;
+			Cache.Cache.MyPlayer.Character.char_current = Convert.ToUInt32(data["id"]);
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.Cache.MyPlayer.Character.char_current);
+			Char_data Data = Cache.Cache.MyPlayer.Character.CurrentChar;
 			int switchType = 1;
-			switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(Cache.Cache.MyPlayer.Ped.Position.X, Cache.Cache.MyPlayer.Ped.Position.Y, Cache.Cache.MyPlayer.Ped.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(Cache.Cache.MyPlayer.Ped.Position.X, Cache.Cache.MyPlayer.Ped.Position.Y, Cache.Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Cache.Char.Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Cache.Char.DirtyMoney, true);
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Cache.Cache.MyPlayer.Character.Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Cache.Cache.MyPlayer.Character.DirtyMoney, true);
 			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
-			Cache.PlayerPed.IsInvincible = false;
+			Cache.Cache.MyPlayer.Ped.IsInvincible = false;
 			await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
 			if (Data.location.position.IsZero)
 			{
-				Cache.PlayerPed.Position = Main.firstSpawnCoords.ToVector3();
-				Cache.PlayerPed.Heading = Main.firstSpawnCoords.W;
+				Cache.Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
+				Cache.Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
 				await BaseScript.Delay(2000);
 			}
 			else
 			{
-				Cache.PlayerPed.Position = Data.location.position;
-				Cache.PlayerPed.Heading = Data.location.h;
+				Cache.Cache.MyPlayer.Ped.Position = Data.location.position;
+				Cache.Cache.MyPlayer.Ped.Heading = Data.location.h;
 				await BaseScript.Delay(2000);
 			}
 
 			Eventi.LoadModel();
-			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-			Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
-			Cache.PlayerPed.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.PlayerPed.Handle);
-			Cache.Char.StatiPlayer.Istanza.Istanzia("Ingresso");
+			if (Cache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
+			Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.Cache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.Cache.MyPlayer.Ped.Handle);
+			Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Ingresso");
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
-			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(7000);
 			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
@@ -325,24 +325,24 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			Cache.Char.CurrentChar.Veicoli = await Client.Instance.Eventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
+			Cache.Cache.MyPlayer.Character.CurrentChar.Veicoli = await Client.Instance.Eventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
-			SwitchInPlayer(Cache.PlayerPed.Handle);
-			Vector3 pos = await Cache.PlayerPed.Position.GetVector3WithGroundZ();
-			Cache.PlayerPed.Position = pos;
+			SwitchInPlayer(Cache.Cache.MyPlayer.Ped.Handle);
+			Vector3 pos = await Cache.Cache.MyPlayer.Ped.Position.GetVector3WithGroundZ();
+			Cache.Cache.MyPlayer.Ped.Position = pos;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Client.Instance.RemoveTick(Controllo);
-			if (Cache.PlayerPed.IsVisible) NetworkFadeOutEntity(Cache.PlayerPed.Handle, true, false);
+			if (Cache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(1000);
-			Cache.PlayerPed.IsPositionFrozen = false;
-			Cache.PlayerPed.Weapons.Select(WeaponHash.Unarmed);
+			Cache.Cache.MyPlayer.Ped.IsPositionFrozen = false;
+			Cache.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 			ClearFocus();
-			NetworkFadeInEntity(Cache.PlayerPed.Handle, true);
-			Cache.PlayerPed.IsVisible = true;
-			Cache.PlayerPed.IsCollisionEnabled = true;
+			NetworkFadeInEntity(Cache.Cache.MyPlayer.Ped.Handle, true);
+			Cache.Cache.MyPlayer.Ped.IsVisible = true;
+			Cache.Cache.MyPlayer.Ped.IsCollisionEnabled = true;
 			//			Client.Instance.RemoveTick(Scaleform);
 			//			Client.Instance.RemoveTick(TastiMenu);
 			cb("ok");

@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.Interactions
 				_checkTimer = Game.GameTime;
 			}
 
-			if (!Cache.Char.StatiPlayer.InServizio)
+			if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InServizio)
 				if (closest.Item2 > -1 && closest.Item2 < 3f)
 					if (closest.Item1.GetPlayerData().StatiPlayer.Svenuto || closest.Item1.GetPlayerData().StatiPlayer.FinDiVita)
 					{
@@ -48,8 +48,8 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static async void LootMenu(Player target)
 		{
-			Ped playerPed = Cache.PlayerPed;
-			PlayerChar targetData = target.GetPlayerData();
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
+			Character targetData = target.GetPlayerData();
 			UIMenu loot = new UIMenu(targetData.FullName, "Looting Menu");
 			HUD.MenuPool.Add(loot);
 			UIMenu soldi = loot.AddSubMenu("Portafoglio");

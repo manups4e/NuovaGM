@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task MinimapDrawing()
 		{
-			Ped p = Cache.PlayerPed;
+			Ped p = Cache.Cache.MyPlayer.Ped;
 
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						}
 					}
 
-					switch (Cache.Char.StatiPlayer.InVeicolo)
+					switch (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 					{
 						//se non sono su un veicolo e non ho il menu di pausa attivo.
 						case false when !IsPauseMenuActive():

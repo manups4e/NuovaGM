@@ -45,23 +45,23 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		private static void AnimazioneRiceviOggetto()
 		{
-			Cache.PlayerPed.Task.PlayAnimation("mp_common", "givetake2_a");
+			Cache.Cache.MyPlayer.Ped.Task.PlayAnimation("mp_common", "givetake2_a");
 		}
 
 		public static async Task AggiornaPlayers()
 		{
-			Cache.GiocatoriOnline = await Client.Instance.Eventi.Request<Dictionary<string, PlayerChar.PlayerChar>>("lprp:callPlayers");
+			Cache.Cache.GiocatoriOnline = await Client.Instance.Eventi.Request<Dictionary<string, PlayerChar.Character>>("lprp:callPlayers");
 		}
 
 		public static async void LoadModel()
 		{
-			uint hash = Funzioni.HashUint(Cache.Char.CurrentChar.skin.model);
+			uint hash = Funzioni.HashUint(Cache.Cache.MyPlayer.Character.CurrentChar.skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			Cache.UpdatePedId();
-			await Funzioni.UpdateFace(Cache.Char.CurrentChar.skin);
-			await Funzioni.UpdateDress(Cache.Char.CurrentChar.dressing);
+			Cache.Cache.MyPlayer.UpdatePedId();
+			await Funzioni.UpdateFace(Cache.Cache.MyPlayer.Character.CurrentChar.skin);
+			await Funzioni.UpdateDress(Cache.Cache.MyPlayer.Character.CurrentChar.dressing);
 			BaseScript.TriggerEvent("lprp:restoreWeapons");
 			BaseScript.TriggerEvent("lprp:StartLocationSave");
 		}
@@ -80,9 +80,9 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static void sendUserInfo(string _char_data, uint _char_current, string _group)
 		{
 			Log.Printa(LogType.Debug, _char_data);
-			Cache.Char.char_data = _char_data;
-			Cache.Char.char_current = _char_current;
-			Cache.Char.group = _group;
+			Cache.Cache.MyPlayer.Character.char_data = _char_data;
+			Cache.Cache.MyPlayer.Character.char_current = _char_current;
+			Cache.Cache.MyPlayer.Character.group = _group;
 		}
 
 		public static bool On = false;
@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void death()
 		{
-			Cache.PlayerPed.Kill();
+			Cache.Cache.MyPlayer.Ped.Kill();
 		}
 
 		public static async void announce(string msg)
@@ -137,32 +137,32 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Screen.Fading.FadeOut(800);
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
-			Main.RespawnPed(Cache.Char.posizione.ToVector3());
+			Main.RespawnPed(Cache.Cache.MyPlayer.Character.posizione.ToVector3());
 			StatsNeeds.Needs["Fame"].Val = 0.0f;
 			StatsNeeds.Needs["Sete"].Val = 0.0f;
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
-			Cache.Char.CurrentChar.needs.malattia = false;
-			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = Cache.Char.CurrentChar.needs.malattia };
+			Cache.Cache.MyPlayer.Character.CurrentChar.needs.malattia = false;
+			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = Cache.Cache.MyPlayer.Character.CurrentChar.needs.malattia };
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-			Cache.Char.StatiPlayer.FinDiVita = false;
+			Cache.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = false;
 			Screen.Fading.FadeIn(800);
 		}
 
 		public static async void SpawnVehicle(string model)
 		{
-			Vector3 coords = Cache.Char.posizione.ToVector3();
-			Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.PlayerPed.Heading);
+			Vector3 coords = Cache.Cache.MyPlayer.Character.posizione.ToVector3();
+			Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.Cache.MyPlayer.Ped.Heading);
 			if (Veh != null) Veh.PreviouslyOwnedByPlayer = true;
 		}
 
 		public static void DeleteVehicle()
 		{
 			Entity vehicle = new Vehicle(Funzioni.GetVehicleInDirection());
-			if (Cache.Char.StatiPlayer.InVeicolo) vehicle = Cache.PlayerPed.CurrentVehicle;
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) vehicle = Cache.Cache.MyPlayer.Ped.CurrentVehicle;
 			if (vehicle.Exists()) DecorRemove(vehicle.Handle, Main.decorName);
 			vehicle.Delete();
 		}
@@ -203,13 +203,13 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task LocationSave()
 		{
 			await BaseScript.Delay(1000);
-			Cache.Char.posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
+			Cache.Cache.MyPlayer.Character.posizione = new Vector4(GetEntityCoords(PlayerPedId(), false), GetEntityHeading(PlayerPedId()));
 
-			if (Cache.Char.StatiPlayer.Istanza.Stanziato) return;
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Stanziato) return;
 
 			if (GetGameTimer() - timer >= 10000)
 			{
-				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Cache.Char.posizione.ToVector3(), Cache.Char.posizione.W);
+				BaseScript.TriggerServerEvent("lprp:updateCurChar", "charlocation", Cache.Cache.MyPlayer.Character.posizione.ToVector3(), Cache.Cache.MyPlayer.Character.posizione.W);
 				timer = GetGameTimer();
 			}
 
@@ -219,7 +219,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static void AddWeapon(string weaponName, int ammo)
 		{
 			WeaponHash weaponHash = (WeaponHash)Funzioni.HashUint(weaponName);
-			Cache.PlayerPed.Weapons.Give(weaponHash, ammo, false, true);
+			Cache.Cache.MyPlayer.Ped.Weapons.Give(weaponHash, ammo, false, true);
 			HUD.HUD.ShowNotification("Hai ottenuto un/a ~y~" + Funzioni.GetWeaponLabel((uint)weaponHash));
 		}
 
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			uint weaponHash = Funzioni.HashUint(weaponName);
 			uint componentHash = Funzioni.HashUint(weaponComponent);
 
-			if (!Cache.Char.hasWeaponComponent(weaponName, weaponComponent))
+			if (!Cache.Cache.MyPlayer.Character.hasWeaponComponent(weaponName, weaponComponent))
 			{
 				GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
 				HUD.HUD.ShowNotification("Hai ottenuto un ~b~" + Funzioni.GetWeaponLabel(componentHash));
@@ -275,20 +275,20 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Dictionary<int, bool> ammoTypes = new();
 
-			if (Cache.Char.CurrentChar.weapons.Count > 0)
+			if (Cache.Cache.MyPlayer.Character.CurrentChar.weapons.Count > 0)
 			{
-				Cache.PlayerPed.Weapons.RemoveAll();
+				Cache.Cache.MyPlayer.Ped.Weapons.RemoveAll();
 
-				for (int i = 0; i < Cache.Char.getCharWeapons(Cache.Char.char_current).Count; i++)
+				for (int i = 0; i < Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current).Count; i++)
 				{
-					string weaponName = Cache.Char.getCharWeapons(Cache.Char.char_current)[i].name;
+					string weaponName = Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current)[i].name;
 					uint weaponHash = Funzioni.HashUint(weaponName);
-					int tint = Cache.Char.getCharWeapons(Cache.Char.char_current)[i].tint;
-					Cache.PlayerPed.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
+					int tint = Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current)[i].tint;
+					Cache.Cache.MyPlayer.Ped.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
 					int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
 
-					if (Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components.Count > 0)
-						foreach (Components weaponComponent in Cache.Char.getCharWeapons(Cache.Char.char_current)[i].components)
+					if (Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current)[i].components.Count > 0)
+						foreach (Components weaponComponent in Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current)[i].components)
 						{
 							uint componentHash = Funzioni.HashUint(weaponComponent.name);
 							if (weaponComponent.active) GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.Core.Utility
 					SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
 
 					if (ammoTypes.ContainsKey(ammoType)) continue;
-					AddAmmoToPed(PlayerPedId(), weaponHash, Cache.Char.getCharWeapons(Cache.Char.char_current)[i].ammo);
+					AddAmmoToPed(PlayerPedId(), weaponHash, Cache.Cache.MyPlayer.Character.getCharWeapons(Cache.Cache.MyPlayer.Character.char_current)[i].ammo);
 					ammoTypes[ammoType] = true;
 				}
 			}

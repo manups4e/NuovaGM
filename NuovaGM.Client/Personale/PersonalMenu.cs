@@ -71,8 +71,8 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async void menuPersonal()
 		{
-			Ped playerPed = Cache.PlayerPed;
-			Player me = Cache.Player;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
+			Player me = Cache.Cache.MyPlayer.Player;
 			Point pos = new Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
 			pool.Add(PersonalMenu);
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Client.Personale
 			vehContr.AddItem(port);
 			vehContr.AddItem(motore);
 
-			if (!Cache.Char.StatiPlayer.InVeicolo)
+			if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				chiudi.Enabled = false;
 				fin.Enabled = false;
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Personale
 				else if (_item == salva)
 					switch (_checked)
 					{
-						case true when Cache.Char.StatiPlayer.InVeicolo:
+						case true when Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo:
 						{
 							EventiPersonalMenu.Save(_checked);
 
@@ -785,7 +785,7 @@ namespace TheLastPlanet.Client.Personale
 			UIMenuItem item9 = new UIMenuItem("Ubriaco", "Vacci piano!");
 			animMenu1.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item1)
 						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", me.GetPlayerData().posizione.ToVector3());
@@ -830,7 +830,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu2.AddItem(item13);
 			animMenu2.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item10)
 						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_hello");
@@ -883,7 +883,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu3.AddItem(item30);
 			animMenu3.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item14)
 						playerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
@@ -958,7 +958,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu4.AddItem(item45);
 			animMenu4.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item31)
 						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", me.GetPlayerData().posizione.ToVector3());
@@ -1008,7 +1008,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu5.AddItem(item50);
 			animMenu5.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item46)
 						playerPed.Task.PlayAnimation("amb@world_human_muscle_flex@arms_at_side@base", "base");
@@ -1044,7 +1044,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu6.AddItem(item58);
 			animMenu6.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item51)
 						playerPed.Task.PlayAnimation("amb@world_human_aa_coffee@idle_a", "idle_a");
@@ -1092,7 +1092,7 @@ namespace TheLastPlanet.Client.Personale
 			animMenu7.AddItem(item69);
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item59)
 						playerPed.Task.PlayAnimation("oddjobs@towing", "m_blow_job_loop");
@@ -1132,7 +1132,7 @@ namespace TheLastPlanet.Client.Personale
 			UIMenuItem item77 = new UIMenuItem("Tieni la folla2", "Ho detto calmi");
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.Char.StatiPlayer.InVeicolo && playerPed.IsAlive)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item70)
 						playerPed.Task.PlayAnimation("anim@mp_player_intupperface_palm", "idle_a");
@@ -1293,7 +1293,7 @@ namespace TheLastPlanet.Client.Personale
 
 		private static async Task AggiornaSalute()
 		{
-			Player me = Cache.Player;
+			Player me = Cache.Cache.MyPlayer.Player;
 			if (StatsNeeds.Needs["Fame"].Val > 30f)
 				fa.SetRightLabel("~y~" + Math.Round(StatsNeeds.Needs["Fame"].Val, 2) + "%");
 			else if (StatsNeeds.Needs["Fame"].Val > 60f)
@@ -1360,7 +1360,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static async Task routeColor()
 		{
-			Player me = Cache.Player;
+			Player me = Cache.Cache.MyPlayer.Player;
 			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 5000f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
 			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) < 5000f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3(), b.Position) > 4500f)

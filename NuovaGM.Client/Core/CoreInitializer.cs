@@ -10,8 +10,8 @@ namespace TheLastPlanet.Client.Core
 	{
 		public static async Task LogInInitializer()
 		{
-			Main.Init();
 			LogIn.LogIn.Init();
+			Main.Init();
 			Utility.HUD.HUD.Init();
 			Utility.Eventi.Init();
 			Discord.Init();

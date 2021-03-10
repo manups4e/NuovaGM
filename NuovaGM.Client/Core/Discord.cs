@@ -21,12 +21,12 @@ namespace TheLastPlanet.Client.Core
 
 		private static async Task RichPresence()
 		{
-			await Cache.Loading();
-			Ped playerPed = Cache.PlayerPed;
-			Player player = Cache.Player;
+			await Cache.Cache.Loading();
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
+			Player player = Cache.Cache.MyPlayer.Player;
 			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
-			Vector3 PedCoords = Cache.Char == null ? playerPed.Position : Cache.Char.posizione.ToVector3();
+			Vector3 PedCoords = Cache.Cache.MyPlayer.Character == null ? playerPed.Position : Cache.Cache.MyPlayer.Character.posizione.ToVector3();
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);
@@ -77,7 +77,7 @@ namespace TheLastPlanet.Client.Core
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (Cache.Char.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
+				else if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
 					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.Core
 				{
 					SetRichPresence("Fa paracadutismo");
 				}
-				else if (IsPedStill(PlayerPedId()) || Cache.Char.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
 				{
 					SetRichPresence("AFK in gioco");
 				}

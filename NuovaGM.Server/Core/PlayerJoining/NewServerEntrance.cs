@@ -18,8 +18,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			{
 				try
 				{
-					Player player = Funzioni.GetPlayerFromId(a.Sender);
-					string handle = player.Handle;
+					var player = Funzioni.GetPlayerFromId(a.Sender);
+					var handle = player.Handle;
 
 					if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";

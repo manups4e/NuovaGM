@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.Manager
 				foreach (Player p in Client.Instance.GetPlayers)
 				{
 					//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
-					PlayerChar player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
+					Character player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
 					if (player.Characters.Count == 1)
 						charscount = "1 personaggio";
@@ -67,16 +67,16 @@ namespace TheLastPlanet.Client.Manager
 					{
 						if (item == Teletrasportami)
 						{
-							Cache.PlayerPed.Position = p.Character.Position;
+							Cache.Cache.MyPlayer.Ped.Position = p.Character.Position;
 						}
 						else if (item == Teletrasportalo)
 						{
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.Char.posizione.ToVector3());
+							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.Cache.MyPlayer.Character.posizione.ToVector3());
 						}
 						else if (item == Specta)
 						{
-							if (p == Cache.Player) return;
-							Cache.PlayerPed.SetDecor("AdminSpecta", p.Handle);
+							if (p == Cache.Cache.MyPlayer.Player) return;
+							Cache.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
 							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 							NetworkSetInSpectatorMode(true, p.Character.Handle);
 							Client.Instance.AddTick(SpectatorMode);
@@ -129,7 +129,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Banna)
 						{
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.Cache.MyPlayer.Player.ServerId);
 						}
 
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
@@ -239,7 +239,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Kicka)
 						{
-							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.Cache.MyPlayer.Player.ServerId);
 						}
 					};
 
@@ -395,12 +395,12 @@ namespace TheLastPlanet.Client.Manager
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.Char.posizione.ToVector3(), Cache.Char.posizione.W);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.Cache.MyPlayer.Character.posizione.ToVector3(), Cache.Cache.MyPlayer.Character.posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Cache.PlayerPed.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Cache.Cache.MyPlayer.Ped.Heading);
 				}
 
 				VeicoloSalvato.DirtLevel = 0;
@@ -627,16 +627,16 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task SpectatorMode()
 		{
-			if (Cache.PlayerPed.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
+			if (Cache.Cache.MyPlayer.Ped.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
 			{
 				Game.DisableControlThisFrame(0, Control.Context);
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di spectare");
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					Player p = new Player(Cache.PlayerPed.GetDecor<int>("AdminSpecta"));
+					Player p = new Player(Cache.Cache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
 					NetworkSetInSpectatorMode(false, p.Character.Model);
-					Cache.PlayerPed.SetDecor("AdminSpecta", 0);
+					Cache.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
 					Client.Instance.RemoveTick(SpectatorMode);
 				}
 			}

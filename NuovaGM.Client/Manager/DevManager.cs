@@ -41,21 +41,21 @@ namespace TheLastPlanet.Client.Manager
 
 		public static async Task OnTickSviluppo()
 		{
-			Ped pl = Cache.PlayerPed;
+			Ped pl = Cache.Cache.MyPlayer.Ped;
 			AsyncRaycastResult ray = await WorldProbe.GamePlayCamCrosshairRaycast();
-			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
-			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.Char.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
+			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
+			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
 			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {ray.HitPosition}");
 
 			if (pl.IsAiming)
 			{
-				Entity ent = Cache.Player.GetTargetedEntity();
+				Entity ent = Cache.Cache.MyPlayer.Player.GetTargetedEntity();
 				if (ent.Exists()) HUD.DrawText3D(ent.GetOffsetPosition(new Vector3(0, 0, 1)), Colors.DarkSeaGreen, "Hash = " + ent.Model.Hash);
 			}
 
-			if (Cache.Char.StatiPlayer.InVeicolo)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				Vehicle veicolo = new Vehicle(GetVehiclePedIsIn(PlayerPedId(), false));
 				VehProp props = await veicolo.GetVehicleProperties();
@@ -96,13 +96,13 @@ namespace TheLastPlanet.Client.Manager
 			else
 			{
 				foreach (Prop p in World.GetAllProps())
-					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
+					if (p.IsInRangeOf(Cache.Cache.MyPlayer.Character.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
 				foreach (Ped p in World.GetAllPeds())
-					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f) && p != Cache.PlayerPed)
+					if (p.IsInRangeOf(Cache.Cache.MyPlayer.Character.posizione.ToVector3(), 20f) && p != Cache.Cache.MyPlayer.Ped)
 						HUD.DrawText3D(p.Position, Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
 				foreach (Vehicle p in World.GetAllVehicles())
-					if (p.IsInRangeOf(Cache.Char.posizione.ToVector3(), 20f))
+					if (p.IsInRangeOf(Cache.Cache.MyPlayer.Character.posizione.ToVector3(), 20f))
 						HUD.DrawText3D(p.Position, Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}
 

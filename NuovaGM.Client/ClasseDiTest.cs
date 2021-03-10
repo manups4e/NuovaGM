@@ -1,47 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
 using Logger;
-using Newtonsoft.Json;
-using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
-		public static async void Init()
+		public static void Init()
 		{
 			Client.Instance.AddTick(test);
 		}
 
-		private static async void AttivaMenu()
+		private static void AttivaMenu()
 		{
-			UIMenu Test = new("Test", "test", new System.Drawing.PointF(700, 300));
-			HUD.MenuPool.Add(Test);
+			UIMenu test = new("Test", "test", new System.Drawing.PointF(700, 300));
+			HUD.MenuPool.Add(test);
 			UIMenuItem b = new("ResetTime");
 			UIMenuItem c = new("SetTime1");
 			UIMenuItem d = new("SetTime2");
 			UIMenuItem e = new("SetTime3");
-			Test.AddItem(b);
-			Test.AddItem(c);
-			Test.AddItem(d);
-			Test.AddItem(e);
-			Test.OnItemSelect += async (menu, item, index) =>
+			test.AddItem(b);
+			test.AddItem(c);
+			test.AddItem(d);
+			test.AddItem(e);
+			test.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == b)
 					NetworkClearClockTimeOverride();
@@ -51,7 +38,7 @@ namespace TheLastPlanet.Client
 					SetClockTime(15, 0, 0);
 				else if (item == e) NetworkOverrideClockTime(12, 0, 0);
 			};
-			Test.Visible = true;
+			test.Visible = true;
 		}
 
 		/*
@@ -66,7 +53,7 @@ namespace TheLastPlanet.Client
 
 		public static async Task test()
 		{
-			if (Cache.Char != null)
+			await Cache.Cache.Loading();
 			{
 				//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Cache.Char.StatiPlayer.Istanza));
 			}
@@ -78,7 +65,7 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				PlayerChar Test = await Client.Instance.Eventi.Request<PlayerChar>("chiamaTest", null);
+				Character Test = await Client.Instance.Eventi.Request<Character>("chiamaTest", null);
 				Log.Printa(LogType.Debug, Test.SerializeToJson());
 				/*
 				b.Tabs.Clear();

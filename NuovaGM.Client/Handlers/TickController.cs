@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Handlers
 
 		private static async Task TickHandler()
 		{
-			if (Cache.Char.StatiPlayer.InVeicolo)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				if (!_inUnVeicolo)
 				{
@@ -155,7 +155,7 @@ namespace TheLastPlanet.Client.Handlers
 				}
 			}
 
-			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Stanziato)
 			{
 				if (!_inAppartamento)
 				{
@@ -176,7 +176,7 @@ namespace TheLastPlanet.Client.Handlers
 				}
 			}
 
-			if (Cache.Char.CurrentChar.job.name.ToLower() == "polizia")
+			if (Cache.Cache.MyPlayer.Character.CurrentChar.job.name.ToLower() == "polizia")
 			{
 				if (_medici)
 				{
@@ -200,7 +200,7 @@ namespace TheLastPlanet.Client.Handlers
 					_polizia = true;
 				}
 			}
-			else if (Cache.Char.CurrentChar.job.name.ToLower() == "medico")
+			else if (Cache.Cache.MyPlayer.Character.CurrentChar.job.name.ToLower() == "medico")
 			{
 				if (_polizia)
 				{
@@ -217,7 +217,7 @@ namespace TheLastPlanet.Client.Handlers
 					_medici = true;
 				}
 			}
-			else if (Cache.Char.CurrentChar.job.name.ToLower() != "medico" && Cache.Char.CurrentChar.job.name.ToLower() != "polizia")
+			else if (Cache.Cache.MyPlayer.Character.CurrentChar.job.name.ToLower() != "medico" && Cache.Cache.MyPlayer.Character.CurrentChar.job.name.ToLower() != "polizia")
 			{
 				if (_polizia)
 				{

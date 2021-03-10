@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Interactions
 		//migliorare precisione in corsa e in genera in copertura e non.. V 
 		private static async Task WeaponHandling()
 		{
-			Ped p = Cache.PlayerPed;
+			Ped p = Cache.Cache.MyPlayer.Ped;
 
 			#region MiraPrimaPersona
 
@@ -38,18 +38,18 @@ namespace TheLastPlanet.Client.Interactions
 				if (Input.IsControlPressed(Control.Aim))
 				{
 					if (p.IsAiming || p.IsAimingFromCover)
-						if ((Cache.Char.StatiPlayer.InVeicolo ? GetFollowPedCamViewMode() : GetFollowVehicleCamViewMode()) != 4)
+						if ((Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? GetFollowPedCamViewMode() : GetFollowVehicleCamViewMode()) != 4)
 							if (!Switched)
 							{
 								Screen.Effects.Start(ScreenEffect.CamPushInNeutral);
 								Switched = true;
-								vecchiaMod = Cache.Char.StatiPlayer.InVeicolo ? GetFollowVehicleCamViewMode() : GetFollowPedCamViewMode();
+								vecchiaMod = Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? GetFollowVehicleCamViewMode() : GetFollowPedCamViewMode();
 								Camera CamIniziale = World.CreateCamera(GameplayCamera.Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
 								Camera CamFinale = World.CreateCamera(p.Bones[Bone.SKEL_Head].Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
 								World.RenderingCamera = CamIniziale;
 								CamIniziale.InterpTo(CamFinale, 500, 1, 1);
 								while (CamFinale.IsInterpolating) await BaseScript.Delay(0);
-								if (Cache.Char.StatiPlayer.InVeicolo)
+								if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 									SetFollowVehicleCamViewMode(4);
 								else
 									SetFollowPedCamViewMode(4);
@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.Interactions
 							Camera CamIniziale = World.CreateCamera(GameplayCamera.Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
 							World.RenderingCamera = CamIniziale;
 							await BaseScript.Delay(100);
-							if (Cache.Char.StatiPlayer.InVeicolo)
+							if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 								SetFollowVehicleCamViewMode(vecchiaMod);
 							else
 								SetFollowPedCamViewMode(vecchiaMod);
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.Interactions
 				}
 				else
 				{
-					if (Switched && !p.IsInCover() && !Input.IsControlPressed(Control.Aim) && !(Main.ImpostazioniClient.ForzaPrimaPersona_InAuto && Cache.Char.StatiPlayer.InVeicolo))
+					if (Switched && !p.IsInCover() && !Input.IsControlPressed(Control.Aim) && !(Main.ImpostazioniClient.ForzaPrimaPersona_InAuto && Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo))
 					{
 						Screen.Effects.Start(ScreenEffect.CamPushInNeutral);
 						Camera CamIniziale = World.CreateCamera(GameplayCamera.Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
@@ -149,9 +149,9 @@ namespace TheLastPlanet.Client.Interactions
 			if (Main.ImpostazioniClient.ForzaPrimaPersona_InAuto)
 				if (Input.IsControlJustPressed(Control.VehicleExit))
 				{
-					if (Cache.Char.StatiPlayer.InVeicolo)
+					if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 					{
-						while (Cache.Char.StatiPlayer.InVeicolo) await BaseScript.Delay(0);
+						while (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) await BaseScript.Delay(0);
 
 						if (Switched)
 						{

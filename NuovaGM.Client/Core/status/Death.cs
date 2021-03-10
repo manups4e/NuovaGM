@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Entity ent = Entity.FromHandle(entity);
 
 			if (ent is Ped ped)
-				if (ped == Cache.PlayerPed)
+				if (ped == Cache.Cache.MyPlayer.Ped)
 					if (ped.Health < 55 && !ped.IsDead && guarito && !ferito)
 					{
 						RequestAnimSet("move_injured_generic");
@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void onPlayerDeath(DatiMorte morte)
 		{
-			Cache.Char.StatiPlayer.FinDiVita = true;
+			Cache.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			StartScreenEffect("DeathFailOut", 0, false);
@@ -189,11 +189,11 @@ namespace TheLastPlanet.Client.Core.Status
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-			Cache.Char.StatiPlayer.FinDiVita = true;
+			Cache.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			if (EarlyRespawn)
 				if (EarlyRespawnFine)
-					if (Cache.Char.Money >= EarlyRespawnFineAmount || Cache.Char.Bank >= EarlyRespawnFineAmount)
+					if (Cache.Cache.MyPlayer.Character.Money >= EarlyRespawnFineAmount || Cache.Cache.MyPlayer.Character.Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
 			if (Main.IsDead) Client.Instance.AddTick(ConteggioMorte);
 		}
@@ -306,21 +306,21 @@ namespace TheLastPlanet.Client.Core.Status
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(10);
 			BaseScript.TriggerServerEvent("lprp:removeItemsDeath");
-			Vector3 pedCoords = Cache.PlayerPed.Position;
+			Vector3 pedCoords = Cache.Cache.MyPlayer.Ped.Position;
 			Vector3 pos = hospitals.OrderBy(x => Vector3.Distance(pedCoords, x)).FirstOrDefault();
 			Main.RespawnPed(pos);
 			while (!IsPedStill(PlayerPedId())) await BaseScript.Delay(50);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Screen.Fading.FadeIn(800);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-			Cache.Char.StatiPlayer.FinDiVita = false;
+			Cache.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = false;
 		}
 
 		// -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO
 		public static async Task Injuried()
 		{
 			await BaseScript.Delay(1000);
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 
 			if (playerPed.Health > 55 && ferito && !guarito && StatsNeeds.Needs["Fame"].Val < 80 && StatsNeeds.Needs["Sete"].Val < 80)
 			{

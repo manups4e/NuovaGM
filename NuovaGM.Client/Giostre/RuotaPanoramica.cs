@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.Giostre
 				float speed = Ruota.Velocità * fVar2;
 				Ruota.Rotazione += speed;
 				if (Ruota.Rotazione >= 360f) Ruota.Rotazione -= 360f;
-				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE")) SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", Cache.PlayerPed.Position.Z - 13f);
+				if (IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE")) SetAudioSceneVariable("FAIRGROUND_RIDES_FERRIS_WHALE", "HEIGHT", Cache.Cache.MyPlayer.Ped.Position.Z - 13f);
 				/*				if (CabinaAttuale != null)
 									HUD.DrawText(0.2f, 0.925f, "CabinaAttuale = " + CabinaAttuale.Index);
 								HUD.DrawText(0.2f, 0.95f, "Ruota.Gradient = " + Ruota.Gradient);
@@ -115,11 +115,11 @@ namespace TheLastPlanet.Client.Giostre
 						{
 							case "FACCIO_SALIRE":
 								CabinaAttuale = Cabine[Ruota.Gradient];
-								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Cache.PlayerPed.NetworkId, Ruota.Gradient);
+								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerSale", Cache.Cache.MyPlayer.Ped.NetworkId, Ruota.Gradient);
 
 								break;
 							case "FACCIO_SCENDERE":
-								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Cache.PlayerPed.NetworkId, Ruota.Gradient);
+								BaseScript.TriggerServerEvent("lprp:ruotapanoramica:playerScende", Cache.Cache.MyPlayer.Ped.NetworkId, Ruota.Gradient);
 
 								break;
 						}
@@ -151,7 +151,7 @@ namespace TheLastPlanet.Client.Giostre
 
 			if (IsEntityAtCoord(Personaggio.Handle, -1661.95f, -1127.011f, 12.6973f, 1f, 1f, 1f, false, true, 0))
 			{
-				if (Personaggio.NetworkId != Cache.PlayerPed.NetworkId)
+				if (Personaggio.NetworkId != Cache.Cache.MyPlayer.Ped.NetworkId)
 					if (!NetworkHasControlOfNetworkId(player))
 						while (!NetworkRequestControlOfNetworkId(player))
 							await BaseScript.Delay(0);
@@ -172,8 +172,8 @@ namespace TheLastPlanet.Client.Giostre
 				}
 
 				await BaseScript.Delay(7000);
-				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Entity.Handle, Cache.PlayerPed.Position.X, Cache.PlayerPed.Position.Y, Cache.PlayerPed.Position.Z);
-				AttachEntityToEntity(Personaggio.Handle, Cabina.Entity.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Cache.PlayerPed.Heading, false, false, false, false, 2, true);
+				Vector3 attCoords = GetOffsetFromEntityGivenWorldCoords(Cabina.Entity.Handle, Cache.Cache.MyPlayer.Ped.Position.X, Cache.Cache.MyPlayer.Ped.Position.Y, Cache.Cache.MyPlayer.Ped.Position.Z);
+				AttachEntityToEntity(Personaggio.Handle, Cabina.Entity.Handle, 0, attCoords.X, attCoords.Y, attCoords.Z, 0f, 0f, Cache.Cache.MyPlayer.Ped.Heading, false, false, false, false, 2, true);
 				N_0x267c78c60e806b9a(Personaggio.Handle, true);
 				BaseScript.TriggerServerEvent("lprp:ruotapanoramica:aggiornaCabine", Cabina.Index, Cabina.NPlayer);
 				if (Personaggio.Handle == PlayerPedId()) GiroFinito = false;
@@ -199,7 +199,7 @@ namespace TheLastPlanet.Client.Giostre
 			Ped Personaggio = (Ped)Entity.FromNetworkId(player);
 			CabinaPan Cabina = Cabine[cabina];
 
-			if (Personaggio == Cache.PlayerPed)
+			if (Personaggio == Cache.Cache.MyPlayer.Ped)
 			{
 				while (CabinaAttuale != Cabina) await BaseScript.Delay(0);
 				RenderScriptCams(false, false, 1000, false, false);
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 			else
 			{
-				if (Personaggio.NetworkId != Cache.PlayerPed.NetworkId)
+				if (Personaggio.NetworkId != Cache.Cache.MyPlayer.Ped.NetworkId)
 					if (!NetworkHasControlOfNetworkId(player))
 						while (!NetworkRequestControlOfNetworkId(player))
 							await BaseScript.Delay(0);
@@ -242,11 +242,11 @@ namespace TheLastPlanet.Client.Giostre
 
 		private static async Task ControlloPlayer()
 		{
-			if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 20f))
+			if (Cache.Cache.MyPlayer.Ped.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 20f))
 			{
 				if (!IsAudioSceneActive("FAIRGROUND_RIDES_FERRIS_WHALE")) StartAudioScene("FAIRGROUND_RIDES_FERRIS_WHALE");
 
-				if (Cache.PlayerPed.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 1.375f))
+				if (Cache.Cache.MyPlayer.Ped.IsInRangeOf(new Vector3(-1661.95f, -1127.011f, 12.6973f), 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per salire sulla prima gondola libera");
 
@@ -479,7 +479,7 @@ namespace TheLastPlanet.Client.Giostre
 
 					if (IsEntityDead(uParam0.Valore8) && !IsEntityDead(PlayerPedId()))
 					{
-						SetCamRot(uParam0.CamEntity.Handle, (Cache.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).X, (Cache.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Y, (Cache.PlayerPed.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Z, 2);
+						SetCamRot(uParam0.CamEntity.Handle, (Cache.Cache.MyPlayer.Ped.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).X, (Cache.Cache.MyPlayer.Ped.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Y, (Cache.Cache.MyPlayer.Ped.Rotation + new Vector3(uParam0.Valore11, 0f, uParam0.Valore12)).Z, 2);
 					}
 					else if (!IsEntityDead(uParam0.Valore8) && !IsEntityDead(PlayerPedId()))
 					{
@@ -715,7 +715,7 @@ namespace TheLastPlanet.Client.Giostre
 
 			uParam0.Valore18 += (uParam0.Valore17 - uParam0.Valore18) * 0.06f * fVar5;
 			SetCamParams(uParam0.CamEntity.Handle, uParam0.Valore1.X, uParam0.Valore1.Y, uParam0.Valore1.Z, (uParam0.Valore4 + uParam0.Valore14).X, (uParam0.Valore4 + uParam0.Valore14).Y, (uParam0.Valore4 + uParam0.Valore14).Z, uParam0.Valore18, 0, 1, 1, 2);
-			uParam0.CamEntity.Rotation = Cache.PlayerPed.Rotation + Cam2Tastiera.Valore14;
+			uParam0.CamEntity.Rotation = Cache.Cache.MyPlayer.Ped.Rotation + Cam2Tastiera.Valore14;
 		}
 
 		private static float func_102(float fParam0, float fParam1, float fParam2) { return fParam0 > fParam2 ? fParam2 : fParam0 < fParam1 ? fParam1 : fParam0; }

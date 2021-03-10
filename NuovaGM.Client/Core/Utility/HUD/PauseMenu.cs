@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
-			PlayerChar.PlayerChar pl = Cache.Char;
+			PlayerChar.Character pl = Cache.Cache.MyPlayer.Character;
 			TabInteractiveListItem HUD = null;
 			TabInteractiveListItem Telecamere = null;
 
@@ -278,7 +278,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			#endregion
 
-			MainMenu = new TabView("The Last Planet", "Full RP") { SideStringTop = Cache.Player.Name, SideStringMiddle = DateTime.Now.ToString(), SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyMoney, DisplayHeader = true };
+			MainMenu = new TabView("The Last Planet", "Full RP") { SideStringTop = Cache.Cache.MyPlayer.Player.Name, SideStringMiddle = DateTime.Now.ToString(), SideStringBottom = "Portafoglio: $" + pl.Money + " Soldi Sporchi: $" + pl.DirtyMoney, DisplayHeader = true };
 			TabTextItem intro = new TabTextItem("Introduzione", "Benvenuto su The Last Planet");
 			intro.Text = "Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.\n" + "Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.\n" + "Potrai in ogni mento riaprire questo menu di pausa premendo i tasti SHIFT+F9 oppure con il comando /help";
 			TabSubmenuItem comandi = new TabSubmenuItem("Guida ai Comandi [Tastiera / Joypad]", new List<TabItem>() { new TabItemSimpleList("Generici (sempre validi)", new Dictionary<string, string>() { ["Menu Personale"] = "Tasto M / Select", ["Lista giocatori"] = "Tasto Z / Dpad giù", ["Portafoglio"] = "Tasto Z / Dpad giù" }), new TabItemSimpleList("A piedi", new Dictionary<string, string>() { ["Azione"] = "Tasto E / Dpad destra" }), new TabItemSimpleList("Su veicolo", new Dictionary<string, string>() { ["Accendi veicolo"] = "Tasto F10 / LB+A", ["Allaccia / Slaccia cintura"] = "Tasto X / LB+X" }), new TabItemSimpleList("Lavoro", new Dictionary<string, string>() { ["Menu lavorativo (solo alcuni lavori)"] = "Tasto F6 / Menu personale", ["In servizio / Fuori servizio (solo alcuni lavori)"] = "Tasto F6 / Menu personale" }) });

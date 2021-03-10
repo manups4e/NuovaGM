@@ -13,11 +13,11 @@ namespace TheLastPlanet.Client
 	{
 		public static async Task Init()
 		{
-			ClasseDiTest.Init(); // da rimouvere
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
-			await Cache.Loading();
+			await Cache.Cache.Loading();
+			ClasseDiTest.Init(); // da rimouvere
 			Banking.BankingClient.Init();
 			Businesses.PompeDiBenzinaClient.Init();
 			PublicTraffic.Init();

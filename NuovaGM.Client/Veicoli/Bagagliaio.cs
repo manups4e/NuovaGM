@@ -25,14 +25,14 @@ namespace TheLastPlanet.Client.Veicoli
 		private static async void ChiudiBagagliaio()
 		{
 			trunkOpen = false;
-			if (Cache.PlayerPed.LastVehicle != null) Cache.PlayerPed.LastVehicle.Doors[VehicleDoorIndex.Trunk].Close();
+			if (Cache.Cache.MyPlayer.Ped.LastVehicle != null) Cache.Cache.MyPlayer.Ped.LastVehicle.Doors[VehicleDoorIndex.Trunk].Close();
 		}
 
 		public static async Task ControlloBagagliaio()
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 
-			if (!Cache.Char.StatiPlayer.InVeicolo)
+			if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 			{
 				Tuple<Vehicle, float> closestVeh = playerPed.GetClosestVehicleWithDistance();
 				Vehicle veh = closestVeh.Item1;
@@ -46,7 +46,7 @@ namespace TheLastPlanet.Client.Veicoli
 					// da rimuovere
 					World.DrawMarker(MarkerType.ChevronUpx1, bonepos, new Vector3(0), new Vector3(0), new Vector3(0.5f, 0.5f, 1f), Colors.Cyan, false, false, true);
 
-					if (!trunkOpen && !Cache.Char.StatiPlayer.InVeicolo && !HUD.MenuPool.IsAnyMenuOpen)
+					if (!trunkOpen && !Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && !HUD.MenuPool.IsAnyMenuOpen)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il bagagliaio");
 

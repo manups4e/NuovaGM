@@ -30,7 +30,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public List<Char_data> Characters = new List<Char_data>();
 
 		
-		
+		[JsonIgnore]
 		internal string char_data
 		{
 			get => Characters.SerializeToJson(includeEverything: true);

@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			cambio = !Cache.Char.StatiPlayer.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+			cambio = !Cache.Cache.MyPlayer.Character.StatiPlayer.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
 			spogliatoio.AddItem(cambio);
 			cambio.Activated += async (item, index) =>
 			{
@@ -34,10 +34,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				HUD.MenuPool.CloseAllMenus();
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
 
-				if (!Cache.Char.StatiPlayer.InServizio)
+				if (!Cache.Cache.MyPlayer.Character.StatiPlayer.InServizio)
 				{
-					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.Char.CurrentChar.job.grade))
-						switch (Cache.Char.CurrentChar.skin.sex)
+					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.Cache.MyPlayer.Character.CurrentChar.job.grade))
+						switch (Cache.Cache.MyPlayer.Character.CurrentChar.skin.sex)
 						{
 							case "Maschio":
 								CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -49,12 +49,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								break;
 						}
 
-					Cache.Char.StatiPlayer.InServizio = true;
+					Cache.Cache.MyPlayer.Character.StatiPlayer.InServizio = true;
 				}
 				else
 				{
-					Cache.Char.StatiPlayer.InServizio = false;
-					await Funzioni.UpdateDress(Cache.Char.CurrentChar.dressing);
+					Cache.Cache.MyPlayer.Character.StatiPlayer.InServizio = false;
+					await Funzioni.UpdateDress(Cache.Cache.MyPlayer.Character.CurrentChar.dressing);
 				}
 
 				await BaseScript.Delay(500);
@@ -140,15 +140,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
 		{
-			Cache.Char.StatiPlayer.Istanza.Istanzia("SceltaVeicoliMedici");
+			Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("SceltaVeicoliMedici");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
-			Cache.PlayerPed.Position = new Vector3(236.349f, -1005.013f, -100f);
-			Cache.PlayerPed.Heading = 85.162f;
+			Cache.Cache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
+			Cache.Cache.MyPlayer.Ped.Heading = 85.162f;
 			InGarage = true;
 
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade)) <= 10)
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade)); i++)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Cache.MyPlayer.Character.CurrentChar.job.grade)) <= 10)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Cache.MyPlayer.Character.CurrentChar.job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -174,7 +174,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Cache.MyPlayer.Character.CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : totale - livelloGarage * 10;
 
 			for (int i = 0; i < LivelloGarageAttuali; i++)
@@ -195,9 +195,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		private static async Task ControlloGarage()
 		{
-			Ped p = Cache.PlayerPed;
+			Ped p = Cache.Cache.MyPlayer.Ped;
 
-			if (Cache.Char.StatiPlayer.Istanza.Stanziato)
+			if (Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.Stanziato)
 				if (InGarage)
 				{
 					if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
 
-					if (Cache.Char.StatiPlayer.InVeicolo)
+					if (Cache.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+								Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								Client.Instance.RemoveTick(ControlloGarage);
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Char.CurrentChar.job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.Cache.MyPlayer.Character.CurrentChar.job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 				if (i % 10 == 0)
@@ -290,11 +290,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 					if (item == esci)
 					{
-						Cache.PlayerPed.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
+						Cache.Cache.MyPlayer.Ped.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						Cache.Char.StatiPlayer.Istanza.RimuoviIstanza();
+						Cache.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
 						Client.Instance.RemoveTick(ControlloGarage);
 					}
@@ -376,12 +376,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						break;
 					}
 
-				Cache.PlayerPed.CurrentVehicle.SetVehicleFuelLevel(100f);
-				Cache.PlayerPed.CurrentVehicle.IsDriveable = true;
-				Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
-				Cache.PlayerPed.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
-				if (Cache.PlayerPed.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerPed.CurrentVehicle.Handle, 1);
-				VeicoloPol veh = new(Cache.PlayerPed.CurrentVehicle.Mods.LicensePlate, Cache.PlayerPed.CurrentVehicle.Model.Hash, Cache.PlayerPed.CurrentVehicle.Handle);
+				Cache.Cache.MyPlayer.Ped.CurrentVehicle.SetVehicleFuelLevel(100f);
+				Cache.Cache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
+				Cache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
+				Cache.Cache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+				if (Cache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.Cache.MyPlayer.Ped.CurrentVehicle.Handle, 1);
+				VeicoloPol veh = new(Cache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
 				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.SerializeToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();

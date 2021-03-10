@@ -90,27 +90,27 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		public static T CaricaKVP<T>(string key) { return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key)); }
 
-		public static PlayerChar.PlayerChar GetPlayerCharFromPlayerId(int id)
+		public static PlayerChar.Character GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (KeyValuePair<string, PlayerChar.PlayerChar> p in Cache.GiocatoriOnline)
+			foreach (KeyValuePair<string, PlayerChar.Character> p in Cache.Cache.GiocatoriOnline)
 				if (GetPlayerFromServerId(Convert.ToInt32(p.Key)) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static PlayerChar.PlayerChar GetPlayerCharFromServerId(int id)
+		public static PlayerChar.Character GetPlayerCharFromServerId(int id)
 		{
-			foreach (KeyValuePair<string, PlayerChar.PlayerChar> p in Cache.GiocatoriOnline)
+			foreach (KeyValuePair<string, PlayerChar.Character> p in Cache.Cache.GiocatoriOnline)
 				if (Convert.ToInt32(p.Key) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static PlayerChar.PlayerChar GetPlayerData(this Player player)
+		public static PlayerChar.Character GetPlayerData(this Player player)
 		{
-			return player == Cache.Player ? Cache.Char : GetPlayerCharFromServerId(player.ServerId);
+			return player == Cache.Cache.MyPlayer.Player ? Cache.Cache.MyPlayer.Character : GetPlayerCharFromServerId(player.ServerId);
 		}
 
 		public static void SendNuiMessage(object message)
@@ -122,7 +122,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			List<Player> players = GetPlayersInArea(coord, radius);
 			foreach (Player pl in players)
-				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Cache.MyPlayer.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, true, true);
 		}
 
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
-				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
 			});
 		}
 
@@ -138,7 +138,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			List<Player> players = GetPlayersInArea(coord, radius);
 			foreach (Player pl in players)
-				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle)
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Cache.MyPlayer.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, false, false);
 		}
 
@@ -146,7 +146,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
-				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
 			});
 		}
 
@@ -330,7 +330,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void Teleport(Vector3 coords)
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void TeleportConVeh(Vector3 coords)
 		{
-			Ped playerPed = Cache.PlayerPed;
+			Ped playerPed = Cache.Cache.MyPlayer.Ped;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
@@ -434,8 +434,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static int GetVehicleInDirection()
 		{
-			int ped = Cache.PlayerPed.Handle;
-			Vector3 coords = Cache.PlayerPed.Position;
+			int ped = Cache.Cache.MyPlayer.Ped.Handle;
+			Vector3 coords = Cache.Cache.MyPlayer.Ped.Position;
 			Vector3 inDirection = GetOffsetFromEntityInWorldCoords(ped, 0.0f, 5.0f, 0.0f);
 			int rayHandle = CastRayPointToPoint(coords.X, coords.Y, coords.Z, inDirection.X, inDirection.Y, inDirection.Z, 10, ped, 0);
 			bool a = false;
@@ -473,14 +473,14 @@ namespace TheLastPlanet.Client.Core.Utility
 				};
 				while (!vehicle.Exists()) await BaseScript.Delay(0);
 				vehicle.PlaceOnGround();
-				Cache.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
+				Cache.Cache.MyPlayer.Ped.SetIntoVehicle(vehicle, VehicleSeat.Driver);
 				EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
 				bool ready = false;
 				Client.Instance.TriggerServerCallback("cullingEntity", new Action<bool>((ok) => { ready = ok; }), vehicle.NetworkId);
 				while (!ready) await BaseScript.Delay(0);
 
-				return Cache.PlayerPed.CurrentVehicle;
+				return Cache.Cache.MyPlayer.Ped.CurrentVehicle;
 			}
 			else
 			{
@@ -680,7 +680,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
+			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.Cache.MyPlayer.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
 
 			return playersInArea;
 		}
@@ -820,7 +820,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.Char.posizione.ToVector3()); }
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.Cache.MyPlayer.Character.posizione.ToVector3()); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
@@ -829,7 +829,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
 			if (Client.Instance.GetPlayers.ToList().Count <= 1) return new Tuple<Player, float>(null, -1);
-			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.Player);
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.Cache.MyPlayer.Player);
 
 			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
 		}
@@ -852,12 +852,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, PlayerChar.PlayerChar>> GetOnlinePlayersAndTheirData()
+		public static async Task<Dictionary<string, PlayerChar.Character>> GetOnlinePlayersAndTheirData()
 		{
-			Dictionary<string, PlayerChar.PlayerChar> players = new();
+			Dictionary<string, PlayerChar.Character> players = new();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersOnline", new Action<dynamic>((result) =>
 			{
-				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.PlayerChar>>();
+				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.Character>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 
@@ -868,12 +868,12 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// Si connette al server e al DB e ritorna tutti i personaggi salvati nel db stesso
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, PlayerChar.PlayerChar>> GetAllPlayersAndTheirData()
+		public static async Task<Dictionary<string, PlayerChar.Character>> GetAllPlayersAndTheirData()
 		{
-			Dictionary<string, PlayerChar.PlayerChar> players = new();
+			Dictionary<string, PlayerChar.Character> players = new();
 			Client.Instance.TriggerServerCallback("ChiamaPlayersDB", new Action<dynamic>((result) =>
 			{
-				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.PlayerChar>>();
+				players = (result as string).DeserializeFromJson<Dictionary<string, PlayerChar.Character>>();
 			}));
 			while (players.Count == 0) await BaseScript.Delay(0);
 
