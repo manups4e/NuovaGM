@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
+using Impostazioni.Shared.Configurazione.Generici;
 
 namespace TheLastPlanet.Shared
 {
@@ -439,37 +440,7 @@ namespace TheLastPlanet.Shared
 			this.color = color;
 		}
 	}
-
-
-	public class Components
-	{
-		public string name { get; set; }
-		public bool active { get; set; }
-		public Components() { }
-		public Components(string _name)
-		{
-			name = _name;
-			active = false;
-		}
-		public Components(string _name, bool _ac)
-		{
-			this.name = _name;
-			this.active = _ac;
-		}
-	}
-
-	public class Tinte
-	{
-		public string name { get; set; }
-		public int value { get; set; }
-		public Tinte() { }
-		public Tinte(string _name, int _value)
-		{
-			this.name = _name;
-			this.value = _value;
-		}
-	}
-
+	
 	public class Phone_data
 	{
 		public int id { get; set; } = 1;

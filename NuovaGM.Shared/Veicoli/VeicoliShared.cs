@@ -157,7 +157,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class VeicoliAffitto
+	public class _VeicoliAffitto
 	{
 		public List<Veicoloaff> biciclette = new List<Veicoloaff>();
 		public List<Veicoloaff> macchineGeneric = new List<Veicoloaff>();
@@ -175,6 +175,13 @@ namespace TheLastPlanet.Shared.Veicoli
 		public int price;
 		public string model;
 		public Veicoloaff(string _name, string _desc, int _price, string _model)
+		{
+			this.name = _name;
+			this.description = _desc;
+			this.price = _price;
+			this.model = _model;
+		}
+		public Veicoloaff(string _name, int _price, string _desc, string _model)
 		{
 			this.name = _name;
 			this.description = _desc;

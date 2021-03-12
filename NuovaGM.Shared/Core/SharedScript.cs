@@ -1,15 +1,12 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Impostazioni.Shared.Configurazione.Generici;
+
 // ReSharper disable All
 
 namespace TheLastPlanet.Shared
 {
-	public delegate void UsaOggetto(Item oggetto, int quantità);
-	public delegate void DaiOggetto(Item oggetto, int quantità);
-	public delegate void ButtaOggetto(Item oggetto, int quantità);
-	public delegate void VendiOggetto(Item oggetto, int quantità);
-	public delegate void CompraOggetto(Item oggetto, int quantità);
 	public enum UserGroup
 	{
 		User = 0,

@@ -12,10 +12,9 @@ namespace TheLastPlanet.Shared
 		public int MaxInServizio;
 		public bool PuoPlaccare;
 		public bool AbilitaUsoCani;
-		public List<CaniPolizia> Cani = new List<CaniPolizia>();
-		public List<string> ModificheAutorizzate = new List<string>();
-		public List<StazioniDiPolizia> Stazioni = new List<StazioniDiPolizia>();
-
+		public List<CaniPolizia> Cani = new();
+		public List<string> ModificheAutorizzate = new();
+		public List<StazioniDiPolizia> Stazioni = new();
 	}
 
 	public class ConfigurazioneMedici
@@ -39,7 +38,7 @@ namespace TheLastPlanet.Shared
 		public Vector3 Actions;
 	}
 
-	public class Pescatori
+	public class _Pescatori
 	{
 		public bool TempoPescaDinamico;
 		public int TempoFisso;
@@ -49,23 +48,23 @@ namespace TheLastPlanet.Shared
 		//public float[] AffittoBarca = new float[3];
 		public Vector4 SpawnBarca;
 		public List<string> Barche = new List<string>();
-		public PesciPescati Pesci = new PesciPescati();
+		public _PesciPescati Pesci = new _PesciPescati();
 	}
 
-	public class PesciPescati
+	public class _PesciPescati
 	{
 		public List<string> facile = new List<string>();
 		public List<string> medio = new List<string>();
 		public List<string> avanzato = new List<string>();
 	}
 
-	public class Cacciatori
+	public class _Cacciatori
 	{
 		public Vector3 inizioCaccia;
 		public Vector3 zonaDiCaccia;
 		public float limiteArea;
 	}
-	public class Tassisti
+	public class _Tassisti
 	{
 		public Vector3 PosAccettazione;
 		public Vector3 PosDepositoVeicolo;
@@ -76,7 +75,7 @@ namespace TheLastPlanet.Shared
 		public List<Vector3> jobCoords;
 	}
 
-	public class Towing
+	public class _Towing
 	{
 		public Vector3 InizioLavoro;
 		public List<Vector3> PuntiDespawn = new List<Vector3>();
@@ -135,7 +134,7 @@ namespace TheLastPlanet.Shared
 		public List<Autorizzati> ArmiAutorizzate = new List<Autorizzati>();
 		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
 		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
-		public List<Vector3> AzioniCapo = new List<Vector3>();
+		public List<Vector3> BossActions = new List<Vector3>();
 	}
 
 	public class Ospedale

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <UserSecretsId>1df517d5-02d3-48ad-b0f5-f417f27ca1b2</UserSecretsId>
+    <AssemblyName>TheLastPlanet.Server.net</AssemblyName>
+    <RootNamespace>TheLastPlanet.Server</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>SERVER</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.3563" />
+    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MySqlConnector" Version="1.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Impostazioni\Server\**\*.cs" />
+    <Compile Include="..\Impostazioni\Shared\**\*.cs" />
+    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
+  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
+  </Target>
+
+</Project>

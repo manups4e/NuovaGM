@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Shared.Meteo
 {
-	public class SharedMeteo
+	public class _SharedMeteo
 	{
 		public bool ss_enable_wind_sync;
 		public float ss_wind_speed_max;

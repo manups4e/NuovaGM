@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <DebugType>embedded</DebugType>
+    <TargetName>TheLastPlanet.Client.net</TargetName>
+    <DefineConstants>DEBUG;CLIENT</DefineConstants>
+    <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RootNamespace>TheLastPlanet.Client</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.3563" />
+
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.CSharp" />
+
+    <Reference Include="System.Windows" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="..\NuovaGm.Shared\Lavori\Generici\RimozioneShared.cs" />
+    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
+    <Compile Include="..\Impostazioni\Client\**\*.cs" />
+    <Compile Include="..\Impostazioni\Shared\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CONFIGURAZIONE\AConfig\" />
+    <Folder Include="Lavori\Generici\Consegne\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\tlp\CONFIGURAZIONE\&#xD;&#xA;xcopy /e /y $(ProjectDir)html\ L:\FiveM\ManuGamemode\resources\[local]\tlp\html\&#xD;&#xA;xcopy /y $(ProjectDir)fxmanifest.lua L:\FiveM\ManuGamemode\resources\[local]\tlp\" />
+  </Target>
+</Project>
