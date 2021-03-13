@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Eccolo()
 		{
-			PlayerChar.Character me = CachePlayer.Cache.MyPlayer.Character;
+			PlayerChar.User me = CachePlayer.Cache.MyPlayer.User;
 			Needs["Fame"].Val = me.CurrentChar.needs.fame;
 			Needs["Sete"].Val = me.CurrentChar.needs.sete;
 			Needs["Stanchezza"].Val = me.CurrentChar.needs.stanchezza;
@@ -123,10 +123,10 @@ namespace TheLastPlanet.Client.Core.Status
 		private static async void Clacson()
 		{
 			Ped p = CachePlayer.Cache.MyPlayer.Ped;
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) Client.Instance.AddTick(Horn);
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.AddTick(Horn);
 			await BaseScript.Delay(30000);
 			p.CancelRagdoll();
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) Client.Instance.RemoveTick(Horn);
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.RemoveTick(Horn);
 		}
 
 		public static async Task Horn()
@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async Task Agg()
 		{
-			Needs nee = new Needs() { fame = Needs["Fame"].Val, sete = Needs["Sete"].Val, stanchezza = Needs["Stanchezza"].Val, malattia = CachePlayer.Cache.MyPlayer.Character.CurrentChar.needs.malattia };
+			Needs nee = new Needs() { fame = Needs["Fame"].Val, sete = Needs["Sete"].Val, stanchezza = Needs["Stanchezza"].Val, malattia = CachePlayer.Cache.MyPlayer.User.CurrentChar.needs.malattia };
 			Statistiche skill = new Statistiche()
 			{
 				STAMINA = Statistics["STAMINA"].Val,
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (fame.Val < 20.0f && (_fame20 || _fame60 || _fame80 || _fame100))
 			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STAMINA, true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STAMINA, true);
 				_fame20 = false;
 				_fame60 = false;
 				_fame80 = false;
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (sete.Val < 20.0f && (_fame20 || _fame60 || _fame80 || _fame100))
 			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STAMINA, true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STAMINA, true);
 				_fame20 = false;
 				_fame60 = false;
 				_fame80 = false;
@@ -294,8 +294,8 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (stanchezza.Val < 20.0f && (_stanchezza20 || _stanchezza40 || _stanchezza60))
 			{
-				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STAMINA, true);
-				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.SHOOTING_ABILITY, true);
+				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STAMINA, true);
+				StatSetInt(Funzioni.HashUint("MP0_SHOOTING_ABILITY"), (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.SHOOTING_ABILITY, true);
 				_stanchezza20 = false;
 				_stanchezza40 = false;
 				_stanchezza60 = false;
@@ -338,7 +338,7 @@ namespace TheLastPlanet.Client.Core.Status
 							HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Trova un posto per riposare!!");
 							Clacson();
 						}
-						else if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo || playerPed.IsInFlyingVehicle)
+						else if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo || playerPed.IsInFlyingVehicle)
 						{
 							SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
 							HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Se sopravvivi trova un posto per riposare!!");
@@ -357,13 +357,13 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Stamina(Ped playerPed, Player me, Statistica stam)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STAMINA;
-			stam.ChangeVal = !CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? playerPed.IsSprinting || playerPed.IsSwimmingUnderWater ? 0.002f : playerPed.IsRunning || playerPed.IsSwimming ? 0.001f : 0f : playerPed.CurrentVehicle.Model.IsBicycle ? 0.003f : 0f;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STAMINA;
+			stam.ChangeVal = !CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo ? playerPed.IsSprinting || playerPed.IsSwimmingUnderWater ? 0.002f : playerPed.IsRunning || playerPed.IsSwimming ? 0.001f : 0f : playerPed.CurrentVehicle.Model.IsBicycle ? 0.003f : 0f;
 			stam.Val += stam.ChangeVal;
 
 			if (stam.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STAMINA = stam.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STAMINA = stam.Val;
 				StatSetInt(Funzioni.HashUint("MP0_STAMINA"), (int)stam.Val, true);
 				stam.ShowStatNotification();
 			}
@@ -371,13 +371,13 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Strenght(Ped playerPed, Player me, Statistica strenght)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STRENGTH;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STRENGTH;
 			strenght.ChangeVal = playerPed.IsInMeleeCombat ? 0.002f : 0f;
 			strenght.Val += strenght.ChangeVal;
 
 			if (strenght.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.STRENGTH = strenght.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.STRENGTH = strenght.Val;
 				StatSetInt(Funzioni.HashUint("MP0_STRENGTH"), (int)strenght.Val, true);
 				strenght.ShowStatNotification();
 			}
@@ -385,7 +385,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Flying(Ped playerPed, Player me, Statistica flying)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.FLYING_ABILITY;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.FLYING_ABILITY;
 
 			// solo se in aereo
 			if (playerPed.IsInPlane || playerPed.IsInHeli)
@@ -396,7 +396,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (flying.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.FLYING_ABILITY = flying.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.FLYING_ABILITY = flying.Val;
 				StatSetInt(Funzioni.HashUint("MP0_FLYING_ABILITY"), (int)flying.Val, true);
 				flying.ShowStatNotification();
 			}
@@ -404,7 +404,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Lung(Ped playerPed, Player me, Statistica lung)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.LUNG_CAPACITY;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.LUNG_CAPACITY;
 
 			// solo se è in acqua
 			if (playerPed.IsInWater)
@@ -415,7 +415,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (lung.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.LUNG_CAPACITY = lung.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.LUNG_CAPACITY = lung.Val;
 				StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)lung.Val, true);
 				lung.ShowStatNotification();
 			}
@@ -423,9 +423,9 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Driving(Ped playerPed, Player me, Statistica driving)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.WHEELIE_ABILITY;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.WHEELIE_ABILITY;
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.SeatIndex == VehicleSeat.Driver)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.SeatIndex == VehicleSeat.Driver)
 			{
 				if (playerPed.CurrentVehicle.Model.IsVehicle || playerPed.CurrentVehicle.Model.IsBike || playerPed.CurrentVehicle.Model.IsBoat || playerPed.CurrentVehicle.Model.IsQuadbike)
 				{
@@ -491,7 +491,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (driving.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.WHEELIE_ABILITY = driving.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.WHEELIE_ABILITY = driving.Val;
 				StatSetInt(Funzioni.HashUint("MP0_WHEELIE_ABILITY"), (int)driving.Val, true);
 				driving.ShowStatNotification();
 			}
@@ -499,13 +499,13 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Shooting(Ped playerPed, Player me, Statistica shoot)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.SHOOTING_ABILITY;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.SHOOTING_ABILITY;
 
 			// GESTIRE SPARATORIE
 
 			if (shoot.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.LUNG_CAPACITY = shoot.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.LUNG_CAPACITY = shoot.Val;
 				StatSetInt(Funzioni.HashUint("MP0_LUNG_CAPACITY"), (int)shoot.Val, true);
 				shoot.ShowStatNotification();
 			}
@@ -513,7 +513,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		private static void Pescatore(Ped playerPed, Player me, Statistica pesca)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.FISHING;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.FISHING;
 
 			if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
 			{
@@ -527,29 +527,29 @@ namespace TheLastPlanet.Client.Core.Status
 
 			if (pesca.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.FISHING = pesca.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.FISHING = pesca.Val;
 				pesca.ShowStatNotification();
 			}
 		}
 
 		private static void Cacciatore(Ped playerPed, Player me, Statistica caccia)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.HUNTING;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.HUNTING;
 
 			if (caccia.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.HUNTING = caccia.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.HUNTING = caccia.Val;
 				caccia.ShowStatNotification();
 			}
 		}
 
 		private static void Droga(Ped playerPed, Player me, Statistica droga)
 		{
-			int baseStat = (int)CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.DRUGS;
+			int baseStat = (int)CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.DRUGS;
 
 			if (droga.Val - baseStat >= 1f)
 			{
-				CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.DRUGS = droga.Val;
+				CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.DRUGS = droga.Val;
 				droga.ShowStatNotification();
 			}
 		}

@@ -7,10 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;

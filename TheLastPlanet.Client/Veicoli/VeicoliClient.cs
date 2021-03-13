@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && Main.spawned)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && Main.spawned)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 
@@ -419,7 +419,7 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				DisableControlAction(2, 80, true);
 
-				if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					Vehicle veh = playerPed.CurrentVehicle;
 
@@ -440,7 +440,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				Vehicle p = playerPed.CurrentVehicle;
 
@@ -610,11 +610,11 @@ namespace TheLastPlanet.Client.Veicoli
 			//			await BaseScript.Delay(10000);
 			if (MenuAffittoVeicoli.veicoloInAffitto != null)
 			{
-				if (CachePlayer.Cache.MyPlayer.Character.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
+				if (CachePlayer.Cache.MyPlayer.User.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
 				{
 					BaseScript.TriggerServerEvent("lprp:removebank", MenuAffittoVeicoli.veicoloInAffitto.price);
 					HUD.ShowNotification("Hai pagato $" + MenuAffittoVeicoli.veicoloInAffitto.price + " per l'affitto del veicolo", NotificationColor.GreenLight, true);
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.Character.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.Character.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.User.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
 				}
 				else
 				{
@@ -628,7 +628,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (veicoloinaffitto.Model.IsBicycle) veicoloinaffitto.IsPositionFrozen = true;
 					await BaseScript.Delay(30000);
 					veicoloinaffitto.Delete(); // magari sostituire con soccorso
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.Character.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.Character.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.User.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
 					await BaseScript.Delay(100);
 					MenuAffittoVeicoli.veicoloInAffitto = null;
 					HUD.ShowNotification("Il veicolo che hai affittato è stato riportato al garage di competenza.");

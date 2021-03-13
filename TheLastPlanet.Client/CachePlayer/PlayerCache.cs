@@ -12,9 +12,9 @@ namespace TheLastPlanet.Client.Cache
     {
         public Player Player { get; private set; }
         public Ped Ped { get; private set; }
-        public Character Character { get; private set; }
+        public User User { get; private set; }
 
-        public bool Ready => Player != null && Ped != null && Character != null;
+        public bool Ready => Player != null && Ped != null && User != null;
 
         public PlayerCache()
         {
@@ -22,15 +22,15 @@ namespace TheLastPlanet.Client.Cache
             Ped = new Ped(PlayerPedId());
         }
 
-        public void SetCharacter(Character data)
+        public void SetCharacter(User data)
         {
-            Character = data;
+            User = data;
         }
         public void AddPlayer(string data)
         {
             try
             {
-                Character.char_data = data;
+                User.char_data = data;
             }
             catch (Exception e)
             {

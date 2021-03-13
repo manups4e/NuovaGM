@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.Interactions
 
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), pick.Position);
+						float dist = Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), pick.Position);
 
 						if (dist < 5)
 						{

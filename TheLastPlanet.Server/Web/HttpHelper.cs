@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Collections.Generic;

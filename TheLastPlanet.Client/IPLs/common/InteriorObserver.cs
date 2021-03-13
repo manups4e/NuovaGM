@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.IPLs
 	{
 		public static async Task Observer()
 		{
-			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().X, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().Y, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().Z);
+			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().X, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().Y, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().Z);
 			if (IplManager.Global.CurrentInteriorId == 0)
 				IplManager.Global.ResetInteriorVariables();
 			else

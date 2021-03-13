@@ -1,10 +1,8 @@
 ﻿using CitizenFX.Core;
-using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Impostazioni.Shared.Configurazione.Generici;
 using static CitizenFX.Core.Native.API;
 

@@ -157,7 +157,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				await CachePlayer.Cache.Loaded();
-				CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Ingresso");
+				CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
 				CachePlayer.Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.IsVisible = false;
@@ -216,7 +216,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "")
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = CachePlayer.Cache.MyPlayer.Character.Characters.SerializeToJson() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = CachePlayer.Cache.MyPlayer.User.Characters.SerializeToJson() });
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(CachePlayer.Cache.MyPlayer.Ped.Handle, menuOpen);
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = CachePlayer.Cache.MyPlayer.Ped;
-			Char_data pers = CachePlayer.Cache.MyPlayer.Character.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
+			Char_data pers = CachePlayer.Cache.MyPlayer.User.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
 
 			if (p1 != null)
 			{
@@ -274,17 +274,17 @@ namespace TheLastPlanet.Client.Core.LogIn
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
-			CachePlayer.Cache.MyPlayer.Character.char_current = Convert.ToUInt32(data["id"]);
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.Character.char_current);
-			var Data = CachePlayer.Cache.MyPlayer.Character.CurrentChar;
+			CachePlayer.Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.User.char_current);
+			var Data = CachePlayer.Cache.MyPlayer.User.CurrentChar;
 			var switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(CachePlayer.Cache.MyPlayer.Ped.Position.X, CachePlayer.Cache.MyPlayer.Ped.Position.Y, CachePlayer.Cache.MyPlayer.Ped.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(CachePlayer.Cache.MyPlayer.Ped.Position.X, CachePlayer.Cache.MyPlayer.Ped.Position.Y, CachePlayer.Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), CachePlayer.Cache.MyPlayer.Character.Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), CachePlayer.Cache.MyPlayer.Character.DirtyMoney, true);
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), CachePlayer.Cache.MyPlayer.User.Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), CachePlayer.Cache.MyPlayer.User.DirtyMoney, true);
 			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
@@ -308,9 +308,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 			Eventi.LoadModel();
 			if (CachePlayer.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 			CachePlayer.Cache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", CachePlayer.Cache.MyPlayer.Ped.Handle);
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Ingresso");
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
@@ -324,7 +324,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			CachePlayer.Cache.MyPlayer.Character.CurrentChar.Veicoli = await Client.Instance.Eventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
+			CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Eventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(CachePlayer.Cache.MyPlayer.Ped.Handle);
 			var pos = await CachePlayer.Cache.MyPlayer.Ped.Position.GetVector3WithGroundZ();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Dapper;
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
-using CitizenFX.Core;
 using Logger;
 using MySqlConnector;
 

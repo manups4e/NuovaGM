@@ -1,4 +1,3 @@
-using Logger;
 using System;
 /// <summary>
 ///     A simple type cache to alleviate the reflection lookups. Checking for simple types is done once per type

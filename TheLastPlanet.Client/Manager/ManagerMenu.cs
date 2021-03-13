@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.Manager
 				foreach (Player p in Client.Instance.GetPlayers)
 				{
 					//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
-					Character player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
+					User player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
 					string charscount;
 					if (player.Characters.Count == 1)
 						charscount = "1 personaggio";
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Teletrasportalo)
 						{
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3());
+							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3());
 						}
 						else if (item == Specta)
 						{
@@ -395,7 +395,7 @@ namespace TheLastPlanet.Client.Manager
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), CachePlayer.Cache.MyPlayer.Character.posizione.W);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), CachePlayer.Cache.MyPlayer.User.posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else

@@ -4,7 +4,6 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {

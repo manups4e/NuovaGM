@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using FivemPlayerlistServer;
-using Logger;
 using TheLastPlanet.Server.Appartamenti;
 using TheLastPlanet.Server.banking;
 using TheLastPlanet.Server.Businesses;
@@ -12,6 +11,7 @@ using TheLastPlanet.Server.Interactions;
 using TheLastPlanet.Server.Lavori.Whitelistati;
 using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.Veicoli;
+using TheLastPlanet.Shared.Snowflake;
 
 namespace TheLastPlanet.Server
 {
@@ -19,6 +19,7 @@ namespace TheLastPlanet.Server
 	{
 		public static async void Init()
 		{
+			
 			RequestInternal.Init();
 			await ConfigServer.Init();
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);

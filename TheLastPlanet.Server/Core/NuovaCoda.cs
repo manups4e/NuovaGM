@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -7,7 +6,6 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using Logger;
 using TheLastPlanet.Server.Discord;

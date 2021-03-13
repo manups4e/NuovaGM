@@ -61,24 +61,24 @@ namespace TheLastPlanet.Server.Core
 			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
 		}
 
-		[JsonIgnore]
+		[JsonIgnore] 
 		public Char_data CurrentChar
 		{
 			get { return Characters.FirstOrDefault(x => x.id - 1 == char_current - 1); }
 		}
 
-		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
+		[JsonIgnore]  public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
 
-		[JsonIgnore] public string DOB => CurrentChar.info.dateOfBirth;
+		[JsonIgnore]  public string DOB => CurrentChar.info.dateOfBirth;
 
-		[JsonIgnore]
+		[JsonIgnore] 
 		public bool DeathStatus
 		{
 			get => CurrentChar.is_dead;
 			set => CurrentChar.is_dead = value;
 		}
 
-		[JsonIgnore]
+		[JsonIgnore] 
 		public int Money
 		{
 			get => CurrentChar.finance.money;
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		[JsonIgnore]
+		[JsonIgnore] 
 		public int Bank
 		{
 			get => CurrentChar.finance.bank;
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		[JsonIgnore]
+		[JsonIgnore] 
 		public int DirtyMoney
 		{
 			get => CurrentChar.finance.dirtyCash;
@@ -313,7 +313,7 @@ namespace TheLastPlanet.Server.Core
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		[JsonIgnore] public Vector3 getCoords => CurrentChar.location.position;
+		[JsonIgnore]  public Vector3 getCoords => CurrentChar.location.position;
 
 		public void giveLicense(string license, string mittente)
 		{

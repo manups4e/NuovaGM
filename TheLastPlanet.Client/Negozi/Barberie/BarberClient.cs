@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
-				BarberMenu(CachePlayer.Cache.MyPlayer.Character.CurrentChar.skin.sex == "Maschio" ? Client.Impostazioni.Negozi.Barbieri.Maschio : Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
+				BarberMenu(CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex == "Maschio" ? Client.Impostazioni.Negozi.Barbieri.Maschio : Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 
@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client.Negozi
 			#region DICHIARAZIONE
 
 			System.Drawing.Point pos = new System.Drawing.Point(50, 100);
-			Skin skin = CachePlayer.Cache.MyPlayer.Character.CurrentChar.skin;
+			Skin skin = CachePlayer.Cache.MyPlayer.User.CurrentChar.skin;
 			int capAttuali = skin.hair.style;
 			int colAttuale1 = skin.hair.color[0];
 			int colAttuale2 = skin.hair.color[1];
@@ -416,7 +416,7 @@ namespace TheLastPlanet.Client.Negozi
 			int brbcol2;
 			int brbvar;
 
-			if (CachePlayer.Cache.MyPlayer.Character.CurrentChar.skin.sex == "Maschio")
+			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex == "Maschio")
 			{
 				Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
 				beardBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);
@@ -652,7 +652,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money >= obj.price)
+						if (CachePlayer.Cache.MyPlayer.User.Money >= obj.price)
 						{
 							skin.hair.style = obj.var;
 							skin.hair.color[0] = capCol1.CurrentSelection;
@@ -667,7 +667,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (CachePlayer.Cache.MyPlayer.Character.Bank >= obj.price)
+							if (CachePlayer.Cache.MyPlayer.User.Bank >= obj.price)
 							{
 								skin.hair.style = obj.var;
 								skin.hair.color[0] = capCol1.CurrentSelection;
@@ -701,7 +701,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money >= obj.price)
+						if (CachePlayer.Cache.MyPlayer.User.Money >= obj.price)
 						{
 							skin.facialHair.eyebrow.style = obj.var;
 							skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
@@ -718,7 +718,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (CachePlayer.Cache.MyPlayer.Character.Bank >= obj.price)
+							if (CachePlayer.Cache.MyPlayer.User.Bank >= obj.price)
 							{
 								skin.facialHair.eyebrow.style = obj.var;
 								skin.facialHair.eyebrow.color[0] = soprBase.CurrentSelection;
@@ -754,7 +754,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money >= obj.price)
+						if (CachePlayer.Cache.MyPlayer.User.Money >= obj.price)
 						{
 							skin.facialHair.beard.style = obj.var;
 							skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
@@ -771,7 +771,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (CachePlayer.Cache.MyPlayer.Character.Bank >= obj.price)
+							if (CachePlayer.Cache.MyPlayer.User.Bank >= obj.price)
 							{
 								skin.facialHair.beard.style = obj.var;
 								skin.facialHair.beard.color[0] = beardBase.CurrentSelection;
@@ -807,7 +807,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money >= obj.price)
+						if (CachePlayer.Cache.MyPlayer.User.Money >= obj.price)
 						{
 							skin.makeup.style = obj.var;
 							skin.makeup.opacity = trOp.Percentage;
@@ -820,7 +820,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (CachePlayer.Cache.MyPlayer.Character.Bank >= obj.price)
+							if (CachePlayer.Cache.MyPlayer.User.Bank >= obj.price)
 							{
 								skin.makeup.style = obj.var;
 								skin.makeup.opacity = trOp.Percentage;
@@ -852,7 +852,7 @@ namespace TheLastPlanet.Client.Negozi
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money >= obj.price)
+						if (CachePlayer.Cache.MyPlayer.User.Money >= obj.price)
 						{
 							skin.lipstick.style = obj.var;
 							skin.lipstick.color[0] = rossColBase.CurrentSelection;
@@ -869,7 +869,7 @@ namespace TheLastPlanet.Client.Negozi
 						}
 						else
 						{
-							if (CachePlayer.Cache.MyPlayer.Character.Bank >= obj.price)
+							if (CachePlayer.Cache.MyPlayer.User.Bank >= obj.price)
 							{
 								skin.lipstick.style = obj.var;
 								skin.lipstick.color[0] = rossColBase.CurrentSelection;

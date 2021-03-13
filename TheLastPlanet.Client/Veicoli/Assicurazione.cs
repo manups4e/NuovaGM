@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Driver != playerPed)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Driver != playerPed)
 			{
 				if (playerPed.CurrentVehicle.IsOnFire || playerPed.CurrentVehicle.IsDead) HUD.ShowAdvancedNotification("Assicurazione", "Versamento Indennizzo", "Dato che era nel veicolo alla distruzione ma non era guidatore, le verrà rimborsata una parte del costo del veicolo.", NotificationIcon.MorsMutual, IconType.DollarIcon);
 

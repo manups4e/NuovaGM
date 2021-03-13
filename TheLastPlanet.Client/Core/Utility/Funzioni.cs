@@ -91,27 +91,27 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// </summary>
 		public static T CaricaKvp<T>(string key) { return JsonConvert.DeserializeObject<T>(GetResourceKvpString(key)); }
 
-		public static Character GetPlayerCharFromPlayerId(int id)
+		public static User GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (KeyValuePair<string, Character> p in CachePlayer.Cache.GiocatoriOnline)
+			foreach (KeyValuePair<string, User> p in CachePlayer.Cache.GiocatoriOnline)
 				if (GetPlayerFromServerId(Convert.ToInt32(p.Key)) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static Character GetPlayerCharFromServerId(int id)
+		public static User GetPlayerCharFromServerId(int id)
 		{
-			foreach (KeyValuePair<string, Character> p in CachePlayer.Cache.GiocatoriOnline)
+			foreach (KeyValuePair<string, User> p in CachePlayer.Cache.GiocatoriOnline)
 				if (Convert.ToInt32(p.Key) == id)
 					return p.Value;
 
 			return null;
 		}
 
-		public static Character GetPlayerData(this Player player)
+		public static User GetPlayerData(this Player player)
 		{
-			return player == CachePlayer.Cache.MyPlayer.Player ? CachePlayer.Cache.MyPlayer.Character : GetPlayerCharFromServerId(player.ServerId);
+			return player == CachePlayer.Cache.MyPlayer.Player ? CachePlayer.Cache.MyPlayer.User : GetPlayerCharFromServerId(player.ServerId);
 		}
 
 		public static void SendNuiMessage(object message)
@@ -902,7 +902,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3()); }
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3()); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
@@ -934,18 +934,18 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// Si connette al server e ritorna tutti i personaggi online e i loro dati
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, Character>> GetOnlinePlayersAndTheirData()
+		public static async Task<Dictionary<string, User>> GetOnlinePlayersAndTheirData()
 		{
-			return await Client.Instance.Eventi.Request<Dictionary<string, Character>>("lprp:callPlayers");
+			return await Client.Instance.Eventi.Request<Dictionary<string, User>>("lprp:callPlayers");
 		}
 
 		/// <summary>
 		/// Si connette al server e al DB e ritorna tutti i personaggi salvati nel db stesso
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<Dictionary<string, Character>> GetAllPlayersAndTheirData()
+		public static async Task<Dictionary<string, User>> GetAllPlayersAndTheirData()
 		{
-			return await Client.Instance.Eventi.Request<Dictionary<string, Character>>("lprp:callDBPlayers");
+			return await Client.Instance.Eventi.Request<Dictionary<string, User>>("lprp:callDBPlayers");
 		}
 
 		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)

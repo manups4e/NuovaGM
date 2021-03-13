@@ -1,5 +1,4 @@
-﻿using System.Data;
-using CitizenFX.Core;
+﻿using CitizenFX.Core;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 namespace TheLastPlanet.Server.Core

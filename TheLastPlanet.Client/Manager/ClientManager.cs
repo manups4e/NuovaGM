@@ -94,27 +94,27 @@ namespace TheLastPlanet.Client.Manager
 
 		private static void AdminMenu(Ped p, object[] args)
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(CachePlayer.Cache.MyPlayer.Character.group_level);
+			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(CachePlayer.Cache.MyPlayer.User.group_level);
 		}
 
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (CachePlayer.Cache.MyPlayer.Character != null && (int)CachePlayer.Cache.MyPlayer.Character.group_level > 1) TeleportToMarker();
+			if (CachePlayer.Cache.MyPlayer.User != null && (int)CachePlayer.Cache.MyPlayer.User.group_level > 1) TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (CachePlayer.Cache.MyPlayer.Character == null || (int)CachePlayer.Cache.MyPlayer.Character.group_level < 4) return;
+			if (CachePlayer.Cache.MyPlayer.User == null || (int)CachePlayer.Cache.MyPlayer.User.group_level < 4) return;
 
 			if (!NoClip)
 			{
-				if (!CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+				if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3();
+					curLocation = CachePlayer.Cache.MyPlayer.User.posizione.ToVector3();
 					curRotation = p.Rotation;
-					curHeading = CachePlayer.Cache.MyPlayer.Character.posizione.W;
+					curHeading = CachePlayer.Cache.MyPlayer.User.posizione.W;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -140,7 +140,7 @@ namespace TheLastPlanet.Client.Manager
 					await BaseScript.Delay(0);
 				}
 
-				if (!CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+				if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					ClearPedTasksImmediately(PlayerPedId());
 					SetUserRadioControlEnabled(true);
@@ -345,10 +345,10 @@ namespace TheLastPlanet.Client.Manager
 
 			Vector2 vect = new Vector2(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
 			Entity target = p;
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
 			p.Velocity = new Vector3(0);
 
-			if (!CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+			if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				SetUserRadioControlEnabled(false);
 				p.IsInvincible = true;
@@ -398,7 +398,7 @@ namespace TheLastPlanet.Client.Manager
 			{
 				// get entity to teleport
 				Entity ent = CachePlayer.Cache.MyPlayer.Ped;
-				if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) ent = CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle;
+				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) ent = CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;

@@ -387,7 +387,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 						gestioneInteriorCasa.AddItem(interior);
 						if (immobile == TipoImmobile.Casa) opzioniInterior = gestioneInteriorCasa.AddSubMenu("Opzioni interno selezionato");
-						if (MainCamera == null) MainCamera = World.CreateCamera(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
@@ -424,7 +424,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
 						renderCamObject.IsVisible = false;
-						if (MainCamera == null) MainCamera = World.CreateCamera(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3() + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						Vector3 pos = Vector3.Zero;
@@ -914,14 +914,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				switch (state)
 				{
 					case MenuState.Opened:
-						oldInstance = CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza;
-						CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
+						oldInstance = CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza;
+						CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
 
 						break;
 					case MenuState.Closed:
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance == "Creatore Immobiliare") CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
-						CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza = oldInstance;
+						if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance == "Creatore Immobiliare") CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+						CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza = oldInstance;
 
 						break;
 					}
@@ -931,7 +931,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 						if (MainCamera == null) MainCamera = World.CreateCamera(Vector3.Zero, new Vector3(0, 0, 0), 45f);
-						MainCamera.Position = CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3() + new Vector3(0, 0, 100);
+						MainCamera.Position = CachePlayer.Cache.MyPlayer.User.posizione.ToVector3() + new Vector3(0, 0, 100);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						curLocation = MainCamera.Position;

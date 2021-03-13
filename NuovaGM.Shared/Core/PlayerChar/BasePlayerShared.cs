@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
-using Logger;
 using Newtonsoft.Json;
 
 #if CLIENT
@@ -15,6 +14,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 {
 	public class BasePlayerShared
 	{
+		public Snowflake.Snowflake Id;
 		public int UserID;
 		public string group;
 		public UserGroup group_level;

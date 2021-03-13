@@ -122,7 +122,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 			if (Main.spawned)
 			{
-				if (PerVendereIlPesce.Any(o => CachePlayer.Cache.MyPlayer.Character.GetInventoryItem(o).Item1))
+				if (PerVendereIlPesce.Any(o => CachePlayer.Cache.MyPlayer.User.GetInventoryItem(o).Item1))
 				{
 					if (!mostrablip)
 					{
@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 			{
 				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
 				HUD.MenuPool.Add(venditaPesce);
-				List<Inventory> inventario = CachePlayer.Cache.MyPlayer.Character.CurrentChar.inventory;
+				List<Inventory> inventario = CachePlayer.Cache.MyPlayer.User.CurrentChar.inventory;
 
 				foreach (Inventory inv in inventario)
 				{
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 							else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
 								perc = 18;
 							else if (Convert.ToInt32(quantita) > 99) perc = 20;
-							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(CachePlayer.Cache.MyPlayer.Character.CurrentChar.statistiche.FISHING / 10)) / 100;
+							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(CachePlayer.Cache.MyPlayer.User.CurrentChar.statistiche.FISHING / 10)) / 100;
 							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 							BaseScript.TriggerServerEvent("lprp:givemoney", valoreAggiunto * Convert.ToInt32(quantita));
 						};
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				{
 					float altezza = 0;
 
-					if (GetWaterHeightNoWaves(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().X, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().Y, CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3().Z, ref altezza))
+					if (GetWaterHeightNoWaves(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().X, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().Y, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3().Z, ref altezza))
 					{
 						CachePlayer.Cache.MyPlayer.Ped.IsPositionFrozen = true;
 						SetEnableHandcuffs(PlayerPedId(), true);
@@ -387,7 +387,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				HUD.MenuPool.CloseAllMenus();
 				if (veh.Exists()) veh.Delete();
 				Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
-				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, CachePlayer.Cache.MyPlayer.Character.FullName);
+				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, CachePlayer.Cache.MyPlayer.User.FullName);
 				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.SerializeToJson());
 			};
 			Barche.Visible = true;

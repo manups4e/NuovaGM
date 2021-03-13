@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
 

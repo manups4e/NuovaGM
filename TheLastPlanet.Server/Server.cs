@@ -1,16 +1,13 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using System;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
 using System.Collections.Concurrent;
-using Newtonsoft.Json;
-using Logger;
 using System.Collections.Generic;
-using System.Resources;
+using Logger;
 using TheLastPlanet.Shared;
-using System.Reflection;
 using TheLastPlanet.Server.SistemaEventi;
+using TheLastPlanet.Shared.Snowflake;
 
 // ReSharper disable All
 
@@ -23,12 +20,12 @@ namespace TheLastPlanet.Server
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		public static Dictionary<string, NetworkMethod> Networks = new Dictionary<string, NetworkMethod>();
 		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
 		public EventSystem Eventi;
 
 		public Server()
 		{
+			SnowflakeGenerator.Create(2);
 			Instance = this;
 			Eventi = new();
 			ClassCollector.Init();
@@ -46,7 +43,7 @@ namespace TheLastPlanet.Server
 		/// </summary>
 		/// <param name="name">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void DeAddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
+		public void RemoveEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
 
 		/// <summary>
 		/// Chiama il db ed esegue una Query con risultato dynamic
@@ -100,6 +97,6 @@ namespace TheLastPlanet.Server
 				suggestion.name = "/" + commandName;
 				ChatServer.Suggestions.Add(suggestion);
 			}
-		}
+		} 
 	}
 }

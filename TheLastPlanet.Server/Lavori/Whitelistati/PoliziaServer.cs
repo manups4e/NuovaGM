@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CitizenFX.Core;
-using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 

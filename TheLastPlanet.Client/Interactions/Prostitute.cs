@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloProstitute()
 		{
-			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), o.Position) < ProstDistance);
+			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < ProstDistance);
 			await BaseScript.Delay(200);
 		}
 
@@ -42,13 +42,13 @@ namespace TheLastPlanet.Client.Interactions
 			{
 				if (Prostituta.IsPlayer) return;
 
-				if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
+				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
 				{
 					HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
 
 					if (Input.IsControlJustPressed(Control.VehicleHorn))
 					{
-						if (CachePlayer.Cache.MyPlayer.Character.Money > 5f)
+						if (CachePlayer.Cache.MyPlayer.User.Money > 5f)
 						{
 							if (p.CurrentVehicle.ClassType != VehicleClass.Boats && p.CurrentVehicle.ClassType != VehicleClass.Cycles && p.CurrentVehicle.ClassType != VehicleClass.Motorcycles && p.CurrentVehicle.ClassType != VehicleClass.Helicopters && p.CurrentVehicle.ClassType != VehicleClass.Military && p.CurrentVehicle.ClassType != VehicleClass.Motorcycles && p.CurrentVehicle.ClassType != VehicleClass.Planes && p.CurrentVehicle.ClassType != VehicleClass.Trains)
 							{

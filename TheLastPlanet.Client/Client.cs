@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.SistemaEventi;
+using TheLastPlanet.Shared.Snowflake;
 
 namespace TheLastPlanet.Client
 {
@@ -22,6 +23,7 @@ namespace TheLastPlanet.Client
 
 		private async void Inizializza()
 		{
+			SnowflakeGenerator.Create(1);
 			Instance = this;
 			Eventi = new EventSystem();
 			await ClassCollector.Init();

@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Veicoli
 			{
 				Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
 
-				if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					if (playerPed.SeatIndex == VehicleSeat.Driver)
 					{

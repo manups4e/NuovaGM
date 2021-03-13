@@ -1,10 +1,7 @@
 ﻿using CitizenFX.Core;
-using Logger;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheLastPlanet.Server.Appartamenti
 {

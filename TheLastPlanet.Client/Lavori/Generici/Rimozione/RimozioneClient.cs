@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 		{
 			Ped p = CachePlayer.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.Character.CurrentChar.job.name != "Rimozione forzata")
+			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name != "Rimozione forzata")
 			{
 				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50)) World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
 
@@ -75,8 +75,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					{
 						Screen.Fading.FadeOut(800);
 						await BaseScript.Delay(1000);
-						CachePlayer.Cache.MyPlayer.Character.CurrentChar.job.name = "Rimozione forzata";
-						CachePlayer.Cache.MyPlayer.Character.CurrentChar.job.grade = 0;
+						CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name = "Rimozione forzata";
+						CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade = 0;
 						VeicoloLavorativo = await Funzioni.SpawnVehicle("towtruck", new Vector3(401.55f, -1631.309f, 29.3f), 140);
 						VeicoloLavorativo.SetDecor("VeicoloLavorativo", VeicoloLavorativo.Handle);
 						VeicoloLavorativo.PlaceOnGround();
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 		{
 			if (VeicoloLavorativo != null)
 			{
-				float dist = Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), VeicoloLavorativo.Position);
+				float dist = Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), VeicoloLavorativo.Position);
 				if (dist > 48 && dist < 80) Screen.ShowSubtitle("~r~Attenzione~w~!! Ti stai allontanando troppo dal tuo veicolo lavorativo!!", 1);
 
 				if (dist > 80)
@@ -109,8 +109,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					Client.Instance.AddTick(InizioLavoro);
 					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
-					CachePlayer.Cache.MyPlayer.Character.CurrentChar.job.name = "Disoccupato";
-					CachePlayer.Cache.MyPlayer.Character.CurrentChar.job.grade = 0;
+					CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name = "Disoccupato";
+					CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade = 0;
 
 					if (VeicoloLavorativo != null && VeicoloLavorativo.Exists())
 					{
@@ -165,11 +165,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 				BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
 				BlipVeicoloDaRimuovere.Color = BlipColor.Red;
 				BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
-				TempoRimozione = Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3()) < 1000 ? Funzioni.GetRandomInt(60, 120) : Funzioni.GetRandomInt(120, 240);
+				TempoRimozione = Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), CachePlayer.Cache.MyPlayer.User.posizione.ToVector3()) < 1000 ? Funzioni.GetRandomInt(60, 120) : Funzioni.GetRandomInt(120, 240);
 				HUD.TimerBarPool.Add(timerVeicolo);
 				Client.Instance.AddTick(TimerVeicolo);
 
-				while (Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z)) > 200 && TempoRimozione > 0)
+				while (Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z)) > 200 && TempoRimozione > 0)
 				{
 					if (VeicoloLavorativo == null) return;
 					await BaseScript.Delay(0);
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 			}
 
 			if (VeicoloLavorativo == null) return;
-			while (Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0 && VeicoloDaRimuovere != null) await BaseScript.Delay(0);
+			while (Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), VeicoloDaRimuovere.Position) > 20 && TempoRimozione > 0 && VeicoloDaRimuovere != null) await BaseScript.Delay(0);
 			if (!IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloLavorativo.Handle) && CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(VeicoloDaRimuovere.Position, 10)) HUD.ShowHelp("~INPUT_VEH_MOVE_UD~ per controllare il gancio.\n~INPUT_VEH_ROOF~ (tieni premuto) per sgangiare il veicolo");
 			if (GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != 0 && GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle) != VeicoloDaRimuovere.Handle) HUD.ShowHelp("Hai agganciato il veicolo sbagliato!");
 

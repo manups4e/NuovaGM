@@ -10,12 +10,12 @@ using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar
 {
-	public class Character : BasePlayerShared
+	public class User : BasePlayerShared
 	{
 		public int source;
 		public Vector4 posizione = Vector4.Zero;
 
-		public Character(dynamic result)
+		public User(dynamic result)
 		{
 			char_current = result.char_current;
 			source = CachePlayer.Cache.MyPlayer.Player.ServerId;
@@ -26,7 +26,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			status = new Shared.PlayerChar.Status();
 		}
 
-		public Character()
+		public User()
 		{
 			StatiPlayer = new PlayerStateBags();
 		}

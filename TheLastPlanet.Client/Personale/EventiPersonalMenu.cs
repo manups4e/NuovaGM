@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Personale
 
 			Vehicle vehicle = saveVehicle;
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				Vehicle veh = CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle;
 
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Personale
 			else
 			{
 				if (vehicle == null || !vehicle.Exists()) return;
-				float distanceToVeh = Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), vehicle.Position);
+				float distanceToVeh = Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), vehicle.Position);
 
 				if (distanceToVeh <= 20f)
 				{
@@ -172,7 +172,7 @@ namespace TheLastPlanet.Client.Personale
 
 		public static void Finestrini(string finestrini)
 		{
-			if (!CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo) return;
+			if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) return;
 			if (CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Driver != CachePlayer.Cache.MyPlayer.Ped) return;
 
 			switch (finestrini)
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Client.Personale
 			{
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
-				float distanceToVeh = Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), vehicle.Position);
+				float distanceToVeh = Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), vehicle.Position);
 
 				if (toggle)
 				{
@@ -370,7 +370,7 @@ namespace TheLastPlanet.Client.Personale
 			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || CachePlayer.Cache.MyPlayer.Ped.IsWalking || CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && !CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
+					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || CachePlayer.Cache.MyPlayer.Ped.IsWalking || CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && !CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
 						if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)

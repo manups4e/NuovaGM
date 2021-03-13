@@ -25,9 +25,9 @@ namespace TheLastPlanet.Client
 							{
 								if (player.GetPlayerData().StatiPlayer.Istanza.Instance != string.Empty)
 								{
-									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.ServerIdProprietario != 0)
+									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
 									{
-										if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != CachePlayer.Cache.MyPlayer.Player.ServerId && CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
+										if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != CachePlayer.Cache.MyPlayer.Player.ServerId && CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
 										{
 											if (!NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, true, true);
 										}
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client
 						}
 
 						if (!player.GetPlayerData().StatiPlayer.InPausa) continue;
-						if (player.Character.IsInRangeOf(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), 30)) HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+						if (player.Character.IsInRangeOf(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), 30)) HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 					}
 		}
 	}

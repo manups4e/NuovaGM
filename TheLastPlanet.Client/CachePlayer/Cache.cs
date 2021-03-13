@@ -12,13 +12,13 @@ namespace TheLastPlanet.Client.CachePlayer
     {
         private static bool _inVeh;
         private static bool _inPausa;
-        public static TheLastPlanet.Client.Cache.PlayerCache MyPlayer { get; private set; }
-        public static Dictionary<string, Character> GiocatoriOnline = new();
+        public static PlayerCache MyPlayer { get; private set; }
+        public static Dictionary<string, User> GiocatoriOnline = new();
 
         public static async Task InitPlayer()
         {
             MyPlayer = new PlayerCache();
-            var pippo = await Client.Instance.Eventi.Request<Character>("lprp:setupUser");
+            var pippo = await Client.Instance.Eventi.Request<User>("lprp:setupUser");
             MyPlayer.SetCharacter(pippo);
             Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.CachePlayer
             {
                 if (!_inVeh)
                 {
-                    MyPlayer.Character.StatiPlayer.InVeicolo = true;
+                    MyPlayer.User.StatiPlayer.InVeicolo = true;
                     _inVeh = true;
                 }
             }
@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.CachePlayer
             {
                 if (_inVeh)
                 {
-                    MyPlayer.Character.StatiPlayer.InVeicolo = false;
+                    MyPlayer.User.StatiPlayer.InVeicolo = false;
                     _inVeh = false;
                 }
             }
@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.CachePlayer
                 if (!_inPausa)
                 {
                     _inPausa = true;
-                    MyPlayer.Character.StatiPlayer.InPausa = true;
+                    MyPlayer.User.StatiPlayer.InPausa = true;
                 }
             }
             else
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.CachePlayer
                 if (_inPausa)
                 {
                     _inPausa = false;
-                    MyPlayer.Character.StatiPlayer.InPausa = false;
+                    MyPlayer.User.StatiPlayer.InPausa = false;
                 }
             }
 

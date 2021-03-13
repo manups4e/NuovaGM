@@ -237,11 +237,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 				affittoArmi.AddItem(inizia);
 				affittoArmi.OnItemSelect += async (menu, item, index) =>
 				{
-					if (CachePlayer.Cache.MyPlayer.Character.HasLicense("Caccia"))
+					if (CachePlayer.Cache.MyPlayer.User.HasLicense("Caccia"))
 					{
 						if (item == armi)
 						{
-							if ((CachePlayer.Cache.MyPlayer.Character.HasWeapon(DaFuoco) || affittatoFuoco) && (CachePlayer.Cache.MyPlayer.Character.HasWeapon(Bianca) || affittatoBianca))
+							if ((CachePlayer.Cache.MyPlayer.User.HasWeapon(DaFuoco) || affittatoFuoco) && (CachePlayer.Cache.MyPlayer.User.HasWeapon(Bianca) || affittatoBianca))
 							{
 								HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
 
@@ -250,30 +250,30 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 							int prezzo = 0;
 
-							if (!CachePlayer.Cache.MyPlayer.Character.HasWeapon(DaFuoco))
-								if (CachePlayer.Cache.MyPlayer.Character.Money >= 250 || CachePlayer.Cache.MyPlayer.Character.Bank >= 250)
+							if (!CachePlayer.Cache.MyPlayer.User.HasWeapon(DaFuoco))
+								if (CachePlayer.Cache.MyPlayer.User.Money >= 250 || CachePlayer.Cache.MyPlayer.User.Bank >= 250)
 								{
 									CachePlayer.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
 									prezzo += 250;
 									affittatoFuoco = true;
 								}
 
-							if (!CachePlayer.Cache.MyPlayer.Character.HasWeapon(Bianca))
-								if (CachePlayer.Cache.MyPlayer.Character.Money >= 50 || CachePlayer.Cache.MyPlayer.Character.Bank >= 50)
+							if (!CachePlayer.Cache.MyPlayer.User.HasWeapon(Bianca))
+								if (CachePlayer.Cache.MyPlayer.User.Money >= 50 || CachePlayer.Cache.MyPlayer.User.Bank >= 50)
 								{
 									CachePlayer.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Knife, 1, false, true);
 									prezzo += 50;
 									affittatoBianca = true;
 								}
 
-							if (CachePlayer.Cache.MyPlayer.Character.Money >= prezzo)
+							if (CachePlayer.Cache.MyPlayer.User.Money >= prezzo)
 							{
 								BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 							}
 							else
 							{
-								if (CachePlayer.Cache.MyPlayer.Character.Bank >= prezzo)
+								if (CachePlayer.Cache.MyPlayer.User.Bank >= prezzo)
 								{
 									BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
 									HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");

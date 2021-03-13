@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using Newtonsoft.Json;
 using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;

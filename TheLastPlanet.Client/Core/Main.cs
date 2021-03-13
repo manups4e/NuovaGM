@@ -174,20 +174,20 @@ namespace TheLastPlanet.Client.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
 			spawned = true;
-			CachePlayer.Cache.MyPlayer.Character.status.Spawned = true;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.Character.CurrentChar.id);
+			CachePlayer.Cache.MyPlayer.User.status.Spawned = true;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.User.CurrentChar.id);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
 
-			if (CachePlayer.Cache.MyPlayer.Character.DeathStatus)
+			if (CachePlayer.Cache.MyPlayer.User.DeathStatus)
 			{
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				DateTime now = DateTime.Now;
-				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + CachePlayer.Cache.MyPlayer.Character.FullName + " e' spawnato morto poiché è sloggato da morto");
+				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + CachePlayer.Cache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = 0;
-				CachePlayer.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = false;
+				CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = false;
 			}
 
 			Peds();
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Core
 			#region DriveBy
 
 			if (gameTime - _timerDriveBy > 1000)
-				if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					if (p.SeatIndex == VehicleSeat.Driver)
 						SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);
@@ -454,16 +454,16 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task AFK()
 		{
-			if ((int)CachePlayer.Cache.MyPlayer.Character.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if ((int)CachePlayer.Cache.MyPlayer.User.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 				//				if (Ingresso.Ingresso.guiEnabled)
 				//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
-				currentPosition = CachePlayer.Cache.MyPlayer.Character == null ? CachePlayer.Cache.MyPlayer.Ped.Position : CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3();
+				currentPosition = CachePlayer.Cache.MyPlayer.User == null ? CachePlayer.Cache.MyPlayer.Ped.Position : CachePlayer.Cache.MyPlayer.User.posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 
 				if (t >= Client.Impostazioni.Main.AFKCheckTime)
 				{
-					if (Vector3.Distance(CachePlayer.Cache.MyPlayer.Character.posizione.ToVector3(), currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
+					if (Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{

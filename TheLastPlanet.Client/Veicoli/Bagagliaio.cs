@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
 
-			if (!CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+			if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				Tuple<Vehicle, float> closestVeh = playerPed.GetClosestVehicleWithDistance();
 				Vehicle veh = closestVeh.Item1;
@@ -46,7 +46,7 @@ namespace TheLastPlanet.Client.Veicoli
 					// da rimuovere
 					World.DrawMarker(MarkerType.ChevronUpx1, bonepos, new Vector3(0), new Vector3(0), new Vector3(0.5f, 0.5f, 1f), Colors.Cyan, false, false, true);
 
-					if (!trunkOpen && !CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo && !HUD.MenuPool.IsAnyMenuOpen)
+					if (!trunkOpen && !CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && !HUD.MenuPool.IsAnyMenuOpen)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire il bagagliaio");
 

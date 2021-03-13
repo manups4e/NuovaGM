@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CitizenFX.Core;
+﻿using System.Collections.Generic;
 
 namespace Impostazioni.Server.Configurazione.Main
 {

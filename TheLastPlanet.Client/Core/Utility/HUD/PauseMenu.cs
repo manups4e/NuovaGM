@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static async void LastPlanetMenu(Ped playerPed, object[] args)
 		{
-			PlayerChar.Character pl = CachePlayer.Cache.MyPlayer.Character;
+			PlayerChar.User pl = CachePlayer.Cache.MyPlayer.User;
 			TabInteractiveListItem HUD = null;
 			TabInteractiveListItem Telecamere = null;
 

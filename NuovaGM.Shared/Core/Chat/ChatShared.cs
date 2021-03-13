@@ -1,12 +1,8 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
 #if SERVER
-using TheLastPlanet.Server.Core;
+
 #endif
 // ReSharper disable All
 

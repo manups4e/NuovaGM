@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Entity source = CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo ? (Entity)CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle : CachePlayer.Cache.MyPlayer.Ped;
+				Entity source = CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo ? (Entity)CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle : CachePlayer.Cache.MyPlayer.Ped;
 
 				return GetVehicleInFrontOfPlayer(source, source, distance);
 			}

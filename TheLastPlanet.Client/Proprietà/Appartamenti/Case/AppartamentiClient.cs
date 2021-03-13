@@ -54,13 +54,13 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 			UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
 			UIMenuItem entra;
 
-			if (CachePlayer.Cache.MyPlayer.Character.CurrentChar.Proprietà.Contains(app.Key))
+			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key))
 			{
 				entra = new UIMenuItem("Entra in casa");
 				casa.AddItem(entra);
 				entra.Activated += async (_submenu, _subitem) =>
 				{
-					CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia(app.Key);
+					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(app.Key);
 					Screen.Fading.FadeOut(500);
 					while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 					HUD.MenuPool.CloseAllMenus();
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 						if (gioc.Count > 0)
 							foreach (Player p in gioc.ToList())
 							{
-								Character pl = p.GetPlayerData();
+								User pl = p.GetPlayerData();
 								UIMenuItem it = new UIMenuItem(pl.FullName);
 								_menu.AddItem(it);
 								it.Activated += (_submenu, _subitem) =>
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				if (_item == escisci)
 				{
 					Funzioni.Teleport(app.SpawnFuori);
-					CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 				}
 				else if (_item == casa)
 				{
@@ -214,8 +214,8 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 						await BaseScript.Delay(0);
 					}
 
-					foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.Character.CurrentChar.Veicoli)
-						if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance)
+					foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli)
+						if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 							if (veh.Garage.InGarage)
 							{
 								Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
@@ -232,7 +232,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				else if (_item == tetto)
 				{
 					Funzioni.Teleport(app.SpawnTetto);
-					CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 				}
 
 				await BaseScript.Delay(2000);
@@ -290,8 +290,8 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 			if (InCasa == null) return;
 			if (!CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(app.Value.MarkerEntrata, 3f)) return;
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Stanziato) return;
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Istanzia(InCasa.ServerId, app.Key);
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(InCasa.ServerId, app.Key);
 			Funzioni.Teleport(app.Value.SpawnDentro);
 		}
 
@@ -317,7 +317,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				// gestire
 			}
 
-			if (CachePlayer.Cache.MyPlayer.Character.StatiPlayer.InVeicolo)
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
 
@@ -329,10 +329,10 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					foreach (Vehicle vehicle in VeicoliParcheggio) vehicle.Delete();
 					VeicoliParcheggio.Clear();
 					Vector4 exit = Vector4.Zero;
-					if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance))
-						exit = Client.Impostazioni.Proprieta.Appartamenti[CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori;
+					if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
+						exit = Client.Impostazioni.Proprieta.Appartamenti[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori;
 					else
-						exit = Client.Impostazioni.Proprieta.Garages.Garages[CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance].SpawnFuori;
+						exit = Client.Impostazioni.Proprieta.Garages.Garages[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnFuori;
 					int tempo = GetGameTimer();
 					Vector3 newPos = exit.ToVector3();
 					float Head = exit.W;
@@ -350,12 +350,12 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					}
 
 					if (!Funzioni.IsSpawnPointClear(exit.ToVector3(), 2f)) GetClosestVehicleNodeWithHeading(exit.X, exit.Y, exit.Z, ref newPos, ref Head, 1, 3, 0);
-					Vehicle vehi = await Funzioni.SpawnVehicle(CachePlayer.Cache.MyPlayer.Character.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props.Model, newPos, Head);
-					await vehi.SetVehicleProperties(CachePlayer.Cache.MyPlayer.Character.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props);
+					Vehicle vehi = await Funzioni.SpawnVehicle(CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props.Model, newPos, Head);
+					await vehi.SetVehicleProperties(CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props);
 					CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning = true;
 					CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
 					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, false);
-					CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.RimuoviIstanza();
+					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 					await BaseScript.Delay(1000);
 					Screen.Fading.FadeIn(800);
 					Client.Instance.RemoveTick(Garage);
@@ -403,8 +403,8 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				await BaseScript.Delay(0);
 			}
 
-			foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.Character.CurrentChar.Veicoli)
-				if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.Character.StatiPlayer.Istanza.Instance)
+			foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli)
+				if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 					if (veh.Garage.InGarage)
 					{
 						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);

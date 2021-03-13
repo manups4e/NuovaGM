@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
+using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
@@ -15,8 +18,21 @@ namespace TheLastPlanet.Client
 		public static void Init()
 		{
 			Client.Instance.AddTick(test);
+			Client.Instance.AddEventHandler("test", new Action<byte[]>(Prova));
 		}
 
+		private static void Prova(byte[] param)
+		{
+			try
+			{
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+				Log.Printa(LogType.Error, e.StackTrace);
+				
+			}
+		}
 		private static void AttivaMenu()
 		{
 			UIMenu test = new("Test", "test", new System.Drawing.PointF(700, 300));
@@ -66,7 +82,7 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				Character Test = await Client.Instance.Eventi.Request<Character>("chiamaTest", null);
+				User Test = await Client.Instance.Eventi.Request<User>("chiamaTest", null);
 				Log.Printa(LogType.Debug, Test.SerializeToJson());
 				/*
 				b.Tabs.Clear();

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace TheLastPlanet.Shared.SistemaEventi
 {
     // TODO: Tokens to increase security.

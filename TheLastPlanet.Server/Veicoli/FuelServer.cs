@@ -1,10 +1,8 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;
-using System.Collections.Generic;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Veicoli

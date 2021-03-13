@@ -5,10 +5,6 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server.Telefoni
 {

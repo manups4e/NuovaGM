@@ -1,13 +1,10 @@
 ﻿using CitizenFX.Core;
-using Logger;
 using Newtonsoft.Json.Linq;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Proprietà;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {

@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void onPlayerDeath(DatiMorte morte)
 		{
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = true;
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			StartScreenEffect("DeathFailOut", 0, false);
@@ -189,11 +189,11 @@ namespace TheLastPlanet.Client.Core.Status
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = true;
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
 			if (EarlyRespawn)
 				if (EarlyRespawnFine)
-					if (CachePlayer.Cache.MyPlayer.Character.Money >= EarlyRespawnFineAmount || CachePlayer.Cache.MyPlayer.Character.Bank >= EarlyRespawnFineAmount)
+					if (CachePlayer.Cache.MyPlayer.User.Money >= EarlyRespawnFineAmount || CachePlayer.Cache.MyPlayer.User.Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
 			if (Main.IsDead) Client.Instance.AddTick(ConteggioMorte);
 		}
@@ -313,7 +313,7 @@ namespace TheLastPlanet.Client.Core.Status
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Screen.Fading.FadeIn(800);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-			CachePlayer.Cache.MyPlayer.Character.StatiPlayer.FinDiVita = false;
+			CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = false;
 		}
 
 		// -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO
