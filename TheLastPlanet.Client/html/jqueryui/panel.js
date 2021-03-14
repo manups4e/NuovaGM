@@ -1,0 +1,122 @@
+var resname;
+
+function noenter() 
+{
+  return !(window.event && window.event.keyCode == 13);
+}
+
+function handleChange(input) 
+{
+	if (input.value <= 0) input.value = 1;
+	if (input.value > 100) input.value = 100;
+}
+
+function ClosePanel()
+{
+	var obj = { message: 'closing panel' };
+	$.post('http://tlp/ClosePanel', JSON.stringify(obj));
+}
+
+function RefreshPanel()
+{
+	var obj = { message: 'refreshing panel' };
+	$.post('http://tlp/RefreshPanel', JSON.stringify(obj));
+}
+
+function BackPanel()
+{
+	$('#edit').hide();
+	$('#panel').show();
+	return;
+}
+
+function Change(license)
+{
+	var obj = { License: license }
+	var buf = $('#edit');
+	$('#panel').hide();
+	document.getElementById("options").innerHTML = "";
+	buf.find('table').append("<tr class=\"heading\"><th>Priority Setting</th><th>Kick or Ban</th></tr><tr><td><form><input type=\"number\" pattern=\"\d+\" id=\"priority\" placeholder=\"1 to 100\" onkeypress=\"return noenter()\" onchange=\"handleChange(this)\"></form><button class=\"button\" onclick=ChangePriority('" + license + "','True')>Add</button><button class=\"button\" onclick=ChangePriority('" + license + "','False')>Remove</button></td><td><button class=\"button\" onclick=BanUser('" + license + "')>Ban User</button><button class=\"button\" onclick=KickUser('" + license + "')>Kick User</button></td></tr>");
+	$('#edit').show();
+	return;
+}
+
+function BanUser(license)
+{
+	var obj = { License: license }
+	$.post('http://tlp/BanUser', JSON.stringify(obj));
+	ClosePanel();
+	return;
+}
+
+function KickUser(license)
+{
+	var obj = { License: license }
+	$.post('http://tlp/KickUser', JSON.stringify(obj));
+	ClosePanel();
+	return;
+}
+
+function ChangePriority(license, change)
+{
+	if (change == 'True')
+	{
+		change = document.getElementById("priority").value;
+	}
+	var obj = { License: license , Value: change}
+	$.post('http://tlp/ChangePriority', JSON.stringify(obj));
+	ClosePanel();
+	return;
+}
+
+function ChangeReserved(license, value)
+{
+	var obj = { License: license , Value: value}
+	$.post('http://tlp/ChangeReserved', JSON.stringify(obj));
+	ClosePanel();
+	return;
+}
+
+$(function()
+{
+    window.addEventListener('message', function(event)
+    {
+        var item = event.data;
+        var buf = $('#panel');
+		if (item.resname) {
+			resname = item.resname;
+			return;
+		}
+        if (item.panel && item.panel == 'close')
+        {
+            document.getElementById("list").innerHTML = "";
+            $('#panel').hide();
+			$('#edit').hide();
+            return;
+        }
+		if (item.sessionlist)
+		{
+			var table = buf.find('table');
+			table.append("<tr class=\"heading\"><th>Handle</th><th>Licenza</th><th>Discord</th><th>Steam</th><th>Nome</th><th>Priorità</th><th>Stato</th><th>Opzioni</th></tr>");
+			table.append(item.sessionlist);
+			$('#panel').show();
+			return;
+		}
+    }, false);
+	
+	/*
+	$(document).keyup(function(e)
+    {
+        if (e.keyCode == 27 || e.keyCode == 8) // Esc
+		{
+            if ($('#edit').css('display') == 'block')
+			{
+				BackPanel();
+				return;
+			}
+			ClosePanel();
+			return;
+        }
+	});
+	*/
+});

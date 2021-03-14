@@ -28,14 +28,14 @@ namespace TheLastPlanet.Client.CachePlayer
         {
             while (MyPlayer == null || MyPlayer != null && !MyPlayer.Ready)
             {
-                await BaseScript.Delay(100);
+                await BaseScript.Delay(0);
             }
         }
         
         public static async Task TickStatiPlayer()
         {
             await Loaded();
-            await BaseScript.Delay(20);
+            await BaseScript.Delay(200);
 
             #region Check Veicolo
 

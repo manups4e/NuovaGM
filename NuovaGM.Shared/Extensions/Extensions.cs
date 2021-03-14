@@ -4,11 +4,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -702,24 +701,15 @@ namespace TheLastPlanet.Shared
 		#endregion
 
 		#region Byte Serialization
-
+		/*
 		public static byte[] SerializeBytes<T>(this T parameter)
 		{
-			using MemoryStream memory = new();
-			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Serialize(memory, parameter);
-			memory.Position = 0;
-			return memory.ToArray();
 		}
 
 		public static T DeserializeBytes<T>(this byte[] parameter)
 		{
-			using MemoryStream memory = new(parameter);
-			BinaryFormatter formatter = new();
-
-			return (T)formatter.Deserialize(memory);
 		}
-
+		*/
 		#endregion
 
 		#endregion

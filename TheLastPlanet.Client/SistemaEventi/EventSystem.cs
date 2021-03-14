@@ -138,7 +138,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 			if (payloads != null && payloads.Length > 0) WriteMetadata(wrapped, payloads);
 			Send(wrapped);
 			PendingRequests.Add(wrapped);
-			while (!completed) await BaseScript.Delay(10);
+			while (!completed) await BaseScript.Delay(0);
 
 			return response;
 		}

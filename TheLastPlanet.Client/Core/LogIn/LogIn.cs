@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 			await CachePlayer.Cache.InitPlayer();
-			while (!NetworkIsPlayerActive(CachePlayer.Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(500);
+			while (!NetworkIsPlayerActive(CachePlayer.Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 			Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
 			await CachePlayer.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
