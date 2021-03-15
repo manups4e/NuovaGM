@@ -28,9 +28,9 @@ namespace TheLastPlanet.Client.Core
 
 		public static void Init()
 		{
-			Client.Instance.AddTick(OnTick);
-			Client.Instance.AddTick(OnTick2);
-			Client.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
+			ClientSession.Instance.AddTick(OnTick);
+			ClientSession.Instance.AddTick(OnTick2);
+			ClientSession.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
 			NetworkSetTalkerProximity(-1000.0f);
 		}
 
@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.Core
 		{
 			Ped pl = CachePlayer.Cache.MyPlayer.Ped;
 
-			foreach (Player p in Client.Instance.GetPlayers.ToList())
+			foreach (Player p in ClientSession.Instance.GetPlayers.ToList())
 			{
 				int serverID = GetPlayerServerId(p.Handle);
 
@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Core
 			else if (!ShouldSendVoice() && shouldReset)
 			{
 				shouldReset = false;
-				Client.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
+				ClientSession.Instance.GetPlayers.ToList().ForEach(x => SendVoiceToPlayer(x, false));
 				SetPedTalk(PlayerPedId());
 			}
 
@@ -170,7 +170,7 @@ namespace TheLastPlanet.Client.Core
 
 						Permesso = false;
 
-						foreach (Player p in Client.Instance.GetPlayers.ToList())
+						foreach (Player p in ClientSession.Instance.GetPlayers.ToList())
 							if (CanPedBeListened(playerPed, p.Character))
 							{
 								if (!Listeners.ContainsKey(p.ServerId))

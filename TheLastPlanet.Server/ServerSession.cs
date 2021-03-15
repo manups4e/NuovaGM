@@ -8,30 +8,38 @@ using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared.Snowflake;
-using CitizenFX.Core.Native;
+using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server
 {
-	public class Server : BaseScript
+	public class ServerSession : BaseScript
 	{
 		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
-		public static Server Instance { get; protected set; }
+		public static ServerSession Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
-		public EventSystem Eventi;
+		public EventSystem SistemaEventi;
 
-		public Server()
+		public ServerSession()
 		{
-			API.SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
-			API.SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
-			API.SetGameType("RolePlay");
-			API.SetMapName("The Last Planet");
 			SnowflakeGenerator.Create(2);
 			Instance = this;
-			Eventi = new();
-			ClassCollector.Init();
+			SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
+			SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
+			SetConvarServerInfo("locale", "it-IT");
+			SetConvarServerInfo("tags", "RolePlay, GTAO style");
+			SetConvar("DEBUG", "true");
+			SetGameType("RolePlay");
+			SetMapName("The Last Planet");
+			StartServer();
+		}
+
+		private async void StartServer()
+		{
+			SistemaEventi = new();
+			await ClassCollector.Init();
 		}
 
 		/// <summary>

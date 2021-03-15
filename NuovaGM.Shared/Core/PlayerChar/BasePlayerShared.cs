@@ -49,7 +49,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 		private async void LoadIdentifiers()
 		{
 			while (discord == null) await BaseScript.Delay(0);
-			Player player = Server.Server.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Identifiers["discord"] == discord);
+			Player player = Server.ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Identifiers["discord"] == discord);
 			identifiers.Steam = player.GetLicense(Identifier.Steam);
 			identifiers.License = player.GetLicense(Identifier.License);
 			identifiers.Discord = player.GetLicense(Identifier.Discord);

@@ -22,20 +22,20 @@ namespace TheLastPlanet.Client.Manager
 
 		private static readonly Vector2 DefaultPos = new Vector2(0.6f, 0.5f);
 
-		public static void Init() { Client.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore)); }
+		public static void Init() { ClientSession.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore)); }
 
 		public static void Sviluppatore(bool toggle)
 		{
 			if (toggle)
 			{
 				if (Main.spawned)
-					Client.Instance.AddTick(OnTickSviluppo);
+					ClientSession.Instance.AddTick(OnTickSviluppo);
 				else
 					HUD.ShowNotification("Devi essere spawnato prima! Scegli un personaggio!!");
 			}
 			else
 			{
-				Client.Instance.RemoveTick(OnTickSviluppo);
+				ClientSession.Instance.RemoveTick(OnTickSviluppo);
 			}
 		}
 

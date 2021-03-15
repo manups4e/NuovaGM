@@ -180,7 +180,7 @@ namespace TheLastPlanet.Client.Interactions
 									SetPedConfigFlag(PlayerPedId(), 414, true);
 									TaskUseNearestScenarioToCoord(PlayerPedId(), Divani[i][j].X, Divani[i][j].Y, Divani[i][j].Z, 2f, 5000);
 									Seduto = true;
-									Client.Instance.AddTick(Televisione);
+									ClientSession.Instance.AddTick(Televisione);
 								}
 						}
 				}
@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client.Interactions
 
 					if (Input.IsControlJustPressed(Control.Context))
 					{
-						Client.Instance.AddTick(Televisioni.ControllaTV);
+						ClientSession.Instance.AddTick(Televisioni.ControllaTV);
 						stato = true;
 					}
 					else if (IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.Interactions
 				}
 				else if (stato && IsControlJustPressed(0, IsInputDisabled(2) ? 177 : 202))
 				{
-					Client.Instance.RemoveTick(Televisioni.ControllaTV);
+					ClientSession.Instance.RemoveTick(Televisioni.ControllaTV);
 					stato = false;
 					SetPedConfigFlag(PlayerPedId(), 414, false);
 				}

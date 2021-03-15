@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.Handlers
 	internal static class InputHandler
 	{
 		public static List<InputController> ListaInput = new List<InputController>();
-		public static void Init() { Client.Instance.AddTick(InputHandling); }
+		public static void Init() { ClientSession.Instance.AddTick(InputHandling); }
 
 		public static async Task InputHandling()
 		{

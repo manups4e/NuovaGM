@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
 			/* DECOR LOCK */
 			EntityDecoration.LockProperties();
-			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
+			ClientSession.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}
 	}

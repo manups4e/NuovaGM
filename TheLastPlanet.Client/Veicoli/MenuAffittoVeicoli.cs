@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client.Veicoli
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		public static VeicoloAffitto veicoloInAffitto = null;
-		public static VeicoliAffitto veicoliAff = Client.Impostazioni.Veicoli.veicoliAff;
+		public static VeicoliAffitto veicoliAff = ClientSession.Impostazioni.Veicoli.veicoliAff;
 		public static bool affittato = false;
 
 		public static async void MenuAffitto(int num)
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineGeneric[_index].model, veicoliAff.macchineGeneric[_index].name, veicoliAff.macchineGeneric[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineGeneric[_index].price);
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineGeneric[_index].model, veicoliAff.macchineGeneric[_index].name, veicoliAff.macchineGeneric[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineGeneric[_index].price);
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineMedium[_index].model, veicoliAff.macchineMedium[_index].name, veicoliAff.macchineMedium[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineMedium[_index].price);
@@ -131,7 +131,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineMedium[_index].model, veicoliAff.macchineMedium[_index].name, veicoliAff.macchineMedium[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineMedium[_index].price);
@@ -165,7 +165,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineSuper[_index].model, veicoliAff.macchineSuper[_index].name, veicoliAff.macchineSuper[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.macchineSuper[_index].price);
@@ -186,7 +186,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.macchineSuper[_index].model, veicoliAff.macchineSuper[_index].name, veicoliAff.macchineSuper[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.macchineSuper[_index].price);
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoGeneric[_index].model, veicoliAff.motoGeneric[_index].name, veicoliAff.motoGeneric[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoGeneric[_index].price);
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoGeneric[_index].model, veicoliAff.motoGeneric[_index].name, veicoliAff.motoGeneric[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoGeneric[_index].price);
@@ -275,7 +275,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoMedium[_index].model, veicoliAff.motoMedium[_index].name, veicoliAff.motoMedium[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoMedium[_index].price);
@@ -296,7 +296,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoMedium[_index].model, veicoliAff.motoMedium[_index].name, veicoliAff.motoMedium[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoMedium[_index].price);
@@ -330,7 +330,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoSuper[_index].model, veicoliAff.motoSuper[_index].name, veicoliAff.motoSuper[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.motoSuper[_index].price);
@@ -351,7 +351,7 @@ namespace TheLastPlanet.Client.Veicoli
 							{
 								veicoloInAffitto = new VeicoloAffitto(veicoliAff.motoSuper[_index].model, veicoliAff.motoSuper[_index].name, veicoliAff.motoSuper[_index].price);
 								VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-								Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+								ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 								VeicoliClient.previewedVehicle.Delete();
 								VeicoliClient.setupGarageCamera(false, 0);
 								BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.motoSuper[_index].price);
@@ -380,7 +380,7 @@ namespace TheLastPlanet.Client.Veicoli
 					{
 						veicoloInAffitto = new VeicoloAffitto(veicoliAff.biciclette[_index].model, veicoliAff.biciclette[_index].name, veicoliAff.biciclette[_index].price);
 						VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-						Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+						ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 						VeicoliClient.previewedVehicle.Delete();
 						VeicoliClient.setupGarageCamera(false, 0);
 						BaseScript.TriggerServerEvent("lprp:removemoney", veicoliAff.biciclette[_index].price);
@@ -401,7 +401,7 @@ namespace TheLastPlanet.Client.Veicoli
 						{
 							veicoloInAffitto = new VeicoloAffitto(veicoliAff.biciclette[_index].model, veicoliAff.biciclette[_index].name, veicoliAff.biciclette[_index].price);
 							VeicoliClient.spawnRentVehicle(veicoloInAffitto.model, num);
-							Client.Instance.AddTick(VeicoliClient.AffittoInCorso);
+							ClientSession.Instance.AddTick(VeicoliClient.AffittoInCorso);
 							VeicoliClient.previewedVehicle.Delete();
 							VeicoliClient.setupGarageCamera(false, 0);
 							BaseScript.TriggerServerEvent("lprp:removebank", veicoliAff.biciclette[_index].price);
@@ -477,7 +477,7 @@ namespace TheLastPlanet.Client.Veicoli
 					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.User.source))}], ha appena appena restituito il veicolo {veicoloInAffitto.name} affittato");
 					veicoloInAffitto = null;
 					VeicoliClient.veicoloinaffitto.Delete();
-					Client.Instance.RemoveTick(VeicoliClient.AffittoInCorso);
+					ClientSession.Instance.RemoveTick(VeicoliClient.AffittoInCorso);
 					await BaseScript.Delay(1000);
 					HUD.ShowNotification("Il veicolo che hai affittato è stato riportato al garage di competenza.");
 				}

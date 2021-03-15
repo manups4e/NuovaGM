@@ -17,8 +17,8 @@ namespace TheLastPlanet.Client
 	{
 		public static void Init()
 		{
-			Client.Instance.AddTick(test);
-			Client.Instance.AddEventHandler("test", new Action<byte[]>(Prova));
+			ClientSession.Instance.AddTick(test);
+			ClientSession.Instance.AddEventHandler("test", new Action<byte[]>(Prova));
 		}
 
 		private static void Prova(byte[] param)
@@ -83,7 +83,7 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				User Test = await Client.Instance.Eventi.Request<User>("chiamaTest", null);
+				User Test = await ClientSession.Instance.SistemaEventi.Request<User>("chiamaTest", null);
 				Log.Printa(LogType.Debug, Test.SerializeToJson());
 				/*
 				b.Tabs.Clear();

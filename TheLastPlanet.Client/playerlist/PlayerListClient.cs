@@ -34,11 +34,11 @@ namespace TheLastPlanet.Client.ListaPlayers
 		public static void Init()
 		{
 			BaseScript.TriggerServerEvent("lprp:fs:getMaxPlayers");
-			Client.Instance.AddTick(ShowScoreboard);
-			Client.Instance.AddTick(DisplayController);
-			Client.Instance.AddTick(BackupTimer);
-			Client.Instance.AddEventHandler("lprp:fs:setMaxPlayers", new Action<int>(SetMaxPlayers));
-			Client.Instance.AddEventHandler("lprp:fs:setPlayerConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+			ClientSession.Instance.AddTick(ShowScoreboard);
+			ClientSession.Instance.AddTick(DisplayController);
+			ClientSession.Instance.AddTick(BackupTimer);
+			ClientSession.Instance.AddEventHandler("lprp:fs:setMaxPlayers", new Action<int>(SetMaxPlayers));
+			ClientSession.Instance.AddEventHandler("lprp:fs:setPlayerConfig", new Action<int, string, int, bool>(SetPlayerConfig));
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// </summary>
 		private static void UpdateMaxPages()
 		{
-			maxPages = (int)Math.Ceiling((double)Client.Instance.GetPlayers.ToList().Count() / 16.0);
+			maxPages = (int)Math.Ceiling((double)ClientSession.Instance.GetPlayers.ToList().Count() / 16.0);
 		}
 
 		/// <summary>
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 			while (!HasScaleformMovieLoaded(RequestScaleformMovie("MP_MM_CARD_FREEMODE"))) await BaseScript.Delay(0);
 			scale = new Scaleform("MP_MM_CARD_FREEMODE");
 			string titleIcon = "2";
-			string titleLeftText = Client.Impostazioni.Main.NomeServer;
+			string titleLeftText = ClientSession.Impostazioni.Main.NomeServer;
 			string titleRightText = $"Players {NetworkGetNumConnectedPlayers()}/{maxClients}";
 			scale.CallFunction("SET_TITLE", titleLeftText, titleRightText, titleIcon);
 			await UpdateScale();
@@ -269,7 +269,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 				UnregisterPedheadshot(x);
 			int amount = 0;
 
-			foreach (Player p in Client.Instance.GetPlayers.ToList())
+			foreach (Player p in ClientSession.Instance.GetPlayers.ToList())
 			{
 				if (IsRowSupposedToShow(amount))
 				{

@@ -12,14 +12,14 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 	{
 		public static void Init()
 		{
-			Server.Instance.Eventi.Attach("lprp:setupUser", new AsyncEventCallback(async a =>
+			ServerSession.Instance.SistemaEventi.Attach("lprp:setupUser", new AsyncEventCallback(async a =>
 			{
 				try
 				{
 					var player = Funzioni.GetPlayerFromId(a.Sender);
 					var handle = player.Handle;
 
-					if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
+					if (ServerSession.PlayerList.ContainsKey(handle)) return ServerSession.PlayerList[handle];
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
 					User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
 					{
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 						lice = player.GetLicense(Identifier.License), name = player.Name
 					}));
 					await BaseScript.Delay(1);
-					Server.PlayerList.TryAdd(handle, user);
+					ServerSession.PlayerList.TryAdd(handle, user);
 					EntratoMaProprioSulSerio(player);
 					return user;
 				}
@@ -41,7 +41,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 		private static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
+			await ServerSession.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
 				new {last = DateTime.Now, id = player.GetLicense(Identifier.Discord)});
 		}
 	}

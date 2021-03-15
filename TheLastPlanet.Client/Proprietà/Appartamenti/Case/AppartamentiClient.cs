@@ -26,18 +26,18 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
-			Client.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
-			Client.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
-			Client.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
+			ClientSession.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
+			ClientSession.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
+			ClientSession.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
+			ClientSession.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
 		}
 
 		private static async void CaricaCaseDaDb(string JsonCase, string jsonGarage)
 		{
 			Dictionary<string, string> aparts = JsonCase.DeserializeFromJson<Dictionary<string, string>>();
 			Dictionary<string, string> garages = jsonGarage.DeserializeFromJson<Dictionary<string, string>>();
-			foreach (KeyValuePair<string, string> a in aparts) Client.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.DeserializeFromJson<ConfigCase>());
-			foreach (KeyValuePair<string, string> a in garages) Client.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.DeserializeFromJson<Garages>());
+			foreach (KeyValuePair<string, string> a in aparts) ClientSession.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.DeserializeFromJson<ConfigCase>());
+			foreach (KeyValuePair<string, string> a in garages) ClientSession.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.DeserializeFromJson<Garages>());
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					case MenuState.ChangeForward when _menu == Citofona:
 					{
 						_menu.Clear();
-						List<Player> gioc = (from p in Client.Instance.GetPlayers.ToList() where p != CachePlayer.Cache.MyPlayer.Player let pl = p.GetPlayerData() where pl.StatiPlayer.Istanza.Stanziato where pl.StatiPlayer.Istanza.IsProprietario where pl.StatiPlayer.Istanza.Instance == app.Key select p).ToList();
+						List<Player> gioc = (from p in ClientSession.Instance.GetPlayers.ToList() where p != CachePlayer.Cache.MyPlayer.Player let pl = p.GetPlayerData() where pl.StatiPlayer.Istanza.Stanziato where pl.StatiPlayer.Istanza.IsProprietario where pl.StatiPlayer.Istanza.Instance == app.Key select p).ToList();
 
 						if (gioc.Count > 0)
 							foreach (Player p in gioc.ToList())
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 						if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 							if (veh.Garage.InGarage)
 							{
-								Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+								Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 								await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 								VeicoliParcheggio.Add(veic);
 							}
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					CachePlayer.Cache.MyPlayer.Ped.IsPositionFrozen = false;
 					DoScreenFadeIn(500);
 					SetGameplayCamRelativePitch(0.0f, 1.0f);
-					Client.Instance.AddTick(Garage);
+					ClientSession.Instance.AddTick(Garage);
 				}
 				else if (_item == tetto)
 				{
@@ -250,11 +250,11 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 		public static void Richiesta(int serverIdRichiedente, string app)
 		{
 			Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-			nome = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdRichiedente).GetPlayerData().FullName;
+			nome = ClientSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdRichiedente).GetPlayerData().FullName;
 			appa = app;
 			serverIdRic = serverIdRichiedente;
 			tempo = GetGameTimer();
-			Client.Instance.AddTick(AccRif);
+			ClientSession.Instance.AddTick(AccRif);
 		}
 
 		private static async Task AccRif()
@@ -266,7 +266,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				if (Input.IsControlJustPressed(Control.VehicleExit))
 				{
 					BaseScript.TriggerServerEvent("lprp:citofono:puoEntrare", serverIdRic, appa);
-					Client.Instance.RemoveTick(AccRif);
+					ClientSession.Instance.RemoveTick(AccRif);
 					nome = null;
 					appa = null;
 					serverIdRic = 0;
@@ -275,7 +275,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 			}
 			else
 			{
-				Client.Instance.RemoveTick(AccRif);
+				ClientSession.Instance.RemoveTick(AccRif);
 				nome = null;
 				appa = null;
 				serverIdRic = 0;
@@ -286,7 +286,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 		public static void PuoiEntrare(int serverIdInCasa, string appartamento)
 		{
 			KeyValuePair<string, ConfigCase> app = appartamento.DeserializeFromJson<KeyValuePair<string, ConfigCase>>();
-			Player InCasa = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
+			Player InCasa = ClientSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
 
 			if (InCasa == null) return;
 			if (!CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(app.Value.MarkerEntrata, 3f)) return;
@@ -297,22 +297,22 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		public static async Task Garage()
 		{
-			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.LowEnd.ModifyMarker.ToVector3(), 1.375f))
+			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(ClientSession.Impostazioni.Proprieta.Garages.LowEnd.ModifyMarker.ToVector3(), 1.375f))
 			{
 				// gestire
 			}
 
-			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.MidEnd4.ModifyMarker.ToVector3(), 1.375f))
+			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(ClientSession.Impostazioni.Proprieta.Garages.MidEnd4.ModifyMarker.ToVector3(), 1.375f))
 			{
 				// gestire
 			}
 
-			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.MidEnd6.ModifyMarker.ToVector3(), 1.375f))
+			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(ClientSession.Impostazioni.Proprieta.Garages.MidEnd6.ModifyMarker.ToVector3(), 1.375f))
 			{
 				// gestire
 			}
 
-			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.Proprieta.Garages.HighEnd.ModifyMarker.ToVector3(), 1.375f))
+			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(ClientSession.Impostazioni.Proprieta.Garages.HighEnd.ModifyMarker.ToVector3(), 1.375f))
 			{
 				// gestire
 			}
@@ -329,10 +329,10 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					foreach (Vehicle vehicle in VeicoliParcheggio) vehicle.Delete();
 					VeicoliParcheggio.Clear();
 					Vector4 exit = Vector4.Zero;
-					if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
-						exit = Client.Impostazioni.Proprieta.Appartamenti[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori;
+					if (ClientSession.Impostazioni.Proprieta.Appartamenti.ContainsKey(CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
+						exit = ClientSession.Impostazioni.Proprieta.Appartamenti[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori;
 					else
-						exit = Client.Impostazioni.Proprieta.Garages.Garages[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnFuori;
+						exit = ClientSession.Impostazioni.Proprieta.Garages.Garages[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnFuori;
 					int tempo = GetGameTimer();
 					Vector3 newPos = exit.ToVector3();
 					float Head = exit.W;
@@ -358,7 +358,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 					await BaseScript.Delay(1000);
 					Screen.Fading.FadeIn(800);
-					Client.Instance.RemoveTick(Garage);
+					ClientSession.Instance.RemoveTick(Garage);
 				}
 			}
 		}
@@ -407,7 +407,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				if (veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 					if (veh.Garage.InGarage)
 					{
-						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 						VeicoliParcheggio.Add(veic);
 					}
@@ -416,7 +416,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 			CachePlayer.Cache.MyPlayer.Ped.IsPositionFrozen = false;
 			DoScreenFadeIn(500);
 			SetGameplayCamRelativePitch(0.0f, 1.0f);
-			Client.Instance.AddTick(Garage);
+			ClientSession.Instance.AddTick(Garage);
 		}
 	}
 }

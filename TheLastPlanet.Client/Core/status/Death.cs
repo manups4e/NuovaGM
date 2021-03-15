@@ -38,18 +38,18 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 
 			//Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 			//Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
-			Client.Instance.AddEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
-			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(PedKilledByPlayer));
-			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPed", new Action<int, int, uint, bool>(PedKilledByPed));
-			Client.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, int, uint, bool>(PedDied));
+			ClientSession.Instance.AddEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
+			ClientSession.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(PedKilledByPlayer));
+			ClientSession.Instance.AddEventHandler("DamageEvents:PedKilledByPed", new Action<int, int, uint, bool>(PedKilledByPed));
+			ClientSession.Instance.AddEventHandler("DamageEvents:PedDied", new Action<int, int, uint, bool>(PedDied));
 			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-			Client.Instance.AddEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
-			Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
-			Client.Instance.AddTick(Injuried);
+			ClientSession.Instance.AddEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
+			ClientSession.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
+			ClientSession.Instance.AddTick(Injuried);
 		}
 
 		#region events
@@ -118,10 +118,10 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Spawnato()
 		{
-			ReviveReward = Client.Impostazioni.Main.ReviveReward;
-			EarlyRespawnFine = Client.Impostazioni.Main.EarlyRespawnFine;
-			EarlyRespawnFineAmount = Client.Impostazioni.Main.EarlyRespawnFineAmount;
-			EarlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
+			ReviveReward = ClientSession.Impostazioni.Main.ReviveReward;
+			EarlyRespawnFine = ClientSession.Impostazioni.Main.EarlyRespawnFine;
+			EarlyRespawnFineAmount = ClientSession.Impostazioni.Main.EarlyRespawnFineAmount;
+			EarlyRespawn = ClientSession.Impostazioni.Main.EarlyRespawn;
 		}
 
 		public static void onPlayerDeath(DatiMorte morte)
@@ -186,8 +186,8 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async void StartDeathTimer()
 		{
-			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+			EarlyRespawnTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.Core.Status
 				if (EarlyRespawnFine)
 					if (CachePlayer.Cache.MyPlayer.User.Money >= EarlyRespawnFineAmount || CachePlayer.Cache.MyPlayer.User.Bank >= EarlyRespawnFineAmount)
 						canPayFine = true;
-			if (Main.IsDead) Client.Instance.AddTick(ConteggioMorte);
+			if (Main.IsDead) ClientSession.Instance.AddTick(ConteggioMorte);
 		}
 
 		private static string text = "";
@@ -232,10 +232,10 @@ namespace TheLastPlanet.Client.Core.Status
 
 								if (await Input.IsControlStillPressed(Control.Context))
 								{
-									Client.Instance.RemoveTick(ConteggioMorte);
+									ClientSession.Instance.RemoveTick(ConteggioMorte);
 									RemoveItemsAfterRPDeath();
-									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									EarlyRespawnTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.BleedoutTimer);
 									text = "";
 
 									return;
@@ -248,10 +248,10 @@ namespace TheLastPlanet.Client.Core.Status
 								if (await Input.IsControlStillPressed(Control.Context))
 								{
 									BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
-									Client.Instance.RemoveTick(ConteggioMorte);
+									ClientSession.Instance.RemoveTick(ConteggioMorte);
 									RemoveItemsAfterRPDeath();
-									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									EarlyRespawnTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.BleedoutTimer);
 									text = "";
 
 									return;
@@ -275,10 +275,10 @@ namespace TheLastPlanet.Client.Core.Status
 
 						if (BleedoutTimer.TotalSeconds == 0 && Main.IsDead)
 						{
-							Client.Instance.RemoveTick(ConteggioMorte);
+							ClientSession.Instance.RemoveTick(ConteggioMorte);
 							RemoveItemsAfterRPDeath();
-							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+							EarlyRespawnTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.EarlySpawnTimer);
+							BleedoutTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.BleedoutTimer);
 							text = "";
 						}
 					}
@@ -295,9 +295,9 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async void endConteggio()
 		{
-			Client.Instance.RemoveTick(ConteggioMorte);
-			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+			ClientSession.Instance.RemoveTick(ConteggioMorte);
+			EarlyRespawnTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(ClientSession.Impostazioni.Main.BleedoutTimer);
 			text = "";
 		}
 

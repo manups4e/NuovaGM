@@ -16,10 +16,10 @@ namespace TheLastPlanet.Server.TimeWeather
 
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("freezeTime", new Action<bool>(FreezeTime));
-			Server.Instance.AddEventHandler("UpdateFromCommandTime", new Action<int>(Update));
-			Server.Instance.AddTick(SetTime);
-			Server.Instance.AddTick(UpdateTime);
+			ServerSession.Instance.AddEventHandler("freezeTime", new Action<bool>(FreezeTime));
+			ServerSession.Instance.AddEventHandler("UpdateFromCommandTime", new Action<int>(Update));
+			ServerSession.Instance.AddTick(SetTime);
+			ServerSession.Instance.AddTick(UpdateTime);
 		}
 
 		private static void Update(int time)

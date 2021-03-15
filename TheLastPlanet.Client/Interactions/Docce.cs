@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static List<int> Doccie = new List<int>() { 1924030334, 1358716892, 879181614, -553740697 };
 
-		public static async void Init() { Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
+		public static async void Init() { ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
 
 		private static async void Spawnato()
 		{

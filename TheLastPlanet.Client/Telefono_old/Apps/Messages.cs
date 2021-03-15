@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 		private bool MessaggioAperto = false;
 		public Messages(Phone phone) : base("Messaggi", 2, phone)   // 8
 		{
-			Client.Instance.AddEventHandler("lprp:riceviMessaggio", new Action<int, string>(RiceviMessaggio));
+			ClientSession.Instance.AddEventHandler("lprp:riceviMessaggio", new Action<int, string>(RiceviMessaggio));
 			this.phone = phone;
 		}
 

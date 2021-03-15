@@ -20,9 +20,9 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
-			Client.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
-			Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
+			ClientSession.Instance.AddEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
+			ClientSession.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
+			ClientSession.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
 
 		public static async Task PickupsMain()

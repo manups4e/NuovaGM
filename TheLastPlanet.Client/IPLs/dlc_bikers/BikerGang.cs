@@ -353,7 +353,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 			ClubHouse.ClubName.Init();
 			ClubHouse.Emblem.Init();
 			ClubHouse.MissionWall.Init();
-			Client.Instance.AddTick(BikerGangTick);
+			ClientSession.Instance.AddTick(BikerGangTick);
 		}
 
 		public static async Task BikerGangTick()

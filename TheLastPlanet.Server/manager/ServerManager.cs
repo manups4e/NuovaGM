@@ -8,7 +8,7 @@ namespace TheLastPlanet.Server.manager
 	{
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<int, Vector3>(TippaDaMe));
+			ServerSession.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<int, Vector3>(TippaDaMe));
 		}
 
 		private static void TippaDaMe(int source, Vector3 coords)

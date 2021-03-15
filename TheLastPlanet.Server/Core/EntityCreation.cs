@@ -7,7 +7,7 @@ namespace TheLastPlanet.Server.Core
     {
         public static void Init()
         {
-            Server.Instance.Eventi.Attach("lprp:entity:spawnVehicle", new EventCallback( metadata =>
+            ServerSession.Instance.SistemaEventi.Attach("lprp:entity:spawnVehicle", new EventCallback( metadata =>
             {
                 var mod = metadata.Find<uint>(0);
                 var coords = metadata.Find<Vector3>(1);
@@ -16,7 +16,7 @@ namespace TheLastPlanet.Server.Core
                 SetEntityDistanceCullingRadius(veh.Handle, 5000f);
                 return veh.NetworkId;
             }));
-            Server.Instance.Eventi.Attach("lprp:entity:spawnPed", new EventCallback( metadata =>
+            ServerSession.Instance.SistemaEventi.Attach("lprp:entity:spawnPed", new EventCallback( metadata =>
             {
                 var mod = metadata.Find<uint>(0);
                 var coords = metadata.Find<Vector3>(1);

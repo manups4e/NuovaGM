@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.Proprietà
 	internal static class Manager
 	{
 		private static ConfigProprieta Proprietà;
-		public static void Init() { Proprietà = Client.Impostazioni.Proprieta; }
+		public static void Init() { Proprietà = ClientSession.Impostazioni.Proprieta; }
 
 		public static async Task MarkerFuori()
 		{
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 					foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
 					{
-						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 						AppartamentiClient.VeicoliParcheggio.Add(veic);
 					}
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Proprietà
 					playerPed.IsPositionFrozen = false;
 					DoScreenFadeIn(500);
 					SetGameplayCamRelativePitch(0.0f, 1.0f);
-					Client.Instance.AddTick(AppartamentiClient.Garage);
+					ClientSession.Instance.AddTick(AppartamentiClient.Garage);
 				}
 				else
 				{

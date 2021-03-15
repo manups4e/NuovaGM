@@ -12,14 +12,14 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 	{
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
-			Server.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
-			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			ServerSession.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
+			ServerSession.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
+			ServerSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
 		}
 
 		private static async void Spawnato([FromSource] Player player)
 		{
-			dynamic aparts = await Server.Instance.Query("select * from immobili_creati");
+			dynamic aparts = await ServerSession.Instance.Query("select * from immobili_creati");
 			if (aparts.Count > 0)
 			{
 				Dictionary<string, string> apart = new Dictionary<string, string>();
@@ -40,7 +40,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 			Player acquirente = Funzioni.GetPlayerFromId(target);
 			KeyValuePair<string, JContainer> casa = jsonProperty.DeserializeFromJson<KeyValuePair<string, JContainer>>();
 			SoldProperty prop = new SoldProperty(acquirente.GetLicense(Identifier.Discord), acquirente.GetCurrentChar().FullName, "Appartamento", !venduto, prezzo, casa.Key, casa.Value["Label"].Value<string>(), "{}", "{}", "{}", "{}", DateTime.Now.AddDays(7), DateTime.Now);
-			await Server.Instance.Execute("INSERT INTO proprietà Values(@disc, @pers, @tipo, @aff, @pr, @name, @label, @gar, @gua, @inv, @arm, @boll, @acq)", new
+			await ServerSession.Instance.Execute("INSERT INTO proprietà Values(@disc, @pers, @tipo, @aff, @pr, @name, @label, @gar, @gua, @inv, @arm, @boll, @acq)", new
 			{
 				disc = prop.DiscordId,
 				pers = prop.Personaggio,
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		private static async void SalvaAppartamento([FromSource] Player p, string tipo, string jsonData, string abbreviazione)
 		{
-			await Server.Instance.Execute("INSERT INTO immobili_creati VALUES (@nome, @data, @abbr, @dati, @tipo)", new
+			await ServerSession.Instance.Execute("INSERT INTO immobili_creati VALUES (@nome, @data, @abbr, @dati, @tipo)", new
 			{
 				nome = p.Name,
 				data = DateTime.Now,

@@ -23,13 +23,13 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 
 		public static void Init()
 		{
-			foreach (Hotel t in Client.Impostazioni.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			foreach (Hotel t in ClientSession.Impostazioni.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
 				Log.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
 
-			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+			foreach (Blip p in ClientSession.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 			{
 				Sprite = BlipSprite.Heist,
 				Scale = 1.0f,
@@ -46,7 +46,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
 
-			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+			foreach (Blip p in ClientSession.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 			{
 				Sprite = BlipSprite.Heist,
 				Scale = 1.0f,
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 					}
 				}
 
-				Client.Instance.RemoveTick(Eventi.LocationSave);
+				ClientSession.Instance.RemoveTick(Eventi.LocationSave);
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Hotel");
 				CachePlayer.Cache.MyPlayer.User.StatiPlayer.InCasa = true;
 				Screen.Fading.FadeIn(800);
-				Client.Instance.AddTick(GestioneHotel);
+				ClientSession.Instance.AddTick(GestioneHotel);
 			};
 			HotelMenu.Visible = true;
 		}
@@ -151,7 +151,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							IsInPiccola = false;
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.InCasa = false;
-							Client.Instance.RemoveTick(GestioneHotel);
+							ClientSession.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							IsInMedia = false;
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.InCasa = false;
-							Client.Instance.RemoveTick(GestioneHotel);
+							ClientSession.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 							IsInAppartamento = false;
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 							CachePlayer.Cache.MyPlayer.User.StatiPlayer.InCasa = false;
-							Client.Instance.RemoveTick(GestioneHotel);
+							ClientSession.Instance.RemoveTick(GestioneHotel);
 							BaseScript.TriggerEvent("lprp:StartLocationSave");
 						}
 					}

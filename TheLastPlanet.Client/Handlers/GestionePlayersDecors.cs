@@ -15,8 +15,8 @@ namespace TheLastPlanet.Client
 		public static async Task GestioneDecors()
 		{
 			await CachePlayer.Cache.Loaded();
-			if (Client.Instance.GetPlayers.ToList().Count > 0)
-				foreach (var player in Client.Instance.GetPlayers)
+			if (ClientSession.Instance.GetPlayers.ToList().Count > 0)
+				foreach (var player in ClientSession.Instance.GetPlayers)
 					if (player.GetPlayerData() != null)
 					{
 						if (player.GetPlayerData().StatiPlayer.Istanza.Stanziato)

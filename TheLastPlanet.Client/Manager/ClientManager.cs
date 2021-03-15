@@ -83,9 +83,9 @@ namespace TheLastPlanet.Client.Manager
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
-			Client.Instance.AddEventHandler("lprp:manager:updateText", new Action<string, string>(UpdateText));
-			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
+			ClientSession.Instance.AddEventHandler("lprp:manager:warningMessage", new Action<string, string, int, string>(WarningMessage));
+			ClientSession.Instance.AddEventHandler("lprp:manager:updateText", new Action<string, string>(UpdateText));
+			ClientSession.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
 			//Client.Instance.AddTick(AC);
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
@@ -125,14 +125,14 @@ namespace TheLastPlanet.Client.Manager
 				}
 
 				p.Rotation = new Vector3(0);
-				Client.Instance.AddTick(noClip);
+				ClientSession.Instance.AddTick(noClip);
 				NoClip = true;
 				_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
 			}
 			else
 			{
 				_instructionalButtonsScaleform.Dispose();
-				Client.Instance.RemoveTick(noClip);
+				ClientSession.Instance.RemoveTick(noClip);
 
 				while (p.IsInvincible)
 				{
@@ -196,7 +196,7 @@ namespace TheLastPlanet.Client.Manager
 			sub = _sub;
 			instructionalKey = key;
 			event1 = evento1;
-			Client.Instance.AddTick(WarningMessageTick);
+			ClientSession.Instance.AddTick(WarningMessageTick);
 			await Task.FromResult(0);
 		}
 
@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.Manager
 			sub2 = _sub2;
 			instructionalKey = key;
 			event1 = evento1;
-			Client.Instance.AddTick(FrontendAlertTick);
+			ClientSession.Instance.AddTick(FrontendAlertTick);
 			await Task.FromResult(0);
 		}
 
@@ -222,19 +222,19 @@ namespace TheLastPlanet.Client.Manager
 
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
-				Client.Instance.RemoveTick(FrontendAlertTick);
+				ClientSession.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "select");
 				instructionalKey = 0;
 			}
 			else if (IsControlJustPressed(2, 202) || IsDisabledControlJustPressed(2, 202))
 			{
-				Client.Instance.RemoveTick(FrontendAlertTick);
+				ClientSession.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "back");
 				instructionalKey = 0;
 			}
 			else if (Game.IsControlPressed(2, Control.FrontendX) || Game.IsDisabledControlJustPressed(2, Control.FrontendX))
 			{
-				Client.Instance.RemoveTick(FrontendAlertTick);
+				ClientSession.Instance.RemoveTick(FrontendAlertTick);
 				BaseScript.TriggerEvent(event1, "alternative");
 				instructionalKey = 0;
 			}
@@ -252,19 +252,19 @@ namespace TheLastPlanet.Client.Manager
 
 			if (IsControlJustPressed(2, 201) || IsControlJustPressed(2, 217) || IsDisabledControlJustPressed(2, 201) || IsDisabledControlJustPressed(2, 217))
 			{
-				Client.Instance.RemoveTick(WarningMessageTick);
+				ClientSession.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "select");
 				instructionalKey = 0;
 			}
 			else if (IsControlJustPressed(2, 202) || IsDisabledControlJustPressed(2, 202))
 			{
-				Client.Instance.RemoveTick(WarningMessageTick);
+				ClientSession.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "back");
 				instructionalKey = 0;
 			}
 			else if (Game.IsControlPressed(2, Control.FrontendX) || Game.IsDisabledControlJustPressed(2, Control.FrontendX))
 			{
-				Client.Instance.RemoveTick(WarningMessageTick);
+				ClientSession.Instance.RemoveTick(WarningMessageTick);
 				BaseScript.TriggerEvent(event1, "alternative");
 				instructionalKey = 0;
 			}

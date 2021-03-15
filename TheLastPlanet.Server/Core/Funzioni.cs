@@ -12,16 +12,16 @@ namespace TheLastPlanet.Server.Core
 {
 	public static class Funzioni
 	{
-		public static void Init() { Server.Instance.AddTick(Salvataggio); }
+		public static void Init() { ServerSession.Instance.AddTick(Salvataggio); }
 
 		public static Player GetPlayerFromId(int id)
 		{
-			return Server.Instance.GetPlayers[id];
+			return ServerSession.Instance.GetPlayers[id];
 		}
 
 		public static Player GetPlayerFromId(string id)
 		{
-			return Server.Instance.GetPlayers[Convert.ToInt32(id)];
+			return ServerSession.Instance.GetPlayers[Convert.ToInt32(id)];
 		}
 
 		public static ConcurrentDictionary<string, string> HASH_TO_LABEL = new()
@@ -272,7 +272,7 @@ namespace TheLastPlanet.Server.Core
 		public static async Task SalvaPersonaggio(Player player)
 		{
 			User ped = GetUserFromPlayerId(player.Handle);
-			await Server.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
+			await ServerSession.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
 			{
 				name = player.Name,
 				gr = ped.group,
@@ -299,15 +299,15 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (Server.PlayerList.Count > 0)
+				if (ServerSession.PlayerList.Count > 0)
 				{
-					await BaseScript.Delay(Server.Impostazioni.Main.SalvataggioTutti * 60000);
+					await BaseScript.Delay(ServerSession.Impostazioni.Main.SalvataggioTutti * 60000);
 
-					foreach (Player player in Server.Instance.GetPlayers.ToList())
+					foreach (Player player in ServerSession.Instance.GetPlayers.ToList())
 					{
 						string name = player.Name;
 
-						if (Server.PlayerList.ContainsKey(player.Handle))
+						if (ServerSession.PlayerList.ContainsKey(player.Handle))
 						{
 							User ped = GetUserFromPlayerId(player.Handle);
 
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Server.Core
 						}
 					}
 
-					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.SerializeToJson());
+					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
 				}
 				else
 				{
@@ -381,11 +381,11 @@ namespace TheLastPlanet.Server.Core
 
 		public static double DateTime2TimeStamp(DateTime dateTime) { return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds; }
 
-		public static User GetUserFromPlayerId(string id) { return Server.PlayerList.TryGetValue(id, out User user) ? user : null; }
+		public static User GetUserFromPlayerId(string id) { return ServerSession.PlayerList.TryGetValue(id, out User user) ? user : null; }
 
-		public static User GetUserFromPlayerId(int id) { return Server.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
+		public static User GetUserFromPlayerId(int id) { return ServerSession.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
 
-		public static User GetCurrentChar(this Player player) { return Server.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
+		public static User GetCurrentChar(this Player player) { return ServerSession.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
 
 		private static Random random = new Random();
 		public static float RandomFloatInRange(float minimum, float maximum) { return (float)random.NextDouble() * (maximum - minimum) + minimum; }

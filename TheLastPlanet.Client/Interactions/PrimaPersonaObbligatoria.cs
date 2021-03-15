@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.Interactions
 	{
 		private static bool Switched = false;
 		private static int vecchiaMod = 2;
-		public static void Init() { Client.Instance.AddTick(WeaponHandling); }
+		public static void Init() { ClientSession.Instance.AddTick(WeaponHandling); }
 
 		//aggiungere controlli impostazioni.. V
 		//migliorare coordinate testa e aggiungere effetto grafico.. V

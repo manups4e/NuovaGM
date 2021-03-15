@@ -21,11 +21,11 @@ namespace TheLastPlanet.Server.TimeWeather
 			CurrentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather;
 			WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 			_rainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
-			Server.Instance.AddEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-			Server.Instance.AddEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-			Server.Instance.AddEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
-			Server.Instance.AddEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
-			Server.Instance.AddTick(Conteggio);
+			ServerSession.Instance.AddEventHandler("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+			ServerSession.Instance.AddEventHandler("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
+			ServerSession.Instance.AddEventHandler("changeWeather", new Action<bool>(CambiaMeteo));
+			ServerSession.Instance.AddEventHandler("changeWeatherForMe", new Action<Player, bool>(CambiaMeteoPerMe));
+			ServerSession.Instance.AddTick(Conteggio);
 		}
 
 		private static void CambiaMeteoPerMe([FromSource]Player p, bool startup)

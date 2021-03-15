@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
@@ -51,9 +52,14 @@ namespace Logger
 					colore = "^9";
 					break;
 			}
-
-			await BaseScript.Delay(1); // aspettiamo 1ms per gestire tutti i SIGSEGV che appaiono a causa della mancata attesa dopo il Database
 			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			if (tipo != LogType.Debug)
+			{
+				using StreamWriter w = File.AppendText($"Server__{DateTime.Now:dd_MM_yyyy}.log");
+				await w.WriteLineAsync($"{incipit} {err} {text}");
+			}
+#endif
 		}
 	}
 }

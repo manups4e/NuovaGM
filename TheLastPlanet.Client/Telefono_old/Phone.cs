@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Telefono
 				Scale = 300f;
 			SetMobilePhoneScale(Scale);
 			Visible = true;
-			Client.Instance.AddTick(Screen);
+			ClientSession.Instance.AddTick(Screen);
 		}
 
 		public void ClosePhone()

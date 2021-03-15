@@ -435,9 +435,9 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
-			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
-			Client.Instance.AddTick(Scaleform);
+			ClientSession.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
+			ClientSession.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
+			ClientSession.Instance.AddTick(Scaleform);
 			sub_8d2b2();
 		}
 
@@ -471,7 +471,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				string cognome = nuiData["cogn"] as string;
 				string dob = nuiData["dob"] as string;
 				string sesso = nuiData["sesso"] as string;
-				Client.Instance.AddTick(Controllo);
+				ClientSession.Instance.AddTick(Controllo);
 				_selezionato = sesso;
 				long assicurazione = Funzioni.GetRandomLong(999999999999999);
 				//Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
@@ -753,14 +753,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						case 0:
 							_dataFemmina = _data;
 							_data = _dataMaschio;
-							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
 							_selezionato = "Maschio";
 
 							break;
 						case 1:
 							_dataMaschio = _data;
 							_data = _dataFemmina;
-							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
 							_selezionato = "Femmina";
 
 							break;
@@ -852,7 +852,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, 0);
+					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, 0);
 				};
 
 				#endregion
@@ -1542,9 +1542,9 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", _data.SerializeToJson());
 					CachePlayer.Cache.MyPlayer.User.char_current = _data.id;
 					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.User.char_current);
-					Client.Instance.RemoveTick(Controllo);
-					Client.Instance.RemoveTick(Scaleform);
-					Client.Instance.RemoveTick(TastiMenu);
+					ClientSession.Instance.RemoveTick(Controllo);
+					ClientSession.Instance.RemoveTick(Scaleform);
+					ClientSession.Instance.RemoveTick(TastiMenu);
 					CamerasFirstTime.FirstTimeTransition(_data.id == 1);
 					RemoveAnimDict("mp_character_creation@lineup@male_a");
 					RemoveAnimDict("mp_character_creation@lineup@male_b");
@@ -1557,7 +1557,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				Creazione.Visible = true;
-				Client.Instance.AddTick(TastiMenu);
+				ClientSession.Instance.AddTick(TastiMenu);
 			}
 			catch
 			{

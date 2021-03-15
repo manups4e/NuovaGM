@@ -10,23 +10,21 @@ namespace TheLastPlanet.Server.Core
 	public static class Main
 	{
 		private static long _starttick;
-
+		private static DateTime Now;
 		public static void Init()
 		{
-			Server.Instance.AddTick(Orario);
-			Server.Instance.AddTick(PlayTime);
+			ServerSession.Instance.AddTick(Orario);
+			ServerSession.Instance.AddTick(PlayTime);
 			_starttick = GetGameTimer();
+			Now = DateTime.Now;
 		}
 
 		private static async Task Orario()
 		{
 			try
 			{
-				long tick = GetGameTimer();
-				double uptimeDay = Math.Floor((double)(tick - _starttick) / 86400000);
-				double uptimeHour = Math.Floor((double)(tick - _starttick) / 3600000) % 24;
-				double uptimeMinute = Math.Floor((double)(tick - _starttick) / 60000) % 60;
-				ExecuteCommand($"sets Attivo \"{uptimeDay} giorni {uptimeHour} Ore {uptimeMinute} Minuti \"");
+				var ora = DateTime.Now - Now;
+				SetConvarServerInfo("Attivo da:",$"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
 				await BaseScript.Delay(60000);
 			}
 			catch (Exception e)
@@ -40,8 +38,8 @@ namespace TheLastPlanet.Server.Core
 			try
 			{
 				await BaseScript.Delay(60000);
-				if (Server.PlayerList.Count > 0)
-					foreach (KeyValuePair<string, User> user in Server.PlayerList)
+				if (ServerSession.PlayerList.Count > 0)
+					foreach (KeyValuePair<string, User> user in ServerSession.PlayerList)
 						if (user.Value.status.Spawned)
 							user.Value.playTime += 60;
 			}

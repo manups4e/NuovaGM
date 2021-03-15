@@ -74,8 +74,8 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:spawntrain", new Action(SpawnTrain));
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			ClientSession.Instance.AddEventHandler("lprp:spawntrain", new Action(SpawnTrain));
+			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static async void Spawnato()

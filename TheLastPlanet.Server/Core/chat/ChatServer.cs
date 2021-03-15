@@ -15,9 +15,9 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
-			Server.Instance.AddEventHandler("consoleCommand", new Action<string, string>(ConsoleCommand));
-			Server.Instance.AddEventHandler("lprp:chat:commands", new Action<Player>(SendComms));
+			ServerSession.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
+			ServerSession.Instance.AddEventHandler("consoleCommand", new Action<string, string>(ConsoleCommand));
+			ServerSession.Instance.AddEventHandler("lprp:chat:commands", new Action<Player>(SendComms));
 		}
 
 		public static void chatMessage(int id, string name, string message)

@@ -9,7 +9,7 @@ namespace TheLastPlanet.Server
 	{
 		public static async Task Init()
 		{
-			Server.Impostazioni = new Configurazione();
+			ServerSession.Impostazioni = new Configurazione();
 			ConfigShared.SharedConfig = new SharedConfig();
 		}
 	}

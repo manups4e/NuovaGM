@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 		public static async void Init()
 		{
-			PuntiPesca = Client.Impostazioni.Lavori.Generici.Pescatore;
+			PuntiPesca = ClientSession.Impostazioni.Lavori.Generici.Pescatore;
 			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
 				RequestAnimDict(AnimDict);
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 0;
-				Client.Instance.AddTick(Pesca);
+				ClientSession.Instance.AddTick(Pesca);
 				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			};
 			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescamedia"].Usa += async (item, index) =>
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 1;
-				Client.Instance.AddTick(Pesca);
+				ClientSession.Instance.AddTick(Pesca);
 				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			};
 			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescaavanzata"].Usa += async (item, index) =>
@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
 				CannaInMano = true;
 				TipoCanna = 2;
-				Client.Instance.AddTick(Pesca);
+				ClientSession.Instance.AddTick(Pesca);
 				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
 			};
 		}
@@ -259,7 +259,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				if (Input.IsDisabledControlJustPressed(Control.FrontendY))
 				{
 					CannaDaPesca.Delete();
-					Client.Instance.RemoveTick(Pesca);
+					ClientSession.Instance.RemoveTick(Pesca);
 					CachePlayer.Cache.MyPlayer.Ped.Task.ClearAll();
 					CannaInMano = false;
 					TipoCanna = -1;

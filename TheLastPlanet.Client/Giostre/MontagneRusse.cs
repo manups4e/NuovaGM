@@ -61,12 +61,12 @@ namespace TheLastPlanet.Client.Giostre
 		public static async void Init()
 		{
 			func_220();
-			Client.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
-			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
-			Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
-			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
+			ClientSession.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
+			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			ClientSession.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
+			ClientSession.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
+			ClientSession.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
+			ClientSession.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
 			Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Montagne Russe" };
 			SetBlipDisplay(roller.Handle, 4);
 			CaricaTutto();
@@ -94,12 +94,12 @@ namespace TheLastPlanet.Client.Giostre
 			while (!HasModelLoaded((uint)GetHashKey("ind_prop_dlc_roller_car_02"))) await BaseScript.Delay(100);
 			LoadStream("LEVIATHON_RIDE_MASTER", "");
 			await SpawnaMontagne();
-			Client.Instance.AddTick(MuoveMontagneRusse);
+			ClientSession.Instance.AddTick(MuoveMontagneRusse);
 			HUD.TimerBarPool.Add(montagna);
-			Client.Instance.AddTick(ControlloMontagne);
+			ClientSession.Instance.AddTick(ControlloMontagne);
 		}
 
-		private static async void Spawnato() { Client.Instance.AddTick(EliminaGialli); }
+		private static async void Spawnato() { ClientSession.Instance.AddTick(EliminaGialli); }
 
 		private static List<ObjectHash> DaEliminare = new List<ObjectHash>() { ObjectHash.prop_roller_car_01, ObjectHash.prop_roller_car_02 };
 

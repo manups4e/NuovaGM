@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.Sport
 
 		public static async void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
 			{
 				Materasso = await World.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), true, true);
@@ -83,7 +83,7 @@ namespace TheLastPlanet.Client.Sport
 			RequestAnimDict(YogaAnimUnknown);
 			RequestAnimDict("missfam5_yoga");
 			RequestAdditionalText("YOGA", 3);
-			Client.Instance.AddTick(Materassino);
+			ClientSession.Instance.AddTick(Materassino);
 		}
 
 		private static async Task Animations()
@@ -160,7 +160,7 @@ namespace TheLastPlanet.Client.Sport
 					HUD.ShowHelp("~INPUT_CONTEXT~ per praticare lo Yoga\n~INPUT_FRONTEND_CANCEL~ per ritirare il materassino");
 					if (Input.IsControlJustPressed(Control.Context))
 					{
-						Client.Instance.AddTick(Animations);
+						ClientSession.Instance.AddTick(Animations);
 						CachePlayer.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 						ApplyPedDamageDecal(PlayerPedId(), 1, 0.5f, 0.513f, 0f, 1f, 0, 0, true, "blushing");
 						func_351(0);
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Sport
 						await BaseScript.Delay(2000);
 					}
 					SetPlayerControl(PlayerId(), true, 0);
-					Client.Instance.RemoveTick(Animations);
+					ClientSession.Instance.RemoveTick(Animations);
 				}
 			}
 		}

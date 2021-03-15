@@ -937,7 +937,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						curLocation = MainCamera.Position;
 						curRotation = MainCamera.Rotation;
 						checkTimer = GetGameTimer();
-						Client.Instance.AddTick(CreatorCameraControl);
+						ClientSession.Instance.AddTick(CreatorCameraControl);
 						Screen.Fading.FadeIn(500);
 
 						break;
@@ -964,7 +964,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 									break;
 							}
 
-							Client.Instance.AddTick(MarkerTick);
+							ClientSession.Instance.AddTick(MarkerTick);
 							if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 							if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
 							if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
@@ -973,12 +973,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 						break;
 					}
 					case MenuState.ChangeBackward when oldmenu == marker:
-						Client.Instance.RemoveTick(MarkerTick);
+						ClientSession.Instance.RemoveTick(MarkerTick);
 
 						break;
 					case MenuState.ChangeBackward when oldmenu == selezionePunto:
 					{
-						Client.Instance.RemoveTick(CreatorCameraControl);
+						ClientSession.Instance.RemoveTick(CreatorCameraControl);
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 						ClearFocus();
@@ -1072,7 +1072,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 												if (casaDummy.MarkerTetto != Vector3.Zero)
 												{
 													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
-													Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
+													ClientSession.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 													HUD.MenuPool.CloseAllMenus();
 												}
 												else
@@ -1084,7 +1084,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 											{
 												// non tetto incluso
 												BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.SerializeToJson(), abbreviazione);
-												Client.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
+												ClientSession.Impostazioni.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
 												HUD.MenuPool.CloseAllMenus();
 											}
 										}
@@ -1126,7 +1126,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 									if (garageDummy.TelecameraFuori.pos != Vector3.Zero && garageDummy.TelecameraFuori.guarda != Vector3.Zero)
 									{
 										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.SerializeToJson(), abbreviazione);
-										Client.Impostazioni.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
+										ClientSession.Impostazioni.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
 										HUD.MenuPool.CloseAllMenus();
 									}
 									else

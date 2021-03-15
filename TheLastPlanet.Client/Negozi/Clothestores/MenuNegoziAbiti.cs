@@ -474,10 +474,10 @@ namespace TheLastPlanet.Client.Negozi
 				if (state != MenuState.Closed) return;
 				await UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.Instance.RemoveTick(CameraVest);
+				ClientSession.Instance.RemoveTick(CameraVest);
 			};
 			MenuVest.Visible = true;
-			Client.Instance.AddTick(CameraVest);
+			ClientSession.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -646,10 +646,10 @@ namespace TheLastPlanet.Client.Negozi
 				if (_menuVestiti.Any(t => t.Visible)) return;
 				await UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.Instance.RemoveTick(CameraVest);
+				ClientSession.Instance.RemoveTick(CameraVest);
 			};
 			MenuPant.Visible = true;
-			Client.Instance.AddTick(CameraVest);
+			ClientSession.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -819,10 +819,10 @@ namespace TheLastPlanet.Client.Negozi
 						return;
 				await UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.Instance.RemoveTick(CameraVest);
+				ClientSession.Instance.RemoveTick(CameraVest);
 			};
 			MenuScarpe.Visible = true;
-			Client.Instance.AddTick(CameraVest);
+			ClientSession.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -992,10 +992,10 @@ namespace TheLastPlanet.Client.Negozi
 						return;
 				await UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
 				NegozioAbitiClient.Esci();
-				Client.Instance.RemoveTick(CameraVest);
+				ClientSession.Instance.RemoveTick(CameraVest);
 			};
 			MenuOcchiali.Visible = true;
-			Client.Instance.AddTick(CameraVest);
+			ClientSession.Instance.AddTick(CameraVest);
 		}
 
 		#endregion
@@ -1782,7 +1782,7 @@ namespace TheLastPlanet.Client.Negozi
 					await UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
 					NegozioAbitiClient.Esci();
 					AccessoriAttivo = false;
-					Client.Instance.RemoveTick(CameraAcc);
+					ClientSession.Instance.RemoveTick(CameraAcc);
 				}
 				else if (state == MenuState.ChangeForward)
 				{
@@ -1889,7 +1889,7 @@ namespace TheLastPlanet.Client.Negozi
 				}
 			};
 			MenuAccessori.Visible = true;
-			Client.Instance.AddTick(CameraAcc);
+			ClientSession.Instance.AddTick(CameraAcc);
 		}
 
 		#endregion

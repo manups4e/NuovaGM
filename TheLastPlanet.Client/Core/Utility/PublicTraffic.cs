@@ -13,11 +13,11 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Init()
 		{
-			baseTraffic = Client.Impostazioni.Main.baseTraffic;
-			divMultiplier = Client.Impostazioni.Main.divMultiplier;
+			baseTraffic = ClientSession.Impostazioni.Main.baseTraffic;
+			divMultiplier = ClientSession.Impostazioni.Main.divMultiplier;
 			LastCheck = World.CurrentDayTime;
 			SetDensity();
-			Client.Instance.AddTick(Check);
+			ClientSession.Instance.AddTick(Check);
 		}
 
 		public static async Task Check()

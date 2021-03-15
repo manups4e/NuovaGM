@@ -19,27 +19,27 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
+			ClientSession.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
 			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-			Client.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, uint, string>(sendUserInfo));
-			Client.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
-			Client.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
-			Client.Instance.AddEventHandler("lprp:death", new Action(death));
-			Client.Instance.AddEventHandler("lprp:announce", new Action<string>(announce));
-			Client.Instance.AddEventHandler("lprp:reviveChar", new Action(Revive));
-			Client.Instance.AddEventHandler("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
-			Client.Instance.AddEventHandler("lprp:deleteVehicle", new Action(DeleteVehicle));
-			Client.Instance.AddEventHandler("lprp:mostrasalvataggio", new Action(Salva));
-			Client.Instance.AddEventHandler("lprp:StartLocationSave", new Action(StartLocationSave));
-			Client.Instance.AddEventHandler("lprp:addWeapon", new Action<string, int>(AddWeapon));
-			Client.Instance.AddEventHandler("lprp:removeWeapon", new Action<string>(RemoveWeapon));
-			Client.Instance.AddEventHandler("lprp:possiediArma", new Action<string, string>(PossiediArma));
-			Client.Instance.AddEventHandler("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
-			Client.Instance.AddEventHandler("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
-			Client.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
-			Client.Instance.AddEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
-			Client.Instance.AddEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
-			Client.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
+			ClientSession.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, uint, string>(sendUserInfo));
+			ClientSession.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
+			ClientSession.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
+			ClientSession.Instance.AddEventHandler("lprp:death", new Action(death));
+			ClientSession.Instance.AddEventHandler("lprp:announce", new Action<string>(announce));
+			ClientSession.Instance.AddEventHandler("lprp:reviveChar", new Action(Revive));
+			ClientSession.Instance.AddEventHandler("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
+			ClientSession.Instance.AddEventHandler("lprp:deleteVehicle", new Action(DeleteVehicle));
+			ClientSession.Instance.AddEventHandler("lprp:mostrasalvataggio", new Action(Salva));
+			ClientSession.Instance.AddEventHandler("lprp:StartLocationSave", new Action(StartLocationSave));
+			ClientSession.Instance.AddEventHandler("lprp:addWeapon", new Action<string, int>(AddWeapon));
+			ClientSession.Instance.AddEventHandler("lprp:removeWeapon", new Action<string>(RemoveWeapon));
+			ClientSession.Instance.AddEventHandler("lprp:possiediArma", new Action<string, string>(PossiediArma));
+			ClientSession.Instance.AddEventHandler("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
+			ClientSession.Instance.AddEventHandler("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
+			ClientSession.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
+			ClientSession.Instance.AddEventHandler("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
+			ClientSession.Instance.AddEventHandler("lprp:restoreWeapons", new Action(RestoreWeapons));
+			ClientSession.Instance.AddEventHandler("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
 			//Client.Instance.AddTick(Mappina);
 			timer = GetGameTimer();
 		}
@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			CachePlayer.Cache.GiocatoriOnline = await Client.Instance.Eventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers");
+			CachePlayer.Cache.GiocatoriOnline = await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers");
 		}
 
 		public static async void LoadModel()
@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void StartLocationSave()
 		{
-			Client.Instance.AddTick(LocationSave);
+			ClientSession.Instance.AddTick(LocationSave);
 		}
 
 		public static async Task LocationSave()

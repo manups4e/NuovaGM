@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Interactions
 				SetTvVolume(-4f);
 				EnableMovieSubtitles(true);
 				Scaleform = false;
-				Client.Instance.AddTick(DrawTV);
+				ClientSession.Instance.AddTick(DrawTV);
 			}
 		}
 
@@ -290,7 +290,7 @@ namespace TheLastPlanet.Client.Interactions
 					FakeTV.Delete();
 					int intnum = -1;
 					uint something = (uint)intnum;
-					Client.Instance.RemoveTick(DrawTV);
+					ClientSession.Instance.RemoveTick(DrawTV);
 				}
 			}
 		}

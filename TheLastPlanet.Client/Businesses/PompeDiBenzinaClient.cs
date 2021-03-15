@@ -21,18 +21,18 @@ namespace TheLastPlanet.Client.Businesses
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
-			Client.Instance.AddEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
-			Client.Instance.AddEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
-			Client.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
-			Client.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
-			Client.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>, CallbackDelegate>(Manage));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>, CallbackDelegate>(SellStation));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>, CallbackDelegate>(Notification));
-			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action<CallbackDelegate>(MenuClosed));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(AddStationFunds));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(RemStationFunds));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
+			ClientSession.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
+			ClientSession.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>, CallbackDelegate>(Manage));
+			ClientSession.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>, CallbackDelegate>(SellStation));
+			ClientSession.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>, CallbackDelegate>(Notification));
+			ClientSession.Instance.RegisterNuiEventHandler("menuclosed", new Action<CallbackDelegate>(MenuClosed));
+			ClientSession.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(AddStationFunds));
+			ClientSession.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(RemStationFunds));
 		}
 
 		private static StationDiBenzina GetStationInfo(int index)

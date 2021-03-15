@@ -13,9 +13,9 @@ namespace FivemPlayerlistServer
 		private static ConcurrentDictionary<int, dynamic[]> list = new ConcurrentDictionary<int, dynamic[]>();
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
-			Server.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
-			Server.Instance.AddEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+			ServerSession.Instance.AddEventHandler("lprp:fs:getMaxPlayers", new Action<Player>(ReturnMaxPlayers));
+			ServerSession.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
+			ServerSession.Instance.AddEventHandler("lprp:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
 		}
 
 		private static async void ReturnMaxPlayers([FromSource] Player source)
@@ -23,7 +23,7 @@ namespace FivemPlayerlistServer
 			await BaseScript.Delay(0);
 			source.TriggerEvent("lprp:fs:setMaxPlayers", int.Parse(GetConvar("sv_maxClients", "30").ToString()));
 
-			foreach (Player p in Server.Instance.GetPlayers.ToList())
+			foreach (Player p in ServerSession.Instance.GetPlayers.ToList())
 				if (list.ContainsKey(int.Parse(p.Handle)))
 				{
 					dynamic[] listItem = list[int.Parse(p.Handle)];

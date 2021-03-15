@@ -12,20 +12,20 @@ using TheLastPlanet.Shared.Snowflake;
 
 namespace TheLastPlanet.Client
 {
-	public class Client : BaseScript
+	public class ClientSession : BaseScript
 	{
-		public static Client Instance { get; protected set; }
+		public static ClientSession Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		public EventSystem Eventi;
-		public Client() { Inizializza(); }
+		public EventSystem SistemaEventi;
+		public ClientSession() { Inizializza(); }
 
 		private async void Inizializza()
 		{
 			SnowflakeGenerator.Create(1);
 			Instance = this;
-			Eventi = new EventSystem();
+			SistemaEventi = new EventSystem();
 			await ClassCollector.Init();
 		}
 		

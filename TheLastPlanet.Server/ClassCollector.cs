@@ -12,17 +12,18 @@ using TheLastPlanet.Server.Lavori.Whitelistati;
 using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.Veicoli;
 using TheLastPlanet.Shared.Snowflake;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server
 {
 	internal static class ClassCollector
 	{
-		public static async void Init()
+		public static async Task Init()
 		{
-			
+		
 			RequestInternal.Init();
 			await ConfigServer.Init();
-			while (Server.Impostazioni == null) await BaseScript.Delay(0);
+			while (ServerSession.Impostazioni == null) await BaseScript.Delay(0);
 			NewServerEntrance.Init();
 			ServerManager.Init();
 			Main.Init();
@@ -50,6 +51,7 @@ namespace TheLastPlanet.Server
 			NuovaCoda.Init();
 			ServerManager.Init();
 			BotDiscordHandler.Init();
+			await Task.FromResult(0);
 		}
 	}
 }

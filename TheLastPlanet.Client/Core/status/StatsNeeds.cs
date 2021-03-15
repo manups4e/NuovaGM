@@ -48,8 +48,8 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-			Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
+			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			ClientSession.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 			Needs.Add("Fame", new Necessità("Fame", 0, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
 			Needs.Add("Sete", new Necessità("Sete", 0, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
 			Needs.Add("Stanchezza", new Necessità("Stanchezza", 0, 0.007f, new Action<Ped, Player, Necessità>(Stanchezza)));
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Status
 					break;
 				}
 				default:
-					Client.Instance.RemoveTick(FameSete);
+					ClientSession.Instance.RemoveTick(FameSete);
 
 					break;
 			}
@@ -123,10 +123,10 @@ namespace TheLastPlanet.Client.Core.Status
 		private static async void Clacson()
 		{
 			Ped p = CachePlayer.Cache.MyPlayer.Ped;
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.AddTick(Horn);
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) ClientSession.Instance.AddTick(Horn);
 			await BaseScript.Delay(30000);
 			p.CancelRagdoll();
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.RemoveTick(Horn);
+			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo) ClientSession.Instance.RemoveTick(Horn);
 		}
 
 		public static async Task Horn()
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Client.Core.Status
 			{
 				HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
 				_fame100 = true;
-				Client.Instance.AddTick(FameSete);
+				ClientSession.Instance.AddTick(FameSete);
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace TheLastPlanet.Client.Core.Status
 			{
 				HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
 				_sete100 = true;
-				Client.Instance.AddTick(FameSete);
+				ClientSession.Instance.AddTick(FameSete);
 			}
 		}
 
@@ -288,7 +288,7 @@ namespace TheLastPlanet.Client.Core.Status
 			else if (playerPed.IsInMeleeCombat)
 				stanchezza.ChangeVal = 0.0285f;
 			else
-				stanchezza.ChangeVal = 0.0062f;
+				stanchezza.ChangeVal = 0.0055f;
 			stanchezza.Val += stanchezza.ChangeVal;
 			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6) stanchezza.Val += 0.03f;
 
