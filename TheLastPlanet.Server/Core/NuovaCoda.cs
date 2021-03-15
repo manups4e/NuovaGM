@@ -75,13 +75,13 @@ namespace TheLastPlanet.Server.Core
 				ServerSession.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
 				ServerSession.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
 				ServerSession.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
-				ServerSession.Instance.AddCommand("sessione", new Action<int, List<object>, string>(QueueSession), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("cambiamax", new Action<int, List<object>, string>(QueueChangeMax), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("ricaricaconfig", new Action<int, List<object>, string>(ReloadConfig), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("ckick", new Action<int, List<object>, string>(Kick), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("steamhexfromprofile", new Action<int, List<object>, string>(DiscordProfileToHex), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("exitgame", new Action<int, List<object>, string>(ExitSession), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("count", new Action<int, List<object>, string>(QueueCheck), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("sessione", new Action<Player, List<string>, string>(QueueSession), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("cambiamax", new Action<Player, List<string>, string>(QueueChangeMax), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("ricaricaconfig", new Action<Player, List<string>, string>(ReloadConfig), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("ckick", new Action<Player, List<string>, string>(Kick), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("steamhexfromprofile", new Action<Player, List<string>, string>(DiscordProfileToHex), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("exitgame", new Action<Player, List<string>, string>(ExitSession), UserGroup.Admin);
+				ServerSession.Instance.AddCommand("count", new Action<Player, List<string>, string>(QueueCheck), UserGroup.Admin);
 				StopHardcap();
 				Task.Run(QueueCycle);
 				//            Server.Instance.AddTick(QueueCycle);
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Server.Core
 			stateChangeMessages = ServerSession.Impostazioni.Coda.stateChangeMessages;
 		}
 
-		private static void QueueCheck(int source, List<object> args, string raw)
+		private static void QueueCheck(Player source, List<string> args, string raw)
 		{
 			Log.Printa(LogType.Info, $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
 			session.Where(k => k.Value == SessionState.Coda).ToList().ForEach(j =>
@@ -116,7 +116,7 @@ namespace TheLastPlanet.Server.Core
 			});
 		}
 
-		private static void ReloadConfig(int source, List<object> args, string raw) { LoadConfigs(); }
+		private static void ReloadConfig(Player source, List<string> args, string raw) { LoadConfigs(); }
 
 		private static bool IsEverythingReady()
 		{
@@ -125,11 +125,11 @@ namespace TheLastPlanet.Server.Core
 			return false;
 		}
 
-		private static void ExitSession(int source, List<object> args, string raw)
+		private static void ExitSession(Player source, List<string> args, string raw)
 		{
 			try
 			{
-				if (source == 0)
+				if (source.Handle == "0")
 				{
 					Log.Printa(LogType.Error, $"Questo non è un comando da console");
 				}
@@ -146,7 +146,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		private static void Kick(int source, List<object> args, string raw)
+		private static void Kick(Player source, List<string> args, string raw)
 		{
 			try
 			{
@@ -528,7 +528,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		private static async void QueueSession(int source, List<object> args, string raw)
+		private static async void QueueSession(Player source, List<string> args, string raw)
 		{
 			try
 			{
@@ -546,7 +546,7 @@ namespace TheLastPlanet.Server.Core
 					return;
 				}
 
-				if (source == 0)
+				if (source.Handle == "0")
 				{
 					Debug.WriteLine($"| LICENSE" + new string(' ', 33) + " | STATO IN CODA | DISCORD" + new string(' ', 11) + " | STEAM" + new string(' ', 10) + " | PRIORITA' | RISERVATO | SLOT USATO | HANDLE | NOME");
 					session.OrderByDescending(k => k.Value).ToList().ForEach(j =>
@@ -582,7 +582,7 @@ namespace TheLastPlanet.Server.Core
 						};
 						sessionReturn.Add(temp);
 					});
-					Player requested = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
+					Player requested = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.Handle);
 					requested.TriggerEvent("lprp:coda: sessionResponse", sessionReturn.SerializeToJson());
 				}
 			}
@@ -592,7 +592,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		private static async void QueueChangeMax(int source, List<object> args, string raw)
+		private static async void QueueChangeMax(Player source, List<string> args, string raw)
 		{
 			try
 			{
@@ -915,7 +915,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		private static void DiscordProfileToHex(int source, List<object> args, string raw)
+		private static void DiscordProfileToHex(Player source, List<string> args, string raw)
 		{
 			try
 			{
@@ -986,8 +986,8 @@ namespace TheLastPlanet.Server.Core
 					NuovaCoda.priority.TryAdd(k.License, k.Priority);
 				});
 				if (File.Exists($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json")) newwhitelist = File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString().DeserializeFromJson<List<PriorityAccount>>();
-				RegisterCommand("daipriorita", new Action<int, List<object>, string>(Add), true);
-				RegisterCommand("rimuovipriorita", new Action<int, List<object>, string>(Remove), true);
+				RegisterCommand("daipriorita", new Action<Player, List<string>, string>(Add), true);
+				RegisterCommand("rimuovipriorita", new Action<Player, List<string>, string>(Remove), true);
 				NuovaCoda.priorityReady = true;
 			}
 			catch (Exception)
@@ -996,7 +996,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		internal static void Add(int source, List<object> args, string raw)
+		internal static void Add(Player source, List<string> args, string raw)
 		{
 			try
 			{
@@ -1043,7 +1043,7 @@ namespace TheLastPlanet.Server.Core
 			return;
 		}
 
-		internal static void Remove(int source, List<object> args, string raw)
+		internal static void Remove(Player source, List<string> args, string raw)
 		{
 			try
 			{

@@ -4,6 +4,7 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using System;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Veicoli
 {

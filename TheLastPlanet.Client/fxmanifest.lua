@@ -21,5 +21,5 @@ server_scripts {
 	"Server/TheLastPlanet.Server.net.dll",
 }
 
-ui_page "html/tlp.html"
+ui_page "html/thelastplanet.html"
 loadscreen 'html/loadingscreen/loading.html'

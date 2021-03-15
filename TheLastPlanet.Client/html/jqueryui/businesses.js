@@ -1,10 +1,15 @@
 var blockfunds = false;
+var resname;
 
 $(function(){
   var manageid = 0
   
   window.addEventListener("message", function(event){
     var item = event.data;
+      if (item.resname) {
+          resname = item.resname;
+          return;
+      }
 
     if (item.showManager){
       manageid = item.manageid;
@@ -156,7 +161,7 @@ $(function(){
 });
 
 function sendData(name, data){
-    $.post("http://tlp/" + name, JSON.stringify(data), function(datab) {
+    $.post("http://"+ resname +"/" + name, JSON.stringify(data), function(datab) {
         console.log(datab);
     });
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
 #elif SERVER
 using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Core.PlayerChar;
 #endif
 
 namespace TheLastPlanet.Shared.PlayerChar

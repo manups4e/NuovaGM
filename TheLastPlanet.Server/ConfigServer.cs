@@ -11,6 +11,7 @@ namespace TheLastPlanet.Server
 		{
 			ServerSession.Impostazioni = new Configurazione();
 			ConfigShared.SharedConfig = new SharedConfig();
+			await Task.FromResult(0);
 		}
 	}
 

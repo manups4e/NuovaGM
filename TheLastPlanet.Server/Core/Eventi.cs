@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -210,46 +211,34 @@ namespace TheLastPlanet.Server.Core
 			string text = name + " e' uscito.";
 
 			if (reason != "")
-				switch (reason)
+				text = reason switch
 				{
-					case "Timed out after 10 seconds.":
-						text = name + " e' crashato.";
-
-						break;
-					case "Disconnected.":
-					case "Exited.":
-						text = name + " si e' disconnesso.";
-
-						break;
-					default:
-						text = name + " si e' disconnesso: " + reason;
-
-						break;
-				}
-
+					"Timed out after 10 seconds." => name + " e' crashato.",
+					"Disconnected." or "Exited." => name + " si e' disconnesso.",
+					_ => name + " si e' disconnesso: " + reason,
+				};
 			if (ServerSession.PlayerList.ContainsKey(handle))
 			{
 				ServerSession.PlayerList.TryGetValue(handle, out User ped);
 
+				var disc = ped.identifiers.Discord;
 				if (ped.status.Spawned)
 				{
 					await Funzioni.SalvaPersonaggio(p);
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.Discord);
-					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.Discord);
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
 				}
 				else
 				{
-					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.Discord + " è uscito dal server senza selezionare un personaggio");
-					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.Discord + " è uscito dal server senza selezionare un personaggio");
+					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
+					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
 				}
 
 				ServerSession.PlayerList.TryRemove(handle, out ped);
 			}
 
 			Log.Printa(LogType.Info, text);
-			BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " " + text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
 		}
 
 		public static async void SalvaPlayer([FromSource] Player player)

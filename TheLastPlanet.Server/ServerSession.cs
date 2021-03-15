@@ -9,6 +9,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared.Snowflake;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server
 {
@@ -24,13 +25,17 @@ namespace TheLastPlanet.Server
 
 		public ServerSession()
 		{
+#if DEBUG
+			SetConvarReplicated("DEBUG", "1");
+#else
+			SetConvarReplicated("DEBUG", "0");
+#endif
 			SnowflakeGenerator.Create(2);
 			Instance = this;
 			SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
 			SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
 			SetConvarServerInfo("locale", "it-IT");
 			SetConvarServerInfo("tags", "RolePlay, GTAO style");
-			SetConvar("DEBUG", "true");
 			SetGameType("RolePlay");
 			SetMapName("The Last Planet");
 			StartServer();

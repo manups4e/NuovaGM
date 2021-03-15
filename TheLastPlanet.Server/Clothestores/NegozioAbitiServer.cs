@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using TheLastPlanet.Server.Core;
 using System;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Clothestores
 {

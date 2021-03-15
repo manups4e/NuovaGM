@@ -14,13 +14,13 @@ function handleChange(input)
 function ClosePanel()
 {
 	var obj = { message: 'closing panel' };
-	$.post('http://tlp/ClosePanel', JSON.stringify(obj));
+	$.post('http://'+ resname +'/ClosePanel', JSON.stringify(obj));
 }
 
 function RefreshPanel()
 {
 	var obj = { message: 'refreshing panel' };
-	$.post('http://tlp/RefreshPanel', JSON.stringify(obj));
+	$.post('http://'+ resname +'/RefreshPanel', JSON.stringify(obj));
 }
 
 function BackPanel()
@@ -44,7 +44,7 @@ function Change(license)
 function BanUser(license)
 {
 	var obj = { License: license }
-	$.post('http://tlp/BanUser', JSON.stringify(obj));
+	$.post('http://'+ resname +'/BanUser', JSON.stringify(obj));
 	ClosePanel();
 	return;
 }
@@ -52,7 +52,7 @@ function BanUser(license)
 function KickUser(license)
 {
 	var obj = { License: license }
-	$.post('http://tlp/KickUser', JSON.stringify(obj));
+	$.post('http://'+ resname +'/KickUser', JSON.stringify(obj));
 	ClosePanel();
 	return;
 }
@@ -64,7 +64,7 @@ function ChangePriority(license, change)
 		change = document.getElementById("priority").value;
 	}
 	var obj = { License: license , Value: change}
-	$.post('http://tlp/ChangePriority', JSON.stringify(obj));
+	$.post('http://'+ resname +'/ChangePriority', JSON.stringify(obj));
 	ClosePanel();
 	return;
 }
@@ -72,7 +72,7 @@ function ChangePriority(license, change)
 function ChangeReserved(license, value)
 {
 	var obj = { License: license , Value: value}
-	$.post('http://tlp/ChangeReserved', JSON.stringify(obj));
+	$.post('http://'+ resname +'/ChangeReserved', JSON.stringify(obj));
 	ClosePanel();
 	return;
 }

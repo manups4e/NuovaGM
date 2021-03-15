@@ -1,9 +1,9 @@
+var resname;
 $(function () {
 	var characters = [];
 	var freeSlot = 0;
 
 	window.addEventListener('message', function (event) {
-		var resname;
 		if (event.data.resname) {
 			resname = event.data.resname;
 			return;
@@ -20,14 +20,14 @@ $(function () {
 			$('.characters').show();
 			$('#select').show();
 			$('#delete').show();
-			$('a[href="http://tlp/new-character"]').hide();
-			$('a[href="http://tlp/new-character-submit"]').hide();
+			$('a[href="http://'+ resname +'/new-character"]').hide();
+			$('a[href="http://'+ resname +'/new-character-submit"]').hide();
 			$("#go").show();
 			$("#birth").hide();
 			$("#spawn-select-back").hide();
 			$(".spawn-select").hide();
 			$("#badly-placed-spawn-select-header").hide();
-			$('a[href="http://tlp/disconnect"]').show();
+			$('a[href="http://'+ resname +'/disconnect"]').show();
 			$('#back').hide();
 			$('.characters #character').remove();
 
@@ -43,9 +43,9 @@ $(function () {
 				$('#go').hide();
 				$('#birth').show();
 				$('#back').show();
-				$('a[href="http://tlp/new-character-submit"]').show();
-				$('a[href="http://tlp/disconnect"]').hide();
-				$('a[href="http://tlp/list"]').show();
+				$('a[href="http://'+ resname +'/new-character-submit"]').show();
+				$('a[href="http://'+ resname +'/disconnect"]').hide();
+				$('a[href="http://'+ resname +'/list"]').show();
 
 				$('.option p').on("click", function () {
 					clicked = this;
@@ -73,7 +73,7 @@ $(function () {
 					var dob = dt + '/' + mn + '/' + yy;
 					var sex = $("input[name='gender']:checked").val();
 	
-					$.post('http://tlp/new-character', JSON.stringify({
+					$.post('http://'+ resname +'/new-character', JSON.stringify({
 						nome:firstname,
 						cogn:lastname,
 						dob:dob,
@@ -84,7 +84,7 @@ $(function () {
 			});
 
 			$('#back').on('click', function () {
-				$.post('http://tlp/back-indietro');
+				$.post('http://'+ resname +'/back-indietro');
 			});
 
 			if (!event.data.characters) return;
@@ -136,11 +136,11 @@ $(function () {
 
 			var selected_spawn = "Paleto Bay";
 			$("button#disconnect").on('click', function () {
-				$.post('http://tlp/disconnect');
+				$.post('http://'+ resname +'/disconnect');
 			});
 			$("button#select").on('click', function () {
 				if (!$("button#select").hasClass("disabled")){
-					$.post('http://tlp/previewChar', JSON.stringify({
+					$.post('http://'+ resname +'/previewChar', JSON.stringify({
 						id: parseInt(selected)
 					}))
 				};
@@ -153,14 +153,14 @@ $(function () {
 				$('.characters').hide();
 				$('#select').hide();
 				$('#delete').hide();
-				$('a[href="http://tlp/disconnect"]').hide();
+				$('a[href="http://'+ resname +'/disconnect"]').hide();
 				*/
 
 				/* go to spawn selection screen 
 				$('.characters').hide();
 				$('#select').hide();
 				$('#delete').hide();
-				$('a[href="http://tlp/disconnect"]').hide();
+				$('a[href="http://'+ resname +'/disconnect"]').hide();
 
 				$('.spawn-select').show();
 				$('#go').show();
@@ -179,7 +179,7 @@ $(function () {
 			$("button#go").on('click', function() {
 				if (!$(this).hasClass("disabled")) {
 
-					$.post('http://tlp/char-select', JSON.stringify({
+					$.post('http://'+ resname +'/char-select', JSON.stringify({
 						id: parseInt(selected)
 					}));
 					$('.container').hide();

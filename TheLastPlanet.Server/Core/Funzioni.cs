@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using Logger;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Core
 {

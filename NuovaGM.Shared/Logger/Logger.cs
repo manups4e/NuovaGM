@@ -33,11 +33,9 @@ namespace Logger
 					colore = "^2";
 					break;
 				case LogType.Debug:
-					if (API.GetResourceMetadata(API.GetCurrentResourceName(), "enable_debug_prints_for_events", 0).ToLower() == "true")
-					{
-						err = "-- [DEBUG] -- ";
-						colore = "^5";
-					}
+					if (API.GetConvarInt("DEBUG", 0) == 0) return;
+					err = "-- [DEBUG] -- ";
+					colore = "^5";
 					break;
 				case LogType.Warning:
 					err = "-- [ATTENZIONE] --";
@@ -54,10 +52,17 @@ namespace Logger
 			}
 			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 #if SERVER
-			if (tipo != LogType.Debug)
+			try
 			{
-				using StreamWriter w = File.AppendText($"Server__{DateTime.Now:dd_MM_yyyy}.log");
-				await w.WriteLineAsync($"{incipit} {err} {text}");
+				if (tipo != LogType.Debug)
+				{
+					using StreamWriter w = File.AppendText($"Server__{DateTime.Now:dd_MM_yyyy}.log");
+					await w.WriteLineAsync($"{incipit} {err} {text}");
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine($"^1{incipit} -- [ERRORE] -- {e}.^7");
 			}
 #endif
 		}

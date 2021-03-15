@@ -3,9 +3,13 @@ var cAudio = undefined;
 var sfxAudio = undefined;
 var currentStatus = undefined;
 var inCar = false;
-
+var resname;
 window.addEventListener('message', function (e) 
 {
+    if (e.data.resname) {
+        resname = e.data.resname;
+        return;
+    }
     if (e.data.transactionType === 'isBuckled') {
         if (inCar != e.data.inCar) {
             if (!e.data.inCar) {

@@ -3,6 +3,7 @@ using Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 

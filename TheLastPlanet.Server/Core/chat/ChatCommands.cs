@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using System.Text.RegularExpressions;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Core
 {

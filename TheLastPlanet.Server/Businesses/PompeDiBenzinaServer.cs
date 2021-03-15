@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Impostazioni.Shared.Configurazione.Generici;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Businesses
 {
