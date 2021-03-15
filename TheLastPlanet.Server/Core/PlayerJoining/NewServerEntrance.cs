@@ -21,13 +21,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 					if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-					User user = new(player,
-						await MySQL.QuerySingleAsync<BasePlayerShared>(procedure,
-							new
-							{
-								disc = Convert.ToInt64(player.GetLicense(Identifier.Discord)),
-								lice = player.GetLicense(Identifier.License), name = player.Name
-							}));
+					User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+					{
+						disc = Convert.ToInt64(player.GetLicense(Identifier.Discord)),
+						lice = player.GetLicense(Identifier.License), name = player.Name
+					}));
 					await BaseScript.Delay(1);
 					Server.PlayerList.TryAdd(handle, user);
 					EntratoMaProprioSulSerio(player);
@@ -36,7 +34,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				catch (Exception e)
 				{
 					Log.Printa(LogType.Error, e.ToString());
-
 					return null;
 				}
 			}));

@@ -25,6 +25,7 @@ namespace TheLastPlanet.Client
 		{
 			try
 			{
+				
 			}
 			catch (Exception e)
 			{

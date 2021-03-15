@@ -8,8 +8,7 @@ using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared.Snowflake;
-
-// ReSharper disable All
+using CitizenFX.Core.Native;
 
 namespace TheLastPlanet.Server
 {
@@ -25,6 +24,10 @@ namespace TheLastPlanet.Server
 
 		public Server()
 		{
+			API.SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
+			API.SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
+			API.SetGameType("RolePlay");
+			API.SetMapName("The Last Planet");
 			SnowflakeGenerator.Create(2);
 			Instance = this;
 			Eventi = new();
