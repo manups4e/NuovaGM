@@ -13,8 +13,6 @@ namespace TheLastPlanet.Server.Core
 {
 	public static class Funzioni
 	{
-		public static void Init() { ServerSession.Instance.AddTick(Salvataggio); }
-
 		public static Player GetPlayerFromId(int id)
 		{
 			return ServerSession.Instance.GetPlayers[id];
@@ -270,32 +268,6 @@ namespace TheLastPlanet.Server.Core
 			return "WT_INVALID";
 		}
 
-		public static async Task SalvaPersonaggio(Player player)
-		{
-			User ped = GetUserFromPlayerId(player.Handle);
-			await ServerSession.Instance.Execute("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
-			{
-				name = player.Name,
-				gr = ped.group,
-				level = ped.group_level,
-				time = ped.playTime,
-				current = ped.char_current,
-				data = ped.Characters.SerializeToJson(),
-				id = ped.identifiers.Discord
-			});
-			player.TriggerEvent("lprp:salvataggioClient", JsonConvert.SerializeObject(new
-			{
-				name = player.Name,
-				gr = ped.group,
-				level = ped.group_level,
-				time = ped.playTime,
-				current = ped.char_current,
-				data = ped.Characters.SerializeToJson(),
-				id = ped.identifiers.Discord
-			}));
-			await Task.FromResult(0);
-		}
-
 		public static async Task Salvataggio()
 		{
 			try
@@ -315,7 +287,6 @@ namespace TheLastPlanet.Server.Core
 							if (ped.status.Spawned)
 							{
 								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
-								await SalvaPersonaggio(player);
 								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
 								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
 							}

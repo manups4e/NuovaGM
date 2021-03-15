@@ -8,6 +8,7 @@ using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {
@@ -20,6 +21,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		}
 
 		[JsonIgnore] public Player Player;
+		[JsonIgnore] public DateTime LastSaved;
 
 		public User(Player player, BasePlayerShared result)
 		{
@@ -33,6 +35,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Player = player;
 			StatiPlayer = new PlayerStateBags(player);
 			char_data = result.char_data;
+			LastSaved = DateTime.Now;
 		}
 
 		public User(Player player, dynamic result)
@@ -47,6 +50,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Player = player;
 			StatiPlayer = new PlayerStateBags(player);
 			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			LastSaved = DateTime.Now;
 		}
 
 		public User(dynamic result)
@@ -59,6 +63,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			playTime = result.playTime;
 			//p = player;
 			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			LastSaved = DateTime.Now;
 		}
 
 		[JsonIgnore]
@@ -341,6 +346,29 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			Player.TriggerEvent("lprp:ShowNotification", text);
 		}
+
+		public async Task SalvaPersonaggio()
+		{
+			try
+			{
+				await MySQL.ExecuteAsync("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
+				{
+					name = Player.Name,
+					gr = group,
+					level = group_level,
+					time = playTime,
+					current = char_current,
+					data = Characters.SerializeToJson(),
+					id = identifiers.Discord
+				});
+			}
+			catch(Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+			}
+			await Task.FromResult(0);
+		}
+
 	}
 
 	public class Status
