@@ -422,11 +422,11 @@ namespace TheLastPlanet.Server.Core
 			{
 				DateTime now = DateTime.Now;
 
-				foreach (KeyValuePair<string, User> player in ServerSession.PlayerList)
+				foreach (var player in ServerSession.PlayerList)
 					if (player.Value.status.Spawned)
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
-						await Funzioni.SalvaPersonaggio(Funzioni.GetPlayerFromId(player.Key));
+						await player.Value.SalvaPersonaggio();
 						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
 						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
 						await Task.FromResult(0);

@@ -351,15 +351,27 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			try
 			{
-				await MySQL.ExecuteAsync("UPDATE `users` SET `Name` = @name, `group` = @gr, `group_level` = @level, `playTime` = @time, `char_current` = @current, `char_data` = @data WHERE `discord` = @id", new
+				await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
 				{
-					name = Player.Name,
 					gr = group,
 					level = group_level,
 					time = playTime,
 					current = char_current,
-					data = Characters.SerializeToJson(),
-					id = identifiers.Discord
+					mon = Money,
+					bank = Bank,
+					dirty = DirtyMoney,
+					weap = CurrentChar.weapons.SerializeToJson(),
+					invent = CurrentChar.inventory.SerializeToJson(),
+					job = CurrentChar.job.name,
+					jgrade = CurrentChar.job.grade,
+					gang = CurrentChar.gang.name,
+					ggrade = CurrentChar.gang.grade,
+					skin = CurrentChar.skin.SerializeToJson(),
+					dress = CurrentChar.dressing.SerializeToJson(),
+					needs = CurrentChar.needs.SerializeToJson(),
+					stats = CurrentChar.statistiche.SerializeToJson(),
+					dead = CurrentChar.is_dead,
+					id = UserID
 				});
 			}
 			catch(Exception e)

@@ -44,6 +44,5 @@ namespace TheLastPlanet.Client.Telefono.Apps
 		public override void Kill()
 		{
 		}
-
 	}
 }

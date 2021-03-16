@@ -224,7 +224,7 @@ namespace TheLastPlanet.Server.Core
 				var disc = ped.identifiers.Discord;
 				if (ped.status.Spawned)
 				{
-					await Funzioni.SalvaPersonaggio(p);
+					await ped.SalvaPersonaggio();
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
 				}
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Server.Core
 				if (ped.status.Spawned)
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
-					await Funzioni.SalvaPersonaggio(player);
+					await ped.SalvaPersonaggio();
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord + ", tramite telefono");
 				}
