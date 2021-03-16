@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloCaccia()
 		{
-			if (CachePlayer.Cache.MyPlayer.Ped.IsInRangeOf(Cacciatore.inizioCaccia, 1.375f))
+			if (SessionCache.Cache.MyPlayer.Ped.IsInRangeOf(Cacciatore.inizioCaccia, 1.375f))
 			{
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu di caccia");
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) ApriMenuAffittoArmi();
@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloBordi()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
 			if (!p.IsInRangeOf(Cacciatore.zonaDiCaccia, Cacciatore.limiteArea))
 			{
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 			Player assassino = new Player(player);
 			AnimaleDaCacciare an = new AnimaleDaCacciare() { Entity = animale, Premiato = false };
 
-			if (assassino.Character != CachePlayer.Cache.MyPlayer.Ped) return;
+			if (assassino.Character != SessionCache.Cache.MyPlayer.Ped) return;
 			if (!animaliUccisi.ContainsKey(animale.Handle)) animaliUccisi.Add(animale.Handle, an);
 			int hash = animale.Model.Hash;
 			float aggValore = 0;
@@ -145,7 +145,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static async Task ControlloUccisi()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
 			foreach (KeyValuePair<int, AnimaleDaCacciare> anim in animaliUccisi.Where(anim => p.IsNearEntity(anim.Value.Entity, new Vector3(2, 2, 2)) && anim.Value.Entity.Model.Hash != (int)PedHash.MountainLion).Where(anim => p.Weapons.HasWeapon(WeaponHash.Knife)))
 			{
@@ -237,11 +237,11 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 				affittoArmi.AddItem(inizia);
 				affittoArmi.OnItemSelect += async (menu, item, index) =>
 				{
-					if (CachePlayer.Cache.MyPlayer.User.HasLicense("Caccia"))
+					if (SessionCache.Cache.MyPlayer.User.HasLicense("Caccia"))
 					{
 						if (item == armi)
 						{
-							if ((CachePlayer.Cache.MyPlayer.User.HasWeapon(DaFuoco) || affittatoFuoco) && (CachePlayer.Cache.MyPlayer.User.HasWeapon(Bianca) || affittatoBianca))
+							if ((SessionCache.Cache.MyPlayer.User.HasWeapon(DaFuoco) || affittatoFuoco) && (SessionCache.Cache.MyPlayer.User.HasWeapon(Bianca) || affittatoBianca))
 							{
 								HUD.ShowNotification("Hai già le armi che noi affittiamo.", NotificationColor.Red, true);
 
@@ -250,30 +250,30 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 							int prezzo = 0;
 
-							if (!CachePlayer.Cache.MyPlayer.User.HasWeapon(DaFuoco))
-								if (CachePlayer.Cache.MyPlayer.User.Money >= 250 || CachePlayer.Cache.MyPlayer.User.Bank >= 250)
+							if (!SessionCache.Cache.MyPlayer.User.HasWeapon(DaFuoco))
+								if (SessionCache.Cache.MyPlayer.User.Money >= 250 || SessionCache.Cache.MyPlayer.User.Bank >= 250)
 								{
-									CachePlayer.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
+									SessionCache.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.SniperRifle, 100, false, true);
 									prezzo += 250;
 									affittatoFuoco = true;
 								}
 
-							if (!CachePlayer.Cache.MyPlayer.User.HasWeapon(Bianca))
-								if (CachePlayer.Cache.MyPlayer.User.Money >= 50 || CachePlayer.Cache.MyPlayer.User.Bank >= 50)
+							if (!SessionCache.Cache.MyPlayer.User.HasWeapon(Bianca))
+								if (SessionCache.Cache.MyPlayer.User.Money >= 50 || SessionCache.Cache.MyPlayer.User.Bank >= 50)
 								{
-									CachePlayer.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Knife, 1, false, true);
+									SessionCache.Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Knife, 1, false, true);
 									prezzo += 50;
 									affittatoBianca = true;
 								}
 
-							if (CachePlayer.Cache.MyPlayer.User.Money >= prezzo)
+							if (SessionCache.Cache.MyPlayer.User.Money >= prezzo)
 							{
 								BaseScript.TriggerServerEvent("lprp:removeMoney", prezzo);
 								HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
 							}
 							else
 							{
-								if (CachePlayer.Cache.MyPlayer.User.Bank >= prezzo)
+								if (SessionCache.Cache.MyPlayer.User.Bank >= prezzo)
 								{
 									BaseScript.TriggerServerEvent("lprp:removeBank", prezzo);
 									HUD.ShowNotification("Le armi che non avevi già ti sono state date in affitto");
@@ -291,7 +291,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 							AreadiCaccia.Name = "Zona di caccia";
 							AreadiCaccia.Alpha = 25;
 							AreadiCaccia.Color = BlipColor.TrevorOrange;
-							foreach (string s in animalGroups) CachePlayer.Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Dislike, true);
+							foreach (string s in animalGroups) SessionCache.Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Dislike, true);
 							ClientSession.Instance.AddTick(ControlloBordi);
 							ClientSession.Instance.AddTick(ControlloUccisi);
 							SetBlipDisplay(AreadiCaccia.Handle, 4);
@@ -320,9 +320,9 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 					StaCacciando = false;
 					ClientSession.Instance.RemoveTick(ControlloBordi);
 					if (AreadiCaccia.Exists()) AreadiCaccia.Delete();
-					foreach (string s in animalGroups) CachePlayer.Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
+					foreach (string s in animalGroups) SessionCache.Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
 					animaliUccisi.Clear();
-					CachePlayer.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+					SessionCache.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 					HUD.MenuPool.CloseAllMenus();
 				};
 			}

@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void FirstTimeTransition(bool FirstChar)
 		{
-			CachePlayer.Cache.MyPlayer.Ped.Detach();
+			SessionCache.Cache.MyPlayer.Ped.Detach();
 			if (FirstChar)
 				await SiComincia();
 			else
@@ -40,14 +40,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task SiComincia()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 			TriggerMusicEvent("FM_INTRO_START");
 			playerPed.Detach();
 			ClientSession.Instance.AddTick(Controllo);
 			ClientSession.Instance.AddTick(Crediti);
 			playerPed.IsPositionFrozen = true;
 			playerPed.IsVisible = false;
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
 			playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
 			Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
 			Cam1.IsActive = true;
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void SiContinua(Camera Cam)
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 			ClientSession.Instance.AddTick(Controllo);
 			ClientSession.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f };
@@ -216,12 +216,12 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		private static async void SiFinisce()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 			TriggerMusicEvent("GLOBAL_KILL_MUSIC");
 			playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
 			RenderScriptCams(false, false, 0, false, false);
 			playerPed.IsVisible = true;
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			ClientSession.Instance.RemoveTick(Controllo);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
-			CachePlayer.Cache.MyPlayer.Player.CanControlCharacter = true;
+			SessionCache.Cache.MyPlayer.Player.CanControlCharacter = true;
 		}
 
 		private static async Task Controllo()

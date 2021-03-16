@@ -448,7 +448,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			CachePlayer.Cache.MyPlayer.UpdatePedId();
+			SessionCache.Cache.MyPlayer.UpdatePedId();
 			await UpdateFace(PlayerPedId(), plpl.skin);
 			await UpdateDress(PlayerPedId(), plpl.dressing);
 		}
@@ -461,7 +461,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		{
 			try
 			{
-				_dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, CachePlayer.Cache.MyPlayer.Ped.Position + new Vector3(10));
+				_dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, SessionCache.Cache.MyPlayer.Ped.Position + new Vector3(10));
 				_dummyPed.IsVisible = false;
 				_dummyPed.IsPositionFrozen = false;
 				_dummyPed.IsCollisionEnabled = false;
@@ -478,19 +478,19 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				if (IsValidInterior(94722)) LoadInterior(94722);
 				while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
 				sub_8d2b2();
-				CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("CreazionePersonaggio");
-				_dataMaschio = new Char_data((uint)CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
-				_dataFemmina = new Char_data((uint)CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+				SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("CreazionePersonaggio");
+				_dataMaschio = new Char_data((uint)SessionCache.Cache.MyPlayer.User.Characters.Count + 1, new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+				_dataFemmina = new Char_data((uint)SessionCache.Cache.MyPlayer.User.Characters.Count + 1, new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 				_data = _selezionato.ToLower() == "maschio" ? _dataMaschio : _dataFemmina;
 				BaseScript.TriggerEvent("lprp:aggiornaModel", _data.SerializeToJson());
 				await BaseScript.Delay(1000);
-				CachePlayer.Cache.MyPlayer.Ped.Position = new Vector3(402.91f, -996.74f, -180.00025f);
-				while (!HasCollisionLoadedAroundEntity(CachePlayer.Cache.MyPlayer.Ped.Handle)) await BaseScript.Delay(1);
-				CachePlayer.Cache.MyPlayer.Ped.IsVisible = true;
-				CachePlayer.Cache.MyPlayer.Ped.IsPositionFrozen = false;
-				CachePlayer.Cache.MyPlayer.Ped.BlockPermanentEvents = true;
+				SessionCache.Cache.MyPlayer.Ped.Position = new Vector3(402.91f, -996.74f, -180.00025f);
+				while (!HasCollisionLoadedAroundEntity(SessionCache.Cache.MyPlayer.Ped.Handle)) await BaseScript.Delay(1);
+				SessionCache.Cache.MyPlayer.Ped.IsVisible = true;
+				SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = false;
+				SessionCache.Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 				ped_cre_board(_data);
-				TaskWalkInToRoom(CachePlayer.Cache.MyPlayer.Ped, _selezionato == "Maschio" ? sub_7dd83(1, 0, "Maschio") : sub_7dd83(1, 0, "Femmina"));
+				TaskWalkInToRoom(SessionCache.Cache.MyPlayer.Ped, _selezionato == "Maschio" ? sub_7dd83(1, 0, "Maschio") : sub_7dd83(1, 0, "Femmina"));
 				await BaseScript.Delay(2000);
 				RenderScriptCams(true, true, 0, false, false);
 				cam2.Delete();
@@ -852,7 +852,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, 0);
+					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, SessionCache.Cache.MyPlayer.User.Characters.Count + 1, 0);
 				};
 
 				#endregion
@@ -1380,7 +1380,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					}
 
 					UpdateDress(PlayerPedId(), _data.dressing);
-					TaskProvaClothes(CachePlayer.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _data.skin.sex));
+					TaskProvaClothes(SessionCache.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _data.skin.sex));
 				};
 
 				#endregion
@@ -1477,7 +1477,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							}
 							else if (_newMenu == Apparel)
 							{
-								TaskCreaClothes(CachePlayer.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
+								TaskCreaClothes(SessionCache.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
 
 								if (_selezionato == "Maschio")
 								{
@@ -1512,7 +1512,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							if (_oldMenu == Apparel)
 							{
 								Apparel.Clear();
-								TaskClothesALoop(CachePlayer.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
+								TaskClothesALoop(SessionCache.Cache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
 							}
 
 							break;
@@ -1538,10 +1538,10 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					pool.CloseAllMenus();
 					BD1.Detach();
 					BD1.Delete();
-					CachePlayer.Cache.MyPlayer.Ped.Detach();
+					SessionCache.Cache.MyPlayer.Ped.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", _data.SerializeToJson());
-					CachePlayer.Cache.MyPlayer.User.char_current = _data.id;
-					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.User.char_current);
+					SessionCache.Cache.MyPlayer.User.char_current = _data.id;
+					BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.char_current);
 					ClientSession.Instance.RemoveTick(Controllo);
 					ClientSession.Instance.RemoveTick(Scaleform);
 					ClientSession.Instance.RemoveTick(TastiMenu);
@@ -1577,7 +1577,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async Task TastiMenu()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
 			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
@@ -2106,7 +2106,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				ncamm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
 				ncamm.Position = new Vector3(402.6746f, -1000.129f, -98.46554f);
 				ncamm.Rotation = new Vector3(0.861356f, 0f, -2.348183f);
-				CachePlayer.Cache.MyPlayer.Ped.IsVisible = true;
+				SessionCache.Cache.MyPlayer.Ped.IsVisible = true;
 				ncamm.FieldOfView = 10.00255f;
 				ncamm.IsActive = true;
 				N_0xf55e4046f6f831dc(ncamm.Handle, 4f);
@@ -2149,7 +2149,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static async void ped_cre_board(Char_data data)
 		{
-			CachePlayer.Cache.MyPlayer.Ped.BlockPermanentEvents = true;
+			SessionCache.Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			sub_7cddb();
 			Pol_Board2(data);
 		}
@@ -2170,7 +2170,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			while (!BD1.Exists()) await BaseScript.Delay(0);
 			while (!Overlay1.Exists()) await BaseScript.Delay(0);
 			Overlay1.AttachTo(BD1);
-			BD1.AttachTo(CachePlayer.Cache.MyPlayer.Ped.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
+			BD1.AttachTo(SessionCache.Cache.MyPlayer.Ped.Bones[Bone.PH_R_Hand], Vector3.Zero, Vector3.Zero);
 			CreaScaleform_Cre(data, overlay1);
 			Overlay1.MarkAsNoLongerNeeded();
 			bd1.MarkAsNoLongerNeeded();
@@ -2181,13 +2181,13 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		{
 			_boardScalep1 = new Scaleform("mugshot_board_01");
 			while (!_boardScalep1.IsLoaded) await BaseScript.Delay(0);
-			_boardScalep1.CallFunction("SET_BOARD", "Nuova GM", data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, CachePlayer.Cache.MyPlayer.User.Characters.Count + 1, 0);
+			_boardScalep1.CallFunction("SET_BOARD", "Nuova GM", data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, SessionCache.Cache.MyPlayer.User.Characters.Count + 1, 0);
 			_handle1 = CreateNamedRenderTargetForModel("ID_Text", (uint)overlay.Hash);
 		}
 
 		public static async Task Scaleform()
 		{
-			if (CachePlayer.Cache.MyPlayer.Ped.Exists())
+			if (SessionCache.Cache.MyPlayer.Ped.Exists())
 			{
 				SetTextRenderId(_handle1);
 				Function.Call((Hash)0x40332D115A898AF5, _boardScalep1.Handle, true);
@@ -2255,7 +2255,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			string v_3 = sub_7ce29(Funzioni.GetRandomInt(0, 7));
 			if (AreStringsEqual(v_3, "mood_smug_1")) v_3 = "mood_Happy_1";
 			if (AreStringsEqual(v_3, "mood_sulk_1")) v_3 = "mood_Angry_1";
-			if (!CachePlayer.Cache.MyPlayer.Ped.IsInjured) SetFacialIdleAnimOverride(CachePlayer.Cache.MyPlayer.Ped.Handle, v_3, "0");
+			if (!SessionCache.Cache.MyPlayer.Ped.IsInjured) SetFacialIdleAnimOverride(SessionCache.Cache.MyPlayer.Ped.Handle, v_3, "0");
 		}
 
 		public static string sub_7ce29(int a_0)

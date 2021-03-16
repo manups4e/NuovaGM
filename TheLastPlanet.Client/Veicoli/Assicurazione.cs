@@ -12,9 +12,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		private static async Task ControlloAssicurazione()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Driver != playerPed)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Driver != playerPed)
 			{
 				if (playerPed.CurrentVehicle.IsOnFire || playerPed.CurrentVehicle.IsDead) HUD.ShowAdvancedNotification("Assicurazione", "Versamento Indennizzo", "Dato che era nel veicolo alla distruzione ma non era guidatore, le verrà rimborsata una parte del costo del veicolo.", NotificationIcon.MorsMutual, IconType.DollarIcon);
 

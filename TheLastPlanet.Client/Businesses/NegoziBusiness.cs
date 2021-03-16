@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client.Negozi
 			foreach (OggettoVendita ogg in oggettiDaAggiungere)
 			{
 				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
-				if (CachePlayer.Cache.MyPlayer.User.Money >= ogg.prezzo || CachePlayer.Cache.MyPlayer.User.Bank >= ogg.prezzo)
+				if (SessionCache.Cache.MyPlayer.User.Money >= ogg.prezzo || SessionCache.Cache.MyPlayer.User.Bank >= ogg.prezzo)
 					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
 				else
 					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
@@ -75,14 +75,14 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
 
-					if (CachePlayer.Cache.MyPlayer.User.Money >= ogg.prezzo)
+					if (SessionCache.Cache.MyPlayer.User.Money >= ogg.prezzo)
 					{
 						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
 						BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
 					}
 					else
 					{
-						if (CachePlayer.Cache.MyPlayer.User.Bank >= ogg.prezzo)
+						if (SessionCache.Cache.MyPlayer.User.Bank >= ogg.prezzo)
 						{
 							BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
 							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);

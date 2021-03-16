@@ -59,9 +59,9 @@ namespace TheLastPlanet.Client.Telefono
 			Game.PlaySound("Pull_Out", "Phone_SoundSet_Default");
 			CreateMobilePhone((int)ModelPhone.Micheal);
 			PhoneMainClient.StartApp("Main");
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(242, false);
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(243, false);
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(244, true);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(242, false);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(243, false);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(244, true);
 			VisibleAnimProgress = 21;
 			N_0x83a169eabcdb10a2(PlayerPedId(), getCurrentCharPhone().Theme);
 			if (GetFollowPedCamViewMode() == 4)
@@ -78,9 +78,9 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SHUTDOWN_MOVIE");
 			DestroyMobilePhone();
 			Visible = false;
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(242, true);
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(243, true);
-			CachePlayer.Cache.MyPlayer.Ped.SetConfigFlag(244, false);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(242, true);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(243, true);
+			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(244, false);
 			Scaleform.Dispose();
 		}
 
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if (CachePlayer.Cache.MyPlayer.User.char_current - 1 == phone_data[i].id - 1)
+				if (SessionCache.Cache.MyPlayer.User.char_current - 1 == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			return null;
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			Vector3 playerPos = CachePlayer.Cache.MyPlayer.User.posizione.ToVector3();
+			Vector3 playerPos = SessionCache.Cache.MyPlayer.User.posizione.ToVector3();
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

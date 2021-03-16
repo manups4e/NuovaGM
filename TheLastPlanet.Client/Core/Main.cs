@@ -159,7 +159,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void onPlayerSpawn()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 			SetEnablePedEnveffScale(playerPed.Handle, true);
 			SetPlayerTargetingMode(2);
 			Game.MaxWantedLevel = 0;
@@ -174,33 +174,33 @@ namespace TheLastPlanet.Client.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
 			spawned = true;
-			CachePlayer.Cache.MyPlayer.User.status.Spawned = true;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", CachePlayer.Cache.MyPlayer.User.CurrentChar.id);
+			SessionCache.Cache.MyPlayer.User.status.Spawned = true;
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.CurrentChar.id);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
 
-			if (CachePlayer.Cache.MyPlayer.User.DeathStatus)
+			if (SessionCache.Cache.MyPlayer.User.DeathStatus)
 			{
 				HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
 				DateTime now = DateTime.Now;
-				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + CachePlayer.Cache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
+				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + SessionCache.Cache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = 0;
-				CachePlayer.Cache.MyPlayer.User.StatiPlayer.FinDiVita = false;
+				SessionCache.Cache.MyPlayer.User.StatiPlayer.FinDiVita = false;
 			}
 
 			Peds();
 			foreach (string t in tipi) player.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(t)), Relationship.Neutral, true);
 			// test per vedere se va chiamato ogni tick o no
-			pickupList.ForEach(x => N_0x616093ec6b139dd9(CachePlayer.Cache.MyPlayer.Player.Handle, Funzioni.HashUint(x), false));
+			pickupList.ForEach(x => N_0x616093ec6b139dd9(SessionCache.Cache.MyPlayer.Player.Handle, Funzioni.HashUint(x), false));
 			for (int i = 1; i <= 15; i++) EnableDispatchService(i, false);
 			await BaseScript.Delay(0);
 		}
 
 		private static float OttieniShake(WeaponHash weap)
 		{
-			switch (CachePlayer.Cache.MyPlayer.Ped.Weapons.Current.Hash)
+			switch (SessionCache.Cache.MyPlayer.Ped.Weapons.Current.Hash)
 			{
 				case WeaponHash.StunGun:
 				case WeaponHash.FlareGun:
@@ -292,8 +292,8 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task MainTick()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
-			Player pl = CachePlayer.Cache.MyPlayer.Player;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			Player pl = SessionCache.Cache.MyPlayer.Player;
 			int gameTime = Game.GameTime;
 
 			#region death?andweapon
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Core
 			#region DriveBy
 
 			if (gameTime - _timerDriveBy > 1000)
-				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					if (p.SeatIndex == VehicleSeat.Driver)
 						SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);
@@ -431,20 +431,20 @@ namespace TheLastPlanet.Client.Core
 			ispointing = true;
 			RequestAnimDict("anim@mp_point");
 			while (!HasAnimDictLoaded("anim@mp_point")) await BaseScript.Delay(0);
-			SetPedCurrentWeaponVisible(CachePlayer.Cache.MyPlayer.Ped.Handle, false, true, true, true);
-			SetPedConfigFlag(CachePlayer.Cache.MyPlayer.Ped.Handle, 36, true);
-			TaskMoveNetwork(CachePlayer.Cache.MyPlayer.Ped.Handle, "task_mp_pointing", 0.5f, false, "anim@mp_point", 24);
+			SetPedCurrentWeaponVisible(SessionCache.Cache.MyPlayer.Ped.Handle, false, true, true, true);
+			SetPedConfigFlag(SessionCache.Cache.MyPlayer.Ped.Handle, 36, true);
+			TaskMoveNetwork(SessionCache.Cache.MyPlayer.Ped.Handle, "task_mp_pointing", 0.5f, false, "anim@mp_point", 24);
 			RemoveAnimDict("anim@mp_point");
 		}
 
 		private static void StopPointing()
 		{
 			ispointing = false;
-			N_0xd01015c7316ae176(CachePlayer.Cache.MyPlayer.Ped.Handle, "Stop");
-			if (!CachePlayer.Cache.MyPlayer.Ped.IsInjured) CachePlayer.Cache.MyPlayer.Ped.Task.ClearSecondary();
-			if (!CachePlayer.Cache.MyPlayer.Ped.IsInVehicle()) SetPedCurrentWeaponVisible(CachePlayer.Cache.MyPlayer.Ped.Handle, true, true, true, true);
-			SetPedConfigFlag(CachePlayer.Cache.MyPlayer.Ped.Handle, 36, false);
-			CachePlayer.Cache.MyPlayer.Ped.Task.ClearSecondary();
+			N_0xd01015c7316ae176(SessionCache.Cache.MyPlayer.Ped.Handle, "Stop");
+			if (!SessionCache.Cache.MyPlayer.Ped.IsInjured) SessionCache.Cache.MyPlayer.Ped.Task.ClearSecondary();
+			if (!SessionCache.Cache.MyPlayer.Ped.IsInVehicle()) SetPedCurrentWeaponVisible(SessionCache.Cache.MyPlayer.Ped.Handle, true, true, true, true);
+			SetPedConfigFlag(SessionCache.Cache.MyPlayer.Ped.Handle, 36, false);
+			SessionCache.Cache.MyPlayer.Ped.Task.ClearSecondary();
 		}
 
 		public static int AFKTime = 600;
@@ -454,16 +454,16 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task AFK()
 		{
-			if ((int)CachePlayer.Cache.MyPlayer.User.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
+			if ((int)SessionCache.Cache.MyPlayer.User.group_level < 3 && !(Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible)) // helper e moderatori sono inclusi (gradi 0,1,2)
 			{
 				//				if (Ingresso.Ingresso.guiEnabled)
 				//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
-				currentPosition = CachePlayer.Cache.MyPlayer.User == null ? CachePlayer.Cache.MyPlayer.Ped.Position : CachePlayer.Cache.MyPlayer.User.posizione.ToVector3();
+				currentPosition = SessionCache.Cache.MyPlayer.User == null ? SessionCache.Cache.MyPlayer.Ped.Position : SessionCache.Cache.MyPlayer.User.posizione.ToVector3();
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 
 				if (t >= ClientSession.Impostazioni.Main.AFKCheckTime)
 				{
-					if (Vector3.Distance(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
+					if (Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{
@@ -498,11 +498,11 @@ namespace TheLastPlanet.Client.Core
 		public static void RespawnPed(Vector3 coords)
 		{
 			IsDead = false;
-			CachePlayer.Cache.MyPlayer.Ped.Position = coords;
-			NetworkResurrectLocalPlayer(coords.X, coords.Y, coords.Z, CachePlayer.Cache.MyPlayer.Ped.Heading, true, false);
-			CachePlayer.Cache.MyPlayer.Ped.Health = 100;
-			CachePlayer.Cache.MyPlayer.Ped.IsInvincible = false;
-			CachePlayer.Cache.MyPlayer.Ped.ClearBloodDamage();
+			SessionCache.Cache.MyPlayer.Ped.Position = coords;
+			NetworkResurrectLocalPlayer(coords.X, coords.Y, coords.Z, SessionCache.Cache.MyPlayer.Ped.Heading, true, false);
+			SessionCache.Cache.MyPlayer.Ped.Health = 100;
+			SessionCache.Cache.MyPlayer.Ped.IsInvincible = false;
+			SessionCache.Cache.MyPlayer.Ped.ClearBloodDamage();
 		}
 
 		private static async void Peds()

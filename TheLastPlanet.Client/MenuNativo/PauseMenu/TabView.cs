@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             SideStringBottom = "";
             Tabs = new List<TabItem>();
             Index = 0;
-            Name = CachePlayer.Cache.MyPlayer.Player.Name;
+            Name = SessionCache.Cache.MyPlayer.Player.Name;
             TemporarilyHidden = false;
             CanLeave = true;
             if(!HUD.MenuPool.PauseMenus.Contains(this))
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Client.MenuNativo.PauseMenu
             SideStringBottom = "";
             Tabs = new List<TabItem>();
             Index = 0;
-            Name = CachePlayer.Cache.MyPlayer.Player.Name;
+            Name = SessionCache.Cache.MyPlayer.Player.Name;
             TemporarilyHidden = false;
             CanLeave = true;
             if (!HUD.MenuPool.PauseMenus.Contains(this))

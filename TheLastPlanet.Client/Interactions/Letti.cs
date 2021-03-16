@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Interactions
 		public static async Task ControlloLetti()
 		{
 
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 			if (!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_l_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getin_r_bighouse", 2) &&
 				!IsEntityPlayingAnim(PlayerPedId(), "mp_bedmid", "f_getout_l_bighouse", 2) &&
@@ -104,32 +104,32 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			HUD.MenuPool.CloseAllMenus();
 			Vector4 Random = LogIn.SelectFirstCoords[new Random(GetGameTimer()).Next(LogIn.SelectFirstCoords.Count - 1)];
-			int switchType = GetIdealPlayerSwitchType(CachePlayer.Cache.MyPlayer.Ped.Position.X, CachePlayer.Cache.MyPlayer.Ped.Position.Y, CachePlayer.Cache.MyPlayer.Ped.Position.Z, Random.X, Random.Y, Random.Z);
+			int switchType = GetIdealPlayerSwitchType(SessionCache.Cache.MyPlayer.Ped.Position.X, SessionCache.Cache.MyPlayer.Ped.Position.Y, SessionCache.Cache.MyPlayer.Ped.Position.Z, Random.X, Random.Y, Random.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
 			
-			CachePlayer.Cache.MyPlayer.Ped.Position = new Vector3(Random.X, Random.Y, Random.Z - 1);
-			CachePlayer.Cache.MyPlayer.Ped.Heading = Random.W;
-			await CachePlayer.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			CachePlayer.Cache.MyPlayer.UpdatePedId();
-			CachePlayer.Cache.MyPlayer.Ped.Style.SetDefaultClothes();
-			while (!await CachePlayer.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			CachePlayer.Cache.MyPlayer.UpdatePedId();
+			SessionCache.Cache.MyPlayer.Ped.Position = new Vector3(Random.X, Random.Y, Random.Z - 1);
+			SessionCache.Cache.MyPlayer.Ped.Heading = Random.W;
+			await SessionCache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			SessionCache.Cache.MyPlayer.UpdatePedId();
+			SessionCache.Cache.MyPlayer.Ped.Style.SetDefaultClothes();
+			while (!await SessionCache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
+			SessionCache.Cache.MyPlayer.UpdatePedId();
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
 
 			SwitchInPlayer(PlayerPedId());
 
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 			await BaseScript.Delay(100);
-			CachePlayer.Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
-			CachePlayer.Cache.MyPlayer.Ped.IsVisible = false;
-			CachePlayer.Cache.MyPlayer.Ped.IsPositionFrozen = true;
+			SessionCache.Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
+			SessionCache.Cache.MyPlayer.Ped.IsVisible = false;
+			SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = true;
 			Camera charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 			SetGameplayCamRelativeHeading(0);
-			charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(CachePlayer.Cache.MyPlayer.Ped.Handle, 0f, -2, 0);
-			charSelectionCam.PointAt(CachePlayer.Cache.MyPlayer.Ped);
+			charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(SessionCache.Cache.MyPlayer.Ped.Handle, 0f, -2, 0);
+			charSelectionCam.PointAt(SessionCache.Cache.MyPlayer.Ped);
 			charSelectionCam.IsActive = true;
 			RenderScriptCams(true, false, 0, false, false);
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(10);
@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.Interactions
 				if (!IsPedInAnyVehicle(PlayerPedId(), false) && !IsEntityOnFire(PlayerPedId()) && IsPlayerControlOn(PlayerId()))
 					if (!IsExplosionInSphere(-1, vParam0.X, vParam0.Y, vParam0.Z, 2f))
 						if (IsGameplayCamRendering() && !IsCinematicCamRendering())
-							if (Controllo2(CachePlayer.Cache.MyPlayer.Ped.Position, vParam0, fParam3, false))
+							if (Controllo2(SessionCache.Cache.MyPlayer.Ped.Position, vParam0, fParam3, false))
 								return true;
 			return false;
 		}
@@ -211,7 +211,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public override async void Sdraiati()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			Vector3 vVar0 = new Vector3(1.5f);
@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public async override void Sdraiati()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 			RequestAnimDict("mp_bedmid");
 			while (!HasAnimDictLoaded("mp_bedmid")) await BaseScript.Delay(0);
 			p.Weapons.Select(WeaponHash.Unarmed);
@@ -807,7 +807,7 @@ namespace TheLastPlanet.Client.Interactions
 			Vector3 var0 = lato.CoordAnim;
 			Vector3 var1 = lato.RotAnim;
 
-			CachePlayer.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+			SessionCache.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 			Vector3 vVar3;
 			if (GetFollowPedCamViewMode() == 4)
 				SetFollowPedCamViewMode(1);

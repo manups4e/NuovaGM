@@ -103,9 +103,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task Lux()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo && Main.spawned)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo && Main.spawned)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 
@@ -391,7 +391,7 @@ namespace TheLastPlanet.Client.Veicoli
 			Ped ped_s = new Ped(GetPlayerPed(player_s));
 
 			if (!ped_s.Exists() || ped_s.IsDead) return;
-			if (ped_s == CachePlayer.Cache.MyPlayer.Ped) return;
+			if (ped_s == SessionCache.Cache.MyPlayer.Ped) return;
 			if (!ped_s.IsInVehicle()) return;
 			Vehicle veh = ped_s.CurrentVehicle;
 			TogIndicStateForVeh(veh, newstate);
@@ -413,13 +413,13 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task gestioneVeh()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
 			if (Main.spawned)
 			{
 				DisableControlAction(2, 80, true);
 
-				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					Vehicle veh = playerPed.CurrentVehicle;
 
@@ -438,9 +438,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task engine()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				Vehicle p = playerPed.CurrentVehicle;
 
@@ -610,11 +610,11 @@ namespace TheLastPlanet.Client.Veicoli
 			//			await BaseScript.Delay(10000);
 			if (MenuAffittoVeicoli.veicoloInAffitto != null)
 			{
-				if (CachePlayer.Cache.MyPlayer.User.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
+				if (SessionCache.Cache.MyPlayer.User.Bank >= MenuAffittoVeicoli.veicoloInAffitto.price)
 				{
 					BaseScript.TriggerServerEvent("lprp:removebank", MenuAffittoVeicoli.veicoloInAffitto.price);
 					HUD.ShowNotification("Hai pagato $" + MenuAffittoVeicoli.veicoloInAffitto.price + " per l'affitto del veicolo", NotificationColor.GreenLight, true);
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.User.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {SessionCache.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(SessionCache.Cache.MyPlayer.User.source))}], ha pagato ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo dell'affitto di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}");
 				}
 				else
 				{
@@ -628,7 +628,7 @@ namespace TheLastPlanet.Client.Veicoli
 					if (veicoloinaffitto.Model.IsBicycle) veicoloinaffitto.IsPositionFrozen = true;
 					await BaseScript.Delay(30000);
 					veicoloinaffitto.Delete(); // magari sostituire con soccorso
-					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {CachePlayer.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(CachePlayer.Cache.MyPlayer.User.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
+					BaseScript.TriggerServerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"Il Signor {SessionCache.Cache.MyPlayer.User.FullName}, [{GetPlayerName(Convert.ToInt32(SessionCache.Cache.MyPlayer.User.source))}], non ha potuto pagare l'affitto di ${MenuAffittoVeicoli.veicoloInAffitto.price} per il rinnovo di un/a {MenuAffittoVeicoli.veicoloInAffitto.name}, ed il veicolo è stato eliminato");
 					await BaseScript.Delay(100);
 					MenuAffittoVeicoli.veicoloInAffitto = null;
 					HUD.ShowNotification("Il veicolo che hai affittato è stato riportato al garage di competenza.");

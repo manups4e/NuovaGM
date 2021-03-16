@@ -29,48 +29,48 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		private static void Test(Ped playerPed, object[] args)
 		{
-			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase") MenuCreazioneCasa.MenuCreazioneCase();
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase") MenuCreazioneCasa.MenuCreazioneCase();
 		}
 
 		private static async Task Markers()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
+			if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
 			{
 				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
 
 				if (p.IsInRangeOf(house.Config.Ingresso, 1.375f))
 				{
-					HUD.ShowHelp(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per entrare in ufficio" : "Premi ~INPUT_CONTEXT~ per entrare nell'ufficio dell'agenzia immobiliare");
+					HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per entrare in ufficio" : "Premi ~INPUT_CONTEXT~ per entrare nell'ufficio dell'agenzia immobiliare");
 
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						Funzioni.Teleport(house.Config.Dentro);
-						CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("VenditoreCase");
+						SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("VenditoreCase");
 					}
 				}
 			}
 			else
 			{
-				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance == "VenditoreCase")
+				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance == "VenditoreCase")
 				{
 					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 
 					if (p.IsInRangeOf(house.Config.Uscita, 1.375f))
 					{
-						HUD.ShowHelp(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio" : "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio dell'agenzia immobiliare");
+						HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio" : "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio dell'agenzia immobiliare");
 
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Funzioni.Teleport(house.Config.Fuori);
-							CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+							SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 						}
 					}
 				}
 			}
 
-			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase")
 				// verrà cambiato con il sedersi alla scrivania
 				if (p.IsInRangeOf(house.Config.Actions, 1.375f))
 				{
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				{
 					if (newmenu != appartamento || state != MenuState.ChangeForward) return;
 					newmenu.Clear();
-					List<Player> players = Funzioni.GetPlayersInArea(CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), 3.5f, false);
+					List<Player> players = Funzioni.GetPlayersInArea(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), 3.5f, false);
 
 					foreach (Player p in players)
 					{

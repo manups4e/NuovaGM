@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client
 
 		public static async Task test()
 		{
-			await CachePlayer.Cache.Loaded();
+			await SessionCache.Cache.Loaded();
 			{
 				//				Log.Printa(LogType.Debug, JsonConvert.SerializeObject(Cache.Char.StatiPlayer.Istanza));
 			}

@@ -402,21 +402,21 @@ namespace TheLastPlanet.Client.Giostre
 		private static void CheckIfPlayerShouldBeKickedOut(TrenoFunivia treno)
 		{
 			Vector3 pos = Vector3.Add(treno.Position, new Vector3(0.0f, 0.0f, -5.3f));
-			float dist = Vector3.Distance(pos, CachePlayer.Cache.MyPlayer.Ped.Position);
+			float dist = Vector3.Distance(pos, SessionCache.Cache.MyPlayer.Ped.Position);
 			if (dist < 3.0f) KickPlayerOutOfMyCablecar(treno);
 		}
 
 		private static void KickPlayerOutOfMyCablecar(TrenoFunivia treno)
 		{
 			treno.Is_player_seated = false;
-			CachePlayer.Cache.MyPlayer.Ped.Detach();
+			SessionCache.Cache.MyPlayer.Ped.Detach();
 			Vector3 not1 = new Vector3(0);
 			Vector3 Destra = new Vector3(0);
 			Vector3 not2 = new Vector3(0);
 			Vector3 not3 = new Vector3(0);
 			GetEntityMatrix(treno.Entity.Handle, ref Destra, ref not1, ref not2, ref not3);
 			Vector3 right = Vector3.Multiply(Destra, 3.5f);
-			CachePlayer.Cache.MyPlayer.Ped.Position = Vector3.Add(Vector3.Add(treno.Position, right), new Vector3(0.0f, 0.0f, -5.3f));
+			SessionCache.Cache.MyPlayer.Ped.Position = Vector3.Add(Vector3.Add(treno.Position, right), new Vector3(0.0f, 0.0f, -5.3f));
 		}
 
 		private static void GivePlayerOptionToJoinMyCablecar(TrenoFunivia treno, bool moving)
@@ -425,8 +425,8 @@ namespace TheLastPlanet.Client.Giostre
 
 			if (!treno.Is_player_seated)
 			{
-				Vector3 plypos = CachePlayer.Cache.MyPlayer.Ped.Position;
-				float dist = Vector3.Distance(pos, CachePlayer.Cache.MyPlayer.Ped.Position);
+				Vector3 plypos = SessionCache.Cache.MyPlayer.Ped.Position;
+				float dist = Vector3.Distance(pos, SessionCache.Cache.MyPlayer.Ped.Position);
 
 				if (dist < 3.0f)
 				{
@@ -435,7 +435,7 @@ namespace TheLastPlanet.Client.Giostre
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = true;
-						CachePlayer.Cache.MyPlayer.Ped.AttachTo(treno.Entity, Vector3.Subtract(CachePlayer.Cache.MyPlayer.Ped.Position, treno.Position), CachePlayer.Cache.MyPlayer.Ped.Rotation);
+						SessionCache.Cache.MyPlayer.Ped.AttachTo(treno.Entity, Vector3.Subtract(SessionCache.Cache.MyPlayer.Ped.Position, treno.Position), SessionCache.Cache.MyPlayer.Ped.Rotation);
 					}
 				}
 			}
@@ -448,7 +448,7 @@ namespace TheLastPlanet.Client.Giostre
 					if (Input.IsControlJustPressed(Control.Context))
 					{
 						treno.Is_player_seated = false;
-						CachePlayer.Cache.MyPlayer.Ped.Detach();
+						SessionCache.Cache.MyPlayer.Ped.Detach();
 					}
 				}
 			}

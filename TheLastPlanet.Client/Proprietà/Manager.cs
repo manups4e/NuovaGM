@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerFuori()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
 			foreach (KeyValuePair<string, ConfigCase> app in Proprietà.Appartamenti)
 			{
@@ -36,27 +36,27 @@ namespace TheLastPlanet.Client.Proprietà
 				}
 
 				if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f)) continue;
-				if (!CachePlayer.Cache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key)) continue;
+				if (!SessionCache.Cache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key)) continue;
 
-				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
 					int model = playerPed.CurrentVehicle.Model.Hash;
 
-					if (CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == CachePlayer.Cache.MyPlayer.User.CurrentChar.info.insurance) == null) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == SessionCache.Cache.MyPlayer.User.CurrentChar.info.insurance) == null) continue;
 					if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
 					Screen.Fading.FadeOut(500);
 					await BaseScript.Delay(1000);
 					VehProp pr = await playerPed.CurrentVehicle.GetVehicleProperties();
 					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.SerializeToJson(includeEverything: true));
-					CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(app.Key);
+					SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(app.Key);
 					await BaseScript.Delay(1000);
 
 					if (playerPed.CurrentVehicle.PassengerCount > 0)
 						foreach (Ped p in playerPed.CurrentVehicle.Passengers)
 						{
 							Player pl = Funzioni.GetPlayerFromPed(p);
-							pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(CachePlayer.Cache.MyPlayer.Player.ServerId, CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance);
+							pl.GetPlayerData().StatiPlayer.Istanza.Istanzia(SessionCache.Cache.MyPlayer.Player.ServerId, SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance);
 							BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
 						}
 
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Proprietà
 						await BaseScript.Delay(0);
 					}
 
-					foreach (OwnedVehicle veh in CachePlayer.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
+					foreach (OwnedVehicle veh in SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
 					{
 						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), ClientSession.Impostazioni.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
@@ -123,12 +123,12 @@ namespace TheLastPlanet.Client.Proprietà
 
 		public static async Task MarkerDentro()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
-				if (Proprietà.Appartamenti.ContainsKey(CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
+				if (Proprietà.Appartamenti.ContainsKey(SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
 				{
-					ConfigCase app = Proprietà.Appartamenti[CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance];
+					ConfigCase app = Proprietà.Appartamenti[SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Instance];
 
 					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
 					{

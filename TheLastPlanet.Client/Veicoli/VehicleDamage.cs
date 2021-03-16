@@ -72,10 +72,10 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static bool isPedDrivingAVehicle()
 		{
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
-				if (CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Driver == CachePlayer.Cache.MyPlayer.Ped)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Driver == SessionCache.Cache.MyPlayer.Ped)
 				{
-					VehicleClass classe = CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.ClassType;
+					VehicleClass classe = SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.ClassType;
 
 					if (classe != VehicleClass.Cycles && classe != VehicleClass.Helicopters && classe != VehicleClass.Boats && classe != VehicleClass.Planes && classe != VehicleClass.Trains) return true;
 				}
@@ -219,9 +219,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task OnTick()
 		{
-			Ped playerPed = CachePlayer.Cache.MyPlayer.Ped;
+			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				vehicle = playerPed.CurrentVehicle;
 

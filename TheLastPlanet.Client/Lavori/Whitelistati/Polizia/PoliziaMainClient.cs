@@ -49,68 +49,68 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato = !CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato;
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato = !SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato;
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
 			{
-				CachePlayer.Cache.MyPlayer.Ped.Task.ClearAll();
-				CachePlayer.Cache.MyPlayer.Ped.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
-				CachePlayer.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+				SessionCache.Cache.MyPlayer.Ped.Task.ClearAll();
+				SessionCache.Cache.MyPlayer.Ped.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
+				SessionCache.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 				SetEnableHandcuffs(PlayerPedId(), true);
 				DisablePlayerFiring(PlayerId(), true);
-				CachePlayer.Cache.MyPlayer.Ped.CanPlayGestures = false;
-				if (CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex.ToLower() == "femmina")
-					SetPedComponentVariation(CachePlayer.Cache.MyPlayer.Ped.Handle, 7, 25, 0, 0);
+				SessionCache.Cache.MyPlayer.Ped.CanPlayGestures = false;
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex.ToLower() == "femmina")
+					SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, 7, 25, 0, 0);
 				else
-					SetPedComponentVariation(CachePlayer.Cache.MyPlayer.Ped.Handle, 7, 41, 0, 0);
-				CachePlayer.Cache.MyPlayer.Player.CanControlCharacter = false;
+					SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, 7, 41, 0, 0);
+				SessionCache.Cache.MyPlayer.Player.CanControlCharacter = false;
 				ClientSession.Instance.AddTick(Ammanettato);
 			}
 			else
 			{
 				ClientSession.Instance.RemoveTick(Ammanettato);
-				CachePlayer.Cache.MyPlayer.Ped.Task.ClearAll();
+				SessionCache.Cache.MyPlayer.Ped.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
-				SetPedComponentVariation(CachePlayer.Cache.MyPlayer.Ped.Handle, CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Accessori, CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Accessori, SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
 				SetEnableHandcuffs(PlayerPedId(), false);
 				DisablePlayerFiring(PlayerId(), false);
-				CachePlayer.Cache.MyPlayer.Ped.CanPlayGestures = true;
-				CachePlayer.Cache.MyPlayer.Player.CanControlCharacter = true;
+				SessionCache.Cache.MyPlayer.Ped.CanPlayGestures = true;
+				SessionCache.Cache.MyPlayer.Player.CanControlCharacter = true;
 			}
 		}
 
 		private static async void Accompagna(int ped)
 		{
 			Ped pol = (Ped)Entity.FromNetworkId(ped);
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato) CachePlayer.Cache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato) SessionCache.Cache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 		}
 
 		private static async void TogliVeh()
 		{
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
-				if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
-					CachePlayer.Cache.MyPlayer.Ped.Task.LeaveVehicle();
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
+				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					SessionCache.Cache.MyPlayer.Ped.Task.LeaveVehicle();
 		}
 
 		private static async void MettiVeh()
 		{
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Ammanettato)
 			{
-				Vehicle closestVeh = CachePlayer.Cache.MyPlayer.Ped.GetClosestVehicle();
+				Vehicle closestVeh = SessionCache.Cache.MyPlayer.Ped.GetClosestVehicle();
 				if (closestVeh.IsSeatFree(VehicleSeat.LeftRear))
-					CachePlayer.Cache.MyPlayer.Ped.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
-				else if (CachePlayer.Cache.MyPlayer.Ped.LastVehicle.IsSeatFree(VehicleSeat.RightRear)) CachePlayer.Cache.MyPlayer.Ped.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
+					SessionCache.Cache.MyPlayer.Ped.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
+				else if (SessionCache.Cache.MyPlayer.Ped.LastVehicle.IsSeatFree(VehicleSeat.RightRear)) SessionCache.Cache.MyPlayer.Ped.Task.EnterVehicle(closestVeh, VehicleSeat.LeftRear);
 			}
 		}
 
 		public static async Task MarkersPolizia()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "polizia")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "polizia")
 				foreach (StazioniDiPolizia t2 in ClientSession.Impostazioni.Lavori.Polizia.Config.Stazioni)
 				{
 					foreach (Vector3 t in t2.Spogliatoio)
@@ -141,7 +141,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 
 						foreach (Vector3 t in t1.Deleters)
-							if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+							if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 							{
 								World.DrawMarker(MarkerType.CarSymbol, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
@@ -199,9 +199,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								{
 									if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 									{
-										VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
+										VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
 										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.SerializeToJson());
-										CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Delete();
+										SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Delete();
 										ElicotteroAttuale = new Vehicle(0);
 									}
 									else
@@ -213,7 +213,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
 					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
@@ -228,13 +228,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 			if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
-				foreach (KeyValuePair<string, User> p in CachePlayer.Cache.GiocatoriOnline)
+				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
 					if (p.Value.CurrentChar.job.name == "Polizia")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
 						Ped playerPed = new(GetPlayerPed(id));
 
-						if (!NetworkIsPlayerActive(id) || playerPed.Handle == CachePlayer.Cache.MyPlayer.Ped.Handle) continue;
+						if (!NetworkIsPlayerActive(id) || playerPed.Handle == SessionCache.Cache.MyPlayer.Ped.Handle) continue;
 
 						if (playerPed.IsInVehicle())
 						{
@@ -307,7 +307,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MainTickPolizia()
 		{
-			if (CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia")
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);
@@ -315,10 +315,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task Ammanettato()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
-			if (CachePlayer.Cache.MyPlayer.Player.CanControlCharacter) CachePlayer.Cache.MyPlayer.Player.CanControlCharacter = false;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			if (SessionCache.Cache.MyPlayer.Player.CanControlCharacter) SessionCache.Cache.MyPlayer.Player.CanControlCharacter = false;
 			if (!p.IsCuffed) SetEnableHandcuffs(p.Handle, true);
-			if (CachePlayer.Cache.MyPlayer.Player.CanControlCharacter) CachePlayer.Cache.MyPlayer.Player.CanControlCharacter = false;
+			if (SessionCache.Cache.MyPlayer.Player.CanControlCharacter) SessionCache.Cache.MyPlayer.Player.CanControlCharacter = false;
 
 			if (!IsEntityPlayingAnim(p.Handle, "mp_arresting", "idle", 3))
 				if (!HasAnimDictLoaded("mp_arresting"))

@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client
 			await DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
-			await CachePlayer.Cache.Loaded();
+			await SessionCache.Cache.Loaded();
 			Banking.BankingClient.Init();
 			Businesses.PompeDiBenzinaClient.Init();
 			PublicTraffic.Init();

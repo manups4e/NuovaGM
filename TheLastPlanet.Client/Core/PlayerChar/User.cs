@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public User(dynamic result)
 		{
 			char_current = result.char_current;
-			source = CachePlayer.Cache.MyPlayer.Player.ServerId;
+			source = SessionCache.Cache.MyPlayer.Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore] private Player player = CachePlayer.Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = SessionCache.Cache.MyPlayer.Player;
 
 		private bool _inPausa;
 		private bool _svenuto;
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class Istanza
 	{
-		[JsonIgnore] private Player player = CachePlayer.Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = SessionCache.Cache.MyPlayer.Player;
 		public bool Stanziato
 		{
 			get => player.State["PlayerStates"].Istanza.Stanziato;

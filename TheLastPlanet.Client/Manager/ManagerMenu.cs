@@ -67,16 +67,16 @@ namespace TheLastPlanet.Client.Manager
 					{
 						if (item == Teletrasportami)
 						{
-							CachePlayer.Cache.MyPlayer.Ped.Position = p.Character.Position;
+							SessionCache.Cache.MyPlayer.Ped.Position = p.Character.Position;
 						}
 						else if (item == Teletrasportalo)
 						{
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3());
+							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, SessionCache.Cache.MyPlayer.User.posizione.ToVector3());
 						}
 						else if (item == Specta)
 						{
-							if (p == CachePlayer.Cache.MyPlayer.Player) return;
-							CachePlayer.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
+							if (p == SessionCache.Cache.MyPlayer.Player) return;
+							SessionCache.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
 							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 							NetworkSetInSpectatorMode(true, p.Character.Handle);
 							ClientSession.Instance.AddTick(SpectatorMode);
@@ -129,7 +129,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Banna)
 						{
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, CachePlayer.Cache.MyPlayer.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, SessionCache.Cache.MyPlayer.Player.ServerId);
 						}
 
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
@@ -239,7 +239,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Kicka)
 						{
-							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, CachePlayer.Cache.MyPlayer.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, SessionCache.Cache.MyPlayer.Player.ServerId);
 						}
 					};
 
@@ -395,12 +395,12 @@ namespace TheLastPlanet.Client.Manager
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3(), CachePlayer.Cache.MyPlayer.User.posizione.W);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), SessionCache.Cache.MyPlayer.User.posizione.W);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), CachePlayer.Cache.MyPlayer.Ped.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), SessionCache.Cache.MyPlayer.Ped.Heading);
 				}
 
 				VeicoloSalvato.DirtLevel = 0;
@@ -627,16 +627,16 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task SpectatorMode()
 		{
-			if (CachePlayer.Cache.MyPlayer.Ped.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
+			if (SessionCache.Cache.MyPlayer.Ped.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
 			{
 				Game.DisableControlThisFrame(0, Control.Context);
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di spectare");
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					Player p = new Player(CachePlayer.Cache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
+					Player p = new Player(SessionCache.Cache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
 					NetworkSetInSpectatorMode(false, p.Character.Model);
-					CachePlayer.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
+					SessionCache.Cache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
 					ClientSession.Instance.RemoveTick(SpectatorMode);
 				}
 			}

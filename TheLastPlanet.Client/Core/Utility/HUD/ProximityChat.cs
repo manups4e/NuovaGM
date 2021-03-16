@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static bool ProximityVehCheck(Ped io, Ped lui)
 		{
-			bool ioInVeh = CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo;
+			bool ioInVeh = SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo;
 			bool luiInVeh = lui.IsInVehicle();
 
 			switch (ioInVeh)

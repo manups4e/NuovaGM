@@ -164,7 +164,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task DivaniCasa()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
 			if (!Seduto)
 				for (int i = 0; i < Divani.Count; i++)
@@ -188,7 +188,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task Televisione()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
 			if (Seduto /*&&controllo per casa o hotel*/)
 			{
@@ -219,13 +219,13 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task CheckSedia()
 		{
-			SediaClosest = World.GetAllProps().Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, CachePlayer.Cache.MyPlayer.User.posizione.ToVector3()) < 1.375f);
+			SediaClosest = World.GetAllProps().Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(o.Position, SessionCache.Cache.MyPlayer.User.posizione.ToVector3()) < 1.375f);
 			await BaseScript.Delay(200);
 		}
 
 		public static async Task SedieSiedi()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
 			if (SediaClosest != null)
 			{
@@ -239,7 +239,7 @@ namespace TheLastPlanet.Client.Interactions
 
 						if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f)
 							if (!IsPedActiveInScenario(ped.Handle))
-								if (!p.IsDead && !(p.Health < 1) && !CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+								if (!p.IsDead && !(p.Health < 1) && !SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per sederti");
 									{

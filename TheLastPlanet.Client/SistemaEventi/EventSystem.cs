@@ -92,12 +92,12 @@ namespace TheLastPlanet.Client.SistemaEventi
 		public void Send(Event wrapped)
 		{
 			Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the server-side.");
-			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", CachePlayer.Cache.MyPlayer != null ? CachePlayer.Cache.MyPlayer.Player.ServerId : Game.Player.ServerId, JsonConvert.SerializeObject(wrapped));
+			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", SessionCache.Cache.MyPlayer != null ? SessionCache.Cache.MyPlayer.Player.ServerId : Game.Player.ServerId, JsonConvert.SerializeObject(wrapped));
 		}
 
 		public Event Construct(string target, object[] payloads)
 		{
-			Event wrapped = new() { Target = target, Sender = CachePlayer.Cache.MyPlayer.Player.ServerId };
+			Event wrapped = new() { Target = target, Sender = SessionCache.Cache.MyPlayer.Player.ServerId };
 			if (payloads != null) WriteMetadata(wrapped, payloads);
 
 			return wrapped;

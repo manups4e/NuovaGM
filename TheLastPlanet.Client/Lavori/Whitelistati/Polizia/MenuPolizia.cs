@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
 
-			switch (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InServizio)
+			switch (SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio)
 			{
 				case false when !PoliziaMainClient.InServizioDaPilota:
 					Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
@@ -78,9 +78,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					break;
 				default:
 				{
-					if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InServizio || PoliziaMainClient.InServizioDaPilota)
+					if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio || PoliziaMainClient.InServizioDaPilota)
 					{
-						Giubbotto = CachePlayer.Cache.MyPlayer.Ped.Armor < 1 ? new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita") : new UIMenuItem("Rimuovi il Giubbotto Anti-Proiettile", "Speriamo sia stato utile");
+						Giubbotto = SessionCache.Cache.MyPlayer.Ped.Armor < 1 ? new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita") : new UIMenuItem("Rimuovi il Giubbotto Anti-Proiettile", "Speriamo sia stato utile");
 						Spogliatoio.AddItem(Giubbotto);
 					}
 
@@ -99,10 +99,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 				if (item == Uniforme)
 				{
-					if (!CachePlayer.Cache.MyPlayer.User.StatiPlayer.InServizio)
+					if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio)
 					{
-						foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia").Where(Grado => Grado.Value.Id == CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade))
-							switch (CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex)
+						foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => SessionCache.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia").Where(Grado => Grado.Value.Id == SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade))
+							switch (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex)
 							{
 								case "Maschio":
 									CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -114,17 +114,17 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									break;
 							}
 
-						CachePlayer.Cache.MyPlayer.User.StatiPlayer.InServizio = true;
+						SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio = true;
 					}
 					else
 					{
-						await Funzioni.UpdateDress(CachePlayer.Cache.MyPlayer.User.CurrentChar.dressing);
-						CachePlayer.Cache.MyPlayer.User.StatiPlayer.InServizio = false;
+						await Funzioni.UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio = false;
 					}
 				}
 				else if (item == Pilota)
 				{
-					switch (CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex)
+					switch (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex)
 					{
 						case "Maschio":
 							CambiaVestito(new AbitiLav() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) });
@@ -138,15 +138,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				}
 				else if (item == Giubbotto)
 				{
-					if (CachePlayer.Cache.MyPlayer.Ped.Armor < 1)
+					if (SessionCache.Cache.MyPlayer.Ped.Armor < 1)
 					{
 						SetPedComponentVariation(PlayerPedId(), 9, 4, 1, 2);
-						CachePlayer.Cache.MyPlayer.Ped.Armor = 30;
+						SessionCache.Cache.MyPlayer.Ped.Armor = 30;
 					}
 					else
 					{
 						SetPedComponentVariation(PlayerPedId(), 9, 0, 1, 2);
-						CachePlayer.Cache.MyPlayer.Ped.Armor = 0;
+						SessionCache.Cache.MyPlayer.Ped.Armor = 0;
 					}
 				}
 
@@ -251,15 +251,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 							UIMenuItem dDN = new("Data di Nascita");
 							dDN.SetRightLabel(player.DoB);
 							UIMenuItem sesso = new("Sesso");
-							sesso.SetRightLabel(CachePlayer.Cache.MyPlayer.User.CurrentChar.skin.sex);
+							sesso.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex);
 							UIMenuItem altezza = new("Altezza");
-							altezza.SetRightLabel(CachePlayer.Cache.MyPlayer.User.CurrentChar.info.height + "cm");
+							altezza.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.info.height + "cm");
 							UIMenuItem job = new("Occupazione Attuale");
-							job.SetRightLabel(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.name);
+							job.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name);
 							UIMenuItem telefono = new("N° di Telefono");
-							telefono.SetRightLabel("" + CachePlayer.Cache.MyPlayer.User.CurrentChar.info.phoneNumber);
+							telefono.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.info.phoneNumber);
 							UIMenuItem assicurazione = new("N° di Assicurazione");
-							assicurazione.SetRightLabel("" + CachePlayer.Cache.MyPlayer.User.CurrentChar.info.insurance);
+							assicurazione.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.info.insurance);
 							UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
 							nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
 							DatiPlayer.AddItem(nomeCognome);
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 						if (distance < 3f)
 						{
-							List<Inventory> inv = CachePlayer.Cache.MyPlayer.User.Inventory;
+							List<Inventory> inv = SessionCache.Cache.MyPlayer.User.Inventory;
 
 							if (inv.Count > 0)
 							{
@@ -401,7 +401,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								break;
 							case UIMenuItem i when i == accompagna:
 								if (player.StatiPlayer.Ammanettato) // rifare client-->server-->client
-									BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, CachePlayer.Cache.MyPlayer.Ped.NetworkId);
+									BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, SessionCache.Cache.MyPlayer.Ped.NetworkId);
 								else
 									HUD.ShowNotification("Non è ammanettato!!");
 
@@ -448,10 +448,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						// check veicolo di un player locked
 						RequestAnimDict("anim@amb@clubhouse@tutorial@bkr_tut_ig3@");
 						while (!HasAnimDictLoaded("anim@amb@clubhouse@tutorial@bkr_tut_ig3@")) await BaseScript.Delay(0);
-						CachePlayer.Cache.MyPlayer.Ped.Task.PlayAnimation("anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 8f, -1, AnimationFlags.Loop);
+						SessionCache.Cache.MyPlayer.Ped.Task.PlayAnimation("anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 8f, -1, AnimationFlags.Loop);
 						await BaseScript.Delay(5000);
 						// veicolo aperto qui da ora
-						CachePlayer.Cache.MyPlayer.Ped.Task.ClearAll();
+						SessionCache.Cache.MyPlayer.Ped.Task.ClearAll();
 
 						break;
 					case UIMenuItem n when n == requisizione:
@@ -460,7 +460,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						// veicolo eliminato e riportato in deposito...
 						// oppure marchiato come non necessario (MarkAsNoLongerNeeded) e poi despawnato dopo un po'
 						// oppure si chiama azienda di rimozione auto
-						CachePlayer.Cache.MyPlayer.Ped.Task.ClearAll();
+						SessionCache.Cache.MyPlayer.Ped.Task.ClearAll();
 
 						break;
 				}
@@ -586,12 +586,12 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						break;
 					}
 
-				CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.SetVehicleFuelLevel(100f);
-				CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
-				CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
-				if (CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Handle, 0);
-				CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
-				VeicoloPol veh = new VeicoloPol(CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, CachePlayer.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
+				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.SetVehicleFuelLevel(100f);
+				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
+				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
+				if (SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle, 0);
+				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+				VeicoloPol veh = new VeicoloPol(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
 				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.SerializeToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
@@ -663,15 +663,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async void VehicleMenuNuovo(StazioniDiPolizia Stazione, SpawnerSpawn Punto)
 		{
-			CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("SceltaVeicoliPolizia");
+			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("SceltaVeicoliPolizia");
 			StazioneAttuale = Stazione;
 			PuntoAttuale = Punto;
-			CachePlayer.Cache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
-			CachePlayer.Cache.MyPlayer.Ped.Heading = 85.162f;
+			SessionCache.Cache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
+			SessionCache.Cache.MyPlayer.Ped.Heading = 85.162f;
 			InGarage = true;
 
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade)) <= 10)
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade)); i++)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade)) <= 10)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -697,7 +697,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : totale - livelloGarage * 10;
 
 			for (int i = 0; i < LivelloGarageAttuali; i++)
@@ -726,9 +726,9 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloGarageNew()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
 				if (InGarage)
 				{
 					if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
@@ -737,7 +737,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
 
-					if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
@@ -779,7 +779,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								StazioneAttuale = null;
 								PuntoAttuale = null;
 								veicoliParcheggio.Clear();
-								CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+								SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
 								ClientSession.Instance.RemoveTick(ControlloGarageNew);
@@ -794,7 +794,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(CachePlayer.Cache.MyPlayer.User.CurrentChar.job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 				if (i % 10 == 0)
@@ -821,11 +821,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 					if (item == esci)
 					{
-						CachePlayer.Cache.MyPlayer.Ped.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
+						SessionCache.Cache.MyPlayer.Ped.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;
-						CachePlayer.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+						SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
 						ClientSession.Instance.RemoveTick(ControlloGarageNew);
 					}
@@ -844,11 +844,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		private static async Task ControlloMenu()
 		{
-			Ped p = CachePlayer.Cache.MyPlayer.Ped;
+			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (CachePlayer.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
-				if (p.CurrentVehicle.Driver == CachePlayer.Cache.MyPlayer.Ped && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == CachePlayer.Cache.MyPlayer.Ped)
+				if (p.CurrentVehicle.Driver == SessionCache.Cache.MyPlayer.Ped && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == SessionCache.Cache.MyPlayer.Ped)
 				{
 					if (InterazioneCivile.ParentItem.Enabled)
 					{
