@@ -56,7 +56,7 @@ namespace Logger
 			{
 				if (tipo != LogType.Debug)
 				{
-					using StreamWriter w = File.AppendText($"Server__{DateTime.Now:dd_MM_yyyy}.log");
+					using StreamWriter w = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
 					await w.WriteLineAsync($"{incipit} {err} {text}");
 				}
 			}
