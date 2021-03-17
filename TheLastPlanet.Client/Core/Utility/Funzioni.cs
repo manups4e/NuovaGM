@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void SendNuiMessage(object message)
 		{
-			API.SendNuiMessage(message.SerializeToJson());
+			API.SendNuiMessage(message.ToJson());
 		}
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
@@ -492,7 +492,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 
 				int callback =
-					await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords, heading);
+					await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading);
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -550,8 +550,8 @@ namespace TheLastPlanet.Client.Core.Utility
 					foreach (Vehicle v in vehs) v.Delete();
 				}
 
-				int callback =
-					await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords, heading);
+				int callback = await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash,
+					coords.X, coords.Y, coords.Z, heading);
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -705,9 +705,8 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 			}
 
-			int callback =
-				await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, position,
-					heading, (int)pedType);
+			int callback = await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnPed", (uint) pedModel.Hash,
+					position.X, position.Y, position.Z, heading, (int)pedType);
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
 			while (!ped.Exists()) await BaseScript.Delay(50);

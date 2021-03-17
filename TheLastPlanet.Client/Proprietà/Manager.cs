@@ -48,7 +48,7 @@ namespace TheLastPlanet.Client.Proprietà
 					Screen.Fading.FadeOut(500);
 					await BaseScript.Delay(1000);
 					VehProp pr = await playerPed.CurrentVehicle.GetVehicleProperties();
-					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.SerializeToJson(includeEverything: true));
+					BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes));
 					SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(app.Key);
 					await BaseScript.Delay(1000);
 

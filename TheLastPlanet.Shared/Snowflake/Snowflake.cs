@@ -14,7 +14,7 @@ namespace TheLastPlanet.Shared.Snowflake
             return SnowflakeGenerator.Instance.Next();
         }
 
-        public ulong ToInt64 => _value;
+        public ulong ToInt64() => _value;
 
         public static Snowflake Parse(string id) => Parse(ulong.Parse(id));
 

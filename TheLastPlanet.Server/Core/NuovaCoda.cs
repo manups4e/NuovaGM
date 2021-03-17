@@ -583,7 +583,7 @@ namespace TheLastPlanet.Server.Core
 						sessionReturn.Add(temp);
 					});
 					Player requested = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.Handle);
-					requested.TriggerEvent("lprp:coda: sessionResponse", sessionReturn.SerializeToJson());
+					requested.TriggerEvent("lprp:coda: sessionResponse", sessionReturn.ToJson());
 				}
 			}
 			catch (Exception e)
@@ -972,7 +972,7 @@ namespace TheLastPlanet.Server.Core
 				files = di.GetFiles("*.json").ToList();
 				files.ForEach(k =>
 				{
-					accounts.Add(File.ReadAllText(k.FullName).ToString().DeserializeFromJson<PriorityAccount>());
+					accounts.Add(File.ReadAllText(k.FullName).ToString().FromJson<PriorityAccount>());
 				});
 				accounts.ForEach(k =>
 				{
@@ -980,12 +980,12 @@ namespace TheLastPlanet.Server.Core
 					{
 						k.Priority = 100;
 						string path = $"{directory}/{k.License}-{k.Discord}.json";
-						File.WriteAllText(path, k.SerializeToJson());
+						File.WriteAllText(path, k.ToJson());
 					}
 
 					NuovaCoda.priority.TryAdd(k.License, k.Priority);
 				});
-				if (File.Exists($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json")) newwhitelist = File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString().DeserializeFromJson<List<PriorityAccount>>();
+				if (File.Exists($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json")) newwhitelist = File.ReadAllText($"{NuovaCoda.resourcePath}/JSON/offlinepriority.json").ToString().FromJson<List<PriorityAccount>>();
 				RegisterCommand("daipriorita", new Action<Player, List<string>, string>(Add), true);
 				RegisterCommand("rimuovipriorita", new Action<Player, List<string>, string>(Remove), true);
 				NuovaCoda.priorityReady = true;
@@ -1024,7 +1024,7 @@ namespace TheLastPlanet.Server.Core
 					}
 
 					string path = $"{directory}/{account.License}-{account.Discord}.json";
-					File.WriteAllText(path, account.SerializeToJson());
+					File.WriteAllText(path, account.ToJson());
 					Log.Printa(LogType.Info, $"{identifier} è stato settato in priorità {priority}.");
 				}
 				else
@@ -1032,7 +1032,7 @@ namespace TheLastPlanet.Server.Core
 					Log.Printa(LogType.Warning, $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
 					newwhitelist.Add(new PriorityAccount(identifier, identifier, priority));
 					string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-					File.WriteAllText(path, newwhitelist.SerializeToJson());
+					File.WriteAllText(path, newwhitelist.ToJson());
 				}
 			}
 			catch (Exception)
@@ -1060,7 +1060,7 @@ namespace TheLastPlanet.Server.Core
 					newwhitelist.Remove(j);
 				});
 				string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-				File.WriteAllText(path, newwhitelist.SerializeToJson());
+				File.WriteAllText(path, newwhitelist.ToJson());
 				accounts.Where(k => k.License == identifier || k.Discord == identifier).ToList().ForEach(j =>
 				{
 					path = $"{directory}/{j.License}-{j.Discord}.json";
@@ -1084,10 +1084,10 @@ namespace TheLastPlanet.Server.Core
 			{
 				accounts.Add(account);
 				string path = $"{directory}/{account.License}-{account.Discord}.json";
-				File.WriteAllText(path, account.SerializeToJson());
+				File.WriteAllText(path, account.ToJson());
 				newwhitelist.RemoveAll(k => k.License == account.License || k.Discord == account.Discord);
 				path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
-				File.WriteAllText(path, newwhitelist.SerializeToJson());
+				File.WriteAllText(path, newwhitelist.ToJson());
 				Log.Printa(LogType.Info, $"{account.License}-{account.Discord} prioritizzato automaticamente.");
 			}
 			catch (Exception)

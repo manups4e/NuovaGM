@@ -67,8 +67,8 @@ namespace TheLastPlanet.Client.Businesses
 		{
 			if (_stations.Count > 0) _stations.Clear();
 			if (_playerstations.Count > 0) _playerstations.Clear();
-			_stations = pompeBenza.DeserializeFromJson<List<GasStation>>();
-			_playerstations = stazioniPlayer.DeserializeFromJson<List<StationDiBenzina>>();
+			_stations = pompeBenza.FromJson<List<GasStation>>();
+			_playerstations = stazioniPlayer.FromJson<List<StationDiBenzina>>();
 		}
 
 		private static void CheckCanManage(bool canmanage, int manageid, string managetime, int funds)

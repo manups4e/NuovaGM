@@ -46,7 +46,7 @@ namespace TheLastPlanet.Server.Businesses
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
 				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
-			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.SerializeToJson(), playerstations.SerializeToJson());
+			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.ToJson(), playerstations.ToJson());
 		}
 
 		public static async void checkRent(User p)
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Server.Businesses
 					thx = thanks,
 					last = lastmanaged.ToString("yyyy-MM-dd HH:mm:ss"),
 					deliver = deltype,
-					allow = deliverylist.SerializeToJson(),
+					allow = deliverylist.ToJson(),
 					idx = manageid,
 					id = p.GetCurrentChar().identifiers.Discord
 				});
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Server.Businesses
 							}
 							else if (deltype == 3)
 							{
-								string[] allowList = (result[0].deliveryallow as string).DeserializeFromJson<string[]>();
+								string[] allowList = (result[0].deliveryallow as string).FromJson<string[]>();
 
 								foreach (string s in allowList)
 									if (user.FullName == s)

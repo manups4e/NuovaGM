@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.CodaControl
 			{
 				if (!pannelloCodaAperto)
 				{
-					List<dynamic> sessionAccounts = session.DeserializeFromJson<List<dynamic>>();
+					List<dynamic> sessionAccounts = session.FromJson<List<dynamic>>();
 					string text = "";
 					sessionAccounts.ForEach(k =>
 					{

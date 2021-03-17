@@ -662,7 +662,7 @@ namespace TheLastPlanet.Client.Negozi
 							capAttuali = obj.var;
 							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							await BaseScript.Delay(100);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						}
 						else
@@ -677,7 +677,7 @@ namespace TheLastPlanet.Client.Negozi
 								capAttuali = obj.var;
 								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								await BaseScript.Delay(100);
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							}
 							else
@@ -713,7 +713,7 @@ namespace TheLastPlanet.Client.Negozi
 							soprOpAtt = soprOp.Percentage;
 							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							await BaseScript.Delay(100);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						}
 						else
@@ -730,7 +730,7 @@ namespace TheLastPlanet.Client.Negozi
 								soprOpAtt = soprOp.Percentage;
 								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								await BaseScript.Delay(100);
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							}
 							else
@@ -766,7 +766,7 @@ namespace TheLastPlanet.Client.Negozi
 							brbAttOp = beardOp.Percentage;
 							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							await BaseScript.Delay(100);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						}
 						else
@@ -783,7 +783,7 @@ namespace TheLastPlanet.Client.Negozi
 								brbAttOp = beardOp.Percentage;
 								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								await BaseScript.Delay(100);
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							}
 							else
@@ -815,7 +815,7 @@ namespace TheLastPlanet.Client.Negozi
 							trcOpAtt = trOp.Percentage;
 							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							await BaseScript.Delay(100);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						}
 						else
@@ -828,7 +828,7 @@ namespace TheLastPlanet.Client.Negozi
 								trcOpAtt = trOp.Percentage;
 								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								await BaseScript.Delay(100);
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							}
 							else
@@ -864,7 +864,7 @@ namespace TheLastPlanet.Client.Negozi
 							rossAttualiO = rossOp.Percentage;
 							BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 1);
 							await BaseScript.Delay(100);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 							HUD.ShowNotification("Hai pagato in contanti", NotificationColor.GreenDark);
 						}
 						else
@@ -881,7 +881,7 @@ namespace TheLastPlanet.Client.Negozi
 								rossAttualiO = rossOp.Percentage;
 								BaseScript.TriggerServerEvent("lprp:barbiere:compra", obj.price, 2);
 								await BaseScript.Delay(100);
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "skin", skin.ToJson());
 								HUD.ShowNotification("Hai pagato con carta", NotificationColor.GreenDark);
 							}
 							else

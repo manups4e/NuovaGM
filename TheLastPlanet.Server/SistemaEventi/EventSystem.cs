@@ -84,7 +84,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 				}
 				catch (Exception ex)
 				{
-					Log.Printa(LogType.Info, $"[Events] An error occured when handling event `{wrapped.Target}`: {ex}");
+					Log.Printa(LogType.Error, $"[Events] An error occured when handling event `{wrapped.Target}`: {ex}");
 				}
 			}));
 		}
@@ -114,12 +114,12 @@ namespace TheLastPlanet.Server.SistemaEventi
 			if (handle != "-1")
 			{
 				Player player = Funzioni.GetPlayerFromId(handle);
-				Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the client `{handle}`.");
+				//Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the client `{handle}`.");
 				player.TriggerEvent("1d446f5702fcd00055ac8b8544479b0e", JsonConvert.SerializeObject(wrapped));
 			}
 			else
 			{
-				Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to every client.");
+				//Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to every client.");
 				BaseScript.TriggerClientEvent("1d446f5702fcd00055ac8b8544479b0e", JsonConvert.SerializeObject(wrapped));
 			}
 		}
@@ -149,7 +149,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 			ThreadLock task = new();
 			EventRequest wrapped = new(new EventCallback(metadata =>
 			{
-				Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from client `{handle}` with metadata {JsonConvert.SerializeObject(metadata)}");
+				//Log.Printa(LogType.Debug, $"[{metadata.Inherit}] Got request response from client `{handle}` with metadata {JsonConvert.SerializeObject(metadata)}");
 
 				try
 				{
@@ -157,7 +157,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 				}
 				catch (Exception)
 				{
-					Log.Printa(LogType.Info, $"[{metadata.Inherit}] Event request response returned an invalid type.");
+					Log.Printa(LogType.Error, $"[{metadata.Inherit}] Event request response returned an invalid type.");
 				}
 
 				task.Unlock();
@@ -179,7 +179,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 
 		public void Attach(string target, EventCallback callback)
 		{
-			Log.Printa(LogType.Debug, $"[Events] Attaching callback to `{target}`");
+			//Log.Printa(LogType.Debug, $"[Events] Attaching callback to `{target}`");
 			Attachments.Add(new EventAttachment(target, callback));
 		}
 	}

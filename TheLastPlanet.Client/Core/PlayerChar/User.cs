@@ -13,7 +13,17 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	public class User : BasePlayerShared
 	{
 		public int source;
-		public Vector4 posizione = Vector4.Zero;
+		public Vector4 posizione
+		{
+			get => new Vector4(CurrentChar.Location.position.X, CurrentChar.Location.position.Y, CurrentChar.Location.position.Z, CurrentChar.Location.h);
+			set
+			{
+				CurrentChar.Location.position.X = value.X;
+				CurrentChar.Location.position.Y = value.Y;
+				CurrentChar.Location.position.Z = value.Z;
+				CurrentChar.Location.h = value.W;
+			}
+		}
 
 		public User(dynamic result)
 		{
@@ -21,7 +31,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
-			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			status = new Shared.PlayerChar.Status();
 		}
 

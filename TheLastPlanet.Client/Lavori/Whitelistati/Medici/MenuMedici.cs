@@ -243,7 +243,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
 								p.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
 								VeicoloPol veh = new(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;
@@ -382,7 +382,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
 				if (SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle, 1);
 				VeicoloPol veh = new(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.SerializeToJson());
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();

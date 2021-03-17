@@ -232,7 +232,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								return;
 							}
 
-							BaseScript.TriggerServerEvent("housedealer:vendi", false, p.ServerId, app.SerializeToJson(), aff);
+							BaseScript.TriggerServerEvent("housedealer:vendi", false, p.ServerId, app.ToJson(), aff);
 						};
 						vendi.Activated += async (_menu, _item) =>
 						{
@@ -254,7 +254,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 								return;
 							}
 
-							BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.SerializeToJson(), aff);
+							BaseScript.TriggerServerEvent("housedealer:vendi", true, p.ServerId, app.ToJson(), aff);
 						};
 						persona.OnMenuStateChanged += async (a, _menu, c) =>
 						{

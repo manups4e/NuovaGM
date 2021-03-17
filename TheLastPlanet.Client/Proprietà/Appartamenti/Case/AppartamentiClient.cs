@@ -34,10 +34,10 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		private static async void CaricaCaseDaDb(string JsonCase, string jsonGarage)
 		{
-			Dictionary<string, string> aparts = JsonCase.DeserializeFromJson<Dictionary<string, string>>();
-			Dictionary<string, string> garages = jsonGarage.DeserializeFromJson<Dictionary<string, string>>();
-			foreach (KeyValuePair<string, string> a in aparts) ClientSession.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.DeserializeFromJson<ConfigCase>());
-			foreach (KeyValuePair<string, string> a in garages) ClientSession.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.DeserializeFromJson<Garages>());
+			Dictionary<string, string> aparts = JsonCase.FromJson<Dictionary<string, string>>();
+			Dictionary<string, string> garages = jsonGarage.FromJson<Dictionary<string, string>>();
+			foreach (KeyValuePair<string, string> a in aparts) ClientSession.Impostazioni.Proprieta.Appartamenti.Add(a.Key, a.Value.FromJson<ConfigCase>());
+			foreach (KeyValuePair<string, string> a in garages) ClientSession.Impostazioni.Proprieta.Garages.Garages.Add(a.Key, a.Value.FromJson<Garages>());
 		}
 
 		public static async void EntraMenu(KeyValuePair<string, ConfigCase> app)
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 								it.Activated += (_submenu, _subitem) =>
 								{
 									Game.PlaySound("DOOR_BUZZ", "MP_PLAYER_APARTMENT");
-									BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.SerializeToJson()); // params: personaincasa.serverid, fromsource chi suona
+									BaseScript.TriggerServerEvent("lprp:citofonaAlPlayer", p.ServerId, app.ToJson()); // params: personaincasa.serverid, fromsource chi suona
 									HUD.MenuPool.CloseAllMenus();
 								};
 							}
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 
 		public static void PuoiEntrare(int serverIdInCasa, string appartamento)
 		{
-			KeyValuePair<string, ConfigCase> app = appartamento.DeserializeFromJson<KeyValuePair<string, ConfigCase>>();
+			KeyValuePair<string, ConfigCase> app = appartamento.FromJson<KeyValuePair<string, ConfigCase>>();
 			Player InCasa = ClientSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
 
 			if (InCasa == null) return;

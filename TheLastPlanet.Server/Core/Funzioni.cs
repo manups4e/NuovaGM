@@ -268,44 +268,6 @@ namespace TheLastPlanet.Server.Core
 			return "WT_INVALID";
 		}
 
-		public static async Task Salvataggio()
-		{
-			try
-			{
-				if (ServerSession.PlayerList.Count > 0)
-				{
-					await BaseScript.Delay(ServerSession.Impostazioni.Main.SalvataggioTutti * 60000);
-
-					foreach (Player player in ServerSession.Instance.GetPlayers.ToList())
-					{
-						string name = player.Name;
-
-						if (ServerSession.PlayerList.ContainsKey(player.Handle))
-						{
-							User ped = GetUserFromPlayerId(player.Handle);
-
-							if (ped.status.Spawned)
-							{
-								BaseScript.TriggerClientEvent(player, "lprp:mostrasalvataggio");
-								Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
-								BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' - " + ped.identifiers.Discord);
-							}
-						}
-					}
-
-					BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
-				}
-				else
-				{
-					await BaseScript.Delay(10000);
-				}
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
-			}
-		}
-
 		public static bool IsPlayerAndHasPermission(int player, int level)
 		{
 			if (player != 0)

@@ -103,7 +103,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			/*
 			ClientSession.Instance.AttachNuiHandler("previewChar", new EventCallback (a => 
 			{
-				Log.Printa(LogType.Debug, a.SerializeToJson());
+				Log.Printa(LogType.Debug, a.ToJson());
 				return null;
 			}));
 			*/
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.SerializeToJson()});
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson()});
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);
@@ -292,7 +292,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			*/
 
 			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
-			Log.Printa(LogType.Debug, Cache.MyPlayer.User.CurrentChar.SerializeToJson());
+			Log.Printa(LogType.Debug, Cache.MyPlayer.User.CurrentChar.ToJson());
 			var Data = Cache.MyPlayer.User.CurrentChar;
 			var switchType = !Data.Location.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Location.position.X, Data.Location.position.Y, Data.Location.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
@@ -353,6 +353,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(1000);
 			Cache.MyPlayer.Ped.IsPositionFrozen = false;
 			Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+			Cache.MyPlayer.User.status.Spawned = true;
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 			ClearFocus();

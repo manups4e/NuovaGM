@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
 			SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia = false;
 			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia };
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();

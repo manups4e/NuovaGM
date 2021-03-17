@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			if (success)
 			{
-				Tanker t = JSON.DeserializeFromJson<Tanker>();
+				Tanker t = JSON.FromJson<Tanker>();
 				tankerfuel = t.fuelForTanker;
 				spawnTanker(t, getRandomPlate());
 				HUD.ShowNotification("Hai comprato una cisterna piena di carburante.");
@@ -659,7 +659,7 @@ namespace TheLastPlanet.Client.Veicoli
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							canPickupTanker = false;
-							BaseScript.TriggerServerEvent("lprp:fuel:buytanker", info.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:fuel:buytanker", info.ToJson());
 						}
 					}
 				}

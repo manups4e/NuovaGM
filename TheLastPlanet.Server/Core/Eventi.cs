@@ -72,7 +72,13 @@ namespace TheLastPlanet.Server.Core
 			{
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
 				user.CurrentChar = a.Find<Char_data>(0);
-				if ((DateTime.Now - user.LastSaved).Minutes > 10) await user.SalvaPersonaggio();
+				Log.Printa(LogType.Debug, user.CurrentChar.ID.ToInt64().ToString());
+				if ((DateTime.Now - user.LastSaved).Minutes > 10)
+				{
+					BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");
+					await user.SalvaPersonaggio();
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.identifiers.Discord);
+				}
 				return ServerSession.PlayerList;
 			}));
 			ServerSession.Instance.SistemaEventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
@@ -82,7 +88,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				Char_data Char = data.DeserializeFromJson<Char_data>();
+				Char_data Char = data.FromJson<Char_data>();
 				User user = Funzioni.GetUserFromPlayerId(p.Handle);
 				user.Characters.Add(Char);
 			}
@@ -119,7 +125,7 @@ namespace TheLastPlanet.Server.Core
 
 					break;
 				case "char_data":
-					user.Characters = (data as string).DeserializeFromJson<List<Char_data>>();
+					user.Characters = (data as string).FromJson<List<Char_data>>();
 
 					break;
 				case "status":
@@ -132,31 +138,31 @@ namespace TheLastPlanet.Server.Core
 
 					break;
 				case "skin":
-					user.CurrentChar.Skin = (data as string).DeserializeFromJson<Skin>();
+					user.CurrentChar.Skin = (data as string).FromJson<Skin>();
 
 					break;
 				case "needs":
-					user.CurrentChar.Needs = (data as string).DeserializeFromJson<Needs>();
+					user.CurrentChar.Needs = (data as string).FromJson<Needs>();
 
 					break;
 				case "skill":
-					user.CurrentChar.Statistiche = (data as string).DeserializeFromJson<Statistiche>();
+					user.CurrentChar.Statistiche = (data as string).FromJson<Statistiche>();
 
 					break;
 				case "chardressing":
-					user.CurrentChar.Dressing = (data as string).DeserializeFromJson<Dressing>();
+					user.CurrentChar.Dressing = (data as string).FromJson<Dressing>();
 
 					break;
 				case "weapons":
-					user.CurrentChar.Weapons = (data as string).DeserializeFromJson<List<Weapons>>();
+					user.CurrentChar.Weapons = (data as string).FromJson<List<Weapons>>();
 
 					break;
 				case "job":
-					user.CurrentChar.Job = (data as string).DeserializeFromJson<Job>();
+					user.CurrentChar.Job = (data as string).FromJson<Job>();
 
 					break;
 				case "gang":
-					user.CurrentChar.Gang = (data as string).DeserializeFromJson<Gang>();
+					user.CurrentChar.Gang = (data as string).FromJson<Gang>();
 
 					break;
 				case "group":
@@ -170,7 +176,7 @@ namespace TheLastPlanet.Server.Core
 			}
 
 			//player.TriggerEvent("lprp:sendUserInfo", user.char_data, user.char_current, user.group);
-			//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
+			//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)
@@ -204,8 +210,8 @@ namespace TheLastPlanet.Server.Core
 			foreach (Player player in ServerSession.Instance.GetPlayers.ToList())
 				if (player.Handle != source.Handle)
 					player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
-			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.SerializeToJson());
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
+			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
 		}
 
 		public static async void Dropped([FromSource] Player player, string reason)
@@ -447,11 +453,11 @@ namespace TheLastPlanet.Server.Core
 					Motivazione = motivazione,
 					Temporaneo = temporaneo,
 					DataFine = tempodiban,
-					Tokens = Tokens.SerializeToJson()
+					Tokens = Tokens.ToJson()
 				}
 			});
 
-			if (pippo.content.DeserializeFromJson<bool>())
+			if (pippo.content.FromJson<bool>())
 			{
 				Log.Printa(LogType.Warning, $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");

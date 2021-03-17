@@ -202,7 +202,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 											PreviewVeh.Mods.LicensePlate = plate;
 											VehProp prop = await PreviewVeh.GetVehicleProperties();
 											OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(SessionCache.Cache.MyPlayer.User.CurrentChar.Info.insurance, prop, false), new VehGarage(true, pro.Key, SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
-											BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.SerializeToJson(includeEverything: true));
+											BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes));
 											HUD.MenuPool.CloseAllMenus();
 											HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");
 											Screen.Fading.FadeOut(800);

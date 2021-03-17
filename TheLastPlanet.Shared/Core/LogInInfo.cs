@@ -20,9 +20,9 @@ namespace TheLastPlanet.Shared
 	public class SkinAndDress
 	{
 		[JsonIgnore]
-		private string skin { set => Skin = value.DeserializeFromJson<Skin>(); }
+		private string skin { set => Skin = value.FromJson<Skin>(); }
 		[JsonIgnore]
-		private string dressing { set => Dressing = value.DeserializeFromJson<Dressing>(); }
+		private string dressing { set => Dressing = value.FromJson<Dressing>(); }
 		public Skin Skin;
 		public Dressing Dressing;
 	}

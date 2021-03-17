@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+#if SERVER
 using TheLastPlanet.Server;
-
+#endif
 namespace Logger
 {
 	public enum LogType

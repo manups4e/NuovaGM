@@ -388,7 +388,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				if (veh.Exists()) veh.Delete();
 				Vehicle newveh = await Funzioni.SpawnVehicleNoPlayerInside(PuntiPesca.Barche[index], new Vector3(PuntiPesca.SpawnBarca[0], PuntiPesca.SpawnBarca[1], PuntiPesca.SpawnBarca[2]), PuntiPesca.SpawnBarca[3]);
 				VeicoloLavorativoEAffitto vehlav = new VeicoloLavorativoEAffitto(newveh, SessionCache.Cache.MyPlayer.User.FullName);
-				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.SerializeToJson());
+				BaseScript.TriggerServerEvent("lprp:registraVeicoloLavorativoENon", vehlav.ToJson());
 			};
 			Barche.Visible = true;
 		}

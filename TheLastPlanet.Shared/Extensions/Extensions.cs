@@ -673,49 +673,6 @@ namespace TheLastPlanet.Shared
 			}
 			return inside;
 		}
-
-		#region Serialization
-		
-		#region Json
-		
-		public static string SerializeToJson(this object param, Formatting format = Formatting.None, bool includeEverything = false)
-		{
-			JsonSerializerSettings settings = new()
-			{
-				Formatting = format
-			};
-
-			if (includeEverything)
-				settings.ContractResolver = new IgnoreJsonAttributesResolver();
-			return JsonConvert.SerializeObject(param, format, settings);
-		}
-		
-		public static T DeserializeFromJson<T>(this string param, bool includeEverything = false)
-		{
-			JsonSerializerSettings settings = new();
-			if (includeEverything)
-				settings.ContractResolver = new IgnoreJsonAttributesResolver();
-			return JsonConvert.DeserializeObject<T>(param, settings);
-		}
-
-		#endregion
-
-		#region Byte Serialization
-		/*
-		public static byte[] SerializeBytes<T>(this T parameter)
-		{
-		}
-
-		public static T DeserializeBytes<T>(this byte[] parameter)
-		{
-		}
-		*/
-		#endregion
-
-		#endregion
-
-
-
 	}
 
 	internal class IgnoreJsonAttributesResolver : DefaultContractResolver

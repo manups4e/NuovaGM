@@ -150,8 +150,8 @@ namespace TheLastPlanet.Client.Core.Status
 				FISHING = Statistics["FISHING"].Val,
 				HUNTING = Statistics["HUNTING"].Val
 			};
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.SerializeToJson());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.ToJson());
 			await Task.FromResult(0);
 		}
 

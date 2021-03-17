@@ -29,7 +29,7 @@ namespace TheLastPlanet.Server.Telefoni
 				if (valore != "[]" && valore != "{}" && valore != null)
 				{
 					Phones[player.Handle] = new Phone(player, result[0]);
-					string datiphone = (Phones[player.Handle]).SerializeToJson();
+					string datiphone = (Phones[player.Handle]).ToJson();
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
 				}
 				else
@@ -44,7 +44,7 @@ namespace TheLastPlanet.Server.Telefoni
 					dynamic Newresult = await ServerSession.Instance.Query("SELECT * FROM telefoni WHERE discord = @disc", new { disc = License.GetLicense(player, Identifier.Discord) });
 					await BaseScript.Delay(0);
 					Phones[player.Handle] = new Phone(player, Newresult[0]);
-					string datiphone = (Phones[player.Handle]).SerializeToJson();
+					string datiphone = (Phones[player.Handle]).ToJson();
 					player.TriggerEvent("lprp:setupPhoneClientUser", datiphone);
 				}
 			}

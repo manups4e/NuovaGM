@@ -44,33 +44,21 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			ServerSession.Instance.SistemaEventi.Attach("lprp:RequestLoginInfo", new AsyncEventCallback( async a =>
 			{
 				string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-				IEnumerable<LogInInfo> info = await MySQL.QueryListAsync<LogInInfo>(query, new
-				{
-					id = a.Find<int>(0)
-				});
+				IEnumerable<LogInInfo> info = await MySQL.QueryListAsync<LogInInfo>(query, new { id = a.Find<int>(0) });
 				return info.ToList();
 			}));
 
 			ServerSession.Instance.SistemaEventi.Attach("lprp:anteprimaChar", new AsyncEventCallback(async a =>
 			{
 				string query = "SELECT skin, dressing FROM personaggi WHERE	CharID = @id";
-				SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new
-				{
-					id = a.Find<ulong>(0)
-				});
-
-				Log.Printa(LogType.Debug, res.SerializeToJson());
-
+				SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id = a.Find<ulong>(0) });
 				return res;
 			}));
 
 			ServerSession.Instance.SistemaEventi.Attach("lprp:Select_Char", new AsyncEventCallback(async a =>
 			{
 				string query = "SELECT * FROM personaggi WHERE CharID = @id";
-				Char_data res = await MySQL.QuerySingleAsync<Char_data>(query, new
-				{
-					id = a.Find<ulong>(0)
-				});
+				Char_data res = await MySQL.QuerySingleAsync<Char_data>(query, new { id = a.Find<ulong>(0) });
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
 				user.CurrentChar = res;
 				return res;

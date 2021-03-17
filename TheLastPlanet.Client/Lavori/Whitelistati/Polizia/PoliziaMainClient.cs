@@ -153,7 +153,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 									{
 										VeicoloPol vehicle = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.SerializeToJson());
+										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", vehicle.ToJson());
 										p.CurrentVehicle.Delete();
 										VeicoloAttuale = new Vehicle(0);
 									}
@@ -200,7 +200,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 									if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 									{
 										VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
-										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.SerializeToJson());
+										BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehPolizia", veh.ToJson());
 										SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Delete();
 										ElicotteroAttuale = new Vehicle(0);
 									}

@@ -176,7 +176,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
 											VeicoloPol vehicl = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", vehicl.SerializeToJson());
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", vehicl.ToJson());
 											p.CurrentVehicle.Delete();
 											VeicoloAttuale = new Vehicle(0);
 										}
@@ -226,7 +226,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 										if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 										{
 											VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", veh.SerializeToJson());
+											BaseScript.TriggerServerEvent("lprp:polizia:RimuoviVehMedici", veh.ToJson());
 											p.CurrentVehicle.Delete();
 											ElicotteroAttuale = new Vehicle(0);
 										}

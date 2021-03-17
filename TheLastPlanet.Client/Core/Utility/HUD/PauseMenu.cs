@@ -291,7 +291,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			intro.Visible = true;
 			MainMenu.OnMenuClose += () =>
 			{
-				Funzioni.SalvaKvpString("SettingsClient", Main.ImpostazioniClient.SerializeToJson());
+				Funzioni.SalvaKvpString("SettingsClient", Main.ImpostazioniClient.ToJson());
 				Log.Printa(LogType.Debug, Funzioni.CaricaKvpString("SettingsClient"));
 			};
 			MainMenu.Visible = true;

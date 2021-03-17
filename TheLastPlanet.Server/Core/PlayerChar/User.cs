@@ -47,7 +47,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			playTime = result.playTime;
 			Player = player;
 			StatiPlayer = new PlayerStateBags(player);
-			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			LastSaved = DateTime.Now;
 		}
 
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			//p = player;
-			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
+			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			LastSaved = DateTime.Now;
 		}
 
@@ -140,7 +140,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public List<Inventory> getCharInventory(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].ID.ToInt64 == charId)
+				if (Characters[i].ID.ToInt64() == charId)
 					return Characters[i].Inventory;
 
 			return null;
@@ -190,7 +190,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public List<Weapons> getCharWeapons(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].ID.ToInt64 == charId)
+				if (Characters[i].ID.ToInt64() == charId)
 					return Characters[i].Weapons;
 
 			return null;
@@ -333,25 +333,26 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			try
 			{
-				await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
+				await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @location, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
 				{
 					gr = group,
 					level = group_level,
 					time = playTime,
-					current = CharID.ToInt64,
+					current = CharID.ToInt64(),
 					mon = Money,
 					bank = Bank,
 					dirty = DirtyMoney,
-					weap = CurrentChar.Weapons.SerializeToJson(),
-					invent = CurrentChar.Inventory.SerializeToJson(),
+					weap = CurrentChar.Weapons.ToJson(),
+					invent = CurrentChar.Inventory.ToJson(),
+					location = CurrentChar.Location.ToJson(),
 					job = CurrentChar.Job.name,
 					jgrade = CurrentChar.Job.grade,
 					gang = CurrentChar.Gang.name,
 					ggrade = CurrentChar.Gang.grade,
-					skin = CurrentChar.Skin.SerializeToJson(),
-					dress = CurrentChar.Dressing.SerializeToJson(),
-					needs = CurrentChar.Needs.SerializeToJson(),
-					stats = CurrentChar.Statistiche.SerializeToJson(),
+					skin = CurrentChar.Skin.ToJson(),
+					dress = CurrentChar.Dressing.ToJson(),
+					needs = CurrentChar.Needs.ToJson(),
+					stats = CurrentChar.Statistiche.ToJson(),
 					dead = CurrentChar.is_dead,
 					id = UserID
 				});

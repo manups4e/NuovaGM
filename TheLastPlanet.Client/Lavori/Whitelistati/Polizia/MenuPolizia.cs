@@ -592,7 +592,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				if (SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle, 0);
 				SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 				VeicoloPol veh = new VeicoloPol(SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Model.Hash, SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Handle);
-				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.SerializeToJson());
+				BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
 				HUD.MenuPool.CloseAllMenus();
 				PreviewHeli.MarkAsNoLongerNeeded();
 				PreviewHeli.Delete();
@@ -774,7 +774,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
 								p.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
 								VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
-								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.SerializeToJson());
+								BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
 								InGarage = false;
 								StazioneAttuale = null;
 								PuntoAttuale = null;

@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		private static async void VendiAMe([FromSource] Player p, string JsonVeh)
 		{
-			OwnedVehicle veh = JsonVeh.DeserializeFromJson<OwnedVehicle>(true);
+			OwnedVehicle veh = JsonVeh.FromJson<OwnedVehicle>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			await ServerSession.Instance.Execute("INSERT INTO owned_vehicles VALUES (@disc, @name, @charname, @plate, @vehN, @data, @garage, @state)", new
 			{
 				disc = p.GetLicense(Identifier.Discord),
@@ -26,12 +26,12 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 				charname = p.GetCurrentChar().FullName,
 				plate = veh.Targa,
 				vehN = veh.DatiVeicolo.props.Name,
-				data = veh.DatiVeicolo.SerializeToJson(includeEverything: true),
-				garage = veh.Garage.SerializeToJson(includeEverything: true),
+				data = veh.DatiVeicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes),
+				garage = veh.Garage.ToJson(settings:JsonHelper.IgnoreJsonIgnoreAttributes),
 				state = veh.Stato,
 			});
 			p.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
-			//p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+			//p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.ToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 
 		private static void CatalogoAlcuni([FromSource] Player p, List<int> players)

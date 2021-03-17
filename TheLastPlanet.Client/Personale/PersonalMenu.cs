@@ -509,7 +509,7 @@ namespace TheLastPlanet.Client.Personale
 											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
 											me.GetPlayerData().CurrentChar.Weapons = armiAgg;
-											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.SerializeToJson());
+											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.ToJson());
 
 											if (_checked)
 											{
@@ -1190,7 +1190,7 @@ namespace TheLastPlanet.Client.Personale
 							pool.CloseAllMenus();
 							BigMessageThread.MessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang(gname, 5).SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang(gname, 5).ToJson());
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
 						}
 						else
@@ -1219,7 +1219,7 @@ namespace TheLastPlanet.Client.Personale
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).ToJson());
 					};
 				}
 				else
@@ -1231,7 +1231,7 @@ namespace TheLastPlanet.Client.Personale
 						pool.CloseAllMenus();
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).ToJson());
 					};
 				}
 			}

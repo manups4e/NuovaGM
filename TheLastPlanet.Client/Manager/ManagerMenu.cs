@@ -305,7 +305,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64(), item1.item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}
@@ -313,7 +313,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64(), item1.item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}
@@ -327,7 +327,7 @@ namespace TheLastPlanet.Client.Manager
 							string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
 							int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 							if (quantita < 99 && quantita > 0)
-								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, oggetto, quantita);
+								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64(), oggetto, quantita);
 							else
 								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 							menu.RefreshIndex();

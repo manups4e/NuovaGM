@@ -41,14 +41,14 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		public static void RegistraVeicoloLavoroEAffitto(string jsonVeicolo)
 		{
-			NonPersonali.Add(jsonVeicolo.DeserializeFromJson<VeicoloLavorativoEAffitto>());
+			NonPersonali.Add(jsonVeicolo.FromJson<VeicoloLavorativoEAffitto>());
 		}
 
 		private static void RimuoviVeicoloLavoroEAffitto(string jsonVeicolo)
 		{
 			foreach (VeicoloLavorativoEAffitto veicolo in NonPersonali)
 			{
-				if (veicolo == jsonVeicolo.DeserializeFromJson<VeicoloLavorativoEAffitto>())
+				if (veicolo == jsonVeicolo.FromJson<VeicoloLavorativoEAffitto>())
 				{
 					NonPersonali.Remove(veicolo);
 				}
@@ -75,28 +75,28 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		private static void AggiungiVehPolizia(string jsonVeicolo)
 		{
-			VeicoloPol agg = jsonVeicolo.DeserializeFromJson<VeicoloPol>();
+			VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
 			if (!Polizia.Contains(agg))
 				Polizia.Add(agg);
 		}
 
 		private static void RimuoviVehPolizia(string jsonVeicolo)
 		{
-			VeicoloPol agg = jsonVeicolo.DeserializeFromJson<VeicoloPol>();
+			VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
 			if (Polizia.Contains(agg))
 				Polizia.Remove(agg);
 		}
 
 		private static void AggiungiVehMedici(string jsonVeicolo)
 		{
-			VeicoloPol agg = jsonVeicolo.DeserializeFromJson<VeicoloPol>();
+			VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
 			if (!Medici.Contains(agg))
 				Medici.Add(agg);
 		}
 
 		private static void RimuoviVehMedici(string jsonVeicolo)
 		{
-			VeicoloPol agg = jsonVeicolo.DeserializeFromJson<VeicoloPol>();
+			VeicoloPol agg = jsonVeicolo.FromJson<VeicoloPol>();
 			if (Medici.Contains(agg))
 				Medici.Remove(agg);
 		}

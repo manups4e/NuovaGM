@@ -31,14 +31,14 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 					else if (p.tipo == "garage")
 						garag.Add(p.abbreviazione, p.datiImmobile);
 				}
-				player.TriggerEvent("lprp:housedealer:caricaImmobiliDaDB", apart.SerializeToJson(), garag.SerializeToJson());
+				player.TriggerEvent("lprp:housedealer:caricaImmobiliDaDB", apart.ToJson(), garag.ToJson());
 			}
 		}
 
 		private static async void Vendi([FromSource] Player p, bool venduto, int target, string jsonProperty, int prezzo)
 		{
 			Player acquirente = Funzioni.GetPlayerFromId(target);
-			KeyValuePair<string, JContainer> casa = jsonProperty.DeserializeFromJson<KeyValuePair<string, JContainer>>();
+			KeyValuePair<string, JContainer> casa = jsonProperty.FromJson<KeyValuePair<string, JContainer>>();
 			SoldProperty prop = new SoldProperty(acquirente.GetLicense(Identifier.Discord), acquirente.GetCurrentChar().FullName, "Appartamento", !venduto, prezzo, casa.Key, casa.Value["Label"].Value<string>(), "{}", "{}", "{}", "{}", DateTime.Now.AddDays(7), DateTime.Now);
 			await ServerSession.Instance.Execute("INSERT INTO proprietà Values(@disc, @pers, @tipo, @aff, @pr, @name, @label, @gar, @gua, @inv, @arm, @boll, @acq)", new
 			{

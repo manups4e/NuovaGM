@@ -40,8 +40,8 @@ namespace TheLastPlanet.Shared.PlayerChar
 		[JsonIgnore]
 		internal string char_data
 		{
-			get => Characters.SerializeToJson(includeEverything: true);
-			set => Characters = value.DeserializeFromJson<List<Char_data>>(includeEverything: true);
+			get => Characters.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
+			set => Characters = value.FromJson<List<Char_data>>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 		}
 
 		public BasePlayerShared()

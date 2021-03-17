@@ -13,7 +13,7 @@ namespace TheLastPlanet.Shared.Snowflake.Serialization
             if (value is Snowflake snowflake)
             {
                 if (Representation == SnowflakeRepresentation.UInt)
-                    writer.WriteValue(snowflake.ToInt64);
+                    writer.WriteValue(snowflake.ToInt64());
                 else
                     writer.WriteValue(snowflake.ToString());
             }

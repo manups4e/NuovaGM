@@ -28,20 +28,20 @@ namespace TheLastPlanet.Server.Discord
 
 			if (risposta.status == System.Net.HttpStatusCode.OK)
 			{
-				TheLastServer = risposta.content.DeserializeFromJson<Guild>();
+				TheLastServer = risposta.content.FromJson<Guild>();
 				Log.Printa(LogType.Info, $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
 			}
 		}
 
-		public static async Task InviaAlBot(object data) { await Request.Http(serverUrl, "GET", data.SerializeToJson()); }
+		public static async Task InviaAlBot(object data) { await Request.Http(serverUrl, "GET", data.ToJson()); }
 
-		public static async Task<RequestResponse> InviaAlBotERicevi(object data) { return await Request.Http(serverUrl, "GET", data.SerializeToJson()); }
+		public static async Task<RequestResponse> InviaAlBotERicevi(object data) { return await Request.Http(serverUrl, "GET", data.ToJson()); }
 
 		public static async Task<IngressoResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
 		{
-			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli, Tokens = tokens.SerializeToJson() } });
+			RequestResponse response = await InviaAlBotERicevi(new { tipo = "RichiestaRuoloPlayer", RichiestaInterna = new { IdMember = discordId, Ruoli, Tokens = tokens.ToJson() } });
 
-			return response.status == System.Net.HttpStatusCode.OK ? response.content.DeserializeFromJson<IngressoResponse>() : new IngressoResponse() { permesso = false };
+			return response.status == System.Net.HttpStatusCode.OK ? response.content.FromJson<IngressoResponse>() : new IngressoResponse() { permesso = false };
 		}
 	}
 

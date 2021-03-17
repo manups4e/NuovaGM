@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
+using Logger;
 
 namespace TheLastPlanet.Shared
 {
@@ -38,13 +39,13 @@ namespace TheLastPlanet.Shared
 
 	public class Char_data
 	{
-		private ulong CharID { set => ID = Snowflake.Snowflake.Parse(value); }
+		private ulong CharID { get => ID.ToInt64(); set { ID = Snowflake.Snowflake.Parse(value); } }
 		[JsonIgnore]
-		private string info { set => Info = value.DeserializeFromJson<Info>(); }
+		private string info { set => Info = value.FromJson<Info>(); }
 		[JsonIgnore]
-		private string finance { set => Info = value.DeserializeFromJson<Info>(); }
+		private string finance { set => Info = value.FromJson<Info>(); }
 		[JsonIgnore]
-		private string location { set => Info = value.DeserializeFromJson<Info>(); }
+		private string location { set => Location = value.FromJson<Location>(); }
 		[JsonIgnore]
 		private string job { set => Job.name = value; }
 		[JsonIgnore]
@@ -54,19 +55,19 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private int gang_grade { set => Gang.grade = value; }
 		[JsonIgnore]
-		private string skin { set => Skin = value.DeserializeFromJson<Skin>(); }
+		private string skin { set => Skin = value.FromJson<Skin>(); }
 		[JsonIgnore]
-		private string inventory { set => Inventory = value.DeserializeFromJson<List<Inventory>>(); }
+		private string inventory { set => Inventory = value.FromJson<List<Inventory>>(); }
 		[JsonIgnore]
-		private string weapons { set => Weapons = value.DeserializeFromJson<List<Weapons>>(); }
+		private string weapons { set => Weapons = value.FromJson<List<Weapons>>(); }
 		[JsonIgnore]
-		private string dressing { set => Dressing = value.DeserializeFromJson<Dressing>(); }
+		private string dressing { set => Dressing = value.FromJson<Dressing>(); }
 		[JsonIgnore]
-		private string needs { set => Needs = value.DeserializeFromJson<Needs>(); }
+		private string needs { set => Needs = value.FromJson<Needs>(); }
 		[JsonIgnore]
-		private string statistiche { set => Statistiche = value.DeserializeFromJson<Statistiche>(); }
+		private string statistiche { set => Statistiche = value.FromJson<Statistiche>(); }
 
-		public Snowflake.Snowflake ID;
+		public Snowflake.Snowflake ID =	new();
 		public bool is_dead;
 		public Info Info = new();
 		public Finance Finance = new();
@@ -83,9 +84,7 @@ namespace TheLastPlanet.Shared
 		public Needs Needs = new();
 		public Statistiche Statistiche = new();
 		public Char_data() { }
-
-
-
+		
 		public Char_data(uint id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
 			this.ID = Snowflake.Snowflake.Parse(id);

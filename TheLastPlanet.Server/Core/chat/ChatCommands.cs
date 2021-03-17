@@ -432,7 +432,7 @@ namespace TheLastPlanet.Server.Core
 						await Task.FromResult(0);
 					}
 
-				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
+				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 			}
 			catch (Exception ex)
 			{

@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			Log.Printa(LogType.Debug, JsonTelefono);
 			if (JsonTelefono != "{\"phone_data\":[]}" && !string.IsNullOrEmpty(JsonTelefono) && !string.IsNullOrWhiteSpace(JsonTelefono))
-				Phone = new Phone(JsonTelefono.DeserializeFromJson<Phone>());
+				Phone = new Phone(JsonTelefono.FromJson<Phone>());
 			else
 				Phone = new Phone();
 			ClientSession.Instance.AddTick(ControlloApertura);

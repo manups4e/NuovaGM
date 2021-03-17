@@ -37,16 +37,16 @@ namespace TheLastPlanet.Shared.Veicoli
 		public OwnedVehicle(string targa, string data, string garage, string stato)
 		{
 			Targa = targa;
-			DatiVeicolo = data.DeserializeFromJson<VehicleData>(true);
-			Garage = garage.DeserializeFromJson<VehGarage>(true);
+			DatiVeicolo = data.FromJson<VehicleData>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
+			Garage = garage.FromJson<VehGarage>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			Stato = stato;
 		}
 
 		public OwnedVehicle(dynamic data)
 		{
 			Targa = data.targa;
-			DatiVeicolo = (data.vehicle_data as string).DeserializeFromJson<VehicleData>(true);
-			Garage = (data.garage as string).DeserializeFromJson<VehGarage>(true);
+			DatiVeicolo = (data.vehicle_data as string).FromJson<VehicleData>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
+			Garage = (data.garage as string).FromJson<VehGarage>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
 			Stato = data.stato;
 		}
 	}
