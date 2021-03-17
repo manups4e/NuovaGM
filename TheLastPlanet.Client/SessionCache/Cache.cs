@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.SessionCache
 {
-    public static class Cache
+	public static class Cache
     {
         private static bool _inVeh;
         private static bool _inPausa;
@@ -80,9 +79,11 @@ namespace TheLastPlanet.Client.SessionCache
             #endregion
 
             #region Posizione
+
             if (!MyPlayer.User.status.Spawned) return;
             if (MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
             MyPlayer.User.posizione = new Vector4(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
+
             #endregion
 
             await Task.FromResult(0);

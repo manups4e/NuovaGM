@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using Logger;
 using static CitizenFX.Core.Native.API;
+using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.Cache
+namespace TheLastPlanet.Client.SessionCache
 {
     public class PlayerCache
     {
