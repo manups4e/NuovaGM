@@ -31,7 +31,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 				state = veh.Stato,
 			});
 			p.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
-			p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
+			//p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.SerializeToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);
 		}
 
 		private static void CatalogoAlcuni([FromSource] Player p, List<int> players)

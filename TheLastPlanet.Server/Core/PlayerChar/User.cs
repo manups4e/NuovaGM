@@ -27,7 +27,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			lastConnection = DateTime.Now;
 			source = player.Handle;
-			char_current = result.char_current;
 			UserID = result.UserID;
 			group = result.group;
 			group_level = result.group_level;
@@ -42,7 +41,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			lastConnection = DateTime.Now;
 			source = player.Handle;
-			char_current = result.char_current;
 			UserID = result.UserID;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
@@ -57,19 +55,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			lastConnection = DateTime.Now;
 			//source = player.Handle;
-			char_current = result.char_current;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			//p = player;
 			Characters = (result.char_data as string).DeserializeFromJson<List<Char_data>>();
 			LastSaved = DateTime.Now;
-		}
-
-		[JsonIgnore]
-		public Char_data CurrentChar
-		{
-			get { return Characters.FirstOrDefault(x => x.id - 1 == char_current - 1); }
 		}
 
 		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
@@ -95,7 +86,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					if (CurrentChar.finance.money < 0)
 						CurrentChar.finance.money = 0;
 				Player.TriggerEvent("lprp:changeMoney", var);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -108,7 +98,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				int var = value - CurrentChar.finance.bank;
 				CurrentChar.finance.bank += var;
 				if (var < 0) Player.TriggerEvent("lprp:rimuoviBank", var);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -124,7 +113,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					if (CurrentChar.finance.dirtyCash < 0)
 						CurrentChar.finance.dirtyCash = 0;
 				Player.TriggerEvent("lprp:changeDirty", var);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 			}
 		}
 
@@ -132,14 +120,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			CurrentChar.job.name = job;
 			CurrentChar.job.grade = grade;
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public void SetGang(string job, int grade)
 		{
 			CurrentChar.gang.name = job;
 			CurrentChar.gang.grade = grade;
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public Tuple<bool, Inventory> getInventoryItem(string item)
@@ -181,7 +167,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 
 			Player.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public void removeInventoryItem(string item, int amount)
@@ -200,7 +185,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 
 			Player.TriggerEvent("lprp:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public List<Weapons> getCharWeapons(int charId)
@@ -218,7 +202,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			{
 				CurrentChar.weapons.Add(new Weapons(weaponName, ammo, new List<Components>(), 0));
 				Player.TriggerEvent("lprp:addWeapon", weaponName, ammo);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
+
 			}
 		}
 
@@ -237,7 +221,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			{
 				CurrentChar.weapons.Remove(getWeapon(weaponName).Item2);
 				Player.TriggerEvent("lprp:removeWeapon", weaponName);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
+
 			}
 		}
 
@@ -253,7 +237,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			{
 				CurrentChar.weapons[num].components.Add(new Components(weaponComponent, true));
 				Player.TriggerEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
-				Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
+
 			}
 		}
 
@@ -268,7 +252,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					{
 						CurrentChar.weapons[num].components.RemoveAt(i);
 						Player.TriggerEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
-						Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, @group);
+		
 					}
 		}
 
@@ -287,7 +271,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				{
 					CurrentChar.weapons[num].tint = tint;
 					Player.TriggerEvent("lprp:addWeaponTint", weaponName, tint);
-					Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
+	
 				}
 			}
 		}
@@ -324,7 +308,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			Licenses licenza = new(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
 			CurrentChar.licenze.Add(licenza);
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public void removeLicense(string license)
@@ -334,7 +317,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					CurrentChar.licenze.Remove(licen);
 				else
 					Log.Printa(LogType.Warning, $"Il player {Player.Name} non ha una licenza con nome '{license}'");
-			Player.TriggerEvent("lprp:sendUserInfo", Characters.SerializeToJson(includeEverything: true), char_current, group);
 		}
 
 		public List<OwnedVehicle> GetCharVehicles()
@@ -356,7 +338,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					gr = group,
 					level = group_level,
 					time = playTime,
-					current = char_current,
+					current = CharID.ToInt64(),
 					mon = Money,
 					bank = Bank,
 					dirty = DirtyMoney,

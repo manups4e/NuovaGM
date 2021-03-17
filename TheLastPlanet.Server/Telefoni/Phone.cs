@@ -23,11 +23,13 @@ namespace TheLastPlanet.Server.Telefoni
 
 		public Phone_data getCurrentCharPhone()
 		{
+			/*
 			for (int i = 0; i < phone_data.Count; i++)
 			{
 				if ((p.GetCurrentChar().char_current - 1) == phone_data[i].id - 1)
 					return phone_data[i];
 			}
+			*/
 			return null;
 		}
 	}

@@ -480,11 +480,11 @@ namespace TheLastPlanet.Client.Personale
 				if (state != MenuState.ChangeForward || menu != weapMenu) return;
 				weapMenu.Clear();
 
-				if (me.GetPlayerData().GetCharWeapons(me.GetPlayerData().char_current).Count > 0)
+				if (me.GetPlayerData().GetCharWeapons().Count > 0)
 				{
-					for (int i = 0; i < me.GetPlayerData().GetCharWeapons(me.GetPlayerData().char_current).Count; i++)
+					for (int i = 0; i < me.GetPlayerData().GetCharWeapons().Count; i++)
 					{
-						Weapons armi = me.GetPlayerData().GetCharWeapons(me.GetPlayerData().char_current)[i];
+						Weapons armi = me.GetPlayerData().GetCharWeapons()[i];
 						UIMenu arma = pool.AddSubMenu(weapMenu, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
 
 						if (armi.components.Count > 0)

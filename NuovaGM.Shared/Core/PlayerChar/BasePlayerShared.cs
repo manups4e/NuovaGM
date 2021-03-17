@@ -15,11 +15,10 @@ namespace TheLastPlanet.Shared.PlayerChar
 {
 	public class BasePlayerShared
 	{
-		public Snowflake.Snowflake Id;
+		public Snowflake.Snowflake CharID;
 		public int UserID;
 		public string group;
 		public UserGroup group_level;
-		public uint char_current;
 		public long playTime;
 		public DateTime lastConnection;
 		public Status status = new Status();
@@ -29,8 +28,16 @@ namespace TheLastPlanet.Shared.PlayerChar
 		[JsonIgnore]public PlayerStateBags StatiPlayer;
 
 		public List<Char_data> Characters = new List<Char_data>();
+		[JsonIgnore]
+		private Char_data _current;
+		[JsonIgnore]
+		public Char_data CurrentChar
+		{
+			get => _current;
+			set => _current = value;
+		}
 
-		
+
 		[JsonIgnore]
 		internal string char_data
 		{

@@ -14,7 +14,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core
 {
-	internal static class Main
+	static class Main
 	{
 		public static string decorName;
 		public static int decorInt;

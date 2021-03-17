@@ -17,7 +17,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public User(dynamic result)
 		{
-			char_current = result.char_current;
 			source = SessionCache.Cache.MyPlayer.Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
@@ -30,8 +29,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		{
 			StatiPlayer = new PlayerStateBags();
 		}
-
-		[JsonIgnore] public Char_data CurrentChar => Characters.FirstOrDefault(x => x.id - 1 == char_current - 1);
 
 		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
 
@@ -56,19 +53,14 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 
-		private List<Inventory> GetCharInventory()
+		public List<Inventory> GetCharInventory()
 		{
-			return GetCharInventory(char_current);
+			return CurrentChar.inventory;
 		}
 
-		private List<Inventory> GetCharInventory(uint charId)
+		public List<Weapons> GetCharWeapons()
 		{
-			return (from t in Characters where t.id == charId select t.inventory).FirstOrDefault();
-		}
-
-		public List<Weapons> GetCharWeapons(uint charId)
-		{
-			return (from t in Characters where t.id == charId select t.weapons).FirstOrDefault();
+			return CurrentChar.weapons;
 		}
 
 		public bool HasWeapon(string weaponName)

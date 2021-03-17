@@ -109,7 +109,7 @@ namespace TheLastPlanet.Server.Core
 			switch (type)
 			{
 				case "char_current":
-					user.char_current = Convert.ToUInt32(data);
+					//user.char_current = Convert.ToUInt32(data);
 
 					break;
 				case "char_data":
@@ -163,8 +163,8 @@ namespace TheLastPlanet.Server.Core
 					break;
 			}
 
-			player.TriggerEvent("lprp:sendUserInfo", user.char_data, user.char_current, user.group);
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
+			//player.TriggerEvent("lprp:sendUserInfo", user.char_data, user.char_current, user.group);
+			//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.SerializeToJson());
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)

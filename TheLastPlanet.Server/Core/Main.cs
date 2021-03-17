@@ -1,10 +1,10 @@
-﻿using CitizenFX.Core;
-using Logger;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Server.Core.PlayerChar;
+using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
+using Logger;
+using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Server.Core
 {

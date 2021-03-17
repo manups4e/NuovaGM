@@ -10,6 +10,7 @@ using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -21,7 +22,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			ClientSession.Instance.AddEventHandler("lprp:teleportCoords", new Action<float, float, float>(teleportCoords));
 			//Client.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-			ClientSession.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, uint, string>(sendUserInfo));
+			ClientSession.Instance.AddEventHandler("lprp:sendUserInfo", new Action<string, string>(sendUserInfo));
 			ClientSession.Instance.AddEventHandler("lprp:ObjectDeleteGun", new Action<string>(DelGun));
 			ClientSession.Instance.AddEventHandler("lprp:ShowNotification", new Action<string>(notification));
 			ClientSession.Instance.AddEventHandler("lprp:death", new Action(death));
@@ -77,11 +78,10 @@ namespace TheLastPlanet.Client.Core.Utility
 			//Funzioni.Teleport(pos);
 		}
 
-		public static void sendUserInfo(string _char_data, uint _char_current, string _group)
+		public static void sendUserInfo(string _char_data, string _group)
 		{
 			Log.Printa(LogType.Debug, _char_data);
 			SessionCache.Cache.MyPlayer.User.char_data = _char_data;
-			SessionCache.Cache.MyPlayer.User.char_current = _char_current;
 			SessionCache.Cache.MyPlayer.User.group = _group;
 		}
 
@@ -257,26 +257,25 @@ namespace TheLastPlanet.Client.Core.Utility
 			if (SessionCache.Cache.MyPlayer.User.CurrentChar.weapons.Count > 0)
 			{
 				SessionCache.Cache.MyPlayer.Ped.Weapons.RemoveAll();
-
-				for (int i = 0; i < SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current).Count; i++)
+				var weaps = SessionCache.Cache.MyPlayer.User.GetCharWeapons();
+				for (int i = 0; i < weaps.Count; i++)
 				{
-					string weaponName = SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current)[i].name;
+					string weaponName = weaps[i].name;
 					uint weaponHash = Funzioni.HashUint(weaponName);
-					int tint = SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current)[i].tint;
+					int tint = weaps[i].tint;
 					SessionCache.Cache.MyPlayer.Ped.Weapons.Give((WeaponHash)weaponHash, 0, false, false);
 					int ammoType = GetPedAmmoTypeFromWeapon(PlayerPedId(), weaponHash);
 
-					if (SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current)[i].components.Count > 0)
-						foreach (Components weaponComponent in SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current)[i].components)
+					if (weaps[i].components.Count > 0)
+						foreach (Components weaponComponent in weaps[i].components)
 						{
 							uint componentHash = Funzioni.HashUint(weaponComponent.name);
 							if (weaponComponent.active) GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash);
 						}
-
 					SetPedWeaponTintIndex(PlayerPedId(), weaponHash, tint);
 
 					if (ammoTypes.ContainsKey(ammoType)) continue;
-					AddAmmoToPed(PlayerPedId(), weaponHash, SessionCache.Cache.MyPlayer.User.GetCharWeapons(SessionCache.Cache.MyPlayer.User.char_current)[i].ammo);
+					AddAmmoToPed(PlayerPedId(), weaponHash, weaps[i].ammo);
 					ammoTypes[ammoType] = true;
 				}
 			}

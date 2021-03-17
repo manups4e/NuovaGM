@@ -274,8 +274,12 @@ namespace TheLastPlanet.Client.Core.LogIn
 			HUD.MenuPool.CloseAllMenus();
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
+			/*
 			SessionCache.Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.char_current);
+			*/
+			SessionCache.Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char");
+
 			var Data = SessionCache.Cache.MyPlayer.User.CurrentChar;
 			var switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(SessionCache.Cache.MyPlayer.Ped.Position.X, SessionCache.Cache.MyPlayer.Ped.Position.Y, SessionCache.Cache.MyPlayer.Ped.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(SessionCache.Cache.MyPlayer.Ped.Position.X, SessionCache.Cache.MyPlayer.Ped.Position.Y, SessionCache.Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
