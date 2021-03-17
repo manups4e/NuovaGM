@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.Core
 			playerPed.IsVisible = true;
 			spawned = true;
 			SessionCache.Cache.MyPlayer.User.status.Spawned = true;
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.CurrentChar.id);
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.CurrentChar.ID.ToInt64);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
 
 			if (SessionCache.Cache.MyPlayer.User.DeathStatus)

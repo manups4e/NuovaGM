@@ -445,13 +445,13 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		private static async void AggiornaModel(string JsonData)
 		{
 			Char_data plpl = JsonData.DeserializeFromJson<Char_data>();
-			uint hash = (uint)GetHashKey(plpl.skin.model);
+			uint hash = (uint)GetHashKey(plpl.Skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
 			Cache.MyPlayer.UpdatePedId();
-			await UpdateFace(PlayerPedId(), plpl.skin);
-			await UpdateDress(PlayerPedId(), plpl.dressing);
+			await UpdateFace(PlayerPedId(), plpl.Skin);
+			await UpdateDress(PlayerPedId(), plpl.Dressing);
 		}
 
 		#region Creazione
@@ -612,7 +612,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				UIMenuItem DDN = new UIMenuItem("Data di Nascita", "Data di nascita Personaggio");
 				DDN.SetRightLabel(datadinascita);
 				UIMenuItem Altezza = new UIMenuItem("Altezza", "Altezza Personaggio");
-				Altezza.SetRightLabel("" + _data.info.height);
+				Altezza.SetRightLabel("" + _data.Info.height);
 				Info.AddItem(Nome);
 				Info.AddItem(Cognome);
 				Info.AddItem(DDN);
@@ -622,14 +622,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				#region Genitori
 
-				UIMenuHeritageWindow heritageWindow = new UIMenuHeritageWindow(_data.skin.face.mom, _data.skin.face.dad);
+				UIMenuHeritageWindow heritageWindow = new UIMenuHeritageWindow(_data.Skin.face.mom, _data.Skin.face.dad);
 				Genitori.AddWindow(heritageWindow);
 				List<dynamic> lista = new List<dynamic>();
 				for (int i = 0; i < 101; i++) lista.Add(i);
-				UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, _data.skin.face.mom);
-				UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, _data.skin.face.dad);
-				UIMenuSliderHeritageItem resemblance = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.skin.resemblance * 100) };
-				UIMenuSliderHeritageItem skinmix = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.skin.skinmix * 100) };
+				UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, _data.Skin.face.mom);
+				UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, _data.Skin.face.dad);
+				UIMenuSliderHeritageItem resemblance = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.resemblance * 100) };
+				UIMenuSliderHeritageItem skinmix = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.skinmix * 100) };
 				Genitori.AddItem(mamma);
 				Genitori.AddItem(papa);
 				Genitori.AddItem(resemblance);
@@ -639,18 +639,18 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				#region Dettagli
 
-				UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.skin.face.tratti[7], _data.skin.face.tratti[6]));
-				UIMenuHorizontalOneLineGridPanel GridOcch = new UIMenuHorizontalOneLineGridPanel("Stretti", "Grandi", _data.skin.face.tratti[11]);
-				UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.skin.face.tratti[0], _data.skin.face.tratti[1]));
-				UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.skin.face.tratti[2], _data.skin.face.tratti[3]));
-				UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.skin.face.tratti[5], _data.skin.face.tratti[4]));
-				UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.skin.face.tratti[9], _data.skin.face.tratti[8]));
-				UIMenuHorizontalOneLineGridPanel GridGuance = new UIMenuHorizontalOneLineGridPanel("Magre", "Paffute", _data.skin.face.tratti[10]);
-				UIMenuHorizontalOneLineGridPanel GridLabbra = new UIMenuHorizontalOneLineGridPanel("Sottili", "Carnose", _data.skin.face.tratti[12]);
-				UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.skin.face.tratti[13], _data.skin.face.tratti[14]));
-				UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.skin.face.tratti[16], _data.skin.face.tratti[15]));
-				UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.skin.face.tratti[18], _data.skin.face.tratti[17]));
-				UIMenuHorizontalOneLineGridPanel GridCollo = new UIMenuHorizontalOneLineGridPanel("Stretto", "Largo", _data.skin.face.tratti[19]);
+				UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[7], _data.Skin.face.tratti[6]));
+				UIMenuHorizontalOneLineGridPanel GridOcch = new UIMenuHorizontalOneLineGridPanel("Stretti", "Grandi", _data.Skin.face.tratti[11]);
+				UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.Skin.face.tratti[0], _data.Skin.face.tratti[1]));
+				UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.Skin.face.tratti[2], _data.Skin.face.tratti[3]));
+				UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.Skin.face.tratti[5], _data.Skin.face.tratti[4]));
+				UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[9], _data.Skin.face.tratti[8]));
+				UIMenuHorizontalOneLineGridPanel GridGuance = new UIMenuHorizontalOneLineGridPanel("Magre", "Paffute", _data.Skin.face.tratti[10]);
+				UIMenuHorizontalOneLineGridPanel GridLabbra = new UIMenuHorizontalOneLineGridPanel("Sottili", "Carnose", _data.Skin.face.tratti[12]);
+				UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.Skin.face.tratti[13], _data.Skin.face.tratti[14]));
+				UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[16], _data.Skin.face.tratti[15]));
+				UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.Skin.face.tratti[18], _data.Skin.face.tratti[17]));
+				UIMenuHorizontalOneLineGridPanel GridCollo = new UIMenuHorizontalOneLineGridPanel("Stretto", "Largo", _data.Skin.face.tratti[19]);
 				_arcSopr.AddPanel(GridSopr);
 				_occhi.AddPanel(GridOcch);
 				_naso.AddPanel(GridNaso);
@@ -680,48 +680,48 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				#region Apparenze
 
-				UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, _data.skin.hair.style);
-				UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, _data.Skin.hair.style);
+				UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.Skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuColorPanel soprCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
 				UIMenuColorPanel soprCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
 				UIMenuPercentagePanel soprOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				sopracciglia.AddPanel(soprCol1);
 				sopracciglia.AddPanel(soprCol2);
 				sopracciglia.AddPanel(soprOp);
-				UIMenuListItem Barba = new UIMenuListItem(GetLabelText("FACE_F_BEARD"), Beards, _data.skin.facialHair.beard.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem Barba = new UIMenuListItem(GetLabelText("FACE_F_BEARD"), Beards, _data.Skin.facialHair.beard.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuColorPanel BarbaCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
 				UIMenuColorPanel BarbaCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
 				UIMenuPercentagePanel BarbaOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				Barba.AddPanel(BarbaCol1);
 				Barba.AddPanel(BarbaCol2);
 				Barba.AddPanel(BarbaOp);
-				UIMenuListItem SkinBlemishes = new UIMenuListItem(GetLabelText("FACE_F_SKINB"), blemishes, _data.skin.blemishes.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem SkinBlemishes = new UIMenuListItem(GetLabelText("FACE_F_SKINB"), blemishes, _data.Skin.blemishes.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel BlemOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				SkinBlemishes.AddPanel(BlemOp);
-				UIMenuListItem SkinAgeing = new UIMenuListItem(GetLabelText("FACE_F_SKINA"), Ageing, _data.skin.ageing.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem SkinAgeing = new UIMenuListItem(GetLabelText("FACE_F_SKINA"), Ageing, _data.Skin.ageing.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel AgeOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				SkinAgeing.AddPanel(AgeOp);
-				UIMenuListItem SkinComplexion = new UIMenuListItem(GetLabelText("FACE_F_SKC"), Complexions, _data.skin.complexion.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem SkinComplexion = new UIMenuListItem(GetLabelText("FACE_F_SKC"), Complexions, _data.Skin.complexion.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel CompOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				SkinComplexion.AddPanel(CompOp);
-				UIMenuListItem SkinMoles = new UIMenuListItem(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.skin.freckles.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem SkinMoles = new UIMenuListItem(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.Skin.freckles.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel FrecOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				SkinMoles.AddPanel(FrecOp);
-				UIMenuListItem SkinDamage = new UIMenuListItem(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.skin.skinDamage.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem SkinDamage = new UIMenuListItem(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.Skin.skinDamage.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel DamageOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				SkinDamage.AddPanel(DamageOp);
-				UIMenuListItem EyeColor = new UIMenuListItem(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.skin.eye.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-				UIMenuListItem EyeMakup = new UIMenuListItem(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.skin.makeup.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem EyeColor = new UIMenuListItem(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.Skin.eye.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem EyeMakup = new UIMenuListItem(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.Skin.makeup.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuPercentagePanel MakupOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				EyeMakup.AddPanel(MakupOp);
-				UIMenuListItem Blusher = new UIMenuListItem(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.skin.blusher.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem Blusher = new UIMenuListItem(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.Skin.blusher.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuColorPanel BlushCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Makeup);
 				UIMenuColorPanel BlushCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Makeup);
 				UIMenuPercentagePanel BlushOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
 				Blusher.AddPanel(BlushCol1);
 				Blusher.AddPanel(BlushCol2);
 				Blusher.AddPanel(BlushOp);
-				UIMenuListItem LipStick = new UIMenuListItem(GetLabelText("FACE_F_LIPST"), Lipstick, _data.skin.lipstick.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+				UIMenuListItem LipStick = new UIMenuListItem(GetLabelText("FACE_F_LIPST"), Lipstick, _data.Skin.lipstick.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 				UIMenuColorPanel LipCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Makeup);
 				UIMenuColorPanel LipCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Makeup);
 				UIMenuPercentagePanel LipOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
@@ -754,14 +754,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						case 0:
 							_dataFemmina = _data;
 							_data = _dataMaschio;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.ID.ToInt64, 0);
 							_selezionato = "Maschio";
 
 							break;
 						case 1:
 							_dataMaschio = _data;
 							_data = _dataFemmina;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.id, 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.ID.ToInt64, 0);
 							_selezionato = "Femmina";
 
 							break;
@@ -770,10 +770,10 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					BaseScript.TriggerEvent("lprp:aggiornaModel", _data.SerializeToJson());
 					foreach (Prop obj in World.GetAllProps())
 						if (obj.Model.Hash == GetHashKey("prop_police_id_board") || obj.Model.Hash == GetHashKey("prop_police_id_text"))
-							Nome.SetRightLabel(_data.info.firstname);
-					Cognome.SetRightLabel(_data.info.lastname);
-					DDN.SetRightLabel(_data.info.dateOfBirth);
-					IDictionary<string, object> a = new Dictionary<string, object> { ["nome"] = _data.info.firstname, ["cogn"] = _data.info.lastname, ["dob"] = _data.info.dateOfBirth, ["sesso"] = _selezionato };
+							Nome.SetRightLabel(_data.Info.firstname);
+					Cognome.SetRightLabel(_data.Info.lastname);
+					DDN.SetRightLabel(_data.Info.dateOfBirth);
+					IDictionary<string, object> a = new Dictionary<string, object> { ["nome"] = _data.Info.firstname, ["cogn"] = _data.Info.lastname, ["dob"] = _data.Info.dateOfBirth, ["sesso"] = _selezionato };
 					CharCreationMenu(a);
 				};
 
@@ -786,7 +786,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					if (_item == Nome)
 					{
 						N_0x3ed1438c1f5c6612(2);
-						string result = await HUD.GetUserInput("Inserisci il Nome", _data.info.firstname, 30);
+						string result = await HUD.GetUserInput("Inserisci il Nome", _data.Info.firstname, 30);
 
 						if (result != null)
 						{
@@ -800,7 +800,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							}
 							else
 							{
-								_data.info.firstname = result;
+								_data.Info.firstname = result;
 								Nome.SetRightLabel(result);
 							}
 						}
@@ -808,7 +808,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					else if (_item == Cognome)
 					{
 						N_0x3ed1438c1f5c6612(2);
-						string result = await HUD.GetUserInput("Inserisci il Cognome", _data.info.lastname, 30);
+						string result = await HUD.GetUserInput("Inserisci il Cognome", _data.Info.lastname, 30);
 
 						if (result != null)
 						{
@@ -822,14 +822,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							}
 							else
 							{
-								_data.info.lastname = result;
+								_data.Info.lastname = result;
 								Cognome.SetRightLabel(result);
 							}
 						}
 					}
 					else if (_item == DDN)
 					{
-						string result = await HUD.GetUserInput("Inserisci la Data di Nascita", _data.info.dateOfBirth, 30);
+						string result = await HUD.GetUserInput("Inserisci la Data di Nascita", _data.Info.dateOfBirth, 30);
 
 						if (result != null)
 						{
@@ -843,7 +843,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							}
 							else
 							{
-								_data.info.dateOfBirth = result;
+								_data.Info.dateOfBirth = result;
 								DDN.SetRightLabel(result);
 							}
 						}
@@ -853,7 +853,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.info.firstname + " " + _data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
+					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
 				};
 
 				#endregion
@@ -864,31 +864,31 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				{
 					if (_listItem == mamma)
 					{
-						_data.skin.face.mom = _newIndex;
-						heritageWindow.Index(_data.skin.face.mom, _data.skin.face.dad);
+						_data.Skin.face.mom = _newIndex;
+						heritageWindow.Index(_data.Skin.face.mom, _data.Skin.face.dad);
 					}
 					else if (_listItem == papa)
 					{
-						_data.skin.face.dad = _newIndex;
-						heritageWindow.Index(_data.skin.face.mom, _data.skin.face.dad);
+						_data.Skin.face.dad = _newIndex;
+						heritageWindow.Index(_data.Skin.face.mom, _data.Skin.face.dad);
 					}
 
-					if (_data.skin.sex == "Maschio")
+					if (_data.Skin.sex == "Maschio")
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					UpdateFace(PlayerPedId(), _data.skin);
+					UpdateFace(PlayerPedId(), _data.Skin);
 				};
 				Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
 				{
 					if (_item == resemblance)
-						_data.skin.resemblance = _newIndex / 100f;
-					else if (_item == skinmix) _data.skin.skinmix = _newIndex / 100f;
-					if (_data.skin.sex == "Maschio")
+						_data.Skin.resemblance = _newIndex / 100f;
+					else if (_item == skinmix) _data.Skin.skinmix = _newIndex / 100f;
+					if (_data.Skin.sex == "Maschio")
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					UpdateFace(PlayerPedId(), _data.skin);
+					UpdateFace(PlayerPedId(), _data.Skin);
 				};
 
 				#endregion
@@ -899,109 +899,109 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				{
 					if (_listItem == Capelli)
 					{
-						_data.skin.hair.style = _newIndex;
-						_data.skin.hair.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.hair.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.hair.style = _newIndex;
+						_data.Skin.hair.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.hair.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
 					}
 
 					if (_listItem == sopracciglia)
 					{
-						_data.skin.facialHair.eyebrow.style = _newIndex;
-						_data.skin.facialHair.eyebrow.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.facialHair.eyebrow.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.facialHair.eyebrow.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
+						_data.Skin.facialHair.eyebrow.style = _newIndex;
+						_data.Skin.facialHair.eyebrow.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.facialHair.eyebrow.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.facialHair.eyebrow.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == Barba)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.facialHair.beard.style = 255;
+							_data.Skin.facialHair.beard.style = 255;
 						else
-							_data.skin.facialHair.beard.style = _newIndex - 1;
-						_data.skin.facialHair.beard.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.facialHair.beard.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.facialHair.beard.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.facialHair.beard.style = _newIndex - 1;
+						_data.Skin.facialHair.beard.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.facialHair.beard.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.facialHair.beard.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == Blusher)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.blusher.style = 255;
+							_data.Skin.blusher.style = 255;
 						else
-							_data.skin.blusher.style = _newIndex - 1;
-						_data.skin.blusher.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.blusher.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.blusher.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.blusher.style = _newIndex - 1;
+						_data.Skin.blusher.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.blusher.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.blusher.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == LipStick)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.lipstick.style = 255;
+							_data.Skin.lipstick.style = 255;
 						else
-							_data.skin.lipstick.style = _newIndex - 1;
-						_data.skin.lipstick.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.lipstick.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.skin.lipstick.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.lipstick.style = _newIndex - 1;
+						_data.Skin.lipstick.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.lipstick.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
+						_data.Skin.lipstick.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == SkinBlemishes)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.blemishes.style = 255;
+							_data.Skin.blemishes.style = 255;
 						else
-							_data.skin.blemishes.style = _newIndex - 1;
-						_data.skin.blemishes.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.blemishes.style = _newIndex - 1;
+						_data.Skin.blemishes.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == SkinAgeing)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.ageing.style = 255;
+							_data.Skin.ageing.style = 255;
 						else
-							_data.skin.ageing.style = _newIndex - 1;
-						_data.skin.ageing.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.ageing.style = _newIndex - 1;
+						_data.Skin.ageing.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == SkinComplexion)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.complexion.style = 255;
+							_data.Skin.complexion.style = 255;
 						else
-							_data.skin.complexion.style = _newIndex - 1;
-						_data.skin.complexion.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.complexion.style = _newIndex - 1;
+						_data.Skin.complexion.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == SkinMoles)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.freckles.style = 255;
+							_data.Skin.freckles.style = 255;
 						else
-							_data.skin.freckles.style = _newIndex - 1;
-						_data.skin.freckles.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.freckles.style = _newIndex - 1;
+						_data.Skin.freckles.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
 					if (_listItem == SkinDamage)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.skinDamage.style = 255;
+							_data.Skin.skinDamage.style = 255;
 						else
-							_data.skin.skinDamage.style = _newIndex - 1;
-						_data.skin.skinDamage.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.skinDamage.style = _newIndex - 1;
+						_data.Skin.skinDamage.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
-					if (_listItem == EyeColor) _data.skin.eye.style = _newIndex;
+					if (_listItem == EyeColor) _data.Skin.eye.style = _newIndex;
 
 					if (_listItem == EyeMakup)
 					{
 						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.skin.makeup.style = 255;
+							_data.Skin.makeup.style = 255;
 						else
-							_data.skin.makeup.style = _newIndex - 1;
-						_data.skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
+							_data.Skin.makeup.style = _newIndex - 1;
+						_data.Skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
 					}
 
-					UpdateFace(PlayerPedId(), _data.skin);
+					UpdateFace(PlayerPedId(), _data.Skin);
 				};
 
 				#endregion
@@ -1030,17 +1030,17 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Alte":
-										_data.skin.face.tratti[6] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[6] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
 
 										break;
 									case "Basse":
-										_data.skin.face.tratti[6] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[6] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[6] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[6] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
 
 										break;
@@ -1050,8 +1050,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[7] = var.X * 2f - 1f;
-						_data.skin.face.tratti[6] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[7] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[6] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _occhi)
@@ -1061,24 +1061,24 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Grandi":
-										_data.skin.face.tratti[11] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[11] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Stretti":
-										_data.skin.face.tratti[11] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[11] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[11] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[11] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
-						_data.skin.face.tratti[11] = (var.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[11] = (var.X * 2f - 1f) / -1;
 					}
 
 					if (_listItem == _naso)
@@ -1088,25 +1088,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Piccolo":
-										_data.skin.face.tratti[0] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[0] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Grande":
-										_data.skin.face.tratti[0] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[0] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[0] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[0] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[0] = var.X * 2f - 1f;
-						_data.skin.face.tratti[1] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[0] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[1] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _nasoPro)
@@ -1116,25 +1116,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Breve":
-										_data.skin.face.tratti[2] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[2] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Lungo":
-										_data.skin.face.tratti[2] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[2] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[2] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[2] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[3] = (var.Y * 2f - 1f) / 1;
-						_data.skin.face.tratti[2] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[3] = (var.Y * 2f - 1f) / 1;
+						_data.Skin.face.tratti[2] = var.X * 2f - 1f;
 					}
 
 					if (_listItem == _nasoPun)
@@ -1144,25 +1144,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Punta su":
-										_data.skin.face.tratti[5] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[5] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
 
 										break;
 									case "Punta giù":
-										_data.skin.face.tratti[5] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[5] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.999999f);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[5] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[5] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.5f);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[5] = (var.X * 2f - 1f) / -1;
-						_data.skin.face.tratti[4] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[5] = (var.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[4] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _zigo)
@@ -1172,25 +1172,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "In dentro":
-										_data.skin.face.tratti[8] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[8] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "In fuori":
-										_data.skin.face.tratti[8] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[8] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[8] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[8] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[9] = var.X * 2f - 1f;
-						_data.skin.face.tratti[8] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[9] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[8] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _guance)
@@ -1200,24 +1200,24 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Paffute":
-										_data.skin.face.tratti[10] = 0.00001f;
+										_data.Skin.face.tratti[10] = 0.00001f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Magre":
-										_data.skin.face.tratti[10] = 0.999999f;
+										_data.Skin.face.tratti[10] = 0.999999f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[10] = 0.5f;
+										_data.Skin.face.tratti[10] = 0.5f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
-						_data.skin.face.tratti[10] = var.X;
+						_data.Skin.face.tratti[10] = var.X;
 					}
 
 					if (_listItem == _collo)
@@ -1227,24 +1227,24 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Stretto":
-										_data.skin.face.tratti[19] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[19] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Largo":
-										_data.skin.face.tratti[19] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[19] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[19] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[19] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
-						_data.skin.face.tratti[19] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[19] = var.X * 2f - 1f;
 					}
 
 					if (_listItem == _labbra)
@@ -1254,24 +1254,24 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Sottili":
-										_data.skin.face.tratti[12] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[12] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Carnose":
-										_data.skin.face.tratti[12] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[12] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[12] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[12] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
-						_data.skin.face.tratti[12] = (var.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[12] = (var.X * 2f - 1f) / -1;
 					}
 
 					if (_listItem == _masce)
@@ -1281,25 +1281,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Stretta":
-										_data.skin.face.tratti[14] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[14] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Larga":
-										_data.skin.face.tratti[14] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[14] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[14] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[14] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[13] = (var.X * 2f - 1f) / -1;
-						_data.skin.face.tratti[14] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[13] = (var.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[14] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _mentoPro)
@@ -1309,25 +1309,25 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "In dentro":
-										_data.skin.face.tratti[15] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[15] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "In fuori":
-										_data.skin.face.tratti[15] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[15] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[15] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[15] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[16] = var.X * 2f - 1f;
-						_data.skin.face.tratti[15] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[16] = var.X * 2f - 1f;
+						_data.Skin.face.tratti[15] = var.Y * 2f - 1f;
 					}
 
 					if (_listItem == _mentoFor)
@@ -1337,28 +1337,28 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								switch (_listItem.Items[_newIndex])
 								{
 									case "Squadrato":
-										_data.skin.face.tratti[17] = 0.00001f * 2f - 1f;
+										_data.Skin.face.tratti[17] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "A punta":
-										_data.skin.face.tratti[17] = 0.999999f * 2f - 1f;
+										_data.Skin.face.tratti[17] = 0.999999f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
-										_data.skin.face.tratti[17] = 0.5f * 2f - 1f;
+										_data.Skin.face.tratti[17] = 0.5f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
-						_data.skin.face.tratti[18] = (var.X * 2f - 1f) / -1;
-						_data.skin.face.tratti[17] = var.Y * 2f - 1f;
+						_data.Skin.face.tratti[18] = (var.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[17] = var.Y * 2f - 1f;
 					}
 
-					UpdateFace(PlayerPedId(), _data.skin);
+					UpdateFace(PlayerPedId(), _data.Skin);
 				};
 
 				#endregion
@@ -1367,21 +1367,21 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				Apparel.OnIndexChange += async (sender, index) =>
 				{
-					if (_data.skin.sex == "Maschio")
+					if (_data.Skin.sex == "Maschio")
 					{
 						Dressing dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
-						_data.dressing = dress;
+						_data.Dressing = dress;
 						_dataMaschio = _data;
 					}
 					else
 					{
 						Dressing dress = new Dressing(CompletiFemmina[index].Name, CompletiFemmina[index].Description, CompletiFemmina[index].ComponentDrawables, CompletiFemmina[index].ComponentTextures, CompletiFemmina[index].PropIndices, CompletiFemmina[index].PropTextures);
-						_data.dressing = dress;
+						_data.Dressing = dress;
 						_dataFemmina = _data;
 					}
 
-					UpdateDress(PlayerPedId(), _data.dressing);
-					TaskProvaClothes(Cache.MyPlayer.Ped, sub_7dd83(1, 0, _data.skin.sex));
+					UpdateDress(PlayerPedId(), _data.Dressing);
+					TaskProvaClothes(Cache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.sex));
 				};
 
 				#endregion
@@ -1405,7 +1405,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 								if (_selezionato == "Maschio")
 								{
-									Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+									Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairUomo, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 									Apparenze.AddItem(Capelli);
 									Apparenze.AddItem(sopracciglia);
 									Apparenze.AddItem(Barba);
@@ -1421,27 +1421,27 @@ namespace TheLastPlanet.Client.Core.CharCreation
 									UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 									Capelli.AddPanel(CapelCol1);
 									Capelli.AddPanel(CapelCol2);
-									CapelCol1.CurrentSelection = _data.skin.hair.color[0];
-									CapelCol2.CurrentSelection = _data.skin.hair.color[1];
-									soprCol1.CurrentSelection = _data.skin.facialHair.eyebrow.color[0];
-									soprCol2.CurrentSelection = _data.skin.facialHair.eyebrow.color[1];
-									soprOp.Percentage = _data.skin.facialHair.eyebrow.opacity;
-									BarbaCol1.CurrentSelection = _data.skin.facialHair.beard.color[0];
-									BarbaCol2.CurrentSelection = _data.skin.facialHair.beard.color[1];
-									BarbaOp.Percentage = _data.skin.facialHair.beard.opacity;
-									BlemOp.Percentage = _data.skin.blemishes.opacity;
-									AgeOp.Percentage = _data.skin.ageing.opacity;
-									CompOp.Percentage = _data.skin.complexion.opacity;
-									FrecOp.Percentage = _data.skin.freckles.opacity;
-									DamageOp.Percentage = _data.skin.skinDamage.opacity;
-									MakupOp.Percentage = _data.skin.makeup.opacity;
-									LipCol1.CurrentSelection = _data.skin.lipstick.color[0];
-									LipCol2.CurrentSelection = _data.skin.lipstick.color[1];
-									LipOp.Percentage = _data.skin.lipstick.opacity;
+									CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+									CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+									soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+									soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity;
+									BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
+									BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
+									BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity;
+									BlemOp.Percentage = _data.Skin.blemishes.opacity;
+									AgeOp.Percentage = _data.Skin.ageing.opacity;
+									CompOp.Percentage = _data.Skin.complexion.opacity;
+									FrecOp.Percentage = _data.Skin.freckles.opacity;
+									DamageOp.Percentage = _data.Skin.skinDamage.opacity;
+									MakupOp.Percentage = _data.Skin.makeup.opacity;
+									LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+									LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+									LipOp.Percentage = _data.Skin.lipstick.opacity;
 								}
 								else
 								{
-									Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+									Capelli = new UIMenuListItem(GetLabelText("FACE_HAIR"), HairDonna, _data.Skin.hair.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
 									Apparenze.AddItem(Capelli);
 									Apparenze.AddItem(sopracciglia);
 									Apparenze.AddItem(SkinBlemishes);
@@ -1457,23 +1457,23 @@ namespace TheLastPlanet.Client.Core.CharCreation
 									UIMenuColorPanel CapelCol2 = new UIMenuColorPanel("Colore Secondario", ColorPanelType.Hair);
 									Capelli.AddPanel(CapelCol1);
 									Capelli.AddPanel(CapelCol2);
-									CapelCol1.CurrentSelection = _data.skin.hair.color[0];
-									CapelCol2.CurrentSelection = _data.skin.hair.color[1];
-									soprCol1.CurrentSelection = _data.skin.facialHair.eyebrow.color[0];
-									soprCol2.CurrentSelection = _data.skin.facialHair.eyebrow.color[1];
-									soprOp.Percentage = _data.skin.facialHair.eyebrow.opacity;
-									BlemOp.Percentage = _data.skin.blemishes.opacity;
-									AgeOp.Percentage = _data.skin.ageing.opacity;
-									CompOp.Percentage = _data.skin.complexion.opacity;
-									FrecOp.Percentage = _data.skin.freckles.opacity;
-									DamageOp.Percentage = _data.skin.skinDamage.opacity;
-									MakupOp.Percentage = _data.skin.makeup.opacity;
-									BlushCol1.CurrentSelection = _data.skin.blusher.color[0];
-									BlushCol2.CurrentSelection = _data.skin.blusher.color[1];
-									BlushOp.Percentage = _data.skin.blusher.opacity;
-									LipCol1.CurrentSelection = _data.skin.lipstick.color[0];
-									LipCol2.CurrentSelection = _data.skin.lipstick.color[1];
-									LipOp.Percentage = _data.skin.lipstick.opacity;
+									CapelCol1.CurrentSelection = _data.Skin.hair.color[0];
+									CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
+									soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
+									soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
+									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity;
+									BlemOp.Percentage = _data.Skin.blemishes.opacity;
+									AgeOp.Percentage = _data.Skin.ageing.opacity;
+									CompOp.Percentage = _data.Skin.complexion.opacity;
+									FrecOp.Percentage = _data.Skin.freckles.opacity;
+									DamageOp.Percentage = _data.Skin.skinDamage.opacity;
+									MakupOp.Percentage = _data.Skin.makeup.opacity;
+									BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
+									BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
+									BlushOp.Percentage = _data.Skin.blusher.opacity;
+									LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
+									LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
+									LipOp.Percentage = _data.Skin.lipstick.opacity;
 								}
 							}
 							else if (_newMenu == Apparel)
@@ -1548,7 +1548,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					ClientSession.Instance.RemoveTick(Controllo);
 					ClientSession.Instance.RemoveTick(Scaleform);
 					ClientSession.Instance.RemoveTick(TastiMenu);
-					CamerasFirstTime.FirstTimeTransition(_data.id == 1);
+					CamerasFirstTime.FirstTimeTransition(_data.ID.ToInt64 == 1);
 					RemoveAnimDict("mp_character_creation@lineup@male_a");
 					RemoveAnimDict("mp_character_creation@lineup@male_b");
 					RemoveAnimDict("mp_character_creation@lineup@female_a");
@@ -1648,7 +1648,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[7] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[7] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1656,7 +1656,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[7] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[7] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1664,7 +1664,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[6] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[6] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1672,7 +1672,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[6] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[6] = CoordY * 2f - 1f;
 							(_arcSopr.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -1691,7 +1691,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1699,7 +1699,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
 							(_occhi.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
@@ -1718,7 +1718,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1726,7 +1726,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
 							(_guance.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
@@ -1745,7 +1745,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1753,7 +1753,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
 							(_labbra.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
@@ -1772,7 +1772,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[19] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[19] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1780,7 +1780,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[19] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[19] = CoordX * 2f - 1f;
 							(_collo.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
@@ -1799,7 +1799,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[0] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[0] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1807,7 +1807,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[0] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[0] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1815,7 +1815,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[1] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[1] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1823,7 +1823,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[1] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[1] = CoordY * 2f - 1f;
 							(_naso.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -1842,7 +1842,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1850,7 +1850,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[2] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1858,7 +1858,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[3] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[3] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1866,7 +1866,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[3] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[3] = CoordY * 2f - 1f;
 							(_nasoPro.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -1885,7 +1885,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1893,7 +1893,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[5] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1901,7 +1901,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[4] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[4] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1909,7 +1909,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[4] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[4] = CoordY * 2f - 1f;
 							(_nasoPun.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -1928,7 +1928,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[9] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[9] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1936,7 +1936,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[9] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[9] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1944,7 +1944,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[8] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[8] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1952,7 +1952,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[8] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[8] = CoordY * 2f - 1f;
 							(_zigo.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -1971,7 +1971,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[13] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[13] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -1979,7 +1979,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[13] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[13] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -1987,7 +1987,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[14] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[14] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -1995,7 +1995,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[14] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[14] = CoordY * 2f - 1f;
 							(_masce.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -2014,7 +2014,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[16] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[16] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -2022,7 +2022,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[16] = CoordX * 2f - 1f;
+							_data.Skin.face.tratti[16] = CoordX * 2f - 1f;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -2030,7 +2030,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[15] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[15] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -2038,7 +2038,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[15] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[15] = CoordY * 2f - 1f;
 							(_mentoPro.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
@@ -2057,7 +2057,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX > 1f) CoordX = 1f;
 							}
 
-							_data.skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 5) || IsDisabledControlPressed(2, 5) && !IsInputDisabled(2))
 							{
@@ -2065,7 +2065,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordX < 0) CoordX = 0;
 							}
 
-							_data.skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
+							_data.Skin.face.tratti[18] = (CoordX * 2f - 1f) / -1;
 
 							if (IsControlPressed(2, 4) || IsDisabledControlPressed(2, 4) && !IsInputDisabled(2))
 							{
@@ -2073,7 +2073,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY > 1f) CoordY = 1f;
 							}
 
-							_data.skin.face.tratti[17] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[17] = CoordY * 2f - 1f;
 
 							if (IsControlPressed(2, 3) || IsDisabledControlPressed(2, 3) && !IsInputDisabled(2))
 							{
@@ -2081,16 +2081,16 @@ namespace TheLastPlanet.Client.Core.CharCreation
 								if (CoordY < 0) CoordY = 0;
 							}
 
-							_data.skin.face.tratti[17] = CoordY * 2f - 1f;
+							_data.Skin.face.tratti[17] = CoordY * 2f - 1f;
 							(_mentoFor.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, CoordY);
 						}
 					}
 
-					if (_data.skin.sex == "Maschio")
+					if (_data.Skin.sex == "Maschio")
 						_dataFemmina = _data;
 					else
 						_dataMaschio = _data;
-					UpdateFace(playerPed.Handle, _data.skin);
+					UpdateFace(playerPed.Handle, _data.Skin);
 				}
 
 			await Task.FromResult(0);
@@ -2184,7 +2184,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 		{
 			_boardScalep1 = new Scaleform("mugshot_board_01");
 			while (!_boardScalep1.IsLoaded) await BaseScript.Delay(0);
-			_boardScalep1.CallFunction("SET_BOARD", "Nuova GM", data.info.firstname + " " + data.info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
+			_boardScalep1.CallFunction("SET_BOARD", "Nuova GM", data.Info.firstname + " " + data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
 			_handle1 = CreateNamedRenderTargetForModel("ID_Text", (uint)overlay.Hash);
 		}
 

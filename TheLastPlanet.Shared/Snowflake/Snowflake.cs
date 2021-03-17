@@ -14,6 +14,8 @@ namespace TheLastPlanet.Shared.Snowflake
             return SnowflakeGenerator.Instance.Next();
         }
 
+        public ulong ToInt64 => _value;
+
         public static Snowflake Parse(string id) => Parse(ulong.Parse(id));
 
         public static Snowflake Parse(ulong id)
@@ -45,11 +47,6 @@ namespace TheLastPlanet.Shared.Snowflake
         public override string ToString()
         {
             return _value.ToString();
-        }
-
-        public ulong ToInt64()
-        {
-            return _value;
         }
 
         public bool Equals(Snowflake other)

@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 			{
 				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
 				HUD.MenuPool.Add(venditaPesce);
-				List<Inventory> inventario = SessionCache.Cache.MyPlayer.User.CurrentChar.inventory;
+				List<Inventory> inventario = SessionCache.Cache.MyPlayer.User.CurrentChar.Inventory;
 
 				foreach (Inventory inv in inventario)
 				{
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 							else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
 								perc = 18;
 							else if (Convert.ToInt32(quantita) > 99) perc = 20;
-							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(SessionCache.Cache.MyPlayer.User.CurrentChar.statistiche.FISHING / 10)) / 100;
+							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(SessionCache.Cache.MyPlayer.User.CurrentChar.Statistiche.FISHING / 10)) / 100;
 							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
 							BaseScript.TriggerServerEvent("lprp:givemoney", valoreAggiunto * Convert.ToInt32(quantita));
 						};

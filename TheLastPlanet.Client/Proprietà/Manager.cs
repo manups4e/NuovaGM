@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Proprietà
 					string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
 					int model = playerPed.CurrentVehicle.Model.Hash;
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == SessionCache.Cache.MyPlayer.User.CurrentChar.info.insurance) == null) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate && x.DatiVeicolo.props.Model == model && x.DatiVeicolo.Assicurazione == SessionCache.Cache.MyPlayer.User.CurrentChar.Info.insurance) == null) continue;
 					if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.CurrentVehicle.Handle, true, false);
 					Screen.Fading.FadeOut(500);
 					await BaseScript.Delay(1000);

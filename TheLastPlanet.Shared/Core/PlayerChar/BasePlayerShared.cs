@@ -30,7 +30,6 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public List<Char_data> Characters = new List<Char_data>();
 		[JsonIgnore]
 		private Char_data _current;
-		[JsonIgnore]
 		public Char_data CurrentChar
 		{
 			get => _current;

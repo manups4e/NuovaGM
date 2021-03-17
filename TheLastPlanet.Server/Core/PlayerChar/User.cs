@@ -63,9 +63,9 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			LastSaved = DateTime.Now;
 		}
 
-		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
+		[JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-		[JsonIgnore] public string DOB => CurrentChar.info.dateOfBirth;
+		[JsonIgnore] public string DOB => CurrentChar.Info.dateOfBirth;
 
 		[JsonIgnore]
 		public bool DeathStatus
@@ -77,14 +77,14 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		[JsonIgnore]
 		public int Money
 		{
-			get => CurrentChar.finance.money;
+			get => CurrentChar.Finance.money;
 			set
 			{
-				int var = value - CurrentChar.finance.money;
-				CurrentChar.finance.money += var;
+				int var = value - CurrentChar.Finance.money;
+				CurrentChar.Finance.money += var;
 				if (var < 0)
-					if (CurrentChar.finance.money < 0)
-						CurrentChar.finance.money = 0;
+					if (CurrentChar.Finance.money < 0)
+						CurrentChar.Finance.money = 0;
 				Player.TriggerEvent("lprp:changeMoney", var);
 			}
 		}
@@ -92,11 +92,11 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		[JsonIgnore]
 		public int Bank
 		{
-			get => CurrentChar.finance.bank;
+			get => CurrentChar.Finance.bank;
 			set
 			{
-				int var = value - CurrentChar.finance.bank;
-				CurrentChar.finance.bank += var;
+				int var = value - CurrentChar.Finance.bank;
+				CurrentChar.Finance.bank += var;
 				if (var < 0) Player.TriggerEvent("lprp:rimuoviBank", var);
 			}
 		}
@@ -104,44 +104,44 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		[JsonIgnore]
 		public int DirtyMoney
 		{
-			get => CurrentChar.finance.dirtyCash;
+			get => CurrentChar.Finance.dirtyCash;
 			set
 			{
-				int var = value - CurrentChar.finance.dirtyCash;
-				CurrentChar.finance.dirtyCash += var;
+				int var = value - CurrentChar.Finance.dirtyCash;
+				CurrentChar.Finance.dirtyCash += var;
 				if (var < 0)
-					if (CurrentChar.finance.dirtyCash < 0)
-						CurrentChar.finance.dirtyCash = 0;
+					if (CurrentChar.Finance.dirtyCash < 0)
+						CurrentChar.Finance.dirtyCash = 0;
 				Player.TriggerEvent("lprp:changeDirty", var);
 			}
 		}
 
 		public void SetJob(string job, int grade)
 		{
-			CurrentChar.job.name = job;
-			CurrentChar.job.grade = grade;
+			CurrentChar.Job.name = job;
+			CurrentChar.Job.grade = grade;
 		}
 
 		public void SetGang(string job, int grade)
 		{
-			CurrentChar.gang.name = job;
-			CurrentChar.gang.grade = grade;
+			CurrentChar.Gang.name = job;
+			CurrentChar.Gang.grade = grade;
 		}
 
 		public Tuple<bool, Inventory> getInventoryItem(string item)
 		{
-			for (int i = 0; i < CurrentChar.inventory.Count; i++)
-				if (CurrentChar.inventory[i].item == item)
-					return new Tuple<bool, Inventory>(true, CurrentChar.inventory[i]);
+			for (int i = 0; i < CurrentChar.Inventory.Count; i++)
+				if (CurrentChar.Inventory[i].item == item)
+					return new Tuple<bool, Inventory>(true, CurrentChar.Inventory[i]);
 
 			return new Tuple<bool, Inventory>(false, null);
 		}
 
-		public List<Inventory> getCharInventory(int charId)
+		public List<Inventory> getCharInventory(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].id == charId)
-					return Characters[i].inventory;
+				if (Characters[i].ID.ToInt64 == charId)
+					return Characters[i].Inventory;
 
 			return null;
 		}
@@ -163,7 +163,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 			else
 			{
-				CurrentChar.inventory.Add(new Inventory(item, amount, weight));
+				CurrentChar.Inventory.Add(new Inventory(item, amount, weight));
 			}
 
 			Player.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
@@ -177,21 +177,21 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			if (vero)
 			{
 				checkedItem.amount -= amount;
-				if (checkedItem.amount <= 0) CurrentChar.inventory.Remove(checkedItem);
+				if (checkedItem.amount <= 0) CurrentChar.Inventory.Remove(checkedItem);
 			}
 			else
 			{
-				CurrentChar.inventory.ToList().Remove(checkedItem);
+				CurrentChar.Inventory.ToList().Remove(checkedItem);
 			}
 
 			Player.TriggerEvent("lprp:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
 		}
 
-		public List<Weapons> getCharWeapons(int charId)
+		public List<Weapons> getCharWeapons(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].id == charId)
-					return Characters[i].weapons;
+				if (Characters[i].ID.ToInt64 == charId)
+					return Characters[i].Weapons;
 
 			return null;
 		}
@@ -200,7 +200,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			if (!hasWeapon(weaponName))
 			{
-				CurrentChar.weapons.Add(new Weapons(weaponName, ammo, new List<Components>(), 0));
+				CurrentChar.Weapons.Add(new Weapons(weaponName, ammo, new List<Components>(), 0));
 				Player.TriggerEvent("lprp:addWeapon", weaponName, ammo);
 
 			}
@@ -209,7 +209,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public void updateWeaponAmmo(string weaponName, int ammo)
 		{
 			Tuple<int, Weapons> weapon = getWeapon(weaponName);
-			if (weapon.Item2.ammo > ammo) CurrentChar.weapons[weapon.Item1].ammo = ammo;
+			if (weapon.Item2.ammo > ammo) CurrentChar.Weapons[weapon.Item1].ammo = ammo;
 		}
 
 		public void removeWeapon(string weaponName)
@@ -219,7 +219,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 			if (hasWeapon(weaponName))
 			{
-				CurrentChar.weapons.Remove(getWeapon(weaponName).Item2);
+				CurrentChar.Weapons.Remove(getWeapon(weaponName).Item2);
 				Player.TriggerEvent("lprp:removeWeapon", weaponName);
 
 			}
@@ -235,7 +235,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 			else
 			{
-				CurrentChar.weapons[num].components.Add(new Components(weaponComponent, true));
+				CurrentChar.Weapons[num].components.Add(new Components(weaponComponent, true));
 				Player.TriggerEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
 
 			}
@@ -247,10 +247,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Weapons weapon = getWeapon(weaponName).Item2;
 
 			if (weapon != null)
-				for (int i = 0; i < CurrentChar.weapons[num].components.Count; i++)
-					if (CurrentChar.weapons[num].components[i].name == weaponComponent)
+				for (int i = 0; i < CurrentChar.Weapons[num].components.Count; i++)
+					if (CurrentChar.Weapons[num].components[i].name == weaponComponent)
 					{
-						CurrentChar.weapons[num].components.RemoveAt(i);
+						CurrentChar.Weapons[num].components.RemoveAt(i);
 						Player.TriggerEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
 		
 					}
@@ -269,7 +269,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				}
 				else
 				{
-					CurrentChar.weapons[num].tint = tint;
+					CurrentChar.Weapons[num].tint = tint;
 					Player.TriggerEvent("lprp:addWeaponTint", weaponName, tint);
 	
 				}
@@ -278,14 +278,14 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public bool hasWeapon(string weaponName)
 		{
-			return CurrentChar.weapons.Any(x => x.name == weaponName);
+			return CurrentChar.Weapons.Any(x => x.name == weaponName);
 		}
 
 		public Tuple<int, Weapons> getWeapon(string weaponName)
 		{
-			Weapons weapon = CurrentChar.weapons.FirstOrDefault(x => x.name == weaponName);
+			Weapons weapon = CurrentChar.Weapons.FirstOrDefault(x => x.name == weaponName);
 
-			return weapon != null ? new Tuple<int, Weapons>(CurrentChar.weapons.IndexOf(weapon), weapon) : new Tuple<int, Weapons>(0, null);
+			return weapon != null ? new Tuple<int, Weapons>(CurrentChar.Weapons.IndexOf(weapon), weapon) : new Tuple<int, Weapons>(0, null);
 		}
 
 		public bool hasWeaponTint(string weaponName, int tint)
@@ -302,19 +302,19 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		[JsonIgnore] public Vector3 getCoords => CurrentChar.location.position;
+		[JsonIgnore] public Vector3 getCoords => CurrentChar.Location.position;
 
 		public void giveLicense(string license, string mittente)
 		{
 			Licenses licenza = new(license, DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"), mittente);
-			CurrentChar.licenze.Add(licenza);
+			CurrentChar.Licenze.Add(licenza);
 		}
 
 		public void removeLicense(string license)
 		{
-			foreach (Licenses licen in CurrentChar.licenze)
+			foreach (Licenses licen in CurrentChar.Licenze)
 				if (licen.name == license)
-					CurrentChar.licenze.Remove(licen);
+					CurrentChar.Licenze.Remove(licen);
 				else
 					Log.Printa(LogType.Warning, $"Il player {Player.Name} non ha una licenza con nome '{license}'");
 		}
@@ -338,20 +338,20 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					gr = group,
 					level = group_level,
 					time = playTime,
-					current = CharID.ToInt64(),
+					current = CharID.ToInt64,
 					mon = Money,
 					bank = Bank,
 					dirty = DirtyMoney,
-					weap = CurrentChar.weapons.SerializeToJson(),
-					invent = CurrentChar.inventory.SerializeToJson(),
-					job = CurrentChar.job.name,
-					jgrade = CurrentChar.job.grade,
-					gang = CurrentChar.gang.name,
-					ggrade = CurrentChar.gang.grade,
-					skin = CurrentChar.skin.SerializeToJson(),
-					dress = CurrentChar.dressing.SerializeToJson(),
-					needs = CurrentChar.needs.SerializeToJson(),
-					stats = CurrentChar.statistiche.SerializeToJson(),
+					weap = CurrentChar.Weapons.SerializeToJson(),
+					invent = CurrentChar.Inventory.SerializeToJson(),
+					job = CurrentChar.Job.name,
+					jgrade = CurrentChar.Job.grade,
+					gang = CurrentChar.Gang.name,
+					ggrade = CurrentChar.Gang.grade,
+					skin = CurrentChar.Skin.SerializeToJson(),
+					dress = CurrentChar.Dressing.SerializeToJson(),
+					needs = CurrentChar.Needs.SerializeToJson(),
+					stats = CurrentChar.Statistiche.SerializeToJson(),
 					dead = CurrentChar.is_dead,
 					id = UserID
 				});

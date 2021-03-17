@@ -249,7 +249,7 @@ namespace TheLastPlanet.Client.Manager
 
 					foreach (Char_data chars in player.Characters)
 					{
-						UIMenu Character = Personaggi.AddSubMenu(chars.info.firstname + " " + chars.info.lastname);
+						UIMenu Character = Personaggi.AddSubMenu(chars.Info.firstname + " " + chars.Info.lastname);
 						UIMenu DatiPersonali = Character.AddSubMenu("Dati Personali", "Nome, cognome, lavoro, gangs");
 						UIMenu Inventario = Character.AddSubMenu("Inventario");
 						UIMenu Armi = Character.AddSubMenu("Armi");
@@ -261,19 +261,19 @@ namespace TheLastPlanet.Client.Manager
 						#region Dati Personali
 
 						UIMenuItem nomeCognome = new("Nome e Cognome");
-						nomeCognome.SetRightLabel(chars.info.firstname + " " + chars.info.lastname);
+						nomeCognome.SetRightLabel(chars.Info.firstname + " " + chars.Info.lastname);
 						UIMenuItem dDN = new("Data di Nascita");
-						dDN.SetRightLabel(chars.info.dateOfBirth);
+						dDN.SetRightLabel(chars.Info.dateOfBirth);
 						UIMenuItem sesso = new("Sesso");
-						sesso.SetRightLabel(chars.skin.sex);
+						sesso.SetRightLabel(chars.Skin.sex);
 						UIMenuItem altezza = new("Altezza");
-						altezza.SetRightLabel(chars.info.height + "cm");
+						altezza.SetRightLabel(chars.Info.height + "cm");
 						UIMenuItem job = new("Occupazione Attuale");
-						job.SetRightLabel(chars.job.name);
+						job.SetRightLabel(chars.Job.name);
 						UIMenuItem telefono = new("N° di Telefono");
-						telefono.SetRightLabel("" + chars.info.phoneNumber);
+						telefono.SetRightLabel("" + chars.Info.phoneNumber);
 						UIMenuItem assicurazione = new("N° di Assicurazione");
-						assicurazione.SetRightLabel("" + chars.info.insurance);
+						assicurazione.SetRightLabel("" + chars.Info.insurance);
 						DatiPersonali.AddItem(nomeCognome);
 						DatiPersonali.AddItem(dDN);
 						DatiPersonali.AddItem(sesso);
@@ -289,8 +289,8 @@ namespace TheLastPlanet.Client.Manager
 						UIMenuItem addItem = new("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
 						Inventario.AddItem(addItem);
 
-						if (chars.inventory.Count > 0)
-							foreach (Inventory item in chars.inventory)
+						if (chars.Inventory.Count > 0)
+							foreach (Inventory item in chars.Inventory)
 							{
 								if (item.amount <= 0) continue;
 								UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
@@ -305,7 +305,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, item1.item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}
@@ -313,7 +313,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.id, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, item1.item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}
@@ -327,7 +327,7 @@ namespace TheLastPlanet.Client.Manager
 							string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
 							int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 							if (quantita < 99 && quantita > 0)
-								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.id, oggetto, quantita);
+								BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.ID.ToInt64, oggetto, quantita);
 							else
 								HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 							menu.RefreshIndex();

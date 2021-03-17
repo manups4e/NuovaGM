@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 
 				if (p.IsInRangeOf(taxi.PosAccettazione, 1.375f))
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() != "taxi")
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() != "taxi")
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per accettare il lavoro da tassista.");
 
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 				}
 			}
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "taxi")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "taxi")
 			{
 				if (p.IsInRangeOf(taxi.PosRitiroVeicolo, 100))
 					if (VeicoloServizio == null || VeicoloServizio != null && !VeicoloServizio.Exists() || VeicoloServizio.IsDead)

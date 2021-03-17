@@ -421,7 +421,7 @@ namespace TheLastPlanet.Client.Negozi
 						vest.SetRightLabel("~r~$" + t.Price);
 				}
 
-				if (t.Name != SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name) continue;
+				if (t.Name != SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name) continue;
 				vest.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
 				ciao = vest;
 			}
@@ -434,7 +434,7 @@ namespace TheLastPlanet.Client.Negozi
 			};
 			MenuVest.OnItemSelect += async (_menu, _item, _index) =>
 			{
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name == completi[_index].Name && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description == completi[_index].Description)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name == completi[_index].Name && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description == completi[_index].Description)
 				{
 					HUD.ShowNotification("Possiedi già quest'abito!", true);
 				}
@@ -444,7 +444,7 @@ namespace TheLastPlanet.Client.Negozi
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].SerializeToJson());
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = _item;
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -456,7 +456,7 @@ namespace TheLastPlanet.Client.Negozi
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
 							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", completi[_index].SerializeToJson());
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = _item;
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -472,7 +472,7 @@ namespace TheLastPlanet.Client.Negozi
 			MenuVest.OnMenuStateChanged += async (oldmenu, _menu, state) =>
 			{
 				if (state != MenuState.Closed) return;
-				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 				NegozioAbitiClient.Esci();
 				ClientSession.Instance.RemoveTick(CameraVest);
 			};
@@ -544,7 +544,7 @@ namespace TheLastPlanet.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Pantaloni != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Pantaloni != texture) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni != texture) continue;
 					Pant.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 					ciao = Pant.ParentItem;
 					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
@@ -567,7 +567,7 @@ namespace TheLastPlanet.Client.Negozi
 							break;
 						}
 						case MenuState.ChangeBackward:
-							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 
 							break;
 					}
@@ -582,7 +582,7 @@ namespace TheLastPlanet.Client.Negozi
 				};
 				Pant.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Pantaloni == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Pantaloni == text)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni == text)
 					{
 						HUD.ShowNotification("Hai già acquistato questo pantalone!!", true);
 
@@ -599,11 +599,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni = mod;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -617,11 +617,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Pantaloni = mod;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Pantaloni = text;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni = mod;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -644,7 +644,7 @@ namespace TheLastPlanet.Client.Negozi
 				await BaseScript.Delay(100);
 
 				if (_menuVestiti.Any(t => t.Visible)) return;
-				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 				NegozioAbitiClient.Esci();
 				ClientSession.Instance.RemoveTick(CameraVest);
 			};
@@ -716,7 +716,7 @@ namespace TheLastPlanet.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Scarpe != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Scarpe != texture) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe != texture) continue;
 					Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 					ciao = Scarp.ParentItem;
 					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
@@ -738,7 +738,7 @@ namespace TheLastPlanet.Client.Negozi
 							break;
 						}
 						case MenuState.ChangeBackward:
-							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 
 							break;
 					}
@@ -753,7 +753,7 @@ namespace TheLastPlanet.Client.Negozi
 				};
 				Scarp.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Scarpe == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Scarpe == text)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe == text)
 					{
 						HUD.ShowNotification("Hai già acquistato queste scarpe!!", true);
 
@@ -770,11 +770,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Scarpe = text;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe = mod;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -788,11 +788,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Scarpe = mod;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Scarpe = text;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe = mod;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -817,7 +817,7 @@ namespace TheLastPlanet.Client.Negozi
 				foreach (UIMenu t in _menuVestiti)
 					if (t.Visible)
 						return;
-				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 				NegozioAbitiClient.Esci();
 				ClientSession.Instance.RemoveTick(CameraVest);
 			};
@@ -889,7 +889,7 @@ namespace TheLastPlanet.Client.Negozi
 							pant.SetRightLabel("~r~$" + money);
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie != texture) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != v.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie != texture) continue;
 					Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
 					ciao = Scarp.ParentItem;
 					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
@@ -911,7 +911,7 @@ namespace TheLastPlanet.Client.Negozi
 							break;
 						}
 						case MenuState.ChangeBackward:
-							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+							await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 
 							break;
 					}
@@ -926,7 +926,7 @@ namespace TheLastPlanet.Client.Negozi
 				};
 				Scarp.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie == text)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == mod && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie == text)
 					{
 						HUD.ShowNotification("Hai già acquistato questi occhiali!!", true);
 
@@ -943,11 +943,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = mod;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = text;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = mod;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						ciao.SetRightBadge(BadgeStyle.None);
 						ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 						ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -961,11 +961,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = mod;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = text;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = mod;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							ciao.SetRightBadge(BadgeStyle.None);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
 							ciao.SetRightBadge(BadgeStyle.Clothes);
@@ -990,7 +990,7 @@ namespace TheLastPlanet.Client.Negozi
 				foreach (UIMenu t in _menuVestiti)
 					if (t.Visible)
 						return;
-				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+				await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 				NegozioAbitiClient.Esci();
 				ClientSession.Instance.RemoveTick(CameraVest);
 			};
@@ -1033,8 +1033,8 @@ namespace TheLastPlanet.Client.Negozi
 			SetPedAlternateMovementAnim(SessionCache.Cache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
 			await SessionCache.Cache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
 			int money = 0;
-			int IntorecAtt = SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style;
-			int IntcoloOreccAtt = SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.color;
+			int IntorecAtt = SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style;
+			int IntcoloOreccAtt = SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.color;
 			int IntOrolAtt = GetPedPropIndex(PlayerPedId(), 6);
 			int IntOrolMod = GetPedPropTextureIndex(PlayerPedId(), 6);
 			int IntBraccAtt = GetPedPropIndex(PlayerPedId(), 7);
@@ -1089,7 +1089,7 @@ namespace TheLastPlanet.Client.Negozi
 
 				Borse.AddItem(bors);
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute != borsa.Modello) continue;
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute != borsa.Modello) continue;
 				bors.SetRightBadge(BadgeStyle.Clothes);
 				BorsAtt = bors;
 			}
@@ -1103,7 +1103,7 @@ namespace TheLastPlanet.Client.Negozi
 			};
 			Borse.OnItemSelect += async (_menu, _item, _index) =>
 			{
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute == IntBors)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute == IntBors)
 				{
 					HUD.ShowNotification("Hai già acquistato questa borsa!!", true);
 
@@ -1120,11 +1120,11 @@ namespace TheLastPlanet.Client.Negozi
 				if (SessionCache.Cache.MyPlayer.User.Money >= val)
 				{
 					BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-					SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-					SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
-					SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-					SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-					BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+					BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 					BorsAtt.SetRightBadge(BadgeStyle.None);
 					BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 					BorsAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1135,11 +1135,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Borsa_Paracadute = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute = IntBors;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						BorsAtt.SetRightBadge(BadgeStyle.None);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
 						BorsAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1172,13 +1172,13 @@ namespace TheLastPlanet.Client.Negozi
 					CappRim.SetRightLabel("~g~$0");
 				}
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == -1)
 				{
 					CappRim.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt = CappRim;
 				}
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere != -1 && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != -1 && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
 				{
 					capelino.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt = CappRim;
@@ -1221,7 +1221,7 @@ namespace TheLastPlanet.Client.Negozi
 							newCap.SetRightLabel("~r~$" + money);
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere != cappellino.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere != texture) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != cappellino.Modello || SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere != texture) continue;
 					newCap.SetRightBadge(BadgeStyle.Clothes);
 					CappAtt1 = newCap;
 				}
@@ -1236,7 +1236,7 @@ namespace TheLastPlanet.Client.Negozi
 				};
 				Capelino.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere == IntCappAtt && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere == IntCappAttMod)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == IntCappAtt && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere == IntCappAttMod)
 					{
 						HUD.ShowNotification("Non puoi acquistare lo stesso cappello che hai già! Prova a cambiare modello!");
 					}
@@ -1252,11 +1252,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 							CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1270,11 +1270,11 @@ namespace TheLastPlanet.Client.Negozi
 							if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = IntCappAtt;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 								CappAtt.SetRightBadge(BadgeStyle.None);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
 								CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1294,7 +1294,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					if (state != MenuState.ChangeBackward || newmenu != Capp) return;
 					PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-					await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+					await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 				};
 			}
 
@@ -1302,7 +1302,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				if (_item != CappRim) return;
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte un Cappello!!", true);
 				}
@@ -1318,11 +1318,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = -1;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						CappAtt.SetRightBadge(BadgeStyle.None);
 						CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 						CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1333,11 +1333,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Cappelli_Maschere = -1;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Cappelli_Maschere = -1;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere = -1;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							CappAtt.SetRightBadge(BadgeStyle.None);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
 							CappAtt.SetRightBadge(BadgeStyle.Clothes);
@@ -1354,7 +1354,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				string ActiveItem = _listItem.Items[_newIndex].ToString();
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
 				{
 					//					_listItem.SetRightBadge(BadgeStyle.Clothes);
 				}
@@ -1370,11 +1370,11 @@ namespace TheLastPlanet.Client.Negozi
 			};
 			Orecc.OnItemSelect += (_menu, _listItem, _listIndex) =>
 			{
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte gli orecchini!!", true);
 				}
-				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie != -1)
+				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != -1)
 				{
 					HUD.ShowNotification("Non puoi acquistare di nuovo gli orecchini che hai già!");
 				}
@@ -1385,13 +1385,13 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.color = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1399,13 +1399,13 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = 0;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.color = 0;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1447,11 +1447,11 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				if (_index == 0) return;
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte l'auricolare!!", true);
 				}
-				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie != -1)
+				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != -1)
 				{
 					HUD.ShowNotification("Non puoi acquistare l'auricolare che hai già!");
 				}
@@ -1462,13 +1462,13 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.color = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1476,13 +1476,13 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orecchie = 0;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.color = 0;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = 0;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Testa.Auricolari.OrderBy(x => x.Price).ToList()[_index - 1].Modello;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.color = 0;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1548,7 +1548,7 @@ namespace TheLastPlanet.Client.Negozi
 							break;
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi == orologio.Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi == v)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == orologio.Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi == v)
 					{
 						if (orologio.Modello == -1)
 						{
@@ -1596,7 +1596,7 @@ namespace TheLastPlanet.Client.Negozi
 
 				Orologino.OnItemSelect += async (_menu, _item, _index) =>
 				{
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi == IntOrolAtt && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi == IntOrolMod)
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == IntOrolAtt && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi == IntOrolMod)
 					{
 						HUD.ShowNotification("Non puoi acquistare lo stesso orologio che hai già! Prova a cambiare modello!", true);
 					}
@@ -1612,16 +1612,16 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Money >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
 							OrolAtt.SetRightBadge(BadgeStyle.None);
 							OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
 							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 							OrolMod.SetRightBadge(BadgeStyle.None);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 							OrolMod.SetRightBadge(BadgeStyle.Clothes);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1629,17 +1629,17 @@ namespace TheLastPlanet.Client.Negozi
 							if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 							{
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi = IntOrolAtt;
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi = IntOrolMod;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
 								OrolAtt.SetRightBadge(BadgeStyle.None);
 								OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
 								OrolAtt.SetRightBadge(BadgeStyle.Clothes);
 								OrolMod.SetRightBadge(BadgeStyle.None);
 								OrolMod = _menu.MenuItems[_menu.CurrentSelection];
 								OrolMod.SetRightBadge(BadgeStyle.Clothes);
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-								SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+								SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+								BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 								if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1659,7 +1659,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				if (_item != NoOrol) return;
 
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi == -1 && IntOrolAtt == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi == -1 && IntOrolAtt == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte un orologio!!", true);
 				}
@@ -1675,14 +1675,14 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi = -1;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi = -1;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
 						OrolAtt.SetRightBadge(BadgeStyle.None);
 						OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
 						OrolAtt.SetRightBadge(BadgeStyle.Clothes);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1690,14 +1690,14 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Orologi = -1;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Orologi = -1;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
 							OrolAtt.SetRightBadge(BadgeStyle.None);
 							OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
 							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1723,11 +1723,11 @@ namespace TheLastPlanet.Client.Negozi
 			};
 			Brac.OnItemSelect += (_menu, _listItem, _listIndex) =>
 			{
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali == -1)
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == -1)
 				{
 					HUD.ShowNotification("Non puoi rimuovere 2 volte un bracciale!!", true);
 				}
-				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali != -1)
+				else if (SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali == Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello && SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali != -1)
 				{
 					HUD.ShowNotification("Non puoi acquistare di nuovo il braccialetto che hai già!");
 				}
@@ -1738,11 +1738,11 @@ namespace TheLastPlanet.Client.Negozi
 					if (SessionCache.Cache.MyPlayer.User.Money >= val)
 					{
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Bracciali = 0;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-						SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracciali = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+						BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1750,11 +1750,11 @@ namespace TheLastPlanet.Client.Negozi
 						if (SessionCache.Cache.MyPlayer.User.Bank >= val)
 						{
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.PropTextures.Bracciali = 0;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Name = null;
-							SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.Description = null;
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.SerializeToJson());
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Bracciali = Accessorio.Bracciali.OrderBy(x => x.Price).ToList()[_listIndex].Modello;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Bracciali = 0;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Name = null;
+							SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.Description = null;
+							BaseScript.TriggerServerEvent("lprp:updateCurChar", "chardressing", SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.SerializeToJson());
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1779,7 +1779,7 @@ namespace TheLastPlanet.Client.Negozi
 							return;
 
 					if (Borse.Visible || Orecc.Visible || Brac.Visible || Polso.Visible || Orol.Visible || Capp.Visible || Orologino.Visible) return;
-					await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+					await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 					NegozioAbitiClient.Esci();
 					AccessoriAttivo = false;
 					ClientSession.Instance.RemoveTick(CameraAcc);
@@ -1832,7 +1832,7 @@ namespace TheLastPlanet.Client.Negozi
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
 						float newheading = SessionCache.Cache.MyPlayer.Ped.Heading + 180f;
 						SessionCache.Cache.MyPlayer.Ped.Task.AchieveHeading(newheading, 1000);
-						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 					}
 					else if (oldmenu == Orecc)
 					{
@@ -1846,13 +1846,13 @@ namespace TheLastPlanet.Client.Negozi
 							NegozioAbitiClient.camm.FieldOfView = fov;
 						} while (fov < 45f);
 
-						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 						SessionCache.Cache.MyPlayer.Ped.Task.LookAt(NegozioAbitiClient.camm.Position);
 					}
 					else if (oldmenu == Brac)
 					{
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 						StartAnim(anim, "try_shirt_base");
 					}
 					else if (oldmenu == Orol)
@@ -1863,7 +1863,7 @@ namespace TheLastPlanet.Client.Negozi
 							if (SubMenusPolso[i].Visible)
 								return;
 						PointCamAtPedBone(NegozioAbitiClient.camm.Handle, PlayerPedId(), 24818, 0.0f, 0.0f, 0.0f, true);
-						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 						StartAnim(anim, "try_shirt_base");
 					}
 					else if (oldmenu == Polso)
@@ -1884,7 +1884,7 @@ namespace TheLastPlanet.Client.Negozi
 						} while (fov < 45f);
 
 						StartAnim(anim, "try_shirt_base");
-						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 					}
 				}
 			};

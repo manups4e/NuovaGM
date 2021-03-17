@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.SistemaEventi;
 using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.SistemaEventi;
+using System.Dynamic;
 
 namespace TheLastPlanet.Client
 {
@@ -28,7 +30,7 @@ namespace TheLastPlanet.Client
 			SistemaEventi = new EventSystem();
 			await ClassCollector.Init();
 		}
-		
+
 		/// <summary>
 		/// registra un evento client (TriggerEvent)
 		/// </summary>
@@ -60,6 +62,42 @@ namespace TheLastPlanet.Client
 				Log.Printa(LogType.Error, ex.ToString());
 			}
 		}
+
+		public void AttachNuiHandler(string pipe, EventCallback callback)
+		{
+			API.RegisterNuiCallbackType(pipe);
+
+			AddEventHandler($"__cfx_nui:{pipe}", new Action<ExpandoObject, CallbackDelegate>((body, result) =>
+			{
+				var metadata = new EventMetadata();
+				var properties = (IDictionary<string, object>)body;
+
+				if (properties != null)
+				{
+					foreach (var entry in properties)
+					{
+						if (int.TryParse(entry.Key, out var index))
+						{
+							Log.Printa(LogType.Warning, $"[Nui] [{pipe}] Payload `{entry.Key}` non è un numero e verrà ignorato.");
+							continue;
+						}
+
+					}
+				}
+
+				if (callback.GetType() == typeof(AsyncEventCallback))
+				{
+#pragma warning disable 4014
+					((AsyncEventCallback)callback).AsyncTask(metadata);
+#pragma warning restore 4014
+				}
+				else
+				{
+					callback.Task(metadata);
+				}
+			}));
+		}
+
 
 		/// <summary>
 		/// Registra una funzione OnTick

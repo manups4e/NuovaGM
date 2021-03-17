@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
-				BarberMenu(SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex == "Maschio" ? ClientSession.Impostazioni.Negozi.Barbieri.Maschio : ClientSession.Impostazioni.Negozi.Barbieri.Femmina, Menu);
+				BarberMenu(SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? ClientSession.Impostazioni.Negozi.Barbieri.Maschio : ClientSession.Impostazioni.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 
@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client.Negozi
 			#region DICHIARAZIONE
 
 			System.Drawing.Point pos = new System.Drawing.Point(50, 100);
-			Skin skin = SessionCache.Cache.MyPlayer.User.CurrentChar.skin;
+			Skin skin = SessionCache.Cache.MyPlayer.User.CurrentChar.Skin;
 			int capAttuali = skin.hair.style;
 			int colAttuale1 = skin.hair.color[0];
 			int colAttuale2 = skin.hair.color[1];
@@ -416,7 +416,7 @@ namespace TheLastPlanet.Client.Negozi
 			int brbcol2;
 			int brbvar;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex == "Maschio")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 			{
 				Barba = new UIMenuListItem("Seleziona Barba", barbe, 0);
 				beardBase = new UIMenuColorPanel("Colore Base", ColorPanelType.Hair);

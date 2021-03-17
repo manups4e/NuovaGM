@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="..\NuovaGm.Shared\Lavori\Generici\RimozioneShared.cs" />
-    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
+    <Compile Remove="..\TheLastPlanet.Shared\Lavori\Generici\RimozioneShared.cs" />
+    <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
     <Compile Include="..\Impostazioni\Client\**\*.cs" />
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
   </ItemGroup>

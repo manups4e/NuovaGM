@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 		{
 			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "cardealer")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "cardealer")
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
 				if (p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
 				{
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditore();
 				}
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade > 1)
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade > 1)
 				// verrà sostiuito con il sedersi alla scrivania 
 				if (p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
 				{
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 			};
 			UIMenu riacquista = menuVenditore.AddSubMenu("Acquista veicolo usato");
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade < 2)
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade < 2)
 			{
 				riacquista.ParentItem.Enabled = false;
 				riacquista.ParentItem.Description = "Solo i capi possono acquistare i veicoli usati!";
@@ -201,7 +201,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 											string plate = s1 + " " + Funzioni.GetRandomInt(001, 999).ToString("000") + s2;
 											PreviewVeh.Mods.LicensePlate = plate;
 											VehProp prop = await PreviewVeh.GetVehicleProperties();
-											OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(SessionCache.Cache.MyPlayer.User.CurrentChar.info.insurance, prop, false), new VehGarage(true, pro.Key, SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
+											OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(SessionCache.Cache.MyPlayer.User.CurrentChar.Info.insurance, prop, false), new VehGarage(true, pro.Key, SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");
 											BaseScript.TriggerServerEvent("lprp:cardealer:vendiVehAMe", veicolo.SerializeToJson(includeEverything: true));
 											HUD.MenuPool.CloseAllMenus();
 											HUD.ShowNotification($"Hai comprato il veicolo: ~y~{veicolo.DatiVeicolo.props.Name}~w~ al prezzo di ~g~${prendi.ParentMenu.ParentItem.RightLabel}~w~.");

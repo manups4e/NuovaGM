@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 namespace TheLastPlanet.Server.Core
@@ -9,6 +10,7 @@ namespace TheLastPlanet.Server.Core
         {
             ServerSession.Instance.SistemaEventi.Attach("lprp:entity:spawnVehicle", new EventCallback( metadata =>
             {
+                Logger.Log.Printa(Logger.LogType.Debug, metadata.Datapack.SerializeToJson(Newtonsoft.Json.Formatting.Indented));
                 var mod = metadata.Find<uint>(0);
                 var coords = metadata.Find<Vector3>(1);
                 var head = metadata.Find<float>(2);

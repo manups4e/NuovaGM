@@ -30,23 +30,23 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			StatiPlayer = new PlayerStateBags();
 		}
 
-		[JsonIgnore] public string FullName => CurrentChar.info.firstname + " " + CurrentChar.info.lastname;
+		[JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-		[JsonIgnore] public string DoB => CurrentChar.info.dateOfBirth;
+		[JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
 
 		[JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
 
-		[JsonIgnore] public int Money => CurrentChar.finance.money;
+		[JsonIgnore] public int Money => CurrentChar.Finance.money;
 
-		[JsonIgnore] public int Bank => CurrentChar.finance.bank;
+		[JsonIgnore] public int Bank => CurrentChar.Finance.bank;
 
-		[JsonIgnore] public int DirtyMoney => CurrentChar.finance.dirtyCash;
+		[JsonIgnore] public int DirtyMoney => CurrentChar.Finance.dirtyCash;
 
 		[JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
 
 		public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
 		{
-			foreach (Inventory t in CurrentChar.inventory)
+			foreach (Inventory t in CurrentChar.Inventory)
 				if (t.item == item)
 					return new Tuple<bool, Inventory, Item>(true, t, ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
 
@@ -55,29 +55,29 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public List<Inventory> GetCharInventory()
 		{
-			return CurrentChar.inventory;
+			return CurrentChar.Inventory;
 		}
 
 		public List<Weapons> GetCharWeapons()
 		{
-			return CurrentChar.weapons;
+			return CurrentChar.Weapons;
 		}
 
 		public bool HasWeapon(string weaponName)
 		{
-			return CurrentChar.weapons.Any(x => x.name == weaponName);
+			return CurrentChar.Weapons.Any(x => x.name == weaponName);
 		}
 
 		public bool HasWeapon(WeaponHash weaponName)
 		{
-			return CurrentChar.weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
+			return CurrentChar.Weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
 		}
 
 		public Tuple<int, Weapons> GetWeapon(string weaponName)
 		{
-			for (int i = 0; i < CurrentChar.weapons.Count; i++)
-				if (CurrentChar.weapons[i].name == weaponName)
-					return new Tuple<int, Weapons>(i, CurrentChar.weapons[i]);
+			for (int i = 0; i < CurrentChar.Weapons.Count; i++)
+				if (CurrentChar.Weapons[i].name == weaponName)
+					return new Tuple<int, Weapons>(i, CurrentChar.Weapons[i]);
 
 			return new Tuple<int, Weapons>(0, null);
 		}
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public bool HasLicense(string license)
 		{
-			return CurrentChar.licenze.Any(x => x.name == license);
+			return CurrentChar.Licenze.Any(x => x.name == license);
 		}
 	}
 

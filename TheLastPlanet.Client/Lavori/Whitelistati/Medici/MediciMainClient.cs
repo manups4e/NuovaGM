@@ -48,7 +48,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "medico")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "medico")
 			{
 				pl.Character.AttachBlip();
 				pl.Character.AttachedBlip.Sprite = BlipSprite.Deathmatch;
@@ -64,7 +64,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			Player pl = new Player(GetPlayerFromServerId(player));
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "medico")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "medico")
 				if (Morti.ContainsKey(pl.Character))
 					foreach (Blip bl in pl.Character.AttachedBlips)
 						if (bl == Morti[pl.Character])
@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "medico")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "medico")
 				foreach (Ospedale osp in ClientSession.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.Spogliatoio)
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() != "medico" || SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() != "medici")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() != "medico" || SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() != "medici")
 				foreach (Ospedale osp in ClientSession.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.IngressoVisitatori.Where(vettore => p.IsInRangeOf(vettore, 1.375f)))
@@ -287,7 +287,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			if (ClientSession.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
 				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-					if (p.Value.CurrentChar.job.name == "Medici")
+					if (p.Value.CurrentChar.Job.name == "Medici")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
 
@@ -365,7 +365,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static async Task BlipMorti()
 		{
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "medico")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "medico")
 			{
 				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio)
 					foreach (KeyValuePair<Ped, Blip> morto in Morti)

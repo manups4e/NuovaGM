@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 		{
 			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name != "Rimozione forzata")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name != "Rimozione forzata")
 			{
 				if (p.IsInRangeOf(Rimozione.InizioLavoro, 50)) World.DrawMarker(MarkerType.TruckSymbol, Rimozione.InizioLavoro, new Vector3(0), new Vector3(0), new Vector3(2.5f, 2.5f, 2.5f), Colors.Brown, true, false, true);
 
@@ -75,8 +75,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					{
 						Screen.Fading.FadeOut(800);
 						await BaseScript.Delay(1000);
-						SessionCache.Cache.MyPlayer.User.CurrentChar.job.name = "Rimozione forzata";
-						SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade = 0;
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name = "Rimozione forzata";
+						SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade = 0;
 						VeicoloLavorativo = await Funzioni.SpawnVehicle("towtruck", new Vector3(401.55f, -1631.309f, 29.3f), 140);
 						VeicoloLavorativo.SetDecor("VeicoloLavorativo", VeicoloLavorativo.Handle);
 						VeicoloLavorativo.PlaceOnGround();
@@ -109,8 +109,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 					ClientSession.Instance.AddTick(InizioLavoro);
 					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
-					SessionCache.Cache.MyPlayer.User.CurrentChar.job.name = "Disoccupato";
-					SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade = 0;
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name = "Disoccupato";
+					SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade = 0;
 
 					if (VeicoloLavorativo != null && VeicoloLavorativo.Exists())
 					{

@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client.Negozi
 						ArmiLic3.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.weapons.Count != 0) return;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Weapons.Count != 0) return;
 					component.ParentItem.Enabled = false;
 					component.ParentItem.SetRightBadge(BadgeStyle.Lock);
 					Tinte.ParentItem.Enabled = false;
@@ -316,7 +316,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					component.Clear();
 
-					foreach (Weapons armi in SessionCache.Cache.MyPlayer.User.CurrentChar.weapons)
+					foreach (Weapons armi in SessionCache.Cache.MyPlayer.User.CurrentChar.Weapons)
 						if (SharedScript.hasComponents(armi.name))
 						{
 							UIMenu Arma = pool.AddSubMenu(component, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Vedi qui i componenti acquistabili per la tua arma");
@@ -381,7 +381,7 @@ namespace TheLastPlanet.Client.Negozi
 				{
 					Tinte.Clear();
 
-					foreach (Weapons armi in SessionCache.Cache.MyPlayer.User.CurrentChar.weapons)
+					foreach (Weapons armi in SessionCache.Cache.MyPlayer.User.CurrentChar.Weapons)
 					{
 						bool Hastints = SharedScript.hasTints(armi.name);
 

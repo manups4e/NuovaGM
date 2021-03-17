@@ -3,6 +3,7 @@ using TheLastPlanet.Shared.Veicoli;
 using System;
 using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
+using Newtonsoft.Json;
 
 namespace TheLastPlanet.Shared
 {
@@ -37,42 +38,70 @@ namespace TheLastPlanet.Shared
 
 	public class Char_data
 	{
-		public uint id;
+		private ulong CharID { set => ID = Snowflake.Snowflake.Parse(value); }
+		[JsonIgnore]
+		private string info { set => Info = value.DeserializeFromJson<Info>(); }
+		[JsonIgnore]
+		private string finance { set => Info = value.DeserializeFromJson<Info>(); }
+		[JsonIgnore]
+		private string location { set => Info = value.DeserializeFromJson<Info>(); }
+		[JsonIgnore]
+		private string job { set => Job.name = value; }
+		[JsonIgnore]
+		private int job_grade { set => Job.grade = value; }
+		[JsonIgnore]
+		private string gang { set => Gang.name = value; }
+		[JsonIgnore]
+		private int gang_grade { set => Gang.grade = value; }
+		[JsonIgnore]
+		private string skin { set => Skin = value.DeserializeFromJson<Skin>(); }
+		[JsonIgnore]
+		private string inventory { set => Inventory = value.DeserializeFromJson<List<Inventory>>(); }
+		[JsonIgnore]
+		private string weapons { set => Weapons = value.DeserializeFromJson<List<Weapons>>(); }
+		[JsonIgnore]
+		private string dressing { set => Dressing = value.DeserializeFromJson<Dressing>(); }
+		[JsonIgnore]
+		private string needs { set => Needs = value.DeserializeFromJson<Needs>(); }
+		[JsonIgnore]
+		private string statistiche { set => Statistiche = value.DeserializeFromJson<Statistiche>(); }
+
+		public Snowflake.Snowflake ID;
 		public bool is_dead;
-		public Info info = new Info();
-		public Finance finance = new Finance();
-		public Location location = new Location();
-		public Job job = new Job();
-		public Gang gang = new Gang();
-		public Skin skin = new Skin();
-		public List<Weapons> weapons = new List<Weapons>();
-		public List<Licenses> licenze = new List<Licenses>();
-		public List<Inventory> inventory = new List<Inventory>();
-		public List<string> Proprietà = new List<string>();
-		public List<OwnedVehicle> Veicoli = new List<OwnedVehicle>();
-		public Dressing dressing = new Dressing();
-		public Needs needs = new Needs();
-		public Statistiche statistiche = new Statistiche();
+		public Info Info = new();
+		public Finance Finance = new();
+		public Location Location = new();
+		public Job Job = new();
+		public Gang Gang = new();
+		public Skin Skin = new();
+		public List<Weapons> Weapons = new();
+		public List<Licenses> Licenze = new();
+		public List<Inventory> Inventory = new();
+		public List<string> Proprietà = new();
+		public List<OwnedVehicle> Veicoli = new();
+		public Dressing Dressing = new();
+		public Needs Needs = new();
+		public Statistiche Statistiche = new();
 		public Char_data() { }
+
+
 
 		public Char_data(uint id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
-			this.id = id;
-			this.info = info;
-			this.finance = finance;
-			this.job = job;
-			this.gang = gang;
-			this.skin = skin;
-			this.dressing = dressing;
-			this.weapons = weapons;
-			this.inventory = inventory;
-			this.needs = needs;
-			this.statistiche = statistiche;
+			this.ID = Snowflake.Snowflake.Parse(id);
+			this.Info = info;
+			this.Finance = finance;
+			this.Job = job;
+			this.Gang = gang;
+			this.Skin = skin;
+			this.Dressing = dressing;
+			this.Weapons = weapons;
+			this.Inventory = inventory;
+			this.Needs = needs;
+			this.Statistiche = statistiche;
 			this.is_dead = is_dead;
 		}
 	}
-
-
 
 	public class Info
 	{

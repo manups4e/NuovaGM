@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		private static void Test(Ped playerPed, object[] args)
 		{
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase") MenuCreazioneCasa.MenuCreazioneCase();
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "venditorecase") MenuCreazioneCasa.MenuCreazioneCase();
 		}
 
 		private static async Task Markers()
@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 				if (p.IsInRangeOf(house.Config.Ingresso, 1.375f))
 				{
-					HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per entrare in ufficio" : "Premi ~INPUT_CONTEXT~ per entrare nell'ufficio dell'agenzia immobiliare");
+					HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per entrare in ufficio" : "Premi ~INPUT_CONTEXT~ per entrare nell'ufficio dell'agenzia immobiliare");
 
 					if (Input.IsControlJustPressed(Control.Context))
 					{
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 					if (p.IsInRangeOf(house.Config.Uscita, 1.375f))
 					{
-						HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio" : "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio dell'agenzia immobiliare");
+						HUD.ShowHelp(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio" : "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio dell'agenzia immobiliare");
 
 						if (Input.IsControlJustPressed(Control.Context))
 						{
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				}
 			}
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "venditorecase")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "venditorecase")
 				// verrà cambiato con il sedersi alla scrivania
 				if (p.IsInRangeOf(house.Config.Actions, 1.375f))
 				{

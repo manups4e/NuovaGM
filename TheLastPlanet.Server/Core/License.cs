@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.Core
 			return identifier switch
 			{
 				Identifier.Steam   => player.Identifiers["steam"],
-				Identifier.License => player.Identifiers["license"],
+				Identifier.License => player.Identifiers["license2"],
 				Identifier.Discord => player.Identifiers["discord"],
 				Identifier.Fivem   => player.Identifiers["fivem"],
 				Identifier.Ip      => player.Identifiers["ip"],

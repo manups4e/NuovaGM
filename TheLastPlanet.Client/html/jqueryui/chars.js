@@ -33,7 +33,7 @@ $(function () {
 
 			// event.data.characters = event.data.data.reverse();
 			event.data.characters = JSON.parse(event.data.data);
-			characters = event.data.data;
+			characters = event.data.characters;
 
 			$('#new').on('click', function () {
 				$('.create').show();
@@ -97,27 +97,28 @@ $(function () {
 				if (t === 3) $('#new').css("display", "none");
 			}
 
-			$.each(event.data.characters.sort(function (a, b) { return b.id - a.id;}), function (key, value) {
-				if (!value.info.firstname) return;
+			$.each(event.data.characters.sort().reverse(), function (key, value) {
+				var info = JSON.parse(value.info);
+				if (!info.firstname) return;
 				var div = document.createElement("div");
 				div.id = "character"
 				div.classList.add('character');
-				div.dataset.selected = value.id;
+				div.dataset.selected = key;
 				var first_name = document.createElement("h3");
-				first_name.innerHTML = "<b>Nome:</b> " + value.info.firstname
+				first_name.innerHTML = "<b>Nome:</b> " + info.firstname
 				div.appendChild(first_name);
 				var last_name = document.createElement("h3");
-				last_name.innerHTML = "<b>Cognome:</b> " + value.info.lastname
+				last_name.innerHTML = "<b>Cognome:</b> " + info.lastname
 				div.appendChild(last_name);
 				var cash = document.createElement("h3");
-				cash.innerHTML = "<b>Soldi:</b> <span>$</span>" + (value.finance.money);//.formatMoney(2, '.', ',');
+				cash.innerHTML = "<b>Soldi:</b> <span>$</span>" + (value.Money).toLocaleString('it');//.formatMoney(2, '.', ',');
 				cash.style = "padding-top: 25px"
 				div.appendChild(cash);
 				var bank = document.createElement("h3");
-				bank.innerHTML = "<b>Banca:</b> <span>$</span>" + (value.finance.bank);//.formatMoney(2, '.', ',');
+				bank.innerHTML = "<b>Banca:</b> <span>$</span>" + (value.Bank).toLocaleString('it');//.formatMoney(2, '.', ',');
 				div.appendChild(bank);
 				var dob = document.createElement("h3");
-				dob.innerHTML = "<b>Data di nascita:</b> " + value.info.dateOfBirth;
+				dob.innerHTML = "<b>Data di nascita:</b> " + info.dateOfBirth;
 				dob.style = "padding-top: 25px";
 				div.appendChild(dob);
 				$('.characters').prepend(div);
@@ -139,9 +140,9 @@ $(function () {
 				$.post('http://'+ resname +'/disconnect');
 			});
 			$("button#select").on('click', function () {
-				if (!$("button#select").hasClass("disabled")){
+				if (!$("button#select").hasClass("disabled")) {
 					$.post('http://'+ resname +'/previewChar', JSON.stringify({
-						id: parseInt(selected)
+						id: characters[parseInt(selected)].ID
 					}))
 				};
 				$("button#go").removeClass("disabled");
@@ -180,7 +181,7 @@ $(function () {
 				if (!$(this).hasClass("disabled")) {
 
 					$.post('http://'+ resname +'/char-select', JSON.stringify({
-						id: parseInt(selected)
+						id: characters[parseInt(selected)].ID
 					}));
 					$('.container').hide();
 				}

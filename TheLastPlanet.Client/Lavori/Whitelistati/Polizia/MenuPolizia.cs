@@ -101,8 +101,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio)
 					{
-						foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => SessionCache.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia").Where(Grado => Grado.Value.Id == SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade))
-							switch (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex)
+						foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name == "Polizia").Where(Grado => Grado.Value.Id == SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade))
+							switch (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex)
 							{
 								case "Maschio":
 									CambiaVestito(Grado.Value.Vestiti.Maschio);
@@ -118,13 +118,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					}
 					else
 					{
-						await Funzioni.UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+						await Funzioni.UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 						SessionCache.Cache.MyPlayer.User.StatiPlayer.InServizio = false;
 					}
 				}
 				else if (item == Pilota)
 				{
-					switch (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex)
+					switch (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex)
 					{
 						case "Maschio":
 							CambiaVestito(new AbitiLav() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) });
@@ -251,15 +251,15 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 							UIMenuItem dDN = new("Data di Nascita");
 							dDN.SetRightLabel(player.DoB);
 							UIMenuItem sesso = new("Sesso");
-							sesso.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex);
+							sesso.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex);
 							UIMenuItem altezza = new("Altezza");
-							altezza.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.info.height + "cm");
+							altezza.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.Info.height + "cm");
 							UIMenuItem job = new("Occupazione Attuale");
-							job.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.job.name);
+							job.SetRightLabel(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name);
 							UIMenuItem telefono = new("N° di Telefono");
-							telefono.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.info.phoneNumber);
+							telefono.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.Info.phoneNumber);
 							UIMenuItem assicurazione = new("N° di Assicurazione");
-							assicurazione.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.info.insurance);
+							assicurazione.SetRightLabel("" + SessionCache.Cache.MyPlayer.User.CurrentChar.Info.insurance);
 							UIMenuItem nomePlayer = new("Nome Player", "~r~ATTENZIONE!!~w~ - Da usare solo in caso di necessità~n~Un uso sbagliato verrà considerato metagame!");
 							nomePlayer.SetRightLabel(Player_Distance.Item1.Name);
 							DatiPlayer.AddItem(nomeCognome);
@@ -339,30 +339,30 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 					foreach (KeyValuePair<string, User> pers in players.OrderBy(x => x.Key))
 					{
 						foreach (Char_data data in pers.Value.Characters)
-							if (!string.IsNullOrEmpty(nome) && data.info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.info.lastname.Contains(cognome) || numero != "" && numero != null && data.info.phoneNumber.ToString().Contains(numero))
+							if (!string.IsNullOrEmpty(nome) && data.Info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.lastname.Contains(cognome) || numero != "" && numero != null && data.Info.phoneNumber.ToString().Contains(numero))
 							{
 								int source = 0;
 								foreach (Player p in ClientSession.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
-								UIMenu Personaggio = CercaPers.AddSubMenu(data.info.firstname + " " + data.info.lastname + " [" + pers.Key + "]");
+								UIMenu Personaggio = CercaPers.AddSubMenu(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]");
 								UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
-								NomeCognome.SetRightLabel(data.info.firstname + " " + data.info.lastname);
+								NomeCognome.SetRightLabel(data.Info.firstname + " " + data.Info.lastname);
 								Personaggio.AddItem(NomeCognome);
 								UIMenuItem DDN = new("Data di Nascita:", "La sua data di nascita");
-								DDN.SetRightLabel(data.info.dateOfBirth);
+								DDN.SetRightLabel(data.Info.dateOfBirth);
 								Personaggio.AddItem(DDN);
 								//UIMenuItem Altez = new UIMenuItem("Altezza:");
 								UIMenuItem job = new("Lavoro: ", "Il suo lavoro");
-								job.SetRightLabel(data.job.name);
+								job.SetRightLabel(data.Job.name);
 								Personaggio.AddItem(job);
 								//UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
 								UIMenuItem bank = new("Banca: ", "I soldi in banca");
-								bank.SetRightLabel("$" + data.finance.bank);
+								bank.SetRightLabel("$" + data.Finance.bank);
 								Personaggio.AddItem(bank);
 								Pos = new UIMenuItem("Ultima Posizione conosciuta");
 								if (source != 0)
 									GetStreetNameAtCoord(ClientSession.Instance.GetPlayers[source].Character.Position.X, ClientSession.Instance.GetPlayers[source].Character.Position.Y, ClientSession.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
 								else
-									GetStreetNameAtCoord(data.location.position.X, data.location.position.Y, data.location.position.Z, ref StreetA, ref StreetB);
+									GetStreetNameAtCoord(data.Location.position.X, data.Location.position.Y, data.Location.position.Z, ref StreetA, ref StreetB);
 								Pos.Description = GetStreetNameFromHashKey(StreetA);
 								if (StreetB != 0) Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
 								Personaggio.AddItem(Pos);
@@ -670,8 +670,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			SessionCache.Cache.MyPlayer.Ped.Heading = 85.162f;
 			InGarage = true;
 
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade)) <= 10)
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade)); i++)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade)) <= 10)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -697,7 +697,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : totale - livelloGarage * 10;
 
 			for (int i = 0; i < LivelloGarageAttuali; i++)
@@ -794,7 +794,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 				if (i % 10 == 0)

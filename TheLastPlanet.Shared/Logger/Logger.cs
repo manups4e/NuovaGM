@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using TheLastPlanet.Server;
 
 namespace Logger
 {
@@ -16,6 +17,20 @@ namespace Logger
 
 	public static class Log
 	{
+#if SERVER
+		private static StreamWriter _writer;
+		static Log()
+		{
+			_writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
+			ServerSession.Instance.AddEventHandler("onResourceStop", new Action<string>(Stop));
+		}
+
+		private static void Stop(string resname)
+		{
+			if (resname == API.GetCurrentResourceName())
+				_writer.Close();
+		}
+#endif
 		/// <summary>
 		/// Manda in console un messaggio colorato in base alla gravità della situazione
 		/// </summary>
@@ -55,10 +70,7 @@ namespace Logger
 			try
 			{
 				if (tipo != LogType.Debug)
-				{
-					using StreamWriter w = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
-					await w.WriteLineAsync($"{incipit} {err} {text}");
-				}
+					await _writer.WriteLineAsync($"{incipit} {err} {text}");
 			}
 			catch(Exception e)
 			{

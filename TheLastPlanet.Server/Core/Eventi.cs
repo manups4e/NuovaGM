@@ -68,7 +68,13 @@ namespace TheLastPlanet.Server.Core
 			ServerSession.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			ServerSession.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			ServerSession.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:callPlayers", new EventCallback(a => ServerSession.PlayerList));
+			ServerSession.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
+			{
+				User user = Funzioni.GetUserFromPlayerId(a.Sender);
+				user.CurrentChar = a.Find<Char_data>(0);
+				if ((DateTime.Now - user.LastSaved).Minutes > 10) await user.SalvaPersonaggio();
+				return ServerSession.PlayerList;
+			}));
 			ServerSession.Instance.SistemaEventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
 		}
 
@@ -121,36 +127,36 @@ namespace TheLastPlanet.Server.Core
 
 					break;
 				case "charlocation":
-					user.CurrentChar.location.position = data;
-					user.CurrentChar.location.h = h;
+					user.CurrentChar.Location.position = data;
+					user.CurrentChar.Location.h = h;
 
 					break;
 				case "skin":
-					user.CurrentChar.skin = (data as string).DeserializeFromJson<Skin>();
+					user.CurrentChar.Skin = (data as string).DeserializeFromJson<Skin>();
 
 					break;
 				case "needs":
-					user.CurrentChar.needs = (data as string).DeserializeFromJson<Needs>();
+					user.CurrentChar.Needs = (data as string).DeserializeFromJson<Needs>();
 
 					break;
 				case "skill":
-					user.CurrentChar.statistiche = (data as string).DeserializeFromJson<Statistiche>();
+					user.CurrentChar.Statistiche = (data as string).DeserializeFromJson<Statistiche>();
 
 					break;
 				case "chardressing":
-					user.CurrentChar.dressing = (data as string).DeserializeFromJson<Dressing>();
+					user.CurrentChar.Dressing = (data as string).DeserializeFromJson<Dressing>();
 
 					break;
 				case "weapons":
-					user.CurrentChar.weapons = (data as string).DeserializeFromJson<List<Weapons>>();
+					user.CurrentChar.Weapons = (data as string).DeserializeFromJson<List<Weapons>>();
 
 					break;
 				case "job":
-					user.CurrentChar.job = (data as string).DeserializeFromJson<Job>();
+					user.CurrentChar.Job = (data as string).DeserializeFromJson<Job>();
 
 					break;
 				case "gang":
-					user.CurrentChar.gang = (data as string).DeserializeFromJson<Gang>();
+					user.CurrentChar.Gang = (data as string).DeserializeFromJson<Gang>();
 
 					break;
 				case "group":
@@ -267,8 +273,8 @@ namespace TheLastPlanet.Server.Core
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			int money = player.Money;
 			int dirty = player.DirtyMoney;
-			foreach (Inventory inv in player.CurrentChar.inventory.ToList()) player.removeInventoryItem(inv.item, inv.amount);
-			foreach (Weapons inv in player.CurrentChar.weapons.ToList()) player.removeWeapon(inv.name);
+			foreach (Inventory inv in player.CurrentChar.Inventory.ToList()) player.removeInventoryItem(inv.item, inv.amount);
+			foreach (Weapons inv in player.CurrentChar.Weapons.ToList()) player.removeWeapon(inv.name);
 			player.Money -= money;
 			player.DirtyMoney -= dirty;
 		}

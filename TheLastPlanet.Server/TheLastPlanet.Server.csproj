@@ -31,7 +31,7 @@
   <ItemGroup>
     <Compile Include="..\Impostazioni\Server\**\*.cs" />
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
-    <Compile Include="..\NuovaGm.Shared\**\*.cs" />
+    <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

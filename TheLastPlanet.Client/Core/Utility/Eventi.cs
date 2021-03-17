@@ -51,18 +51,18 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			SessionCache.Cache.GiocatoriOnline = await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers");
+			Cache.GiocatoriOnline = await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar);
 		}
 
 		public static async void LoadModel()
 		{
-			uint hash = Funzioni.HashUint(SessionCache.Cache.MyPlayer.User.CurrentChar.skin.model);
+			uint hash = Funzioni.HashUint(SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.model);
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
 			SessionCache.Cache.MyPlayer.UpdatePedId();
-			await Funzioni.UpdateFace(SessionCache.Cache.MyPlayer.User.CurrentChar.skin);
-			await Funzioni.UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.dressing);
+			await Funzioni.UpdateFace(SessionCache.Cache.MyPlayer.User.CurrentChar.Skin);
+			await Funzioni.UpdateDress(SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing);
 			// TODO: Cambiare con request
 			BaseScript.TriggerEvent("lprp:restoreWeapons");
 		}
@@ -141,8 +141,8 @@ namespace TheLastPlanet.Client.Core.Utility
 			StatsNeeds.Needs["Fame"].Val = 0.0f;
 			StatsNeeds.Needs["Sete"].Val = 0.0f;
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
-			SessionCache.Cache.MyPlayer.User.CurrentChar.needs.malattia = false;
-			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = SessionCache.Cache.MyPlayer.User.CurrentChar.needs.malattia };
+			SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia = false;
+			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia };
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.SerializeToJson());
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
@@ -254,7 +254,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Dictionary<int, bool> ammoTypes = new();
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.weapons.Count > 0)
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Weapons.Count > 0)
 			{
 				SessionCache.Cache.MyPlayer.Ped.Weapons.RemoveAll();
 				var weaps = SessionCache.Cache.MyPlayer.User.GetCharWeapons();

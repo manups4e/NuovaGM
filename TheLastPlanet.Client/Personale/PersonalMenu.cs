@@ -287,15 +287,15 @@ namespace TheLastPlanet.Client.Personale
 				UIMenuItem bank = new UIMenuItem("Banca: ", "I soldi in banca");
 				name.SetRightLabel(me.GetPlayerData().FullName);
 				dob.SetRightLabel(me.GetPlayerData().DoB);
-				alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.height);
-				nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.phoneNumber);
-				nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.info.insurance);
+				alt.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.height);
+				nTel.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.phoneNumber);
+				nAss.SetRightLabel("" + me.GetPlayerData().CurrentChar.Info.insurance);
 				//
 				//job.Label = SharedScript.Jobs[me.GetPlayerData().CurrentChar.job.name].label;
 				//gang.Label = SharedScript.Gangs[me.GetPlayerData().CurrentChar.job.name].label;
 				//
-				job.SetRightLabel(me.GetPlayerData().CurrentChar.job.name);
-				gang.SetRightLabel(me.GetPlayerData().CurrentChar.gang.name);
+				job.SetRightLabel(me.GetPlayerData().CurrentChar.Job.name);
+				gang.SetRightLabel(me.GetPlayerData().CurrentChar.Gang.name);
 				bank.SetRightLabel("~g~$" + me.GetPlayerData().Bank);
 				datiPers.AddItem(name);
 				datiPers.AddItem(dob);
@@ -371,7 +371,7 @@ namespace TheLastPlanet.Client.Personale
 			fa.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 			se.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 			st.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
-			ma.SetRightLabel(me.GetPlayerData().CurrentChar.needs.malattia ? "Malato" : "In Salute");
+			ma.SetRightLabel(me.GetPlayerData().CurrentChar.Needs.malattia ? "Malato" : "In Salute");
 			salute.AddItem(fa);
 			salute.AddItem(se);
 			salute.AddItem(st);
@@ -508,7 +508,7 @@ namespace TheLastPlanet.Client.Personale
 											List<Weapons> armiAgg = new List<Weapons>();
 											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
-											me.GetPlayerData().CurrentChar.weapons = armiAgg;
+											me.GetPlayerData().CurrentChar.Weapons = armiAgg;
 											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.SerializeToJson());
 
 											if (_checked)
@@ -1171,7 +1171,7 @@ namespace TheLastPlanet.Client.Personale
 
 			UIMenu bandeCriminali = pool.AddSubMenu(PersonalMenu, "Bande criminali", "Fonda e gestisti la tua banda criminale!");
 
-			if (me.GetPlayerData().CurrentChar.gang.name == "Incensurato")
+			if (me.GetPlayerData().CurrentChar.Gang.name == "Incensurato")
 			{
 				UIMenuItem diventaBoss = new UIMenuItem("Diventa Boss di una Banda!", "Baciamo le mani.");
 				List<dynamic> lavoro = new List<dynamic>() { "No", "Si" };
@@ -1206,7 +1206,7 @@ namespace TheLastPlanet.Client.Personale
 			}
 			else
 			{
-				if (me.GetPlayerData().CurrentChar.gang.grade > 4)
+				if (me.GetPlayerData().CurrentChar.Gang.grade > 4)
 				{
 					UIMenu assumi = pool.AddSubMenu(bandeCriminali, "Assumi membri");
 					UIMenu gestione = pool.AddSubMenu(bandeCriminali, "Gestione banda");
@@ -1216,8 +1216,8 @@ namespace TheLastPlanet.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.gang);
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
+						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
 					};
@@ -1229,7 +1229,7 @@ namespace TheLastPlanet.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.gang.name}~w~.");
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).SerializeToJson());
 					};
@@ -1253,11 +1253,11 @@ namespace TheLastPlanet.Client.Personale
 				switch (var)
 				{
 					case "Medicine":
-						Anim = me.GetPlayerData().CurrentChar.skin.sex == "Maschio" ? "pill" : "pill_fp";
+						Anim = me.GetPlayerData().CurrentChar.Skin.sex == "Maschio" ? "pill" : "pill_fp";
 
 						break;
 					case "Pistola":
-						Anim = me.GetPlayerData().CurrentChar.skin.sex == "Maschio" ? "PISTOL" : "PISTOL_FP";
+						Anim = me.GetPlayerData().CurrentChar.Skin.sex == "Maschio" ? "PISTOL" : "PISTOL_FP";
 
 						break;
 				}
@@ -1319,7 +1319,7 @@ namespace TheLastPlanet.Client.Personale
 				st.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
 			else
 				st.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
-			if (me.GetPlayerData().CurrentChar.needs.malattia)
+			if (me.GetPlayerData().CurrentChar.Needs.malattia)
 				ma.SetRightLabel("~r~In malattia");
 			else
 				ma.SetRightLabel("~g~In Salute");

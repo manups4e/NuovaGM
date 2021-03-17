@@ -61,7 +61,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				SetEnableHandcuffs(PlayerPedId(), true);
 				DisablePlayerFiring(PlayerId(), true);
 				SessionCache.Cache.MyPlayer.Ped.CanPlayGestures = false;
-				if (SessionCache.Cache.MyPlayer.User.CurrentChar.skin.sex.ToLower() == "femmina")
+				if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex.ToLower() == "femmina")
 					SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, 7, 25, 0, 0);
 				else
 					SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, 7, 41, 0, 0);
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				SessionCache.Cache.MyPlayer.Ped.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
-				SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentDrawables.Accessori, SessionCache.Cache.MyPlayer.User.CurrentChar.dressing.ComponentTextures.Accessori, 0, 0);
+				SetPedComponentVariation(SessionCache.Cache.MyPlayer.Ped.Handle, SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Accessori, SessionCache.Cache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Accessori, 0, 0);
 				SetEnableHandcuffs(PlayerPedId(), false);
 				DisablePlayerFiring(PlayerId(), false);
 				SessionCache.Cache.MyPlayer.Ped.CanPlayGestures = true;
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			Ped p = SessionCache.Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name.ToLower() == "polizia")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "polizia")
 				foreach (StazioniDiPolizia t2 in ClientSession.Impostazioni.Lavori.Polizia.Config.Stazioni)
 				{
 					foreach (Vector3 t in t2.Spogliatoio)
@@ -213,7 +213,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
+					if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
 					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
@@ -229,7 +229,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-					if (p.Value.CurrentChar.job.name == "Polizia")
+					if (p.Value.CurrentChar.Job.name == "Polizia")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
 						Ped playerPed = new(GetPlayerPed(id));
@@ -307,7 +307,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MainTickPolizia()
 		{
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.job.name == "Polizia")
+			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Job.name == "Polizia")
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);

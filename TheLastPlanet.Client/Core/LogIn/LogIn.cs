@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using Logger;
 using TheLastPlanet.Client.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
@@ -97,6 +100,13 @@ namespace TheLastPlanet.Client.Core.LogIn
 				cb("ok");
 			}));
 			ClientSession.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
+			/*
+			ClientSession.Instance.AttachNuiHandler("previewChar", new EventCallback (a => 
+			{
+				Log.Printa(LogType.Debug, a.SerializeToJson());
+				return null;
+			}));
+			*/
 			ClientSession.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
 			ClientSession.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
 			ClientSession.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
@@ -122,16 +132,16 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-			await SessionCache.Cache.InitPlayer();
-			while (!NetworkIsPlayerActive(SessionCache.Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
+			await Cache.InitPlayer();
+			while (!NetworkIsPlayerActive(Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 			Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
-			await SessionCache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			SessionCache.Cache.MyPlayer.UpdatePedId();
-			SessionCache.Cache.MyPlayer.Ped.IsVisible = false;
-			SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = true;
-			SessionCache.Cache.MyPlayer.Player.IgnoredByPolice = true;
-			SessionCache.Cache.MyPlayer.Player.DispatchsCops = false;
+			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			Cache.MyPlayer.UpdatePedId();
+			Cache.MyPlayer.Ped.IsVisible = false;
+			Cache.MyPlayer.Ped.IsPositionFrozen = true;
+			Cache.MyPlayer.Player.IgnoredByPolice = true;
+			Cache.MyPlayer.Player.DispatchsCops = false;
 			NetworkSetTalkerProximity(-1000f);
 			Screen.Hud.IsRadarVisible = false;
 			CharSelect();
@@ -139,27 +149,27 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void CharSelect()
 		{
-			SessionCache.Cache.MyPlayer.Player.CanControlCharacter = false;
-			if (SessionCache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(SessionCache.Cache.MyPlayer.Ped.Handle, true, false);
+			Cache.MyPlayer.Player.CanControlCharacter = false;
+			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
 			var charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
-			SessionCache.Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			SessionCache.Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
-			await SessionCache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			SessionCache.Cache.MyPlayer.UpdatePedId();
-			SessionCache.Cache.MyPlayer.Ped.Style.SetDefaultClothes();
-			while (!await SessionCache.Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			SessionCache.Cache.MyPlayer.UpdatePedId();
+			Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
+			Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
+			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+			Cache.MyPlayer.UpdatePedId();
+			Cache.MyPlayer.Ped.Style.SetDefaultClothes();
+			while (!await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
+			Cache.MyPlayer.UpdatePedId();
 
-			if (SessionCache.Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
+			if (Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
 			{
-				var p = SessionCache.Cache.MyPlayer.Ped;
+				var p = Cache.MyPlayer.Ped;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				await SessionCache.Cache.Loaded();
-				SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+				await Cache.Loaded();
+				Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
-				SessionCache.Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
+				Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.IsVisible = false;
 				p.IsPositionFrozen = true;
 				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
@@ -179,12 +189,12 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void CharCreate()
 		{
-			NetworkFadeInEntity(SessionCache.Cache.MyPlayer.Ped.Handle, true);
+			NetworkFadeInEntity(Cache.MyPlayer.Ped.Handle, true);
 			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-			SetEntityCoords(SessionCache.Cache.MyPlayer.Ped.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
-			SetEntityHeading(SessionCache.Cache.MyPlayer.Ped.Handle, charCreateCoords.W);
-			Vector3 h = GetPedBoneCoords(SessionCache.Cache.MyPlayer.Ped.Handle, 24818, 0.0f, 0.0f, 0.0f);
-			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(SessionCache.Cache.MyPlayer.Ped.Handle, 0.0f, 2.0f, 0.8f);
+			SetEntityCoords(Cache.MyPlayer.Ped.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
+			SetEntityHeading(Cache.MyPlayer.Ped.Handle, charCreateCoords.W);
+			Vector3 h = GetPedBoneCoords(Cache.MyPlayer.Ped.Handle, 24818, 0.0f, 0.0f, 0.0f);
+			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Cache.MyPlayer.Ped.Handle, 0.0f, 2.0f, 0.8f);
 			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f) };
 			charCreationCam.PointAt(h);
 			charCreationCam.IsActive = true;
@@ -196,7 +206,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		public static async void Attiva()
 		{
-			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, SessionCache.Cache.MyPlayer.Ped.Position + new Vector3(10));
+			dummyPed = await Funzioni.CreatePedLocally(PedHash.FreemodeFemale01, Cache.MyPlayer.Ped.Position + new Vector3(10));
 			dummyPed.IsVisible = false;
 			dummyPed.IsPositionFrozen = false;
 			dummyPed.IsCollisionEnabled = false;
@@ -205,32 +215,33 @@ namespace TheLastPlanet.Client.Core.LogIn
 			GuiEnabled = true;
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
-			ShutdownLoadingScreen();
-			ShutdownLoadingScreenNui();
-			Screen.Fading.FadeIn(1000);
-			await BaseScript.Delay(1000);
-			ToggleMenu(true, "charloading");
-			await SessionCache.Cache.Loaded();
+			await Cache.Loaded();
+			List<LogInInfo> data = await ClientSession.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.UserID);
+			ToggleMenu(true, "charloading", data);
 			ClientSession.Instance.AddTick(Main.AFK);
 		}
 
-		private static void ToggleMenu(bool menuOpen, string menu = "")
+		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = SessionCache.Cache.MyPlayer.User.Characters.SerializeToJson() });
+			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.SerializeToJson()});
 			SetNuiFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
-			SetEnableHandcuffs(SessionCache.Cache.MyPlayer.Ped.Handle, menuOpen);
+			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);
+			ShutdownLoadingScreen();
+			ShutdownLoadingScreenNui();
+			Screen.Fading.FadeIn(1000);
 		}
 
 		private static Ped p1;
 
 		private static async void SelezionatoPreview(IDictionary<string, object> data, CallbackDelegate cb)
 		{
+			ulong ID = Convert.ToUInt64(data["id"]);
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
-			Ped ped = SessionCache.Cache.MyPlayer.Ped;
-			Char_data pers = SessionCache.Cache.MyPlayer.User.Characters.FirstOrDefault(x => x.id == (int)data["id"]);
+			Ped ped = Cache.MyPlayer.Ped;
+			SkinAndDress pers = await ClientSession.Instance.SistemaEventi.Request<SkinAndDress>("lprp:anteprimaChar", ID);
 
 			if (p1 != null)
 			{
@@ -238,7 +249,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 				p1.Delete();
 			}
 
-			p1 = await Funzioni.CreatePedLocally(pers.skin.sex == "Maschio" ? m : f, ped.Position + new Vector3(0, 0.5f, -1f));
+			p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, ped.Position + new Vector3(0, 0.5f, -1f));
 			p1.IsPositionFrozen = true;
 			p1.BlockPermanentEvents = true;
 			SetEntityAlpha(p1.Handle, 0, 0);
@@ -261,6 +272,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static async void Selezionato(IDictionary<string, object> data, CallbackDelegate cb)
 		{
+			ulong ID = Convert.ToUInt64(data["id"]);
 			if (p1 != null)
 				if (p1.Exists())
 					p1.Delete();
@@ -275,51 +287,52 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 			await BaseScript.Delay(3000);
 			/*
-			SessionCache.Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", SessionCache.Cache.MyPlayer.User.char_current);
+			Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
+			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 			*/
-			SessionCache.Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char");
 
-			var Data = SessionCache.Cache.MyPlayer.User.CurrentChar;
-			var switchType = !Data.location.position.IsZero ? GetIdealPlayerSwitchType(SessionCache.Cache.MyPlayer.Ped.Position.X, SessionCache.Cache.MyPlayer.Ped.Position.Y, SessionCache.Cache.MyPlayer.Ped.Position.Z, Data.location.position.X, Data.location.position.Y, Data.location.position.Z) : GetIdealPlayerSwitchType(SessionCache.Cache.MyPlayer.Ped.Position.X, SessionCache.Cache.MyPlayer.Ped.Position.Y, SessionCache.Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
+			Log.Printa(LogType.Debug, Cache.MyPlayer.User.CurrentChar.SerializeToJson());
+			var Data = Cache.MyPlayer.User.CurrentChar;
+			var switchType = !Data.Location.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Location.position.X, Data.Location.position.Y, Data.Location.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
-			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), SessionCache.Cache.MyPlayer.User.Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), SessionCache.Cache.MyPlayer.User.DirtyMoney, true);
+			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Cache.MyPlayer.User.Money, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Cache.MyPlayer.User.DirtyMoney, true);
 			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
-			SessionCache.Cache.MyPlayer.Ped.IsInvincible = false;
+			Cache.MyPlayer.Ped.IsInvincible = false;
 			await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
-			if (Data.location.position.IsZero)
+			if (Data.Location.position.IsZero)
 			{
-				SessionCache.Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
-				SessionCache.Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
+				Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
+				Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
 				await BaseScript.Delay(2000);
 			}
 			else
 			{
-				SessionCache.Cache.MyPlayer.Ped.Position = Data.location.position;
-				SessionCache.Cache.MyPlayer.Ped.Heading = Data.location.h;
+				Cache.MyPlayer.Ped.Position = Data.Location.position;
+				Cache.MyPlayer.Ped.Heading = Data.Location.h;
 				await BaseScript.Delay(2000);
 			}
 
 			Eventi.LoadModel();
-			if (SessionCache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
-			SessionCache.Cache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", SessionCache.Cache.MyPlayer.Ped.Handle);
-			SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
+			Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.MyPlayer.Ped.Handle);
+			Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
-			if (SessionCache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(SessionCache.Cache.MyPlayer.Ped.Handle, true, false);
+			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(7000);
 			ClientSession.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
@@ -328,100 +341,100 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			SessionCache.Cache.MyPlayer.User.CurrentChar.Veicoli = await ClientSession.Instance.SistemaEventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
+			Cache.MyPlayer.User.CurrentChar.Veicoli = await ClientSession.Instance.SistemaEventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
-			SwitchInPlayer(SessionCache.Cache.MyPlayer.Ped.Handle);
-			var pos = await SessionCache.Cache.MyPlayer.Ped.Position.GetVector3WithGroundZ();
-			SessionCache.Cache.MyPlayer.Ped.Position = pos;
+			SwitchInPlayer(Cache.MyPlayer.Ped.Handle);
+			var pos = await Cache.MyPlayer.Ped.Position.GetVector3WithGroundZ();
+			Cache.MyPlayer.Ped.Position = pos;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			ClientSession.Instance.RemoveTick(Controllo);
-			if (SessionCache.Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(SessionCache.Cache.MyPlayer.Ped.Handle, true, false);
+			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(1000);
-			SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = false;
-			SessionCache.Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+			Cache.MyPlayer.Ped.IsPositionFrozen = false;
+			Cache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 			ClearFocus();
-			NetworkFadeInEntity(SessionCache.Cache.MyPlayer.Ped.Handle, true);
-			SessionCache.Cache.MyPlayer.Ped.IsVisible = true;
-			SessionCache.Cache.MyPlayer.Ped.IsCollisionEnabled = true;
+			NetworkFadeInEntity(Cache.MyPlayer.Ped.Handle, true);
+			Cache.MyPlayer.Ped.IsVisible = true;
+			Cache.MyPlayer.Ped.IsCollisionEnabled = true;
 			//			Client.Instance.RemoveTick(Scaleform);
 			//			Client.Instance.RemoveTick(TastiMenu);
-			SessionCache.Cache.MyPlayer.Player.CanControlCharacter = true;
+			Cache.MyPlayer.Player.CanControlCharacter = true;
 			cb("ok");
 		}
 
-		public static async Task SetSkinAndClothes(Ped p, Char_data data)
+		public static async Task SetSkinAndClothes(Ped p, SkinAndDress data)
 		{
-			SetPedHeadBlendData(p.Handle, data.skin.face.mom, data.skin.face.dad, 0, data.skin.face.mom, data.skin.face.dad, 0, data.skin.resemblance, data.skin.skinmix, 0f, false);
-			SetPedHeadOverlay(p.Handle, 0, data.skin.blemishes.style, data.skin.blemishes.opacity);
-			SetPedHeadOverlay(p.Handle, 1, data.skin.facialHair.beard.style, data.skin.facialHair.beard.opacity);
-			SetPedHeadOverlayColor(p.Handle, 1, 1, data.skin.facialHair.beard.color[0], data.skin.facialHair.beard.color[1]);
-			SetPedHeadOverlay(p.Handle, 2, data.skin.facialHair.eyebrow.style, data.skin.facialHair.eyebrow.opacity);
-			SetPedHeadOverlayColor(p.Handle, 2, 1, data.skin.facialHair.eyebrow.color[0], data.skin.facialHair.eyebrow.color[1]);
-			SetPedHeadOverlay(p.Handle, 3, data.skin.ageing.style, data.skin.ageing.opacity);
-			SetPedHeadOverlay(p.Handle, 4, data.skin.makeup.style, data.skin.makeup.opacity);
-			SetPedHeadOverlay(p.Handle, 5, data.skin.blusher.style, data.skin.blusher.opacity);
-			SetPedHeadOverlayColor(p.Handle, 5, 2, data.skin.blusher.color[0], data.skin.blusher.color[1]);
-			SetPedHeadOverlay(p.Handle, 6, data.skin.complexion.style, data.skin.complexion.opacity);
-			SetPedHeadOverlay(p.Handle, 7, data.skin.skinDamage.style, data.skin.skinDamage.opacity);
-			SetPedHeadOverlay(p.Handle, 8, data.skin.lipstick.style, data.skin.lipstick.opacity);
-			SetPedHeadOverlayColor(p.Handle, 8, 2, data.skin.lipstick.color[0], data.skin.lipstick.color[1]);
-			SetPedHeadOverlay(p.Handle, 9, data.skin.freckles.style, data.skin.freckles.opacity);
-			SetPedEyeColor(p.Handle, data.skin.eye.style);
-			SetPedComponentVariation(p.Handle, 2, data.skin.hair.style, 0, 0);
-			SetPedHairColor(p.Handle, data.skin.hair.color[0], data.skin.hair.color[1]);
-			SetPedPropIndex(p.Handle, 2, data.skin.ears.style, data.skin.ears.color, false);
-			for (int i = 0; i < data.skin.face.tratti.Length; i++) SetPedFaceFeature(p.Handle, i, data.skin.face.tratti[i]);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, data.dressing.ComponentDrawables.Faccia, data.dressing.ComponentTextures.Faccia, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, data.dressing.ComponentDrawables.Maschera, data.dressing.ComponentTextures.Maschera, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso, data.dressing.ComponentDrawables.Torso, data.dressing.ComponentTextures.Torso, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Pantaloni, data.dressing.ComponentDrawables.Pantaloni, data.dressing.ComponentTextures.Pantaloni, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Borsa_Paracadute, data.dressing.ComponentDrawables.Borsa_Paracadute, data.dressing.ComponentTextures.Borsa_Paracadute, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Scarpe, data.dressing.ComponentDrawables.Scarpe, data.dressing.ComponentTextures.Scarpe, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Accessori, data.dressing.ComponentDrawables.Accessori, data.dressing.ComponentTextures.Accessori, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Sottomaglia, data.dressing.ComponentDrawables.Sottomaglia, data.dressing.ComponentTextures.Sottomaglia, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Kevlar, data.dressing.ComponentDrawables.Kevlar, data.dressing.ComponentTextures.Kevlar, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Badge, data.dressing.ComponentDrawables.Badge, data.dressing.ComponentTextures.Badge, 2);
-			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso_2, data.dressing.ComponentDrawables.Torso_2, data.dressing.ComponentTextures.Torso_2, 2);
-			if (data.dressing.PropIndices.Cappelli_Maschere == -1)
+			SetPedHeadBlendData(p.Handle, data.Skin.face.mom, data.Skin.face.dad, 0, data.Skin.face.mom, data.Skin.face.dad, 0, data.Skin.resemblance, data.Skin.skinmix, 0f, false);
+			SetPedHeadOverlay(p.Handle, 0, data.Skin.blemishes.style, data.Skin.blemishes.opacity);
+			SetPedHeadOverlay(p.Handle, 1, data.Skin.facialHair.beard.style, data.Skin.facialHair.beard.opacity);
+			SetPedHeadOverlayColor(p.Handle, 1, 1, data.Skin.facialHair.beard.color[0], data.Skin.facialHair.beard.color[1]);
+			SetPedHeadOverlay(p.Handle, 2, data.Skin.facialHair.eyebrow.style, data.Skin.facialHair.eyebrow.opacity);
+			SetPedHeadOverlayColor(p.Handle, 2, 1, data.Skin.facialHair.eyebrow.color[0], data.Skin.facialHair.eyebrow.color[1]);
+			SetPedHeadOverlay(p.Handle, 3, data.Skin.ageing.style, data.Skin.ageing.opacity);
+			SetPedHeadOverlay(p.Handle, 4, data.Skin.makeup.style, data.Skin.makeup.opacity);
+			SetPedHeadOverlay(p.Handle, 5, data.Skin.blusher.style, data.Skin.blusher.opacity);
+			SetPedHeadOverlayColor(p.Handle, 5, 2, data.Skin.blusher.color[0], data.Skin.blusher.color[1]);
+			SetPedHeadOverlay(p.Handle, 6, data.Skin.complexion.style, data.Skin.complexion.opacity);
+			SetPedHeadOverlay(p.Handle, 7, data.Skin.skinDamage.style, data.Skin.skinDamage.opacity);
+			SetPedHeadOverlay(p.Handle, 8, data.Skin.lipstick.style, data.Skin.lipstick.opacity);
+			SetPedHeadOverlayColor(p.Handle, 8, 2, data.Skin.lipstick.color[0], data.Skin.lipstick.color[1]);
+			SetPedHeadOverlay(p.Handle, 9, data.Skin.freckles.style, data.Skin.freckles.opacity);
+			SetPedEyeColor(p.Handle, data.Skin.eye.style);
+			SetPedComponentVariation(p.Handle, 2, data.Skin.hair.style, 0, 0);
+			SetPedHairColor(p.Handle, data.Skin.hair.color[0], data.Skin.hair.color[1]);
+			SetPedPropIndex(p.Handle, 2, data.Skin.ears.style, data.Skin.ears.color, false);
+			for (int i = 0; i < data.Skin.face.tratti.Length; i++) SetPedFaceFeature(p.Handle, i, data.Skin.face.tratti[i]);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Faccia, data.Dressing.ComponentDrawables.Faccia, data.Dressing.ComponentTextures.Faccia, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Maschera, data.Dressing.ComponentDrawables.Maschera, data.Dressing.ComponentTextures.Maschera, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso, data.Dressing.ComponentDrawables.Torso, data.Dressing.ComponentTextures.Torso, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Pantaloni, data.Dressing.ComponentDrawables.Pantaloni, data.Dressing.ComponentTextures.Pantaloni, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Borsa_Paracadute, data.Dressing.ComponentDrawables.Borsa_Paracadute, data.Dressing.ComponentTextures.Borsa_Paracadute, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Scarpe, data.Dressing.ComponentDrawables.Scarpe, data.Dressing.ComponentTextures.Scarpe, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Accessori, data.Dressing.ComponentDrawables.Accessori, data.Dressing.ComponentTextures.Accessori, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Sottomaglia, data.Dressing.ComponentDrawables.Sottomaglia, data.Dressing.ComponentTextures.Sottomaglia, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Kevlar, data.Dressing.ComponentDrawables.Kevlar, data.Dressing.ComponentTextures.Kevlar, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Badge, data.Dressing.ComponentDrawables.Badge, data.Dressing.ComponentTextures.Badge, 2);
+			SetPedComponentVariation(p.Handle, (int)DrawableIndexes.Torso_2, data.Dressing.ComponentDrawables.Torso_2, data.Dressing.ComponentTextures.Torso_2, 2);
+			if (data.Dressing.PropIndices.Cappelli_Maschere == -1)
 				ClearPedProp(p.Handle, 0);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, data.dressing.PropIndices.Cappelli_Maschere, data.dressing.PropTextures.Cappelli_Maschere, false);
-			if (data.dressing.PropIndices.Orecchie == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Cappelli_Maschere, data.Dressing.PropIndices.Cappelli_Maschere, data.Dressing.PropTextures.Cappelli_Maschere, false);
+			if (data.Dressing.PropIndices.Orecchie == -1)
 				ClearPedProp(p.Handle, 2);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, data.dressing.PropIndices.Orecchie, data.dressing.PropTextures.Orecchie, false);
-			if (data.dressing.PropIndices.Occhiali_Occhi == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Orecchie, data.Dressing.PropIndices.Orecchie, data.Dressing.PropTextures.Orecchie, false);
+			if (data.Dressing.PropIndices.Occhiali_Occhi == -1)
 				ClearPedProp(p.Handle, 1);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, data.dressing.PropIndices.Occhiali_Occhi, data.dressing.PropTextures.Occhiali_Occhi, true);
-			if (data.dressing.PropIndices.Unk_3 == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Occhiali_Occhi, data.Dressing.PropIndices.Occhiali_Occhi, data.Dressing.PropTextures.Occhiali_Occhi, true);
+			if (data.Dressing.PropIndices.Unk_3 == -1)
 				ClearPedProp(p.Handle, 3);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, data.dressing.PropIndices.Unk_3, data.dressing.PropTextures.Unk_3, true);
-			if (data.dressing.PropIndices.Unk_4 == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_3, data.Dressing.PropIndices.Unk_3, data.Dressing.PropTextures.Unk_3, true);
+			if (data.Dressing.PropIndices.Unk_4 == -1)
 				ClearPedProp(p.Handle, 4);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, data.dressing.PropIndices.Unk_4, data.dressing.PropTextures.Unk_4, true);
-			if (data.dressing.PropIndices.Unk_5 == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_4, data.Dressing.PropIndices.Unk_4, data.Dressing.PropTextures.Unk_4, true);
+			if (data.Dressing.PropIndices.Unk_5 == -1)
 				ClearPedProp(p.Handle, 5);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, data.dressing.PropIndices.Unk_5, data.dressing.PropTextures.Unk_5, true);
-			if (data.dressing.PropIndices.Orologi == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_5, data.Dressing.PropIndices.Unk_5, data.Dressing.PropTextures.Unk_5, true);
+			if (data.Dressing.PropIndices.Orologi == -1)
 				ClearPedProp(p.Handle, 6);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, data.dressing.PropIndices.Orologi, data.dressing.PropTextures.Orologi, true);
-			if (data.dressing.PropIndices.Bracciali == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Orologi, data.Dressing.PropIndices.Orologi, data.Dressing.PropTextures.Orologi, true);
+			if (data.Dressing.PropIndices.Bracciali == -1)
 				ClearPedProp(p.Handle, 7);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, data.dressing.PropIndices.Bracciali, data.dressing.PropTextures.Bracciali, true);
-			if (data.dressing.PropIndices.Unk_8 == -1)
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Bracciali, data.Dressing.PropIndices.Bracciali, data.Dressing.PropTextures.Bracciali, true);
+			if (data.Dressing.PropIndices.Unk_8 == -1)
 				ClearPedProp(p.Handle, 8);
 			else
-				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, data.dressing.PropIndices.Unk_8, data.dressing.PropTextures.Unk_8, true);
-			while (GetPedDrawableVariation(p.Handle, (int)DrawableIndexes.Torso_2) != data.dressing.ComponentDrawables.Torso_2) await BaseScript.Delay(0);
+				SetPedPropIndex(p.Handle, (int)PropIndexes.Unk_8, data.Dressing.PropIndices.Unk_8, data.Dressing.PropTextures.Unk_8, true);
+			while (GetPedDrawableVariation(p.Handle, (int)DrawableIndexes.Torso_2) != data.Dressing.ComponentDrawables.Torso_2) await BaseScript.Delay(0);
 			cambiato = true;
 			await Task.FromResult(0);
 		}

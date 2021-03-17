@@ -80,8 +80,8 @@ namespace TheLastPlanet.Server.Core
 		public static void Pol(Player sender, List<string> args, string rawCommand)
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
-			if (user.CurrentChar.job.name.ToLower() == "polizia")
-				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "polizia").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
+			if (user.CurrentChar.Job.name.ToLower() == "polizia")
+				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.Job.name.ToLower() == "polizia").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -89,8 +89,8 @@ namespace TheLastPlanet.Server.Core
 		public static void Pil(Player sender, List<string> args, string rawCommand)
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
-			if (user.CurrentChar.job.name.ToLower() == "pilota")
-				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "pilota").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
+			if (user.CurrentChar.Job.name.ToLower() == "pilota")
+				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.Job.name.ToLower() == "pilota").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -98,8 +98,8 @@ namespace TheLastPlanet.Server.Core
 		public static void Med(Player sender, List<string> args, string rawCommand)
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
-			if (user.CurrentChar.job.name.ToLower() == "medico")
-				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "medico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
+			if (user.CurrentChar.Job.name.ToLower() == "medico")
+				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.Job.name.ToLower() == "medico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -107,8 +107,8 @@ namespace TheLastPlanet.Server.Core
 		public static void Mec(Player sender, List<string> args, string rawCommand)
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
-			if (user.CurrentChar.job.name.ToLower() == "meccanico")
-				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.job.name.ToLower() == "meccanico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
+			if (user.CurrentChar.Job.name.ToLower() == "meccanico")
+				ServerSession.PlayerList.Values.Where(x => x.CurrentChar.Job.name.ToLower() == "meccanico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
