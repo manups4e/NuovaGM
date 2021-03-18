@@ -39,14 +39,14 @@ namespace TheLastPlanet.Server.SistemaEventi
 									Task.Factory.StartNew(async () =>
 									{
 										wrapped.Type = EventType.Response;
-										wrapped.Metadata.Write("__response", JsonConvert.SerializeObject(await ((AsyncEventCallback)attachment.Callback).AsyncTask(wrapped.Metadata)));
+										wrapped.Metadata.Write("__response", (await ((AsyncEventCallback)attachment.Callback).AsyncTask(wrapped.Metadata)).ToJson());
 										Send(wrapped, handle.ToString());
 									});
 								}
 								else
 								{
 									wrapped.Type = EventType.Response;
-									wrapped.Metadata.Write("__response", JsonConvert.SerializeObject(attachment.Callback.Task(wrapped.Metadata)));
+									wrapped.Metadata.Write("__response", (attachment.Callback.Task(wrapped.Metadata)).ToJson());
 									Send(wrapped, handle.ToString());
 								}
 

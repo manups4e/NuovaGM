@@ -72,7 +72,6 @@ namespace TheLastPlanet.Server.Core
 			{
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
 				user.CurrentChar = a.Find<Char_data>(0);
-				Log.Printa(LogType.Debug, user.CurrentChar.ID.ToInt64().ToString());
 				if ((DateTime.Now - user.LastSaved).Minutes > 10)
 				{
 					BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");

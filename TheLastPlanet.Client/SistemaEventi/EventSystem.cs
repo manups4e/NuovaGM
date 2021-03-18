@@ -20,7 +20,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 		{
 			ClientSession.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<string>(payload =>
 			{
-				Event wrapped = JsonConvert.DeserializeObject<Event>(payload.ToString());
+				Event wrapped = payload.ToString().FromJson<Event>();
 
 				switch (wrapped.Type)
 				{
@@ -33,13 +33,13 @@ namespace TheLastPlanet.Client.SistemaEventi
 							if (attachment.Callback.GetType() == typeof(AsyncEventCallback))
 							{
 								wrapped.Type = EventType.Response;
-								wrapped.Metadata.Write("__response", JsonConvert.SerializeObject(((AsyncEventCallback)attachment.Callback).AsyncTask(wrapped.Metadata)));
+								wrapped.Metadata.Write("__response", (((AsyncEventCallback)attachment.Callback).AsyncTask(wrapped.Metadata)).ToJson());
 								Send(wrapped);
 							}
 							else
 							{
 								wrapped.Type = EventType.Response;
-								wrapped.Metadata.Write("__response", JsonConvert.SerializeObject(attachment.Callback.Task(wrapped.Metadata)));
+								wrapped.Metadata.Write("__response", (attachment.Callback.Task(wrapped.Metadata)).ToJson());
 								Send(wrapped);
 							}
 
@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 
 				try
 				{
-					response = JsonConvert.DeserializeObject<T>(metadata.Find<string>("__response"));
+					response = metadata.Find<string>("__response").FromJson<T>();
 				}
 				catch (Exception e)
 				{

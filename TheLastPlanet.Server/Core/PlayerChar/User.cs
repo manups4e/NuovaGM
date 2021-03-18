@@ -140,7 +140,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public List<Inventory> getCharInventory(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].ID.ToInt64() == charId)
+				if (Characters[i].CharID == charId)
 					return Characters[i].Inventory;
 
 			return null;
@@ -190,7 +190,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public List<Weapons> getCharWeapons(uint charId)
 		{
 			for (int i = 0; i < Characters.Count; i++)
-				if (Characters[i].ID.ToInt64() == charId)
+				if (Characters[i].CharID == charId)
 					return Characters[i].Weapons;
 
 			return null;

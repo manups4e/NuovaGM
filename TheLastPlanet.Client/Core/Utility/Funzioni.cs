@@ -12,6 +12,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.Veicoli;
+using CitizenFX.Core.UI;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -483,6 +484,9 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			if (vehicleModel.IsValid)
 			{
+				Screen.Fading.FadeOut(250);
+				while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(100);
+
 				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
@@ -508,6 +512,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				SessionCache.Cache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
 				result.SetDecor(Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
+				Screen.Fading.FadeIn(250);
 				return result;
 			}
 			else

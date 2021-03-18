@@ -39,7 +39,6 @@ namespace TheLastPlanet.Shared
 
 	public class Char_data
 	{
-		private ulong CharID { get => ID.ToInt64(); set { ID = Snowflake.Snowflake.Parse(value); } }
 		[JsonIgnore]
 		private string info { set => Info = value.FromJson<Info>(); }
 		[JsonIgnore]
@@ -67,7 +66,7 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private string statistiche { set => Statistiche = value.FromJson<Statistiche>(); }
 
-		public Snowflake.Snowflake ID =	new();
+		public ulong CharID;
 		public bool is_dead;
 		public Info Info = new();
 		public Finance Finance = new();
@@ -85,9 +84,9 @@ namespace TheLastPlanet.Shared
 		public Statistiche Statistiche = new();
 		public Char_data() { }
 		
-		public Char_data(uint id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
+		public Char_data(ulong id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
-			this.ID = Snowflake.Snowflake.Parse(id);
+			this.CharID = id;
 			this.Info = info;
 			this.Finance = finance;
 			this.Job = job;

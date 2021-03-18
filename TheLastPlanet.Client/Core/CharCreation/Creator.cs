@@ -754,14 +754,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						case 0:
 							_dataFemmina = _data;
 							_data = _dataMaschio;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.ID.ToInt64(), 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
 							_selezionato = "Maschio";
 
 							break;
 						case 1:
 							_dataMaschio = _data;
 							_data = _dataFemmina;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.ID.ToInt64(), 0);
+							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
 							_selezionato = "Femmina";
 
 							break;
@@ -1548,7 +1548,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					ClientSession.Instance.RemoveTick(Controllo);
 					ClientSession.Instance.RemoveTick(Scaleform);
 					ClientSession.Instance.RemoveTick(TastiMenu);
-					CamerasFirstTime.FirstTimeTransition(_data.ID.ToInt64() == 1);
+					CamerasFirstTime.FirstTimeTransition(_data.CharID == 1);
 					RemoveAnimDict("mp_character_creation@lineup@male_a");
 					RemoveAnimDict("mp_character_creation@lineup@male_b");
 					RemoveAnimDict("mp_character_creation@lineup@female_a");
