@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Banking
 {
@@ -123,13 +124,13 @@ namespace TheLastPlanet.Client.Banking
 
 		private static async void AggMon(int mon)
 		{
-			int mone = SessionCache.Cache.MyPlayer.User.Money + mon;
+			int mone = Cache.MyPlayer.User.Money + mon;
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), mone, true);
 		}
 
 		private static async void AggDirty(int mon)
 		{
-			int mone = SessionCache.Cache.MyPlayer.User.DirtyMoney + mon;
+			int mone = SessionCache.Cache.MyPlayer.User.DirtyCash + mon;
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), mone, true);
 		}
 

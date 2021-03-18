@@ -17,6 +17,7 @@ using Impostazioni.Client.Configurazione.Lavori.Generici;
 using TheLastPlanet.Client.Interactions;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 {
@@ -72,7 +73,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Job tass = new Job("Taxi", 0);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", tass.ToJson());
+							//BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", tass.ToJson());
+							Cache.MyPlayer.User.CurrentChar.Job = tass;
 						}
 					}
 					else
@@ -82,7 +84,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 						if (Input.IsControlJustPressed(Control.Context))
 						{
 							Job disoc = new Job("Disoccupato", 0);
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", disoc.ToJson());
+							//BaseScript.TriggerServerEvent("lprp:updateCurChar", "job", disoc.ToJson());
+							Cache.MyPlayer.User.CurrentChar.Job = disoc;
 						}
 					}
 				}

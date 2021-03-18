@@ -46,12 +46,13 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		private static void AnimazioneRiceviOggetto()
 		{
-			SessionCache.Cache.MyPlayer.Ped.Task.PlayAnimation("mp_common", "givetake2_a");
+			Cache.MyPlayer.Ped.Task.PlayAnimation("mp_common", "givetake2_a");
 		}
 
 		public static async Task AggiornaPlayers()
 		{
-			Cache.GiocatoriOnline = await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar);
+			Cache.GiocatoriOnline = await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar.Posizione);
+			Cache.MyPlayer.User.CurrentChar = Cache.GiocatoriOnline[Cache.MyPlayer.Player.ServerId.ToString()].CurrentChar;
 		}
 
 		public static async void LoadModel()
@@ -143,8 +144,13 @@ namespace TheLastPlanet.Client.Core.Utility
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
 			SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia = false;
 			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = SessionCache.Cache.MyPlayer.User.CurrentChar.Needs.malattia };
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
-			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
+
+			Cache.MyPlayer.User.CurrentChar.Needs = nee;
+			Cache.MyPlayer.User.CurrentChar.is_dead = false;
+
+			//BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
+
+			//BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");

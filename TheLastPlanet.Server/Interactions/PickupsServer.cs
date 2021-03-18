@@ -114,7 +114,7 @@ namespace TheLastPlanet.Server.Interactions
 
 					break;
 				case "soldi_sporchi":
-					user.DirtyMoney -= amount;
+					user.DirtCash -= amount;
 					label = $"Soldi sporchi [{amount}]";
 
 					break;
@@ -155,7 +155,7 @@ namespace TheLastPlanet.Server.Interactions
 					success = true;
 					if (pickup.name == "soldi")
 						user.Money += pickup.amount;
-					else if (pickup.name == "soldi_sporchi") user.DirtyMoney += pickup.amount;
+					else if (pickup.name == "soldi_sporchi") user.DirtCash += pickup.amount;
 
 					break;
 			}

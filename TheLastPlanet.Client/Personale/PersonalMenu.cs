@@ -18,6 +18,7 @@ using Logger;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using System.Drawing;
 using Impostazioni.Shared.Configurazione.Generici;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Personale
 {
@@ -309,7 +310,7 @@ namespace TheLastPlanet.Client.Personale
 				money.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 				datiPers.AddItem(bank);
 				UIMenu dirty = datiPers.AddSubMenu("Soldi Sporchi: ", "I soldi sporchi");
-				dirty.ParentItem.SetRightLabel("~r~$" + me.GetPlayerData().DirtyMoney);
+				dirty.ParentItem.SetRightLabel("~r~$" + me.GetPlayerData().DirtyCash);
 				dirty.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
 				UIMenu daiMoney = money.AddSubMenu("Dai a qualcuno", "A chi?");
 				UIMenu daiDirty = dirty.AddSubMenu("Dai a qualcuno", "A chi?");
@@ -355,7 +356,7 @@ namespace TheLastPlanet.Client.Personale
 
 							if (string.IsNullOrEmpty(am)) break;
 							amount = Convert.ToInt32(am);
-							if (amount < 1 || amount > me.GetPlayerData().DirtyMoney) HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
+							if (amount < 1 || amount > me.GetPlayerData().DirtyCash) HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 						} while (amount < 1);
 
 						if (amount == -1) return;
@@ -508,8 +509,7 @@ namespace TheLastPlanet.Client.Personale
 											List<Weapons> armiAgg = new List<Weapons>();
 											List<Components> weaponComponents = new List<Components> { new Components(comp.name, comp.active) };
 											armiAgg.Add(new Weapons(armi.name, armi.ammo, weaponComponents, armi.tint));
-											me.GetPlayerData().CurrentChar.Weapons = armiAgg;
-											BaseScript.TriggerServerEvent("lprp:updateCurChar", "weapons", armiAgg.ToJson());
+											Cache.MyPlayer.User.CurrentChar.Weapons = armiAgg;
 
 											if (_checked)
 											{
@@ -1190,7 +1190,7 @@ namespace TheLastPlanet.Client.Personale
 							pool.CloseAllMenus();
 							BigMessageThread.MessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-							BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang(gname, 5).ToJson());
+							Cache.MyPlayer.User.CurrentChar.Gang = new Gang(gname, 5);
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
 						}
 						else
@@ -1219,7 +1219,7 @@ namespace TheLastPlanet.Client.Personale
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).ToJson());
+						Cache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
 				}
 				else
@@ -1231,7 +1231,7 @@ namespace TheLastPlanet.Client.Personale
 						pool.CloseAllMenus();
 						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
-						BaseScript.TriggerServerEvent("lprp:updateCurChar", "gang", new Gang("Incensurato", 0).ToJson());
+						Cache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
 				}
 			}

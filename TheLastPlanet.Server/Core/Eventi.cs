@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.Core
 			ServerSession.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
 			ServerSession.Instance.AddEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
 			ServerSession.Instance.AddEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
-			ServerSession.Instance.AddEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
+			//ServerSession.Instance.AddEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
 			ServerSession.Instance.AddEventHandler("lprp:CheckPing", new Action<Player>(Ping));
 			ServerSession.Instance.AddEventHandler("lprp:checkAFK", new Action<Player>(AFK));
 			ServerSession.Instance.AddEventHandler("lprp:payFine", new Action<Player, int>(PayFine));
@@ -71,8 +71,10 @@ namespace TheLastPlanet.Server.Core
 			ServerSession.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
 			{
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
-				user.CurrentChar = a.Find<Char_data>(0);
-				if ((DateTime.Now - user.LastSaved).Minutes > 10)
+				var pos = a.Find<Location>(0);
+				user.CurrentChar.Posizione = pos;
+				TimeSpan time = (DateTime.Now - user.LastSaved);
+				if (time.Minutes > 10)
 				{
 					BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");
 					await user.SalvaPersonaggio();
@@ -132,8 +134,8 @@ namespace TheLastPlanet.Server.Core
 
 					break;
 				case "charlocation":
-					user.CurrentChar.Location.position = data;
-					user.CurrentChar.Location.h = h;
+					user.CurrentChar.Posizione.position = data;
+					user.CurrentChar.Posizione.h = h;
 
 					break;
 				case "skin":
@@ -205,12 +207,12 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in città'");
-			BaseScript.TriggerEvent("lprp:serverLog", user.FullName + "(" + source.Name + ") è entrato in città");
-			foreach (Player player in ServerSession.Instance.GetPlayers.ToList())
-				if (player.Handle != source.Handle)
-					player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
+			foreach (var player in from Player player in ServerSession.Instance.GetPlayers.ToList() where player.Handle != source.Handle select player)
+				player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
+
 			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
+			user.status.Spawned = true;
 		}
 
 		public static async void Dropped([FromSource] Player player, string reason)
@@ -277,11 +279,11 @@ namespace TheLastPlanet.Server.Core
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			int money = player.Money;
-			int dirty = player.DirtyMoney;
+			int dirty = player.DirtCash;
 			foreach (Inventory inv in player.CurrentChar.Inventory.ToList()) player.removeInventoryItem(inv.item, inv.amount);
 			foreach (Weapons inv in player.CurrentChar.Weapons.ToList()) player.removeWeapon(inv.name);
 			player.Money -= money;
-			player.DirtyMoney -= dirty;
+			player.DirtCash -= dirty;
 		}
 
 		public static void GiveMoney([FromSource] Player source, int amount)
@@ -318,13 +320,13 @@ namespace TheLastPlanet.Server.Core
 		public static void GiveDirty([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-			player.DirtyMoney += amount;
+			player.DirtCash += amount;
 		}
 
 		public static void RemoveDirty([FromSource] Player source, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
-			player.DirtyMoney -= amount;
+			player.DirtCash -= amount;
 		}
 
 		public static void AddInventory([FromSource] Player source, string item, int amount, float peso)
@@ -391,13 +393,13 @@ namespace TheLastPlanet.Server.Core
 		public static void GiveDirtyToChar(string target, int charId, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(target);
-			player.DirtyMoney += amount;
+			player.DirtCash += amount;
 		}
 
 		public static void RemoveDirtyToChar(string target, int charId, int amount)
 		{
 			User player = Funzioni.GetUserFromPlayerId(target);
-			player.DirtyMoney -= amount;
+			player.DirtCash -= amount;
 		}
 
 		public static void AddInventoryToChar(string target, int charId, string item, int amount, float peso)

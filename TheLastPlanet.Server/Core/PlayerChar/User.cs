@@ -20,7 +20,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 		}
 
-		[JsonIgnore] public Player Player;
 		[JsonIgnore] public DateTime LastSaved;
 
 		public User(Player player, BasePlayerShared result)
@@ -35,6 +34,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			StatiPlayer = new PlayerStateBags(player);
 			char_data = result.char_data;
 			LastSaved = DateTime.Now;
+			identifiers.Steam = Player.GetLicense(Identifier.Steam);
+			identifiers.License = Player.GetLicense(Identifier.License);
+			identifiers.Discord = Player.GetLicense(Identifier.Discord);
+			identifiers.Fivem = Player.GetLicense(Identifier.Fivem);
+			identifiers.Ip = Player.GetLicense(Identifier.Ip);
+			StatiPlayer = new PlayerStateBags(Player);
 		}
 
 		public User(Player player, dynamic result)
@@ -71,20 +76,20 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public bool DeathStatus
 		{
 			get => CurrentChar.is_dead;
-			set => CurrentChar.is_dead = value;
+			set { CurrentChar.is_dead = value; StatiPlayer.Svenuto = true; }
 		}
 
 		[JsonIgnore]
 		public int Money
 		{
-			get => CurrentChar.Finance.money;
+			get => CurrentChar.Finance.Money;
 			set
 			{
-				int var = value - CurrentChar.Finance.money;
-				CurrentChar.Finance.money += var;
+				int var = value - CurrentChar.Finance.Money;
+				CurrentChar.Finance.Money += var;
 				if (var < 0)
-					if (CurrentChar.Finance.money < 0)
-						CurrentChar.Finance.money = 0;
+					if (CurrentChar.Finance.Money < 0)
+						CurrentChar.Finance.Money = 0;
 				Player.TriggerEvent("lprp:changeMoney", var);
 			}
 		}
@@ -92,26 +97,26 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		[JsonIgnore]
 		public int Bank
 		{
-			get => CurrentChar.Finance.bank;
+			get => CurrentChar.Finance.Bank;
 			set
 			{
-				int var = value - CurrentChar.Finance.bank;
-				CurrentChar.Finance.bank += var;
+				int var = value - CurrentChar.Finance.Bank;
+				CurrentChar.Finance.Bank += var;
 				if (var < 0) Player.TriggerEvent("lprp:rimuoviBank", var);
 			}
 		}
 
 		[JsonIgnore]
-		public int DirtyMoney
+		public int DirtCash
 		{
-			get => CurrentChar.Finance.dirtyCash;
+			get => CurrentChar.Finance.DirtyCash;
 			set
 			{
-				int var = value - CurrentChar.Finance.dirtyCash;
-				CurrentChar.Finance.dirtyCash += var;
+				int var = value - CurrentChar.Finance.DirtyCash;
+				CurrentChar.Finance.DirtyCash += var;
 				if (var < 0)
-					if (CurrentChar.Finance.dirtyCash < 0)
-						CurrentChar.Finance.dirtyCash = 0;
+					if (CurrentChar.Finance.DirtyCash < 0)
+						CurrentChar.Finance.DirtyCash = 0;
 				Player.TriggerEvent("lprp:changeDirty", var);
 			}
 		}
@@ -302,7 +307,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		[JsonIgnore] public Vector3 getCoords => CurrentChar.Location.position;
+		[JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.position;
 
 		public void giveLicense(string license, string mittente)
 		{
@@ -338,13 +343,13 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					gr = group,
 					level = group_level,
 					time = playTime,
-					current = CharID.ToInt64(),
+					current = CurrentChar.CharID,
 					mon = Money,
 					bank = Bank,
-					dirty = DirtyMoney,
+					dirty = DirtCash,
 					weap = CurrentChar.Weapons.ToJson(),
 					invent = CurrentChar.Inventory.ToJson(),
-					location = CurrentChar.Location.ToJson(),
+					location = CurrentChar.Posizione.ToJson(),
 					job = CurrentChar.Job.name,
 					jgrade = CurrentChar.Job.grade,
 					gang = CurrentChar.Gang.name,
@@ -354,8 +359,9 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					needs = CurrentChar.Needs.ToJson(),
 					stats = CurrentChar.Statistiche.ToJson(),
 					dead = CurrentChar.is_dead,
-					id = UserID
+					id = UserID,
 				});
+				LastSaved = DateTime.Now;
 			}
 			catch(Exception e)
 			{

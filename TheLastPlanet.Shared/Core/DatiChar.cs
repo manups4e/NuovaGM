@@ -42,9 +42,13 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private string info { set => Info = value.FromJson<Info>(); }
 		[JsonIgnore]
-		private string finance { set => Info = value.FromJson<Info>(); }
+		private int money { set => Finance.Money = value; }
 		[JsonIgnore]
-		private string location { set => Location = value.FromJson<Location>(); }
+		private int bank { set => Finance.Bank = value; }
+		[JsonIgnore]
+		private int dirtyCash { set => Finance.DirtyCash = value; }
+		[JsonIgnore]
+		private string location { set => Posizione = value.FromJson<Location>(); }
 		[JsonIgnore]
 		private string job { set => Job.name = value; }
 		[JsonIgnore]
@@ -70,7 +74,7 @@ namespace TheLastPlanet.Shared
 		public bool is_dead;
 		public Info Info = new();
 		public Finance Finance = new();
-		public Location Location = new();
+		public Location Posizione = new();
 		public Job Job = new();
 		public Gang Gang = new();
 		public Skin Skin = new();
@@ -165,17 +169,17 @@ namespace TheLastPlanet.Shared
 
 	public class Finance
 	{
-		public int money { get; set; } = 1000;
-		public int bank { get; set; } = 3000;
-		public int dirtyCash { get; set; } = 0;
+		public int Money { get; set; } = 1000;
+		public int Bank { get; set; } = 3000;
+		public int DirtyCash { get; set; } = 0;
 
 		public Finance() { }
 
 		public Finance(int cash, int bank, int dirtyCash)
 		{
-			money = cash;
-			this.bank = bank;
-			this.dirtyCash = dirtyCash;
+			Money = cash;
+			Bank = bank;
+			DirtyCash = dirtyCash;
 		}
 
 	}

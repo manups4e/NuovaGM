@@ -294,14 +294,14 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
 			Log.Printa(LogType.Debug, Cache.MyPlayer.User.CurrentChar.ToJson());
 			var Data = Cache.MyPlayer.User.CurrentChar;
-			var switchType = !Data.Location.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Location.position.X, Data.Location.position.Y, Data.Location.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			var switchType = !Data.Posizione.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.position.X, Data.Posizione.position.Y, Data.Posizione.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
 			RenderScriptCams(false, false, 0, false, false);
 			StatSetInt(Funzioni.HashUint("MP0_WALLET_BALANCE"), Cache.MyPlayer.User.Money, true);
-			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Cache.MyPlayer.User.DirtyMoney, true);
+			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), Cache.MyPlayer.User.DirtyCash, true);
 			await BaseScript.Delay(6000);
 			Screen.Fading.FadeIn(800);
 			await BaseScript.Delay(4000);
@@ -310,7 +310,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
-			if (Data.Location.position.IsZero)
+			if (Data.Posizione.position.IsZero)
 			{
 				Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
 				Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
@@ -318,8 +318,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			}
 			else
 			{
-				Cache.MyPlayer.Ped.Position = Data.Location.position;
-				Cache.MyPlayer.Ped.Heading = Data.Location.h;
+				Cache.MyPlayer.Ped.Position = Data.Posizione.position;
+				Cache.MyPlayer.Ped.Heading = Data.Posizione.h;
 				await BaseScript.Delay(2000);
 			}
 

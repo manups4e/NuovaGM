@@ -15,19 +15,19 @@ namespace TheLastPlanet.Shared.PlayerChar
 {
 	public class BasePlayerShared
 	{
-		public Snowflake.Snowflake CharID;
 		public int UserID;
 		public string group;
 		public UserGroup group_level;
 		public long playTime;
 		public DateTime lastConnection;
-		public Status status = new Status();
-		public string discord;
-		public string license;
+		public Status status = new();
+		[JsonIgnore] public Player Player;
+		[JsonIgnore] private string discord;
+		[JsonIgnore] private string license;
 		public Identifiers identifiers = new();
 		[JsonIgnore]public PlayerStateBags StatiPlayer;
 
-		public List<Char_data> Characters = new List<Char_data>();
+		public List<Char_data> Characters = new();
 		[JsonIgnore]
 		private Char_data _current;
 		public Char_data CurrentChar
@@ -46,26 +46,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 
 		public BasePlayerShared()
 		{
-#if SERVER
-			LoadIdentifiers();
-
-#endif
 		}
-
-#if SERVER
-		private async void LoadIdentifiers()
-		{
-			while (discord == null) await BaseScript.Delay(0);
-			Player player = Server.ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.Identifiers["discord"] == discord);
-			identifiers.Steam = player.GetLicense(Identifier.Steam);
-			identifiers.License = player.GetLicense(Identifier.License);
-			identifiers.Discord = player.GetLicense(Identifier.Discord);
-			identifiers.Fivem = player.GetLicense(Identifier.Fivem);
-			identifiers.Ip = player.GetLicense(Identifier.Ip);
-            StatiPlayer = new PlayerStateBags(player);
-		}
-#endif
-
 	}
 
 	public class Identifiers

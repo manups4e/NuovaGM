@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.SessionCache
             if (!MyPlayer.User.status.Spawned) return;
             if (MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
             MyPlayer.User.posizione = new Vector4(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
-            Log.Printa(LogType.Debug, MyPlayer.User.posizione.ToJson());
+
             #endregion
 
             await Task.FromResult(0);

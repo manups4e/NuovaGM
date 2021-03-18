@@ -15,13 +15,13 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public int source;
 		public Vector4 posizione
 		{
-			get => new Vector4(CurrentChar.Location.position.X, CurrentChar.Location.position.Y, CurrentChar.Location.position.Z, CurrentChar.Location.h);
+			get => new Vector4(CurrentChar.Posizione.position.X, CurrentChar.Posizione.position.Y, CurrentChar.Posizione.position.Z, CurrentChar.Posizione.h);
 			set
 			{
-				CurrentChar.Location.position.X = value.X;
-				CurrentChar.Location.position.Y = value.Y;
-				CurrentChar.Location.position.Z = value.Z;
-				CurrentChar.Location.h = value.W;
+				CurrentChar.Posizione.position.X = value.X;
+				CurrentChar.Posizione.position.Y = value.Y;
+				CurrentChar.Posizione.position.Z = value.Z;
+				CurrentChar.Posizione.h = value.W;
 			}
 		}
 
@@ -46,11 +46,11 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		[JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
 
-		[JsonIgnore] public int Money => CurrentChar.Finance.money;
+		[JsonIgnore] public int Money => CurrentChar.Finance.Money;
 
-		[JsonIgnore] public int Bank => CurrentChar.Finance.bank;
+		[JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
 
-		[JsonIgnore] public int DirtyMoney => CurrentChar.Finance.dirtyCash;
+		[JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
 
 		[JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
 

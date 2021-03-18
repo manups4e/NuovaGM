@@ -211,7 +211,7 @@ namespace TheLastPlanet.Server.Core
 		public static void GiveMoney(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.GiveMoney(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].Money += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givemoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -219,7 +219,7 @@ namespace TheLastPlanet.Server.Core
 		public static void GiveBank(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.GiveBank(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].Bank += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givebank] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Server.Core
 		public static void GiveDirty(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.GiveDirty(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].DirtCash += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -235,7 +235,7 @@ namespace TheLastPlanet.Server.Core
 		public static void RemoveMoney(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.RemoveMoney(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].Money -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -243,7 +243,7 @@ namespace TheLastPlanet.Server.Core
 		public static void RemoveBank(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.RemoveBank(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].Bank -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -251,7 +251,7 @@ namespace TheLastPlanet.Server.Core
 		public static void RemoveDirty(Player sender, List<string> args, string rawCommand)
 		{
 			if (ServerSession.PlayerList.ContainsKey(args[0]))
-				Eventi.RemoveDirty(ServerSession.Instance.GetPlayers[Convert.ToInt32(args[0])], Convert.ToInt32(args[1]));
+				ServerSession.PlayerList[args[0]].DirtCash -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -274,8 +274,8 @@ namespace TheLastPlanet.Server.Core
 				}
 				else if (args[1] == "sporchi")
 				{
-					player.DirtyMoney -= player.DirtyMoney;
-					player.DirtyMoney += Convert.ToInt32(args[2]);
+					player.DirtCash -= player.DirtCash;
+					player.DirtCash += Convert.ToInt32(args[2]);
 				}
 				else
 				{
@@ -423,6 +423,8 @@ namespace TheLastPlanet.Server.Core
 				DateTime now = DateTime.Now;
 
 				foreach (var player in ServerSession.PlayerList)
+				{
+					Log.Printa(LogType.Debug, player.ToJson());
 					if (player.Value.status.Spawned)
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
@@ -431,8 +433,8 @@ namespace TheLastPlanet.Server.Core
 						BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
 						await Task.FromResult(0);
 					}
-
-				BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
+				}
+				//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 			}
 			catch (Exception ex)
 			{

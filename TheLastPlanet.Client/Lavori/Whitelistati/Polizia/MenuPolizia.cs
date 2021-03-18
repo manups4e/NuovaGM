@@ -356,13 +356,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								Personaggio.AddItem(job);
 								//UIMenuItem gang = new UIMenuItem("Gang: ", "Le affiliazioni");
 								UIMenuItem bank = new("Banca: ", "I soldi in banca");
-								bank.SetRightLabel("$" + data.Finance.bank);
+								bank.SetRightLabel("$" + data.Finance.Bank);
 								Personaggio.AddItem(bank);
 								Pos = new UIMenuItem("Ultima Posizione conosciuta");
 								if (source != 0)
 									GetStreetNameAtCoord(ClientSession.Instance.GetPlayers[source].Character.Position.X, ClientSession.Instance.GetPlayers[source].Character.Position.Y, ClientSession.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
 								else
-									GetStreetNameAtCoord(data.Location.position.X, data.Location.position.Y, data.Location.position.Z, ref StreetA, ref StreetB);
+									GetStreetNameAtCoord(data.Posizione.position.X, data.Posizione.position.Y, data.Posizione.position.Z, ref StreetA, ref StreetB);
 								Pos.Description = GetStreetNameFromHashKey(StreetA);
 								if (StreetB != 0) Pos.Description = Pos.Description + ", angolo " + GetStreetNameFromHashKey(StreetB);
 								Personaggio.AddItem(Pos);

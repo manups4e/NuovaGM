@@ -114,10 +114,10 @@ namespace TheLastPlanet.Client.Interactions
 								};
 							}
 
-							if (targetData.DirtyMoney > 0)
+							if (targetData.DirtyCash > 0)
 							{
 								UIMenuItem dirty = new UIMenuItem("Soldi Sporchi");
-								dirty.SetRightLabel($"${targetData.DirtyMoney}");
+								dirty.SetRightLabel($"${targetData.DirtyCash}");
 								_new.AddItem(dirty);
 								dirty.Activated += async (a, b) =>
 								{

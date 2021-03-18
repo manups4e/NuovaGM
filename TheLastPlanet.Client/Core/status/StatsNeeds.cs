@@ -150,8 +150,8 @@ namespace TheLastPlanet.Client.Core.Status
 				FISHING = Statistics["FISHING"].Val,
 				HUNTING = Statistics["HUNTING"].Val
 			};
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
-			BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.ToJson());
+			//BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());
+			//BaseScript.TriggerServerEvent("lprp:updateCurChar", "skill", skill.ToJson());
 			await Task.FromResult(0);
 		}
 
@@ -163,11 +163,13 @@ namespace TheLastPlanet.Client.Core.Status
 			Needs.Values.ToList().ForEach(x => x.OnTick(p, m));
 			Statistics.Values.ToList().ForEach(x => x.OnTick(p, m));
 
+			/*
 			if (Game.GameTime - _updTimer > 30000) //60000)
 			{
 				await Agg();
 				_updTimer = Game.GameTime;
 			}
+			*/
 
 			await Task.FromResult(0);
 			//Log.Printa(LogType.Debug, $"{n.Name} = {n.Val} [{n.GetPercent()}, {n.ChangeVal}]");
