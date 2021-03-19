@@ -100,13 +100,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 				cb("ok");
 			}));
 			ClientSession.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
-			/*
-			ClientSession.Instance.AttachNuiHandler("previewChar", new EventCallback (a => 
-			{
-				Log.Printa(LogType.Debug, a.ToJson());
-				return null;
-			}));
-			*/
 			ClientSession.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
 			ClientSession.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
 			ClientSession.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
@@ -292,7 +285,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			*/
 
 			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
-			Log.Printa(LogType.Debug, Cache.MyPlayer.User.CurrentChar.ToJson());
 			var Data = Cache.MyPlayer.User.CurrentChar;
 			var switchType = !Data.Posizione.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.position.X, Data.Posizione.position.Y, Data.Posizione.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);

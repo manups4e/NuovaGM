@@ -81,9 +81,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void sendUserInfo(string _char_data, string _group)
 		{
-			Log.Printa(LogType.Debug, _char_data);
-			SessionCache.Cache.MyPlayer.User.char_data = _char_data;
-			SessionCache.Cache.MyPlayer.User.group = _group;
+			Cache.MyPlayer.User.char_data = _char_data;
+			Cache.MyPlayer.User.group = _group;
 		}
 
 		public static bool On = false;

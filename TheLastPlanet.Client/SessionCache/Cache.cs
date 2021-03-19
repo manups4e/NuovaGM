@@ -14,6 +14,7 @@ namespace TheLastPlanet.Client.SessionCache
         private static bool _inVeh;
         private static bool _inPausa;
         public static PlayerCache MyPlayer { get; private set; }
+        public static Char_data CurrentChar { get => MyPlayer.User.CurrentChar; }
         public static Dictionary<string, User> GiocatoriOnline = new();
 
         public static async Task InitPlayer()
