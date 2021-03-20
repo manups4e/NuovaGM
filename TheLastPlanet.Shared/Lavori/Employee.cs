@@ -9,11 +9,4 @@ namespace TheLastPlanet.Shared
         public int MonthlyRevenue { get; set; }
         public int TotalRevenue { get; set; }
     }
-
-    public class Business
-    {
-        public string Seed { get; set; }
-        public long Balance { get; set; }
-        public long Registered { get; set; }
-    }
 }

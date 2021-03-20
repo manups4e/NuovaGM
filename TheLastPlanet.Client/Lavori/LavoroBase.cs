@@ -65,6 +65,7 @@ namespace TheLastPlanet.Client.Lavori
     public abstract class LavoroBase
 	{
 		public abstract Employment Lavoro { get; set; }
+        public abstract string Label { get; set; }
         public abstract void OnJobSet();
         public abstract void OnJobRemoved();
         public abstract Dictionary<int, string> Roles { get; set; }

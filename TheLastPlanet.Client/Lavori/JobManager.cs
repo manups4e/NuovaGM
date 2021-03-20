@@ -13,6 +13,7 @@ namespace TheLastPlanet.Client.Lavori
 
 		private static void Init() 
 		{
+
 		}
 
         public static async void RegisterJob(LavoroBase job)
@@ -46,8 +47,6 @@ namespace TheLastPlanet.Client.Lavori
             await Cache.Loaded();
 
             job.Init();
-
-            //AtlasPlugin.Instance.AttachTickHandlers(job);
         }
 
         public static T GetJob<T>() where T : LavoroBase
