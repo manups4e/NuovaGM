@@ -25,6 +25,6 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 		}
 
 		public override JobProfile[] Profiles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public override Dictionary<int, string> Roles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); 
+		public override Dictionary<int, string> Roles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }
