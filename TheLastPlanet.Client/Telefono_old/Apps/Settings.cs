@@ -11,6 +11,7 @@ using TheLastPlanet.Client.Telefono.Models;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Telefono.Apps
 {
@@ -93,7 +94,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
 
 		public Settings(Phone phone) : base(GetLabelText("CELL_16"), 24, phone)
         {
-			numero = SessionCache.Cache.MyPlayer.User.CurrentChar.Info.phoneNumber.ToString();
+			numero = Cache.MyPlayer.User.CurrentChar.Info.phoneNumber.ToString();
         }
 
         public override async Task Tick()

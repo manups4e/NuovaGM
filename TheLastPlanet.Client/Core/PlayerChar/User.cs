@@ -5,6 +5,7 @@ using CitizenFX.Core;
 using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
 
@@ -13,26 +14,27 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	public class User : BasePlayerShared
 	{
 		public int source;
-		public Vector4 posizione
+		public Position posizione
 		{
-			get => new Vector4(CurrentChar.Posizione.position.X, CurrentChar.Posizione.position.Y, CurrentChar.Posizione.position.Z, CurrentChar.Posizione.h);
+			get => CurrentChar.Posizione;
 			set
 			{
-				CurrentChar.Posizione.position.X = value.X;
-				CurrentChar.Posizione.position.Y = value.Y;
-				CurrentChar.Posizione.position.Z = value.Z;
-				CurrentChar.Posizione.h = value.W;
+				CurrentChar.Posizione.X = value.X;
+				CurrentChar.Posizione.Y = value.Y;
+				CurrentChar.Posizione.Z = value.Z;
+				CurrentChar.Posizione.Heading = value.Heading;
 			}
 		}
 
 		public User(dynamic result)
 		{
-			source = SessionCache.Cache.MyPlayer.Player.ServerId;
+			source = Player.ServerId;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
 			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			status = new Shared.PlayerChar.Status();
+			Player = Game.Player;
 		}
 
 		public User()
@@ -114,7 +116,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore] private Player player = SessionCache.Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = Cache.MyPlayer.Player;
 
 		private bool _inPausa;
 		private bool _svenuto;
@@ -222,7 +224,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class Istanza
 	{
-		[JsonIgnore] private Player player = SessionCache.Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = Cache.MyPlayer.Player;
 		public bool Stanziato
 		{
 			get => player.State["PlayerStates"].Istanza.Stanziato;

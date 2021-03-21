@@ -12,6 +12,7 @@ using TheLastPlanet.Client.MenuNativo;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -116,7 +117,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		private static async void Spawnato()
 		{
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 			{
 				sLocal_436 = "mp_safehouseshower@male@";
 				sLocal_437 = "male_shower_undress_&_turn_on_water";
@@ -171,11 +172,11 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			if (!InDoccia)
 			{
-				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < 1.375f);
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, o.Position) < 1.375f);
 
 				if (VicinoDoccia)
 				{
-					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < 1.375f);
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, o.Position) < 1.375f);
 					if (!DocciaPorta.IsAttached()) DocciaPorta.IsPositionFrozen = true;
 					attuale = Coords.First(o => Vector3.Distance(o.anim, DocciaPorta.Position) < 2f);
 				}
@@ -203,7 +204,7 @@ namespace TheLastPlanet.Client.Interactions
 						if (DoesEntityHaveDrawable(DocciaPorta.Handle)) PlaySynchronizedEntityAnim(DocciaPorta.Handle, Scena1, sLocal_444, sLocal_436, 2f, -8f, 1, 1148846080);
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_20) await BaseScript.Delay(0);
 						func_314();
-						SessionCache.Cache.MyPlayer.Ped.ClearBloodDamage();
+						Cache.MyPlayer.Ped.ClearBloodDamage();
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_GET_UNDRESSED_MASTER", PlayerPedId(), 0, 0, 0);
 						while (GetSynchronizedScenePhase(Scena1) < Global_2499242_f_22) await BaseScript.Delay(0);
 						Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, Global_2499242_f_25, "MP_APARTMENT_SHOWER_MASTER", PlayerPedId(), 0, 0, 0);
@@ -238,7 +239,7 @@ namespace TheLastPlanet.Client.Interactions
 						ReleaseAmbientAudioBank();
 						if (Global_2499242_f_25 != -1) ReleaseSoundId(Global_2499242_f_25);
 
-						if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Femmina")
+						if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Femmina")
 						{
 							while (GetSynchronizedScenePhase(Scena1) < 0.76f) await BaseScript.Delay(0);
 							Function.Call(Hash.PLAY_SOUND_FROM_ENTITY, -1, "MP_APARTMENT_SHOWER_DOOR_OPEN_MASTER", PlayerPedId(), 0, 0, 0);

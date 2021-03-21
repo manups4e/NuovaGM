@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -151,7 +152,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async void ShowStatNotification(int value, string title)
 		{
-			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(SessionCache.Cache.MyPlayer.Ped);
+			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.MyPlayer.Ped);
 			BeginTextCommandThefeedPost("PS_UPDATE");
 			AddTextComponentInteger(value);
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);

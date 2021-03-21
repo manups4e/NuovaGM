@@ -71,7 +71,7 @@ namespace TheLastPlanet.Server.Core
 			ServerSession.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
 			{
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
-				var pos = a.Find<Location>(0);
+				var pos = a.Find<Position>(0);
 				user.CurrentChar.Posizione = pos;
 				TimeSpan time = (DateTime.Now - user.LastSaved);
 				if (time.Minutes > 10)
@@ -112,72 +112,6 @@ namespace TheLastPlanet.Server.Core
 		public static void AFK([FromSource] Player p)
 		{
 			p.Drop("Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo in AFK");
-		}
-
-		public static void UpdateChar([FromSource] Player player, string type, dynamic data, float h)
-		{
-			Log.Printa(LogType.Debug, $"{type}, {JsonConvert.SerializeObject(data)}");
-			User user = Funzioni.GetUserFromPlayerId(player.Handle);
-
-			switch (type)
-			{
-				case "char_current":
-					//user.char_current = Convert.ToUInt32(data);
-
-					break;
-				case "char_data":
-					user.Characters = (data as string).FromJson<List<Char_data>>();
-
-					break;
-				case "status":
-					user.status.Spawned = (bool)data;
-
-					break;
-				case "charlocation":
-					user.CurrentChar.Posizione.position = data;
-					user.CurrentChar.Posizione.h = h;
-
-					break;
-				case "skin":
-					user.CurrentChar.Skin = (data as string).FromJson<Skin>();
-
-					break;
-				case "needs":
-					user.CurrentChar.Needs = (data as string).FromJson<Needs>();
-
-					break;
-				case "skill":
-					user.CurrentChar.Statistiche = (data as string).FromJson<Statistiche>();
-
-					break;
-				case "chardressing":
-					user.CurrentChar.Dressing = (data as string).FromJson<Dressing>();
-
-					break;
-				case "weapons":
-					user.CurrentChar.Weapons = (data as string).FromJson<List<Weapons>>();
-
-					break;
-				case "job":
-					user.CurrentChar.Job = (data as string).FromJson<Job>();
-
-					break;
-				case "gang":
-					user.CurrentChar.Gang = (data as string).FromJson<Gang>();
-
-					break;
-				case "group":
-					user.@group = data;
-
-					break;
-				case "groupL":
-					user.group_level = data;
-
-					break;
-			}
-
-			//player.TriggerEvent("lprp:sendUserInfo", user.char_data, user.char_current, user.group);
-			//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 		}
 
 		public static void deathStatus([FromSource] Player source, bool value)

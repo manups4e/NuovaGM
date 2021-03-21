@@ -37,6 +37,14 @@ namespace TheLastPlanet.Shared
 		Unk_8 = 8,
 	}
 
+	public enum BankTransactionType
+	{
+		Ritiro,
+		Deposito,
+		Ricezione,
+		Invio
+	}
+
 	public class Char_data
 	{
 		[JsonIgnore]
@@ -48,7 +56,7 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private int dirtyCash { set => Finance.DirtyCash = value; }
 		[JsonIgnore]
-		private string location { set => Posizione = value.FromJson<Location>(); }
+		private string location { set => Posizione = value.FromJson<Position>(); }
 		[JsonIgnore]
 		private string job { set => Job.name = value; }
 		[JsonIgnore]
@@ -74,7 +82,7 @@ namespace TheLastPlanet.Shared
 		public bool is_dead;
 		public Info Info = new();
 		public Finance Finance = new();
-		public Location Posizione = new();
+		public Position Posizione = new();
 		public Job Job = new();
 		public Gang Gang = new();
 		public Skin Skin = new();
@@ -172,6 +180,7 @@ namespace TheLastPlanet.Shared
 		public int Money { get; set; } = 1000;
 		public int Bank { get; set; } = 3000;
 		public int DirtyCash { get; set; } = 0;
+		public List<BankTransaction> Transazioni { get; set; }
 
 		public Finance() { }
 
@@ -182,12 +191,6 @@ namespace TheLastPlanet.Shared
 			DirtyCash = dirtyCash;
 		}
 
-	}
-
-	public class Location
-	{
-		public Vector3 position;
-		public float h { get; set; }
 	}
 
 	public class Inventory
@@ -548,4 +551,13 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
+	public class BankTransaction
+	{
+		public BankTransactionType Type { get; set; }
+		public long Amount { get; set; }
+		[JsonIgnore] public DateTime Date { get; set; }
+		public string Information { get; set; }
+
+		[JsonProperty("Date")] public string _Date => Date.ToString("MM/dd/yyyy HH:mm:ss");
+	}
 }

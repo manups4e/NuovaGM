@@ -6,6 +6,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.SistemaEventi;
 
@@ -94,12 +95,12 @@ namespace TheLastPlanet.Client.SistemaEventi
 		{
 			//Log.Printa(LogType.Debug, wrapped.ToJson());
 			//Log.Printa(LogType.Debug, $"[{wrapped.Seed}] [{wrapped.Target}] Dispatching `{wrapped.Type}` operation to the server-side.");
-			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", SessionCache.Cache.MyPlayer != null ? SessionCache.Cache.MyPlayer.Player.ServerId : Game.Player.ServerId, JsonConvert.SerializeObject(wrapped));
+			BaseScript.TriggerServerEvent("1d446f5702fcd00055ac8b8544479b0e", Cache.MyPlayer != null ? Cache.MyPlayer.Player.ServerId : Game.Player.ServerId, JsonConvert.SerializeObject(wrapped));
 		}
 
 		public Event Construct(string target, object[] payloads)
 		{
-			Event wrapped = new() { Target = target, Sender = SessionCache.Cache.MyPlayer.Player.ServerId };
+			Event wrapped = new() { Target = target, Sender = Cache.MyPlayer.Player.ServerId };
 			if (payloads != null) WriteMetadata(wrapped, payloads);
 
 			return wrapped;

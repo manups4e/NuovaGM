@@ -4,6 +4,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using CitizenFX.Core.UI;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
@@ -72,17 +73,17 @@ namespace TheLastPlanet.Client.TimeWeather
 				HUD.ShowLoadingSavingNotificationWithTime("Aggiornamento orario del server in corso...", LoadingSpinnerType.Clockwise1, 10000);
 				await BaseScript.Delay(2000);
 				Screen.Fading.FadeOut(800);
-				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
-					SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = true;
+				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = true;
 				else
-					SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = true;
+					Cache.MyPlayer.Ped.IsPositionFrozen = true;
 				await BaseScript.Delay(2000);
 				AdvanceClockTimeTo(h, m, s);
 				await BaseScript.Delay(1950);
-				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
-					SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = false;
+				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					Cache.MyPlayer.Ped.CurrentVehicle.IsPositionFrozen = false;
 				else
-					SessionCache.Cache.MyPlayer.Ped.IsPositionFrozen = false;
+					Cache.MyPlayer.Ped.IsPositionFrozen = false;
 				Screen.Fading.FadeIn(800);
 				Cambio = false;
 			}

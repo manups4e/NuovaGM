@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Banking
 
 		private static async void AggDirty(int mon)
 		{
-			int mone = SessionCache.Cache.MyPlayer.User.DirtyCash + mon;
+			int mone = Cache.MyPlayer.User.DirtyCash + mon;
 			StatSetInt(Funzioni.HashUint("BANK_BALANCE"), mone, true);
 		}
 
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < 1.5f);
+			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.posizione.Distance(o.Position) < 1.5f);
 			await BaseScript.Delay(250);
 		}
 
@@ -466,7 +466,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (_currentSelection)
 						{
 							case 1: // 50
-								if (SessionCache.Cache.MyPlayer.User.Bank >= 50)
+								if (Cache.MyPlayer.User.Bank >= 50)
 								{
 									TryBankingNew(false, 5, 50);
 									_menuAttuale = 5;
@@ -479,7 +479,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 2: // 100
-								if (SessionCache.Cache.MyPlayer.User.Bank >= 100)
+								if (Cache.MyPlayer.User.Bank >= 100)
 								{
 									TryBankingNew(false, 5, 100);
 									_menuAttuale = 5;
@@ -492,7 +492,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 3: // 200
-								if (SessionCache.Cache.MyPlayer.User.Bank >= 200)
+								if (Cache.MyPlayer.User.Bank >= 200)
 								{
 									TryBankingNew(false, 5, 200);
 									_menuAttuale = 5;
@@ -505,7 +505,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 5: // 500
-								if (SessionCache.Cache.MyPlayer.User.Bank >= 500)
+								if (Cache.MyPlayer.User.Bank >= 500)
 								{
 									TryBankingNew(false, 5, 500);
 									_menuAttuale = 5;
@@ -518,7 +518,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 6: // 1000
-								if (SessionCache.Cache.MyPlayer.User.Bank >= 1000)
+								if (Cache.MyPlayer.User.Bank >= 1000)
 								{
 									TryBankingNew(false, 5, 1000);
 									_menuAttuale = 5;
@@ -531,13 +531,13 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", SessionCache.Cache.MyPlayer.User.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri ritirare", "", Cache.MyPlayer.User.Bank.ToString().Length);
 
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (SessionCache.Cache.MyPlayer.User.Bank >= Convert.ToInt32(valore))
+										if (Cache.MyPlayer.User.Bank >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 5, Convert.ToInt32(valore));
 											_menuAttuale = 5;
@@ -568,7 +568,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (_currentSelection)
 						{
 							case 1: // 50
-								if (SessionCache.Cache.MyPlayer.User.Money >= 50)
+								if (Cache.MyPlayer.User.Money >= 50)
 								{
 									TryBankingNew(false, 6, 50);
 									_menuAttuale = 6;
@@ -581,7 +581,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 2: // 100
-								if (SessionCache.Cache.MyPlayer.User.Money >= 100)
+								if (Cache.MyPlayer.User.Money >= 100)
 								{
 									TryBankingNew(false, 6, 100);
 									_menuAttuale = 6;
@@ -594,7 +594,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 3: // 200
-								if (SessionCache.Cache.MyPlayer.User.Money >= 200)
+								if (Cache.MyPlayer.User.Money >= 200)
 								{
 									TryBankingNew(false, 6, 200);
 									_menuAttuale = 6;
@@ -607,7 +607,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 5: // 500
-								if (SessionCache.Cache.MyPlayer.User.Money >= 500)
+								if (Cache.MyPlayer.User.Money >= 500)
 								{
 									TryBankingNew(false, 6, 500);
 									_menuAttuale = 6;
@@ -620,7 +620,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 6: // 1000
-								if (SessionCache.Cache.MyPlayer.User.Money >= 1000)
+								if (Cache.MyPlayer.User.Money >= 1000)
 								{
 									TryBankingNew(false, 6, 1000);
 									_menuAttuale = 6;
@@ -633,13 +633,13 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", SessionCache.Cache.MyPlayer.User.Money.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri depositare", "", Cache.MyPlayer.User.Money.ToString().Length);
 
 								if (!string.IsNullOrEmpty(valore))
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (SessionCache.Cache.MyPlayer.User.Money >= Convert.ToInt32(valore))
+										if (Cache.MyPlayer.User.Money >= Convert.ToInt32(valore))
 										{
 											TryBankingNew(false, 6, Convert.ToInt32(valore));
 											_menuAttuale = 6;
@@ -672,7 +672,7 @@ namespace TheLastPlanet.Client.Banking
 						switch (_currentSelection)
 						{
 							case 1: // 50
-								if (SessionCache.Cache.MyPlayer.User.Money >= 50)
+								if (Cache.MyPlayer.User.Money >= 50)
 									soldi = 50;
 								else
 								{
@@ -682,7 +682,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 2: // 100
-								if (SessionCache.Cache.MyPlayer.User.Money >= 100)
+								if (Cache.MyPlayer.User.Money >= 100)
 									soldi = 100;
 								else
 								{
@@ -692,7 +692,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 3: // 200
-								if (SessionCache.Cache.MyPlayer.User.Money >= 200)
+								if (Cache.MyPlayer.User.Money >= 200)
 									soldi = 200;
 								else
 								{
@@ -702,7 +702,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 5: // 500
-								if (SessionCache.Cache.MyPlayer.User.Money >= 500)
+								if (Cache.MyPlayer.User.Money >= 500)
 									soldi = 500;
 								else
 								{
@@ -712,7 +712,7 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 6: // 1000
-								if (SessionCache.Cache.MyPlayer.User.Money >= 1000)
+								if (Cache.MyPlayer.User.Money >= 1000)
 									soldi = 1000;
 								else
 								{
@@ -722,13 +722,13 @@ namespace TheLastPlanet.Client.Banking
 
 								break;
 							case 7: // personalizzato
-								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", SessionCache.Cache.MyPlayer.User.Bank.ToString().Length);
+								string valore = await HUD.GetUserInput("Inserisci il valore che desideri trasferire", "", Cache.MyPlayer.User.Bank.ToString().Length);
 
 								if (valore != "")
 								{
 									if (valore.All(o => char.IsDigit(o)))
 									{
-										if (SessionCache.Cache.MyPlayer.User.Bank >= Convert.ToInt32(valore))
+										if (Cache.MyPlayer.User.Bank >= Convert.ToInt32(valore))
 											soldi = Convert.ToInt32(valore);
 										else
 										{
@@ -1172,9 +1172,9 @@ namespace TheLastPlanet.Client.Banking
 			}
 
 			BeginScaleformMovieMethod(atm.Handle, "DISPLAY_BALANCE");
-			PushScaleformMovieMethodParameterButtonName(SessionCache.Cache.MyPlayer.User.FullName);
+			PushScaleformMovieMethodParameterButtonName(Cache.MyPlayer.User.FullName);
 			AddText("MPATM_ACBA");
-			PushScaleformMovieMethodParameterButtonName(SessionCache.Cache.MyPlayer.User.Bank.ToString());
+			PushScaleformMovieMethodParameterButtonName(Cache.MyPlayer.User.Bank.ToString());
 			EndScaleformMovieMethod();
 		}
 

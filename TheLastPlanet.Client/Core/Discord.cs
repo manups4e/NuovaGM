@@ -6,6 +6,7 @@ using TheLastPlanet.Shared;
 using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core
 {
@@ -22,11 +23,11 @@ namespace TheLastPlanet.Client.Core
 		private static async Task RichPresence()
 		{
 			await SessionCache.Cache.Loaded();
-			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
-			Player player = SessionCache.Cache.MyPlayer.Player;
+			Ped playerPed = Cache.MyPlayer.Ped;
+			Player player = Cache.MyPlayer.Player;
 			SetDiscordAppId(ClientSession.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(ClientSession.Impostazioni.Main.DiscordRichPresenceAsset);
-			Vector3 PedCoords = !SessionCache.Cache.MyPlayer.User.status.Spawned ? playerPed.Position : SessionCache.Cache.MyPlayer.User.posizione.ToVector3();
+			Vector3 PedCoords = !Cache.MyPlayer.User.status.Spawned ? playerPed.Position : Cache.MyPlayer.User.posizione.ToVector3;
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);
@@ -77,7 +78,7 @@ namespace TheLastPlanet.Client.Core
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
+				else if (Cache.MyPlayer.User.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
 					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
@@ -152,7 +153,7 @@ namespace TheLastPlanet.Client.Core
 				{
 					SetRichPresence("Fa paracadutismo");
 				}
-				else if (IsPedStill(PlayerPedId()) || SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(ClientSession.Impostazioni.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(ClientSession.Impostazioni.Main.AFKCheckTime / 2f))
 				{
 					SetRichPresence("AFK in gioco");
 				}

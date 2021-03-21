@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Impostazioni.Shared.Configurazione.Generici;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Businesses
 {
@@ -50,7 +51,7 @@ namespace TheLastPlanet.Client.Businesses
 
 			for (int i = 0; i < _stations.Count; i++)
 			{
-				float dist = Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), pos);
+				float dist = Cache.MyPlayer.User.posizione.Distance(pos);
 
 				if (dist < 50f)
 				{
@@ -198,16 +199,16 @@ namespace TheLastPlanet.Client.Businesses
 		{
 			for (int i = 0; i < _stations.Count; i++)
 			{
-				float dist = Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), _stations[i].ppos);
+				float dist = Cache.MyPlayer.User.posizione.Distance(_stations[i].ppos);
 
 				if (!(dist < 80)) continue;
 				StationDiBenzina stationinfo = GetStationInfo(i + 1);
 				World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(_stations[i].ppos[0], _stations[i].ppos[1], _stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 
 				if (dist < 1.3f)
-					if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 					{
-						if (string.Equals(stationinfo.ownerchar, SessionCache.Cache.MyPlayer.User.FullName, StringComparison.CurrentCultureIgnoreCase))
+						if (string.Equals(stationinfo.ownerchar, Cache.MyPlayer.User.FullName, StringComparison.CurrentCultureIgnoreCase))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per gestire la stazione");
 

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -72,10 +73,10 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static bool isPedDrivingAVehicle()
 		{
-			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
-				if (SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.Driver == SessionCache.Cache.MyPlayer.Ped)
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (Cache.MyPlayer.Ped.CurrentVehicle.Driver == Cache.MyPlayer.Ped)
 				{
-					VehicleClass classe = SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.ClassType;
+					VehicleClass classe = Cache.MyPlayer.Ped.CurrentVehicle.ClassType;
 
 					if (classe != VehicleClass.Cycles && classe != VehicleClass.Helicopters && classe != VehicleClass.Boats && classe != VehicleClass.Planes && classe != VehicleClass.Trains) return true;
 				}
@@ -219,9 +220,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async Task OnTick()
 		{
-			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
+			Ped playerPed = Cache.MyPlayer.Ped;
 
-			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				vehicle = playerPed.CurrentVehicle;
 

@@ -307,7 +307,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		[JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.position;
+		[JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.ToVector3;
 
 		public void giveLicense(string license, string mittente)
 		{

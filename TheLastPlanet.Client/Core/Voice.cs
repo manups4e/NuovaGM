@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core
 {
@@ -38,7 +39,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async void UpdateVoices()
 		{
-			Ped pl = SessionCache.Cache.MyPlayer.Ped;
+			Ped pl = Cache.MyPlayer.Ped;
 
 			foreach (Player p in ClientSession.Instance.GetPlayers.ToList())
 			{
@@ -92,7 +93,7 @@ namespace TheLastPlanet.Client.Core
 			return InSameVeh || !OnlyVehicle && (HasEntityClearLosToEntityInFront(ped.Handle, otherPed.Handle) || distance < Math.Max(0, Math.Min(18, CheckDistance)) * 0.6f) && distance < CheckDistance;
 		}
 
-		public static bool ShouldSendVoice() { return NetworkIsPlayerTalking(SessionCache.Cache.MyPlayer.Player.Handle) || Input.IsControlPressed(Control.PushToTalk); }
+		public static bool ShouldSendVoice() { return NetworkIsPlayerTalking(Cache.MyPlayer.Player.Handle) || Input.IsControlPressed(Control.PushToTalk); }
 
 		public static async Task OnTick()
 		{
@@ -116,7 +117,7 @@ namespace TheLastPlanet.Client.Core
 		public static void UpdateVocalMode(int mode)
 		{
 			int nextMode = mode;
-			if (nextMode > 2 && !SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo) nextMode = 0;
+			if (nextMode > 2 && !Cache.MyPlayer.User.StatiPlayer.InVeicolo) nextMode = 0;
 			Mode = (Mode)nextMode;
 			OnModeModified();
 		}
@@ -134,7 +135,7 @@ namespace TheLastPlanet.Client.Core
 
 		public static async Task OnTick2()
 		{
-			Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
+			Ped playerPed = Cache.MyPlayer.Ped;
 
 			if (Permesso)
 			{
@@ -147,7 +148,7 @@ namespace TheLastPlanet.Client.Core
 				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift)) UpdateVocalMode();
 			}
 
-			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 

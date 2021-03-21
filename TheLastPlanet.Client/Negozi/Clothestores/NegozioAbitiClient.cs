@@ -7,6 +7,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Negozi
 {
@@ -70,12 +71,12 @@ namespace TheLastPlanet.Client.Negozi
 		public static async void cam(int bone, Vector3 off, Vector3 c, bool toggle, Vector3 z)
 		{
 			if (camm.Exists() && camm.IsActive) return;
-			Vector3 xyz = SessionCache.Cache.MyPlayer.Ped.Bones[(Bone)bone].Position;
-			Vector3 offC = SessionCache.Cache.MyPlayer.Ped.GetOffsetPosition(off);
+			Vector3 xyz = Cache.MyPlayer.Ped.Bones[(Bone)bone].Position;
+			Vector3 offC = Cache.MyPlayer.Ped.GetOffsetPosition(off);
 			camm = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 			camm.Position = new Vector3(c.X + offC.X, c.Y + offC.Y, xyz.Z + c.Z);
 			if (toggle)
-				camm.PointAt(SessionCache.Cache.MyPlayer.Ped.Bones[bone], new Vector3(0));
+				camm.PointAt(Cache.MyPlayer.Ped.Bones[bone], new Vector3(0));
 			else
 				camm.PointAt(new Vector3(xyz.X - z.X, xyz.Y - z.Y, xyz.Z - z.Z));
 			camm.FieldOfView = 45.0f;
@@ -90,7 +91,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Maschio.BincoVest, "clothingshirt", "Binco");
 			else
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Femmina.BincoVest, "mp_clothing@female@shirt", "Binco");
@@ -102,7 +103,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Maschio.BincoScarpe, "clothingshoes", "Binco");
 			else
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Femmina.BincoScarpe, "mp_clothing@female@Scarpe", "Binco");
@@ -114,7 +115,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Maschio.BincoPant, "clothingtrousers", "Binco");
 			else
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Femmina.BincoPant, "mp_clothing@female@trousers", "Binco");
@@ -126,7 +127,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Binco");
 			else
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Binco");
@@ -138,7 +139,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Binco");
 			else
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Binco");
@@ -154,7 +155,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Maschio.DiscVest, "clothingshirt", "Discount");
 			else
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Femmina.DiscVest, "mp_clothing@female@shirt", "Discount");
@@ -166,7 +167,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Maschio.DiscScarpe, "clothingshoes", "Discount");
 			else
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Femmina.DiscScarpe, "mp_clothing@female@Scarpe", "Discount");
@@ -178,7 +179,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Maschio.DiscPant, "clothingtrousers", "Discount");
 			else
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Femmina.DiscPant, "mp_clothing@female@trousers", "Discount");
@@ -190,7 +191,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Discount");
 			else
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Discount");
@@ -202,7 +203,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Discount");
 			else
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Discount");
@@ -218,7 +219,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Maschio.SubVest, "clothingshirt", "Suburban");
 			else
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Femmina.SubVest, "mp_clothing@female@shirt", "Suburban");
@@ -230,7 +231,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Maschio.SubScarpe, "clothingshoes", "Suburban");
 			else
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Femmina.SubScarpe, "mp_clothing@female@Scarpe", "Suburban");
@@ -242,7 +243,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Maschio.SubPant, "clothingtrousers", "Suburban");
 			else
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Femmina.SubPant, "mp_clothing@female@trousers", "Suburban");
@@ -254,7 +255,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Suburban");
 			else
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Suburban");
@@ -266,7 +267,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Suburban");
 			else
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Suburban");
@@ -282,7 +283,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Maschio.PonsVest, "clothingshirt", "Ponsombys");
 			else
 				MenuNegoziAbiti.MenuVest(ClientSession.Impostazioni.Negozi.Abiti.Femmina.PonsVest, "mp_clothing@female@shirt", "Ponsombys");
@@ -294,7 +295,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Maschio.PonsScarpe, "clothingshoes", "Ponsombys");
 			else
 				MenuNegoziAbiti.MenuScarpe(ClientSession.Impostazioni.Negozi.Abiti.Femmina.PonsScarpe, "mp_clothing@female@Scarpe", "Ponsombys");
@@ -306,7 +307,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Maschio.PonsPant, "clothingtrousers", "Ponsombys");
 			else
 				MenuNegoziAbiti.MenuPant(ClientSession.Impostazioni.Negozi.Abiti.Femmina.PonsPant, "mp_clothing@female@trousers", "Ponsombys");
@@ -318,7 +319,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Occhiali, "clothingspecs", "Ponsombys");
 			else
 				MenuNegoziAbiti.MenuOcchiali(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Occhiali, "mp_clothing@female@glasses", "Ponsombys");
@@ -330,7 +331,7 @@ namespace TheLastPlanet.Client.Negozi
 		{
 			p.Task.AchieveHeading((float)args[0]);
 			while (p.Heading > (float)args[0] + 5f || p.Heading < (float)args[0] - 5f) await BaseScript.Delay(0);
-			if (SessionCache.Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
+			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Maschio.Accessori, "clothingshirt", "Ponsombys");
 			else
 				MenuNegoziAbiti.MenuAccessori(ClientSession.Impostazioni.Negozi.Abiti.Femmina.Accessori, "mp_clothing@female@shirt", "Ponsombys");

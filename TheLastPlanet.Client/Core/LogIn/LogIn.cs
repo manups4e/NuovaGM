@@ -286,7 +286,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
 			var Data = Cache.MyPlayer.User.CurrentChar;
-			var switchType = !Data.Posizione.position.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.position.X, Data.Posizione.position.Y, Data.Posizione.position.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			var switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
@@ -302,7 +302,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
 
-			if (Data.Posizione.position.IsZero)
+			if (Data.Posizione.IsZero)
 			{
 				Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
 				Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
@@ -310,8 +310,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			}
 			else
 			{
-				Cache.MyPlayer.Ped.Position = Data.Posizione.position;
-				Cache.MyPlayer.Ped.Heading = Data.Posizione.h;
+				Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
+				Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
 				await BaseScript.Delay(2000);
 			}
 

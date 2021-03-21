@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Lavori.Generici.Pescatore;
 using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Lavori
@@ -13,7 +14,7 @@ namespace TheLastPlanet.Client.Lavori
 
 		private static void Init() 
 		{
-
+            RegisterJob(new PescatoreJob());
 		}
 
         public static async void RegisterJob(LavoroBase job)

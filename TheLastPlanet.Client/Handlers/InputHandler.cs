@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using static Logger.Log;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -27,7 +28,7 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				Ped p = SessionCache.Cache.MyPlayer.Ped;
+				Ped p = Cache.MyPlayer.Ped;
 
 				foreach (InputController input in ListaInput)
 					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)

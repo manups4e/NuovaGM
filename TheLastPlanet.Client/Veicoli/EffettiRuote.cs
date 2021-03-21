@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Veicoli
 {
@@ -61,9 +62,9 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			try
 			{
-				Ped playerPed = SessionCache.Cache.MyPlayer.Ped;
+				Ped playerPed = Cache.MyPlayer.Ped;
 
-				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					if (playerPed.SeatIndex == VehicleSeat.Driver)
 					{

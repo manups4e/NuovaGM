@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client
 {
@@ -21,19 +22,19 @@ namespace TheLastPlanet.Client
 					{
 						if (player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 						{
-							if (player.GetPlayerData().StatiPlayer.Istanza.Stanziato && player != SessionCache.Cache.MyPlayer.Player)
+							if (player.GetPlayerData().StatiPlayer.Istanza.Stanziato && player != Cache.MyPlayer.Player)
 							{
 								if (player.GetPlayerData().StatiPlayer.Istanza.Instance != string.Empty)
 								{
-									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
+									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
 									{
-										if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != SessionCache.Cache.MyPlayer.Player.ServerId && SessionCache.Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
+										if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Cache.MyPlayer.Player.ServerId && Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
 										{
 											if (!NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, true, true);
 										}
 										else
 										{
-											if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario == SessionCache.Cache.MyPlayer.Player.ServerId || SessionCache.Cache.MyPlayer.Player.ServerId == player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario)
+											if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario == Cache.MyPlayer.Player.ServerId || Cache.MyPlayer.Player.ServerId == player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario)
 												if (NetworkIsPlayerConcealed(player.Handle))
 													NetworkConcealPlayer(player.Handle, false, false);
 										}
@@ -55,7 +56,7 @@ namespace TheLastPlanet.Client
 						}
 
 						if (!player.GetPlayerData().StatiPlayer.InPausa) continue;
-						if (player.Character.IsInRangeOf(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), 30)) HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
+						if (player.Character.IsInRangeOf(Cache.MyPlayer.User.posizione.ToVector3, 30)) HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 					}
 		}
 	}

@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -64,13 +65,13 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloSpazzatura()
 		{
-			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < TrashRange);
+			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.posizione.Distance(o.Position) < TrashRange);
 			await BaseScript.Delay(500);
 		}
 
 		public static async Task CestiSpazzatura()
 		{
-			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			Ped p = Cache.MyPlayer.Ped;
 
 			if (BinClosest != null && !HUD.MenuPool.IsAnyMenuOpen)
 			{
@@ -78,7 +79,7 @@ namespace TheLastPlanet.Client.Interactions
 
 				if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					List<Inventory> inv = SessionCache.Cache.MyPlayer.User.Inventory;
+					List<Inventory> inv = Cache.MyPlayer.User.Inventory;
 
 					if (inv.Count > 0)
 					{

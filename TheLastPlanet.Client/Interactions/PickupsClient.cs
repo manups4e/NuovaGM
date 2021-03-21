@@ -10,6 +10,7 @@ using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -37,7 +38,7 @@ namespace TheLastPlanet.Client.Interactions
 
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), pick.Position);
+						float dist = Cache.MyPlayer.User.posizione.Distance(pick.Position);
 
 						if (dist < 5)
 						{
@@ -45,7 +46,7 @@ namespace TheLastPlanet.Client.Interactions
 							letSleep = false;
 
 							if (dist < 1.5)
-								if (SessionCache.Cache.MyPlayer.Ped.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
+								if (Cache.MyPlayer.Ped.IsOnFoot && !HUD.MenuPool.IsAnyMenuOpen)
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per raccogliere");
 
@@ -60,7 +61,7 @@ namespace TheLastPlanet.Client.Interactions
 											if (!pickup.inRange)
 											{
 												pickup.inRange = true;
-												SessionCache.Cache.MyPlayer.Ped.Task.PlayAnimation("pickup_object", "pickup_low");
+												Cache.MyPlayer.Ped.Task.PlayAnimation("pickup_object", "pickup_low");
 												await BaseScript.Delay(1000);
 												BaseScript.TriggerServerEvent("lprp:onPickup", pickup.id);
 												Game.PlaySound("PICK_UP", "HUD_FRONTEND_DEFAULT_SOUNDSET");

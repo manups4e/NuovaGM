@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Interactions
 {
@@ -34,18 +35,18 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloMachines()
 		{
-			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Vector3.Distance(SessionCache.Cache.MyPlayer.User.posizione.ToVector3(), o.Position) < MachineRange);
+			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.posizione.Distance(o.Position) < MachineRange);
 			await BaseScript.Delay(200);
 		}
 
 		public static async Task VendingMachines()
 		{
-			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			Ped p = Cache.MyPlayer.Ped;
 
 			if (VendingMachineClosest != null)
 				if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
 				{
-					if (SessionCache.Cache.MyPlayer.User.Money > 5)
+					if (Cache.MyPlayer.User.Money > 5)
 					{
 						if (VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_01 || VendingMachineClosest.Model.Hash == (int)ObjectHash.prop_vend_soda_02)
 						{

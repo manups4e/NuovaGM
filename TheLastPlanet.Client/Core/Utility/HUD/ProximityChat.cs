@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -60,7 +61,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		private static bool ProximityVehCheck(Ped io, Ped lui)
 		{
-			bool ioInVeh = SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo;
+			bool ioInVeh = Cache.MyPlayer.User.StatiPlayer.InVeicolo;
 			bool luiInVeh = lui.IsInVehicle();
 
 			switch (ioInVeh)

@@ -9,6 +9,7 @@ using CitizenFX.Core.UI;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Client.Telefono.Apps;
 using TheLastPlanet.Client.Telefono.Models;
 using TheLastPlanet.Shared;
@@ -59,9 +60,9 @@ namespace TheLastPlanet.Client.Telefono
 			Game.PlaySound("Pull_Out", "Phone_SoundSet_Default");
 			CreateMobilePhone((int)ModelPhone.Micheal);
 			PhoneMainClient.StartApp("Main");
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(242, false);
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(243, false);
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(244, true);
+			Cache.MyPlayer.Ped.SetConfigFlag(242, false);
+			Cache.MyPlayer.Ped.SetConfigFlag(243, false);
+			Cache.MyPlayer.Ped.SetConfigFlag(244, true);
 			VisibleAnimProgress = 21;
 			N_0x83a169eabcdb10a2(PlayerPedId(), getCurrentCharPhone().Theme);
 			if (GetFollowPedCamViewMode() == 4)
@@ -78,9 +79,9 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SHUTDOWN_MOVIE");
 			DestroyMobilePhone();
 			Visible = false;
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(242, true);
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(243, true);
-			SessionCache.Cache.MyPlayer.Ped.SetConfigFlag(244, false);
+			Cache.MyPlayer.Ped.SetConfigFlag(242, true);
+			Cache.MyPlayer.Ped.SetConfigFlag(243, true);
+			Cache.MyPlayer.Ped.SetConfigFlag(244, false);
 			Scaleform.Dispose();
 		}
 
@@ -89,7 +90,7 @@ namespace TheLastPlanet.Client.Telefono
 			/*
 			for (int i = 0; i < phone_data.Count; i++)
 			{
-				if (SessionCache.Cache.MyPlayer.User.char_current - 1 == phone_data[i].id - 1)
+				if (Cache.MyPlayer.User.char_current - 1 == phone_data[i].id - 1)
 					return phone_data[i];
 			}
 			*/
@@ -114,7 +115,7 @@ namespace TheLastPlanet.Client.Telefono
 			Scaleform.CallFunction("SET_THEME", getCurrentCharPhone().Theme);
 			Scaleform.CallFunction("SET_BACKGROUND_IMAGE", getCurrentCharPhone().Wallpaper);
 			SetSoftKeys(2, 19);
-			Vector3 playerPos = SessionCache.Cache.MyPlayer.User.posizione.ToVector3();
+			Vector3 playerPos = Cache.MyPlayer.User.posizione.ToVector3;
 			Scaleform.CallFunction("SET_SIGNAL_STRENGTH", GetZoneScumminess(GetZoneAtCoords(playerPos.X, playerPos.Y, playerPos.Z)));
 
 			if (GetFollowPedCamViewMode() == 4)

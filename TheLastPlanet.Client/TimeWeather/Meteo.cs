@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
@@ -84,7 +85,7 @@ namespace TheLastPlanet.Client.TimeWeather
 			await BaseScript.Delay(30000);
 			if (!Transitioning)
 				if (CurrentWeather == 7 || CurrentWeather == 8)
-					SessionCache.Cache.MyPlayer.Ped.CurrentVehicle.DirtLevel -= 0.1f;
+					Cache.MyPlayer.Ped.CurrentVehicle.DirtLevel -= 0.1f;
 		}
 	}
 }

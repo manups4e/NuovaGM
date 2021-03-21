@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Manager
 {
@@ -94,27 +95,27 @@ namespace TheLastPlanet.Client.Manager
 
 		private static void AdminMenu(Ped p, object[] args)
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(SessionCache.Cache.MyPlayer.User.group_level);
+			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.MyPlayer.User.group_level);
 		}
 
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (SessionCache.Cache.MyPlayer.User != null && (int)SessionCache.Cache.MyPlayer.User.group_level > 1) TeleportToMarker();
+			if (Cache.MyPlayer.User != null && (int)Cache.MyPlayer.User.group_level > 1) TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (SessionCache.Cache.MyPlayer.User == null || (int)SessionCache.Cache.MyPlayer.User.group_level < 4) return;
+			if (Cache.MyPlayer.User == null || (int)Cache.MyPlayer.User.group_level < 4) return;
 
 			if (!NoClip)
 			{
-				if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = SessionCache.Cache.MyPlayer.User.posizione.ToVector3();
+					curLocation = Cache.MyPlayer.User.posizione.ToVector3;
 					curRotation = p.Rotation;
-					curHeading = SessionCache.Cache.MyPlayer.User.posizione.W;
+					curHeading = Cache.MyPlayer.User.posizione.Heading;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -140,7 +141,7 @@ namespace TheLastPlanet.Client.Manager
 					await BaseScript.Delay(0);
 				}
 
-				if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					ClearPedTasksImmediately(PlayerPedId());
 					SetUserRadioControlEnabled(true);
@@ -177,7 +178,7 @@ namespace TheLastPlanet.Client.Manager
 			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 		}
 
-		private static void TippaDaMe(Vector3 coords) { SessionCache.Cache.MyPlayer.Ped.Position = coords; }
+		private static void TippaDaMe(Vector3 coords) { Cache.MyPlayer.Ped.Position = coords; }
 
 		public static void UpdateText(string txt, string txt2)
 		{
@@ -283,7 +284,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async Task noClip()
 		{
-			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			Ped p = Cache.MyPlayer.Ped;
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -345,10 +346,10 @@ namespace TheLastPlanet.Client.Manager
 
 			Vector2 vect = new Vector2(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
 			Entity target = p;
-			if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
 			p.Velocity = new Vector3(0);
 
-			if (!SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				SetUserRadioControlEnabled(false);
 				p.IsInvincible = true;
@@ -379,7 +380,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async void TeleportToMarker()
 		{
-			Vector3 coords = SessionCache.Cache.MyPlayer.Ped.Position;
+			Vector3 coords = Cache.MyPlayer.Ped.Position;
 			bool success = false;
 			bool blipFound = false;
 			// search for marker blip
@@ -397,8 +398,8 @@ namespace TheLastPlanet.Client.Manager
 			if (blipFound)
 			{
 				// get entity to teleport
-				Entity ent = SessionCache.Cache.MyPlayer.Ped;
-				if (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo) ent = SessionCache.Cache.MyPlayer.Ped.CurrentVehicle;
+				Entity ent = Cache.MyPlayer.Ped;
+				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) ent = Cache.MyPlayer.Ped.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;

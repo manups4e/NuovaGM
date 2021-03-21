@@ -8,6 +8,7 @@ using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Personale;
 using CitizenFX.Core.UI;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -18,7 +19,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task MinimapDrawing()
 		{
-			Ped p = SessionCache.Cache.MyPlayer.Ped;
+			Ped p = Cache.MyPlayer.Ped;
 
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
@@ -47,7 +48,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						}
 					}
 
-					switch (SessionCache.Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					switch (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 					{
 						//se non sono su un veicolo e non ho il menu di pausa attivo.
 						case false when !IsPauseMenuActive():
