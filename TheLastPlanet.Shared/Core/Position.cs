@@ -95,7 +95,7 @@ namespace TheLastPlanet.Shared
             return new float[] { X, Y, Z };
         }
 
-        public Vector3 ToVector3 { get => new Vector3(X, Y, Z); }
+        public Vector3 ToVector3 { get => new(X, Y, Z); }
 
 
         public float Distance(Vector3 value)
