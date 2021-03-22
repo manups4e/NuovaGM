@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 				if (!Cache.MyPlayer.User.StatiPlayer.InServizio)
 				{
-					foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.grade))
+					foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
 						switch (Cache.MyPlayer.User.CurrentChar.Skin.sex)
 						{
 							case "Maschio":
@@ -148,8 +148,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Cache.MyPlayer.Ped.Heading = 85.162f;
 			InGarage = true;
 
-			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.grade)) <= 10)
-				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.grade)); i++)
+			if (Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.Grade)) <= 10)
+				for (int i = 0; i < Stazione.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.Grade)); i++)
 				{
 					veicoliParcheggio.Add(await Funzioni.SpawnLocalVehicle(Stazione.VeicoliAutorizzati[i].Model, new Vector3(parcheggi[i].X, parcheggi[i].Y, parcheggi[i].Z), parcheggi[i].W));
 					veicoliParcheggio[i].PlaceOnGround();
@@ -175,7 +175,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			foreach (Vehicle veh in veicoliParcheggio) veh.Delete();
 			veicoliParcheggio.Clear();
-			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.grade));
+			int totale = autorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.Grade));
 			int LivelloGarageAttuali = totale - livelloGarage * 10 > livelloGarage * 10 ? 10 : totale - livelloGarage * 10;
 
 			for (int i = 0; i < LivelloGarageAttuali; i++)
@@ -264,7 +264,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new("Esci dal Garage");
 			Ascensore.AddItem(esci);
-			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.grade));
+			int conto = StazioneAttuale.VeicoliAutorizzati.Count(o => o.GradiAutorizzati[0] == -1 || o.GradiAutorizzati.Contains(Cache.MyPlayer.User.CurrentChar.Job.Grade));
 			int piani = 1;
 			for (int i = 1; i < conto + 1; i++)
 				if (i % 10 == 0)

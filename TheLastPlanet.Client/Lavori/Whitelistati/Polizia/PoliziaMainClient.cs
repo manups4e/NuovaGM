@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			Ped p = Cache.MyPlayer.Ped;
 
-			if (Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "polizia")
+			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
 				foreach (StazioniDiPolizia t2 in ClientSession.Impostazioni.Lavori.Polizia.Config.Stazioni)
 				{
 					foreach (Vector3 t in t2.Spogliatoio)
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					if (Cache.MyPlayer.User.CurrentChar.Job.grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
+					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
 					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
@@ -230,7 +230,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-					if (p.Value.CurrentChar.Job.name == "Polizia")
+					if (p.Value.CurrentChar.Job.Name == "Polizia")
 					{
 						int id = GetPlayerFromServerId(p.Value.source);
 						Ped playerPed = new(GetPlayerPed(id));
@@ -308,7 +308,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static async Task MainTickPolizia()
 		{
-			if (Cache.MyPlayer.User.CurrentChar.Job.name == "Polizia")
+			if (Cache.MyPlayer.User.CurrentChar.Job.Name == "Polizia")
 				if (Input.IsControlJustPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && !HUD.MenuPool.IsAnyMenuOpen)
 					MenuPolizia.MainMenu();
 			await Task.FromResult(0);

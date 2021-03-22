@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 		{
 			Ped p = Cache.MyPlayer.Ped;
 
-			if (Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "cardealer")
+			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "cardealer")
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
 				if (p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
 				{
@@ -53,7 +53,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditore();
 				}
 
-			if (Cache.MyPlayer.User.CurrentChar.Job.grade > 1)
+			if (Cache.MyPlayer.User.CurrentChar.Job.Grade > 1)
 				// verrà sostiuito con il sedersi alla scrivania 
 				if (p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
 				{
@@ -131,7 +131,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 			};
 			UIMenu riacquista = menuVenditore.AddSubMenu("Acquista veicolo usato");
 
-			if (Cache.MyPlayer.User.CurrentChar.Job.grade < 2)
+			if (Cache.MyPlayer.User.CurrentChar.Job.Grade < 2)
 			{
 				riacquista.ParentItem.Enabled = false;
 				riacquista.ParentItem.Description = "Solo i capi possono acquistare i veicoli usati!";

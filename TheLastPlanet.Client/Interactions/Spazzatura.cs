@@ -87,12 +87,12 @@ namespace TheLastPlanet.Client.Interactions
 						HUD.MenuPool.Add(GettaMenu);
 
 						foreach (Inventory it in inv)
-							if (it.amount > 0)
-								if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.drop)
+							if (it.Amount > 0)
+								if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.drop)
 								{
 									List<dynamic> list = new List<dynamic>();
-									for (int obj = 1; obj < it.amount + 1; obj++) list.Add(obj);
-									UIMenuListItem buttavia = new UIMenuListItem(it.item, list, 0);
+									for (int obj = 1; obj < it.Amount + 1; obj++) list.Add(obj);
+									UIMenuListItem buttavia = new UIMenuListItem(it.Item, list, 0);
 									GettaMenu.AddItem(buttavia);
 								}
 

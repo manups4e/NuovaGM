@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
 		{
 			foreach (Inventory t in CurrentChar.Inventory)
-				if (t.item == item)
+				if (t.Item == item)
 					return new Tuple<bool, Inventory, Item>(true, t, ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
 
 			return new Tuple<bool, Inventory, Item>(false, null, null);

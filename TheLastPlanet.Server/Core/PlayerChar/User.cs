@@ -123,20 +123,20 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public void SetJob(string job, int grade)
 		{
-			CurrentChar.Job.name = job;
-			CurrentChar.Job.grade = grade;
+			CurrentChar.Job.Name = job;
+			CurrentChar.Job.Grade = grade;
 		}
 
 		public void SetGang(string job, int grade)
 		{
-			CurrentChar.Gang.name = job;
-			CurrentChar.Gang.grade = grade;
+			CurrentChar.Gang.Name = job;
+			CurrentChar.Gang.Grade = grade;
 		}
 
 		public Tuple<bool, Inventory> getInventoryItem(string item)
 		{
 			for (int i = 0; i < CurrentChar.Inventory.Count; i++)
-				if (CurrentChar.Inventory[i].item == item)
+				if (CurrentChar.Inventory[i].Item == item)
 					return new Tuple<bool, Inventory>(true, CurrentChar.Inventory[i]);
 
 			return new Tuple<bool, Inventory>(false, null);
@@ -158,11 +158,11 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 			if (vero)
 			{
-				checkedItem.amount += amount;
+				checkedItem.Amount += amount;
 
-				if (checkedItem.amount == ConfigShared.SharedConfig.Main.Generici.ItemList[item].max)
+				if (checkedItem.Amount == ConfigShared.SharedConfig.Main.Generici.ItemList[item].max)
 				{
-					checkedItem.amount = ConfigShared.SharedConfig.Main.Generici.ItemList[item].max;
+					checkedItem.Amount = ConfigShared.SharedConfig.Main.Generici.ItemList[item].max;
 					Player.TriggerEvent("lprp:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "~w~!");
 				}
 			}
@@ -181,8 +181,8 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 			if (vero)
 			{
-				checkedItem.amount -= amount;
-				if (checkedItem.amount <= 0) CurrentChar.Inventory.Remove(checkedItem);
+				checkedItem.Amount -= amount;
+				if (checkedItem.Amount <= 0) CurrentChar.Inventory.Remove(checkedItem);
 			}
 			else
 			{
@@ -350,10 +350,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					weap = CurrentChar.Weapons.ToJson(),
 					invent = CurrentChar.Inventory.ToJson(),
 					location = CurrentChar.Posizione.ToJson(),
-					job = CurrentChar.Job.name,
-					jgrade = CurrentChar.Job.grade,
-					gang = CurrentChar.Gang.name,
-					ggrade = CurrentChar.Gang.grade,
+					job = CurrentChar.Job.Name,
+					jgrade = CurrentChar.Job.Grade,
+					gang = CurrentChar.Gang.Name,
+					ggrade = CurrentChar.Gang.Grade,
 					skin = CurrentChar.Skin.ToJson(),
 					dress = CurrentChar.Dressing.ToJson(),
 					needs = CurrentChar.Needs.ToJson(),

@@ -23,7 +23,7 @@ namespace TheLastPlanet.Server.Interactions
 
 		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
 		{
-			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.item].prop, 0, label, user.getCoords);
+			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.getCoords);
 			Pickups.Add(pickup);
 			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.ToJson(), user.Player.Handle);
 		}
@@ -75,10 +75,10 @@ namespace TheLastPlanet.Server.Interactions
 
 			if (oggetto.Item1)
 			{
-				if (oggetto.Item2.amount > 0)
+				if (oggetto.Item2.Amount > 0)
 				{
 					user.removeInventoryItem(item, count);
-					string label = $"{oggetto.Item2.item} [{count}]";
+					string label = $"{oggetto.Item2.Item} [{count}]";
 					CreatePickup(oggetto.Item2, count, label, user);
 				}
 				else

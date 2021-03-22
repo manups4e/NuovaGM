@@ -214,7 +214,7 @@ namespace TheLastPlanet.Server.Core
 			User player = Funzioni.GetUserFromPlayerId(source.Handle);
 			int money = player.Money;
 			int dirty = player.DirtCash;
-			foreach (Inventory inv in player.CurrentChar.Inventory.ToList()) player.removeInventoryItem(inv.item, inv.amount);
+			foreach (Inventory inv in player.CurrentChar.Inventory.ToList()) player.removeInventoryItem(inv.Item, inv.Amount);
 			foreach (Weapons inv in player.CurrentChar.Weapons.ToList()) player.removeWeapon(inv.name);
 			player.Money -= money;
 			player.DirtCash -= dirty;

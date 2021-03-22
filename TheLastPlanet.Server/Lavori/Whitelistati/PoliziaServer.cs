@@ -120,7 +120,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		public static void AmmanettaSmanetta([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
-			if (p.GetCurrentChar().CurrentChar.Job.name.ToLower() == "polizia")
+			if (p.GetCurrentChar().CurrentChar.Job.Name.ToLower() == "polizia")
 				targ.TriggerEvent("lprp:polizia:ammanetta_smanetta");
 			else
 				p.Drop("Hai tentato di ammanettare un Player senza permesso!");
@@ -129,7 +129,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		public static void Accompagna([FromSource] Player p, int target, int ped)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
-			if (p.GetCurrentChar().CurrentChar.Job.name.ToLower() == "polizia")
+			if (p.GetCurrentChar().CurrentChar.Job.Name.ToLower() == "polizia")
 				targ.TriggerEvent("lprp:polizia:accompagna", ped);
 			else
 				p.Drop("Hai tentato di trasportare un Player senza permesso!");
@@ -138,7 +138,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		public static void MettiVeh([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
-			if (p.GetCurrentChar().CurrentChar.Job.name.ToLower() == "polizia")
+			if (p.GetCurrentChar().CurrentChar.Job.Name.ToLower() == "polizia")
 				targ.TriggerEvent("lprp:polizia:mettiveh");
 			else
 				p.Drop("Hai tentato di mettere un Player in un veicolo senza permesso!");
@@ -146,7 +146,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		public static void TogliVeh([FromSource] Player p, int target)
 		{
 			Player targ = Funzioni.GetPlayerFromId(target);
-			if (p.GetCurrentChar().CurrentChar.Job.name.ToLower() == "polizia")
+			if (p.GetCurrentChar().CurrentChar.Job.Name.ToLower() == "polizia")
 				targ.TriggerEvent("lprp:polizia:togliveh");
 			else
 				p.Drop("Hai tentato di togliere un Player da un veicolo senza permesso!");

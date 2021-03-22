@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.Handlers
 				}
 			}
 
-			if (Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "polizia")
+			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
 			{
 				if (_medici)
 				{
@@ -201,7 +201,7 @@ namespace TheLastPlanet.Client.Handlers
 					_polizia = true;
 				}
 			}
-			else if (Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() == "medico")
+			else if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
 			{
 				if (_polizia)
 				{
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.Handlers
 					_medici = true;
 				}
 			}
-			else if (Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() != "medico" && Cache.MyPlayer.User.CurrentChar.Job.name.ToLower() != "polizia")
+			else if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medico" && Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "polizia")
 			{
 				if (_polizia)
 				{

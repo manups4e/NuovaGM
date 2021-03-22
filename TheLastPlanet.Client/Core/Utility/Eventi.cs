@@ -141,8 +141,8 @@ namespace TheLastPlanet.Client.Core.Utility
 			StatsNeeds.Needs["Fame"].Val = 0.0f;
 			StatsNeeds.Needs["Sete"].Val = 0.0f;
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
-			Cache.MyPlayer.User.CurrentChar.Needs.malattia = false;
-			Needs nee = new() { fame = StatsNeeds.Needs["Fame"].Val, sete = StatsNeeds.Needs["Sete"].Val, stanchezza = StatsNeeds.Needs["Stanchezza"].Val, malattia = Cache.MyPlayer.User.CurrentChar.Needs.malattia };
+			Cache.MyPlayer.User.CurrentChar.Needs.Malattia = false;
+			Needs nee = new() { Fame = StatsNeeds.Needs["Fame"].Val, Sete = StatsNeeds.Needs["Sete"].Val, Stanchezza = StatsNeeds.Needs["Stanchezza"].Val, Malattia = Cache.MyPlayer.User.CurrentChar.Needs.Malattia };
 
 			Cache.MyPlayer.User.CurrentChar.Needs = nee;
 			Cache.MyPlayer.User.CurrentChar.is_dead = false;

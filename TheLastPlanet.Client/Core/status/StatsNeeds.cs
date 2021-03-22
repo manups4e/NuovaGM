@@ -70,9 +70,9 @@ namespace TheLastPlanet.Client.Core.Status
 		public static void Eccolo()
 		{
 			User me = Cache.MyPlayer.User;
-			Needs["Fame"].Val = me.CurrentChar.Needs.fame;
-			Needs["Sete"].Val = me.CurrentChar.Needs.sete;
-			Needs["Stanchezza"].Val = me.CurrentChar.Needs.stanchezza;
+			Needs["Fame"].Val = me.CurrentChar.Needs.Fame;
+			Needs["Sete"].Val = me.CurrentChar.Needs.Sete;
+			Needs["Stanchezza"].Val = me.CurrentChar.Needs.Stanchezza;
 			//nee.malattia = m.CurrentChar.needs.malattia;
 			Statistics["STAMINA"].Val = me.CurrentChar.Statistiche.STAMINA;
 			Statistics["STRENGTH"].Val = me.CurrentChar.Statistiche.STRENGTH;
@@ -139,7 +139,7 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static async Task Agg()
 		{
-			Needs nee = new Needs() { fame = Needs["Fame"].Val, sete = Needs["Sete"].Val, stanchezza = Needs["Stanchezza"].Val, malattia = Cache.MyPlayer.User.CurrentChar.Needs.malattia };
+			Needs nee = new Needs() { Fame = Needs["Fame"].Val, Sete = Needs["Sete"].Val, Stanchezza = Needs["Stanchezza"].Val, Malattia = Cache.MyPlayer.User.CurrentChar.Needs.Malattia };
 			Statistiche skill = new Statistiche()
 			{
 				STAMINA = Statistics["STAMINA"].Val,

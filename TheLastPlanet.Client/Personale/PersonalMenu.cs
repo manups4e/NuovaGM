@@ -295,8 +295,8 @@ namespace TheLastPlanet.Client.Personale
 				//job.Label = SharedScript.Jobs[me.GetPlayerData().CurrentChar.job.name].label;
 				//gang.Label = SharedScript.Gangs[me.GetPlayerData().CurrentChar.job.name].label;
 				//
-				job.SetRightLabel(me.GetPlayerData().CurrentChar.Job.name);
-				gang.SetRightLabel(me.GetPlayerData().CurrentChar.Gang.name);
+				job.SetRightLabel(me.GetPlayerData().CurrentChar.Job.Name);
+				gang.SetRightLabel(me.GetPlayerData().CurrentChar.Gang.Name);
 				bank.SetRightLabel("~g~$" + me.GetPlayerData().Bank);
 				datiPers.AddItem(name);
 				datiPers.AddItem(dob);
@@ -372,7 +372,7 @@ namespace TheLastPlanet.Client.Personale
 			fa.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 			se.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 			st.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
-			ma.SetRightLabel(me.GetPlayerData().CurrentChar.Needs.malattia ? "Malato" : "In Salute");
+			ma.SetRightLabel(me.GetPlayerData().CurrentChar.Needs.Malattia ? "Malato" : "In Salute");
 			salute.AddItem(fa);
 			salute.AddItem(se);
 			salute.AddItem(st);
@@ -401,28 +401,28 @@ namespace TheLastPlanet.Client.Personale
 				if (inv.Count > 0)
 				{
 					foreach (Inventory it in inv)
-						if (it.amount > 0)
+						if (it.Amount > 0)
 						{
-							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].label, "[Quantità: " + it.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].description);
+							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].label, "[Quantità: " + it.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].description);
 
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.use)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.use)
 							{
-								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].use.description, Colors.GreenLight, Colors.Green);
+								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.description, Colors.GreenLight, Colors.Green);
 								newItemMenu.AddItem(useButton);
 								newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 								{
 									/*
 									 * BaseScript.TriggerServerEvent("lprp:useItem", ConfigShared.SharedConfig.Main.Generici.ItemList[it.item]);
 									 */ //DA GESTIRE 
-									if (_item == useButton) ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].UsaOggettoEvent(1);
+									if (_item == useButton) ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].UsaOggettoEvent(1);
 								};
 							}
 
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.give)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.give)
 							{
 								List<dynamic> amountino = new List<dynamic>();
-								for (int j = 0; j < it.amount; j++) amountino.Add((j + 1).ToString());
-								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].give.description);
+								for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
+								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.description);
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();
@@ -440,7 +440,7 @@ namespace TheLastPlanet.Client.Personale
 
 									giveButton.OnListSelect += async (_menu, _listItem, _index) =>
 									{
-										BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], it.item, int.Parse(amountino[_listItem.Index]));
+										BaseScript.TriggerServerEvent("lprp:giveInventoryItemToPlayer", playerId[_index], it.Item, int.Parse(amountino[_listItem.Index]));
 									};
 								}
 								else
@@ -449,18 +449,18 @@ namespace TheLastPlanet.Client.Personale
 								}
 							}
 
-							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.drop)
+							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.drop)
 							{
 								List<dynamic> amountino = new List<dynamic>();
-								for (int j = 0; j < it.amount; j++) amountino.Add((j + 1).ToString());
-								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.item].drop.description, Colors.RedLight, Colors.Red);
+								for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
+								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.description, Colors.RedLight, Colors.Red);
 								newItemMenu.AddItem(dropButton);
 								newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
 								{
 									if (_listItem == dropButton)
 									{
 										playerPed.Task.PlayAnimation("weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor");
-										BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", it.item, int.Parse(amountino[_listItem.Index]));
+										BaseScript.TriggerServerEvent("lprp:removeInventoryItemWithPickup", it.Item, int.Parse(amountino[_listItem.Index]));
 										await BaseScript.Delay(1000);
 										//										Inventory.RemoveItemAt(Inventory.MenuItems.IndexOf(newItemMenu.ParentItem));
 										_menu.GoBack();
@@ -1171,7 +1171,7 @@ namespace TheLastPlanet.Client.Personale
 
 			UIMenu bandeCriminali = pool.AddSubMenu(PersonalMenu, "Bande criminali", "Fonda e gestisti la tua banda criminale!");
 
-			if (me.GetPlayerData().CurrentChar.Gang.name == "Incensurato")
+			if (me.GetPlayerData().CurrentChar.Gang.Name == "Incensurato")
 			{
 				UIMenuItem diventaBoss = new UIMenuItem("Diventa Boss di una Banda!", "Baciamo le mani.");
 				List<dynamic> lavoro = new List<dynamic>() { "No", "Si" };
@@ -1206,7 +1206,7 @@ namespace TheLastPlanet.Client.Personale
 			}
 			else
 			{
-				if (me.GetPlayerData().CurrentChar.Gang.grade > 4)
+				if (me.GetPlayerData().CurrentChar.Gang.Grade > 4)
 				{
 					UIMenu assumi = pool.AddSubMenu(bandeCriminali, "Assumi membri");
 					UIMenu gestione = pool.AddSubMenu(bandeCriminali, "Gestione banda");
@@ -1217,7 +1217,7 @@ namespace TheLastPlanet.Client.Personale
 					{
 						pool.CloseAllMenus();
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
@@ -1229,7 +1229,7 @@ namespace TheLastPlanet.Client.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						pool.CloseAllMenus();
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.name}~w~.");
+						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
@@ -1319,7 +1319,7 @@ namespace TheLastPlanet.Client.Personale
 				st.SetRightLabel("~r~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
 			else
 				st.SetRightLabel("~g~" + Math.Round(StatsNeeds.Needs["Stanchezza"].Val, 2) + "%");
-			if (me.GetPlayerData().CurrentChar.Needs.malattia)
+			if (me.GetPlayerData().CurrentChar.Needs.Malattia)
 				ma.SetRightLabel("~r~In malattia");
 			else
 				ma.SetRightLabel("~g~In Salute");

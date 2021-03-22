@@ -270,7 +270,7 @@ namespace TheLastPlanet.Client.Manager
 						UIMenuItem altezza = new("Altezza");
 						altezza.SetRightLabel(chars.Info.height + "cm");
 						UIMenuItem job = new("Occupazione Attuale");
-						job.SetRightLabel(chars.Job.name);
+						job.SetRightLabel(chars.Job.Name);
 						UIMenuItem telefono = new("N° di Telefono");
 						telefono.SetRightLabel("" + chars.Info.phoneNumber);
 						UIMenuItem assicurazione = new("N° di Assicurazione");
@@ -293,8 +293,8 @@ namespace TheLastPlanet.Client.Manager
 						if (chars.Inventory.Count > 0)
 							foreach (Inventory item in chars.Inventory)
 							{
-								if (item.amount <= 0) continue;
-								UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].label, "[Quantità: " + item.amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.item].description);
+								if (item.Amount <= 0) continue;
+								UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].description);
 								UIMenuItem add = new("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
 								UIMenuItem rem = new("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
 								newItemMenu.AddItem(add);
@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.CharID, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.CharID, item1.Item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}
@@ -314,7 +314,7 @@ namespace TheLastPlanet.Client.Manager
 									{
 										int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
 										if (quantita < 99 && quantita > 0)
-											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.CharID, item1.item, quantita);
+											BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.CharID, item1.Item, quantita);
 										else
 											HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
 									}

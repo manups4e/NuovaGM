@@ -187,10 +187,10 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 
 				foreach (Inventory inv in inventario)
 				{
-					foreach (List<dynamic> amountino in from s in PerVendereIlPesce where inv.item == s select new List<dynamic>())
+					foreach (List<dynamic> amountino in from s in PerVendereIlPesce where inv.Item == s select new List<dynamic>())
 					{
-						for (int j = 0; j < inv.amount; j++) amountino.Add((j + 1).ToString());
-						UIMenuListItem pesce = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].description);
+						for (int j = 0; j < inv.Amount; j++) amountino.Add((j + 1).ToString());
+						UIMenuListItem pesce = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].description);
 						venditaPesce.AddItem(pesce);
 						pesce.OnListSelected += async (item, index) =>
 						{
@@ -215,8 +215,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 							else if (Convert.ToInt32(quantita) > 89 && Convert.ToInt32(quantita) < 100)
 								perc = 18;
 							else if (Convert.ToInt32(quantita) > 99) perc = 20;
-							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.item].sellPrice * (perc + (int)Math.Round(Cache.MyPlayer.User.CurrentChar.Statistiche.FISHING / 10)) / 100;
-							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.item, Convert.ToInt32(quantita));
+							int valoreAggiunto = ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].sellPrice + ConfigShared.SharedConfig.Main.Generici.ItemList[inv.Item].sellPrice * (perc + (int)Math.Round(Cache.MyPlayer.User.CurrentChar.Statistiche.FISHING / 10)) / 100;
+							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", inv.Item, Convert.ToInt32(quantita));
 							BaseScript.TriggerServerEvent("lprp:givemoney", valoreAggiunto * Convert.ToInt32(quantita));
 						};
 					}

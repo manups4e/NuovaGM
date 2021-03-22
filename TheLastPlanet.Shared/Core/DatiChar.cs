@@ -58,13 +58,13 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private string location { set => Posizione = value.FromJson<Position>(); }
 		[JsonIgnore]
-		private string job { set => Job.name = value; }
+		private string job { set => Job.Name = value; }
 		[JsonIgnore]
-		private int job_grade { set => Job.grade = value; }
+		private int job_grade { set => Job.Grade = value; }
 		[JsonIgnore]
-		private string gang { set => Gang.name = value; }
+		private string gang { set => Gang.Name = value; }
 		[JsonIgnore]
-		private int gang_grade { set => Gang.grade = value; }
+		private int gang_grade { set => Gang.Grade = value; }
 		[JsonIgnore]
 		private string skin { set => Skin = value.FromJson<Skin>(); }
 		[JsonIgnore]
@@ -137,26 +137,33 @@ namespace TheLastPlanet.Shared
 
 	public class Job
 	{
-		public string name { get; set; } = "Disoccupato";
-		public int grade { get; set; } = 0;
+		public string Name { get; set; } = "Disoccupato";
+		public int Grade { get; set; } = 0;
 
 		public Job() { }
 		public Job(string name, int grade)
 		{
-			this.name = name;
-			this.grade = grade;
+			this.Name = name;
+			this.Grade = grade;
 		}
+		/*
+		public Job(Employment name, int grade)
+		{
+			this.Name = name;
+			this.Grade = grade;
+		}
+		*/
 
 	}
 	public class Gang
 	{
-		public string name { get; set; } = "Incensurato";
-		public int grade { get; set; } = 0;
+		public string Name { get; set; } = "Incensurato";
+		public int Grade { get; set; } = 0;
 		public Gang() { }
 		public Gang(string name, int grade)
 		{
-			this.name = name;
-			this.grade = grade;
+			this.Name = name;
+			this.Grade = grade;
 		}
 	}
 
@@ -195,15 +202,15 @@ namespace TheLastPlanet.Shared
 
 	public class Inventory
 	{
-		public string item { get; set; }
-		public int amount { get; set; }
-		public float weight { get; set; }
+		public string Item { get; set; }
+		public int Amount { get; set; }
+		public float Weight { get; set; }
 		public Inventory() { }
 		public Inventory(string _item, int _am, float _weight)
 		{
-			this.item = _item;
-			this.amount = _am;
-			weight = _weight;
+			this.Item = _item;
+			this.Amount = _am;
+			Weight = _weight;
 		}
 	}
 
@@ -321,10 +328,10 @@ namespace TheLastPlanet.Shared
 
 	public class Needs
 	{
-		public float fame { get; set; }
-		public float sete { get; set; }
-		public float stanchezza { get; set; }
-		public bool malattia { get; set; } = false;
+		public float Fame { get; set; }
+		public float Sete { get; set; }
+		public float Stanchezza { get; set; }
+		public bool Malattia { get; set; } = false;
 	}
 
 	public class Statistiche
