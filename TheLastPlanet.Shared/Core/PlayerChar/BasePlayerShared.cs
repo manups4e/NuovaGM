@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
+using Logger;
 using Newtonsoft.Json;
 
 #if CLIENT
@@ -15,15 +16,21 @@ namespace TheLastPlanet.Shared.PlayerChar
 {
 	public class BasePlayerShared
 	{
-		public int UserID;
+		public int ID;
+
+		[JsonIgnore]
+		private ulong UserID
+		{
+			set => PlayerID = Snowflake.Snowflake.Parse(value);
+		}
+
+		public Snowflake.Snowflake PlayerID;
 		public string group;
 		public UserGroup group_level;
 		public long playTime;
 		public DateTime lastConnection;
 		public Status status = new();
 		[JsonIgnore] public Player Player;
-		[JsonIgnore] private string discord;
-		[JsonIgnore] private string license;
 		public Identifiers identifiers = new();
 		[JsonIgnore]public PlayerStateBags StatiPlayer;
 
@@ -56,6 +63,8 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public string Discord;
 		public string Fivem;
 		public string Ip;
+
+		public string[] ToArray() => new string[] { Steam, Discord, License, Fivem, Ip };
 	}
 
 	public class Status

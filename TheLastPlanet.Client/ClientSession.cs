@@ -21,6 +21,7 @@ namespace TheLastPlanet.Client
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
+		
 		public ClientSession() { Inizializza(); }
 
 		private async void Inizializza()

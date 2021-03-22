@@ -43,7 +43,7 @@ namespace TheLastPlanet.Server
 
 		private async void StartServer()
 		{
-			SistemaEventi = new();
+			SistemaEventi = new EventSystem();
 			await ClassCollector.Init();
 		}
 

@@ -18,14 +18,12 @@ namespace TheLastPlanet.Client
 		public static void Init()
 		{
 			ClientSession.Instance.AddTick(test);
-			ClientSession.Instance.AddEventHandler("test", new Action<byte[]>(Prova));
 		}
 
-		private static void Prova(byte[] param)
+		private static void Prova()
 		{
 			try
 			{
-				
 			}
 			catch (Exception e)
 			{

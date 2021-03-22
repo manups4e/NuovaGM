@@ -97,7 +97,7 @@ $(function () {
 				if (t === 3) $('#new').css("display", "none");
 			}
 
-			$.each(event.data.characters.sort().reverse(), function (key, value) {
+			$.each(characters.sort().reverse(), function (key, value) {
 				var info = JSON.parse(value.info);
 				if (!info.firstname) return;
 				var div = document.createElement("div");

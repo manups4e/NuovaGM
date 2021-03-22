@@ -209,7 +209,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.Loaded();
-			List<LogInInfo> data = await ClientSession.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.UserID);
+			Log.Printa(LogType.Debug, Cache.MyPlayer.User.PlayerID.ToInt64().ToString());
+			List<LogInInfo> data = await ClientSession.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
 			ToggleMenu(true, "charloading", data);
 			ClientSession.Instance.AddTick(Main.AFK);
 		}
@@ -313,6 +314,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 				Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
 				Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
 				await BaseScript.Delay(2000);
+				Log.Printa(LogType.Debug, Data.Posizione.ToString());
+				Log.Printa(LogType.Debug, Cache.MyPlayer.Ped.Position.ToString());
 			}
 
 			Eventi.LoadModel();
@@ -335,9 +338,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
 			Cache.MyPlayer.User.CurrentChar.Veicoli = await ClientSession.Instance.SistemaEventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
+			Position pos = await Data.Posizione.FindGroundZ();
+			Cache.MyPlayer.Ped.Position = pos.ToVector3;
 			SwitchInPlayer(Cache.MyPlayer.Ped.Handle);
-			var pos = await Cache.MyPlayer.Ped.Position.GetVector3WithGroundZ();
-			Cache.MyPlayer.Ped.Position = pos;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			ClientSession.Instance.RemoveTick(Controllo);

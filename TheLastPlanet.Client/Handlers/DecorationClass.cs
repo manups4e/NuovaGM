@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client
 {
 	internal static class DecorationClass
 	{
-		public static async Task DichiaraDecor()
+		public static async void DichiaraDecor()
 		{
 			/* DECOR GENERICI */
 			EntityDecoration.RegisterProperty("NuovaGM2019fighissimo!yeah!", DecorationType.Int);
@@ -25,6 +26,8 @@ namespace TheLastPlanet.Client
 			EntityDecoration.RegisterProperty("PickupArma", DecorationType.Int);
 			/* DECOR LOCK */
 			EntityDecoration.LockProperties();
+
+			await Cache.Loaded();
 			ClientSession.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}

@@ -5,7 +5,8 @@ using System;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 
-namespace TheLastPlanet.Shared {
+namespace TheLastPlanet.Shared 
+{
     public static class TypeCache<T>
     {
         static TypeCache()

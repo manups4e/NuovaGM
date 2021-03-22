@@ -9,6 +9,7 @@ using Logger;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using System.Threading.Tasks;
+using TheLastPlanet.Shared.Snowflake;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {
@@ -26,7 +27,8 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			lastConnection = DateTime.Now;
 			source = player.Handle;
-			UserID = result.UserID;
+			ID = result.ID;
+			PlayerID = result.PlayerID;
 			group = result.group;
 			group_level = result.group_level;
 			playTime = result.playTime;
@@ -46,7 +48,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			lastConnection = DateTime.Now;
 			source = player.Handle;
-			UserID = result.UserID;
+			ID = result.UserID;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
@@ -359,7 +361,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					needs = CurrentChar.Needs.ToJson(),
 					stats = CurrentChar.Statistiche.ToJson(),
 					dead = CurrentChar.is_dead,
-					id = UserID,
+					id = ID,
 				});
 				LastSaved = DateTime.Now;
 			}

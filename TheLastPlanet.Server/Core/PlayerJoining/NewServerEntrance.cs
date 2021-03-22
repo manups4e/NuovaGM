@@ -32,6 +32,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 					await BaseScript.Delay(1);
 					ServerSession.PlayerList.TryAdd(handle, user);
 					EntratoMaProprioSulSerio(player);
+					Log.Printa(LogType.Debug, user.PlayerID.ToString());
+					Log.Printa(LogType.Debug, user.ID.ToString());
 					return user;
 				}
 				catch (Exception e)
@@ -43,8 +45,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 			ServerSession.Instance.SistemaEventi.Attach("lprp:RequestLoginInfo", new AsyncEventCallback( async a =>
 			{
-				string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-				IEnumerable<LogInInfo> info = await MySQL.QueryListAsync<LogInInfo>(query, new { id = a.Find<int>(0) });
+				var query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
+				var info = await MySQL.QueryListAsync<LogInInfo>(query, new { id = a.Find<int>(0) });
 				return info.ToList();
 			}));
 

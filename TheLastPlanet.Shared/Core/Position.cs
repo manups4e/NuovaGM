@@ -1,7 +1,9 @@
-using CitizenFX.Core;
 using System;
-using System.Globalization;
-using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using Logger;
+using Newtonsoft.Json;
 
 namespace TheLastPlanet.Shared
 {
@@ -37,7 +39,7 @@ namespace TheLastPlanet.Shared
         {
             X = value.X;
             Y = value.Y;
-            Z = value.Y;
+            Z = value.Z;
             Heading = heading;
         }
 
@@ -82,21 +84,19 @@ namespace TheLastPlanet.Shared
 
         public override string ToString()
         {
-            return $"{{ X = {X}, Y = {Y}, Z = {Z}, Heading = {Heading} }}";
+            return $"X = {X}, Y = {Y}, Z = {Z} [Heading = {Heading}]";
         }
 
-        public bool IsZero
-        {
-            get { return X == 0 && Y == 0 && Z == 0; }
-        }
+        [JsonIgnore]
+        public bool IsZero => X == 0 && Y == 0 && Z == 0;
 
         public float[] ToArray()
         {
-            return new float[] { X, Y, Z };
+            return new[] { X, Y, Z };
         }
 
-        public Vector3 ToVector3 { get => new(X, Y, Z); }
-
+        [JsonIgnore]
+        public Vector3 ToVector3 => new(X, Y, Z);
 
         public float Distance(Vector3 value)
 		{
@@ -180,7 +180,42 @@ namespace TheLastPlanet.Shared
         {
             return new Position(scalar - value.X, scalar - value.Y, scalar - value.Z);
         }
+#if CLIENT
+        public async Task<Position> FindGroundZ()
+        {
+            float z = 0;
+
+            try
+            {
+                int time = Game.GameTime;
+
+                while (z == 0)
+                {
+                    if (Game.GameTime - time > 5000)
+                    {
+                        Log.Printa(LogType.Warning, $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
+
+                        return new Position(X, Y, -199.9f, Heading);
+                    }
+
+                    await BaseScript.Delay(50);
+                    bool pippo = API.GetGroundZFor_3dCoord(X, Y, Z, ref z, false);
+                    Z += 10;
+                    Log.Printa(LogType.Debug, $"Z={Z}, foundZ = {z}");
+                }
+
+                return new Position(X, Y, z, Heading);
+            }
+            catch (Exception ex)
+            {
+                Log.Printa(LogType.Error, $"Vector3 FindGroundZ Error: {ex.Message}");
+
+                return new Position(X, Y, -199.9f, Heading);
+            }
+        }
+#endif
     }
+
 
     public class RotatablePosition
     {
