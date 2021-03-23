@@ -370,8 +370,8 @@ namespace TheLastPlanet.Client.Manager
 
 			if (Input.IsDisabledControlPressed(Control.Cover, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendLt, PadCheck.Controller)) curLocation.Z += forwardPush / 2;
 			if (Input.IsDisabledControlPressed(Control.HUDSpecial, PadCheck.Keyboard) || Input.IsDisabledControlPressed(Control.FrontendRt, PadCheck.Controller)) curLocation.Z -= forwardPush / 2;
-			if (Input.IsDisabledControlPressed(Control.MoveUpOnly)) curLocation = Vector3.Add(curLocation, new Vector3(vect, 0));
-			if (Input.IsDisabledControlPressed(Control.MoveDownOnly)) curLocation = Vector3.Subtract(curLocation, new Vector3(vect, 0));
+			if (Input.IsDisabledControlPressed(Control.MoveUpOnly)) curLocation = Vector3.Subtract(curLocation, new Vector3(vect, 0));
+			if (Input.IsDisabledControlPressed(Control.MoveDownOnly)) curLocation = Vector3.Add(curLocation, new Vector3(vect, 0));
 			if (Input.IsDisabledControlPressed(Control.MoveLeftOnly)) curHeading += rotationSpeed;
 			if (Input.IsControlPressed(Control.MoveRightOnly)) curHeading -= rotationSpeed;
 			target.Position = curLocation;
