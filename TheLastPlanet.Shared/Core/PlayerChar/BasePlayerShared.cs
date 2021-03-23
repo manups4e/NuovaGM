@@ -50,10 +50,6 @@ namespace TheLastPlanet.Shared.PlayerChar
 			get => Characters.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			set => Characters = value.FromJson<List<Char_data>>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 		}
-
-		public BasePlayerShared()
-		{
-		}
 	}
 
 	public class Identifiers

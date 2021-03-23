@@ -58,10 +58,23 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			ServerSession.Instance.SistemaEventi.Attach("lprp:Select_Char", new AsyncEventCallback(async a =>
 			{
 				string query = "SELECT * FROM personaggi WHERE CharID = @id";
-				Char_data res = await MySQL.QuerySingleAsync<Char_data>(query, new { id = a.Find<ulong>(0) });
+				Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id = a.Find<ulong>(0) });
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
-				user.CurrentChar = res;
-				return res;
+				user.CurrentChar = new Char_data()
+				{
+					Info = res.info.FromJson<Info>(),
+					Finance = new Finance(res.money, res.bank, res.dirtyCash),
+					Posizione = res.location.FromJson<Position>(),
+					Job = new Job(res.job, res.job_grade),
+					Gang = new Gang(res.gang, res.gang_grade),
+					Skin = res.skin.FromJson<Skin>(),
+					Inventory = res.inventory.FromJson<List<Inventory>>(),
+					Weapons = res.weapons.FromJson<List<Weapons>>(),
+					Dressing = res.dressing.FromJson<Dressing>(),
+					Needs = res.needs.FromJson<Needs>(),
+					Statistiche = res.statistiche.FromJson<Statistiche>(),
+				};
+				return user.CurrentChar;
 			}));
 		}
 

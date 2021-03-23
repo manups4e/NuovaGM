@@ -47,37 +47,6 @@ namespace TheLastPlanet.Shared
 
 	public class Char_data
 	{
-		[JsonIgnore]
-		private string info { set => Info = value.FromJson<Info>(); }
-		[JsonIgnore]
-		private int money { set => Finance.Money = value; }
-		[JsonIgnore]
-		private int bank { set => Finance.Bank = value; }
-		[JsonIgnore]
-		private int dirtyCash { set => Finance.DirtyCash = value; }
-		[JsonIgnore]
-		private string location { set => Posizione = value.FromJson<Position>(); }
-		[JsonIgnore]
-		private string job { set => Job.Name = value; }
-		[JsonIgnore]
-		private int job_grade { set => Job.Grade = value; }
-		[JsonIgnore]
-		private string gang { set => Gang.Name = value; }
-		[JsonIgnore]
-		private int gang_grade { set => Gang.Grade = value; }
-		[JsonIgnore]
-		private string skin { set => Skin = value.FromJson<Skin>(); }
-		[JsonIgnore]
-		private string inventory { set => Inventory = value.FromJson<List<Inventory>>(); }
-		[JsonIgnore]
-		private string weapons { set => Weapons = value.FromJson<List<Weapons>>(); }
-		[JsonIgnore]
-		private string dressing { set => Dressing = value.FromJson<Dressing>(); }
-		[JsonIgnore]
-		private string needs { set => Needs = value.FromJson<Needs>(); }
-		[JsonIgnore]
-		private string statistiche { set => Statistiche = value.FromJson<Statistiche>(); }
-
 		public ulong CharID;
 		public bool is_dead;
 		public Info Info = new();
@@ -95,7 +64,7 @@ namespace TheLastPlanet.Shared
 		public Needs Needs = new();
 		public Statistiche Statistiche = new();
 		public Char_data() { }
-		
+
 		public Char_data(ulong id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
 		{
 			this.CharID = id;
@@ -111,6 +80,25 @@ namespace TheLastPlanet.Shared
 			this.Statistiche = statistiche;
 			this.is_dead = is_dead;
 		}
+	}
+
+	public class Char_Metadata
+	{
+		public string info;/*{ set => Info = value.FromJson<Info>(); }*/
+		public int money;/*{ set => Finance.Money = value; }*/
+		public int bank;/*{ set => Finance.Bank = value; }*/
+		public int dirtyCash;/*{ set => Finance.DirtyCash = value; }*/
+		public string location;/*{ set => Posizione = value.FromJson<Position>(); }*/
+		public string job;/*{ set => Job.Name = value; }*/
+		public int job_grade;/*{ set => Job.Grade = value; }*/
+		public string gang;/*{ set => Gang.Name = value; }*/
+		public int gang_grade;/*{ set => Gang.Grade = value; }*/
+		public string skin;/*{ set => Skin = value.FromJson<Skin>(); }*/
+		public string inventory;/*{ set => Inventory = value.FromJson<List<Inventory>>(); }*/
+		public string weapons;/*{ set => Weapons = value.FromJson<List<Weapons>>(); }*/
+		public string dressing;/*{ set => Dressing = value.FromJson<Dressing>(); }*/
+		public string needs;/*{ set => Needs = value.FromJson<Needs>(); }*/
+		public string statistiche;/*{ set => Statistiche = value.FromJson<Statistiche>(); }*/
 	}
 
 	public class Info
