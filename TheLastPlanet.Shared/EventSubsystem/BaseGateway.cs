@@ -62,25 +62,23 @@ namespace TheLastPlanet.Shared.Internal.Events
                 {
                     var task = (Task)result;
 
-                    using (var token = new CancellationTokenSource())
-                    {
-                        var completed = await Task.WhenAny(task, Task.Delay(30000, token.Token));
+					using var token = new CancellationTokenSource();
+					var completed = await Task.WhenAny(task, Task.Delay(30000, token.Token));
 
-                        if (completed == task)
-                        {
-                            token.Cancel();
+					if (completed == task)
+					{
+						token.Cancel();
 
-                            await task.ConfigureAwait(false);
+						await task.ConfigureAwait(false);
 
-                            result = (object)((dynamic)task).Result;
-                        }
-                        else
-                        {
-                            throw new TimeoutException(
-                                $"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) The operation has timed out.");
-                        }
-                    }
-                }
+						result = (object)((dynamic)task).Result;
+					}
+					else
+					{
+						throw new TimeoutException(
+							$"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) The operation has timed out.");
+					}
+				}
 
                 var response = new EventResponseMessage(message.Id, null, result.ToJson());
 

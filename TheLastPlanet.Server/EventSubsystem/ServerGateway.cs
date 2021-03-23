@@ -32,9 +32,9 @@ namespace TheLastPlanet.Server.Internal.Events
 
         public ServerGateway()
         {
-			TheLastPlanet.Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<Player>(GetSignature));
-			TheLastPlanet.Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<Player, string>(Inbound));
-			TheLastPlanet.Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<Player, string>(Outbound));
+			Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<Player>(GetSignature));
+			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<Player, string>(Inbound));
+			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<Player, string>(Outbound));
         }
 
         private void GetSignature([FromSource] Player source)

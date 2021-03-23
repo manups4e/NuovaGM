@@ -21,7 +21,6 @@ namespace TheLastPlanet.Server
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		public EventSystem SistemaEventi;
 		public ServerGateway Events;
 
 		public Server()
@@ -44,7 +43,6 @@ namespace TheLastPlanet.Server
 
 		private async void StartServer()
 		{
-			SistemaEventi = new EventSystem();
 			Events = new ServerGateway();
 			await ClassCollector.Init();
 		}

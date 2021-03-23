@@ -16,73 +16,79 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 	{
 		public static void Init()
 		{
-			Server.Instance.SistemaEventi.Attach("lprp:setupUser", new AsyncEventCallback(async a =>
-			{
-				try
-				{
-					var player = Funzioni.GetPlayerFromId(a.Sender);
-					var handle = player.Handle;
-
-					if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
-					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-					User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
-					{
-						disc = Convert.ToInt64(player.GetLicense(Identifier.Discord)),
-						lice = player.GetLicense(Identifier.License), name = player.Name
-					}));
-					await BaseScript.Delay(1);
-					Server.PlayerList.TryAdd(handle, user);
-					EntratoMaProprioSulSerio(player);
-					return user;
-				}
-				catch (Exception e)
-				{
-					Log.Printa(LogType.Error, e.ToString());
-					return null;
-				}
-			}));
-
-			Server.Instance.SistemaEventi.Attach("lprp:RequestLoginInfo", new AsyncEventCallback( async a =>
-			{
-				var query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-				var info = await MySQL.QueryListAsync<LogInInfo>(query, new { id = a.Find<int>(0) });
-				return info.ToList();
-			}));
-
-			Server.Instance.SistemaEventi.Attach("lprp:anteprimaChar", new AsyncEventCallback(async a =>
-			{
-				string query = "SELECT skin, dressing FROM personaggi WHERE	CharID = @id";
-				SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id = a.Find<ulong>(0) });
-				return res;
-			}));
-
-			Server.Instance.SistemaEventi.Attach("lprp:Select_Char", new AsyncEventCallback(async a =>
-			{
-				string query = "SELECT * FROM personaggi WHERE CharID = @id";
-				Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id = a.Find<ulong>(0) });
-				User user = Funzioni.GetUserFromPlayerId(a.Sender);
-				user.CurrentChar = new Char_data()
-				{
-					Info = res.info.FromJson<Info>(),
-					Finance = new Finance(res.money, res.bank, res.dirtyCash),
-					Posizione = res.location.FromJson<Position>(),
-					Job = new Job(res.job, res.job_grade),
-					Gang = new Gang(res.gang, res.gang_grade),
-					Skin = res.skin.FromJson<Skin>(),
-					Inventory = res.inventory.FromJson<List<Inventory>>(),
-					Weapons = res.weapons.FromJson<List<Weapons>>(),
-					Dressing = res.dressing.FromJson<Dressing>(),
-					Needs = res.needs.FromJson<Needs>(),
-					Statistiche = res.statistiche.FromJson<Statistiche>(),
-				};
-				return user.CurrentChar;
-			}));
+			Server.Instance.Events.Mount("lprp:setupUser", new Func<int, Task<User>>(SetupUser));
+			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
+			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
+			Server.Instance.Events.Mount("lprp:Select_Char", new Func<int, ulong, Task<Char_data>>(LoadChar));
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
 		{
 			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
 				new {last = DateTime.Now, id = player.GetLicense(Identifier.Discord)});
+		}
+
+		private static async Task<User>SetupUser(int source)
+		{
+			try
+			{
+				var player = Funzioni.GetPlayerFromId(source);
+				var handle = player.Handle;
+
+				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
+				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
+				User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+				{
+					disc = Convert.ToInt64(player.GetLicense(Identifier.Discord)),
+					lice = player.GetLicense(Identifier.License),
+					name = player.Name
+				}));
+				await BaseScript.Delay(1);
+				Server.PlayerList.TryAdd(handle, user);
+				EntratoMaProprioSulSerio(player);
+				return user;
+			}
+			catch (Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+				return null;
+			}
+		}
+
+		private static async Task<List<LogInInfo>>LogInfo(ulong id)
+		{
+			var query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
+			var info = await MySQL.QueryListAsync<LogInInfo>(query, new { id });
+			return info.ToList();
+		}
+
+		private static async Task<SkinAndDress> PreviewChar(ulong id)
+		{
+			string query = "SELECT skin, dressing FROM personaggi WHERE	CharID = @id";
+			SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id });
+			return res;
+		}
+
+		private static async Task<Char_data> LoadChar(int source, ulong id)
+		{
+			string query = "SELECT * FROM personaggi WHERE CharID = @id";
+			User user = Funzioni.GetUserFromPlayerId(source);
+			Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
+			user.CurrentChar = new Char_data()
+			{
+				Info = res.info.FromJson<Info>(),
+				Finance = new Finance(res.money, res.bank, res.dirtyCash),
+				Posizione = res.location.FromJson<Position>(),
+				Job = new Job(res.job, res.job_grade),
+				Gang = new Gang(res.gang, res.gang_grade),
+				Skin = res.skin.FromJson<Skin>(),
+				Inventory = res.inventory.FromJson<List<Inventory>>(),
+				Weapons = res.weapons.FromJson<List<Weapons>>(),
+				Dressing = res.dressing.FromJson<Dressing>(),
+				Needs = res.needs.FromJson<Needs>(),
+				Statistiche = res.statistiche.FromJson<Statistiche>(),
+			};
+			return user.CurrentChar;
 		}
 	}
 }

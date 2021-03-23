@@ -69,8 +69,6 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				User Test = await Client.Instance.SistemaEventi.Request<User>("chiamaTest", null);
-				Log.Printa(LogType.Debug, Test.ToJson());
 				/*
 				b.Tabs.Clear();
 				TabItem item1 = new TabItem("Item 1");

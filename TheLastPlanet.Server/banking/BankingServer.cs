@@ -7,6 +7,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared.SistemaEventi;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core.PlayerChar;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server.banking
 {
@@ -14,73 +15,74 @@ namespace TheLastPlanet.Server.banking
 	{
 		public static void Init()
 		{
-			Server.Instance.SistemaEventi.Attach("lprp:banking:sendMoney", new EventCallback(meta => 
-			{
-				var player = Funzioni.GetPlayerFromId(meta.Sender);
-				User user = player.GetCurrentChar();
-				string name = meta.Find<string>(0);
-				int amount = meta.Find<int>(1);
-				if (user.Bank >= amount)
-				{
-					foreach (var p in Server.PlayerList)
-					{
-						if (user.FullName.ToLower() == name.ToLower())
-						{
-							user.Bank -= amount;
-							p.Value.Bank += amount;
-							Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha inviato ${amount} a '{p.Value.FullName}' [{p.Value.Player.Name}]");
-							return new KeyValuePair<bool, string>(true, user.Bank.ToString());
-						}
-					}
-					return new KeyValuePair<bool, string>(false, "Utente non trovato");
-				}
-				return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
-			}));
-			Server.Instance.SistemaEventi.Attach("lprp:banking:atmwithdraw", new EventCallback(meta =>
-			{
-				var player = Funzioni.GetPlayerFromId(meta.Sender);
-				int amount = meta.Find<int>(0);
-				if (amount > 0)
-				{
-					User user = player.GetCurrentChar();
-					int bal = user.Bank;
-					int newamt = bal - amount;
+			Server.Instance.Events.Mount("lprp:banking:sendMoney", new Func<int, string, int, Task<KeyValuePair<bool, string>>>(SendMoney));
+			Server.Instance.Events.Mount("lprp:banking:atmwithdraw", new Func<int, int, Task<KeyValuePair<bool, string>>>(Withdraw));
+			Server.Instance.Events.Mount("lprp:banking:atmdeposit", new Func<int, int, Task<KeyValuePair<bool, string>>>(Deposit));
+		}
 
-					if (bal >= amount)
+		private static async Task<KeyValuePair<bool, string>> SendMoney(int source, string name, int amount)
+		{
+			var player = Funzioni.GetPlayerFromId(source);
+			User user = player.GetCurrentChar();
+			if (user.Bank >= amount)
+			{
+				foreach (var p in Server.PlayerList)
+				{
+					if (user.FullName.ToLower() == name.ToLower())
 					{
-						user.Money += amount;
-						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
 						user.Bank -= amount;
-						return new KeyValuePair<bool, string> (true, newamt.ToString());
+						p.Value.Bank += amount;
+						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha inviato ${amount} a '{p.Value.FullName}' [{p.Value.Player.Name}]");
+						return new KeyValuePair<bool, string>(true, user.Bank.ToString());
 					}
-					return new KeyValuePair<bool, string>(false, "Non hai abbastanza fondi nel tuo conto corrente per questa transazione.");
 				}
-				return new KeyValuePair<bool, string> (false, "Devi inserire un valore positivo.");
+				return new KeyValuePair<bool, string>(false, "Utente non trovato");
+			}
+			return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
+		}
 
-			}));
-			Server.Instance.SistemaEventi.Attach("lprp:banking:atmdeposit", new EventCallback(meta =>
+		private static async Task<KeyValuePair<bool, string>> Withdraw(int source, int amount)
+		{
+			var player = Funzioni.GetPlayerFromId(source);
+			if (amount > 0)
 			{
-				var player = Funzioni.GetPlayerFromId(meta.Sender);
-				int amount = meta.Find<int>(0);
-				if (amount > 0)
+				User user = player.GetCurrentChar();
+				int bal = user.Bank;
+				int newamt = bal - amount;
+
+				if (bal >= amount)
 				{
-					User user = player.GetCurrentChar();
-					int money = user.Money;
-					int bankmoney = user.Bank;
-					int newamt = bankmoney + amount;
-
-					if (amount <= money)
-					{
-						user.Money -= amount;
-						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
-						user.Bank += amount;
-						return new KeyValuePair<bool, string>(true, newamt.ToString());
-					}
-					return new KeyValuePair<bool, string> (false, "Non hai abbastanza soldi nel tuo portafoglio per questa transazione.");
+					user.Money += amount;
+					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+					user.Bank -= amount;
+					return new KeyValuePair<bool, string>(true, newamt.ToString());
 				}
-				return new KeyValuePair<bool, string> (false, "Devi inserire un valore positivo.");
+				return new KeyValuePair<bool, string>(false, "Non hai abbastanza fondi nel tuo conto corrente per questa transazione.");
+			}
+			return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
+		}
 
-			}));
+		private static async Task<KeyValuePair<bool, string>> Deposit(int source, int amount)
+		{
+			var player = Funzioni.GetPlayerFromId(source);
+			if (amount > 0)
+			{
+				User user = player.GetCurrentChar();
+				int money = user.Money;
+				int bankmoney = user.Bank;
+				int newamt = bankmoney + amount;
+
+				if (amount <= money)
+				{
+					user.Money -= amount;
+					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+					user.Bank += amount;
+					return new KeyValuePair<bool, string>(true, newamt.ToString());
+				}
+				return new KeyValuePair<bool, string>(false, "Non hai abbastanza soldi nel tuo portafoglio per questa transazione.");
+			}
+			return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
+
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
@@ -22,11 +24,11 @@ namespace TheLastPlanet.Server.Veicoli
 			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
 			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
 			Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
-			Server.Instance.SistemaEventi.Attach("lprp:caricaVeicoli", new AsyncEventCallback(async a =>
+			Server.Instance.Events.Mount("lprp:caricaVeicoli", new Func<int, ulong, Task<List<OwnedVehicle>>>(async (a, b) =>
 			{
-				const string query = "SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers";
-				var player = Funzioni.GetPlayerFromId(a.Sender);
-				var vehs = await MySQL.QueryListAsync<OwnedVehicle>(query, new { disc = player.GetLicense(Identifier.Discord), pers = player.GetCurrentChar().FullName });
+				const string query = "SELECT * FROM owned_vehicles WHERE UserID = @disc AND char_id = @pers";
+				var player = Funzioni.GetPlayerFromId(a);
+				var vehs = await MySQL.QueryListAsync<OwnedVehicle>(query, new { disc = player.GetCurrentChar().ID, pers = b });
 				var ownedVehicles = vehs.ToList();
 				await BaseScript.Delay(10);
 				if (ownedVehicles.Count <= 0) return player.GetCurrentChar().CurrentChar.Veicoli;

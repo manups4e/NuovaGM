@@ -1104,12 +1104,11 @@ namespace TheLastPlanet.Client.Banking
 					EndScaleformMovieMethod();
 					atm.CallFunction("DISPLAY_MESSAGE");
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
-					KeyValuePair<bool, string> trans = new KeyValuePair<bool, string>(false, "");
-					trans = await Client.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
-					if (trans.Key)
-						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Value + "$", NotificationColor.GreenLight);
+					var trans = await Client.Instance.Eventi.Get<Tuple<bool, string>>("lprp:banking:" + evento, Cache.MyPlayer.Player.ServerId, _soldiTransazione);
+					if (trans.Item1)
+						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);
 					else
-						HUD.ShowNotification(trans.Value);
+						HUD.ShowNotification(trans.Item2);
 					//BaseScript.TriggerServerEvent("lprp:banking:" + evento, _soldiTransazione);
 					_soldiTransazione = 0;
 					TryBankingNew(false, 13, 0, GetLabelText("MPATM_TRANCOM"));
@@ -1144,11 +1143,11 @@ namespace TheLastPlanet.Client.Banking
 					EndScaleformMovieMethod();
 					atm.CallFunction("DISPLAY_MESSAGE");
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
-					trans = await Client.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _destinatario, _soldiTransazione);
-					if (trans.Key)
-						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Value + "$", NotificationColor.GreenLight);
+					trans = await Client.Instance.Eventi.Get<Tuple<bool, string>>("lprp:banking:" + evento, Cache.MyPlayer.Player.ServerId, _destinatario, _soldiTransazione);
+					if (trans.Item1)
+						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);
 					else
-						HUD.ShowNotification(trans.Value);
+						HUD.ShowNotification(trans.Item2);
 					//BaseScript.TriggerServerEvent("lprp:banking:" + evento, _destinatario, _soldiTransazione);
 					_soldiTransazione = 0;
 					_destinatario = "";

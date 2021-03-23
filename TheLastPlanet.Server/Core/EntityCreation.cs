@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Shared;
@@ -10,13 +11,13 @@ namespace TheLastPlanet.Server.Core
     {
         public static void Init()
         {
-           Server.Instance.SistemaEventi.Attach("lprp:entity:spawnVehicle", new AsyncEventCallback( async metadata =>
+           Server.Instance.Events.Mount("lprp:entity:spawnVehicle", new Func<uint, Position, float, Task<int>>(async (a, b, c) => 
            {
                try
                {
-                   var mod = metadata.Find<uint>(0);
-                   var coords = new Vector3(metadata.Find<float>(1), metadata.Find<float>(2), metadata.Find<float>(3));
-                   var head = metadata.Find<float>(4);
+                   var mod = a;
+                   var coords = b;
+                   var head = c;
                    Vehicle veh = new(CreateVehicle(mod, coords.X, coords.Y, coords.Z, head, true, true));
                    while (!DoesEntityExist(veh.Handle)) await BaseScript.Delay(0);
                    SetEntityDistanceCullingRadius(veh.Handle, 5000f);
@@ -29,16 +30,16 @@ namespace TheLastPlanet.Server.Core
                }
            }));
 
-            Server.Instance.SistemaEventi.Attach("lprp:entity:spawnPed", new AsyncEventCallback(async metadata =>
+            Server.Instance.Events.Mount("lprp:entity:spawnPed", new Func<uint, Position, float, int, Task<int>>(async (a, b, c, d) =>
             {
                 try
                 {
-                    var mod = metadata.Find<uint>(0);
-                    var coords = new Vector3(metadata.Find<float>(1), metadata.Find<float>(2), metadata.Find<float>(3));
-                    var head = metadata.Find<float>(4);
-                    var type = metadata.Find<int>(5);
+                    var mod = a;
+                    var coords = b;
+                    var head = c;
+                    var type = d;
                     Ped ped = new(CreatePed(type, mod, coords.X, coords.Y, coords.Z, head, true, true));
-                   while (!DoesEntityExist(ped.Handle)) await BaseScript.Delay(0);
+                    while (!DoesEntityExist(ped.Handle)) await BaseScript.Delay(0);
                     SetEntityDistanceCullingRadius(ped.Handle, 5000f);
                     return ped.NetworkId;
                 }

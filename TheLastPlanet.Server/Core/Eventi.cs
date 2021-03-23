@@ -12,6 +12,7 @@ using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
+using System.Collections.Concurrent;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -68,10 +69,10 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
+			Server.Instance.Events.Mount("lprp:callPlayers", new Func<int, Position, Task<ConcurrentDictionary<string, User>>>( async (a, b) => 
 			{
-				User user = Funzioni.GetUserFromPlayerId(a.Sender);
-				var pos = a.Find<Position>(0);
+				User user = Funzioni.GetUserFromPlayerId(a);
+				var pos = b;
 				user.CurrentChar.Posizione = pos;
 				TimeSpan time = (DateTime.Now - user.LastSaved);
 				if (time.Minutes > 10)
@@ -82,7 +83,8 @@ namespace TheLastPlanet.Server.Core
 				}
 				return Server.PlayerList;
 			}));
-			Server.Instance.SistemaEventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
+
+			Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<Task<Dictionary<string, User>>>(async () => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
 		}
 
 		public static void FinishChar([FromSource] Player p, string data)

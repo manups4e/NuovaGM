@@ -21,8 +21,7 @@ namespace TheLastPlanet.Client
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		public EventSystem SistemaEventi;
-		public ClientGateway ClientGateway;
+		public ClientGateway Eventi;
 		
 		public Client() { Inizializza(); }
 
@@ -30,8 +29,7 @@ namespace TheLastPlanet.Client
 		{
 			SnowflakeGenerator.Create(1);
 			Instance = this;
-			SistemaEventi = new();
-			ClientGateway = new();
+			Eventi = new();
 			await ClassCollector.Init();
 		}
 
