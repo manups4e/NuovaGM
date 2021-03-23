@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Shared.Internal.Events.Message;
 using TheLastPlanet.Shared.Internal.Events.Payload;
@@ -18,7 +19,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         private List<WaitingEvent> _queue = new();
         private List<EventSubscription> _subscriptions = new();
 
-        public async Task ProcessInboundAsync(EventMessage message, int source)
+        public async Task ProcessInboundAsync(EventMessage message, ISource source)
         {
             object InvokeDelegate(EventSubscription subscription)
             {
@@ -36,7 +37,6 @@ namespace TheLastPlanet.Shared.Internal.Events
                     var array = message.Parameters.FromJson<EventParameter[]>();
                     var holder = new List<object>();
                     var parameterInfos = @delegate.Method.GetParameters();
-
                     for (var index = 0; index < array.Length; index++)
                     {
                         var argument = array[index];
@@ -82,7 +82,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
                 var response = new EventResponseMessage(message.Id, null, result.ToJson());
 
-                TriggerImpl(EventConstant.OutboundPipeline, source, response);
+                TriggerImpl(EventConstant.OutboundPipeline, source.Handle, response);
             }
             else
             {

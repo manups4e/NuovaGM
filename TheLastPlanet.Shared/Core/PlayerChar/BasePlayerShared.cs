@@ -31,7 +31,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public DateTime lastConnection;
 		public Status status = new();
 		[JsonIgnore] public Player Player;
-		public Identifiers identifiers = new();
+		public Identifiers Identifiers = new();
 		[JsonIgnore]public PlayerStateBags StatiPlayer;
 
 		public List<Char_data> Characters = new();

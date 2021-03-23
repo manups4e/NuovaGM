@@ -22,11 +22,9 @@ namespace TheLastPlanet.Client.SessionCache
             Ped = new Ped(PlayerPedId());
         }
 
-        public void SetCharacter(User data)
-        {
-            User = data;
-        }
-        public void AddPlayer(string data)
+		public async void SetCharacter(User data) => User = data;
+
+		public void AddPlayer(string data)
         {
             try
             {
@@ -37,17 +35,11 @@ namespace TheLastPlanet.Client.SessionCache
                 Log.Printa(LogType.Error, e.ToString());
             }
         }
-        
-        public void UpdatePedId()
-        {
-            Ped = new Ped(PlayerPedId());
-        }
-        
-        public void UpdatePlayerId()
-        {
-            Player = Game.Player;
-        }
+
+		public void UpdatePedId() => Ped = new Ped(PlayerPedId());
+
+		public void UpdatePlayerId() => Player = Game.Player;
 
 
-    }
+	}
 }

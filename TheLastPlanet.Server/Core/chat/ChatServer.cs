@@ -17,7 +17,7 @@ namespace TheLastPlanet.Server.Core
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("chatMessage", new Action<int, string, string>(chatMessage));
-			Server.Instance.AddEventHandler("consoleCommand", new Action<string, string>(ConsoleCommand));
+			//Server.Instance.AddEventHandler("consoleCommand", new Action<string, string>(ConsoleCommand));
 			Server.Instance.AddEventHandler("lprp:chat:commands", new Action<Player>(SendComms));
 		}
 
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Server.Core
 			CancelEvent();
 		}
 
-		private static void ConsoleCommand(string name, string command) { }
+		//private static void ConsoleCommand(string name, string command) { }
 
 		public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm)
 		{
@@ -76,13 +76,11 @@ namespace TheLastPlanet.Server.Core
 					else
 						txt = $"Comando: /{cmd} invocato da {sender.Name}";
 					Log.Printa(LogType.Info, txt);
-					BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + txt);
 				}
 				else
 				{
 					user.showNotification("Non hai i permessi per usare questo comando!");
 					Log.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
-					BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + sender.Name + " ha provato a usare il comando " + cmd + ".");
 				}
 			}
 			else

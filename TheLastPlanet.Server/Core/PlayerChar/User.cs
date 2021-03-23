@@ -36,11 +36,11 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			StatiPlayer = new PlayerStateBags(player);
 			char_data = result.char_data;
 			LastSaved = DateTime.Now;
-			identifiers.Steam = Player.GetLicense(Identifier.Steam);
-			identifiers.License = Player.GetLicense(Identifier.License);
-			identifiers.Discord = Player.GetLicense(Identifier.Discord);
-			identifiers.Fivem = Player.GetLicense(Identifier.Fivem);
-			identifiers.Ip = Player.GetLicense(Identifier.Ip);
+			Identifiers.Steam = Player.GetLicense(Identifier.Steam);
+			Identifiers.License = Player.GetLicense(Identifier.License);
+			Identifiers.Discord = Player.GetLicense(Identifier.Discord);
+			Identifiers.Fivem = Player.GetLicense(Identifier.Fivem);
+			Identifiers.Ip = Player.GetLicense(Identifier.Ip);
 			StatiPlayer = new PlayerStateBags(Player);
 		}
 

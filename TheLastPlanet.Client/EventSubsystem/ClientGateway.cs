@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.Internal.Events
             {
                 var message = serialized.FromJson<EventMessage>();
 
-                await ProcessInboundAsync(message, -1);
+                await ProcessInboundAsync(message, new ServerSource());
             }
             catch (Exception ex)
             {

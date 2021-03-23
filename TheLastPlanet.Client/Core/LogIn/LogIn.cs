@@ -333,7 +333,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Eventi.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Cache.MyPlayer.Player.ServerId, Data.CharID);
+			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Eventi.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
 			//EnableSwitchPauseBeforeDescent();
 			Position pos = await Data.Posizione.FindGroundZ();
 			Cache.MyPlayer.Ped.Position = pos.ToVector3;

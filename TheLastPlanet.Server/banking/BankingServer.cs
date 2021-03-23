@@ -8,6 +8,7 @@ using TheLastPlanet.Shared.SistemaEventi;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Threading.Tasks;
+using TheLastPlanet.Server.Internal.Events;
 
 namespace TheLastPlanet.Server.banking
 {
@@ -15,14 +16,14 @@ namespace TheLastPlanet.Server.banking
 	{
 		public static void Init()
 		{
-			Server.Instance.Events.Mount("lprp:banking:sendMoney", new Func<int, string, int, Task<KeyValuePair<bool, string>>>(SendMoney));
-			Server.Instance.Events.Mount("lprp:banking:atmwithdraw", new Func<int, int, Task<KeyValuePair<bool, string>>>(Withdraw));
-			Server.Instance.Events.Mount("lprp:banking:atmdeposit", new Func<int, int, Task<KeyValuePair<bool, string>>>(Deposit));
+			Server.Instance.Events.Mount("lprp:banking:sendMoney", new Func<ClientId, string, int, Task<KeyValuePair<bool, string>>>(SendMoney));
+			Server.Instance.Events.Mount("lprp:banking:atmwithdraw", new Func<ClientId, int, Task<KeyValuePair<bool, string>>>(Withdraw));
+			Server.Instance.Events.Mount("lprp:banking:atmdeposit", new Func<ClientId, int, Task<KeyValuePair<bool, string>>>(Deposit));
 		}
 
-		private static async Task<KeyValuePair<bool, string>> SendMoney(int source, string name, int amount)
+		private static async Task<KeyValuePair<bool, string>> SendMoney(ClientId source, string name, int amount)
 		{
-			var player = Funzioni.GetPlayerFromId(source);
+			var player = source.Player;
 			User user = player.GetCurrentChar();
 			if (user.Bank >= amount)
 			{
@@ -41,9 +42,9 @@ namespace TheLastPlanet.Server.banking
 			return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
 		}
 
-		private static async Task<KeyValuePair<bool, string>> Withdraw(int source, int amount)
+		private static async Task<KeyValuePair<bool, string>> Withdraw(ClientId source, int amount)
 		{
-			var player = Funzioni.GetPlayerFromId(source);
+			var player = source.Player;
 			if (amount > 0)
 			{
 				User user = player.GetCurrentChar();
@@ -62,9 +63,9 @@ namespace TheLastPlanet.Server.banking
 			return new KeyValuePair<bool, string>(false, "Devi inserire un valore positivo.");
 		}
 
-		private static async Task<KeyValuePair<bool, string>> Deposit(int source, int amount)
+		private static async Task<KeyValuePair<bool, string>> Deposit(ClientId source, int amount)
 		{
-			var player = Funzioni.GetPlayerFromId(source);
+			var player = source.Player;
 			if (amount > 0)
 			{
 				User user = player.GetCurrentChar();

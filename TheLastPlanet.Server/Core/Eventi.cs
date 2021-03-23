@@ -13,6 +13,7 @@ using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Collections.Concurrent;
+using TheLastPlanet.Server.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -69,9 +70,9 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.Events.Mount("lprp:callPlayers", new Func<int, Position, Task<ConcurrentDictionary<string, User>>>( async (a, b) => 
+			Server.Instance.Events.Mount("lprp:callPlayers", new Func<ClientId, Position, Task<ConcurrentDictionary<string, User>>>( async (a, b) => 
 			{
-				User user = Funzioni.GetUserFromPlayerId(a);
+				User user = a.Player.GetCurrentChar();
 				var pos = b;
 				user.CurrentChar.Posizione = pos;
 				TimeSpan time = (DateTime.Now - user.LastSaved);
@@ -79,7 +80,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");
 					await user.SalvaPersonaggio();
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.identifiers.Discord);
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.Identifiers.Discord);
 				}
 				return Server.PlayerList;
 			}));
@@ -170,7 +171,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				Server.PlayerList.TryGetValue(handle, out User ped);
 
-				var disc = ped.identifiers.Discord;
+				var disc = ped.Identifiers.Discord;
 				if (ped.status.Spawned)
 				{
 					await ped.SalvaPersonaggio();

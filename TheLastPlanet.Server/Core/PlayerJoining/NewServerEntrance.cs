@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
@@ -16,10 +17,10 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 	{
 		public static void Init()
 		{
-			Server.Instance.Events.Mount("lprp:setupUser", new Func<int, Task<User>>(SetupUser));
+			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<User>>(SetupUser));
 			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
-			Server.Instance.Events.Mount("lprp:Select_Char", new Func<int, ulong, Task<Char_data>>(LoadChar));
+			Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
@@ -28,11 +29,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				new {last = DateTime.Now, id = player.GetLicense(Identifier.Discord)});
 		}
 
-		private static async Task<User>SetupUser(int source)
+		private static async Task<User>SetupUser(ClientId source)
 		{
 			try
 			{
-				var player = Funzioni.GetPlayerFromId(source);
+				var player = source.Player;
 				var handle = player.Handle;
 
 				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
@@ -51,7 +52,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
-				return null;
+				return default;
 			}
 		}
 
@@ -69,10 +70,10 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			return res;
 		}
 
-		private static async Task<Char_data> LoadChar(int source, ulong id)
+		private static async Task<Char_data> LoadChar(ClientId source, ulong id)
 		{
 			string query = "SELECT * FROM personaggi WHERE CharID = @id";
-			User user = Funzioni.GetUserFromPlayerId(source);
+			User user = source.Player.GetCurrentChar();
 			Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
 			user.CurrentChar = new Char_data()
 			{

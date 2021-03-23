@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
         protected override void TriggerImpl(string pipeline, int target, ISerializable payload)
         {
-            if (target != -1)
+            if (target != ClientId.Global.Handle)
                 Funzioni.GetPlayerFromId(target).TriggerEvent(pipeline, payload.Serialize());
             else
                 BaseScript.TriggerClientEvent(pipeline, payload.Serialize());
@@ -32,18 +32,19 @@ namespace TheLastPlanet.Server.Internal.Events
 
         public ServerGateway()
         {
-			Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<Player>(GetSignature));
-			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<Player, string>(Inbound));
-			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<Player, string>(Outbound));
+			Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(GetSignature));
+			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string, string>(Inbound));
+			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string, string>(Outbound));
         }
 
-        private void GetSignature([FromSource] Player source)
+        private void GetSignature([FromSource] string source)
         {
             try
             {
-                if (_signatures.ContainsKey(Convert.ToInt32(source.Handle)))
+                var client = (ClientId)source;
+                if (_signatures.ContainsKey(client.Handle))
                 {
-                    Log.Printa(LogType.Warning, $"Client {source.Name} [{source.Handle}] tried obtaining event signature illegally.");
+                    Log.Printa(LogType.Warning, $"Client {client} [{client.Handle}] tried obtaining event signature illegally.");
 
                     return;
                 }
@@ -57,8 +58,8 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 var signature = BitConverter.ToString(holder).Replace("-", "").ToLower();
 
-                _signatures.Add(Convert.ToInt32(source.Handle), signature);
-                source.TriggerEvent(EventConstant.SignaturePipeline, signature);
+                _signatures.Add(client.Handle, signature);
+                client.Player.TriggerEvent(EventConstant.SignaturePipeline, signature);
             }
             catch (Exception ex)
             {
@@ -66,29 +67,31 @@ namespace TheLastPlanet.Server.Internal.Events
             }
         }
 
-        private async void Inbound([FromSource] Player source, string serialized)
+        private async void Inbound([FromSource] string source, string serialized)
         {
             try
             {
-                if (!_signatures.TryGetValue(Convert.ToInt32(source.Handle), out var signature)) return;
+                var client = (ClientId)source;
+
+                if (!_signatures.TryGetValue(client.Handle, out var signature)) return;
 
                 var message = EventMessage.Deserialize(serialized);
 
                 if (message.Signature != signature)
                 {
                     Log.Printa(LogType.Warning, 
-                        $"[{EventConstant.InboundPipeline}, {source.Handle}, {message.Signature}] Client {source.Name} had invalid event signature, possible malicious intent?");
+                        $"[{EventConstant.InboundPipeline}, {client.Handle}, {message.Signature}] Client {client.Player.Name} had invalid event signature, possible malicious intent?");
 
                     return;
                 }
 
                 try
                 {
-                    await ProcessInboundAsync(message, Convert.ToInt32(source.Handle));
+                    await ProcessInboundAsync(message, client);
                 }
                 catch (TimeoutException)
                 {
-                    API.DropPlayer(source.Handle, $"Operation timed out: {message.Endpoint.ToBase64()}");
+                    API.DropPlayer(client.Handle.ToString(), $"Operation timed out: {message.Endpoint.ToBase64()}");
                 }
             }
             catch (Exception ex)
@@ -97,18 +100,19 @@ namespace TheLastPlanet.Server.Internal.Events
             }
         }
 
-        private void Outbound([FromSource] Player source, string serialized)
+        private void Outbound([FromSource] string source, string serialized)
         {
             try
             {
-                if (!_signatures.TryGetValue(Convert.ToInt32(source.Handle), out var signature)) return;
+                var client = (ClientId)source;
+                if (!_signatures.TryGetValue(client.Handle, out var signature)) return;
 
                 var response = EventResponseMessage.Deserialize(serialized);
 
                 if (response.Signature != signature)
                 {
                     Log.Printa(LogType.Warning, 
-                        $"[{EventConstant.OutboundPipeline}, {source.Handle}, {response.Signature}] Client {source.Name} had invalid event signature, possible malicious intent?");
+                        $"[{EventConstant.OutboundPipeline}, {client.Handle}, {response.Signature}] Client {client.Player.Name} had invalid event signature, possible malicious intent?");
 
                     return;
                 }
@@ -122,6 +126,7 @@ namespace TheLastPlanet.Server.Internal.Events
         }
 
         public void Send(Player player, string endpoint, params object[] args) => Send(Convert.ToInt32(player.Handle), endpoint, args);
+        public void Send(ClientId client, string endpoint, params object[] args) => Send(client.Handle, endpoint, args);
 
         public void Send(int target, string endpoint, params object[] args)
         {
@@ -129,6 +134,7 @@ namespace TheLastPlanet.Server.Internal.Events
         }
 
         public Task<T> Get<T>(Player player, string endpoint, params object[] args) => Get<T>(Convert.ToInt32(player.Handle), endpoint, args);
+        public Task<T> Get<T>(ClientId client, string endpoint, params object[] args) => Get<T>(client.Handle, endpoint, args);
 
         public async Task<T> Get<T>(int target, string endpoint, params object[] args)
         {

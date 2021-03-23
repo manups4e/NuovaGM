@@ -367,7 +367,7 @@ namespace TheLastPlanet.Server.Core
 						group_level = (int)UserGroup.Sviluppatore;
 					}
 
-					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.identifiers.Discord });
+					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.Identifiers.Discord });
 					user.group = group;
 					user.group_level = (UserGroup)group_level;
 					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
@@ -428,7 +428,7 @@ namespace TheLastPlanet.Server.Core
 					{
 						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
 						await player.Value.SalvaPersonaggio();
-						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.identifiers.Discord);
+						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.Identifiers.Discord);
 						await Task.FromResult(0);
 					}
 				}

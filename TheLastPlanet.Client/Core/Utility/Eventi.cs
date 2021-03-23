@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			Cache.GiocatoriOnline = await Client.Instance.Eventi.Get<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.Player.ServerId, Cache.MyPlayer.User.CurrentChar.Posizione);
+			Cache.GiocatoriOnline = await Client.Instance.Eventi.Get<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar.Posizione);
 			Cache.MyPlayer.User.CurrentChar = Cache.GiocatoriOnline[Cache.MyPlayer.Player.ServerId.ToString()].CurrentChar;
 		}
 
