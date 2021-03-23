@@ -23,7 +23,7 @@ namespace Logger
 		static Log()
 		{
 			_writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
-			ServerSession.Instance.AddEventHandler("onResourceStop", new Action<string>(Stop));
+			Server.Instance.AddEventHandler("onResourceStop", new Action<string>(Stop));
 		}
 
 		private static void Stop(string resname)

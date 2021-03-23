@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
-		public ServerGateway ServerGateway;
+		public ServerGateway Events;
 
 		public ServerSession()
 		{
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Server
 		private async void StartServer()
 		{
 			SistemaEventi = new EventSystem();
-			ServerGateway = new ServerGateway();
+			Events = new ServerGateway();
 			await ClassCollector.Init();
 		}
 

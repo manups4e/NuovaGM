@@ -11,6 +11,7 @@ using TheLastPlanet.Client.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.SistemaEventi;
 using System.Dynamic;
+using TheLastPlanet.Client.Internal.Events;
 
 namespace TheLastPlanet.Client
 {
@@ -21,6 +22,7 @@ namespace TheLastPlanet.Client
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
+		public ClientGateway ClientGateway;
 		
 		public ClientSession() { Inizializza(); }
 
@@ -28,7 +30,8 @@ namespace TheLastPlanet.Client
 		{
 			SnowflakeGenerator.Create(1);
 			Instance = this;
-			SistemaEventi = new EventSystem();
+			SistemaEventi = new();
+			ClientGateway = new();
 			await ClassCollector.Init();
 		}
 
