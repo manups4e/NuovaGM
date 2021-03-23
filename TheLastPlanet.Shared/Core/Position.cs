@@ -191,25 +191,22 @@ namespace TheLastPlanet.Shared
 
                 while (z == 0)
                 {
-                    if (Game.GameTime - time > 5000)
+                    if (Game.GameTime - time >= 5000)
                     {
-                        Log.Printa(LogType.Warning, $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
-
+                        Log.Printa(LogType.Warning, $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, interrompo e inserisco default..");
                         return new Position(X, Y, -199.9f, Heading);
                     }
 
                     await BaseScript.Delay(50);
                     bool pippo = API.GetGroundZFor_3dCoord(X, Y, Z, ref z, false);
                     Z += 10;
-                    Log.Printa(LogType.Debug, $"Z={Z}, foundZ = {z}");
                 }
 
                 return new Position(X, Y, z, Heading);
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, $"Vector3 FindGroundZ Error: {ex.Message}");
-
+                Log.Printa(LogType.Error, $"Position FindGroundZ Error: {ex.Message}");
                 return new Position(X, Y, -199.9f, Heading);
             }
         }
