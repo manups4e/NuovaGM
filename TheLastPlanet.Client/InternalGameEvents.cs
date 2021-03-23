@@ -17,73 +17,71 @@ namespace TheLastPlanet.Client
 		{
 			ClientSession.Instance.AddEventHandler("gameEventTriggered", new Action<string, List<object>>(GameEventTriggered));
 
-			if (GetResourceMetadata(GetCurrentResourceName(), "enable_debug_prints_for_events", 0).ToLower() == "true")
+			if (GetConvarInt("DEBUG", 0) == 0) return;
+			ClientSession.Instance.AddEventHandler(damageEventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
 			{
-				ClientSession.Instance.AddEventHandler(damageEventName + ":VehicleDestroyed", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
-				{
-					Log.Printa(LogType.Debug, "event: VehicleDestroyed");
-					Log.Printa(LogType.Debug, $"vehicle: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-					Log.Printa(LogType.Debug, $"vehicle damage flag: {e}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
-				{
-					Log.Printa(LogType.Debug, "event: PedKilledByVehicle");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"vehicle: {b}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
-				{
-					Log.Printa(LogType.Debug, "event: PedKilledByPlayer");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"player: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
-				{
-					Log.Printa(LogType.Debug, "event: PedKilledByPed");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
-				{
-					Log.Printa(LogType.Debug, "event: PedDied");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
-				{
-					Log.Printa(LogType.Debug, "event: EntityKilled");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
-				{
-					Log.Printa(LogType.Debug, "event: VehicleDamaged");
-					Log.Printa(LogType.Debug, $"vehicle: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-					Log.Printa(LogType.Debug, $"vehicle damage flag: {e}");
-				}));
-				ClientSession.Instance.AddEventHandler(damageEventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
-				{
-					Log.Printa(LogType.Debug, "event: EntityDamaged");
-					Log.Printa(LogType.Debug, $"victim: {a}");
-					Log.Printa(LogType.Debug, $"attacker: {b}");
-					Log.Printa(LogType.Debug, $"weapon hash: {c}");
-					Log.Printa(LogType.Debug, $"was melee damage?: {d}");
-				}));
-			}
+				Log.Printa(LogType.Debug, "event: VehicleDestroyed");
+				Log.Printa(LogType.Debug, $"vehicle: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+				Log.Printa(LogType.Debug, $"vehicle damage flag: {e}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByVehicle", new Action<int, int>((a, b) =>
+			{
+				Log.Printa(LogType.Debug, "event: PedKilledByVehicle");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"vehicle: {b}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByPlayer", new Action<int, int, uint, bool>((a, b, c, d) =>
+			{
+				Log.Printa(LogType.Debug, "event: PedKilledByPlayer");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"player: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":PedKilledByPed", new Action<int, int, uint, bool>((a, b, c, d) =>
+			{
+				Log.Printa(LogType.Debug, "event: PedKilledByPed");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":PedDied", new Action<int, int, uint, bool>((a, b, c, d) =>
+			{
+				Log.Printa(LogType.Debug, "event: PedDied");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":EntityKilled", new Action<int, int, uint, bool>((a, b, c, d) =>
+			{
+				Log.Printa(LogType.Debug, "event: EntityKilled");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":VehicleDamaged", new Action<int, int, uint, bool, int>((a, b, c, d, e) =>
+			{
+				Log.Printa(LogType.Debug, "event: VehicleDamaged");
+				Log.Printa(LogType.Debug, $"vehicle: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+				Log.Printa(LogType.Debug, $"vehicle damage flag: {e}");
+			}));
+			ClientSession.Instance.AddEventHandler(damageEventName + ":EntityDamaged", new Action<int, int, uint, bool>((a, b, c, d) =>
+			{
+				Log.Printa(LogType.Debug, "event: EntityDamaged");
+				Log.Printa(LogType.Debug, $"victim: {a}");
+				Log.Printa(LogType.Debug, $"attacker: {b}");
+				Log.Printa(LogType.Debug, $"weapon hash: {c}");
+				Log.Printa(LogType.Debug, $"was melee damage?: {d}");
+			}));
 		}
 
 		/// <summary>
