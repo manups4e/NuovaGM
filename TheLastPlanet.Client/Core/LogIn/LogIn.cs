@@ -313,8 +313,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 				Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
 				Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
 				await BaseScript.Delay(2000);
-				Log.Printa(LogType.Debug, Data.Posizione.ToString());
-				Log.Printa(LogType.Debug, Cache.MyPlayer.Ped.Position.ToString());
 			}
 
 			Eventi.LoadModel();
