@@ -1,9 +1,6 @@
 fx_version 'adamant'--'bodacious' -- crash con bodacious serverside SIGSEGV
 game 'gta5'
 
---resource_type 'gametype' { name = 'The Last Planet' }
-
-enable_debug_prints_for_events 'true' -- debug per il danneggiamento entità
 loadscreen_manual_shutdown 'yes'
 
 files {
