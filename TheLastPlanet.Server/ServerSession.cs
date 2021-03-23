@@ -15,12 +15,11 @@ namespace TheLastPlanet.Server
 {
 	public class ServerSession : BaseScript
 	{
-		public static ConcurrentDictionary<string, User> PlayerList = new ConcurrentDictionary<string, User>();
+		public static ConcurrentDictionary<string, User> PlayerList = new();
 		public static ServerSession Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
-		public static Dictionary<string, Action<Player, Delegate, dynamic>> ServerCallbacks = new Dictionary<string, Action<Player, Delegate, dynamic>>();
 		public EventSystem SistemaEventi;
 
 		public ServerSession()

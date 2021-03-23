@@ -209,7 +209,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.Loaded();
-			Log.Printa(LogType.Debug, Cache.MyPlayer.User.PlayerID.ToInt64().ToString());
 			List<LogInInfo> data = await ClientSession.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
 			ToggleMenu(true, "charloading", data);
 			ClientSession.Instance.AddTick(Main.AFK);

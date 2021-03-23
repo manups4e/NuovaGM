@@ -32,8 +32,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 					await BaseScript.Delay(1);
 					ServerSession.PlayerList.TryAdd(handle, user);
 					EntratoMaProprioSulSerio(player);
-					Log.Printa(LogType.Debug, user.PlayerID.ToString());
-					Log.Printa(LogType.Debug, user.ID.ToString());
 					return user;
 				}
 				catch (Exception e)
