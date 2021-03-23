@@ -528,7 +528,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		private static async void QueueSession(Player source, List<string> args, string raw)
+		private static void QueueSession(Player source, List<string> args, string raw)
 		{
 			try
 			{

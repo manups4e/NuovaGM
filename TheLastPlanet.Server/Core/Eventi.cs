@@ -137,7 +137,7 @@ namespace TheLastPlanet.Server.Core
 			}
 		}
 
-		public static async void Spawnato([FromSource] Player source)
+		public static void Spawnato([FromSource] Player source)
 		{
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in città'");

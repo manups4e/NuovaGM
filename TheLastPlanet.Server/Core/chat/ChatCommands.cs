@@ -59,7 +59,7 @@ namespace TheLastPlanet.Server.Core
 		}
 
 		// GESTIONE CHAT
-		public static async void Ooc(Player sender, List<string> args, string rawCommand)
+		public static void Ooc(Player sender, List<string> args, string rawCommand)
 		{
 			try
 			{
