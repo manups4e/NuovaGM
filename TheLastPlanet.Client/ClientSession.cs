@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.SistemaEventi;
-using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.SistemaEventi;
 using System.Dynamic;
 

@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Server.SistemaEventi;
-using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Server.Internal.Events;
 
 namespace TheLastPlanet.Server
 {
@@ -21,6 +22,7 @@ namespace TheLastPlanet.Server
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
+		public ServerGateway ServerGateway;
 
 		public ServerSession()
 		{
@@ -43,6 +45,7 @@ namespace TheLastPlanet.Server
 		private async void StartServer()
 		{
 			SistemaEventi = new EventSystem();
+			ServerGateway = new ServerGateway();
 			await ClassCollector.Init();
 		}
 

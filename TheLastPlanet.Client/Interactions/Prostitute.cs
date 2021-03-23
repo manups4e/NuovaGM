@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task ControlloProstitute()
 		{
-			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, o.Position) < ProstDistance);
+			Prostituta = World.GetAllPeds().Select(o => new Ped(o.Handle)).Where(o => IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_LOW_CLASS") || IsPedUsingScenario(o.Handle, "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS")).FirstOrDefault(o => Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, o.Position) < ProstDistance);
 			await BaseScript.Delay(200);
 		}
 

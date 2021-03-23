@@ -242,7 +242,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Pescatore
 				{
 					float altezza = 0;
 
-					if (GetWaterHeightNoWaves(Cache.MyPlayer.User.posizione.ToVector3.X, Cache.MyPlayer.User.posizione.ToVector3.Y, Cache.MyPlayer.User.posizione.ToVector3.Z, ref altezza))
+					if (GetWaterHeightNoWaves(Cache.MyPlayer.User.Posizione.ToVector3.X, Cache.MyPlayer.User.Posizione.ToVector3.Y, Cache.MyPlayer.User.Posizione.ToVector3.Z, ref altezza))
 					{
 						Cache.MyPlayer.Ped.IsPositionFrozen = true;
 						SetEnableHandcuffs(PlayerPedId(), true);

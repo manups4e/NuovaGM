@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.Interactions
 
 		public static async Task CheckSedia()
 		{
-			SediaClosest = World.GetAllProps().Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.posizione.Distance(o.Position) < 1.375f);
+			SediaClosest = World.GetAllProps().Where(o => Sedie.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.Posizione.Distance(o.Position) < 1.375f);
 			await BaseScript.Delay(200);
 		}
 

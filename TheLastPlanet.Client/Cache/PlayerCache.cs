@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client.SessionCache
         public Player Player { get; private set; }
         public Ped Ped { get; private set; }
         public User User { get; private set; }
-
+        public Position Posizione => User.Posizione;
         public bool Ready => Player != null && Ped != null && User != null;
 
         public PlayerCache()

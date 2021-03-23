@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.Banking
 
 		public static async Task ControlloATM()
 		{
-			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.posizione.Distance(o.Position) < 1.5f);
+			ClosestATM = World.GetAllProps().Where(o => ATMs.Contains((ObjectHash)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.Posizione.Distance(o.Position) < 1.5f);
 			await BaseScript.Delay(250);
 		}
 

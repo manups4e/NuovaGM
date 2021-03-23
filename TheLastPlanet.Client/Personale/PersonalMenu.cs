@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.Personale
 					Blip[] test = World.GetAllBlips((BlipSprite)var);
 					HUD.ShowNotification("GPS: Calcolo..");
 					await BaseScript.Delay(1000);
-					b = test.ToList().OrderBy(x => me.GetPlayerData().posizione.Distance(x.Position)).FirstOrDefault();
+					b = test.ToList().OrderBy(x => me.GetPlayerData().Posizione.Distance(x.Position)).FirstOrDefault();
 					HUD.ShowNotification("GPS: Calcolo..").Hide();
 
 					if (b != null)
@@ -426,7 +426,7 @@ namespace TheLastPlanet.Client.Personale
 								giveButton.ParentItem.HighlightColor = Colors.Cyan;
 								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
 								List<int> playerId = new List<int>();
-								List<Player> players = Funzioni.GetPlayersInArea(me.GetPlayerData().posizione.ToVector3, 3f);
+								List<Player> players = Funzioni.GetPlayersInArea(me.GetPlayerData().Posizione.ToVector3, 3f);
 
 								if (players.Count > 0)
 								{
@@ -789,13 +789,13 @@ namespace TheLastPlanet.Client.Personale
 				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item1)
-						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item2)
 						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@dj", "dj");
 					else if (_item == item3)
-						playerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_DRINKING", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item4)
-						playerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_PARTYING", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item5)
 						playerPed.Task.PlayAnimation("anim@mp_player_intcelebrationmale@air_guitar", "air_guitar");
 					else if (_item == item6)
@@ -803,7 +803,7 @@ namespace TheLastPlanet.Client.Personale
 					else if (_item == item7)
 						playerPed.Task.PlayAnimation("mp_player_int_upperrock", "mp_player_int_rock");
 					else if (_item == item8)
-						playerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_SMOKING_POT", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item9) playerPed.Task.PlayAnimation("amb@world_human_bum_standing@drunk@idle_a", "idle_a");
 				}
 				else
@@ -889,21 +889,21 @@ namespace TheLastPlanet.Client.Personale
 					if (_item == item14)
 						playerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
 					else if (_item == item15)
-						playerPed.Task.StartScenario("world_human_stand_fishing", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("world_human_stand_fishing", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item16)
-						playerPed.Task.StartScenario("world_human_gardener_plant", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("world_human_gardener_plant", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item17)
-						playerPed.Task.StartScenario("world_human_vehicle_mechanic", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("world_human_vehicle_mechanic", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item18)
 						playerPed.Task.PlayAnimation("mini@repair", "fixing_a_ped");
 					else if (_item == item19)
-						playerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_CAR_PARK_ATTENDANT", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item20)
 						playerPed.Task.PlayAnimation("amb@code_human_police_investigate@idle_b", "idle_f");
 					else if (_item == item21)
-						playerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_BINOCULARS", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item22)
-						playerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("CODE_HUMAN_MEDIC_KNEEL", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item23)
 						playerPed.Task.PlayAnimation("oddjobs@taxi@driver", "leanover_idle");
 					else if (_item == item24)
@@ -911,14 +911,14 @@ namespace TheLastPlanet.Client.Personale
 					else if (_item == item25)
 						playerPed.Task.PlayAnimation("mp_am_hold_up", "purchase_beerbox_shopkeeper");
 					else if (_item == item26)
-						playerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_PAPARAZZI", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item27)
-						playerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_CLIPBOARD", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item28)
-						playerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_HAMMERING", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item29)
-						playerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", me.GetPlayerData().posizione.ToVector3);
-					else if (_item == item30) playerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_BUM_FREEWAY", me.GetPlayerData().Posizione.ToVector3);
+					else if (_item == item30) playerPed.Task.StartScenario("WORLD_HUMAN_HUMAN_STATUE", me.GetPlayerData().Posizione.ToVector3);
 				}
 				else
 				{
@@ -962,7 +962,7 @@ namespace TheLastPlanet.Client.Personale
 				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item31)
-						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item32)
 						playerPed.Task.PlayAnimation("mp_action", "thanks_male_06");
 					else if (_item == item33)
@@ -1052,16 +1052,16 @@ namespace TheLastPlanet.Client.Personale
 					else if (_item == item52)
 						playerPed.Task.PlayAnimation("anim@heists@prison_heistunfinished_biztarget_idle", "target_idle");
 					else if (_item == item53)
-						playerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_PICNIC", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item54)
-						playerPed.Task.StartScenario("world_human_leaning", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("world_human_leaning", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item55)
-						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE_BACK", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item56)
-						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_SUNBATHE", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item57)
-						playerPed.Task.StartScenario("world_human_maid_clean", me.GetPlayerData().posizione.ToVector3);
-					else if (_item == item58) playerPed.Task.StartScenario("world_human_tourist_mobile", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("world_human_maid_clean", me.GetPlayerData().Posizione.ToVector3);
+					else if (_item == item58) playerPed.Task.StartScenario("world_human_tourist_mobile", me.GetPlayerData().Posizione.ToVector3);
 				}
 				else
 				{
@@ -1108,7 +1108,7 @@ namespace TheLastPlanet.Client.Personale
 					else if (_item == item64)
 						playerPed.Task.PlayAnimation("mini@strip_club@idles@stripper", "stripper_idle_02");
 					else if (_item == item65)
-						playerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", me.GetPlayerData().posizione.ToVector3);
+						playerPed.Task.StartScenario("WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", me.GetPlayerData().Posizione.ToVector3);
 					else if (_item == item66)
 						playerPed.Task.PlayAnimation("mini@strip_club@backroom@", "stripper_b_backroom_idle_b");
 					else if (_item == item67)
@@ -1362,17 +1362,17 @@ namespace TheLastPlanet.Client.Personale
 		public static async Task routeColor()
 		{
 			Player me = Cache.MyPlayer.Player;
-			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) > 5000f)
+			if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) > 5000f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Red);
-			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) < 5000f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) > 4500f)
+			else if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) < 5000f && Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) > 4500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Blue);
-			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) < 4500f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) > 2500f)
+			else if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) < 4500f && Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) > 2500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) < 2500f && Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) > 1500f)
+			else if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) < 2500f && Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) > 1500f)
 				SetBlipRouteColour(b.Handle, (int)RouteColor.Yellow);
-			else if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) < 1500f) SetBlipRouteColour(b.Handle, (int)RouteColor.Green);
+			else if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) < 1500f) SetBlipRouteColour(b.Handle, (int)RouteColor.Green);
 
-			if (Vector3.Distance(me.GetPlayerData().posizione.ToVector3, b.Position) < 20)
+			if (Vector3.Distance(me.GetPlayerData().Posizione.ToVector3, b.Position) < 20)
 			{
 				HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
 				b.ShowRoute = false;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace TheLastPlanet.Shared.Snowflake.Serialization
+namespace TheLastPlanet.Shared.Snowflakes.Serialization
 {
     
     public class SnowflakeConverter : JsonConverter

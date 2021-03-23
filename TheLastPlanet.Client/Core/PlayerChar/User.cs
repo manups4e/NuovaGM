@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	public class User : BasePlayerShared
 	{
 		public int source;
-		public Position posizione
+		public Position Posizione
 		{
 			get => CurrentChar.Posizione;
 			set

@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 				{
 					if (newmenu != appartamento || state != MenuState.ChangeForward) return;
 					newmenu.Clear();
-					List<Player> players = Funzioni.GetPlayersInArea(Cache.MyPlayer.User.posizione.ToVector3, 3.5f, false);
+					List<Player> players = Funzioni.GetPlayersInArea(Cache.MyPlayer.User.Posizione.ToVector3, 3.5f, false);
 
 					foreach (Player p in players)
 					{

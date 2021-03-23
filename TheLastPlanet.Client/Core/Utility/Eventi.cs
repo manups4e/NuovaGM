@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Screen.Fading.FadeOut(800);
 			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
-			Main.RespawnPed(Cache.MyPlayer.User.posizione);
+			Main.RespawnPed(Cache.MyPlayer.User.Posizione);
 			StatsNeeds.Needs["Fame"].Val = 0.0f;
 			StatsNeeds.Needs["Sete"].Val = 0.0f;
 			StatsNeeds.Needs["Stanchezza"].Val = 0.0f;
@@ -159,7 +159,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void SpawnVehicle(string model)
 		{
-			Vector3 coords = Cache.MyPlayer.User.posizione.ToVector3;
+			Vector3 coords = Cache.MyPlayer.User.Posizione.ToVector3;
 			Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.MyPlayer.Ped.Heading);
 			if (Veh != null) Veh.PreviouslyOwnedByPlayer = true;
 		}

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheLastPlanet.Shared.Snowflake
+namespace TheLastPlanet.Shared.Snowflakes
 {
     
     public class SnowflakeGenerator

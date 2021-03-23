@@ -907,7 +907,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.MyPlayer.User.posizione.ToVector3); }
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.MyPlayer.User.Posizione.ToVector3); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate

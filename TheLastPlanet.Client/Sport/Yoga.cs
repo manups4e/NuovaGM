@@ -172,8 +172,8 @@ namespace TheLastPlanet.Client.Sport
 
 						int seq0 = -1;
 						OpenSequenceTask(ref seq0);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Cache.MyPlayer.User.posizione.ToVector3.X, Cache.MyPlayer.User.posizione.ToVector3.Y, Cache.MyPlayer.User.posizione.ToVector3.Z, Cache.MyPlayer.Ped.Rotation.X, Cache.MyPlayer.Ped.Rotation.Y, Cache.MyPlayer.Ped.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
-						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Cache.MyPlayer.User.posizione.ToVector3.X, Cache.MyPlayer.User.posizione.ToVector3.Y, Cache.MyPlayer.User.posizione.ToVector3.Z, Cache.MyPlayer.Ped.Rotation.X, Cache.MyPlayer.Ped.Rotation.Y, Cache.MyPlayer.Ped.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[0], Cache.MyPlayer.User.Posizione.ToVector3.X, Cache.MyPlayer.User.Posizione.ToVector3.Y, Cache.MyPlayer.User.Posizione.ToVector3.Z, Cache.MyPlayer.Ped.Rotation.X, Cache.MyPlayer.Ped.Rotation.Y, Cache.MyPlayer.Ped.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
+						TaskPlayAnimAdvanced(0, "missfam5_yoga", Sequenza1[1], Cache.MyPlayer.User.Posizione.ToVector3.X, Cache.MyPlayer.User.Posizione.ToVector3.Y, Cache.MyPlayer.User.Posizione.ToVector3.Z, Cache.MyPlayer.Ped.Rotation.X, Cache.MyPlayer.Ped.Rotation.Y, Cache.MyPlayer.Ped.Rotation.Z, 4f, -4f, -1, 528384, 0f, 2, 1);
 						CloseSequenceTask(seq0);
 						TaskPerformSequence(PlayerPedId(), seq0);
 						ClearSequenceTask(ref seq0);
@@ -238,7 +238,7 @@ namespace TheLastPlanet.Client.Sport
 						TaskPlayAnim(PlayerPedId(), "missfam5_yoga", "start_pose", 4f, -8f, -1, 1, 0f, false, true, false);
 					else
 					{
-						Vector3 coord = Cache.MyPlayer.User.posizione.ToVector3;
+						Vector3 coord = Cache.MyPlayer.User.Posizione.ToVector3;
 						Vector3 rot = Cache.MyPlayer.Ped.Rotation;
 						ClearSequenceTask(ref uVar0);
 						OpenSequenceTask(ref uVar0);

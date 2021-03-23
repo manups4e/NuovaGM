@@ -84,7 +84,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				if (_newmenu != mostraCatalogo) return;
 				_newmenu.Clear();
 				players.Clear();
-				players = Funzioni.GetPlayersInArea(Cache.MyPlayer.User.posizione.ToVector3, 3f);
+				players = Funzioni.GetPlayersInArea(Cache.MyPlayer.User.Posizione.ToVector3, 3f);
 				List<string> texts = players.Select(x => x.GetPlayerData().FullName).ToList();
 				string txt = "";
 				foreach (string t in texts) txt = t + "~n~";

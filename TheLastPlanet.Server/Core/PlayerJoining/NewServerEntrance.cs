@@ -7,7 +7,7 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
-using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -76,6 +76,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				};
 				return user.CurrentChar;
 			}));
+
+
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)

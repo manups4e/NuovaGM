@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Core
 			Player player = Cache.MyPlayer.Player;
 			SetDiscordAppId(ClientSession.Impostazioni.Main.DiscordAppId);
 			SetDiscordRichPresenceAsset(ClientSession.Impostazioni.Main.DiscordRichPresenceAsset);
-			Vector3 PedCoords = !Cache.MyPlayer.User.status.Spawned ? playerPed.Position : Cache.MyPlayer.User.posizione.ToVector3;
+			Vector3 PedCoords = !Cache.MyPlayer.User.status.Spawned ? playerPed.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
 			GetStreetNameAtCoord(PedCoords.X, PedCoords.Y, PedCoords.Z, ref StreetName, ref StreetAngolo);

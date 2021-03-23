@@ -172,11 +172,11 @@ namespace TheLastPlanet.Client.Interactions
 		{
 			if (!InDoccia)
 			{
-				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, o.Position) < 1.375f);
+				VicinoDoccia = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).Any(o => Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, o.Position) < 1.375f);
 
 				if (VicinoDoccia)
 				{
-					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, o.Position) < 1.375f);
+					DocciaPorta = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => Doccie.Contains(o.Model.Hash)).First(o => Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, o.Position) < 1.375f);
 					if (!DocciaPorta.IsAttached()) DocciaPorta.IsPositionFrozen = true;
 					attuale = Coords.First(o => Vector3.Distance(o.anim, DocciaPorta.Position) < 2f);
 				}

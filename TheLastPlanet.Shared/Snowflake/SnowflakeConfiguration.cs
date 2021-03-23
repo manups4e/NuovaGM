@@ -1,4 +1,4 @@
-﻿namespace TheLastPlanet.Shared.Snowflake
+﻿namespace TheLastPlanet.Shared.Snowflakes
 {
     public class SnowflakeConfiguration
     {

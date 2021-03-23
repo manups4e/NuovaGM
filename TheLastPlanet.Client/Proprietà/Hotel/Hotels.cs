@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			{
 				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
-				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.MyPlayer.User.posizione.X, Cache.MyPlayer.User.posizione.Y, Cache.MyPlayer.User.posizione.Z, true, 1.0f, 0));
+				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.MyPlayer.User.Posizione.X, Cache.MyPlayer.User.Posizione.Y, Cache.MyPlayer.User.Posizione.Z, true, 1.0f, 0));
 				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
 			}), false);
 
@@ -118,7 +118,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				menu.Visible = false;
 				Screen.Fading.FadeOut(800);
 				await BaseScript.Delay(1000);
-				OldPos = Cache.MyPlayer.User.posizione.ToVector3;
+				OldPos = Cache.MyPlayer.User.Posizione.ToVector3;
 				RequestCollisionAtCoord(pos.X, pos.Y, pos.Z);
 				Cache.MyPlayer.Ped.Position = pos;
 				await BaseScript.Delay(2000);

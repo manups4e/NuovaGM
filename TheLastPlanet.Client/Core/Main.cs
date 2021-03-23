@@ -460,12 +460,12 @@ namespace TheLastPlanet.Client.Core
 			{
 				//				if (Ingresso.Ingresso.guiEnabled)
 				//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
-				currentPosition = Cache.MyPlayer.User == null ? Cache.MyPlayer.Ped.Position : Cache.MyPlayer.User.posizione.ToVector3;
+				currentPosition = Cache.MyPlayer.User == null ? Cache.MyPlayer.Ped.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 
 				if (t >= ClientSession.Impostazioni.Main.AFKCheckTime)
 				{
-					if (Vector3.Distance(Cache.MyPlayer.User.posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
+					if (Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{

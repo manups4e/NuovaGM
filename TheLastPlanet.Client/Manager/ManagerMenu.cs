@@ -72,7 +72,7 @@ namespace TheLastPlanet.Client.Manager
 						}
 						else if (item == Teletrasportalo)
 						{
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.MyPlayer.User.posizione.ToVector3);
+							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.MyPlayer.User.Posizione.ToVector3);
 						}
 						else if (item == Specta)
 						{
@@ -396,7 +396,7 @@ namespace TheLastPlanet.Client.Manager
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.MyPlayer.User.posizione.ToVector3, Cache.MyPlayer.User.posizione.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.MyPlayer.User.Posizione.ToVector3, Cache.MyPlayer.User.Posizione.Heading);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using TheLastPlanet.Shared.Snowflake.Serialization;
+using TheLastPlanet.Shared.Snowflakes.Serialization;
 using Newtonsoft.Json.Serialization;
-using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared
 {

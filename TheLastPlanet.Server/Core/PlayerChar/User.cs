@@ -9,7 +9,7 @@ using Logger;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared.Snowflake;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {

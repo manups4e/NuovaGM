@@ -113,9 +113,9 @@ namespace TheLastPlanet.Client.Manager
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = Cache.MyPlayer.User.posizione.ToVector3;
+					curLocation = Cache.MyPlayer.User.Posizione.ToVector3;
 					curRotation = p.Rotation;
-					curHeading = Cache.MyPlayer.User.posizione.Heading;
+					curHeading = Cache.MyPlayer.User.Posizione.Heading;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -380,8 +380,7 @@ namespace TheLastPlanet.Client.Manager
 
 		private static async void TeleportToMarker()
 		{
-			Vector3 coords = Cache.MyPlayer.Ped.Position;
-			bool success = false;
+			Position coords = Cache.MyPlayer.User.Posizione;
 			bool blipFound = false;
 			// search for marker blip
 			int blipIterator = GetBlipInfoIdIterator();
@@ -389,7 +388,7 @@ namespace TheLastPlanet.Client.Manager
 			for (Blip i = new Blip(GetFirstBlipInfoId(blipIterator)); i.Exists() != false; i = new Blip(GetNextBlipInfoId(blipIterator)))
 				if (i.Type == 4)
 				{
-					coords = i.Position;
+					coords = i.Position.ToPosition();
 					blipFound = true;
 
 					break;
@@ -432,9 +431,7 @@ namespace TheLastPlanet.Client.Manager
 				HUD.ShowNotification("Teletrasportato!", NotificationColor.Blue, true);
 			}
 			else
-			{
 				HUD.ShowNotification("Punto in mappa non trovato, imposta un punto in mappa!", NotificationColor.Red, true);
-			}
 		}
 	}
 }

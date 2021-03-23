@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheLastPlanet.Shared.Snowflake
+namespace TheLastPlanet.Shared.Snowflakes
 {
     
     public struct Snowflake : IEquatable<Snowflake>

@@ -21,10 +21,10 @@ namespace TheLastPlanet.Shared.PlayerChar
 		[JsonIgnore]
 		private ulong UserID
 		{
-			set => PlayerID = Snowflake.Snowflake.Parse(value);
+			set => PlayerID = Snowflakes.Snowflake.Parse(value);
 		}
 
-		public Snowflake.Snowflake PlayerID;
+		public Snowflakes.Snowflake PlayerID;
 		public string group;
 		public UserGroup group_level;
 		public long playTime;
