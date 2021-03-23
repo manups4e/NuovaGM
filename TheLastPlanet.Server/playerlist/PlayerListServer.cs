@@ -44,9 +44,9 @@ namespace FivemPlayerlistServer
 		{
 			if (playerServerId > 0)
 			{
-				list[playerServerId] = new dynamic[4] { playerServerId, crewName ?? "", jobPoints != null ? jobPoints : -1, showJobPointsIcon != null ? showJobPointsIcon : false };
-				BaseScript.TriggerClientEvent("lprp:fs:setPlayerConfig", playerServerId, crewName ?? "", jobPoints != null ? jobPoints : -1,
-					showJobPointsIcon != null ? showJobPointsIcon : false);
+				list[playerServerId] = new dynamic[4] { playerServerId, crewName ?? "", jobPoints, showJobPointsIcon };
+				BaseScript.TriggerClientEvent("lprp:fs:setPlayerConfig", playerServerId, crewName ?? "", jobPoints,
+					showJobPointsIcon);
 			}
 		}
 	}
