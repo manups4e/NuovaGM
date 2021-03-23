@@ -643,6 +643,16 @@ namespace TheLastPlanet.Shared
 			return Vector4.Zero;
 		}
 
+
+		public static Position ToPosition(this Vector3 vec)
+		{
+			return new Position(vec);
+		}
+		public static Position ToPosition(this Vector4 vec)
+		{
+			return new Position(vec.ToVector3(), vec.W);
+		}
+
 		public static bool Intersects(float[] A, float[] B, float[] P)
 		{
 			if (A[1] > B[1])

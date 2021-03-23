@@ -180,6 +180,7 @@ namespace TheLastPlanet.Shared
         {
             return new Position(scalar - value.X, scalar - value.Y, scalar - value.Z);
         }
+
 #if CLIENT
         public async Task<Position> FindGroundZ()
         {
@@ -188,8 +189,8 @@ namespace TheLastPlanet.Shared
             try
             {
                 int time = Game.GameTime;
-
-                while (z == 0)
+                bool pippo = false;
+                while (!pippo)
                 {
                     if (Game.GameTime - time >= 5000)
                     {
@@ -198,7 +199,7 @@ namespace TheLastPlanet.Shared
                     }
 
                     await BaseScript.Delay(50);
-                    bool pippo = API.GetGroundZFor_3dCoord(X, Y, Z, ref z, false);
+                    pippo = API.GetGroundZFor_3dCoord(X, Y, Z, ref z, false);
                     Z += 10;
                 }
 
