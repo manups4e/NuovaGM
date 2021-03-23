@@ -26,10 +26,10 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static async void Init()
 		{
-			ClientSession.Instance.AddEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
-			ClientSession.Instance.AddEventHandler("cBrakes:add_front", new Action<int>(AddFront));
-			ClientSession.Instance.AddEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
-			ClientSession.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
+			Client.Instance.AddEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
+			Client.Instance.AddEventHandler("cBrakes:add_front", new Action<int>(AddFront));
+			Client.Instance.AddEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
+			Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
 		}
 
 		private static void AddRear(int NetVeh)

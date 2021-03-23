@@ -24,8 +24,8 @@ namespace TheLastPlanet.Client.TimeWeather
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
-			ClientSession.Instance.AddEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
+			Client.Instance.AddEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
+			Client.Instance.AddEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
 		}
 
 		public static void SetDynamic(bool dynamic) { ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic; }

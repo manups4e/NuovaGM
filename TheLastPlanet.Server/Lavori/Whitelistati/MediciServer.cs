@@ -11,9 +11,9 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		private static List<int> Morti = new List<int>();
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
-			ServerSession.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
-			ServerSession.Instance.AddEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
+			Server.Instance.AddEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
 		}
 
 		private static void PlayerMorto([FromSource] Player player)

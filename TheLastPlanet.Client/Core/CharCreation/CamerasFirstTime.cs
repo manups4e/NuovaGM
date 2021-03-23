@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
+			Client.Instance.AddEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
 			PrepareMusicEvent("GLOBAL_KILL_MUSIC");
 			PrepareMusicEvent("FM_INTRO_START");
 			PrepareMusicEvent("FM_INTRO_END");
@@ -44,8 +44,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Ped playerPed = Cache.MyPlayer.Ped;
 			TriggerMusicEvent("FM_INTRO_START");
 			playerPed.Detach();
-			ClientSession.Instance.AddTick(Controllo);
-			ClientSession.Instance.AddTick(Crediti);
+			Client.Instance.AddTick(Controllo);
+			Client.Instance.AddTick(Crediti);
 			playerPed.IsPositionFrozen = true;
 			playerPed.IsVisible = false;
 			Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("IngressoPlayer");
@@ -124,20 +124,20 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(ClientSession.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();
-			ClientSession.Instance.RemoveTick(Controllo);
-			ClientSession.Instance.RemoveTick(Crediti);
+			Client.Instance.RemoveTick(Controllo);
+			Client.Instance.RemoveTick(Crediti);
 			SiContinua(Cam8);
 		}
 
 		public static async void SiContinua(Camera Cam)
 		{
 			Ped playerPed = Cache.MyPlayer.Ped;
-			ClientSession.Instance.AddTick(Controllo);
-			ClientSession.Instance.AddTick(Crediti);
+			Client.Instance.AddTick(Controllo);
+			Client.Instance.AddTick(Crediti);
 			Camera Cam9 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f };
 			Model tassista = new Model(PedHash.Stlat01AMY);
 			tassista.Request();
@@ -149,7 +149,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 				foreach (Vehicle v in vehs)
 				{
-					foreach (Player p in ClientSession.Instance.GetPlayers.ToList())
+					foreach (Player p in Client.Instance.GetPlayers.ToList())
 						if (v.Driver != new Ped(GetPlayerPed(p.Handle)))
 							v.Delete();
 				}
@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			sub_11f32("scrlead", 0.16f);
 			await BaseScript.Delay(4000);
 			sub_11f01("scrlead", 0.16f);
-			ClientSession.Instance.RemoveTick(Crediti);
+			Client.Instance.RemoveTick(Crediti);
 			Camera cam10 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(Cam9.Position.X, Cam9.Position.Y, Cam9.Position.Z + 50) };
 			cam10.PointAt(taxi);
 			Cam9.InterpTo(cam10, 5000, 1, 1);
@@ -226,10 +226,10 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
-			ClientSession.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
+			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 			Screen.Fading.FadeIn(800);
-			ClientSession.Instance.RemoveTick(Controllo);
+			Client.Instance.RemoveTick(Controllo);
 			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
 			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
 			Cache.MyPlayer.Player.CanControlCharacter = true;

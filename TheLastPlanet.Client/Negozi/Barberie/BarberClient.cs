@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.Negozi
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static async void Spawnato()
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Negozi
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
-				BarberMenu(Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? ClientSession.Impostazioni.Negozi.Barbieri.Maschio : ClientSession.Impostazioni.Negozi.Barbieri.Femmina, Menu);
+				BarberMenu(Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? Client.Impostazioni.Negozi.Barbieri.Maschio : Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 
@@ -916,13 +916,13 @@ namespace TheLastPlanet.Client.Negozi
 				ClearPedTasks(PlayerPedId());
 				await Funzioni.UpdateFace(skin);
 				RenderScriptCams(false, true, 1000, true, false);
-				ClientSession.Instance.RemoveTick(NuovaCam);
+				Client.Instance.RemoveTick(NuovaCam);
 			};
 
 			#endregion
 
 			MenuPrincipale.Visible = true;
-			ClientSession.Instance.AddTick(NuovaCam);
+			Client.Instance.AddTick(NuovaCam);
 		}
 
 		private static float fov = 0;

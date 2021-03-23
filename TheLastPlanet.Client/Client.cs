@@ -15,16 +15,16 @@ using TheLastPlanet.Client.Internal.Events;
 
 namespace TheLastPlanet.Client
 {
-	public class ClientSession : BaseScript
+	public class Client : BaseScript
 	{
-		public static ClientSession Instance { get; protected set; }
+		public static Client Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
 		public ClientGateway ClientGateway;
 		
-		public ClientSession() { Inizializza(); }
+		public Client() { Inizializza(); }
 
 		private async void Inizializza()
 		{

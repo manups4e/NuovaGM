@@ -32,7 +32,7 @@ namespace TheLastPlanet.Server
 		public static void Init()
 		{
 			responseDictionary = new ConcurrentDictionary<int, ConcurrentDictionary<string, dynamic>>();
-			ServerSession.Instance.AddEventHandler("__cfx_internal:httpResponse", new Action<int, int, string, dynamic>(Response));
+			Server.Instance.AddEventHandler("__cfx_internal:httpResponse", new Action<int, int, string, dynamic>(Response));
 		}
 
 		public static void Response(int token, int status, string text, dynamic header)

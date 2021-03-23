@@ -12,7 +12,7 @@ namespace TheLastPlanet.Client.Lavori
 {
     public abstract class JobProfile
     {
-        public ClientSession LPRP => ClientSession.Instance;
+        public Client LPRP => Client.Instance;
         public LavoroBase Job { get; set; }
         public abstract JobProfile[] Dependencies { get; set; }
         public abstract void Begin(LavoroBase job);

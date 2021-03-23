@@ -61,34 +61,34 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:fuelLevel", new Action<float>(FuelLevel));
-			ClientSession.Instance.AddEventHandler("frfuel:filltankForVeh", new Action<int>(FillTankForVeh));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:depositfuel", new Action<bool, string, string, string>(DepositFuel));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:depositfuelnotowned", new Action<bool, string, string, string, string>(DepositFuelNotOwned));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<bool, string>(BuyTanker));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:stationnotowned", new Action(StationNotOwned));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<bool, string>(BuyFuelForTanker));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:settankerfuel", new Action<int>(SetTankerFuel));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
-			ClientSession.Instance.AddEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
+			Client.Instance.AddEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
+			Client.Instance.AddEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
+			Client.Instance.AddEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:fuelLevel", new Action<float>(FuelLevel));
+			Client.Instance.AddEventHandler("frfuel:filltankForVeh", new Action<int>(FillTankForVeh));
+			Client.Instance.AddEventHandler("lprp:fuel:depositfuel", new Action<bool, string, string, string>(DepositFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:depositfuelnotowned", new Action<bool, string, string, string, string>(DepositFuelNotOwned));
+			Client.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<bool, string>(BuyTanker));
+			Client.Instance.AddEventHandler("lprp:fuel:stationnotowned", new Action(StationNotOwned));
+			Client.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<bool, string>(BuyFuelForTanker));
+			Client.Instance.AddEventHandler("lprp:fuel:settankerfuel", new Action<int>(SetTankerFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
+			Client.Instance.AddEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
+			Client.Instance.AddEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Spawnato()
 		{
-			FuelCapacity = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
-			FuelRpmImpact = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelRpmImpact;
-			FuelAccelImpact = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelAccelImpact;
-			FuelTractionImpact = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelTractionImpact;
-			trucks = ClientSession.Impostazioni.Veicoli.DanniVeicoli.trucks;
-			tanker = ClientSession.Impostazioni.Veicoli.DanniVeicoli.tanker;
-			maxtankerfuel = ClientSession.Impostazioni.Veicoli.DanniVeicoli.maxtankerfuel;
-			refuelCost = ClientSession.Impostazioni.Veicoli.DanniVeicoli.refuelCost;
+			FuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+			FuelRpmImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelRpmImpact;
+			FuelAccelImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelAccelImpact;
+			FuelTractionImpact = Client.Impostazioni.Veicoli.DanniVeicoli.FuelTractionImpact;
+			trucks = Client.Impostazioni.Veicoli.DanniVeicoli.trucks;
+			tanker = Client.Impostazioni.Veicoli.DanniVeicoli.tanker;
+			maxtankerfuel = Client.Impostazioni.Veicoli.DanniVeicoli.maxtankerfuel;
+			refuelCost = Client.Impostazioni.Veicoli.DanniVeicoli.refuelCost;
 		}
 
 		public static string getRandomPlate()
@@ -164,7 +164,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void SetVehicleFuelLevel(this Vehicle veh, float fuel)
 		{
-			float maxfuel = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+			float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (fuel > maxfuel) fuel = maxfuel;
 			veh.SetDecor(DecorName, fuel);
 			veh.FuelLevel = veh.GetDecor<float>(DecorName);
@@ -184,14 +184,14 @@ namespace TheLastPlanet.Client.Veicoli
 		public static void initFuel(Vehicle veh)
 		{
 			curVehInit = true;
-			float fuelCapacity = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+			float fuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			if (!veh.HasDecor(DecorName)) veh.SetDecor(DecorName, RandomFuelLevel(fuelCapacity));
 			veh.FuelLevel = veh.GetDecor<float>(DecorName);
 		}
 
 		public static bool modelValid(Vehicle veh) { return veh.Model.IsBike | veh.Model.IsCar | veh.Model.IsQuadbike; }
 
-		public static float vehicleFuelLevel(this Vehicle veh) { return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity; }
+		public static float vehicleFuelLevel(this Vehicle veh) { return veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity; }
 
 		public static void ConsumeFuel(Vehicle veh)
 		{
@@ -242,21 +242,21 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
-				SetVehicleFuelLevel(Cache.MyPlayer.Ped.CurrentVehicle, ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
+				SetVehicleFuelLevel(Cache.MyPlayer.Ped.CurrentVehicle, Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
 			}
 		}
 
 		public static void FuelLevel(float level)
 		{
-			if (level > ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity)
-				level = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+			if (level > Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity)
+				level = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 			else if (level < 0f) level = 0f;
 			SetVehicleFuelLevel(Cache.MyPlayer.Ped.CurrentVehicle, level);
 			HUD.ShowNotification("Carburante settato, Usalo SOLO in caso di ~r~EMERGENZA~w~!");
 		}
 
-		public static void FillTankForVeh(int veh) { SetVehicleFuelLevel(new Vehicle(veh), ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity); }
+		public static void FillTankForVeh(int veh) { SetVehicleFuelLevel(new Vehicle(veh), Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity); }
 
 		public static void DepositFuel(bool success, string tankerful, string stationfuel, string overflow)
 		{
@@ -432,7 +432,7 @@ namespace TheLastPlanet.Client.Veicoli
 				}
 				else if (Cache.MyPlayer.User.StatiPlayer.InVeicolo && veh.Driver != playerPed && modelValid(veh) && !veh.IsDead)
 				{
-					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
 				}
 
@@ -488,7 +488,7 @@ namespace TheLastPlanet.Client.Veicoli
 												{
 													justPumped = true;
 													float fuel = LastVehicle.FuelLevel;
-													float maxfuel = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+													float maxfuel = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 													float afuel = fuel + addedFuel;
 
 													if (afuel <= maxfuel)
@@ -549,7 +549,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 					if (dist < 2 && LastVehicle.HasDecor(DecorName))
 					{
-						float max = ClientSession.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
+						float max = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;
 						float fuel = vehicleFuelLevel(lastVehicle);
 						if (max - fuel < 0.5)
 							HUD.ShowNotification("Il serbatoio è già pieno.");

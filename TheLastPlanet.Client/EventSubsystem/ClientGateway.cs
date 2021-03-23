@@ -42,9 +42,9 @@ namespace TheLastPlanet.Client.Internal.Events
 
         public ClientGateway()
         {
-            ClientSession.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string>(Inbound));
-            ClientSession.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string>(Outbound));
-            ClientSession.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(TakeSignature));
+            Client.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string>(Inbound));
+            Client.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string>(Outbound));
+            Client.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(TakeSignature));
 
             BaseScript.TriggerServerEvent(EventConstant.SignaturePipeline);
         }

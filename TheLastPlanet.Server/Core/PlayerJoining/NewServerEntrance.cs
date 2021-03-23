@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Server.Core.PlayerChar;
@@ -15,14 +16,14 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 	{
 		public static void Init()
 		{
-			ServerSession.Instance.SistemaEventi.Attach("lprp:setupUser", new AsyncEventCallback(async a =>
+			Server.Instance.SistemaEventi.Attach("lprp:setupUser", new AsyncEventCallback(async a =>
 			{
 				try
 				{
 					var player = Funzioni.GetPlayerFromId(a.Sender);
 					var handle = player.Handle;
 
-					if (ServerSession.PlayerList.ContainsKey(handle)) return ServerSession.PlayerList[handle];
+					if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
 					User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
 					{
@@ -30,7 +31,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 						lice = player.GetLicense(Identifier.License), name = player.Name
 					}));
 					await BaseScript.Delay(1);
-					ServerSession.PlayerList.TryAdd(handle, user);
+					Server.PlayerList.TryAdd(handle, user);
 					EntratoMaProprioSulSerio(player);
 					return user;
 				}
@@ -41,21 +42,21 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				}
 			}));
 
-			ServerSession.Instance.SistemaEventi.Attach("lprp:RequestLoginInfo", new AsyncEventCallback( async a =>
+			Server.Instance.SistemaEventi.Attach("lprp:RequestLoginInfo", new AsyncEventCallback( async a =>
 			{
 				var query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
 				var info = await MySQL.QueryListAsync<LogInInfo>(query, new { id = a.Find<int>(0) });
 				return info.ToList();
 			}));
 
-			ServerSession.Instance.SistemaEventi.Attach("lprp:anteprimaChar", new AsyncEventCallback(async a =>
+			Server.Instance.SistemaEventi.Attach("lprp:anteprimaChar", new AsyncEventCallback(async a =>
 			{
 				string query = "SELECT skin, dressing FROM personaggi WHERE	CharID = @id";
 				SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id = a.Find<ulong>(0) });
 				return res;
 			}));
 
-			ServerSession.Instance.SistemaEventi.Attach("lprp:Select_Char", new AsyncEventCallback(async a =>
+			Server.Instance.SistemaEventi.Attach("lprp:Select_Char", new AsyncEventCallback(async a =>
 			{
 				string query = "SELECT * FROM personaggi WHERE CharID = @id";
 				Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id = a.Find<ulong>(0) });
@@ -76,13 +77,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				};
 				return user.CurrentChar;
 			}));
-
-
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await ServerSession.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
+			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
 				new {last = DateTime.Now, id = player.GetLicense(Identifier.Discord)});
 		}
 	}

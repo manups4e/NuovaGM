@@ -41,8 +41,8 @@ namespace TheLastPlanet.Client.Handlers
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddTick(HUD.Menus);
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddTick(HUD.Menus);
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			// TICK HUD \\
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.Handlers
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
 			TickPolizia.Add(PoliziaMainClient.MainTickPolizia);
-			if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
+			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
 
 			// TICK MEDICI \\
 			TickMedici.Add(MediciMainClient.MarkersMedici);
@@ -109,10 +109,10 @@ namespace TheLastPlanet.Client.Handlers
 
 		private static void Spawnato()
 		{
-			TickGenerici.ForEach(x => ClientSession.Instance.AddTick(x));
-			TickAPiedi.ForEach(x => ClientSession.Instance.AddTick(x));
-			TickHUD.ForEach(x => ClientSession.Instance.AddTick(x));
-			ClientSession.Instance.AddTick(TickHandler);
+			TickGenerici.ForEach(x => Client.Instance.AddTick(x));
+			TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
+			TickHUD.ForEach(x => Client.Instance.AddTick(x));
+			Client.Instance.AddTick(TickHandler);
 		}
 
 		private static async Task TickHandler()
@@ -121,8 +121,8 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (!_inUnVeicolo)
 				{
-					TickAPiedi.ForEach(x => ClientSession.Instance.RemoveTick(x));
-					TickVeicolo.ForEach(x => ClientSession.Instance.AddTick(x));
+					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
+					TickVeicolo.ForEach(x => Client.Instance.AddTick(x));
 					_inUnVeicolo = true;
 				}
 			}
@@ -130,8 +130,8 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_inUnVeicolo)
 				{
-					TickVeicolo.ForEach(x => ClientSession.Instance.RemoveTick(x));
-					TickAPiedi.ForEach(x => ClientSession.Instance.AddTick(x));
+					TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
+					TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
 					VehHud.NUIBuckled(false);
 					_inUnVeicolo = false;
 				}
@@ -141,8 +141,8 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (!_hideHud)
 				{
-					TickHUD.ForEach(x => ClientSession.Instance.RemoveTick(x));
-					ClientSession.Instance.AddTick(EventiPersonalMenu.CinematicMode);
+					TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
+					Client.Instance.AddTick(EventiPersonalMenu.CinematicMode);
 					_hideHud = true;
 				}
 			}
@@ -150,8 +150,8 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_hideHud)
 				{
-					TickHUD.ForEach(x => ClientSession.Instance.AddTick(x));
-					ClientSession.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
+					TickHUD.ForEach(x => Client.Instance.AddTick(x));
+					Client.Instance.RemoveTick(EventiPersonalMenu.CinematicMode);
 					_hideHud = false;
 				}
 			}
@@ -160,9 +160,9 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (!_inAppartamento)
 				{
-					TickAPiedi.ForEach(x => ClientSession.Instance.RemoveTick(x));
+					TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
 					// verrà aggiunta gestione garage
-					TickAppartamento.ForEach(x => ClientSession.Instance.AddTick(x));
+					TickAppartamento.ForEach(x => Client.Instance.AddTick(x));
 					_inAppartamento = true;
 				}
 			}
@@ -170,9 +170,9 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_inAppartamento)
 				{
-					TickAppartamento.ForEach(x => ClientSession.Instance.RemoveTick(x));
+					TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
 					// verrà aggiunta gestione garage
-					TickAPiedi.ForEach(x => ClientSession.Instance.AddTick(x));
+					TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
 					_inAppartamento = false;
 				}
 			}
@@ -181,13 +181,13 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_medici)
 				{
-					ClientSession.Instance.RemoveTick(MediciMainClient.MarkersMedici);
+					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
 					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
 
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
-						ClientSession.Instance.RemoveTick(MediciMainClient.BlipMorti);
+						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
 
 					_medici = false;
@@ -195,9 +195,9 @@ namespace TheLastPlanet.Client.Handlers
 
 				if (!_polizia)
 				{
-					ClientSession.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
-					ClientSession.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
-					if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) ClientSession.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
+					Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = true;
 				}
 			}
@@ -205,16 +205,16 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_polizia)
 				{
-					ClientSession.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
-					ClientSession.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) ClientSession.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = false;
 				}
 
 				if (!_medici)
 				{
-					ClientSession.Instance.AddTick(MediciMainClient.MarkersMedici);
-					ClientSession.Instance.AddTick(MediciMainClient.BlipMorti);
+					Client.Instance.AddTick(MediciMainClient.MarkersMedici);
+					Client.Instance.AddTick(MediciMainClient.BlipMorti);
 					_medici = true;
 				}
 			}
@@ -222,21 +222,21 @@ namespace TheLastPlanet.Client.Handlers
 			{
 				if (_polizia)
 				{
-					ClientSession.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
-					ClientSession.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) ClientSession.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
+					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
+					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = false;
 				}
 
 				if (_medici)
 				{
-					ClientSession.Instance.RemoveTick(MediciMainClient.MarkersMedici);
+					Client.Instance.RemoveTick(MediciMainClient.MarkersMedici);
 					foreach (KeyValuePair<Ped, Blip> morto in MediciMainClient.Morti) morto.Value.Delete();
 
 					if (MediciMainClient.Morti.Count > 0)
 					{
 						MediciMainClient.Morti.Clear();
-						ClientSession.Instance.RemoveTick(MediciMainClient.BlipMorti);
+						Client.Instance.RemoveTick(MediciMainClient.BlipMorti);
 					}
 
 					_medici = false;

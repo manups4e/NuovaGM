@@ -12,10 +12,10 @@ namespace TheLastPlanet.Server.Veicoli
 	{
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
-			ServerSession.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
-			ServerSession.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
-			ServerSession.Instance.AddEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
+			Server.Instance.AddEventHandler("lprp:fuel:payForFuel", new Action<Player, int, float, float>(PayForFuel));
+			Server.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
+			Server.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
+			Server.Instance.AddEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
 		}
 
 		public static void RespondDecor([FromSource]Player p)
@@ -28,7 +28,7 @@ namespace TheLastPlanet.Server.Veicoli
 			User player = p.GetCurrentChar();
 			int sidx = stationindex;
 			float fuelCost;
-			dynamic result = await ServerSession.Instance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
+			dynamic result = await Server.Instance.Query($"SELECT `fuelprice` FROM `businesses` WHERE `stationindex` = @idx", new { idx = sidx });
 			await BaseScript.Delay(0);
 			int money = player.Money;
 			int bank = player.Bank;

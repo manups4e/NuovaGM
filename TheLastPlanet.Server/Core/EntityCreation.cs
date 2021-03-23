@@ -10,7 +10,7 @@ namespace TheLastPlanet.Server.Core
     {
         public static void Init()
         {
-           ServerSession.Instance.SistemaEventi.Attach("lprp:entity:spawnVehicle", new AsyncEventCallback( async metadata =>
+           Server.Instance.SistemaEventi.Attach("lprp:entity:spawnVehicle", new AsyncEventCallback( async metadata =>
            {
                try
                {
@@ -29,7 +29,7 @@ namespace TheLastPlanet.Server.Core
                }
            }));
 
-            ServerSession.Instance.SistemaEventi.Attach("lprp:entity:spawnPed", new AsyncEventCallback(async metadata =>
+            Server.Instance.SistemaEventi.Attach("lprp:entity:spawnPed", new AsyncEventCallback(async metadata =>
             {
                 try
                 {

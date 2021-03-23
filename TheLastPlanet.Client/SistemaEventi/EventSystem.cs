@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client.SistemaEventi
 
 		public EventSystem()
 		{
-			ClientSession.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<string>(payload =>
+			Client.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<string>(payload =>
 			{
 				Event wrapped = payload.ToString().FromJson<Event>();
 

@@ -29,8 +29,8 @@ namespace TheLastPlanet.Client.Telefono
 		public static Phone Phone;
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:setupPhoneClientUser", new Action<string>(Setup));
-			ClientSession.Instance.AddEventHandler("lprp:phone_start", new Action<string>(StartApp));
+			Client.Instance.AddEventHandler("lprp:setupPhoneClientUser", new Action<string>(Setup));
+			Client.Instance.AddEventHandler("lprp:phone_start", new Action<string>(StartApp));
 		}
 
 		private static void Setup(string JsonTelefono) 
@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.Telefono
 				Phone = new Phone(JsonTelefono.FromJson<Phone>());
 			else
 				Phone = new Phone();
-			ClientSession.Instance.AddTick(ControlloApertura);
+			Client.Instance.AddTick(ControlloApertura);
 		}
 
 		public static async Task ControlloApertura()
@@ -74,18 +74,18 @@ namespace TheLastPlanet.Client.Telefono
 				if (Phone.currentApp != null)
 				{
 					Phone.currentApp.Kill();
-					ClientSession.Instance.RemoveTick(Phone.currentApp.Tick);
+					Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				}
 				Phone.currentApp = Phone.mainApp;
 			}
 			else if (Phone.apps.Exists(x => x.Name == app))
 			{
-				ClientSession.Instance.RemoveTick(Phone.mainApp.Tick);
+				Client.Instance.RemoveTick(Phone.mainApp.Tick);
 				Phone.currentApp = Phone.apps.FirstOrDefault(x => x.Name == app);
 			}
 
 			Phone.currentApp.Initialize(Phone);
-			ClientSession.Instance.AddTick(Phone.currentApp.Tick);
+			Client.Instance.AddTick(Phone.currentApp.Tick);
 
 			Log.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
 		}
@@ -95,7 +95,7 @@ namespace TheLastPlanet.Client.Telefono
 			if (Phone.currentApp != null)
 			{
 				Log.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
-				ClientSession.Instance.RemoveTick(Phone.currentApp.Tick);
+				Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 
 				App lastApp = Phone.currentApp;
@@ -106,7 +106,7 @@ namespace TheLastPlanet.Client.Telefono
 					foreach (App app in Phone.apps)
 					{
 						app.Kill();
-						ClientSession.Instance.RemoveTick(app.Tick);
+						Client.Instance.RemoveTick(app.Tick);
 					}
 					Phone.ClosePhone();
 				}

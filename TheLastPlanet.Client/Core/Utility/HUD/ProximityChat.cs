@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 {
 	internal static class ProximityChat
 	{
-		public static void Init() { ClientSession.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay)); }
+		public static void Init() { Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay)); }
 
 		private static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();
 

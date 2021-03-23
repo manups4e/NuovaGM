@@ -21,54 +21,54 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
-			ServerSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
-			ServerSession.Instance.AddEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
-			ServerSession.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
-			ServerSession.Instance.AddEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
-			ServerSession.Instance.AddEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
+			Server.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.AddEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
+			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
+			Server.Instance.AddEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
+			Server.Instance.AddEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
 			//ServerSession.Instance.AddEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
-			ServerSession.Instance.AddEventHandler("lprp:CheckPing", new Action<Player>(Ping));
-			ServerSession.Instance.AddEventHandler("lprp:checkAFK", new Action<Player>(AFK));
-			ServerSession.Instance.AddEventHandler("lprp:payFine", new Action<Player, int>(PayFine));
-			ServerSession.Instance.AddEventHandler("lprp:givemoney", new Action<Player, int>(GiveMoney));
-			ServerSession.Instance.AddEventHandler("lprp:removemoney", new Action<Player, int>(RemoveMoney));
-			ServerSession.Instance.AddEventHandler("lprp:givebank", new Action<Player, int>(GiveBank));
-			ServerSession.Instance.AddEventHandler("lprp:removebank", new Action<Player, int>(RemoveBank));
-			ServerSession.Instance.AddEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
-			ServerSession.Instance.AddEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
-			ServerSession.Instance.AddEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
-			ServerSession.Instance.AddEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));
-			ServerSession.Instance.AddEventHandler("lprp:addWeapon", new Action<Player, string, int>(AddWeapon));
-			ServerSession.Instance.AddEventHandler("lprp:removeWeapon", new Action<Player, string>(RemoveWeapon));
-			ServerSession.Instance.AddEventHandler("lprp:addWeaponComponent", new Action<Player, string, string>(AddWeaponComp));
-			ServerSession.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<Player, string, string>(RemoveWeaponComp));
-			ServerSession.Instance.AddEventHandler("lprp:addWeaponTint", new Action<Player, string, int>(AddWeaponTint));
-			ServerSession.Instance.AddEventHandler("lprp:removeItemsDeath", new Action<Player>(removeItemsDeath));
-			ServerSession.Instance.AddEventHandler("lprp:salvaPlayer", new Action<Player>(SalvaPlayer));
-			ServerSession.Instance.AddEventHandler("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
-			ServerSession.Instance.AddEventHandler("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
-			ServerSession.Instance.AddEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
-			ServerSession.Instance.AddEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-			ServerSession.Instance.AddEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int, float>(AddInventoryToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removeIntenvoryItemtochar", new Action<string, int, string, int>(RemoveInventoryToChar));
-			ServerSession.Instance.AddEventHandler("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removeWeapontochar", new Action<string, int, string>(RemoveWeaponToChar));
-			ServerSession.Instance.AddEventHandler("lprp:addWeaponComponenttochar", new Action<string, int, string, string>(AddWeaponCompToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
-			ServerSession.Instance.AddEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
-			ServerSession.Instance.AddEventHandler("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
-			ServerSession.Instance.AddEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
-			ServerSession.Instance.AddEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
-			ServerSession.Instance.AddEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
-			ServerSession.Instance.AddEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
-			ServerSession.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
-			ServerSession.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
-			ServerSession.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
+			Server.Instance.AddEventHandler("lprp:CheckPing", new Action<Player>(Ping));
+			Server.Instance.AddEventHandler("lprp:checkAFK", new Action<Player>(AFK));
+			Server.Instance.AddEventHandler("lprp:payFine", new Action<Player, int>(PayFine));
+			Server.Instance.AddEventHandler("lprp:givemoney", new Action<Player, int>(GiveMoney));
+			Server.Instance.AddEventHandler("lprp:removemoney", new Action<Player, int>(RemoveMoney));
+			Server.Instance.AddEventHandler("lprp:givebank", new Action<Player, int>(GiveBank));
+			Server.Instance.AddEventHandler("lprp:removebank", new Action<Player, int>(RemoveBank));
+			Server.Instance.AddEventHandler("lprp:removedirty", new Action<Player, int>(RemoveDirty));
+			Server.Instance.AddEventHandler("lprp:givedirty", new Action<Player, int>(GiveDirty));
+			Server.Instance.AddEventHandler("lprp:addIntenvoryItem", new Action<Player, string, int, float>(AddInventory));
+			Server.Instance.AddEventHandler("lprp:removeIntenvoryItem", new Action<Player, string, int>(RemoveInventory));
+			Server.Instance.AddEventHandler("lprp:addWeapon", new Action<Player, string, int>(AddWeapon));
+			Server.Instance.AddEventHandler("lprp:removeWeapon", new Action<Player, string>(RemoveWeapon));
+			Server.Instance.AddEventHandler("lprp:addWeaponComponent", new Action<Player, string, string>(AddWeaponComp));
+			Server.Instance.AddEventHandler("lprp:removeWeaponComponent", new Action<Player, string, string>(RemoveWeaponComp));
+			Server.Instance.AddEventHandler("lprp:addWeaponTint", new Action<Player, string, int>(AddWeaponTint));
+			Server.Instance.AddEventHandler("lprp:removeItemsDeath", new Action<Player>(removeItemsDeath));
+			Server.Instance.AddEventHandler("lprp:salvaPlayer", new Action<Player>(SalvaPlayer));
+			Server.Instance.AddEventHandler("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
+			Server.Instance.AddEventHandler("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
+			Server.Instance.AddEventHandler("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
+			Server.Instance.AddEventHandler("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
+			Server.Instance.AddEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+			Server.Instance.AddEventHandler("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
+			Server.Instance.AddEventHandler("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+			Server.Instance.AddEventHandler("lprp:addIntenvoryItemtochar", new Action<string, int, string, int, float>(AddInventoryToChar));
+			Server.Instance.AddEventHandler("lprp:removeIntenvoryItemtochar", new Action<string, int, string, int>(RemoveInventoryToChar));
+			Server.Instance.AddEventHandler("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
+			Server.Instance.AddEventHandler("lprp:removeWeapontochar", new Action<string, int, string>(RemoveWeaponToChar));
+			Server.Instance.AddEventHandler("lprp:addWeaponComponenttochar", new Action<string, int, string, string>(AddWeaponCompToChar));
+			Server.Instance.AddEventHandler("lprp:removeWeaponComponenttochar", new Action<string, int, string, string>(RemoveWeaponCompToChar));
+			Server.Instance.AddEventHandler("lprp:addWeaponTinttochar", new Action<string, int, string, int>(AddWeaponTintToChar));
+			Server.Instance.AddEventHandler("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
+			Server.Instance.AddEventHandler("lprp:giveLicense", new Action<Player, string>(GiveLicense));
+			Server.Instance.AddEventHandler("lprp:giveLicenseToChar", new Action<Player, int, string>(GiveLicenseToChar));
+			Server.Instance.AddEventHandler("lprp:removeLicense", new Action<Player, string>(RemoveLicense));
+			Server.Instance.AddEventHandler("lprp:removeLicenseToChar", new Action<Player, int, string>(RemoveLicenseToChar));
+			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
+			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
+			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
+			Server.Instance.SistemaEventi.Attach("lprp:callPlayers", new AsyncEventCallback( async a => 
 			{
 				User user = Funzioni.GetUserFromPlayerId(a.Sender);
 				var pos = a.Find<Position>(0);
@@ -80,9 +80,9 @@ namespace TheLastPlanet.Server.Core
 					await user.SalvaPersonaggio();
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.identifiers.Discord);
 				}
-				return ServerSession.PlayerList;
+				return Server.PlayerList;
 			}));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
+			Server.Instance.SistemaEventi.Attach("lprp:callDBPlayers", new AsyncEventCallback(async a => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
 		}
 
 		public static void FinishChar([FromSource] Player p, string data)
@@ -106,7 +106,7 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Ping([FromSource] Player player)
 		{
-			if (player.Ping >= ServerSession.Impostazioni.Main.PingMax) player.Drop("Ping troppo alto (Limite: " + ServerSession.Impostazioni.Main.PingMax + ", tuo ping: " + player.Ping + ")");
+			if (player.Ping >= Server.Impostazioni.Main.PingMax) player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + player.Ping + ")");
 		}
 
 		public static void AFK([FromSource] Player p)
@@ -141,10 +141,10 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
 			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in città'");
-			foreach (var player in from Player player in ServerSession.Instance.GetPlayers.ToList() where player.Handle != source.Handle select player)
+			foreach (var player in from Player player in Server.Instance.GetPlayers.ToList() where player.Handle != source.Handle select player)
 				player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
+			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.ToJson());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
 			user.status.Spawned = true;
 		}
@@ -164,9 +164,9 @@ namespace TheLastPlanet.Server.Core
 					"Disconnected." or "Exited." => name + " si e' disconnesso.",
 					_ => name + " si e' disconnesso: " + reason,
 				};
-			if (ServerSession.PlayerList.ContainsKey(handle))
+			if (Server.PlayerList.ContainsKey(handle))
 			{
-				ServerSession.PlayerList.TryGetValue(handle, out User ped);
+				Server.PlayerList.TryGetValue(handle, out User ped);
 
 				var disc = ped.identifiers.Discord;
 				if (ped.status.Spawned)
@@ -177,7 +177,7 @@ namespace TheLastPlanet.Server.Core
 				else
 					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
 
-				ServerSession.PlayerList.TryRemove(handle, out ped);
+				Server.PlayerList.TryRemove(handle, out ped);
 			}
 
 			Log.Printa(LogType.Info, text);
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Server.Core
 			await BaseScript.Delay(0);
 			string name = player.Name;
 
-			if (ServerSession.PlayerList.ContainsKey(player.Handle))
+			if (Server.PlayerList.ContainsKey(player.Handle))
 			{
 				User ped = Funzioni.GetUserFromPlayerId(player.Handle);
 

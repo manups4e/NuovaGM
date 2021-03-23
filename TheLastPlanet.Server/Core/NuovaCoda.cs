@@ -72,16 +72,16 @@ namespace TheLastPlanet.Server.Core
 				Server_Priority.Server_Priority_Init();
 				LoadConfigs();
 				//              Server.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-				ServerSession.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
-				ServerSession.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
-				ServerSession.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
-				ServerSession.Instance.AddCommand("sessione", new Action<Player, List<string>, string>(QueueSession), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("cambiamax", new Action<Player, List<string>, string>(QueueChangeMax), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("ricaricaconfig", new Action<Player, List<string>, string>(ReloadConfig), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("ckick", new Action<Player, List<string>, string>(Kick), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("steamhexfromprofile", new Action<Player, List<string>, string>(DiscordProfileToHex), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("exitgame", new Action<Player, List<string>, string>(ExitSession), UserGroup.Admin);
-				ServerSession.Instance.AddCommand("count", new Action<Player, List<string>, string>(QueueCheck), UserGroup.Admin);
+				Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
+				Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(PlayerDropped));
+				Server.Instance.AddEventHandler("lprp:coda: playerConnected", new Action<Player>(PlayerActivated));
+				Server.Instance.AddCommand("sessione", new Action<Player, List<string>, string>(QueueSession), UserGroup.Admin);
+				Server.Instance.AddCommand("cambiamax", new Action<Player, List<string>, string>(QueueChangeMax), UserGroup.Admin);
+				Server.Instance.AddCommand("ricaricaconfig", new Action<Player, List<string>, string>(ReloadConfig), UserGroup.Admin);
+				Server.Instance.AddCommand("ckick", new Action<Player, List<string>, string>(Kick), UserGroup.Admin);
+				Server.Instance.AddCommand("steamhexfromprofile", new Action<Player, List<string>, string>(DiscordProfileToHex), UserGroup.Admin);
+				Server.Instance.AddCommand("exitgame", new Action<Player, List<string>, string>(ExitSession), UserGroup.Admin);
+				Server.Instance.AddCommand("count", new Action<Player, List<string>, string>(QueueCheck), UserGroup.Admin);
 				StopHardcap();
 				Task.Run(QueueCycle);
 				//            Server.Instance.AddTick(QueueCycle);
@@ -98,13 +98,13 @@ namespace TheLastPlanet.Server.Core
 			if (hostName == string.Empty) hostName = GetConvar("sv_hostname", string.Empty);
 			maxSession = GetConvarInt("sv_maxclients", 32);
 			publicTypeSlots = maxSession;
-			messages = ServerSession.Impostazioni.Coda.messages;
-			loadTime = ServerSession.Impostazioni.Coda.loadTime;
-			graceTime = ServerSession.Impostazioni.Coda.graceTime;
-			queueGraceTime = ServerSession.Impostazioni.Coda.queueGraceTime;
-			whitelistonly = ServerSession.Impostazioni.Coda.whitelistonly;
-			allowSymbols = ServerSession.Impostazioni.Coda.allowSymbols;
-			stateChangeMessages = ServerSession.Impostazioni.Coda.stateChangeMessages;
+			messages = Server.Impostazioni.Coda.messages;
+			loadTime = Server.Impostazioni.Coda.loadTime;
+			graceTime = Server.Impostazioni.Coda.graceTime;
+			queueGraceTime = Server.Impostazioni.Coda.queueGraceTime;
+			whitelistonly = Server.Impostazioni.Coda.whitelistonly;
+			allowSymbols = Server.Impostazioni.Coda.allowSymbols;
+			stateChangeMessages = Server.Impostazioni.Coda.stateChangeMessages;
 		}
 
 		private static void QueueCheck(Player source, List<string> args, string raw)
@@ -135,7 +135,7 @@ namespace TheLastPlanet.Server.Core
 				}
 				else
 				{
-					Player player = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
+					Player player = Server.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.ToString());
 					RemoveFrom(player.Identifiers["license"], true, true, true, true, true, true);
 					player.Drop("Exited");
 				}
@@ -158,7 +158,7 @@ namespace TheLastPlanet.Server.Core
 				}
 
 				string identifier = args[0].ToString();
-				Player player = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Identifiers["license"] == identifier || k.Identifiers["discord"] == identifier);
+				Player player = Server.Instance.GetPlayers.FirstOrDefault(k => k.Identifiers["license"] == identifier || k.Identifiers["discord"] == identifier);
 
 				if (player == null)
 				{
@@ -188,7 +188,7 @@ namespace TheLastPlanet.Server.Core
 				bool editHost = false;
 				int count = inQueue + inPriorityQueue;
 
-				if (ServerSession.Impostazioni.Coda.contoCodaFineNomeServer)
+				if (Server.Impostazioni.Coda.contoCodaFineNomeServer)
 				{
 					editHost = true;
 					if (count > 0)
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Server.Core
 
 						if (stateChangeMessages)
 						{
-							Player player = ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+							Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
 							Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}");
 						}
 
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Server.Core
 
 						if (stateChangeMessages)
 						{
-							Player player = ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+							Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
 							Log.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}");
 						}
 
@@ -369,7 +369,7 @@ namespace TheLastPlanet.Server.Core
 
 					if (stateChangeMessages)
 					{
-						Player player = ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+						Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
 						Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}");
 					}
 				}
@@ -449,20 +449,20 @@ namespace TheLastPlanet.Server.Core
 
 							if (IsTimeUp(license, loadTime))
 							{
-								if (ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license)?.EndPoint != null) ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license).Drop($"{messages["Timeout"]}");
+								if (Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license)?.EndPoint != null) Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license).Drop($"{messages["Timeout"]}");
 								session.TryGetValue(license, out SessionState oldState);
 								session.TryUpdate(license, SessionState.Grazia, oldState);
 								UpdateTimer(license);
 
 								if (stateChangeMessages)
 								{
-									Player player = ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+									Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
 									Log.Printa(LogType.Info, $"[{resourceName}]: CARICAMENTO -> GRAZIA -> Licenza: {license}");
 								}
 							}
 							else
 							{
-								if (sentLoading.ContainsKey(license) && ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license) != null)
+								if (sentLoading.ContainsKey(license) && Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license) != null)
 								{
 									Player value = null;
 									BaseScript.TriggerEvent("lprp:coda: newloading", sentLoading.TryGetValue(license, out value));
@@ -481,7 +481,7 @@ namespace TheLastPlanet.Server.Core
 
 							if (IsTimeUp(license, graceTime))
 							{
-								if (ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license)?.EndPoint != null)
+								if (Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == license)?.EndPoint != null)
 								{
 									if (!session.TryAdd(license, SessionState.Attivo))
 									{
@@ -495,7 +495,7 @@ namespace TheLastPlanet.Server.Core
 
 									if (stateChangeMessages)
 									{
-										Player player = ServerSession.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
+										Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
 										Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}");
 									}
 								}
@@ -551,7 +551,7 @@ namespace TheLastPlanet.Server.Core
 					Debug.WriteLine($"| LICENSE" + new string(' ', 33) + " | STATO IN CODA | DISCORD" + new string(' ', 11) + " | STEAM" + new string(' ', 10) + " | PRIORITA' | RISERVATO | SLOT USATO | HANDLE | NOME");
 					session.OrderByDescending(k => k.Value).ToList().ForEach(j =>
 					{
-						Player player = ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
+						Player player = Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
 						if (player == null) sentLoading.TryGetValue(j.Key, out player);
 						if (!priority.TryGetValue(j.Key, out int oldPriority)) oldPriority = 0;
 						if (!reserved.TryGetValue(j.Key, out Reserved oldReserved)) oldReserved = Reserved.Public;
@@ -565,7 +565,7 @@ namespace TheLastPlanet.Server.Core
 					session.OrderByDescending(k => k.Value).ToList().ForEach(j =>
 					{
 						dynamic temp;
-						Player player = ServerSession.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
+						Player player = Server.Instance.GetPlayers.FirstOrDefault(i => i.Identifiers["license"] == j.Key);
 						if (player == null) sentLoading.TryGetValue(j.Key, out player);
 						if (!priority.TryGetValue(j.Key, out int oldPriority)) oldPriority = 0;
 						if (!reserved.TryGetValue(j.Key, out Reserved oldReserved)) oldReserved = Reserved.Public;
@@ -582,7 +582,7 @@ namespace TheLastPlanet.Server.Core
 						};
 						sessionReturn.Add(temp);
 					});
-					Player requested = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.Handle);
+					Player requested = Server.Instance.GetPlayers.FirstOrDefault(k => k.Handle == source.Handle);
 					requested.TriggerEvent("lprp:coda: sessionResponse", sessionReturn.ToJson());
 				}
 			}
@@ -747,7 +747,7 @@ namespace TheLastPlanet.Server.Core
 				/*https://s5.gifyu.com/images/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.gif */
 				deferrals.presentCard(ControlloLicenza);
 				await BaseScript.Delay(3000);
-				puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, ServerSession.Impostazioni.Coda.permessi, PlayerTokens);
+				puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(discord, Server.Impostazioni.Coda.permessi, PlayerTokens);
 				await BaseScript.Delay(1000);
 
 				if (puoentrare.permesso)
@@ -1010,7 +1010,7 @@ namespace TheLastPlanet.Server.Core
 				string identifier = args[0].ToString();
 				int priority = int.Parse(args[1].ToString());
 				if (priority <= 0 || priority > 100) priority = 100;
-				Player player = ServerSession.Instance.GetPlayers.FirstOrDefault(k => k.Identifiers["license"] == identifier || k.Identifiers["discord"] == identifier);
+				Player player = Server.Instance.GetPlayers.FirstOrDefault(k => k.Identifiers["license"] == identifier || k.Identifiers["discord"] == identifier);
 
 				if (player != null)
 				{

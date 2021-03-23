@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client
 		public static async Task Init()
 		{
 			//var config = await Client.Instance.Eventi.Request<KeyValuePair<Configurazione, SharedConfig>>("lprp:configurazione");
-			ClientSession.Impostazioni = new Configurazione();
+			Client.Impostazioni = new Configurazione();
 			ConfigShared.SharedConfig = new SharedConfig();
 			await Task.FromResult(0);
 		}

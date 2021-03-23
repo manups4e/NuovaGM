@@ -9,14 +9,14 @@ namespace TheLastPlanet.Server.Clothestores
 	{
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:abiti:compra", new Action<Player, int, int>(Compra));
-			ServerSession.Instance.AddEventHandler("lprp:barbiere:compra", new Action<Player, int, int>(CompraBrb));
+			Server.Instance.AddEventHandler("lprp:abiti:compra", new Action<Player, int, int>(Compra));
+			Server.Instance.AddEventHandler("lprp:barbiere:compra", new Action<Player, int, int>(CompraBrb));
 		}
 
 		private static void Compra([FromSource] Player p, int price, int num)
 		{
 			User user;
-			ServerSession.PlayerList.TryGetValue(p.Handle, out user);
+			Server.PlayerList.TryGetValue(p.Handle, out user);
 
 			if (num == 1)
 			{
@@ -35,7 +35,7 @@ namespace TheLastPlanet.Server.Clothestores
 		private static void CompraBrb([FromSource] Player p, int price, int num)
 		{
 			User user;
-			ServerSession.PlayerList.TryGetValue(p.Handle, out user);
+			Server.PlayerList.TryGetValue(p.Handle, out user);
 
 			if (num == 1)
 			{

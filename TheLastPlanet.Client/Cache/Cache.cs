@@ -20,9 +20,9 @@ namespace TheLastPlanet.Client.SessionCache
         public static async Task InitPlayer()
         {
             MyPlayer = new PlayerCache();
-            var pippo = await ClientSession.Instance.SistemaEventi.Request<User>("lprp:setupUser");
+            var pippo = await Client.Instance.SistemaEventi.Request<User>("lprp:setupUser");
             MyPlayer.SetCharacter(pippo);
-            ClientSession.Instance.AddTick(TickStatiPlayer);
+            Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
         }
 

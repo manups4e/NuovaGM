@@ -131,7 +131,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void ConcealAllPlayers()
 		{
-			ClientSession.Instance.GetPlayers.ToList().ForEach(pl =>
+			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
 				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
 			});
@@ -147,7 +147,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void RevealAllPlayers()
 		{
-			ClientSession.Instance.GetPlayers.ToList().ForEach(pl =>
+			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
 				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
 			});
@@ -497,7 +497,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 
 				int callback =
-					await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading);
+					await Client.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading);
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -556,7 +556,7 @@ namespace TheLastPlanet.Client.Core.Utility
 					foreach (Vehicle v in vehs) v.Delete();
 				}
 
-				int callback = await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash,
+				int callback = await Client.Instance.SistemaEventi.Request<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash,
 					coords.X, coords.Y, coords.Z, heading);
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
@@ -711,7 +711,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 			}
 
-			int callback = await ClientSession.Instance.SistemaEventi.Request<int>("lprp:entity:spawnPed", (uint) pedModel.Hash,
+			int callback = await Client.Instance.SistemaEventi.Request<int>("lprp:entity:spawnPed", (uint) pedModel.Hash,
 					position.X, position.Y, position.Z, heading, (int)pedType);
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
@@ -767,7 +767,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> playersInArea = ignoreCallerPlayer ? ClientSession.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.MyPlayer.Player) : ClientSession.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
+			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.MyPlayer.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
 
 			return playersInArea;
 		}
@@ -780,7 +780,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Ped> GetPlayersPedsInArea(Vector3 coords, float area)
 		{
-			return ClientSession.Instance.GetPlayers.ToList().Select(p => p.Character).Where(target => target.IsInRangeOf(coords, area)).ToList();
+			return Client.Instance.GetPlayers.ToList().Select(p => p.Character).Where(target => target.IsInRangeOf(coords, area)).ToList();
 		}
 
 		#region Closest Methodi
@@ -901,7 +901,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static Player GetPlayerFromPed(Ped ped)
 		{
-			return ClientSession.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId);
+			return Client.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId);
 		}
 
 		/// <summary>
@@ -915,8 +915,8 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="coords"></param>
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
-			if (ClientSession.Instance.GetPlayers.ToList().Count <= 1) return new Tuple<Player, float>(null, -1);
-			Player closestPlayer = ClientSession.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.MyPlayer.Player);
+			if (Client.Instance.GetPlayers.ToList().Count <= 1) return new Tuple<Player, float>(null, -1);
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.MyPlayer.Player);
 
 			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
 		}
@@ -941,7 +941,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, User>> GetOnlinePlayersAndTheirData()
 		{
-			return await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, User>>("lprp:callPlayers");
+			return await Client.Instance.SistemaEventi.Request<Dictionary<string, User>>("lprp:callPlayers");
 		}
 
 		/// <summary>
@@ -950,7 +950,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, User>> GetAllPlayersAndTheirData()
 		{
-			return await ClientSession.Instance.SistemaEventi.Request<Dictionary<string, User>>("lprp:callDBPlayers");
+			return await Client.Instance.SistemaEventi.Request<Dictionary<string, User>>("lprp:callDBPlayers");
 		}
 
 		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)

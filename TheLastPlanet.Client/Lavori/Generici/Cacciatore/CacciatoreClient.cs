@@ -50,13 +50,13 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static void Spawnato()
 		{
-			Cacciatore = ClientSession.Impostazioni.Lavori.Generici.Cacciatore;
+			Cacciatore = Client.Impostazioni.Lavori.Generici.Cacciatore;
 			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia);
 			caccia.Sprite = BlipSprite.Hunting;
 			caccia.Color = BlipColor.TrevorOrange;
@@ -92,8 +92,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 				foreach (string s in animalGroups) p.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
 				animaliUccisi.Clear();
 				p.Weapons.Select(WeaponHash.Unarmed);
-				ClientSession.Instance.RemoveTick(ControlloBordi);
-				ClientSession.Instance.RemoveTick(ControlloUccisi);
+				Client.Instance.RemoveTick(ControlloBordi);
+				Client.Instance.RemoveTick(ControlloUccisi);
 			}
 
 			await BaseScript.Delay(1000);
@@ -293,8 +293,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 							AreadiCaccia.Alpha = 25;
 							AreadiCaccia.Color = BlipColor.TrevorOrange;
 							foreach (string s in animalGroups) Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Dislike, true);
-							ClientSession.Instance.AddTick(ControlloBordi);
-							ClientSession.Instance.AddTick(ControlloUccisi);
+							Client.Instance.AddTick(ControlloBordi);
+							Client.Instance.AddTick(ControlloUccisi);
 							SetBlipDisplay(AreadiCaccia.Handle, 4);
 							HUD.MenuPool.CloseAllMenus();
 							await BaseScript.Delay(10000);
@@ -319,7 +319,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
 					if (affittatoFuoco) BaseScript.TriggerServerEvent("lprp:removeWeapon", DaFuoco);
 					HUD.ShowNotification("Grazie di aver scelto il nostro servizio di gestione caccia!\nTorna presto!", NotificationColor.GreenDark);
 					StaCacciando = false;
-					ClientSession.Instance.RemoveTick(ControlloBordi);
+					Client.Instance.RemoveTick(ControlloBordi);
 					if (AreadiCaccia.Exists()) AreadiCaccia.Delete();
 					foreach (string s in animalGroups) Cache.MyPlayer.Ped.RelationshipGroup.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(s)), Relationship.Neutral, true);
 					animaliUccisi.Clear();

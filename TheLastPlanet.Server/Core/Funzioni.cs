@@ -15,12 +15,12 @@ namespace TheLastPlanet.Server.Core
 	{
 		public static Player GetPlayerFromId(int id)
 		{
-			return ServerSession.Instance.GetPlayers[id];
+			return Server.Instance.GetPlayers[id];
 		}
 
 		public static Player GetPlayerFromId(string id)
 		{
-			return ServerSession.Instance.GetPlayers[Convert.ToInt32(id)];
+			return Server.Instance.GetPlayers[Convert.ToInt32(id)];
 		}
 
 		public static ConcurrentDictionary<string, string> HASH_TO_LABEL = new()
@@ -315,11 +315,11 @@ namespace TheLastPlanet.Server.Core
 
 		public static double DateTime2TimeStamp(DateTime dateTime) { return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds; }
 
-		public static User GetUserFromPlayerId(string id) { return ServerSession.PlayerList.TryGetValue(id, out User user) ? user : null; }
+		public static User GetUserFromPlayerId(string id) { return Server.PlayerList.TryGetValue(id, out User user) ? user : null; }
 
-		public static User GetUserFromPlayerId(int id) { return ServerSession.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
+		public static User GetUserFromPlayerId(int id) { return Server.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
 
-		public static User GetCurrentChar(this Player player) { return ServerSession.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
+		public static User GetCurrentChar(this Player player) { return Server.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
 
 		private static Random random = new Random();
 		public static float RandomFloatInRange(float minimum, float maximum) { return (float)random.NextDouble() * (maximum - minimum) + minimum; }

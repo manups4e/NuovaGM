@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client
 			EntityDecoration.LockProperties();
 
 			await Cache.Loaded();
-			ClientSession.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
+			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}
 	}

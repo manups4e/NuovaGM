@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.Lavori
 	{
 		public static void Init()
 		{
-			ClientSession.Instance.SistemaEventi.Attach("lprp:job:employee:hired", new AsyncEventCallback(async meta =>
+			Client.Instance.SistemaEventi.Attach("lprp:job:employee:hired", new AsyncEventCallback(async meta =>
 			{
 				var seed = meta.Find<int>(0);
 				User user = Funzioni.GetPlayerCharFromServerId(seed);

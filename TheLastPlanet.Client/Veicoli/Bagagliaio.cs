@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.Veicoli
 		private static bool trunkOpen = false;
 		private static float trunkdist = 1.375f;
 
-		public static void Init() { ClientSession.Instance.AddEventHandler("lprp:bagaliaio:chiudi", new Action(ChiudiBagagliaio)); }
+		public static void Init() { Client.Instance.AddEventHandler("lprp:bagaliaio:chiudi", new Action(ChiudiBagagliaio)); }
 
 		private static async void ChiudiBagagliaio()
 		{

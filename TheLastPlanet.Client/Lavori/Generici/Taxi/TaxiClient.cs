@@ -32,8 +32,8 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 
 		public static void Init()
 		{
-			taxi = ClientSession.Impostazioni.Lavori.Generici.Tassista;
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			taxi = Client.Impostazioni.Lavori.Generici.Tassista;
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Add(Markers);
 		}
 
@@ -155,13 +155,13 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 							taximeter.Taximeter = new Scaleform("taxi_display");
 							while (!taximeter.Taximeter.IsLoaded) await BaseScript.Delay(0);
 							taximeter.meter_rt = RenderTargets.CreateNamedRenderTargetForModel("taxi", (uint)GetHashKey("prop_taxi_meter_2"));
-							ClientSession.Instance.AddTick(ServizioTaxi);
+							Client.Instance.AddTick(ServizioTaxi);
 							HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei entrato in servizio. Guida per le strade in cerca di clienti.", NotificationIcon.Taxi, IconType.ChatBox);
-							if (p.IsInVehicle(VeicoloServizio)) ClientSession.Instance.AddTick(TaximeterTick);
+							if (p.IsInVehicle(VeicoloServizio)) Client.Instance.AddTick(TaximeterTick);
 						}
 						else
 						{
-							ClientSession.Instance.RemoveTick(ServizioTaxi);
+							Client.Instance.RemoveTick(ServizioTaxi);
 							HUD.ShowAdvancedNotification("Centralino tassisti", "Messaggio all'autista", "Sei uscito dal servizio.", NotificationIcon.Taxi, IconType.ChatBox);
 							VaiFuoriServizio(1);
 						}
@@ -460,7 +460,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Taxi
 				jobs = new TaxiFlags();
 			}
 
-			ClientSession.Instance.RemoveTick(TaximeterTick);
+			Client.Instance.RemoveTick(TaximeterTick);
 		}
 	}
 

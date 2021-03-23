@@ -93,18 +93,18 @@ namespace TheLastPlanet.Client.Core.LogIn
 		public static void Init()
 		{
 			ClearFocus();
-			ClientSession.Instance.AddTick(Entra);
-			ClientSession.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) =>
+			Client.Instance.AddTick(Entra);
+			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) =>
 			{
 				ToggleMenu(true, "charloading");
 				cb("ok");
 			}));
-			ClientSession.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
-			ClientSession.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
-			ClientSession.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
-			ClientSession.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
-			ClientSession.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
-			ClientSession.Instance.AddEventHandler("playerSpawned", new Action(PlayerSpawned));
+			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
+			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
+			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
+			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
+			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
+			Client.Instance.AddEventHandler("playerSpawned", new Action(PlayerSpawned));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
@@ -117,7 +117,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (NetworkIsSessionStarted())
 			{
 				BaseScript.TriggerEvent("playerSpawned");
-				ClientSession.Instance.RemoveTick(Entra);
+				Client.Instance.RemoveTick(Entra);
 			}
 		}
 
@@ -209,9 +209,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.Loaded();
-			List<LogInInfo> data = await ClientSession.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
+			List<LogInInfo> data = await Client.Instance.SistemaEventi.Request<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
 			ToggleMenu(true, "charloading", data);
-			ClientSession.Instance.AddTick(Main.AFK);
+			Client.Instance.AddTick(Main.AFK);
 		}
 
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
@@ -234,11 +234,11 @@ namespace TheLastPlanet.Client.Core.LogIn
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Cache.MyPlayer.Ped;
-			SkinAndDress pers = await ClientSession.Instance.SistemaEventi.Request<SkinAndDress>("lprp:anteprimaChar", ID);
+			SkinAndDress pers = await Client.Instance.SistemaEventi.Request<SkinAndDress>("lprp:anteprimaChar", ID);
 
 			if (p1 != null)
 			{
-				ClientSession.Instance.RemoveTick(Controllo);
+				Client.Instance.RemoveTick(Controllo);
 				p1.Delete();
 			}
 
@@ -250,7 +250,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			while (!cambiato) await BaseScript.Delay(1000);
 			string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
 			p1.Task.StartScenario(scena, p1.Position);
-			ClientSession.Instance.AddTick(Controllo);
+			Client.Instance.AddTick(Controllo);
 			int i = 0;
 
 			while (i < 255)
@@ -284,7 +284,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 			*/
 
-			Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
+			Cache.MyPlayer.User.CurrentChar = await Client.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char", ID);
 			var Data = Cache.MyPlayer.User.CurrentChar;
 			var switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
@@ -326,21 +326,21 @@ namespace TheLastPlanet.Client.Core.LogIn
 			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(7000);
-			ClientSession.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
+			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			Cache.MyPlayer.User.CurrentChar.Veicoli = await ClientSession.Instance.SistemaEventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
+			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.SistemaEventi.Request<List<OwnedVehicle>>("lprp:caricaVeicoli");
 			//EnableSwitchPauseBeforeDescent();
 			Position pos = await Data.Posizione.FindGroundZ();
 			Cache.MyPlayer.Ped.Position = pos.ToVector3;
 			SwitchInPlayer(Cache.MyPlayer.Ped.Handle);
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
-			ClientSession.Instance.RemoveTick(Controllo);
+			Client.Instance.RemoveTick(Controllo);
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(1000);
 			Cache.MyPlayer.Ped.IsPositionFrozen = false;
@@ -458,7 +458,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 		public static async void Scelta(string param)
 		{
 			if (param == "select")
-				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + ClientSession.Impostazioni.Main.NomeServer + "!");
+				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
 			else
 				ToggleMenu(true, "charloading");
 		}

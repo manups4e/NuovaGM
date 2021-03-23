@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.Core
 		private static RelationshipGroup player = new(Funzioni.HashInt("PLAYER"));
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
-		public static Vector4 firstSpawnCoords = new Vector4(ClientSession.Impostazioni.Main.Firstcoords[0], ClientSession.Impostazioni.Main.Firstcoords[1], ClientSession.Impostazioni.Main.Firstcoords[2], ClientSession.Impostazioni.Main.Firstcoords[3]);
+		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);
 
 		private static List<string> tipi = new List<string>()
 		{
@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.Core
 			"MEDIC"
 		};
 		private static List<string> pickupList = new List<string>();
-		private static List<WeaponHash> scopedWeapons = ClientSession.Impostazioni.Main.ScopedWeapons;
+		private static List<WeaponHash> scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
 
 		private static bool kickWarning;
 		private static Dictionary<long, float> recoils = new Dictionary<long, float>();
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Core
 		public static bool IsDead = false;
 		public static bool isAdmin = false;
 		public static bool LoadoutLoaded = false;
-		private static bool passengerDriveBy = ClientSession.Impostazioni.Main.PassengerDriveBy;
+		private static bool passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
 		private static int _shootingTimer;
 		private static int _generalTimer;
 
@@ -123,9 +123,9 @@ namespace TheLastPlanet.Client.Core
 			LoadMain();
 
 			//Client.Instance.AddTick(Connesso);
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
-			ClientSession.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
-			ClientSession.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
+			Client.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
 			Screen.Fading.FadeOut(800);
 		}
 
@@ -166,12 +166,12 @@ namespace TheLastPlanet.Client.Core
 			Game.MaxWantedLevel = 0;
 			SetCanAttackFriendly(playerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
-			AddTextEntry("FE_THDR_GTAO", ClientSession.Impostazioni.Main.NomeServer);
-			scopedWeapons = ClientSession.Impostazioni.Main.ScopedWeapons;
-			passengerDriveBy = ClientSession.Impostazioni.Main.PassengerDriveBy;
-			kickWarning = ClientSession.Impostazioni.Main.KickWarning;
-			recoils = ClientSession.Impostazioni.Main.recoils;
-			pickupList = ClientSession.Impostazioni.Main.pickupList;
+			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
+			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
+			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
+			kickWarning = Client.Impostazioni.Main.KickWarning;
+			recoils = Client.Impostazioni.Main.recoils;
+			pickupList = Client.Impostazioni.Main.pickupList;
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
@@ -463,24 +463,24 @@ namespace TheLastPlanet.Client.Core
 				currentPosition = Cache.MyPlayer.User == null ? Cache.MyPlayer.Ped.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 
-				if (t >= ClientSession.Impostazioni.Main.AFKCheckTime)
+				if (t >= Client.Impostazioni.Main.AFKCheckTime)
 				{
 					if (Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{
-					if (t > ClientSession.Impostazioni.Main.AFKCheckTime - (int)Math.Floor(ClientSession.Impostazioni.Main.AFKCheckTime / 4f))
+					if (t > Client.Impostazioni.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 4f))
 						if (kickWarning)
 						{
-							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {ClientSession.Impostazioni.Main.AFKCheckTime - t} secondi!";
+							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!";
 
 							if (!triggerato)
 							{
-								Manager.ClientManager.WarningMessage("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {ClientSession.Impostazioni.Main.AFKCheckTime - t} secondi!", 8, "lprp:AFKScelta");
+								Manager.ClientManager.WarningMessage("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!", 8, "lprp:AFKScelta");
 								triggerato = true;
 							}
 
-							Manager.ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {ClientSession.Impostazioni.Main.AFKCheckTime - t} secondi!");
+							Manager.ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!");
 							Log.Printa(LogType.Debug, Text);
 						}
 				}
@@ -510,9 +510,9 @@ namespace TheLastPlanet.Client.Core
 		private static async void Peds()
 		{
 			await BaseScript.Delay(30000);
-			while (ClientSession.Impostazioni.Main.stripClub == null) await BaseScript.Delay(0);
+			while (Client.Impostazioni.Main.stripClub == null) await BaseScript.Delay(0);
 
-			foreach (GenericPeds stripper in ClientSession.Impostazioni.Main.stripClub)
+			foreach (GenericPeds stripper in Client.Impostazioni.Main.stripClub)
 			{
 				Ped ped = await World.CreatePed(new Model(GetHashKey(stripper.model)), new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);
 				ped.CanRagdoll = false;
@@ -523,7 +523,7 @@ namespace TheLastPlanet.Client.Core
 				ped.Task.PlayAnimation(stripper.animDict, stripper.animName, -1, -1, AnimationFlags.Loop);
 			}
 
-			foreach (GenericPeds market in ClientSession.Impostazioni.Main.blackMarket)
+			foreach (GenericPeds market in Client.Impostazioni.Main.blackMarket)
 			{
 				Ped ped1 = await World.CreatePed(new Model(GetHashKey(market.model)), new Vector3(market.coords[0], market.coords[1], market.coords[2]), market.heading);
 				ped1.CanRagdoll = false;
@@ -534,7 +534,7 @@ namespace TheLastPlanet.Client.Core
 				ped1.Task.StartScenario(market.animName, GetEntityCoords(ped1.Handle, true));
 			}
 
-			foreach (GenericPeds illegal in ClientSession.Impostazioni.Main.illegal_weapon_extra_shop)
+			foreach (GenericPeds illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
 			{
 				Ped ped2 = await World.CreatePed(new Model(GetHashKey(illegal.model)), new Vector3(illegal.coords[0], illegal.coords[1], illegal.coords[2]), illegal.heading);
 				ped2.CanRagdoll = false;

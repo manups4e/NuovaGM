@@ -26,14 +26,14 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			ClientSession.Instance.AddEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
-			ClientSession.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
+			Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}
 
 		private static async void Spawnato()
 		{
-			foreach (Ospedale ospedale in ClientSession.Impostazioni.Lavori.Medici.Config.Ospedali)
+			foreach (Ospedale ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 			{
 				Blip blip = World.CreateBlip(ospedale.Blip.Coords);
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
@@ -80,7 +80,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
-				foreach (Ospedale osp in ClientSession.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.Spogliatoio)
 						if (p.IsInRangeOf(vettore, 2f))
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medico" || Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medici")
-				foreach (Ospedale osp in ClientSession.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.IngressoVisitatori.Where(vettore => p.IsInRangeOf(vettore, 1.375f)))
 					{
@@ -285,7 +285,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 		{
 			await BaseScript.Delay(1000);
 
-			if (ClientSession.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
+			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
 				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
 					if (p.Value.CurrentChar.Job.Name == "Medici")
@@ -360,7 +360,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 			}
 			else
 			{
-				ClientSession.Instance.RemoveTick(AbilitaBlipVolanti);
+				Client.Instance.RemoveTick(AbilitaBlipVolanti);
 			}
 		}
 

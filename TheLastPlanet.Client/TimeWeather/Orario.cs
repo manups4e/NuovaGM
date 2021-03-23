@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.TimeWeather
 
 		public static async void Init()
 		{
-			ClientSession.Instance.AddEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
+			Client.Instance.AddEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
 			//Client.Instance.AddTick(AggiornaTempo);
 		}
 

@@ -31,12 +31,12 @@ namespace TheLastPlanet.Client.CodaControl
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
-			ClientSession.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<string>(SessionResponse));
-			ClientSession.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>, CallbackDelegate>(ClosePanel));
-			ClientSession.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>, CallbackDelegate>(RefreshPanel));
-			ClientSession.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>, CallbackDelegate>(KickUser));
-			ClientSession.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>, CallbackDelegate>(ChangePriority));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
+			Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<string>(SessionResponse));
+			Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>, CallbackDelegate>(ClosePanel));
+			Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>, CallbackDelegate>(RefreshPanel));
+			Client.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>, CallbackDelegate>(KickUser));
+			Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>, CallbackDelegate>(ChangePriority));
 		}
 
 		private static void OnResourceStop(string name)

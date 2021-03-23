@@ -48,7 +48,7 @@ namespace TheLastPlanet.Client.Manager
 						return;
 					}
 					*/
-				foreach (Player p in ClientSession.Instance.GetPlayers)
+				foreach (Player p in Client.Instance.GetPlayers)
 				{
 					//if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
 					User player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
@@ -80,7 +80,7 @@ namespace TheLastPlanet.Client.Manager
 							Cache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
 							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 							NetworkSetInSpectatorMode(true, p.Character.Handle);
-							ClientSession.Instance.AddTick(SpectatorMode);
+							Client.Instance.AddTick(SpectatorMode);
 						}
 					};
 
@@ -638,7 +638,7 @@ namespace TheLastPlanet.Client.Manager
 					Player p = new Player(Cache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
 					NetworkSetInSpectatorMode(false, p.Character.Model);
 					Cache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
-					ClientSession.Instance.RemoveTick(SpectatorMode);
+					Client.Instance.RemoveTick(SpectatorMode);
 				}
 			}
 			else

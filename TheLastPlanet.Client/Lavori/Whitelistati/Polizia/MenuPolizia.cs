@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					if (!Cache.MyPlayer.User.StatiPlayer.InServizio)
 					{
-						foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => Cache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
+						foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => Cache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
 							switch (Cache.MyPlayer.User.CurrentChar.Skin.sex)
 							{
 								case "Maschio":
@@ -237,7 +237,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					_newMenu.Clear();
 
-					if (ClientSession.Instance.GetPlayers.ToList().Count > 1)
+					if (Client.Instance.GetPlayers.ToList().Count > 1)
 					{
 						Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 						Ped ClosestPed = Player_Distance.Item1.Character;
@@ -288,7 +288,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					if (_newMenu.MenuItems.Count > 0) _newMenu.Clear();
 
-					if (ClientSession.Instance.GetPlayers.ToList().Count() > 1)
+					if (Client.Instance.GetPlayers.ToList().Count() > 1)
 					{
 						Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 						Ped ClosestPed = Player_Distance.Item1.Character;
@@ -343,7 +343,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 							if (!string.IsNullOrEmpty(nome) && data.Info.firstname.Contains(nome) || !string.IsNullOrEmpty(cognome) && data.Info.lastname.Contains(cognome) || numero != "" && numero != null && data.Info.phoneNumber.ToString().Contains(numero))
 							{
 								int source = 0;
-								foreach (Player p in ClientSession.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
+								foreach (Player p in Client.Instance.GetPlayers.ToList().Where(p => p.Name == pers.Key)) source = p.ServerId;
 								UIMenu Personaggio = CercaPers.AddSubMenu(data.Info.firstname + " " + data.Info.lastname + " [" + pers.Key + "]");
 								UIMenuItem NomeCognome = new("Nome:", "Il suo Nome");
 								NomeCognome.SetRightLabel(data.Info.firstname + " " + data.Info.lastname);
@@ -361,7 +361,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								Personaggio.AddItem(bank);
 								Pos = new UIMenuItem("Ultima Posizione conosciuta");
 								if (source != 0)
-									GetStreetNameAtCoord(ClientSession.Instance.GetPlayers[source].Character.Position.X, ClientSession.Instance.GetPlayers[source].Character.Position.Y, ClientSession.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
+									GetStreetNameAtCoord(Client.Instance.GetPlayers[source].Character.Position.X, Client.Instance.GetPlayers[source].Character.Position.Y, Client.Instance.GetPlayers[source].Character.Position.Z, ref StreetA, ref StreetB);
 								else
 									GetStreetNameAtCoord(data.Posizione.X, data.Posizione.Y, data.Posizione.Z, ref StreetA, ref StreetB);
 								Pos.Description = GetStreetNameFromHashKey(StreetA);
@@ -374,18 +374,18 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				}
 				else if (_newMenu == MenuPoliziaPrincipale && state == MenuState.Opened)
 				{
-					ClientSession.Instance.AddTick(ControlloMenu);
+					Client.Instance.AddTick(ControlloMenu);
 				}
 				else if (state == MenuState.Closed && _oldMenu == MenuPoliziaPrincipale)
 				{
-					ClientSession.Instance.RemoveTick(ControlloMenu);
+					Client.Instance.RemoveTick(ControlloMenu);
 				}
 
 				;
 			};
 			InterazioneCivile.OnItemSelect += async (menu, item, index) =>
 			{
-				if (ClientSession.Instance.GetPlayers.ToList().Count() > 1)
+				if (Client.Instance.GetPlayers.ToList().Count() > 1)
 				{
 					Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 					Ped ClosestPed = Player_Distance.Item1.Character;
@@ -614,7 +614,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						PreviewHeli.IsInvincible = true;
 						PreviewHeli.IsEngineRunning = true;
 						PreviewHeli.IsDriveable = false;
-						ClientSession.Instance.AddTick(Heading);
+						Client.Instance.AddTick(Heading);
 						HeliCam.PointAt(PreviewHeli);
 						if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
 						while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
@@ -626,7 +626,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				{
 					Screen.Fading.FadeOut(800);
 					await BaseScript.Delay(1000);
-					ClientSession.Instance.RemoveTick(Heading);
+					Client.Instance.RemoveTick(Heading);
 					HeliCam.IsActive = false;
 					RenderScriptCams(false, false, 0, false, false);
 					ClearFocus();
@@ -691,7 +691,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeIn(800);
-			ClientSession.Instance.AddTick(ControlloGarageNew);
+			Client.Instance.AddTick(ControlloGarageNew);
 		}
 
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
@@ -783,7 +783,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 								Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
-								ClientSession.Instance.RemoveTick(ControlloGarageNew);
+								Client.Instance.RemoveTick(ControlloGarageNew);
 							}
 						}
 				}
@@ -828,7 +828,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						PuntoAttuale = null;
 						Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
-						ClientSession.Instance.RemoveTick(ControlloGarageNew);
+						Client.Instance.RemoveTick(ControlloGarageNew);
 					}
 					else
 					{
@@ -925,7 +925,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				}
 			}
 
-			if (ClientSession.Instance.GetPlayers.ToList().Count() > 1)
+			if (Client.Instance.GetPlayers.ToList().Count() > 1)
 			{
 				Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
 				float distance = Player_Distance.Item2;

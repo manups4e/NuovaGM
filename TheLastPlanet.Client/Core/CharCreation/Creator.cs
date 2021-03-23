@@ -436,9 +436,9 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
-			ClientSession.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
-			ClientSession.Instance.AddTick(Scaleform);
+			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
+			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
+			Client.Instance.AddTick(Scaleform);
 			sub_8d2b2();
 		}
 
@@ -472,7 +472,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				string cognome = nuiData["cogn"] as string;
 				string dob = nuiData["dob"] as string;
 				string sesso = nuiData["sesso"] as string;
-				ClientSession.Instance.AddTick(Controllo);
+				Client.Instance.AddTick(Controllo);
 				_selezionato = sesso;
 				long assicurazione = Funzioni.GetRandomLong(999999999999999);
 				//Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
@@ -754,14 +754,14 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						case 0:
 							_dataFemmina = _data;
 							_data = _dataMaschio;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
+							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
 							_selezionato = "Maschio";
 
 							break;
 						case 1:
 							_dataMaschio = _data;
 							_data = _dataFemmina;
-							_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
+							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, _data.CharID, 0);
 							_selezionato = "Femmina";
 
 							break;
@@ -853,7 +853,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					_boardScalep1.CallFunction("SET_BOARD", ClientSession.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
+					_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
 				};
 
 				#endregion
@@ -1542,12 +1542,12 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					Cache.MyPlayer.Ped.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", _data.ToJson());
 
-					Cache.MyPlayer.User.CurrentChar = await ClientSession.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char");
+					Cache.MyPlayer.User.CurrentChar = await Client.Instance.SistemaEventi.Request<Char_data>("lprp:Select_Char");
 					//BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 
-					ClientSession.Instance.RemoveTick(Controllo);
-					ClientSession.Instance.RemoveTick(Scaleform);
-					ClientSession.Instance.RemoveTick(TastiMenu);
+					Client.Instance.RemoveTick(Controllo);
+					Client.Instance.RemoveTick(Scaleform);
+					Client.Instance.RemoveTick(TastiMenu);
 					CamerasFirstTime.FirstTimeTransition(_data.CharID == 1);
 					RemoveAnimDict("mp_character_creation@lineup@male_a");
 					RemoveAnimDict("mp_character_creation@lineup@male_b");
@@ -1560,7 +1560,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				#endregion
 
 				Creazione.Visible = true;
-				ClientSession.Instance.AddTick(TastiMenu);
+				Client.Instance.AddTick(TastiMenu);
 			}
 			catch
 			{

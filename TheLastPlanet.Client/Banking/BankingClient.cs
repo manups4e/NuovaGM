@@ -113,9 +113,9 @@ namespace TheLastPlanet.Client.Banking
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
-			ClientSession.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
-			ClientSession.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
+			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
+			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
+			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
 			foreach (Vector3 pos in _atmpos) InputHandler.ListaInput.Add(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
 			AddTextEntry("HUD_CASH", "€~1~");
@@ -322,8 +322,8 @@ namespace TheLastPlanet.Client.Banking
 			_menuAttuale = 0;
 			_currentSelection = 0;
 			TryBankingNew(true, 0);
-			ClientSession.Instance.AddTick(ControlliBank);
-			ClientSession.Instance.AddTick(AtmDisegna);
+			Client.Instance.AddTick(ControlliBank);
+			Client.Instance.AddTick(AtmDisegna);
 			InterfacciaAperta = true;
 		}
 
@@ -781,8 +781,8 @@ namespace TheLastPlanet.Client.Banking
 						break;
 					case 4: // Esci
 						Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
-						ClientSession.Instance.RemoveTick(AtmDisegna);
-						ClientSession.Instance.RemoveTick(ControlliBank);
+						Client.Instance.RemoveTick(AtmDisegna);
+						Client.Instance.RemoveTick(ControlliBank);
 						atm.Dispose();
 						StopAudioScene("ATM_PLAYER_SCENE");
 						InterfacciaAperta = false;
@@ -844,8 +844,8 @@ namespace TheLastPlanet.Client.Banking
 				if (_menuAttuale == 0)
 				{
 					Game.PlaySound("PIN_BUTTON", "ATM_SOUNDS");
-					ClientSession.Instance.RemoveTick(AtmDisegna);
-					ClientSession.Instance.RemoveTick(ControlliBank);
+					Client.Instance.RemoveTick(AtmDisegna);
+					Client.Instance.RemoveTick(ControlliBank);
 					atm.Dispose();
 					StopAudioScene("ATM_PLAYER_SCENE");
 					InterfacciaAperta = false;
@@ -1105,7 +1105,7 @@ namespace TheLastPlanet.Client.Banking
 					atm.CallFunction("DISPLAY_MESSAGE");
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
 					KeyValuePair<bool, string> trans = new KeyValuePair<bool, string>(false, "");
-					trans = await ClientSession.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
+					trans = await Client.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
 					if (trans.Key)
 						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Value + "$", NotificationColor.GreenLight);
 					else
@@ -1144,7 +1144,7 @@ namespace TheLastPlanet.Client.Banking
 					EndScaleformMovieMethod();
 					atm.CallFunction("DISPLAY_MESSAGE");
 					await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
-					trans = await ClientSession.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _destinatario, _soldiTransazione);
+					trans = await Client.Instance.SistemaEventi.Request<KeyValuePair<bool, string>>("lprp:banking:" + evento, _destinatario, _soldiTransazione);
 					if (trans.Key)
 						HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Value + "$", NotificationColor.GreenLight);
 					else

@@ -92,9 +92,9 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			ClientSession.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
-			ClientSession.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
+			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 			for (int i = 0; i < carGarageSpots.Count; i++)
 				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i], new Radius(1.379f, 50f), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
 				{
@@ -503,7 +503,7 @@ namespace TheLastPlanet.Client.Veicoli
 			if (previewedVehicle.Exists())
 			{
 				previewedVehicle.Delete();
-				ClientSession.Instance.RemoveTick(previewHeading);
+				Client.Instance.RemoveTick(previewHeading);
 			}
 
 			if (Funzioni.IsSpawnPointClear(coords, 1f))
@@ -518,7 +518,7 @@ namespace TheLastPlanet.Client.Veicoli
 				previewedVehicle.DirtLevel = 0f;
 				previewedVehicle.PlaceOnGround();
 				garageCam.PointAt(previewedVehicle);
-				ClientSession.Instance.AddTick(previewHeading);
+				Client.Instance.AddTick(previewHeading);
 			}
 		}
 

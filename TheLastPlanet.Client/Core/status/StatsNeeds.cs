@@ -50,8 +50,8 @@ namespace TheLastPlanet.Client.Core.Status
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
-			ClientSession.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 			Needs.Add("Fame", new Necessità("Fame", 0, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
 			Needs.Add("Sete", new Necessità("Sete", 0, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
 			Needs.Add("Stanchezza", new Necessità("Stanchezza", 0, 0.007f, new Action<Ped, Player, Necessità>(Stanchezza)));
@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Core.Status
 					break;
 				}
 				default:
-					ClientSession.Instance.RemoveTick(FameSete);
+					Client.Instance.RemoveTick(FameSete);
 
 					break;
 			}
@@ -125,10 +125,10 @@ namespace TheLastPlanet.Client.Core.Status
 		private static async void Clacson()
 		{
 			Ped p = Cache.MyPlayer.Ped;
-			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) ClientSession.Instance.AddTick(Horn);
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.AddTick(Horn);
 			await BaseScript.Delay(30000);
 			p.CancelRagdoll();
-			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) ClientSession.Instance.RemoveTick(Horn);
+			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) Client.Instance.RemoveTick(Horn);
 		}
 
 		public static async Task Horn()
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.Core.Status
 			{
 				HUD.ShowNotification("Stai morendo di fame!", NotificationColor.Red, true);
 				_fame100 = true;
-				ClientSession.Instance.AddTick(FameSete);
+				Client.Instance.AddTick(FameSete);
 			}
 		}
 
@@ -279,7 +279,7 @@ namespace TheLastPlanet.Client.Core.Status
 			{
 				HUD.ShowNotification("Stai morendo di sete!", NotificationColor.Red, true);
 				_sete100 = true;
-				ClientSession.Instance.AddTick(FameSete);
+				Client.Instance.AddTick(FameSete);
 			}
 		}
 

@@ -249,7 +249,7 @@ namespace TheLastPlanet.Client.MenuNativo
         {
             if (firstTick)
             {
-                ClientSession.Instance.AddTick(ProcessControl);
+                Client.Instance.AddTick(ProcessControl);
                 firstTick = false;
             }
             if (PauseMenus.Count > 0)

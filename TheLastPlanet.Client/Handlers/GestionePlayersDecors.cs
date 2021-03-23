@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client
 
 			if(Game.GameTime - checkTimer1 > 250)
 			{
-				foreach (Player player in ClientSession.Instance.GetPlayers)
+				foreach (Player player in Client.Instance.GetPlayers)
 				{
 					if (player == Cache.MyPlayer.Player) return;
 					if (player.GetPlayerData() == null) continue;

@@ -14,8 +14,8 @@ namespace TheLastPlanet.Server.Core
 		private static DateTime Now;
 		public static void Init()
 		{
-			ServerSession.Instance.AddTick(Orario);
-			ServerSession.Instance.AddTick(PlayTime);
+			Server.Instance.AddTick(Orario);
+			Server.Instance.AddTick(PlayTime);
 			_starttick = GetGameTimer();
 			Now = DateTime.Now;
 		}
@@ -39,8 +39,8 @@ namespace TheLastPlanet.Server.Core
 			try
 			{
 				await BaseScript.Delay(60000);
-				if (ServerSession.PlayerList.Count > 0)
-					foreach (KeyValuePair<string, User> user in ServerSession.PlayerList)
+				if (Server.PlayerList.Count > 0)
+					foreach (KeyValuePair<string, User> user in Server.PlayerList)
 						if (user.Value.status.Spawned)
 							user.Value.playTime += 60;
 			}

@@ -25,16 +25,16 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			ClientSession.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
-			ClientSession.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
-			ClientSession.Instance.AddEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
-			ClientSession.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
+			Client.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
+			Client.Instance.AddEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
+			Client.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
 		}
 
 		public static void Spawnato()
 		{
-			foreach (StazioniDiPolizia stazione in ClientSession.Impostazioni.Lavori.Polizia.Config.Stazioni)
+			foreach (StazioniDiPolizia stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
 			{
 				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords[0], stazione.Blip.Coords[1], stazione.Blip.Coords[2]))
 				{
@@ -67,11 +67,11 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 				else
 					SetPedComponentVariation(Cache.MyPlayer.Ped.Handle, 7, 41, 0, 0);
 				Cache.MyPlayer.Player.CanControlCharacter = false;
-				ClientSession.Instance.AddTick(Ammanettato);
+				Client.Instance.AddTick(Ammanettato);
 			}
 			else
 			{
-				ClientSession.Instance.RemoveTick(Ammanettato);
+				Client.Instance.RemoveTick(Ammanettato);
 				Cache.MyPlayer.Ped.Task.ClearAll();
 				SetEnableHandcuffs(PlayerPedId(), false);
 				UncuffPed(PlayerPedId());
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
-				foreach (StazioniDiPolizia t2 in ClientSession.Impostazioni.Lavori.Polizia.Config.Stazioni)
+				foreach (StazioniDiPolizia t2 in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
 				{
 					foreach (Vector3 t in t2.Spogliatoio)
 					{
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != ClientSession.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
+					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
 					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 		{
 			await BaseScript.Delay(1000);
 
-			if (ClientSession.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
+			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
 					if (p.Value.CurrentChar.Job.Name == "Polizia")
@@ -302,7 +302,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 			}
 			else
 			{
-				ClientSession.Instance.RemoveTick(AbilitaBlipVolanti);
+				Client.Instance.RemoveTick(AbilitaBlipVolanti);
 			}
 		}
 

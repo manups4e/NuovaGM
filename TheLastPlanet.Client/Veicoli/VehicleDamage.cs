@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.Veicoli
 		{
 			tireBurstMaxNumber = randomTireBurstInterval * 1200;
 			if (randomTireBurstInterval != 0) tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static bool isPedDrivingAVehicle()
@@ -192,28 +192,28 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void Spawnato()
 		{
-			deformationMultiplier = ClientSession.Impostazioni.Veicoli.DanniVeicoli.deformationMultiplier;
-			deformationExponent = ClientSession.Impostazioni.Veicoli.DanniVeicoli.deformationExponent;
-			collisionDamageExponent = ClientSession.Impostazioni.Veicoli.DanniVeicoli.collisionDamageExponent;
-			damageFactorEngine = ClientSession.Impostazioni.Veicoli.DanniVeicoli.damageFactorEngine;
-			damageFactorBody = ClientSession.Impostazioni.Veicoli.DanniVeicoli.damageFactorBody;
-			damageFactorPetrolTank = ClientSession.Impostazioni.Veicoli.DanniVeicoli.damageFactorPetrolTank;
-			engineDamageExponent = ClientSession.Impostazioni.Veicoli.DanniVeicoli.engineDamageExponent;
-			weaponsDamageMultiplier = ClientSession.Impostazioni.Veicoli.DanniVeicoli.weaponsDamageMultiplier;
-			degradingHealthSpeedFactor = ClientSession.Impostazioni.Veicoli.DanniVeicoli.degradingHealthSpeedFactor;
-			cascadingFailureSpeedFactor = ClientSession.Impostazioni.Veicoli.DanniVeicoli.cascadingFailureSpeedFactor;
-			degradingFailureThreshold = ClientSession.Impostazioni.Veicoli.DanniVeicoli.degradingFailureThreshold;
-			cascadingFailureThreshold = ClientSession.Impostazioni.Veicoli.DanniVeicoli.cascadingFailureThreshold;
-			engineSafeGuard = ClientSession.Impostazioni.Veicoli.DanniVeicoli.engineSafeGuard;
-			torqueMultiplierEnabled = ClientSession.Impostazioni.Veicoli.DanniVeicoli.torqueMultiplierEnabled;
-			limpMode = ClientSession.Impostazioni.Veicoli.DanniVeicoli.limpMode;
-			limpModeMultiplier = ClientSession.Impostazioni.Veicoli.DanniVeicoli.limpModeMultiplier;
-			preventVehicleFlip = ClientSession.Impostazioni.Veicoli.DanniVeicoli.preventVehicleFlip;
-			sundayDriver = ClientSession.Impostazioni.Veicoli.DanniVeicoli.sundayDriver;
-			displayMessage = ClientSession.Impostazioni.Veicoli.DanniVeicoli.displayMessage;
-			compatibilityMode = ClientSession.Impostazioni.Veicoli.DanniVeicoli.compatibilityMode;
-			randomTireBurstInterval = ClientSession.Impostazioni.Veicoli.DanniVeicoli.randomTireBurstInterval;
-			classDamageMultiplier = ClientSession.Impostazioni.Veicoli.DanniVeicoli.classDamageMultiplier;
+			deformationMultiplier = Client.Impostazioni.Veicoli.DanniVeicoli.deformationMultiplier;
+			deformationExponent = Client.Impostazioni.Veicoli.DanniVeicoli.deformationExponent;
+			collisionDamageExponent = Client.Impostazioni.Veicoli.DanniVeicoli.collisionDamageExponent;
+			damageFactorEngine = Client.Impostazioni.Veicoli.DanniVeicoli.damageFactorEngine;
+			damageFactorBody = Client.Impostazioni.Veicoli.DanniVeicoli.damageFactorBody;
+			damageFactorPetrolTank = Client.Impostazioni.Veicoli.DanniVeicoli.damageFactorPetrolTank;
+			engineDamageExponent = Client.Impostazioni.Veicoli.DanniVeicoli.engineDamageExponent;
+			weaponsDamageMultiplier = Client.Impostazioni.Veicoli.DanniVeicoli.weaponsDamageMultiplier;
+			degradingHealthSpeedFactor = Client.Impostazioni.Veicoli.DanniVeicoli.degradingHealthSpeedFactor;
+			cascadingFailureSpeedFactor = Client.Impostazioni.Veicoli.DanniVeicoli.cascadingFailureSpeedFactor;
+			degradingFailureThreshold = Client.Impostazioni.Veicoli.DanniVeicoli.degradingFailureThreshold;
+			cascadingFailureThreshold = Client.Impostazioni.Veicoli.DanniVeicoli.cascadingFailureThreshold;
+			engineSafeGuard = Client.Impostazioni.Veicoli.DanniVeicoli.engineSafeGuard;
+			torqueMultiplierEnabled = Client.Impostazioni.Veicoli.DanniVeicoli.torqueMultiplierEnabled;
+			limpMode = Client.Impostazioni.Veicoli.DanniVeicoli.limpMode;
+			limpModeMultiplier = Client.Impostazioni.Veicoli.DanniVeicoli.limpModeMultiplier;
+			preventVehicleFlip = Client.Impostazioni.Veicoli.DanniVeicoli.preventVehicleFlip;
+			sundayDriver = Client.Impostazioni.Veicoli.DanniVeicoli.sundayDriver;
+			displayMessage = Client.Impostazioni.Veicoli.DanniVeicoli.displayMessage;
+			compatibilityMode = Client.Impostazioni.Veicoli.DanniVeicoli.compatibilityMode;
+			randomTireBurstInterval = Client.Impostazioni.Veicoli.DanniVeicoli.randomTireBurstInterval;
+			classDamageMultiplier = Client.Impostazioni.Veicoli.DanniVeicoli.classDamageMultiplier;
 			tireBurstMaxNumber = randomTireBurstInterval * 1200;
 			if (randomTireBurstInterval != 0) tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
 		}

@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server
 		
 			RequestInternal.Init();
 			await ConfigServer.Init();
-			while (ServerSession.Impostazioni == null) await BaseScript.Delay(0);
+			while (Server.Impostazioni == null) await BaseScript.Delay(0);
 			NewServerEntrance.Init();
 			ServerManager.Init();
 			Main.Init();

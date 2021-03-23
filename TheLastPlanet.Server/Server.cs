@@ -14,17 +14,17 @@ using TheLastPlanet.Server.Internal.Events;
 
 namespace TheLastPlanet.Server
 {
-	public class ServerSession : BaseScript
+	public class Server : BaseScript
 	{
 		public static ConcurrentDictionary<string, User> PlayerList = new();
-		public static ServerSession Instance { get; protected set; }
+		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public EventSystem SistemaEventi;
 		public ServerGateway Events;
 
-		public ServerSession()
+		public Server()
 		{
 #if DEBUG
 			SetConvarReplicated("DEBUG", "1");

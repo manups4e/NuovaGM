@@ -18,7 +18,7 @@ namespace TheLastPlanet.Server.SistemaEventi
 
 		public EventSystem()
 		{
-			ServerSession.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<int, string>((handle, payload) =>
+			Server.Instance.AddEventHandler("1d446f5702fcd00055ac8b8544479b0e", new Action<int, string>((handle, payload) =>
 			{
 				Event wrapped = JsonConvert.DeserializeObject<Event>(payload.ToString());
 				wrapped.Sender = handle;

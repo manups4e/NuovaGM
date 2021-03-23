@@ -23,8 +23,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 
 		public static void Init()
 		{
-			house = ClientSession.Impostazioni.Lavori.VenditoriCase;
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			house = Client.Impostazioni.Lavori.VenditoriCase;
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
 		}
 
@@ -86,8 +86,8 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 		{
 			UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!");
 			HUD.MenuPool.Add(venditore);
-			Dictionary<string, ConfigCase> Appartamenti = ClientSession.Impostazioni.Proprieta.Appartamenti;
-			Dictionary<string, Garages> Garages = ClientSession.Impostazioni.Proprieta.Garages.Garages;
+			Dictionary<string, ConfigCase> Appartamenti = Client.Impostazioni.Proprieta.Appartamenti;
+			Dictionary<string, Garages> Garages = Client.Impostazioni.Proprieta.Garages.Garages;
 			UIMenu appart = venditore.AddSubMenu("Appartamenti");
 			UIMenu gara = venditore.AddSubMenu("Garages");
 			Camera cam = World.CreateCamera(Vector3.Zero, Vector3.Zero, GameplayCamera.FieldOfView);
@@ -276,6 +276,6 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
 			venditore.Visible = true;
 		}
 
-		private static void Spawnato() { ClientSession.Instance.AddTick(Markers); }
+		private static void Spawnato() { Client.Instance.AddTick(Markers); }
 	}
 }

@@ -24,14 +24,14 @@ namespace TheLastPlanet.Client.Lavori.Profili
 			await Cache.Loaded();
 			Seed = $"lprp:businesses::{job.Lavoro.ToString().ToLower()}";
 
-			Business = await ClientSession.Instance.SistemaEventi.Request<Business>("lprp:business:fetch", Seed) ?? new Business()
+			Business = await Client.Instance.SistemaEventi.Request<Business>("lprp:business:fetch", Seed) ?? new Business()
 			{
 				Seed = Seed,
 				Balance = 0,
 				Registered = DateTime.Now.Ticks
 			};
 
-			ClientSession.Instance.SistemaEventi.Attach("lprp:business:update", new EventCallback(a =>
+			Client.Instance.SistemaEventi.Attach("lprp:business:update", new EventCallback(a =>
 			{
 				var busi = a.Find<Business>(0);
 				Business.Balance = busi.Balance;
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.Lavori.Profili
 			}));
 		}
 
-		public void Commit() => ClientSession.Instance.SistemaEventi.Send("lprp:business:update", Business);
+		public void Commit() => Client.Instance.SistemaEventi.Send("lprp:business:update", Business);
 
 	}
 }

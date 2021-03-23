@@ -14,15 +14,15 @@ namespace TheLastPlanet.Server.Veicoli
 
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
-			ServerSession.Instance.AddEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
-			ServerSession.Instance.AddEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
-			ServerSession.Instance.AddEventHandler("brakes:add_rear", new Action<int>(AddRear));
-			ServerSession.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
-			ServerSession.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
-			ServerSession.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
-			ServerSession.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:caricaVeicoli", new AsyncEventCallback(async a =>
+			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
+			Server.Instance.AddEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
+			Server.Instance.AddEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
+			Server.Instance.AddEventHandler("brakes:add_rear", new Action<int>(AddRear));
+			Server.Instance.AddEventHandler("brakes:add_front", new Action<int>(AddFront));
+			Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
+			Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
+			Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
+			Server.Instance.SistemaEventi.Attach("lprp:caricaVeicoli", new AsyncEventCallback(async a =>
 			{
 				const string query = "SELECT * FROM owned_vehicles WHERE discord = @disc AND char_id = @pers";
 				var player = Funzioni.GetPlayerFromId(a.Sender);
@@ -67,11 +67,11 @@ namespace TheLastPlanet.Server.Veicoli
 			if (inGarage)
 			{
 				p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.props = props.FromJson<VehProp>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
-				await ServerSession.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes), t = plate });
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar, vehicle_data = @dat WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), dat = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).DatiVeicolo.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes), t = plate });
 			}
 			else
 			{
-				await ServerSession.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), t = plate });
+				await Server.Instance.Execute("Update owned_vehicles set Garage = @gar WHERE targa = @t", new { gar = p.GetCurrentChar().CurrentChar.Veicoli.FirstOrDefault(x => x.Targa == plate).Garage.ToJson(), t = plate });
 			}
 
 			//p.TriggerEvent("lprp:sendUserInfo", p.GetCurrentChar().Characters.ToJson(includeEverything: true), p.GetCurrentChar().char_current, p.GetCurrentChar().group);

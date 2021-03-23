@@ -11,15 +11,15 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 	{
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:cardealer:attivaCatalogoAlcuni", new Action<Player, List<int>>(CatalogoAlcuni));
-			ServerSession.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<Player, List<int>, string>(CambiaVeh));
-			ServerSession.Instance.AddEventHandler("lprp:cardealer:vendiVehAMe", new Action<Player, string>(VendiAMe));
+			Server.Instance.AddEventHandler("lprp:cardealer:attivaCatalogoAlcuni", new Action<Player, List<int>>(CatalogoAlcuni));
+			Server.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<Player, List<int>, string>(CambiaVeh));
+			Server.Instance.AddEventHandler("lprp:cardealer:vendiVehAMe", new Action<Player, string>(VendiAMe));
 		}
 
 		private static async void VendiAMe([FromSource] Player p, string JsonVeh)
 		{
 			OwnedVehicle veh = JsonVeh.FromJson<OwnedVehicle>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
-			await ServerSession.Instance.Execute("INSERT INTO owned_vehicles VALUES (@disc, @name, @charname, @plate, @vehN, @data, @garage, @state)", new
+			await Server.Instance.Execute("INSERT INTO owned_vehicles VALUES (@disc, @name, @charname, @plate, @vehN, @data, @garage, @state)", new
 			{
 				disc = p.GetLicense(Identifier.Discord),
 				name = p.Name,

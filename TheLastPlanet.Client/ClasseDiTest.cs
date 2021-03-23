@@ -15,23 +15,11 @@ namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
-		public static void Init()
+		public static async void Init()
 		{
-			ClientSession.Instance.AddTick(test);
+			Client.Instance.AddTick(test);
 		}
 
-		private static void Prova()
-		{
-			try
-			{
-			}
-			catch (Exception e)
-			{
-				Log.Printa(LogType.Error, e.ToString());
-				Log.Printa(LogType.Error, e.StackTrace);
-				
-			}
-		}
 		private static void AttivaMenu()
 		{
 			UIMenu test = new("Test", "test", new System.Drawing.PointF(700, 300));
@@ -81,7 +69,7 @@ namespace TheLastPlanet.Client
 			*/
 			if (Input.IsControlJustPressed(Control.DropWeapon, PadCheck.Any, ControlModifier.Shift))
 			{
-				User Test = await ClientSession.Instance.SistemaEventi.Request<User>("chiamaTest", null);
+				User Test = await Client.Instance.SistemaEventi.Request<User>("chiamaTest", null);
 				Log.Printa(LogType.Debug, Test.ToJson());
 				/*
 				b.Tabs.Clear();

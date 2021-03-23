@@ -60,8 +60,8 @@ namespace TheLastPlanet.Client.Giostre
 			Blip Sotto = new Blip(AddBlipForCoord(-740.3f, 5594.5f, 41.2f)) { Sprite = BlipSprite.Lift, IsShortRange = true, Name = "Funivia" };
 			SetBlipDisplay(Sopra.Handle, 4);
 			SetBlipDisplay(Sotto.Handle, 4);
-			ClientSession.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
-			ClientSession.Instance.AddEventHandler("omni:cablecar:forceState", new Action<int, string>(ForceState));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
+			Client.Instance.AddEventHandler("omni:cablecar:forceState", new Action<int, string>(ForceState));
 			CaricaTutto();
 		}
 
@@ -101,7 +101,7 @@ namespace TheLastPlanet.Client.Giostre
 			Cable_cars[1].Entity.Rotation = new Vector3(0.0f, 0.0f, 90.0f);
 			Cable_cars[0].State = "MOVE_TO_IDLE_TOP";
 			Cable_cars[1].State = "MOVE_TO_IDLE_TOP";
-			ClientSession.Instance.AddTick(UpdateCableMovement);
+			Client.Instance.AddTick(UpdateCableMovement);
 		}
 
 		private static void OnStop(string name)

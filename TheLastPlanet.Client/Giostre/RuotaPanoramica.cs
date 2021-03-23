@@ -26,13 +26,13 @@ namespace TheLastPlanet.Client.Giostre
 
 		public static void Init()
 		{
-			ClientSession.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:forceState", new Action<string>(ForceState));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(playerSale));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(playerScende));
-			ClientSession.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
+			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:forceState", new Action<string>(ForceState));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaCabine", new Action<int, int>(AggiornaCabine));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:FermaRuota", new Action<bool>(StatoRuota));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerSale", new Action<int, int>(playerSale));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:playerScende", new Action<int, int>(playerScende));
+			Client.Instance.AddEventHandler("lprp:ruotapanoramica:aggiornaGradient", new Action<int>(AggiornaGradient));
 			Blip Ferris = new Blip(AddBlipForCoord(-1663.97f, -1126.7f, 30.7f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Ruota Panoramica" };
 			SetBlipDisplay(Ferris.Handle, 4);
 			CaricaTutto();
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Giostre
 			RequestScriptAudioBank("SCRIPT\\FERRIS_WHALE_02", false);
 			RequestScriptAudioBank("THE_FERRIS_WHALE_SOUNDSET", false);
 			await SpawnaRuota();
-			ClientSession.Instance.AddTick(MuoviRuota);
+			Client.Instance.AddTick(MuoviRuota);
 			//Client.Instance.AddTick(ControlloPlayer);
 		}
 
@@ -336,7 +336,7 @@ namespace TheLastPlanet.Client.Giostre
 				Cam1.PointAt(Ruota.Entity);
 				func_79();
 				Cam1.IsActive = true;
-				ClientSession.Instance.RemoveTick(Cam2Controller);
+				Client.Instance.RemoveTick(Cam2Controller);
 
 				if (IsInputDisabled(2))
 				{
@@ -403,7 +403,7 @@ namespace TheLastPlanet.Client.Giostre
 					func_109(Cam2GamePad, 0, 3000);
 				}
 
-				ClientSession.Instance.AddTick(Cam2Controller);
+				Client.Instance.AddTick(Cam2Controller);
 				Cam1.Delete();
 			}
 

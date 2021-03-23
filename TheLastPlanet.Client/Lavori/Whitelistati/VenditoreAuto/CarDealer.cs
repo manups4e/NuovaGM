@@ -26,10 +26,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 		public static void Init()
 		{
-			carDealer = ClientSession.Impostazioni.Lavori.VenditoriAuto;
-			ClientSession.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
-			ClientSession.Instance.AddEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
-			ClientSession.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
+			carDealer = Client.Impostazioni.Lavori.VenditoriAuto;
+			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
+			Client.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
 		}
 
 		private static void Spawnato()
@@ -186,13 +186,13 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 						if (_newsubmenu != prendi) return;
 						_newsubmenu.Clear();
 
-						if (Cache.MyPlayer.User.CurrentChar.Proprietà.Any(x => ClientSession.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || ClientSession.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
+						if (Cache.MyPlayer.User.CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(x)))
 						{
-							foreach (KeyValuePair<string, ConfigCase> pro in ClientSession.Impostazioni.Proprieta.Appartamenti)
+							foreach (KeyValuePair<string, ConfigCase> pro in Client.Impostazioni.Proprieta.Appartamenti)
 								if (pro.Value.GarageIncluso)
 									foreach (UIMenuItem c in from a in Cache.MyPlayer.User.CurrentChar.Proprietà where a == pro.Key select new UIMenuItem(pro.Value.Label))
 									{
-										c.SetRightLabel("" + Cache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count + "/" + ClientSession.Impostazioni.Proprieta.Appartamenti[pro.Key].VehCapacity);
+										c.SetRightLabel("" + Cache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count + "/" + Client.Impostazioni.Proprieta.Appartamenti[pro.Key].VehCapacity);
 										prendi.AddItem(c);
 										c.Activated += async (_menu_, _item_) =>
 										{
@@ -239,7 +239,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					switch (state)
 					{
 						case MenuState.Opened when newmenu == sezione:
-							ClientSession.Instance.AddTick(RuotaVeh);
+							Client.Instance.AddTick(RuotaVeh);
 
 							break;
 						case MenuState.Closed when oldmenu == sezione:
@@ -248,7 +248,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 							if (catalogo.Visible)
 							{
-								ClientSession.Instance.RemoveTick(RuotaVeh);
+								Client.Instance.RemoveTick(RuotaVeh);
 								PreviewVeh.Delete();
 								cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
 							}
@@ -306,23 +306,23 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 
 						foreach (int pl in players)
 						{
-							Player user = ClientSession.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
+							Player user = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == pl);
 							UIMenu player = vah.AddSubMenu(user.GetPlayerData().FullName);
 
-							if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => ClientSession.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (ClientSession.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
+							if (user.GetPlayerData().CurrentChar.Proprietà.Any(x => Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(x) || (Client.Impostazioni.Proprieta.Appartamenti.GroupBy(l => l.Value.GarageIncluso == true) as Dictionary<string, ConfigCase>).ContainsKey(x)))
 							{
 								List<string> prop = new();
 
 								foreach (string gar in user.GetPlayerData().CurrentChar.Proprietà)
 								{
-									if (ClientSession.Impostazioni.Proprieta.Garages.Garages.ContainsKey(gar))
+									if (Client.Impostazioni.Proprieta.Garages.Garages.ContainsKey(gar))
 									{
-										UIMenuItem posto = new(ClientSession.Impostazioni.Proprieta.Garages.Garages[gar].Label);
+										UIMenuItem posto = new(Client.Impostazioni.Proprieta.Garages.Garages[gar].Label);
 										player.AddItem(posto);
 									}
-									else if (ClientSession.Impostazioni.Proprieta.Appartamenti.ContainsKey(gar) && ClientSession.Impostazioni.Proprieta.Appartamenti[gar].GarageIncluso)
+									else if (Client.Impostazioni.Proprieta.Appartamenti.ContainsKey(gar) && Client.Impostazioni.Proprieta.Appartamenti[gar].GarageIncluso)
 									{
-										UIMenuItem posto = new(ClientSession.Impostazioni.Proprieta.Appartamenti[gar].Label);
+										UIMenuItem posto = new(Client.Impostazioni.Proprieta.Appartamenti[gar].Label);
 										player.AddItem(posto);
 									}
 
@@ -341,7 +341,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 					sezione.OnMenuStateChanged += (oldmenu, newmenu, state) =>
 					{
 						if (state != MenuState.ChangeBackward || oldmenu != sezione) return;
-						ClientSession.Instance.RemoveTick(RuotaVeh);
+						Client.Instance.RemoveTick(RuotaVeh);
 						PreviewVeh.Delete();
 						cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
 					};
@@ -362,7 +362,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 				catalogo.Visible = true;
 			}
 
-			ClientSession.Instance.AddTick(RuotaVeh);
+			Client.Instance.AddTick(RuotaVeh);
 			Screen.Fading.FadeIn(800);
 		}
 

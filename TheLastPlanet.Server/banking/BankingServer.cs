@@ -14,7 +14,7 @@ namespace TheLastPlanet.Server.banking
 	{
 		public static void Init()
 		{
-			ServerSession.Instance.SistemaEventi.Attach("lprp:banking:sendMoney", new EventCallback(meta => 
+			Server.Instance.SistemaEventi.Attach("lprp:banking:sendMoney", new EventCallback(meta => 
 			{
 				var player = Funzioni.GetPlayerFromId(meta.Sender);
 				User user = player.GetCurrentChar();
@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.banking
 				int amount = meta.Find<int>(1);
 				if (user.Bank >= amount)
 				{
-					foreach (var p in ServerSession.PlayerList)
+					foreach (var p in Server.PlayerList)
 					{
 						if (user.FullName.ToLower() == name.ToLower())
 						{
@@ -36,7 +36,7 @@ namespace TheLastPlanet.Server.banking
 				}
 				return new KeyValuePair<bool, string>(false, "I tuoi fondi bancari non coprono la transazione!");
 			}));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:banking:atmwithdraw", new EventCallback(meta =>
+			Server.Instance.SistemaEventi.Attach("lprp:banking:atmwithdraw", new EventCallback(meta =>
 			{
 				var player = Funzioni.GetPlayerFromId(meta.Sender);
 				int amount = meta.Find<int>(0);
@@ -58,7 +58,7 @@ namespace TheLastPlanet.Server.banking
 				return new KeyValuePair<bool, string> (false, "Devi inserire un valore positivo.");
 
 			}));
-			ServerSession.Instance.SistemaEventi.Attach("lprp:banking:atmdeposit", new EventCallback(meta =>
+			Server.Instance.SistemaEventi.Attach("lprp:banking:atmdeposit", new EventCallback(meta =>
 			{
 				var player = Funzioni.GetPlayerFromId(meta.Sender);
 				int amount = meta.Find<int>(0);

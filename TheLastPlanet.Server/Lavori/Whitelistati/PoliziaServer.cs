@@ -14,18 +14,18 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		public static void Init()
 		{
-			ServerSession.Instance.AddEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
-			ServerSession.Instance.AddEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
-			ServerSession.Instance.AddEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
-			ServerSession.Instance.AddEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action<Player, int>(AmmanettaSmanetta));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<Player, int, int>(Accompagna));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:mettiVeicolo", new Action<Player, int>(MettiVeh));
-			ServerSession.Instance.AddEventHandler("lprp:polizia:esciVeicolo", new Action<Player, int>(TogliVeh));
+			Server.Instance.AddEventHandler("lprp:registraVeicoloLavorativoENon", new Action<string>(RegistraVeicoloLavoroEAffitto));
+			Server.Instance.AddEventHandler("lprp:rimuoviVeicoloLavorativoENon", new Action<string>(RimuoviVeicoloLavoroEAffitto));
+			Server.Instance.AddEventHandler("lprp:registraVeicoloPersonale", new Action<string>(RegistraVeicoloPersonale));
+			Server.Instance.AddEventHandler("lprp:rimuoviVeicoloPersonale", new Action<string>(RimuoviVeicoloPersonale));
+			Server.Instance.AddEventHandler("lprp:polizia:AggiungiVehMedici", new Action<string>(AggiungiVehMedici));
+			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehMedici", new Action<string>(RimuoviVehMedici));
+			Server.Instance.AddEventHandler("lprp:polizia:AggiungiVehPolizia", new Action<string>(AggiungiVehPolizia));
+			Server.Instance.AddEventHandler("lprp:polizia:RimuoviVehPolizia", new Action<string>(RimuoviVehPolizia));
+			Server.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action<Player, int>(AmmanettaSmanetta));
+			Server.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<Player, int, int>(Accompagna));
+			Server.Instance.AddEventHandler("lprp:polizia:mettiVeicolo", new Action<Player, int>(MettiVeh));
+			Server.Instance.AddEventHandler("lprp:polizia:esciVeicolo", new Action<Player, int>(TogliVeh));
 			//Server.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action<Player, int>(AmmanettaSmanetta));
 
 			//Server.Instance.AddTick(AggiornamentoClient);
@@ -34,7 +34,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 
 		public static void PlaccaServer([FromSource] Player p, int target)
 		{
-			Player targetPlayer = ServerSession.Instance.GetPlayers[target];
+			Player targetPlayer = Server.Instance.GetPlayers[target];
 			BaseScript.TriggerClientEvent(targetPlayer, "lprp:police:placcato", p.Handle);
 			BaseScript.TriggerClientEvent(p, "lprp:police:placca");
 		}

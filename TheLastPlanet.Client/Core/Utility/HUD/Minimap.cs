@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	internal static class Minimap
 	{
 		//public static Scaleform minimap = new Scaleform("MINIMAP");
-		public static void Init() { ClientSession.Instance.AddTick(MinimapDrawing); }
+		public static void Init() { Client.Instance.AddTick(MinimapDrawing); }
 
 		public static async Task MinimapDrawing()
 		{

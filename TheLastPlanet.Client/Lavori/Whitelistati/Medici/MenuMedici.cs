@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 				if (!Cache.MyPlayer.User.StatiPlayer.InServizio)
 				{
-					foreach (KeyValuePair<string, JobGrade> Grado in ClientSession.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
+					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
 						switch (Cache.MyPlayer.User.CurrentChar.Skin.sex)
 						{
 							case "Maschio":
@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 			await BaseScript.Delay(1000);
 			Screen.Fading.FadeIn(800);
-			ClientSession.Instance.AddTick(ControlloGarage);
+			Client.Instance.AddTick(ControlloGarage);
 		}
 
 		private static async Task GarageConPiuVeicoli(List<Autorizzati> autorizzati, int livelloGarage)
@@ -252,7 +252,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 								Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 								await BaseScript.Delay(1000);
 								Screen.Fading.FadeIn(800);
-								ClientSession.Instance.RemoveTick(ControlloGarage);
+								Client.Instance.RemoveTick(ControlloGarage);
 							}
 						}
 				}
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 						PuntoAttuale = null;
 						Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 						veicoliParcheggio.Clear();
-						ClientSession.Instance.RemoveTick(ControlloGarage);
+						Client.Instance.RemoveTick(ControlloGarage);
 					}
 					else
 					{
@@ -402,7 +402,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 					PreviewHeli.IsInvincible = true;
 					PreviewHeli.IsEngineRunning = true;
 					PreviewHeli.IsDriveable = false;
-					ClientSession.Instance.AddTick(Heading);
+					Client.Instance.AddTick(Heading);
 					HeliCam.PointAt(PreviewHeli);
 					if (GetInteriorFromEntity(PreviewHeli.Handle) != 0) SetFocusEntity(PreviewHeli.Handle);
 					while (!HasCollisionLoadedAroundEntity(PreviewHeli.Handle)) await BaseScript.Delay(1000);
@@ -413,7 +413,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 				{
 					Screen.Fading.FadeOut(800);
 					await BaseScript.Delay(1000);
-					ClientSession.Instance.RemoveTick(Heading);
+					Client.Instance.RemoveTick(Heading);
 					HeliCam.IsActive = false;
 					RenderScriptCams(false, false, 0, false, false);
 					ClearFocus();

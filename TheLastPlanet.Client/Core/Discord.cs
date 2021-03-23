@@ -14,10 +14,10 @@ namespace TheLastPlanet.Client.Core
 	{
 		public static void Init()
 		{
-			SetDiscordAppId(ClientSession.Impostazioni.Main.DiscordAppId);
-			SetDiscordRichPresenceAsset(ClientSession.Impostazioni.Main.DiscordRichPresenceAsset);
+			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
+			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			SetDiscordRichPresenceAssetText("Discord.gg/n4ep9Fq");
-			ClientSession.Instance.AddTick(RichPresence);
+			Client.Instance.AddTick(RichPresence);
 		}
 
 		private static async Task RichPresence()
@@ -25,8 +25,8 @@ namespace TheLastPlanet.Client.Core
 			await SessionCache.Cache.Loaded();
 			Ped playerPed = Cache.MyPlayer.Ped;
 			Player player = Cache.MyPlayer.Player;
-			SetDiscordAppId(ClientSession.Impostazioni.Main.DiscordAppId);
-			SetDiscordRichPresenceAsset(ClientSession.Impostazioni.Main.DiscordRichPresenceAsset);
+			SetDiscordAppId(Client.Impostazioni.Main.DiscordAppId);
+			SetDiscordRichPresenceAsset(Client.Impostazioni.Main.DiscordRichPresenceAsset);
 			Vector3 PedCoords = !Cache.MyPlayer.User.status.Spawned ? playerPed.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 			uint StreetName = 0;
 			uint StreetAngolo = 0;
@@ -153,7 +153,7 @@ namespace TheLastPlanet.Client.Core
 				{
 					SetRichPresence("Fa paracadutismo");
 				}
-				else if (IsPedStill(PlayerPedId()) || Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(ClientSession.Impostazioni.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || Cache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 2f))
 				{
 					SetRichPresence("AFK in gioco");
 				}

@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.Personale
 						{
 							SetWaypointOff();
 							b.ShowRoute = false;
-							ClientSession.Instance.RemoveTick(routeColor);
+							Client.Instance.RemoveTick(routeColor);
 							HUD.ShowNotification("GPS: Destinazione rimossa.", true);
 
 							return;
@@ -180,7 +180,7 @@ namespace TheLastPlanet.Client.Personale
 					{
 						b.ShowRoute = true;
 						HUD.ShowNotification($"Destinazione più vicina impostata per {(_item as UIMenuListItem).Items[(_item as UIMenuListItem).Index]}.");
-						ClientSession.Instance.AddTick(routeColor);
+						Client.Instance.AddTick(routeColor);
 					}
 					else
 					{
@@ -382,11 +382,11 @@ namespace TheLastPlanet.Client.Personale
 				switch (state)
 				{
 					case MenuState.ChangeForward when _menu == salute:
-						ClientSession.Instance.AddTick(AggiornaSalute);
+						Client.Instance.AddTick(AggiornaSalute);
 
 						break;
 					case MenuState.ChangeBackward when oldmenu == salute:
-						ClientSession.Instance.RemoveTick(AggiornaSalute);
+						Client.Instance.RemoveTick(AggiornaSalute);
 
 						break;
 				}
@@ -1376,7 +1376,7 @@ namespace TheLastPlanet.Client.Personale
 			{
 				HUD.ShowNotification("GPS: Sei arrivato a ~b~Destinazione~w~!", NotificationColor.GreenDark, true);
 				b.ShowRoute = false;
-				ClientSession.Instance.RemoveTick(routeColor);
+				Client.Instance.RemoveTick(routeColor);
 			}
 
 			await Task.FromResult(0);
