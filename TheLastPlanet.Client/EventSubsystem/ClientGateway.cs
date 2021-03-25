@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Internal.Events
 
         private void RequireServerTarget(int endpoint)
         {
-            if (endpoint != -1) throw new Exception($"The client can only send to the server (arg {nameof(endpoint)} is not matching -1)");
+            if (endpoint != -1) throw new Exception($"Il client può solo inviare al server (arg {nameof(endpoint)} non coincide con -1)");
         }
     }
 }

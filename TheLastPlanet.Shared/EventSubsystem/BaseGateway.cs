@@ -54,7 +54,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             if (message.MethodType == EventMethodType.Get)
             {
                 var subscription = _subscriptions.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
-                                   throw new Exception($"Could not find handler for endpoint: {message.Endpoint}");
+                                   throw new Exception($"Nessun handler per l'endpoint: {message.Endpoint}");
                 var result = InvokeDelegate(subscription);
                 var type = result.GetType();
 
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 					else
 					{
 						throw new TimeoutException(
-							$"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) The operation has timed out.");
+							$"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) L'operazione ha ecceduto il tempo di esecuzione (Timeout).");
 					}
 				}
 
