@@ -7,6 +7,7 @@ namespace TheLastPlanet.Shared.Internal.Diagnostics
     {
         Info,
         Debug,
+        Warning,
         Error
     }
 }

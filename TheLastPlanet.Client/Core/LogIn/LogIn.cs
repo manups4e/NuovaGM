@@ -103,6 +103,12 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
 			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
 			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
+			Client.Instance.AttachNuiHandler("previewChar", new EventCallback(a =>
+			{
+				Log.Printa(LogType.Debug, Convert.ToUInt64(a.Find<string>(0)).ToString());
+
+				return "ok";
+			}));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Client.Instance.AddEventHandler("playerSpawned", new Action(PlayerSpawned));
 			RequestModel((uint)PedHash.FreemodeMale01);

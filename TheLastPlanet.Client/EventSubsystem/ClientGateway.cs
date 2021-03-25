@@ -36,8 +36,6 @@ namespace TheLastPlanet.Client.Internal.Events
             BaseScript.TriggerServerEvent(pipeline, payload.Serialize());
         }
 
-        private List<WaitingEvent> _queue = new List<WaitingEvent>();
-        private List<EventSubscription> _subscriptions = new List<EventSubscription>();
         private string _signature;
 
         public ClientGateway()

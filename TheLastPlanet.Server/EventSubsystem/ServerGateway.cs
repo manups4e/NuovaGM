@@ -44,12 +44,12 @@ namespace TheLastPlanet.Server.Internal.Events
                 var client = (ClientId)source;
                 if (_signatures.ContainsKey(client.Handle))
                 {
-                    Log.Printa(LogType.Warning, $"Client {client} [{client.Handle}] tried obtaining event signature illegally.");
+                    Log.Printa(LogType.Warning, $"Il player {client} [ServerID: {client.Handle}] ha tentato di ottenere la firma digitale illegalmente.");
 
                     return;
                 }
 
-                var holder = new byte[64];
+                var holder = new byte[256];
 
                 using (var service = new RNGCryptoServiceProvider())
                 {
@@ -57,7 +57,6 @@ namespace TheLastPlanet.Server.Internal.Events
                 }
 
                 var signature = BitConverter.ToString(holder).Replace("-", "").ToLower();
-
                 _signatures.Add(client.Handle, signature);
                 client.Player.TriggerEvent(EventConstant.SignaturePipeline, signature);
             }
@@ -80,7 +79,7 @@ namespace TheLastPlanet.Server.Internal.Events
                 if (message.Signature != signature)
                 {
                     Log.Printa(LogType.Warning, 
-                        $"[{EventConstant.InboundPipeline}, {client.Handle}, {message.Signature}] Client {client.Player.Name} had invalid event signature, possible malicious intent?");
+                        $"[{EventConstant.InboundPipeline}, {client.Handle}, {message.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
 
                     return;
                 }
@@ -111,8 +110,8 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (response.Signature != signature)
                 {
-                    Log.Printa(LogType.Warning, 
-                        $"[{EventConstant.OutboundPipeline}, {client.Handle}, {response.Signature}] Client {client.Player.Name} had invalid event signature, possible malicious intent?");
+                    Log.Printa(LogType.Warning,
+                        $"[{EventConstant.OutboundPipeline}, {client.Handle}, {response.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
 
                     return;
                 }

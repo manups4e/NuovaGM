@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Core;
+using System.Linq;
 
 namespace TheLastPlanet.Client
 {
@@ -18,6 +19,7 @@ namespace TheLastPlanet.Client
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
 			await SessionCache.Cache.Loaded();
+
 			Banking.BankingClient.Init();
 			Businesses.PompeDiBenzinaClient.Init();
 			PublicTraffic.Init();

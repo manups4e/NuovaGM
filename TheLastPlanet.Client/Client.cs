@@ -71,27 +71,27 @@ namespace TheLastPlanet.Client
 
 			AddEventHandler($"__cfx_nui:{pipe}", new Action<ExpandoObject, CallbackDelegate>((body, result) =>
 			{
+
 				var metadata = new EventMetadata();
 				var properties = (IDictionary<string, object>)body;
 
 				if (properties != null)
 				{
+					int i = 0;
 					foreach (var entry in properties)
 					{
-						if (int.TryParse(entry.Key, out var index))
+						if (!int.TryParse(entry.Key, out var index))
 						{
-							Log.Printa(LogType.Warning, $"[Nui] [{pipe}] Payload `{entry.Key}` non è un numero e verrà ignorato.");
-							continue;
+							Log.Printa(LogType.Debug, $"[Nui] [{pipe}] Payload `{entry.Key}` non è un numero e verrà gestito.");
+							index = i;
 						}
-
+						metadata.Write(index, entry.Value);
+						i++;
 					}
 				}
-
 				if (callback.GetType() == typeof(AsyncEventCallback))
 				{
-#pragma warning disable 4014
 					((AsyncEventCallback)callback).AsyncTask(metadata);
-#pragma warning restore 4014
 				}
 				else
 				{

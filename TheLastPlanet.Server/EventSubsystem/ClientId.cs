@@ -5,7 +5,6 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.PlayerChar;
-using TheLastPlanet.Shared.Internal;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Snowflakes;
 
@@ -13,7 +12,7 @@ namespace TheLastPlanet.Server.Internal.Events
 {
     public class ClientId : ISource
     {
-        public static readonly ClientId Global = new ClientId(-1);
+        public static readonly ClientId Global = new(-1);
 
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
@@ -22,6 +21,11 @@ namespace TheLastPlanet.Server.Internal.Events
             Server.PlayerList.FirstOrDefault(x => x.Key == Handle.ToString()).Value.Player :
             Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
 
+        public User User => Server.PlayerList.Count > 0 ? 
+            Server.PlayerList.FirstOrDefault(x => x.Key == Handle.ToString()).Value :
+            Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString()).GetCurrentChar();
+
+        
         public ClientId(Snowflake id)
         {
             Player owner = Server.PlayerList.Count > 0 ?
@@ -84,7 +88,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
         public static explicit operator ClientId(string netId)
         {
-            if (int.TryParse(netId.Replace("net:", string.Empty), out var handle))
+            if (int.TryParse(netId.Replace("net:", string.Empty), out int handle))
             {
                 return new ClientId(handle);
             }
@@ -92,6 +96,6 @@ namespace TheLastPlanet.Server.Internal.Events
             throw new Exception($"Could not parse net id: {netId}");
         }
 
-        public static explicit operator ClientId(int handle) => new ClientId(handle);
+        public static explicit operator ClientId(int handle) => new(handle);
     }
 }

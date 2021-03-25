@@ -28,9 +28,9 @@ namespace TheLastPlanet.Server.Veicoli
 			Server.Instance.Events.Mount("lprp:caricaVeicoli", new Func<ClientId, ulong, Task<List<OwnedVehicle>>>(async (a, b) =>
 			{
 				const string query = "SELECT * FROM owned_vehicles WHERE UserID = @disc AND char_id = @pers";
-				var player = a.Player;
-				var vehs = await MySQL.QueryListAsync<OwnedVehicle>(query, new { disc = player.GetCurrentChar().ID, pers = b });
-				var ownedVehicles = vehs.ToList();
+				Player player = a.Player;
+				IEnumerable<OwnedVehicle> vehs = await MySQL.QueryListAsync<OwnedVehicle>(query, new { disc = player.GetCurrentChar().ID, pers = b });
+				List<OwnedVehicle> ownedVehicles = vehs.ToList();
 				await BaseScript.Delay(10);
 				if (ownedVehicles.Count <= 0) return player.GetCurrentChar().CurrentChar.Veicoli;
 				foreach (dynamic veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));

@@ -26,17 +26,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			}
 		}
 
-		public User(dynamic result)
-		{
-			source = Player.ServerId;
-			group = result.group;
-			group_level = (UserGroup)result.group_level;
-			playTime = result.playTime;
-			Characters = (result.char_data as string).FromJson<List<Char_data>>();
-			status = new Shared.PlayerChar.Status();
-			Player = Game.Player;
-		}
-
 		public User()
 		{
 			StatiPlayer = new PlayerStateBags();
@@ -58,10 +47,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
 		{
-			foreach (Inventory t in CurrentChar.Inventory)
-				if (t.Item == item)
-					return new Tuple<bool, Inventory, Item>(true, t, ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
-
+			foreach (Inventory t in CurrentChar.Inventory.Where(t => t.Item == item)) return new Tuple<bool, Inventory, Item>(true, t, ConfigShared.SharedConfig.Main.Generici.ItemList[item]);
 			return new Tuple<bool, Inventory, Item>(false, null, null);
 		}
 

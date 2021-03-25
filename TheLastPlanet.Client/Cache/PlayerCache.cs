@@ -22,7 +22,7 @@ namespace TheLastPlanet.Client.SessionCache
             Ped = new Ped(PlayerPedId());
         }
 
-		public async void SetCharacter(User data) => User = data;
+		public void SetCharacter(User data) => User = data;
 
 		public void AddPlayer(string data)
         {
