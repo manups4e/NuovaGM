@@ -35,6 +35,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         public Ped Ped { get; set; }
         public Position Posizione => User.Posizione;
         public void UpdatePedId() => Ped = new Ped(API.PlayerPedId());
+        public bool Ready => Player != null && Ped != null && User != null;
 #endif
 
         public User User = new User();

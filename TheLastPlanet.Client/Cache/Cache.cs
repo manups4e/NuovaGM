@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.SessionCache
 
         public static async Task Loaded()
         {
-            while (MyPlayer == null || MyPlayer.User == null)
+            while (MyPlayer == null || !MyPlayer.Ready)
             {
                 await BaseScript.Delay(0);
             }

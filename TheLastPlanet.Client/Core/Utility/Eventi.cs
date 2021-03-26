@@ -55,7 +55,6 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Cache.GiocatoriOnline = await Client.Instance.Eventi.Get<List<ClientId>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar.Posizione);
 			Cache.MyPlayer.User.CurrentChar = Cache.GiocatoriOnline.FirstOrDefault(x=> x.Id == Cache.MyPlayer.Id).User.CurrentChar;
-			Log.Printa(LogType.Debug, Cache.GiocatoriOnline.ToJson(true));
 		}
 
 		public static async void LoadModel()
