@@ -10,16 +10,18 @@ using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.Internal.Events;
 
 namespace TheLastPlanet.Server
 {
 	public class Server : BaseScript
 	{
-		public static ConcurrentDictionary<string, User> PlayerList = new();
+		//public static ConcurrentDictionary<string, User> PlayerList = new();
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
+		public List<ClientId> Clients = new();
 		public static Configurazione Impostazioni = null;
 		public ServerGateway Events;
 

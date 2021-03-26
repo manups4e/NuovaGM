@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.banking
 {
@@ -23,17 +24,16 @@ namespace TheLastPlanet.Server.banking
 
 		private static async Task<KeyValuePair<bool, string>> SendMoney(ClientId source, string name, int amount)
 		{
-			var player = source.Player;
-			User user = player.GetCurrentChar();
+			User user = source.User;
 			if (user.Bank >= amount)
 			{
-				foreach (var p in Server.PlayerList)
+				foreach (var p in Server.Instance.Clients)
 				{
-					if (user.FullName.ToLower() == name.ToLower())
+					if (name.ToLower() == p.User.FullName.ToLower())
 					{
 						user.Bank -= amount;
-						p.Value.Bank += amount;
-						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha inviato ${amount} a '{p.Value.FullName}' [{p.Value.Player.Name}]");
+						p.User.Bank += amount;
+						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{source.Player.Name}] ha inviato ${amount} a '{p.User.FullName}' [{p.Player.Name}]");
 						return new KeyValuePair<bool, string>(true, user.Bank.ToString());
 					}
 				}

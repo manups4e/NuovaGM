@@ -95,18 +95,18 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static User GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-				if (GetPlayerFromServerId(Convert.ToInt32(p.Key)) == id)
-					return p.Value;
+			foreach (var p in SessionCache.Cache.GiocatoriOnline)
+				if (GetPlayerFromServerId(p.Player.ServerId) == id)
+					return p.User;
 
 			return null;
 		}
 
 		public static User GetPlayerCharFromServerId(int id)
 		{
-			foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-				if (Convert.ToInt32(p.Key) == id)
-					return p.Value;
+			foreach (var p in Cache.GiocatoriOnline)
+				if (p.Player.ServerId == id)
+					return p.User;
 
 			return null;
 		}

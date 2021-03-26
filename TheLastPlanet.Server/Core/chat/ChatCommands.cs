@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using System.Text.RegularExpressions;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Server.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -81,7 +83,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.Job.Name.ToLower() == "polizia")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.Job.Name.ToLower() == "polizia").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.Instance.Clients.Where(x => x.User.CurrentChar.Job.Name.ToLower() == "polizia").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 65, 125 }, multiline = true, args = new[] { "[POLIZIA] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -90,7 +92,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.Job.Name.ToLower() == "pilota")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.Job.Name.ToLower() == "pilota").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.Instance.Clients.Where(x => x.User.CurrentChar.Job.Name.ToLower() == "pilota").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 244, 223, 66 }, multiline = true, args = new[] { "[PILOTI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -99,7 +101,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.Job.Name.ToLower() == "medico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.Job.Name.ToLower() == "medico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.Instance.Clients.Where(x => x.User.CurrentChar.Job.Name.ToLower() == "medico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 88, 154, 202 }, multiline = true, args = new[] { "[MEDICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -108,7 +110,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 			if (user.CurrentChar.Job.Name.ToLower() == "meccanico")
-				Server.PlayerList.Values.Where(x => x.CurrentChar.Job.Name.ToLower() == "meccanico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
+				Server.Instance.Clients.Where(x => x.User.CurrentChar.Job.Name.ToLower() == "meccanico").ToList().ForEach(x => x.Player.TriggerEvent("chat:addMessage", new { color = new[] { 102, 102, 255 }, multiline = true, args = new[] { "[MECCANICI] | " + user.FullName, rawCommand.Substring(5) } }));
 			else
 				user.showNotification("Non puoi usare questo comando!");
 		}
@@ -129,9 +131,10 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (Server.PlayerList.ContainsKey(args[0]))
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
 				{
-					User player = Funzioni.GetUserFromPlayerId(args[0]);
+					User player = client.User;
 					string item = "" + args[1];
 					player.addInventoryItem(item, Convert.ToInt32(args[2]), ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
 				}
@@ -150,10 +153,12 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (Server.PlayerList.ContainsKey(args[0]))
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
 				{
-					User player = Funzioni.GetUserFromPlayerId(args[0]);
-					player.removeInventoryItem(args[1], Convert.ToInt32(args[2]));
+					User player = client.User;
+					string item = "" + args[1];
+					player.removeInventoryItem(item, Convert.ToInt32(args[2]));
 				}
 				else
 				{
@@ -170,9 +175,10 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (Server.PlayerList.ContainsKey(args[0]))
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
 				{
-					User player = Funzioni.GetUserFromPlayerId(args[0]);
+					User player = client.User;
 					player.addWeapon(args[1].ToUpper(), Convert.ToInt32(args[2]));
 				}
 				else
@@ -190,9 +196,10 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (Server.PlayerList.ContainsKey(args[0]))
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
 				{
-					User player = Funzioni.GetUserFromPlayerId(args[0]);
+					User player = client.User;
 					player.removeWeapon(args[1].ToUpper());
 				}
 				else
@@ -210,58 +217,64 @@ namespace TheLastPlanet.Server.Core
 		// GESTIONE DELLE FINANZE
 		public static void GiveMoney(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].Money += Convert.ToInt32(args[1]);
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+			if (client != null)
+				client.User.Money += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givemoney] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void GiveBank(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].Bank += Convert.ToInt32(args[1]);
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+			if (client != null)
+				client.User.Bank += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givebank] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void GiveDirty(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].DirtCash += Convert.ToInt32(args[1]);
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
+				client.User.DirtCash += Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void RemoveMoney(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].Money -= Convert.ToInt32(args[1]);
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
+				client.User.Money -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void RemoveBank(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].Bank -= Convert.ToInt32(args[1]);
+				var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
+				client.User.Bank -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void RemoveDirty(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
-				Server.PlayerList[args[0]].DirtCash -= Convert.ToInt32(args[1]);
+							var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+				if (client != null)
+				client.User.DirtCash -= Convert.ToInt32(args[1]);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO givedirty] = ", "Il player con ID" + args[0] + " non è online!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void SetFinances(Player sender, List<string> args, string rawCommand)
 		{
-			if (Server.PlayerList.ContainsKey(args[0]))
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(args[0]));
+			if (client != null)
 			{
-				User player = Funzioni.GetUserFromPlayerId(args[0]);
-
+				var player = client.User;
 				if (args[1] == "soldi")
 				{
 					player.Money -= player.Money;
@@ -422,13 +435,13 @@ namespace TheLastPlanet.Server.Core
 			{
 				var now = DateTime.Now;
 
-				foreach (var player in Server.PlayerList)
+				foreach (var player in Server.Instance.Clients)
 				{
-					if (player.Value.status.Spawned)
+					if (player.User.status.Spawned)
 					{
-						BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(player.Key), "lprp:mostrasalvataggio");
-						await player.Value.SalvaPersonaggio();
-						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.Value.FullName + "' appartenente a '" + Funzioni.GetPlayerFromId(player.Key).Name + "' - " + player.Value.Identifiers.Discord);
+						player.Player.TriggerEvent("lprp:mostrasalvataggio");
+						await player.User.SalvaPersonaggio();
+						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
 						await Task.FromResult(0);
 					}
 				}
@@ -452,9 +465,9 @@ namespace TheLastPlanet.Server.Core
 
 		public static void SetJob(Player sender, List<string> args, string rawCommand)
 		{
-			Player p = Funzioni.GetPlayerFromId(args[0]);
+			ClientId p = Funzioni.GetClientFromPlayerId(args[0]);
 
-			if (Server.PlayerList.ContainsKey(p.Handle))
+			if (p!=null)
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
 				if (pers.status.Spawned)
@@ -470,9 +483,9 @@ namespace TheLastPlanet.Server.Core
 
 		public static void SetGang(Player sender, List<string> args, string rawCommand)
 		{
-			Player p = Funzioni.GetPlayerFromId(args[0]);
+			ClientId p = Funzioni.GetClientFromPlayerId(args[0]);
 
-			if (Server.PlayerList.ContainsKey(p.Handle))
+			if (p != null)
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
 				if (pers.status.Spawned)

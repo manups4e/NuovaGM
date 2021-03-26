@@ -4,6 +4,7 @@ using System.Linq;
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Shared.Snowflakes;
 
 #if CLIENT
 using TheLastPlanet.Client.Core.PlayerChar;
@@ -21,10 +22,10 @@ namespace TheLastPlanet.Shared.PlayerChar
 		[JsonIgnore]
 		private ulong UserID
 		{
-			set => PlayerID = Snowflakes.Snowflake.Parse(value);
+			set => PlayerID = Snowflake.Parse(value);
 		}
 
-		public Snowflakes.Snowflake PlayerID;
+		public Snowflake PlayerID;
 		public string group;
 		public UserGroup group_level;
 		public long playTime;

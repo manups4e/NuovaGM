@@ -12,6 +12,7 @@ using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.SistemaEventi;
 using System.Dynamic;
 using TheLastPlanet.Client.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client
 {
@@ -22,7 +23,7 @@ namespace TheLastPlanet.Client
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = null;
 		public ClientGateway Eventi;
-		
+		public List<ClientId> Clients = new();
 		public Client() { Inizializza(); }
 
 		private async void Inizializza()

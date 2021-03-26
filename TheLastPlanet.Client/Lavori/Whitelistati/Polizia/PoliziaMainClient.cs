@@ -229,10 +229,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
 
 			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
-				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-					if (p.Value.CurrentChar.Job.Name == "Polizia")
+				foreach (var p in Cache.GiocatoriOnline)
+					if (p.User.CurrentChar.Job.Name == "Polizia")
 					{
-						int id = GetPlayerFromServerId(p.Value.source);
+						int id = GetPlayerFromServerId(p.User.source);
 						Ped playerPed = new(GetPlayerPed(id));
 
 						if (!NetworkIsPlayerActive(id) || playerPed.Handle == Cache.MyPlayer.Ped.Handle) continue;

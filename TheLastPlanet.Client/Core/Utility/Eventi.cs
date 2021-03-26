@@ -11,6 +11,8 @@ using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.Core.Status;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared.Internal.Events;
+using System.Linq;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -51,8 +53,9 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			Cache.GiocatoriOnline = await Client.Instance.Eventi.Get<Dictionary<string, PlayerChar.User>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar.Posizione);
-			Cache.MyPlayer.User.CurrentChar = Cache.GiocatoriOnline[Cache.MyPlayer.Player.ServerId.ToString()].CurrentChar;
+			Cache.GiocatoriOnline = await Client.Instance.Eventi.Get<List<ClientId>>("lprp:callPlayers", Cache.MyPlayer.User.CurrentChar.Posizione);
+			Cache.MyPlayer.User.CurrentChar = Cache.GiocatoriOnline.FirstOrDefault(x=> x.Id == Cache.MyPlayer.Id).User.CurrentChar;
+			Log.Printa(LogType.Debug, Cache.GiocatoriOnline.ToJson(true));
 		}
 
 		public static async void LoadModel()

@@ -287,10 +287,10 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
 
 			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
-				foreach (KeyValuePair<string, User> p in SessionCache.Cache.GiocatoriOnline)
-					if (p.Value.CurrentChar.Job.Name == "Medici")
+				foreach (var p in Cache.GiocatoriOnline)
+					if (p.User.CurrentChar.Job.Name == "Medici")
 					{
-						int id = GetPlayerFromServerId(p.Value.source);
+						int id = GetPlayerFromServerId(p.User.source);
 
 						if (!NetworkIsPlayerActive(id) || GetPlayerPed(id) == PlayerPedId()) continue;
 						Ped playerPed = new(GetPlayerPed(id));

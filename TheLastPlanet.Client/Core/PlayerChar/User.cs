@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore] private Player player = Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = Game.Player;
 
 		private bool _inPausa;
 		private bool _svenuto;
@@ -210,7 +210,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class Istanza
 	{
-		[JsonIgnore] private Player player = Cache.MyPlayer.Player;
+		[JsonIgnore] private Player player = Game.Player;
 		public bool Stanziato
 		{
 			get => player.State["PlayerStates"].Istanza.Stanziato;

@@ -8,6 +8,9 @@ using System.Collections.Concurrent;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Server.Internal.Events;
+using TheLastPlanet.Shared.Snowflakes;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -315,13 +318,21 @@ namespace TheLastPlanet.Server.Core
 
 		public static double DateTime2TimeStamp(DateTime dateTime) { return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds; }
 
-		public static User GetUserFromPlayerId(string id) { return Server.PlayerList.TryGetValue(id, out User user) ? user : null; }
+		public static User GetUserFromPlayerId(string id) 
+			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle.ToString())?.User;
 
-		public static User GetUserFromPlayerId(int id) { return Server.PlayerList.TryGetValue(id.ToString(), out User user) ? user : null; }
+		public static User GetUserFromPlayerId(int id) 
+			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle)?.User;
 
-		public static User GetCurrentChar(this Player player) { return Server.PlayerList.TryGetValue(player.Handle, out User user) ? user : null; }
+		public static ClientId GetClientFromPlayerId(int id) 
+			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle);
+		
+		public static ClientId GetClientFromPlayerId(string id) 
+			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle.ToString());
 
-		private static Random random = new Random();
-		public static float RandomFloatInRange(float minimum, float maximum) { return (float)random.NextDouble() * (maximum - minimum) + minimum; }
+		public static User GetCurrentChar(this Player player) 
+			=> Server.Instance.Clients.FirstOrDefault(x => player.Handle == x.Handle.ToString())?.User;
+
+		public static float RandomFloatInRange(float minimum, float maximum) { return (float)new Random(DateTime.Now.Millisecond).NextDouble() * (maximum - minimum) + minimum; }
 	}
 }

@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.SessionCache
 {
@@ -13,24 +17,27 @@ namespace TheLastPlanet.Client.SessionCache
     {
         private static bool _inVeh;
         private static bool _inPausa;
-        public static PlayerCache MyPlayer { get; private set; }
+        //public static PlayerCache MyPlayer { get; private set; }
+        public static ClientId MyPlayer { get; private set; }
         public static Char_data CurrentChar { get => MyPlayer.User.CurrentChar; }
-        public static Dictionary<string, User> GiocatoriOnline = new();
+        public static List<ClientId> GiocatoriOnline = new();
 
         public static async Task InitPlayer()
         {
-            MyPlayer = new PlayerCache();
-            User pippo = await Client.Instance.Eventi.Get<User>("lprp:setupUser");
-
-            MyPlayer.SetCharacter(pippo);
-            
+            var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, User>>("lprp:setupUser");
+            MyPlayer = new(pippo.Item1)
+            {
+                Player = Game.Player,
+                Ped = new Ped(API.PlayerPedId()),
+                User = pippo.Item2
+			};
             Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
         }
 
         public static async Task Loaded()
         {
-            while (MyPlayer == null || MyPlayer != null && !MyPlayer.Ready)
+            while (MyPlayer == null || MyPlayer.User == null)
             {
                 await BaseScript.Delay(0);
             }

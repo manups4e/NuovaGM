@@ -46,7 +46,7 @@ namespace TheLastPlanet.Server
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			PickupsServer.Init();
-			NuovaCoda.Init();
+			//NuovaCoda.Init();
 			ServerManager.Init();
 			BotDiscordHandler.Init();
 			await Task.FromResult(0);

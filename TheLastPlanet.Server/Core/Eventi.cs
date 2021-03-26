@@ -14,6 +14,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Collections.Concurrent;
 using TheLastPlanet.Server.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -70,7 +71,7 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:updateWeaponAmmo", new Action<Player, string, int>(AggiornaAmmo));
 			Server.Instance.AddEventHandler("lprp:giveInventoryItemToPlayer", new Action<Player, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.AddEventHandler("lprp:giveWeaponToPlayer", new Action<Player, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.Events.Mount("lprp:callPlayers", new Func<ClientId, Position, Task<ConcurrentDictionary<string, User>>>( async (a, b) => 
+			Server.Instance.Events.Mount("lprp:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>( async (a, b) => 
 			{
 				User user = a.Player.GetCurrentChar();
 				var pos = b;
@@ -82,7 +83,7 @@ namespace TheLastPlanet.Server.Core
 					await user.SalvaPersonaggio();
 					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.Identifiers.Discord);
 				}
-				return Server.PlayerList;
+				return Server.Instance.Clients;
 			}));
 
 			Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<Task<Dictionary<string, User>>>(async () => (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
@@ -147,7 +148,6 @@ namespace TheLastPlanet.Server.Core
 			foreach (var player in from Player player in Server.Instance.GetPlayers.ToList() where player.Handle != source.Handle select player)
 				player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 
-			BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", Server.PlayerList.ToJson());
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
 			user.status.Spawned = true;
 		}
@@ -167,10 +167,11 @@ namespace TheLastPlanet.Server.Core
 					"Disconnected." or "Exited." => name + " si e' disconnesso.",
 					_ => name + " si e' disconnesso: " + reason,
 				};
-			if (Server.PlayerList.ContainsKey(handle))
-			{
-				Server.PlayerList.TryGetValue(handle, out User ped);
 
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
+			if (client != null)
+			{
+				var ped = client.User;
 				var disc = ped.Identifiers.Discord;
 				if (ped.status.Spawned)
 				{
@@ -180,19 +181,22 @@ namespace TheLastPlanet.Server.Core
 				else
 					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
 
-				Server.PlayerList.TryRemove(handle, out ped);
+				Server.Instance.Clients.Remove(client);
 			}
 
 			Log.Printa(LogType.Info, text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
 
+
+		//TODO: DA CAMBIARE CON NUOVO METODO
 		public static async void SalvaPlayer([FromSource] Player player)
 		{
 			await BaseScript.Delay(0);
 			string name = player.Name;
 
-			if (Server.PlayerList.ContainsKey(player.Handle))
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
+			if (client != null)
 			{
 				User ped = Funzioni.GetUserFromPlayerId(player.Handle);
 
