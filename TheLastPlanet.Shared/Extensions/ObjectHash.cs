@@ -25,6 +25,7 @@
 		bh1_04_bld2a02 = 1853657102,
 		bh1_04_build004 = 607716542,
 		xm_prop_x17_tv_flat_01 = 60046420,
+		xm_prop_x17_tem_control_01 = 1760825203,
 		vw_prop_vw_tv_rt_01a = -1949621260,
 		vw_prop_vw_cinema_tv_01 = -240931727,
 		sm_prop_smug_tv_flat_01 = 1020451759,
