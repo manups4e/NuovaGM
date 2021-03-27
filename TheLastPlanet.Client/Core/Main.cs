@@ -514,7 +514,7 @@ namespace TheLastPlanet.Client.Core
 
 			foreach (GenericPeds stripper in Client.Impostazioni.Main.stripClub)
 			{
-				Ped ped = await World.CreatePed(new Model(GetHashKey(stripper.model)), new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);
+				Ped ped = await Funzioni.SpawnPed(stripper.model, new Vector3(stripper.coords[0], stripper.coords[1], stripper.coords[2]), stripper.heading);
 				ped.CanRagdoll = false;
 				ped.BlockPermanentEvents = true;
 				SetEntityCanBeDamaged(ped.Handle, false);
@@ -525,7 +525,7 @@ namespace TheLastPlanet.Client.Core
 
 			foreach (GenericPeds market in Client.Impostazioni.Main.blackMarket)
 			{
-				Ped ped1 = await World.CreatePed(new Model(GetHashKey(market.model)), new Vector3(market.coords[0], market.coords[1], market.coords[2]), market.heading);
+				Ped ped1 = await Funzioni.SpawnPed(market.model, new Vector3(market.coords[0], market.coords[1], market.coords[2]), market.heading);
 				ped1.CanRagdoll = false;
 				ped1.BlockPermanentEvents = true;
 				SetEntityCanBeDamaged(ped1.Handle, false);
@@ -536,7 +536,7 @@ namespace TheLastPlanet.Client.Core
 
 			foreach (GenericPeds illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
 			{
-				Ped ped2 = await World.CreatePed(new Model(GetHashKey(illegal.model)), new Vector3(illegal.coords[0], illegal.coords[1], illegal.coords[2]), illegal.heading);
+				Ped ped2 = await Funzioni.SpawnPed(illegal.model, new Vector3(illegal.coords[0], illegal.coords[1], illegal.coords[2]), illegal.heading);
 				ped2.CanRagdoll = false;
 				ped2.BlockPermanentEvents = true;
 				SetEntityCanBeDamaged(ped2.Handle, false);

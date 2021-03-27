@@ -6,6 +6,7 @@ using Logger;
 using System.Linq;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared.Snowflakes;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Server.manager
 {
@@ -14,7 +15,7 @@ namespace TheLastPlanet.Server.manager
 		public static void Init()
 		{
 			Server.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<int, Vector3>(TippaDaMe));
-			Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
+			//Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
 		}
 
 		private static void TippaDaMe(int source, Vector3 coords)
@@ -29,18 +30,27 @@ namespace TheLastPlanet.Server.manager
 				if (entity != 0 && API.DoesEntityExist(entity))
 				{
 					EntityCreated ent = new(entity);
-					if (API.HasVehicleBeenOwnedByPlayer(entity))
+					if (ent.PopulationType == PopulationType.Unknown ||
+						ent.PopulationType == PopulationType.RandomAmbient ||
+						ent.PopulationType == PopulationType.RandomParked ||
+						ent.PopulationType == PopulationType.RandomPatrol ||
+						ent.PopulationType == PopulationType.RandomPermanent ||
+						ent.PopulationType == PopulationType.RandomScenario) return;
+					await BaseScript.Delay(5000);
+					Log.Printa(LogType.Debug, ent.ToString());
+					if (ent.Decor != Snowflake.Empty) return;
+					if (ent.Type == typeof(Vehicle))
 					{
-						await BaseScript.Delay(1000);
-						Log.Printa(LogType.Debug, ent.ToString());
-						if (ent.Decor != null && ent.Decor != Snowflake.Empty) return;
-						else
-						{
-							Log.Printa(LogType.Warning, $"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
-							ent.Owner.Drop("Hai spawnato un veicolo vietato");
-							//drop player;
-						}
 					}
+					else if (ent.Type == typeof(Prop))
+					{
+					}
+					else if (ent.Type == typeof(Ped))
+					{
+					}
+					Log.Printa(LogType.Warning, $"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
+					//ent.Owner.Drop($"Hai spawnato un {ent.Type.Name} vietato [{(ObjectHash)ent.Entity.Model}]");
+					API.DeleteEntity(ent.Handle);
 				}
 			}
 			catch (Exception e)
@@ -50,6 +60,21 @@ namespace TheLastPlanet.Server.manager
 		}
 	}
 
+	public enum PopulationType
+	{
+		Unknown = 0,
+		RandomPermanent,
+		RandomParked,
+		RandomPatrol,
+		RandomScenario,
+		RandomAmbient,
+		Permanent,
+		Mission,
+		Replay,
+		Cache,
+		Tool
+	}
+
 	public class EntityCreated
 	{
 		public int Handle { get; set; }
@@ -57,13 +82,13 @@ namespace TheLastPlanet.Server.manager
 		public Player Owner { get; set; }
 		public Player FirstOwner { get; set; }
 		public Entity Entity { get; set; }
-		public int PopulationType { get; set; }
+		public PopulationType PopulationType { get; set; }
 		public Snowflake Decor { get; set; }
 		public EntityCreated(int entity)
 		{
 			Handle = entity;
 			Entity = Entity.FromHandle(Handle);
-			PopulationType = API.GetEntityPopulationType(Handle);
+			PopulationType = (PopulationType)API.GetEntityPopulationType(Handle);
 			Type = Entity.Type == 1 ? typeof(Ped) : Entity.Type == 2 ? typeof(Vehicle) : Entity.Type == 3 ? typeof(Prop) : null;
 			Owner = Server.Instance.GetPlayers.FirstOrDefault(x=>x.Handle == API.NetworkGetEntityOwner(Handle).ToString());
 			FirstOwner = Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == API.NetworkGetFirstEntityOwner(Handle).ToString());
@@ -72,7 +97,7 @@ namespace TheLastPlanet.Server.manager
 
 		public override string ToString()
 		{
-			return $"Handle = {Handle}, owner = {Owner.Name}, tipo = {Type.Name}, decor = {Decor.ToInt64()}, coordinate = {Entity.Position}";
+			return $"Handle = {Handle}, PopulationType = {PopulationType}, owner = {Owner.Name}, tipo = {Type.Name}, decor = {Decor.ToInt64()}, coordinate = {Entity.Position}";
 		}
 	}
 }

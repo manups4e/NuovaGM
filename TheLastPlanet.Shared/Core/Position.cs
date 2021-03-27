@@ -224,6 +224,7 @@ namespace TheLastPlanet.Shared
         public float Pitch { get; set; }
         public float Roll { get; set; }
 
+        public RotatablePosition() { }
         public RotatablePosition(float x, float y, float z, float yaw, float pitch, float roll)
         {
             X = x;
