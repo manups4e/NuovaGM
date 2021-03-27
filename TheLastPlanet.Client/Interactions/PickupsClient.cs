@@ -97,7 +97,7 @@ namespace TheLastPlanet.Client.Interactions
 			Vector3 entityCoords = playerPed.Position;
 			Vector3 forward = playerPed.ForwardVector;
 			Vector3 objectCoords = entityCoords + forward * 1.0f;
-			Model model = new Model((int)oggetto.obj);
+			Model model = new((int)oggetto.obj);
 			model.Request();
 			Entity pickupObject = null;
 
@@ -105,9 +105,9 @@ namespace TheLastPlanet.Client.Interactions
 			{
 				case "item":
 					if (model.Hash == (int)ObjectHash.a_c_fish)
-						pickupObject = await World.CreatePed(model, objectCoords);
+						pickupObject = await Funzioni.SpawnPed((int)oggetto.obj, objectCoords, 0, PedTypes.Animal);
 					else
-						pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
+						pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords, new Vector3(0), true);
 					pickupObject.SetDecor("PickupOggetto", oggetto.amount);
 
 					break;
@@ -127,7 +127,7 @@ namespace TheLastPlanet.Client.Interactions
 
 					break;
 				case "account":
-					pickupObject = new Prop(CreateObject(model.Hash, objectCoords.X, objectCoords.Y, objectCoords.Z, false, false, true));
+					pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords, new Vector3(0), true);
 					pickupObject.SetDecor("PickupAccount", oggetto.amount);
 
 					break;

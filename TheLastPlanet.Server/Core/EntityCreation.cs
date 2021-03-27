@@ -52,6 +52,28 @@ namespace TheLastPlanet.Server.Core
                     return 0;
                 }
             }));
+
+            Server.Instance.Events.Mount("lprp:entity:spawnProp", new Func<int, RotatablePosition, Task<int>>(async (a, b) =>
+            {
+                try
+				{
+                    var mod = a;
+                    var coords = b;
+                    Prop prop = new (CreateObject(mod, coords.X, coords.Y, coords.Z, true, true, true));
+                    while (!DoesEntityExist(prop.Handle)) await BaseScript.Delay(0);
+                    object decor = new { decorator = Snowflake.Next().ToInt64() };
+                    prop.State.Set("decor", decor, true);
+                    SetEntityDistanceCullingRadius(prop.Handle, 5000f);
+                    prop.Rotation = coords.ToRot;
+                    return prop.NetworkId;
+                }
+                catch(Exception e)
+				{
+                    Log.Printa(LogType.Debug, e.ToString());
+                    return 0;
+				}
+            }));
+
         }
     }
 }

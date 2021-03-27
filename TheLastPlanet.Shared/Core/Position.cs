@@ -233,5 +233,20 @@ namespace TheLastPlanet.Shared
             Pitch = pitch;
             Roll = roll;
         }
+        public RotatablePosition(Vector3 pos, Vector3 rot)
+        {
+            X = pos.X;
+            Y = pos.Y;
+            Z = pos.Z;
+            Yaw = rot.X;
+            Pitch = rot.Y;
+            Roll = rot.Z;
+        }
+
+        [JsonIgnore]
+        public Vector3 ToVector3 => new(X, Y, Z);
+        [JsonIgnore]
+        public Vector3 ToRot => new(Yaw, Pitch, Roll);
+
     }
 }

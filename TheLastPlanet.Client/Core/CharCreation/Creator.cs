@@ -2168,8 +2168,8 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			overlay1.Request();
 			while (!bd1.IsLoaded) await BaseScript.Delay(0);
 			while (!overlay1.IsLoaded) await BaseScript.Delay(0);
-			BD1 = new Prop(CreateObject(bd1.Hash, 402.91f, -996.74f, -180.00025f, false, true, true));
-			Overlay1 = new Prop(CreateObject(overlay1.Hash, 402.91f, -996.74f, -180.00025f, false, true, false));
+			BD1 = await Funzioni.SpawnLocalProp(bd1.Hash, new Vector3(402.91f, -996.74f, -180.00025f), true, true);
+			Overlay1 = await Funzioni.SpawnLocalProp(overlay1.Hash, new( 402.91f, -996.74f, -180.00025f), true, false);
 			while (!BD1.Exists()) await BaseScript.Delay(0);
 			while (!Overlay1.Exists()) await BaseScript.Delay(0);
 			Overlay1.AttachTo(BD1);

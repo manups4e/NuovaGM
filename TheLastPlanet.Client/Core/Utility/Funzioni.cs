@@ -628,19 +628,67 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		}
 		#endregion
-		
+
 		#endregion
-		
+
+		#region SpawnaProps
+
+		public static async Task<Prop> CreateProp(int modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
+		{
+			var a = new Model(modelName);
+			return await CreateProp(a, coords, rot, placeOnGround);
+		}
+
+		public static async Task<Prop> CreateProp(string modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
+		{
+			var a = new Model(modelName);
+			return await CreateProp(a, coords, rot, placeOnGround);
+		}
+
+		public static async Task<Prop> CreateProp(ObjectHash modelName, Vector3 coords, Vector3 rot, bool placeOnGround = true)
+		{
+			var a = new Model((int)modelName);
+			return await CreateProp(a, coords, rot, placeOnGround);
+		}
+
+		private static async Task<Prop> CreateProp(Model propModel, Vector3 coords, Vector3 rot, bool placeOnGround = true)
+		{
+			if (propModel.IsValid)
+			{
+				if (!propModel.IsLoaded) await propModel.Request(3000); //for when you stream resources.
+
+				if (!IsSpawnPointClear(coords, 2f))
+				{
+					Prop[] props = GetPropsInArea(coords, 1f);
+					foreach (var v in props) v.Delete();
+				}
+
+				int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnProp", propModel.Hash, 
+					new RotatablePosition(coords, rot));
+				var result = (Prop)Entity.FromNetworkId(callback);
+				while (result == null || !result.Exists()) await BaseScript.Delay(50);
+				if (placeOnGround) PlaceObjectOnGroundProperly(result.Handle);
+				result.IsPersistent = true;
+				propModel.MarkAsNoLongerNeeded();
+				return result;
+			}
+			return null;
+		}
+
+
+
 		public static async Task<Prop> SpawnLocalProp(dynamic modelName, Vector3 coords, bool dynamic, bool placeOnGround)
 		{
-			Model model = new Model(modelName);
+			Model model = new(modelName);
 
 			if (!await model.Request(1000)) return null;
-			Prop p = new Prop(CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
+			Prop p = new(CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
 			if (placeOnGround) PlaceObjectOnGroundProperly(p.Handle);
 
 			return p;
 		}
+
+		#endregion
 
 		/// <summary>
 		/// Spawns a <see cref="Ped"/> of the given <see cref="Model"/> at the position and heading specified.

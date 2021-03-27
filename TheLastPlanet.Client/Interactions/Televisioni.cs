@@ -96,7 +96,8 @@ namespace TheLastPlanet.Client.Interactions
 			{
 				TV.Accesa = true;
 				Tuple<Vector3, Vector3> coords = OttieniCoords(GetInteriorFromGameplayCam());
-				FakeTV = await World.CreateProp(new Model(GetInteriorFromGameplayCam() == 149761 ? "prop_tv_03_overlay" : "prop_tv_flat_01_screen"), coords.Item1, coords.Item2, true, false);
+				FakeTV = await Funzioni.CreateProp(GetInteriorFromGameplayCam() == 149761 ? "prop_tv_03_overlay" : "prop_tv_flat_01_screen", coords.Item1, coords.Item2, false);
+				//FakeTV = await World.CreateProp(new Model(GetInteriorFromGameplayCam() == 149761 ? "prop_tv_03_overlay" : "prop_tv_flat_01_screen"), coords.Item1, coords.Item2, true, false);
 				RenderTarget = RenderTargets.CreateNamedRenderTargetForModel("tvscreen", (uint)FakeTV.Model.Hash);
 				RegisterScriptWithAudio(0);
 				SetTvAudioFrontend(false);
