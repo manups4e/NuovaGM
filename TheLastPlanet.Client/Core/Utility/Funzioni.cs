@@ -756,8 +756,8 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 			}
 
-			int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash,
-					position.X, position.Y, position.Z, heading, (int)pedType);
+			int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, new Position(
+					position, heading), (int)pedType);
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
 			while (!ped.Exists()) await BaseScript.Delay(50);
