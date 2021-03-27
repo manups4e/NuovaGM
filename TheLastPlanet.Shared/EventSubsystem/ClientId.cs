@@ -103,7 +103,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         {
             Handle = Convert.ToInt32(user.Player.Handle);
 
-            Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
+            Player = user.Player;
             User = new(Player, user);
             Identifiers = user.Identifiers.ToArray();
             Id = user.PlayerID;

@@ -26,7 +26,15 @@ namespace TheLastPlanet.Client.SessionCache
         public static async Task InitPlayer()
         {
             var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, User>>("lprp:setupUser");
-            MyPlayer = new(pippo);
+            MyPlayer = new()
+            {
+                Player = Game.Player,
+                Handle = Game.Player.ServerId,
+                Ped = new Ped(API.PlayerPedId()),
+                Id = pippo.Item1,
+            };
+			MyPlayer.User = new (pippo.Item2);
+            MyPlayer.Identifiers = MyPlayer.User.Identifiers.ToArray();
             Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
         }

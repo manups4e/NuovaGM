@@ -115,9 +115,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore]
-		private Player player = Game.Player;
-
 		public Istanza Istanza = new();
 
 		private bool _inPausa;
@@ -135,9 +132,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_inPausa = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.InPausa = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 
@@ -147,9 +144,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_svenuto = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Svenuto = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 
@@ -159,9 +156,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_ammanettato = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Ammanettato = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool InCasa
@@ -170,9 +167,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_inCasa = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.InCasa = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool InServizio
@@ -181,9 +178,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_inServizio = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.InServizio = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool FinDiVita
@@ -192,9 +189,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_finDiVita = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.FinDiVita = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool AdminSpecta
@@ -203,9 +200,9 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_adminSpecta = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.AdminSpecta = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 
@@ -215,18 +212,15 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			set
 			{
 				_inVeh = value;
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.InVeicolo = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 	}
 
 	public class Istanza
 	{
-		[JsonIgnore] 
-		private Player player = Game.Player;
-
 		private bool _stanziato;
 		private int _idProprietario;
 		private bool _isProprietario;
@@ -245,10 +239,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _stanziato;
 			set
 			{
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Istanza.Stanziato = value;
 				_stanziato = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public int ServerIdProprietario
@@ -256,10 +250,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _idProprietario;
 			set
 			{
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Istanza.ServerIdProprietario = value;
 				_idProprietario = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool IsProprietario
@@ -267,10 +261,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _isProprietario;
 			set
 			{
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Istanza.IsProprietario = value;
 				_isProprietario = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 		public string Instance
@@ -278,10 +272,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _instance;
 			set
 			{
-				dynamic p = player.State["PlayerStates"];
+				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.Istanza.Instance = value;
 				_instance = value;
-				player.State.Set("PlayerStates", p, true);
+				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
 			}
 		}
 
@@ -291,7 +285,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public void Istanzia()
 		{
 			Stanziato = true;
-			ServerIdProprietario = player.ServerId;
+			ServerIdProprietario = Game.Player.ServerId;
 			IsProprietario = true;
 			Instance = string.Empty;
 		}
@@ -302,7 +296,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public void Istanzia(string Instance)
 		{
 			Stanziato = true;
-			ServerIdProprietario = player.ServerId;
+			ServerIdProprietario = Game.Player.ServerId;
 			IsProprietario = true;
 			this.Instance = Instance;
 		}

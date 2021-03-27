@@ -14,7 +14,6 @@ using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
-
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
 	internal static class NewServerEntrance
@@ -104,7 +103,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 		}
 
-		private static async void PlayerJoining([FromSource]Player source, string oldId)
+		private static async void PlayerJoining([FromSource] Player source, string oldId)
 		{
 			const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
 			User user = new(source, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
@@ -113,10 +112,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				lice = source.GetLicense(Identifier.License),
 				name = source.Name
 			}));
-			if (!Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
-				Server.Instance.Clients.Add(new ClientId(user));
-			else
+			if (Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
 				Log.Printa(LogType.Warning, $"Esiste già un player con ID UNIVOCO {user.PlayerID}");
+			else
+				Server.Instance.Clients.Add(new ClientId(user));
+
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
@@ -135,6 +135,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				{
 					await BaseScript.Delay(1);
 					EntratoMaProprioSulSerio(client.Player);
+					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					return new Tuple<Snowflake, User>(client.Id, client.User);
 				}
 				else
@@ -146,6 +147,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 						lice = source.Player.GetLicense(Identifier.License),
 						name = source.Player.Name
 					})));
+					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(source.Player);
 					Server.Instance.Clients.Add(client);
 					var p = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);

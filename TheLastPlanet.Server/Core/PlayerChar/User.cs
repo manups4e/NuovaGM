@@ -33,7 +33,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			group_level = result.group_level;
 			playTime = result.playTime;
 			Player = player;
-			StatiPlayer = new PlayerStateBags(player);
 			char_data = result.char_data;
 			LastSaved = DateTime.Now;
 			Identifiers.Steam = Player.GetLicense(Identifier.Steam);
@@ -385,45 +384,45 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		private Player player;
 		public bool InPausa
 		{
-			get => player.State["PlayerStates"].InPausa;
-			set => player.State["PlayerStates"].InPausa = value;
+			get => player.Character.State["PlayerStates"].InPausa;
+			set => player.Character.State["PlayerStates"].InPausa = value;
 		}
 
 		public bool Svenuto
 		{
-			get => player.State["PlayerStates"].Svenuto;
-			set => player.State["PlayerStates"].Svenuto = value;
+			get => player.Character.State["PlayerStates"].Svenuto;
+			set => player.Character.State["PlayerStates"].Svenuto = value;
 		}
 
 		public bool Ammanettato
 		{
-			get => player.State["PlayerStates"].Ammanettato;
-			set => player.State["PlayerStates"].Ammanettato = value;
+			get => player.Character.State["PlayerStates"].Ammanettato;
+			set => player.Character.State["PlayerStates"].Ammanettato = value;
 		}
 		public bool InCasa
 		{
-			get => player.State["PlayerStates"].InCasa;
-			set => player.State["PlayerStates"].InCasa = value;
+			get => player.Character.State["PlayerStates"].InCasa;
+			set => player.Character.State["PlayerStates"].InCasa = value;
 		}
 		public bool InServizio
 		{
-			get => player.State["PlayerStates"].InServizio;
-			set => player.State["PlayerStates"].InServizio = value;
+			get => player.Character.State["PlayerStates"].InServizio;
+			set => player.Character.State["PlayerStates"].InServizio = value;
 		}
 		public bool FinDiVita
 		{
-			get => player.State["PlayerStates"].FinDiVita;
-			set => player.State["PlayerStates"].FinDiVita = value;
+			get => player.Character.State["PlayerStates"].FinDiVita;
+			set => player.Character.State["PlayerStates"].FinDiVita = value;
 		}
 		public bool AdminSpecta
 		{
-			get => player.State["PlayerStates"].AdminSpecta;
-			set => player.State["PlayerStates"].AdminSpecta = value;
+			get => player.Character.State["PlayerStates"].AdminSpecta;
+			set => player.Character.State["PlayerStates"].AdminSpecta = value;
 		}
 		public bool InVeicolo
 		{
-			get => player.State["PlayerStates"].InVeicolo;
-			set => player.State["PlayerStates"].InVeicolo = value;
+			get => player.Character.State["PlayerStates"].InVeicolo;
+			set => player.Character.State["PlayerStates"].InVeicolo = value;
 		}
 		public Istanza Istanza;
 
@@ -431,7 +430,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			player = pl;
 			Istanza = new Istanza(pl);
-			var baseBag = new
+			object baseBag = new
 			{
 				InPausa = false,
 				Svenuto = false,
@@ -443,7 +442,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				AdminSpecta = false,
 				InVeicolo = false
 			};
-			player.State.Set("PlayerStates", baseBag, true);
+			player.Character.State.Set("PlayerStates", baseBag, true);
 		}
 	}
 
@@ -459,24 +458,24 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public bool Stanziato
 		{
-			get => player.State["PlayerStates"].Istanza.Stanziato;
-			set => player.State["PlayerStates"].Istanza.Stanziato = value;
+			get => player.Character.State["PlayerStates"].Istanza.Stanziato;
+			set => player.Character.State["PlayerStates"].Istanza.Stanziato = value;
 		}
 		public int ServerIdProprietario
 		{
-			get => player.State["PlayerStates"].Istanza.ServerIdProprietario;
-			set => player.State["PlayerStates"].Istanza.ServerIdProprietario = value;
+			get => player.Character.State["PlayerStates"].Istanza.ServerIdProprietario;
+			set => player.Character.State["PlayerStates"].Istanza.ServerIdProprietario = value;
 		}
 		public bool IsProprietario
 		{
-			get => player.State["PlayerStates"].Istanza.IsProprietario;
-			set => player.State["PlayerStates"].Istanza.IsProprietario = value;
+			get => player.Character.State["PlayerStates"].Istanza.IsProprietario;
+			set => player.Character.State["PlayerStates"].Istanza.IsProprietario = value;
 		}
 
 		public string Instance
 		{
-			get => player.State["PlayerStates"].Istanza.Instance;
-			set => player.State["PlayerStates"].Istanza.Instance = value;
+			get => player.Character.State["PlayerStates"].Istanza.Instance;
+			set => player.Character.State["PlayerStates"].Istanza.Instance = value;
 		}
 
 		/// <summary>
