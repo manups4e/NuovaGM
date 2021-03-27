@@ -319,19 +319,19 @@ namespace TheLastPlanet.Server.Core
 		public static double DateTime2TimeStamp(DateTime dateTime) { return (TimeZoneInfo.ConvertTimeToUtc(dateTime) - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds; }
 
 		public static User GetUserFromPlayerId(string id) 
-			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle.ToString())?.User;
+			=> Server.Instance.Clients.SingleOrDefault(x => id == x.Handle.ToString())?.User;
 
 		public static User GetUserFromPlayerId(int id) 
-			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle)?.User;
+			=> Server.Instance.Clients.SingleOrDefault(x => id == x.Handle)?.User;
 
 		public static ClientId GetClientFromPlayerId(int id) 
-			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle);
+			=> Server.Instance.Clients.SingleOrDefault(x => id == x.Handle);
 		
 		public static ClientId GetClientFromPlayerId(string id) 
-			=> Server.Instance.Clients.FirstOrDefault(x => id == x.Handle.ToString());
+			=> Server.Instance.Clients.SingleOrDefault(x => id == x.Handle.ToString());
 
 		public static User GetCurrentChar(this Player player) 
-			=> Server.Instance.Clients.FirstOrDefault(x => player.Handle == x.Handle.ToString())?.User;
+			=> Server.Instance.Clients.SingleOrDefault(x => player.Handle == x.Handle.ToString())?.User;
 
 		public static float RandomFloatInRange(float minimum, float maximum) { return (float)new Random(DateTime.Now.Millisecond).NextDouble() * (maximum - minimum) + minimum; }
 	}

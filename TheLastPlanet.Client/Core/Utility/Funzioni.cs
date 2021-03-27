@@ -497,7 +497,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 
 				int callback =
-					await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading);
+					await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, coords.Z, heading));
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -511,7 +511,6 @@ namespace TheLastPlanet.Client.Core.Utility
 
 				result.PlaceOnGround();
 				Cache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
-				result.SetDecor(Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
 				Screen.Fading.FadeIn(250);
 				return result;
@@ -556,8 +555,8 @@ namespace TheLastPlanet.Client.Core.Utility
 					foreach (Vehicle v in vehs) v.Delete();
 				}
 
-				int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash,
-					coords.X, coords.Y, coords.Z, heading);
+				int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
+					coords.X, coords.Y, coords.Z, heading));
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -570,7 +569,6 @@ namespace TheLastPlanet.Client.Core.Utility
 				result.PreviouslyOwnedByPlayer = true;
 
 				result.PlaceOnGround();
-				result.SetDecor(Main.decorName, Main.decorInt);
 				vehicleModel.MarkAsNoLongerNeeded();
 				//var ready = await Client.Instance.Eventi.Request<bool>("cullingEntity", result.NetworkId);
 				return result;
@@ -623,7 +621,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			};
 			while (!vehicle.Exists()) await BaseScript.Delay(0);
 			vehicle.PlaceOnGround();
-			EntityDecoration.SetDecor(vehicle, Main.decorName, Main.decorInt);
 			vehicleModel.MarkAsNoLongerNeeded();
 
 			//SetVehicleEngineOn(vehicle.Handle, false, true, true);
@@ -659,7 +656,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			if (!mod.IsPed || !await mod.Request(3000)) return null;
 			Ped p = new Ped(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
 			while (!p.Exists()) await BaseScript.Delay(0);
-			EntityDecoration.SetDecor(p, Main.decorName, Main.decorInt);
 
 			return p;
 		}
@@ -696,6 +692,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			var a = new Model(model);
 			return await SpawnPed(a, position, heading, pedType);
 		}
+
 		private static async Task<Ped> SpawnPed(Model pedModel, Vector3 position, float heading = 0f, PedTypes pedType = PedTypes.Mission)
 		{
 			if (pedModel.IsValid)
@@ -716,7 +713,6 @@ namespace TheLastPlanet.Client.Core.Utility
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
 			while (!ped.Exists()) await BaseScript.Delay(50);
-			ped.SetDecor(Main.decorName, Main.decorInt);
 			ped.IsPersistent = true;
 			return ped;
 		}

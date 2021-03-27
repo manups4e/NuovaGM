@@ -110,7 +110,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 				return "ok";
 			}));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
-			Client.Instance.AddEventHandler("playerSpawned", new Action(PlayerSpawned));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
@@ -122,7 +121,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			if (NetworkIsSessionStarted())
 			{
-				BaseScript.TriggerEvent("playerSpawned");
+				PlayerSpawned();
 				Client.Instance.RemoveTick(Entra);
 			}
 		}

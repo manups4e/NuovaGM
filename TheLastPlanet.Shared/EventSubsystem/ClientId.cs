@@ -33,13 +33,26 @@ namespace TheLastPlanet.Shared.Internal.Events
 #elif CLIENT
         [JsonIgnore]
         public Ped Ped { get; set; }
+        
+        [JsonIgnore]
         public Position Posizione => User.Posizione;
         public void UpdatePedId() => Ped = new Ped(API.PlayerPedId());
         public bool Ready => Player != null && Ped != null && User != null;
 #endif
 
-        public User User = new User();
+        public User User { get; set; }
         public ClientId() { }
+#if CLIENT
+        public ClientId(Tuple<Snowflake, User> value)
+		{
+            Id = value.Item1;
+            Handle = Game.Player.ServerId;
+            Player = Game.Player;
+            Ped = new Ped(API.PlayerPedId());
+			User = new(value.Item2);
+            Identifiers = User.Identifiers.ToArray();
+        }
+#endif
         public ClientId(Snowflake id)
         {
 #if SERVER
@@ -55,8 +68,8 @@ namespace TheLastPlanet.Shared.Internal.Events
 #elif SERVER
                 Identifiers = owner.Identifiers.ToArray();
                 Handle = Convert.ToInt32(owner.Handle);
-#endif
                 LoadUser();
+#endif
             }
             else
             {
@@ -88,15 +101,11 @@ namespace TheLastPlanet.Shared.Internal.Events
 #if SERVER
         public ClientId(User user)
         {
-            User = user;
             Handle = Convert.ToInt32(user.Player.Handle);
 
-            var holder = new List<string>();
-
             Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
-            for (var index = 0; index < API.GetNumPlayerIdentifiers(user.Player.Handle); index++)
-                holder.Add(API.GetPlayerIdentifier(user.Player.Handle, index));
-            Identifiers = holder.ToArray();
+            User = new(Player, user);
+            Identifiers = user.Identifiers.ToArray();
             Id = user.PlayerID;
         }
 #endif
@@ -134,7 +143,6 @@ namespace TheLastPlanet.Shared.Internal.Events
 
             throw new Exception($"Could not parse net id: {netId}");
         }
-        public static explicit operator ClientId(int handle) => new(handle);
 #endif
 
         public bool Compare(ClientId client)
@@ -165,6 +173,10 @@ namespace TheLastPlanet.Shared.Internal.Events
             }
 #endif
         }
+
+#if SERVER
+        public static explicit operator ClientId(int handle) => new(handle);
+#endif
 
     }
 }

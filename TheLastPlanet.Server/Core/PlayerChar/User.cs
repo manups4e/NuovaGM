@@ -41,7 +41,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Identifiers.Discord = Player.GetLicense(Identifier.Discord);
 			Identifiers.Fivem = Player.GetLicense(Identifier.Fivem);
 			Identifiers.Ip = Player.GetLicense(Identifier.Ip);
-			StatiPlayer = new PlayerStateBags(Player);
 		}
 
 		public User(Player player, dynamic result)
@@ -382,6 +381,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
+		[JsonIgnore] 
 		private Player player;
 		public bool InPausa
 		{
@@ -449,6 +449,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 	public class Istanza
 	{
+		[JsonIgnore]
 		private Player player;
 
 		public Istanza(Player pl)

@@ -14,6 +14,8 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	public class User : BasePlayerShared
 	{
 		public int source;
+		
+		[JsonIgnore]
 		public Position Posizione
 		{
 			get => CurrentChar.Posizione;
@@ -26,10 +28,21 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			}
 		}
 
-		public User()
+		public User(BasePlayerShared result)
 		{
+			lastConnection = result.lastConnection;
+			ID = result.ID;
+			PlayerID = result.PlayerID;
+			group = result.group;
+			group_level = result.group_level;
+			playTime = result.playTime;
+			Player = Game.Player;
+			char_data = result.char_data;
+			Identifiers = result.Identifiers;
 			StatiPlayer = new PlayerStateBags();
 		}
+
+		public User() { }
 
 		[JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
@@ -102,7 +115,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		[JsonIgnore] private Player player = Game.Player;
+		[JsonIgnore]
+		private Player player = Game.Player;
+
+		public Istanza Istanza = new();
 
 		private bool _inPausa;
 		private bool _svenuto;
@@ -204,51 +220,67 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 				player.State.Set("PlayerStates", p, true);
 			}
 		}
-
-		public Istanza Istanza = new();
 	}
 
 	public class Istanza
 	{
-		[JsonIgnore] private Player player = Game.Player;
+		[JsonIgnore] 
+		private Player player = Game.Player;
+
+		private bool _stanziato;
+		private int _idProprietario;
+		private bool _isProprietario;
+		private string _instance;
+
+		public Istanza()
+		{
+			Stanziato = false;
+			ServerIdProprietario = -1;
+			IsProprietario = false;
+			Instance = "";
+		}
+
 		public bool Stanziato
 		{
-			get => player.State["PlayerStates"].Istanza.Stanziato;
+			get => _stanziato;
 			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Stanziato = value;
+				_stanziato = value;
 				player.State.Set("PlayerStates", p, true);
 			}
 		}
 		public int ServerIdProprietario
 		{
-			get => player.State["PlayerStates"].Istanza.ServerIdProprietario;
+			get => _idProprietario;
 			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.ServerIdProprietario = value;
+				_idProprietario = value;
 				player.State.Set("PlayerStates", p, true);
 			}
 		}
 		public bool IsProprietario
 		{
-			get => player.State["PlayerStates"].Istanza.IsProprietario;
+			get => _isProprietario;
 			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.IsProprietario = value;
+				_isProprietario = value;
 				player.State.Set("PlayerStates", p, true);
 			}
 		}
-
 		public string Instance
 		{
-			get => player.State["PlayerStates"].Istanza.Instance;
+			get => _instance;
 			set
 			{
 				dynamic p = player.State["PlayerStates"];
 				p.Istanza.Instance = value;
+				_instance = value;
 				player.State.Set("PlayerStates", p, true);
 			}
 		}

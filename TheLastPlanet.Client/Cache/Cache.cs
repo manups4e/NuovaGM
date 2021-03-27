@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
+using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
@@ -25,19 +26,14 @@ namespace TheLastPlanet.Client.SessionCache
         public static async Task InitPlayer()
         {
             var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, User>>("lprp:setupUser");
-            MyPlayer = new(pippo.Item1)
-            {
-                Player = Game.Player,
-                Ped = new Ped(API.PlayerPedId()),
-                User = pippo.Item2
-			};
+            MyPlayer = new(pippo);
             Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
         }
 
         public static async Task Loaded()
         {
-            while (MyPlayer == null || !MyPlayer.Ready)
+            while (MyPlayer == null || MyPlayer!= null && !MyPlayer.Ready)
             {
                 await BaseScript.Delay(0);
             }

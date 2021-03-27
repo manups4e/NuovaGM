@@ -113,9 +113,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				lice = source.GetLicense(Identifier.License),
 				name = source.Name
 			}));
-			//fare controlli
-			if (!Server.Instance.Clients.Exists(x => x.Id == user.PlayerID))
-				Server.Instance.Clients.Add(new(user));
+			if (!Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
+				Server.Instance.Clients.Add(new ClientId(user));
 			else
 				Log.Printa(LogType.Warning, $"Esiste già un player con ID UNIVOCO {user.PlayerID}");
 		}
@@ -141,16 +140,17 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				else
 				{
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-					User user = new(source.Player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+					client = new( new User(source.Player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
 					{
 						disc = Convert.ToInt64(source.Player.GetLicense(Identifier.Discord)),
 						lice = source.Player.GetLicense(Identifier.License),
 						name = source.Player.Name
-					}));
-					Server.Instance.Clients.Add(new(user));
-					return new Tuple<Snowflake, User>(user.PlayerID, user);
+					})));
+					EntratoMaProprioSulSerio(source.Player);
+					Server.Instance.Clients.Add(client);
+					var p = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);
+					return new Tuple<Snowflake, User>(p.Id, p.User);
 				}
-				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
 				/*
 				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";

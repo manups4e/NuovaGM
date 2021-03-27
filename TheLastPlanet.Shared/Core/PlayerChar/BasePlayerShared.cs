@@ -33,7 +33,9 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public Status status = new();
 		[JsonIgnore] public Player Player;
 		public Identifiers Identifiers = new();
-		[JsonIgnore]public PlayerStateBags StatiPlayer;
+		
+		[JsonIgnore]
+		public PlayerStateBags StatiPlayer;
 
 		public List<Char_data> Characters = new();
 		[JsonIgnore]
