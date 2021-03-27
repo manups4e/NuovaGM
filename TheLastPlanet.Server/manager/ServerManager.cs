@@ -37,6 +37,7 @@ namespace TheLastPlanet.Server.manager
 						else
 						{
 							Log.Printa(LogType.Warning, $"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
+							ent.Owner.Drop("Hai spawnato un veicolo vietato");
 							//drop player;
 						}
 					}
