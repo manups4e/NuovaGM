@@ -105,17 +105,25 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 		private static async void PlayerJoining([FromSource] Player source, string oldId)
 		{
-			const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-			User user = new(source, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+			try
 			{
-				disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)),
-				lice = source.GetLicense(Identifier.License),
-				name = source.Name
-			}));
-			if (Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
-				Log.Printa(LogType.Warning, $"Esiste già un player con ID UNIVOCO {user.PlayerID}");
-			else
-				Server.Instance.Clients.Add(new ClientId(user));
+				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
+				BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+				{
+					disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)),
+					lice = source.GetLicense(Identifier.License),
+					name = source.Name
+				});
+				User user = new(source, p);
+				ClientId client = new(user);
+				if (Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
+					Log.Printa(LogType.Warning, $"Esiste già un player con ID UNIVOCO {user.PlayerID}");
+				else
+					Server.Instance.Clients.Add(client);
+			}catch(Exception e)
+			{
+				Log.Printa(LogType.Error, e.ToString());
+			}
 
 		}
 
@@ -134,25 +142,27 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				if (client != null)
 				{
 					await BaseScript.Delay(1);
-					EntratoMaProprioSulSerio(client.Player);
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
+					EntratoMaProprioSulSerio(client.Player);
 					return new Tuple<Snowflake, User>(client.Id, client.User);
 				}
-				else
+				else if (GetConvarInt("DEBUG", 0) == 1)
 				{
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-					client = new( new User(source.Player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
+					var p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
 					{
 						disc = Convert.ToInt64(source.Player.GetLicense(Identifier.Discord)),
 						lice = source.Player.GetLicense(Identifier.License),
 						name = source.Player.Name
-					})));
+					});
+					client = new( new User(source.Player, p));
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(source.Player);
 					Server.Instance.Clients.Add(client);
-					var p = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);
-					return new Tuple<Snowflake, User>(p.Id, p.User);
+					var res = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);
+					return new Tuple<Snowflake, User>(res.Id, res.User);
 				}
+				
 				/*
 				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
@@ -164,6 +174,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				}));
 				*/
 				//Server.PlayerList.TryAdd(handle, user);
+				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
 			}
 			catch (Exception e)
 			{

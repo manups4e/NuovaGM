@@ -104,7 +104,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Handle = Convert.ToInt32(user.Player.Handle);
 
             Player = user.Player;
-            User = new(Player, user);
+            User = user;
             Identifiers = user.Identifiers.ToArray();
             Id = user.PlayerID;
         }
