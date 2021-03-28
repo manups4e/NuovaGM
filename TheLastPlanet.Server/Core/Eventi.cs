@@ -27,7 +27,6 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddEventHandler("lprp:finishCharServer", new Action<Player, string>(FinishChar));
 			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
 			Server.Instance.AddEventHandler("lprp:setDeathStatus", new Action<Player, bool>(deathStatus));
-			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
 			Server.Instance.AddEventHandler("lprp:dropPlayer", new Action<Player, string>(Drop));
 			Server.Instance.AddEventHandler("lprp:kickPlayer", new Action<string, string, int>(Kick));
 			//ServerSession.Instance.AddEventHandler("lprp:updateCurChar", new Action<Player, string, dynamic, float>(UpdateChar));
@@ -151,43 +150,6 @@ namespace TheLastPlanet.Server.Core
 			source.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
 			user.status.Spawned = true;
 		}
-
-		public static async void Dropped([FromSource] Player player, string reason)
-		{
-			Player p = player;
-			string name = p.Name;
-			string handle = p.Handle;
-			DateTime now = DateTime.Now;
-			string text = name + " e' uscito.";
-
-			if (reason != "")
-				text = reason switch
-				{
-					"Timed out after 10 seconds." => name + " e' crashato.",
-					"Disconnected." or "Exited." => name + " si e' disconnesso.",
-					_ => name + " si e' disconnesso: " + reason,
-				};
-
-			var client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
-			if (client != null)
-			{
-				var ped = client.User;
-				var disc = ped.Identifiers.Discord;
-				if (ped.status.Spawned)
-				{
-					await ped.SalvaPersonaggio();
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
-				}
-				else
-					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
-
-				Server.Instance.Clients.Remove(client);
-			}
-
-			Log.Printa(LogType.Info, text);
-			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
-		}
-
 
 		//TODO: DA CAMBIARE CON NUOVO METODO
 		public static async void SalvaPlayer([FromSource] Player player)

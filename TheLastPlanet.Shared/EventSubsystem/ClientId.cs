@@ -22,8 +22,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
-        public string[] Identifiers { get; set; }
-        [JsonIgnore]
+		[JsonIgnore]
         public Player Player { get; set; }
 
 #if SERVER
@@ -41,6 +40,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 #endif
 
         public User User { get; set; }
+        public Identifiers Identifiers => User.Identifiers;
         public ClientId() { }
 #if CLIENT
         public ClientId(Tuple<Snowflake, User> value)
@@ -50,7 +50,6 @@ namespace TheLastPlanet.Shared.Internal.Events
             Player = Game.Player;
             Ped = new Ped(API.PlayerPedId());
 			User = new(value.Item2);
-            Identifiers = User.Identifiers.ToArray();
         }
 #endif
         public ClientId(Snowflake id)
@@ -66,7 +65,6 @@ namespace TheLastPlanet.Shared.Internal.Events
 #if CLIENT
                 Handle = owner.ServerId;
 #elif SERVER
-                Identifiers = owner.Identifiers.ToArray();
                 Handle = Convert.ToInt32(owner.Handle);
                 LoadUser();
 #endif
@@ -83,17 +81,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Handle = handle;
             Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
             if (handle > 0)
-            {
-                var holder = new List<string>();
-
-                for (var index = 0; index < API.GetNumPlayerIdentifiers(handle.ToString()); index++)
-                {
-                    holder.Add(API.GetPlayerIdentifier(handle.ToString(), index));
-                }
-
-                Identifiers = holder.ToArray();
                 LoadUser();
-            }
             Id = User != null ? User.PlayerID : Snowflake.Empty;
         }
 #endif
@@ -105,7 +93,6 @@ namespace TheLastPlanet.Shared.Internal.Events
 
             Player = user.Player;
             User = user;
-            Identifiers = user.Identifiers.ToArray();
             Id = user.PlayerID;
         }
 #endif
@@ -114,7 +101,6 @@ namespace TheLastPlanet.Shared.Internal.Events
         {
             Id = id;
             Handle = handle;
-            Identifiers = identifiers;
             LoadUser();
         }
 
@@ -124,14 +110,14 @@ namespace TheLastPlanet.Shared.Internal.Events
         }
 
 #if SERVER
-        public bool Compare(string[] identifiers)
+        public bool Compare(Identifiers identifier)
         {
-            return identifiers.Any(self => Identifiers.Contains(self));
+            return Identifiers == identifier;
         }
 
         public bool Compare(Player player)
         {
-            return Compare(player.GetCurrentChar().Identifiers.ToArray());
+            return Compare(player.GetCurrentChar().Identifiers);
         }
 
         public static explicit operator ClientId(string netId)

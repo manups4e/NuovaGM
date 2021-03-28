@@ -27,6 +27,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
 			Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
+			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
 			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, User>>>(SetupUser));
 			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
@@ -47,6 +48,17 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.permessi, PlayerTokens);
 				if (puoentrare.permesso)
 				{
+					if (!Server.DEBUG)
+					{
+						if (Server.Instance.Clients.Any(x => source.Identifiers["license"] == x.Identifiers.License))
+						{
+							deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" +
+								$"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" +
+								$"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" +
+								$"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
+							return;
+						}
+					}
 					deferrals.presentCard(IngressoConsentito);
 					await BaseScript.Delay(2000);
 					deferrals.done();
@@ -116,15 +128,12 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				});
 				User user = new(source, p);
 				ClientId client = new(user);
-				if (Server.Instance.Clients.Exists(x => x.Handle.ToString() == source.Handle))
-					Log.Printa(LogType.Warning, $"Esiste già un player con ID UNIVOCO {user.PlayerID}");
-				else
-					Server.Instance.Clients.Add(client);
-			}catch(Exception e)
+				Server.Instance.Clients.Add(client);
+			}
+			catch (Exception e)
 			{
 				Log.Printa(LogType.Error, e.ToString());
 			}
-
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
@@ -141,12 +150,14 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				var client = Funzioni.GetClientFromPlayerId(handle);
 				if (client != null)
 				{
+					Log.Printa(LogType.Debug, client.ToString());
 					await BaseScript.Delay(1);
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(client.Player);
 					return new Tuple<Snowflake, User>(client.Id, client.User);
 				}
-				else if (GetConvarInt("DEBUG", 0) == 1)
+#if DEBUG
+				else
 				{
 					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
 					var p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
@@ -162,7 +173,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 					var res = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);
 					return new Tuple<Snowflake, User>(res.Id, res.User);
 				}
-				
+#endif
 				/*
 				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
 				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
@@ -217,6 +228,42 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Statistiche = res.statistiche.FromJson<Statistiche>(),
 			};
 			return user.CurrentChar;
+		}
+
+		public static async void Dropped([FromSource] Player player, string reason)
+		{
+			Player p = player;
+			string name = p.Name;
+			string handle = p.Handle;
+			DateTime now = DateTime.Now;
+			string text = name + " e' uscito.";
+
+			if (reason != "")
+				text = reason switch
+				{
+					"Timed out after 10 seconds." => name + " e' crashato.",
+					"Disconnected." or "Exited." => name + " si e' disconnesso.",
+					_ => name + " si e' disconnesso: " + reason,
+				};
+
+			var client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
+			if (client != null)
+			{
+				var ped = client.User;
+				var disc = ped.Identifiers.Discord;
+				if (ped.status.Spawned)
+				{
+					await ped.SalvaPersonaggio();
+					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
+				}
+				else
+					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
+
+				Server.Instance.Clients.Remove(client);
+			}
+
+			Log.Printa(LogType.Info, text);
+			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
 	}
 }

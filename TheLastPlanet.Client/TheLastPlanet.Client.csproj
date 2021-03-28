@@ -37,10 +37,6 @@
     <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
     <Compile Include="..\Impostazioni\Client\**\*.cs" />
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CONFIGURAZIONE\AConfig\" />
     <Folder Include="Lavori\Generici\Consegne\" />
   </ItemGroup>
 

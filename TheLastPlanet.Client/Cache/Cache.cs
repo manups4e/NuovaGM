@@ -34,7 +34,6 @@ namespace TheLastPlanet.Client.SessionCache
                 Id = pippo.Item1,
             };
 			MyPlayer.User = new (pippo.Item2);
-            MyPlayer.Identifiers = MyPlayer.User.Identifiers.ToArray();
             Client.Instance.AddTick(TickStatiPlayer);
             await Task.FromResult(0);
         }
