@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
-using TheLastPlanet.Shared.SistemaEventi;
 using System.Dynamic;
 using TheLastPlanet.Client.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
@@ -65,42 +63,6 @@ namespace TheLastPlanet.Client
 				Log.Printa(LogType.Error, ex.ToString());
 			}
 		}
-
-		public void AttachNuiHandler(string pipe, EventCallback callback)
-		{
-			API.RegisterNuiCallbackType(pipe);
-
-			AddEventHandler($"__cfx_nui:{pipe}", new Action<ExpandoObject, CallbackDelegate>((body, result) =>
-			{
-
-				var metadata = new EventMetadata();
-				var properties = (IDictionary<string, object>)body;
-
-				if (properties != null)
-				{
-					int i = 0;
-					foreach (var entry in properties)
-					{
-						if (!int.TryParse(entry.Key, out var index))
-						{
-							Log.Printa(LogType.Debug, $"[Nui] [{pipe}] Payload `{entry.Key}` non è un numero e verrà gestito.");
-							index = i;
-						}
-						metadata.Write(index, entry.Value);
-						i++;
-					}
-				}
-				if (callback.GetType() == typeof(AsyncEventCallback))
-				{
-					((AsyncEventCallback)callback).AsyncTask(metadata);
-				}
-				else
-				{
-					callback.Task(metadata);
-				}
-			}));
-		}
-
 
 		/// <summary>
 		/// Registra una funzione OnTick

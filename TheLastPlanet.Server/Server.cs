@@ -24,11 +24,12 @@ namespace TheLastPlanet.Server
 		public List<ClientId> Clients = new();
 		public static Configurazione Impostazioni = null;
 		public ServerGateway Events;
-
+		public static bool DEBUG;
 		public Server()
 		{
 #if DEBUG
 			SetConvarReplicated("DEBUG", "1");
+			DEBUG = true;
 #else
 			SetConvarReplicated("DEBUG", "0");
 #endif
