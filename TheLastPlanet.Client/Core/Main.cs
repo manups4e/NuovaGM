@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.Core
 			}
 			catch (Exception _)
 			{
-				Log.Printa(LogType.Debug, "No impostazioni trovate, settate default");
+				Client.Logger.Debug( "No impostazioni trovate, settate default");
 				ImpostazioniClient = new ClientConfigKVP();
 			}
 
@@ -192,7 +192,7 @@ namespace TheLastPlanet.Client.Core
 				Cache.MyPlayer.User.StatiPlayer.FinDiVita = false;
 			}
 
-			Peds();
+			//Peds();
 			foreach (string t in tipi) player.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(t)), Relationship.Neutral, true);
 			// test per vedere se va chiamato ogni tick o no
 			pickupList.ForEach(x => N_0x616093ec6b139dd9(Cache.MyPlayer.Player.Handle, Funzioni.HashUint(x), false));
@@ -481,7 +481,7 @@ namespace TheLastPlanet.Client.Core
 							}
 
 							Manager.ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!");
-							Log.Printa(LogType.Debug, Text);
+							Client.Logger.Debug( Text);
 						}
 				}
 			}
@@ -507,6 +507,7 @@ namespace TheLastPlanet.Client.Core
 			Cache.MyPlayer.Ped.ClearBloodDamage();
 		}
 
+		/*
 		private static async void Peds()
 		{
 			await BaseScript.Delay(30000);
@@ -545,6 +546,7 @@ namespace TheLastPlanet.Client.Core
 				ped2.Task.StartScenario(illegal.animName, GetEntityCoords(ped2.Handle, true));
 			}
 		}
+		*/
 	}
 
 	public class GenericPeds

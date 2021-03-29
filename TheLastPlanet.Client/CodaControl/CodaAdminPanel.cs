@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - OnResourceStop()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - OnResourceStop()");
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - SessionResponse()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - SessionResponse()");
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ClosePanel()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - ClosePanel()");
 			}
 
 			cb("ok");
@@ -109,7 +109,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - RefreshPanel()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - RefreshPanel()");
 			}
 
 			cb("ok");
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - KickUser()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - KickUser()");
 			}
 
 			cb("ok");
@@ -144,7 +144,7 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName} - Admin_Panel] - ChangePriority()");
+				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - ChangePriority()");
 			}
 
 			cb("ok");

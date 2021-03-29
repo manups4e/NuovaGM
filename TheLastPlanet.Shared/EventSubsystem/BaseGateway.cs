@@ -16,6 +16,7 @@ namespace TheLastPlanet.Shared.Internal.Events
     
     public abstract class BaseGateway
     {
+        private Log Logger = new();
         private List<WaitingEvent> _queue = new();
         private List<EventSubscription> _subscriptions = new();
 
@@ -128,7 +129,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
         public void Mount(string endpoint, Delegate @delegate)
         {
-            Log.Printa(LogType.Debug, $"Mounted: {endpoint}");
+            Logger.Debug($"Mounted: {endpoint}");
 
             //Mount(endpoint, @delegate);
             _subscriptions.Add(new EventSubscription(endpoint, @delegate));

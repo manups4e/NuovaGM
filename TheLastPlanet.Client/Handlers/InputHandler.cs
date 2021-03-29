@@ -7,7 +7,6 @@ using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using static Logger.Log;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
@@ -87,7 +86,7 @@ namespace TheLastPlanet.Client.Handlers
 			}
 			catch (Exception e)
 			{
-				Printa(LogType.Warning, e.ToString());
+				Client.Logger.Error(e.ToString());
 			}
 		}
 	}

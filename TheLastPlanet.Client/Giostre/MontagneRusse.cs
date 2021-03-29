@@ -115,7 +115,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, "errore montagne\n" + e.ToString() + "\n" + e.StackTrace);
+				Client.Logger.Error( "errore montagne\n" + e.ToString() + "\n" + e.StackTrace);
 			}
 
 			await BaseScript.Delay(500);
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Client.Giostre
 			}
 			catch
 			{
-				Log.Printa(LogType.Error, "Problema Movimento Montagne Russe");
+				Client.Logger.Error( "Problema Movimento Montagne Russe");
 			}
 		}
 

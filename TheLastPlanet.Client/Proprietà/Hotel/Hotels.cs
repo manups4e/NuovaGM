@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 			foreach (Hotel t in Client.Impostazioni.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
-				Log.Printa(LogType.Debug, "Hash = " + GetHashKey(hash[0] + ""));
+				Client.Logger.Debug( "Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
 
 			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Proprietà.Hotel
 				RequestWeaponAsset(Funzioni.HashUint(hash[0]), 31, 0);
 				while (!HasWeaponAssetLoaded(Funzioni.HashUint(hash[0]))) await BaseScript.Delay(0);
 				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.MyPlayer.User.Posizione.X, Cache.MyPlayer.User.Posizione.Y, Cache.MyPlayer.User.Posizione.Z, true, 1.0f, 0));
-				Log.Printa(LogType.Debug, "Hash = " + pickupObject.Model.Hash);
+				Client.Logger.Debug( "Hash = " + pickupObject.Model.Hash);
 			}), false);
 
 			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))

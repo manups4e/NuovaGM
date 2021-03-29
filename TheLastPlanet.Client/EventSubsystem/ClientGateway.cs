@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error,  ex.ToString());
+                Client.Logger.Error(  ex.ToString());
             }
         }
 
@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, ex.ToString());
+                Client.Logger.Error( ex.ToString());
             }
         }
 
@@ -83,7 +83,7 @@ namespace TheLastPlanet.Client.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, ex.ToString());
+                Client.Logger.Error( ex.ToString());
             }
         }
 

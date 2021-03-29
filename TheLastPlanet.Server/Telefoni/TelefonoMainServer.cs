@@ -50,8 +50,8 @@ namespace TheLastPlanet.Server.Telefoni
 			}
 			catch( Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
-				Log.Printa(LogType.Error, e.StackTrace);
+				Server.Logger.Error( e.ToString());
+				Server.Logger.Error( e.StackTrace);
 			}
 		}
 	}

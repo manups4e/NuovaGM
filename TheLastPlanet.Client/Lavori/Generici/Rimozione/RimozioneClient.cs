@@ -84,7 +84,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 						VeicoloLavorativo.PreviouslyOwnedByPlayer = true;
 						VeicoloLavorativo.Repair();
 						VeicoloLavorativo.SetVehicleFuelLevel(100f);
-						Log.Printa(LogType.Debug, "valore = " + GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle));
+						Client.Logger.Debug( "valore = " + GetEntityAttachedToTowTruck(VeicoloLavorativo.Handle));
 						Client.Instance.AddTick(LavoroRimozioneForzata);
 						Client.Instance.AddTick(ControlloRimozione);
 						Client.Instance.RemoveTick(InizioLavoro);
@@ -154,7 +154,7 @@ namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
 				}
 
 				// DEBUG
-				Log.Printa(LogType.Debug, "Punto di Spawn = " + puntoDiSpawn.ToString());
+				Client.Logger.Debug( "Punto di Spawn = " + puntoDiSpawn.ToString());
 				uint streename = 0;
 				uint crossing = 0;
 				GetStreetNameAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z, ref streename, ref crossing);

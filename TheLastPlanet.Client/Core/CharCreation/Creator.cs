@@ -522,7 +522,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, "CharCreationMenu = " + ex);
+				Client.Logger.Error( "CharCreationMenu = " + ex);
 			}
 		}
 
@@ -1564,7 +1564,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 			}
 			catch
 			{
-				Log.Printa(LogType.Error, "MenuCreazione");
+				Client.Logger.Error( "MenuCreazione");
 			}
 		}
 

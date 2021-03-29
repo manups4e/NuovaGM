@@ -306,7 +306,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe GetEntityType Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe GetEntityType Error: {ex.Message}");
 			}
 
 			return "UNK";
@@ -330,7 +330,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe FindGroundZ Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe FindGroundZ Error: {ex.Message}");
 			}
 
 			await Task.FromResult(0);
@@ -356,7 +356,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				// If this takes longer than 1 second, just abort. It's not worth waiting that long.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Warning, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Warning( "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}
@@ -373,7 +373,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Warning, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Warning( "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}
@@ -405,7 +405,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				// If this takes longer than 1 second, just abort. It's not worth waiting that long.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Warning, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Warning( "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}
@@ -422,7 +422,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Warning, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Warning( "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}
@@ -699,7 +699,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
 		public static async Task<Ped> CreatePedLocally(dynamic model, Vector3 position, float heading = 0f, PedTypes PedType = PedTypes.Mission)
 		{
-			Model mod = new Model(model);
+			Model mod = new(model);
 
 			if (!mod.IsPed || !await mod.Request(3000)) return null;
 			Ped p = new Ped(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
@@ -718,46 +718,42 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <param name="heading">The heading of the <see cref="Ped"/>.</param>
 		/// <param name="pedType"></param>
 		/// <remarks>returns <c>null</c> if the <see cref="Ped"/> could not be spawned</remarks>
-		public static async Task<Ped> SpawnPed(int model, Vector3 position, float heading = 0f,
-			PedTypes pedType = PedTypes.Mission)
+		public static async Task<Ped> SpawnPed(int model, Position position, PedTypes pedType = PedTypes.Mission)
 		{
 			var a = new Model(model);
-			return await SpawnPed(a, position, heading, pedType);
+			return await SpawnPed(a, position, pedType);
 
 		}
 
-		public static async Task<Ped> SpawnPed(string model, Vector3 position, float heading = 0f,
-			PedTypes pedType = PedTypes.Mission)
+		public static async Task<Ped> SpawnPed(string model, Position position, PedTypes pedType = PedTypes.Mission)
 		{
 			var a = new Model(model);
-			return await SpawnPed(a, position, heading, pedType);
+			return await SpawnPed(a, position, pedType);
 	
 		}
 
-		public static async Task<Ped> SpawnPed(PedHash model, Vector3 position, float heading = 0f,
-			PedTypes pedType = PedTypes.Mission)
+		public static async Task<Ped> SpawnPed(PedHash model, Position position, PedTypes pedType = PedTypes.Mission)
 		{
 			var a = new Model(model);
-			return await SpawnPed(a, position, heading, pedType);
+			return await SpawnPed(a, position, pedType);
 		}
 
-		private static async Task<Ped> SpawnPed(Model pedModel, Vector3 position, float heading = 0f, PedTypes pedType = PedTypes.Mission)
+		private static async Task<Ped> SpawnPed(Model pedModel, Position position, PedTypes pedType = PedTypes.Mission)
 		{
 			if (pedModel.IsValid)
 			{
 				if (!pedModel.IsLoaded) await pedModel.Request(3000); // for when you stream resources.
 
-				if (!IsSpawnPedPointClear(position, 2f))
+				if (!IsSpawnPedPointClear(position.ToVector3, 2f))
 				{
-					var Peds = GetPedsInArea(position, 2f);
+					var Peds = GetPedsInArea(position.ToVector3, 2f);
 					foreach (var v in Peds)
 						if (!v.IsPlayer)
 							v.Delete();
 				}
 			}
 
-			int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, new Position(
-					position, heading), (int)pedType);
+			int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, position, (int)pedType);
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
 			while (!ped.Exists()) await BaseScript.Delay(50);
@@ -1289,12 +1285,12 @@ namespace TheLastPlanet.Client.Core.Utility
 
 			if (hash == HashUint("WEAPON_ANIMAL") || hash == HashUint("WEAPON_PASSENGER_ROCKET") || hash == HashUint("WEAPON_AIRSTRIKE_ROCKET") || hash == HashUint("WEAPON_BRIEFCASE") || hash == HashUint("WEAPON_BRIEFCASE_02") || hash == HashUint("WEAPON_FIRE") || hash == HashUint("WEAPON_HELI_CRASH") || hash == HashUint("WEAPON_RUN_OVER_BY_CAR") || hash == HashUint("WEAPON_HIT_BY_WATER_CANNON") || hash == HashUint("WEAPON_EXHAUSTION") || hash == HashUint("WEAPON_FALL") || hash == HashUint("WEAPON_EXPLOSION") || hash == HashUint("WEAPON_BLEEDING") || hash == HashUint("WEAPON_DROWNING_IN_VEHICLE") || hash == HashUint("WEAPON_DROWNING") || hash == HashUint("WEAPON_BARBED_WIRE") || hash == HashUint("WEAPON_VEHICLE_ROCKET"))
 			{
-				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				Client.Logger.Error( "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 
 				return Game.GetGXTEntry("WT_INVALID");
 			}
 
-			Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+			Client.Logger.Error( "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 
 			return Game.GetGXTEntry("WT_INVALID");
 		}

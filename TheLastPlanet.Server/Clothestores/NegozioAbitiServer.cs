@@ -23,12 +23,12 @@ namespace TheLastPlanet.Server.Clothestores
 				if (num == 1)
 				{
 					client.User.Money -= price;
-					Log.Printa(LogType.Info, $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+					Server.Logger.Info( $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 				}
 				else if (num == 2)
 				{
 					client.User.Bank -= price;
-					Log.Printa(LogType.Info, $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
+					Server.Logger.Info( $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un negozio d'abiti");
 				}
 			}
 		}
@@ -41,12 +41,12 @@ namespace TheLastPlanet.Server.Clothestores
 				if (num == 1)
 				{
 					client.User.Money -= price;
-					Log.Printa(LogType.Info, $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+					Server.Logger.Info( $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 				}
 				else if (num == 2)
 				{
 					client.User.Bank -= price;
-					Log.Printa(LogType.Info, $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
+					Server.Logger.Info( $"Il personaggio {client.User.FullName}, appartenente a {p.Name} ha speso {price} in un barbiere");
 				}
 			}
 		}

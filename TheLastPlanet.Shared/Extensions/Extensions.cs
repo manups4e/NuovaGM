@@ -18,6 +18,7 @@ namespace TheLastPlanet.Shared
 	public static class RandomExtensionSuperMethod
 	{
 
+		private static Logger.Log Logger = new Log();
 		static RandomExtensionSuperMethod()
 		{
 		}
@@ -477,7 +478,7 @@ namespace TheLastPlanet.Shared
 				{
 					if(GetGameTimer() - time > 5000)
 					{
-						Log.Printa(LogType.Debug, $"Vector3 FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
+						Logger.Debug($"Vector3 FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
 						return -199.99f;
 					}
 					await BaseScript.Delay(50);
@@ -488,7 +489,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"Vector3 FindGroundZ Error: {ex.Message}");
+				Logger.Error( $"Vector3 FindGroundZ Error: {ex.Message}");
 				return -199f;
 			}
 		}
@@ -512,7 +513,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"Vector4 FindGroundZ Error: {ex.Message}");
+				Logger.Error( $"Vector4 FindGroundZ Error: {ex.Message}");
 			}
 			await Task.FromResult(0);
 			return result;
@@ -527,7 +528,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"Vector3 GetVector3WithGroundZ Error: {ex.Message}");
+				Logger.Error( $"Vector3 GetVector3WithGroundZ Error: {ex.Message}");
 				return new Vector3(position.X, position.Y, -199.99f);
 			}
 		}
@@ -540,7 +541,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"Vector4 GetVector4WithGroundZ Error: {ex.Message}");
+				Logger.Error( $"Vector4 GetVector4WithGroundZ Error: {ex.Message}");
 				return new Vector4(position.X, position.Y, -199.99f, position.W);
 			}
 		}
@@ -586,7 +587,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"ToColor exception: {ex.Data}");
+				Logger.Error( $"ToColor exception: {ex.Data}");
 			}
 			return Color.FromArgb(255, 255, 255, 255);
 		}
@@ -599,7 +600,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Debug, $"ToVector2 exception: {ex.Data}");
+				Logger.Debug($"ToVector2 exception: {ex.Data}");
 			}
 			return Vector2.Zero;
 		}
@@ -612,7 +613,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
+				Logger.Debug($"ToVector3 exception: {ex.Data}");
 			}
 			return Vector3.Zero;
 		}
@@ -625,7 +626,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Debug, $"ToVector3 exception: {ex.Data}");
+				Logger.Debug($"ToVector3 exception: {ex.Data}");
 			}
 			return Vector3.Zero;
 		}
@@ -638,7 +639,7 @@ namespace TheLastPlanet.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Debug, $"ToVector4 exception: {ex.Data}");
+				Logger.Debug($"ToVector4 exception: {ex.Data}");
 			}
 			return Vector4.Zero;
 		}

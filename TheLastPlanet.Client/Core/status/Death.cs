@@ -288,7 +288,7 @@ namespace TheLastPlanet.Client.Core.Status
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Client.Logger.Error( e.ToString());
 			}
 
 			await Task.FromResult(0);

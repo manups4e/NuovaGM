@@ -16,6 +16,7 @@ namespace TheLastPlanet.Client
 {
 	public class Client : BaseScript
 	{
+		public static Logger.Log Logger;
 		public static Client Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
@@ -26,6 +27,7 @@ namespace TheLastPlanet.Client
 
 		private async void Inizializza()
 		{
+			Logger = new();
 			SnowflakeGenerator.Create(1);
 			Instance = this;
 			Eventi = new();
@@ -60,7 +62,7 @@ namespace TheLastPlanet.Client
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, ex.ToString());
+				Client.Logger.Error( ex.ToString());
 			}
 		}
 

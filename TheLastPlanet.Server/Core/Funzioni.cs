@@ -265,7 +265,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
+				Server.Logger.Error( "Errore nell'hash /" + hash.ToString() + "/ per arma/componente. forse non è mai stato aggiunto?");
 			}
 
 			return "WT_INVALID";

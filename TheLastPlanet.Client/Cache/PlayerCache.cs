@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.SessionCache
             }
             catch (Exception e)
             {
-                Log.Printa(LogType.Error, e.ToString());
+                Client.Logger.Error( e.ToString());
             }
         }
 

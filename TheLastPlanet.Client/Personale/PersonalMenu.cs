@@ -164,7 +164,7 @@ namespace TheLastPlanet.Client.Personale
 					}
 					catch (Exception e)
 					{
-						Log.Printa(LogType.Debug, e.ToString() + e.StackTrace);
+						Client.Logger.Debug( e.ToString() + e.StackTrace);
 						HUD.ShowNotification("Nessuna destinazione impostata!!", true);
 					}
 				}

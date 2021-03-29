@@ -37,7 +37,7 @@ namespace TheLastPlanet.Server.Veicoli
 			if (money >= price)
 			{
 				player.Money -= price;
-				Log.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
+				Server.Logger.Info( "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 				p.TriggerEvent("lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
 				BaseScript.TriggerEvent("lprp:businesses:addmoneytostation", sidx, price);
@@ -48,7 +48,7 @@ namespace TheLastPlanet.Server.Veicoli
 				if (bank >= price)
 				{
 					player.Bank -= price;
-					Log.Printa(LogType.Info, "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
+					Server.Logger.Info( "Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 					BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio " + player.FullName + " del player " + GetPlayerName(player.source) + " ha pagato " + price + "$ per fare carburante.");
 					BaseScript.TriggerClientEvent(p, "lprp:fuel:addfueltovehicle", true, "Hai pagato ~b~$ " + price + "~w~ per fare carburante.", fuelval);
 					BaseScript.TriggerEvent("lprp:businesses:addmoneytostation", sidx, price);
@@ -67,7 +67,7 @@ namespace TheLastPlanet.Server.Veicoli
 			if (user.Money >= amount)
 			{
 				user.Money -= amount;
-				Log.Printa(LogType.Info, "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
+				Server.Logger.Info( "Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $" -- Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {amount}$ per una cisterna di carburante.");
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:buytanker", true, t.ToJson());
 			}
@@ -83,7 +83,7 @@ namespace TheLastPlanet.Server.Veicoli
 			if (user.Money >= cost)
 			{
 				user.Money -= cost;
-				Log.Printa(LogType.Info, $"Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
+				Server.Logger.Info( $"Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
 				BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + $"--Il personaggio {user.FullName} [{GetPlayerName(p.Handle)}] ha pagato {cost}$ per riempire tutta la cisterna di carburante.");
 				BaseScript.TriggerClientEvent(p, "lprp:fuel:buyfuelfortanker", true, fuel.ToString());
 			}

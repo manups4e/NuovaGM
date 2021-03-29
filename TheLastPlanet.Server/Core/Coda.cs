@@ -41,7 +41,7 @@ namespace TheLastPlanet.Server.Core
 			DateTime time = DateTime.Now;
 			try
 			{
-				Log.Printa(LogType.Info, player.Name + " si sta connettendo");
+				Server.Logger.Info( player.Name + " si sta connettendo");
 				BaseScript.TriggerEvent("lprp:serverLog", time.ToString("dd/MM/yyyy, HH:mm:ss") + " " + player.Name + " si sta connettendo");
 				deferrals.defer();
 				await BaseScript.Delay(0);
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Server.Core
 															Convert.ToDateTime(result[i].DataFine)
 																.ToString("dd/MM/yyyy, HH:mm:ss") +
 															".\nSE PENSI DI AVER BISOGNO DI DARE / RICEVERE SPIEGAZIONI RAGGIUNGICI SU DISCORD (https://discord.gg/n4ep9Fq)");
-														Log.Printa(LogType.Warning,
+														Server.Logger.Warning(
 															$"Il player {nm}, ha tentato di accedere da bannato!");
 														DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot,
 															"Tentativo di accesso",
@@ -194,7 +194,7 @@ namespace TheLastPlanet.Server.Core
 												{
 													if (!isVip)
 													{
-														Log.Printa(LogType.Info,
+														Server.Logger.Info(
 															"WHITELIST: Sistema Anti-Spam all'ingresso attivo per il player " +
 															player.Name);
 														BaseScript.TriggerEvent("lprp:serverLog",
@@ -211,7 +211,7 @@ namespace TheLastPlanet.Server.Core
 															await BaseScript.Delay(1000);
 														}
 
-														Log.Printa(LogType.Info,
+														Server.Logger.Info(
 															"WHITELIST: Sistema Anti-Spam all'ingresso disattivato per il player " +
 															player.Name);
 														BaseScript.TriggerEvent("lprp:serverLog",
@@ -225,7 +225,7 @@ namespace TheLastPlanet.Server.Core
 											}
 											else
 											{
-												Log.Printa(LogType.Warning,
+												Server.Logger.Warning(
 													$"Il player {nm}, ha tentato di accedere senza permesso!");
 												DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot,
 													"Tentativo di accesso",
@@ -236,7 +236,7 @@ namespace TheLastPlanet.Server.Core
 										}
 										else
 										{
-											Log.Printa(LogType.Warning,
+											Server.Logger.Warning(
 												$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 											DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot,
 												"Tentativo di accesso",
@@ -246,7 +246,7 @@ namespace TheLastPlanet.Server.Core
 									}
 									else
 									{
-										Log.Printa(LogType.Warning,
+										Server.Logger.Warning(
 											$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 										DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot,
 											"Tentativo di accesso",
@@ -257,7 +257,7 @@ namespace TheLastPlanet.Server.Core
 								}
 								else
 								{
-									Log.Printa(LogType.Warning,
+									Server.Logger.Warning(
 										$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 									DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot,
 										"Tentativo di accesso",
@@ -267,7 +267,7 @@ namespace TheLastPlanet.Server.Core
 							}
 							else
 							{
-								Log.Printa(LogType.Warning, $"Licenza SocialClub non trovata per il player: {nm}");
+								Server.Logger.Warning( $"Licenza SocialClub non trovata per il player: {nm}");
 								DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso",
 									$"Licenza SocialClub non trovata per il player: {nm}");
 								deferrals.done(
@@ -277,7 +277,7 @@ namespace TheLastPlanet.Server.Core
 						}
 						else
 						{
-							Log.Printa(LogType.Warning,
+							Server.Logger.Warning(
 								$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 							DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso",
 								$"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
@@ -288,21 +288,21 @@ namespace TheLastPlanet.Server.Core
 					{
 						DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il Player: {nm} ha tentato di accedere senza discord attivo");
 						deferrals.done("ERRORE: DiscordID non trovato, Connessione rifiutata.\nPer giocare sul nostro server devi avere Discord sempre attivo!\nAssicurati di avere Discord avviato prima di aprire FiveM.");
-						Log.Printa(LogType.Warning, $"Il Player: {nm} ha tentato di accedere senza discord attivo");
+						Server.Logger.Warning( $"Il Player: {nm} ha tentato di accedere senza discord attivo");
 						return;
 					}
 				}
 				else
 				{
-					Log.Printa(LogType.Warning, $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
+					Server.Logger.Warning( $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 					DiscordWhitelist.SendWebhookMessageCoda(idents, nm, sputtanabot, "Tentativo di accesso", $"Il player {nm}, ha tentato di accedere ma ha annullato l'accesso durante i controlli!");
 					return;
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, "ERRORE NELL'ACCESSO AL SERVER CONTROLLARE SCRIPT CODA: " + ex);
-				Log.Printa(LogType.Fatal, ex.StackTrace);
+				Server.Logger.Fatal( "ERRORE NELL'ACCESSO AL SERVER CONTROLLARE SCRIPT CODA: " + ex);
+				Server.Logger.Fatal( ex.StackTrace);
 				deferrals.done("ERRORE NELL'ACCESSO AL SERVER, CONTATTA GLI AMMINISTRATORI SUL NOSTRO CANALE DISCORD\nINVITO: https://discord.gg/n4ep9Fq");
 			}
 		}
@@ -317,12 +317,12 @@ namespace TheLastPlanet.Server.Core
 				if (ped.status.spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
+					Server.Logger.Info( "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);
 				}
 				else
 				{
-					Log.Printa(LogType.Info, "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
+					Server.Logger.Info( "Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 					BaseScript.TriggerEvent(DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " Il Player'" + name + "' - " + ped.identifiers.discord + " è uscito dal server senza selezionare un personaggio");
 				}
 				Server.PlayerList.TryRemove(handle, out ped);

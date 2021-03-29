@@ -90,7 +90,7 @@ namespace TheLastPlanet.Server.TimeWeather
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e + e.StackTrace);
+				Server.Logger.Error( e + e.StackTrace);
 			}
 		}
 	}

@@ -219,8 +219,8 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public void removeWeapon(string weaponName)
 		{
-			Log.Printa(LogType.Debug, "index = " + getWeapon(weaponName).Item1);
-			Log.Printa(LogType.Debug, JsonConvert.SerializeObject(getWeapon(weaponName).Item2));
+			Server.Logger.Debug("index = " + getWeapon(weaponName).Item1);
+			Server.Logger.Debug(JsonConvert.SerializeObject(getWeapon(weaponName).Item2));
 
 			if (hasWeapon(weaponName))
 			{
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				if (licen.name == license)
 					CurrentChar.Licenze.Remove(licen);
 				else
-					Log.Printa(LogType.Warning, $"Il player {Player.Name} non ha una licenza con nome '{license}'");
+					Server.Logger.Warning( $"Il player {Player.Name} non ha una licenza con nome '{license}'");
 		}
 
 		public List<OwnedVehicle> GetCharVehicles()
@@ -365,7 +365,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 			catch(Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 			}
 			await Task.FromResult(0);
 		}

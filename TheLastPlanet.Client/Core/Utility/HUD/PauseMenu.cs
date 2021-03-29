@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			MainMenu.OnMenuClose += () =>
 			{
 				Funzioni.SalvaKvpString("SettingsClient", Main.ImpostazioniClient.ToJson());
-				Log.Printa(LogType.Debug, Funzioni.CaricaKvpString("SettingsClient"));
+				Client.Logger.Debug( Funzioni.CaricaKvpString("SettingsClient"));
 			};
 			MainMenu.Visible = true;
 		}

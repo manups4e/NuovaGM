@@ -72,7 +72,7 @@ namespace TheLastPlanet.Client.Proprietà
 						// If this takes longer than 1 second, just abort. It's not worth waiting that long.
 						if (GetGameTimer() - tempTimer > 1000)
 						{
-							Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+							Client.Logger.Debug( "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
 
 							break;
 						}
@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client.Proprietà
 						// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 						if (GetGameTimer() - tempTimer > 1000)
 						{
-							Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+							Client.Logger.Debug( "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
 
 							break;
 						}

@@ -75,18 +75,18 @@ namespace TheLastPlanet.Server.Core
 						txt = $"Comando: /{cmd} invocato da {sender.Name} con testo: {fullCommand.Substring(cmd.Length + 1)}";
 					else
 						txt = $"Comando: /{cmd} invocato da {sender.Name}";
-					Log.Printa(LogType.Info, txt);
+					Server.Logger.Info( txt);
 				}
 				else
 				{
 					user.showNotification("Non hai i permessi per usare questo comando!");
-					Log.Printa(LogType.Warning, sender.Name + " ha provato a usare il comando " + cmd + ".");
+					Server.Logger.Warning( sender.Name + " ha provato a usare il comando " + cmd + ".");
 				}
 			}
 			else
 			{
 				user.showNotification("Hai inserito un comando non valido!");
-				Log.Printa(LogType.Warning, sender.Name + " ha inserito un comando non valido: " + cmd);
+				Server.Logger.Warning( sender.Name + " ha inserito un comando non valido: " + cmd);
 				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + sender.Name + " ha inserito un comando non valido: " + cmd + ".");
 			}
 		}

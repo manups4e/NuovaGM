@@ -31,7 +31,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Server.Logger.Error( e.ToString() + e.StackTrace);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString() + e.StackTrace);
+				Server.Logger.Error( e.ToString() + e.StackTrace);
 			}
 		}
 	}

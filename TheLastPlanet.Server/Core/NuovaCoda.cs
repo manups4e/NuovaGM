@@ -89,7 +89,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 			}
 		}
 
@@ -109,10 +109,10 @@ namespace TheLastPlanet.Server.Core
 
 		private static void QueueCheck(Player source, List<string> args, string raw)
 		{
-			Log.Printa(LogType.Info, $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
+			Server.Logger.Info( $"Attualmente in Coda: {queue.Count} - Coda con priorita': {pQueue.Count}");
 			session.Where(k => k.Value == SessionState.Coda).ToList().ForEach(j =>
 			{
-				Log.Printa(LogType.Info, $"{j.Key} in coda. Timer: {timer.TryGetValue(j.Key, out DateTime oldTimer)} Priorita: {priority.TryGetValue(j.Key, out int oldPriority)}");
+				Server.Logger.Info( $"{j.Key} in coda. Timer: {timer.TryGetValue(j.Key, out DateTime oldTimer)} Priorita: {priority.TryGetValue(j.Key, out int oldPriority)}");
 			});
 		}
 
@@ -131,7 +131,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (source.Handle == "0")
 				{
-					Log.Printa(LogType.Error, $"Questo non è un comando da console");
+					Server.Logger.Error( $"Questo non è un comando da console");
 				}
 				else
 				{
@@ -142,7 +142,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - ExitSession()");
+				Server.Logger.Error( $"[{resourceName}] - ExitSession()");
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count != 1)
 				{
-					Log.Printa(LogType.Error, $"Questo comando richiede 1 argomento. <Discord> O <License>");
+					Server.Logger.Error( $"Questo comando richiede 1 argomento. <Discord> O <License>");
 
 					return;
 				}
@@ -162,18 +162,18 @@ namespace TheLastPlanet.Server.Core
 
 				if (player == null)
 				{
-					Log.Printa(LogType.Warning, $"Nessun riscontro in sessione per l'ID {identifier}, usa il comando di sessione per vedere gli ID.");
+					Server.Logger.Warning( $"Nessun riscontro in sessione per l'ID {identifier}, usa il comando di sessione per vedere gli ID.");
 
 					return;
 				}
 
 				RemoveFrom(player.Identifiers["license"], true, true, true, true, true, true);
 				player.Drop("Kicked");
-				Log.Printa(LogType.Warning, $"{identifier} è stato kickato.");
+				Server.Logger.Warning( $"{identifier} è stato kickato.");
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - Kick()");
+				Server.Logger.Error( $"[{resourceName}] - Kick()");
 			}
 		}
 
@@ -202,7 +202,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - UpdateHostName()");
+				Server.Logger.Error( $"[{resourceName}] - UpdateHostName()");
 			}
 		}
 
@@ -224,7 +224,7 @@ namespace TheLastPlanet.Server.Core
 						if (stateChangeMessages)
 						{
 							Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-							Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}");
+							Server.Logger.Info( player != null ? $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {license}");
 						}
 
 						continue;
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - QueueCount()");
+				Server.Logger.Error( $"[{resourceName}] - QueueCount()");
 
 				return queue.Count;
 			}
@@ -286,7 +286,7 @@ namespace TheLastPlanet.Server.Core
 						if (stateChangeMessages)
 						{
 							Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-							Log.Printa(LogType.Info, $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}");
+							Server.Logger.Info( $"[{resourceName}]: CANCELLATO -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}");
 						}
 
 						continue;
@@ -324,7 +324,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - PriorityQueueCount()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - PriorityQueueCount()\n {e}");
 
 				return pQueue.Count;
 			}
@@ -344,7 +344,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - Loading()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - Loading()\n {e}");
 
 				return false;
 			}
@@ -370,13 +370,13 @@ namespace TheLastPlanet.Server.Core
 					if (stateChangeMessages)
 					{
 						Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-						Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}");
+						Server.Logger.Info( player != null ? $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: CODA -> CARICAMENTO -> ({Enum.GetName(typeof(Reserved), slotType)}) {license}");
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - NewLoading()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - NewLoading()\n {e}");
 			}
 		}
 
@@ -390,7 +390,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - IsTimeUp()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - IsTimeUp()\n {e}");
 
 				return false;
 			}
@@ -408,7 +408,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - UpdatePlace()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - UpdatePlace()\n {e}");
 			}
 		}
 
@@ -424,7 +424,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - UpdateTimer()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - UpdateTimer()\n {e}");
 			}
 		}
 
@@ -457,7 +457,7 @@ namespace TheLastPlanet.Server.Core
 								if (stateChangeMessages)
 								{
 									Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-									Log.Printa(LogType.Info, $"[{resourceName}]: CARICAMENTO -> GRAZIA -> Licenza: {license}");
+									Server.Logger.Info( $"[{resourceName}]: CARICAMENTO -> GRAZIA -> Licenza: {license}");
 								}
 							}
 							else
@@ -496,7 +496,7 @@ namespace TheLastPlanet.Server.Core
 									if (stateChangeMessages)
 									{
 										Player player = Server.Instance.GetPlayers.ToList().FirstOrDefault(x => license == x.Identifiers["license"]);
-										Log.Printa(LogType.Info, player != null ? $"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}");
+										Server.Logger.Info( player != null ? $"[{resourceName}]: GRAZIA -> RIMOSSO -> {player.Name}, Discord: {player.Identifiers["discord"]}" : $"[{resourceName}]: GRAZIA -> RIMOSSO -> {license}");
 									}
 								}
 							}
@@ -507,7 +507,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - UpdateStates()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - UpdateStates()\n {e}");
 			}
 		}
 
@@ -524,7 +524,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - RemoveFrom()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - RemoveFrom()\n {e}");
 			}
 		}
 
@@ -534,14 +534,14 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count != 0)
 				{
-					Log.Printa(LogType.Error, $"Questo comando non ha argomenti.");
+					Server.Logger.Error( $"Questo comando non ha argomenti.");
 
 					return;
 				}
 
 				if (session.Count == 0)
 				{
-					Log.Printa(LogType.Error, $"Nessun player in sessione");
+					Server.Logger.Error( $"Nessun player in sessione");
 
 					return;
 				}
@@ -588,7 +588,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - QueueSession()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - QueueSession()\n {e}");
 			}
 		}
 
@@ -598,7 +598,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count != 1)
 				{
-					Log.Printa(LogType.Error, $"Il comando vuole 1 argomento. Esempio: changemax 32");
+					Server.Logger.Error( $"Il comando vuole 1 argomento. Esempio: changemax 32");
 
 					return;
 				}
@@ -607,7 +607,7 @@ namespace TheLastPlanet.Server.Core
 
 				if (newMax <= 0 || newMax > 128)
 				{
-					Log.Printa(LogType.Warning, $"changemax DEVE essere tra 1 e 128");
+					Server.Logger.Warning( $"changemax DEVE essere tra 1 e 128");
 
 					return;
 				}
@@ -617,7 +617,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - QueueChangeMax()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - QueueChangeMax()\n {e}");
 			}
 		}
 
@@ -647,7 +647,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - StopHardcap()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - StopHardcap()\n {e}");
 			}
 		}
 
@@ -665,13 +665,13 @@ namespace TheLastPlanet.Server.Core
 				if (hasState && oldState != SessionState.Coda)
 				{
 					session.TryUpdate(license, SessionState.Grazia, oldState);
-					if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> GRACE -> {source.Name}, Discord: {discord}");
+					if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> GRACE -> {source.Name}, Discord: {discord}");
 					UpdateTimer(license);
 				}
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - PlayerDropped()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - PlayerDropped()\n {e}");
 			}
 		}
 
@@ -690,11 +690,11 @@ namespace TheLastPlanet.Server.Core
 
 				session.TryGetValue(license, out SessionState oldState);
 				session.TryUpdate(license, SessionState.Attivo, oldState);
-				if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> ACTIVE -> {source.Name}, Discord: {source.Identifiers["discord"]}");
+				if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> ACTIVE -> {source.Name}, Discord: {source.Identifiers["discord"]}");
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - PlayerActivated()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - PlayerActivated()\n {e}");
 			}
 		}
 
@@ -781,12 +781,12 @@ namespace TheLastPlanet.Server.Core
 						if (!priority.ContainsKey(license))
 						{
 							newQueue.Enqueue(license);
-							if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Pubblico) {playerName}, Discord: {discord}");
+							if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Pubblico) {playerName}, Discord: {discord}");
 						}
 						else
 						{
 							newPQueue.Enqueue(license);
-							if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {playerName}, {discord}");
+							if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: NUOVO PLAYER -> IN CODA -> (Priorità) {playerName}, {discord}");
 						}
 
 						string inCoda = "{\"$schema\":\"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\",\"body\": [{\"type\": \"TextBlock\",\"text\": \"Shield 2.0: Accesso consentito, attendi...\"}],\"backgroundImage\": {\"url\": \"https://s7.gifyu.com/images/dots.gif\",\"horizontalAlignment\": \"Center\"},\"minHeight\": \"360px\",\"verticalContentAlignment\": \"Bottom\"}";
@@ -800,7 +800,7 @@ namespace TheLastPlanet.Server.Core
 						session.TryGetValue(license, out SessionState oldState);
 						session.TryUpdate(license, SessionState.Caricamento, oldState);
 						deferrals.done();
-						if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> CARICAMENTO -> (Grace) {source.Name}, Discord: {discord}");
+						if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: {Enum.GetName(typeof(SessionState), oldState).ToUpper()} -> CARICAMENTO -> (Grace) {source.Name}, Discord: {discord}");
 
 						return;
 					}
@@ -825,7 +825,7 @@ namespace TheLastPlanet.Server.Core
 						{
 							UpdateTimer(license);
 							deferrals.done($"{messages["Canceled"]}");
-							if (stateChangeMessages) Log.Printa(LogType.Info, $"[{resourceName}]: IN CODA -> CANCELLATO -> {source.Name}, Discord: {discord}");
+							if (stateChangeMessages) Server.Logger.Info( $"[{resourceName}]: IN CODA -> CANCELLATO -> {source.Name}, Discord: {discord}");
 
 							return;
 						}
@@ -887,7 +887,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 				string card = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.3\",\"body\": [{\"type\": \"ColumnSet\",\"columns\": [{\"type\": \"Column\",\"width\": 2,\"items\": [{\"type\": \"TextBlock\",\"text\": \"Errore sconosciuto\",\"weight\": \"Bolder\",\"size\": \"Medium\"},{\"type\": \"TextBlock\",\"text\": \"Siamo spiacenti, l'accesso al server o la comunicazione con il bot ha subito un errore imprevisto!\",\"isSubtle\": true,\"wrap\": true},{\"type\": \"TextBlock\",\"text\": \"Per farci perdonare, ecco qui l'immagine di un gattino su di un unicorno!\",\"isSubtle\": true,\"wrap\": true,\"size\": \"Small\"}]},{\"type\": \"Column\",\"width\": 1,\"items\": [{\"type\": \"Image\",\"url\": \"https://iyanceres.files.wordpress.com/2018/02/cat-unicorn.jpg\",\"size\": \"auto\"}]}]}]}";
 				deferrals.presentCard(card);
 				// deferrals.done($"{messages["Error"]}"); return;
@@ -911,7 +911,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - QueueCycle()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - QueueCycle()\n {e}");
 			}
 		}
 
@@ -919,7 +919,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				if (args.Count != 1) Log.Printa(LogType.Error, $"Il comando richiede un argomento. <Discord Community Profile Number>");
+				if (args.Count != 1) Server.Logger.Error( $"Il comando richiede un argomento. <Discord Community Profile Number>");
 				long SteamCommunityId = long.Parse(args[0].ToString());
 				long quotient = Math.DivRem(SteamCommunityId, 16, out long remainder);
 				Stack<long> hex = new Stack<long>();
@@ -937,7 +937,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"[{resourceName}] - DiscordProfileToHex()\n {e}");
+				Server.Logger.Error( $"[{resourceName}] - DiscordProfileToHex()\n {e}");
 			}
 		}
 	}
@@ -992,7 +992,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Start()");
+				Server.Logger.Error( $"[{NuovaCoda.resourceName}] - Server_Priority.Start()");
 			}
 		}
 
@@ -1002,7 +1002,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count != 2)
 				{
-					Log.Printa(LogType.Warning, $"Questo comando richiede 2 argomenti. <Discord> O <License> & <Priorità> (1 <- 100)");
+					Server.Logger.Warning( $"Questo comando richiede 2 argomenti. <Discord> O <License> & <Priorità> (1 <- 100)");
 
 					return;
 				}
@@ -1025,11 +1025,11 @@ namespace TheLastPlanet.Server.Core
 
 					string path = $"{directory}/{account.License}-{account.Discord}.json";
 					File.WriteAllText(path, account.ToJson());
-					Log.Printa(LogType.Info, $"{identifier} è stato settato in priorità {priority}.");
+					Server.Logger.Info( $"{identifier} è stato settato in priorità {priority}.");
 				}
 				else
 				{
-					Log.Printa(LogType.Warning, $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
+					Server.Logger.Warning( $"Nessun account trovato in sessione per {identifier}, aggiunto nella lista priorità offline");
 					newwhitelist.Add(new PriorityAccount(identifier, identifier, priority));
 					string path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
 					File.WriteAllText(path, newwhitelist.ToJson());
@@ -1037,7 +1037,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Add()");
+				Server.Logger.Error( $"[{NuovaCoda.resourceName}] - Server_Priority.Add()");
 			}
 
 			return;
@@ -1049,7 +1049,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count != 1)
 				{
-					Log.Printa(LogType.Warning, $"Questo comando richiede 1 argomento. <Discord> OR <License>");
+					Server.Logger.Warning( $"Questo comando richiede 1 argomento. <Discord> OR <License>");
 
 					return;
 				}
@@ -1068,11 +1068,11 @@ namespace TheLastPlanet.Server.Core
 					accounts.Remove(j);
 				});
 				NuovaCoda.priority.TryRemove(identifier, out int oldPriority);
-				Log.Printa(LogType.Info, $"{identifier} rimosso dalla lista priorità.");
+				Server.Logger.Info( $"{identifier} rimosso dalla lista priorità.");
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.Remove()");
+				Server.Logger.Error( $"[{NuovaCoda.resourceName}] - Server_Priority.Remove()");
 			}
 
 			return;
@@ -1088,11 +1088,11 @@ namespace TheLastPlanet.Server.Core
 				newwhitelist.RemoveAll(k => k.License == account.License || k.Discord == account.Discord);
 				path = $"{NuovaCoda.resourcePath}/JSON/offlinepriority.json";
 				File.WriteAllText(path, newwhitelist.ToJson());
-				Log.Printa(LogType.Info, $"{account.License}-{account.Discord} prioritizzato automaticamente.");
+				Server.Logger.Info( $"{account.License}-{account.Discord} prioritizzato automaticamente.");
 			}
 			catch (Exception)
 			{
-				Log.Printa(LogType.Error, $"[{NuovaCoda.resourceName}] - Server_Priority.AutoWhitelist()");
+				Server.Logger.Error( $"[{NuovaCoda.resourceName}] - Server_Priority.AutoWhitelist()");
 			}
 		}
 	}

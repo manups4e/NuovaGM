@@ -45,7 +45,7 @@ namespace TheLastPlanet.Server.Businesses
 				for (int i = 0; i < result.Count; i++)
 					playerstations.Add(new StationDiBenzina(result[i]));
 			else
-				Log.Printa(LogType.Error, "BusinessServer.cs - Errore a prendere le stazioni dal database");
+				Server.Logger.Error( "BusinessServer.cs - Errore a prendere le stazioni dal database");
 			BaseScript.TriggerClientEvent("lprp:businesses:setstations", ConfigShared.SharedConfig.Main.Veicoli.gasstations.ToJson(), playerstations.ToJson());
 		}
 
@@ -97,7 +97,7 @@ namespace TheLastPlanet.Server.Businesses
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
+				Server.Logger.Error( "lprp:businesses:checkcanmanage: errore a ottenere le info stazione o gli identifiers non combaciano");
 				p.TriggerEvent("lprp:businesses:checkcanmanage", false);
 			}
 		}
@@ -125,7 +125,7 @@ namespace TheLastPlanet.Server.Businesses
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
+				Server.Logger.Error( "lprp:businesses:getstationcash: errore nell'ottenere dati stazione o identifier non combacianti");
 			}
 		}
 
@@ -287,7 +287,7 @@ namespace TheLastPlanet.Server.Businesses
 						if (pay > 0)
 						{
 							user.Bank += pay;
-							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
+							Server.Logger.Info( $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} è stato pagato ${pay} per una consegna di carburante (stazione non posseduta).");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} è stato pagato {2}$ per una consegna di carburante (stazione non posseduta).", user.FullName, GetPlayerName(p.Handle), pay);
 						}
 
@@ -301,7 +301,7 @@ namespace TheLastPlanet.Server.Businesses
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
+				Server.Logger.Error( "BusinessServer.cs:373 - lprp:businesses:depositfuel, errore caricamento index e fuel");
 			}
 		}
 
@@ -356,7 +356,7 @@ namespace TheLastPlanet.Server.Businesses
 							idx = sidx
 						});
 						user.Bank -= sellprice;
-						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
+						Server.Logger.Info( $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha pagato {sellprice} per una Stazione di Rifornimento.");
 						BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha pagato {2} per una Stazione di Rifornimento.", user.FullName, GetPlayerName(p.Handle), sellprice);
 						SendStationsUpdate();
 						p.TriggerEvent("lprp:businesses:purchasestation", true, "", sidx, sellprice);
@@ -450,7 +450,7 @@ namespace TheLastPlanet.Server.Businesses
 						else
 						{
 							user.Money -= amount;
-							Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
+							Server.Logger.Info( $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} ha depositato ${amount} nella sua stazione di rifornimento.");
 							BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} ha depositato {2}$ nella sua stazione di rifornimento.", user.FullName, GetPlayerName(p.Handle), amount.ToString());
 							await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx", new { cash = smoney, idx = manageid });
 							p.TriggerEvent("lprp:businesses:stationfundschange", true, smoney.ToString());
@@ -478,7 +478,7 @@ namespace TheLastPlanet.Server.Businesses
 					{
 						samount = (int)result[0].cashwaiting - amount;
 						user.Money += amount;
-						Log.Printa(LogType.Info, $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
+						Server.Logger.Info( $"Il personaggio {user.FullName} del player {GetPlayerName(p.Handle)} has ritirato ${amount} dalla sua stazione di rifornimento");
 						BaseScript.TriggerEvent("lprp:serverlog", DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Il personaggio {0} del player {1} has ritirato {2}$ dalla sua stazione di rifornimento", user.FullName, GetPlayerName(p.Handle), amount.ToString());
 						await Server.Instance.Execute($"UPDATE businesses SET cashwaiting = @cash  WHERE stationindex = @idx", new { cash = samount, idx = manageid });
 						p.TriggerEvent("lprp:businesses:stationfundschange", true, samount.ToString());

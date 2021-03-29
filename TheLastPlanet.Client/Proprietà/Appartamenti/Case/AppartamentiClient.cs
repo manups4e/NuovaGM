@@ -190,7 +190,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 						// If this takes longer than 1 second, just abort. It's not worth waiting that long.
 						if (GetGameTimer() - tempTimer > 1000)
 						{
-							Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+							Client.Logger.Debug( "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
 
 							break;
 						}
@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 						// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 						if (GetGameTimer() - tempTimer > 1000)
 						{
-							Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+							Client.Logger.Debug( "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
 
 							break;
 						}
@@ -342,7 +342,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 					{
 						if (GetGameTimer() - tempo > 5000)
 						{
-							Log.Printa(LogType.Debug, "Punto di spawn fuori dal garage occupato, trovato nuovo punto");
+							Client.Logger.Debug( "Punto di spawn fuori dal garage occupato, trovato nuovo punto");
 
 							break;
 						}
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				// If this takes longer than 1 second, just abort. It's not worth waiting that long.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Debug, "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Debug( "Waiting for the scene to load is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}
@@ -396,7 +396,7 @@ namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
 				// If this takes too long, then just abort, it's not worth waiting that long since we haven't found the real ground coord yet anyway.
 				if (GetGameTimer() - tempTimer > 1000)
 				{
-					Log.Printa(LogType.Debug, "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
+					Client.Logger.Debug( "Waiting for the collision is taking too long (more than 1s). Breaking from wait loop.");
 
 					break;
 				}

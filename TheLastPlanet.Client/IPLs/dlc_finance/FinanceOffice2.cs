@@ -81,14 +81,14 @@ namespace TheLastPlanet.Client.IPLs.dlc_finance
 				if (side.ToLower() == "left" || side.ToLower() == "sinistra") IsLeftDoorOpen = true;
 				else if (side.ToLower() == "right" || side.ToLower() == "destra") IsRightDoorOpen = true;
 				else
-					Log.Printa(LogType.Debug, "Direzioni solo destra e sinistra (left right)");
+					Client.Logger.Debug( "Direzioni solo destra e sinistra (left right)");
 			}
 			public void Close(string side)
 			{
 				if (side.ToLower() == "left" || side.ToLower() == "sinistra") IsLeftDoorOpen = false;
 				else if (side.ToLower() == "right" || side.ToLower() == "destra") IsRightDoorOpen = false;
 				else
-					Log.Printa(LogType.Debug,"Direzioni solo destra e sinistra (left right)");
+					Client.Logger.Debug("Direzioni solo destra e sinistra (left right)");
 			}
 			public async void SetDoorState(string doorSide, bool open)
 			{
@@ -106,7 +106,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_finance
 				}
 
 				if (doorHandle == 0)
-					Log.Printa(LogType.Debug,"Errore nell'handle della porta");
+					Client.Logger.Debug("Errore nell'handle della porta");
 				API.SetEntityHeading(doorHandle, heading);
 			}
 

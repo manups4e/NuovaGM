@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 #if SERVER
@@ -7,31 +8,8 @@ using TheLastPlanet.Server;
 #endif
 namespace Logger
 {
-	public enum LogType
+	public class Log
 	{
-		Info,
-		Debug,
-		Warning,
-		Error,
-		Fatal
-	}
-
-	public static class Log
-	{
-#if SERVER
-		private static StreamWriter _writer;
-		static Log()
-		{
-			_writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
-			Server.Instance.AddEventHandler("onResourceStop", new Action<string>(Stop));
-		}
-
-		private static void Stop(string resname)
-		{
-			if (resname == API.GetCurrentResourceName())
-				_writer.Close();
-		}
-#endif
 
 		// Colors
 		public const string LIGHT_RED = "^1";
@@ -55,53 +33,101 @@ namespace Logger
 		// Reset
 		public const string RESET = "^r";
 
-		/// <summary>
-		/// Manda in console un messaggio colorato in base alla gravità della situazione
-		/// </summary>
-		/// <param name="tipo">La gravità della situazione</param>
-		/// <param name="text">Testo del messaggio</param>
-		public static async void Printa(LogType tipo, string text)
-		{
-			string err = "-- [INFO] -- ";
-			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
-			string colore = LIGHT_GREEN;
-			switch (tipo)
-			{
-				case LogType.Info:
-					err = "-- [INFO] -- ";
-					colore = LIGHT_GREEN;
-					break;
-				case LogType.Debug:
-					if (API.GetConvarInt("DEBUG", 0) == 0) return;
-					err = "-- [DEBUG] -- ";
-					colore = PURPLE;
-					break;
-				case LogType.Warning:
-					err = "-- [ATTENZIONE] --";
-					colore = YELLOW;
-					break;
-				case LogType.Error:
-					err = "-- [ERRORE] --";
-					colore = LIGHT_RED;
-					break;
-				case LogType.Fatal:
-					err = "-- [FATALE] --";
-					colore = PINK;
-					break;
-			}
-			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+
 #if SERVER
+		private StreamWriter _writer;
+		public async Task Writer(string err, string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
 			try
 			{
-				if (tipo != LogType.Debug)
-					await _writer.WriteLineAsync($"{incipit} {err} {text}");
+				_writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
+				await _writer.WriteLineAsync($"{incipit} {err} {text}");
+				_writer.Close();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-				Debug.WriteLine($"^1{incipit} -- [ERRORE] -- {e}.^7");
+				CitizenFX.Core.Debug.WriteLine($"{LIGHT_RED}{incipit} -- [ERRORE] -- {e}.^7");
 			}
+			await Task.FromResult(0);
+		}
+#endif
+
+		/// <summary>
+		/// Manda in console un messaggio di informazione
+		/// </summary>
+		/// <param name="text">Testo del messaggio</param>
+		public async void Info(string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string err = "-- [INFO] -- ";
+			string colore = LIGHT_GREEN;
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			await Writer(err, text);
 #endif
 		}
+
+		/// <summary>
+		/// Manda in console un messaggio di Debug
+		/// </summary>
+		/// <param name="text">Testo del messaggio</param>
+		public async void Debug(string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string err = "-- [DEBUG] -- ";
+			string colore = PURPLE;
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			await Writer(err, text);
+#endif
+		}
+
+		/// <summary>
+		/// Manda in console un messaggio di Avviso
+		/// </summary>
+		/// <param name="text">Testo del messaggio</param>
+		public async void Warning(string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string err = "-- [ATTENZIONE] --";
+			string colore = YELLOW;
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			await Writer(err, text);
+#endif
+		}
+
+		/// <summary>
+		/// Manda in console un messaggio di Errore
+		/// </summary>
+		/// <param name="text">Testo del messaggio</param>
+		public async void Error(string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string err = "-- [ERRORE] -- ";
+			string colore =	LIGHT_RED;
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			await Writer(err, text);
+#endif
+		}
+
+		/// <summary>
+		/// Manda in console un messaggio di Errore FATALE
+		/// </summary>
+		/// <param name="text">Testo del messaggio</param>
+		public async void Fatal(string text)
+		{
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string err = "-- [FATALE] -- ";
+			string colore = DARK_RED;
+			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+#if SERVER
+			await Writer(err, text);
+#endif
+		}
+
 
 
 	}

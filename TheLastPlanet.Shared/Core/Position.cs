@@ -99,7 +99,14 @@ namespace TheLastPlanet.Shared
         public Vector3 ToVector3 => new(X, Y, Z);
 
         public float Distance(Vector3 value)
-		{
+        {
+            float x = X - value.X;
+            float y = Y - value.Y;
+            float z = Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+        public float Distance(Position value)
+        {
             float x = X - value.X;
             float y = Y - value.Y;
             float z = Z - value.Z;
@@ -194,7 +201,7 @@ namespace TheLastPlanet.Shared
                 {
                     if (Game.GameTime - time >= 5000)
                     {
-                        Log.Printa(LogType.Warning, $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, interrompo e inserisco default..");
+                        Client.Client.Logger.Warning( $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, interrompo e inserisco default..");
                         return new Position(X, Y, -199.9f, Heading);
                     }
 
@@ -207,7 +214,7 @@ namespace TheLastPlanet.Shared
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, $"Position FindGroundZ Error: {ex.Message}");
+                Client.Client.Logger.Error( $"Position FindGroundZ Error: {ex.Message}");
                 return new Position(X, Y, -199.9f, Heading);
             }
         }

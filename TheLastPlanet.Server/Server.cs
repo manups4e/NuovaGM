@@ -18,6 +18,7 @@ namespace TheLastPlanet.Server
 	public class Server : BaseScript
 	{
 		//public static ConcurrentDictionary<string, User> PlayerList = new();
+		public static Logger.Log Logger;
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
@@ -27,6 +28,8 @@ namespace TheLastPlanet.Server
 		public static bool DEBUG;
 		public Server()
 		{
+			Instance = this;
+			Logger = new Log();
 #if DEBUG
 			SetConvarReplicated("DEBUG", "1");
 			DEBUG = true;
@@ -34,7 +37,6 @@ namespace TheLastPlanet.Server
 			SetConvarReplicated("DEBUG", "0");
 #endif
 			SnowflakeGenerator.Create(2);
-			Instance = this;
 			SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
 			SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
 			SetConvarServerInfo("locale", "it-IT");

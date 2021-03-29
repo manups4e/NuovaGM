@@ -595,7 +595,7 @@ namespace TheLastPlanet.Client.Veicoli
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, "Errore in fuelClient = " + e);
+				Client.Logger.Error( "Errore in fuelClient = " + e);
 			}
 		}
 

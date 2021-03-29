@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
         {
             AllApps = allApps;
 
-            Log.Printa(LogType.Debug, $"Apps totali {AllApps.Count}");
+            Client.Logger.Debug( $"Apps totali {AllApps.Count}");
         }
 
         public override async Task Tick()
@@ -90,7 +90,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
             }
             catch (Exception e)
             {
-                Log.Printa(LogType.Error, $"{e.Message} : Exception thrown on Apps.Main.Tick()");
+                Client.Logger.Error( $"{e.Message} : Exception thrown on Apps.Main.Tick()");
             }
         }
 

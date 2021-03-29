@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Interactions
 			{
 				case "item":
 					if (model.Hash == (int)ObjectHash.a_c_fish)
-						pickupObject = await Funzioni.SpawnPed((int)oggetto.obj, objectCoords, 0, PedTypes.Animal);
+						pickupObject = await Funzioni.SpawnPed((int)oggetto.obj, objectCoords.ToPosition(), PedTypes.Animal);
 					else
 						pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords, new Vector3(0), true);
 					pickupObject.SetDecor("PickupOggetto", oggetto.amount);

@@ -174,7 +174,7 @@ namespace TheLastPlanet.Client.Core.Status
 			*/
 
 			await Task.FromResult(0);
-			//Log.Printa(LogType.Debug, $"{n.Name} = {n.Val} [{n.GetPercent()}, {n.ChangeVal}]");
+			//Client.Logger.Debug( $"{n.Name} = {n.Val} [{n.GetPercent()}, {n.ChangeVal}]");
 		}
 
 		#region Needs

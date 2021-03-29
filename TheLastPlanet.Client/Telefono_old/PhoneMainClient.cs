@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.Telefono
 
 		private static void Setup(string JsonTelefono) 
 		{
-			Log.Printa(LogType.Debug, JsonTelefono);
+			Client.Logger.Debug( JsonTelefono);
 			if (JsonTelefono != "{\"phone_data\":[]}" && !string.IsNullOrEmpty(JsonTelefono) && !string.IsNullOrWhiteSpace(JsonTelefono))
 				Phone = new Phone(JsonTelefono.FromJson<Phone>());
 			else
@@ -87,14 +87,14 @@ namespace TheLastPlanet.Client.Telefono
 			Phone.currentApp.Initialize(Phone);
 			Client.Instance.AddTick(Phone.currentApp.Tick);
 
-			Log.Printa(LogType.Debug, $"CurrentApp = {Phone.currentApp.Name}");
+			Client.Logger.Debug( $"CurrentApp = {Phone.currentApp.Name}");
 		}
 
 		public static void KillApp()
 		{
 			if (Phone.currentApp != null)
 			{
-				Log.Printa(LogType.Debug, $"Killing App {Phone.currentApp.Name}");
+				Client.Logger.Debug( $"Killing App {Phone.currentApp.Name}");
 				Client.Instance.RemoveTick(Phone.currentApp.Tick);
 				Phone.currentApp.Kill();
 

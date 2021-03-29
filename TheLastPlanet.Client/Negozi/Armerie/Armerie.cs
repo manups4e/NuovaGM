@@ -345,8 +345,8 @@ namespace TheLastPlanet.Client.Negozi
 								else
 								{
 									ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Text);
-									Log.Printa(LogType.Debug, "Prezzo = " + arm.price);
-									Log.Printa(LogType.Debug, "name = " + arm.name);
+									Client.Logger.Debug( "Prezzo = " + arm.price);
+									Client.Logger.Debug( "name = " + arm.name);
 
 									if (Cache.MyPlayer.User.Money >= arm.price)
 									{

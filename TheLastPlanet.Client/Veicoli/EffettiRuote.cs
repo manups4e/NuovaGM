@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Veicoli
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Warning, e.ToString());
+				Client.Logger.Warning( e.ToString());
 			}
 
 			await Task.FromResult(0);

@@ -29,7 +29,7 @@ namespace TheLastPlanet.Server.Discord
 			if (risposta.status == System.Net.HttpStatusCode.OK)
 			{
 				TheLastServer = risposta.content.FromJson<Guild>();
-				Log.Printa(LogType.Info, $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
+				Server.Logger.Info( $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
 			}
 		}
 

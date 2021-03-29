@@ -80,7 +80,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");
 					await user.SalvaPersonaggio();
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.Identifiers.Discord);
+					Server.Logger.Info( "Salvato personaggio: '" + user.FullName + "' appartenente a '" + user.Player.Name + "' - " + user.Identifiers.Discord);
 				}
 				return Server.Instance.Clients;
 			}));
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, $"{e.Message}");
+				Server.Logger.Error( $"{e.Message}");
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace TheLastPlanet.Server.Core
 			else
 			{
 				DateTime now = DateTime.Now;
-				Log.Printa(LogType.Warning, "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
+				Server.Logger.Warning( "il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + "--il player " + GetPlayerName(source.Handle) + " ha usato un lua executor / CheatEngine per modificare il valore da pagare alla morte!");
 				DropPlayer(source.Handle, "LastPlanet Shield [Sospetto Modding]: entra in discord a chiarire perfavore!");
 				// AGGIUNGERE AVVISO DISCORD! ;)
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Server.Core
 		public static void Spawnato([FromSource] Player source)
 		{
 			User user = Funzioni.GetUserFromPlayerId(source.Handle);
-			Log.Printa(LogType.Info, user.FullName + "(" + source.Name + ") e' entrato in città'");
+			Server.Logger.Info( user.FullName + "(" + source.Name + ") e' entrato in città'");
 			foreach (var player in from Player player in Server.Instance.GetPlayers.ToList() where player.Handle != source.Handle select player)
 				player.TriggerEvent("lprp:ShowNotification", "~g~" + user.FullName + " (" + source.Name + ")~w~ è entrato in città");
 
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					player.TriggerEvent("lprp:mostrasalvataggio");
 					await ped.SalvaPersonaggio();
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
+					Server.Logger.Info( "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' tramite telefono");
 				}
 			}
 
@@ -358,13 +358,13 @@ namespace TheLastPlanet.Server.Core
 
 			if (pippo.content.FromJson<bool>())
 			{
-				Log.Printa(LogType.Warning, $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
+				Server.Logger.Warning( $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 				BaseScript.TriggerEvent("lprp:serverLog", $"{(banner > 0 ? $"Il player {Funzioni.GetPlayerFromId(banner).Name}" : "L'anticheat")} ha bannato {Target.Name}, data di fine {TempoBan.ToString("yyyy-MM-dd HH:mm:ss")}");
 				//Target.Drop($"SHIELD 2.0 Sei stato bannato dal server:\nMotivazione: {motivazione},\nBannato da: {(banner > 0 ? Funzioni.GetPlayerFromId(banner).Name : "Sistema anticheat")}"); // modificare con introduzione in stile anticheat
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "Ban fallito ");
+				Server.Logger.Error( "Ban fallito ");
 			}
 		}
 
@@ -372,7 +372,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			Player Target = Funzioni.GetPlayerFromId(target);
 			Player Kicker = Funzioni.GetPlayerFromId(kicker);
-			Log.Printa(LogType.Warning, $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
+			Server.Logger.Warning( $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}

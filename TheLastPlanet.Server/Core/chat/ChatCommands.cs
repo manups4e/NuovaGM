@@ -54,7 +54,7 @@ namespace TheLastPlanet.Server.Core
 			RegisterCommand("status", new Action<int, List<object>, string>((a, b, c) =>
 			{
 				if (a != 0) return;
-				foreach (Player player in Server.Instance.GetPlayers) Log.Printa(LogType.Info, $"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}");
+				foreach (Player player in Server.Instance.GetPlayers) Server.Logger.Info( $"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}");
 			}), true);
 
 			//			Server.Instance.AddCommand("nome comando", new Action<Player, List<string>, string>(funzione comando), false, new ChatSuggestion("", new SuggestionParam[] { new SuggestionParam() }));
@@ -75,7 +75,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 			}
 		}
 
@@ -319,7 +319,7 @@ namespace TheLastPlanet.Server.Core
 				if (GetPlayerName(args[0]) != ".")
 				{
 					Player p = Server.Instance.GetPlayers[Convert.ToInt32(args[0])];
-					Log.Printa(LogType.Info, "Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
+					Server.Logger.Info( "Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
 					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
 					BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
 				}
@@ -346,7 +346,7 @@ namespace TheLastPlanet.Server.Core
 
 				if (ricevitore.Name.Length > 0)
 				{
-					Log.Printa(LogType.Info, "Comandi: " + sender.Name + " ha usato il comando setgroup su " + ricevitore.Name);
+					Server.Logger.Info( "Comandi: " + sender.Name + " ha usato il comando setgroup su " + ricevitore.Name);
 					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + sender.Name + " ha usato il comando setgroup su " + ricevitore.Name);
 
 					if (args[1] == "normal")
@@ -383,17 +383,17 @@ namespace TheLastPlanet.Server.Core
 					await Server.Instance.Execute("UPDATE `users` SET `group` = @gruppo,  `group_level` = @groupL WHERE `discord` = @disc", new { gruppo = group, groupL = group_level, disc = user.Identifiers.Discord });
 					user.group = group;
 					user.group_level = (UserGroup)group_level;
-					Log.Printa(LogType.Info, $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
+					Server.Logger.Info( $"Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 					BaseScript.TriggerEvent("lprp:serverLog", now.ToString("dd/MM/yyyy, HH:mm:ss") + $" --  Il player {ricevitore.Name} e' stato settato come gruppo {group}");
 				}
 				else
 				{
-					Log.Printa(LogType.Error, "Il player con ID" + args[0] + " non è online!");
+					Server.Logger.Error( "Il player con ID" + args[0] + " non è online!");
 				}
 			}
 			else
 			{
-				Log.Printa(LogType.Error, "errore nel comando setgroup..riprova");
+				Server.Logger.Error( "errore nel comando setgroup..riprova");
 			}
 		}
 		// FINE SETGROUP
@@ -441,7 +441,7 @@ namespace TheLastPlanet.Server.Core
 					{
 						player.Player.TriggerEvent("lprp:mostrasalvataggio");
 						await player.User.SalvaPersonaggio();
-						Log.Printa(LogType.Info, "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
+						Server.Logger.Info( "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
 						await Task.FromResult(0);
 					}
 				}
@@ -449,7 +449,7 @@ namespace TheLastPlanet.Server.Core
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, "" + ex);
+				Server.Logger.Fatal( "" + ex);
 			}
 		}
 
@@ -527,11 +527,11 @@ namespace TheLastPlanet.Server.Core
 				if (args != null && args.Count > 0 && args.Count < 3)
 				{
 					BaseScript.TriggerEvent("UpdateFromCommandTime", Tempo);
-					Log.Printa(LogType.Info, $"Time -- Orario server impostato alle ore {h}:{m}");
+					Server.Logger.Info( $"Time -- Orario server impostato alle ore {h}:{m}");
 				}
 				else
 				{
-					Log.Printa(LogType.Error, $"Time -- Devi impostare almeno l'ora");
+					Server.Logger.Error( $"Time -- Devi impostare almeno l'ora");
 				}
 			}
 			else
@@ -559,9 +559,9 @@ namespace TheLastPlanet.Server.Core
 			{
 				BaseScript.TriggerEvent("freezeTime", freeze);
 				if (freeze)
-					Log.Printa(LogType.Info, $"Orario di gioco bloccato alle ore {h}:{m}");
+					Server.Logger.Info( $"Orario di gioco bloccato alle ore {h}:{m}");
 				else
-					Log.Printa(LogType.Info, $"Orario di gioco sbloccato dalle ore {h}:{m}");
+					Server.Logger.Info( $"Orario di gioco sbloccato dalle ore {h}:{m}");
 			}
 			else
 			{
@@ -579,14 +579,14 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 				{
-					Log.Printa(LogType.Error, "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+					Server.Logger.Error( "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 
 					return;
 				}
 				else
 				{
 					TimeWeather.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
-					Log.Printa(LogType.Debug, TimeWeather.Meteo.CurrentWeather + "");
+					Server.Logger.Debug(TimeWeather.Meteo.CurrentWeather + "");
 					TimeWeather.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 					BaseScript.TriggerEvent("changeWeather", false);
 				}
@@ -682,7 +682,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender.Handle == "0")
 			{
-				Log.Printa(LogType.Error, $"Comando permesso solo in game");
+				Server.Logger.Error( $"Comando permesso solo in game");
 			}
 			else
 			{
@@ -709,7 +709,7 @@ namespace TheLastPlanet.Server.Core
 		{
 			if (sender.Handle == "0")
 			{
-				Log.Printa(LogType.Error, $"Comando permesso solo in game");
+				Server.Logger.Error( $"Comando permesso solo in game");
 			}
 			else
 			{

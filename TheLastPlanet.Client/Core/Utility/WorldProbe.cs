@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.Core.Utility
 	{
 		static WorldProbe()
 		{
-			Log.Printa(LogType.Debug, "WorldProbe attivo");
+			Client.Logger.Debug( "WorldProbe attivo");
 			//Client.Instance.AddTick(new Func<Task>(() => { CrosshairRaycastThisTick = null; return Task.FromResult(0); }));
 		}
 
@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"[WorldProbe] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Logger.Error( $"[WorldProbe] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 
 			return default;
@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"[WorldProbe] GetVehicleInFrontOfPlayer Error: {ex.Message}");
+				Client.Logger.Error( $"[WorldProbe] GetVehicleInFrontOfPlayer Error: {ex.Message}");
 			}
 
 			return default;
@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe CalculateClosestPointOnLine Error: {ex.Message}");
 			}
 
 			return default;
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 
 			return default;
@@ -97,7 +97,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe GameplayCamForwardVector Error: {ex.Message}");
 			}
 
 			return default;
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 
 			return default;
@@ -131,7 +131,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 
 			return default;
@@ -148,7 +148,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+				Client.Logger.Error( $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 
 			return default;
@@ -164,7 +164,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"{ex.Message}");
+				Client.Logger.Error( $"{ex.Message}");
 			}
 
 			return null;
@@ -180,7 +180,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Error, $"{ex.Message}");
+				Client.Logger.Error( $"{ex.Message}");
 			}
 
 			return null;

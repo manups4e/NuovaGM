@@ -33,7 +33,7 @@ namespace TheLastPlanet.Server.banking
 					{
 						user.Bank -= amount;
 						p.User.Bank += amount;
-						Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{source.Player.Name}] ha inviato ${amount} a '{p.User.FullName}' [{p.Player.Name}]");
+						Server.Logger.Info( $"Il personaggio '{user.FullName}' [{source.Player.Name}] ha inviato ${amount} a '{p.User.FullName}' [{p.Player.Name}]");
 						return new KeyValuePair<bool, string>(true, user.Bank.ToString());
 					}
 				}
@@ -54,7 +54,7 @@ namespace TheLastPlanet.Server.banking
 				if (bal >= amount)
 				{
 					user.Money += amount;
-					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+					Server.Logger.Info( $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
 					user.Bank -= amount;
 					return new KeyValuePair<bool, string>(true, newamt.ToString());
 				}
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Server.banking
 				if (amount <= money)
 				{
 					user.Money -= amount;
-					Log.Printa(LogType.Info, $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
+					Server.Logger.Info( $"Il personaggio '{user.FullName}' [{player.Name}] ha depositato {amount}$");
 					user.Bank += amount;
 					return new KeyValuePair<bool, string>(true, newamt.ToString());
 				}

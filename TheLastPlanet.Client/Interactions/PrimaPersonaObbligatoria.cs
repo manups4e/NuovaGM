@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Interactions
 
 							if (GetGameTimer() - timer > 10000)
 							{
-								Log.Printa(LogType.Debug, "No veh vicini.. break");
+								Client.Logger.Debug( "No veh vicini.. break");
 
 								return;
 							}
@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.Interactions
 
 							if (GetGameTimer() - timer > 10000)
 							{
-								Log.Printa(LogType.Debug, "No veh vicini.. break");
+								Client.Logger.Debug( "No veh vicini.. break");
 
 								return;
 							}

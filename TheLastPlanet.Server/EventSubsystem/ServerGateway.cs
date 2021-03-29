@@ -44,7 +44,7 @@ namespace TheLastPlanet.Server.Internal.Events
                 var client = (ClientId)source;
                 if (_signatures.ContainsKey(client.Handle))
                 {
-                    Log.Printa(LogType.Warning, $"Il player {client} [ServerID: {client.Handle}] ha tentato di ottenere la firma digitale illegalmente.");
+                    Server.Logger.Warning( $"Il player {client} [ServerID: {client.Handle}] ha tentato di ottenere la firma digitale illegalmente.");
 
                     return;
                 }
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Server.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, ex.ToString());
+                Server.Logger.Error( ex.ToString());
             }
         }
 
@@ -78,7 +78,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (message.Signature != signature)
                 {
-                    Log.Printa(LogType.Warning, 
+                    Server.Logger.Warning( 
                         $"[{EventConstant.InboundPipeline}, {client.Handle}, {message.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
 
                     return;
@@ -95,7 +95,7 @@ namespace TheLastPlanet.Server.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, ex.ToString());
+                Server.Logger.Error( ex.ToString());
             }
         }
 
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (response.Signature != signature)
                 {
-                    Log.Printa(LogType.Warning,
+                    Server.Logger.Warning(
                         $"[{EventConstant.OutboundPipeline}, {client.Handle}, {response.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
 
                     return;
@@ -120,7 +120,7 @@ namespace TheLastPlanet.Server.Internal.Events
             }
             catch (Exception ex)
             {
-                Log.Printa(LogType.Error, ex.ToString());
+                Server.Logger.Error( ex.ToString());
             }
         }
 

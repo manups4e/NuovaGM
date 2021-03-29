@@ -29,7 +29,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return default;
 			}
@@ -50,7 +50,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return default;
 			}
@@ -75,7 +75,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return default;
 			}
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return default;
 			}
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return null;
 			}
@@ -142,7 +142,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return default;
 			}
@@ -167,7 +167,7 @@ namespace TheLastPlanet.Server
 			}
 			catch (Exception ex)
 			{
-				Log.Printa(LogType.Fatal, ex.ToString());
+				Server.Logger.Fatal( ex.ToString());
 
 				return 0;
 			}

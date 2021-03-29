@@ -37,7 +37,7 @@ namespace TheLastPlanet.Server.manager
 						ent.PopulationType == PopulationType.RandomPermanent ||
 						ent.PopulationType == PopulationType.RandomScenario) return;
 					await BaseScript.Delay(5000);
-					Log.Printa(LogType.Debug, ent.ToString());
+					Server.Logger.Debug(ent.ToString());
 					if (ent.Decor != Snowflake.Empty) return;
 					if (ent.Type == typeof(Vehicle))
 					{
@@ -48,14 +48,14 @@ namespace TheLastPlanet.Server.manager
 					else if (ent.Type == typeof(Ped))
 					{
 					}
-					Log.Printa(LogType.Warning, $"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
+					Server.Logger.Warning( $"Il Player {ent.Owner.Name} ha spawnato un entità con un mod Menu");
 					//ent.Owner.Drop($"Hai spawnato un {ent.Type.Name} vietato [{(ObjectHash)ent.Entity.Model}]");
 					API.DeleteEntity(ent.Handle);
 				}
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Debug, e.ToString());
+				Server.Logger.Debug(e.ToString());
 			}
 		}
 	}

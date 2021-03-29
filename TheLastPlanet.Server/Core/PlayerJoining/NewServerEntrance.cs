@@ -110,7 +110,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 				deferrals.presentCard(Errore);
 			}
 		}
@@ -132,7 +132,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				var client = Funzioni.GetClientFromPlayerId(handle);
 				if (client != null)
 				{
-					Log.Printa(LogType.Debug, client.ToString());
+					Server.Logger.Debug(client.ToString());
 					await BaseScript.Delay(1);
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(client.Player);
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 			catch (Exception e)
 			{
-				Log.Printa(LogType.Error, e.ToString());
+				Server.Logger.Error( e.ToString());
 				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
 			}
 		}
@@ -254,15 +254,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				if (ped.status.Spawned)
 				{
 					await ped.SalvaPersonaggio();
-					Log.Printa(LogType.Info, "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
+					Server.Logger.Info( "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
 				}
 				else
-					Log.Printa(LogType.Info, "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
+					Server.Logger.Info( "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
 
 				Server.Instance.Clients.Remove(client);
 			}
 
-			Log.Printa(LogType.Info, text);
+			Server.Logger.Info( text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
 	}
