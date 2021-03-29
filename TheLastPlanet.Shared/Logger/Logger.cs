@@ -32,6 +32,29 @@ namespace Logger
 				_writer.Close();
 		}
 #endif
+
+		// Colors
+		public const string LIGHT_RED = "^1";
+		public const string LIGHT_GREEN = "^2";
+		public const string YELLOW = "^3";
+		public const string DARK_BLUE = "^4";
+		public const string LIGHT_BLUE = "^5";
+		public const string PURPLE = "^6";
+		public const string WHITE = "^7";
+		public const string DARK_RED = "^8";
+		public const string PINK = "^9";
+
+		// Other formatting
+		public const string BOLD = "^*";
+		public const string UNDERLINE = "^_";
+		public const string STRIKETHROUGH = "^~";
+		public const string UNDERLINE_STRIKETHROUGH = "^=";
+		public const string UNDERLINE_STRIKETHROUGH_BOLD = "*^=";
+		public const string UNDERLINE_BOLD = "*=";
+
+		// Reset
+		public const string RESET = "^r";
+
 		/// <summary>
 		/// Manda in console un messaggio colorato in base alla gravità della situazione
 		/// </summary>
@@ -40,30 +63,30 @@ namespace Logger
 		public static async void Printa(LogType tipo, string text)
 		{
 			string err = "-- [INFO] -- ";
-			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm:ss}";
-			string colore = "^2";
+			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+			string colore = LIGHT_GREEN;
 			switch (tipo)
 			{
 				case LogType.Info:
 					err = "-- [INFO] -- ";
-					colore = "^2";
+					colore = LIGHT_GREEN;
 					break;
 				case LogType.Debug:
 					if (API.GetConvarInt("DEBUG", 0) == 0) return;
 					err = "-- [DEBUG] -- ";
-					colore = "^5";
+					colore = PURPLE;
 					break;
 				case LogType.Warning:
 					err = "-- [ATTENZIONE] --";
-					colore = "^3";
+					colore = YELLOW;
 					break;
 				case LogType.Error:
 					err = "-- [ERRORE] --";
-					colore = "^1";
+					colore = LIGHT_RED;
 					break;
 				case LogType.Fatal:
 					err = "-- [FATALE] --";
-					colore = "^9";
+					colore = PINK;
 					break;
 			}
 			Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
@@ -79,5 +102,7 @@ namespace Logger
 			}
 #endif
 		}
+
+
 	}
 }
