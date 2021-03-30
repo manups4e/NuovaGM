@@ -22,26 +22,16 @@ namespace Logger
 		public const string DARK_RED = "^8";
 		public const string PINK = "^9";
 
-		// Other formatting
-		public const string BOLD = "^*";
-		public const string UNDERLINE = "^_";
-		public const string STRIKETHROUGH = "^~";
-		public const string UNDERLINE_STRIKETHROUGH = "^=";
-		public const string UNDERLINE_STRIKETHROUGH_BOLD = "*^=";
-		public const string UNDERLINE_BOLD = "*=";
-
-		// Reset
-		public const string RESET = "^r";
-
+		public Log() { }
 
 #if SERVER
-		private StreamWriter _writer;
 		public async Task Writer(string err, string text)
 		{
 			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
 			try
 			{
-				_writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
+				
+				using var _writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
 				await _writer.WriteLineAsync($"{incipit} {err} {text}");
 				_writer.Close();
 			}
