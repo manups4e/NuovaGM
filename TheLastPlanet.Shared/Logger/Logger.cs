@@ -117,8 +117,5 @@ namespace Logger
 			await Writer(err, text);
 #endif
 		}
-
-
-
 	}
 }
