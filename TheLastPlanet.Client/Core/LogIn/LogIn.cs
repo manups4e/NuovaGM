@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await Cache.InitPlayer();
 			while (!NetworkIsPlayerActive(Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-			Client.Instance.NuiManager.Emit(new { resname = GetCurrentResourceName() });
+			Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
 			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
 			Cache.MyPlayer.UpdatePedId();
 			Cache.MyPlayer.Ped.IsVisible = false;
@@ -216,7 +216,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
-			Client.Instance.NuiManager.Emit(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson() });
+			Client.Instance.NuiManager.SendMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson() });
 			Client.Instance.NuiManager.SetFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);

@@ -12,35 +12,60 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	public class NuiManager
 	{
 		private bool _hasFocus;
+		/// <summary>
+		/// true se NUI è attivo.
+		/// </summary>
 		public bool IsNuiFocusOn => _hasFocus;
+
+		/// <summary>
+		/// Restituisce la posizione del cursore nello schermo
+		/// </summary>
 		public Point NuiCursorPosition
 		{
 			get
 			{
 				int x = 0, y = 0;
 				GetNuiCursorPosition(ref x, ref y);
+
 				return new Point(x, y);
-			} 
+			}
 		}
 
+		/// <summary>
+		/// Attiva o disattiva l'interfaccia html del gioco
+		/// </summary>
+		/// <param name="hasFocus">per attivare / disattivare il focus del gioco</param>
+		/// <param name="showCursor">per mostrare o no il cursore del mouse</param>
 		public void SetFocus(bool hasFocus, bool showCursor = true)
 		{
 			SetNuiFocus(hasFocus, showCursor);
 			_hasFocus = hasFocus;
 		}
 
+		/// <summary>
+		/// Attiva o disattiva l'interfaccia html del gioco mantenendo l'input nel gioco
+		/// </summary>
+		/// <param name="keepInput">se attivato l'input della tastiera rimane al gioco</param>
 		public void SetFocusKeepInput(bool keepInput)
 		{
 			SetNuiFocusKeepInput(keepInput);
 			if (!_hasFocus) _hasFocus = true;
 		}
 
-		public void Emit(object data)
+		/// <summary>
+		/// Invia un messaggio all'interfaccia NUI contenente dei dati
+		/// </summary>
+		/// <param name="data">un oggetto da serializzare</param>
+		public void SendMessage(object data)
 		{
 			SendNuiMessage(data.ToJson());
 		}
 
-		public void Emit(string data)
+		/// <summary>
+		/// Invia un messaggio all'interfaccia NUI contenente dei dati
+		/// </summary>
+		/// <param name="data">un oggetto serializzato</param>
+		public void SendMessage(string data)
 		{
 			SendNuiMessage(data);
 		}

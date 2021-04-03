@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.CodaControl
 					{
 						text = $"{text}<tr>" + $"<td>{k["Handle"]}</td>" + $"<td>{k["License"]}</td>" + $"<td>{k["Discord"]}</td>" + $"<td>{k["Steam"]}</td>" + $"<td>{k["Name"]}</td>" + $"<td>{k["Priority"]}</td>" + $"<td>{Enum.GetName(typeof(SessionState), (int)k["State"])}</td>" + $"<td><button class=button onclick=Change('{k["License"]}')>Modifica</button></td>" + $"</tr>";
 					});
-					Client.Instance.NuiManager.Emit(new { sessionlist = text });
+					Client.Instance.NuiManager.SendMessage(new { sessionlist = text });
 					Client.Instance.NuiManager.SetFocus(true, true);
 					pannelloCodaAperto = true;
 				}
@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.CodaControl
 			try
 			{
 				Client.Instance.NuiManager.SetFocus(false, false);
-				Client.Instance.NuiManager.Emit(new { panel = "close" });
+				Client.Instance.NuiManager.SendMessage(new { panel = "close" });
 				pannelloCodaAperto = false;
 			}
 			catch (Exception)
@@ -101,7 +101,7 @@ namespace TheLastPlanet.Client.CodaControl
 			try
 			{
 				Client.Instance.NuiManager.SetFocus(false, false);
-				Client.Instance.NuiManager.Emit(new { panel = "close" });
+				Client.Instance.NuiManager.SendMessage(new { panel = "close" });
 				pannelloCodaAperto = false;
 				ExecuteCommand("sessione");
 			}

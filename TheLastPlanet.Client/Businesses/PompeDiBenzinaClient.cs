@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Businesses
 				string[] allow = station.deliverallow.Split(';');
 				if (allow.Length > 0) pfmtstr = allow.Aggregate(pfmtstr, (current, s) => current + " " + s);
 				Client.Instance.NuiManager.SetFocus(true, true);
-				Client.Instance.NuiManager.Emit(new
+				Client.Instance.NuiManager.SendMessage(new
 				{
 					showManager = true,
 					manageid,
@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.Businesses
 		{
 			if (success)
 			{
-				Client.Instance.NuiManager.Emit(new { closeManager = true });
+				Client.Instance.NuiManager.SendMessage(new { closeManager = true });
 				Client.Instance.NuiManager.SetFocus(false, false);
 				HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
 			}
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Client.Businesses
 			else
 				//HUD.ShowNotification(msg);
 				a = new { setStatus = true, text = msg };
-			Client.Instance.NuiManager.Emit(a);
+			Client.Instance.NuiManager.SendMessage(a);
 		}
 
 		private static void Manage(IDictionary<string, object> data)

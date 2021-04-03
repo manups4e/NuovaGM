@@ -41,14 +41,20 @@ namespace TheLastPlanet.Client
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void AddEventHandler(string eventName, Delegate action) { EventHandlers[eventName] += action; }
+		public void AddEventHandler(string eventName, Delegate action)
+		{
+			EventHandlers[eventName] += action;
+		}
 
 		/// <summary>
 		/// Rimuove un evento client (TriggerEvent)
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void DeAddEventHandler(string eventName, Delegate action) { EventHandlers[eventName] -= action; }
+		public void DeAddEventHandler(string eventName, Delegate action)
+		{
+			EventHandlers[eventName] -= action;
+		}
 
 		/*
 		/// <summary>

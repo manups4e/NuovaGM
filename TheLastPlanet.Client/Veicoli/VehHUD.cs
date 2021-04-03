@@ -303,7 +303,7 @@ namespace TheLastPlanet.Client.Veicoli
 
 		public static void NUIBuckled(bool value)
 		{
-			Client.Instance.NuiManager.Emit(new { transactionType = "isBuckled", transactionValue = value, inCar = Cache.MyPlayer.User.StatiPlayer.InVeicolo });
+			Client.Instance.NuiManager.SendMessage(new { transactionType = "isBuckled", transactionValue = value, inCar = Cache.MyPlayer.User.StatiPlayer.InVeicolo });
 		}
 
 		private static float[] ForwardVelocity(int ent)
