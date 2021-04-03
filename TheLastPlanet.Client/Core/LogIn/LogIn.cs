@@ -93,15 +93,14 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			ClearFocus();
 			Client.Instance.AddTick(Entra);
-			Client.Instance.RegisterNuiEventHandler("back-indietro", new Action<CallbackDelegate>((cb) =>
+			Client.Instance.NuiManager.RegisterCallback("back-indietro", () =>
 			{
 				ToggleMenu(true, "charloading");
-				cb("ok");
-			}));
-			Client.Instance.RegisterNuiEventHandler("previewChar", new Action<IDictionary<string, object>, CallbackDelegate>(SelezionatoPreview));
-			Client.Instance.RegisterNuiEventHandler("char-select", new Action<IDictionary<string, object>, CallbackDelegate>(Selezionato));
-			Client.Instance.RegisterNuiEventHandler("disconnect", new Action<IDictionary<string, object>, CallbackDelegate>(Disconnetti));
-			Client.Instance.RegisterNuiEventHandler("new-character", new Action<IDictionary<string, object>, CallbackDelegate>(NuovoPersonaggio));
+			});
+			Client.Instance.NuiManager.RegisterCallback("previewChar", new Action<string>(SelezionatoPreview));
+			Client.Instance.NuiManager.RegisterCallback("char-select", new Action<string>(Selezionato));
+			Client.Instance.NuiManager.RegisterCallback("disconnect", new Action(Disconnetti));
+			Client.Instance.NuiManager.RegisterCallback("new-character", new Action<NewChar>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
@@ -126,7 +125,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await Cache.InitPlayer();
 			while (!NetworkIsPlayerActive(Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-			Funzioni.SendNuiMessage(new { resname = GetCurrentResourceName() });
+			Client.Instance.NuiManager.Emit(new { resname = GetCurrentResourceName() });
 			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
 			Cache.MyPlayer.UpdatePedId();
 			Cache.MyPlayer.Ped.IsVisible = false;
@@ -142,7 +141,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			Cache.MyPlayer.Player.CanControlCharacter = false;
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
-			var charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
+			Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
 			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
 			Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
 			Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
@@ -154,7 +153,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 			if (Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
 			{
-				var p = Cache.MyPlayer.Ped;
+				Ped p = Cache.MyPlayer.Ped;
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				await Cache.Loaded();
@@ -209,30 +208,29 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await Cache.Loaded();
 			List<LogInInfo> data = await Client.Instance.Eventi.Get<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
 			ToggleMenu(true, "charloading", data);
+			ShutdownLoadingScreen();
+			ShutdownLoadingScreenNui();
+			Screen.Fading.FadeIn(1000);
 			Client.Instance.AddTick(Main.AFK);
 		}
 
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
-			Funzioni.SendNuiMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson()});
-			SetNuiFocus(menuOpen, menuOpen);
+			Client.Instance.NuiManager.Emit(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson() });
+			Client.Instance.NuiManager.SetFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);
-			ShutdownLoadingScreen();
-			ShutdownLoadingScreenNui();
-			Screen.Fading.FadeIn(1000);
 		}
 
 		private static Ped p1;
 
-		private static async void SelezionatoPreview(IDictionary<string, object> data, CallbackDelegate cb)
+		private static async void SelezionatoPreview(string data)
 		{
-			ulong ID = Convert.ToUInt64(data["id"]);
 			cambiato = false;
 			PedHash m = PedHash.FreemodeMale01;
 			PedHash f = PedHash.FreemodeFemale01;
 			Ped ped = Cache.MyPlayer.Ped;
-			SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", ID);
+			SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
 
 			if (p1 != null)
 			{
@@ -257,13 +255,11 @@ namespace TheLastPlanet.Client.Core.LogIn
 				SetEntityAlpha(p1.Handle, i, 0);
 				i += 25;
 			}
-
-			cb("ok");
 		}
 
-		private static async void Selezionato(IDictionary<string, object> data, CallbackDelegate cb)
+		private static async void Selezionato(string data)
 		{
-			ulong ID = Convert.ToUInt64(data["id"]);
+			ulong ID = Convert.ToUInt64(data);
 			if (p1 != null)
 				if (p1.Exists())
 					p1.Delete();
@@ -281,10 +277,9 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 			*/
-
 			Cache.MyPlayer.User.CurrentChar = await Client.Instance.Eventi.Get<Char_data>("lprp:Select_Char", ID);
-			var Data = Cache.MyPlayer.User.CurrentChar;
-			var switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			Char_data Data = Cache.MyPlayer.User.CurrentChar;
+			int switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
@@ -353,7 +348,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			//			Client.Instance.RemoveTick(Scaleform);
 			//			Client.Instance.RemoveTick(TastiMenu);
 			Cache.MyPlayer.Player.CanControlCharacter = true;
-			cb("ok");
 		}
 
 		public static async Task SetSkinAndClothes(Ped p, SkinAndDress data)
@@ -430,12 +424,11 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await Task.FromResult(0);
 		}
 
-		private static void Disconnetti(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void Disconnetti()
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
 			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
-			cb("ok");
 		}
 
 		private static async Task Controllo()
@@ -443,14 +436,13 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (p1.Exists()) p1.Heading += 1.2f;
 		}
 
-		private static async void NuovoPersonaggio(IDictionary<string, object> data, CallbackDelegate cb)
+		private static async void NuovoPersonaggio(NewChar data)
 		{
 			Screen.Fading.FadeOut(800);
 			await BaseScript.Delay(1000);
 			GuiEnabled = false;
 			ToggleMenu(false);
-			Creator.CharCreationMenu(data);
-			cb("ok");
+			await Creator.CharCreationMenu(data);
 		}
 
 		public static async void Scelta(string param)
@@ -458,7 +450,15 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (param == "select")
 				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
 			else
-				ToggleMenu(true, "charloading");
+				Attiva();
 		}
+	}
+
+	public class NewChar
+	{
+		public string Nome;
+		public string Cognome;
+		public string Dob;
+		public string Sesso;
 	}
 }

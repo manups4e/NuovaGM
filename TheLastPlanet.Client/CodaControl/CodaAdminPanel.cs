@@ -33,10 +33,10 @@ namespace TheLastPlanet.Client.CodaControl
 		{
 			Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnResourceStop));
 			Client.Instance.AddEventHandler("lprp:coda: sessionResponse", new Action<string>(SessionResponse));
-			Client.Instance.RegisterNuiEventHandler("ClosePanel", new Action<IDictionary<string, object>, CallbackDelegate>(ClosePanel));
-			Client.Instance.RegisterNuiEventHandler("RefreshPanel", new Action<IDictionary<string, object>, CallbackDelegate>(RefreshPanel));
-			Client.Instance.RegisterNuiEventHandler("KickUser", new Action<IDictionary<string, object>, CallbackDelegate>(KickUser));
-			Client.Instance.RegisterNuiEventHandler("ChangePriority", new Action<IDictionary<string, object>, CallbackDelegate>(ChangePriority));
+			Client.Instance.NuiManager.RegisterCallback("ClosePanel", new Action<IDictionary<string, object>>(ClosePanel));
+			Client.Instance.NuiManager.RegisterCallback("RefreshPanel", new Action<IDictionary<string, object>>(RefreshPanel));
+			Client.Instance.NuiManager.RegisterCallback("KickUser", new Action<IDictionary<string, object>>(KickUser));
+			Client.Instance.NuiManager.RegisterCallback("ChangePriority", new Action<IDictionary<string, object>>(ChangePriority));
 		}
 
 		private static void OnResourceStop(string name)
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.CodaControl
 			{
 				if (name == resourceName)
 				{
-					SetNuiFocus(false, false);
+					Client.Instance.NuiManager.SetFocus(false, false);
 					pannelloCodaAperto = false;
 				}
 			}
@@ -67,8 +67,8 @@ namespace TheLastPlanet.Client.CodaControl
 					{
 						text = $"{text}<tr>" + $"<td>{k["Handle"]}</td>" + $"<td>{k["License"]}</td>" + $"<td>{k["Discord"]}</td>" + $"<td>{k["Steam"]}</td>" + $"<td>{k["Name"]}</td>" + $"<td>{k["Priority"]}</td>" + $"<td>{Enum.GetName(typeof(SessionState), (int)k["State"])}</td>" + $"<td><button class=button onclick=Change('{k["License"]}')>Modifica</button></td>" + $"</tr>";
 					});
-					Funzioni.SendNuiMessage(new { sessionlist = text });
-					SetNuiFocus(true, true);
+					Client.Instance.NuiManager.Emit(new { sessionlist = text });
+					Client.Instance.NuiManager.SetFocus(true, true);
 					pannelloCodaAperto = true;
 				}
 				else
@@ -82,40 +82,36 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 		}
 
-		private static void ClosePanel(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void ClosePanel(IDictionary<string, object> data)
 		{
 			try
 			{
-				SetNuiFocus(false, false);
-				Funzioni.SendNuiMessage(new { panel = "close" });
+				Client.Instance.NuiManager.SetFocus(false, false);
+				Client.Instance.NuiManager.Emit(new { panel = "close" });
 				pannelloCodaAperto = false;
 			}
 			catch (Exception)
 			{
-				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - ClosePanel()");
+				Client.Logger.Error($"[{resourceName} - Admin_Panel] - ClosePanel()");
 			}
-
-			cb("ok");
 		}
 
-		private static void RefreshPanel(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void RefreshPanel(IDictionary<string, object> data)
 		{
 			try
 			{
-				SetNuiFocus(false, false);
-				Funzioni.SendNuiMessage(new { panel = "close" });
+				Client.Instance.NuiManager.SetFocus(false, false);
+				Client.Instance.NuiManager.Emit(new { panel = "close" });
 				pannelloCodaAperto = false;
 				ExecuteCommand("sessione");
 			}
 			catch (Exception)
 			{
-				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - RefreshPanel()");
+				Client.Logger.Error($"[{resourceName} - Admin_Panel] - RefreshPanel()");
 			}
-
-			cb("ok");
 		}
 
-		private static void KickUser(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void KickUser(IDictionary<string, object> data)
 		{
 			try
 			{
@@ -123,13 +119,11 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - KickUser()");
+				Client.Logger.Error($"[{resourceName} - Admin_Panel] - KickUser()");
 			}
-
-			cb("ok");
 		}
 
-		private static void ChangePriority(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void ChangePriority(IDictionary<string, object> data)
 		{
 			try
 			{
@@ -144,10 +138,8 @@ namespace TheLastPlanet.Client.CodaControl
 			}
 			catch (Exception)
 			{
-				Client.Logger.Error( $"[{resourceName} - Admin_Panel] - ChangePriority()");
+				Client.Logger.Error($"[{resourceName} - Admin_Panel] - ChangePriority()");
 			}
-
-			cb("ok");
 		}
 	}
 }

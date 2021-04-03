@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CitizenFX.Core;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.PlayerChar;
+using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
@@ -39,7 +37,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public void Emit(object data)
 		{
-			SendNuiMessage(JsonConvert.SerializeObject(data));
+			SendNuiMessage(data.ToJson());
 		}
 
 		public void Emit(string data)
@@ -50,9 +48,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public void RegisterCallback(string @event, Action action)
 		{
 			RegisterNuiCallbackType(@event);
-
-			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<dynamic, CallbackDelegate>((data, callback) =>
+			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
 			{
+				Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
 				action();
 				callback("ok");
 			}));
@@ -61,10 +59,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public void RegisterCallback<T>(string @event, Action<T> action)
 		{
 			RegisterNuiCallbackType(@event);
-
-			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<dynamic, CallbackDelegate>((data, callback) =>
+			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
 			{
-				var typedData = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(data));
+				Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()} di tipo {typeof(T)}");
+				T typedData = data.Count == 1 ? TypeCache<T>.IsSimpleType ? (T)data.Values.ElementAt(0) : data.Values.ElementAt(0).ToJson().FromJson<T>() : data.ToJson().FromJson<T>();
 				action(typedData);
 				callback("ok");
 			}));
@@ -73,23 +71,23 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public void RegisterCallback<TReturn>(string @event, Func<TReturn> action)
 		{
 			RegisterNuiCallbackType(@event);
-
-			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<dynamic, CallbackDelegate>((data, callback) =>
+			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
 			{
-				var result = action();
-				callback(JsonConvert.SerializeObject(result));
+				Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
+				TReturn result = action();
+				callback(result.ToJson());
 			}));
 		}
 
 		public void RegisterCallback<T, TReturn>(string @event, Func<T, TReturn> action)
 		{
 			RegisterNuiCallbackType(@event);
-
-			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<dynamic, CallbackDelegate>((data, callback) =>
+			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
 			{
-				var typedData = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(data));
-				var result = action(typedData);
-				callback(JsonConvert.SerializeObject(result));
+				Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
+				T typedData = data.Count == 1 ? TypeCache<T>.IsSimpleType ? (T)data.Values.ElementAt(0) : data.Values.ElementAt(0).ToJson().FromJson<T>() : data.ToJson().FromJson<T>();
+				TReturn result = action(typedData);
+				callback(result.ToJson());
 			}));
 		}
 	}

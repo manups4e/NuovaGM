@@ -75,7 +75,7 @@ $(function () {
 	
 					$.post('http://'+ resname +'/new-character', JSON.stringify({
 						nome:firstname,
-						cogn:lastname,
+						cognome:lastname,
 						dob:dob,
 						sesso:sex,
 					}));

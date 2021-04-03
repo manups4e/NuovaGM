@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
+using TheLastPlanet.Client.Core.LogIn;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
@@ -458,7 +459,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 
 		#region PRE CREAZIONE
 
-		public static async void CharCreationMenu(IDictionary<string, object> nuiData)
+		public static async Task CharCreationMenu(NewChar nuiData)
 		{
 			try
 			{
@@ -468,10 +469,10 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				_dummyPed.IsCollisionEnabled = false;
 				_dummyPed.IsCollisionProof = false;
 				_dummyPed.BlockPermanentEvents = true;
-				string nome = nuiData["nome"] as string;
-				string cognome = nuiData["cogn"] as string;
-				string dob = nuiData["dob"] as string;
-				string sesso = nuiData["sesso"] as string;
+				string nome = nuiData.Nome;
+				string cognome = nuiData.Cognome;
+				string dob = nuiData.Dob;
+				string sesso = nuiData.Sesso;
 				Client.Instance.AddTick(Controllo);
 				_selezionato = sesso;
 				long assicurazione = Funzioni.GetRandomLong(999999999999999);
@@ -519,6 +520,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 				await BaseScript.Delay(5000);
 				cam.Delete();
 				if (!Creazione.Visible) MenuCreazione(nome, cognome, dob, sesso);
+				await Task.FromResult(0);
 			}
 			catch (Exception ex)
 			{
@@ -773,7 +775,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 							Nome.SetRightLabel(_data.Info.firstname);
 					Cognome.SetRightLabel(_data.Info.lastname);
 					DDN.SetRightLabel(_data.Info.dateOfBirth);
-					IDictionary<string, object> a = new Dictionary<string, object> { ["nome"] = _data.Info.firstname, ["cogn"] = _data.Info.lastname, ["dob"] = _data.Info.dateOfBirth, ["sesso"] = _selezionato };
+					NewChar a = new() { Nome = _data.Info.firstname, Cognome = _data.Info.lastname, Dob = _data.Info.dateOfBirth, Sesso = _selezionato };
 					CharCreationMenu(a);
 				};
 

@@ -28,12 +28,12 @@ namespace TheLastPlanet.Client.Businesses
 			Client.Instance.AddEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
 			Client.Instance.AddEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
 			Client.Instance.AddEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:manage", new Action<IDictionary<string, object>, CallbackDelegate>(Manage));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:sellstation", new Action<IDictionary<string, object>, CallbackDelegate>(SellStation));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:notification", new Action<IDictionary<string, object>, CallbackDelegate>(Notification));
-			Client.Instance.RegisterNuiEventHandler("menuclosed", new Action<CallbackDelegate>(MenuClosed));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(AddStationFunds));
-			Client.Instance.RegisterNuiEventHandler("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>, CallbackDelegate>(RemStationFunds));
+			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:manage", new Action<IDictionary<string, object>>(Manage));
+			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:sellstation", new Action<IDictionary<string, object>>(SellStation));
+			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:notification", new Action<IDictionary<string, object>>(Notification));
+			Client.Instance.NuiManager.RegisterCallback("menuclosed", new Action(MenuClosed));
+			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:addstationfunds", new Action<IDictionary<string, object>>(AddStationFunds));
+			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>>(RemStationFunds));
 		}
 
 		private static StationDiBenzina GetStationInfo(int index)
@@ -80,8 +80,8 @@ namespace TheLastPlanet.Client.Businesses
 				string pfmtstr = "";
 				string[] allow = station.deliverallow.Split(';');
 				if (allow.Length > 0) pfmtstr = allow.Aggregate(pfmtstr, (current, s) => current + " " + s);
-				SetNuiFocus(true, true);
-				Funzioni.SendNuiMessage(new
+				Client.Instance.NuiManager.SetFocus(true, true);
+				Client.Instance.NuiManager.Emit(new
 				{
 					showManager = true,
 					manageid,
@@ -111,8 +111,8 @@ namespace TheLastPlanet.Client.Businesses
 		{
 			if (success)
 			{
-				Funzioni.SendNuiMessage(new { closeManager = true });
-				SetNuiFocus(false, false);
+				Client.Instance.NuiManager.Emit(new { closeManager = true });
+				Client.Instance.NuiManager.SetFocus(false, false);
 				HUD.ShowNotification("La tua Stazione è stata venduta a ~b~" + name + "~w~.", NotificationColor.GreenLight);
 			}
 			else
@@ -143,10 +143,10 @@ namespace TheLastPlanet.Client.Businesses
 			else
 				//HUD.ShowNotification(msg);
 				a = new { setStatus = true, text = msg };
-			Funzioni.SendNuiMessage(a);
+			Client.Instance.NuiManager.Emit(a);
 		}
 
-		private static void Manage(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void Manage(IDictionary<string, object> data)
 		{
 			string name = data["stationname"] as string;
 			int fuelcost = Convert.ToInt32(data["fuelcost"]);
@@ -155,44 +155,38 @@ namespace TheLastPlanet.Client.Businesses
 			int deltype = Convert.ToInt32(data["deltype"]);
 			string deliverylist = data["deliverylist"] as string;
 			BaseScript.TriggerServerEvent("lprp:businesses:changestation", name, thks, fuelcost, manageid, deltype, deliverylist);
-			SetNuiFocus(false, false);
-			cb("ok");
+			Client.Instance.NuiManager.SetFocus(false, false);
 		}
 
-		private static void SellStation(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void SellStation(IDictionary<string, object> data)
 		{
 			string sellname = data["sellname"] as string;
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:sellstation", sellname, manageid);
-			cb("ok");
 		}
 
-		private static void Notification(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void Notification(IDictionary<string, object> data)
 		{
 			HUD.ShowNotification(data["text"] as string);
-			cb("ok");
 		}
 
-		private static void MenuClosed(CallbackDelegate cb)
+		private static void MenuClosed()
 		{
-			SetNuiFocus(false, false);
-			cb("ok");
+			Client.Instance.NuiManager.SetFocus(false, false);
 		}
 
-		private static void AddStationFunds(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void AddStationFunds(IDictionary<string, object> data)
 		{
 			int amount = Convert.ToInt32(data["amount"]);
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:addstationfunds", manageid, amount);
-			cb("ok");
 		}
 
-		private static void RemStationFunds(IDictionary<string, object> data, CallbackDelegate cb)
+		private static void RemStationFunds(IDictionary<string, object> data)
 		{
 			int amount = Convert.ToInt32(data["amount"]);
 			int manageid = Convert.ToInt32(data["manageid"]);
 			BaseScript.TriggerServerEvent("lprp:businesses:remstationfunds", manageid, amount);
-			cb("ok");
 		}
 
 		public static async Task BusinessesPumps()

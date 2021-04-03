@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared.Snowflakes;
 using System.Dynamic;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
 
@@ -23,6 +24,7 @@ namespace TheLastPlanet.Client
 		public static Configurazione Impostazioni = null;
 		public ClientGateway Eventi;
 		public List<ClientId> Clients = new();
+		public NuiManager NuiManager = new();
 		public Client() { Inizializza(); }
 
 		private async void Inizializza()
@@ -48,6 +50,7 @@ namespace TheLastPlanet.Client
 		/// <param name="action">Azione legata all'evento</param>
 		public void DeAddEventHandler(string eventName, Delegate action) { EventHandlers[eventName] -= action; }
 
+		/*
 		/// <summary>
 		/// Registra un evento NUI/CEF 
 		/// </summary>
@@ -62,10 +65,10 @@ namespace TheLastPlanet.Client
 			}
 			catch (Exception ex)
 			{
-				Client.Logger.Error( ex.ToString());
+				Logger.Error(ex.ToString());
 			}
 		}
-
+		*/
 		/// <summary>
 		/// Registra una funzione OnTick
 		/// </summary>

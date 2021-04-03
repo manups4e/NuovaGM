@@ -116,10 +116,11 @@ namespace TheLastPlanet.Client.Core.Utility
 			return player == Cache.MyPlayer.Player ? Cache.MyPlayer.User : GetPlayerCharFromServerId(player.ServerId);
 		}
 
+		/*
 		public static void SendNuiMessage(object message)
 		{
 			API.SendNuiMessage(message.ToJson());
-		}
+		}*/
 
 		public static void ConcealPlayersNearby(Vector3 coord, float radius)
 		{

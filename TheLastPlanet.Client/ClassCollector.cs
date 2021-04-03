@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client
 			Sport.Yoga.Init();
 
 			//Telefono.PhoneMainClient.Init();
-			CodaControl.CodaAdminPanel.Init();
+			//CodaControl.CodaAdminPanel.Init();
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 			PauseMenu.Init();
