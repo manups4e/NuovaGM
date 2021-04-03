@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.MenuNativo
 {
-	public class Colors
+	public static class Colors
 	{
 		public static Color Transparent = Color.FromArgb(16777215);
 		public static Color AliceBlue = Color.FromArgb(-984833);

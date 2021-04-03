@@ -48,17 +48,14 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.permessi, PlayerTokens);
 				if (puoentrare.permesso)
 				{
-					if (!Server.DEBUG)
-					{
+					if (!Server.Debug)
 						if (Server.Instance.Clients.Any(x => source.Identifiers["license"] == x.Identifiers.License))
 						{
-							deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" +
-								$"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" +
-								$"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" +
-								$"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
+							deferrals.done($"Last Planet Shield 2.0\nSiamo spiacenti.. ma pare che tu stia usando una licenza attualmente già in uso tra i giocatori online.\n" + $"Tu - Lic.: {source.Identifiers["license"].Replace(source.Identifiers["license"].Substring(20), "")}...,\n" + $"altro player - Lic.: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Replace(Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Identifiers.License.Substring(20), "")}..., nome: {Server.Instance.Clients.FirstOrDefault(x => source.Identifiers["license"] == x.Identifiers.License).Player.Name}\n" + $"Fai uno screenshot di questo messaggio e contatta gli amministratori del server.\n Grazie");
+
 							return;
 						}
-					}
+
 					deferrals.presentCard(IngressoConsentito);
 					await BaseScript.Delay(2000);
 					deferrals.done();

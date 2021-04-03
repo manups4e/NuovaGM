@@ -190,6 +190,8 @@ namespace TheLastPlanet.Client.Core.Status
 			else
 				fame.ChangeVal = 0.005f;
 			fame.Val += fame.ChangeVal;
+			if (fame.Val >= 100)
+				fame.Val = 100;
 
 			if (fame.Val < 20.0f && (_fame20 || _fame60 || _fame80 || _fame100))
 			{
@@ -242,6 +244,8 @@ namespace TheLastPlanet.Client.Core.Status
 			else
 				sete.ChangeVal = 0.006f;
 			sete.Val += sete.ChangeVal;
+			if (sete.Val >= 100)
+				sete.Val = 100;
 
 			if (sete.Val < 20.0f && (_fame20 || _fame60 || _fame80 || _fame100))
 			{
@@ -293,7 +297,10 @@ namespace TheLastPlanet.Client.Core.Status
 				stanchezza.ChangeVal = 0.0285f;
 			else
 				stanchezza.ChangeVal = 0.0055f;
+			
 			stanchezza.Val += stanchezza.ChangeVal;
+			if (stanchezza.Val >= 100)
+				stanchezza.Val = 100;
 			if (World.CurrentDayTime.Hours >= 18 || World.CurrentDayTime.Hours <= 6) stanchezza.Val += 0.03f;
 
 			if (stanchezza.Val < 20.0f && (_stanchezza20 || _stanchezza40 || _stanchezza60))

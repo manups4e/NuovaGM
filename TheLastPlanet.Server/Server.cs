@@ -17,22 +17,22 @@ namespace TheLastPlanet.Server
 {
 	public class Server : BaseScript
 	{
-		//public static ConcurrentDictionary<string, User> PlayerList = new();
-		public static Logger.Log Logger;
+		public static Log Logger;
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public List<ClientId> Clients = new();
 		public static Configurazione Impostazioni = null;
 		public ServerGateway Events;
-		public static bool DEBUG;
+		public static bool Debug;
+
 		public Server()
 		{
 			Instance = this;
 			Logger = new Log();
 #if DEBUG
 			SetConvarReplicated("DEBUG", "1");
-			DEBUG = true;
+			Debug = true;
 #else
 			SetConvarReplicated("DEBUG", "0");
 #endif

@@ -127,21 +127,13 @@ namespace TheLastPlanet.Shared
 	{
 		public string Name { get; set; } = "Disoccupato";
 		public int Grade { get; set; } = 0;
-
+		
 		public Job() { }
 		public Job(string name, int grade)
 		{
 			this.Name = name;
 			this.Grade = grade;
 		}
-		/*
-		public Job(Employment name, int grade)
-		{
-			this.Name = name;
-			this.Grade = grade;
-		}
-		*/
-
 	}
 	public class Gang
 	{
