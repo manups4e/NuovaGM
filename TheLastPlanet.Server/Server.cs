@@ -57,14 +57,20 @@ namespace TheLastPlanet.Server
 		/// </summary>
 		/// <param name="name">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void AddEventHandler(string eventName, Delegate action) => EventHandlers[eventName] += action;
+		public void AddEventHandler(string eventName, Delegate action)
+		{
+			EventHandlers[eventName] += action;
+		}
 
 		/// <summary>
 		/// registra un evento (TriggerEvent)
 		/// </summary>
 		/// <param name="name">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void RemoveEventHandler(string eventName, Delegate action) => EventHandlers[eventName] -= action;
+		public void RemoveEventHandler(string eventName, Delegate action)
+		{
+			EventHandlers[eventName] -= action;
+		}
 
 		/// <summary>
 		/// Chiama il db ed esegue una Query con risultato dynamic
@@ -72,7 +78,10 @@ namespace TheLastPlanet.Server
 		/// <param name="query">Testo della query</param>
 		/// <param name="parameters">Parametri da passare</param>
 		/// <returns>dynamic List if more than one or a dynamic object if only one</returns>
-		public async Task<dynamic> Query(string query, object parameters = null) => await MySQL.QueryListAsync(query, parameters);
+		public async Task<dynamic> Query(string query, object parameters = null)
+		{
+			return await MySQL.QueryListAsync(query, parameters);
+		}
 
 		/// <summary>
 		/// Esegue una query sul db modificandone il contenuto
@@ -80,26 +89,38 @@ namespace TheLastPlanet.Server
 		/// <param name="query">Testo della query</param>
 		/// <param name="parameters">Parametri da passare</param>
 		/// <returns></returns>
-		public async Task Execute(string query, object parameters = null) => await MySQL.ExecuteAsync(query, parameters);
+		public async Task Execute(string query, object parameters = null)
+		{
+			await MySQL.ExecuteAsync(query, parameters);
+		}
 
 		/// <summary>
 		/// Registra una funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public void AddTick(Func<Task> onTick) => Tick += onTick;
+		public void AddTick(Func<Task> onTick)
+		{
+			Tick += onTick;
+		}
 
 		/// <summary>
 		/// Rimuove la funzione OnTick
 		/// </summary>
 		/// <param name="action"></param>
-		public void RemoveTick(Func<Task> onTick) => Tick -= onTick;
+		public void RemoveTick(Func<Task> onTick)
+		{
+			Tick -= onTick;
+		}
 
 		/// <summary>
 		/// registra un export, Registered GetExports still have to be defined in the __resource.lua file
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="action"></param>
-		public void RegisterExport(string name, Delegate action) => GetExports.Add(name, action);
+		public void RegisterExport(string name, Delegate action)
+		{
+			GetExports.Add(name, action);
+		}
 
 		/// <summary>
 		/// registra un comando di chat
@@ -118,6 +139,6 @@ namespace TheLastPlanet.Server
 				suggestion.name = "/" + commandName;
 				ChatServer.Suggestions.Add(suggestion);
 			}
-		} 
+		}
 	}
 }

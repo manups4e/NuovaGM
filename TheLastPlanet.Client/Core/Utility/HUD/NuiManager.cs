@@ -61,6 +61,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			SendNuiMessage(data.ToJson());
 		}
 
+		public void SendMessage(string type, object data)
+		{
+			object invio = new { type, data };
+			Client.Logger.Debug($"Inviato messaggio NUI [{type}] con Payload {data.ToJson()}");
+			SendNuiMessage(invio.ToJson());
+		}
+
 		/// <summary>
 		/// Invia un messaggio all'interfaccia NUI contenente dei dati
 		/// </summary>
@@ -75,7 +82,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			RegisterNuiCallbackType(@event);
 			Client.Instance.AddEventHandler($"__cfx_nui:{@event}", new Action<IDictionary<string, object>, CallbackDelegate>((data, callback) =>
 			{
-				Client.Logger.Debug($"Chiamato NUI Callback {@event} con Payload {data.ToJson()}");
+				Client.Logger.Debug($"Chiamato NUI Callback [{@event}] con Payload {data.ToJson()}");
 				action();
 				callback("ok");
 			}));

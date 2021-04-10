@@ -93,14 +93,10 @@ namespace TheLastPlanet.Client.Core.LogIn
 		{
 			ClearFocus();
 			Client.Instance.AddTick(Entra);
-			Client.Instance.NuiManager.RegisterCallback("back-indietro", () =>
-			{
-				ToggleMenu(true, "charloading");
-			});
-			Client.Instance.NuiManager.RegisterCallback("previewChar", new Action<string>(SelezionatoPreview));
-			Client.Instance.NuiManager.RegisterCallback("char-select", new Action<string>(Selezionato));
-			Client.Instance.NuiManager.RegisterCallback("disconnect", new Action(Disconnetti));
-			Client.Instance.NuiManager.RegisterCallback("new-character", new Action<NewChar>(NuovoPersonaggio));
+			Client.Instance.NuiManager.RegisterCallback("chars:preview", new Action<string>(SelezionatoPreview));
+			Client.Instance.NuiManager.RegisterCallback("chars:select", new Action<string>(Selezionato));
+			Client.Instance.NuiManager.RegisterCallback("chars:disconnect", Disconnetti);
+			Client.Instance.NuiManager.RegisterCallback("chars:new", new Action<NewChar>(NuovoPersonaggio));
 			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
@@ -177,21 +173,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			}
 		}
 
-		public static async void CharCreate()
-		{
-			NetworkFadeInEntity(Cache.MyPlayer.Ped.Handle, true);
-			RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-			SetEntityCoords(Cache.MyPlayer.Ped.Handle, charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1, false, false, false, false);
-			SetEntityHeading(Cache.MyPlayer.Ped.Handle, charCreateCoords.W);
-			Vector3 h = GetPedBoneCoords(Cache.MyPlayer.Ped.Handle, 24818, 0.0f, 0.0f, 0.0f);
-			Vector3 offCoords = GetOffsetFromEntityInWorldCoords(Cache.MyPlayer.Ped.Handle, 0.0f, 2.0f, 0.8f);
-			charCreationCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(offCoords.X, offCoords.Y, h.Z + 0.2f) };
-			charCreationCam.PointAt(h);
-			charCreationCam.IsActive = true;
-			RenderScriptCams(true, false, 0, false, false);
-			await Task.FromResult(0);
-		}
-
 		#endregion
 
 		public static async void Attiva()
@@ -216,7 +197,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
-			Client.Instance.NuiManager.SendMessage(new { type = "toggleMenu", menuStatus = menuOpen, menu, data = data.ToJson() });
+			data ??= new List<LogInInfo>();
+			Client.Instance.NuiManager.SendMessage("chars:toggleMenu", new { hidden = !menuOpen, menuStatus = menuOpen, menu, data });
 			Client.Instance.NuiManager.SetFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);

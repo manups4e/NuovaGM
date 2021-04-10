@@ -12,7 +12,20 @@ namespace TheLastPlanet.Shared
 		[JsonIgnore]
 		private ulong CharID { set => ID = value.ToString(); }
 		public string ID;
-		public string info;
+		[JsonIgnore]
+		private string info
+		{
+			set
+			{
+				var p = value.FromJson<Info>();
+				firstName = p.firstname;
+				lastName = p.lastname;
+				dateOfBirth = p.dateOfBirth;
+			}
+		}
+		public string firstName;
+		public string lastName;
+		public string dateOfBirth;
 		public int Money;
 		public int Bank;
 	}
