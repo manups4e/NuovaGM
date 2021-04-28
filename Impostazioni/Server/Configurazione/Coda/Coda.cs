@@ -20,13 +20,13 @@ namespace Impostazioni.Server.Configurazione.Coda
             ["QueueCount"] = "[Coda: {0}]",
             ["Symbols"] = "I simboli non sono ammessi nel tuo nome steam"
         };
-        public List<string> permessi = new List<string>()
+        public List<string> permessi = new()
         {
-            "Admin",
-            "Regina",
-            "Tester",
-            "Founder",
-            "Fidanzata"
+	        "Admin",
+	        "Regina",
+	        "Tester",
+	        "Founder",
+	        "Fidanzata"
         };
         public bool whitelistonly = true;
         public int loadTime = 4;

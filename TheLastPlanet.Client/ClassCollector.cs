@@ -19,7 +19,6 @@ namespace TheLastPlanet.Client
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
 			await SessionCache.Cache.Loaded();
-
 			Banking.BankingClient.Init();
 			Businesses.PompeDiBenzinaClient.Init();
 			PublicTraffic.Init();

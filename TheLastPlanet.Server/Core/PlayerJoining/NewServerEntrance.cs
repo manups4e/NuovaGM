@@ -14,6 +14,7 @@ using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
+
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
 	internal static class NewServerEntrance
@@ -38,6 +39,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			deferrals.defer();
 			await BaseScript.Delay(500);
+
 			try
 			{
 				deferrals.presentCard(ControlloLicenza);
@@ -46,6 +48,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				int tokensNum = GetNumPlayerTokens(source.Handle);
 				for (int i = 0; i < tokensNum; i++) PlayerTokens.Add(GetPlayerToken(source.Handle, i));
 				IngressoResponse puoentrare = await BotDiscordHandler.DoesPlayerHaveRole(source.GetLicense(Identifier.Discord), Server.Impostazioni.Coda.permessi, PlayerTokens);
+
 				if (puoentrare.permesso)
 				{
 					if (!Server.Debug)
@@ -62,7 +65,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				}
 				else
 				{
-
 					if (puoentrare.bannato)
 					{
 						string banText = "Last Planet Shield 2.0.";
@@ -107,7 +109,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 			catch (Exception e)
 			{
-				Server.Logger.Error( e.ToString());
+				Server.Logger.Error(e.ToString());
 				deferrals.presentCard(Errore);
 			}
 		}
@@ -116,58 +118,52 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			try
 			{
-				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-				BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
-				{
-					disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)),
-					lice = source.GetLicense(Identifier.License),
-					name = source.Name
-				});
+				Snowflake newone = SnowflakeGenerator.Instance.Next();
+				const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
+				BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
 				User user = new(source, p);
 				ClientId client = new(user);
 				Server.Instance.Clients.Add(client);
 			}
 			catch (Exception e)
 			{
-				Server.Logger.Error( e.ToString());
+				Server.Logger.Error(e.ToString());
 			}
 		}
 
 		private static async void EntratoMaProprioSulSerio(Player player)
 		{
-			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id",
-				new {last = DateTime.Now, id = player.GetLicense(Identifier.Discord)});
+			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = player.GetLicense(Identifier.Discord) });
 		}
 
-		private static async Task<Tuple<Snowflake, User>>SetupUser(ClientId source)
+		private static async Task<Tuple<Snowflake, User>> SetupUser(ClientId source)
 		{
 			try
 			{
-				var handle = source.Handle;
-				var client = Funzioni.GetClientFromPlayerId(handle);
+				int handle = source.Handle;
+				ClientId client = Funzioni.GetClientFromPlayerId(handle);
+
 				if (client != null)
 				{
 					Server.Logger.Debug(client.ToString());
 					await BaseScript.Delay(1);
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(client.Player);
+
 					return new Tuple<Snowflake, User>(client.Id, client.User);
 				}
 #if DEBUG
 				else
 				{
-					const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-					var p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
-					{
-						disc = Convert.ToInt64(source.Player.GetLicense(Identifier.Discord)),
-						lice = source.Player.GetLicense(Identifier.License),
-						name = source.Player.Name
-					});
-					client = new( new User(source.Player, p));
+					Snowflake newone = SnowflakeGenerator.Instance.Next();
+					const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
+					BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.Player.GetLicense(Identifier.Discord)), lice = source.Player.GetLicense(Identifier.License), name = source.Player.Name, snow = newone.ToInt64() });
+					client = new ClientId(new User(source.Player, p));
 					client.User.StatiPlayer = new PlayerStateBags(client.Player);
 					EntratoMaProprioSulSerio(source.Player);
 					Server.Instance.Clients.Add(client);
-					var res = Server.Instance.Clients.SingleOrDefault(x=> x.Handle == source.Handle);
+					ClientId res = Server.Instance.Clients.SingleOrDefault(x => x.Handle == source.Handle);
+
 					return new Tuple<Snowflake, User>(res.Id, res.User);
 				}
 #endif
@@ -186,22 +182,25 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			}
 			catch (Exception e)
 			{
-				Server.Logger.Error( e.ToString());
+				Server.Logger.Error(e.ToString());
+
 				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
 			}
 		}
 
-		private static async Task<List<LogInInfo>>LogInfo(ulong id)
+		private static async Task<List<LogInInfo>> LogInfo(ulong id)
 		{
-			var query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-			var info = await MySQL.QueryListAsync<LogInInfo>(query, new { id });
+			string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
+			IEnumerable<LogInInfo> info = await MySQL.QueryListAsync<LogInInfo>(query, new { id });
+
 			return info.ToList();
 		}
 
 		private static async Task<SkinAndDress> PreviewChar(ulong id)
 		{
-			string query = "SELECT skin, dressing FROM personaggi WHERE	CharID = @id";
+			string query = "SELECT skin, dressing, location FROM personaggi WHERE CharID = @id";
 			SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id });
+
 			return res;
 		}
 
@@ -222,8 +221,9 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Weapons = res.weapons.FromJson<List<Weapons>>(),
 				Dressing = res.dressing.FromJson<Dressing>(),
 				Needs = res.needs.FromJson<Needs>(),
-				Statistiche = res.statistiche.FromJson<Statistiche>(),
+				Statistiche = res.statistiche.FromJson<Statistiche>()
 			};
+
 			return user.CurrentChar;
 		}
 
@@ -234,32 +234,34 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			string handle = p.Handle;
 			DateTime now = DateTime.Now;
 			string text = name + " e' uscito.";
-
 			if (reason != "")
 				text = reason switch
 				{
 					"Timed out after 10 seconds." => name + " e' crashato.",
-					"Disconnected." or "Exited." => name + " si e' disconnesso.",
-					_ => name + " si e' disconnesso: " + reason,
+					"Disconnected." or "Exited."  => name + " si e' disconnesso.",
+					_                             => name + " si e' disconnesso: " + reason
 				};
+			ClientId client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
 
-			var client = Funzioni.GetClientFromPlayerId(int.Parse(player.Handle));
 			if (client != null)
 			{
-				var ped = client.User;
-				var disc = ped.Identifiers.Discord;
+				User ped = client.User;
+				string disc = ped.Identifiers.Discord;
+
 				if (ped.status.Spawned)
 				{
 					await ped.SalvaPersonaggio();
-					Server.Logger.Info( "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
+					Server.Logger.Info("Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + disc);
 				}
 				else
-					Server.Logger.Info( "Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
+				{
+					Server.Logger.Info("Il Player '" + name + "' - " + disc + " è uscito dal server senza selezionare un personaggio");
+				}
 
 				Server.Instance.Clients.Remove(client);
 			}
 
-			Server.Logger.Info( text);
+			Server.Logger.Info(text);
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
 	}

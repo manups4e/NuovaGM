@@ -14,7 +14,6 @@ namespace TheLastPlanet.Client.Core.Utility
 	{
 		static WorldProbe()
 		{
-			Client.Logger.Debug( "WorldProbe attivo");
 			//Client.Instance.AddTick(new Func<Task>(() => { CrosshairRaycastThisTick = null; return Task.FromResult(0); }));
 		}
 

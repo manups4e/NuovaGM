@@ -149,12 +149,14 @@ namespace TheLastPlanet.Shared.Internal.Events
 #if SERVER
             else
             {
-                const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
+	            Snowflake newone = SnowflakeGenerator.Instance.Next();
+                const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
                 User = new(Player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
                 {
                     disc = Convert.ToInt64(Player.GetLicense(Identifier.Discord)),
                     lice = Player.GetLicense(Identifier.License),
-                    name = Player.Name
+                    name = Player.Name,
+                    snow = newone.ToInt64()
                 }));
             }
 #endif

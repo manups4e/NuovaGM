@@ -36,7 +36,11 @@ namespace TheLastPlanet.Shared
 		private string skin { set => Skin = value.FromJson<Skin>(); }
 		[JsonIgnore]
 		private string dressing { set => Dressing = value.FromJson<Dressing>(); }
+		[JsonIgnore]
+		private string location { set => Position = value.FromJson<Position>(); }
+		
 		public Skin Skin;
 		public Dressing Dressing;
+		public Position Position;
 	}
 }

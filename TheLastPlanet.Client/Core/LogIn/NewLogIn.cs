@@ -15,10 +15,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Core.LogIn
 {
-	internal static class LogIn
+	internal static class NewLogIn
 	{
 		public static bool GuiEnabled = false;
-		public static Camera attuale;
 		public static List<Vector4> SelectFirstCoords = new()
 		{
 			new Vector4(-1503.000f, -1143.462f, 34.670f, 64.692f),
@@ -29,6 +28,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 			new Vector4(-103.310f, -1215.578f, 53.796f, 270.975f),
 			new Vector4(-3032.130f, 22.216f, 11.118f, 0f)
 		};
+
 		public static Vector4 charCreateCoords = new(402.91f, -996.74f, -100.00025f, 180.086f);
 		public static Camera charSelectionCam;
 		public static Camera charCreationCam;
@@ -111,7 +111,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			if (NetworkIsSessionStarted())
 			{
 				PlayerSpawned();
-				Tuple<int, string> pp = await Funzioni.GetPedMugshotAsync(Game.PlayerPed);
 				Client.Instance.RemoveTick(Entra);
 			}
 		}
@@ -166,7 +165,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 				charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(p.Handle, 0f, -2, 0);
 				charSelectionCam.PointAt(p);
 				charSelectionCam.IsActive = true;
-				attuale = charSelectionCam;
 				RenderScriptCams(true, false, 0, false, false);
 				Attiva();
 			}
@@ -201,7 +199,7 @@ namespace TheLastPlanet.Client.Core.LogIn
 		private static void ToggleMenu(bool menuOpen, string menu = "", List<LogInInfo> data = null)
 		{
 			data ??= new List<LogInInfo>();
-			Client.Instance.NuiManager.SendMessage("chars:toggleMenu", new { menuStatus = menuOpen, menu, data });
+			Client.Instance.NuiManager.SendMessage("chars:toggleMenu", new { hidden = !menuOpen, menuStatus = menuOpen, menu, data });
 			Client.Instance.NuiManager.SetFocus(menuOpen, menuOpen);
 			DisplayHud(!menuOpen);
 			SetEnableHandcuffs(Cache.MyPlayer.Ped.Handle, menuOpen);
@@ -211,73 +209,46 @@ namespace TheLastPlanet.Client.Core.LogIn
 
 		private static async void SelezionatoPreview(string data)
 		{
-			try
+			cambiato = false;
+			PedHash m = PedHash.FreemodeMale01;
+			PedHash f = PedHash.FreemodeFemale01;
+			Ped ped = Cache.MyPlayer.Ped;
+			SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
+
+			if (p1 != null)
 			{
-				if (GetRenderingCam() != attuale.Handle) attuale = new Camera(GetRenderingCam());
-				cambiato = false;
-				PedHash m = PedHash.FreemodeMale01;
-				PedHash f = PedHash.FreemodeFemale01;
-				SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
-				if (p1 != null) p1.Delete();
-				p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
-				p1.Style.SetDefaultClothes();
-				await SetSkinAndClothes(p1, pers);
-				while (!cambiato) await BaseScript.Delay(0);
-				/*
-				Camera aggiuntiva = World.CreateCamera(attuale.Position + new Vector3(0, 0, 50f), Vector3.Zero, GameplayCamera.FieldOfView);
-				aggiuntiva.Direction = pers.Position.ToVector3;
-				Camera newCam = World.CreateCamera(p1.GetOffsetPosition(new Vector3(0, -2f, 2f)), Vector3.Zero, GameplayCamera.FieldOfView);
-				newCam.PointAt(p1);
-				newCam.AttachTo(p1, new Vector3(0, 3, 1.2f));
-				attuale.InterpTo(aggiuntiva, 3000, 1, 1);
-
-				while (aggiuntiva.IsInterpolating)
-				{
-					await BaseScript.Delay(50);
-					aggiuntiva.Position.SetFocus();
-				}
-
-				float dis = Vector3.Distance(aggiuntiva.Position, newCam.Position);
-				aggiuntiva.InterpTo(newCam, 3000, 0, 1); // calcolare il tempo
-
-				while (newCam.IsInterpolating)
-				{
-					await BaseScript.Delay(50);
-					newCam.Position.SetFocus();
-				}
-
-				p1.Task.WanderAround();
-				await BaseScript.Delay(5000);
-				*/
-				int switchType = GetIdealPlayerSwitchType(attuale.Position.X, attuale.Position.Y, attuale.Position.Z, pers.Position.X, pers.Position.Y, pers.Position.Z);
-				SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
-				await BaseScript.Delay(2000);
-				Camera newCam = World.CreateCamera(p1.GetOffsetPosition(new Vector3(0, -2f, 2f)), Vector3.Zero, GameplayCamera.FieldOfView);
-				newCam.PointAt(p1);
-				newCam.AttachTo(p1, new Vector3(0, 3, 1.2f));
-				newCam.IsActive = true;
-				attuale.Delete();
-				p1.Task.WanderAround();
-				await BaseScript.Delay(2000);
-				SwitchInPlayer(p1.Handle);
-				while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
-				p1.Task.WanderAround();
-				SetFocusEntity(p1.Handle);
-				/*
-				string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
-				p1.Task.StartScenario(scena, p1.Position);
-				//Client.Instance.AddTick(Controllo);
-				*/
+				Client.Instance.RemoveTick(Controllo);
+				p1.Delete();
 			}
-			catch (Exception e)
+
+			p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, ped.Position + new Vector3(0, 0.5f, -1f));
+			p1.IsPositionFrozen = true;
+			p1.BlockPermanentEvents = true;
+			SetEntityAlpha(p1.Handle, 0, 0);
+			await SetSkinAndClothes(p1, pers);
+			while (!cambiato) await BaseScript.Delay(1000);
+			string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
+			p1.Task.StartScenario(scena, p1.Position);
+			Client.Instance.AddTick(Controllo);
+			int i = 0;
+
+			while (i < 255)
 			{
-				Client.Logger.Error(e.ToString());
+				await BaseScript.Delay(25);
+				SetEntityAlpha(p1.Handle, i, 0);
+				i += 25;
 			}
 		}
 
 		private static async void Selezionato(string data)
 		{
 			ulong ID = Convert.ToUInt64(data);
+			if (p1 != null)
+				if (p1.Exists())
+					p1.Delete();
+			if (dummyPed != null)
+				if (dummyPed.Exists())
+					dummyPed.Delete();
 			GuiEnabled = false;
 			ToggleMenu(false);
 			Screen.Fading.FadeOut(800);
@@ -291,6 +262,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			*/
 			Cache.MyPlayer.User.CurrentChar = await Client.Instance.Eventi.Get<Char_data>("lprp:Select_Char", ID);
 			Char_data Data = Cache.MyPlayer.User.CurrentChar;
+			int switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
 			await BaseScript.Delay(5000);
@@ -304,13 +277,20 @@ namespace TheLastPlanet.Client.Core.LogIn
 			await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
-			Cache.MyPlayer.Ped.Position = p1.Position;
-			if (p1 != null)
-				if (p1.Exists())
-					p1.Delete();
-			if (dummyPed != null)
-				if (dummyPed.Exists())
-					dummyPed.Delete();
+
+			if (Data.Posizione.IsZero)
+			{
+				Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
+				Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
+				await BaseScript.Delay(2000);
+			}
+			else
+			{
+				Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
+				Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
+				await BaseScript.Delay(2000);
+			}
+
 			Eventi.LoadModel();
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
 			Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
@@ -332,8 +312,8 @@ namespace TheLastPlanet.Client.Core.LogIn
 			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Eventi.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Cache.MyPlayer.Ped.Handle);
-			//Position pos = await Data.Posizione.FindGroundZ();
-			//Cache.MyPlayer.Ped.Position = pos.ToVector3;
+			Position pos = await Data.Posizione.FindGroundZ();
+			Cache.MyPlayer.Ped.Position = pos.ToVector3;
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Client.Instance.RemoveTick(Controllo);

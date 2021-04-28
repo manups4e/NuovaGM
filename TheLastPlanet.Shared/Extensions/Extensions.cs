@@ -483,7 +483,7 @@ namespace TheLastPlanet.Shared
 					}
 					await BaseScript.Delay(50);
 					bool pippo = GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false);
-					h++;
+					h+=10;
 				}
 				return z;
 			}
@@ -546,10 +546,19 @@ namespace TheLastPlanet.Shared
 			}
 		}
 
+		/// <summary>
+		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// </summary>
+		/// <param name="pos"></param>
 		public static void SetFocus(this Vector3 pos)
 		{
 			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);
 		}
+
+		/// <summary>
+		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// </summary>
+		/// <param name="pos"></param>
 		public static void SetFocus(this Vector4 pos)
 		{
 			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);

@@ -63,7 +63,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public void SendMessage(string type, object data)
 		{
-			object invio = new { type, data };
+			string[] pippo = type.Split(':');
+			object invio = new { identifier = pippo[0], @event = pippo[1], data };
+			Client.Logger.Debug(invio.ToJson());
 			Client.Logger.Debug($"Inviato messaggio NUI [{type}] con Payload {data.ToJson()}");
 			SendNuiMessage(invio.ToJson());
 		}

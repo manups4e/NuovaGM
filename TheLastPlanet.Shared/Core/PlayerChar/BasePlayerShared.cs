@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared.Snowflakes;

@@ -703,7 +703,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			Model mod = new(model);
 
 			if (!mod.IsPed || !await mod.Request(3000)) return null;
-			Ped p = new Ped(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
+			Ped p = new(CreatePed((int)PedType, (uint)mod.Hash, position.X, position.Y, position.Z, heading, false, false));
 			while (!p.Exists()) await BaseScript.Delay(0);
 
 			return p;
