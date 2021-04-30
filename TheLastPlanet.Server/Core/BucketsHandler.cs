@@ -8,12 +8,20 @@ using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
+	public enum BucketLockdownMode
+	{
+		strict,
+		relaxed,
+		inactive
+	}
+
 	internal static class BucketsHandler
 	{
-		public static List<Bucket> Buckets = new() { new Bucket(0, "RolePlay"), new Bucket(1, "LogIn"), new Bucket(2, "Minigames chooser") };
+		public static List<Bucket> Buckets;
 
 		public static void Init()
 		{
+			Buckets = new List<Bucket>() { new(0, "RolePlay") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.relaxed }, new(1, "LogIn") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict }, new(2, "Minigames chooser") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict } };
 			Server.Instance.Events.Mount("lprp:addPlayerToBucket", new Action<ClientId, int>(AddPlayerToBucket));
 			Server.Instance.Events.Mount("lprp:addEntityToBucket", new Action<int, int>(AddEntityToBucket));
 		}
@@ -37,6 +45,14 @@ namespace TheLastPlanet.Server.Core
 		public string Name;
 		public List<Player> Players = new();
 		public List<Entity> Entities = new();
+		public BucketLockdownMode LockdownMode
+		{
+			set => _setBucketLockdownMode(value);
+		}
+		public bool PopulationEnabled
+		{
+			set => _enablePopulation(value);
+		}
 
 		public Bucket(int id, string name)
 		{
@@ -81,6 +97,30 @@ namespace TheLastPlanet.Server.Core
 		public Entity GetEntity(Entity entity)
 		{
 			return Entities.FirstOrDefault(x => x.Handle == entity.Handle);
+		}
+
+		private void _setBucketLockdownMode(BucketLockdownMode mode)
+		{
+			switch (mode)
+			{
+				case BucketLockdownMode.strict:
+					API.SetRoutingBucketEntityLockdownMode(Id, "strict");
+
+					break;
+				case BucketLockdownMode.relaxed:
+					API.SetRoutingBucketEntityLockdownMode(Id, "relaxed");
+
+					break;
+				case BucketLockdownMode.inactive:
+					API.SetRoutingBucketEntityLockdownMode(Id, "inactive");
+
+					break;
+			}
+		}
+
+		private void _enablePopulation(bool enabled)
+		{
+			API.SetRoutingBucketPopulationEnabled(Id, enabled);
 		}
 	}
 }

@@ -15,6 +15,7 @@ namespace TheLastPlanet.Client
 		public static async Task Init()
 		{
 			ClasseDiTest.Init(); // da rimouvere
+			Core.BucketChooser.MainChooser.Init();
 			DecorationClass.DichiaraDecor();
 			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
