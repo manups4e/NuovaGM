@@ -12,9 +12,15 @@ namespace TheLastPlanet.Client.Core.Utility
 {
 	internal static class WorldProbe
 	{
+		public static AsyncRaycastResult CrossairRaycastResult;
+
 		static WorldProbe()
 		{
-			//Client.Instance.AddTick(new Func<Task>(() => { CrosshairRaycastThisTick = null; return Task.FromResult(0); }));
+			Client.Instance.AddTick(new Func<Task>(async () =>
+			{
+				CrossairRaycastResult = await GamePlayCamCrosshairRaycast();
+				await Task.FromResult(0);
+			}));
 		}
 
 		public static Vehicle GetVehicleInFrontOfPlayer(float distance = 5f)

@@ -43,12 +43,13 @@ namespace TheLastPlanet.Client.Manager
 		public static async Task OnTickSviluppo()
 		{
 			Ped pl = Cache.MyPlayer.Ped;
-			AsyncRaycastResult ray = await WorldProbe.GamePlayCamCrosshairRaycast();
+			AsyncRaycastResult Crossair = WorldProbe.CrossairRaycastResult;
+			//TODO: in worldprobe un metodo fisso da cui prendere i valori in modo syncrono
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.MyPlayer.User.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.MyPlayer.User.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.MyPlayer.User.StatiPlayer.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
 			HUD.DrawText(0.4f, 0.90f, $"Interior Id = {GetInteriorFromGameplayCam()}");
 			HUD.DrawText(0.7f, 0.90f, $"~b~GamePlayCam Posizione~w~ = {GameplayCamera.Position}");
-			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {ray.HitPosition}");
+			HUD.DrawText(0.7f, 0.925f, $"~r~GamePlayCam punta a~w~ = {Crossair.HitPosition}");
 
 			if (pl.IsAiming)
 			{
