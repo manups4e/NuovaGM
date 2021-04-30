@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared.Snowflakes;
 using System.Dynamic;
+using TheLastPlanet.Client.Core.BucketChooser;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
@@ -33,7 +34,8 @@ namespace TheLastPlanet.Client
 			SnowflakeGenerator.Create(1);
 			Instance = this;
 			Eventi = new();
-			await ClassCollector.Init();
+			//await ClassCollector.Init();
+			MainChooser.Init();
 		}
 
 		/// <summary>

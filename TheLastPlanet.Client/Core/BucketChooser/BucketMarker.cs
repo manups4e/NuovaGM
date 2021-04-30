@@ -16,22 +16,20 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 		public Marker Marker;
 		public string Name;
 		public Scaleform Scaleform;
-		private string scale;
 
 		public BucketMarker(Marker marker, string name, string scaleform)
 		{
 			Marker = marker;
 			Name = name;
 			Scaleform = new Scaleform(scaleform);
-			scale = scaleform;
 		}
 
-		public async void Draw()
+		public void Draw()
 		{
-			Client.Logger.Debug($"Scaleform => {scale} => isValid = {Scaleform.IsValid}, isLoaded = {Scaleform.IsLoaded}");
-			while (!Scaleform.IsLoaded) await BaseScript.Delay(10);
-			Scaleform.Render3D(Marker.Position, GameplayCamera.Rotation, Marker.Scale / 2);
 			Marker.Draw();
+
+			if (!Scaleform.IsLoaded) return;
+			Scaleform.Render3D(Marker.Position, GameplayCamera.Rotation, Marker.Scale / 2);
 		}
 	}
 }

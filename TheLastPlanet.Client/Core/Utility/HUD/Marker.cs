@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.MenuNativo;
+using static TheLastPlanet.Client.SessionCache.Cache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -47,6 +48,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			FaceCamera = faceCamera;
 		}
 
-		public void Draw() { World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate); }
+		public void Draw()
+		{
+			World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate);
+			IsInMarker = MyPlayer.Ped.IsInRangeOf(Position, Scale.X / 2);
+		}
 	}
 }

@@ -2234,7 +2234,7 @@ namespace TheLastPlanet.Client.Core.CharCreation
 					if (_dummyPed != null)
 						if (_dummyPed.Exists())
 							_dummyPed.Delete();
-					LogIn.LogIn.CharSelect();
+					//LogIn.LogIn.CharSelect();
 
 					break;
 				}

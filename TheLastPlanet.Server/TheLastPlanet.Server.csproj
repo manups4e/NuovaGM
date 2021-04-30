@@ -35,7 +35,7 @@
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
     <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
   </ItemGroup>
-  
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
   </Target>

@@ -93,7 +93,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 		public static void Init()
 		{
 			ClearFocus();
-			Client.Instance.AddTick(Entra);
 			Client.Instance.NuiManager.RegisterCallback("chars:preview", new Action<string>(SelezionatoPreview));
 			Client.Instance.NuiManager.RegisterCallback("chars:select", new Action<string>(Selezionato));
 			Client.Instance.NuiManager.RegisterCallback("chars:disconnect", Disconnetti);
@@ -103,80 +102,6 @@ namespace TheLastPlanet.Client.Core.LogIn
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
 		}
-
-		#region INGRESSO NEL SERVER
-
-		private static async Task Entra()
-		{
-			if (NetworkIsSessionStarted())
-			{
-				PlayerSpawned();
-				Tuple<int, string> pp = await Funzioni.GetPedMugshotAsync(Game.PlayerPed);
-				Client.Instance.RemoveTick(Entra);
-			}
-		}
-
-		private static async void PlayerSpawned()
-		{
-			Screen.Fading.FadeOut(800);
-			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-			await Cache.InitPlayer();
-			while (!NetworkIsPlayerActive(Cache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
-			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
-			Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
-			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.MyPlayer.UpdatePedId();
-			Cache.MyPlayer.Ped.IsVisible = false;
-			Cache.MyPlayer.Ped.IsPositionFrozen = true;
-			Cache.MyPlayer.Player.IgnoredByPolice = true;
-			Cache.MyPlayer.Player.DispatchsCops = false;
-			NetworkSetTalkerProximity(-1000f);
-			Screen.Hud.IsRadarVisible = false;
-			CharSelect();
-		}
-
-		public static async void CharSelect()
-		{
-			Cache.MyPlayer.Player.CanControlCharacter = false;
-			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
-			Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
-			RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
-			Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
-			Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
-			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.MyPlayer.UpdatePedId();
-			Cache.MyPlayer.Ped.Style.SetDefaultClothes();
-			while (!await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			Cache.MyPlayer.UpdatePedId();
-
-			if (Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
-			{
-				Ped p = Cache.MyPlayer.Ped;
-				p.Style.SetDefaultClothes();
-				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
-				await Cache.Loaded();
-				Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
-				await BaseScript.Delay(100);
-				Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
-				p.IsVisible = false;
-				p.IsPositionFrozen = true;
-				RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
-				charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
-				SetGameplayCamRelativeHeading(0);
-				charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(p.Handle, 0f, -2, 0);
-				charSelectionCam.PointAt(p);
-				charSelectionCam.IsActive = true;
-				attuale = charSelectionCam;
-				RenderScriptCams(true, false, 0, false, false);
-				Attiva();
-			}
-			else
-			{
-				CharSelect();
-			}
-		}
-
-		#endregion
 
 		public static async void Attiva()
 		{
