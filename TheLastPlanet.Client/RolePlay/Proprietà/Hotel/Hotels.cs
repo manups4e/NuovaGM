@@ -13,7 +13,7 @@ using Logger;
 using System.Linq;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Proprietà.Hotel
+namespace TheLastPlanet.Client.RolePlay.Proprietà.Hotel
 {
 	internal static class Hotels
 	{

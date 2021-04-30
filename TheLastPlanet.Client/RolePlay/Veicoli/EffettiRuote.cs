@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Logger;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Veicoli
+namespace TheLastPlanet.Client.RolePlay.Veicoli
 {
 	internal static class EffettiRuote
 	{

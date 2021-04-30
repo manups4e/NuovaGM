@@ -13,7 +13,7 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 {
 	internal static class PoliziaMainClient
 	{

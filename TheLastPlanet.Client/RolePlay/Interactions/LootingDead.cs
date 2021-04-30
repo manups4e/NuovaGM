@@ -13,7 +13,7 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	internal static class LootingDead
 	{

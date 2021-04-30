@@ -12,12 +12,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
-using TheLastPlanet.Client.Core.LogIn;
+using TheLastPlanet.Client.RolePlay.Core.LogIn;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared.Snowflakes;
 
-namespace TheLastPlanet.Client.Core.CharCreation
+namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 {
 	internal static class Creator
 	{

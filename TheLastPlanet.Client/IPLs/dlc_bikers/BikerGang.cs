@@ -2,7 +2,7 @@
 using CitizenFX.Core.Native;
 using Logger;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Interactions;
+using TheLastPlanet.Client.RolePlay.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

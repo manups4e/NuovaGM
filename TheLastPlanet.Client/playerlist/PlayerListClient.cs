@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
@@ -81,9 +81,9 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task DisplayController()
 		{
-			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !RolePlay.Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
-				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) Banking.BankingClient.MostraMoney();
+				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.MostraMoney();
 				UpdateMaxPages();
 
 				if (ScaleSetup)
@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 					if (currentPage > maxPages)
 					{
 						currentPage = 0;
-						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) Banking.BankingClient.NascondiMoney();
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
 					}
 
 					await LoadScale();
@@ -124,13 +124,13 @@ namespace TheLastPlanet.Client.ListaPlayers
 						else
 						{
 							currentPage = 0;
-							if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) Banking.BankingClient.NascondiMoney();
+							if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
 						}
 					}
 					else
 					{
 						currentPage = 0;
-						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) Banking.BankingClient.NascondiMoney();
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
 					}
 				}
 			}

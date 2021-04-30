@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Core.Status
+namespace TheLastPlanet.Client.RolePlay.Core.Status
 {
 	internal static class Death
 	{

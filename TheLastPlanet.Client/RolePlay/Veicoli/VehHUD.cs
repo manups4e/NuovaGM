@@ -13,7 +13,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Veicoli
+namespace TheLastPlanet.Client.RolePlay.Veicoli
 {
 	internal static class VehHud
 	{

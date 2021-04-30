@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	static class BarbaNaturale
 	{

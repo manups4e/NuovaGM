@@ -11,13 +11,13 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Generici.Cacciatore
+namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Cacciatore
 {
 	internal static class CacciatoreClient
 	{

@@ -453,7 +453,7 @@ namespace TheLastPlanet.Client.Manager
 			#region Meteo
 
 			UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
-			UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
+			UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, RolePlay.TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
 			UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
 			Meteo.AddItem(blackout);
 			Meteo.AddItem(dinamico);
@@ -491,7 +491,7 @@ namespace TheLastPlanet.Client.Manager
 			{
 				if (item == blackout)
 				{
-					BaseScript.TriggerServerEvent("changeWeatherWithParams", TimeWeather.Meteo.CurrentWeather, _checked, false);
+					BaseScript.TriggerServerEvent("changeWeatherWithParams", RolePlay.TimeWeather.Meteo.CurrentWeather, _checked, false);
 					HUD.ShowNotification("Blackout ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
 				}
 				else if (item == dinamico)
@@ -502,7 +502,7 @@ namespace TheLastPlanet.Client.Manager
 			};
 			metei.OnItemSelect += async (menu, item, index) =>
 			{
-				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, TimeWeather.Meteo.BlackOut, false);
+				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, RolePlay.TimeWeather.Meteo.BlackOut, false);
 				string m = "";
 
 				switch (index)

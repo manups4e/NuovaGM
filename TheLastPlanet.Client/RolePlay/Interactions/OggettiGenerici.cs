@@ -4,7 +4,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	internal static class OggettiGenerici
 	{

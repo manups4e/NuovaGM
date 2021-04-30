@@ -11,7 +11,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Businesses
+namespace TheLastPlanet.Client.RolePlay.Businesses
 {
 	internal class PompeDiBenzinaClient
 	{

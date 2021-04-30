@@ -15,7 +15,7 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.Medici
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 {
 	internal static class MediciMainClient
 	{

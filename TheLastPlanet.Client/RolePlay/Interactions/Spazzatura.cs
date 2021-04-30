@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	internal static class Spazzatura
 	{

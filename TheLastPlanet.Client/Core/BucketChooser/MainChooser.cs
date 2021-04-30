@@ -9,6 +9,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.IPLs.dlc_smuggler;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
@@ -114,6 +115,7 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 		public static async void CharSelect()
 		{
 			SpawnParticle.Request();
+			SmugglerHangar.LoadDefault();
 			while (!SpawnParticle.IsLoaded) await BaseScript.Delay(0);
 			Cache.MyPlayer.Player.CanControlCharacter = true;
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);

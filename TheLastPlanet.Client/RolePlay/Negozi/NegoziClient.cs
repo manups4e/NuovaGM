@@ -10,7 +10,7 @@ using Impostazioni.Client.Configurazione.Negozi.Generici;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal static class NegoziClient
 	{

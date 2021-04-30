@@ -10,13 +10,13 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 {
 	public static class MenuPolizia
 	{

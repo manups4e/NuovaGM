@@ -6,16 +6,16 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.RolePlay.Personale;
 using System.Linq;
 using TheLastPlanet.Shared;
 using Logger;
 using System.Drawing;
 using Impostazioni.Shared.Configurazione.Generici;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Veicoli
+namespace TheLastPlanet.Client.RolePlay.Veicoli
 {
 	public static class FuelClient
 	{

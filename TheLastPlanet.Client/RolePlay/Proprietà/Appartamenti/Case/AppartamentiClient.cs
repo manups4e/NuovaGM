@@ -13,13 +13,13 @@ using Newtonsoft.Json;
 using CitizenFX.Core.UI;
 using Logger;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Proprietà.Appartamenti.Case
+namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 {
 	internal static class AppartamentiClient
 	{

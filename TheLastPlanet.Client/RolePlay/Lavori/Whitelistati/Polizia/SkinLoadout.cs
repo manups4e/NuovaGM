@@ -1,4 +1,4 @@
-﻿namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
+﻿namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 {
 	internal static class SkinLoadout
 	{

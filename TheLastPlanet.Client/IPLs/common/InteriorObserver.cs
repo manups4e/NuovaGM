@@ -6,7 +6,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.IPLs.dlc_bikers;
 using TheLastPlanet.Client.IPLs.dlc_finance;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;

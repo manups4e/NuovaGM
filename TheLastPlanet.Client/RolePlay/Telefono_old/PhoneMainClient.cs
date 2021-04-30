@@ -46,15 +46,16 @@ namespace TheLastPlanet.Client.Telefono
 		public static async Task ControlloApertura()
 		{
 			Ped ped = Cache.MyPlayer.Ped;
-			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
+
+			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || RolePlay.Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
 			{
 				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
 				{
 					Phone.OpenPhone();
 					Phone.currentApp = Phone.mainApp;
 				}
+
 				if (IsPedRunningMobilePhoneTask(ped.Handle))
-				{
 					if (Input.IsControlJustPressed(Control.PhoneCancel))
 					{
 						if (Phone.IsBackOverriddenByApp)
@@ -62,7 +63,6 @@ namespace TheLastPlanet.Client.Telefono
 						else
 							KillApp();
 					}
-				}
 			}
 		}
 

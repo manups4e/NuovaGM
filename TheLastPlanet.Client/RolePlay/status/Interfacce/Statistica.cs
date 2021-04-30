@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
-namespace TheLastPlanet.Client.Core.status.Interfacce
+namespace TheLastPlanet.Client.RolePlay.Core.status.Interfacce
 {
 	public class Statistica
 	{

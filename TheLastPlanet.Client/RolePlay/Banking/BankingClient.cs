@@ -10,7 +10,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Banking
+namespace TheLastPlanet.Client.RolePlay.Banking
 {
 	static class BankingClient
 	{

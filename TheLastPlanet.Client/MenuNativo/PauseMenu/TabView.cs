@@ -7,6 +7,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.SessionCache;
 using Font = CitizenFX.Core.UI.Font;
 

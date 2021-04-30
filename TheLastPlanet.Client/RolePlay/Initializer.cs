@@ -8,12 +8,9 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori
+namespace TheLastPlanet.Client.RolePlay
 {
-    public class JobException : Exception
-    {
-        public JobException(LavoroBase job, string message) : base($"[Job] [{job.Lavoro}] {message}")
-        {
-        }
-    }
+	internal static class Initializer
+	{
+	}
 }

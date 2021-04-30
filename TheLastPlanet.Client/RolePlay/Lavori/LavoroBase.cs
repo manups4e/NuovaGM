@@ -8,7 +8,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Lavori
+namespace TheLastPlanet.Client.RolePlay.Lavori
 {
     public enum Employment
     {

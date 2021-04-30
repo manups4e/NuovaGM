@@ -15,7 +15,7 @@ using Logger;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreCase
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 {
 	internal static class HouseDealer
 	{

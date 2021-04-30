@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.TimeWeather
+namespace TheLastPlanet.Client.RolePlay.TimeWeather
 {
 	internal static class Meteo
 	{

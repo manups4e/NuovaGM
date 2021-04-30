@@ -6,7 +6,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.TimeWeather
+namespace TheLastPlanet.Client.RolePlay.TimeWeather
 {
 	internal static class Orario
 	{

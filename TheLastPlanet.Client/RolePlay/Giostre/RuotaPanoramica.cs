@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Giostre
+namespace TheLastPlanet.Client.RolePlay.Giostre
 {
 	internal static class RuotaPanoramica
 	{

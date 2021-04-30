@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -10,7 +10,7 @@ using Impostazioni.Client.Configurazione.Veicoli;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Veicoli
+namespace TheLastPlanet.Client.RolePlay.Veicoli
 {
 	internal static class MenuAffittoVeicoli
 	{

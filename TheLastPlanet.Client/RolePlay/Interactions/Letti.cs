@@ -9,10 +9,10 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.LogIn;
+using TheLastPlanet.Client.RolePlay.Core.LogIn;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	static class Letti
 	{

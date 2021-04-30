@@ -9,7 +9,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Sport
+namespace TheLastPlanet.Client.RolePlay.Sport
 {
 	static class Yoga
 	{

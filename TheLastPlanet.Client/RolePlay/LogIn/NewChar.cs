@@ -8,7 +8,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Core.LogIn
+namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 {
 	public class NewChar
 	{

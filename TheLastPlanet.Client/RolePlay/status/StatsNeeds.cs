@@ -6,14 +6,14 @@ using TheLastPlanet.Shared;
 using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.status.Interfacce;
+using TheLastPlanet.Client.RolePlay.Core.status.Interfacce;
 using System.Collections.Generic;
 using System.Linq;
 using Logger;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Client.Core.PlayerChar;
 
-namespace TheLastPlanet.Client.Core.Status
+namespace TheLastPlanet.Client.RolePlay.Core.Status
 {
 	public enum Skills
 	{

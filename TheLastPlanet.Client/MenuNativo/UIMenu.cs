@@ -9,6 +9,7 @@ using Font = CitizenFX.Core.UI.Font;
 using CitizenFX.Core.UI;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 
 namespace TheLastPlanet.Client.MenuNativo
 {

@@ -11,7 +11,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Lavori.Profili
+namespace TheLastPlanet.Client.RolePlay.Lavori.Profili
 {
 	public class JobBusinessProfile : JobProfile
 	{

@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -13,7 +13,7 @@ using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal static class MenuNegoziAbiti
 	{

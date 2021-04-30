@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using TheLastPlanet.Client.Banking;
-using TheLastPlanet.Client.Businesses;
-using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Banking;
+using TheLastPlanet.Client.RolePlay.Businesses;
+using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.Interactions;
-using TheLastPlanet.Client.Lavori.Generici.Cacciatore;
-using TheLastPlanet.Client.Lavori.Generici.Pescatore;
-using TheLastPlanet.Client.Lavori.Generici.Rimozione;
-using TheLastPlanet.Client.Lavori.Whitelistati.Medici;
-using TheLastPlanet.Client.Lavori.Whitelistati.Polizia;
-using TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto;
-using TheLastPlanet.Client.Negozi;
-using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.RolePlay.Interactions;
+using TheLastPlanet.Client.RolePlay.Lavori.Generici.Cacciatore;
+using TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore;
+using TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione;
+using TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici;
+using TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia;
+using TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto;
+using TheLastPlanet.Client.RolePlay.Negozi;
+using TheLastPlanet.Client.RolePlay.Personale;
 using TheLastPlanet.Client.SessionCache;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.Handlers
 			TickAPiedi.Add(CacciatoreClient.ControlloCaccia);
 			TickAPiedi.Add(PescatoreClient.ControlloPesca);
 			//TickAPiedi.Add(Hotels.ControlloHotel);
-			TickAPiedi.Add(Proprietà.Manager.MarkerFuori);
+			TickAPiedi.Add(RolePlay.Proprietà.Manager.MarkerFuori);
 			TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);
 			TickAPiedi.Add(DivaniEPosizioniSedute.SedieSiedi);
 			TickAPiedi.Add(CarDealer.Markers);
@@ -95,7 +95,7 @@ namespace TheLastPlanet.Client.Handlers
 			TickAppartamento.Add(Docce.ControlloDocceVicino);
 			TickAppartamento.Add(Docce.Docceeee);
 			TickAppartamento.Add(Letti.ControlloLetti);
-			TickAppartamento.Add(Proprietà.Manager.MarkerDentro);
+			TickAppartamento.Add(RolePlay.Proprietà.Manager.MarkerDentro);
 
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);

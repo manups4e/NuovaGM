@@ -2,10 +2,10 @@
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.CharCreation;
+using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.RolePlay.Personale;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Core
+namespace TheLastPlanet.Client.RolePlay.Core
 {
 	static class Main
 	{

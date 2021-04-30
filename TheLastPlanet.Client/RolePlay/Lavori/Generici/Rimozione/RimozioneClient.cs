@@ -4,7 +4,7 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Client.Veicoli;
+using TheLastPlanet.Client.RolePlay.Veicoli;
 using TheLastPlanet.Shared;
 using System;
 using System.Linq;
@@ -14,7 +14,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Generici.Rimozione
+namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 {
 	public class RimozioneClient
 	{

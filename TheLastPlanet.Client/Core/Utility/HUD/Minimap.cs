@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.RolePlay.Personale;
 using CitizenFX.Core.UI;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD

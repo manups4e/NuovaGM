@@ -2,7 +2,7 @@
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.Polizia
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 {
 	public class InfoPolizia
 	{

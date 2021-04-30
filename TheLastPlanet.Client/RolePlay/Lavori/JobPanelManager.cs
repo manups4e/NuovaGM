@@ -3,7 +3,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
-namespace TheLastPlanet.Client.Lavori
+namespace TheLastPlanet.Client.RolePlay.Lavori
 {
 	static class JobPanelManager
 	{

@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -9,7 +9,7 @@ using System.Linq;
 using Impostazioni.Client.Configurazione.Negozi.Generici;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal static class NegoziBusiness
 	{

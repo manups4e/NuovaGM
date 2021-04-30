@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
@@ -9,10 +9,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Personale
+namespace TheLastPlanet.Client.RolePlay.Personale
 {
 	internal static class EventiPersonalMenu
 	{

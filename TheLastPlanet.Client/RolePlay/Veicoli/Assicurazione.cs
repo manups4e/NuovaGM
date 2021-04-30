@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Veicoli
+namespace TheLastPlanet.Client.RolePlay.Veicoli
 {
 	internal static class Assicurazione
 	{

@@ -9,7 +9,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal static class NegozioAbitiClient
 	{

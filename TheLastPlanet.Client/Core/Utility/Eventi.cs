@@ -2,17 +2,18 @@
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Negozi;
+using TheLastPlanet.Client.RolePlay.Negozi;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.Core.Status;
+using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared.Internal.Events;
 using System.Linq;
+using TheLastPlanet.Client.RolePlay.Core;
 
 namespace TheLastPlanet.Client.Core.Utility
 {

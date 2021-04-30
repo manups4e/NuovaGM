@@ -1,16 +1,13 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Shared;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 

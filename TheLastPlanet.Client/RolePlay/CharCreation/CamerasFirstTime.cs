@@ -8,7 +8,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.SessionCache;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Core.CharCreation
+namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 {
 	internal static class CamerasFirstTime
 	{

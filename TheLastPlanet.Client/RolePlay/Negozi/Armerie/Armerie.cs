@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Logger;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
@@ -11,7 +11,7 @@ using System.Linq;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal static class Armerie
 	{

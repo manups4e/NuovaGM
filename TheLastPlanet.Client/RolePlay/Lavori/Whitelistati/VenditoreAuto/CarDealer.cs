@@ -16,7 +16,7 @@ using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
+namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 {
 	// void func_747(int iParam0) in carmod_shop.c
 	internal static class CarDealer
@@ -161,7 +161,7 @@ namespace TheLastPlanet.Client.Lavori.Whitelistati.VenditoreAuto
 			{
 				UIMenu sezione = catalogo.AddSubMenu(p.Key);
 				sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
-				List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
+				List<VeicoloCatalogoVenditore> vehs = new();
 
 				foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
 				{

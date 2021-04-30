@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.Sport
+namespace TheLastPlanet.Client.RolePlay.Sport
 {
 	static class Freccette
 	{

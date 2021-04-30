@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.Lavori;
-using TheLastPlanet.Client.Proprietà.Hotel;
+using TheLastPlanet.Client.RolePlay.Lavori;
+using TheLastPlanet.Client.RolePlay.Proprietà.Hotel;
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -7,17 +7,17 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.MenuNativo.PauseMenu;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.Personale;
+using TheLastPlanet.Client.RolePlay.Personale;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Interactions
+namespace TheLastPlanet.Client.RolePlay.Interactions
 {
 	internal static class PrimaPersonaObbligatoria
 	{

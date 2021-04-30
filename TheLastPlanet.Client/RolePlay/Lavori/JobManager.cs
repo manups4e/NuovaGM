@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Lavori.Generici.Pescatore;
+using TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Lavori
+namespace TheLastPlanet.Client.RolePlay.Lavori
 {
 	internal static class JobManager
 	{

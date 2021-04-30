@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.Core.CharCreation;
+using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Core
+namespace TheLastPlanet.Client.RolePlay.Core
 {
 	static class Discord
 	{

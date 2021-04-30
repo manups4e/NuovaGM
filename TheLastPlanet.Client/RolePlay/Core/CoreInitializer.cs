@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core.LogIn;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.RolePlay.Core.LogIn;
 
-namespace TheLastPlanet.Client.Core
+namespace TheLastPlanet.Client.RolePlay.Core
 {
 	static class CoreInitializer
 	{
@@ -13,8 +15,8 @@ namespace TheLastPlanet.Client.Core
 		{
 			LogIn.LogIn.Init();
 			Main.Init();
-			Utility.HUD.HUD.Init();
-			Utility.Eventi.Init();
+			HUD.Init();
+			Eventi.Init();
 			Discord.Init();
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();

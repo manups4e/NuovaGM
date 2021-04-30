@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
 
-namespace TheLastPlanet.Client.Negozi
+namespace TheLastPlanet.Client.RolePlay.Negozi
 {
 	internal class ConfigBarbieri
 	{

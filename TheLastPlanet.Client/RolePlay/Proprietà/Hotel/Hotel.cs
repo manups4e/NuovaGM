@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.Proprietà.Hotel
+namespace TheLastPlanet.Client.RolePlay.Proprietà.Hotel
 {
 	public class Hotel
 	{
