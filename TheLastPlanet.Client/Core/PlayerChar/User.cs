@@ -125,6 +125,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		private bool _finDiVita;
 		private bool _adminSpecta;
 		private bool _inVeh;
+		private int _bucket;
 
 		public bool InPausa
 		{
@@ -215,6 +216,16 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 				dynamic p = Cache.MyPlayer.Ped.State["PlayerStates"];
 				p.InVeicolo = value;
 				Cache.MyPlayer.Ped.State.Set("PlayerStates", p, true);
+			}
+		}
+
+		public int Bucket
+		{
+			get => _bucket;
+			set
+			{
+				Client.Instance.Eventi.Send("lprp:addPlayerToBucket", value);
+				_bucket = value;
 			}
 		}
 	}

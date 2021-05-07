@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Shared.Internal.Events;
@@ -17,25 +18,55 @@ namespace TheLastPlanet.Server.Core
 
 	internal static class BucketsHandler
 	{
-		public static List<Bucket> Buckets;
+		public static Dictionary<int, Bucket> Buckets = new();
 
 		public static void Init()
 		{
-			Buckets = new List<Bucket>() { new(0, "RolePlay") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.relaxed }, new(1, "LogIn") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict }, new(2, "Minigames chooser") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict } };
+			Buckets.Add(0, new Bucket(0, "Lobby") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(1, new Bucket(1, "RolePlay") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.relaxed });
+			Buckets.Add(2, new Bucket(2, "Minigames") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(3, new Bucket(3, "Gare") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(4, new Bucket(4, "Negozio") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
 			Server.Instance.Events.Mount("lprp:addPlayerToBucket", new Action<ClientId, int>(AddPlayerToBucket));
 			Server.Instance.Events.Mount("lprp:addEntityToBucket", new Action<int, int>(AddEntityToBucket));
+			Server.Instance.Events.Mount("lprp:richiediContoBuckets", new Func<ClientId, Task<Dictionary<int, int>>>(CountPlayers));
+			Server.Instance.Events.Mount("lprp:checkSeGiaDentro", new Func<ClientId, int, Task<bool>>(CheckIn));
 		}
 
 		private static void AddPlayerToBucket(ClientId player, int id)
 		{
-			Bucket bucket = Buckets.SingleOrDefault(x => x.Id == id);
-			bucket?.AddPlayer(player.Player);
+			foreach (KeyValuePair<int, Bucket> bucket in Buckets)
+			{
+				if (bucket.Key != id && bucket.Value.Players.Contains(player.Player)) bucket.Value.Players.Remove(player.Player);
+				if (bucket.Key == id) bucket.Value.AddPlayer(player.Player);
+			}
 		}
 
 		private static void AddEntityToBucket(int entity, int id)
 		{
-			Bucket bucket = Buckets.SingleOrDefault(x => x.Id == id);
+			Bucket bucket = Buckets[id];
 			bucket?.AddEntity(entity);
+		}
+
+		private static async Task<Dictionary<int, int>> CountPlayers(ClientId player)
+		{
+			Dictionary<int, int> result = new() { [1] = 0, [2] = 0, [3] = 0 };
+
+			foreach (KeyValuePair<int, Bucket> buck in Buckets)
+			{
+				if (buck.Key == 0) continue;
+				result[buck.Key] = buck.Value.Players.Count;
+			}
+
+			return result;
+		}
+
+		private static async Task<bool> CheckIn(ClientId player, int id)
+		{
+			Bucket bucket = Buckets[id];
+			Player p = bucket.Players.FirstOrDefault(x => x.Handle == player.Handle.ToString());
+
+			return p != null;
 		}
 	}
 

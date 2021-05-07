@@ -19,7 +19,7 @@ namespace TheLastPlanet.Server
 	{
 		public static async Task Init()
 		{
-		
+			BucketsHandler.Init();
 			RequestInternal.Init();
 			await ConfigServer.Init();
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);
