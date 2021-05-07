@@ -36,6 +36,16 @@ namespace TheLastPlanet.Client.RolePlay.Businesses
 			Client.Instance.NuiManager.RegisterCallback("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>>(RemStationFunds));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
+			Client.Instance.RemoveEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
+			Client.Instance.RemoveEventHandler("lprp:businesses:getstationcash", new Action<int>(GetStationCash));
+			Client.Instance.RemoveEventHandler("lprp:businesses:sellstation", new Action<bool, string, string>(SellStation));
+			Client.Instance.RemoveEventHandler("lprp:businesses:purchasestation", new Action<bool, string, int, int>(PurchaseStation));
+			Client.Instance.RemoveEventHandler("lprp:businesses:stationfundschange", new Action<bool, string>(StationFundsChange));
+		}
+
 		private static StationDiBenzina GetStationInfo(int index)
 		{
 			foreach (StationDiBenzina s in _playerstations)

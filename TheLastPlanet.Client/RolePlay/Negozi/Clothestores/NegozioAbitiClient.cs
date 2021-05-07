@@ -21,6 +21,11 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		public static async void Spawnato()
 		{
 			foreach (NegozioAbiti v in ConfigClothes.Binco)

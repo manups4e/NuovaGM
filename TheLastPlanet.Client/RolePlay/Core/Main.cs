@@ -10,6 +10,8 @@ using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.AdminAC;
+using TheLastPlanet.Client.RolePlay.CharCreation;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
@@ -127,6 +129,14 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
 			Client.Instance.AddEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
 			Screen.Fading.FadeOut(800);
+		}
+
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.RemoveEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
+			Client.Instance.RemoveEventHandler("lprp:AFKScelta", new Action<string>(AFKScelta));
+			ImpostazioniClient = null;
 		}
 
 		private static void LoadMain()
@@ -476,11 +486,11 @@ namespace TheLastPlanet.Client.RolePlay.Core
 
 							if (!triggerato)
 							{
-								Manager.ClientManager.WarningMessage("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!", 8, "lprp:AFKScelta");
+								ClientManager.WarningMessage("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!", 8, "lprp:AFKScelta");
 								triggerato = true;
 							}
 
-							Manager.ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!");
+							ClientManager.UpdateText("Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!");
 							Client.Logger.Debug( Text);
 						}
 				}

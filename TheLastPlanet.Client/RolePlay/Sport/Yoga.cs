@@ -78,6 +78,18 @@ namespace TheLastPlanet.Client.RolePlay.Sport
 			};
 		}
 
+		public static async void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa -= async (item, index) =>
+			{
+				Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
+				//rimuovere da inventario
+				YogaButtons = new Scaleform("yoga_buttons");
+				YogaKeys = new Scaleform("yoga_keys");
+			};
+		}
+
 		private static void Spawnato()
 		{
 			RequestAnimDict(YogaAnim);

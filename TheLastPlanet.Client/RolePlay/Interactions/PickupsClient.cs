@@ -26,6 +26,13 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
+			Client.Instance.RemoveEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
+			Client.Instance.RemoveEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
+		}
+
 		public static async Task PickupsMain()
 		{
 			bool letSleep = true;

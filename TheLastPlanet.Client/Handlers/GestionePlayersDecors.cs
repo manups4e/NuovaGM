@@ -12,17 +12,19 @@ namespace TheLastPlanet.Client
 	internal static class GestionePlayersDecors
 	{
 		private static int checkTimer1 = 0;
+
 		public static async Task GestioneDecors()
 		{
 			if (Cache.GiocatoriOnline.Count < 2) return;
 
-			if(Game.GameTime - checkTimer1 > 250)
-			{
+			if (Game.GameTime - checkTimer1 > 250)
 				foreach (Player player in Client.Instance.GetPlayers)
 				{
 					if (player == Cache.MyPlayer.Player) return;
+
 					if (player.GetPlayerData() == null) continue;
 					if (!player.GetPlayerData().StatiPlayer.Istanza.Stanziato) continue;
+
 					if (player.GetPlayerData().StatiPlayer.Istanza.Stanziato)
 					{
 						if (player.GetPlayerData().StatiPlayer.Istanza.Instance != string.Empty)
@@ -31,8 +33,7 @@ namespace TheLastPlanet.Client
 							{
 								if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Cache.MyPlayer.Player.ServerId && Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
 								{
-									if (!NetworkIsPlayerConcealed(player.Handle)) 
-										NetworkConcealPlayer(player.Handle, true, true);
+									if (!NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, true, true);
 								}
 								else
 								{
@@ -41,14 +42,21 @@ namespace TheLastPlanet.Client
 											NetworkConcealPlayer(player.Handle, false, false);
 								}
 							}
-							else
-								if (NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, false, false);
+							else if (NetworkIsPlayerConcealed(player.Handle))
+							{
+								NetworkConcealPlayer(player.Handle, false, false);
+							}
 						}
-						else
-							if (!NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, true, true);
+						else if (!NetworkIsPlayerConcealed(player.Handle))
+						{
+							NetworkConcealPlayer(player.Handle, true, true);
+						}
 					}
-					else
-						if (NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, false, false);
+					else if (NetworkIsPlayerConcealed(player.Handle))
+					{
+						NetworkConcealPlayer(player.Handle, false, false);
+					}
+
 					/*
 					if (!player.GetPlayerData().StatiPlayer.InPausa) continue;
 					if (player.Character.IsInRangeOf(Cache.MyPlayer.User.posizione.ToVector3, 30))
@@ -56,7 +64,6 @@ namespace TheLastPlanet.Client
 					*/
 					checkTimer1 = Game.GameTime;
 				}
-			}
 		}
 	}
 }

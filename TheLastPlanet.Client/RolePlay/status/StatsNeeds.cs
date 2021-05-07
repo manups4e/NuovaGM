@@ -67,6 +67,15 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 			//PSF_SHOOTING aggiungere abilità sparatorie?
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.RemoveEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
+			Needs = null;
+			Statistics = null;
+			//PSF_SHOOTING aggiungere abilità sparatorie?
+		}
+
 		public static void Eccolo()
 		{
 			User me = Cache.MyPlayer.User;

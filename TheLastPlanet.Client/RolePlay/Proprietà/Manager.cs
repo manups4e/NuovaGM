@@ -24,6 +24,11 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà
 		private static ConfigProprieta Proprietà;
 		public static void Init() { Proprietà = Client.Impostazioni.Proprieta; }
 
+		public static void Stop()
+		{
+			Proprietà = null;
+		}
+
 		public static async Task MarkerFuori()
 		{
 			Ped playerPed = Cache.MyPlayer.Ped;

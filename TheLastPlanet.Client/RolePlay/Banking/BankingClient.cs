@@ -122,6 +122,17 @@ namespace TheLastPlanet.Client.RolePlay.Banking
 			AddTextEntry("HUD_CASH_S", "€~a~");
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
+			Client.Instance.RemoveEventHandler("lprp:changeMoney", new Action<int>(AggMon));
+			Client.Instance.RemoveEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
+			foreach (Vector3 pos in _atmpos) InputHandler.ListaInput.Remove(new InputController(Control.Context, pos, new Radius(1.375f, 50f), "Premi ~INPUT_CONTEXT~ per gestire il conto", null, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+			AddTextEntry("MENU_PLYR_BANK", "Soldi in Banca");
+			AddTextEntry("HUD_CASH", "€~1~");
+			AddTextEntry("HUD_CASH_S", "€~a~");
+		}
+
 		private static async void AggMon(int mon)
 		{
 			int mone = Cache.MyPlayer.User.Money + mon;

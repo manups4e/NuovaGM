@@ -78,6 +78,12 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:spawntrain", new Action(SpawnTrain));
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		private static async void Spawnato()
 		{
 			foreach (Vector3 v in MetroTrainStations)

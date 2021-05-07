@@ -1,24 +1,20 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
-using Newtonsoft.Json;
-using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared.Snowflakes;
-using System.Dynamic;
-using TheLastPlanet.Client.Core.BucketChooser;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Internal.Events;
+using TheLastPlanet.Client.MAINLOBBY;
 using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client
 {
 	public class Client : BaseScript
 	{
-		public static Logger.Log Logger;
+		public static Log Logger;
 		public static Client Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
@@ -34,7 +30,7 @@ namespace TheLastPlanet.Client
 			SnowflakeGenerator.Create(1);
 			Instance = this;
 			Eventi = new();
-			//await ClassCollector.Init();
+			HUD.Init();
 			MainChooser.Init();
 		}
 
@@ -53,7 +49,7 @@ namespace TheLastPlanet.Client
 		/// </summary>
 		/// <param name="eventName">Nome evento</param>
 		/// <param name="action">Azione legata all'evento</param>
-		public void DeAddEventHandler(string eventName, Delegate action)
+		public void RemoveEventHandler(string eventName, Delegate action)
 		{
 			EventHandlers[eventName] -= action;
 		}

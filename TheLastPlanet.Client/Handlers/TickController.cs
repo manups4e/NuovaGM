@@ -41,7 +41,6 @@ namespace TheLastPlanet.Client.Handlers
 
 		public static void Init()
 		{
-			Client.Instance.AddTick(HUD.Menus);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 			// TICK HUD \\
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
@@ -105,6 +104,26 @@ namespace TheLastPlanet.Client.Handlers
 			// TICK MEDICI \\
 			TickMedici.Add(MediciMainClient.MarkersMedici);
 			TickMedici.Add(MediciMainClient.BlipMorti);
+		}
+
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			// TICK HUD \\
+			TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
+			TickHUD.Clear();
+			TickGenerici.ForEach(x => Client.Instance.RemoveTick(x));
+			TickGenerici.Clear();
+			TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
+			TickAPiedi.Clear();
+			TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
+			TickVeicolo.Clear();
+			TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
+			TickAppartamento.Clear();
+			TickPolizia.ForEach(x => Client.Instance.RemoveTick(x));
+			TickPolizia.Clear();
+			TickMedici.ForEach(x => Client.Instance.RemoveTick(x));
+			TickMedici.Clear();
 		}
 
 		private static void Spawnato()

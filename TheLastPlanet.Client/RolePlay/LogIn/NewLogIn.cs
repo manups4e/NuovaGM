@@ -8,6 +8,8 @@ using Logger;
 using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.RolePlay.CharCreation;
+using TheLastPlanet.Client.RolePlay.LogIn;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;

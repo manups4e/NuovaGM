@@ -25,6 +25,11 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 		private static int vecchiaMod = 2;
 		public static void Init() { Client.Instance.AddTick(WeaponHandling); }
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveTick(WeaponHandling);
+		}
+
 		//aggiungere controlli impostazioni.. V
 		//migliorare coordinate testa e aggiungere effetto grafico.. V
 		//migliorare precisione in corsa e in genera in copertura e non.. V 

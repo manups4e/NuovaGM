@@ -1,17 +1,15 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Client.RolePlay.Core;
+﻿using System;
+using System.Threading.Tasks;
+using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Shared;
-using System;
-using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
+using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Manager
+namespace TheLastPlanet.Client.AdminAC
 {
 	internal static class ClientManager
 	{

@@ -33,6 +33,11 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 
 		public static void Init() { RequestAmbientAudioBank(AudioBank, false); }
 
+		public static void Stop()
+		{
+			ReleaseAmbientAudioBank();
+		}
+
 		public static async Task ControlloMachines()
 		{
 			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.MyPlayer.User.Posizione.Distance(o.Position) < MachineRange);

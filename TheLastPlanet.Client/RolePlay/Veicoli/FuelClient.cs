@@ -79,6 +79,26 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
+			Client.Instance.RemoveEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
+			Client.Instance.RemoveEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
+			Client.Instance.RemoveEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
+			Client.Instance.RemoveEventHandler("lprp:fuel:fuelLevel", new Action<float>(FuelLevel));
+			Client.Instance.RemoveEventHandler("frfuel:filltankForVeh", new Action<int>(FillTankForVeh));
+			Client.Instance.RemoveEventHandler("lprp:fuel:depositfuel", new Action<bool, string, string, string>(DepositFuel));
+			Client.Instance.RemoveEventHandler("lprp:fuel:depositfuelnotowned", new Action<bool, string, string, string, string>(DepositFuelNotOwned));
+			Client.Instance.RemoveEventHandler("lprp:fuel:buytanker", new Action<bool, string>(BuyTanker));
+			Client.Instance.RemoveEventHandler("lprp:fuel:stationnotowned", new Action(StationNotOwned));
+			Client.Instance.RemoveEventHandler("lprp:fuel:buyfuelfortanker", new Action<bool, string>(BuyFuelForTanker));
+			Client.Instance.RemoveEventHandler("lprp:fuel:settankerfuel", new Action<int>(SetTankerFuel));
+			Client.Instance.RemoveEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
+			Client.Instance.RemoveEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
+			Client.Instance.RemoveEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		public static void Spawnato()
 		{
 			FuelCapacity = Client.Impostazioni.Veicoli.DanniVeicoli.FuelCapacity;

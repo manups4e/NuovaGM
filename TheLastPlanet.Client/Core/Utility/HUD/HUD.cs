@@ -6,6 +6,7 @@ using TheLastPlanet.Client.MenuNativo;
 using System.Drawing;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.RolePlay.Core.LogIn;
+using TheLastPlanet.Client.RolePlay.LogIn;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
 using TheLastPlanet.Client.SessionCache;
@@ -65,6 +66,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			MenuPool.RefreshIndex();
 			ProximityChat.Init();
+			Client.Instance.AddTick(Menus);
 		}
 
 		public static async Task Menus()

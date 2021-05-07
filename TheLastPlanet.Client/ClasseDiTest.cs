@@ -21,6 +21,12 @@ namespace TheLastPlanet.Client
 			//ClearFocus();
 		}
 
+		public static async void Stop()
+		{
+			//Client.Instance.AddTick(test);
+			//ClearFocus();
+		}
+
 		private static void AttivaMenu()
 		{
 			UIMenu test = new("Test", "test", new System.Drawing.PointF(700, 300));

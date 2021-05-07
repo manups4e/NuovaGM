@@ -33,6 +33,16 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 			Client.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
+			Client.Instance.RemoveEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
+			Client.Instance.RemoveEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
+			Client.Instance.RemoveEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
+			Client.Impostazioni.Proprieta.Appartamenti.Clear();
+			Client.Impostazioni.Proprieta.Garages.Garages.Clear();
+		}
+
 		private static async void CaricaCaseDaDb(string JsonCase, string jsonGarage)
 		{
 			Dictionary<string, string> aparts = JsonCase.FromJson<Dictionary<string, string>>();

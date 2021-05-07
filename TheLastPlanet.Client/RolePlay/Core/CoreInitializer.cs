@@ -13,15 +13,22 @@ namespace TheLastPlanet.Client.RolePlay.Core
 	{
 		public static async Task LogInInitializer()
 		{
-			LogIn.LogIn.Init();
+			RolePlay.LogIn.LogIn.Init();
 			Main.Init();
-			HUD.Init();
 			Eventi.Init();
-			Discord.Init();
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			await Task.FromResult(0);
 		}
 
+		public static async Task LogInStop()
+		{
+			RolePlay.LogIn.LogIn.Stop();
+			Main.Stop();
+			//Eventi.Stop();
+			TimeWeather.Meteo.Stop();
+			TimeWeather.Orario.Stop();
+			await Task.FromResult(0);
+		}
 	}
 }

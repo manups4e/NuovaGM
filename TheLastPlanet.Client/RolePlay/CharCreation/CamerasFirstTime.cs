@@ -23,6 +23,14 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			PrepareMusicEvent("FM_INTRO_END");
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
+			CancelMusicEvent("GLOBAL_KILL_MUSIC");
+			CancelMusicEvent("FM_INTRO_START");
+			CancelMusicEvent("FM_INTRO_END");
+		}
+
 		public static async void FirstTimeTransition(bool FirstChar)
 		{
 			Cache.MyPlayer.Ped.Detach();

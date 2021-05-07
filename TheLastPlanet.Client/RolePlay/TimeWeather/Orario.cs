@@ -26,6 +26,12 @@ namespace TheLastPlanet.Client.RolePlay.TimeWeather
 			//Client.Instance.AddTick(AggiornaTempo);
 		}
 
+		public static async void Stop()
+		{
+			Client.Instance.RemoveEventHandler("UpdateFromServerTime", new Action<int, long, bool, bool>(SetTime));
+			Client.Instance.RemoveTick(AggiornaTempo);
+		}
+
 		public static void SetTime(int serverSecondOfDay, long serverDate, bool isTimeFrozen, bool cambio = false)
 		{
 			Frozen = isTimeFrozen;

@@ -115,6 +115,11 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 
 		public static async void Init() { Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
 
+		public static async void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		private static async void Spawnato()
 		{
 			if (Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")

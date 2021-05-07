@@ -23,6 +23,13 @@ namespace TheLastPlanet.Client
 			ConfigShared.SharedConfig = new SharedConfig();
 			await Task.FromResult(0);
 		}
+
+		public static async Task Stop()
+		{
+			Client.Impostazioni = null;
+			ConfigShared.SharedConfig = null;
+			await Task.FromResult(0);
+		}
 	}
 
 	public class Configurazione

@@ -30,6 +30,10 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			*/
 		}
 
+		public static void Stop()
+		{
+		}
+
 		public static void NegozioPubblico(string tipo)
 		{
 			KeyValuePair<string, string> neg = Main.Textures[tipo];

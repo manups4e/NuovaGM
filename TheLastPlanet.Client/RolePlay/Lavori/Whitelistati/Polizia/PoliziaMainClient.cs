@@ -32,6 +32,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 			Client.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
+			Client.Instance.RemoveEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
+			Client.Instance.RemoveEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
+			Client.Instance.RemoveEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
+		}
+
 		public static void Spawnato()
 		{
 			foreach (StazioniDiPolizia stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)

@@ -18,6 +18,11 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		//public static Scaleform minimap = new Scaleform("MINIMAP");
 		public static void Init() { Client.Instance.AddTick(MinimapDrawing); }
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveTick(MinimapDrawing);
+		}
+
 		public static async Task MinimapDrawing()
 		{
 			Ped p = Cache.MyPlayer.Ped;

@@ -32,6 +32,14 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
 		}
 
+		public static async void Stop()
+		{
+			Client.Instance.RemoveEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
+			Client.Instance.RemoveEventHandler("cBrakes:add_front", new Action<int>(AddFront));
+			Client.Instance.RemoveEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
+			Client.Instance.RemoveEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
+		}
+
 		private static void AddRear(int NetVeh)
 		{
 			Vehicle veh = new Vehicle(NetToVeh(NetVeh));

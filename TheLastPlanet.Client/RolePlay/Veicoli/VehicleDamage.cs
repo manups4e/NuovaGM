@@ -71,6 +71,12 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			tireBurstMaxNumber = 0;
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		public static bool isPedDrivingAVehicle()
 		{
 			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)

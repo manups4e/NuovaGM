@@ -54,6 +54,11 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static async void Init() { TickController.TickVeicolo.Add(OnTickSpeedo3); }
 
+		public static async void Stop()
+		{
+			TickController.TickVeicolo.Remove(OnTickSpeedo3);
+		}
+
 		private static async Task OnTickSpeedo3()
 		{
 			Ped playerPed = Cache.MyPlayer.Ped;

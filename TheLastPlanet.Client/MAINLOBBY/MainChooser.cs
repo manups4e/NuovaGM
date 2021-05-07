@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.IPLs.dlc_smuggler;
 using TheLastPlanet.Client.MenuNativo;
@@ -15,7 +8,7 @@ using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Core.BucketChooser
+namespace TheLastPlanet.Client.MAINLOBBY
 {
 	internal static class MainChooser
 	{
@@ -24,10 +17,19 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 		private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
 		private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
 		private static ParticleEffectsAssetNetworked SpawnParticle = new("scr_powerplay");
+		private static Scaleform Warning = new("POPUP_WARNING");
 
 		public static void Init()
 		{
 			Client.Instance.AddTick(Entra);
+			Client.Instance.AddTick(DrawMarkers);
+			Client.Instance.AddTick(Scaleform);
+		}
+
+		public static void Stop()
+		{
+			Client.Instance.RemoveTick(Entra);
+			Client.Instance.RemoveTick(DrawMarkers);
 		}
 
 		private static Vector3 posRP = Vector3.Zero;
@@ -37,6 +39,8 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 
 		private static async Task DrawMarkers()
 		{
+			await Cache.Loaded();
+
 			if (posRP == Vector3.Zero)
 			{
 				posRP = await RP_Marker.Marker.Position.GetVector3WithGroundZ();
@@ -76,19 +80,99 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
+					Screen.Fading.FadeOut(500);
+					await BaseScript.Delay(500);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 1000f, "~b~Server RolePlay~w~", "Caricamento...", "", true, 0, "The Last Planet ver. 5.78.995");
+					Screen.Fading.FadeIn(1);
+					await BaseScript.Delay(3000);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, "~b~Server RolePlay~w~", "Caricamento completato!", "", true, 0, "The Last Planet ver. 5.78.995");
+					await BaseScript.Delay(3000);
+					Screen.Fading.FadeOut(1);
+					Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
+					await RolePlay.Initializer.Init();
+					Stop();
+					await Task.FromResult(0);
+				}
+			}
+
+			if (Mini_Marker.Marker.IsInMarker)
+			{
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel mondo dei ~g~Minigiochi~w~");
+
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					Screen.Fading.FadeOut(500);
+					await BaseScript.Delay(500);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 1000f, "~g~Server Minigiochi~w~", "Caricamento...", "", true, 0, "The Last Planet ver. 5.78.995");
+					Screen.Fading.FadeIn(1);
+					await BaseScript.Delay(3000);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, "~g~Server Minigiochi~w~", "Caricamento completato!", "", true, 0, "The Last Planet ver. 5.78.995");
+					await BaseScript.Delay(3000);
+					Screen.Fading.FadeOut(1);
+					Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
+					Screen.Fading.FadeIn(1000);
+					await Task.FromResult(0);
+				}
+			}
+
+			if (Gare_Marker.Marker.IsInMarker)
+			{
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel mondo delle ~p~Gare~w~");
+
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					Screen.Fading.FadeOut(500);
+					await BaseScript.Delay(500);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 1000f, "~p~Server Gare~w~", "Caricamento...", "", true, 0, "The Last Planet ver. 5.78.995");
+					Screen.Fading.FadeIn(1);
+					await BaseScript.Delay(3000);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, "~p~Server Gare~w~", "Caricamento completato!", "", true, 0, "The Last Planet ver. 5.78.995");
+					await BaseScript.Delay(3000);
+					Screen.Fading.FadeOut(1);
+					Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
+					Screen.Fading.FadeIn(1000);
+					await Task.FromResult(0);
+				}
+			}
+
+			if (Nego_Marker.Marker.IsInMarker)
+			{
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel ~o~Negozio~w~");
+
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					Screen.Fading.FadeOut(500);
+					await BaseScript.Delay(500);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 1000f, "~o~Negozio~w~", "Caricamento...", "", true, 0, "The Last Planet ver. 5.78.995");
+					Screen.Fading.FadeIn(1);
+					await BaseScript.Delay(3000);
+					Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, "~o~Negozio~w~", "Caricamento completato!", "", true, 0, "The Last Planet ver. 5.78.995");
+					await BaseScript.Delay(3000);
+					Screen.Fading.FadeOut(1);
+					Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
+					Screen.Fading.FadeIn(1000);
+					await Task.FromResult(0);
 				}
 			}
 		}
 
+		private static async Task Scaleform()
+		{
+			Warning.Render2D();
+			await Task.FromResult(0);
+		}
+
 		#region INGRESSO SERVER
+
+		private static bool _firstTick = true;
 
 		private static async Task Entra()
 		{
-			if (NetworkIsSessionStarted())
+			if (NetworkIsSessionStarted() || _firstTick)
 			{
+				_firstTick = false;
 				PlayerSpawned();
 				Client.Instance.RemoveTick(Entra);
-				Client.Logger.Debug("ci sono");
 			}
 
 			await Task.FromResult(0);
@@ -133,7 +217,6 @@ namespace TheLastPlanet.Client.Core.BucketChooser
 			Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
 			await BaseScript.Delay(100);
 			Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
-			Client.Instance.AddTick(DrawMarkers);
 			Screen.Fading.FadeIn(1000);
 			NetworkFadeInEntity(Cache.MyPlayer.Ped.Handle, true);
 			ShutdownLoadingScreen();

@@ -54,6 +54,12 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Cacciatore
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		private static void Spawnato()
 		{
 			Cacciatore = Client.Impostazioni.Lavori.Generici.Cacciatore;

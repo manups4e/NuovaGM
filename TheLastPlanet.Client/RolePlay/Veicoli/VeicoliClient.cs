@@ -102,6 +102,18 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 				}), i));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
+			Client.Instance.RemoveEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
+			for (int i = 0; i < carGarageSpots.Count; i++)
+				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i], new Radius(1.379f, 50f), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
+				{
+					MenuAffittoVeicoli.MenuAffitto((int)a[0]);
+				}), i));
+		}
+
 		public static async Task Lux()
 		{
 			Ped playerPed = Cache.MyPlayer.Ped;

@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 		private static async void CambiaPers()
 		{
 			HUD.MenuPool.CloseAllMenus();
-			Vector4 Random = LogIn.SelectFirstCoords[new Random(GetGameTimer()).Next(LogIn.SelectFirstCoords.Count - 1)];
+			Vector4 Random = LogIn.LogIn.SelectFirstCoords[new Random(GetGameTimer()).Next(LogIn.LogIn.SelectFirstCoords.Count - 1)];
 			int switchType = GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Random.X, Random.Y, Random.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			charSelectionCam.IsActive = true;
 			RenderScriptCams(true, false, 0, false, false);
 			while (IsPlayerSwitchInProgress()) await BaseScript.Delay(10);
-			LogIn.Attiva();
+			LogIn.LogIn.Attiva();
 		}
 	}
 

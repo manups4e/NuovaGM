@@ -32,6 +32,14 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 			Client.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
 		}
 
+		public static void Stop()
+		{
+			carDealer = null;
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
+			Client.Instance.RemoveEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
+		}
+
 		private static void Spawnato()
 		{
 			Blip vend = World.CreateBlip(carDealer.Config.MenuVendita);

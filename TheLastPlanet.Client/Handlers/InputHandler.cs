@@ -20,8 +20,18 @@ namespace TheLastPlanet.Client.Handlers
 
 	internal static class InputHandler
 	{
-		public static List<InputController> ListaInput = new List<InputController>();
-		public static void Init() { Client.Instance.AddTick(InputHandling); }
+		public static List<InputController> ListaInput = new();
+
+		public static void Init()
+		{
+			Client.Instance.AddTick(InputHandling);
+		}
+
+		public static void Stop()
+		{
+			ListaInput.Clear();
+			Client.Instance.RemoveTick(InputHandling);
+		}
 
 		public static async Task InputHandling()
 		{
@@ -36,7 +46,7 @@ namespace TheLastPlanet.Client.Handlers
 						{
 							if (input.Marker != null) input.Marker.Draw();
 
-							if (p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+							if ((p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) || input.Marker.IsInMarker) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
 								if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
 

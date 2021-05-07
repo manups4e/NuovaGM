@@ -37,6 +37,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Taxi
 			TickController.TickAPiedi.Add(Markers);
 		}
 
+		public static void Stop()
+		{
+			taxi = null;
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			TickController.TickAPiedi.Remove(Markers);
+			Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == taxi.PosAccettazione);
+			if (p != null) p.Delete();
+		}
+
 		private static void Eccolo()
 		{
 			Blip Tax = World.CreateBlip(taxi.PosAccettazione);

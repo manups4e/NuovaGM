@@ -22,6 +22,12 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			NegoziGenerici = Client.Impostazioni.Negozi.NegoziGenerici;
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(NegoziSpawn));
+			NegoziGenerici = null;
+		}
+
 		public static void NegoziSpawn()
 		{
 			foreach (Vector3 v in NegoziGenerici.tfs)

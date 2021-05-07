@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MAINLOBBY;
+using TheLastPlanet.Client.RolePlay.CharCreation;
+using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.RolePlay.Core.CharCreation;
+using TheLastPlanet.Client.RolePlay.Core.LogIn;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core.LogIn
+namespace TheLastPlanet.Client.RolePlay.LogIn
 {
 	internal static class LogIn
 	{
@@ -101,6 +103,58 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
+			Inizializza();
+		}
+
+		public static void Stop()
+		{
+			ClearFocus();
+			Client.Instance.RemoveEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
+			Screen.Hud.IsRadarVisible = false;
+		}
+
+		private static async void Inizializza()
+		{
+			while (true)
+			{
+				await BaseScript.Delay(0);
+				Cache.MyPlayer.Player.CanControlCharacter = false;
+				if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.MyPlayer.Ped.Handle, true, false);
+				Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
+				RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
+				Cache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
+				Cache.MyPlayer.Ped.Heading = charSelectCoords.W;
+				await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
+				Cache.MyPlayer.UpdatePedId();
+				Cache.MyPlayer.Ped.Style.SetDefaultClothes();
+				while (!await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
+				Cache.MyPlayer.UpdatePedId();
+
+				if (Cache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
+				{
+					Ped p = Cache.MyPlayer.Ped;
+					p.Style.SetDefaultClothes();
+					p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
+					await Cache.Loaded();
+					Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+					await BaseScript.Delay(100);
+					Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
+					p.IsVisible = false;
+					p.IsPositionFrozen = true;
+					RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);
+					charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
+					SetGameplayCamRelativeHeading(0);
+					charSelectionCam.Position = GetOffsetFromEntityInWorldCoords(p.Handle, 0f, -2, 0);
+					charSelectionCam.PointAt(p);
+					charSelectionCam.IsActive = true;
+					attuale = charSelectionCam;
+					RenderScriptCams(true, false, 0, false, false);
+					Attiva();
+				}
+				else { continue; }
+
+				break;
+			}
 		}
 
 		public static async void Attiva()
@@ -229,7 +283,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
-			Cache.MyPlayer.Ped.Position = p1.Position;
+			Cache.MyPlayer.Ped.Position = await Cache.MyPlayer.User.CurrentChar.Posizione.ToVector3.GetVector3WithGroundZ();
 			if (p1 != null)
 				if (p1.Exists())
 					p1.Delete();
@@ -356,7 +410,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
-			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal gioco senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
+			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal Server RolePlay senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
 		}
 
 		private static async Task Controllo()
@@ -376,9 +430,15 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 		public static async void Scelta(string param)
 		{
 			if (param == "select")
-				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
+			{
+				Initializer.Stop();
+				MainChooser.Init();
+				World.RenderingCamera = null;
+			}
 			else
+			{
 				Attiva();
+			}
 		}
 	}
 }

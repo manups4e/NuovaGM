@@ -1,20 +1,18 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using TheLastPlanet.Client.Core.Utility;
 using System.Drawing;
 using System.Linq;
-using TheLastPlanet.Shared;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Core;
+using CitizenFX.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
+using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Manager
+namespace TheLastPlanet.Client.AdminAC
 {
 	internal static class ManagerMenu
 	{

@@ -1,19 +1,18 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
+using CitizenFX.Core;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
-using TheLastPlanet.Client.SessionCache;
+using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Manager
+namespace TheLastPlanet.Client.AdminAC
 {
 	internal static class DevManager
 	{

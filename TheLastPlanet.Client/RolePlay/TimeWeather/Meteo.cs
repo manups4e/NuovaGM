@@ -28,6 +28,12 @@ namespace TheLastPlanet.Client.RolePlay.TimeWeather
 			Client.Instance.AddEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:getMeteo", new Action<int, bool, bool>(SetMeteo));
+			Client.Instance.RemoveEventHandler("CambiaMeteoDinamicoPerTutti", new Action<bool>(SetDynamic));
+		}
+
 		public static void SetDynamic(bool dynamic) { ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather = dynamic; }
 
 		public static async void SetMeteo(int newWeather, bool blackout, bool startup)

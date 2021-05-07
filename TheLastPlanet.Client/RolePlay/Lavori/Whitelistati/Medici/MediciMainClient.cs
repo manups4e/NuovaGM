@@ -31,6 +31,13 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
+			Client.Instance.RemoveEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
+		}
+
 		private static async void Spawnato()
 		{
 			foreach (Ospedale ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)

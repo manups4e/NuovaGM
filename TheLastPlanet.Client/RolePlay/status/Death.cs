@@ -53,6 +53,22 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 			Client.Instance.AddTick(Injuried);
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+
+			//Client.Instance.RemoveEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
+			//Client.Instance.RemoveEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
+			Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
+			Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(PedKilledByPlayer));
+			Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByPed", new Action<int, int, uint, bool>(PedKilledByPed));
+			Client.Instance.RemoveEventHandler("DamageEvents:PedDied", new Action<int, int, uint, bool>(PedDied));
+			//Client.Instance.RemoveEventHandler("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
+			Client.Instance.RemoveEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
+			Client.Instance.RemoveEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
+			Client.Instance.RemoveTick(Injuried);
+		}
+
 		#region events
 
 		private static async void EntityDamaged(int entity, int attacker, uint weaponHash, bool isMeleeDamage)

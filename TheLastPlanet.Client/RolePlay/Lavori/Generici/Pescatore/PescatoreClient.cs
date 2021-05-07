@@ -117,6 +117,50 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore
 			};
 		}
 
+		public static async void Stop()
+		{
+			PuntiPesca = null;
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa -= async (item, index) =>
+			{
+				RequestAnimDict(AnimDict);
+				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
+				HUD.MenuPool.CloseAllMenus();
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
+				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
+				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
+				CannaInMano = true;
+				TipoCanna = 0;
+				Client.Instance.AddTick(Pesca);
+				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
+			};
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescamedia"].Usa -= async (item, index) =>
+			{
+				RequestAnimDict(AnimDict);
+				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
+				HUD.MenuPool.CloseAllMenus();
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
+				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
+				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
+				CannaInMano = true;
+				TipoCanna = 1;
+				Client.Instance.AddTick(Pesca);
+				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
+			};
+			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescaavanzata"].Usa -= async (item, index) =>
+			{
+				RequestAnimDict(AnimDict);
+				RequestAnimDict("amb@code_human_wander_drinking@beer@male@base");
+				HUD.MenuPool.CloseAllMenus();
+				CannaDaPesca = new Prop(CreateObject((int)item.prop, 1729.73f, 6403.90f, 34.56f, true, true, true));
+				AttachEntityToEntity(CannaDaPesca.Handle, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), /*60309*/ 57005), 0.10f, 0, -0.001f, 80.0f, 150.0f, 200.0f, false, false, false, false, 1, true);
+				TaskPlayAnim(PlayerPedId(), "amb@code_human_wander_drinking@beer@male@base", "static", 3.5f, -8, -1, 49, 0, false, false, false);
+				CannaInMano = true;
+				TipoCanna = 2;
+				Client.Instance.AddTick(Pesca);
+				RemoveAnimDict("amb@code_human_wander_drinking@beer@male@base");
+			};
+		}
+
 		public static async Task ControlloPesca()
 		{
 			Ped p = Cache.MyPlayer.Ped;

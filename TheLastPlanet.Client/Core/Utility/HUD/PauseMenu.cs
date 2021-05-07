@@ -48,6 +48,11 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
 		}
 
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+		}
+
 		private static async void Spawnato()
 		{
 			string effect;

@@ -31,5 +31,10 @@ namespace TheLastPlanet.Client
 			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}
+
+		public static void Stop()
+		{
+			Client.Instance.RemoveTick(GestionePlayersDecors.GestioneDecors);
+		}
 	}
 }

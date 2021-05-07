@@ -20,6 +20,14 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.AddTick(Check);
 		}
 
+		public static void Stop()
+		{
+			baseTraffic = Client.Impostazioni.Main.baseTraffic;
+			divMultiplier = Client.Impostazioni.Main.divMultiplier;
+			LastCheck = World.CurrentDayTime;
+			Client.Instance.RemoveTick(Check);
+		}
+
 		public static async Task Check()
 		{
 			if (World.CurrentDayTime.Subtract(LastCheck).Seconds >= 30)

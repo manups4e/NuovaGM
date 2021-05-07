@@ -5,6 +5,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using System;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.RolePlay.CharCreation;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.SessionCache;
 
@@ -36,7 +37,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 
 			if (!Main.spawned)
 			{
-				if (!LogIn.LogIn.GuiEnabled)
+				if (!RolePlay.LogIn.LogIn.GuiEnabled)
 				{
 					if (Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible) SetRichPresence("Sta creando un personaggio");
 				}

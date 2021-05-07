@@ -60,6 +60,13 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 			SetBlipDisplay(Rim.Handle, 4);
 		}
 
+		public static void Stop()
+		{
+			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
+			Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == Rimozione.InizioLavoro);
+			p.Delete();
+		}
+
 		public static async Task InizioLavoro()
 		{
 			Ped p = Cache.MyPlayer.Ped;

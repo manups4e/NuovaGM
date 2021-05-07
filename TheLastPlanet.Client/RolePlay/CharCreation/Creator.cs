@@ -1,23 +1,22 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
-using Logger;
-using Newtonsoft.Json;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
-using TheLastPlanet.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
+using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using CitizenFX.Core.UI;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
-using TheLastPlanet.Client.RolePlay.Core.LogIn;
-using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.RolePlay.Core.CharCreation;
+using TheLastPlanet.Client.RolePlay.LogIn;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Snowflakes;
+using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
+namespace TheLastPlanet.Client.RolePlay.CharCreation
 {
 	internal static class Creator
 	{
@@ -442,6 +441,24 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
 			Client.Instance.AddTick(Scaleform);
 			sub_8d2b2();
+		}
+
+		public static void Stop()
+		{
+			Client.Instance.RemoveEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
+			Client.Instance.RemoveEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
+			Client.Instance.RemoveTick(Scaleform);
+			RemoveAnimDict("mp_character_creation@lineup@male_a");
+			RemoveAnimDict("mp_character_creation@lineup@male_b");
+			RemoveAnimDict("mp_character_creation@lineup@female_a");
+			RemoveAnimDict("mp_character_creation@lineup@female_b");
+			RemoveAnimDict("mp_character_creation@customise@male_a");
+			RemoveAnimDict("mp_character_creation@customise@female_a");
+			SetModelAsNoLongerNeeded((uint)GetHashKey("prop_police_id_board"));
+			SetModelAsNoLongerNeeded((uint)GetHashKey("prop_police_id_text"));
+			SetModelAsNoLongerNeeded((uint)GetHashKey("prop_police_id_text_02"));
+			ReleaseNamedScriptAudioBank("Mugshot_Character_Creator");
+			ReleaseNamedScriptAudioBank("DLC_GTAO/MUGSHOT_ROOM");
 		}
 
 		private static async void AggiornaModel(string JsonData)
