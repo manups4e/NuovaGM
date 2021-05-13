@@ -34,6 +34,8 @@ namespace TheLastPlanet.Client.Races.Creator
 		private static Marker placeMarker;
 		private static Vector3 curLocation;
 		private static Vector3 curRotation;
+		private static Vector3 cameraPosition;
+		private static Vehicle cameraVeh;
 
 		public static async void CreatorPreparation()
 		{
@@ -42,11 +44,18 @@ namespace TheLastPlanet.Client.Races.Creator
 			Vector3 rot = new(-90f, 0f, 0f);
 			enteringCamera = new Camera(CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", false));
 			SetFlyCamMaxHeight(enteringCamera.Handle, 1200f);
+			SetFlyCamHorizontalResponse(enteringCamera.Handle, 40, 40, 1128792064);
 			enteringCamera.Position = new Vector3(199.4f, -934.3f, height);
 			enteringCamera.Rotation = rot;
 			enteringCamera.IsActive = true;
+			enteringCamera.FarClip = 1000;
 			RenderScriptCams(true, false, 3000, true, false);
 			SetFrontendActive(false);
+			cameraVeh = await Funzioni.SpawnLocalVehicle("NINEF", enteringCamera.Position, enteringCamera.Rotation.Z);
+			cameraVeh.IsVisible = false;
+			cameraVeh.IsCollisionEnabled = false;
+			cameraVeh.IsPositionFrozen = true;
+			enteringCamera.AttachTo(cameraVeh, Vector3.Zero);
 			Cache.MyPlayer.Ped.IsVisible = false;
 			Cache.MyPlayer.Ped.IsInvincible = true;
 			Cache.MyPlayer.Ped.DiesInstantlyInWater = false;
@@ -57,13 +66,14 @@ namespace TheLastPlanet.Client.Races.Creator
 			{
 				float pz = 0;
 				GetGroundZFor_3dCoord(enteringCamera.Position.X, enteringCamera.Position.Y, enteringCamera.Position.Z, ref pz, false);
-				cross = new Prop(CreateObjectNoOffset(Funzioni.HashUint("prop_mp_placement_sm"), enteringCamera.Position.X, enteringCamera.Position.Y, pz, false, false, false));
+				cross = new Prop(CreateObjectNoOffset(Funzioni.HashUint("prop_mp_placement"), enteringCamera.Position.X, enteringCamera.Position.Y, pz, false, false, false));
 				cross.IsVisible = true;
 				SetEntityLoadCollisionFlag(cross.Handle, true);
 				cross.LodDistance = 500;
 				SetEntityCollision(cross.Handle, false, false);
 				SetFocusEntity(cross.Handle);
 				curLocation = cross.Position;
+				cameraPosition = enteringCamera.Position;
 				enteringCamera.PointAt(cross);
 			}
 			Client.Instance.AddTick(DrawMarker);
@@ -346,39 +356,17 @@ namespace TheLastPlanet.Client.Races.Creator
 		private static int f_1470 = -1;
 		private static async Task MoveCamera()
 		{
-
-
 			DisableInputGroup(2);
-			float iVar0 = GetControlNormal(2, 218);
-			float iVar1 = GetControlNormal(2, 219);
-			float iVar2 = GetControlNormal(2, 220) * 127f;
-			float iVar3 = GetControlNormal(2, 221) * 127f;
-			
-			HUD.DrawText(0.3f, 0.7f, $"iVar0 = {iVar0}");
-			HUD.DrawText(0.3f, 0.725f, $"iVar1 = {iVar1}");
-			HUD.DrawText(0.3f, 0.75f, $"iVar2 = {iVar2}");
-			HUD.DrawText(0.3f, 0.775f, $"iVar3 = {iVar3}");
-			
-			if (iVar0 == 0f && iVar1 == 0f)
-			{
-				iVar0 = GetDisabledControlNormal(2, 218);
-				iVar1 = GetDisabledControlNormal(2, 219);
-			}
-			if (iVar2 == 0f && iVar3 == 0f)
-			{
-				iVar2 = GetDisabledControlNormal(2, 220) * 127f;
-				iVar3 = GetDisabledControlNormal(2, 221) * 127f;
-			}
-			
-			HUD.DrawText(0.6f, 0.7f, $"Corretti iVar0 = {iVar0}");
-			HUD.DrawText(0.6f, 0.725f, $"Corretti iVar1 = {iVar1}");
-			HUD.DrawText(0.6f, 0.75f, $"Corretti iVar2 = {iVar2}");
-			HUD.DrawText(0.6f, 0.775f, $"Corretti iVar3 = {iVar3}");
-
+			float fVar0 = GetDisabledControlNormal(2, 218);
+			float fVar1 = GetDisabledControlNormal(2, 219);
+			float fVar2 = GetDisabledControlNormal(2, 220);
+			float fVar3 = GetDisabledControlNormal(2, 221);
+			float ltNorm = GetDisabledControlNormal(2, 252);
+			float rtNorm = GetDisabledControlNormal(2, 253);
 			if (!IsLookInverted())
 			{
-				iVar1 = -iVar1;
-				iVar3 = -iVar3;
+				fVar1 = -fVar1;
+				fVar3 = -fVar3;
 			}
 			if (enteringCamera.Exists())
 			{
@@ -387,25 +375,23 @@ namespace TheLastPlanet.Client.Races.Creator
 				{
 					N_0xc8b5c4a79cc18b94(enteringCamera.Handle);
 				}
-				else if (Input.IsControlPressed(Control.CreatorLT) || Input.IsControlPressed(Control.CreatorRT))
+				else if (Input.IsDisabledControlPressed(Control.CreatorLT) || Input.IsDisabledControlPressed(Control.CreatorRT))
 				{
 					N_0xc8b5c4a79cc18b94(enteringCamera.Handle);
 				}
 				if (IsInputDisabled(2))
 				{
-					iVar2 = (float)Math.Floor(GetControlUnboundNormal(2, 1) * 127f) * 2;
-					iVar3 = (float)Math.Floor(GetControlUnboundNormal(2, 2) * 127f) * -1;
+					fVar2 = (float)Math.Floor(GetControlUnboundNormal(2, 1) * 127f) * 2;
+					fVar3 = (float)Math.Floor(GetControlUnboundNormal(2, 2) * 127f) * -1;
 				}
 
-				EnableControlAction(2, func_7450(), true);
-				EnableControlAction(2, func_7449(), true); //func_9340
-				if (IsControlPressed(2, func_9341()))
+				if (IsDisabledControlPressed(2, func_9341()))
 				{
 					enteringCamera.FieldOfView = 40f;
 				}
 				if (enteringCamera.FieldOfView > 30f)
 				{
-					if (IsControlPressed(2, func_7449()))
+					if (IsDisabledControlPressed(2, func_7449()))
 					{
 						float fVar5 = (enteringCamera.FieldOfView - 0.2f);
 						if (fVar5 <= 30f)
@@ -415,7 +401,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				}
 				if (enteringCamera.FieldOfView < 65f)
 				{
-					if (IsControlPressed(2, func_7450()))
+					if (IsDisabledControlPressed(2, func_7450()))
 					{
 						float fVar5 = (enteringCamera.FieldOfView + 0.2f);
 						if (fVar5 >= 65f)
@@ -424,34 +410,6 @@ namespace TheLastPlanet.Client.Races.Creator
 					}
 				}
 
-				HUD.DrawText(0.3f, 0.8f, $"enteringCamera Rotation => {enteringCamera.Rotation}");
-
-				if (vVar4.X < -89.9f)
-				{
-					vVar4.X += 3f;
-					if (vVar4.X > -89.9f)
-						vVar4.X = (-89.9f + 0.01f);
-				}
-				else if (vVar4.X > (79f + 0.01f))
-				{
-					vVar4.X -= 3f;
-					if (vVar4.X < 79f)
-						vVar4.X = 79f;
-				}
-				else if (func_9339(iVar3, 30f))
-				{
-					vVar4 += new Vector3(0f, 0f, ((iVar3) * (0.01f + 0))) ;
-					if (vVar4.X < -89.9f)
-						vVar4.X = -89.9f;
-					if (vVar4.X > 79f)
-						vVar4.X = 79f;
-				}
-				if (func_9339(iVar2, 30f))
-				{
-					vVar4 -= new Vector3(((iVar2 * (0.01f + 0)) * 2f), 0f, 0f);
-					enteringCamera.Rotation = vVar4;
-				}
-				enteringCamera.Rotation = vVar4;
 			}
 			float speed = 0.2f;
 			float curRot = cross.Heading;
@@ -462,67 +420,53 @@ namespace TheLastPlanet.Client.Races.Creator
 			if (curRot < 0f)
 				curRot += 360f;
 
+
 			Vector3 camRot = enteringCamera.Rotation;
-
+			curLocation += (fVar0 * cross.RightVector) + (fVar1 * cross.ForwardVector);
+			cameraPosition += (fVar2 * cameraVeh.RightVector) + (fVar3 * cameraVeh.UpVector) + (ltNorm * cameraVeh.ForwardVector) - (rtNorm * cameraVeh.ForwardVector);
 			//cross.Heading = curRot; // aggiungere un bool quando vogliamo ruotare un prop o un impostazione con LB o RB
-
-			curLocation += (iVar0 * cross.RightVector) + (iVar1 * cross.ForwardVector);
 			float z = 0;
-			GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z, ref z, false);
-			curLocation.Z = z;
-			if (z != 0 && curLocation.Z < z + 0.5f) curLocation.Z = z + 0.5f;
+			GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, curLocation.Z + 50, ref z, false);
+			if (IsDisabledControlPressed(2, 226)) //LB
+			{
+				cameraPosition.Z += 1f;
+				curLocation.Z += 1f;
+			}
+			if (IsDisabledControlPressed(2, 227)) //RB
+			{
+				cameraPosition.Z -= 1f;
+				curLocation.Z -= 1f;
+			}
+			if (curLocation.Z < z + 1f)
+				curLocation.Z = z + 1;
+			if(cameraPosition.Z < z + 1f)
+				cameraPosition.Z = z + 1f;
 			cross.Position = curLocation;
 			cross.Rotation = new(0, 0, camRot.Z);
 			placeMarker.Position = curLocation + new Vector3(0, 0, 0.1f);
 			placeMarker.Draw();
 
-			/* 
-				speed = 0.2f --> premo Y e aumenta
-				fVar2 = 0.2f; uParam0->f_525
-				if (uParam0->f_1470 != -1)
-				{
-					fVar2 = (fVar2 + (SYSTEM::TO_FLOAT((MISC::GET_GAME_TIMER() - uParam0->f_1470)) / 2000f));
-					fVar2 = func_909((fVar2 * fVar2), 0.2f, 3f);
-				}
-				// SE PREMO L3 O R3 MUOVO SU E GIU LA TELECAMERA INSIEME ALL'OGGETTO.. CREDO
-				if (PAD::IS_CONTROL_PRESSED(2, func_7449()) || PAD::IS_CONTROL_PRESSED(2, func_7450()))
-				{
-					if (PAD::IS_CONTROL_PRESSED(2, 204))
-					{
-						fVar2 = (fVar2 * 5f); // PROVARE ANCHE CON 10f
-					}
-					if (PAD::IS_CONTROL_JUST_PRESSED(2, func_7449()) || PAD::IS_CONTROL_PRESSED(2, func_7449()))
-					{
-						if (uParam2->f_770 != 1 && uParam0->f_1479 != 0f)
-						{
-							if (CAM::DOES_CAM_EXIST(*iParam1))
-							{
-								CAM::SET_FLY_CAM_COORD_AND_CONSTRAIN(*iParam1, CAM::GET_CAM_COORD(*iParam1) - Vector(fVar2, 0f, 0f));
-							}
-							uParam0->f_1479 = (uParam0->f_1479 - fVar2);
-							if ((uParam2->f_3.f_2 - fVar0) < 1f)
-							{
-								uParam0->f_1479 = 0f;
-							}
-						}
-					}
-					else if (PAD::IS_CONTROL_JUST_PRESSED(2, func_7450()) || PAD::IS_CONTROL_PRESSED(2, func_7450()))
-					{
-						if ((uParam0->f_1479 < fParam6 && uParam2->f_524 != 46) && uParam0->f_258 != 15)
-						{
-							if (CAM::DOES_CAM_EXIST(*iParam1))
-							{
-								CAM::SET_FLY_CAM_COORD_AND_CONSTRAIN(*iParam1, CAM::GET_CAM_COORD(*iParam1) + Vector(fVar2, 0f, 0f));
-							}
-							func_7658(uParam0, uParam2, fVar2, fParam6, fVar0);
-						}
-					}
-				}
-			 
-			 */
+			cameraVeh.Position = cameraPosition;
+			/* TODO: DA RIVEDERE (NON DEVE SCENDERE O SALIRE TROPPO OLTRE UN CERTO PUNTO)
+			enteringCamera.PointAt(curLocation);
+			if (camRot.X < -75f)
+				camRot.X = -75f;
+			if (camRot.X > -3f)
+				camRot.X = -3f;
+			cameraVeh.Rotation = camRot;
+			HUD.DrawText(0.3f, 0.7f, $"CameraVeh rotation => {cameraVeh.Rotation}");
+			HUD.DrawText(0.3f, 0.725f, $"camrot => {camRot}");
+			*/
+			/*
+			HUD.DrawText(0.6f, 0.7f, $"Corretti fVar0 = {fVar0}");
+			HUD.DrawText(0.6f, 0.725f, $"Corretti fVar1 = {fVar1}");
+			HUD.DrawText(0.6f, 0.75f, $"Corretti fVar2 = {fVar2}");
+			HUD.DrawText(0.6f, 0.775f, $"Corretti fVar3 = {fVar3}");
+			HUD.DrawText(0.3f, 0.8f, $"enteringCamera Rotation => {enteringCamera.Rotation}");
+			HUD.DrawText(0.3f, 0.825f, $"curLocation => {curLocation}");
+			*/
 			// PER LO SNAP CERCARE "Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds"
 		}
-
 		#endregion
 	}
 }

@@ -292,7 +292,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			SetTextEdge(1, 0, 0, 0, 255);
 			SetTextDropShadow();
 			SetTextOutline();
-			SetTextCentre(true);
+			SetTextCentre(false);
 			SetTextEntry("STRING");
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
