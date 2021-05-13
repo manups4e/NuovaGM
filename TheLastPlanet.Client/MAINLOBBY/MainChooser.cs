@@ -136,7 +136,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 					}
 
 					await CambiaBucket("~p~Server Gare~w~", 3);
-					Screen.Fading.FadeIn(1000);
+					Races.Creator.RaceCreator.CreatorPreparation();
 					await Task.FromResult(0);
 				}
 			}
@@ -257,6 +257,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			Screen.Fading.FadeOut(1);
 			Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
 			Cache.MyPlayer.Player.CanControlCharacter = true;
+			Stop();
 		}
 	}
 }

@@ -925,6 +925,8 @@ namespace TheLastPlanet.Client.MenuNativo
 		public string BannerTexture { get; private set; }
 
 		public List<UIMenuHeritageWindow> Windows = new List<UIMenuHeritageWindow>();
+		public InstructionalButton Accept = new(Control.PhoneSelect, _selectTextLocalized);
+		public InstructionalButton Back = new(Control.PhoneCancel, _backTextLocalized);
 
 		#endregion
 
@@ -1037,7 +1039,8 @@ namespace TheLastPlanet.Client.MenuNativo
 			_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
 			_glareScaleform = new Scaleform("MP_MENU_GLARE");
 			UpdateScaleform();
-
+			_instructionalButtons.Add(Accept);
+			_instructionalButtons.Add(Back);
 			_mainMenu = new Container(new PointF(0, 0), new SizeF(700, 500), Color.FromArgb(0, 0, 0, 0));
 			BannerSprite = new Sprite(spriteLibrary, spriteName, new PointF(0 + Offset.X, 0 + Offset.Y), new SizeF(431, 100));
 			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 0.9f, Colors.White, Font.HouseScript, Alignment.Center));
@@ -1827,8 +1830,9 @@ namespace TheLastPlanet.Client.MenuNativo
 
 		private float CalculateCinematicHeight()
 		{
-			return Main.ImpostazioniClient.ModCinema ? Main.ImpostazioniClient.LetterBox : 0f;
+			return Main.ImpostazioniClient != null ? Main.ImpostazioniClient.ModCinema ? Main.ImpostazioniClient.LetterBox : 0f : 0f;
 		}
+
 		/// <summary>
 		/// Function to get whether the cursor is in an arrow space, or in label of an UIMenuListItem.
 		/// </summary>
@@ -1870,10 +1874,18 @@ namespace TheLastPlanet.Client.MenuNativo
 
 			if (_buttonsEnabled)
 			{
-				if (!Main.ImpostazioniClient.ModCinema)
-					_instructionalButtonsScaleform.Render2D();
+				if (Main.ImpostazioniClient != null)
+				{
+					if (!Main.ImpostazioniClient.ModCinema)
+						_instructionalButtonsScaleform.Render2D();
+					else
+						API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
+				}
 				else
-					API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
+				{
+					_instructionalButtonsScaleform.Render2D();
+				}
+
 				Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
 				Screen.Hud.HideComponentThisFrame(HudComponent.AreaName);
 				Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
@@ -2215,11 +2227,8 @@ namespace TheLastPlanet.Client.MenuNativo
 			_instructionalButtonsScaleform.CallFunction("CLEAR_ALL");
 			_instructionalButtonsScaleform.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
 			_instructionalButtonsScaleform.CallFunction("CREATE_CONTAINER");
+			int count = 0;
 
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 0, API.GetControlInstructionalButton(2, (int)Control.PhoneSelect, 0), _selectTextLocalized);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 1, API.GetControlInstructionalButton(2, (int)Control.PhoneCancel, 0), _backTextLocalized);
-
-			int count = 2;
 			foreach (InstructionalButton button in _instructionalButtons.Where(button => button.ItemBind == null || MenuItems[CurrentSelection] == button.ItemBind))
 			{
 				_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);

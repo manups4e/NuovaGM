@@ -264,7 +264,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			*/
 			Cache.MyPlayer.User.CurrentChar = await Client.Instance.Eventi.Get<Char_data>("lprp:Select_Char", ID);
 			Char_data Data = Cache.MyPlayer.User.CurrentChar;
-			int switchType = !Data.Posizione.IsZero ? GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z) : GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Main.firstSpawnCoords.X, Main.firstSpawnCoords.Y, Main.firstSpawnCoords.Z);
+			int switchType = GetIdealPlayerSwitchType(Cache.MyPlayer.Ped.Position.X, Cache.MyPlayer.Ped.Position.Y, Cache.MyPlayer.Ped.Position.Z, Data.Posizione.X, Data.Posizione.Y, Data.Posizione.Z);
 			SwitchOutPlayer(PlayerPedId(), 1 | 32 | 128 | 16384, switchType);
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
@@ -279,20 +279,9 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			await BaseScript.Delay(1000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Caricamento personaggio", LoadingSpinnerType.Clockwise1);
-
-			if (Data.Posizione.IsZero)
-			{
-				Cache.MyPlayer.Ped.Position = Main.firstSpawnCoords.ToVector3();
-				Cache.MyPlayer.Ped.Heading = Main.firstSpawnCoords.W;
-				await BaseScript.Delay(2000);
-			}
-			else
-			{
-				Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
-				Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
-				await BaseScript.Delay(2000);
-			}
-
+			Cache.MyPlayer.Ped.Position = Data.Posizione.ToVector3;
+			Cache.MyPlayer.Ped.Heading = Data.Posizione.Heading;
+			await BaseScript.Delay(2000);
 			Eventi.LoadModel();
 			if (Cache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
 			Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();

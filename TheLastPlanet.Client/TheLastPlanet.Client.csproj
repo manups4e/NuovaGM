@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Minigames\" />
     <Folder Include="Store\" />
-    <Folder Include="Races\" />
     <PackageReference Include="CitizenFX.Core.Client" Version="1.0.3814" />
 
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />

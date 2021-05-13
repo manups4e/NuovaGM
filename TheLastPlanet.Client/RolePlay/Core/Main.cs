@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 		public static int decorInt;
 		private static int HostId;
 		public static bool spawned = false;
-		public static ClientConfigKVP ImpostazioniClient;
+		public static ClientConfigKVP ImpostazioniClient = new();
 
 		public static List<Gang> GangsAttive = new List<Gang>();
 
@@ -44,7 +44,6 @@ namespace TheLastPlanet.Client.RolePlay.Core
 		private static RelationshipGroup player = new(Funzioni.HashInt("PLAYER"));
 		public static Vector4 charSelectCoords;
 		public static Vector4 charCreateCoords = new Vector4(402.91f, -996.74f, -100.00025f, 180.086f);
-		public static Vector4 firstSpawnCoords = new Vector4(Client.Impostazioni.Main.Firstcoords[0], Client.Impostazioni.Main.Firstcoords[1], Client.Impostazioni.Main.Firstcoords[2], Client.Impostazioni.Main.Firstcoords[3]);
 
 		private static List<string> tipi = new List<string>()
 		{
@@ -89,7 +88,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			"MEDIC"
 		};
 		private static List<string> pickupList = new List<string>();
-		private static List<WeaponHash> scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
+		private static List<WeaponHash> scopedWeapons { get; set; }
 
 		private static bool kickWarning;
 		private static Dictionary<long, float> recoils = new Dictionary<long, float>();
@@ -116,14 +115,15 @@ namespace TheLastPlanet.Client.RolePlay.Core
 		public static bool IsDead = false;
 		public static bool isAdmin = false;
 		public static bool LoadoutLoaded = false;
-		private static bool passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
+		private static bool passengerDriveBy = false;
 		private static int _shootingTimer;
 		private static int _generalTimer;
 
 		public static void Init()
 		{
 			LoadMain();
-
+			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
+			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));

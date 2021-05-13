@@ -13,12 +13,14 @@ namespace TheLastPlanet.Client.Core.Utility
 	internal static class WorldProbe
 	{
 		public static AsyncRaycastResult CrossairRaycastResult;
+		public static AsyncRaycastResult CrossairRenderingRaycastResult;
 
 		static WorldProbe()
 		{
 			Client.Instance.AddTick(new Func<Task>(async () =>
 			{
 				CrossairRaycastResult = await GamePlayCamCrosshairRaycast();
+				CrossairRenderingRaycastResult = await CrosshairRaycast();
 				await Task.FromResult(0);
 			}));
 		}
@@ -129,8 +131,8 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Vector3 position = cam.CamForwardVector();
-				Vector3 direction = position + distance * GameplayCamForwardVector();
+				Vector3 position = cam.Position;
+				Vector3 direction = position + distance * cam.CamForwardVector();
 
 				return await Raycast(position, direction, distance, IntersectOptions.Everything, ignoredEntity);
 			}
@@ -146,14 +148,32 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Vector3 position = cam.CamForwardVector();
-				Vector3 direction = position + distance * GameplayCamForwardVector();
+				Vector3 position = cam.Position;
+				Vector3 direction = position + distance * cam.CamForwardVector();
 
 				return await Raycast(position, direction, distance, options, ignoredEntity);
 			}
 			catch (Exception ex)
 			{
 				Client.Logger.Error( $"WorldProbe _CrosshairRaycast Error: {ex.Message}");
+			}
+
+			return default;
+		}
+
+		public static async Task<AsyncRaycastResult> CrosshairRaycast(IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
+		{
+			try
+			{
+				Camera cam = new(GetRenderingCam());
+				Vector3 position = cam.Position;
+				Vector3 direction = position + distance * cam.CamForwardVector();
+
+				return await Raycast(position, direction, distance, options, ignoredEntity);
+			}
+			catch (Exception ex)
+			{
+				Client.Logger.Error($"WorldProbe _CrosshairRaycast Error: {ex.Message}");
 			}
 
 			return default;
