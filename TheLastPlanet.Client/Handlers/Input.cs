@@ -89,7 +89,7 @@ namespace TheLastPlanet.Client
 		/// <param name="modifier">Il <see cref="ControlModifier"/> aggiuntivo</param>
 		/// <param name="timeout">Quanto aspettare prima che il controllo cominci a verificare in millisecondi</param>
 		/// <returns>Ritorna se il player ha tenuto premuto più del tempo specificato</returns>
-		public static async Task<bool> IsControlStillPressed(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None, int timeout = 1000)
+		public static async Task<bool> IsControlStillPressedAsync(Control control, PadCheck keyboardOnly = PadCheck.Any, ControlModifier modifier = ControlModifier.None, int timeout = 1000)
 		{
 			int currentTicks = Game.GameTime + 1;
 			while (IsControlPressed(control, keyboardOnly, modifier) && Game.GameTime - currentTicks < timeout) await BaseScript.Delay(0);

@@ -1332,7 +1332,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 
 			if (Input.IsControlPressed(Control.InteractionMenu) && !HUD.MenuPool.IsAnyMenuOpen)
 			{
-				bool tasto = await Input.IsControlStillPressed(Control.InteractionMenu);
+				bool tasto = await Input.IsControlStillPressedAsync(Control.InteractionMenu);
 
 				if (tasto && !aperto)
 				{

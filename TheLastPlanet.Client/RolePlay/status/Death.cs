@@ -247,7 +247,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 							{
 								text += "\nTieni premuto [~b~E~s~] per respawnare";
 
-								if (await Input.IsControlStillPressed(Control.Context))
+								if (await Input.IsControlStillPressedAsync(Control.Context))
 								{
 									Client.Instance.RemoveTick(ConteggioMorte);
 									RemoveItemsAfterRPDeath();
@@ -262,7 +262,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 							{
 								text = text + "\nTieni premuto [~b~E~s~] per respawnare pagando ~g~$ " + EarlyRespawnFineAmount.ToString() + "~s~";
 
-								if (await Input.IsControlStillPressed(Control.Context))
+								if (await Input.IsControlStillPressedAsync(Control.Context))
 								{
 									BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
 									Client.Instance.RemoveTick(ConteggioMorte);
