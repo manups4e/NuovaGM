@@ -247,6 +247,13 @@ namespace TheLastPlanet.Client.Core.Utility
 
 			return new AsyncRaycastResult(hitSomethingArg, hitPositionArg, surfaceNormalArg, entityHandleArg, result);
 		}
+
+		public static RaycastResult SynchronousCrosshairRaycast(this Camera cam, IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
+		{
+			Vector3 position = cam.Position;
+			Vector3 direction = position + distance * cam.CamForwardVector();
+			return new (StartExpensiveSynchronousShapeTestLosProbe(position.X, position.Y, position.Z, direction.X, direction.Y, direction.Z, (int)options, ignoredEntity == null ? 0 : ignoredEntity.Handle, 0));
+		}
 	}
 
 	public struct AsyncRaycastResult

@@ -19,16 +19,17 @@ namespace TheLastPlanet.Client.Races.Creator
 		public int MaxPlayers { get; set; }
 		public DateTime DataCreazione { get; set; }
 		public int TipoGara { get; set; }
+		public int TipoGiri { get; set; }
 		public int Laps { get; set; }
-		public List<TrackPieces> Props { get; set; }
-		public List<CheckPoint> CheckPoints { get; set; }
+		public List<TrackPieces> Props = new();
+		public List<CheckPoint> CheckPoints = new();
 		public int GrigliaIniziale { get; set; }
 		public int Orario { get; set; }
 		public int Meteo { get; set; }
-		public List<VehicleClass> ClassiPermesse { get; set; }
+		public List<VehicleClass> ClassiPermesse = new();
 		public VehicleClass ClasseDefault { get; set; }
 		public VehicleHash VeicoloDefault { get; set; }
-		public List<VehicleHash> VeicoliEsclusi { get; set; }
+		public List<VehicleHash> VeicoliEsclusi = new();
 		public int Traffico { get; set; }
 	}
 
