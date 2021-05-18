@@ -131,7 +131,9 @@ namespace TheLastPlanet.Client.MenuNativo
 				submenu.SetBannerType(menu.BannerRectangle);
 			else if (BannerInheritance && menu.BannerSprite != null)
 				submenu.SetBannerType(menu.BannerSprite);
-			Add(submenu);
+            submenu.MouseControlsEnabled = menu.MouseControlsEnabled;
+            submenu.MouseEdgeEnabled = menu.MouseEdgeEnabled;
+            Add(submenu);
 			menu.BindMenuToItem(submenu, item);
             menu.poolcontainer = this;
             return submenu;

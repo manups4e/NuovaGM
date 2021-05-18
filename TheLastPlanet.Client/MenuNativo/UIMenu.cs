@@ -1069,10 +1069,10 @@ namespace TheLastPlanet.Client.MenuNativo
 
 
 			SetKey(MenuControls.Up, Control.PhoneUp);
-			SetKey(MenuControls.Up, Control.CursorScrollUp);
+			//SetKey(MenuControls.Up, Control.CursorScrollUp);
 
 			SetKey(MenuControls.Down, Control.PhoneDown);
-			SetKey(MenuControls.Down, Control.CursorScrollDown);
+			//SetKey(MenuControls.Down, Control.CursorScrollDown);
 
 			SetKey(MenuControls.Left, Control.PhoneLeft);
 			SetKey(MenuControls.Right, Control.PhoneRight);
@@ -2026,6 +2026,7 @@ namespace TheLastPlanet.Client.MenuNativo
 				API.EnableControlAction(2, (int)Control.LookLeftRight, true);
 				API.EnableControlAction(2, (int)Control.Aim, true);
 				API.EnableControlAction(2, (int)Control.Attack, true);
+
 				if (_itemsDirty)
 				{
 					MenuItems.Where(i => i.Hovered).ToList().ForEach(i => i.Hovered = false);
