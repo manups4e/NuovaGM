@@ -37,6 +37,15 @@ namespace TheLastPlanet.Client.Races.Creator
 	{
 		public RacingProps Prop { get; set; }
 		public Vector3 Position { get; set; }
+		public Vector3 Rotation { get; set; }
+		public int Color { get;  set; }
+		public int TipoNeon { get; set; }
+		public float SpeedIntensity { get; set; } = 0;
+		public float SlowIntensity { get; set; } = 0;
+		public string SoundID { get; set; }
+		public int SoundDistance { get; set; }
+		public int VolteGiro { get; set; }
+		public bool UnoPerGiro { get;  set; }
 	}
 
 	public class CheckPoint

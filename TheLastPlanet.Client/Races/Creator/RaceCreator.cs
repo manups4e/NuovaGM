@@ -19,6 +19,13 @@ namespace TheLastPlanet.Client.Races.Creator
 {
 	internal static class RaceCreator
 	{
+		private enum RotationDummyType
+		{
+			Heading,
+			Roll,
+			Pitch,
+			Yaw
+		}
 		private static List<ObjectHash> placement = new()
 		{
 			ObjectHash.prop_mp_placement,
@@ -27,6 +34,554 @@ namespace TheLastPlanet.Client.Races.Creator
 			ObjectHash.prop_mp_placement_med,
 			ObjectHash.prop_mp_placement_red,
 			ObjectHash.prop_mp_placement_sm
+		};
+
+		private static Dictionary<string, List<dynamic>> CategorieEListe = new Dictionary<string, List<dynamic>>()
+		{
+			["Pista Stunt"] = new List<dynamic>
+			{
+				"Griglia di Partenza 16",
+				"Griglia di Partenza 30",
+				"Linea di Partenza 01",
+				"Linea di Partenza 01 (30)",
+				"Linea di Partenza 02",
+				"Linea di Partenza 02 (30)",
+				"Linea di Partenza 03",
+				"Linea di Partenza 03 (30)",
+				"Linea di Partenza con Pit Stop Sx (16)",
+				"Linea di Partenza con Pit Stop Dx (16)",
+				"Linea di Partenza con Pit Stop Sx (30)",
+				"Linea di Partenza con Pit Stop Dx (30)",
+				"Dritta Corta",
+				"Dritta Media",
+				"Dritta Medio-Larga",
+				"Dritta Larga",
+				"Dritta Larga con Pit Stop",
+				"Curva Media",
+				"Curva Larga",
+				"Curva XL",
+				"Curva 5°",
+				"Curva 15°",
+				"Curva 30°",
+				"Curva 45°",
+				"Curva Stretta 90°",
+				"Curva 135°",
+				"Curva 180°",
+				"Curva 180° Tornante",
+				"Bivio",
+				"Incrocio",
+				"Collegamento",
+				"Gincana Sx",
+				"Gincana Sx Piccola",
+				"Gincana Dx",
+				"Gincana Dx Piccola",
+				"Ostacolo Pneumatico",
+				"Discesa (5)",
+				"Discesa (15)",
+				"Discesa (30)",
+				"Discesa (45)",
+				"Salita (5)",
+				"Salita (15)",
+				"Salita (30)",
+				"Salita (45)",
+			},
+			["Pista Stunt con Barriere"] = new List<dynamic>()
+			{
+				"Dritta Corta",
+				"Dritta Media",
+				"Dritta Medio-Larga",
+				"Dritta Larga",
+				"Curva Media",
+				"Curva Larga",
+				"Curva XL",
+				"Curva 5°",
+				"Curva 15°",
+				"Curva 30°",
+				"Curva 45°",
+				"Curva 90° Stretta",
+				"Curva 180°",
+				"Curva 180° Tornante",
+				"Bivio",
+				"Incrocio",
+				"Strettoia Pubb. 01",
+				"Strettoia Pubb. 02",
+				"Strettoia Pubb. 03",
+				"Ostacolo ai Lati",
+				"Ostacolo al Centro",
+			},
+			["Pista Stunt Rialzata"] = new List<dynamic>()
+			{
+				"Griglia di Partenza 16",
+				"Griglia Linea di Partenza 16",
+				"Griglia di Partenza 30",
+				"Griglia Linea di Partenza 30",
+				"Stunt Extra Piccola",
+				"Stunt Piccola",
+				"Stunt Dritta",
+				"Stunt Curva",
+				"Stunt Curva 15°",
+				"Stunt Curva 30°",
+				"Stunt Curva 45°",
+				"Stunt Curva 45° Stretta",
+				"Stunt Inversione a U",
+				"Stunt Ponte",
+				"Stunt Sorpasso",
+				"Stunt Bivio",
+				"Stunt Strettoia",
+				"Stunt Strettoia Lunga",
+				"Stunt Pendenza 15",
+				"Stunt Pendenza 30",
+				"Stunt Pendenza 45",
+				"Stunt Collina Ripida",
+				"Stunt Colline Piccole",
+				"Stunt Dossi",
+				"Stunt Salto",
+				"Stunt Salto 15",
+				"Stunt Salto 30",
+				"Stunt Salto 45",
+				"Stunt Collegamento",
+				"Stunt Collegamento Largo",
+				"Stunt Larga a Collegamento Pista",
+				"Stunt Larga Piccola",
+				"Stunt Larga Curva 15",
+				"Stunt Larga Curva",
+				"Stunt Larga Curva U",
+				"Stunt Larga Pendenza 15",
+				"Stunt Larga Pendenza 30",
+				"Stunt Larga Pendenza 45",
+				"Stunt Unione Tubo",
+			},
+			["Barriere Stunt"] = new List<dynamic>()
+			{
+				"Barriera da Gara 1 Sezione",
+				"Barriera da Gara 2 Sezioni",
+				"Barriera da Gara 4 Sezioni",
+				"Barriera da Gara 8 Sezioni",
+				"Barriera da Gara 16 Sezioni",
+				"Barriera da Gara 5° Corta",
+				"Barriera da Gara 15° Corta",
+				"Barriera da Gara 30° Corta",
+				"Barriera da Gara 45° Corta",
+				"Barriera da Gara 90° Corta",
+				"Barriera da Gara 5°",
+				"Barriera da Gara 15°",
+				"Barriera da Gara 30°",
+				"Barriera da Gara 45°",
+				"Barriera da Gara 90°",
+				"Barriera da Gara 5° Piegata",
+				"Barriera da Gara 15° Piegata",
+				"Barriera da Gara 30° Piegata",
+				"Barriera da Gara 45° Piegata",
+				"Barriera da Gara 90° Piegata",
+				"Barriera da Gara Dritta Extra Corta",
+				"Barriera da Gara Dritta Corta",
+				"Barriera da Gara Dritta Media",
+				"Barriera da Gara Dritta Media Esterna",
+				"Barriera da Gara Dritta Media Interna",
+				"Barriera da Gara Dritta Larga Esterna",
+				"Barriera da Gara Dritta Larga Interna",
+			},
+			["Tubi Stunt"] = new List<dynamic>()
+			{
+				"Tubo Extra Corto",
+				"Tubo Corto",
+				"Tubo Medio",
+				"Tubo Lungo",
+				"Tubo Extra Lungo",
+				"Tubo Curva",
+				"Tubo Curva 5°",
+				"Tubo Curva 15°",
+				"Tubo Curva 30°",
+				"Tubo Curva 45°",
+				"Tubo Bivio",
+				"Tubo Croce",
+				"Tubo Apertura Singola",
+				"Tubo Apertura Doppia",
+				"Tubo Aprtura Dritta",
+				"Tubo Passagio 1/4",
+				"Tubo Passaggio 1/2",
+				"Tubo Salto 01",
+				"Tubo Salto 02",
+				"Tubo Passaggio Rotante",
+				"Tubo Passaggio Rotante Medio",
+				"Tubo 1/2 Passaggio Rotante",
+				"Tubo 1/4 Passaggio Rotante",
+				"Tubo 1/2 Passaggio Rotante Medio",
+				"Tubo Ingresso",
+				"Tubo Fine",
+				"Tubo Fine con Passaggio",
+				"Tubo Accelerazione",
+				"Tubo Ricarica Boost",
+				"Tubo Unione",
+				"Tubo Apertura Dritta Opaco",
+				"Tubo Corto Opaco",
+			},
+			["Tubi Stunt Neon"] = new List<dynamic>()
+			{
+				"Extra Corto",
+				"Corto",
+				"Medio",
+				"Lungo",
+				"Extra Lungo",
+				"Curva",
+				"Curva 5°",
+				"Curva 15°",
+				"Curva 30°",
+				"Curva 45°",
+			},
+			["Frecce Neon Grandi"] = new List<dynamic>()
+			{
+				"Freccia Media Piccola",
+				"Freccia Media Grossa",
+				"Freccia Larga Piccola",
+				"Freccia Larga Grossa",
+				"Freccia XL Piccola",
+				"Freccia XL Larga",
+			},
+			["Tubi Stunt Aerei"] = new List<dynamic>()
+			{
+				"Tubo Piccolo",
+				"Tubo Medio",
+				"Tubo Largo",
+				"Tubo Enorme",
+				"Tubo Gigantesco",
+				"Tubo Curva 5°",
+				"Tubo Curva 15°",
+				"Tubo Curva 30°",
+				"Tubo Curva 45°",
+				"Tubo Passaggio 1/4",
+				"Tubo Passaggio 1/2",
+				"Tubo Rampa",
+				"Tubo Apertura",
+				"Tubo Velocià",
+				"Tubo Piccolo x2",
+				"Tubo Medio x2",
+				"Tubo Largo x2",
+				"Tubo Enorme x2",
+				"Tubo Gigantesco x2",
+				"Tubo Apertura x2",
+				"Tubo Curva 5° x2",
+				"Tubo Velocità x2",
+				"Tubo Piccolo x4",
+				"Tubo Medio x4",
+				"Tubo Largo x4",
+				"Tubo Enorme x4",
+				"Tubo Gigantesco x4",
+				"Tubo Apertura x4",
+				"Tubo Curva 5° x4",
+			},
+			["Anelli Checkpoint Stunt"] = new List<dynamic>()
+			{
+				"Checkpoint Piccolo",
+				"Checkpoint Medio",
+				"Checkpoint Largo",
+				"Checkpoint Extra Large",
+				"Checkpoint XXL",
+				"Checkpoint Curva",
+				"Checkpoint Curva 5°",
+				"Checkpoint Curva 15°",
+				"Checkpoint Curva 30°",
+				"Checkpoint Curva 45°",
+				"Checkpoint Bivio",
+			},
+			["Passaggi Aerei Stunt"] = new List<dynamic>()
+			{
+				"Passaggio Pentagono Neon",
+				"Passaggio Pentagono Neon Invertito",
+				"Passaggio Esagono Neon",
+				"Passaggio Esagono Neon Invertito",
+				"Passaggio Neon Quadrato",
+				"Passaggio Neon Cerchio",
+				"Passaggio Neon Forma Aeroplano",
+			},
+			["Passaggi Gonfiabili Stunt"] = new List<dynamic>()
+			{
+				"Gonfiabile Traliccio Piccolo",
+				"Gonfiabile Traliccio Medio",
+				"Gonfiabile Traliccio Largo",
+				"Gonfiabile Striscia Piccola",
+				"Gonfiabile Striscia Media",
+				"Gonfiabile Striscia Larga",
+				"Gonfiabile Striscia Larga x3",
+				"Gonfiabile Striscia Larga x5",
+				"Gonfiabile Striscia Larga x7",
+				"Gonfiabile Ponte Piccolo",
+				"Gonfiabile Ponte Largo",
+				"Gonfiabile Ponte Largo x3",
+				"Gonfiabile Ponte Largo x5",
+				"Gonfiabile Ponte Largo x7",
+				"Gonfiabile Traliccio Sprunk",
+				"Gonfiabile Traliccio Rainé",
+				"Gonfiabile Traliccio Flow",
+				"Gonfiabile Traliccio Shark",
+				"Gonfiabile Traliccio Jackal",
+				"Gonfiabile Traliccio METV",
+				"Gonfiabile Ponte Sprunk",
+				"Gonfiabile Ponte Rainé",
+				"Gonfiabile Ponte Flow",
+				"Gonfiabile Ponte Shark",
+				"Gonfiabile Ponte Jackal",
+				"Gonfiabile Ponte METV",
+			},
+			["Blocchi da Costruzione Stunt"] = new List<dynamic>()
+			{
+				"Blocco 1x2",
+				"Blocco 2x2",
+				"Blocco 3x2",
+				"Blocco 1x3",
+				"Blocco 2x3",
+				"Blocco 3x3",
+				"Blocco 1x4",
+				"Blocco 2x4",
+				"Blocco 3x4",
+				"Blocco 1x5",
+				"Blocco 2x5",
+				"Blocco 3x5",
+				"Blocco 9x11",
+				"Blocco 9x21",
+				"Blocco 18x21",
+				"Blocco 23x28",
+				"Blocco 28x48",
+				"Pannello Pericolo Largo",
+				"Blocco Pericolo Piccolo",
+				"Blocco Pericolo Medio",
+				"Blocco Pericolo Largo",
+				"Blocco Pericolo Extra Large",
+			},
+			["Blocchi Stunt Neon"] = new List<dynamic>()
+			{
+				"Blocco Piccolo 1",
+				"Blocco Medio 1",
+				"Blocco Largo 1",
+				"Blocco Extra Large 1",
+				"Blocco Piccolo 2",
+				"Blocco Medio 2",
+				"Blocco Largo 2",
+				"Blocco Extra Large 2",
+				"Blocco Piccolo 3",
+				"Blocco Medio 3",
+				"Blocco Largo 3",
+				"Blocco Extra Large 3",
+				"Blocco Enorme 1",
+				"Blocco Enorme 2",
+				"Blocco Enorme 3",
+				"Blocco Enorme 4",
+				"Blocco Enorme 5",
+			},
+			["Rampe Stunt"] = new List<dynamic>()
+			{
+				"Salto Piccolo",
+				"Salto Medio",
+				"Salto Largo",
+				"Salto Liscio Piccolo",
+				"Salto Liscio Medio",
+				"Salto Liscio Largo",
+				"Rampa XS",
+				"Rampa Piccola",
+				"Rampa Media",
+				"Rampa Larga",
+				"Rampa XL",
+				"Rampa XXL",
+				"Rampa Larga Ampia",
+				"Rampa XL Ampia",
+				"Rampa XXL Ampia",
+				"Rampa Larga Ampia Stunt",
+				"Rampa XL Ampia Stunt",
+				"Rampa XXL Ampia Stunt",
+				"Rampia Media Flip Sx",
+				"Rampia Media Flip Dx",
+				"Rampia Piccola Flip Sx",
+				"Rampia Piccola Flip Dx",
+				"Rampa Stunt Gigante",
+				"Rampa Stunt Gigante Ampia",
+				"1/4 Pipe Piccolo",
+				"1/4 Pipe Medio",
+				"1/4 Pipe Largo",
+				"Gobba da Salto Piccola",
+				"Gobba da Salto Media",
+			},
+			["Pezzi Set Stunt"] = new List<dynamic>()
+			{
+				"Mezzo Loop",
+				"Loop Intero",
+				"Multi Loop",
+				"Loop Intero (Rampa)",
+				"Loop Intero (No Rampa)",
+				"Spirale Dx Piccola",
+				"Spirale Sx Piccola",
+				"Spirale Dx Media",
+				"Spirale Sx Media",
+				"Spirale Dx Larga",
+				"Spirale Sx Larga",
+				"Spirale Dx XXL",
+				"Spirale Sx XXL",
+				"Wall Ride 45 Dx (Rampa)",
+				"Wall Ride 45 Dx",
+				"Wall Ride 45 Sx (Rampa)",
+				"Wall Ride 45 Sx",
+				"Wall Ride 90 Dx (Rampa)",
+				"Wall Ride 90 Dx",
+				"Wall Ride 90 Sx (Rampa)",
+				"Wall Ride 90 Sx",
+				"Wall Ride Curva",
+				"Wall Ride Curva Sx (Rampa)",
+				"Wall Ride Curva Dx (Rampa)",
+				"Wall Ride Spirale Sx",
+				"Wall Ride Spirale Dx",
+				"Wall Ride Spirale Sx (Rampa)",
+				"Wall Ride Spirale Dx (Rampa)",
+				"Bersaglio Stunt Piccolo",
+				"Bersaglio Stunt",
+				"Stand Birillo",
+				"Porta da Calcio",
+				"Zona di Atterraggio Stunt",
+				"Pneumatico Ruota",
+				"Ostacolo Pista",
+				"Pista di Decollo Stunt",
+			},
+			["Segnali Stunt"] = new List<dynamic>()
+			{
+				"Segnale di Stop",
+				"Segnale 5",
+				"Segnale 10",
+				"Segnale 50",
+				"Segnale 100",
+				"Segnale Pericolo",
+				"Segnale Tornante Sx",
+				"Segnale Tornante Dx",
+				"Segnale Curva Sx",
+				"Segnale Curva Dx",
+				"Segnale Gincana Sx",
+				"Segnale Gincana Dx",
+				"Segnale !",
+				"Segnale >",
+				"Segnale <",
+				"Segnale Pits Dx",
+				"Segnale Pits Sx",
+				"Cartello Piega",
+				"Cartello Onda",
+				"Cartello Rallenta",
+				"Cartello Rampa",
+				"Cartello Half Loop ",
+				"Cartello Loop",
+				"Cartello No Auto",
+				"Cartello Birillo",
+				"Cartello Dirupo",
+				"Cartello Salita Ripida",
+				"Cartello Curva a gomito Sx",
+				"Cartello Dossi",
+				"Cartello Curva U",
+				"Cartello Strada Inclinata",
+				"Cartello !",
+				"Segnale Freccia Dritto",
+				"Segnale Freccia Sx",
+				"Segnale Freccia Dx",
+				"Segnale Freccia Sx Medio",
+				"Segnale Freccia Sx Largo",
+				"Segnale Freccia Dx Medio",
+				"Segnale Freccia Dx Largo",
+				"Muro di Ruote Corto",
+				"Muro di Ruote Corto Dx",
+				"Muro di Ruote Corto Sx",
+				"Muro di Ruote Pits Sx",
+				"Muro di Ruote Pits Dx",
+				"Muro di Ruote Tornante Sx",
+				"Muro di Ruote Tornante Dx",
+				"Muro di Ruote Medio",
+				"Muro di Ruote Largo 01",
+				"Muro di Ruote Largo 02",
+				"Muro di Ruote Largo 03",
+				"Muro di Ruote Largo 04",
+				"Muro di Ruote Largo 05",
+				"Muro di Ruote Largo 06",
+				"Muro di Ruote Largo 07",
+				"Muro di Ruote Largo 08",
+				"Muro di Ruote Largo 09",
+				"Muro di Ruote Largo 10",
+				"Muro di Ruote Largo 11",
+				"Muro di Ruote Largo 12",
+				"Muro di Ruote Largo 13",
+				"Muro di Ruote Largo 13",
+				"Muro di Ruote Medio Dx 01",
+				"Muro di Ruote Medio Dx 02",
+				"Muro di Ruote Medio Dx 03",
+				"Muro di Ruote Medio Dx 04",
+				"Muro di Ruote Medio Dx 05",
+				"Muro di Ruote Medio Dx 06",
+				"Muro di Ruote Medio Dx 07",
+				"Muro di Ruote Medio Dx 08",
+				"Muro di Ruote Largo Dx 01",
+				"Muro di Ruote Largo Dx 02",
+				"Muro di Ruote Largo Dx 03",
+				"Muro di Ruote Largo Dx 04",
+				"Muro di Ruote Largo Dx 05",
+				"Muro di Ruote Largo Dx 06",
+				"Muro di Ruote Largo Dx 07",
+				"Muro di Ruote Largo Dx 08",
+				"Muro di Ruote Largo Dx 09",
+				"Muro di Ruote Largo Dx 10",
+				"Muro di Ruote Medio Sx 01",
+				"Muro di Ruote Medio Sx 02",
+				"Muro di Ruote Medio Sx 03",
+				"Muro di Ruote Medio Sx 04",
+				"Muro di Ruote Medio Sx 05",
+				"Muro di Ruote Medio Sx 06",
+				"Muro di Ruote Medio Sx 07",
+				"Muro di Ruote Largo Sx 01",
+				"Muro di Ruote Largo Sx 02",
+				"Muro di Ruote Largo Sx 03",
+				"Muro di Ruote Largo Sx 04",
+				"Muro di Ruote Largo Sx 05",
+				"Muro di Ruote Largo Sx 06",
+				"Muro di Ruote Largo Sx 07",
+				"Muro di Ruote Largo Sx 08",
+				"Muro di Ruote Largo Sx 09",
+				"Muro di Ruote Largo Sx 10",
+				"Segnale Cavalletta (Obey)",
+				"Segnale Cavalletta (Xero)",
+				"Segnale Cavalletta (Fukaru)",
+				"Segnale Cavalletta (Chepalle)",
+				"Segnale Cavalletta (Globe Oil)",
+				"Blimp Xero",
+				"Segnale Prendere il Volo",
+				"Segnale Ron",
+				"Segnale Xero",
+				"Segnale PissWasser Appeso",
+				"Pneumatico Atomic",
+				"Arco Kronos",
+				"Segnale Pit Stop In Appeso",
+				"Segnale Pit Stop Out Appeso",
+			},
+			["Speciali Stunt"] = new List<dynamic>()
+			{
+				"Boost Velocità",
+				"Boost Velocità Pista Rialzata",
+				"Boost Velocità Pista",
+				"Rallentare",
+				"Rallentare Pista Rialzata",
+				"Rallentare Pista",
+				"Rifornimento Boost",
+				"Rifornimento Boost Pista Rialzata",
+				"Rifornimento Boost Pista",
+				"Boost Velocita Aereo",
+				"Fuoco D'artificio",
+				"Ruota di Fuoco",
+				"Ruota di Fuoco Media",
+				"Ruota di Fuoco Larga",
+				"Sirena Pubblica",
+				"Speaker Audio",
+			},
+			["Dinamici"] = new List<dynamic>()
+			{
+				"Birillo Gigante", 
+				"Palla da Bowling", 
+				"Palla da Calcio Piccola",
+				"Palla da Calcio Media",
+				"Palla da Calcio Grande", 
+				"Barili Esplosivi 01",
+				"Barili Esplosivi 02",
+				"Barili Esplosivi 03", 
+			},
 		};
 
 		private static Camera enteringCamera;
@@ -39,9 +594,13 @@ namespace TheLastPlanet.Client.Races.Creator
 		//private static Vehicle cameraVeh;
 		private static RaceTrack data = new RaceTrack();
 		private static Prop DummyProp; // prop temporaneo da posizionare
-		private static List<Prop> Piazzati = new List<Prop>();
+		private static Vector3 dummyRot;
+		private static RotationDummyType rotationDummyType = RotationDummyType.Heading;
+		private static List<TrackPieces> Piazzati = new List<TrackPieces>();
 		private static float zoom = 75f;
-		private static List<dynamic> grigliaVehStart = new List<dynamic>();
+		private static List<dynamic> grigliaVehStart = new List<dynamic>() { "2 X 2" };
+		private static int categoriaScelta = 0;
+		private static int tipoPropScelto = 0;
 
 		public static async void CreatorPreparation()
 		{
@@ -56,13 +615,6 @@ namespace TheLastPlanet.Client.Races.Creator
 			enteringCamera.FieldOfView = 30;
 			RenderScriptCams(true, false, 3000, true, false);
 			SetFrontendActive(false);
-			/*
-			cameraVeh = await Funzioni.SpawnLocalVehicle("NINEF", enteringCamera.Position, enteringCamera.Rotation.Z);
-			cameraVeh.IsVisible = false;
-			cameraVeh.IsCollisionEnabled = false;
-			cameraVeh.IsPositionFrozen = true;
-			enteringCamera.AttachTo(cameraVeh, Vector3.Zero);
-			*/
 			curRotation = enteringCamera.Rotation;
 			Cache.MyPlayer.Ped.IsPositionFrozen = true;
 			Cache.MyPlayer.Ped.IsVisible = false;
@@ -84,16 +636,15 @@ namespace TheLastPlanet.Client.Races.Creator
 				Height = cross.Position.Z;
 			}
 			SetFocusEntity(cross.Handle);
-			Client.Instance.AddTick(DrawMarker);
 			Client.Instance.AddTick(MoveCamera);
 			CreatorMainMenu();
 			Screen.Fading.FadeIn(10);
-			//cross = Funzioni.SpawnLocalProp("prop_mp_placement_sm", )
 		}
 
 		public static async void CreatorMainMenu()
 		{
 			UIMenu Creator = new("Creatore Gare", "Lo strumento dei creativi");
+			Creator.MouseControlsEnabled = false;
 			HUD.MenuPool.Add(Creator);
 			UIMenu Dettagli = Creator.AddSubMenu("Dettagli");
 			UIMenu Posizionamento = Creator.AddSubMenu("Posizionamento");
@@ -114,7 +665,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			Dettagli.AddItem(tipoDiGiri);
 			UIMenuListItem numeroLaps = new("Numero di Giri", new List<dynamic>() { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 }, data.Laps);
 			Dettagli.AddItem(numeroLaps);
-			UIMenuListItem numPlayers = new("Max Giocatori", new List<dynamic>() { 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 64 }, data.MaxPlayers);
+			UIMenuListItem numPlayers = new("Max Giocatori", new List<dynamic>() { 32, 64 }, data.MaxPlayers);
 			Dettagli.AddItem(numPlayers);
 			UIMenu veicoliDisponibili = Dettagli.AddSubMenu("Veicoli Disponibili", "Attenzione, se si sceglie la griglia piccola saranno disponibili solo le MOTO"); // aggiungere le classi dei veicoli e premendo espandi scegliamo i singoli veicoli
 			veicoliDisponibili.ParentItem.SetRightBadge(BadgeStyle.Car);
@@ -351,9 +902,14 @@ namespace TheLastPlanet.Client.Races.Creator
 
 			UIMenu grigliaDiPartenza = checkpointsEGriglia.AddSubMenu("Griglia di partenza");
 			UIMenu checkPoints = checkpointsEGriglia.AddSubMenu("Posiziona Checkpoint");
+
 			#region GRIGLIA DI PARTENZA
+
 			UIMenuListItem dimensioniGriglia = new UIMenuListItem("Dimensioni Griglia", grigliaVehStart, 0);
+			UIMenuListItem tipoGriglia = new UIMenuListItem("Tipo Griglia", new List<dynamic>() { "Grande", "Media", "Piccola" }, 0);
 			grigliaDiPartenza.AddItem(dimensioniGriglia);
+			grigliaDiPartenza.AddItem(tipoGriglia);
+
 			#endregion
 
 			#region CHECKPOINTS
@@ -368,6 +924,120 @@ namespace TheLastPlanet.Client.Races.Creator
 			#endregion
 
 			#region PROPS E POSIZIONAMENTO
+			UIMenuListItem categoria = new UIMenuListItem("Categoria", CategorieEListe.Keys.Cast<dynamic>().ToList(), 0);
+			propPlacing.AddItem(categoria);
+			UIMenuListItem tipo = new UIMenuListItem("Tipo", CategorieEListe[CategorieEListe.Keys.ToList()[0]], 0);
+			propPlacing.AddItem(tipo);
+			UIMenuListItem tipoRot = new UIMenuListItem("Tipo di Rotazione", new List<dynamic>() { "Heading Default", "Roll", "Pitch", "Yaw" }, 0);
+			propPlacing.AddItem(tipoRot);
+			UIMenuListItem color = new UIMenuListItem("Colore", new List<dynamic>() { "Rosso", "Blu", "Viola", "Nero", "Bianco", "Grigio", "Giallo", "Arancione", "Verde", "Rosa", "Da Gara", "Nero & Giallo", "Arancione & Blu", "Verde & Giallo", "Rosa & Grigio" }, 0);
+			propPlacing.AddItem(color);
+			UIMenuCheckboxItem stacking = new UIMenuCheckboxItem("Abilita Accatastamento Prop", UIMenuCheckboxStyle.Tick, false, "");
+			propPlacing.AddItem(stacking);
+
+			propPlacing.OnListChange += async (a, b, c) =>
+			{
+				if (b == categoria)
+				{
+					categoriaScelta = c;
+				}
+				else if(b == tipo)
+				{
+					Vector3 pos = Vector3.Zero;
+					if (DummyProp != null)
+						pos = DummyProp.Position;
+					else
+						pos = cross.Position;
+					if(DummyProp != null)
+						DummyProp.Delete();
+					tipoPropScelto = c;
+					string m = GetModelFromMenu();
+					DummyProp = await Funzioni.SpawnLocalProp(m, pos, false, false);
+					DummyProp.Heading = cross.Heading;
+					DummyProp.IsCollisionEnabled = false;
+					dummyRot = new (0, 0, curRotation.Z);
+				}
+				else if (b == tipoRot)
+				{
+					rotationDummyType = (RotationDummyType)c;
+				}
+			};
+
+
+			UIMenu opzioniAvanzate = propPlacing.AddSubMenu("Opzioni Avanzate");
+			#region opzioniAvanzate
+
+			UIMenu overridePos = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
+			UIMenu overrideRot = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
+			UIMenuCheckboxItem useOverride = new UIMenuCheckboxItem("Usa Override", UIMenuCheckboxStyle.Tick, false, "");
+			UIMenuListItem alignment = new UIMenuListItem("Allineamento", new List<dynamic>() { "Mondo", "Locale" }, 0);
+			UIMenuDynamicListItem posX = new UIMenuDynamicListItem("X", curLocation.X.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.X -= 0.1f;
+				else curLocation.X += 0.1f;
+				return curLocation.X.ToString("F3");
+			});
+			UIMenuDynamicListItem posY = new UIMenuDynamicListItem("Y", curLocation.Y.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Y -= 0.1f;
+				else curLocation.Y += 0.1f;
+				return curLocation.Y.ToString("F3");
+			});
+			UIMenuDynamicListItem posZ = new UIMenuDynamicListItem("Z", curLocation.Z.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) curLocation.Z -= 0.1f;
+				else curLocation.Z += 0.1f;
+				return curLocation.Z.ToString("F3");
+			});
+			UIMenuDynamicListItem rotX = new UIMenuDynamicListItem("X", dummyRot.X.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.X -= 0.1f;
+				else dummyRot.X += 0.1f;
+				return dummyRot.X.ToString("F3");
+			});
+			UIMenuDynamicListItem rotY = new UIMenuDynamicListItem("Y", dummyRot.Y.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Y -= 0.1f;
+				else dummyRot.Y += 0.1f;
+				return dummyRot.Y.ToString("F3");
+			});
+			UIMenuDynamicListItem rotZ = new UIMenuDynamicListItem("Z", dummyRot.Z.ToString("F3"), (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Left) dummyRot.Z -= 0.1f;
+				else dummyRot.Z += 0.1f;
+				return dummyRot.Z.ToString("F3");
+			});
+			overridePos.AddItem(alignment);
+			overridePos.AddItem(posX);
+			overridePos.AddItem(posY);
+			overridePos.AddItem(posZ);
+			overrideRot.AddItem(alignment);
+			overrideRot.AddItem(rotX);
+			overrideRot.AddItem(rotY);
+			overrideRot.AddItem(rotZ);
+
+			#endregion
+
+			UIMenuListItem speedPadIntensity = new UIMenuListItem("Intensità Pad Accelerazione", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
+			propPlacing.AddItem(speedPadIntensity);
+			UIMenuListItem slowPadIntensity = new UIMenuListItem("Intensità Pad Rallentamento", new List<dynamic>() { "Debole", "Normale", "Forte", "Extra Forte", "Ultra Forte" }, 1);
+			propPlacing.AddItem(slowPadIntensity);
+			UIMenu soundTriggerMenu = propPlacing.AddSubMenu("Menu Attivazione Suoni");
+			#region soundTriggerMenu
+
+			UIMenuListItem soundId = new UIMenuListItem("Sound ID", new List<dynamic>() { "Airhorn", "Roar", "Chitarra 01", "Chitarra 02", "Clacson", "Tuono", "Allarme" }, 0);
+			UIMenuItem soundPreview = new UIMenuItem("Play Anteprima Suono");
+			UIMenuListItem radius = new UIMenuListItem("Distanza Attivazione", new List<dynamic> { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 150 }, 0);
+			UIMenuListItem voltePerLap = new UIMenuListItem("(Globale) Volte per Giro", new List<dynamic>() { "Infinite", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70 }, 0);
+			UIMenuCheckboxItem oncePerLap = new UIMenuCheckboxItem("Una Volta per Giro", false);
+			soundTriggerMenu.AddItem(soundId);
+			soundTriggerMenu.AddItem(soundPreview);
+			soundTriggerMenu.AddItem(radius);
+			soundTriggerMenu.AddItem(voltePerLap);
+			soundTriggerMenu.AddItem(oncePerLap);
+
+			#endregion
+
 
 			#endregion
 
@@ -377,6 +1047,239 @@ namespace TheLastPlanet.Client.Races.Creator
 			Creator.AddItem(Esci);
 			Creator.Visible = true;
 			Creator.RemoveInstructionalButton(Creator.Back);
+		}
+
+		#region	METODI
+
+		private static string GetModelFromMenu()
+		{
+			switch (categoriaScelta)
+			{
+				case 0:
+					switch (tipoPropScelto)
+					{
+						case 0:
+							return "stt_prop_track_start";
+
+						case 1:
+							return "stt_prop_track_start_02";
+
+						case 2:
+							return "stt_prop_race_start_line_01";
+
+						case 3:
+							return "stt_prop_race_start_line_01b";
+
+						case 4:
+							return "sr_prop_sr_start_line_02";
+
+						case 5:
+							return "stt_prop_race_start_line_02b";
+
+						case 6:
+							return "stt_prop_race_start_line_03";
+
+						case 7:
+							return "stt_prop_race_start_line_03b";
+
+						case 8:
+							return "ch_prop_track_pit_stop_01";
+
+						case 9:
+							return "stt_prop_track_straight_s";
+
+						case 10:
+							return "stt_prop_track_straight_m";
+
+						case 11:
+							return "ba_prop_track_straight_lm";
+
+						case 12:
+							return "stt_prop_track_straight_l";
+
+						case 13:
+							return "stt_prop_track_bend_m";
+
+						case 14:
+							return "stt_prop_track_bend_l";
+
+						case 15:
+							return "ba_prop_track_bend_l_b";
+
+						case 16:
+							return "stt_prop_track_bend2_l";
+
+						case 17:
+							return "stt_prop_track_bend2_l_b";
+
+						case 18:
+							return "stt_prop_track_bend_5d";
+
+						case 19:
+							return "stt_prop_track_bend_15d";
+
+						case 20:
+							return "stt_prop_track_bend_30d";
+
+						case 21:
+							return "stt_prop_track_bend_180d";
+
+						case 22:
+							return "stt_prop_track_fork";
+
+						case 23:
+							return "stt_prop_track_cross";
+
+						case 24:
+							return "stt_prop_track_straight_bar_s";
+
+						case 25:
+							return "stt_prop_track_straight_bar_m";
+
+						case 26:
+							return "stt_prop_track_straight_lm_bar";
+
+						case 27:
+							return "stt_prop_track_straight_bar_l";
+
+						case 28:
+							return "stt_prop_track_bend_bar_m";
+
+						case 29:
+							return "stt_prop_track_bend_bar_l";
+
+						case 30:
+							return "stt_prop_track_bend_bar_l_b";
+
+						case 31:
+							return "stt_prop_track_bend2_bar_l";
+
+						case 32:
+							return "stt_prop_track_bend2_bar_l_b";
+
+						case 33:
+							return "stt_prop_track_bend_5d_bar";
+
+						case 34:
+							return "stt_prop_track_bend_15d_bar";
+
+						case 35:
+							return "stt_prop_track_bend_30d_bar";
+
+						case 36:
+							return "stt_prop_track_bend_180d_bar";
+
+						case 37:
+							return "stt_prop_track_fork_bar";
+
+						case 38:
+							return "stt_prop_track_cross_bar";
+
+						case 39:
+							return "stt_prop_track_funnel";
+
+						case 40:
+							return "stt_prop_track_funnel_ads_01a";
+
+						case 41:
+							return "stt_prop_track_funnel_ads_01b";
+
+						case 42:
+							return "stt_prop_track_funnel_ads_01c";
+
+						case 43:
+							return "stt_prop_track_link";
+
+						case 44:
+							return "stt_prop_track_chicane_l";
+
+						case 45:
+							return "stt_prop_track_chicane_l_02";
+
+						case 46:
+							return "stt_prop_track_chicane_r";
+
+						case 47:
+							return "stt_prop_track_chicane_r_02";
+
+						case 48:
+							return "stt_prop_track_block_01";
+
+						case 49:
+							return "stt_prop_track_block_02";
+
+						case 50:
+							return "stt_prop_track_block_03";
+
+						case 51:
+							return "sr_prop_track_straight_l_d5";
+
+						case 52:
+							return "sr_prop_track_straight_l_d15";
+
+						case 53:
+							return "sr_prop_track_straight_l_d30";
+
+						case 54:
+							return "sr_prop_track_straight_l_d45";
+
+						case 55:
+							return "sr_prop_track_straight_l_u5";
+
+						case 56:
+							return "sr_prop_track_straight_l_u15";
+
+						case 57:
+							return "sr_prop_track_straight_l_u30";
+
+						case 58:
+							return "sr_prop_track_straight_l_u45";
+
+						case 59:
+							return "stt_prop_track_straight_lm";
+
+						case 60:
+							return "ch_prop_track_ch_straight_bar_s_s";
+
+						case 61:
+							return "ch_prop_track_ch_straight_bar_s";
+
+						case 62:
+							return "ch_prop_track_ch_bend_bar_l_out";
+
+						case 63:
+							return "ch_prop_track_ch_bend_bar_l_b";
+
+						case 64:
+							return "ch_prop_track_ch_bend_bar_m_out";
+
+						case 65:
+							return "ch_prop_track_ch_bend_bar_m_in";
+
+						case 66:
+							return "ch_prop_track_ch_straight_bar_m";
+
+						case 67:
+							return "ch_prop_track_bend_bar_lc";
+
+						case 68:
+							return "ch_prop_track_ch_bend_180d";
+
+						case 69:
+							return "ch_prop_track_ch_bend_bar_45d";
+
+						case 70:
+							return "ch_prop_track_ch_bend_45";
+
+						case 71:
+							return "ch_prop_track_ch_bend_bar_135";
+
+						case 72:
+							return "ch_prop_track_ch_bend_135";
+					}
+					break;
+			}
+			return null;
 		}
 
 		public static void changeModel(ObjectHash iVar11)
@@ -526,13 +1429,9 @@ namespace TheLastPlanet.Client.Races.Creator
 			fVar10 = ((fVar8 * fVar8) + (fVar9 * fVar9));
 			return fVar10 < (fParam2 * fParam2);
 		}
-
+		#endregion
 
 		#region Ticks
-
-		private static async Task DrawMarker()
-		{
-		}
 
 		private static async Task MoveCamera()
 		{
@@ -561,16 +1460,9 @@ namespace TheLastPlanet.Client.Races.Creator
 				}
 				if (IsInputDisabled(2))
 				{
-					fVar2 = (float)Math.Floor(GetControlUnboundNormal(2, 1)) * 2;
-					fVar3 = (float)Math.Floor(GetControlUnboundNormal(2, 2)) * -1;
+					fVar2 = GetDisabledControlUnboundNormal(2, 1) * 2;
+					fVar3 = GetDisabledControlUnboundNormal(2, 2) * -1 * 2;
 				}
-
-
-				/*
-				curLocation += (fVar0 * cross.RightVector) + (fVar1 * cross.ForwardVector);
-				cameraPosition += (fVar2 * cameraVeh.RightVector) + (fVar3 * cameraVeh.UpVector); // LT e RT fanno solo avanti e indietro..
-				*/
-
 
 				float xVectFwd = -fVar1 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
 				float yVectFwd = fVar1 * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
@@ -580,9 +1472,9 @@ namespace TheLastPlanet.Client.Races.Creator
 
 				curRotation = new(fVar3 + enteringCamera.Rotation.X, 0, -fVar2 + enteringCamera.Rotation.Z);
 
-				zoom = (float)Math.Sqrt(curLocation.DistanceToSquared(cameraPosition)); // da migliorare assolutamente
+				zoom = Vector3.Distance(cameraPosition, curLocation); // da migliorare assolutamente
 
-				curLocation = new((cameraPosition + zoom * enteringCamera.CamForwardVector()).X, (cameraPosition + zoom * enteringCamera.CamForwardVector()).Y, Height); // fixare che cross si muove in avanti e indietro sulla base della X della telecamera e ho finito <3
+				curLocation = new((cameraPosition + zoom * enteringCamera.CamForwardVector()).X, (cameraPosition + zoom * enteringCamera.CamForwardVector()).Y, Height);
 
 				if (ltNorm > 0 || rtNorm > 0)
 				{
@@ -593,24 +1485,19 @@ namespace TheLastPlanet.Client.Races.Creator
 					cameraPosition = curLocation - zoom * enteringCamera.CamForwardVector();
 				}
 
-				if (DummyProp == null)
+				if (IsDisabledControlPressed(2, func_7450()))
 				{
-					if (IsDisabledControlPressed(2, func_7450()))
-					{
-						cameraPosition.Z += 1f;
-						Height += 1f;
-					}
-					if (IsDisabledControlPressed(2, func_7449()))
-					{
-						cameraPosition.Z -= 1f;
-						Height -= 1f;
-					}
+					cameraPosition.Z += 1f;
+					Height += 1f;
+				}
+				if (IsDisabledControlPressed(2, func_7449()))
+				{
+					cameraPosition.Z -= 1f;
+					Height -= 1f;
 				}
 
 				cameraPosition.X += xVectFwd + xVectLat;
 				cameraPosition.Y += yVectFwd + yVectLat;
-
-				//cross.Heading = curRot; // aggiungere un bool quando vogliamo ruotare un prop o un impostazione con LB o RB su asse Z
 
 
 				float z = 0;
@@ -618,8 +1505,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				if (Height <= z + 0.3f)
 					Height = z + 0.3f;
 				cross.Position = curLocation;
-				if(DummyProp == null)
-					cross.Rotation = new(0, 0, curRotation.Z);
+				cross.Rotation = new(0, 0, curRotation.Z);
 				placeMarker.Position = curLocation + new Vector3(0, 0, 0.1f);
 				placeMarker.Draw();
 
@@ -627,32 +1513,110 @@ namespace TheLastPlanet.Client.Races.Creator
 					curRotation.X = -11.5f;
 				if (curRotation.X <= -89.9f)
 					curRotation.X = -89.9f;
-				//enteringCamera.PointAt(curLocation);
+
 				enteringCamera.Position = cameraPosition;
 				enteringCamera.Rotation = curRotation;
-
-				HUD.DrawText(0.3f, 0.7f, $"enteringCamera Position => {cameraPosition}");
-				HUD.DrawText(0.3f, 0.725f, $"enteringCamera Rotation=> {curRotation}");
-				HUD.DrawText(0.3f, 0.75f, $"curLocation => {curLocation}");
-				HUD.DrawText(0.3f, 0.775f, $"Zoom => {zoom}");
-				/*
-				HUD.DrawText(0.3f, 0.7f, $"Corretti fVar0 = {fVar0}");
-				HUD.DrawText(0.3f, 0.725f, $"Corretti fVar1 = {fVar1}");
-				HUD.DrawText(0.3f, 0.75f, $"Corretti fVar2 = {fVar2}");
-				HUD.DrawText(0.3f, 0.775f, $"Corretti fVar3 = {fVar3}");
-				*/
 			}
 			#endregion
+
 			#region MOVIMENTI PROP
 			if (DummyProp != null)
 			{
-				float curRot = cross.Heading;
-				if (IsDisabledControlPressed(2, 226))
-					curRot -= 5f % 360f;
+				DummyProp.Position = curLocation;
 				if (IsDisabledControlPressed(2, 227))
-					curRot += 5f % 360f;
-				if (curRot < 0f)
-					curRot += 360f;
+				{
+					if (rotationDummyType == RotationDummyType.Heading || rotationDummyType == RotationDummyType.Yaw)
+					{
+						dummyRot.Z -= 3f % 360f;
+						if (dummyRot.Z < 360f)
+							dummyRot.Z += 360f;
+					}
+					if (rotationDummyType == RotationDummyType.Pitch)
+					{
+						dummyRot.X -= 3f % 360f;
+						if (dummyRot.X < 360f)
+							dummyRot.X += 360f;
+					}
+					if (rotationDummyType == RotationDummyType.Roll)
+					{
+						dummyRot.Y -= 3f % 360f;
+						if (dummyRot.Y < 360f)
+							dummyRot.Y += 360f;
+					}
+				}
+				if (IsDisabledControlPressed(2, 226))
+				{
+					if (rotationDummyType == RotationDummyType.Heading || rotationDummyType == RotationDummyType.Yaw)
+					{
+						dummyRot.Z += 3f % 360f;
+						if (dummyRot.Z > 360f)
+							dummyRot.Z -= 360f;
+					}
+					if (rotationDummyType == RotationDummyType.Pitch)
+					{
+						dummyRot.X += 3f % 360f;
+						if (dummyRot.X > 360f)
+							dummyRot.X -= 360f;
+					}
+					if (rotationDummyType == RotationDummyType.Roll)
+					{
+						dummyRot.Y += 3f % 360f;
+						if (dummyRot.Y > 360f)
+							dummyRot.Y -= 360f;
+					}
+				}
+
+				if (rotationDummyType != RotationDummyType.Heading)
+				{
+					Vector3 vVar2 = Vector3.Zero;
+					Vector3 vVar3 = Vector3.Zero;
+					Vector3 vVar6 = new(-90f, 0f, 0f);
+					Vector3 vVar7 = new (1f, 1f, 1f );
+					float fVar8 = 1.25f;
+					float fVar9 = 0;
+					GetModelDimensions((uint)DummyProp.Model.Hash, ref vVar2, ref vVar3);
+					Vector3 vVar4 = vVar3 - vVar2;
+					Vector3 vVar10 = new(Absf(vVar4.X), Absf(vVar4.Y), Absf(vVar4.Z));
+					if (vVar10.X > vVar10.Y && vVar10.X > vVar10.Z)
+					{
+						fVar9 = vVar10.X;
+					}
+					else if (vVar10.Y > vVar10.X && vVar10.Y > vVar10.Z)
+					{
+						fVar9 = vVar10.Y;
+					}
+					else if (vVar10.Z > vVar10.X && vVar10.Z > vVar10.Y)
+					{
+						fVar9 = vVar10.Z;
+					}
+					if (fVar9 > 10f)
+					{
+						float fVar11 = (fVar9 / 10f);
+						vVar7 *= new Vector3(fVar11);
+						fVar8 *= fVar11;
+					}
+					
+					if (rotationDummyType == RotationDummyType.Pitch)
+					{
+						Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 1f, 0f, 0f) - curLocation;
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar3.X + fVar8, 0f, 0f), vVar5, vVar6, vVar7, Colors.Purple);
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, vVar2.X - fVar8, 0f, 0f), -vVar5, vVar6, vVar7, Colors.Purple);
+					}
+					if (rotationDummyType == RotationDummyType.Roll)
+					{
+						Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 1f, 0f) - curLocation;
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar3.Y + fVar8, 0f), vVar5, vVar6, vVar7, Colors.Purple);
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, vVar2.Y - fVar8, 0f), -vVar5, vVar6, vVar7, Colors.Purple);
+					}
+					if (rotationDummyType == RotationDummyType.Yaw)
+					{
+						Vector3 vVar5 = GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, 1f) - curLocation;
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar3.Z + fVar8), vVar5, vVar6, vVar7, Colors.Purple);
+						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar2.Z - fVar8), -vVar5, vVar6, vVar7, Colors.Purple);
+					}
+				}
+
+				DummyProp.Rotation = dummyRot;
 			}
 
 			#endregion
