@@ -7,9 +7,24 @@
     <RootNamespace>TheLastPlanet.Server</RootNamespace>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Configurations>Debug;Release;Offuscata</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="TheLastPlanet.Server.crproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Obfuscate>True</Obfuscate>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>SERVER</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
     <DefineConstants>SERVER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>

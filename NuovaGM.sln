@@ -10,15 +10,20 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Offuscata|Any CPU = Offuscata|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Offuscata|Any CPU.ActiveCfg = Release|Any CPU
+		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Offuscata|Any CPU.Build.0 = Release|Any CPU
 		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{477054AE-FBE1-4A93-8591-E2C61DD14390}.Release|Any CPU.Build.0 = Release|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Offuscata|Any CPU.ActiveCfg = Debug|Any CPU
+		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Offuscata|Any CPU.Build.0 = Debug|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

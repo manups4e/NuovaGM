@@ -1,17 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
-    <DebugType>none</DebugType>
+    <DebugType>embedded</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>DEBUG;CLIENT</DefineConstants>
     <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
     <RootNamespace>TheLastPlanet.Client</RootNamespace>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <LangVersion>latest</LangVersion>
+    <Configurations>Debug;Release;Offuscata</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="test.crproj" />
+    <Content Include="TheLastPlanet.Client.crproj" />
   </ItemGroup>
   <PropertyGroup>
     <Obfuscate>True</Obfuscate>
@@ -25,6 +26,16 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>false</DebugSymbols>
     <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

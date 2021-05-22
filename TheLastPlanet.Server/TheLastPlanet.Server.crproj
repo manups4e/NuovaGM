@@ -28,5 +28,5 @@
         <argument name="initCount" value="16" />
       </protection>
     </rule>
-    <module path="TheLastPlanet.Client.net.dll" />
+    <module path="TheLastPlanet.Server.net.dll" />
 </project>
