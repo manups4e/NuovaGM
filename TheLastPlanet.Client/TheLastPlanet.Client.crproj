@@ -1,0 +1,32 @@
+<project baseDir="" outputDir="" >
+    <rule pattern="true" inherit="false">
+      <protection id="anti ildasm" />
+      <protection id="ctrl flow">
+        <argument name="type" value="switch" />
+        <argument name="predicate" value="expression" />
+        <argument name="intensity" value="100" />
+        <argument name="depth" value="10" />
+        <argument name="junk" value="true" />
+      </protection>
+      <protection id="rename">
+        <argument name="mode" value="unicode" />
+        <argument name="password" value="" />
+        <argument name="renameArgs" value="true" />
+        <argument name="renEnum" value="true" />
+        <argument name="flatten" value="true" />
+        <argument name="forceRen" value="false" />
+        <argument name="renPublic" value="false" />
+        <argument name="renPdb" value="false" />
+        <argument name="renXaml" value="false" />
+      </protection>
+      <protection id="ref proxy">
+        <argument name="mode" value="mild" />
+        <argument name="encoding" value="x86" />
+        <argument name="internal" value="false" />
+        <argument name="typeErasure" value="false" />
+        <argument name="depth" value="10" />
+        <argument name="initCount" value="16" />
+      </protection>
+    </rule>
+    <module path="TheLastPlanet.Client.net.dll" />
+</project>

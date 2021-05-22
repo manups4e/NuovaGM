@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
-    <DebugType>embedded</DebugType>
+    <DebugType>none</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>DEBUG;CLIENT</DefineConstants>
     <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
@@ -10,12 +10,20 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="test.crproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Obfuscate>True</Obfuscate>
+  </PropertyGroup>
+
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
@@ -28,6 +36,10 @@
     <Folder Include="Minigames\" />
     <Folder Include="Store\" />
     <PackageReference Include="CitizenFX.Core.Client" Version="1.0.3814" />
+    <PackageReference Include="Confuser.MSBuild" Version="1.5.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">
@@ -44,6 +56,8 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
   </Target>
+
+
 </Project>
 
 <!--se servisse di nuovo la configurazione in LUA-->

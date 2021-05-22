@@ -1576,7 +1576,7 @@ namespace TheLastPlanet.Client.Races.Creator
 					float fVar9 = 0;
 					GetModelDimensions((uint)DummyProp.Model.Hash, ref vVar2, ref vVar3);
 					Vector3 vVar4 = vVar3 - vVar2;
-					Vector3 vVar10 = new(Absf(vVar4.X), Absf(vVar4.Y), Absf(vVar4.Z));
+					Vector3 vVar10 = new(Math.Abs(vVar4.X), Math.Abs(vVar4.Y), Math.Abs(vVar4.Z));
 					if (vVar10.X > vVar10.Y && vVar10.X > vVar10.Z)
 					{
 						fVar9 = vVar10.X;
@@ -1615,7 +1615,6 @@ namespace TheLastPlanet.Client.Races.Creator
 						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar2.Z - fVar8), -vVar5, vVar6, vVar7, Colors.Purple);
 					}
 				}
-
 				DummyProp.Rotation = dummyRot;
 			}
 
