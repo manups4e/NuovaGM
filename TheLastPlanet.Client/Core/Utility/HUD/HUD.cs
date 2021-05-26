@@ -163,6 +163,23 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			UnregisterPedheadshot(mug.Item1);
 		}
 
+
+		public static async void ShowVSNotification(Ped otherPed, HudColor color1, HudColor color2)
+		{
+			var mug = await Funzioni.GetPedMugshotAsync(Cache.MyPlayer.Ped);
+			var otherMug = await Funzioni.GetPedMugshotAsync(otherPed);
+			BeginTextCommandThefeedPost("");
+			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
+		}
+
+		public static async void ShowVSNotification(Ped otherPed1, Ped otherPed2, HudColor color1, HudColor color2)
+		{
+			var mug = await Funzioni.GetPedMugshotAsync(otherPed1);
+			var otherMug = await Funzioni.GetPedMugshotAsync(otherPed2);
+			BeginTextCommandThefeedPost("");
+			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
+		}
+
 		/// <summary>
 		/// Notifica con immagine (stile sms / mms)
 		/// </summary>
