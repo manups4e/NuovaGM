@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using static CitizenFX.Core.Native.API;
 #endif
 namespace TheLastPlanet.Shared

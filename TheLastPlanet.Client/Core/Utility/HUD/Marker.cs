@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using static TheLastPlanet.Client.SessionCache.Cache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD

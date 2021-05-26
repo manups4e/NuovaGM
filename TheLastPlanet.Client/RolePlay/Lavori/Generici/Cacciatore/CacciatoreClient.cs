@@ -10,7 +10,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.RolePlay.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.RolePlay.Core.Status;

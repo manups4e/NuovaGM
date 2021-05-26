@@ -2,7 +2,7 @@
 using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 using System.Linq;

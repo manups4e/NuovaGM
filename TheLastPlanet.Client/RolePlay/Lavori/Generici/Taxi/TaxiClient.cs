@@ -4,7 +4,7 @@ using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;

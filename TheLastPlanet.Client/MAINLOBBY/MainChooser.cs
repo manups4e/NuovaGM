@@ -4,7 +4,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.IPLs.dlc_smuggler;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;

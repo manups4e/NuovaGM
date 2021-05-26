@@ -8,7 +8,7 @@ using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;

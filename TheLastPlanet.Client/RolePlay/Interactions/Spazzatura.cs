@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.RolePlay.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;

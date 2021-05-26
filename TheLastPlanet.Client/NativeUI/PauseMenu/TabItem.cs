@@ -1,0 +1,90 @@
+﻿using System;
+using System.Drawing;
+
+namespace TheLastPlanet.Client.NativeUI.PauseMenu
+{
+    public delegate void TabItemActivated();
+    public delegate void TabItemLostFocus();
+    public class TabItem
+    {
+        public TabItem(string name)
+        {
+            RockstarTile = new Sprite("pause_menu_sp_content", "rockstartilebmp", new PointF(), new SizeF(64, 64), 0f, Color.FromArgb(40, 255, 255, 255));
+            Title = name;
+            DrawBg = true;
+            UseDynamicPositionment = true;
+        }
+
+        public virtual bool Visible { get; set; }
+        public virtual bool Focused { get; set; }
+        public string Title { get; set; }
+        public bool Active { get; set; }
+        public bool JustOpened { get; set; }
+        public bool CanBeFocused { get; set; }
+        public PointF TopLeft { get; set; }
+        public PointF BottomRight { get; set; }
+        public PointF SafeSize { get; set; }
+        public bool UseDynamicPositionment { get; set; }
+        public TabView Parent { get; set; }
+        protected SizeF Resolution = ScreenTools.ResolutionMaintainRatio;
+
+        public event TabItemActivated Activated;
+        public event TabItemLostFocus OnFocusLost;
+        public event EventHandler DrawInstructionalButtons;
+        public bool DrawBg;
+        public bool FadeInWhenFocused { get; set; }
+
+        protected Sprite RockstarTile;
+
+        public void OnActivated()
+        {
+            Activated?.Invoke();
+        }
+        public void OnLostFocus()
+        {
+            OnFocusLost?.Invoke();
+        }
+
+        public virtual void ProcessControls()
+        {
+
+        }
+
+        public virtual void Draw()
+        {
+            if (!Visible) return;
+
+
+            if (UseDynamicPositionment)
+            {
+                SafeSize = new PointF(300, Parent.SubTitle != null && Parent.SubTitle != "" ? 255 : 245);
+
+                TopLeft = new PointF(SafeSize.X, SafeSize.Y);
+                BottomRight = new PointF((int)Resolution.Width - SafeSize.X, (int)Resolution.Height - SafeSize.Y);
+            }
+
+            SizeF rectSize = new SizeF(BottomRight.SubtractPoints(TopLeft));
+
+            DrawInstructionalButtons?.Invoke(this, EventArgs.Empty);
+
+            if (DrawBg)
+            {
+                new UIResRectangle(TopLeft, rectSize,
+                    Color.FromArgb((Focused || !FadeInWhenFocused) ? 200 : 120, 0, 0, 0)).Draw();
+
+                int titleSize = 100;
+                RockstarTile.Size = new SizeF(titleSize, titleSize);
+
+                float cols = rectSize.Width / titleSize;
+                int fils = 4;
+
+                for (int i = 0; i < cols * fils; i++)
+                {
+                    RockstarTile.Position = TopLeft.AddPoints(new PointF(titleSize * (i % (int)cols), titleSize * i / (int)cols));
+                    RockstarTile.Color = Color.FromArgb((int)MiscExtensions.LinearFloatLerp(20, 0, i / (int)cols, fils), 255, 255, 255);
+                    RockstarTile.Draw();
+                }
+            }
+        }
+    }
+}

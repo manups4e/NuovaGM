@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
 

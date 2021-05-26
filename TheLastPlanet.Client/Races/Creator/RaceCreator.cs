@@ -10,7 +10,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
@@ -1083,199 +1083,128 @@ namespace TheLastPlanet.Client.Races.Creator
 							return "stt_prop_race_start_line_03b";
 
 						case 8:
-							return "ch_prop_track_pit_stop_01";
+							return "sum_prop_ac_track_pit_stop_16l";
 
 						case 9:
-							return "stt_prop_track_straight_s";
+							return "sum_prop_ac_track_pit_stop_16r";
 
 						case 10:
-							return "stt_prop_track_straight_m";
+							return "sum_prop_ac_track_pit_stop_30l";
 
 						case 11:
-							return "ba_prop_track_straight_lm";
+							return "ch_prop_track_pit_stop_01";
 
 						case 12:
-							return "stt_prop_track_straight_l";
+							return "sum_prop_ac_track_pit_stop_30r";
 
 						case 13:
-							return "stt_prop_track_bend_m";
+							return "stt_prop_track_straight_s";
 
 						case 14:
-							return "stt_prop_track_bend_l";
+							return "stt_prop_track_straight_m";
 
 						case 15:
-							return "ba_prop_track_bend_l_b";
+							return "ba_prop_track_straight_lm";
 
 						case 16:
-							return "stt_prop_track_bend2_l";
+							return "stt_prop_track_straight_l";
 
 						case 17:
-							return "stt_prop_track_bend2_l_b";
+							return "sum_prop_ac_track_pit_stop_01";
 
 						case 18:
-							return "stt_prop_track_bend_5d";
+							return "stt_prop_track_bend_m";
 
 						case 19:
-							return "stt_prop_track_bend_15d";
+							return "stt_prop_track_bend_l";
 
 						case 20:
-							return "stt_prop_track_bend_30d";
+							return "ba_prop_track_bend_l_b";
 
 						case 21:
-							return "stt_prop_track_bend_180d";
+							return "stt_prop_track_bend2_l";
 
 						case 22:
-							return "stt_prop_track_fork";
+							return "stt_prop_track_bend2_l_b";
 
 						case 23:
-							return "stt_prop_track_cross";
+							return "stt_prop_track_bend_5d";
 
 						case 24:
-							return "stt_prop_track_straight_bar_s";
+							return "stt_prop_track_bend_15d";
 
 						case 25:
-							return "stt_prop_track_straight_bar_m";
+							return "stt_prop_track_bend_30d";
 
 						case 26:
-							return "stt_prop_track_straight_lm_bar";
-
-						case 27:
-							return "stt_prop_track_straight_bar_l";
-
-						case 28:
-							return "stt_prop_track_bend_bar_m";
-
-						case 29:
-							return "stt_prop_track_bend_bar_l";
-
-						case 30:
-							return "stt_prop_track_bend_bar_l_b";
-
-						case 31:
-							return "stt_prop_track_bend2_bar_l";
-
-						case 32:
-							return "stt_prop_track_bend2_bar_l_b";
-
-						case 33:
-							return "stt_prop_track_bend_5d_bar";
-
-						case 34:
-							return "stt_prop_track_bend_15d_bar";
-
-						case 35:
-							return "stt_prop_track_bend_30d_bar";
-
-						case 36:
-							return "stt_prop_track_bend_180d_bar";
-
-						case 37:
-							return "stt_prop_track_fork_bar";
-
-						case 38:
-							return "stt_prop_track_cross_bar";
-
-						case 39:
-							return "stt_prop_track_funnel";
-
-						case 40:
-							return "stt_prop_track_funnel_ads_01a";
-
-						case 41:
-							return "stt_prop_track_funnel_ads_01b";
-
-						case 42:
-							return "stt_prop_track_funnel_ads_01c";
-
-						case 43:
-							return "stt_prop_track_link";
-
-						case 44:
-							return "stt_prop_track_chicane_l";
-
-						case 45:
-							return "stt_prop_track_chicane_l_02";
-
-						case 46:
-							return "stt_prop_track_chicane_r";
-
-						case 47:
-							return "stt_prop_track_chicane_r_02";
-
-						case 48:
-							return "stt_prop_track_block_01";
-
-						case 49:
-							return "stt_prop_track_block_02";
-
-						case 50:
-							return "stt_prop_track_block_03";
-
-						case 51:
-							return "sr_prop_track_straight_l_d5";
-
-						case 52:
-							return "sr_prop_track_straight_l_d15";
-
-						case 53:
-							return "sr_prop_track_straight_l_d30";
-
-						case 54:
-							return "sr_prop_track_straight_l_d45";
-
-						case 55:
-							return "sr_prop_track_straight_l_u5";
-
-						case 56:
-							return "sr_prop_track_straight_l_u15";
-
-						case 57:
-							return "sr_prop_track_straight_l_u30";
-
-						case 58:
-							return "sr_prop_track_straight_l_u45";
-
-						case 59:
-							return "stt_prop_track_straight_lm";
-
-						case 60:
-							return "ch_prop_track_ch_straight_bar_s_s";
-
-						case 61:
-							return "ch_prop_track_ch_straight_bar_s";
-
-						case 62:
-							return "ch_prop_track_ch_bend_bar_l_out";
-
-						case 63:
-							return "ch_prop_track_ch_bend_bar_l_b";
-
-						case 64:
-							return "ch_prop_track_ch_bend_bar_m_out";
-
-						case 65:
-							return "ch_prop_track_ch_bend_bar_m_in";
-
-						case 66:
-							return "ch_prop_track_ch_straight_bar_m";
-
-						case 67:
-							return "ch_prop_track_bend_bar_lc";
-
-						case 68:
-							return "ch_prop_track_ch_bend_180d";
-
-						case 69:
-							return "ch_prop_track_ch_bend_bar_45d";
-
-						case 70:
 							return "ch_prop_track_ch_bend_45";
 
-						case 71:
-							return "ch_prop_track_ch_bend_bar_135";
+						case 27:
+							return "sum_prop_track_ac_bend_45";
 
-						case 72:
+						case 28:
+							return "sum_prop_track_ac_bend_lc";
+
+						case 29:
 							return "ch_prop_track_ch_bend_135";
+
+						case 30:
+							return "sum_prop_track_ac_bend_135";
+
+						case 31:
+							return "stt_prop_track_bend_180d";
+
+						case 32:
+							return "sum_prop_track_ac_bend_180d";
+
+						case 33:
+							return "stt_prop_track_fork";
+
+						case 34:
+							return "stt_prop_track_cross";
+
+						case 35:
+							return "stt_prop_track_link";
+
+						case 36:
+							return "stt_prop_track_chicane_l";
+
+						case 37:
+							return "stt_prop_track_chicane_l_02";
+
+						case 38:
+							return "stt_prop_track_chicane_r";
+
+						case 39:
+							return "stt_prop_track_chicane_r_02";
+
+						case 40:
+							return "stt_prop_track_block_03";
+
+						case 41:
+							return "sr_prop_track_straight_l_d5";
+
+						case 42:
+							return "sr_prop_track_straight_l_d15";
+
+						case 43:
+							return "sr_prop_track_straight_l_d30";
+
+						case 44:
+							return "sr_prop_track_straight_l_d45";
+
+						case 45:
+							return "sr_prop_track_straight_l_u5";
+
+						case 46:
+							return "sr_prop_track_straight_l_u15";
+
+						case 47:
+							return "sr_prop_track_straight_l_u30";
+
+						case 48:
+							return "sr_prop_track_straight_l_u45";
+
 					}
 					break;
 			}
@@ -1318,11 +1247,13 @@ namespace TheLastPlanet.Client.Races.Creator
 
 			if (cross == null)
 			{
-				cross = new Prop(CreateObjectNoOffset((uint)model, WorldProbe.CrossairRenderingRaycastResult.HitPosition.X, WorldProbe.CrossairRenderingRaycastResult.HitPosition.Y, WorldProbe.CrossairRenderingRaycastResult.HitPosition.Z, false, false, false));
-				cross.IsVisible = true;
+				cross = new Prop(CreateObjectNoOffset((uint)model, WorldProbe.CrossairRenderingRaycastResult.HitPosition.X, WorldProbe.CrossairRenderingRaycastResult.HitPosition.Y, WorldProbe.CrossairRenderingRaycastResult.HitPosition.Z, false, false, false))
+				{
+					IsVisible = true,
+					LodDistance = 500,
+					IsCollisionEnabled = false,
+				};
 				SetEntityLoadCollisionFlag(cross.Handle, true);
-				cross.LodDistance = 500;
-				SetEntityCollision(cross.Handle, false, false);
 			}
 		}
 

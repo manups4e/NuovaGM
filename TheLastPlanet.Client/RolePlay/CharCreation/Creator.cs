@@ -8,7 +8,7 @@ using CitizenFX.Core.UI;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.MenuNativo;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.RolePlay.LogIn;
 using TheLastPlanet.Client.SessionCache;
