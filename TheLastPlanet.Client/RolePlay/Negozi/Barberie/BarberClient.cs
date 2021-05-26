@@ -356,7 +356,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			List<dynamic> capmulet = Tipo.capelli.mulet.Select(b => b.Name).Cast<dynamic>().ToList();
 			MenuPrincipale = new UIMenu("", title, pos, Main.Textures[NomeNegozio].Key, Main.Textures[NomeNegozio].Value);
 			HUD.MenuPool.Add(MenuPrincipale);
-			MenuPrincipale.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuPrincipale.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			UIMenuListItem Capelli = new UIMenuListItem("Capelli", new List<dynamic>() { 0 }, 0);
 
 			switch (NomeNegozio)

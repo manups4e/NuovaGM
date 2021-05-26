@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 			foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 			{
 				UIMenu sezione = catalogo.AddSubMenu(p.Key);
-				sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
+				sezione.InstructionalButtons.Add(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 				List<VeicoloCatalogoVenditore> vehs = new();
 
 				foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))
@@ -303,7 +303,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 				foreach (KeyValuePair<string, List<VeicoloCatalogoVenditore>> p in carDealer.Catalogo.Keys.OrderBy(k => k).ToDictionary(k => k, T1 => carDealer.Catalogo[T1]))
 				{
 					UIMenu sezione = catalogo.AddSubMenu(p.Key);
-					sezione.AddInstructionalButton(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
+					sezione.InstructionalButtons.Add(new InstructionalButton(Control.ParachuteBrakeLeft, "Apri/Chiudi veicolo"));
 					List<VeicoloCatalogoVenditore> vehs = new List<VeicoloCatalogoVenditore>();
 
 					foreach (VeicoloCatalogoVenditore i in p.Value.OrderBy(x => x.price))

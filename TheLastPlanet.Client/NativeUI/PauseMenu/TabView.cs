@@ -80,6 +80,15 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
 			        API.SetPauseMenuActive(true);
 			        Screen.Effects.Start(ScreenEffect.FocusOut, 800);
 			        API.TransitionToBlurred(700);
+                    InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+                    List<InstructionalButton> kaka = new List<InstructionalButton>()
+                    {
+                        new InstructionalButton(Control.PhoneSelect, UIMenu._selectTextLocalized),
+                        new InstructionalButton(Control.PhoneCancel, UIMenu._backTextLocalized),
+                        new InstructionalButton(Control.FrontendRb, ""),
+                        new InstructionalButton(Control.FrontendLb, _browseTextLocalized),
+                    };
+                    InstructionalButtonsHandler.InstructionalButtons.ControlButtons = kaka;
 		        }
 		        else
 		        {
@@ -102,24 +111,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
 
         private Scaleform _sc;
         private Scaleform _header;
-        public void ShowInstructionalButtons()
-        {
-            if (_sc == null)
-            {
-                _sc = new Scaleform("instructional_buttons");
-            }
-
-            _sc.CallFunction("CLEAR_ALL");
-            _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
-            _sc.CallFunction("CREATE_CONTAINER");
-
-
-            _sc.CallFunction("SET_DATA_SLOT", 0, API.GetControlInstructionalButton(2, (int)Control.PhoneSelect, 0), UIMenu._selectTextLocalized);
-            _sc.CallFunction("SET_DATA_SLOT", 1, API.GetControlInstructionalButton(2, (int)Control.PhoneCancel, 0), UIMenu._backTextLocalized);
-
-            _sc.CallFunction("SET_DATA_SLOT", 2, API.GetControlInstructionalButton(2, (int)Control.FrontendRb, 0), "");
-            _sc.CallFunction("SET_DATA_SLOT", 3, API.GetControlInstructionalButton(2, (int)Control.FrontendLb, 0), _browseTextLocalized);
-        }
 
         public async void ShowHeader()
         {
@@ -280,7 +271,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
         public void Draw()
         {
             if (!Visible || TemporarilyHidden) return;
-            ShowInstructionalButtons();
             API.HideHudAndRadarThisFrame();
             API.ShowCursorThisFrame();
 

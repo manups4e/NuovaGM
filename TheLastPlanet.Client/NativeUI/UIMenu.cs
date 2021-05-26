@@ -868,14 +868,11 @@ namespace TheLastPlanet.Client.NativeUI
 		private readonly Dictionary<MenuControls, Tuple<List<Keys>, List<Tuple<Control, int>>>> _keyDictionary =
 			new Dictionary<MenuControls, Tuple<List<Keys>, List<Tuple<Control, int>>>>();
 
-		private readonly List<InstructionalButton> _instructionalButtons = new List<InstructionalButton>();
 		private readonly Sprite _upAndDownSprite;
 		private readonly UIResRectangle _extraRectangleUp;
 		private readonly UIResRectangle _extraRectangleDown;
 
-		private readonly Scaleform _instructionalButtonsScaleform;
 		private readonly Scaleform _glareScaleform;
-
 		private readonly int _extraYOffset;
 
 		private static readonly MenuControls[] _menuControls = Enum.GetValues(typeof(MenuControls)).Cast<MenuControls>().ToArray();
@@ -925,6 +922,7 @@ namespace TheLastPlanet.Client.NativeUI
 		public string BannerTexture { get; private set; }
 
 		public List<UIMenuHeritageWindow> Windows = new List<UIMenuHeritageWindow>();
+		public List<InstructionalButton> InstructionalButtons = new List<InstructionalButton>();
 		public InstructionalButton Accept = new(Control.PhoneSelect, _selectTextLocalized);
 		public InstructionalButton Back = new(Control.PhoneCancel, _backTextLocalized);
 
@@ -1036,11 +1034,10 @@ namespace TheLastPlanet.Client.NativeUI
 			Children = new Dictionary<UIMenuItem, UIMenu>();
 			WidthOffset = 0;
 
-			_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
 			_glareScaleform = new Scaleform("MP_MENU_GLARE");
-			UpdateScaleform();
-			_instructionalButtons.Add(Accept);
-			_instructionalButtons.Add(Back);
+			InstructionalButtons.Add(Accept);
+			InstructionalButtons.Add(Back);
+
 			_mainMenu = new Container(new PointF(0, 0), new SizeF(700, 500), Color.FromArgb(0, 0, 0, 0));
 			BannerSprite = new Sprite(spriteLibrary, spriteName, new PointF(0 + Offset.X, 0 + Offset.Y), new SizeF(431, 100));
 			_mainMenu.Items.Add(Title = new UIResText(title, new PointF(215 + Offset.X, 13 + Offset.Y), 0.9f, Colors.White, Font.HouseScript, Alignment.Center));
@@ -1592,6 +1589,9 @@ namespace TheLastPlanet.Client.NativeUI
 				if (!Children.ContainsKey(MenuItems[CurrentSelection])) return;
 				Visible = false;
 				Children[MenuItems[CurrentSelection]].Visible = true;
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = Children[MenuItems[CurrentSelection]].InstructionalButtons;
+
 				poolcontainer.MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 				MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 				Children[MenuItems[CurrentSelection]].MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
@@ -1613,6 +1613,8 @@ namespace TheLastPlanet.Client.NativeUI
 				ParentMenu.MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				ParentMenu.Visible = true;
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = ParentMenu.InstructionalButtons;
 				if (ResetCursorOnOpen)
 					API.SetCursorLocation(tmp.X, tmp.Y);
 				//Cursor.Position = tmp;
@@ -1792,16 +1794,6 @@ namespace TheLastPlanet.Client.NativeUI
 			return false;
 		}
 
-		public void AddInstructionalButton(InstructionalButton button)
-		{
-			_instructionalButtons.Add(button);
-		}
-
-		public void RemoveInstructionalButton(InstructionalButton button)
-		{
-			_instructionalButtons.Remove(button);
-		}
-
 		#endregion
 
 		#region Private Methods
@@ -1872,25 +1864,6 @@ namespace TheLastPlanet.Client.NativeUI
 			if (ControlDisablingEnabled)
 				Controls.Toggle(false);
 
-			if (_buttonsEnabled)
-			{
-				if (Main.ImpostazioniClient != null)
-				{
-					if (!Main.ImpostazioniClient.ModCinema)
-						_instructionalButtonsScaleform.Render2D();
-					else
-						API.DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
-				}
-				else
-				{
-					_instructionalButtonsScaleform.Render2D();
-				}
-
-				Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
-				Screen.Hud.HideComponentThisFrame(HudComponent.AreaName);
-				Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
-			}
-			// _instructionalButtonsScaleform.Render2D(); // Bug #13
 			float CinematicHeight = CalculateCinematicHeight();
 
 			if (ScaleWithSafezone)
@@ -2099,7 +2072,6 @@ namespace TheLastPlanet.Client.NativeUI
 							CurrentSelection = i;
 							Game.PlaySound(AUDIO_UPDOWN, AUDIO_LIBRARY);
 							IndexChange(CurrentSelection);
-							UpdateScaleform();
 						}
 						else if (!uiMenuItem.Enabled && uiMenuItem.Selected)
 						{
@@ -2165,7 +2137,6 @@ namespace TheLastPlanet.Client.NativeUI
 						GoUpOverflow();
 					else
 						GoUp();
-					UpdateScaleform();
 					_pressingTimer = API.GetGameTimer();
 				}
 			}
@@ -2178,7 +2149,6 @@ namespace TheLastPlanet.Client.NativeUI
 						GoDownOverflow();
 					else
 						GoDown();
-					UpdateScaleform();
 					_pressingTimer = API.GetGameTimer();
 				}
 			}
@@ -2202,7 +2172,6 @@ namespace TheLastPlanet.Client.NativeUI
 			else if (HasControlJustBeenPressed(MenuControls.Select, key) && API.UpdateOnscreenKeyboard() != 0 && !API.IsWarningMessageActive())
 				SelectItem();
 
-			UpdateScaleform();
 		}
 
 		/// <summary>
@@ -2217,25 +2186,6 @@ namespace TheLastPlanet.Client.NativeUI
 			{
 				ProcessControl(key);
 			}
-		}
-
-		/// <summary>
-		/// Manually update the instructional buttons scaleform.
-		/// </summary>
-		public void UpdateScaleform()
-		{
-			if (!Visible || !_buttonsEnabled) return;
-			_instructionalButtonsScaleform.CallFunction("CLEAR_ALL");
-			_instructionalButtonsScaleform.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
-			_instructionalButtonsScaleform.CallFunction("CREATE_CONTAINER");
-			int count = 0;
-
-			foreach (InstructionalButton button in _instructionalButtons.Where(button => button.ItemBind == null || MenuItems[CurrentSelection] == button.ItemBind))
-			{
-				_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
-				count++;
-			}
-			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 		}
 
 		#endregion
@@ -2256,17 +2206,19 @@ namespace TheLastPlanet.Client.NativeUI
 					{
 						poolcontainer.MenuChangeEv(ParentMenu ?? null, this, MenuState.Opened);
 						MenuChangeEv(ParentMenu ?? null, this, MenuState.Opened);
+						InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+						InstructionalButtonsHandler.InstructionalButtons.ControlButtons = InstructionalButtons;
 					}
 					else
 					{
 						poolcontainer.MenuChangeEv(this, null, MenuState.Closed);
+						InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
 						MenuChangeEv(this, null, MenuState.Closed);
 					}
 				}
 				_visible = value;
 				_justOpened = value;
 				_itemsDirty = value;
-				UpdateScaleform();
 				if (ParentMenu != null || !value) return;
 				if (!ResetCursorOnOpen) return;
 				API.SetCursorLocation(0.5f, 0.5f);

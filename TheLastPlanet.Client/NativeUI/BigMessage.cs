@@ -129,6 +129,7 @@ namespace TheLastPlanet.Client.NativeUI
         private async Task BigMessageThread_Tick()
         {
             MessageInstance.Update();
+            await Task.FromResult(0);
         }
     }
 

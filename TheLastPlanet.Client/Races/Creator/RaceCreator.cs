@@ -1046,7 +1046,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			UIMenuItem Esci = new("Esci");
 			Creator.AddItem(Esci);
 			Creator.Visible = true;
-			Creator.RemoveInstructionalButton(Creator.Back);
+			Creator.InstructionalButtons.Add(Creator.Back);
 		}
 
 		#region	METODI

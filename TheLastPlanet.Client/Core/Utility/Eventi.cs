@@ -14,6 +14,7 @@ using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared.Internal.Events;
 using System.Linq;
 using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.NativeUI;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -133,7 +134,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async void announce(string msg)
 		{
 			Game.PlaySound("DELETE", "HUD_DEATHMATCH_SOUNDSET");
-			MenuNativo.BigMessageThread.MessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
+			BigMessageThread.MessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
 		}
 
 		public static async void Revive()

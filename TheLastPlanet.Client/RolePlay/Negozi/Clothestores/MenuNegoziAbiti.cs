@@ -398,7 +398,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			UIMenuItem ciao = new("");
 			UIMenu MenuVest = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuVest);
-			MenuVest.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuVest.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
 			await Cache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
@@ -492,7 +492,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			UIMenuItem ciaone = new("");
 			UIMenu MenuPant = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuPant);
-			MenuPant.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuPant.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			_menuVestiti.Add(MenuPant);
 			Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.MyPlayer.Ped.Handle, 0, anim, "try_trousers_base", 4.0f, true);
@@ -505,7 +505,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			foreach (Singolo v in completi)
 			{
 				UIMenu Pant = pool.AddSubMenu(MenuPant, v.Title, v.Description);
-				Pant.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+				Pant.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Pant);
 
 				foreach (int texture in v.Text)
@@ -663,7 +663,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			UIMenu MenuScarpe = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuScarpe);
 			_menuVestiti.Add(MenuScarpe);
-			MenuScarpe.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuScarpe.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.MyPlayer.Ped.Handle, 0, anim, "try_shoes_base", 4.0f, true);
 			await Cache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shoes_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
@@ -675,7 +675,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			foreach (Singolo v in completi)
 			{
 				UIMenu Scarp = pool.AddSubMenu(MenuScarpe, v.Title, v.Description);
-				Scarp.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+				Scarp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Scarp);
 
 				foreach (int texture in v.Text)
@@ -834,7 +834,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			UIMenu MenuOcchiali = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuOcchiali);
 			_menuVestiti.Add(MenuOcchiali);
-			MenuOcchiali.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuOcchiali.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.MyPlayer.Ped.Handle, 0, anim, "Try_Glasses_Base", 4.0f, true);
 			await Cache.MyPlayer.Ped.Task.PlayAnimation(anim, "Try_Glasses_Base", 8f, -8f, -1, AnimationFlags.Loop, 0);
@@ -846,7 +846,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			foreach (Singolo v in completi)
 			{
 				UIMenu Scarp = pool.AddSubMenu(MenuOcchiali, v.Title, v.Description);
-				Scarp.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+				Scarp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 				_menuVestiti.Add(Scarp);
 
 				foreach (int texture in v.Text)
@@ -1023,7 +1023,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			UIMenuItem CappRim = new("");
 			UIMenu MenuAccessori = new(" ", "~y~Benvenuti da " + nome + "!", new System.Drawing.Point(0, 0), Main.Textures[nome].Key, Main.Textures[nome].Value);
 			pool.Add(MenuAccessori);
-			MenuAccessori.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			MenuAccessori.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Cache.MyPlayer.Ped.BlockPermanentEvents = true;
 			SetPedAlternateMovementAnim(Cache.MyPlayer.Ped.Handle, 0, anim, "try_shirt_base", 4.0f, true);
 			await Cache.MyPlayer.Ped.Task.PlayAnimation(anim, "try_shirt_base", 8f, -8f, -1, AnimationFlags.Loop, 0);
@@ -1042,17 +1042,17 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			#region sottomenu
 
 			Borse = pool.AddSubMenu(MenuAccessori, "Borse", "Scegli qui tra le borse disponibili!");
-			Borse.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Borse.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Capp = pool.AddSubMenu(MenuAccessori, "Cappellini", "Scegli qui i tuoi accessori preferiti!");
-			Capp.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Capp.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Orecc = pool.AddSubMenu(MenuAccessori, "Orecchini e Auricolari", "Scegli qui i tuoi pendagli preferiti!");
-			Orecc.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Orecc.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Polso = pool.AddSubMenu(MenuAccessori, "Orologi e Braccialetti", "Scegli qui tra orologi e braccialetti!");
-			Polso.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Polso.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Orol = pool.AddSubMenu(Polso, "Orologi", "Scegli qui i tuoi orologi!");
-			Orol.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Orol.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			Brac = pool.AddSubMenu(Polso, "Braccialetti", "Scegli qui i tuoi braccialetti!");
-			Brac.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+			Brac.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 			SubMenusPolso.Add(Orol);
 			SubMenusPolso.Add(Brac);
 
@@ -1154,7 +1154,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 				if (Accessorio.Testa.Cappellini.IndexOf(cappellino) != 0)
 				{
 					Capelino = pool.AddSubMenu(Capp, cappellino.Title + " " + Accessorio.Testa.Cappellini.IndexOf(cappellino), cappellino.Description);
-					Capelino.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+					Capelino.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 					SubMenusCapp.Add(Capelino);
 				}
 
@@ -1486,7 +1486,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 				if (Accessorio.Orologi.IndexOf(orologio) != 0)
 				{
 					Orologino = pool.AddSubMenu(Orol, orologio.Title, orologio.Description);
-					Orologino.AddInstructionalButton(new InstructionalButton(Control.FrontendLt, "Zoom"));
+					Orologino.InstructionalButtons.Add(new InstructionalButton(Control.FrontendLt, "Zoom"));
 					SubMenusPolso.Add(Orologino);
 				}
 

@@ -8,6 +8,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Client.NativeUI;
 
 namespace TheLastPlanet.Client.RolePlay.Interactions
 {
@@ -26,7 +27,6 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 		private static int RenderTarget;
 		private static TvCoord TvAttuale = new TvCoord();
 		private static bool Scaleform = false;
-		private static Scaleform Buttons = new Scaleform("instructional_buttons");
 		private static List<ObjectHash> TVHashes = new List<ObjectHash>()
 		{
 			ObjectHash.prop_tv_flat_01,
@@ -184,30 +184,6 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			return new Tuple<Vector3, Vector3>(new Vector3(), new Vector3());
 		}
 
-		private static async void UpdateTasti()
-		{
-			//func_3840(GET_CONTROL_INSTRUCTIONAL_BUTTON(0, func_6651(0), 1), "HUD_INPUT3", &(uParam2->f_87.f_47.f_1474), 0);
-			if (!Scaleform)
-			{
-				Buttons = new Scaleform("instructional_buttons");
-				while (!HasScaleformMovieLoaded(Buttons.Handle)) await BaseScript.Delay(0);
-				Buttons.CallFunction("CLEAR_ALL");
-				Buttons.CallFunction("TOGGLE_MOUSE_BUTTONS", false);
-				Buttons.CallFunction("SET_DATA_SLOT", 0, GetControlInstructionalButton(0, IsInputDisabled(2) ? 177 : 202, 1), GetLabelText("HUD_INPUT3"));
-				if (!TV.Accesa)
-					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT81"));
-				else
-					Buttons.CallFunction("SET_DATA_SLOT", 1, GetControlInstructionalButton(0, IsInputDisabled(2) ? 51 : 222, 1), GetLabelText("HUD_INPUT82"));
-				Buttons.CallFunction("SET_DATA_SLOT", 2, GetControlInstructionalButton(2, 218, 1), GetLabelText("HUD_INPUT75"));
-				Buttons.CallFunction("SET_DATA_SLOT", 3, GetControlInstructionalButton(2, 219, 1), GetLabelText("HUD_INPUT77"));
-				Buttons.CallFunction("SET_DATA_SLOT", 4, GetControlInstructionalButton(0, 236, 1), GetLabelText("HUD_INPUT87"));
-				Buttons.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-				Scaleform = true;
-			}
-
-			if (Scaleform) Buttons.Render2D();
-		}
-
 		public static async Task DrawTV()
 		{
 			float fVar0 = 1f;
@@ -222,7 +198,15 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 
 		public static async Task ControllaTV()
 		{
-			UpdateTasti();
+			List<InstructionalButton> buttons = new List<InstructionalButton>()
+			{
+				new InstructionalButton((Control)202, (Control)177, GetLabelText("HUD_INPUT3")),
+				new InstructionalButton((Control)222, (Control)51, TV.Accesa? GetLabelText("HUD_INPUT82") : GetLabelText("HUD_INPUT81")),
+				new InstructionalButton((Control)218, GetLabelText("HUD_INPUT75")),
+				new InstructionalButton((Control)219, GetLabelText("HUD_INPUT77")),
+				new InstructionalButton((Control)236, GetLabelText("HUD_INPUT87")),
+			};
+			InstructionalButtonsHandler.InstructionalButtons.ControlButtons = buttons;
 			Game.DisableControlThisFrame(0, Control.MoveLeftOnly);
 			Game.DisableControlThisFrame(0, Control.MoveRightOnly);
 			Game.DisableControlThisFrame(0, Control.MoveUpOnly);

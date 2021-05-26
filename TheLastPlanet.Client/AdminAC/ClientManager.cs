@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
@@ -16,7 +17,6 @@ namespace TheLastPlanet.Client.AdminAC
 		private static string title;
 		private static string sub;
 		private static string sub2;
-		private static Scaleform _instructionalButtonsScaleform;
 
 		public enum Tipi_Di_Bottone
 		{
@@ -123,11 +123,21 @@ namespace TheLastPlanet.Client.AdminAC
 				p.Rotation = new Vector3(0);
 				Client.Instance.AddTick(noClip);
 				NoClip = true;
-				_instructionalButtonsScaleform = new Scaleform("instructional_buttons");
+				List<InstructionalButton> istr = new List<InstructionalButton>() 
+				{
+					new InstructionalButton(Control.FrontendLt, Control.Cover, "Sali"),
+					new InstructionalButton(Control.FrontendRt, Control.HUDSpecial, "Scendi"),
+					new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx"),
+					new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
+					new InstructionalButton(Control.FrontendX, "Cambia velocità"),
+				};
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = istr;
+
 			}
 			else
 			{
-				_instructionalButtonsScaleform.Dispose();
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
 				Client.Instance.RemoveTick(noClip);
 
 				while (p.IsInvincible)
@@ -153,24 +163,6 @@ namespace TheLastPlanet.Client.AdminAC
 				ClearAllHelpMessages();
 				NoClip = false;
 			}
-		}
-
-		private static void UpdateScaleform()
-		{
-			_instructionalButtonsScaleform.CallFunction("CLEAR_ALL");
-			_instructionalButtonsScaleform.CallFunction("TOGGLE_MOUSE_BUTTONS", 0);
-			_instructionalButtonsScaleform.CallFunction("CREATE_CONTAINER");
-			InstructionalButton Sali = new InstructionalButton(IsInputDisabled(2) ? Control.Cover : Control.FrontendLt, "Sali");
-			InstructionalButton Scendi = new InstructionalButton(IsInputDisabled(2) ? Control.HUDSpecial : Control.FrontendRt, "Scendi");
-			InstructionalButton Ruota = new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx");
-			InstructionalButton Muovi = new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro");
-			InstructionalButton Velocità = new InstructionalButton(Control.FrontendX, "Cambia velocità");
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 0, Scendi.GetButtonId(), Scendi.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 1, Sali.GetButtonId(), Sali.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 2, Ruota.GetButtonId(), Ruota.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 3, Muovi.GetButtonId(), Muovi.Text);
-			_instructionalButtonsScaleform.CallFunction("SET_DATA_SLOT", 4, Velocità.GetButtonId(), Velocità.Text);
-			_instructionalButtonsScaleform.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
 		}
 
 		private static void TippaDaMe(Vector3 coords) { Cache.MyPlayer.Ped.Position = coords; }
@@ -291,11 +283,6 @@ namespace TheLastPlanet.Client.AdminAC
 			Game.EnableControlThisFrame(0, Control.LookUpOnly);
 			Game.EnableControlThisFrame(0, Control.LookLeftOnly);
 			Game.EnableControlThisFrame(0, Control.LookRightOnly);
-			UpdateScaleform();
-			if (!Main.ImpostazioniClient.ModCinema)
-				_instructionalButtonsScaleform.Render2D();
-			else
-				DrawScaleformMovie(_instructionalButtonsScaleform.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
 			HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
 			const float rotationSpeed = 2.5f;
 			float forwardPush = 0.8f;

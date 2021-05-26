@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
 using static CitizenFX.Core.Native.API;
 
@@ -132,7 +133,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			MenuNativo.BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+			BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();
