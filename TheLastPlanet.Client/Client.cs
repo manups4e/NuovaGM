@@ -31,6 +31,7 @@ namespace TheLastPlanet.Client
 			Instance = this;
 			Eventi = new();
 			HUD.Init();
+			ClasseDiTest.Init(); // da rimuovere
 			MainChooser.Init();
 		}
 

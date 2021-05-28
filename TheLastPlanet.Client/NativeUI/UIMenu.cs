@@ -1473,7 +1473,7 @@ namespace TheLastPlanet.Client.NativeUI
 			else if (MenuItems[CurrentSelection] is UIMenuDynamicListItem)
 			{
 				UIMenuDynamicListItem it = (UIMenuDynamicListItem)MenuItems[CurrentSelection];
-				string newItem = it.Callback(it, UIMenuDynamicListItem.ChangeDirection.Left);
+				string newItem = await it.Callback(it, UIMenuDynamicListItem.ChangeDirection.Left);
 				it.CurrentListItem = newItem;
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 			}
@@ -1527,7 +1527,7 @@ namespace TheLastPlanet.Client.NativeUI
 			else if (MenuItems[CurrentSelection] is UIMenuDynamicListItem)
 			{
 				UIMenuDynamicListItem it = (UIMenuDynamicListItem)MenuItems[CurrentSelection];
-				string newItem = it.Callback(it, UIMenuDynamicListItem.ChangeDirection.Right);
+				string newItem = await it.Callback(it, UIMenuDynamicListItem.ChangeDirection.Right);
 				it.CurrentListItem = newItem;
 				Game.PlaySound(AUDIO_LEFTRIGHT, AUDIO_LIBRARY);
 			}
