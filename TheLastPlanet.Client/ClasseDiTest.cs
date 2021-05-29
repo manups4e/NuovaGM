@@ -19,6 +19,8 @@ namespace TheLastPlanet.Client
 		{
 			//Client.Instance.AddTick(test);
 			//ClearFocus();
+				var dlc = -1762644250;
+				Client.Logger.Debug("IsDlcPresent => " + IsDlcPresent((uint)dlc));
 		}
 
 		public static async void Stop()

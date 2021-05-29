@@ -21,6 +21,7 @@ namespace TheLastPlanet.Server.Discord
 
 			while (risposta.status != System.Net.HttpStatusCode.OK)
 			{
+				Server.Logger.Warning("Connessione al bot fallita, controlla che il bot sia attivo..");
 				await BaseScript.Delay(0);
 				risposta = await InviaAlBotERicevi(new { tipo = "ConnessioneAlServer" });
 				await BaseScript.Delay(5000);

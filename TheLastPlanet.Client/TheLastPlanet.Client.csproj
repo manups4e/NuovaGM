@@ -11,13 +11,6 @@
     <Configurations>Debug;Release;Offuscata</Configurations>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="TheLastPlanet.Client.crproj" />
-  </ItemGroup>
-  <PropertyGroup>
-    <Obfuscate>True</Obfuscate>
-  </PropertyGroup>
-
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
@@ -35,12 +28,14 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>false</DebugSymbols>
+    <Obfuscate>True</Obfuscate>
     <DocumentationFile />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <DebugSymbols>true</DebugSymbols>
+    <Obfuscate>True</Obfuscate>
   </PropertyGroup>
 
   <ItemGroup>
@@ -62,6 +57,9 @@
     <Compile Include="..\Impostazioni\Client\**\*.cs" />
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
     <Folder Include="RolePlay\Lavori\Generici\Consegne\" />
+    <!--PER OFFUSCARE-->
+    <Content Include="TheLastPlanet.Client.crproj" />
+    <!--PER OFFUSCARE-->
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

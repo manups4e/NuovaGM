@@ -10,13 +10,6 @@
     <Configurations>Debug;Release;Offuscata</Configurations>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="TheLastPlanet.Server.crproj" />
-  </ItemGroup>
-  <PropertyGroup>
-    <Obfuscate>True</Obfuscate>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>SERVER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -29,11 +22,13 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
     <PlatformTarget>x64</PlatformTarget>
+    <Obfuscate>True</Obfuscate>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;SERVER</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
+    <Obfuscate>True</Obfuscate>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,6 +48,7 @@
     <Compile Include="..\Impostazioni\Server\**\*.cs" />
     <Compile Include="..\Impostazioni\Shared\**\*.cs" />
     <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
+    <Content Include="TheLastPlanet.Server.crproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
