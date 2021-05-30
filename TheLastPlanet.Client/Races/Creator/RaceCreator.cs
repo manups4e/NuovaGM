@@ -412,6 +412,30 @@ namespace TheLastPlanet.Client.Races.Creator
 				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
 				return RaceCreatorHelper.GetPropName(m);
 			});
+			UIMenuDynamicListItem color = new UIMenuDynamicListItem("Colore", "", async (sender, direction) =>
+			{
+				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
+				{
+					colorePropScelto++;
+					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
+						if (colorePropScelto == 5 || colorePropScelto == 9)
+							colorePropScelto++;
+					if (colorePropScelto > RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash))
+						colorePropScelto = 0;
+				}
+				else
+				{
+					colorePropScelto--;
+					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
+						if (colorePropScelto == 5 || colorePropScelto == 9)
+							colorePropScelto--;
+					if (colorePropScelto < 0)
+						colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
+				}
+
+				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
+				return Game.GetGXTEntry(RaceCreatorHelper.GetPropColor(DummyProp.Model.Hash, colorePropScelto));
+			});
 			UIMenuDynamicListItem categoria = new UIMenuDynamicListItem("Categoria", RaceCreatorHelper.GetCategoryName(categoriaScelta), async (sender, direction) =>
 			{
 				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
@@ -426,16 +450,11 @@ namespace TheLastPlanet.Client.Races.Creator
 					if (categoriaScelta < 0)
 						categoriaScelta = 47;
 				}
-				switch (categoriaScelta)
-				{
-					case 0:
-						break;
-				}
 				RequestAdditionalText("FMMC", 2);
 				while (!HasAdditionalTextLoaded(2)) await BaseScript.Delay(0);
 				tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
 				colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
-				var col = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
+				var col = await color.Callback(color, UIMenuDynamicListItem.ChangeDirection.Right);
 				var pp = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
 				tipo.CurrentListItem = pp;
 				return RaceCreatorHelper.GetCategoryName(categoriaScelta);
@@ -444,30 +463,6 @@ namespace TheLastPlanet.Client.Races.Creator
 			propPlacing.AddItem(tipo);
 			UIMenuListItem tipoRot = new UIMenuListItem("Tipo di Rotazione", new List<dynamic>() { GetLabelText("FMMC_PROT_NORM"), "Roll", "Pitch", "Yaw" }, 0);
 			propPlacing.AddItem(tipoRot);
-			UIMenuDynamicListItem color = new UIMenuDynamicListItem("Colore", "", async (sender, direction) =>
-			{
-				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
-				{
-					colorePropScelto++;
-					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
-						if(colorePropScelto == 5 || colorePropScelto == 9)
-							colorePropScelto++;
-					if (colorePropScelto > RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash))
-						colorePropScelto = 0;
-				}
-				else
-				{
-					colorePropScelto--;
-					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
-						if (colorePropScelto == 5 || colorePropScelto == 9)
-							colorePropScelto--;
-					if (colorePropScelto < 0)
-						colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
-				}
-				
-				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
-				return Game.GetGXTEntry(RaceCreatorHelper.GetPropColor(DummyProp.Model.Hash, colorePropScelto));
-			});
 			propPlacing.AddItem(color);
 			UIMenuCheckboxItem stacking = new UIMenuCheckboxItem("Abilita Accatastamento Prop", UIMenuCheckboxStyle.Tick, false, "");
 			propPlacing.AddItem(stacking);
