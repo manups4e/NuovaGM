@@ -11255,7 +11255,5 @@ namespace TheLastPlanet.Client.Races.Creator
 			return 0;
 		}
 		#endregion
-
-
 	}
 }

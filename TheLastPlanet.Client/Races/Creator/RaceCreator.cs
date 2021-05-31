@@ -88,6 +88,8 @@ namespace TheLastPlanet.Client.Races.Creator
 				Height = cross.Position.Z;
 			}
 			SetFocusEntity(cross.Handle);
+			RequestAdditionalText("FMMC", 2);
+			while (!HasAdditionalTextLoaded(2)) await BaseScript.Delay(0);
 			Client.Instance.AddTick(MoveCamera);
 			CreatorMainMenu();
 			Screen.Fading.FadeIn(10);
@@ -384,7 +386,7 @@ namespace TheLastPlanet.Client.Races.Creator
 					if (tipoPropScelto > RaceCreatorHelper.GetFinalInCategory(categoriaScelta))
 						tipoPropScelto = 0;
 				}
-				else
+				else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
 				{
 					tipoPropScelto -= 1;
 					if (tipoPropScelto < 0)
@@ -423,7 +425,7 @@ namespace TheLastPlanet.Client.Races.Creator
 					if (colorePropScelto > RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash))
 						colorePropScelto = 0;
 				}
-				else
+				else if(direction == UIMenuDynamicListItem.ChangeDirection.Left)
 				{
 					colorePropScelto--;
 					if (DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_straight_bar_s") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_m_in") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_out") || DummyProp.Model.Hash == Funzioni.HashInt("sum_prop_track_ac_bend_bar_l_b") || DummyProp.Model.Hash == Funzioni.HashInt("ch_prop_track_ch_straight_bar_m"))
@@ -444,19 +446,18 @@ namespace TheLastPlanet.Client.Races.Creator
 					if (categoriaScelta > 47)
 						categoriaScelta = 0;
 				}
-				else
+				else if (direction == UIMenuDynamicListItem.ChangeDirection.Left)
 				{
 					categoriaScelta -= 1;
 					if (categoriaScelta < 0)
 						categoriaScelta = 47;
 				}
-				RequestAdditionalText("FMMC", 2);
-				while (!HasAdditionalTextLoaded(2)) await BaseScript.Delay(0);
 				tipoPropScelto = RaceCreatorHelper.GetFinalInCategory(categoriaScelta);
+				var pp = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
 				colorePropScelto = RaceCreatorHelper.GetColorCount(DummyProp.Model.Hash);
 				var col = await color.Callback(color, UIMenuDynamicListItem.ChangeDirection.Right);
-				var pp = await tipo.Callback(tipo, UIMenuDynamicListItem.ChangeDirection.Right);
 				tipo.CurrentListItem = pp;
+				color.CurrentListItem = col;
 				return RaceCreatorHelper.GetCategoryName(categoriaScelta);
 			});
 			propPlacing.AddItem(categoria);
@@ -558,6 +559,28 @@ namespace TheLastPlanet.Client.Races.Creator
 			UIMenuItem Esci = new("Esci");
 			Creator.AddItem(Esci);
 			Creator.Visible = true;
+
+			HUD.MenuPool.OnMenuStateChanged += async (a, b, c) =>
+			{
+				if (c == MenuState.ChangeForward)
+				{
+					if (b == propPlacing)
+					{
+						var aa = await categoria.Callback(categoria, UIMenuDynamicListItem.ChangeDirection.None);
+					}
+				}
+				if (c == MenuState.ChangeBackward)
+				{
+					if (a == propPlacing)
+					{
+						if (DummyProp.Exists())
+						{
+							DummyProp.Delete();
+							DummyProp = null;
+						}
+					}
+				}
+			};
 		}
 
 		#region	METODI
@@ -727,6 +750,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				float fVar3 = GetDisabledControlNormal(2, 221);
 				float ltNorm = GetDisabledControlNormal(2, 252);
 				float rtNorm = GetDisabledControlNormal(2, 253);
+				float zoomingWheel = 0f;
 				if (!IsLookInverted())
 				{
 					fVar1 = -fVar1;
@@ -744,6 +768,13 @@ namespace TheLastPlanet.Client.Races.Creator
 				{
 					fVar2 = GetDisabledControlUnboundNormal(2, 1) * 2;
 					fVar3 = GetDisabledControlUnboundNormal(2, 2) * -1 * 2;
+					if (GetDisabledControlNormal(2, 241) > 0.25f)
+						zoomingWheel = 3f;
+					if (GetDisabledControlNormal(2, 242) > 0.25f)
+						zoomingWheel = -3f;
+					HUD.DrawText(0.3f, 0.7f, "GetDisabledControlNormal(2, 241) => " + GetDisabledControlNormal(2, 241));
+					HUD.DrawText(0.3f, 0.725f, "GetDisabledControlNormal(2, 242) => " + GetDisabledControlNormal(2, 242));
+					HUD.DrawText(0.3f, 0.75f, "zoomingWheel => " + zoomingWheel);
 				}
 
 				float xVectFwd = -fVar1 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
@@ -752,18 +783,23 @@ namespace TheLastPlanet.Client.Races.Creator
 				float yVectLat = fVar0 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
 
 
+				cameraPosition.X += xVectFwd + xVectLat;
+				cameraPosition.Y += yVectFwd + yVectLat;
 				curRotation = new(fVar3 + enteringCamera.Rotation.X, 0, -fVar2 + enteringCamera.Rotation.Z);
 
 				zoom = Vector3.Distance(cameraPosition, curLocation); // da migliorare assolutamente
 
 				curLocation = new((cameraPosition + zoom * enteringCamera.CamForwardVector()).X, (cameraPosition + zoom * enteringCamera.CamForwardVector()).Y, Height);
 
-				if (ltNorm > 0 || rtNorm > 0)
+				if (ltNorm > 0 || rtNorm > 0 || zoomingWheel != 0)
 				{
-					if (zoom < 351f)
-						zoom += ltNorm;
-					if (zoom > 16f)
-						zoom -= rtNorm;
+					zoom += ltNorm;
+					zoom -= rtNorm;
+					zoom += zoomingWheel;
+					if (zoom >= 350f)
+						zoom = 350f;
+					if (zoom <= 16f)
+						zoom = 16f;
 					cameraPosition = curLocation - zoom * enteringCamera.CamForwardVector();
 				}
 
@@ -777,10 +813,6 @@ namespace TheLastPlanet.Client.Races.Creator
 					cameraPosition.Z -= 1f;
 					Height -= 1f;
 				}
-
-				cameraPosition.X += xVectFwd + xVectLat;
-				cameraPosition.Y += yVectFwd + yVectLat;
-
 
 				float z = 0;
 				GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, Height + 300, ref z, false);
