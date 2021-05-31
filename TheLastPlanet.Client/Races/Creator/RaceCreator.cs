@@ -833,7 +833,6 @@ namespace TheLastPlanet.Client.Races.Creator
 			#region MOVIMENTI PROP
 			if (DummyProp != null)
 			{
-				HUD.DrawText(0.35f, 0.7f, $"Prop =  { (RacingProps)(uint)DummyProp.Model.Hash }");
 				DummyProp.Position = curLocation;
 				if (IsDisabledControlPressed(2, 227))
 				{
@@ -926,6 +925,12 @@ namespace TheLastPlanet.Client.Races.Creator
 						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar3.Z + fVar8), vVar5, vVar6, vVar7, Colors.Purple);
 						World.DrawMarker(MarkerType.UpsideDownCone, GetOffsetFromEntityInWorldCoords(DummyProp.Handle, 0f, 0f, vVar2.Z - fVar8), -vVar5, vVar6, vVar7, Colors.Purple);
 					}
+				}
+				int timer = Game.GameTime;
+				if (Input.IsControlPressed(Control.FrontendX))
+				{
+					if (Game.GameTime - timer > 1000)
+						dummyRot = new Vector3(0, 0, dummyRot.Z);
 				}
 				DummyProp.Rotation = dummyRot;
 			}
