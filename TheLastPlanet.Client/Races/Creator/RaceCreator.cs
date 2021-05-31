@@ -772,9 +772,6 @@ namespace TheLastPlanet.Client.Races.Creator
 						zoomingWheel = 3f;
 					if (GetDisabledControlNormal(2, 242) > 0.25f)
 						zoomingWheel = -3f;
-					HUD.DrawText(0.3f, 0.7f, "GetDisabledControlNormal(2, 241) => " + GetDisabledControlNormal(2, 241));
-					HUD.DrawText(0.3f, 0.725f, "GetDisabledControlNormal(2, 242) => " + GetDisabledControlNormal(2, 242));
-					HUD.DrawText(0.3f, 0.75f, "zoomingWheel => " + zoomingWheel);
 				}
 
 				float xVectFwd = -fVar1 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
