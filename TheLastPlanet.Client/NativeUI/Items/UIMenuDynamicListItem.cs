@@ -10,6 +10,7 @@ namespace TheLastPlanet.Client.NativeUI
     {
         public enum ChangeDirection
         {
+            None,
             Left,
             Right
         }
