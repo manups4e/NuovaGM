@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
+using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.RolePlay.TimeWeather;
 using static CitizenFX.Core.Native.API;
@@ -21,7 +22,7 @@ namespace TheLastPlanet.Client.Races.Creator
 		public int TipoGara { get; set; }
 		public int TipoGiri { get; set; }
 		public int Laps { get; set; }
-		public List<TrackPieces> Props = new();
+		public List<TrackPiece> Props = new();
 		public List<CheckPoint> CheckPoints = new();
 		public int GrigliaIniziale { get; set; }
 		public int Orario { get; set; }
@@ -33,19 +34,32 @@ namespace TheLastPlanet.Client.Races.Creator
 		public int Traffico { get; set; }
 	}
 
-	public class TrackPieces
+	public class TrackPiece
 	{
+		[JsonIgnore]
+		public Prop Entity { get; set; }
 		public RacingProps Prop { get; set; }
 		public Vector3 Position { get; set; }
 		public Vector3 Rotation { get; set; }
 		public int Color { get;  set; }
-		public int TipoNeon { get; set; }
 		public float SpeedIntensity { get; set; } = 0;
 		public float SlowIntensity { get; set; } = 0;
 		public string SoundID { get; set; }
 		public int SoundDistance { get; set; }
 		public int VolteGiro { get; set; }
 		public bool UnoPerGiro { get;  set; }
+
+		public TrackPiece() { }
+
+		public TrackPiece(Prop piece, RacingProps propHash, Vector3 pos, Vector3 rot, int color)
+		{
+			Entity = piece;
+			Prop = propHash;
+			Position = pos;
+			Rotation = rot;
+			Color = color;
+		}
+
 	}
 
 	public class CheckPoint

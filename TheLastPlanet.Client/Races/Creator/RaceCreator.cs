@@ -48,12 +48,20 @@ namespace TheLastPlanet.Client.Races.Creator
 		private static Prop DummyProp; // prop temporaneo da posizionare
 		private static Vector3 dummyRot;
 		private static RotationDummyType rotationDummyType = RotationDummyType.Heading;
-		private static List<TrackPieces> Piazzati = new List<TrackPieces>();
+		private static List<TrackPiece> Piazzati = new List<TrackPiece>();
 		private static float zoom = 75f;
 		private static List<dynamic> grigliaVehStart = new List<dynamic>() { "2 X 2" };
 		private static int categoriaScelta = 16;
 		private static int tipoPropScelto = 0;
 		private static int colorePropScelto = 0;
+
+		private static bool accatastamento = true;
+		private static SnapOptions OpzioniSnap = new SnapOptions();
+
+		private static List<InstructionalButton> MainMenuButtons = new List<InstructionalButton>();
+		private static List<InstructionalButton> CheckPointsButtons = new List<InstructionalButton>();
+		private static List<InstructionalButton> PropsButtons = new List<InstructionalButton>();
+		private static UIMenu Creator = new UIMenu("", "");
 		public static async void CreatorPreparation()
 		{
 			Cache.MyPlayer.Player.CanControlCharacter = false;
@@ -97,7 +105,7 @@ namespace TheLastPlanet.Client.Races.Creator
 
 		public static async void CreatorMainMenu()
 		{
-			UIMenu Creator = new("Creatore Gare", "Lo strumento dei creativi");
+			Creator = new("Creatore Gare", "Lo strumento dei creativi");
 			Creator.MouseControlsEnabled = false;
 			HUD.MenuPool.Add(Creator);
 			UIMenu Dettagli = Creator.AddSubMenu("Dettagli");
@@ -465,14 +473,24 @@ namespace TheLastPlanet.Client.Races.Creator
 			UIMenuListItem tipoRot = new UIMenuListItem("Tipo di Rotazione", new List<dynamic>() { GetLabelText("FMMC_PROT_NORM"), "Roll", "Pitch", "Yaw" }, 0);
 			propPlacing.AddItem(tipoRot);
 			propPlacing.AddItem(color);
-			UIMenuCheckboxItem stacking = new UIMenuCheckboxItem("Abilita Accatastamento Prop", UIMenuCheckboxStyle.Tick, false, "");
+			UIMenuListItem stacking = new("Abilita Accatastamento Prop", new List<dynamic>() { "Si", "No" }, 0);
 			propPlacing.AddItem(stacking);
-
-			propPlacing.OnListChange += async (a, b, c) =>
+			UIMenuListItem snapAtt = new(Game.GetGXTEntry("FMMC_PRP_SNP"), new List<dynamic>() { "No", "Si" }, 0);
+			propPlacing.AddItem(snapAtt);
+			propPlacing.OnListChange += (a, b, c) =>
 			{
 				if (b == tipoRot)
 				{
 					rotationDummyType = (RotationDummyType)c;
+				}
+				else if (b == stacking)
+				{
+					accatastamento = c == 0;
+				}
+				else if (b == snapAtt)
+				{
+					OpzioniSnap.Attivo = c != 0;
+					OpzioniSnap.Prossimità = c != 0;
 				}
 			};
 
@@ -482,6 +500,8 @@ namespace TheLastPlanet.Client.Races.Creator
 
 			UIMenu overridePos = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~posizionare~w~ i componenti nelle esatte posizioni");
 			UIMenu overrideRot = opzioniAvanzate.AddSubMenu("Override Posizione", "Utilizza una Free Camera i valori X, Y, Z per ~y~ruotare~w~ i componenti nelle esatte posizioni");
+			UIMenu snapOptions = opzioniAvanzate.AddSubMenu(Game.GetGXTEntry("FMMC_PRP_SNPO"));
+			#region override pos e rot
 			UIMenuCheckboxItem useOverride = new UIMenuCheckboxItem("Usa Override", UIMenuCheckboxStyle.Tick, false, "");
 			UIMenuListItem alignment = new UIMenuListItem("Allineamento", new List<dynamic>() { "Mondo", "Locale" }, 0);
 			UIMenuDynamicListItem posX = new UIMenuDynamicListItem("X", curLocation.X.ToString("F3"), async (sender, direction) =>
@@ -528,6 +548,16 @@ namespace TheLastPlanet.Client.Races.Creator
 			overrideRot.AddItem(rotX);
 			overrideRot.AddItem(rotY);
 			overrideRot.AddItem(rotZ);
+			#endregion
+
+			#region SnapOptions
+
+			UIMenuListItem proxSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
+			UIMenuListItem chainSnap = new UIMenuListItem("", new List<dynamic>() { "No", "Si" }, 0);
+			snapOptions.AddItem(proxSnap);
+			snapOptions.AddItem(chainSnap);
+
+			#endregion
 
 			#endregion
 
@@ -831,6 +861,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			#endregion
 
 			#region MOVIMENTI PROP
+
 			if (DummyProp != null)
 			{
 				DummyProp.Position = curLocation;
@@ -933,11 +964,37 @@ namespace TheLastPlanet.Client.Races.Creator
 						dummyRot = new Vector3(0, 0, dummyRot.Z);
 				}
 				DummyProp.Rotation = dummyRot;
-			}
 
+				#region CreaProp
+				if (Input.IsControlJustPressed(Control.FrontendAccept))
+				{
+					var submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
+					if (submenuselected) return;
+					var model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
+					Prop prop = await Funzioni.SpawnLocalProp(model, curLocation, false, false);
+					prop.Rotation = dummyRot;
+					SetObjectTextureVariation(prop.Handle, colorePropScelto);
+					Piazzati.Add(new TrackPiece(prop, (RacingProps)(uint)model, curLocation, dummyRot, colorePropScelto));
+				}
+				#endregion
+				#region SNAP
+
+				if (OpzioniSnap.Attivo && OpzioniSnap.Prossimità) // func_8363
+				{
+
+				}
+				#endregion
+			}
 			#endregion
 			// PER LO SNAP CERCARE "Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds"
 		}
 		#endregion
+	}
+
+	public class SnapOptions
+	{
+		public bool Attivo { get; set; }
+		public bool Prossimità { get; set; }
+		public bool Catenamento { get; set; }
 	}
 }
