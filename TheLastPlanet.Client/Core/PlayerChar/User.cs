@@ -239,10 +239,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public Istanza()
 		{
-			Stanziato = false;
-			ServerIdProprietario = -1;
-			IsProprietario = false;
-			Instance = "";
 		}
 
 		public bool Stanziato
