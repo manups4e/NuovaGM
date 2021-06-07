@@ -157,7 +157,7 @@ namespace TheLastPlanet.Client.NativeUI
                 count++;
             }
             _sc.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-            _changed = true;
+            _changed = false;
         }
 
         public void Draw()
