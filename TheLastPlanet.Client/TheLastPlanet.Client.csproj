@@ -9,6 +9,9 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release;Offuscata</Configurations>
+    <AssemblyVersion>5.78.*</AssemblyVersion>
+    <FileVersion>5.78</FileVersion>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
 
