@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
@@ -81,11 +82,18 @@ namespace TheLastPlanet.Client.NativeUI
         private bool _enabled;
         private bool _isUsingKeyboard;
         private bool _changed = true;
-
         public bool Enabled
         {
             get => _enabled;
-            set => _enabled = value;
+            set
+            {
+                if (!value)
+                {
+                    ControlButtons.Clear();
+                    _changed = true;
+                }
+                _enabled = value;
+            }
         }
 
         public bool UseMouseButtons
@@ -96,7 +104,7 @@ namespace TheLastPlanet.Client.NativeUI
 
         public List<InstructionalButton> ControlButtons = new List<InstructionalButton>();
 
-		public async Task Load()
+		public async void Load()
 		{
             if (_sc != null) return;
             _sc = new Scaleform("INSTRUCTIONAL_BUTTONS");
@@ -121,25 +129,35 @@ namespace TheLastPlanet.Client.NativeUI
             _sc.CallFunction("CLEAR_ALL");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             _sc.CallFunction("CREATE_CONTAINER");
-
             int count = 0;
 
             foreach (InstructionalButton button in ControlButtons) // TODO: controllare e aggiornare
             {
-                if(button.IsUsingController)
-                    _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
-				else
+				if (button.IsUsingController)
 				{
+                    if(PopupWarningThread.Warning.IsShowing)
+                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
+                    else
+                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
+                }
+                else
+                {
                     if (_useMouseButtons)
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button._keyboardButtonControl);
                     else
-                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
+                    {
+                        if(PopupWarningThread.Warning.IsShowing)
+                            _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
+                        else
+                            _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
+
+                    }
 
                 }
                 count++;
             }
             _sc.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-            _changed = false;
+            _changed = true;
         }
 
         public void Draw()
@@ -147,16 +165,6 @@ namespace TheLastPlanet.Client.NativeUI
             if (_sc == null) return;
             if (ControlButtons.Count == 0) return;
             if (!_enabled) return;
-
-            if (Main.ImpostazioniClient != null)
-            {
-                if (!Main.ImpostazioniClient.ModCinema)
-                    _sc.Render2D();
-                else
-                    API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
-            }
-            else
-                _sc.Render2D();
 
             if (API.IsUsingKeyboard(2))
             {
@@ -175,6 +183,15 @@ namespace TheLastPlanet.Client.NativeUI
                 }
             }
             UpdateButtons();
+            if (Main.ImpostazioniClient != null)
+            {
+                if (!Main.ImpostazioniClient.ModCinema)
+                    _sc.Render2D();
+                else
+                    API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
+            }
+            else
+                _sc.Render2D();
             foreach (InstructionalButton button in ControlButtons)
 			{
                 if (Input.IsControlJustPressed(button._controllerButtonControl, button.padCheck))
@@ -196,12 +213,13 @@ namespace TheLastPlanet.Client.NativeUI
         public InstructionalButtonsHandler()
 		{
             InstructionalButtons = new InstructionalButtonsScaleform();
+            InstructionalButtons.Load();
             Tick += InstructionalButtons_Tick;
 		}
 
         private async Task InstructionalButtons_Tick()
 		{
-            await InstructionalButtons.Load();
+            if (PopupWarningThread.Warning.IsShowing) return;
             InstructionalButtons.Draw();
             await Task.FromResult(0);
         }
