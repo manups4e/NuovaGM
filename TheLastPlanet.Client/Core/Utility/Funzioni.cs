@@ -903,6 +903,9 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static Prop GetClosestProp(this Entity entity) { return World.GetClosest(entity.Position, World.GetAllProps()); }
 
+		public static Prop GetClosestProp(this Entity entity, Entity ignored) { return World.GetClosest(entity.Position, World.GetAllProps().Where(x=> x.Handle != ignored.Handle).ToArray()); }
+		public static Prop GetClosestProp(this Entity entity, List<Entity> ignored) { return World.GetClosest(entity.Position, World.GetAllProps().Where(x=> ignored.All(y=> x.Handle != y.Handle)).ToArray()); }
+
 		public static Prop GetClosestProp(this Entity entity, string model) { return GetClosestProp(entity, new Model(model)); }
 
 		public static Prop GetClosestProp(this Entity entity, Model model)
