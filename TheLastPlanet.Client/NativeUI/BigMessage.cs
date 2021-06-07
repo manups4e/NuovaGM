@@ -22,12 +22,12 @@ namespace TheLastPlanet.Client.NativeUI
             _sc = new Scaleform("MP_BIG_MESSAGE_FREEMODE");
             int timeout = 1000;
             DateTime start = DateTime.Now;
-            while (!API.HasScaleformMovieLoaded(_sc.Handle) && DateTime.Now.Subtract(start).TotalMilliseconds < timeout) await BaseScript.Delay(0);
+            while (!_sc.IsLoaded && DateTime.Now.Subtract(start).TotalMilliseconds < timeout) await BaseScript.Delay(0);
         }
 
         public void Dispose()
         {
-            Function.Call(Hash.SET_SCALEFORM_MOVIE_AS_NO_LONGER_NEEDED, new OutputArgument(_sc.Handle));
+            _sc.Dispose();
             _sc = null;
         }
 
