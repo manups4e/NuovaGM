@@ -77,6 +77,11 @@ namespace TheLastPlanet.Client.NativeUI
     public class InstructionalButtonsScaleform
 	{
         private Scaleform _sc;
+        private bool _useMouseButtons;
+        private bool _enabled;
+        private bool _isUsingKeyboard;
+        private bool _changed = true;
+
         public bool Enabled
         {
             get => _enabled;
@@ -84,14 +89,13 @@ namespace TheLastPlanet.Client.NativeUI
         }
 
         public bool UseMouseButtons
-		{
+        {
             get => _useMouseButtons;
             set => _useMouseButtons = value;
         }
 
         public List<InstructionalButton> ControlButtons = new List<InstructionalButton>();
-        private bool _enabled;
-        private bool _useMouseButtons;
+
 		public async Task Load()
 		{
             if (_sc != null) return;
@@ -113,18 +117,29 @@ namespace TheLastPlanet.Client.NativeUI
 
         public void UpdateButtons()
 		{
+            if (!_changed) return;
             _sc.CallFunction("CLEAR_ALL");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             _sc.CallFunction("CREATE_CONTAINER");
+
             int count = 0;
 
             foreach (InstructionalButton button in ControlButtons) // TODO: controllare e aggiornare
             {
-                _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
+                if(button.IsUsingController)
+                    _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
+				else
+				{
+                    if (_useMouseButtons)
+                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button._keyboardButtonControl);
+                    else
+                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
+
+                }
                 count++;
             }
             _sc.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-
+            _changed = false;
         }
 
         public void Draw()
@@ -132,7 +147,7 @@ namespace TheLastPlanet.Client.NativeUI
             if (_sc == null) return;
             if (ControlButtons.Count == 0) return;
             if (!_enabled) return;
-            UpdateButtons();
+
             if (Main.ImpostazioniClient != null)
             {
                 if (!Main.ImpostazioniClient.ModCinema)
@@ -143,6 +158,23 @@ namespace TheLastPlanet.Client.NativeUI
             else
                 _sc.Render2D();
 
+            if (API.IsUsingKeyboard(2))
+            {
+                if (!_isUsingKeyboard)
+                {
+                    _isUsingKeyboard = true;
+                    _changed = true;
+                }
+            }
+            else
+            {
+                if (_isUsingKeyboard)
+                {
+                    _isUsingKeyboard = false;
+                    _changed = true;
+                }
+            }
+            UpdateButtons();
             foreach (InstructionalButton button in ControlButtons)
 			{
                 if (Input.IsControlJustPressed(button._controllerButtonControl, button.padCheck))
@@ -150,6 +182,8 @@ namespace TheLastPlanet.Client.NativeUI
                 else if (Input.IsControlJustPressed(button._keyboardButtonControl, button.padCheck))
                     button.InvokeEvent(button._keyboardButtonControl);
             }
+            if (_useMouseButtons)
+                Screen.Hud.ShowCursorThisFrame();
             Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
             Screen.Hud.HideComponentThisFrame(HudComponent.AreaName);
             Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
