@@ -29,7 +29,6 @@ namespace TheLastPlanet.Client.MAINLOBBY
 		private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
 		private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
 		private static ParticleEffectsAssetNetworked SpawnParticle = new("scr_powerplay");
-		private static Scaleform Warning = new("POPUP_WARNING");
 
 		public static void Init()
 		{
@@ -40,7 +39,6 @@ namespace TheLastPlanet.Client.MAINLOBBY
 		{
 			Client.Instance.RemoveTick(Entra);
 			Client.Instance.RemoveTick(DrawMarkers);
-			Client.Instance.RemoveTick(DrawScaleform);
 		}
 
 		private static Vector3 _posRp = Vector3.Zero;
@@ -153,12 +151,6 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			}
 		}
 
-		private static async Task DrawScaleform()
-		{
-			Warning.Render2D();
-			await Task.FromResult(0);
-		}
-
 		#region INGRESSO SERVER
 
 		private static bool _firstTick = true;
@@ -224,39 +216,34 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			NetworkFadeInEntity(Cache.MyPlayer.Ped.Handle, true);
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.MyPlayer.Ped);
 			Client.Instance.AddTick(DrawMarkers);
-			Client.Instance.AddTick(DrawScaleform);
 		}
 
 		#endregion
 
 		private static async Task CambiaBucket(string nome, int id)
 		{
-			Cache.MyPlayer.Player.CanControlCharacter = false;
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(500);
-			Warning.CallFunction("SHOW_POPUP_WARNING", 1000f, nome, "Ingresso nella sezione in corso...", "", true, 0, "The Last Planet ver. 5.78.995");
+			PopupWarningThread.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
+			await BaseScript.Delay(10);
 			Screen.Fading.FadeIn(1);
 			await BaseScript.Delay(3000);
 			bool dentro = await Client.Instance.Eventi.Get<bool>("lprp:checkSeGiaDentro", id);
-
 			if (dentro)
 			{
-				Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, nome, "Errore nel caricamento... Ritorno alla lobby!", "", true, 0, "The Last Planet ver. 5.78.995");
-				await BaseScript.Delay(3000);
+				PopupWarningThread.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
 				PlayerSpawned();
-				await BaseScript.Delay(1000);
-				Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
-
+				await BaseScript.Delay(3000);
+				PopupWarningThread.Warning.Dispose();
 				return;
 			}
 
-			Warning.CallFunction("SHOW_POPUP_WARNING", 3000f, nome, "Caricamento completato!", "", true, 0, "The Last Planet ver. 5.78.995");
+			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
 			Cache.MyPlayer.User.StatiPlayer.Bucket = id;
 			Bucket_n_Players = await Client.Instance.Eventi.Get<Dictionary<int, int>>("lprp:richiediContoBuckets");
-			await BaseScript.Delay(3000);
+			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
-			Warning.CallFunction("HIDE_POPUP_WARNING", 2000f);
-			Cache.MyPlayer.Player.CanControlCharacter = true;
+			PopupWarningThread.Warning.Dispose();
 			Stop();
 		}
 	}
