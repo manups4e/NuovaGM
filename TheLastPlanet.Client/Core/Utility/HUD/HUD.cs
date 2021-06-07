@@ -282,6 +282,28 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
 		}
+		public static void DrawText3D(Camera camera, Vector3 coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
+		{
+			Vector3 cam = camera.Position;
+			float dist = Vector3.Distance(coord, cam);
+			float scaleInternal = (1 / dist) * scale;
+			float fov = (1 / camera.FieldOfView) * 100;
+			float _scale = scaleInternal * fov;
+			SetTextScale(0.1f * _scale, 0.15f * _scale);
+			SetTextFont((int)font);
+			SetTextProportional(true);
+			SetTextColour(c.R, c.G, c.B, c.A);
+			SetTextDropshadow(5, 0, 0, 0, 255);
+			SetTextEdge(2, 0, 0, 0, 150);
+			SetTextDropShadow();
+			SetTextOutline();
+			SetTextCentre(true);
+			SetDrawOrigin(coord.X, coord.Y, coord.Z, 0);
+			BeginTextCommandDisplayText("STRING");
+			AddTextComponentSubstringPlayerName(text);
+			EndTextCommandDisplayText(0, 0);
+			ClearDrawOrigin();
+		}
 
 		public static void DrawText(string text)
 		{
