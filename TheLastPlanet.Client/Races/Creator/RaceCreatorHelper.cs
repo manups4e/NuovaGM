@@ -2649,7 +2649,6 @@ namespace TheLastPlanet.Client.Races.Creator
 
 						case 40:
 							return (int)RacingProps.ba_prop_battle_track_short;
-
 					}
 					break;
 
