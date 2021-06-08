@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using TheLastPlanet.Server.Core;
 
-namespace TheLastPlanet.Server.Scripts.EventiFreemode
+namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
     public class ExperienceManager
     {

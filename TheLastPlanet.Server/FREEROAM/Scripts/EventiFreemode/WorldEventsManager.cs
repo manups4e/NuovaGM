@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core;
 
-namespace TheLastPlanet.Server.Scripts.EventiFreemode
+namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
 	static class WorldEventsManager
 	{

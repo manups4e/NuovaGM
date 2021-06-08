@@ -7,7 +7,7 @@ using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class FarthestJumpDistance : IWorldEvent
     {

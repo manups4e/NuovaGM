@@ -5,7 +5,7 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Managers
+namespace TheLastPlanet.Client.FreeRoam.Managers
 {
     public static class ExperienceManager
     {

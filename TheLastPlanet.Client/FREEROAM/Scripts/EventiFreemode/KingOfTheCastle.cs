@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class KingOfTheCastle : IWorldEvent
     {
@@ -69,7 +70,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                     Screen.ShowSubtitle($"Preparati per la sfida ~b~{Name}~w~.", 50);
                 else
                 {
-                    if (World.GetDistance(Game.PlayerPed.Position, CurrentPlace) > 50f)
+                    if (Vector3.Distance(Cache.MyPlayer.Posizione.ToVector3, CurrentPlace) > 50f)
                         Screen.ShowSubtitle("Entra nell'area e difendila il più possibile per conquistare RP", 50);
                     else
                     {

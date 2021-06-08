@@ -28,6 +28,8 @@ namespace TheLastPlanet.Client.MAINLOBBY
 		private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
 		private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1267.147f, -3032.353f, -49.0f), new Vector3(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
 		private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1251.566f, -3032.304f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
+		private static BucketMarker Roam_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1250.61f, -3007.73f, -49.0f), new Vector3(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
+
 		private static ParticleEffectsAssetNetworked SpawnParticle = new("scr_powerplay");
 
 		public static void Init()
@@ -45,6 +47,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 		private static Vector3 _posMini = Vector3.Zero;
 		private static Vector3 _posGare = Vector3.Zero;
 		private static Vector3 _posNego = Vector3.Zero;
+		private static Vector3 _posRoam = Vector3.Zero;
 
 		private static async Task DrawMarkers()
 		{
@@ -74,14 +77,22 @@ namespace TheLastPlanet.Client.MAINLOBBY
 				Nego_Marker.Marker.Position = _posNego;
 			}
 
-			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Server RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[1]}/256", "", "", "");
-			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[2]}/64", "", "", "");
-			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Gare~w~", "", "", "", "", $"{Bucket_n_Players[3]}/64", "", "", "");
+			if (_posRoam == Vector3.Zero)
+			{
+				_posRoam = await Roam_Marker.Marker.Position.GetVector3WithGroundZ();
+				Roam_Marker.Marker.Position = _posRoam;
+			}
+
+			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[1]}/256", "", "", "");
+			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[2]}/64", "", "", "");
+			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[3]}/64", "", "", "");
 			Nego_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Non influisce sul server RolePlay!", "~o~Negozio~w~", "", "", "", "", "", "", "", "");
+			Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[4]}/256", "", "", "");
 			RP_Marker.Draw();
 			Mini_Marker.Draw();
 			Gare_Marker.Draw();
 			Nego_Marker.Draw();
+			Roam_Marker.Draw();
 
 			if (RP_Marker.Marker.IsInMarker)
 			{
@@ -148,6 +159,19 @@ namespace TheLastPlanet.Client.MAINLOBBY
 					await CambiaBucket("~o~Negozio~w~", 4);
 					Screen.Fading.FadeIn(1000);
 				}
+			}
+
+			if (Roam_Marker.Marker.IsInMarker)
+			{
+				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel ~f~Pianeta FreeRoam~w~");
+				if (Input.IsControlJustPressed(Control.Context))
+				{
+					await CambiaBucket("~f~Pianeta FreeRoam~w~", 5);
+					Screen.Fading.FadeIn(1000);
+					await FreeRoam.Initializer.Init();
+					Stop();
+				}
+
 			}
 		}
 

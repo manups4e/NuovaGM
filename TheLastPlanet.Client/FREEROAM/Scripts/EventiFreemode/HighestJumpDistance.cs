@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class HighestJumpDistance : IWorldEvent
     {
@@ -19,7 +20,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
         }
         public override void OnEventActivated()
         {
-            Game.PlayerPed.Weapons.RemoveAll();
+            Cache.MyPlayer.Ped.Weapons.RemoveAll();
             Client.Instance.AddTick(OnTick);
             base.OnEventActivated();
         }
@@ -45,7 +46,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                 {
                     Screen.ShowSubtitle("Effettua il salto più alto su un veicolo di terra.", 50);
 
-                    if (Game.PlayerPed.IsInVehicle())
+                    if (Cache.MyPlayer.Ped.IsInVehicle())
                     {
                         StatGetFloat(unchecked((uint)PlayerStat), ref tentativoCorrente, -1);
 

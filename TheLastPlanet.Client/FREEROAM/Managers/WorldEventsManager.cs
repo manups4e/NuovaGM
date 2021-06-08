@@ -6,12 +6,13 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.Scripts.EventiFreemode;
+using TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Managers
+namespace TheLastPlanet.Client.FreeRoam.Managers
 {
     static class WorldEventsManager
     {
@@ -120,7 +121,7 @@ namespace TheLastPlanet.Client.Managers
                 var place = 0;
 
                 // Winner
-                if (top3.ElementAt(0).Key == Game.Player.Name)
+                if (top3.ElementAt(0).Key == Cache.MyPlayer.Player.Name)
                 {
                     if (top3.ElementAt(0).Value != 0)
                     {
@@ -129,7 +130,7 @@ namespace TheLastPlanet.Client.Managers
                     }
                 }
                 // 2nd Place
-                else if (top3.ElementAt(1).Key == Game.Player.Name)
+                else if (top3.ElementAt(1).Key == Cache.MyPlayer.Player.Name)
                 {
                     if (top3.ElementAt(1).Value != 0)
                     {
@@ -138,7 +139,7 @@ namespace TheLastPlanet.Client.Managers
                     }
                 }
                 // 3rd Place
-                else if (top3.ElementAt(2).Key == Game.Player.Name)
+                else if (top3.ElementAt(2).Key == Cache.MyPlayer.Player.Name)
                 {
                     if (top3.ElementAt(2).Value != 0)
                     {

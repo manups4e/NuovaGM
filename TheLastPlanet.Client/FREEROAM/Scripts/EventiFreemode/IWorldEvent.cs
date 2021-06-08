@@ -10,7 +10,7 @@ using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.NativeUI;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public abstract class IWorldEvent
     {

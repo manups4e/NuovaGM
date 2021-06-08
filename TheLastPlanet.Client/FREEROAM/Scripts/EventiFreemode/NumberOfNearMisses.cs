@@ -4,9 +4,10 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class NumberOfNearMisses : IWorldEvent
     {
@@ -28,7 +29,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
             if (IsStarted) 
             {   
                 Vehicle veh = new Vehicle(vehicle);
-                if (veh == Game.PlayerPed.CurrentVehicle)
+                if (veh == Cache.MyPlayer.Ped.CurrentVehicle)
                 {
                     API.StatSetInt(unchecked((uint)PlayerStats.NumberNearMisses), 0, true);
                     CurrentAttempt = 0;

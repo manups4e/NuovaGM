@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TheLastPlanet.Server.Scripts.EventiFreemode
+namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
     static class VehicleManager
     {

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Managers;
+using TheLastPlanet.Client.FreeRoam.Managers;
 using TheLastPlanet.Shared;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class LongestSurvivedFreefall : IWorldEvent
     {
@@ -55,8 +56,8 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
         public override async void OnEventActivated()
         {
             FirstStartedTick = true;
-            Game.PlayerPed.Weapons.RemoveAll();
-            //Game.PlayerPed.Weapons.Give(WeaponHash.Parachute, 1, true, true);
+            Cache.MyPlayer.Ped.Weapons.RemoveAll();
+            //Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Parachute, 1, true, true);
 
             //HUD.ShowAdvancedNotification($"Ti è stato dato un paracadute per la sfida ~b~{Name}~w~", "Paracadute consegnato", "", "CHAR_AMMUNATION", "CHAR_AMMUNATION", HudColor.HUD_COLOUR_REDDARK, default(System.Drawing.Color), false, NotificationType.Bubble);
             //await VehicleManager.SpawnEventVehicles(VehicleSpawnLocations);
@@ -78,8 +79,8 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                 else
                 {
                     Screen.ShowSubtitle("Effettua la caduta più lunga senza morire. Usare il paracadute NON vale.", 50);
-                    if (Game.PlayerPed.IsInFlyingVehicle || !Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Parachute))
-                        Game.PlayerPed.Weapons.Give(WeaponHash.Parachute, 1, true, true);
+                    if (Cache.MyPlayer.Ped.IsInFlyingVehicle || !Cache.MyPlayer.Ped.Weapons.HasWeapon(WeaponHash.Parachute))
+                        Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Parachute, 1, true, true);
                     var x = 0f;
                     StatGetFloat(unchecked((uint)PlayerStat), ref x, -1);
                     if (x != 0)

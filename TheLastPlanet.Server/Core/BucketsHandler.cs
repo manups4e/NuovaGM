@@ -27,6 +27,8 @@ namespace TheLastPlanet.Server.Core
 			Buckets.Add(2, new Bucket(2, "Minigames") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
 			Buckets.Add(3, new Bucket(3, "Gare") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
 			Buckets.Add(4, new Bucket(4, "Negozio") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(5, new Bucket(4, "FreeRoam") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.strict });
+
 			Server.Instance.Events.Mount("lprp:addPlayerToBucket", new Action<ClientId, int>(AddPlayerToBucket));
 			Server.Instance.Events.Mount("lprp:addEntityToBucket", new Action<int, int>(AddEntityToBucket));
 			Server.Instance.Events.Mount("lprp:richiediContoBuckets", new Func<ClientId, Task<Dictionary<int, int>>>(CountPlayers));

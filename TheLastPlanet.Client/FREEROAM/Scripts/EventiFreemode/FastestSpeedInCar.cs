@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     class FastestSpeedInCar : IWorldEvent
     {
@@ -35,9 +36,9 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                 else
                 {
                     Screen.ShowSubtitle("Raggiungi la velocità più alta su un veicolo da strada.", 50);
-                    if (Game.PlayerPed.IsInVehicle() && Game.PlayerPed.CurrentVehicle.Speed > 0)
+                    if (Cache.MyPlayer.Ped.IsInVehicle() && Cache.MyPlayer.Ped.CurrentVehicle.Speed > 0)
                     {
-                        var speed = Game.PlayerPed.CurrentVehicle.Speed;
+                        var speed = Cache.MyPlayer.Ped.CurrentVehicle.Speed;
                         var speedKM = speed * 3.6f;
                         CurrentAttempt = speedKM;
                         /*

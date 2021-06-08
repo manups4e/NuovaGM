@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Scripts
+namespace TheLastPlanet.Client.FreeRoam.Scripts
 {
 	static class Environment
 	{

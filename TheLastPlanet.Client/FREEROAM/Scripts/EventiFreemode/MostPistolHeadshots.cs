@@ -6,9 +6,10 @@ using CitizenFX.Core.UI;
 using Logger;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     class MostPistolHeadshots : IWorldEvent
     {
@@ -18,8 +19,8 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
         public override void OnEventActivated()
         {
             FirstStartedTick = true;
-            Game.PlayerPed.Weapons.RemoveAll();
-            Game.PlayerPed.Weapons.Give(WeaponHash.Pistol, 255, true, false);
+            Cache.MyPlayer.Ped.Weapons.RemoveAll();
+            Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 255, true, false);
             HUD.ShowAdvancedNotification($"Ti è stata data una pistola per la sfida ~b~{Name}~w~", "Arma equipaggiata", "", "CHAR_AMMUNATION", "CHAR_AMMUNATION", HudColor.HUD_COLOUR_REDDARK, default,false, NotificationType.Bubble);
             Client.Instance.AddTick(OnTick);
             base.OnEventActivated();
@@ -27,7 +28,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
-            Game.Player.WantedLevel = 0;
+            Cache.MyPlayer.Player.WantedLevel = 0;
             Client.Instance.RemoveTick(OnTick);
             base.ResetEvent();
         }

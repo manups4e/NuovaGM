@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.SessionCache;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Managers
+namespace TheLastPlanet.Client.FreeRoam.Managers
 {
     static class VehicleManager
     {
@@ -33,7 +34,7 @@ namespace TheLastPlanet.Client.Managers
                 {
                     foreach (var v in veh)
                     {
-                        if (DecorExistOn(v.Handle, "weOwnedVeh") || v.Driver == Game.PlayerPed) continue;
+                        if (DecorExistOn(v.Handle, "weOwnedVeh") || v.Driver == Cache.MyPlayer.Ped) continue;
                         v.Delete();
                     }
                 }
@@ -94,7 +95,7 @@ namespace TheLastPlanet.Client.Managers
             if (justDestroyed)
             {
                 if(GetGameTimer() - start < 25000)
-                    Game.Player.WantedLevel = 0;
+                    Cache.MyPlayer.Player.WantedLevel = 0;
                 else
                     justDestroyed = false;
             }
@@ -105,13 +106,13 @@ namespace TheLastPlanet.Client.Managers
 
         private static async void OnDestroySpawnedEventVehicles()
         {
-            if (!Game.PlayerPed.IsInVehicle())
+            if (!Cache.MyPlayer.Ped.IsInVehicle())
             {
                 Client.Logger.Debug("Player is not in a vehicle.");
                 return;
             }
 
-            var currentVehicle = Game.PlayerPed.CurrentVehicle;
+            var currentVehicle = Cache.MyPlayer.Ped.CurrentVehicle;
 
             if (!DecorExistOn(currentVehicle.Handle, "weEventVehicle"))
             {
@@ -126,19 +127,19 @@ namespace TheLastPlanet.Client.Managers
             {
                 Client.Logger.Debug("Still in an event vehicle, destroying..");
                 Audio.PlaySoundFrontend("BOATS_PLANES_HELIS_BOOM", "MP_LOBBY_SOUNDS");
-                if (Game.PlayerPed.IsInFlyingVehicle)
+                if (Cache.MyPlayer.Ped.IsInFlyingVehicle)
                 {
                     HUD.ShowAdvancedNotification("Premi ~INPUT_PARACHUTE_DEPLOY~ per usare il paracadute!", "Emergenza Paracadute");
-                    Game.PlayerPed.Weapons.Give(WeaponHash.Parachute, 999, true, true);
+                    Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Parachute, 999, true, true);
                 }
 
-                Game.PlayerPed.Task.LeaveVehicle(LeaveVehicleFlags.BailOut);
+                Cache.MyPlayer.Ped.Task.LeaveVehicle(LeaveVehicleFlags.BailOut);
 
                 await BaseScript.Delay(5000);
                 currentVehicle.ExplodeNetworked();
 
-                if (Game.PlayerPed.IsFalling)
-                    Game.PlayerPed.OpenParachute();
+                if (Cache.MyPlayer.Ped.IsFalling)
+                    Cache.MyPlayer.Ped.OpenParachute();
 
                 HUD.ShowAdvancedNotification("Sei stato cacciato dal tuo veicolo", "Attenzione!");
             }

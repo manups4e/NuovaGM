@@ -6,7 +6,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.SessionCache;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Managers
+namespace TheLastPlanet.Client.FreeRoam.Managers
 {
     static class HudManager
     {
@@ -69,9 +69,9 @@ namespace TheLastPlanet.Client.Managers
 
         private static void DrawVehicleHud()
         {
-            if (Game.PlayerPed.CurrentVehicle != null)
+            if (Cache.MyPlayer.Ped.CurrentVehicle != null)
             {
-                double vehicleSpeed = Math.Round(Game.PlayerPed.CurrentVehicle.Speed * 3.6);
+                double vehicleSpeed = Math.Round(Cache.MyPlayer.Ped.CurrentVehicle.Speed * 3.6);
                 SetTextFont(0);
                 SetTextProportional(true);
                 SetTextScale(0.0f, 0.35f);
@@ -171,7 +171,7 @@ namespace TheLastPlanet.Client.Managers
                     else
                     {
                         var playerCoords = GetEntityCoords(player, true);
-                        var myCoords = Game.PlayerPed.Position;
+                        var myCoords = Cache.MyPlayer.Ped.Position;
 
                         var alpha = 0;
                         if (myCoords.DistanceToSquared(playerCoords) < 40000f)

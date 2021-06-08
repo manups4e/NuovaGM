@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.Scripts
+namespace TheLastPlanet.Client.FreeRoam.Scripts
 {
 	static class PlayerTags
 	{

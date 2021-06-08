@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.SessionCache;
 
 namespace Client.Scripts.Minigiochi.Tron
 {
@@ -20,22 +21,22 @@ namespace Client.Scripts.Minigiochi.Tron
         {
             if (Function.Call<bool>(Hash.HAS_STREAMED_TEXTURE_DICT_LOADED, "Deadline"))
             {
-                if (Game.PlayerPed.IsSittingInVehicle())
+                if (Cache.MyPlayer.Ped.IsSittingInVehicle())
                 {
                     if (!Function.Call<bool>(Hash._GET_SCREEN_EFFECT_IS_ACTIVE, "DeadlineNeon"))
                     {
                         Function.Call(Hash._START_SCREEN_EFFECT, "DeadlineNeon", 0, 1);
                     }
-                    Vehicle v = Game.PlayerPed.CurrentVehicle;
+                    Vehicle v = Cache.MyPlayer.Ped.CurrentVehicle;
                     int index = Function.Call<int>(Hash.GET_ENTITY_BONE_INDEX_BY_NAME, v.Handle, "wheel_lr");
                     Vector3 poz = Function.Call<Vector3>(Hash.GET_WORLD_POSITION_OF_ENTITY_BONE, v.Handle, index);
                     //World.DrawMarker(MarkerType.DebugSphere, poz, Vector3.Zero, Vector3.Zero, Vector3.One * 0.4f, Color.FromArgb(255, 0, 0));
 
 
-                    var currentpos = Game.PlayerPed.CurrentVehicle.Position;
+                    var currentpos = Cache.MyPlayer.Ped.CurrentVehicle.Position;
                     var oldArray = posList;
                     Array.Copy(oldArray, 0, posList, 1, 99);
-                    posList[0] = new Vector4(currentpos, Game.PlayerPed.CurrentVehicle.Rotation.Y);
+                    posList[0] = new Vector4(currentpos, Cache.MyPlayer.Ped.CurrentVehicle.Rotation.Y);
                     for (int i = 0; i < 99; i++)
                     {
                         //Debug.WriteLine(i.ToString());

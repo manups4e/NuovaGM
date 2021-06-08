@@ -7,11 +7,12 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Client.Managers;
+using TheLastPlanet.Client.FreeRoam.Managers;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.SessionCache;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class FlyingUnderBridges : IWorldEvent
     {
@@ -184,10 +185,10 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                 {
                     Screen.ShowSubtitle("Volare sotto un ponte non nega l'aquisizione di punti agli altri giocatori. Non puoi ottenere punti volando sotto lo stesso ponte più di una volta", 50);
 
-                    var currentVehicle = Game.PlayerPed.CurrentVehicle;
+                    var currentVehicle = Cache.MyPlayer.Ped.CurrentVehicle;
                     if(currentVehicle == null) { return; }
 
-                    if(!Game.PlayerPed.IsInFlyingVehicle) { return; }
+                    if(!Cache.MyPlayer.Ped.IsInFlyingVehicle) { return; }
 
                     var vehiclePos = currentVehicle.Position;
                     foreach (var bridge in UnderBridgeLocations.Keys.ToList())
@@ -198,7 +199,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                             var dist = vehiclePos.DistanceToSquared(bridge);
                             if(dist > 90000f) { continue; }
                             World.DrawMarker(MarkerType.HorizontalCircleFat, bridge, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(22f), Color.FromArgb(150, 240, 200, 80), faceCamera: true);
-                            World.DrawMarker(MarkerType.ChevronUpx2, bridge, Game.PlayerPed.ForwardVector, new Vector3(90, 90, 0), new Vector3(11f), Color.FromArgb(110, 93, 182, 229));
+                            World.DrawMarker(MarkerType.ChevronUpx2, bridge, Cache.MyPlayer.Ped.ForwardVector, new Vector3(90, 90, 0), new Vector3(11f), Color.FromArgb(110, 93, 182, 229));
 
                             if (dist < 225f)
                             {

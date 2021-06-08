@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
+using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 {
     public class HighestSkittles : IWorldEvent
     {
@@ -38,7 +39,7 @@ namespace TheLastPlanet.Client.Scripts.EventiFreemode
                 {
                     Screen.ShowSubtitle("Effettua il maggior numero di uccisioni su di un veicolo.", 50);
                     // aggiungere controllo se il ped è player?
-                    if (Game.PlayerPed.IsInVehicle())
+                    if (Cache.MyPlayer.Ped.IsInVehicle())
                     {
                         var x = 0;
                         StatGetInt(unchecked((uint)PlayerStat), ref x, -1);
