@@ -18,7 +18,6 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
 			PrepareMusicEvent("GLOBAL_KILL_MUSIC");
 			PrepareMusicEvent("FM_INTRO_START");
 			PrepareMusicEvent("FM_INTRO_END");
@@ -26,7 +25,6 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:sceltaSalta", new Action<string>(SceltaSalta));
 			CancelMusicEvent("GLOBAL_KILL_MUSIC");
 			CancelMusicEvent("FM_INTRO_START");
 			CancelMusicEvent("FM_INTRO_END");
@@ -38,14 +36,20 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			if (FirstChar)
 				await SiComincia();
 			else
-				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", 34, "lprp:sceltaSalta");
-		}
-
-		private static async void SceltaSalta(string scelta)
-		{
-			if (scelta == "select" || scelta == "ok")
-				SiFinisce();
-			else if (scelta == "back" || scelta == "no") await SiComincia();
+			{
+				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
+				{
+					new InstructionalButton(Control.PhoneCancel, "No"),
+					new InstructionalButton(Control.PhoneSelect, "Si"),
+				}, WarningPopupType.Classico);
+				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+				{
+					if (a._controllerButtonControl == Control.PhoneCancel)
+						await SiComincia();
+					else if (a._controllerButtonControl == Control.PhoneSelect)
+						SiFinisce();
+				};
+			}
 		}
 
 		public static async Task SiComincia()

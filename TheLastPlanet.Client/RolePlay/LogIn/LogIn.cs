@@ -6,6 +6,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MAINLOBBY;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.RolePlay.CharCreation;
 using TheLastPlanet.Client.RolePlay.Core;
 using TheLastPlanet.Client.RolePlay.Core.CharCreation;
@@ -99,7 +100,6 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			Client.Instance.NuiManager.RegisterCallback("chars:select", new Action<string>(Selezionato));
 			Client.Instance.NuiManager.RegisterCallback("chars:disconnect", Disconnetti);
 			Client.Instance.NuiManager.RegisterCallback("chars:new", new Action<NewChar>(NuovoPersonaggio));
-			Client.Instance.AddEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			RequestModel((uint)PedHash.FreemodeMale01);
 			RequestModel((uint)PedHash.FreemodeFemale01);
 			Screen.Hud.IsRadarVisible = false;
@@ -109,7 +109,6 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 		public static void Stop()
 		{
 			ClearFocus();
-			Client.Instance.RemoveEventHandler("lprp:sceltaCharSelect", new Action<string>(Scelta));
 			Screen.Hud.IsRadarVisible = false;
 		}
 
@@ -406,11 +405,26 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			await Task.FromResult(0);
 		}
 
-		private static void Disconnetti()
+		private static async void Disconnetti()
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
-			BaseScript.TriggerEvent("lprp:manager:warningMessage", "Stai uscendo dal Server RolePlay senza aver selezionato un personaggio", "Sei sicuro?", 16392, "lprp:sceltaCharSelect");
+			PopupWarningThread.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Server RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton>
+				{
+					new InstructionalButton(Control.PhoneCancel, "No"),
+					new InstructionalButton(Control.PhoneSelect, "Si"),
+				}, WarningPopupType.Classico);
+			PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+			{
+				if (a._controllerButtonControl == Control.PhoneCancel)
+					Attiva();
+				else if (a._controllerButtonControl == Control.PhoneSelect)
+				{
+					Initializer.Stop();
+					MainChooser.Init();
+					World.RenderingCamera = null;
+				}
+			};
 		}
 
 		private static async Task Controllo()
@@ -425,20 +439,6 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			GuiEnabled = false;
 			ToggleMenu(false);
 			await Creator.CharCreationMenu(data);
-		}
-
-		public static async void Scelta(string param)
-		{
-			if (param == "select")
-			{
-				Initializer.Stop();
-				MainChooser.Init();
-				World.RenderingCamera = null;
-			}
-			else
-			{
-				Attiva();
-			}
 		}
 	}
 }

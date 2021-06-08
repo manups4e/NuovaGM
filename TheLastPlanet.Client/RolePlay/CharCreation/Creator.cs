@@ -437,7 +437,6 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
 			Client.Instance.AddEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
 			Client.Instance.AddTick(Scaleform);
 			sub_8d2b2();
@@ -445,7 +444,6 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:sceltaCharCreation", new Action<string>(SceltaCreatoreAsync));
 			Client.Instance.RemoveEventHandler("lprp:aggiornaModel", new Action<string>(AggiornaModel));
 			Client.Instance.RemoveTick(Scaleform);
 			RemoveAnimDict("mp_character_creation@lineup@male_a");
@@ -2234,34 +2232,31 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
-				BaseScript.TriggerEvent("lprp:manager:warningMessage", "Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio e la creazione verrà annullata", 16392, "lprp:sceltaCharCreation");
-			}
-
-			await Task.FromResult(0);
-		}
-
-		public static async void SceltaCreatoreAsync(string param)
-		{
-			switch (param)
-			{
-				case "select":
+				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio,", "e la creazione verrà annullata.", new List<InstructionalButton>
 				{
-					Screen.Fading.FadeOut(0);
-					await BaseScript.Delay(100);
-					if (_dummyPed != null)
-						if (_dummyPed.Exists())
-							_dummyPed.Delete();
-					//LogIn.LogIn.CharSelect();
-
-					break;
-				}
-				case "back":
-					Screen.Fading.FadeOut(0);
-					await BaseScript.Delay(100);
-					MenuCreazione(_a, _b, _c, _d);
-
-					break;
+					new InstructionalButton(Control.PhoneCancel, "No"),
+					new InstructionalButton(Control.PhoneSelect, "Si"),
+				}, WarningPopupType.Classico);
+				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+				{
+					if (a._controllerButtonControl == Control.PhoneCancel)
+					{
+						Screen.Fading.FadeOut(0);
+						await BaseScript.Delay(100);
+						MenuCreazione(_a, _b, _c, _d);
+					}
+					else if (a._controllerButtonControl == Control.PhoneSelect)
+					{
+						Screen.Fading.FadeOut(0);
+						await BaseScript.Delay(100);
+						if (_dummyPed != null)
+							if (_dummyPed.Exists())
+								_dummyPed.Delete();
+						//LogIn.LogIn.CharSelect();
+					}
+				};
 			}
+			await Task.FromResult(0);
 		}
 
 		private static int CreateNamedRenderTargetForModel(string name, uint model)
