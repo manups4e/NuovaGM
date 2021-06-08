@@ -80,8 +80,11 @@ namespace TheLastPlanet.Client.NativeUI
         private Scaleform _sc;
         private bool _useMouseButtons;
         private bool _enabled;
-        private bool _isUsingKeyboard;
-        private bool _changed = true;
+        internal bool _isUsingKeyboard;
+        internal bool _changed = true;
+        internal int savingTimer = 0;
+        private bool _isSaving;
+        
         public bool Enabled
         {
             get => _enabled;
@@ -90,7 +93,9 @@ namespace TheLastPlanet.Client.NativeUI
                 if (!value)
                 {
                     ControlButtons.Clear();
-                    _changed = true;
+                    _sc.CallFunction("CLEAR_ALL");
+                    _sc.CallFunction("CLEAR_RENDER");
+                   _changed = true;
                 }
                 _enabled = value;
             }
@@ -100,6 +105,12 @@ namespace TheLastPlanet.Client.NativeUI
         {
             get => _useMouseButtons;
             set => _useMouseButtons = value;
+        }
+
+        public bool IsSaving
+		{
+            get => _isSaving;
+            set => _isSaving = value;
         }
 
         public List<InstructionalButton> ControlButtons = new List<InstructionalButton>();
@@ -122,13 +133,26 @@ namespace TheLastPlanet.Client.NativeUI
         {
             ControlButtons.Remove(button);
         }
+        public void RemoveInstructionalButton(int button)
+        {
+            ControlButtons.RemoveAt(button);
+        }
+
+        public async void AddSavingText(int value, string text, int time)
+		{
+            _isSaving = true;
+            _changed = true;
+            savingTimer = Game.GameTime;
+            Screen.LoadingPrompt.Show(text, (LoadingSpinnerType)value);
+            while(Game.GameTime - savingTimer < time) await BaseScript.Delay(100);
+            Screen.LoadingPrompt.Hide();
+            _isSaving = false;
+        }
 
         public void UpdateButtons()
 		{
             if (!_changed) return;
-            _sc.CallFunction("CLEAR_ALL");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
-            _sc.CallFunction("CREATE_CONTAINER");
             int count = 0;
 
             foreach (InstructionalButton button in ControlButtons) // TODO: controllare e aggiornare
@@ -162,10 +186,21 @@ namespace TheLastPlanet.Client.NativeUI
 
         public void Draw()
 		{
-            if (_sc == null) return;
-            if (ControlButtons.Count == 0) return;
-            if (!_enabled) return;
+            if (Main.ImpostazioniClient != null)
+            {
+                if (!Main.ImpostazioniClient.ModCinema)
+                    _sc.Render2D();
+                else
+                    API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
+            }
+            else
+                _sc.Render2D();
+        }
 
+        public void HandleScaleform()
+		{
+            if (_sc == null) return;
+            if (ControlButtons.Count == 0 && !_isSaving) return;
             if (API.IsUsingKeyboard(2))
             {
                 if (!_isUsingKeyboard)
@@ -183,15 +218,9 @@ namespace TheLastPlanet.Client.NativeUI
                 }
             }
             UpdateButtons();
-            if (Main.ImpostazioniClient != null)
-            {
-                if (!Main.ImpostazioniClient.ModCinema)
-                    _sc.Render2D();
-                else
-                    API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - Main.ImpostazioniClient.LetterBox / 1000, 1f, 1f, 255, 255, 255, 255, 0);
-            }
-            else
-                _sc.Render2D();
+
+            if (!PopupWarningThread.Warning.IsShowing) Draw(); 
+
             foreach (InstructionalButton button in ControlButtons)
 			{
                 if (Input.IsControlJustPressed(button._controllerButtonControl, button.padCheck))
@@ -219,8 +248,7 @@ namespace TheLastPlanet.Client.NativeUI
 
         private async Task InstructionalButtons_Tick()
 		{
-            if (PopupWarningThread.Warning.IsShowing) return;
-            InstructionalButtons.Draw();
+            InstructionalButtons.HandleScaleform();
             await Task.FromResult(0);
         }
     }
