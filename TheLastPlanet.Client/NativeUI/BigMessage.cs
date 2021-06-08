@@ -135,6 +135,7 @@ namespace TheLastPlanet.Client.NativeUI
 
     public enum HudColor
     {
+        NONE = -1,
         HUD_COLOUR_PURE_WHITE = 0,
         HUD_COLOUR_WHITE = 1,
         HUD_COLOUR_BLACK = 2,

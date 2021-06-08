@@ -47,6 +47,15 @@ namespace TheLastPlanet.Shared.PlayerChar
 			set => _current = value;
 		}
 
+		private FreeRoamChar _freeRoamChar;
+		public FreeRoamChar FreeRoamChar
+		{
+			get => _freeRoamChar;
+			set => _freeRoamChar = value;
+
+		}
+		public List<PlayerScore> PlayerScores = new List<PlayerScore>();
+
 
 		[JsonIgnore]
 		internal string char_data

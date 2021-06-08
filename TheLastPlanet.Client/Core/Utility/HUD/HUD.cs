@@ -10,9 +10,21 @@ using TheLastPlanet.Client.RolePlay.LogIn;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
+	public enum NotificationType : int
+	{
+		Default = 0,
+		Bubble = 1,
+		Mail = 2,
+		FriendRequest = 3,
+		Default2 = 4,
+		Reply = 7,
+		ReputationPoints = 8,
+		Money = 9
+	}
 	public sealed class Notifica
 	{
 		#region Fields
@@ -196,6 +208,20 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndTextCommandThefeedPostMessagetext(immagine, immagine, false, (int)iconType, titolo, sottotitolo);             //8 → RP Icon --9 → $ Icon
 			EndTextCommandThefeedPostTicker(lampeggia, true);
 		}
+
+		public static void ShowAdvancedNotification(string text, string title, string subtitle = "", string iconSet = "CHAR_WE", string icon = "REBOOTBOTTOM", HudColor bgColor = HudColor.NONE, Color flashColor = new Color(), bool blink = false, NotificationType type = NotificationType.Default, bool showInBrief = true, bool sound = true)
+		{
+			BeginTextCommandThefeedPost("STRING");
+			AddTextComponentSubstringPlayerName(text);
+			if (bgColor != HudColor.NONE)
+				SetNotificationBackgroundColor((int)bgColor);
+			if (!flashColor.IsEmpty && blink)
+				SetNotificationFlashColor(flashColor.R, flashColor.G, flashColor.B, flashColor.A);
+			EndTextCommandThefeedPostMessagetext(iconSet, icon, true, (int)type, title, subtitle);
+			EndTextCommandThefeedPostTicker(blink, showInBrief);
+			if (sound) Audio.PlaySoundFrontend("DELETE", "HUD_DEATHMATCH_SOUNDSET");
+		}
+
 
 		/*enum LoadingPromptTypes
         {
@@ -420,6 +446,81 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			SetTextEntry("jamyfafi");
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
+		}
+
+
+		public static async Task ShowPlayerRankScoreAfterUpdate(int currentRankLimit, int nextRankLimit, int playersPreviousXP, int playersCurrentXP, int rank)
+		{
+			RequestHudScaleform(19);
+
+			while (!HasHudScaleformLoaded(19))
+			{
+				await BaseScript.Delay(0);
+			}
+
+			PushScaleformMovieFunctionFromHudComponent(19, "OVERRIDE_ANIMATION_SPEED");
+			PushScaleformMovieFunctionParameterInt(2000);
+			PopScaleformMovieFunctionVoid();
+			PushScaleformMovieFunctionFromHudComponent(19, "SET_COLOUR");
+			PushScaleformMovieFunctionParameterInt(116);
+			PushScaleformMovieFunctionParameterInt(123);
+			PopScaleformMovieFunctionVoid();
+			BeginScaleformMovieMethodHudComponent(19, "SET_RANK_SCORES");
+			PushScaleformMovieFunctionParameterInt(currentRankLimit);
+			PushScaleformMovieFunctionParameterInt(nextRankLimit);
+			PushScaleformMovieFunctionParameterInt(playersPreviousXP);
+			PushScaleformMovieFunctionParameterInt(playersCurrentXP);
+			PushScaleformMovieFunctionParameterInt(rank);
+			PopScaleformMovieFunctionVoid();
+		}
+
+		public static void StayOnScreenPlayerRank()
+		{
+			PushScaleformMovieFunctionFromHudComponent(19, "SHOW");
+			PopScaleformMovieFunctionVoid();
+		}
+
+		public static async Task ShowPlayerRank(bool show)
+		{
+			if (!show)
+			{
+				PushScaleformMovieFunctionFromHudComponent(19, "HIDE");
+				PopScaleformMovieFunctionVoid();
+			}
+			else
+			{
+				PushScaleformMovieFunctionFromHudComponent(19, "SHOW");
+				PopScaleformMovieFunctionVoid();
+
+			}
+			if (HasHudScaleformLoaded(19)) { return; }
+
+			RequestHudScaleform(19);
+
+			while (!HasHudScaleformLoaded(19))
+			{
+				await BaseScript.Delay(0);
+			}
+
+			var rank = Cache.MyPlayer.User.FreeRoamChar.Level;
+			var xp = Cache.MyPlayer.User.FreeRoamChar.TotalXp;
+
+			var nowMaxXp = Experience.RankRequirement[rank];
+			var maxXp = Experience.NextLevelExperiencePoints(rank);
+
+			PushScaleformMovieFunctionFromHudComponent(19, "SET_COLOUR");
+			PushScaleformMovieFunctionParameterInt(116);
+			PushScaleformMovieFunctionParameterInt(123);
+			PopScaleformMovieFunctionVoid();
+			BeginScaleformMovieMethodHudComponent(19, "SET_RANK_SCORES");
+			PushScaleformMovieFunctionParameterInt(nowMaxXp);
+			PushScaleformMovieFunctionParameterInt(maxXp);
+			PushScaleformMovieFunctionParameterInt(xp);
+			PushScaleformMovieFunctionParameterInt(xp);
+			PushScaleformMovieFunctionParameterInt(rank);
+			PopScaleformMovieFunctionVoid();
+			PushScaleformMovieFunctionFromHudComponent(19, "STAY_ON_SCREEN");
+			PopScaleformMovieFunctionVoid();
 		}
 	}
 

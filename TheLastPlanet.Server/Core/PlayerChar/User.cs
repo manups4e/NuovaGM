@@ -329,6 +329,45 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			return CurrentChar.Veicoli;
 		}
 
+		public void AddExperience(int experiencePoints)
+		{
+			var nextLevelTotalXp = Experience.NextLevelExperiencePoints(FreeRoamChar.Level);
+
+			if (FreeRoamChar.TotalXp + experiencePoints >= nextLevelTotalXp)
+			{
+				int remainder = FreeRoamChar.TotalXp + experiencePoints - nextLevelTotalXp;
+				FreeRoamChar.Level++;
+				if (remainder > 0)
+					AddExperience(remainder);
+			}
+			else
+			{
+				FreeRoamChar.TotalXp += experiencePoints;
+			}
+
+
+		}
+
+		public void UpdateCurrentAttempt(int eventId, float currentAttempt)
+		{
+			try
+			{
+				var data = PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
+				if (data != null)
+				{
+					data.CurrentAttempt = currentAttempt;
+					if (currentAttempt > data.BestAttempt)
+						data.BestAttempt = currentAttempt;
+				}
+				else
+					Server.Logger.Warning($"Data for Event {eventId} does not exist for Player {Player.Name}");
+			}
+			catch (Exception e)
+			{
+				Server.Logger.Error(e.ToString());
+			}
+		}
+
 		public void showNotification(string text)
 		{
 			Player.TriggerEvent("lprp:ShowNotification", text);
