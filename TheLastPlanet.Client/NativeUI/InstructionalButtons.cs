@@ -155,7 +155,7 @@ namespace TheLastPlanet.Client.NativeUI
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             int count = 0;
 
-            foreach (InstructionalButton button in ControlButtons) // TODO: controllare e aggiornare
+            foreach (InstructionalButton button in ControlButtons)
             {
 				if (button.IsUsingController)
 				{

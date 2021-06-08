@@ -420,6 +420,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				dummyRot = new(0, 0, dummyRot.Z);
 				DummyProp.Rotation = dummyRot;
 				SetObjectTextureVariation(DummyProp.Handle, colorePropScelto);
+				AttachEntityToEntity(cross.Handle, DummyProp.Handle, 0, 0, 0, 1f, 0, 0, 0, false, false, false, false, 0, false);
 				return RaceCreatorHelper.GetPropName(m);
 			});
 			UIMenuDynamicListItem color = new UIMenuDynamicListItem("Colore", "", async (sender, direction) =>
@@ -720,6 +721,24 @@ namespace TheLastPlanet.Client.Races.Creator
 			return fParam0;
 		}
 
+		private static bool func_277(int iParam0, int iParam1)
+		{
+			int iVar0;
+			bool bVar1;
+			int iVar2;
+
+			for(iVar0=0; iVar0<41; iVar0++)
+			{
+				iVar2 = RaceCreatorHelper.GetModel(iParam1, iVar0);
+				if (iVar2 != 0)
+				{
+					if (iVar2 == iParam0)
+						return true;
+				}
+			}
+			return false;
+		}
+
 
 		private static int func_7497(Vector3 vParam0, float fParam1, int iParam2, Vector3 vParam3, float fParam4)
 		{
@@ -970,6 +989,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				{
 					var submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
 					if (submenuselected) return;
+					// controllo che non ho selezionato i submenu
 					var model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);
 					Prop prop = await Funzioni.SpawnLocalProp(model, curLocation, false, false);
 					prop.Rotation = dummyRot;
@@ -981,7 +1001,40 @@ namespace TheLastPlanet.Client.Races.Creator
 
 				if (OpzioniSnap.Attivo && OpzioniSnap.Prossimità) // func_8363
 				{
+					if (!IsEntityAttached(DummyProp.Handle))
+					{
+						var close = DummyProp.GetClosestProp(new List<Entity> { DummyProp, cross });
+						//SEMPRE BONE 2 O 3 SEMPRE!
+						Vector3 bone2 = GetWorldPositionOfEntityBone(close.Handle, 2);
+						Vector3 bone3 = GetWorldPositionOfEntityBone(close.Handle, 3);
 
+						if (cross.IsInRangeOf(bone2, 30f))
+						{
+							var vVar13 = close.Rotation;
+							DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
+							DummyProp.IsCollisionEnabled = false;
+							if (func_277(close.Model.Hash, 18))
+								AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 3, 2, true, false);
+							else
+								AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 3, 2, true, false);
+							Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
+						}
+						if (cross.IsInRangeOf(bone3, 30f))
+						{
+							var vVar13 = close.Rotation;
+							DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
+							DummyProp.IsCollisionEnabled = false;
+							if (func_277(close.Model.Hash, 18))
+								AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 2, 3, true, false);
+							else
+								AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 2, 3, true, false);
+							Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
+						}
+					}
+					else
+					{
+						//if()
+					}
 				}
 				#endregion
 			}

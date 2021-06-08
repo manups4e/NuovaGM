@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.PlayerChar;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
@@ -17,11 +20,35 @@ namespace TheLastPlanet.Client
 	{
 		public static async void Init()
 		{
-			//Client.Instance.AddTick(test);
-			//ClearFocus();
-				var dlc = -1762644250;
-				Client.Logger.Debug("IsDlcPresent => " + IsDlcPresent((uint)dlc));
+			await BaseScript.Delay(5000);
+
+			List<InstructionalButton> lis = new List<InstructionalButton>()
+			{
+				new InstructionalButton(Control.FrontendAccept, "Ok"),
+				new InstructionalButton(Control.FrontendCancel, "Annulla"),
+				new InstructionalButton(Control.FrontendY, "test"),
+				new InstructionalButton(Control.FrontendX, "ciccio.."),
+			};
+			PopupWarningThread.Warning.ShowWarningWithButtons("Warning di test", "Questo test funzionerà?", "proviamo...", lis);
+
+			PopupWarningThread.Warning.OnButtonPressed += (a) =>
+			{
+				Client.Logger.Debug(a.ToJson());
+			};
+
+			await BaseScript.Delay(1000);
+			InstructionalButtonsHandler.InstructionalButtons.AddSavingText(1, "porca miseria 1", 5000);
+			await BaseScript.Delay(5000);
+			InstructionalButtonsHandler.InstructionalButtons.AddSavingText(2, "porca miseria 2", 5000);
+			await BaseScript.Delay(5000);
+			InstructionalButtonsHandler.InstructionalButtons.AddSavingText(3, "porca miseria 3", 5000);
+			await BaseScript.Delay(5000);
+			InstructionalButtonsHandler.InstructionalButtons.AddSavingText(4, "porca miseria 4", 5000);
+			await BaseScript.Delay(5000);
+			InstructionalButtonsHandler.InstructionalButtons.AddSavingText(5, "porca miseria 5", 5000);
 		}
+
+
 
 		public static async void Stop()
 		{
