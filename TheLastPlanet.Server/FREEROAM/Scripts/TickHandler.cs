@@ -23,7 +23,6 @@ namespace TheLastPlanet.Server.Scripts
 				if (user != null && user.status.Spawned)
 					await user.SalvaPersonaggio();
 			}
-
 		}
 	}
 }

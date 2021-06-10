@@ -34,15 +34,12 @@ namespace TheLastPlanet.Client.RolePlay
 			Lavori.Generici.Cacciatore.CacciatoreClient.Init();
 			Lavori.Generici.Rimozione.RimozioneClient.Init();
 			Lavori.Generici.Taxi.TaxiClient.Init();
-			ClientManager.Init();
-			DevManager.Init();
 			Proprietà.Manager.Init();
 			AppartamentiClient.Init();
 			Negozi.BarberClient.Init();
 			Negozi.NegozioAbitiClient.Init();
 			Negozi.NegoziBusiness.Init();
 			Negozi.NegoziClient.Init();
-			ListaPlayers.FivemPlayerlist.Init();
 			Veicoli.FuelClient.Init();
 			Veicoli.VehicleDamage.Init();
 			Veicoli.VeicoliClient.Init();

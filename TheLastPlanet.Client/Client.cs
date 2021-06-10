@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Internal.Events;
 using TheLastPlanet.Client.MAINLOBBY;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Client.AdminAC;
 
 namespace TheLastPlanet.Client
 {
@@ -33,6 +34,10 @@ namespace TheLastPlanet.Client
 			HUD.Init();
 			ClasseDiTest.Init(); // da rimuovere
 			MainChooser.Init();
+			ClientManager.Init();
+			DevManager.Init();
+			ListaPlayers.FivemPlayerlist.Init();
+
 		}
 
 		/// <summary>

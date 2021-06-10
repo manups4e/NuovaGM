@@ -12,6 +12,7 @@ using TheLastPlanet.Server.Lavori.Whitelistati;
 using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.Veicoli;
 using System.Threading.Tasks;
+using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Server
 {
@@ -49,6 +50,9 @@ namespace TheLastPlanet.Server
 			//NuovaCoda.Init();
 			ServerManager.Init();
 			BotDiscordHandler.Init();
+			WorldEventsManager.Init();
+			VehicleManager.Init();
+			ExperienceManager.Init();
 			await Task.FromResult(0);
 		}
 	}
