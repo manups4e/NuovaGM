@@ -18,16 +18,16 @@ namespace TheLastPlanet.Server.Core
 
 	internal static class BucketsHandler
 	{
-		public static Dictionary<int, Bucket> Buckets = new();
+		public static List<Bucket> Buckets = new();
 
 		public static void Init()
 		{
-			Buckets.Add(0, new Bucket(0, "Lobby") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
-			Buckets.Add(1, new Bucket(1, "RolePlay") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.relaxed });
-			Buckets.Add(2, new Bucket(2, "Minigames") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
-			Buckets.Add(3, new Bucket(3, "Gare") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
-			Buckets.Add(4, new Bucket(4, "Negozio") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
-			Buckets.Add(5, new Bucket(4, "FreeRoam") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(new Bucket(0, "Lobby") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(new Bucket(1000, "RolePlay") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.relaxed });
+			Buckets.Add(new Bucket(2000, "Minigames") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(new Bucket(3000, "Gare") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(new Bucket(4000, "Negozio") { PopulationEnabled = false, LockdownMode = BucketLockdownMode.strict });
+			Buckets.Add(new Bucket(5000, "FreeRoam") { PopulationEnabled = true, LockdownMode = BucketLockdownMode.strict });
 
 			Server.Instance.Events.Mount("lprp:addPlayerToBucket", new Action<ClientId, int>(AddPlayerToBucket));
 			Server.Instance.Events.Mount("lprp:addEntityToBucket", new Action<int, int>(AddEntityToBucket));
@@ -37,10 +37,11 @@ namespace TheLastPlanet.Server.Core
 
 		private static void AddPlayerToBucket(ClientId player, int id)
 		{
-			foreach (KeyValuePair<int, Bucket> bucket in Buckets)
+			foreach (Bucket bucket in Buckets)
 			{
-				if (bucket.Key != id && bucket.Value.Players.Contains(player.Player)) bucket.Value.Players.Remove(player.Player);
-				if (bucket.Key == id) bucket.Value.AddPlayer(player.Player);
+				int Key = Buckets.IndexOf(bucket);
+				if (Key != id && bucket.Players.Contains(player.Player)) bucket.Players.Remove(player.Player);
+				if (Key == id) bucket.AddPlayer(player.Player);
 			}
 		}
 
@@ -53,22 +54,18 @@ namespace TheLastPlanet.Server.Core
 		private static async Task<Dictionary<int, int>> CountPlayers(ClientId player)
 		{
 			Dictionary<int, int> result = new() { [1] = 0, [2] = 0, [3] = 0 };
-
-			foreach (KeyValuePair<int, Bucket> buck in Buckets)
+			foreach (Bucket buck in Buckets)
 			{
-				if (buck.Key == 0) continue;
-				result[buck.Key] = buck.Value.Players.Count;
+				int Key = Buckets.IndexOf(buck);
+				if (Key == 0) continue;
+				result[Key] = buck.Players.Count;
 			}
-
 			return result;
 		}
 
 		private static async Task<bool> CheckIn(ClientId player, int id)
 		{
-			Bucket bucket = Buckets[id];
-			Player p = bucket.Players.FirstOrDefault(x => x.Handle == player.Handle.ToString());
-
-			return p != null;
+			return Buckets[id].Players.Contains(player.Player);
 		}
 	}
 
@@ -124,12 +121,12 @@ namespace TheLastPlanet.Server.Core
 
 		public Player GetPlayer(Player player)
 		{
-			return Players.FirstOrDefault(x => x.Handle == player.Handle);
+			return Players.SingleOrDefault(x => x.Handle == player.Handle);
 		}
 
 		public Entity GetEntity(Entity entity)
 		{
-			return Entities.FirstOrDefault(x => x.Handle == entity.Handle);
+			return Entities.SingleOrDefault(x => x.Handle == entity.Handle || x.NetworkId == entity.NetworkId);
 		}
 
 		private void _setBucketLockdownMode(BucketLockdownMode mode)
