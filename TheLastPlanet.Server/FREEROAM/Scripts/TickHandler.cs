@@ -17,7 +17,7 @@ namespace TheLastPlanet.Server.Scripts
 		private static async Task Salvataggio()
 		{
 			await BaseScript.Delay(600000);
-			foreach (var p in Server.Instance.GetPlayers)
+			foreach (var p in BucketsHandler.Buckets[5].Players)
 			{
 				var user = Funzioni.GetUserFromPlayerId(p.Handle);
 				if (user != null && user.status.Spawned)

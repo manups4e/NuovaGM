@@ -29,5 +29,19 @@ namespace TheLastPlanet.Client.FreeRoam
 			PlayerTags.Init();
 			await Task.FromResult(0);
 		}
+
+		public static async Task Stop()
+		{
+			ExperienceManager.Init();
+			WorldEventsManager.Init();
+			ExperienceManager.Init();
+			//AGGIUNGERE GESTIONE METEO
+			//AGGIUNGERE GESTIONE ORARIO
+			//AGGIUNGERE GESTIONE STATISTICHE
+			//AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
+			//Death.Init();
+			PlayerTags.Init();
+			await Task.FromResult(0);
+		}
 	}
 }

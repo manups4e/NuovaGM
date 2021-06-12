@@ -184,10 +184,11 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts
 			NetworkOverrideClockTime(h, m, s);
 		}
 
+		// TODO: spostare con anticheat e controllare per inserirli in eventuali acquisti / eventi
 		public static async Task BLVehs()
 		{
 			await BaseScript.Delay(100);
-			var vehicle = World.GetAllVehicles().Select(x => new Vehicle(x.Handle))/*.Where(o => Client.Impostazioni.Main.BlackListVehicles.Contains(o.DisplayName))*/.FirstOrDefault();
+			var vehicle = World.GetAllVehicles().Select(x => new Vehicle(x.Handle)).Where(o => Client.Impostazioni.FreeRoam.Main.BlackListVehicles.Contains(o.DisplayName)).FirstOrDefault();
 			if (vehicle != null && vehicle.Exists())
 			{
 				NetworkRequestControlOfEntity(vehicle.Handle);

@@ -94,7 +94,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         NextEvent.IsStarted = false;
                         IsAnyEventActive = NextEvent.IsActive;
                         CurrentEvent = NextEvent;
-                        foreach (var p in Server.Instance.GetPlayers)
+                        foreach (var p in BucketsHandler.Buckets[5].Players)
                         {
                             var player = Funzioni.GetUserFromPlayerId(p.Handle);
                             if (player != null)
@@ -130,16 +130,17 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             await BaseScript.Delay(1500); // Delay to let everyone send in their results
 
                             var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in Server.Instance.Clients)
+                            foreach (var player in BucketsHandler.Buckets[5].Players)
                             {
-                                var score = player.User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
+                                var User = Funzioni.GetUserFromPlayerId(player.Handle);
+                                var score = User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
                                 if (score != null)
                                 {
-                                    foreach (var p in Server.Instance.GetPlayers)
+                                    foreach (var p in BucketsHandler.Buckets[5].Players)
                                     {
-                                        if (p.Identifiers["license"] == player.Identifiers.License)
+                                        if (p.Identifiers["license"] == User.Identifiers.License)
                                         {
-                                            var xpGain = (int)Math.Min(score.CurrentAttempt * CurrentEvent.EventXpMultiplier, Experience.RankRequirement[player.User.FreeRoamChar.Level + 1] - Experience.RankRequirement[player.User.FreeRoamChar.Level]);
+                                            var xpGain = (int)Math.Min(score.CurrentAttempt * CurrentEvent.EventXpMultiplier, Experience.RankRequirement[User.FreeRoamChar.Level + 1] - Experience.RankRequirement[User.FreeRoamChar.Level]);
 
                                             if (xpGain != 0)
                                                 BaseScript.TriggerEvent("worldEventsManage.Internal:AddExperience", player.Handle.ToString(), xpGain);
@@ -183,14 +184,15 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             CurrentEvent.EventTime = CurrentEvent.EventTime.Subtract(TimeSpan.FromSeconds(1));
 
                             var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in Server.Instance.Clients)
+                            foreach (var player in BucketsHandler.Buckets[5].Players)
                             {
-                                if (player.User.status.Spawned)
+                                var User = Funzioni.GetUserFromPlayerId(player.Handle);
+                                if (User.status.Spawned)
                                 {
-                                    var score = player.User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
+                                    var score = User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
                                     if (score != null)
                                     {
-                                        tempDictionary.Add(player.User.Player.Name, score.BestAttempt);
+                                        tempDictionary.Add(User.Player.Name, score.BestAttempt);
                                     }
                                 }
                             }
@@ -227,10 +229,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
                 var identifier = player.Identifiers["license"];
 
-                var playerino = Server.Instance.Clients.Where(x => x.Identifiers.License == identifier).FirstOrDefault();
+                var playerino = BucketsHandler.Buckets[5].Players.Where(x => x.Identifiers["license"] == identifier).FirstOrDefault();
                 if (playerino != null)
                 {
-                    var data = playerino.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
+                    var User = Funzioni.GetUserFromPlayerId(player.Handle);
+                    var data = User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
                     if (data != null)
                     {
                         data.CurrentAttempt = currentAttempt;
@@ -239,7 +242,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         if (data.BestAttempt < bestAttempt)
                             data.BestAttempt = bestAttempt;
                     }
-                    playerino.User.PlayerScores.Clear();
+                    User.PlayerScores.Clear();
                 }
             }
             catch (Exception e)
@@ -280,9 +283,10 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             try
             {
                 var identifier = player.Identifiers["license"];
-
-                var xp = Funzioni.GetUserFromPlayerId(player.Handle).FreeRoamChar.TotalXp;
-                var level = Funzioni.GetUserFromPlayerId(player.Handle).FreeRoamChar.Level;
+                var p = Funzioni.GetUserFromPlayerId(player.Handle);
+                Server.Logger.Debug("Is FreeRoamChar null? =>" + (p.FreeRoamChar == null));
+                var xp = p.FreeRoamChar.TotalXp;
+                var level = p.FreeRoamChar.Level;
 
                 player.TriggerEvent("worldeventsManage.Client:GetLevelXp", level, xp);
             }
@@ -298,11 +302,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             {
                 if (CurrentEvent == null)
                 {
-                    var cE = JsonConvert.SerializeObject(WorldEvents[7]/*WorldEvents.OrderBy(x => rnd.NextDouble()).First()*/);
+                    var cE = JsonConvert.SerializeObject(WorldEvents.OrderBy(x => rnd.NextDouble()).First());
                     CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE);
                 }
 
-                var nE = JsonConvert.SerializeObject(WorldEvents[7]/*WorldEvents.Where(x => x.Id != CurrentEvent.Id).OrderBy(x => rnd.NextDouble()).First()*/);
+                var nE = JsonConvert.SerializeObject(WorldEvents.Where(x => x.Id != CurrentEvent.Id).OrderBy(x => rnd.NextDouble()).First());
                 NextEvent = JsonConvert.DeserializeObject<WorldEvent>(nE);
             }
             catch (Exception e)
@@ -310,6 +314,5 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 Server.Logger.Error(e.ToString());
             }
         }
-
     }
 }

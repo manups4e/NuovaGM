@@ -42,14 +42,19 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             Client.Instance.AddEventHandler("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
             Client.Instance.AddEventHandler("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
             Client.Instance.AddEventHandler("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
-            Client.Instance.AddEventHandler("lpop:onPlayerSpawn", new Action(spawnato));
-            Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart));
+
+            WorldEvents.Add(new NumberOfNearMisses(1, "Schivate mortali", 60, 300));
+            WorldEvents.Add(new FlyingUnderBridges(2, "Volando sotto i ponti", 90, 300));
+            WorldEvents.Add(new FastestSpeedInCar(3, "Fast & Furious", 60, 270));
+            WorldEvents.Add(new MostPistolHeadshots(4, "Il miglior Pistolero", 60, 300));
+            WorldEvents.Add(new LongestSurvivedFreefall(5, "Caduta Libera", 60, 240));
+            WorldEvents.Add(new HighestSkittles(6, "Auto-scontro", 60, 300));
+            WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
+            WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
+            WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
+            BaseScript.TriggerServerEvent("worldEventsManage.Server:GetStatus");
         }
 
-        private static void spawnato()
-        {
-            BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
-        }
         private static async Task OnWaitTick()
         {
             try
@@ -68,22 +73,6 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             }
 
             await Task.FromResult(0);
-        }
-
-        private static void OnClientResourceStart(string resourceName)
-        {
-            if (GetCurrentResourceName() != resourceName) { return; }
-
-            WorldEvents.Add(new NumberOfNearMisses(1, "Schivate mortali", 60, 300));
-            WorldEvents.Add(new FlyingUnderBridges(2, "Volando sotto i ponti", 90, 300));
-            WorldEvents.Add(new FastestSpeedInCar(3, "Fast & Furious", 60, 270));
-            WorldEvents.Add(new MostPistolHeadshots(4, "Il miglior Pistolero", 60, 300));
-            WorldEvents.Add(new LongestSurvivedFreefall(5, "Caduta Libera", 60, 240));
-            WorldEvents.Add(new HighestSkittles(6, "Auto-scontro", 60, 300));
-            WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
-            WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
-            WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            BaseScript.TriggerServerEvent("worldEventsManage.Server:GetStatus");
         }
 
         private static void OnPeriodicSync(int eventTime, bool isStarted)

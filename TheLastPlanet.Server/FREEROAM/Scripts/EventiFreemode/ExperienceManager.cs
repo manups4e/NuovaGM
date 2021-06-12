@@ -43,7 +43,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     leveledUp = true;
                 }
 
-                foreach (var playerino in Server.Instance.GetPlayers)
+                foreach (var playerino in BucketsHandler.Buckets[5].Players)
                 {
                     if (playerino.Identifiers["license"] == identifier)
                     {
