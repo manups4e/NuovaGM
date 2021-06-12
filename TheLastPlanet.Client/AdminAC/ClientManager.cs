@@ -44,9 +44,9 @@ namespace TheLastPlanet.Client.AdminAC
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = Cache.MyPlayer.User.Posizione.ToVector3;
+					curLocation = Cache.MyPlayer.Posizione.ToVector3;
 					curRotation = p.Rotation;
-					curHeading = Cache.MyPlayer.User.Posizione.Heading;
+					curHeading = Cache.MyPlayer.Posizione.Heading;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.AdminAC
 
 		private static async void TeleportToMarker()
 		{
-			Position coords = Cache.MyPlayer.User.Posizione;
+			Position coords = Cache.MyPlayer.Posizione;
 			bool blipFound = false;
 			// search for marker blip
 			int blipIterator = GetBlipInfoIdIterator();

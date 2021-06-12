@@ -14,6 +14,16 @@ using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.SessionCache
 {
+    public enum ModalitàAttuale
+	{
+        Lobby = 0,
+        RolePlay,
+        Minigiochi,
+        Gare,
+        Negozio,
+        FreeRoam
+    }
+
 	public static class Cache
     {
         private static bool _inVeh;
@@ -22,7 +32,8 @@ namespace TheLastPlanet.Client.SessionCache
         public static ClientId MyPlayer { get; private set; }
         public static Char_data CurrentChar { get => MyPlayer.User.CurrentChar; }
         public static List<ClientId> GiocatoriOnline = new();
-
+        public static ModalitàAttuale ModalitàAttuale = ModalitàAttuale.Lobby;
+        
         public static async Task InitPlayer()
         {
             var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, User>>("lprp:setupUser");
@@ -95,10 +106,10 @@ namespace TheLastPlanet.Client.SessionCache
 
             #region Posizione
 
+            MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
             if (!MyPlayer.User.status.Spawned) return;
             if (MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
             MyPlayer.User.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
-
             #endregion
 
             await Task.FromResult(0);
