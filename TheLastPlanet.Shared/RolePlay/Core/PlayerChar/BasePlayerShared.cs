@@ -54,7 +54,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 			set => _freeRoamChar = value;
 
 		}
-		public List<PlayerScore> PlayerScores = new List<PlayerScore>();
+		public List<PlayerScore> PlayerScores = new();
 
 
 		[JsonIgnore]

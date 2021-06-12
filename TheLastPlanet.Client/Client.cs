@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Internal.Events;
 using TheLastPlanet.Client.MAINLOBBY;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Client.AdminAC;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client
 {
@@ -19,7 +20,7 @@ namespace TheLastPlanet.Client
 		public static Client Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
-		public static Configurazione Impostazioni = null;
+		public static Configurazione Impostazioni = new Configurazione();
 		public ClientGateway Eventi;
 		public List<ClientId> Clients = new();
 		public NuiManager NuiManager = new();
@@ -33,10 +34,11 @@ namespace TheLastPlanet.Client
 			Eventi = new();
 			HUD.Init();
 			ClasseDiTest.Init(); // da rimuovere
-			MainChooser.Init();
 			ClientManager.Init();
 			DevManager.Init();
+			InputHandler.Init();
 			ListaPlayers.FivemPlayerlist.Init();
+			MainChooser.Init();
 
 		}
 

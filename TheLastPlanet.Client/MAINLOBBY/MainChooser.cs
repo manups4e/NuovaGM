@@ -169,9 +169,9 @@ namespace TheLastPlanet.Client.MAINLOBBY
 					await CambiaBucket("~f~Pianeta FreeRoam~w~", 5);
 					Screen.Fading.FadeIn(1000);
 					await FreeRoam.Initializer.Init();
+					BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
 					Stop();
 				}
-
 			}
 		}
 
@@ -252,6 +252,11 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			await BaseScript.Delay(10);
 			Screen.Fading.FadeIn(1);
 			await BaseScript.Delay(3000);
+
+			string settings = await Client.Instance.Eventi.Get<string>("Config.CallClientConfig", id);
+
+			Client.Impostazioni.LoadConfig(id, settings);
+
 			bool dentro = await Client.Instance.Eventi.Get<bool>("lprp:checkSeGiaDentro", id);
 			if (dentro)
 			{
@@ -268,6 +273,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
 			PopupWarningThread.Warning.Dispose();
+			Cache.ModalitàAttuale = (ModalitàAttuale)id;
 			Stop();
 		}
 	}

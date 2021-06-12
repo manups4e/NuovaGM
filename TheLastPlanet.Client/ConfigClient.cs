@@ -14,31 +14,142 @@ using Impostazioni.Client.Configurazione.Veicoli;
 
 namespace TheLastPlanet.Client
 {
-	internal static class ConfigClient
+	public class Configurazione
 	{
-		public static async Task Init()
-		{
-			//var config = await Client.Instance.Eventi.Request<KeyValuePair<Configurazione, SharedConfig>>("lprp:configurazione");
-			Client.Impostazioni = new Configurazione();
-			ConfigShared.SharedConfig = new SharedConfig();
-			await Task.FromResult(0);
-		}
+		public RolePlayConfig RolePlay { get; private set; }
+		public FreeRoamConfig FreeRoam { get; private set; }
 
-		public static async Task Stop()
+		public void LoadConfig(int id, string jsonConfig)
 		{
-			Client.Impostazioni = null;
-			ConfigShared.SharedConfig = null;
-			await Task.FromResult(0);
+			switch (id)
+			{
+				case 0:
+					break;
+				case 1:
+					RolePlay = jsonConfig.FromJson<RolePlayConfig>();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					FreeRoam = jsonConfig.FromJson<FreeRoamConfig>();
+					break;
+			}
 		}
 	}
 
-	public class Configurazione
+	public class FreeRoamConfig
 	{
-		public ConfPrincipale Main = new ConfPrincipale();
-		public ConfigVeicoli Veicoli = new ConfigVeicoli();
-		public ConfigLavori Lavori = new ConfigLavori();
-		public ConfigNegozi Negozi = new ConfigNegozi();
-		public ConfigProprieta Proprieta = new ConfigProprieta();
+		public ConfigPrincipaleFR Main { get; set; }
+		public OutfitCreatorFR Outfits { get; set; }
+	}
+
+	public class ConfigPrincipaleFR
+	{
+		public string NomeServer;
+		public string DiscordAppId;
+		public string DiscordRichPresenceAsset;
+		public bool KickWarning;
+		public int AFKCheckTime;
+
+		public int AfkTimeout;
+		public int AutoSavingInterval;
+		public int PingThreshold;
+		public int MaxPlayerNameLength;
+		public bool EnableVoiceChat;
+		public int DiscordNotificationInterval;
+		public int MaxMenuOptionCount;
+		public int SpawnProtectionTime;
+
+		public int KillstreakTimeout;
+
+		public int MinPrestigeRank;
+		public int MaxPrestige;
+		public float PrestigeBonus;
+
+		public int CrewInvitationTimeout;
+
+		public int SpecialVehicleMinRank;
+
+		public List<string> BlackListVehicles = new List<string>();
+
+		public GTA2Cam Gta2Cam = new GTA2Cam();
+
+		public SettingsSpawn Spawn = new SettingsSpawn();
+		public List<int> Ranks = new List<int>();
+		public MarkerSettings PlaceMarker = new MarkerSettings();
+
+		public int KdRatioMinStat;
+
+		public int RewardNotificationTime;
+
+		public int CashPerKill;
+		public int CashPerKillstreak;
+		public int MaxCashPerKillstreak;
+		public int CashPerHeadshot;
+		public int CashPerMission;
+		public int CashPerFaction;
+		public int CashPerMelee;
+
+		public int ExpPerKill;
+		public int ExpPerKillstreak;
+		public int MaxExpPerKillstreak;
+		public int ExpPerHeadshot;
+		public int ExpPerMission;
+		public int ExpPerFaction;
+		public int ExpPerMelee;
+
+		public int ChallengeRequestTimeout;
+
+		public EventSettings Event = new EventSettings();
+		public GunSettings Gun = new GunSettings();
+		public StockPilingSettings StockPiling = new StockPilingSettings();
+		public SharpShooterSettings SharpShooter = new SharpShooterSettings();
+		public KingOfTheCastleSettings Castle = new KingOfTheCastleSettings();
+		public HotPropertySettings Property = new HotPropertySettings();
+		public HuntTheBeastSettings HuntTheBeast = new HuntTheBeastSettings();
+		public float SellWeaponRatio;
+		public Dictionary<string, List<string>> AmmuNationWeapons = new Dictionary<string, List<string>>();
+		public Dictionary<string, AmmunationRefillingWeaponsSettings> AmmuNationRefillAmmo = new Dictionary<string, AmmunationRefillingWeaponsSettings>();
+		public Dictionary<string, AmmunationSpecialAmmoSettings> AmmuNationSpecialAmmo = new Dictionary<string, AmmunationSpecialAmmoSettings>();
+		public MissionsSettings Mission = new MissionsSettings();
+		public SpecialCargoMissionSettings Cargo = new SpecialCargoMissionSettings();
+		public HeistMissionSettings Heist = new HeistMissionSettings();
+		public VelocityMissionSettings Velocity = new VelocityMissionSettings();
+		public MostWantedSettings MostWanted = new MostWantedSettings();
+		public AssetRecoveryMissionSettings AssetRecovery = new AssetRecoveryMissionSettings();
+		public HeadHunterSettings HeadHunter = new HeadHunterSettings();
+		public CratesSettings Crate = new CratesSettings();
+		public List<WeaponTintSettings> WeaponTints = new List<WeaponTintSettings>();
+	}
+
+	public class OutfitCreatorFR
+	{
+		public OutfitSexCreator Maschio = new OutfitSexCreator();
+		public OutfitSexCreator Femmina = new OutfitSexCreator();
+	}
+	public class OutfitSexCreator
+	{
+		public List<Completo> Aviazione = new List<Completo>();
+		public List<Completo> Spiaggia = new List<Completo>();
+		public List<Completo> Biker = new List<Completo>();
+		public List<Completo> Combattimento = new List<Completo>();
+		public List<Completo> Costumi = new List<Completo>();
+		public List<Completo> Colpo = new List<Completo>();
+		public List<Completo> Gara = new List<Completo>();
+		public List<Completo> Lavoro = new List<Completo>();
+	}
+
+	public class RolePlayConfig
+	{
+		public ConfPrincipaleRP Main = new ConfPrincipaleRP();
+		public ConfigVeicoliRP Veicoli = new ConfigVeicoliRP();
+		public ConfigLavoriRP Lavori = new ConfigLavoriRP();
+		public ConfigNegoziRP Negozi = new ConfigNegoziRP();
+		public ConfigProprietaRP Proprieta = new ConfigProprietaRP();
 	}
 
 	public class ClientConfigKVP
@@ -71,7 +182,7 @@ namespace TheLastPlanet.Client
 		}
 	}
 
-	public class ConfigLavori
+	public class ConfigLavoriRP
 	{
 		public ConfigPolizia Polizia = new ConfigPolizia();
 		public ConfigMedici Medici = new ConfigMedici();
@@ -80,26 +191,26 @@ namespace TheLastPlanet.Client
 		public LavoriGenerici Generici = new LavoriGenerici();
 	}
 
-	public class ConfigVeicoli
+	public class ConfigVeicoliRP
 	{
 		public VeicoliAffitto veicoliAff = new();
 		public ConfVeicoli DanniVeicoli = new();
 	}
 
-	public class ConfigNegozi
+	public class ConfigNegoziRP
 	{
 		public ConfigNegoziAbiti Abiti = new ConfigNegoziAbiti();
 		public ConfigNegoziBarbieri Barbieri = new ConfigNegoziBarbieri();
 		public ConfigNegoziGenerici NegoziGenerici = new ConfigNegoziGenerici();
 	}
-	
-	public class ConfigProprieta
+
+	public class ConfigProprietaRP
 	{
 		public List<Hotel> hotels = new List<Hotel>();
 		public Dictionary<string, ConfigCase> Appartamenti = new Dictionary<string, ConfigCase>();
 		public ConfigGarages Garages = new ConfigGarages();
 	}
-	
+
 	public class ConfigAppartamenti
 	{
 		public Dictionary<string, ConfigCase> LowEnd = new Dictionary<string, ConfigCase>();

@@ -37,6 +37,7 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
+				await Cache.Loaded();
 				Ped p = Cache.MyPlayer.Ped;
 
 				foreach (InputController input in ListaInput)

@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.Handlers
 			// TICK POLIZIA \\
 			TickPolizia.Add(PoliziaMainClient.MarkersPolizia);
 			TickPolizia.Add(PoliziaMainClient.MainTickPolizia);
-			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
+			if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) TickPolizia.Add(PoliziaMainClient.AbilitaBlipVolanti);
 
 			// TICK MEDICI \\
 			TickMedici.Add(MediciMainClient.MarkersMedici);
@@ -216,7 +216,7 @@ namespace TheLastPlanet.Client.Handlers
 				{
 					Client.Instance.AddTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.AddTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
+					if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.AddTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = true;
 				}
 			}
@@ -226,7 +226,7 @@ namespace TheLastPlanet.Client.Handlers
 				{
 					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = false;
 				}
 
@@ -243,7 +243,7 @@ namespace TheLastPlanet.Client.Handlers
 				{
 					Client.Instance.RemoveTick(PoliziaMainClient.MarkersPolizia);
 					Client.Instance.RemoveTick(PoliziaMainClient.MainTickPolizia);
-					if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
+					if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti) Client.Instance.RemoveTick(PoliziaMainClient.AbilitaBlipVolanti);
 					_polizia = false;
 				}
 
