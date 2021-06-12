@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 				{
 					if (!Cache.MyPlayer.User.StatiPlayer.InServizio)
 					{
-						foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.Lavori.Polizia.Gradi.Where(Grado => Cache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
+						foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Where(Grado => Cache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.MyPlayer.User.CurrentChar.Job.Grade))
 							switch (Cache.MyPlayer.User.CurrentChar.Skin.sex)
 							{
 								case "Maschio":

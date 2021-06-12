@@ -135,10 +135,10 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void Spawnato()
 		{
-			ReviveReward = Client.Impostazioni.Main.ReviveReward;
-			EarlyRespawnFine = Client.Impostazioni.Main.EarlyRespawnFine;
-			EarlyRespawnFineAmount = Client.Impostazioni.Main.EarlyRespawnFineAmount;
-			EarlyRespawn = Client.Impostazioni.Main.EarlyRespawn;
+			ReviveReward = Client.Impostazioni.RolePlay.Main.ReviveReward;
+			EarlyRespawnFine = Client.Impostazioni.RolePlay.Main.EarlyRespawnFine;
+			EarlyRespawnFineAmount = Client.Impostazioni.RolePlay.Main.EarlyRespawnFineAmount;
+			EarlyRespawn = Client.Impostazioni.RolePlay.Main.EarlyRespawn;
 		}
 
 		public static void onPlayerDeath(DatiMorte morte)
@@ -203,8 +203,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static async void StartDeathTimer()
 		{
-			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			Cache.MyPlayer.User.StatiPlayer.FinDiVita = true;
 			Main.IsDead = true;
@@ -251,8 +251,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 								{
 									Client.Instance.RemoveTick(ConteggioMorte);
 									RemoveItemsAfterRPDeath();
-									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 									text = "";
 
 									return;
@@ -267,8 +267,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 									BaseScript.TriggerServerEvent("lprp:payFine", EarlyRespawnFineAmount);
 									Client.Instance.RemoveTick(ConteggioMorte);
 									RemoveItemsAfterRPDeath();
-									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+									EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
+									BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 									text = "";
 
 									return;
@@ -294,8 +294,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 						{
 							Client.Instance.RemoveTick(ConteggioMorte);
 							RemoveItemsAfterRPDeath();
-							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+							EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
+							BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 							text = "";
 						}
 					}
@@ -313,8 +313,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 		public static async void endConteggio()
 		{
 			Client.Instance.RemoveTick(ConteggioMorte);
-			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.EarlySpawnTimer);
-			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.Main.BleedoutTimer);
+			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
+			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 			text = "";
 		}
 

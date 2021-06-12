@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+			BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();

@@ -6,7 +6,7 @@ using TheLastPlanet.Client.RolePlay.Core;
 
 namespace Impostazioni.Client.Configurazione.Main
 {
-    public class ConfPrincipale
+    public class ConfPrincipaleRP
     {
         public string NomeServer = "The Last Planet";
         public string DiscordAppId = "625350962776637491";

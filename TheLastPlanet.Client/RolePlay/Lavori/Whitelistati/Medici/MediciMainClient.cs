@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 		private static async void Spawnato()
 		{
-			foreach (Ospedale ospedale in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+			foreach (Ospedale ospedale in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 			{
 				Blip blip = World.CreateBlip(ospedale.Blip.Coords);
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
@@ -87,7 +87,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
-				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.Spogliatoio)
 						if (p.IsInRangeOf(vettore, 2f))
@@ -255,7 +255,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medico" || Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medici")
-				foreach (Ospedale osp in Client.Impostazioni.Lavori.Medici.Config.Ospedali)
+				foreach (Ospedale osp in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 				{
 					foreach (Vector3 vettore in osp.IngressoVisitatori.Where(vettore => p.IsInRangeOf(vettore, 1.375f)))
 					{
@@ -292,7 +292,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 		{
 			await BaseScript.Delay(1000);
 
-			if (Client.Impostazioni.Lavori.Medici.Config.AbilitaBlipVolanti)
+			if (Client.Impostazioni.RolePlay.Lavori.Medici.Config.AbilitaBlipVolanti)
 			{
 				foreach (var p in Cache.GiocatoriOnline)
 					if (p.User.CurrentChar.Job.Name == "Medici")

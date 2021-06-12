@@ -38,23 +38,23 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 		{
 			KeyValuePair<string, string> neg = Main.Textures[tipo];
 			string description = "";
-			List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.shared;
+			List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.shared;
 
 			switch (tipo)
 			{
 				case "247":
 					description = "Aperti 24/7!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
+					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
 
 					break;
 				case "ltd":
 					description = "Non è mica infinita!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
+					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
 
 					break;
 				case "rq":
 					description = "I liquori migliori!";
-					Client.Impostazioni.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
+					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
 
 					break;
 			}

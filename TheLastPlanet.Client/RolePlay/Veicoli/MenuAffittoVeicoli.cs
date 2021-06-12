@@ -16,7 +16,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 	{
 		private static MenuPool pool = HUD.MenuPool;
 		public static VeicoloAffitto veicoloInAffitto = null;
-		public static VeicoliAffitto veicoliAff = Client.Impostazioni.Veicoli.veicoliAff;
+		public static VeicoliAffitto veicoliAff = Client.Impostazioni.RolePlay.Veicoli.veicoliAff;
 		public static bool affittato = false;
 
 		public static async void MenuAffitto(int num)

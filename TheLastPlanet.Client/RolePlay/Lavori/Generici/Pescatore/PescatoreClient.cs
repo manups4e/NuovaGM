@@ -75,7 +75,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore
 
 		public static async void Init()
 		{
-			PuntiPesca = Client.Impostazioni.Lavori.Generici.Pescatore;
+			PuntiPesca = Client.Impostazioni.RolePlay.Lavori.Generici.Pescatore;
 			ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa += async (item, index) =>
 			{
 				RequestAnimDict(AnimDict);

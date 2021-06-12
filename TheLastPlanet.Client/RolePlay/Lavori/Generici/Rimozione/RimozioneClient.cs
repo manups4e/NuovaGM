@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 
 		public static void Init()
 		{
-			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
+			Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
 			//RequestAnimDict("oddjobs@towing");
 
 			//IsVehicleAttachedToTowTruck(int towtruck, int vehicle);
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 
 		public static void Stop()
 		{
-			Rimozione = Client.Impostazioni.Lavori.Generici.Rimozione;
+			Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
 			Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == Rimozione.InizioLavoro);
 			p.Delete();
 		}

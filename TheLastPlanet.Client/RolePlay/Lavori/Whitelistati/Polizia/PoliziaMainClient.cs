@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 		public static void Spawnato()
 		{
-			foreach (StazioniDiPolizia stazione in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
+			foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
 			{
 				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords[0], stazione.Blip.Coords[1], stazione.Blip.Coords[2]))
 				{
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 			Ped p = Cache.MyPlayer.Ped;
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
-				foreach (StazioniDiPolizia t2 in Client.Impostazioni.Lavori.Polizia.Config.Stazioni)
+				foreach (StazioniDiPolizia t2 in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
 				{
 					foreach (Vector3 t in t2.Spogliatoio)
 					{
@@ -223,7 +223,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 						}
 					}
 
-					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.Lavori.Polizia.Gradi.Count - 1) continue;
+					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Count - 1) continue;
 					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
@@ -236,7 +236,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 		{
 			await BaseScript.Delay(1000);
 
-			if (Client.Impostazioni.Lavori.Polizia.Config.AbilitaBlipVolanti)
+			if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (var p in Cache.GiocatoriOnline)
 					if (p.User.CurrentChar.Job.Name == "Polizia")

@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Taxi
 
 		public static void Init()
 		{
-			taxi = Client.Impostazioni.Lavori.Generici.Tassista;
+			taxi = Client.Impostazioni.RolePlay.Lavori.Generici.Tassista;
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Add(Markers);
 		}

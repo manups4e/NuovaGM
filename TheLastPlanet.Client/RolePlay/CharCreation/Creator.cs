@@ -772,14 +772,14 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 						case 0:
 							_dataFemmina = _data;
 							_data = _dataMaschio;
-							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
+							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
 							_selezionato = "Maschio";
 
 							break;
 						case 1:
 							_dataMaschio = _data;
 							_data = _dataFemmina;
-							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
+							_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, _data.CharID.ToString(), "Powered by Manups4e", 0, "", 0);
 							_selezionato = "Femmina";
 
 							break;
@@ -871,7 +871,7 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 						_dataMaschio = _data;
 					else
 						_dataFemmina = _data;
-					_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
+					_boardScalep1.CallFunction("SET_BOARD", Client.Impostazioni.RolePlay.Main.NomeServer, _data.Info.firstname + " " + _data.Info.lastname, "Personaggio N°", "Powered by Manups4e", 0, Cache.MyPlayer.User.Characters.Count + 1, 0);
 				};
 
 				#endregion

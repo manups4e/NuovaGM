@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Cacciatore
 
 		private static void Spawnato()
 		{
-			Cacciatore = Client.Impostazioni.Lavori.Generici.Cacciatore;
+			Cacciatore = Client.Impostazioni.RolePlay.Lavori.Generici.Cacciatore;
 			Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia);
 			caccia.Sprite = BlipSprite.Hunting;
 			caccia.Color = BlipColor.TrevorOrange;

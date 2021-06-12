@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 			{
 				HUD.ShowHelp("Ricorda che puoi anche usare il ~b~MOUSE~w~ per selezionare i colori e l'opacità.");
 				ShowCam(S, Ch, C);
-				BarberMenu(Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? Client.Impostazioni.Negozi.Barbieri.Maschio : Client.Impostazioni.Negozi.Barbieri.Femmina, Menu);
+				BarberMenu(Cache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio" ? Client.Impostazioni.RolePlay.Negozi.Barbieri.Maschio : Client.Impostazioni.RolePlay.Negozi.Barbieri.Femmina, Menu);
 			}
 		}
 

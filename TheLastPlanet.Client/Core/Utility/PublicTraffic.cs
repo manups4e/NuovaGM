@@ -13,8 +13,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Init()
 		{
-			baseTraffic = Client.Impostazioni.Main.baseTraffic;
-			divMultiplier = Client.Impostazioni.Main.divMultiplier;
+			baseTraffic = Client.Impostazioni.RolePlay.Main.baseTraffic;
+			divMultiplier = Client.Impostazioni.RolePlay.Main.divMultiplier;
 			LastCheck = World.CurrentDayTime;
 			SetDensity();
 			Client.Instance.AddTick(Check);
@@ -22,8 +22,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void Stop()
 		{
-			baseTraffic = Client.Impostazioni.Main.baseTraffic;
-			divMultiplier = Client.Impostazioni.Main.divMultiplier;
+			baseTraffic = Client.Impostazioni.RolePlay.Main.baseTraffic;
+			divMultiplier = Client.Impostazioni.RolePlay.Main.divMultiplier;
 			LastCheck = World.CurrentDayTime;
 			Client.Instance.RemoveTick(Check);
 		}

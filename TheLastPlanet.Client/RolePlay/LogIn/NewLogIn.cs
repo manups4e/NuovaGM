@@ -422,7 +422,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 		public static async void Scelta(string param)
 		{
 			if (param == "select")
-				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.Main.NomeServer + "!");
+				BaseScript.TriggerServerEvent("lprp:dropPlayer", "Grazie di essere passato da " + Client.Impostazioni.RolePlay.Main.NomeServer + "!");
 			else
 				Attiva();
 		}

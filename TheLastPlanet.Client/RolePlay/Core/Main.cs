@@ -123,8 +123,8 @@ namespace TheLastPlanet.Client.RolePlay.Core
 		public static void Init()
 		{
 			LoadMain();
-			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
-			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
+			scopedWeapons = Client.Impostazioni.RolePlay.Main.ScopedWeapons;
+			passengerDriveBy = Client.Impostazioni.RolePlay.Main.PassengerDriveBy;
 			//Client.Instance.AddTick(Connesso);
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
@@ -175,12 +175,12 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			Game.MaxWantedLevel = 0;
 			SetCanAttackFriendly(playerPed.Handle, true, true);
 			NetworkSetFriendlyFireOption(true);
-			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.Main.NomeServer);
-			scopedWeapons = Client.Impostazioni.Main.ScopedWeapons;
-			passengerDriveBy = Client.Impostazioni.Main.PassengerDriveBy;
-			kickWarning = Client.Impostazioni.Main.KickWarning;
-			recoils = Client.Impostazioni.Main.recoils;
-			pickupList = Client.Impostazioni.Main.pickupList;
+			AddTextEntry("FE_THDR_GTAO", Client.Impostazioni.RolePlay.Main.NomeServer);
+			scopedWeapons = Client.Impostazioni.RolePlay.Main.ScopedWeapons;
+			passengerDriveBy = Client.Impostazioni.RolePlay.Main.PassengerDriveBy;
+			kickWarning = Client.Impostazioni.RolePlay.Main.KickWarning;
+			recoils = Client.Impostazioni.RolePlay.Main.recoils;
+			pickupList = Client.Impostazioni.RolePlay.Main.pickupList;
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
@@ -472,20 +472,20 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				currentPosition = Cache.MyPlayer.User == null ? Cache.MyPlayer.Ped.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 
-				if (t >= Client.Impostazioni.Main.AFKCheckTime)
+				if (t >= Client.Impostazioni.RolePlay.Main.AFKCheckTime)
 				{
 					if (Vector3.Distance(Cache.MyPlayer.User.Posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{
-					if (t > Client.Impostazioni.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.Main.AFKCheckTime / 4f))
+					if (t > Client.Impostazioni.RolePlay.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 4f))
 						if (kickWarning)
 						{
-							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!";
+							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!";
 
 							if (!triggerato)
 							{
-								PopupWarningThread.Warning.ShowWarningWithButtons("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", "Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!", new List<InstructionalButton>
+								PopupWarningThread.Warning.ShowWarningWithButtons("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", "Verrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!", new List<InstructionalButton>
 								{
 								new InstructionalButton(Control.PhoneSelect, "Si"),
 
@@ -500,7 +500,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 								triggerato = true;
 							}
 
-							PopupWarningThread.Warning.UpdateWarning("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.Main.AFKCheckTime - t} secondi!");
+							PopupWarningThread.Warning.UpdateWarning("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!");
 							Client.Logger.Debug( Text);
 						}
 				}
@@ -526,9 +526,9 @@ namespace TheLastPlanet.Client.RolePlay.Core
 		private static async void Peds()
 		{
 			await BaseScript.Delay(30000);
-			while (Client.Impostazioni.Main.stripClub == null) await BaseScript.Delay(0);
+			while (Client.Impostazioni.RolePlay.Main.stripClub == null) await BaseScript.Delay(0);
 
-			foreach (GenericPeds stripper in Client.Impostazioni.Main.stripClub)
+			foreach (GenericPeds stripper in Client.Impostazioni.RolePlay.Main.stripClub)
 			{
 				Ped ped = await Funzioni.SpawnPed(stripper.model, stripper.coords, stripper.heading);
 				ped.CanRagdoll = false;
@@ -539,7 +539,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				ped.Task.PlayAnimation(stripper.animDict, stripper.animName, -1, -1, AnimationFlags.Loop);
 			}
 
-			foreach (GenericPeds market in Client.Impostazioni.Main.blackMarket)
+			foreach (GenericPeds market in Client.Impostazioni.RolePlay.Main.blackMarket)
 			{
 				Ped ped1 = await Funzioni.SpawnPed(market.model, market.coords, market.heading);
 				ped1.CanRagdoll = false;
@@ -550,7 +550,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				ped1.Task.StartScenario(market.animName, GetEntityCoords(ped1.Handle, true));
 			}
 
-			foreach (GenericPeds illegal in Client.Impostazioni.Main.illegal_weapon_extra_shop)
+			foreach (GenericPeds illegal in Client.Impostazioni.RolePlay.Main.illegal_weapon_extra_shop)
 			{
 				Ped ped2 = await Funzioni.SpawnPed(illegal.model, illegal.coords, illegal.heading);
 				ped2.CanRagdoll = false;

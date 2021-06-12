@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client.RolePlay.Negozi
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(NegoziSpawn));
-			NegoziGenerici = Client.Impostazioni.Negozi.NegoziGenerici;
+			NegoziGenerici = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici;
 		}
 
 		public static void Stop()

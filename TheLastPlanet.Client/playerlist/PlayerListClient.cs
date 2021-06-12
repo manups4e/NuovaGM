@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 			while (!HasScaleformMovieLoaded(RequestScaleformMovie("MP_MM_CARD_FREEMODE"))) await BaseScript.Delay(0);
 			scale = new Scaleform("MP_MM_CARD_FREEMODE");
 			string titleIcon = "2";
-			string titleLeftText = Client.Impostazioni.Main.NomeServer;
+			string titleLeftText = Client.Impostazioni.RolePlay.Main.NomeServer;
 			string titleRightText = $"Players {NetworkGetNumConnectedPlayers()}/{maxClients}";
 			scale.CallFunction("SET_TITLE", titleLeftText, titleRightText, titleIcon);
 			await UpdateScale();

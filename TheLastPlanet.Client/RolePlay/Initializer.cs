@@ -17,7 +17,6 @@ namespace TheLastPlanet.Client.RolePlay
 		{
 			ClasseDiTest.Init(); // da rimouvere
 			DecorationClass.DichiaraDecor();
-			await ConfigClient.Init();
 			await CoreInitializer.LogInInitializer();
 			await SessionCache.Cache.Loaded();
 			Banking.BankingClient.Init();
@@ -67,7 +66,6 @@ namespace TheLastPlanet.Client.RolePlay
 			PauseMenu.Init();
 			Minimap.Init();
 			TickController.Init();
-			InputHandler.Init();
 			await Task.FromResult(0);
 		}
 
@@ -113,9 +111,7 @@ namespace TheLastPlanet.Client.RolePlay
 			PauseMenu.Stop();
 			Minimap.Stop();
 			TickController.Stop();
-			InputHandler.Stop();
 			await CoreInitializer.LogInStop();
-			await ConfigClient.Stop();
 			await Task.FromResult(0);
 		}
 	}

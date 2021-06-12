@@ -54,6 +54,7 @@ namespace TheLastPlanet.Client.Races.Creator
 		private static int categoriaScelta = 16;
 		private static int tipoPropScelto = 0;
 		private static int colorePropScelto = 0;
+		private static int attachedBone;
 
 		private static bool accatastamento = true;
 		private static SnapOptions OpzioniSnap = new SnapOptions();
@@ -492,6 +493,11 @@ namespace TheLastPlanet.Client.Races.Creator
 				{
 					OpzioniSnap.Attivo = c != 0;
 					OpzioniSnap.Prossimità = c != 0;
+					if (!OpzioniSnap.Attivo)
+					{
+						DummyProp.Detach();
+						attachedBone = 0;
+					}
 				}
 			};
 
@@ -866,7 +872,7 @@ namespace TheLastPlanet.Client.Races.Creator
 					Height = z + 0.3f;
 				cross.Position = curLocation;
 				cross.Rotation = new(0, 0, curRotation.Z);
-				placeMarker.Position = curLocation + new Vector3(0, 0, 0.1f);
+				placeMarker.Position = cross.Position + new Vector3(0, 0, 0.1f);
 				placeMarker.Draw();
 
 				if (curRotation.X >= -11.5f)
@@ -994,46 +1000,97 @@ namespace TheLastPlanet.Client.Races.Creator
 					Prop prop = await Funzioni.SpawnLocalProp(model, curLocation, false, false);
 					prop.Rotation = dummyRot;
 					SetObjectTextureVariation(prop.Handle, colorePropScelto);
-					Piazzati.Add(new TrackPiece(prop, (RacingProps)(uint)model, curLocation, dummyRot, colorePropScelto));
-				}
-				#endregion
-				#region SNAP
-
-				if (OpzioniSnap.Attivo && OpzioniSnap.Prossimità) // func_8363
-				{
-					if (!IsEntityAttached(DummyProp.Handle))
+					if (OpzioniSnap.Attivo)
 					{
-						var close = DummyProp.GetClosestProp(new List<Entity> { DummyProp, cross });
+						DummyProp.Detach();
+						attachedBone = 0;
+						var close = prop.GetClosestProp(new List<Entity> { prop, DummyProp, cross });
 						//SEMPRE BONE 2 O 3 SEMPRE!
 						Vector3 bone2 = GetWorldPositionOfEntityBone(close.Handle, 2);
 						Vector3 bone3 = GetWorldPositionOfEntityBone(close.Handle, 3);
 
-						if (cross.IsInRangeOf(bone2, 30f))
+						if (Vector3.Distance(GetWorldPositionOfEntityBone(prop.Handle, 3), bone2) < 15f)
 						{
 							var vVar13 = close.Rotation;
-							DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
-							DummyProp.IsCollisionEnabled = false;
+							prop.Rotation = new Vector3(0, 0, vVar13.Z);
+							prop.IsCollisionEnabled = false;
 							if (func_277(close.Model.Hash, 18))
-								AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 3, 2, true, false);
+								AttachEntityBoneToEntityBonePhysically(prop.Handle, close.Handle, 3, 2, true, false);
 							else
-								AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 3, 2, true, false);
+								AttachEntityBoneToEntityBone(prop.Handle, close.Handle, 3, 2, true, false);
 							Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
 						}
-						if (cross.IsInRangeOf(bone3, 30f))
+						if (Vector3.Distance(GetWorldPositionOfEntityBone(prop.Handle, 2), bone3) < 15f)
 						{
 							var vVar13 = close.Rotation;
-							DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
-							DummyProp.IsCollisionEnabled = false;
+							prop.Rotation = new Vector3(0, 0, vVar13.Z);
+							prop.IsCollisionEnabled = false;
 							if (func_277(close.Model.Hash, 18))
-								AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 2, 3, true, false);
+								AttachEntityBoneToEntityBonePhysically(prop.Handle, close.Handle, 2, 3, true, false);
 							else
-								AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 2, 3, true, false);
-							Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
+								AttachEntityBoneToEntityBone(prop.Handle, close.Handle, 2, 3, true, false);
+						}
+					}
+					Piazzati.Add(new TrackPiece(prop, (RacingProps)(uint)model, curLocation, dummyRot, colorePropScelto));
+				}
+				#endregion
+
+				#region SNAP
+
+				if (OpzioniSnap.Attivo && OpzioniSnap.Prossimità) // func_8363
+				{
+					var close = DummyProp.GetClosestProp(new List<Entity> { DummyProp, cross });
+					//SEMPRE BONE 2 O 3 SEMPRE! (tranne gli incroci o i bivii)
+					Vector3 bone2 = GetWorldPositionOfEntityBone(close.Handle, 2);
+					Vector3 bone3 = GetWorldPositionOfEntityBone(close.Handle, 3);
+					if (!IsEntityAttached(DummyProp.Handle))
+					{
+						if (attachedBone == 0)
+						{
+							if (Vector3.Distance(GetWorldPositionOfEntityBone(DummyProp.Handle, 3), bone2) < 15f)
+							{
+								var vVar13 = close.Rotation;
+								DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
+								DummyProp.IsCollisionEnabled = false;
+								if (func_277(close.Model.Hash, 18))
+									AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 3, 2, true, false);
+								else
+									AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 3, 2, true, false);
+								Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
+								attachedBone = 2;
+							}
+							else if (Vector3.Distance(GetWorldPositionOfEntityBone(DummyProp.Handle, 2), bone3) < 15f)
+							{
+								var vVar13 = close.Rotation;
+								DummyProp.Rotation = new Vector3(0, 0, vVar13.Z);
+								DummyProp.IsCollisionEnabled = false;
+								if (func_277(close.Model.Hash, 18))
+									AttachEntityBoneToEntityBonePhysically(DummyProp.Handle, close.Handle, 2, 3, true, false);
+								else
+									AttachEntityBoneToEntityBone(DummyProp.Handle, close.Handle, 2, 3, true, false);
+								Game.PlaySound("Creator_Snap", "DLC_Stunt_Race_Frontend_Sounds");
+								attachedBone = 3;
+							}
 						}
 					}
 					else
 					{
-						//if()
+						if (attachedBone == 2)
+						{
+							if (Vector3.Distance(curLocation, bone2) > 30f)
+							{
+								DummyProp.Detach();
+								attachedBone = 0;
+							}
+						}
+						else if (attachedBone == 3)
+						{
+							if (Vector3.Distance(curLocation, bone3) > 30f)
+							{
+								DummyProp.Detach();
+								attachedBone = 0;
+							}
+						}
 					}
 				}
 				#endregion

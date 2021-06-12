@@ -174,6 +174,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		public string description;
 		public int price;
 		public string model;
+		public Veicoloaff() { }
 		public Veicoloaff(string _name, string _desc, int _price, string _model)
 		{
 			this.name = _name;

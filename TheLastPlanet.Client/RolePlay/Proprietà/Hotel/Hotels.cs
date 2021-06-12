@@ -24,13 +24,13 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Hotel
 
 		public static void Init()
 		{
-			foreach (Hotel t in Client.Impostazioni.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords, new Radius(3f, 3f), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
 				Client.Logger.Debug("Hash = " + GetHashKey(hash[0] + ""));
 			}), false);
 
-			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+			foreach (Blip p in Client.Impostazioni.RolePlay.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 			{
 				Sprite = BlipSprite.Heist,
 				Scale = 1.0f,
@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Hotel
 				Client.Logger.Debug("Hash = " + pickupObject.Model.Hash);
 			}), false);
 
-			foreach (Blip p in Client.Impostazioni.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
+			foreach (Blip p in Client.Impostazioni.RolePlay.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
 			{
 				Sprite = BlipSprite.Heist,
 				Scale = 1.0f,
