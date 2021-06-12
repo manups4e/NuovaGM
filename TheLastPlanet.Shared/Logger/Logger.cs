@@ -69,9 +69,11 @@ namespace Logger
 			string err = "-- [DEBUG] -- ";
 			string colore = PURPLE;
 			CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
+/*
 #if SERVER
 			await Writer(err, text);
 #endif
+*/
 		}
 
 		/// <summary>
