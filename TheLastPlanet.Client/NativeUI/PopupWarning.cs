@@ -47,6 +47,11 @@ namespace TheLastPlanet.Client.NativeUI
 		public void Dispose()
 		{
 			_disableControls = false;
+			if (InstructionalButtonsHandler.InstructionalButtons.Enabled)
+			{
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
+				InstructionalButtonsHandler.InstructionalButtons.UseMouseButtons = false;
+			}
 			_warning.CallFunction("HIDE_POPUP_WARNING", 1000);
 			_warning.Dispose();
 			_warning = null;
@@ -58,12 +63,12 @@ namespace TheLastPlanet.Client.NativeUI
 		{
 			Cache.MyPlayer.Player.CanControlCharacter = false;
 			await Load();
-			_warning.CallFunction("SHOW_POPUP_WARNING", timer, title, subtitle, prompt, true, (int)type, $"The Last Planet V. {Assembly.GetExecutingAssembly().GetName().Version}");
+			_warning.CallFunction("SHOW_POPUP_WARNING", timer, title, subtitle, prompt, true, (int)type, $"The Last Planet - Versione: {Assembly.GetExecutingAssembly().GetName().Version}");
 		}
 
 		public void UpdateWarning(string title, string subtitle, string prompt = "", WarningPopupType type = WarningPopupType.Classico, int timer = 1000)
 		{
-			_warning.CallFunction("SHOW_POPUP_WARNING", timer, title, subtitle, prompt, true, (int)type, $"The Last Planet V. {Assembly.GetExecutingAssembly().GetName().Version}");
+			_warning.CallFunction("SHOW_POPUP_WARNING", timer, title, subtitle, prompt, true, (int)type, $"The Last Planet - Versione: {Assembly.GetExecutingAssembly().GetName().Version}");
 		}
 
 		public async void ShowWarningWithButtons(string title, string subtitle, string prompt, List<InstructionalButton> buttons, WarningPopupType type = WarningPopupType.Classico)
@@ -86,23 +91,28 @@ namespace TheLastPlanet.Client.NativeUI
 
 		internal async Task Update()
 		{
-			if (_warning == null) return;
-			_warning.Render2D();
-			if (_callInstr)
-				InstructionalButtonsHandler.InstructionalButtons.Draw();
-			if (_disableControls)
+			try
 			{
-				foreach(var b in _buttonList)
+				if (_warning == null) return;
+				_warning.Render2D();
+				if (_callInstr)
+					InstructionalButtonsHandler.InstructionalButtons.Draw();
+				if (_disableControls)
 				{
-					if (Input.IsControlJustPressed(b.GamepadButton) || Input.IsControlJustPressed(b.KeyboardButton)) 
+					foreach (var b in _buttonList)
 					{
-						OnButtonPressed?.Invoke(b);
-						Dispose();
-						InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
-						InstructionalButtonsHandler.InstructionalButtons.UseMouseButtons = false;
-						return;
+						if (Input.IsControlJustPressed(b.GamepadButton) || Input.IsControlJustPressed(b.KeyboardButton))
+						{
+							OnButtonPressed?.Invoke(b);
+							Dispose();
+							return;
+						}
 					}
 				}
+			}
+			catch(Exception e)
+			{
+				Client.Logger.Error(e.ToString());
 			}
 		}
 	}
