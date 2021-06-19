@@ -253,9 +253,9 @@ namespace TheLastPlanet.Client.Core.Utility
 			return lowerCase ? builder.ToString().ToLower() : builder.ToString();  
 		}
 
-		public static bool IsAnyControlJustPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlJustPressed(value)); }
+		public static bool IsAnyControlJustPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().ToList().Any(value => Input.IsControlJustPressed(value)); }
 
-		public static bool IsAnyControlPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().Any(value => Input.IsControlPressed(value)); }
+		public static bool IsAnyControlPressed() { return Enum.GetValues(typeof(Control)).Cast<Control>().ToList().Any(value => Input.IsControlPressed(value)); }
 
 		public static async Task<VehProp> GetVehicleProperties(this Vehicle veh)
 		{
