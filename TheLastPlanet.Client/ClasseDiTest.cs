@@ -20,6 +20,18 @@ namespace TheLastPlanet.Client
 	{
 		public static async void Init()
 		{
+			/*
+			await BaseScript.Delay(3000);
+			List<InstructionalButton> but = new List<InstructionalButton>()
+			{
+				new InstructionalButton(new List<Control>{ Control.FrontendLb, Control.FrontendRb, Control.FrontendLt, Control.FrontendRt }, "Primo", PadCheck.Controller),
+				new InstructionalButton(new List<Control>{ Control.FrontendAccept, Control.FrontendCancel, Control.FrontendX, Control.FrontendY }, new List<Control>{Control.Context, Control.Detonate, Control.Cover, Control.Reload }, "Secondo"),
+				new InstructionalButton(new List<Control>{ Control.MoveUpOnly, Control.MoveDownOnly, Control.MoveLeftOnly, Control.MoveRightOnly }, "Terzo", PadCheck.Keyboard),
+			};
+			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(but);
+			InstructionalButtonsHandler.InstructionalButtons.UpdateButtons();
+			InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+			*/
 		}
 
 

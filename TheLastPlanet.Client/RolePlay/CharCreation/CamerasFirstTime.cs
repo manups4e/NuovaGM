@@ -44,9 +44,9 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 				}, WarningPopupType.Classico);
 				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 				{
-					if (a._controllerButtonControl == Control.PhoneCancel)
+					if (a.GamepadButton == Control.PhoneCancel)
 						await SiComincia();
-					else if (a._controllerButtonControl == Control.PhoneSelect)
+					else if (a.GamepadButton == Control.PhoneSelect)
 						SiFinisce();
 				};
 			}

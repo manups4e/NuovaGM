@@ -492,7 +492,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 								}, WarningPopupType.Serio);
 								PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 								{
-									if (a._controllerButtonControl == Control.PhoneSelect)
+									if (a.GamepadButton == Control.PhoneSelect)
 									{
 										triggerato = false;
 									}

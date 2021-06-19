@@ -2239,13 +2239,13 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 				}, WarningPopupType.Classico);
 				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 				{
-					if (a._controllerButtonControl == Control.PhoneCancel)
+					if (a.GamepadButton == Control.PhoneCancel)
 					{
 						Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);
 						MenuCreazione(_a, _b, _c, _d);
 					}
-					else if (a._controllerButtonControl == Control.PhoneSelect)
+					else if (a.GamepadButton == Control.PhoneSelect)
 					{
 						Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);

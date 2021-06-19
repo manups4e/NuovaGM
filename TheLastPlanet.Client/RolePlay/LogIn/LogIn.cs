@@ -416,9 +416,9 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 				}, WarningPopupType.Classico);
 			PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 			{
-				if (a._controllerButtonControl == Control.PhoneCancel)
+				if (a.GamepadButton == Control.PhoneCancel)
 					Attiva();
-				else if (a._controllerButtonControl == Control.PhoneSelect)
+				else if (a.GamepadButton == Control.PhoneSelect)
 				{
 					Initializer.Stop();
 					MainChooser.Init();
