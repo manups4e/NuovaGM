@@ -39,14 +39,14 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			{
 				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
 				{
-					new InstructionalButton(Control.PhoneCancel, "No"),
-					new InstructionalButton(Control.PhoneSelect, "Si"),
+					new InstructionalButton(Control.FrontendCancel, "No"),
+					new InstructionalButton(Control.FrontendAccept, "Si"),
 				}, WarningPopupType.Classico);
 				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 				{
-					if (a.GamepadButton == Control.PhoneCancel)
+					if (a.GamepadButton == Control.FrontendCancel)
 						await SiComincia();
-					else if (a.GamepadButton == Control.PhoneSelect)
+					else if (a.GamepadButton == Control.FrontendAccept)
 						SiFinisce();
 				};
 			}

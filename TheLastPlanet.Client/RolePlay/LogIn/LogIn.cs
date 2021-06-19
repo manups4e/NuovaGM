@@ -411,14 +411,15 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			ToggleMenu(false);
 			PopupWarningThread.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Server RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton>
 				{
-					new InstructionalButton(Control.PhoneCancel, "No"),
-					new InstructionalButton(Control.PhoneSelect, "Si"),
+					new InstructionalButton(Control.FrontendCancel, "No"),
+					new InstructionalButton(Control.FrontendAccept, "Si"),
 				}, WarningPopupType.Classico);
 			PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 			{
-				if (a.GamepadButton == Control.PhoneCancel)
+				Client.Logger.Debug(a.ToJson());
+				if (a.GamepadButton == Control.FrontendCancel)
 					Attiva();
-				else if (a.GamepadButton == Control.PhoneSelect)
+				else if (a.GamepadButton == Control.FrontendAccept)
 				{
 					Initializer.Stop();
 					MainChooser.Init();

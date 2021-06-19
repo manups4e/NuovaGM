@@ -2234,18 +2234,18 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 				HUD.MenuPool.CloseAllMenus();
 				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio,", "e la creazione verrà annullata.", new List<InstructionalButton>
 				{
-					new InstructionalButton(Control.PhoneCancel, "No"),
-					new InstructionalButton(Control.PhoneSelect, "Si"),
+					new InstructionalButton(Control.FrontendCancel, "No"),
+					new InstructionalButton(Control.FrontendAccept, "Si"),
 				}, WarningPopupType.Classico);
 				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 				{
-					if (a.GamepadButton == Control.PhoneCancel)
+					if (a.GamepadButton == Control.FrontendCancel)
 					{
 						Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);
 						MenuCreazione(_a, _b, _c, _d);
 					}
-					else if (a.GamepadButton == Control.PhoneSelect)
+					else if (a.GamepadButton == Control.FrontendAccept)
 					{
 						Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);

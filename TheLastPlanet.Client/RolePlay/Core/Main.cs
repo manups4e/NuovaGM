@@ -471,6 +471,14 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
 				currentPosition = Cache.MyPlayer.User == null ? Cache.MyPlayer.Ped.Position : Cache.MyPlayer.User.Posizione.ToVector3;
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
+				if (Funzioni.IsAnyControlJustPressed())
+				{
+					if (!PopupWarningThread.Warning.IsShowing) return;
+					PopupWarningThread.Warning.Dispose();
+					triggerato = false;
+					return;
+				}
+				Client.Logger.Debug("Time => " + t);
 
 				if (t >= Client.Impostazioni.RolePlay.Main.AFKCheckTime)
 				{
@@ -479,30 +487,19 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				else
 				{
 					if (t > Client.Impostazioni.RolePlay.Main.AFKCheckTime - (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 4f))
+					{
 						if (kickWarning)
 						{
 							string Text = $"Sei stato rilevato AFK per troppo tempo\nVerrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!";
 
 							if (!triggerato)
 							{
-								PopupWarningThread.Warning.ShowWarningWithButtons("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", "Verrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!", new List<InstructionalButton>
-								{
-								new InstructionalButton(Control.PhoneSelect, "Si"),
-
-								}, WarningPopupType.Serio);
-								PopupWarningThread.Warning.OnButtonPressed += async (a) =>
-								{
-									if (a.GamepadButton == Control.PhoneSelect)
-									{
-										triggerato = false;
-									}
-								};
+								PopupWarningThread.Warning.ShowWarning("Last Planet Shield 2.0", Text, "");
 								triggerato = true;
 							}
-
-							PopupWarningThread.Warning.UpdateWarning("Last Planet Shield 2.0", "Sei stato rilevato AFK per troppo tempo", $"Verrai kickato tra {Client.Impostazioni.RolePlay.Main.AFKCheckTime - t} secondi!");
-							Client.Logger.Debug( Text);
+							PopupWarningThread.Warning.UpdateWarning("Last Planet Shield 2.0", Text, "", WarningPopupType.Serio);
 						}
+					}
 				}
 			}
 		}
