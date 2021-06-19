@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.NativeUI
 
 	public class PopupWarning
 	{
-		private Scaleform _warning = new("POPUP_WARNING");
+		private Scaleform _warning;
 		private bool _disableControls;
 		private List<InstructionalButton> _buttonList;
 		private bool _callInstr;
@@ -77,7 +77,7 @@ namespace TheLastPlanet.Client.NativeUI
 				Cache.MyPlayer.Player.CanControlCharacter = true;
 				return;
 			}
-			InstructionalButtonsHandler.InstructionalButtons.ControlButtons = _buttonList;
+			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(_buttonList);
 			InstructionalButtonsHandler.InstructionalButtons.UseMouseButtons = true;
 			_warning.CallFunction("SHOW_POPUP_WARNING", 1000, title, subtitle, prompt, true, (int)type, $"The Last Planet - Versione: {Assembly.GetExecutingAssembly().GetName().Version}");
 			InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.NativeUI
 			{
 				foreach(var b in _buttonList)
 				{
-					if (Input.IsControlJustPressed(b._controllerButtonControl) || Input.IsControlJustPressed(b._keyboardButtonControl)) 
+					if (Input.IsControlJustPressed(b.GamepadButton) || Input.IsControlJustPressed(b.KeyboardButton)) 
 					{
 						OnButtonPressed?.Invoke(b);
 						Dispose();

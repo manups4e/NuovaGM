@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 				new InstructionalButton((Control)219, GetLabelText("HUD_INPUT77")),
 				new InstructionalButton((Control)236, GetLabelText("HUD_INPUT87")),
 			};
-			InstructionalButtonsHandler.InstructionalButtons.ControlButtons = buttons;
+			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(buttons);
 			Game.DisableControlThisFrame(0, Control.MoveLeftOnly);
 			Game.DisableControlThisFrame(0, Control.MoveRightOnly);
 			Game.DisableControlThisFrame(0, Control.MoveUpOnly);

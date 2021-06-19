@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.AdminAC
 					new InstructionalButton(Control.FrontendX, "Cambia velocità"),
 				};
 				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = istr;
+				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(istr);
 
 			}
 			else

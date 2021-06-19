@@ -45,6 +45,7 @@ namespace TheLastPlanet.Client.NativeUI
 
 		private readonly List<UIMenu> _menuList = new List<UIMenu>();
 		public readonly List<TabView> PauseMenus = new List<TabView>();
+
 		/// <summary>
         /// Called when user either clicks on a binded button or goes back to a parent menu.
         /// </summary>

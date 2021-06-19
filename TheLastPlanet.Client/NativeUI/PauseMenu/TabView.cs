@@ -81,21 +81,23 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
 			        Screen.Effects.Start(ScreenEffect.FocusOut, 800);
 			        API.TransitionToBlurred(700);
                     InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-                    List<InstructionalButton> kaka = new List<InstructionalButton>()
+                    List<InstructionalButton> buttons = new List<InstructionalButton>()
                     {
                         new InstructionalButton(Control.PhoneSelect, UIMenu._selectTextLocalized),
                         new InstructionalButton(Control.PhoneCancel, UIMenu._backTextLocalized),
                         new InstructionalButton(Control.FrontendRb, ""),
                         new InstructionalButton(Control.FrontendLb, _browseTextLocalized),
                     };
-                    InstructionalButtonsHandler.InstructionalButtons.ControlButtons = kaka;
+                    InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(buttons);
 		        }
 		        else
 		        {
 			        API.SetPauseMenuActive(false);
 			        Screen.Effects.Start(ScreenEffect.FocusOut, 500);
 			        API.TransitionFromBlurred(400);
-		        }
+                    InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
+
+                }
 
 		        _visible = value;
 	        }

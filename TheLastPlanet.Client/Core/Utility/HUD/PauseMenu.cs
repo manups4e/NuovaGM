@@ -150,9 +150,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			UIMenuSliderProgressItem ab = new UIMenuSliderProgressItem("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox);
 			UIMenuListItem ac = new UIMenuListItem("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
 			UIMenuSliderProgressItem ad = new UIMenuSliderProgressItem("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100));
-			aa.CheckboxEvent += async (item, attiva) => Main.ImpostazioniClient.ModCinema = attiva;
-			ab.OnSliderChanged += async (item, index) => Main.ImpostazioniClient.LetterBox = index;
-			ad.OnSliderChanged += async (item, index) =>
+			aa.CheckboxEvent += (item, attiva) => Main.ImpostazioniClient.ModCinema = attiva;
+			ab.OnSliderChanged += (item, index) => Main.ImpostazioniClient.LetterBox = index;
+			ad.OnSliderChanged += (item, index) =>
 			{
 				Main.ImpostazioniClient.FiltroStrenght = index / 100f;
 				SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);

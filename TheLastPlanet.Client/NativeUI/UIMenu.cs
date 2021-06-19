@@ -816,8 +816,6 @@ namespace TheLastPlanet.Client.NativeUI
 
 	//public delegate void MenuStateChangeEvent(UIMenu oldMenu, UIMenu newMenu, MenuState state);
 
-	public delegate void Dummy(UIMenu Menu);
-
 	public delegate void ItemActivatedEvent(UIMenu sender, UIMenuItem selectedItem);
 
 	public delegate void ItemCheckboxEvent(UIMenuCheckboxItem sender, bool Checked);
@@ -881,7 +879,7 @@ namespace TheLastPlanet.Client.NativeUI
 
 		private SizeF GlareSize;
 		private PointF GlarePosition;
-		public MenuPool poolcontainer;
+		internal MenuPool poolcontainer;
 
 		// Draw Variables
 		private PointF Safe { get; set; }
@@ -979,9 +977,6 @@ namespace TheLastPlanet.Client.NativeUI
 		/// Called when user either clicks on a binded button or goes back to a parent menu.
 		/// </summary>
 		public event MenuStateChangeEvent OnMenuStateChanged;
-		
-		//public event Dummy OnMenuOpen;
-		//public event Dummy OnMenuClose;
 
 		#endregion
 
@@ -1587,11 +1582,11 @@ namespace TheLastPlanet.Client.NativeUI
 				ItemSelect(MenuItems[CurrentSelection], CurrentSelection);
 				MenuItems[CurrentSelection].ItemActivate(this);
 				if (!Children.ContainsKey(MenuItems[CurrentSelection])) return;
-				Visible = false;
 				Children[MenuItems[CurrentSelection]].Visible = true;
+				Children[MenuItems[CurrentSelection]].MouseEdgeEnabled = MouseEdgeEnabled;
+				Visible = false;
 				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = Children[MenuItems[CurrentSelection]].InstructionalButtons;
-
+				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(Children[MenuItems[CurrentSelection]].InstructionalButtons);
 				poolcontainer.MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 				MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 				Children[MenuItems[CurrentSelection]].MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
@@ -1605,7 +1600,6 @@ namespace TheLastPlanet.Client.NativeUI
 		public void GoBack()
 		{
 			Game.PlaySound(AUDIO_BACK, AUDIO_LIBRARY);
-			Visible = false;
 			if (ParentMenu != null)
 			{
 				PointF tmp = new PointF(0.5f, 0.5f);
@@ -1614,11 +1608,12 @@ namespace TheLastPlanet.Client.NativeUI
 				MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				ParentMenu.Visible = true;
 				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-				InstructionalButtonsHandler.InstructionalButtons.ControlButtons = ParentMenu.InstructionalButtons;
+				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(ParentMenu.InstructionalButtons);
 				if (ResetCursorOnOpen)
 					API.SetCursorLocation(tmp.X, tmp.Y);
 				//Cursor.Position = tmp;
 			}
+			Visible = false;
 		}
 
 
@@ -1859,7 +1854,7 @@ namespace TheLastPlanet.Client.NativeUI
 		/// </summary>
 		public async Task Draw()
 		{
-			if (!Visible) return;
+			if (!Visible || PopupWarningThread.Warning.IsShowing) return;
 
 			if (ControlDisablingEnabled)
 				Controls.Toggle(false);
@@ -2200,26 +2195,24 @@ namespace TheLastPlanet.Client.NativeUI
 			get { return _visible; }
 			set
 			{
-				if (ParentMenu == null)
-				{
-					if (value)
-					{
-						poolcontainer.MenuChangeEv(ParentMenu ?? null, this, MenuState.Opened);
-						MenuChangeEv(ParentMenu ?? null, this, MenuState.Opened);
-						InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-						InstructionalButtonsHandler.InstructionalButtons.ControlButtons = InstructionalButtons;
-					}
-					else
-					{
-						poolcontainer.MenuChangeEv(this, null, MenuState.Closed);
-						InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
-						MenuChangeEv(this, null, MenuState.Closed);
-					}
-				}
 				_visible = value;
 				_justOpened = value;
 				_itemsDirty = value;
-				if (ParentMenu != null || !value) return;
+				if (ParentMenu != null) return;
+				if (Children[MenuItems[CurrentSelection]].Visible) return;
+				InstructionalButtonsHandler.InstructionalButtons.Enabled = value;
+				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(InstructionalButtons);
+				if (value)
+				{
+					poolcontainer.MenuChangeEv(null, this, MenuState.Opened);
+					MenuChangeEv(null, this, MenuState.Opened);
+				}
+				else
+				{
+					poolcontainer.MenuChangeEv(this, null, MenuState.Closed);
+					MenuChangeEv(this, null, MenuState.Closed);
+				}
+				if (!value) return;
 				if (!ResetCursorOnOpen) return;
 				API.SetCursorLocation(0.5f, 0.5f);
 				Screen.Hud.CursorSprite = CursorSprite.Normal;

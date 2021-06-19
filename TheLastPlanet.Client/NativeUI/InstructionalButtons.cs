@@ -17,14 +17,16 @@ namespace TheLastPlanet.Client.NativeUI
     {
         public event OnInstructionControlSelected OnControlSelected;
         public string Text { get; set; }
-        public bool IsUsingController => !API.IsInputDisabled(2);
+        public bool IsUsingController => !API.IsUsingKeyboard(2);
 
         public UIMenuItem ItemBind { get; private set; }
 
-        internal readonly Control _controllerButtonControl;
-        internal readonly Control _keyboardButtonControl;
-        internal readonly PadCheck padCheck;
-
+        public Control GamepadButton { get; private set; }
+        public Control KeyboardButton { get; private set; }
+        public List<Control> ControllerButtons { get; private set; }
+        public List<Control> KeyboardButtons { get; private set; }
+        public PadCheck PadCheck { get; private set; }
+   
         /// <summary>
         /// Add a dynamic button to the instructional buttons array.
         /// Changes whether the controller is being used and changes depending on keybinds.
@@ -34,25 +36,50 @@ namespace TheLastPlanet.Client.NativeUI
         public InstructionalButton(Control gamepadControl, Control keyboardControl, string text)
         {
             Text = text;
-            _controllerButtonControl = gamepadControl;
-            _keyboardButtonControl = keyboardControl;
-            padCheck = PadCheck.Any;
+            GamepadButton = gamepadControl;
+            KeyboardButton = keyboardControl;
+            PadCheck = PadCheck.Any;
         }
 
-        public InstructionalButton(Control control, string text, PadCheck padcheck = PadCheck.Any)
+        public InstructionalButton(List<Control> gamepadControls, List<Control> keyboardControls, string text)
         {
-            if (padcheck == PadCheck.Controller)
-                _controllerButtonControl = control;
-            else if (padcheck == PadCheck.Keyboard)
-                _keyboardButtonControl = control;
-            else if (padcheck == PadCheck.Any)
+            Text = text;
+            ControllerButtons = gamepadControls;
+            KeyboardButtons = keyboardControls;
+            PadCheck = PadCheck.Any;
+        }
+
+
+        public InstructionalButton(Control control, string text, PadCheck padFilter = PadCheck.Any)
+        {
+            if (padFilter == PadCheck.Controller)
+                GamepadButton = control;
+            else if (padFilter == PadCheck.Keyboard)
+                KeyboardButton = control;
+            else if (padFilter == PadCheck.Any)
             {
-                _controllerButtonControl = control;
-                _keyboardButtonControl = control;
+                GamepadButton = control;
+                KeyboardButton = control;
             }
             Text = text;
-            padCheck = padcheck;
+            PadCheck = padFilter;
         }
+
+        public InstructionalButton(List<Control> controls, string text, PadCheck padFilter = PadCheck.Any)
+        {
+            if (padFilter == PadCheck.Controller)
+                ControllerButtons = controls;
+            else if (padFilter == PadCheck.Keyboard)
+                KeyboardButtons = controls;
+            else if (padFilter == PadCheck.Any)
+            {
+                ControllerButtons = controls;
+                KeyboardButtons = controls;
+            }
+            Text = text;
+            PadCheck = padFilter;
+        }
+
 
         /// <summary>
         /// Bind this button to an item, so it's only shown when that item is selected.
@@ -65,8 +92,34 @@ namespace TheLastPlanet.Client.NativeUI
 
         public string GetButtonId()
         {
-            return IsUsingController ? API.GetControlInstructionalButton(2, (int)_controllerButtonControl, 0) : API.GetControlInstructionalButton(2, (int)_keyboardButtonControl, 0);
+            if(KeyboardButtons!= null || ControllerButtons != null)
+			{
+                string retVal = "";
+                if (IsUsingController)
+                {
+                    for (int i = ControllerButtons.Count - 1; i > -1; i--) 
+                    {
+                        if (i == 0)
+                            retVal += API.GetControlInstructionalButton(2, (int)ControllerButtons[i], 1);
+                        else
+                            retVal += API.GetControlInstructionalButton(2, (int)ControllerButtons[i], 1) + "%";
+                    }
+                }
+				else
+				{
+                    for (int i = KeyboardButtons.Count-1; i > -1; i--)
+                    {
+                        if (i == 0)
+                            retVal += API.GetControlInstructionalButton(2, (int)KeyboardButtons[i], 1);
+                        else
+                            retVal += API.GetControlInstructionalButton(2, (int)KeyboardButtons[i], 1) + "%";
+                    }
+                }
+                return retVal;
+            }
+            return IsUsingController ? API.GetControlInstructionalButton(2, (int)GamepadButton, 1) : API.GetControlInstructionalButton(2, (int)KeyboardButton, 1);
         }
+
 
         public void InvokeEvent(Control control)
 		{
@@ -92,12 +145,11 @@ namespace TheLastPlanet.Client.NativeUI
             {
                 if (!value)
                 {
-                    ControlButtons.Clear();
                     _sc.CallFunction("CLEAR_ALL");
                     _sc.CallFunction("CLEAR_RENDER");
-                   _changed = true;
                 }
                 _enabled = value;
+                _changed = true;
             }
         }
 
@@ -113,7 +165,7 @@ namespace TheLastPlanet.Client.NativeUI
             set => _isSaving = value;
         }
 
-        public List<InstructionalButton> ControlButtons = new List<InstructionalButton>();
+        public List<InstructionalButton> ControlButtons { get; private set; }
 
 		public async void Load()
 		{
@@ -124,18 +176,28 @@ namespace TheLastPlanet.Client.NativeUI
             while (!API.HasScaleformMovieLoaded(_sc.Handle) && DateTime.Now.Subtract(start).TotalMilliseconds < timeout) await BaseScript.Delay(0);
         }
 
+        public void SetInstructionalButtons(List<InstructionalButton> buttons)
+		{
+            ControlButtons = buttons;
+            _changed = true;
+		}
+
         public void AddInstructionalButton(InstructionalButton button)
         {
             ControlButtons.Add(button);
+            _changed = true;
         }
 
         public void RemoveInstructionalButton(InstructionalButton button)
         {
             ControlButtons.Remove(button);
+            _changed = true;
         }
+
         public void RemoveInstructionalButton(int button)
         {
             ControlButtons.RemoveAt(button);
+            _changed = true;
         }
 
         public async void AddSavingText(int value, string text, int time)
@@ -152,6 +214,7 @@ namespace TheLastPlanet.Client.NativeUI
         public void UpdateButtons()
 		{
             if (!_changed) return;
+            _sc.CallFunction("CLEAR_ALL");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             int count = 0;
 
@@ -159,6 +222,7 @@ namespace TheLastPlanet.Client.NativeUI
             {
 				if (button.IsUsingController)
 				{
+                    if (button.PadCheck == PadCheck.Keyboard) continue;
                     if(PopupWarningThread.Warning.IsShowing)
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
                     else
@@ -166,8 +230,9 @@ namespace TheLastPlanet.Client.NativeUI
                 }
                 else
                 {
+                    if (button.PadCheck == PadCheck.Controller) continue;
                     if (_useMouseButtons)
-                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button._keyboardButtonControl);
+                        _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button.KeyboardButton);
                     else
                     {
                         if(PopupWarningThread.Warning.IsShowing)
@@ -199,8 +264,8 @@ namespace TheLastPlanet.Client.NativeUI
 
         public void HandleScaleform()
 		{
-            if (_sc == null) return;
-            if (ControlButtons.Count == 0 && !_isSaving) return;
+            if (_sc == null || !_enabled) return;
+            if ((ControlButtons == null || ControlButtons.Count == 0) && !_isSaving) return;
             if (API.IsUsingKeyboard(2))
             {
                 if (!_isUsingKeyboard)
@@ -223,10 +288,10 @@ namespace TheLastPlanet.Client.NativeUI
 
             foreach (InstructionalButton button in ControlButtons)
 			{
-                if (Input.IsControlJustPressed(button._controllerButtonControl, button.padCheck))
-                    button.InvokeEvent(button._controllerButtonControl);
-                else if (Input.IsControlJustPressed(button._keyboardButtonControl, button.padCheck))
-                    button.InvokeEvent(button._keyboardButtonControl);
+                if (Input.IsControlJustPressed(button.GamepadButton, button.PadCheck) || (button.ControllerButtons != null && button.ControllerButtons.Any(x=>Input.IsControlJustPressed(x, button.PadCheck))))
+                    button.InvokeEvent(button.GamepadButton);
+                else if (Input.IsControlJustPressed(button.KeyboardButton, button.PadCheck) || (button.KeyboardButtons != null && button.KeyboardButtons.Any(x => Input.IsControlJustPressed(x, button.PadCheck))))
+                    button.InvokeEvent(button.KeyboardButton);
             }
             if (_useMouseButtons)
                 Screen.Hud.ShowCursorThisFrame();
