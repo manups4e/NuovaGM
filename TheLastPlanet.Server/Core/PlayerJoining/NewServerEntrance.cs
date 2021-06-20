@@ -34,7 +34,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
 			Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
 #if DEBUG
-			Server.Instance.AddEventHandler("onResourceStarting", new Action<string>(async (resName) =>
+			Server.Instance.AddEventHandler("onResourceStart", new Action<string>(async (resName) =>
 			{
 				foreach(var p in Server.Instance.GetPlayers)
 				{
@@ -149,7 +149,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			try
 			{
-				Server.Logger.Debug(source.ToJson());
+				Server.Logger.Debug(source.ToString());
 				await BaseScript.Delay(1);
 				source.User.StatiPlayer = new PlayerStateBags(source.Player);
 				EntratoMaProprioSulSerio(source.Player);
