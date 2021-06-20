@@ -33,6 +33,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
 			Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
+#if DEBUG
+			Server.Instance.AddEventHandler("onResourceStarting", new Action<string>(async (resName) =>
+			{
+				foreach(var p in Server.Instance.GetPlayers)
+				{
+					PlayerJoining(p, "");
+				}
+			}));
+#endif
 		}
 
 		private static async void PlayerConnecting([FromSource] Player source, string playerName, dynamic denyWithReason, dynamic deferrals)
@@ -140,45 +149,12 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			try
 			{
-				int handle = source.Handle;
-				ClientId client = Funzioni.GetClientFromPlayerId(handle);
+				Server.Logger.Debug(source.ToJson());
+				await BaseScript.Delay(1);
+				source.User.StatiPlayer = new PlayerStateBags(source.Player);
+				EntratoMaProprioSulSerio(source.Player);
 
-				if (client != null)
-				{
-					Server.Logger.Debug(client.ToString());
-					await BaseScript.Delay(1);
-					client.User.StatiPlayer = new PlayerStateBags(client.Player);
-					EntratoMaProprioSulSerio(client.Player);
-
-					return new Tuple<Snowflake, User>(client.Id, client.User);
-				}
-#if DEBUG
-				else
-				{
-					Snowflake newone = SnowflakeGenerator.Instance.Next();
-					const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
-					BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.Player.GetLicense(Identifier.Discord)), lice = source.Player.GetLicense(Identifier.License), name = source.Player.Name, snow = newone.ToInt64() });
-					client = new ClientId(new User(source.Player, p));
-					client.User.StatiPlayer = new PlayerStateBags(client.Player);
-					EntratoMaProprioSulSerio(source.Player);
-					Server.Instance.Clients.Add(client);
-					ClientId res = Server.Instance.Clients.SingleOrDefault(x => x.Handle == source.Handle);
-
-					return new Tuple<Snowflake, User>(res.Id, res.User);
-				}
-#endif
-				/*
-				if (Server.PlayerList.ContainsKey(handle)) return Server.PlayerList[handle];
-				const string procedure = "call IngressoPlayer(@disc, @lice, @name)";
-				User user = new(player, await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new
-				{
-					disc = Convert.ToInt64(player.GetLicense(Identifier.Discord)),
-					lice = player.GetLicense(Identifier.License),
-					name = player.Name
-				}));
-				*/
-				//Server.PlayerList.TryAdd(handle, user);
-				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
+				return new Tuple<Snowflake, User>(source.Id, source.User);
 			}
 			catch (Exception e)
 			{
