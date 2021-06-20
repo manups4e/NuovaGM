@@ -274,7 +274,6 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			Screen.Fading.FadeOut(1);
 			PopupWarningThread.Warning.Dispose();
 			Cache.ModalitàAttuale = (ModalitàAttuale)id;
-			Stop();
 		}
 	}
 }
