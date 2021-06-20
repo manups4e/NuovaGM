@@ -14,16 +14,6 @@ using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.SessionCache
 {
-    public enum ModalitàAttuale
-	{
-        Lobby = 0,
-        RolePlay,
-        Minigiochi,
-        Gare,
-        Negozio,
-        FreeRoam
-    }
-
 	public static class Cache
     {
         private static bool _inVeh;
@@ -32,7 +22,7 @@ namespace TheLastPlanet.Client.SessionCache
         public static ClientId MyPlayer { get; private set; }
         public static Char_data CurrentChar { get => MyPlayer.User.CurrentChar; }
         public static List<ClientId> GiocatoriOnline = new();
-        public static ModalitàAttuale ModalitàAttuale = ModalitàAttuale.Lobby;
+        public static ModalitaServer ModalitàAttuale = ModalitaServer.Lobby;
         
         public static async Task InitPlayer()
         {

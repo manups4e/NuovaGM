@@ -11,18 +11,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MAINLOBBY
 {
-	public enum ModalitaServer
-	{
-		Lobby = 0,
-		Roleplay,
-		Minigiochi,
-		Gare,
-		Negozio
-	}
-
 	internal static class MainChooser
 	{
-		public static Dictionary<int, int> Bucket_n_Players = new() { [1] = 0, [2] = 0, [3] = 0 };
+		public static Dictionary<ModalitaServer, int> Bucket_n_Players = new();
 
 		private static BucketMarker RP_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
 		private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
@@ -39,8 +30,10 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 		public static void Stop()
 		{
+			/*
 			Client.Instance.RemoveTick(Entra);
 			Client.Instance.RemoveTick(DrawMarkers);
+			*/
 		}
 
 		private static Vector3 _posRp = Vector3.Zero;
@@ -83,11 +76,11 @@ namespace TheLastPlanet.Client.MAINLOBBY
 				Roam_Marker.Marker.Position = _posRoam;
 			}
 
-			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[1]}/256", "", "", "");
-			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[2]}/64", "", "", "");
-			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[3]}/64", "", "", "");
+			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]}/ 256", "", "", "");
+			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Minigiochi]}/64", "", "", "");
+			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Gare]}/64", "", "", "");
 			Nego_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Non influisce sul server RolePlay!", "~o~Negozio~w~", "", "", "", "", "", "", "", "");
-			Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[4]}/256", "", "", "");
+			Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]}/256", "", "", "");
 			RP_Marker.Draw();
 			Mini_Marker.Draw();
 			Gare_Marker.Draw();
@@ -100,14 +93,14 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					if (Bucket_n_Players[1] == 256)
+					if (Bucket_n_Players[ModalitaServer.Roleplay] == 256)
 					{
 						HUD.ShowNotification("Il server RolePlay è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
 						return;
 					}
 
-					await CambiaBucket("~b~Server RolePlay~w~", 1);
+					await CambiaBucket("~b~Server RolePlay~w~", ModalitaServer.Roleplay);
 					await RolePlay.Initializer.Init();
 					Stop();
 				}
@@ -119,14 +112,15 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
+					/*
 					if (Bucket_n_Players[2] == 64)
 					{
 						HUD.ShowNotification("Il mondo dei Minigiochi è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
 						return;
 					}
-
-					await CambiaBucket("~g~Server Minigiochi~w~", 2);
+					*/
+					await CambiaBucket("~g~Server Minigiochi~w~", ModalitaServer.Minigiochi);
 					Screen.Fading.FadeIn(1000);
 				}
 			}
@@ -137,14 +131,15 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
+					/*
 					if (Bucket_n_Players[3] == 64)
 					{
 						HUD.ShowNotification("Il mondo delle Gare è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
 						return;
 					}
-
-					await CambiaBucket("~p~Server Gare~w~", 3);
+					*/
+					await CambiaBucket("~p~Server Gare~w~", ModalitaServer.Gare);
 					Races.Creator.RaceCreator.CreatorPreparation();
 					await Task.FromResult(0);
 				}
@@ -156,7 +151,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					await CambiaBucket("~o~Negozio~w~", 4);
+					await CambiaBucket("~o~Negozio~w~", ModalitaServer.Negozio);
 					Screen.Fading.FadeIn(1000);
 				}
 			}
@@ -166,7 +161,12 @@ namespace TheLastPlanet.Client.MAINLOBBY
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel ~f~Pianeta FreeRoam~w~");
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					await CambiaBucket("~f~Pianeta FreeRoam~w~", 5);
+					if (Bucket_n_Players[ModalitaServer.FreeRoam] == 256)
+					{
+						HUD.ShowNotification("Il pianeta FreeRoam è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+						return;
+					}
+					await CambiaBucket("~f~Pianeta FreeRoam~w~", ModalitaServer.FreeRoam);
 					Screen.Fading.FadeIn(1000);
 					await FreeRoam.Initializer.Init();
 					BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
@@ -229,7 +229,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 			await Cache.Loaded();
 			Cache.MyPlayer.User.StatiPlayer.Bucket = 0;
-			Bucket_n_Players = await Client.Instance.Eventi.Get<Dictionary<int, int>>("lprp:richiediContoBuckets");
+			Bucket_n_Players = await Client.Instance.Eventi.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			await BaseScript.Delay(100);
 			Cache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 			Cache.MyPlayer.Ped.IsPositionFrozen = false;
@@ -244,7 +244,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 
 		#endregion
 
-		private static async Task CambiaBucket(string nome, int id)
+		private static async Task CambiaBucket(string nome, ModalitaServer modalita)
 		{
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(500);
@@ -253,11 +253,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			Screen.Fading.FadeIn(1);
 			await BaseScript.Delay(3000);
 
-			string settings = await Client.Instance.Eventi.Get<string>("Config.CallClientConfig", id);
-
-			Client.Impostazioni.LoadConfig(id, settings);
-
-			bool dentro = await Client.Instance.Eventi.Get<bool>("lprp:checkSeGiaDentro", id);
+			bool dentro = await Client.Instance.Eventi.Get<bool>("lprp:checkSeGiaDentro", modalita);
 			if (dentro)
 			{
 				PopupWarningThread.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
@@ -267,13 +263,18 @@ namespace TheLastPlanet.Client.MAINLOBBY
 				return;
 			}
 
+			string settings = await Client.Instance.Eventi.Get<string>("Config.CallClientConfig", modalita);
+			Client.Impostazioni.LoadConfig(modalita, settings);
+
 			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
-			Cache.MyPlayer.User.StatiPlayer.Bucket = id;
-			Bucket_n_Players = await Client.Instance.Eventi.Get<Dictionary<int, int>>("lprp:richiediContoBuckets");
+
+			Cache.MyPlayer.User.StatiPlayer.Bucket = modalita;
+
+			Bucket_n_Players = await Client.Instance.Eventi.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
 			PopupWarningThread.Warning.Dispose();
-			Cache.ModalitàAttuale = (ModalitàAttuale)id;
+			Cache.ModalitàAttuale = modalita;
 		}
 	}
 }

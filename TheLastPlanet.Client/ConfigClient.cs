@@ -19,22 +19,22 @@ namespace TheLastPlanet.Client
 		public RolePlayConfig RolePlay { get; private set; }
 		public FreeRoamConfig FreeRoam { get; private set; }
 
-		public void LoadConfig(int id, string jsonConfig)
+		public void LoadConfig(ModalitaServer id, string jsonConfig)
 		{
 			switch (id)
 			{
-				case 0:
+				case ModalitaServer.Lobby:
 					break;
-				case 1:
+				case ModalitaServer.Roleplay:
 					RolePlay = jsonConfig.FromJson<RolePlayConfig>();
 					break;
-				case 2:
+				case ModalitaServer.Minigiochi:
 					break;
-				case 3:
+				case ModalitaServer.Gare:
 					break;
-				case 4:
+				case ModalitaServer.Negozio:
 					break;
-				case 5:
+				case ModalitaServer.FreeRoam:
 					FreeRoam = jsonConfig.FromJson<FreeRoamConfig>();
 					break;
 			}

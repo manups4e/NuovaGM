@@ -94,7 +94,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         NextEvent.IsStarted = false;
                         IsAnyEventActive = NextEvent.IsActive;
                         CurrentEvent = NextEvent;
-                        foreach (var p in BucketsHandler.Buckets[5].Players)
+                        foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
                         {
                             var player = Funzioni.GetUserFromPlayerId(p.Handle);
                             if (player != null)
@@ -130,13 +130,13 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             await BaseScript.Delay(1500); // Delay to let everyone send in their results
 
                             var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in BucketsHandler.Buckets[5].Players)
+                            foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
                             {
                                 var User = Funzioni.GetUserFromPlayerId(player.Handle);
                                 var score = User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
                                 if (score != null)
                                 {
-                                    foreach (var p in BucketsHandler.Buckets[5].Players)
+                                    foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
                                     {
                                         if (p.Identifiers["license"] == User.Identifiers.License)
                                         {
@@ -184,7 +184,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             CurrentEvent.EventTime = CurrentEvent.EventTime.Subtract(TimeSpan.FromSeconds(1));
 
                             var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in BucketsHandler.Buckets[5].Players)
+                            foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
                             {
                                 var User = Funzioni.GetUserFromPlayerId(player.Handle);
                                 if (User.status.Spawned)
@@ -229,7 +229,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
                 var identifier = player.Identifiers["license"];
 
-                var playerino = BucketsHandler.Buckets[5].Players.Where(x => x.Identifiers["license"] == identifier).FirstOrDefault();
+                var playerino = BucketsHandler.FreeRoam.Bucket.Players.Where(x => x.Identifiers["license"] == identifier).FirstOrDefault();
                 if (playerino != null)
                 {
                     var User = Funzioni.GetUserFromPlayerId(player.Handle);

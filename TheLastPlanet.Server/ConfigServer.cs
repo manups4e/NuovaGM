@@ -15,29 +15,29 @@ namespace TheLastPlanet.Server
 			string jsonServerConfig = API.LoadResourceFile(API.GetCurrentResourceName(), "configs/ServerConfig.json");
 			Server.Impostazioni = jsonServerConfig.FromJson<Configurazione>();
 			ConfigShared.SharedConfig = new SharedConfig();
-			Server.Instance.Events.Mount("Config.CallClientConfig", new Func<ClientId, int, Task<string>>(ClientConfigCallback));
+			Server.Instance.Events.Mount("Config.CallClientConfig", new Func<ClientId, ModalitaServer, Task<string>>(ClientConfigCallback));
 
 			await Task.FromResult(0);
 		}
 
-		private static async Task<string> ClientConfigCallback(ClientId client, int type)
+		private static async Task<string> ClientConfigCallback(ClientId client, ModalitaServer type)
 		{
 			switch (type)
 			{
-				case 0:
+				case ModalitaServer.Lobby:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Lobby.json");
-				case 1:
+				case ModalitaServer.Roleplay:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_RolePlay.json");
-				case 2:
+				case ModalitaServer.Minigiochi:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Minigiochi.json");
-				case 3:
+				case ModalitaServer.Gare:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Gare.json");
-				case 4:
+				case ModalitaServer.Negozio:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Negozio.json");
-				case 5:
+				case ModalitaServer.FreeRoam:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_FreeRoam.json");
 				default:
-			return "";
+			return string.Empty;
 			}
 		}
 

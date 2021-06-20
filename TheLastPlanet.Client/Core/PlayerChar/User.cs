@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		private bool _finDiVita;
 		private bool _adminSpecta;
 		private bool _inVeh;
-		private int _bucket;
+		private ModalitaServer _bucket;
 
 		public bool InPausa
 		{
@@ -219,7 +219,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			}
 		}
 
-		public int Bucket
+		public ModalitaServer Bucket
 		{
 			get => _bucket;
 			set
