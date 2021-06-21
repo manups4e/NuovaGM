@@ -261,7 +261,6 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 if (!CurrentEvent.IsActive)
                 {
                     player.TriggerEvent("worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
-
                     return;
                 }
 

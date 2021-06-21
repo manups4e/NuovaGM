@@ -76,11 +76,11 @@ namespace TheLastPlanet.Client.MAINLOBBY
 				Roam_Marker.Marker.Position = _posRoam;
 			}
 
-			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]}/ 256", "", "", "");
-			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Minigiochi]}/64", "", "", "");
-			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Gare]}/64", "", "", "");
+			RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]} / 256", "", "", "");
+			Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Minigiochi]} / 64", "", "", "");
+			Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Gare]} / 64", "", "", "");
 			Nego_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Non influisce sul server RolePlay!", "~o~Negozio~w~", "", "", "", "", "", "", "", "");
-			Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]}/256", "", "", "");
+			Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]} / 256", "", "", "");
 			RP_Marker.Draw();
 			Mini_Marker.Draw();
 			Gare_Marker.Draw();
