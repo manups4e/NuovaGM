@@ -46,8 +46,8 @@ namespace TheLastPlanet.Shared
 		public Gang Gang = new();
 		public Skin Skin = new();
 		public List<Weapons> Weapons = new();
-		public List<string> Proprietà = new();
-		public List<OwnedVehicle> Veicoli = new();
+		public List<string> Proprietà = new(); // da aggiungere
+		public List<OwnedVehicle> Veicoli = new(); // da aggiungere
 		public Dressing Dressing = new();
 		public FreeRoamStats Statistiche = new();
 		public FreeRoamChar() { }
@@ -103,5 +103,7 @@ namespace TheLastPlanet.Shared
 		public string weapons;/*{ set => Weapons = value.FromJson<List<Weapons>>(); }*/
 		public string dressing;/*{ set => Dressing = value.FromJson<Dressing>(); }*/
 		public string statistiche;/*{ set => Statistiche = value.FromJson<Statistiche>(); }*/
+		public int level;
+		public int totalXp;
 	}
 }
