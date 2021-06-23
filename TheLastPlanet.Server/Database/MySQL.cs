@@ -21,7 +21,7 @@ namespace TheLastPlanet.Server
 				using (MySqlConnection conn = new(_connectionString))
 				{
 					CommandDefinition def = new(query, parameters);
-					T result = await conn.QuerySingleAsync<T>(def);
+					T result = await conn.QuerySingleOrDefaultAsync<T>(def);
 					conn.Close();
 
 					return result;
@@ -42,7 +42,7 @@ namespace TheLastPlanet.Server
 				using (MySqlConnection conn = new(_connectionString))
 				{
 					CommandDefinition def = new(query, parameters);
-					dynamic result = await conn.QuerySingleAsync<dynamic>(def);
+					dynamic result = await conn.QuerySingleOrDefaultAsync<dynamic>(def);
 					conn.Close();
 
 					return result;
@@ -67,7 +67,7 @@ namespace TheLastPlanet.Server
 				using (MySqlConnection conn = new MySqlConnection(_connectionString))
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
-					T result = await conn.QueryFirstAsync<T>(def);
+					T result = await conn.QueryFirstOrDefaultAsync<T>(def);
 					conn.Close();
 
 					return result;
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Server
 				using (MySqlConnection conn = new MySqlConnection(_connectionString))
 				{
 					CommandDefinition def = new CommandDefinition(query, parameters);
-					dynamic result = await conn.QueryFirstAsync<dynamic>(def);
+					dynamic result = await conn.QueryFirstOrDefaultAsync<dynamic>(def);
 					conn.Close();
 
 					return result;
