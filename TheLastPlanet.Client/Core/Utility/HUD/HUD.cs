@@ -522,6 +522,76 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			PushScaleformMovieFunctionFromHudComponent(19, "STAY_ON_SCREEN");
 			PopScaleformMovieFunctionVoid();
 		}
+
+		public static async Task ShowFinishScaleform(bool lost = true)
+		{
+			var bg = new Scaleform("MP_CELEBRATION_BG");
+			var fg = new Scaleform("MP_CELEBRATION_FG");
+			var cb = new Scaleform("MP_CELEBRATION");
+			RequestScaleformMovie("MP_CELEBRATION_BG");
+			RequestScaleformMovie("MP_CELEBRATION_FG");
+			RequestScaleformMovie("MP_CELEBRATION");
+			while (!bg.IsLoaded || !fg.IsLoaded || !cb.IsLoaded)
+			{
+				await BaseScript.Delay(0);
+			}
+
+			// Setting up colors.
+			bg.CallFunction("CREATE_STAT_WALL", "ch", "HUD_COLOUR_BLACK", -1);
+			fg.CallFunction("CREATE_STAT_WALL", "ch", "HUD_COLOUR_RED", -1);
+			cb.CallFunction("CREATE_STAT_WALL", "ch", "HUD_COLOUR_BLUE", -1);
+
+			// Setting up pause duration.
+			bg.CallFunction("SET_PAUSE_DURATION", 3.0f);
+			fg.CallFunction("SET_PAUSE_DURATION", 3.0f);
+			cb.CallFunction("SET_PAUSE_DURATION", 3.0f);
+
+			//bool won = new Random().Next(0, 2) == 0;
+			//bool won = true;
+			string win_lose = lost ? "CELEB_LOSER" : "CELEB_WINNER";
+
+			bg.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
+			fg.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
+			cb.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
+
+			// Setting up background.
+			bg.CallFunction("ADD_BACKGROUND_TO_WALL", "ch");
+			fg.CallFunction("ADD_BACKGROUND_TO_WALL", "ch");
+			cb.CallFunction("ADD_BACKGROUND_TO_WALL", "ch");
+
+			// Preparing to show the wall.
+			bg.CallFunction("SHOW_STAT_WALL", "ch");
+			fg.CallFunction("SHOW_STAT_WALL", "ch");
+			cb.CallFunction("SHOW_STAT_WALL", "ch");
+
+			// Drawing the wall on screen for 3 seconds + 1 seconds (for outro animation druation).
+			var timer = GetGameTimer();
+			//DisableDrawing = true;
+			while (GetGameTimer() - timer <= (3000 + 1000))
+			{
+				await BaseScript.Delay(0);
+				DrawScaleformMovieFullscreenMasked(bg.Handle, fg.Handle, 255, 255, 255, 255);
+				DrawScaleformMovieFullscreen(cb.Handle, 255, 255, 255, 255, 0);
+				HideHudAndRadarThisFrame();
+			}
+			//DisableDrawing = false;
+
+			// Playing effect when it's over.
+			StartScreenEffect("MinigameEndNeutral", 0, false);
+			PlaySoundFrontend(-1, "SCREEN_FLASH", "CELEBRATION_SOUNDSET", false);
+
+			// Cleaning up.
+			bg.CallFunction("CLEANUP");
+			fg.CallFunction("CLEANUP");
+			cb.CallFunction("CLEANUP");
+
+			bg.Dispose();
+			fg.Dispose();
+			cb.Dispose();
+			//GameController.gameRestarting = false;
+			//GameController.Go();
+		}
+
 	}
 
 
