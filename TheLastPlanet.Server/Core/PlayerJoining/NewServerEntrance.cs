@@ -14,6 +14,7 @@ using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -33,6 +34,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
 			Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
+			Server.Instance.Events.Mount("lprp:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
 #if DEBUG
 			Server.Instance.AddEventHandler("onResourceStart", new Action<string>(async (resName) =>
 			{
@@ -202,6 +204,35 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 			return user.CurrentChar;
 		}
+
+		private static async Task<FreeRoamChar> LoadFreeRoamChar(ClientId source, int id)
+		{
+			string query = "SELECT * FROM freeroampersonaggi WHERE UserID = @id";
+			User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
+			FreeRoamChar_Metadata res = await MySQL.QuerySingleAsync<FreeRoamChar_Metadata>(query, new { id });
+			if(res == null)
+			{
+				user.FreeRoamChar = new FreeRoamChar();
+				WorldEventsManager.WorldEvents.ForEach(x => user.PlayerScores.Add(new PlayerScore { EventId = x.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = x.EventXpMultiplier }));
+				return user.FreeRoamChar;
+
+			}
+			user.FreeRoamChar = new()
+			{
+				Finance = new Finance(res.money, res.bank, 0),
+				Posizione = res.location.FromJson<Position>(),
+				Gang = new Gang(res.gang, res.gang_grade),
+				Skin = res.skin.FromJson<Skin>(),
+				Weapons = res.weapons.FromJson<List<Weapons>>(),
+				Dressing = res.dressing.FromJson<Dressing>(),
+				Statistiche = res.statistiche.FromJson<FreeRoamStats>(),
+				Level = res.level,
+				TotalXp = res.totalXp,
+			};
+			WorldEventsManager.WorldEvents.ForEach(x => user.PlayerScores.Add(new PlayerScore { EventId = x.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = x.EventXpMultiplier }));
+			return user.FreeRoamChar;
+		}
+
 
 		public static async void Dropped([FromSource] Player player, string reason)
 		{
