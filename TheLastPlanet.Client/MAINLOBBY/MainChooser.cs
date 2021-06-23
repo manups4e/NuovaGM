@@ -169,6 +169,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 					await CambiaBucket("~f~Pianeta FreeRoam~w~", ModalitaServer.FreeRoam);
 					Screen.Fading.FadeIn(1000);
 					await FreeRoam.Initializer.Init();
+					Cache.MyPlayer.User.FreeRoamChar = await Client.Instance.Eventi.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.MyPlayer.User.ID);
 					BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
 					Stop();
 				}
