@@ -15,6 +15,7 @@ using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
+using TheLastPlanet.Server.Core.Buckets;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -213,7 +214,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			if(res == null)
 			{
 				user.FreeRoamChar = new FreeRoamChar();
-				WorldEventsManager.WorldEvents.ForEach(x => user.PlayerScores.Add(new PlayerScore { EventId = x.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = x.EventXpMultiplier }));
+				(BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).AddPlayer(source);
 				return user.FreeRoamChar;
 
 			}
@@ -229,7 +230,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Level = res.level,
 				TotalXp = res.totalXp,
 			};
-			WorldEventsManager.WorldEvents.ForEach(x => user.PlayerScores.Add(new PlayerScore { EventId = x.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = x.EventXpMultiplier }));
+			(BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).AddPlayer(source);
 			return user.FreeRoamChar;
 		}
 
