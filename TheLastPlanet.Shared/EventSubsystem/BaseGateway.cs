@@ -22,72 +22,84 @@ namespace TheLastPlanet.Shared.Internal.Events
 
         public async Task ProcessInboundAsync(EventMessage message, ISource source)
         {
-            object InvokeDelegate(EventSubscription subscription)
+            try
             {
-                var arguments = new List<object>();
-                var @delegate = subscription.Delegate;
-                var method = @delegate.Method;
-                var takesSource = method.GetParameters().Any(self => self.ParameterType == source.GetType());
-                var startingIndex = takesSource ? 1 : 0;
-
-                if (takesSource)
-                    arguments.Add(source);
-
-                if (message.Parameters != null)
+                object InvokeDelegate(EventSubscription subscription)
                 {
-                    var array = message.Parameters.FromJson<EventParameter[]>();
-                    var holder = new List<object>();
-                    var parameterInfos = @delegate.Method.GetParameters();
-                    for (var index = 0; index < array.Length; index++)
-                    {
-                        var argument = array[index];
-                        var type = parameterInfos[startingIndex + index].ParameterType;
+                    var arguments = new List<object>();
+                    var @delegate = subscription.Delegate;
+                    var method = @delegate.Method;
+                    var takesSource = method.GetParameters().Any(self => self.ParameterType == source.GetType());
+                    var startingIndex = takesSource ? 1 : 0;
 
-                        holder.Add(argument.Deserialize(type));
+                    if (takesSource)
+                        arguments.Add(source);
+
+                    if (message.Parameters != null)
+                    {
+                        var array = message.Parameters.FromJson<EventParameter[]>();
+                        var holder = new List<object>();
+                        var parameterInfos = @delegate.Method.GetParameters();
+                        for (var index = 0; index < array.Length; index++)
+                        {
+                            var argument = array[index];
+                            var type = parameterInfos[startingIndex + index].ParameterType;
+
+                            holder.Add(argument.Deserialize(type));
+                        }
+
+                        arguments.AddRange(holder.ToArray());
                     }
 
-                    arguments.AddRange(holder.ToArray());
+                    return @delegate.DynamicInvoke(arguments.ToArray());
                 }
 
-                return @delegate.DynamicInvoke(arguments.ToArray());
-            }
-
-            if (message.MethodType == EventMethodType.Get)
-            {
-                var subscription = _subscriptions.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
-                                   throw new Exception($"Nessun handler per l'endpoint: {message.Endpoint}");
-                var result = InvokeDelegate(subscription);
-                var type = result.GetType();
-
-                if (type.GetGenericTypeDefinition() == typeof(Task<>))
+                if (message.MethodType == EventMethodType.Get)
                 {
-                    var task = (Task)result;
+                    var subscription = _subscriptions.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
+                                       throw new Exception($"Nessun handler per l'endpoint: {message.Endpoint}");
+                    var result = InvokeDelegate(subscription);
+                    var type = result.GetType();
 
-					using var token = new CancellationTokenSource();
-					var completed = await Task.WhenAny(task, Task.Delay(30000, token.Token));
+                    if (type.GetGenericTypeDefinition() == typeof(Task<>))
+                    {
+                        var task = (Task)result;
 
-					if (completed == task)
-					{
-						token.Cancel();
+                        using var token = new CancellationTokenSource();
+                        var delay = Task.Run(async () => { await GetDelayedTask(30000); }, token.Token);
+                        var completed = await Task.WhenAny(task, delay);
 
-						await task.ConfigureAwait(false);
+                        if (completed == task)
+                        {
+                            token.Cancel();
 
-						result = (object)((dynamic)task).Result;
-					}
-					else
-					{
-						throw new TimeoutException(
-							$"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) L'operazione ha ecceduto il tempo di esecuzione (Timeout).");
-					}
-				}
+                            await task.ConfigureAwait(false);
 
-                var response = new EventResponseMessage(message.Id, null, result.ToJson());
+                            result = (object)((dynamic)task).Result;
+                        }
+                        else
+                        {
+                            throw new TimeoutException(
+                                $"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) L'operazione ha ecceduto il tempo di esecuzione (Timeout).");
+                        }
+                    }
 
-                TriggerImpl(EventConstant.OutboundPipeline, source.Handle, response);
-            }
-            else
-            {
-                _subscriptions.Where(self => self.Endpoint == message.Endpoint).ForEach(self => InvokeDelegate(self));
+                    var response = new EventResponseMessage(message.Id, null, result.ToJson());
+
+                    TriggerImpl(EventConstant.OutboundPipeline, source.Handle, response);
+                }
+                else
+                {
+                    _subscriptions.Where(self => self.Endpoint == message.Endpoint).ForEach(self => InvokeDelegate(self));
+                }
+			}
+			catch (Exception e)
+			{
+#if CLIENT
+                Client.Client.Logger.Error(e.ToString());
+#elif SERVER
+                Server.Server.Logger.Error(e.ToString());
+#endif
             }
         }
 
