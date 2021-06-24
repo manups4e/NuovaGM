@@ -35,13 +35,13 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             //Client.Instance.AddTick(OnDiscordTick);
             Client.Instance.AddTick(OnWaitTick);
 
-            Client.Instance.AddEventHandler("worldEventsManage.Client:EventActivate",new Action<int, int>(OnActivateEvent));
-            Client.Instance.AddEventHandler("worldeventsManager.Client:GetEventData",new Action<int, float, float>(OnGetEventData));
-            Client.Instance.AddEventHandler("worldEventsManage.Client:Status", new Action<int, int, int, int, bool>(OnGetStatus));
-            Client.Instance.AddEventHandler("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
-            Client.Instance.AddEventHandler("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
-            Client.Instance.AddEventHandler("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
-            Client.Instance.AddEventHandler("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:EventActivate",new Action<int, int>(OnActivateEvent));
+            Client.Instance.Eventi.Mount("worldeventsManager.Client:GetEventData",new Action<int, float, float>(OnGetEventData));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:Status", new Action<int, int, int, int, bool>(OnGetStatus));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
 
             WorldEvents.Add(new NumberOfNearMisses(1, "Schivate mortali", 60, 300));
             WorldEvents.Add(new FlyingUnderBridges(2, "Volando sotto i ponti", 90, 300));
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
             WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            BaseScript.TriggerServerEvent("worldEventsManage.Server:GetStatus");
+            Client.Instance.Eventi.Send("worldEventsManage.Server:GetStatus"); // può diventare un callback
         }
 
         private static async Task OnWaitTick()

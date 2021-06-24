@@ -21,8 +21,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             Client.Instance.AddTick(OnHudTick);
 
             //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
-            Client.Instance.AddEventHandler("worldeventsManage.Internal:EnableMap", new Action<bool>(OnEnableMap));
-            Client.Instance.AddEventHandler("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
+            Client.Instance.Eventi.Mount("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
         }
 
         private static async Task OnHudTick()
@@ -53,7 +52,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             DisplayRadar(true);
         }
 
-        private static void OnEnableMap(bool enable)
+        public static void OnEnableMap(bool enable)
         {
             MapEnabled = enable;
             DisplayRadar(MapEnabled);
@@ -64,7 +63,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             Cache.MyPlayer.User.FreeRoamChar.Level = level;
             Cache.MyPlayer.User.FreeRoamChar.TotalXp = xp;
             Debug.WriteLine($"OnGetLevelXp | Level [{level}] | XP [{xp}]");
-            BaseScript.TriggerEvent("worldeventsManage.Client:UpdatedLevel", level, false);
+            BaseScript.TriggerEvent("worldeventsManage.Client:UpdatedLevel", level, false); // da aggiornare perché non esiste nel codice
         }
 
         private static void DrawVehicleHud()

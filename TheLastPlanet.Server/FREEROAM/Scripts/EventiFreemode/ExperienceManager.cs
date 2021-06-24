@@ -6,31 +6,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
     public class ExperienceManager
     {
-        public static void Init()
-        {
-            Server.Instance.AddEventHandler("worldEventsManage.Internal:AddExperience", new Action<string, int>(OnAddExperience));
-        }
-
-        private static void OnAddExperience(string identifier, int experiencePoints)
+        public static void OnAddExperience(ClientId client, int experiencePoints)
         {
             try
             {
-                var user = Funzioni.GetUserFromPlayerId(identifier);
                 var leveledUp = false;
-                var currentLevel = user.FreeRoamChar.Level;
+                var currentLevel = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
                 var currentRankLimit = Experience.RankRequirement.Where(x => x.Key == currentLevel).First().Value;
                 var nextRankLimit = Experience.NextLevelExperiencePoints(currentLevel);
-                var currentXp = user.FreeRoamChar.TotalXp;
+                var currentXp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
 
-                user.AddExperience(experiencePoints);
+                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).AddExperience(client, experiencePoints);
 
-                var updatedLevel = user.FreeRoamChar.Level;
-                var updatedXp = user.FreeRoamChar.TotalXp;
+                var updatedLevel = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
+                var updatedXp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
                 var updatedCurrentRankLimit = currentRankLimit;
                 var updatedNextRankLimit = nextRankLimit;
 
@@ -43,13 +39,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     leveledUp = true;
                 }
 
-                foreach (var playerino in BucketsHandler.FreeRoam.Bucket.Players)
-                {
-                    if (playerino.Identifiers["license"] == identifier)
-                    {
-                        playerino.TriggerEvent("worldEventsManage.Client.UpdateExperience", currentRankLimit, nextRankLimit, updatedCurrentRankLimit, updatedNextRankLimit, currentXp, updatedXp, currentLevel, updatedLevel, leveledUp);
-                    }
-                }
+                Server.Instance.Events.Send(client, "worldEventsManage.Client.UpdateExperience", currentRankLimit, nextRankLimit, updatedCurrentRankLimit, updatedNextRankLimit, currentXp, updatedXp, currentLevel, updatedLevel, leveledUp);
             }
             catch (Exception e)
             {

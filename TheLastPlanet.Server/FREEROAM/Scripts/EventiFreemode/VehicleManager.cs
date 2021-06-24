@@ -3,6 +3,8 @@ using Logger;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
@@ -12,20 +14,20 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         public static void Init()
         {
-            Server.Instance.AddEventHandler("worldEventsManage.Server:SpawnedEventVehicles", new Action<Player, List<dynamic>>(OnSpawnedEventVehicles));
+            Server.Instance.Events.Mount("worldEventsManage.Server:SpawnedEventVehicles", new Action<ClientId, List<int>>(OnSpawnedEventVehicles));
         }
 
-        private static void OnSpawnedEventVehicles([FromSource]Player player, List<dynamic> dynamicVehicles)
+        private static void OnSpawnedEventVehicles(ClientId client, List<int> dynamicVehicles)
         {
             try
             {
                 SpawnedEventVehicles.Clear();
                 foreach (var v in dynamicVehicles)
                 {
-                    SpawnedEventVehicles.Add((int)v);
+                    SpawnedEventVehicles.Add(v);
                 }
 
-                BaseScript.TriggerClientEvent("worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
+                Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
             }
             catch (Exception e)
             {

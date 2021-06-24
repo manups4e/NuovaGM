@@ -11,7 +11,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
     {
         public static void Init()
         {
-            Client.Instance.AddEventHandler("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
+            Client.Instance.Eventi.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
         }
 
         private static async void OnUpdateExperience(int currentRankLimit, int nextRankLimit, int updatedCurrentRankLimit, int updatedNextRankLimit, int currentXp, int updatedXp, int currentLevel, int updatedLevel, bool leveledUp)
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
                 }
                 else
                 {
-                    BaseScript.TriggerEvent("worldeventsManage.Client:UpdatedLevel", updatedLevel, true);
+                    BaseScript.TriggerEvent("worldeventsManage.Client:UpdatedLevel", updatedLevel, true); // da aggiornare perché non esiste nel codice
 
                     await HUD.ShowPlayerRankScoreAfterUpdate(currentRankLimit, nextRankLimit, currentXp, nextRankLimit, currentLevel);
                     await BaseScript.Delay(2000);

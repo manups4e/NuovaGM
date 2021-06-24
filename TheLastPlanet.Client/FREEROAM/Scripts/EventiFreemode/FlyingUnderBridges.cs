@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
             var hash = (uint)GetHashKey("mp0_fly_under_bridges");
             StatSetInt(hash, 0, true);
 
-            BaseScript.TriggerEvent("worldeventsManage.Internal:EnableMap", true);
+            HudManager.OnEnableMap(true);
             ActiveBlips.Clear();
 
             await VehicleManager.SpawnEventVehicles(VehicleSpawnLocations);

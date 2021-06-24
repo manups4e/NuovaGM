@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core;
+using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
@@ -38,23 +40,21 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         public static void Init()
         {
-            Server.Instance.AddEventHandler("worldEventsManage.Server:AddParticipant", new Action<Player>(OnAddParticipant));
-            Server.Instance.AddEventHandler("worldEventsManage.Server:EventEnded", new Action<Player, int, int, int>(OnEventEnded));
-            Server.Instance.AddEventHandler("worldEventsManage.Server:UpdateCurrentEvent", new Action<Player, int, float>(OnUpdateCurrentEvent));
-            Server.Instance.AddEventHandler("worldEventsManage.Server:GetStatus", new Action<Player>(OnGetStatus));
+            Server.Instance.Events.Mount("worldEventsManage.Server:AddParticipant", new Action<ClientId>(OnAddParticipant));
+            Server.Instance.Events.Mount("worldEventsManage.Server:EventEnded", new Action<ClientId, int, int, int>(OnEventEnded));
+            Server.Instance.Events.Mount("worldEventsManage.Server:UpdateCurrentEvent", new Action<ClientId, int, float>(OnUpdateCurrentEvent));
+            Server.Instance.Events.Mount("worldEventsManage.Server:GetStatus", new Action<ClientId>(OnGetStatus));
 
             Server.Instance.AddTick(OnPeriodicTick);
             Server.Instance.AddTick(OnEventTick);
             ChooseNextEvent();
         }
 
-        private static async void OnUpdateCurrentEvent([FromSource]Player player, int eventId, float currentAttempt)
+        private static void OnUpdateCurrentEvent(ClientId client, int eventId, float currentAttempt)
         {
             if (CurrentEvent == null) { return; }
             if (CurrentEvent.Id != eventId) { return; }
-
-            while (Funzioni.GetUserFromPlayerId(player.Handle) == null) await BaseScript.Delay(0);
-            Funzioni.GetUserFromPlayerId(player.Handle).UpdateCurrentAttempt(eventId, currentAttempt);
+            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateCurrentAttempt(client, eventId, currentAttempt);
         }
 
         private static async Task OnPeriodicTick()
@@ -64,11 +64,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 await BaseScript.Delay(1000);
                 if (CurrentEvent.CountdownTime > TimeSpan.Zero)
                 {
-                    BaseScript.TriggerClientEvent("worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.CountdownTime.TotalSeconds, false);
+                    Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.CountdownTime.TotalSeconds, false);
                     return;
                 }
                 // RIMUOVERE SE SI TORNA SOTTO CON I 1000 ANZICHE' 100
-                BaseScript.TriggerClientEvent("worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.EventTime.TotalSeconds, true);
+                Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.EventTime.TotalSeconds, true);
             }
             catch (Exception e)
             {
@@ -94,20 +94,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         NextEvent.IsStarted = false;
                         IsAnyEventActive = NextEvent.IsActive;
                         CurrentEvent = NextEvent;
-                        foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
-                        {
-                            var player = Funzioni.GetUserFromPlayerId(p.Handle);
-                            if (player != null)
-                            {
-                                WorldEvents.ForEach(x => player.PlayerScores.Add(new PlayerScore { EventId = x.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = x.EventXpMultiplier }));
-                                var eventData = player.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
-                                p.TriggerEvent("worldeventsManager.Client:GetEventData", eventData.EventId, eventData.CurrentAttempt, eventData.BestAttempt);
-                            }
-                        }
+                        (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendEventData(CurrentEvent.Id);
                         ChooseNextEvent();
 
                         Server.Logger.Info($"Current Event [{CurrentEvent.Name}] | Next Event [{NextEvent.Name}]");
-                        BaseScript.TriggerClientEvent("worldEventsManage.Client:EventActivate", CurrentEvent.Id, NextEvent.Id);
+                        Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:EventActivate", CurrentEvent.Id, NextEvent.Id);
                     }
                 }
                 else
@@ -119,7 +110,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         if (CurrentEvent.CountdownTime == TimeSpan.Zero)
                         {
                             CurrentEvent.IsStarted = true;
-                            BaseScript.TriggerClientEvent("worldEventsManage.Client:EventStart", CurrentEvent.Id);
+                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:EventStart", CurrentEvent.Id);
                         }
                     }
                     else
@@ -129,85 +120,20 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             IsAnyEventActive = false;
                             await BaseScript.Delay(1500); // Delay to let everyone send in their results
 
-                            var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
-                            {
-                                var User = Funzioni.GetUserFromPlayerId(player.Handle);
-                                var score = User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
-                                if (score != null)
-                                {
-                                    foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
-                                    {
-                                        if (p.Identifiers["license"] == User.Identifiers.License)
-                                        {
-                                            var xpGain = (int)Math.Min(score.CurrentAttempt * CurrentEvent.EventXpMultiplier, Experience.RankRequirement[User.FreeRoamChar.Level + 1] - Experience.RankRequirement[User.FreeRoamChar.Level]);
+                            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendFinalTop3Players(CurrentEvent.Id, CurrentEvent.EventXpMultiplier);
 
-                                            if (xpGain != 0)
-                                                BaseScript.TriggerEvent("worldEventsManage.Internal:AddExperience", player.Handle.ToString(), xpGain);
-                                            tempDictionary.Add(p.Name, score.BestAttempt);
-                                        }
-                                    }
-                                }
-                            }
-                            if (tempDictionary.Count == 0)
-                            {
-                                tempDictionary.Add("-1", 0);
-                                tempDictionary.Add("-2", 0);
-                                tempDictionary.Add("-3", 0);
-                            }
-                            else if (tempDictionary.Count == 1)
-                            {
-                                tempDictionary.Add("-1", 0);
-                                tempDictionary.Add("-2", 0);
-                            }
-                            else if (tempDictionary.Count == 2)
-                                tempDictionary.Add("-1", 0);
-
-                            tempDictionary.OrderByDescending(x => x.Value);
-
-                            var newerDict = tempDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-
-                            BaseScript.TriggerClientEvent("worldEventsManage.Client:FinalTop3", CurrentEvent.Id, JsonConvert.SerializeObject(newerDict));
-
-                            var cE = JsonConvert.SerializeObject(WorldEvents.Where(x => x.Id == CurrentEvent.Id).FirstOrDefault());
+                            var cE = WorldEvents.Where(x => x.Id == CurrentEvent.Id).FirstOrDefault().ToJson();
                             CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE); // reset this element. it's actually the next event
                             CurrentEvent.IsStarted = false;
                             CurrentEvent.IsActive = false;
                             TimeUntilNextEvent = TimeSpan.FromSeconds(5);//TimeSpan.FromMinutes(rnd.Next(20, 30));
                             await BaseScript.Delay(3500); // Wait until we start the next event (total 5 seconds)
-                            BaseScript.TriggerClientEvent("worldEventsManage.Client:DestroyEventVehicles");
-                            BaseScript.TriggerClientEvent("worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);
+                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:DestroyEventVehicles");
+                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);
                         }
                         else
                         {
-                            await BaseScript.Delay(1000);
-                            CurrentEvent.EventTime = CurrentEvent.EventTime.Subtract(TimeSpan.FromSeconds(1));
-
-                            var tempDictionary = new Dictionary<string, float>();
-                            foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
-                            {
-                                var User = Funzioni.GetUserFromPlayerId(player.Handle);
-                                if (User.status.Spawned)
-                                {
-                                    var score = User.PlayerScores.Where(x => x.EventId == CurrentEvent.Id).FirstOrDefault();
-                                    if (score != null)
-                                    {
-                                        tempDictionary.Add(User.Player.Name, score.BestAttempt);
-                                    }
-                                }
-                            }
-                            if (tempDictionary.Count == 1)
-                            {
-                                tempDictionary.Add("Player 1", 0);
-                                tempDictionary.Add("Player 2", 0);
-                            }
-                            else if (tempDictionary.Count == 2)
-                            {
-                                tempDictionary.Add("Player 1", 0);
-                            }
-                            var newDict = tempDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-                            if (newDict.Count < 3) { return; }
-                            BaseScript.TriggerClientEvent("worldEventsManage.Client:GetTop3", JsonConvert.SerializeObject(newDict));
+                            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendTop3Players(CurrentEvent.Id);
                         }
                     }
                 }
@@ -220,30 +146,14 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             await Task.FromResult(0);
         }
 
-        private static void OnEventEnded([FromSource]Player player, int eventId, int currentAttempt, int bestAttempt)
+        private static void OnEventEnded(ClientId client, int eventId, int currentAttempt, int bestAttempt)
         {
             try
             {
                 if (eventId != CurrentEvent.Id) { return; }
 
-
-                var identifier = player.Identifiers["license"];
-
-                var playerino = BucketsHandler.FreeRoam.Bucket.Players.Where(x => x.Identifiers["license"] == identifier).FirstOrDefault();
-                if (playerino != null)
-                {
-                    var User = Funzioni.GetUserFromPlayerId(player.Handle);
-                    var data = User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
-                    if (data != null)
-                    {
-                        data.CurrentAttempt = currentAttempt;
-                        if (currentAttempt > data.BestAttempt)
-                            data.BestAttempt = currentAttempt;
-                        if (data.BestAttempt < bestAttempt)
-                            data.BestAttempt = bestAttempt;
-                    }
-                    User.PlayerScores.Clear();
-                }
+                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateCurrentAttempt(client, eventId, currentAttempt);
+                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateBestAttempt(client, eventId, bestAttempt);
             }
             catch (Exception e)
             {
@@ -251,16 +161,16 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static void OnGetStatus([FromSource] Player player)
+        private static void OnGetStatus(ClientId client)
         {
             try
             {
-                Server.Logger.Debug($"{player.Name} want status");
+                Server.Logger.Debug($"{client.Player.Name} want status");
                 var joinWaitTime = 0;
                 var isStarted = CurrentEvent.IsStarted;
                 if (!CurrentEvent.IsActive)
                 {
-                    player.TriggerEvent("worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
+                    Server.Instance.Events.Send(client, "worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
                     return;
                 }
 
@@ -269,7 +179,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 else
                     joinWaitTime = (int)CurrentEvent.CountdownTime.TotalSeconds;
 
-                player.TriggerEvent("worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
+                Server.Instance.Events.Send(client, "worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
             }
             catch (Exception e)
             {
@@ -277,17 +187,14 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static void OnAddParticipant([FromSource] Player player)
+        private static void OnAddParticipant(ClientId client)
         {
             try
             {
-                var identifier = player.Identifiers["license"];
-                var p = Funzioni.GetUserFromPlayerId(player.Handle);
-                Server.Logger.Debug("Is FreeRoamChar null? =>" + (p.FreeRoamChar == null));
-                var xp = p.FreeRoamChar.TotalXp;
-                var level = p.FreeRoamChar.Level;
 
-                player.TriggerEvent("worldeventsManage.Client:GetLevelXp", level, xp);
+                var xp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
+                var level = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
+                Server.Instance.Events.Send(client, "worldeventsManage.Client:GetLevelXp", level, xp);
             }
             catch (Exception e)
             {
