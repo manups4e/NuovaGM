@@ -13,6 +13,7 @@ using TheLastPlanet.Server.manager;
 using TheLastPlanet.Server.Veicoli;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
+using TheLastPlanet.Server.Core.Buckets;
 
 namespace TheLastPlanet.Server
 {
@@ -52,7 +53,6 @@ namespace TheLastPlanet.Server
 			BotDiscordHandler.Init();
 			WorldEventsManager.Init();
 			VehicleManager.Init();
-			ExperienceManager.Init();
 			await Task.FromResult(0);
 		}
 	}
