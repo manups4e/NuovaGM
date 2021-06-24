@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using CitizenFX.Core;
@@ -126,6 +127,13 @@ namespace TheLastPlanet.Server.Internal.Events
 
         public void Send(Player player, string endpoint, params object[] args) => Send(Convert.ToInt32(player.Handle), endpoint, args);
         public void Send(ClientId client, string endpoint, params object[] args) => Send(client.Handle, endpoint, args);
+        public void Send(List<Player> players, string endpoint, params object[] args) => Send(players.Select(x => Convert.ToInt32(x.Handle)).ToList(), endpoint, args);
+        public void Send(List<ClientId> clients, string endpoint, params object[] args) => Send(clients.Select(x=> x.Handle).ToList(), endpoint, args);
+
+        public void Send(List<int> targets, string endpoint, params object[] args)
+		{
+            for(int i=0; i<targets.Count; i++) Send(targets[i], endpoint, args);
+		}
 
         public void Send(int target, string endpoint, params object[] args)
         {
