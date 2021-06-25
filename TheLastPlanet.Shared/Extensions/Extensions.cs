@@ -19,9 +19,6 @@ namespace TheLastPlanet.Shared
 	{
 
 		private static Logger.Log Logger = new Log();
-		static RandomExtensionSuperMethod()
-		{
-		}
 		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>
