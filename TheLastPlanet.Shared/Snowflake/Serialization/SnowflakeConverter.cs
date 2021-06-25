@@ -1,4 +1,8 @@
 ﻿using System;
+using CitizenFX.Core;
+using Logger;
+using MsgPack;
+using MsgPack.Serialization;
 using Newtonsoft.Json;
 
 namespace TheLastPlanet.Shared.Snowflakes.Serialization
@@ -27,5 +31,22 @@ namespace TheLastPlanet.Shared.Snowflakes.Serialization
         }
 
         public override bool CanConvert(Type objectType) => objectType == typeof(Snowflake);
+    }
+
+    public class SnowFlakeConverter : MessagePackSerializer<Snowflake>
+    {
+        public SnowFlakeConverter(SerializationContext ownerContext) : base(ownerContext)
+        {
+        }
+
+        protected override Snowflake UnpackFromCore(Unpacker unpacker)
+        {
+            return new Snowflake(unpacker.LastReadData.AsUInt64());
+		}
+
+        protected override void PackToCore(Packer packer, Snowflake objectTree)
+		{
+            packer.Pack(objectTree.ToInt64());
+        }
     }
 }
