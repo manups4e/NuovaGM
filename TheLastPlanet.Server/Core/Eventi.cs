@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Impostazioni.Shared.Configurazione.Generici;
-using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Collections.Concurrent;

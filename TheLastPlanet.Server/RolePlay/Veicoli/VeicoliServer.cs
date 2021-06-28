@@ -7,7 +7,6 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
-using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Server.Veicoli

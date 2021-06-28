@@ -11,7 +11,6 @@ using TheLastPlanet.Server.Discord;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;

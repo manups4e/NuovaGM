@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Logger;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Server.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;

@@ -8,7 +8,6 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.SistemaEventi;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.RolePlay.Lavori.Profili

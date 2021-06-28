@@ -4,7 +4,6 @@ using TheLastPlanet.Server.Core;
 using System;
 using System.Linq;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Shared.SistemaEventi;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Threading.Tasks;

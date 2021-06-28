@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.SistemaEventi;
 using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
