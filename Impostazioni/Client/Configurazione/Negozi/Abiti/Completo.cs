@@ -1,47 +1,46 @@
 ﻿using System.Collections.Generic;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace Impostazioni.Client.Configurazione.Negozi.Abiti
 {
-    public class Completo : Dressing
+    [Serialization]
+    public partial class Completo : Dressing
     {
-        public int Price;
+        public int Price { get; set; }
 
-        public Completo(){}
-        public Completo(string name, string desc, int price, ComponentDrawables componentDrawables,
-            ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures)
+        public Completo() : base() { }
+        public Completo(string name, string desc, int price, ComponentDrawables componentDrawables, ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures) : 
+            base (name, desc, componentDrawables, componentTextures, propIndices, propTextures)
         {
-            Name = name;
-            Description = desc;
             Price = price;
-            ComponentDrawables = componentDrawables;
-            ComponentTextures = componentTextures;
-            PropIndices = propIndices;
-            PropTextures = propTextures;
         }
     }
-    
-    public class Singolo
+
+    [Serialization]
+    public partial class Singolo
     {
-        public string Title;
-        public string Description;
-        public int Modello;
-        public int Price;
-        public List<int> Text = new List<int>();
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int Modello { get; set; }
+        public int Price { get; set; }
+        public List<int> Text { get; set; } = new List<int>();
     }
 
-    public class Accessori
+    [Serialization]
+    public partial class Accessori
     {
-        public List<Singolo> Borse = new List<Singolo>();
-        public Testa Testa = new Testa();
-        public List<Singolo> Orologi = new List<Singolo>();
-        public List<Singolo> Bracciali = new List<Singolo>();
+        public List<Singolo> Borse { get; set; } = new List<Singolo>();
+        public Testa Testa { get; set; } = new Testa();
+        public List<Singolo> Orologi { get; set; } = new List<Singolo>();
+        public List<Singolo> Bracciali { get; set; } = new List<Singolo>();
     }
 
-    public class Testa
+    [Serialization]
+    public partial class Testa
     {
-        public List<Singolo> Orecchini = new List<Singolo>();
-        public List<Singolo> Auricolari = new List<Singolo>();
-        public List<Singolo> Cappellini = new List<Singolo>();
+        public List<Singolo> Orecchini { get; set; } = new List<Singolo>();
+        public List<Singolo> Auricolari { get; set; } = new List<Singolo>();
+        public List<Singolo> Cappellini { get; set; } = new List<Singolo>();
     }
 }
