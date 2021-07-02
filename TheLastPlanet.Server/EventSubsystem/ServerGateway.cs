@@ -10,47 +10,50 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events.Message;
-using TheLastPlanet.Shared.Internal.Extensions;
+using TheLastPlanet.Shared.Internal.Events.Serialization;
+using TheLastPlanet.Shared.Extensions;
+using TheLastPlanet.Shared.Internal.Events.Serialization.Implementations;
 
 namespace TheLastPlanet.Server.Internal.Events
 {
     public class ServerGateway : BaseGateway
     {
-        protected override Task GetDelayedTask(int milliseconds = 0)
-        {
-            return BaseScript.Delay(milliseconds);
-        }
-
-        protected override void TriggerImpl(string pipeline, int target, ISerializable payload)
-        {
-            if (target != ClientId.Global.Handle)
-                Funzioni.GetPlayerFromId(target).TriggerEvent(pipeline, payload.Serialize());
-            else
-                BaseScript.TriggerClientEvent(pipeline, payload.Serialize());
-        }
-
-        private Dictionary<int, string> _signatures = new Dictionary<int, string>();
+        protected override ISerialization Serialization { get; }
+        private Dictionary<int, string> _signatures = new();
 
         public ServerGateway()
         {
-			Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(GetSignature));
-			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string, string>(Inbound));
-			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string, string>(Outbound));
+            Serialization = new BinarySerialization();
+            DelayDelegate = async delay => await BaseScript.Delay(delay);
+            PushDelegate = Push;
+            Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(GetSignature));
+			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string, byte[]>(Inbound));
+			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string, byte[]>(Outbound));
         }
+
+        public void Push(string pipeline, ISource source, byte[] buffer)
+        {
+            if (source.Handle != new ServerId().Handle)
+                BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(source.Handle), pipeline, buffer);
+            else
+                BaseScript.TriggerClientEvent(pipeline, buffer);
+        }
+
 
         private void GetSignature([FromSource] string source)
         {
             try
             {
                 var client = (ClientId)source;
+
                 if (_signatures.ContainsKey(client.Handle))
                 {
-                    Server.Logger.Warning( $"Il player {client} [ServerID: {client.Handle}] ha tentato di ottenere la firma digitale illegalmente.");
+                   Server.Logger.Info($"Client {client} tried acquiring event signature more than once.");
 
                     return;
                 }
 
-                var holder = new byte[256];
+                var holder = new byte[128];
 
                 using (var service = new RNGCryptoServiceProvider())
                 {
@@ -58,16 +61,17 @@ namespace TheLastPlanet.Server.Internal.Events
                 }
 
                 var signature = BitConverter.ToString(holder).Replace("-", "").ToLower();
+
                 _signatures.Add(client.Handle, signature);
-                client.Player.TriggerEvent(EventConstant.SignaturePipeline, signature);
+                BaseScript.TriggerClientEvent(Funzioni.GetPlayerFromId(client.Handle), EventConstant.SignaturePipeline, signature);
             }
             catch (Exception ex)
             {
-                Server.Logger.Error( ex.ToString());
+                Server.Logger.Error(ex.ToString());
             }
         }
 
-        private async void Inbound([FromSource] string source, string serialized)
+        private async void Inbound([FromSource] string source, byte[] buffer)
         {
             try
             {
@@ -75,15 +79,12 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (!_signatures.TryGetValue(client.Handle, out var signature)) return;
 
-                var message = EventMessage.Deserialize(serialized);
+                using var context = new SerializationContext(EventConstant.InboundPipeline, null, Serialization, buffer);
 
-                if (message.Signature != signature)
-                {
-                    Server.Logger.Warning( 
-                        $"[{EventConstant.InboundPipeline}, {client.Handle}, {message.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
+                var message = context.Deserialize<EventMessage>();
 
-                    return;
-                }
+
+                if (!VerifySignature(client, message, signature)) return;
 
                 try
                 {
@@ -96,32 +97,40 @@ namespace TheLastPlanet.Server.Internal.Events
             }
             catch (Exception ex)
             {
-                Server.Logger.Error( ex.ToString());
+                Server.Logger.Error(ex.ToString());
             }
         }
 
-        private void Outbound([FromSource] string source, string serialized)
+        public bool VerifySignature(ISource source, IMessage message, string signature)
+        {
+            if (message.Signature == signature) return true;
+
+            Server.Logger.Error($"[{message.Endpoint}] Client {source} had invalid event signature, aborting:");
+            Server.Logger.Error($"[{message.Endpoint}] \tSupplied Signature: {message.Signature}");
+            Server.Logger.Error($"[{message.Endpoint}] \tActual Signature: {message.Signature}");
+
+            return false;
+        }
+
+        private void Outbound([FromSource] string source, byte[] buffer)
         {
             try
             {
                 var client = (ClientId)source;
+
                 if (!_signatures.TryGetValue(client.Handle, out var signature)) return;
 
-                var response = EventResponseMessage.Deserialize(serialized);
+                using var context = new SerializationContext(EventConstant.OutboundPipeline, null, Serialization, buffer);
 
-                if (response.Signature != signature)
-                {
-                    Server.Logger.Warning(
-                        $"[{EventConstant.OutboundPipeline}, {client.Handle}, {response.Signature}] Il Player {client.Player.Name} ha una firma digitale non valida, possibile intento maligno?");
+                var response = context.Deserialize<EventResponseMessage>();
 
-                    return;
-                }
+                if (!VerifySignature(client, response, signature)) return;
 
                 ProcessOutbound(response);
             }
             catch (Exception ex)
             {
-                Server.Logger.Error( ex.ToString());
+                Server.Logger.Error(ex.ToString());
             }
         }
 
@@ -135,17 +144,20 @@ namespace TheLastPlanet.Server.Internal.Events
             for(int i=0; i<targets.Count; i++) Send(targets[i], endpoint, args);
 		}
 
-        public void Send(int target, string endpoint, params object[] args)
+        public async void Send(int target, string endpoint, params object[] args)
         {
-            SendInternal(target, endpoint, args);
+            await SendInternal(EventFlowType.Straight, new ClientId(target), endpoint, args);
         }
 
-        public Task<T> Get<T>(Player player, string endpoint, params object[] args) => Get<T>(Convert.ToInt32(player.Handle), endpoint, args);
-        public Task<T> Get<T>(ClientId client, string endpoint, params object[] args) => Get<T>(client.Handle, endpoint, args);
+        public Task<T> Get<T>(Player player, string endpoint, params object[] args) where T : class =>
+            Get<T>(Convert.ToInt32(player.Handle), endpoint, args);
 
-        public async Task<T> Get<T>(int target, string endpoint, params object[] args)
+        public Task<T> Get<T>(ClientId client, string endpoint, params object[] args) where T : class =>
+            Get<T>(client.Handle, endpoint, args);
+
+        public async Task<T> Get<T>(int target, string endpoint, params object[] args) where T : class
         {
-            return await GetInternal<T>(-1, endpoint, args);
+            return await GetInternal<T>((ClientId)target, endpoint, args);
         }
     }
 }

@@ -1,105 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Diagnostics;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events.Diagnostics;
 using TheLastPlanet.Shared.Internal.Events.Message;
-using TheLastPlanet.Shared.Internal.Events.Response;
+using TheLastPlanet.Shared.Internal.Events.Serialization;
+using TheLastPlanet.Shared.Internal.Events.Serialization.Implementations;
 
 namespace TheLastPlanet.Client.Internal.Events
 {
-    public class ClientGateway : BaseGateway
+	public class ClientGateway : BaseGateway
     {
         public List<NetworkMessage> Buffer { get; } = new List<NetworkMessage>();
-
-        protected override Task GetDelayedTask(int milliseconds = 0)
-        {
-            return BaseScript.Delay(milliseconds);
-        }
-
-        protected override async void TriggerImpl(string pipeline, int target, ISerializable payload)
-        {
-            RequireServerTarget(target);
-
-            // wait if the signature has not yet been delivered
-            while (_signature == null)
-            {
-                await BaseScript.Delay(10);
-            }
-
-            // set the payload signature
-            payload.Signature = _signature;
-            BaseScript.TriggerServerEvent(pipeline, payload.Serialize());
-        }
-
+        protected override ISerialization Serialization { get; }
         private string _signature;
 
         public ClientGateway()
         {
-            Client.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string>(Inbound));
-            Client.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string>(Outbound));
-            Client.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(TakeSignature));
+            Serialization = new BinarySerialization();
+            DelayDelegate = async delay => await BaseScript.Delay(delay);
+            PrepareDelegate = PrepareAsync;
+            PushDelegate = Push;
+            Client.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<byte[]>(async serialized =>
+            {
+                try
+                {
+                    await ProcessInboundAsync(new ServerId(), serialized);
+                }
+                catch (Exception ex)
+                {
+                    Client.Logger.Error(ex.ToString());
+                }
+            }));
+
+            Client.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<byte[]>(serialized =>
+            {
+                try
+                {
+                    ProcessOutbound(serialized);
+                }
+                catch (Exception ex)
+                {
+                    Client.Logger.Error(ex.ToString());
+                }
+            }));
+
+            Client.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(signature => _signature = signature));
 
             BaseScript.TriggerServerEvent(EventConstant.SignaturePipeline);
         }
 
-        private void TakeSignature(string signature)
+        public async Task PrepareAsync(string pipeline, ISource source, IMessage message)
         {
-            try
+            if (_signature == null)
             {
-                _signature = signature;
+                var stopwatch = StopwatchUtil.StartNew();
+
+                while (_signature == null)
+                    await BaseScript.Delay(0);
+
+                Client.Logger.Debug($"[{message}] Halted {stopwatch.Elapsed.TotalMilliseconds}ms due to signature retrieval.");
             }
-            catch (Exception ex)
-            {
-                Client.Logger.Error(  ex.ToString());
-            }
+
+            message.Signature = _signature;
         }
 
-        private async void Inbound(string serialized)
+        public void Push(string pipeline, ISource source, byte[] buffer)
         {
-            try
-            {
-                var message = serialized.FromJson<EventMessage>();
+            if (source.Handle != -1)
+                throw new Exception(
+                    $"The client can only target server events. (arg {nameof(source)} is not matching -1)");
 
-                await ProcessInboundAsync(message, new ServerSource());
-            }
-            catch (Exception ex)
-            {
-                Client.Logger.Error( ex.ToString());
-            }
+            BaseScript.TriggerServerEvent(pipeline, buffer);
         }
 
-        private void Outbound(string serialized)
-        {
-            try
-            {
-                var response = EventResponseMessage.Deserialize(serialized);
 
-                ProcessOutbound(response);
-            }
-            catch (Exception ex)
-            {
-                Client.Logger.Error( ex.ToString());
-            }
-        }
-
-        public void Send(string endpoint, params object[] args)
+        public async void Send(string endpoint, params object[] args)
         {
-            SendInternal(-1, endpoint, args);
+            await SendInternal(EventFlowType.Straight, new ServerId(), endpoint, args);
         }
 
         public async Task<T> Get<T>(string endpoint, params object[] args)
         {
-            return await GetInternal<T>(-1, endpoint, args);
-        }
-
-        private void RequireServerTarget(int endpoint)
-        {
-            if (endpoint != -1) throw new Exception($"Il client può solo inviare al server (arg {nameof(endpoint)} non coincide con -1)");
+            return await GetInternal<T>(new ServerId(), endpoint, args);
         }
     }
 }
