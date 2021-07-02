@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 16.0.28729.10
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Client", "TheLastPlanet.Client\TheLastPlanet.Client.csproj", "{477054AE-FBE1-4A93-8591-E2C61DD14390}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Server", "TheLastPlanet.Server\TheLastPlanet.Server.csproj", "{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Vendor\Generator\Generator.csproj", "{312E3A89-4B3E-4340-8113-90D89664F85C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,12 @@ Global
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Offuscata|Any CPU.Build.0 = Debug|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Offuscata|Any CPU.ActiveCfg = Debug|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Offuscata|Any CPU.Build.0 = Debug|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{312E3A89-4B3E-4340-8113-90D89664F85C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
