@@ -29,18 +29,19 @@ namespace TheLastPlanet.Generators.Serialization
         {
             var named = (INamedTypeSymbol) type;
             var types = named.TypeArguments;
+            var prefix = SerializationEngine.GetVariablePrefix(name);
 
             for (var idx = 0; idx < Items; idx++)
             {
                 var item = idx + 1;
-                var identifier = $"item{item}";
+                var identifier = $"{prefix}Item{item}";
 
-                code.AppendLine($"{SerializationEngine.GetQualifiedName(types[idx])} {identifier};");
+                code.AppendLine($"{SerializationEngine.GetQualifiedName(types[idx])} {identifier} = default;");
                 engine.AppendReadLogic(property, types[0], code, identifier, location);
             }
 
             code.AppendLine(
-                $"{name} = new {typeIdentifier}({string.Join(", ", Enumerable.Range(1, Items).Select(self => $"item{self}"))});");
+                $"{name} = new {typeIdentifier}({string.Join(", ", Enumerable.Range(1, Items).Select(self => $"{prefix}Item{self}"))});");
         }
     }
     

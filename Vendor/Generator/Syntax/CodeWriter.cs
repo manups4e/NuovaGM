@@ -67,6 +67,8 @@ namespace TheLastPlanet.Generators.Syntax
         private CodeWriter Parent { get; }
         private int _references;
 
+        public bool HasReferences => _references > 0;
+
         public ScopeTracker(CodeWriter parent, int? scope)
         {
             Parent = parent;
@@ -75,14 +77,16 @@ namespace TheLastPlanet.Generators.Syntax
 
         public ScopeTracker Reference()
         {
-            _references++;
+            // Is scopeable tracker?
+            if (Scope != null)
+                _references++;
 
             return this;
         }
 
         public void Dispose()
         {
-            if (_references > 0)
+            if (HasReferences)
             {
                 _references--;
 
