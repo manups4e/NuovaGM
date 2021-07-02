@@ -1,8 +1,11 @@
 ﻿using CitizenFX.Core.Native;
 using System;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
-namespace TheLastPlanet.Shared {
-	public class Timer
+namespace TheLastPlanet.Shared
+{
+	[Serialization]
+	public partial class Timer
 	{
 		public long StartTime;
 		public void New(int startTime = 0)

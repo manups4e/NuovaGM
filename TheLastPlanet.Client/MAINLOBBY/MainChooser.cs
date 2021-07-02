@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 {
 	internal static class MainChooser
 	{
-		public static Dictionary<ModalitaServer, int> Bucket_n_Players = new();
+		public static Dictionary<ModalitaServer, int> Bucket_n_Players { get; set; }
 
 		private static BucketMarker RP_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1266.863f, -3013.068f, -49.0f), new Vector3(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
 		private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Vector3(-1280.206f, -3021.234f, -49.0f), new Vector3(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");

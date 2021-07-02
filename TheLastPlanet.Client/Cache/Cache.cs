@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.SessionCache
@@ -26,7 +27,7 @@ namespace TheLastPlanet.Client.SessionCache
         
         public static async Task InitPlayer()
         {
-            var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, User>>("lprp:setupUser");
+            var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
             MyPlayer = new()
             {
                 Player = Game.Player,

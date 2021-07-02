@@ -1,6 +1,9 @@
+using TheLastPlanet.Shared.Internal.Events.Attributes;
+
 namespace TheLastPlanet.Shared
 {
-    public class Business
+    [Serialization]
+    public partial class Business
     {
         public string Seed { get; set; }
         public long Balance { get; set; }

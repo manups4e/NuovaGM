@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using Logger;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
@@ -35,8 +36,9 @@ namespace TheLastPlanet.Shared
 		CustomInt,
 		CustomFloat
 	}
-	
-	public class FreeRoamChar
+
+	[Serialization]
+	public partial class FreeRoamChar
 	{
 		public ulong CharID;
 		public bool is_dead;
@@ -66,7 +68,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class FreeRoamStats
+	[Serialization]
+	public partial class FreeRoamStats
 	{
 		public float STAMINA { get; set; }
 		public float STRENGTH { get; set; }
@@ -84,7 +87,8 @@ namespace TheLastPlanet.Shared
 		public int EventsWon { get; set; }
 	}
 
-	public class PlayerScore
+	[Serialization]
+	public partial class PlayerScore
 	{
 		public int EventId { get; set; }
 		public float EventXpMultiplier { get; set; } = 1.0f;
@@ -92,7 +96,8 @@ namespace TheLastPlanet.Shared
 		public float BestAttempt { get; set; }
 	}
 
-	public class FreeRoamChar_Metadata
+	[Serialization]
+	public partial class FreeRoamChar_Metadata
 	{
 		public int money;/*{ set => Finance.Money = value; }*/
 		public int bank;/*{ set => Finance.Bank = value; }*/

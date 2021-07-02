@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.Loaded();
-			List<LogInInfo> data = await Client.Instance.Eventi.Get<List<LogInInfo>>("lprp:RequestLoginInfo", Cache.MyPlayer.User.ID);
+			List<LogInInfo> data = await Client.Instance.Eventi.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
 			ToggleMenu(true, "charloading", data);
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
@@ -197,6 +197,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 				PedHash f = PedHash.FreemodeFemale01;
 				SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
 				if (p1 != null) p1.Delete();
+				Client.Logger.Debug(pers.ToJson());
 				p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
 				p1.Style.SetDefaultClothes();
 				await SetSkinAndClothes(p1, pers);

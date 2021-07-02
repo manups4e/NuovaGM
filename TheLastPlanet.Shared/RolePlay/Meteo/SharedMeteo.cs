@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared.Meteo
 {
-	public class _SharedMeteo
+	[Serialization]
+	public partial class _SharedMeteo
 	{
 		public bool ss_enable_wind_sync;
 		public float ss_wind_speed_max;

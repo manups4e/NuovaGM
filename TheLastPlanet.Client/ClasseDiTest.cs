@@ -12,6 +12,7 @@ using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
+using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client

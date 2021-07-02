@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <DebugType>embedded</DebugType>
     <TargetName>TheLastPlanet.Client.net</TargetName>
     <DefineConstants>DEBUG;CLIENT</DefineConstants>
@@ -49,7 +49,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MsgPack.Cli" Version="1.0.1" />
 
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="Newtonsoft.Json">
@@ -64,6 +63,9 @@
     <!--PER OFFUSCARE-->
     <Content Include="TheLastPlanet.Client.crproj" />
     <!--PER OFFUSCARE-->
+
+    <ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

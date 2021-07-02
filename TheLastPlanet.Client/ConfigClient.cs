@@ -49,122 +49,122 @@ namespace TheLastPlanet.Client
 
 	public class ConfigPrincipaleFR
 	{
-		public string NomeServer;
-		public string DiscordAppId;
-		public string DiscordRichPresenceAsset;
-		public bool KickWarning;
-		public int AFKCheckTime;
+		public string NomeServer { get; set; }
+		public string DiscordAppId { get; set; }
+		public string DiscordRichPresenceAsset { get; set; }
+		public bool KickWarning { get; set; }
+		public int AFKCheckTime { get; set; }
 
-		public int AfkTimeout;
-		public int AutoSavingInterval;
-		public int PingThreshold;
-		public int MaxPlayerNameLength;
-		public bool EnableVoiceChat;
-		public int DiscordNotificationInterval;
-		public int MaxMenuOptionCount;
-		public int SpawnProtectionTime;
+		public int AfkTimeout { get; set; }
+		public int AutoSavingInterval { get; set; }
+		public int PingThreshold { get; set; }
+		public int MaxPlayerNameLength { get; set; }
+		public bool EnableVoiceChat { get; set; }
+		public int DiscordNotificationInterval { get; set; }
+		public int MaxMenuOptionCount { get; set; }
+		public int SpawnProtectionTime { get; set; }
 
-		public int KillstreakTimeout;
+		public int KillstreakTimeout { get; set; }
 
-		public int MinPrestigeRank;
-		public int MaxPrestige;
-		public float PrestigeBonus;
+		public int MinPrestigeRank { get; set; }
+		public int MaxPrestige { get; set; }
+		public float PrestigeBonus { get; set; }
 
-		public int CrewInvitationTimeout;
+		public int CrewInvitationTimeout { get; set; }
 
-		public int SpecialVehicleMinRank;
+		public int SpecialVehicleMinRank { get; set; }
 
-		public List<string> BlackListVehicles = new List<string>();
+		public List<string> BlackListVehicles { get; set; }
 
-		public GTA2Cam Gta2Cam = new GTA2Cam();
+		public GTA2Cam Gta2Cam { get; set; }
 
-		public SettingsSpawn Spawn = new SettingsSpawn();
-		public List<int> Ranks = new List<int>();
-		public MarkerSettings PlaceMarker = new MarkerSettings();
+		public SettingsSpawn Spawn { get; set; }
+		public List<int> Ranks { get; set; }
+		public MarkerSettings PlaceMarker { get; set; }
 
-		public int KdRatioMinStat;
+		public int KdRatioMinStat { get; set; }
 
-		public int RewardNotificationTime;
+		public int RewardNotificationTime { get; set; }
 
-		public int CashPerKill;
-		public int CashPerKillstreak;
-		public int MaxCashPerKillstreak;
-		public int CashPerHeadshot;
-		public int CashPerMission;
-		public int CashPerFaction;
-		public int CashPerMelee;
+		public int CashPerKill { get; set; }
+		public int CashPerKillstreak { get; set; }
+		public int MaxCashPerKillstreak { get; set; }
+		public int CashPerHeadshot { get; set; }
+		public int CashPerMission { get; set; }
+		public int CashPerFaction { get; set; }
+		public int CashPerMelee { get; set; }
 
-		public int ExpPerKill;
-		public int ExpPerKillstreak;
-		public int MaxExpPerKillstreak;
-		public int ExpPerHeadshot;
-		public int ExpPerMission;
-		public int ExpPerFaction;
-		public int ExpPerMelee;
+		public int ExpPerKill { get; set; }
+		public int ExpPerKillstreak { get; set; }
+		public int MaxExpPerKillstreak { get; set; }
+		public int ExpPerHeadshot { get; set; }
+		public int ExpPerMission { get; set; }
+		public int ExpPerFaction { get; set; }
+		public int ExpPerMelee { get; set; }
 
-		public int ChallengeRequestTimeout;
+		public int ChallengeRequestTimeout { get; set; }
 
-		public EventSettings Event = new EventSettings();
-		public GunSettings Gun = new GunSettings();
-		public StockPilingSettings StockPiling = new StockPilingSettings();
-		public SharpShooterSettings SharpShooter = new SharpShooterSettings();
-		public KingOfTheCastleSettings Castle = new KingOfTheCastleSettings();
-		public HotPropertySettings Property = new HotPropertySettings();
-		public HuntTheBeastSettings HuntTheBeast = new HuntTheBeastSettings();
+		public EventSettings Event { get; set; }
+		public GunSettings Gun { get; set; }
+		public StockPilingSettings StockPiling { get; set; }
+		public SharpShooterSettings SharpShooter { get; set; }
+		public KingOfTheCastleSettings Castle { get; set; }
+		public HotPropertySettings Property { get; set; }
+		public HuntTheBeastSettings HuntTheBeast { get; set; }
 		public float SellWeaponRatio;
-		public Dictionary<string, List<string>> AmmuNationWeapons = new Dictionary<string, List<string>>();
-		public Dictionary<string, AmmunationRefillingWeaponsSettings> AmmuNationRefillAmmo = new Dictionary<string, AmmunationRefillingWeaponsSettings>();
-		public Dictionary<string, AmmunationSpecialAmmoSettings> AmmuNationSpecialAmmo = new Dictionary<string, AmmunationSpecialAmmoSettings>();
-		public MissionsSettings Mission = new MissionsSettings();
-		public SpecialCargoMissionSettings Cargo = new SpecialCargoMissionSettings();
-		public HeistMissionSettings Heist = new HeistMissionSettings();
-		public VelocityMissionSettings Velocity = new VelocityMissionSettings();
-		public MostWantedSettings MostWanted = new MostWantedSettings();
-		public AssetRecoveryMissionSettings AssetRecovery = new AssetRecoveryMissionSettings();
-		public HeadHunterSettings HeadHunter = new HeadHunterSettings();
-		public CratesSettings Crate = new CratesSettings();
-		public List<WeaponTintSettings> WeaponTints = new List<WeaponTintSettings>();
+		public Dictionary<string, List<string>> AmmuNationWeapons { get; set; }
+		public Dictionary<string, AmmunationRefillingWeaponsSettings> AmmuNationRefillAmmo { get; set; }
+		public Dictionary<string, AmmunationSpecialAmmoSettings> AmmuNationSpecialAmmo { get; set; }
+		public MissionsSettings Mission { get; set; }
+		public SpecialCargoMissionSettings Cargo { get; set; }
+		public HeistMissionSettings Heist { get; set; }
+		public VelocityMissionSettings Velocity { get; set; }
+		public MostWantedSettings MostWanted { get; set; }
+		public AssetRecoveryMissionSettings AssetRecovery { get; set; }
+		public HeadHunterSettings HeadHunter { get; set; }
+		public CratesSettings Crate { get; set; }
+		public List<WeaponTintSettings> WeaponTints { get; set; }
 	}
 
 	public class OutfitCreatorFR
 	{
-		public OutfitSexCreator Maschio = new OutfitSexCreator();
-		public OutfitSexCreator Femmina = new OutfitSexCreator();
+		public OutfitSexCreator Maschio { get; set; }
+		public OutfitSexCreator Femmina { get; set; }
 	}
 	public class OutfitSexCreator
 	{
-		public List<Completo> Aviazione = new List<Completo>();
-		public List<Completo> Spiaggia = new List<Completo>();
-		public List<Completo> Biker = new List<Completo>();
-		public List<Completo> Combattimento = new List<Completo>();
-		public List<Completo> Costumi = new List<Completo>();
-		public List<Completo> Colpo = new List<Completo>();
-		public List<Completo> Gara = new List<Completo>();
-		public List<Completo> Lavoro = new List<Completo>();
+		public List<Completo> Aviazione { get; set; }
+		public List<Completo> Spiaggia { get; set; }
+		public List<Completo> Biker { get; set; }
+		public List<Completo> Combattimento { get; set; }
+		public List<Completo> Costumi { get; set; }
+		public List<Completo> Colpo { get; set; }
+		public List<Completo> Gara { get; set; }
+		public List<Completo> Lavoro { get; set; }
 	}
 
 	public class RolePlayConfig
 	{
-		public ConfPrincipaleRP Main = new ConfPrincipaleRP();
-		public ConfigVeicoliRP Veicoli = new ConfigVeicoliRP();
-		public ConfigLavoriRP Lavori = new ConfigLavoriRP();
-		public ConfigNegoziRP Negozi = new ConfigNegoziRP();
-		public ConfigProprietaRP Proprieta = new ConfigProprietaRP();
+		public ConfPrincipaleRP Main { get; set; }
+		public ConfigVeicoliRP Veicoli { get; set; }
+		public ConfigLavoriRP Lavori { get; set; }
+		public ConfigNegoziRP Negozi { get; set; }
+		public ConfigProprietaRP Proprieta { get; set; }
 	}
 
 	public class ClientConfigKVP
 	{
-		public bool ModCinema;
-		public float LetterBox;
-		public string Filtro;
-		public float FiltroStrenght;
-		public bool MiniMappaAttiva;
-		public int DimensioniMinimappa;
-		public bool MiniMappaInAuto;
-		public bool MostraContattiTelefonoInMappa; // da valutare
-		public bool ForzaPrimaPersona_Mira;
-		public bool ForzaPrimaPersona_InCopertura;
-		public bool ForzaPrimaPersona_InAuto;
+		public bool ModCinema { get; set; }
+		public float LetterBox{ get; set; }
+		public string Filtro{ get; set; }
+		public float FiltroStrenght{ get; set; }
+		public bool MiniMappaAttiva{ get; set; }
+		public int DimensioniMinimappa{ get; set; }
+		public bool MiniMappaInAuto{ get; set; }
+		public bool MostraContattiTelefonoInMappa{ get; set; } // da valutare
+		public bool ForzaPrimaPersona_Mira{ get; set; }
+		public bool ForzaPrimaPersona_InCopertura{ get; set; }
+		public bool ForzaPrimaPersona_InAuto{ get; set; }
 
 		public ClientConfigKVP()
 		{
@@ -184,116 +184,116 @@ namespace TheLastPlanet.Client
 
 	public class ConfigLavoriRP
 	{
-		public ConfigPolizia Polizia = new ConfigPolizia();
-		public ConfigMedici Medici = new ConfigMedici();
-		public ConfigVenditoriAuto VenditoriAuto = new ConfigVenditoriAuto();
-		public ConfigVenditoriCase VenditoriCase = new ConfigVenditoriCase();
-		public LavoriGenerici Generici = new LavoriGenerici();
+		public ConfigPolizia Polizia { get; set; }
+		public ConfigMedici Medici { get; set; }
+		public ConfigVenditoriAuto VenditoriAuto { get; set; }
+		public ConfigVenditoriCase VenditoriCase { get; set; }
+		public LavoriGenerici Generici { get; set; }
 	}
 
 	public class ConfigVeicoliRP
 	{
-		public VeicoliAffitto veicoliAff = new();
-		public ConfVeicoli DanniVeicoli = new();
+		public VeicoliAffitto veicoliAff { get; set; }
+		public ConfVeicoli DanniVeicoli { get; set; }
 	}
 
 	public class ConfigNegoziRP
 	{
-		public ConfigNegoziAbiti Abiti = new ConfigNegoziAbiti();
-		public ConfigNegoziBarbieri Barbieri = new ConfigNegoziBarbieri();
-		public ConfigNegoziGenerici NegoziGenerici = new ConfigNegoziGenerici();
+		public ConfigNegoziAbiti Abiti { get; set; }
+		public ConfigNegoziBarbieri Barbieri { get; set; }
+		public ConfigNegoziGenerici NegoziGenerici { get; set; }
 	}
 
 	public class ConfigProprietaRP
 	{
-		public List<Hotel> hotels = new List<Hotel>();
-		public Dictionary<string, ConfigCase> Appartamenti = new Dictionary<string, ConfigCase>();
-		public ConfigGarages Garages = new ConfigGarages();
+		public List<Hotel> hotels { get; set; }
+		public Dictionary<string, ConfigCase> Appartamenti { get; set; }
+		public ConfigGarages Garages { get; set; }
 	}
 
 	public class ConfigAppartamenti
 	{
-		public Dictionary<string, ConfigCase> LowEnd = new Dictionary<string, ConfigCase>();
-		public Dictionary<string, ConfigCase> MidEnd = new Dictionary<string, ConfigCase>();
-		public Dictionary<string, ConfigCase> HighEnd = new Dictionary<string, ConfigCase>();
+		public Dictionary<string, ConfigCase> LowEnd { get; set; }
+		public Dictionary<string, ConfigCase> MidEnd { get; set; }
+		public Dictionary<string, ConfigCase> HighEnd { get; set; }
 	}
 
 	public class ConfigGarages
 	{
-		public ConfigGarage LowEnd = new ConfigGarage();
-		public ConfigGarage MidEnd4 = new ConfigGarage();
-		public ConfigGarage MidEnd6 = new ConfigGarage();
-		public ConfigGarage HighEnd = new ConfigGarage();
-		public Dictionary<string, Garages> Garages = new Dictionary<string, Garages>();
+		public ConfigGarage LowEnd { get; set; }
+		public ConfigGarage MidEnd4 { get; set; }
+		public ConfigGarage MidEnd6 { get; set; }
+		public ConfigGarage HighEnd { get; set; }
+		public Dictionary<string, Garages> Garages { get; set; }
 		// aggiungere uffici
 	}
 
 	public class ConfigGarage
 	{
-		public Vector3 Pos;
-		public int NVehs;
-		public Vector4 OutMarker;
-		public Vector4 ModifyMarker;
-		public Vector3[] ModifyCam = new Vector3[2];
-		public Vector4 SpawnInLocation;
-		public List<Vector4> PosVehs = new List<Vector4>();
+		public Vector3 Pos { get; set; }
+		public int NVehs { get; set; }
+		public Vector4 OutMarker { get; set; }
+		public Vector4 ModifyMarker { get; set; }
+		public Vector3[] ModifyCam { get; set; } = new Vector3[2];
+		public Vector4 SpawnInLocation { get; set; }
+		public List<Vector4> PosVehs { get; set; }
 	}
 
 	public class Garages
 	{
-		public string Label;
-		public int tipo;
-		public int VehCapacity;
-		public Vector3 MarkerEntrata;
-		public Vector3 MarkerUscita;
-		public Vector3 SpawnDentro;
-		public Vector4 SpawnFuori;
-		public ConfigCaseCamExt TelecameraFuori = new ConfigCaseCamExt();
-		public ConfigCaseCamExt TelecameraModificaDentro = new ConfigCaseCamExt();
-		public int Price;
+		public string Label { get; set; }
+		public int tipo{ get; set; }
+		public int VehCapacity{ get; set; }
+		public Vector3 MarkerEntrata{ get; set; }
+		public Vector3 MarkerUscita{ get; set; }
+		public Vector3 SpawnDentro{ get; set; }
+		public Vector4 SpawnFuori{ get; set; }
+		public ConfigCaseCamExt TelecameraFuori { get; set; }
+		public ConfigCaseCamExt TelecameraModificaDentro { get; set; }
+		public int Price { get; set; }
 	}
 
 	public class ConfigCase
 	{
-		public string Label;
-		public int VehCapacity;
-		public int Tipo;
-		public Vector3 MarkerEntrata;
-		public Vector3 MarkerUscita;
-		public Vector3 SpawnDentro;
-		public Vector3 SpawnFuori;
-		public ConfigCaseCamExt TelecameraFuori = new ConfigCaseCamExt();
-		public ConfigCaseCamInt TelecameraDentro = new ConfigCaseCamInt();
-		public List<string> Ipls = new List<string>();
-		public string Gateway;
-		public bool Is_single;
-		public bool Is_room;
-		public bool Is_gateway;
-		public bool TettoIncluso;
-		public Vector3 MarkerTetto;
-		public Vector3 SpawnTetto;
-		public bool GarageIncluso;
-		public Vector3 MarkerGarageEsterno;
-		public Vector3 MarkerGarageInterno;
-		public Vector3 SpawnGarageAPiediDentro;
-		public Vector4 SpawnGarageInVehFuori;
-		public int Price;
-		public int Stile = 0;
-		public bool Strip;
-		public bool Booze;
-		public bool Smoke;
+		public string Label { get; set; }
+		public int VehCapacity{ get; set; }
+		public int Tipo{ get; set; }
+		public Vector3 MarkerEntrata{ get; set; }
+		public Vector3 MarkerUscita{ get; set; }
+		public Vector3 SpawnDentro{ get; set; }
+		public Vector3 SpawnFuori{ get; set; }
+		public ConfigCaseCamExt TelecameraFuori { get; set; }
+		public ConfigCaseCamInt TelecameraDentro { get; set; }
+		public List<string> Ipls { get; set; }
+		public string Gateway { get; set; }
+		public bool Is_single{ get; set; }
+		public bool Is_room{ get; set; }
+		public bool Is_gateway{ get; set; }
+		public bool TettoIncluso{ get; set; }
+		public Vector3 MarkerTetto{ get; set; }
+		public Vector3 SpawnTetto{ get; set; }
+		public bool GarageIncluso{ get; set; }
+		public Vector3 MarkerGarageEsterno{ get; set; }
+		public Vector3 MarkerGarageInterno{ get; set; }
+		public Vector3 SpawnGarageAPiediDentro{ get; set; }
+		public Vector4 SpawnGarageInVehFuori{ get; set; }
+		public int Price{ get; set; }
+		public int Stile { get; set; } = 0;
+		public bool Strip { get; set; }
+		public bool Booze{ get; set; }
+		public bool Smoke{ get; set; }
 	}
 
 	public class ConfigCaseCamInt
 	{
-		public ConfigCaseCamExt Interno = new ConfigCaseCamExt();
-		public ConfigCaseCamExt Bagno = new ConfigCaseCamExt();
-		public ConfigCaseCamExt Garage = new ConfigCaseCamExt();
+		public ConfigCaseCamExt Interno { get; set; }
+		public ConfigCaseCamExt Bagno { get; set; }
+		public ConfigCaseCamExt Garage { get; set; }
 	}
 
 	public class ConfigCaseCamExt
 	{
-		public Vector3 pos;
-		public Vector3 guarda;
+		public Vector3 pos { get; set; }
+		public Vector3 guarda { get; set; }
 	}
 }

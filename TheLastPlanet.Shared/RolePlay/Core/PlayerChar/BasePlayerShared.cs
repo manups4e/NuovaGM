@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.Snowflakes;
 
 #if CLIENT
@@ -16,30 +14,33 @@ using TheLastPlanet.Server.Core.PlayerChar;
 
 namespace TheLastPlanet.Shared.PlayerChar
 {
-	public class BasePlayerShared
+	[Serialization]
+	public partial class BasePlayerShared
 	{
-		public int ID;
+		public int ID { get; set; }
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		private ulong UserID
 		{
 			set => PlayerID = Snowflake.Parse(value);
 		}
 
-		public Snowflake PlayerID;
-		public string group;
-		public UserGroup group_level;
-		public long playTime;
-		public DateTime lastConnection;
-		public Status status = new();
-		[JsonIgnore] public Player Player;
-		public Identifiers Identifiers = new();
-		
-		[JsonIgnore]
-		public PlayerStateBags StatiPlayer;
+		public Snowflake PlayerID { get; set; }
+		public string group{ get; set; }
+		public UserGroup group_level{ get; set; }
+		public long playTime{ get; set; }
+		[Ignore]
+		public DateTime lastConnection{ get; set; }
+		public Status status { get; set; } = new();
 
-		public List<Char_data> Characters = new();
-		[JsonIgnore]
+		[Ignore][JsonIgnore] public Player Player;
+		public Identifiers Identifiers { get; set; } = new();
+		
+		[Ignore] [JsonIgnore]
+		public PlayerStateBags StatiPlayer { get; set; }
+
+		public List<Char_data> Characters { get; set; } = new();
+		[Ignore][JsonIgnore]
 		private Char_data _current;
 		public Char_data CurrentChar
 		{
@@ -47,6 +48,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 			set => _current = value;
 		}
 
+		[Ignore]
 		private FreeRoamChar _freeRoamChar;
 		public FreeRoamChar FreeRoamChar
 		{
@@ -54,10 +56,10 @@ namespace TheLastPlanet.Shared.PlayerChar
 			set => _freeRoamChar = value;
 
 		}
-		public List<PlayerScore> PlayerScores = new();
+		public List<PlayerScore> PlayerScores { get; set; } = new();
 
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		internal string char_data
 		{
 			get => Characters.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
@@ -65,20 +67,22 @@ namespace TheLastPlanet.Shared.PlayerChar
 		}
 	}
 
-	public class Identifiers
+	[Serialization]
+	public partial class Identifiers
 	{
-		public string Steam;
-		public string License;
-		public string Discord;
-		public string Fivem;
-		public string Ip;
+		public string Steam { get; set; }
+		public string License{ get; set; }
+		public string Discord{ get; set; }
+		public string Fivem{ get; set; }
+		public string Ip{ get; set; }
 
 		public string[] ToArray() => new string[] { Steam, Discord, License, Fivem, Ip };
 	}
 
-	public class Status
+	[Serialization]
+	public partial class Status
 	{
-		public bool Connected = true;
-		public bool Spawned = false;
+		public bool Connected { get; set; } = true;
+		public bool Spawned { get; set; } = false;
 	}
 }

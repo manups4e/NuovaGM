@@ -4,17 +4,19 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    public class Position
+    [Serialization]
+    public partial class Position
     {
         public float X { get; set; }
         public float Y { get; set; }
         public float Z { get; set; }
         public float Heading { get; set; }
 
-        public static readonly Position Zero = new Position();
+        public static readonly Position Zero = new();
 
         public Position()
         {
@@ -87,7 +89,7 @@ namespace TheLastPlanet.Shared
             return $"X = {X}, Y = {Y}, Z = {Z} [Heading = {Heading}]";
         }
 
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public bool IsZero => X == 0 && Y == 0 && Z == 0;
 
         public float[] ToArray()
@@ -95,7 +97,7 @@ namespace TheLastPlanet.Shared
             return new[] { X, Y, Z };
         }
 
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Vector3 ToVector3 => new(X, Y, Z);
 
         public float Distance(Vector3 value)
@@ -222,7 +224,8 @@ namespace TheLastPlanet.Shared
     }
 
 
-    public class RotatablePosition
+    [Serialization]
+    public partial class RotatablePosition
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -251,9 +254,9 @@ namespace TheLastPlanet.Shared
             Roll = rot.Z;
         }
 
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Vector3 ToVector3 => new(X, Y, Z);
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Vector3 ToRot => new(Yaw, Pitch, Roll);
 
     }

@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 // ReSharper disable All
 
@@ -53,7 +54,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class OggettoRaccoglibile
+	[Serialization]
+	public partial class OggettoRaccoglibile
 	{
 		public string type;
 		public int id;

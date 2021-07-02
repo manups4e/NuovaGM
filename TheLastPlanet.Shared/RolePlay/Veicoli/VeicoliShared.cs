@@ -2,12 +2,15 @@
 using System.Drawing;
 using CitizenFX.Core;
 using Newtonsoft.Json;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared.Veicoli
 {
-	public class OwnedVehicle
+	[Serialization]
+	public partial class OwnedVehicle
 	{
-		[JsonIgnore] 
+		[Ignore]
+		[JsonIgnore]
 		Vehicle Vehicle = null;
 		[JsonProperty("targa")]
 		public string Targa;
@@ -37,7 +40,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		public OwnedVehicle(string targa, string data, string garage, string stato)
 		{
 			Targa = targa;
-			DatiVeicolo = data.FromJson<VehicleData>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
+			DatiVeicolo = data.FromJson<VehicleData>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			Garage = garage.FromJson<VehGarage>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			Stato = stato;
 		}
@@ -45,13 +48,14 @@ namespace TheLastPlanet.Shared.Veicoli
 		public OwnedVehicle(dynamic data)
 		{
 			Targa = data.targa;
-			DatiVeicolo = (data.vehicle_data as string).FromJson<VehicleData>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
-			Garage = (data.garage as string).FromJson<VehGarage>(settings:JsonHelper.IgnoreJsonIgnoreAttributes);
+			DatiVeicolo = (data.vehicle_data as string).FromJson<VehicleData>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
+			Garage = (data.garage as string).FromJson<VehGarage>(settings: JsonHelper.IgnoreJsonIgnoreAttributes);
 			Stato = data.stato;
 		}
 	}
 
-	public class VehGarage
+	[Serialization]
+	public partial class VehGarage
 	{
 		public bool InGarage;
 		public string Garage;
@@ -71,11 +75,14 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class VehicleData
+	[Serialization]
+	public partial class VehicleData
 	{
+		[Ignore]
 		[JsonIgnore]
 		public long Assicurazione;
-		[JsonIgnore] 
+		[Ignore]
+		[JsonIgnore]
 		public VehProp props = new VehProp();
 		public bool Rubato;
 		public VehicleData() { }
@@ -87,7 +94,8 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class VehProp
+	[Serialization]
+	public partial class VehProp
 	{
 		public int Model;
 		public string Name;
@@ -127,7 +135,7 @@ namespace TheLastPlanet.Shared.Veicoli
 			DirtLevel = dirtLevel;
 			PrimaryColor = color1; SecondaryColor = color2;
 			CustomPrimaryColor = custom1; CustomSecondaryColor = custom2;
-			HasCustomPrimaryColor = hasCustom1; HasCustomSecondaryColor= hasCustom2;
+			HasCustomPrimaryColor = hasCustom1; HasCustomSecondaryColor = hasCustom2;
 			PearlescentColor = pearlescentColor; WheelColor = wheelColor;
 			Wheels = wheels;
 			WindowTint = windowTint;
@@ -141,13 +149,14 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class VehMod
+	[Serialization]
+	public partial class VehMod
 	{
 		public int ModIndex;
 		public int Value;
 		public string ModName;
 		public string modType;
-		
+
 		public VehMod(int modIndex, int value, string name, string type)
 		{
 			ModIndex = modIndex;
@@ -157,7 +166,8 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class _VeicoliAffitto
+	[Serialization]
+	public partial class _VeicoliAffitto
 	{
 		public List<Veicoloaff> biciclette = new List<Veicoloaff>();
 		public List<Veicoloaff> macchineGeneric = new List<Veicoloaff>();
@@ -168,7 +178,8 @@ namespace TheLastPlanet.Shared.Veicoli
 		public List<Veicoloaff> motoSuper = new List<Veicoloaff>();
 	}
 
-	public class Veicoloaff
+	[Serialization]
+	public partial class Veicoloaff
 	{
 		public string name;
 		public string description;
@@ -191,7 +202,8 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	public class Treno
+	[Serialization]
+	public partial class Treno
 	{
 		public int entity;
 		public int spawnidx;

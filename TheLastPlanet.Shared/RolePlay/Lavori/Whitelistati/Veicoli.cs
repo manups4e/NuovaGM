@@ -1,8 +1,10 @@
 ﻿using CitizenFX.Core;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-	public class VeicoloLavorativoEAffitto
+	[Serialization]
+	public partial class VeicoloLavorativoEAffitto
 	{
 		public Vehicle veicolo;
 		public string Proprietario;
@@ -14,7 +16,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class VeicoloPol
+	[Serialization]
+	public partial class VeicoloPol
 	{
 		public string Plate;
 		public int Model;

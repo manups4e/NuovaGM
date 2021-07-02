@@ -1,8 +1,10 @@
 ﻿using System;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-	public class StationDiBenzina
+	[Serialization]
+	public partial class StationDiBenzina
 	{
 		public string identifier { get; set; }
 		public string Name { get; set; }

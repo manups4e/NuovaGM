@@ -10,18 +10,20 @@ using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared.Snowflakes;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {
-	public class User : BasePlayerShared
+	[Serialization]
+	public partial class User : BasePlayerShared
 	{
-		[JsonIgnore] public string source;
+		[Ignore][JsonIgnore] public string source;
 
 		public User()
 		{
 		}
 
-		[JsonIgnore] public DateTime LastSaved;
+		[Ignore][JsonIgnore] public DateTime LastSaved;
 
 		public User(Player player, BasePlayerShared result)
 		{
@@ -68,18 +70,18 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			LastSaved = DateTime.Now;
 		}
 
-		[JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+		[Ignore][JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-		[JsonIgnore] public string DOB => CurrentChar.Info.dateOfBirth;
+		[Ignore][JsonIgnore] public string DOB => CurrentChar.Info.dateOfBirth;
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		public bool DeathStatus
 		{
 			get => CurrentChar.is_dead;
 			set { CurrentChar.is_dead = value; StatiPlayer.Svenuto = true; }
 		}
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		public int Money
 		{
 			get => CurrentChar.Finance.Money;
@@ -94,7 +96,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 		}
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		public int Bank
 		{
 			get => CurrentChar.Finance.Bank;
@@ -106,7 +108,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			}
 		}
 
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		public int DirtCash
 		{
 			get => CurrentChar.Finance.DirtyCash;
@@ -307,7 +309,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			return weapon != null && weapon.components.Any(x => x.name == weaponComponent);
 		}
 
-		[JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.ToVector3;
+		[Ignore][JsonIgnore] public Vector3 getCoords => CurrentChar.Posizione.ToVector3;
 
 		public void giveLicense(string license, string mittente)
 		{
@@ -411,15 +413,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 	}
 
-	public class Status
+	[Serialization]
+	public partial class PlayerStateBags
 	{
-		public bool connected = true;
-		public bool spawned = false;
-	}
-
-	public class PlayerStateBags
-	{
-		[JsonIgnore] 
+		[Ignore][JsonIgnore] 
 		private Player player;
 		public bool InPausa
 		{
@@ -485,9 +482,10 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		}
 	}
 
-	public class Istanza
+	[Serialization]
+	public partial class Istanza
 	{
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		private Player player;
 
 		public Istanza(Player pl)

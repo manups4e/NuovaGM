@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using Logger;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
@@ -45,24 +46,25 @@ namespace TheLastPlanet.Shared
 		Invio
 	}
 
-	public class Char_data
+	[Serialization]
+	public partial class Char_data
 	{
-		public ulong CharID;
-		public bool is_dead;
-		public Info Info = new();
-		public Finance Finance = new();
-		public Position Posizione = new();
-		public Job Job = new();
-		public Gang Gang = new();
-		public Skin Skin = new();
-		public List<Weapons> Weapons = new();
-		public List<Licenses> Licenze = new();
-		public List<Inventory> Inventory = new();
-		public List<string> Proprietà = new();
-		public List<OwnedVehicle> Veicoli = new();
-		public Dressing Dressing = new();
-		public Needs Needs = new();
-		public Statistiche Statistiche = new();
+		public ulong CharID { get; set; }
+		public bool is_dead { get; set; }
+		public Info Info { get; set; } = new();
+		public Finance Finance { get; set; }= new();
+		public Position Posizione { get; set; }= new();
+		public Job Job { get; set; }= new();
+		public Gang Gang { get; set; }= new();
+		public Skin Skin { get; set; }= new();
+		public List<Weapons> Weapons { get; set; }= new();
+		public List<Licenses> Licenze { get; set; }= new();
+		public List<Inventory> Inventory { get; set; }= new();
+		public List<string> Proprietà { get; set; }= new();
+		public List<OwnedVehicle> Veicoli { get; set; }= new();
+		public Dressing Dressing { get; set; }= new();
+		public Needs Needs { get; set; }= new();
+		public Statistiche Statistiche { get; set; }= new();
 		public Char_data() { }
 
 		public Char_data(ulong id, Info info, Finance finance, Job job, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, List<Inventory> inventory, Needs needs, Statistiche statistiche, bool is_dead)
@@ -82,7 +84,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Char_Metadata
+	[Serialization]
+	public partial class Char_Metadata
 	{
 		public string info;/*{ set => Info = value.FromJson<Info>(); }*/
 		public int money;/*{ set => Finance.Money = value; }*/
@@ -101,14 +104,15 @@ namespace TheLastPlanet.Shared
 		public string statistiche;/*{ set => Statistiche = value.FromJson<Statistiche>(); }*/
 	}
 
-	public class Info
+	[Serialization]
+	public partial class Info
 	{
-		public string firstname;
-		public string lastname;
-		public string dateOfBirth;
-		public int height;
-		public long phoneNumber;
-		public long insurance;
+		public string firstname { get; set; }
+		public string lastname { get; set; }
+		public string dateOfBirth { get; set; }
+		public int height { get; set; }
+		public long phoneNumber { get; set; }
+		public long insurance { get; set; }
 
 		public Info() { }
 
@@ -123,11 +127,12 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Job
+	[Serialization]
+	public partial class Job
 	{
 		public string Name { get; set; } = "Disoccupato";
 		public int Grade { get; set; } = 0;
-		
+
 		public Job() { }
 		public Job(string name, int grade)
 		{
@@ -135,7 +140,8 @@ namespace TheLastPlanet.Shared
 			this.Grade = grade;
 		}
 	}
-	public class Gang
+	[Serialization]
+	public partial class Gang
 	{
 		public string Name { get; set; } = "Incensurato";
 		public int Grade { get; set; } = 0;
@@ -147,12 +153,13 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Licenses
+	[Serialization]
+	public partial class Licenses
 	{
-		public string name;
-		public string dataDiPossesso;
-		public string rilasciataDa = "Admin"; // gestire chi l'ha rilasciata!
-		public string scadenza;
+		public string name { get; set; }
+		public string dataDiPossesso { get; set; }
+		public string rilasciataDa  { get; set; } = "Admin"; // gestire chi l'ha rilasciata!
+		public string scadenza { get; set; }
 		public Licenses() { }
 		public Licenses(string name, string possesso, string rilasciatoDa = "Admin")
 		{
@@ -162,7 +169,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Finance
+	[Serialization]
+	public partial class Finance
 	{
 		public int Money { get; set; } = 1000;
 		public int Bank { get; set; } = 3000;
@@ -180,7 +188,8 @@ namespace TheLastPlanet.Shared
 
 	}
 
-	public class Inventory
+	[Serialization]
+	public partial class Inventory
 	{
 		public string Item { get; set; }
 		public int Amount { get; set; }
@@ -194,7 +203,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Weapons
+	[Serialization]
+	public partial class Weapons
 	{
 		public string name { get; set; }
 		public int ammo { get; set; }
@@ -226,14 +236,15 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Dressing
+	[Serialization]
+	public partial class Dressing
 	{
 		public string Name { get; set; }
 		public string Description { get; set; }
-		public ComponentDrawables ComponentDrawables = new ComponentDrawables();
-		public ComponentDrawables ComponentTextures = new ComponentDrawables();
-		public PropIndices PropIndices = new PropIndices();
-		public PropIndices PropTextures = new PropIndices();
+		public ComponentDrawables ComponentDrawables { get; set; }
+		public ComponentDrawables ComponentTextures { get; set; }
+		public PropIndices PropIndices { get; set; }
+		public PropIndices PropTextures { get; set; }
 
 		public Dressing() { }
 		public Dressing(string name, string description, ComponentDrawables ComponentDrawables, ComponentDrawables ComponentTextures, PropIndices PropIndices, PropIndices PropTextures)
@@ -247,20 +258,21 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class ComponentDrawables
+	[Serialization]
+	public partial class ComponentDrawables
 	{
-		public int Faccia;
-		public int Maschera;
-		public int Capelli;
-		public int Torso;
-		public int Pantaloni;
-		public int Borsa_Paracadute;
-		public int Scarpe;
-		public int Accessori;
-		public int Sottomaglia;
-		public int Kevlar;
-		public int Badge;
-		public int Torso_2;
+		public int Faccia { get; set; }
+		public int Maschera { get; set; }
+		public int Capelli { get; set; }
+		public int Torso { get; set; }
+		public int Pantaloni { get; set; }
+		public int Borsa_Paracadute { get; set; }
+		public int Scarpe { get; set; }
+		public int Accessori { get; set; }
+		public int Sottomaglia { get; set; }
+		public int Kevlar { get; set; }
+		public int Badge { get; set; }
+		public int Torso_2 { get; set; }
 		public ComponentDrawables() { }
 		public ComponentDrawables(int face, int mask, int hair, int torso, int pantaloni, int parachute_bag, int shoes, int accessory, int undershirt, int kevlar, int badge, int torso_2)
 		{
@@ -279,17 +291,18 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class PropIndices
+	[Serialization]
+	public partial class PropIndices
 	{
-		public int Cappelli_Maschere;
-		public int Orecchie;
-		public int Occhiali_Occhi;
-		public int Unk_3;
-		public int Unk_4;
-		public int Unk_5;
-		public int Orologi;
-		public int Bracciali;
-		public int Unk_8;
+		public int Cappelli_Maschere { get; set; }
+		public int Orecchie { get; set; }
+		public int Occhiali_Occhi { get; set; }
+		public int Unk_3 { get; set; }
+		public int Unk_4 { get; set; }
+		public int Unk_5 { get; set; }
+		public int Orologi { get; set; }
+		public int Bracciali { get; set; }
+		public int Unk_8 { get; set; }
 
 		public PropIndices() { }
 		public PropIndices(int cappelli_maschere, int orecchie, int occhiali_occhi, int unk_3, int unk_4, int unk_5, int orologi, int bracciali, int unk_8)
@@ -306,7 +319,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Needs
+	[Serialization]
+	public partial class Needs
 	{
 		public float Fame { get; set; }
 		public float Sete { get; set; }
@@ -314,7 +328,8 @@ namespace TheLastPlanet.Shared
 		public bool Malattia { get; set; } = false;
 	}
 
-	public class Statistiche
+	[Serialization]
+	public partial class Statistiche
 	{
 		public float STAMINA { get; set; }
 		public float STRENGTH { get; set; }
@@ -327,25 +342,26 @@ namespace TheLastPlanet.Shared
 		public float HUNTING { get; set; }
 	}
 
-	public class Skin
+	[Serialization]
+	public partial class Skin
 	{
 		public string sex { get; set; } = "Maschio";
 		public string model { get; set; } = "mp_m_freemode_01";
 		public float resemblance { get; set; } = 0f;
 		public float skinmix { get; set; } = 0f;
-		public Face face = new Face();
-		public A2 ageing = new A2();
-		public A2 makeup = new A2();
-		public A2 blemishes = new A2();
-		public A2 complexion = new A2();
-		public A2 skinDamage = new A2();
-		public A2 freckles = new A2();
-		public A3 lipstick = new A3();
-		public A3 blusher = new A3();
-		public Facial facialHair = new Facial();
-		public Hair hair = new Hair();
-		public Eye eye = new Eye();
-		public Ears ears = new Ears();
+		public Face face { get; set; }  = new();
+		public A2 ageing { get; set; } = new();
+		public A2 makeup { get; set; } = new();
+		public A2 blemishes { get; set; } = new();
+		public A2 complexion { get; set; } = new();
+		public A2 skinDamage { get; set; } = new();
+		public A2 freckles { get; set; } = new();
+		public A3 lipstick { get; set; } = new();
+		public A3 blusher { get; set; } = new();
+		public Facial facialHair { get; set; } = new();
+		public Hair hair { get; set; } = new();
+		public Eye eye { get; set; } = new();
+		public Ears ears { get; set; } = new();
 
 		public Skin() { }
 		public Skin(string sex, string model, float resemblance, float skinmix, Face face, A2 ageing, A2 makeup, A2 blemishes, A2 complexion, A2 skinDamage, A2 freckles, A3 lipstick, A3 blusher, Facial facialHair, Hair hair, Eye eye, Ears ears)
@@ -371,11 +387,12 @@ namespace TheLastPlanet.Shared
 
 	}
 
-	public class Face
+	[Serialization]
+	public partial class Face
 	{
 		public int mom { get; set; } = 0;
 		public int dad { get; set; } = 0;
-		public float[] tratti = new float[20] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		public float[] tratti { get; set; } = new float[20] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		public Face() { }
 		public Face(int mom, int dad, float[] tratti)
@@ -386,7 +403,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class A2
+	[Serialization]
+	public partial class A2
 	{
 		public int style { get; set; }
 		public float opacity { get; set; }
@@ -399,10 +417,11 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Facial
+	[Serialization]
+	public partial class Facial
 	{
-		public A3 beard = new A3();
-		public A3 eyebrow = new A3();
+		public A3 beard { get; set; } = new();
+		public A3 eyebrow { get; set; }= new();
 
 		public Facial() { }
 		public Facial(A3 beard, A3 eyebrow)
@@ -412,11 +431,12 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class A3
+	[Serialization]
+	public partial class A3
 	{
 		public int style { get; set; } = 0;
 		public float opacity { get; set; } = 0f;
-		public int[] color = new int[2] { 0, 0 };
+		public int[] color { get; set; } = new int[2] { 0, 0 };
 
 		public A3() { }
 		public A3(int style, float opacity, int[] color)
@@ -427,10 +447,11 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Hair
+	[Serialization]
+	public partial class Hair
 	{
 		public int style { get; set; } = 0;
-		public int[] color = new int[2] { 0, 0 };
+		public int[] color { get; set; } = new int[2] { 0, 0 };
 		public Hair() { }
 		public Hair(int style, int[] color)
 		{
@@ -439,7 +460,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Eye
+	[Serialization]
+	public partial class Eye
 	{
 		public int style { get; set; }
 		public Eye() { }
@@ -449,7 +471,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Ears
+	[Serialization]
+	public partial class Ears
 	{
 		public int style { get; set; }
 		public int color { get; set; }
@@ -460,8 +483,9 @@ namespace TheLastPlanet.Shared
 			this.color = color;
 		}
 	}
-	
-	public class Phone_data
+
+	[Serialization]
+	public partial class Phone_data
 	{
 		public int id { get; set; } = 1;
 		public int Theme { get; set; } = 1;
@@ -469,7 +493,7 @@ namespace TheLastPlanet.Shared
 		public int Ringtone { get; set; } = 0;
 		public int SleepMode { get; set; } = 0;
 		public int Vibration { get; set; } = 1;
-		public List<Message> messaggi = new List<Message>()
+		public List<Message> messaggi { get; set; } = new List<Message>()
 		{
 			new Message("Francesco Pastrengoni", "Test", "Messaggio di prova", DateTime.Now),
 			new Message("Francesco Pastrengoni", "Test", "Messaggio di prova", DateTime.Now)
@@ -501,7 +525,8 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Message
+	[Serialization]
+	public partial class Message
 	{
 		public string From { get; set; }
 		public string Title { get; set; }
@@ -517,14 +542,15 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class Contatto
+	[Serialization]
+	public partial class Contatto
 	{
-		public int Player;
-		public string Name;
-		public string Icon;
-		public string TelephoneNumber;
-		public bool IsPlayer;
-		public int PlayerIndex;
+		public int Player { get; set; }
+		public string Name{ get; set; }
+		public string Icon{ get; set; }
+		public string TelephoneNumber{ get; set; }
+		public bool IsPlayer{ get; set; }
+		public int PlayerIndex{ get; set; }
 
 
 		public Contatto(string name, string icon, bool isPlayer, string telephoneNumber, int playerIndex = 0, int player = 0)
@@ -538,11 +564,12 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	public class BankTransaction
+	[Serialization]
+	public partial class BankTransaction
 	{
 		public BankTransactionType Type { get; set; }
 		public long Amount { get; set; }
-		[JsonIgnore] public DateTime Date { get; set; }
+		[Ignore] [JsonIgnore] public DateTime Date { get; set; }
 		public string Information { get; set; }
 
 		[JsonProperty("Date")] public string _Date => Date.ToString("MM/dd/yyyy HH:mm:ss");

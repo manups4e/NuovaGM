@@ -1,10 +1,12 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-	public class ConfigurazionePolizia
+	[Serialization]
+	public partial class ConfigurazionePolizia
 	{
 		public bool AbilitaBlipVolanti;
 		public bool AbilitaTimerManette;
@@ -17,18 +19,21 @@ namespace TheLastPlanet.Shared
 		public List<StazioniDiPolizia> Stazioni = new();
 	}
 
-	public class ConfigurazioneMedici
+	[Serialization]
+	public partial class ConfigurazioneMedici
 	{
 		public bool AbilitaBlipVolanti;
 		public List<Ospedale> Ospedali = new List<Ospedale>();
 	}
 
-	public class ConfigurazioneVendAuto
+	[Serialization]
+	public partial class ConfigurazioneVendAuto
 	{
 		public Vector3 BossActions;
 		public Vector3 MenuVendita;
 	}
-	public class ConfigurazioneVendCase
+	[Serialization]
+	public partial class ConfigurazioneVendCase
 	{
 		public Vector3 BossActions;
 		public Vector3 Ingresso;
@@ -38,7 +43,8 @@ namespace TheLastPlanet.Shared
 		public Vector3 Actions;
 	}
 
-	public class _Pescatori
+	[Serialization]
+	public partial class _Pescatori
 	{
 		public bool TempoPescaDinamico;
 		public int TempoFisso;
@@ -51,20 +57,23 @@ namespace TheLastPlanet.Shared
 		public _PesciPescati Pesci = new _PesciPescati();
 	}
 
-	public class _PesciPescati
+	[Serialization]
+	public partial class _PesciPescati
 	{
 		public List<string> facile = new List<string>();
 		public List<string> medio = new List<string>();
 		public List<string> avanzato = new List<string>();
 	}
 
-	public class _Cacciatori
+	[Serialization]
+	public partial class _Cacciatori
 	{
 		public Vector3 inizioCaccia;
 		public Vector3 zonaDiCaccia;
 		public float limiteArea;
 	}
-	public class _Tassisti
+	[Serialization]
+	public partial class _Tassisti
 	{
 		public Vector3 PosAccettazione;
 		public Vector3 PosDepositoVeicolo;
@@ -75,7 +84,8 @@ namespace TheLastPlanet.Shared
 		public List<Vector3> jobCoords;
 	}
 
-	public class _Towing
+	[Serialization]
+	public partial class _Towing
 	{
 		public Vector3 InizioLavoro;
 		public List<Vector3> PuntiDespawn = new List<Vector3>();
@@ -83,7 +93,8 @@ namespace TheLastPlanet.Shared
 		public List<Vector4> SpawnVeicoli = new List<Vector4>();
 	}
 
-	public class WhiteListed
+	[Serialization]
+	public partial class WhiteListed
 	{
 		public ConcurrentDictionary<string, JobGrade> Polizia = new ConcurrentDictionary<string, JobGrade>();
 		public ConcurrentDictionary<string, JobGrade> Medico = new ConcurrentDictionary<string, JobGrade>();
@@ -91,32 +102,37 @@ namespace TheLastPlanet.Shared
 
 	}
 
-	public class JobGrade
+	[Serialization]
+	public partial class JobGrade
 	{
 		public int Id;
 		public int Stipendio;
 		public AbitiLavoro Vestiti;
 	}
 
-	public class CaniPolizia
+	[Serialization]
+	public partial class CaniPolizia
 	{
 		public string Nome;
 		public string Model;
 	}
 
-	public class Autorizzati
+	[Serialization]
+	public partial class Autorizzati
 	{
 		public string Nome;
 		public string Model;
 		public List<int> GradiAutorizzati = new List<int>();
 	}
 
-	public class AbitiLavoro
+	[Serialization]
+	public partial class AbitiLavoro
 	{
 		public AbitiLav Maschio;
 		public AbitiLav Femmina;
 	}
-	public class AbitiLav
+	[Serialization]
+	public partial class AbitiLav
 	{
 		public ComponentDrawables Abiti = new ComponentDrawables();
 		public ComponentDrawables TextureVestiti = new ComponentDrawables();
@@ -124,7 +140,8 @@ namespace TheLastPlanet.Shared
 		public PropIndices TexturesAccessori = new PropIndices();
 	}
 
-	public class StazioniDiPolizia
+	[Serialization]
+	public partial class StazioniDiPolizia
 	{
 		public BlipLavoro Blip = new BlipLavoro();
 		public List<Vector3> Spogliatoio = new List<Vector3>();
@@ -137,7 +154,8 @@ namespace TheLastPlanet.Shared
 		public List<Vector3> BossActions = new List<Vector3>();
 	}
 
-	public class Ospedale
+	[Serialization]
+	public partial class Ospedale
 	{
 		public BlipLavoro Blip = new BlipLavoro();
 		public List<Vector3> Spogliatoio = new List<Vector3>();
@@ -151,7 +169,8 @@ namespace TheLastPlanet.Shared
 		public List<Vector3> AzioniCapo = new List<Vector3>();
 	}
 
-	public class BlipLavoro
+	[Serialization]
+	public partial class BlipLavoro
 	{
 		public Vector3 Coords;
 		public int Sprite;
@@ -160,14 +179,16 @@ namespace TheLastPlanet.Shared
 		public int Color;
 		public string Nome;
 	}
-	public class SpawnerSpawn
+	[Serialization]
+	public partial class SpawnerSpawn
 	{
 		public Vector3 SpawnerMenu;
 		public List<SpawnPoints> SpawnPoints = new List<SpawnPoints>();
 		public List<Vector3> Deleters = new List<Vector3>();
 	}
 
-	public class SpawnPoints
+	[Serialization]
+	public partial class SpawnPoints
 	{
 		public Vector3 Coords;
 		public float Heading;

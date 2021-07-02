@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-	public class Rank
+	[Serialization]
+	public partial class Rank
 	{
 		private readonly int _a = 25;
 		private readonly int _b = 23575;

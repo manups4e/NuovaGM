@@ -7,15 +7,17 @@ using Newtonsoft.Json;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar
 {
-	public class User : BasePlayerShared
+	[Serialization]
+	public partial class User : BasePlayerShared
 	{
-		public int source;
+		public int source { get; set; }
 		
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
 		public Position Posizione
 		{
 			get => CurrentChar.Posizione;
@@ -44,19 +46,19 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public User() { }
 
-		[JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+		[Ignore][JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-		[JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
+		[Ignore][JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
 
-		[JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
+		[Ignore][JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
 
-		[JsonIgnore] public int Money => CurrentChar.Finance.Money;
+		[Ignore][JsonIgnore] public int Money => CurrentChar.Finance.Money;
 
-		[JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
+		[Ignore][JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
 
-		[JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
+		[Ignore][JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
 
-		[JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
+		[Ignore][JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
 
 		public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
 		{
@@ -113,7 +115,8 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		}
 	}
 
-	public class PlayerStateBags
+	[Serialization]
+	public partial class PlayerStateBags
 	{
 		public Istanza Istanza = new();
 
@@ -230,7 +233,8 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		}
 	}
 
-	public class Istanza
+	[Serialization]
+	public partial class Istanza
 	{
 		private bool _stanziato;
 		private int _idProprietario;

@@ -30,11 +30,12 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
 			Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
 			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
-			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, User>>>(SetupUser));
-			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ulong, Task<List<LogInInfo>>>(LogInfo));
+			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
+			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ClientId, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
 			Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
 			Server.Instance.Events.Mount("lprp:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
+
 #if DEBUG
 			Server.Instance.AddEventHandler("onResourceStart", new Action<string>(async (resName) =>
 			{
@@ -147,39 +148,67 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = player.GetLicense(Identifier.Discord) });
 		}
 
-		private static async Task<Tuple<Snowflake, User>> SetupUser(ClientId source)
+		private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(ClientId source)
 		{
 			try
 			{
-				Server.Logger.Debug(source.ToString());
-				await BaseScript.Delay(1);
 				source.User.StatiPlayer = new PlayerStateBags(source.Player);
 				EntratoMaProprioSulSerio(source.Player);
-
-				return new Tuple<Snowflake, User>(source.Id, source.User);
+				return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
 			}
 			catch (Exception e)
 			{
 				Server.Logger.Error(e.ToString());
 
-				return new Tuple<Snowflake, User>(Snowflake.Empty, null);
+				return default;
 			}
 		}
 
-		private static async Task<List<LogInInfo>> LogInfo(ulong id)
+		private static async Task<List<LogInInfo>> LogInfo(ClientId client)
 		{
 			string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
-			IEnumerable<LogInInfo> info = await MySQL.QueryListAsync<LogInInfo>(query, new { id });
+			var info = await MySQL.QueryListAsync(query, new
+			{
+				client.User.ID
+			});
+			List<LogInInfo> result = new();
+			foreach(var ii in info)
+			{
+				var p = (ii.info as string).FromJson<Info>();
+				result.Add(new LogInInfo()
+				{
+					ID = ((long)ii.CharID).ToString(),
+					firstName = p.firstname,
+					lastName = p.lastname,
+					dateOfBirth = p.dateOfBirth,
+					Money = ii.money,
+					Bank = ii.bank,
+				});
+			}
 
-			return info.ToList();
+			return result;
 		}
 
 		private static async Task<SkinAndDress> PreviewChar(ulong id)
 		{
-			string query = "SELECT skin, dressing, location FROM personaggi WHERE CharID = @id";
-			SkinAndDress res = await MySQL.QuerySingleAsync<SkinAndDress>(query, new { id });
 
-			return res;
+			SkinAndDress result = new();
+			string querySkin = "SELECT skin FROM personaggi WHERE CharID = @id";
+			string queryDress = "SELECT dressing FROM personaggi WHERE CharID = @id";
+			string queryLoc = "SELECT location FROM personaggi WHERE CharID = @id";
+
+			string skin = await MySQL.QuerySingleAsync<string>(querySkin, new { id });
+			string dress = await MySQL.QuerySingleAsync<string>(queryDress, new { id });
+			string loc = await MySQL.QuerySingleAsync<string>(queryLoc, new { id });
+
+			result.Skin = skin.FromJson<Skin>();
+			result.Position = loc.FromJson<Position>();
+			result.Dressing = dress.FromJson<Dressing>();
+			result.Dressing.Name = string.Empty;
+			result.Dressing.Description = string.Empty;
+
+			Server.Logger.Debug(result.Dressing.ToJson());
+			return result;
 		}
 
 		private static async Task<Char_data> LoadChar(ClientId source, ulong id)
@@ -201,6 +230,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Needs = res.needs.FromJson<Needs>(),
 				Statistiche = res.statistiche.FromJson<Statistiche>()
 			};
+			user.CurrentChar.Dressing.Name = string.Empty;
+			user.CurrentChar.Dressing.Description = string.Empty;
 
 			return user.CurrentChar;
 		}
