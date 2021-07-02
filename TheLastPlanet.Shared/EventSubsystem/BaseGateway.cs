@@ -5,69 +5,95 @@ using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
+using TheLastPlanet.Shared.Internal.Events.Diagnostics;
+using TheLastPlanet.Shared.Internal.Events.Exceptions;
 using TheLastPlanet.Shared.Internal.Events.Message;
+using TheLastPlanet.Shared.Internal.Events.Models;
 using TheLastPlanet.Shared.Internal.Events.Payload;
-using TheLastPlanet.Shared.Internal.Events.Response;
-using TheLastPlanet.Shared.Internal.Extensions;
+using TheLastPlanet.Shared.Internal.Events.Serialization;
+using TheLastPlanet.Shared.Extensions;
 
 namespace TheLastPlanet.Shared.Internal.Events
 {
     // TODO: Concurrency, block a request simliar to a already processed one unless tagged with the [Concurrent] method attribute to combat force spamming events to achieve some kind of bug.
-    
+    public delegate Task EventDelayMethod(int ms = 0);
+    public delegate Task EventMessagePreparation(string pipeline, ISource source, IMessage message);
+    public delegate void EventMessagePush(string pipeline, ISource source, byte[] buffer);
+
     public abstract class BaseGateway
     {
         private Log Logger = new();
-        private List<WaitingEvent> _queue = new();
-        private List<EventSubscription> _subscriptions = new();
+        protected abstract ISerialization Serialization { get; }
+
+        private List<Tuple<EventMessage, EventHandler>> _processed =
+            new List<Tuple<EventMessage, EventHandler>>();
+
+        private List<EventObservable> _queue = new List<EventObservable>();
+        private List<EventHandler> _handlers = new List<EventHandler>();
+
+        public EventDelayMethod DelayDelegate { get; set; }
+        public EventMessagePreparation PrepareDelegate { get; set; }
+        public EventMessagePush PushDelegate { get; set; }
+
+        public async Task ProcessInboundAsync(ISource source, byte[] serialized)
+        {
+            using var context =
+                new SerializationContext(EventConstant.InboundPipeline, null, Serialization, serialized);
+            var message = context.Deserialize<EventMessage>();
+
+            await ProcessInboundAsync(message, source);
+        }
 
         public async Task ProcessInboundAsync(EventMessage message, ISource source)
         {
             try
             {
-                object InvokeDelegate(EventSubscription subscription)
+                object InvokeDelegate(EventHandler subscription)
                 {
-                    var arguments = new List<object>();
+                    var parameters = new List<object>();
                     var @delegate = subscription.Delegate;
                     var method = @delegate.Method;
                     var takesSource = method.GetParameters().Any(self => self.ParameterType == source.GetType());
                     var startingIndex = takesSource ? 1 : 0;
 
                     if (takesSource)
-                        arguments.Add(source);
+                        parameters.Add(source);
 
-                    if (message.Parameters != null)
+                    if (message.Parameters == null) return @delegate.DynamicInvoke(parameters.ToArray());
+                    var array = message.Parameters.ToArray();
+                    var holder = new List<object>();
+                    var parameterInfos = @delegate.Method.GetParameters();
+
+                    for (var idx = 0; idx < array.Length; idx++)
                     {
-                        var array = message.Parameters.FromJson<EventParameter[]>();
-                        var holder = new List<object>();
-                        var parameterInfos = @delegate.Method.GetParameters();
-                        for (var index = 0; index < array.Length; index++)
-                        {
-                            var argument = array[index];
-                            var type = parameterInfos[startingIndex + index].ParameterType;
+                        var parameter = array[idx];
+                        var type = parameterInfos[startingIndex + idx].ParameterType;
 
-                            holder.Add(argument.Deserialize(type));
-                        }
+                        using var context = new SerializationContext(message.Endpoint, $"(Out) Parameter Index {idx}", Serialization, parameter.Data);
 
-                        arguments.AddRange(holder.ToArray());
+
+                        holder.Add(context.Deserialize(type));
                     }
 
-                    return @delegate.DynamicInvoke(arguments.ToArray());
+                    parameters.AddRange(holder.ToArray());
+
+                    return @delegate.DynamicInvoke(parameters.ToArray());
                 }
 
-                if (message.MethodType == EventMethodType.Get)
+                if (message.Flow == EventFlowType.Circle)
                 {
-                    var subscription = _subscriptions.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
-                                       throw new Exception($"Nessun handler per l'endpoint: {message.Endpoint}");
+                    var stopwatch = StopwatchUtil.StartNew();
+                    var subscription = _handlers.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
+                                       throw new Exception($"Could not find a handler for endpoint '{message.Endpoint}'");
                     var result = InvokeDelegate(subscription);
-                    var type = result.GetType();
 
-                    if (type.GetGenericTypeDefinition() == typeof(Task<>))
+                    if (result?.GetType().GetGenericTypeDefinition() == typeof(Task<>))
                     {
-                        var task = (Task)result;
-
                         using var token = new CancellationTokenSource();
-                        var delay = Task.Run(async () => { await GetDelayedTask(30000); }, token.Token);
-                        var completed = await Task.WhenAny(task, delay);
+
+                        var task = (Task)result;
+                        var timeout = Task.Run(async () => await DelayDelegate(10000), token.Token);
+                        var completed = await Task.WhenAny(task, timeout);
 
                         if (completed == task)
                         {
@@ -79,20 +105,36 @@ namespace TheLastPlanet.Shared.Internal.Events
                         }
                         else
                         {
-                            throw new TimeoutException(
-                                $"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) L'operazione ha ecceduto il tempo di esecuzione (Timeout).");
+                            throw new EventTimeoutException(
+                                $"({message.Endpoint} - {subscription.Delegate.Method.DeclaringType?.Name ?? "null"}/{subscription.Delegate.Method.Name}) The operation was timed out");
                         }
                     }
 
-                    var response = new EventResponseMessage(message.Id, null, result.ToJson());
+                    var resultType = result?.GetType() ?? typeof(object);
+                    var response = new EventResponseMessage(message.Id, message.Endpoint, message.Signature, null);
 
-                    TriggerImpl(EventConstant.OutboundPipeline, source.Handle, response);
+                    using (var context = new SerializationContext(message.Endpoint, "Result", Serialization))
+                    {
+                        context.Serialize(resultType, result);
+                        response.Data = context.GetData();
+                    }
+
+                    using (var context = new SerializationContext(message.Endpoint, null, Serialization))
+                    {
+                        context.Serialize(response);
+
+                        var data = context.GetData();
+
+                        PushDelegate(EventConstant.OutboundPipeline, source, data);
+                        Logger.Debug(
+                            $"[{message.Endpoint}] Responded to {source} with {data.Length} byte(s) in {stopwatch.Elapsed.TotalMilliseconds}ms");
+                    }
                 }
                 else
                 {
-                    _subscriptions.Where(self => self.Endpoint == message.Endpoint).ForEach(self => InvokeDelegate(self));
+                    _handlers.Where(self => message.Endpoint == self.Endpoint).ForEach(del => InvokeDelegate(del));
                 }
-			}
+            }
 			catch (Exception e)
 			{
 #if CLIENT
@@ -103,38 +145,93 @@ namespace TheLastPlanet.Shared.Internal.Events
             }
         }
 
+        public void ProcessOutbound(byte[] serialized)
+        {
+            using var context =
+                new SerializationContext(EventConstant.OutboundPipeline, null, Serialization, serialized);
+            var response = context.Deserialize<EventResponseMessage>();
+
+            ProcessOutbound(response);
+        }
+
         public void ProcessOutbound(EventResponseMessage response)
         {
-            var waiting = _queue.SingleOrDefault(self => self.Message.Id == response.Id) ?? throw new Exception($"No matching request was found: {response.Id}");
+            var waiting = _queue.SingleOrDefault(self => self.Message.Id == response.Id) ??
+                          throw new Exception($"No request matching {response.Id} was found.");
 
             _queue.Remove(waiting);
-            waiting.Callback.Invoke(response.Serialized);
+            waiting.Callback.Invoke(response.Data);
         }
 
-        protected void SendInternal(int target, string endpoint, params object[] args)
+        protected async Task<EventMessage> SendInternal(EventFlowType flow, ISource source, string endpoint,
+            params object[] args)
         {
-            var container = new EventMessage(endpoint, EventMethodType.Post, args);
+            var stopwatch = StopwatchUtil.StartNew();
+            var parameters = new List<EventParameter>();
 
-            TriggerImpl(EventConstant.InboundPipeline, target, container);
+            for (var idx = 0; idx < args.Length; idx++)
+            {
+                var argument = args[idx];
+                var type = argument?.GetType() ?? typeof(object);
+
+                using var context = new SerializationContext(endpoint, $"(In) Parameter Index '{idx}'",
+                    Serialization);
+                context.Serialize(type, argument);
+                parameters.Add(new EventParameter(context.GetData()));
+            }
+
+            var message = new EventMessage(endpoint, flow, parameters);
+
+
+            if (PrepareDelegate != null)
+            {
+                stopwatch.Stop();
+
+                await PrepareDelegate(EventConstant.InboundPipeline, source, message);
+
+                stopwatch.Start();
+            }
+
+            using (var context = new SerializationContext(endpoint, null, Serialization))
+            {
+                context.Serialize(message);
+
+                var data = context.GetData();
+
+                PushDelegate(EventConstant.InboundPipeline, source, data);
+                Logger.Debug(
+                    $"[{endpoint}] Sent {data.Length} byte(s) to {source} in {stopwatch.Elapsed.TotalMilliseconds}ms");
+
+                return message;
+            }
         }
 
-        protected async Task<T> GetInternal<T>(int target, string endpoint, params object[] args)
+        protected async Task<T> GetInternal<T>(ISource source, string endpoint, params object[] args)
         {
-            var message = new EventMessage(endpoint, EventMethodType.Get, args);
+            var stopwatch = StopwatchUtil.StartNew();
+            var message = await SendInternal(EventFlowType.Circle, source, endpoint, args);
             var token = new CancellationTokenSource();
             var holder = new EventValueHolder<T>();
 
-            TriggerImpl(EventConstant.InboundPipeline, target, message);
-            _queue.Add(new WaitingEvent(message, response =>
+            _queue.Add(new EventObservable(message, data =>
             {
-                holder.Value = response.FromJson<T>();
+                using var context = new SerializationContext(endpoint, "Response", Serialization, data);
+
+                holder.Data = data;
+                holder.Value = context.Deserialize<T>();
+
                 token.Cancel();
             }));
 
             while (!token.IsCancellationRequested)
             {
-                await GetDelayedTask(1);
+                await DelayDelegate();
             }
+
+            var elapsed = stopwatch.Elapsed.TotalMilliseconds;
+
+            Logger.Debug(
+                $"[{message.Endpoint}] Received response from {source} of {holder.Data.Length} byte(s) in {elapsed}ms");
 
             return holder.Value;
         }
@@ -142,12 +239,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         public void Mount(string endpoint, Delegate @delegate)
         {
             Logger.Debug($"Mounted: {endpoint}");
-
-            //Mount(endpoint, @delegate);
-            _subscriptions.Add(new EventSubscription(endpoint, @delegate));
+            _handlers.Add(new EventHandler(endpoint, @delegate));
         }
-
-        protected abstract Task GetDelayedTask(int milliseconds = 0);
-        protected abstract void TriggerImpl(string pipeline, int target, ISerializable payload);
     }
 }

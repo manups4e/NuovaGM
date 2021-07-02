@@ -1,49 +1,27 @@
-﻿using System.Linq;
-
-using TheLastPlanet.Shared.Internal.Events.Payload;
-using TheLastPlanet.Shared;
-using Newtonsoft.Json;
+﻿using TheLastPlanet.Shared.Internal.Events.Payload;
 using TheLastPlanet.Shared.Snowflakes;
+using System.Collections.Generic;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared.Internal.Events.Message
 {
-    
-    public class EventMessage : ISerializable
+    [Serialization]
+    public partial class EventMessage : IMessage
     {
         public Snowflake Id { get; set; }
         public string Signature { get; set; }
         public string Endpoint { get; set; }
-        public EventMethodType MethodType { get; set; }
-        public string Parameters { get; set; }
-        public object[] PreservedParameters { get; set; }
+        public EventFlowType Flow { get; set; }
+        public IEnumerable<EventParameter> Parameters { get; set; }
 
-        public EventMessage(string endpoint, EventMethodType methodType, object[] parameters)
+        public EventMessage(string endpoint, EventFlowType flow, IEnumerable<EventParameter> parameters)
         {
             Id = Snowflake.Next();
             Endpoint = endpoint;
-            MethodType = methodType;
-            Parameters = parameters.Select(self => new EventParameter(self)).ToJson();
-            PreservedParameters = parameters;
-        }
-
-        [JsonConstructor]
-        public EventMessage(Snowflake id, string signature, string endpoint, EventMethodType methodType, string parameters)
-        {
-            Id = id;
-            Signature = signature;
-            Endpoint = endpoint;
-            MethodType = methodType;
+            Flow = flow;
             Parameters = parameters;
         }
 
-        public string Serialize()
-        {
-            return this.ToJson();
-        }
-
-        public static EventMessage Deserialize(string serialized)
-        {
-            return serialized.FromJson<EventMessage>();
-        }
+        public override string ToString() => Endpoint;
     }
 }

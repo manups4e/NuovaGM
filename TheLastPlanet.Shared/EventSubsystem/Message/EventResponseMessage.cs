@@ -1,30 +1,25 @@
 ﻿using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared.Internal.Events.Message
 {
-    
-    public class EventResponseMessage : ISerializable
+    [Serialization]
+    public partial class EventResponseMessage : IMessage
     {
         public Snowflake Id { get; set; }
+        public string Endpoint { get; set; }
         public string Signature { get; set; }
-        public string Serialized { get; set; }
+        public byte[] Data { get; set; }
 
-        public EventResponseMessage(Snowflake id, string signature, string serialized)
+        public EventResponseMessage(Snowflake id, string endpoint, string signature, byte[] data)
         {
             Id = id;
+            Endpoint = endpoint;
             Signature = signature;
-            Serialized = serialized;
+            Data = data;
         }
 
-        public string Serialize()
-        {
-            return this.ToJson();
-        }
-
-        public static EventResponseMessage Deserialize(string serialized)
-        {
-            return serialized.FromJson<EventResponseMessage>();
-        }
+        public override string ToString() => Id.ToString();
     }
 }

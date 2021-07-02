@@ -12,34 +12,37 @@ using TheLastPlanet.Server;
 using TheLastPlanet.Client.Core.PlayerChar;
 #endif
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared.Internal.Events
 {
-    public class ClientId : ISource
+    [Serialization]
+    public partial class ClientId : ISource
     {
 
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
-		[JsonIgnore]
+		[Ignore][JsonIgnore]
         public Player Player { get; set; }
 
 #if SERVER
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Ped Ped => Player.Character;
         public static readonly ClientId Global = new(-1);
+        public User User { get; set; }
 #elif CLIENT
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Ped Ped { get; set; }
         
-        [JsonIgnore]
+        [Ignore][JsonIgnore]
         public Position Posizione { get; set; }
         public void UpdatePedId() => Ped = new Ped(API.PlayerPedId());
         public bool Ready => Player != null && Ped != null && User != null;
+        public User User { get; set; }
 #endif
 
-        public User User { get; set; }
         public Identifiers Identifiers => User.Identifiers;
         public ClientId() { }
 #if CLIENT
