@@ -1,9 +1,11 @@
 ﻿using System;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared.Snowflakes
 {
-    
-    public class SnowflakeGenerator
+
+    [Serialization]
+    public partial class SnowflakeGenerator
     {
         private readonly long _maskSequence;
         private readonly long _maskTime;

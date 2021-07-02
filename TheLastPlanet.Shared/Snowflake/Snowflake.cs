@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace TheLastPlanet.Shared.Snowflakes
 {
@@ -42,6 +43,16 @@ namespace TheLastPlanet.Shared.Snowflakes
         public Snowflake(string value)
         {
             _value = (ulong) long.Parse(value);
+        }
+
+        public Snowflake(BinaryReader reader)
+        {
+            _value = reader.ReadUInt64();
+        }
+
+        public void PackSerializedBytes(BinaryWriter writer)
+        {
+            writer.Write(_value);
         }
 
         public override string ToString()
