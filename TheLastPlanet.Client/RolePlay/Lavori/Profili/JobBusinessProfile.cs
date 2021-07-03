@@ -23,16 +23,16 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Profili
 			await Cache.Loaded();
 			Seed = $"lprp:businesses::{job.Lavoro.ToString().ToLower()}";
 
-			Business = await Client.Instance.Eventi.Get<Business>("lprp:business:fetch", Seed) ?? new Business()
+			Business = await Client.Instance.Events.Get<Business>("lprp:business:fetch", Seed) ?? new Business()
 			{
 				Seed = Seed,
 				Balance = 0,
 				Registered = DateTime.Now.Ticks
 			};
 
-			Client.Instance.Eventi.Mount("lprp:business:update", new Action<Business>((a) => Business.Balance = a.Balance));
+			Client.Instance.Events.Mount("lprp:business:update", new Action<Business>((a) => Business.Balance = a.Balance));
 		}
 
-		public void Commit() => Client.Instance.Eventi.Send("lprp:business:update", Business);
+		public void Commit() => Client.Instance.Events.Send("lprp:business:update", Business);
 	}
 }

@@ -570,19 +570,19 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 				RenderScriptCams(false, false, 0, false, false);
 
 				foreach (SpawnPoints t in Punto.SpawnPoints)
-					if (!Funzioni.IsSpawnPointClear(t.Coords, 2f))
+					if (!Funzioni.IsSpawnPointClear(t.Coords.ToVector3, 2f))
 					{
 						continue;
 					}
-					else if (Funzioni.IsSpawnPointClear(t.Coords, 2f))
+					else if (Funzioni.IsSpawnPointClear(t.Coords.ToVector3, 2f))
 					{
-						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, t.Coords, t.Heading);
+						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, t.Coords.ToVector3, t.Heading);
 
 						break;
 					}
 					else
 					{
-						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[0].Coords, Punto.SpawnPoints[0].Heading);
+						PoliziaMainClient.ElicotteroAttuale = await Funzioni.SpawnVehicle(Stazione.ElicotteriAutorizzati[index].Model, Punto.SpawnPoints[0].Coords.ToVector3, Punto.SpawnPoints[0].Heading);
 
 						break;
 					}
@@ -752,19 +752,19 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 								veicoliParcheggio.Clear();
 
 								for (int i = 0; i < PuntoAttuale.SpawnPoints.Count; i++)
-									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
+									if (!Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3, 2f))
 									{
 										continue;
 									}
-									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords, 2f))
+									else if (Funzioni.IsSpawnPointClear(PuntoAttuale.SpawnPoints[i].Coords.ToVector3, 2f))
 									{
-										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords, PuntoAttuale.SpawnPoints[i].Heading);
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[i].Coords.ToVector3, PuntoAttuale.SpawnPoints[i].Heading);
 
 										break;
 									}
 									else
 									{
-										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords, PuntoAttuale.SpawnPoints[0].Heading);
+										PoliziaMainClient.VeicoloAttuale = await Funzioni.SpawnVehicle(model, PuntoAttuale.SpawnPoints[0].Coords.ToVector3, PuntoAttuale.SpawnPoints[0].Heading);
 
 										break;
 									}
@@ -822,7 +822,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 					if (item == esci)
 					{
-						Cache.MyPlayer.Ped.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu;
+						Cache.MyPlayer.Ped.Position = StazioneAttuale.Veicoli[StazioneAttuale.Veicoli.IndexOf(PuntoAttuale)].SpawnerMenu.ToVector3;
 						InGarage = false;
 						StazioneAttuale = null;
 						PuntoAttuale = null;

@@ -55,8 +55,8 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 		{
 			Camera dummycam = World.CreateCamera(GameplayCamera.Position, GameplayCamera.Rotation, GameplayCamera.FieldOfView);
 			World.RenderingCamera = dummycam;
-			Camera cam = World.CreateCamera(app.Value.TelecameraFuori.pos, new Vector3(0), GameplayCamera.FieldOfView);
-			cam.PointAt(app.Value.TelecameraFuori.guarda);
+			Camera cam = World.CreateCamera(app.Value.TelecameraFuori.pos.ToVector3, new Vector3(0), GameplayCamera.FieldOfView);
+			cam.PointAt(app.Value.TelecameraFuori.guarda.ToVector3);
 			RenderScriptCams(true, true, 1500, true, false);
 			dummycam.InterpTo(cam, 1500, 1, 1);
 			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti");
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 					}
 
 					RequestCollisionAtCoord(app.Value.SpawnDentro.X, app.Value.SpawnDentro.Y, app.Value.SpawnDentro.Z);
-					Cache.MyPlayer.Ped.Position = app.Value.SpawnDentro;
+					Cache.MyPlayer.Ped.Position = app.Value.SpawnDentro.ToVector3;
 					while (!HasCollisionLoadedAroundEntity(PlayerPedId())) await BaseScript.Delay(1000);
 					await BaseScript.Delay(2000);
 					Screen.Fading.FadeIn(500);
@@ -176,12 +176,12 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 
 				if (_item == escisci)
 				{
-					Funzioni.Teleport(app.SpawnFuori);
+					Funzioni.Teleport(app.SpawnFuori.ToVector3);
 					Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 				}
 				else if (_item == casa)
 				{
-					Funzioni.Teleport(app.SpawnDentro);
+					Funzioni.Teleport(app.SpawnDentro.ToVector3);
 				}
 				else if (_item == garage)
 				{
@@ -229,7 +229,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 						if (veh.Garage.Garage == Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 							if (veh.Garage.InGarage)
 							{
-								Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+								Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Heading);
 								await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 								VeicoliParcheggio.Add(veic);
 							}
@@ -242,7 +242,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 				}
 				else if (_item == tetto)
 				{
-					Funzioni.Teleport(app.SpawnTetto);
+					Funzioni.Teleport(app.SpawnTetto.ToVector3);
 					Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 				}
 
@@ -300,30 +300,30 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 			Player InCasa = Client.Instance.GetPlayers.ToList().FirstOrDefault(x => x.ServerId == serverIdInCasa);
 
 			if (InCasa == null) return;
-			if (!Cache.MyPlayer.Ped.IsInRangeOf(app.Value.MarkerEntrata, 3f)) return;
+			if (!Cache.MyPlayer.Ped.IsInRangeOf(app.Value.MarkerEntrata.ToVector3, 3f)) return;
 			if (Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
 			Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia(InCasa.ServerId, app.Key);
-			Funzioni.Teleport(app.Value.SpawnDentro);
+			Funzioni.Teleport(app.Value.SpawnDentro.ToVector3);
 		}
 
 		public static async Task Garage()
 		{
-			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.ModifyMarker.ToVector3(), 1.375f))
+			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.ModifyMarker.ToVector3, 1.375f))
 			{
 				// gestire
 			}
 
-			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.MidEnd4.ModifyMarker.ToVector3(), 1.375f))
+			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.MidEnd4.ModifyMarker.ToVector3, 1.375f))
 			{
 				// gestire
 			}
 
-			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.MidEnd6.ModifyMarker.ToVector3(), 1.375f))
+			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.MidEnd6.ModifyMarker.ToVector3, 1.375f))
 			{
 				// gestire
 			}
 
-			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.HighEnd.ModifyMarker.ToVector3(), 1.375f))
+			if (Cache.MyPlayer.Ped.IsInRangeOf(Client.Impostazioni.RolePlay.Proprieta.Garages.HighEnd.ModifyMarker.ToVector3, 1.375f))
 			{
 				// gestire
 			}
@@ -341,9 +341,9 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 					VeicoliParcheggio.Clear();
 					Vector4 exit = Vector4.Zero;
 					if (Client.Impostazioni.RolePlay.Proprieta.Appartamenti.ContainsKey(Cache.MyPlayer.User.StatiPlayer.Istanza.Instance))
-						exit = Client.Impostazioni.RolePlay.Proprieta.Appartamenti[Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori;
+						exit = Client.Impostazioni.RolePlay.Proprieta.Appartamenti[Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnGarageInVehFuori.ToVector4;
 					else
-						exit = Client.Impostazioni.RolePlay.Proprieta.Garages.Garages[Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnFuori;
+						exit = Client.Impostazioni.RolePlay.Proprieta.Garages.Garages[Cache.MyPlayer.User.StatiPlayer.Istanza.Instance].SpawnFuori.ToVector4;
 					int tempo = GetGameTimer();
 					Vector3 newPos = exit.ToVector3();
 					float Head = exit.W;
@@ -418,7 +418,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 				if (veh.Garage.Garage == Cache.MyPlayer.User.StatiPlayer.Istanza.Instance)
 					if (veh.Garage.InGarage)
 					{
-						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Heading);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 						VeicoliParcheggio.Add(veic);
 					}

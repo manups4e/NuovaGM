@@ -8,6 +8,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -133,7 +134,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			Color = textColor;
 			Position = p.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.4f + index * 0.24f);
-			HUD.DrawText3D(Position, Color, Message, CitizenFX.Core.UI.Font.ChaletLondon);
+			HUD.DrawText3D(Position.ToPosition(), Color, Message, CitizenFX.Core.UI.Font.ChaletLondon);
 		}
 	}
 }

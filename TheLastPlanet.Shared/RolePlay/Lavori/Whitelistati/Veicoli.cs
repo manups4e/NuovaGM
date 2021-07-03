@@ -3,11 +3,10 @@ using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-	[Serialization]
-	public partial class VeicoloLavorativoEAffitto
+	public class VeicoloLavorativoEAffitto
 	{
-		public Vehicle veicolo;
-		public string Proprietario;
+		public Vehicle veicolo { get; set; }
+		public string Proprietario{ get; set; }
 
 		public VeicoloLavorativoEAffitto(Vehicle veh, string proprietario)
 		{
@@ -16,12 +15,11 @@ namespace TheLastPlanet.Shared
 		}
 	}
 
-	[Serialization]
-	public partial class VeicoloPol
+	public class VeicoloPol
 	{
-		public string Plate;
-		public int Model;
-		public int Handle;
+		public string Plate { get; set; }
+		public int Model { get; set; }
+		public int Handle { get; set; }
 
 		public VeicoloPol(string plate, int model, int handle)
 		{

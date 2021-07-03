@@ -154,7 +154,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			}
 		}
 
-		public static void ShowFloatingHelpNotification(string msg, Vector3 coords, int tempo = -1)
+		public static void ShowFloatingHelpNotification(string msg, Position coords, int tempo = -1)
 		{
 			//if (IsFloatingHelpTextOnScreen(0)) ClearFloatingHelp(0, true);
 			//if (IsFloatingHelpTextOnScreen(1)) ClearFloatingHelp(1, true);
@@ -286,10 +286,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndScaleformMovieMethod();
 		}
 
-		public static void DrawText3D(Vector3 coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
+		public static void DrawText3D(Position coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
 		{
 			Vector3 cam = GameplayCamera.Position;
-			float dist = Vector3.Distance(coord, cam);
+			float dist = coord.Distance(cam);
 			float scaleInternal = (1 / dist) * scale;
 			float fov = (1 / GameplayCamera.FieldOfView) * 100;
 			float _scale = scaleInternal * fov;
@@ -308,10 +308,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
 		}
-		public static void DrawText3D(Camera camera, Vector3 coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
+		public static void DrawText3D(Camera camera, Position coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
 		{
 			Vector3 cam = camera.Position;
-			float dist = Vector3.Distance(coord, cam);
+			float dist = coord.Distance(cam);
 			float scaleInternal = (1 / dist) * scale;
 			float fov = (1 / camera.FieldOfView) * 100;
 			float _scale = scaleInternal * fov;

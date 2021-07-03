@@ -7,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.manager
 {
@@ -14,13 +15,15 @@ namespace TheLastPlanet.Server.manager
 	{
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<int, Vector3>(TippaDaMe));
+			Server.Instance.Events.Mount("manager:TeletrasportaDaMe", new Action<ClientId, int>(TippaDaMe));
 			//Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
 		}
 
-		private static void TippaDaMe(int source, Vector3 coords)
+		private static void TippaDaMe(ClientId client, int source)
 		{
-			Funzioni.GetPlayerFromId(source).TriggerEvent("lprp:manager:TeletrasportaDaMe", coords);
+			var player = Funzioni.GetClientFromPlayerId(source);
+			player.Ped.Position = client.Ped.Position + new Vector3(0, 1f, 0);
+			player.Ped.Rotation = client.Ped.Rotation + new Vector3(0, 0, 180f);
 		}
 
 		private static async void EntityCreating(int entity)

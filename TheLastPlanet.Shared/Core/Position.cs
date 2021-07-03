@@ -45,6 +45,14 @@ namespace TheLastPlanet.Shared
             Heading = heading;
         }
 
+        public Position(Position value, float heading)
+        {
+            X = value.X;
+            Y = value.Y;
+            Z = value.Z;
+            Heading = heading;
+        }
+
         public Position(Vector3 value)
         {
             X = value.X;
@@ -97,8 +105,12 @@ namespace TheLastPlanet.Shared
             return new[] { X, Y, Z };
         }
 
-        [Ignore][JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public Vector3 ToVector3 => new(X, Y, Z);
+        [Ignore]
+        [JsonIgnore]
+        public Vector4 ToVector4 => new(X, Y, Z, Heading);
 
         public float Distance(Vector3 value)
         {
@@ -189,38 +201,6 @@ namespace TheLastPlanet.Shared
         {
             return new Position(scalar - value.X, scalar - value.Y, scalar - value.Z);
         }
-
-#if CLIENT
-        public async Task<Position> FindGroundZ()
-        {
-            float z = 0;
-
-            try
-            {
-                int time = Game.GameTime;
-                bool pippo = false;
-                while (!pippo)
-                {
-                    if (Game.GameTime - time >= 5000)
-                    {
-                        Client.Client.Logger.Warning( $"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, interrompo e inserisco default..");
-                        return new Position(X, Y, -199.9f, Heading);
-                    }
-
-                    await BaseScript.Delay(50);
-                    pippo = API.GetGroundZFor_3dCoord(X, Y, Z, ref z, false);
-                    Z += 10;
-                }
-
-                return new Position(X, Y, z, Heading);
-            }
-            catch (Exception ex)
-            {
-                Client.Client.Logger.Error( $"Position FindGroundZ Error: {ex.Message}");
-                return new Position(X, Y, -199.9f, Heading);
-            }
-        }
-#endif
     }
 
 

@@ -8,190 +8,190 @@ namespace TheLastPlanet.Shared
 	[Serialization]
 	public partial class ConfigurazionePolizia
 	{
-		public bool AbilitaBlipVolanti;
-		public bool AbilitaTimerManette;
-		public int TimerManette;
-		public int MaxInServizio;
-		public bool PuoPlaccare;
-		public bool AbilitaUsoCani;
-		public List<CaniPolizia> Cani = new();
-		public List<string> ModificheAutorizzate = new();
-		public List<StazioniDiPolizia> Stazioni = new();
+		public bool AbilitaBlipVolanti { get; set; }
+		public bool AbilitaTimerManette{ get; set; }
+		public int TimerManette{ get; set; }
+		public int MaxInServizio{ get; set; }
+		public bool PuoPlaccare{ get; set; }
+		public bool AbilitaUsoCani{ get; set; }
+		public List<CaniPolizia> Cani { get; set; }
+		public List<string> ModificheAutorizzate { get; set; }
+		public List<StazioniDiPolizia> Stazioni { get; set; }
 	}
 
 	[Serialization]
 	public partial class ConfigurazioneMedici
 	{
-		public bool AbilitaBlipVolanti;
-		public List<Ospedale> Ospedali = new List<Ospedale>();
+		public bool AbilitaBlipVolanti { get; set; }
+		public List<Ospedale> Ospedali { get; set; }
 	}
 
 	[Serialization]
 	public partial class ConfigurazioneVendAuto
 	{
-		public Vector3 BossActions;
-		public Vector3 MenuVendita;
+		public Position BossActions { get; set; }
+		public Position MenuVendita{ get; set; }
 	}
 	[Serialization]
 	public partial class ConfigurazioneVendCase
 	{
-		public Vector3 BossActions;
-		public Vector3 Ingresso;
-		public Vector3 Uscita;
-		public Vector3 Dentro;
-		public Vector3 Fuori;
-		public Vector3 Actions;
+		public Position BossActions { get; set; }
+		public Position Ingresso{ get; set; }
+		public Position Uscita{ get; set; }
+		public Position Dentro{ get; set; }
+		public Position Fuori{ get; set; }
+		public Position Actions{ get; set; }
 	}
 
 	[Serialization]
 	public partial class _Pescatori
 	{
-		public bool TempoPescaDinamico;
-		public int TempoFisso;
-		public int PrezzoVenditaPesce;
-		public int PrezzoVenditaAltro;
-		public List<Vector3> LuoghiVendita = new List<Vector3>();
+		public bool TempoPescaDinamico { get; set; }
+		public int TempoFisso{ get; set; }
+		public int PrezzoVenditaPesce{ get; set; }
+		public int PrezzoVenditaAltro{ get; set; }
+		public List<Position> LuoghiVendita { get; set; }
 		//public float[] AffittoBarca = new float[3];
-		public Vector4 SpawnBarca;
-		public List<string> Barche = new List<string>();
-		public _PesciPescati Pesci = new _PesciPescati();
+		public Position SpawnBarca { get; set; }
+		public List<string> Barche { get; set; }
+		public _PesciPescati Pesci { get; set; }
 	}
 
 	[Serialization]
 	public partial class _PesciPescati
 	{
-		public List<string> facile = new List<string>();
-		public List<string> medio = new List<string>();
-		public List<string> avanzato = new List<string>();
+		public List<string> facile { get; set; }
+		public List<string> medio { get; set; }
+		public List<string> avanzato { get; set; }
 	}
 
 	[Serialization]
 	public partial class _Cacciatori
 	{
-		public Vector3 inizioCaccia;
-		public Vector3 zonaDiCaccia;
-		public float limiteArea;
+		public Position inizioCaccia { get; set; }
+		public Position zonaDiCaccia { get; set; }
+		public float limiteArea { get; set; }
 	}
 	[Serialization]
 	public partial class _Tassisti
 	{
-		public Vector3 PosAccettazione;
-		public Vector3 PosDepositoVeicolo;
-		public Vector3 PosRitiroVeicolo;
-		public Vector4 PosSpawnVeicolo;
-		public float PrezzoModifier;
-		public float pickupRange;
-		public List<Vector3> jobCoords;
+		public Position PosAccettazione { get; set; }
+		public Position PosDepositoVeicolo { get; set; }
+		public Position PosRitiroVeicolo { get; set; }
+		public Position PosSpawnVeicolo { get; set; }
+		public float PrezzoModifier { get; set; }
+		public float pickupRange { get; set; }
+		public List<Position> jobCoords { get; set; }
 	}
 
 	[Serialization]
 	public partial class _Towing
 	{
-		public Vector3 InizioLavoro;
-		public List<Vector3> PuntiDespawn = new List<Vector3>();
-		public List<string> VeicoliDaRimorchiare = new List<string>();
-		public List<Vector4> SpawnVeicoli = new List<Vector4>();
+		public Position InizioLavoro { get; set; }
+		public List<Position> PuntiDespawn { get; set; }
+		public List<string> VeicoliDaRimorchiare { get; set; }
+		public List<Position> SpawnVeicoli { get; set; }
 	}
 
 	[Serialization]
 	public partial class WhiteListed
 	{
-		public ConcurrentDictionary<string, JobGrade> Polizia = new ConcurrentDictionary<string, JobGrade>();
-		public ConcurrentDictionary<string, JobGrade> Medico = new ConcurrentDictionary<string, JobGrade>();
-		public ConcurrentDictionary<string, JobGrade> Meccanico = new ConcurrentDictionary<string, JobGrade>();
+		public Dictionary<string, JobGrade> Polizia { get; set; }
+		public Dictionary<string, JobGrade> Medico { get; set; }
+		public Dictionary<string, JobGrade> Meccanico { get; set; }
 
 	}
 
 	[Serialization]
 	public partial class JobGrade
 	{
-		public int Id;
-		public int Stipendio;
-		public AbitiLavoro Vestiti;
+		public int Id { get; set; }
+		public int Stipendio { get; set; }
+		public AbitiLavoro Vestiti { get; set; }
+	}
+	[Serialization]
+	public partial class AbitiLavoro
+	{
+		public AbitiLav Maschio { get; set; }
+		public AbitiLav Femmina { get; set; }
+	}
+	[Serialization]
+	public partial class AbitiLav
+	{
+		public ComponentDrawables Abiti { get; set; }
+		public ComponentDrawables TextureVestiti { get; set; }
+		public PropIndices Accessori { get; set; }
+		public PropIndices TexturesAccessori { get; set; }
 	}
 
 	[Serialization]
 	public partial class CaniPolizia
 	{
-		public string Nome;
-		public string Model;
+		public string Nome { get; set; }
+		public string Model { get; set; }
 	}
 
 	[Serialization]
 	public partial class Autorizzati
 	{
-		public string Nome;
-		public string Model;
-		public List<int> GradiAutorizzati = new List<int>();
+		public string Nome { get; set; }
+		public string Model { get; set; }
+		public List<int> GradiAutorizzati { get; set; }
 	}
 
-	[Serialization]
-	public partial class AbitiLavoro
-	{
-		public AbitiLav Maschio;
-		public AbitiLav Femmina;
-	}
-	[Serialization]
-	public partial class AbitiLav
-	{
-		public ComponentDrawables Abiti = new ComponentDrawables();
-		public ComponentDrawables TextureVestiti = new ComponentDrawables();
-		public PropIndices Accessori = new PropIndices();
-		public PropIndices TexturesAccessori = new PropIndices();
-	}
 
 	[Serialization]
 	public partial class StazioniDiPolizia
 	{
-		public BlipLavoro Blip = new BlipLavoro();
-		public List<Vector3> Spogliatoio = new List<Vector3>();
-		public List<Vector3> Armerie = new List<Vector3>();
-		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
-		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
-		public List<Autorizzati> ArmiAutorizzate = new List<Autorizzati>();
-		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
-		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
-		public List<Vector3> BossActions = new List<Vector3>();
+		public BlipLavoro Blip { get; set; }
+		public List<Position> Spogliatoio { get; set; }
+		public List<Position> Armerie { get; set; }
+		public List<Autorizzati> VeicoliAutorizzati { get; set; }
+		public List<Autorizzati> ElicotteriAutorizzati { get; set; }
+		public List<Autorizzati> ArmiAutorizzate { get; set; }
+		public List<SpawnerSpawn> Veicoli { get; set; }
+		public List<SpawnerSpawn> Elicotteri { get; set; }
+		public List<Position> BossActions { get; set; }
 	}
 
 	[Serialization]
 	public partial class Ospedale
 	{
-		public BlipLavoro Blip = new BlipLavoro();
-		public List<Vector3> Spogliatoio = new List<Vector3>();
-		public List<Vector3> Farmacia = new List<Vector3>();
-		public List<Vector3> IngressoVisitatori = new List<Vector3>();
-		public List<Vector3> UscitaVisitatori = new List<Vector3>();
-		public List<Autorizzati> VeicoliAutorizzati = new List<Autorizzati>();
-		public List<Autorizzati> ElicotteriAutorizzati = new List<Autorizzati>();
-		public List<SpawnerSpawn> Veicoli = new List<SpawnerSpawn>();
-		public List<SpawnerSpawn> Elicotteri = new List<SpawnerSpawn>();
-		public List<Vector3> AzioniCapo = new List<Vector3>();
+		public BlipLavoro Blip { get; set; }
+		public List<Position> Spogliatoio { get; set; }
+		public List<Position> Farmacia { get; set; }
+		public List<Position> IngressoVisitatori { get; set; }
+		public List<Position> UscitaVisitatori { get; set; }
+		public List<Autorizzati> VeicoliAutorizzati { get; set; }
+		public List<Autorizzati> ElicotteriAutorizzati { get; set; }
+		public List<SpawnerSpawn> Veicoli { get; set; }
+		public List<SpawnerSpawn> Elicotteri { get; set; }
+		public List<Position> AzioniCapo { get; set; }
 	}
 
 	[Serialization]
 	public partial class BlipLavoro
 	{
-		public Vector3 Coords;
-		public int Sprite;
-		public int Display;
-		public float Scale;
-		public int Color;
-		public string Nome;
+		public Position Coords { get; set; }
+		public int Sprite { get; set; }
+		public int Display { get; set; }
+		public float Scale { get; set; }
+		public int Color { get; set; }
+		public string Nome { get; set; }
 	}
 	[Serialization]
 	public partial class SpawnerSpawn
 	{
-		public Vector3 SpawnerMenu;
-		public List<SpawnPoints> SpawnPoints = new List<SpawnPoints>();
-		public List<Vector3> Deleters = new List<Vector3>();
+		public Position SpawnerMenu { get; set; }
+		public List<SpawnPoints> SpawnPoints { get; set; }
+		public List<Position> Deleters { get; set; }
 	}
 
 	[Serialization]
 	public partial class SpawnPoints
 	{
-		public Vector3 Coords;
-		public float Heading;
-		public float Radius;
+		public Position Coords { get; set; }
+		public float Heading { get; set; }
+		public float Radius { get; set; }
 	}
 }

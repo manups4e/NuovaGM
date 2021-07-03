@@ -499,7 +499,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 
 				int callback =
-					await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, coords.Z, heading));
+					await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, coords.Z, heading));
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
@@ -557,7 +557,7 @@ namespace TheLastPlanet.Client.Core.Utility
 					foreach (Vehicle v in vehs) v.Delete();
 				}
 
-				int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
+				int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
 					coords.X, coords.Y, coords.Z, heading));
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
@@ -665,7 +665,7 @@ namespace TheLastPlanet.Client.Core.Utility
 					foreach (var v in props) v.Delete();
 				}
 
-				int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnProp", propModel.Hash, 
+				int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnProp", propModel.Hash, 
 					new RotatablePosition(coords, rot));
 				var result = (Prop)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
@@ -755,7 +755,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 			}
 
-			int callback = await Client.Instance.Eventi.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, position, (int)pedType);
+			int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, position, (int)pedType);
 
 			var ped = (Ped) Entity.FromNetworkId(callback);
 			while (!ped.Exists()) await BaseScript.Delay(50);
@@ -986,7 +986,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, User>> GetOnlinePlayersAndTheirData()
 		{
-			return await Client.Instance.Eventi.Get<Dictionary<string, User>>("lprp:callPlayers");
+			return await Client.Instance.Events.Get<Dictionary<string, User>>("lprp:callPlayers");
 		}
 
 		/// <summary>
@@ -995,7 +995,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, User>> GetAllPlayersAndTheirData()
 		{
-			return await Client.Instance.Eventi.Get<Dictionary<string, User>>("lprp:callDBPlayers");
+			return await Client.Instance.Events.Get<Dictionary<string, User>>("lprp:callDBPlayers");
 		}
 
 		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)

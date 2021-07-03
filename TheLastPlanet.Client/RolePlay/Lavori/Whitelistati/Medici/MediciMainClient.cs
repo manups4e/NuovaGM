@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 		{
 			foreach (Ospedale ospedale in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 			{
-				Blip blip = World.CreateBlip(ospedale.Blip.Coords);
+				Blip blip = World.CreateBlip(ospedale.Blip.Coords.ToVector3);
 				blip.Sprite = (BlipSprite)ospedale.Blip.Sprite;
 				blip.Scale = ospedale.Blip.Scale;
 				blip.Color = (BlipColor)ospedale.Blip.Color;
@@ -89,15 +89,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
 				foreach (Ospedale osp in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (Vector3 vettore in osp.Spogliatoio)
-						if (p.IsInRangeOf(vettore, 2f))
+					foreach (Position vettore in osp.Spogliatoio)
+						if (p.IsInRangeOf(vettore.ToVector3, 2f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
 							if (Input.IsControlJustPressed(Control.Context)) MenuMedici.MenuSpogliatoio();
 						}
 
-					foreach (Vector3 vettore in osp.Farmacia)
-						if (p.IsInRangeOf(vettore, 1.5f))
+					foreach (Position vettore in osp.Farmacia)
+						if (p.IsInRangeOf(vettore.ToVector3, 1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
 
@@ -107,40 +107,40 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 							}
 						}
 
-					foreach (Vector3 vettore in osp.IngressoVisitatori)
-						if (p.IsInRangeOf(vettore, 1.375f))
+					foreach (Position vettore in osp.IngressoVisitatori)
+						if (p.IsInRangeOf(vettore.ToVector3, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 
 							if (Input.IsControlJustPressed(Control.Context))
 							{
-								Vector3 pos;
+								Position pos;
 								if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
-									pos = new Vector3(272.8f, -1358.8f, 23.5f);
+									pos = new Position(272.8f, -1358.8f, 23.5f);
 								else
-									pos = new Vector3(254.301f, -1372.288f, 23.538f);
+									pos = new Position(254.301f, -1372.288f, 23.538f);
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								p.Position = pos;
+								p.Position = pos.ToVector3;
 								Screen.Fading.FadeIn(800);
 							}
 						}
 
-					foreach (Vector3 vettore in osp.UscitaVisitatori)
-						if (p.IsInRangeOf(vettore, 1.375f))
+					foreach (Position vettore in osp.UscitaVisitatori)
+						if (p.IsInRangeOf(vettore.ToVector3, 1.375f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 
 							if (Input.IsControlJustPressed(Control.Context))
 							{
-								Vector3 pos;
+								Position pos;
 								if (osp.UscitaVisitatori.IndexOf(vettore) == 0)
 									pos = osp.IngressoVisitatori[0];
 								else
 									pos = osp.IngressoVisitatori[2];
 								Screen.Fading.FadeOut(800);
 								await BaseScript.Delay(1000);
-								p.Position = pos;
+								p.Position = pos.ToVector3;
 								Screen.Fading.FadeIn(800);
 							}
 						}
@@ -149,9 +149,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 					{
 						if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 						{
-							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
+							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Cyan, false, false, true);
 
-							if (p.IsInRangeOf(vehicle.SpawnerMenu, 1.5f))
+							if (p.IsInRangeOf(vehicle.SpawnerMenu.ToVector3, 1.5f))
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 
@@ -166,16 +166,16 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 						for (int i = 0; i < vehicle.Deleters.Count; i++)
 						{
-							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i], 2f))
-								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i], 2f))
+							if (!Funzioni.IsSpawnPointClear(vehicle.Deleters[i].ToVector3, 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(vehicle.Deleters[i].ToVector3, 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 
 							if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 							{
-								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i].ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Red, false, false, true);
 
-								if (p.IsInRangeOf(vehicle.Deleters[i], 2f))
+								if (p.IsInRangeOf(vehicle.Deleters[i].ToVector3, 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 
@@ -200,9 +200,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 					foreach (SpawnerSpawn heli in osp.Elicotteri)
 					{
-						if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo) World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Cyan, false, false, true);
+						if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo) World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu.ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Cyan, false, false, true);
 
-						if (p.IsInRangeOf(heli.SpawnerMenu, 1.5f))
+						if (p.IsInRangeOf(heli.SpawnerMenu.ToVector3, 1.5f))
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 
@@ -216,16 +216,16 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 						for (int i = 0; i < heli.Deleters.Count; i++)
 						{
-							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i], 2f))
-								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(heli.Deleters[i], 2f))
+							if (!Funzioni.IsSpawnPointClear(heli.Deleters[i].ToVector3, 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(heli.Deleters[i].ToVector3, 2f))
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 
 							if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 							{
-								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i], new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Red, false, false, true);
+								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i].ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(3f, 3f, 1.5f).ToVector3, Colors.Red, false, false, true);
 
-								if (p.IsInRangeOf(heli.Deleters[i], 2f))
+								if (p.IsInRangeOf(heli.Deleters[i].ToVector3, 2f))
 								{
 									HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 
@@ -257,32 +257,31 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medico" || Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() != "medici")
 				foreach (Ospedale osp in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
 				{
-					foreach (Vector3 vettore in osp.IngressoVisitatori.Where(vettore => p.IsInRangeOf(vettore, 1.375f)))
+					foreach (Position vettore in osp.IngressoVisitatori.Where(vettore => p.IsInRangeOf(vettore.ToVector3, 1.375f)))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
 
 						if (!Input.IsControlJustPressed(Control.Context)) continue;
-						Vector3 pos;
+						Position pos;
 						if (osp.IngressoVisitatori.IndexOf(vettore) == 0 || osp.IngressoVisitatori.IndexOf(vettore) == 1)
-							pos = new Vector3(272.8f, -1358.8f, 23.5f);
+							pos = new Position(272.8f, -1358.8f, 23.5f);
 						else
-							pos = new Vector3(254.301f, -1372.288f, 24.538f);
+							pos = new Position(254.301f, -1372.288f, 24.538f);
 						Screen.Fading.FadeOut(800);
 						await BaseScript.Delay(1000);
-						p.Position = pos;
+						p.Position = pos.ToVector3;
 						Screen.Fading.FadeIn(800);
 					}
 
-					foreach (Vector3 vettore in osp.UscitaVisitatori.Where(vettore => p.IsInRangeOf(vettore, 1.375f)))
+					foreach (Position vettore in osp.UscitaVisitatori.Where(vettore => p.IsInRangeOf(vettore.ToVector3, 1.375f)))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
 
 						if (!Input.IsControlJustPressed(Control.Context)) continue;
-						Vector3 pos;
-						pos = osp.UscitaVisitatori.IndexOf(vettore) == 0 ? osp.IngressoVisitatori[0] : osp.IngressoVisitatori[2];
+						Position pos = osp.UscitaVisitatori.IndexOf(vettore) == 0 ? osp.IngressoVisitatori[0] : osp.IngressoVisitatori[2];
 						Screen.Fading.FadeOut(800);
 						await BaseScript.Delay(1000);
-						p.Position = pos;
+						p.Position = pos.ToVector3;
 						Screen.Fading.FadeIn(800);
 					}
 				}

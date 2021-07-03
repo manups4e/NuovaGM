@@ -516,6 +516,33 @@ namespace TheLastPlanet.Shared
 			return result;
 		}
 
+		public static async Task<float> FindGroundZ(this Position position)
+		{
+			float z = 0;
+			try
+			{
+				float h = position.Z;
+				int time = GetGameTimer();
+				while (z == 0)
+				{
+					if (GetGameTimer() - time > 5000)
+					{
+						Logger.Debug($"Position FindGroundZ: Troppo tempo a caricare la coordinata Z, esco dall'attesa..");
+						return -199.99f;
+					}
+					await BaseScript.Delay(50);
+					bool pippo = GetGroundZFor_3dCoord(position.X, position.Y, h, ref z, false);
+					h += 10;
+				}
+				return z;
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"Vector3 FindGroundZ Error: {ex.Message}");
+				return -199f;
+			}
+		}
+
 		public static async Task<Vector3> GetVector3WithGroundZ(this Vector3 position)
 		{
 			try
@@ -543,6 +570,20 @@ namespace TheLastPlanet.Shared
 			}
 		}
 
+		public static async Task<Position> GetPositionWithGroundZ(this Position position)
+		{
+			try
+			{
+				float Z = await position.FindGroundZ();
+				return new Position(position.X, position.Y, Z, position.Heading);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"Position GetVector3WithGroundZ Error: {ex.Message}");
+				return new Position(position.X, position.Y, -199.99f, position.Heading);
+			}
+		}
+
 		/// <summary>
 		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
 		/// </summary>
@@ -561,9 +602,17 @@ namespace TheLastPlanet.Shared
 			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);
 		}
 
+		/// <summary>
+		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// </summary>
+		/// <param name="pos"></param>
+		public static void SetFocus(this Position pos)
+		{
+			SetFocusPosAndVel(pos.X, pos.Y, pos.Z, 0, 0, 0);
+		}
 #endif
 
-	public static PointF Add(this PointF c1, PointF c2)
+		public static PointF Add(this PointF c1, PointF c2)
 		{
 			return new PointF(c1.X + c2.X, c1.Y + c2.Y);
 		}

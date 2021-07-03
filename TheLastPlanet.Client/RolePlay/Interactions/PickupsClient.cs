@@ -78,9 +78,9 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 								}
 
 							if (!pick.HasDecor("PickupArma"))
-								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, CitizenFX.Core.UI.Font.HouseScript);
+								HUD.DrawText3D((pick.Position + new Vector3(0, 0, 1f)).ToPosition(), Colors.Cyan, ConfigShared.SharedConfig.Main.Generici.ItemList[pickup.name].label, CitizenFX.Core.UI.Font.HouseScript);
 							else
-								HUD.DrawText3D(pick.Position + new Vector3(0, 0, 1f), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", CitizenFX.Core.UI.Font.HouseScript);
+								HUD.DrawText3D((pick.Position + new Vector3(0, 0, 1f)).ToPosition(), Colors.Cyan, $"{GetLabelText(label)} [{pickup.amount}]", CitizenFX.Core.UI.Font.HouseScript);
 						}
 						else if (pickup.inRange)
 						{
@@ -101,9 +101,9 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			int playerId = Convert.ToInt32(userId);
 			Ped playerPed = new Ped(GetPlayerPed(GetPlayerFromServerId(playerId)));
 			OggettoRaccoglibile oggetto = jsonOggetto.FromJson<OggettoRaccoglibile>();
-			Vector3 entityCoords = playerPed.Position;
-			Vector3 forward = playerPed.ForwardVector;
-			Vector3 objectCoords = entityCoords + forward * 1.0f;
+			Position entityCoords = playerPed.Position.ToPosition();
+			Position forward = playerPed.ForwardVector.ToPosition();
+			Position objectCoords = entityCoords + forward * 1.0f;
 			Model model = new((int)oggetto.obj);
 			model.Request();
 			Entity pickupObject = null;
@@ -112,9 +112,9 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			{
 				case "item":
 					if (model.Hash == (int)ObjectHash.a_c_fish)
-						pickupObject = await Funzioni.SpawnPed((int)oggetto.obj, objectCoords.ToPosition(), PedTypes.Animal);
+						pickupObject = await Funzioni.SpawnPed((int)oggetto.obj, objectCoords, PedTypes.Animal);
 					else
-						pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords, new Vector3(0), true);
+						pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords.ToVector3, new Vector3(0), true);
 					pickupObject.SetDecor("PickupOggetto", oggetto.amount);
 
 					break;
@@ -134,7 +134,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 
 					break;
 				case "account":
-					pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords, new Vector3(0), true);
+					pickupObject = await Funzioni.CreateProp(model.Hash, objectCoords.ToVector3, new Vector3(0), true);
 					pickupObject.SetDecor("PickupAccount", oggetto.amount);
 
 					break;
@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 							Model model = new Model((int)pickup.obj);
 							model.Request();
 							if (model.Hash == (int)ObjectHash.a_c_fish)
-								pickupObject = await World.CreatePed(model, pickup.coords);
+								pickupObject = await World.CreatePed(model, pickup.coords.ToVector3);
 							else
 								pickupObject = new Prop(CreateObject(model.Hash, pickup.coords.X, pickup.coords.Y, pickup.coords.Z, false, false, true));
 							if (pickup.type == "item")
@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 						pickupObject.IsPositionFrozen = true;
 						pickup.propObj = pickupObject.Handle;
 						pickup.inRange = false;
-						pickup.coords = pickupObject.Position;
+						pickup.coords = pickupObject.Position.ToPosition();
 					}
 		}
 	}

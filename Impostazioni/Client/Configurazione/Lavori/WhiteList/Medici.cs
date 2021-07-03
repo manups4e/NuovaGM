@@ -14,23 +14,23 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
                 {
                     Blip = new BlipLavoro()
                     {
-                        Coords = new Vector3(307.7f, -1433.4f, 28.9f),
+                        Coords = new Position(307.7f, -1433.4f, 28.9f),
                         Sprite = 61,
                         Display = 4,
                         Scale = 1.2f,
                         Color = 2,
                         Nome = "Ospedale Centrale di Los Santos"
                     },
-                    Spogliatoio = new List<Vector3>() {new Vector3(270.5f, -1363.0f, 23.5f)},
-                    Farmacia = new List<Vector3>() {new(230.1f, -1366.1f, 38.5f)},
-                    IngressoVisitatori = new List<Vector3>()
+                    Spogliatoio = new List<Position>() {new Position(270.5f, -1363.0f, 23.5f)},
+                    Farmacia = new List<Position>() {new(230.1f, -1366.1f, 38.5f)},
+                    IngressoVisitatori = new List<Position>()
                     {
                         new(344.114f, -1397.703f, 31.509f),
                         new(342.956f, -1399.569f, 31.509f),
                         new(390.057f, -1433.125f, 28.432f),
                         new(391.464f, -1431.332f, 28.432f)
                     },
-                    UscitaVisitatori = new List<Vector3>()
+                    UscitaVisitatori = new List<Position>()
                     {
                         new(275.515f, -1361.274f, 23.538f),
                         new(254.465f, -1372.403f, 23.538f)
@@ -39,7 +39,7 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
                     {
                         new SpawnerSpawn()
                         {
-                            SpawnerMenu = new Vector3(246.876f, -1371.816f, 24.538f),
+                            SpawnerMenu = new Position(246.876f, -1371.816f, 24.538f),
                             SpawnPoints = new List<SpawnPoints>()
                             {
                                 new() {Coords = new(297.2f, -1429.5f, 29.8f), Heading = 227.6f, Radius = 4f},
@@ -57,18 +57,18 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
                     {
                         new SpawnerSpawn()
                         {
-                            SpawnerMenu = new Vector3(317.5f, -1449.5f, 46.5f),
+                            SpawnerMenu = new Position(317.5f, -1449.5f, 46.5f),
                             SpawnPoints =
                             {
                                 new SpawnPoints()
-                                    {Coords = new Vector3(313.5f, -1465.1f, 46.5f), Heading = 142.7f, Radius = 10f},
+                                    {Coords = new Position(313.5f, -1465.1f, 46.5f), Heading = 142.7f, Radius = 10f},
                                 new SpawnPoints()
-                                    {Coords = new Vector3(299.5f, -1453.2f, 46.5f), Heading = 142.7f, Radius = 10f}
+                                    {Coords = new Position(299.5f, -1453.2f, 46.5f), Heading = 142.7f, Radius = 10f}
                             },
                             Deleters =
                             {
-                                new Vector3(313.5f, -1465.1f, 46.5f),
-                                new Vector3(299.5f, -1453.2f, 46.5f)
+                                new Position(313.5f, -1465.1f, 46.5f),
+                                new Position(299.5f, -1453.2f, 46.5f)
                             }
                         }
                     },

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Shared;
 using static TheLastPlanet.Client.SessionCache.Cache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
@@ -13,17 +14,17 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	public class Marker
 	{
 		public MarkerType MarkerType = MarkerType.VerticalCylinder;
-		public Vector3 Position;
-		public Vector3 Direction = Vector3.Zero;
-		public Vector3 Rotation = Vector3.Zero;
-		public Vector3 Scale = new(1.5f);
+		public Position Position;
+		public Position Direction = Position.Zero;
+		public Position Rotation = Position.Zero;
+		public Position Scale = new(1.5f);
 		public Color Color;
 		public bool BobUpDown;
 		public bool Rotate;
 		public bool FaceCamera;
 		public bool IsInMarker = false;
 
-		public Marker(MarkerType type, Vector3 position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+		public Marker(MarkerType type, Position position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
 			MarkerType = type;
 			Position = position;
@@ -35,7 +36,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			FaceCamera = faceCamera;
 		}
 
-		public Marker(MarkerType type, Vector3 position, Vector3 scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+		public Marker(MarkerType type, Position position, Position scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
 			MarkerType = type;
 			Position = position;
@@ -50,8 +51,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public void Draw()
 		{
-			World.DrawMarker(MarkerType, Position, Direction, Rotation, Scale, Color, BobUpDown, FaceCamera, Rotate);
-			IsInMarker = MyPlayer.Ped.IsInRangeOf(Position, Scale.X / 2);
+			World.DrawMarker(MarkerType, Position.ToVector3, Direction.ToVector3, Rotation.ToVector3, Scale.ToVector3, Color, BobUpDown, FaceCamera, Rotate);
+			IsInMarker = Position.Distance(MyPlayer.Posizione) <= Position.X / 2;
 		}
 	}
 }

@@ -45,15 +45,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 
 			if (!Cache.MyPlayer.User.StatiPlayer.Istanza.Stanziato)
 			{
-				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
+				World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
 
-				if (p.IsInRangeOf(house.Config.Ingresso, 1.375f))
+				if (p.IsInRangeOf(house.Config.Ingresso.ToVector3, 1.375f))
 				{
 					HUD.ShowHelp(Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per entrare in ufficio" : "Premi ~INPUT_CONTEXT~ per entrare nell'ufficio dell'agenzia immobiliare");
 
 					if (Input.IsControlJustPressed(Control.Context))
 					{
-						Funzioni.Teleport(house.Config.Dentro);
+						Funzioni.Teleport(house.Config.Dentro.ToVector3);
 						Cache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("VenditoreCase");
 					}
 				}
@@ -62,15 +62,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			{
 				if (Cache.MyPlayer.User.StatiPlayer.Istanza.Instance == "VenditoreCase")
 				{
-					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
+					World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 
-					if (p.IsInRangeOf(house.Config.Uscita, 1.375f))
+					if (p.IsInRangeOf(house.Config.Uscita.ToVector3, 1.375f))
 					{
 						HUD.ShowHelp(Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "venditorecase" ? "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio" : "Premi ~INPUT_CONTEXT~ per uscire dall'ufficio dell'agenzia immobiliare");
 
 						if (Input.IsControlJustPressed(Control.Context))
 						{
-							Funzioni.Teleport(house.Config.Fuori);
+							Funzioni.Teleport(house.Config.Fuori.ToVector3);
 							Cache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
 						}
 					}
@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "venditorecase")
 				// verrà cambiato con il sedersi alla scrivania
-				if (p.IsInRangeOf(house.Config.Actions, 1.375f))
+				if (p.IsInRangeOf(house.Config.Actions.ToVector3, 1.375f))
 				{
 					HUD.ShowHelp("~INPUT_CONTEXT~ Apri il menu di vendita");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditoreCase();
@@ -152,8 +152,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 										await BaseScript.Delay(0);
 									}
 
-									cam.Position = app.Value.TelecameraFuori.pos;
-									cam.PointAt(app.Value.TelecameraFuori.guarda);
+									cam.Position = app.Value.TelecameraFuori.pos.ToVector3;
+									cam.PointAt(app.Value.TelecameraFuori.guarda.ToVector3);
 									RenderScriptCams(true, false, 1000, false, false);
 									Screen.Fading.FadeIn(500);
 
@@ -172,8 +172,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 										await BaseScript.Delay(0);
 									}
 
-									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Interno.pos, new Vector3(0, 0, 1f));
-									cam.PointAt(app.Value.TelecameraDentro.Interno.guarda);
+									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Interno.pos.ToVector3, new Vector3(0, 0, 1f));
+									cam.PointAt(app.Value.TelecameraDentro.Interno.guarda.ToVector3);
 									Screen.Fading.FadeIn(500);
 
 									break;
@@ -191,8 +191,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 										await BaseScript.Delay(0);
 									}
 
-									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Bagno.pos, new Vector3(0, 0, 1f));
-									cam.PointAt(app.Value.TelecameraDentro.Bagno.guarda);
+									cam.Position = Vector3.Add(app.Value.TelecameraDentro.Bagno.pos.ToVector3, new Vector3(0, 0, 1f));
+									cam.PointAt(app.Value.TelecameraDentro.Bagno.guarda.ToVector3);
 									RenderScriptCams(true, false, 1000, false, false);
 									Screen.Fading.FadeIn(500);
 
@@ -211,8 +211,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 										await BaseScript.Delay(0);
 									}
 
-									cam.Position = app.Value.TelecameraDentro.Garage.pos;
-									cam.PointAt(app.Value.TelecameraDentro.Garage.guarda);
+									cam.Position = app.Value.TelecameraDentro.Garage.pos.ToVector3;
+									cam.PointAt(app.Value.TelecameraDentro.Garage.guarda.ToVector3);
 									RenderScriptCams(true, false, 1000, false, false);
 									Screen.Fading.FadeIn(500);
 

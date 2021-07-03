@@ -9,7 +9,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori
 	{
 		public static void Init()
 		{
-			Client.Instance.Eventi.Mount("lprp:job:employee:hired", new Action<int, string, string> ((seed, job, emp) =>
+			Client.Instance.Events.Mount("lprp:job:employee:hired", new Action<int, string, string> ((seed, job, emp) =>
 			{
 				User user = Funzioni.GetPlayerCharFromServerId(seed);
 				HUD.ShowNotification($"Sei stato assunto come {emp}!");

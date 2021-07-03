@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _bucket;
 			set
 			{
-				Client.Instance.Eventi.Send("lprp:addPlayerToBucket", value);
+				Client.Instance.Events.Send("lprp:addPlayerToBucket", value);
 				_bucket = value;
 			}
 		}

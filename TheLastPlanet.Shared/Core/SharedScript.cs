@@ -57,20 +57,20 @@ namespace TheLastPlanet.Shared
 	[Serialization]
 	public partial class OggettoRaccoglibile
 	{
-		public string type;
-		public int id;
-		public ObjectHash obj;
-		public int propObj;
-		public string label;
-		public bool inRange = false;
-		public Vector3 coords;
-		public string name;
-		public int amount; 
-		public List<Components> componenti = new List<Components>();
-		public int tintIndex;
+		public string type { get; set; }
+		public int id {get;set;}
+		public ObjectHash obj {get;set;}
+		public int propObj {get;set;}
+		public string label {get;set;}
+		public bool inRange { get; set; } = false;
+		public Position coords {get;set;}
+		public string name {get;set;}
+		public int amount {get;set;}
+		public List<Components> componenti { get; set; }
+		public int tintIndex {get;set;}
 
 
-		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, Vector3 _coords, string _type = "item", List<Components> _components = null, int _tintIndex = 0)
+		public OggettoRaccoglibile(int _id, string _name, int _amount, ObjectHash _obj, int _propObj, string _label, Position _coords, string _type = "item", List<Components> _components = null, int _tintIndex = 0)
 		{
 			id = _id;
 			name = _name;

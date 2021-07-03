@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.SessionCache
         
         public static async Task InitPlayer()
         {
-            var pippo = await Client.Instance.Eventi.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
+            var pippo = await Client.Instance.Events.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
             MyPlayer = new()
             {
                 Player = Game.Player,

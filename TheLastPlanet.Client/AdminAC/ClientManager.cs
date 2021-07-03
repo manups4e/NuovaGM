@@ -17,7 +17,6 @@ namespace TheLastPlanet.Client.AdminAC
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:manager:TeletrasportaDaMe", new Action<Vector3>(TippaDaMe));
 			//Client.Instance.AddTick(AC);
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
@@ -100,8 +99,6 @@ namespace TheLastPlanet.Client.AdminAC
 				NoClip = false;
 			}
 		}
-
-		private static void TippaDaMe(Vector3 coords) { Cache.MyPlayer.Ped.Position = coords; }
 
 		public static bool NoClip = false;
 		private static string noclip_ANIM_A = "amb@world_human_stand_impatient@male@no_sign@base";

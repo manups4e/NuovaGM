@@ -1560,7 +1560,7 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 					Cache.MyPlayer.Ped.Detach();
 					BaseScript.TriggerServerEvent("lprp:finishCharServer", _data.ToJson());
 
-					Cache.MyPlayer.User.CurrentChar = await Client.Instance.Eventi.Get<Char_data>("lprp:Select_Char", _data.CharID);
+					Cache.MyPlayer.User.CurrentChar = await Client.Instance.Events.Get<Char_data>("lprp:Select_Char", _data.CharID);
 					//BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 
 					Client.Instance.RemoveTick(Controllo);

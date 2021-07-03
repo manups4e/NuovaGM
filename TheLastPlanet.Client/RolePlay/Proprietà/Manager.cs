@@ -35,13 +35,13 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà
 
 			foreach (KeyValuePair<string, ConfigCase> app in Proprietà.Appartamenti)
 			{
-				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata, 1.375f))
+				if (playerPed.IsInRangeOf(app.Value.MarkerEntrata.ToVector3, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare o citofonare~w~.");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EntraMenu(app); // da fare e agg. controllo se è casa mia o no per il menu
 				}
 
-				if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno, 3f)) continue;
+				if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno.ToVector3, 3f)) continue;
 				if (!Cache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key)) continue;
 
 				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà
 
 					foreach (OwnedVehicle veh in Cache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == Cache.MyPlayer.User.StatiPlayer.Istanza.Instance).Where(veh => veh.Garage.InGarage))
 					{
-						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].W);
+						Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Heading);
 						await veic.SetVehicleProperties(veh.DatiVeicolo.props);
 						AppartamentiClient.VeicoliParcheggio.Add(veic);
 					}
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà
 				}
 			}
 
-			foreach (KeyValuePair<string, Garages> gar in Proprietà.Garages.Garages.Where(gar => playerPed.IsInRangeOf(gar.Value.MarkerEntrata, 1.5f)).Where(gar => playerPed.IsOnFoot))
+			foreach (KeyValuePair<string, Garages> gar in Proprietà.Garages.Garages.Where(gar => playerPed.IsInRangeOf(gar.Value.MarkerEntrata.ToVector3, 1.5f)).Where(gar => playerPed.IsOnFoot))
 			{
 				// ENTRARE NEI GARAGES
 			}
@@ -136,13 +136,13 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà
 				{
 					ConfigCase app = Proprietà.Appartamenti[Cache.MyPlayer.User.StatiPlayer.Istanza.Instance];
 
-					if (playerPed.IsInRangeOf(app.MarkerUscita, 1.375f))
+					if (playerPed.IsInRangeOf(app.MarkerUscita.ToVector3, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app);
 					}
 
-					if (playerPed.IsInRangeOf(app.MarkerGarageInterno, 1.375f))
+					if (playerPed.IsInRangeOf(app.MarkerGarageInterno.ToVector3, 1.375f))
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~uscire~w~.");
 						if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) AppartamentiClient.EsciMenu(app, true);

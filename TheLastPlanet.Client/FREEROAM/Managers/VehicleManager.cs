@@ -19,7 +19,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
 
         public static void Init()
         {
-            Client.Instance.Eventi.Mount("worldEventsManage.Client:DestroyEventVehicles", new Action(OnDestroySpawnedEventVehicles));
+            Client.Instance.Events.Mount("worldEventsManage.Client:DestroyEventVehicles", new Action(OnDestroySpawnedEventVehicles));
             Client.Instance.AddTick(OnTick);
 
             DecorRegister("weEventVehicle", 2);

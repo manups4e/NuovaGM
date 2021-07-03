@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 
 		private static void Spawnato()
 		{
-			Blip vend = World.CreateBlip(carDealer.Config.MenuVendita);
+			Blip vend = World.CreateBlip(carDealer.Config.MenuVendita.ToVector3);
 			vend.Sprite = BlipSprite.PersonalVehicleCar;
 			vend.Color = BlipColor.Green;
 			vend.IsShortRange = true;
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "cardealer")
 				// verrà sostiuito con il sedersi alla scrivania e mostrare al cliente
-				if (p.IsInRangeOf(carDealer.Config.MenuVendita, 1.375f))
+				if (p.IsInRangeOf(carDealer.Config.MenuVendita.ToVector3, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu del venditore");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuVenditore();
@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 
 			if (Cache.MyPlayer.User.CurrentChar.Job.Grade > 1)
 				// verrà sostiuito con il sedersi alla scrivania 
-				if (p.IsInRangeOf(carDealer.Config.BossActions, 1.375f))
+				if (p.IsInRangeOf(carDealer.Config.BossActions.ToVector3, 1.375f))
 				{
 					HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per aprire il menu boss");
 					if (Input.IsControlJustPressed(Control.Context) && !HUD.MenuPool.IsAnyMenuOpen) MenuBoss();

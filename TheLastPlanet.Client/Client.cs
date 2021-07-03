@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = new Configurazione();
-		public ClientGateway Eventi;
+		public ClientGateway Events;
 		public List<ClientId> Clients = new();
 		public NuiManager NuiManager = new();
 		public Client() { Inizializza(); }
@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client
 			Logger = new();
 			SnowflakeGenerator.Create(1);
 			Instance = this;
-			Eventi = new();
+			Events = new();
 			HUD.Init();
 			ClasseDiTest.Init(); // da rimuovere
 			ClientManager.Init();

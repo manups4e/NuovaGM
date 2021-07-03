@@ -45,7 +45,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 		{
 			foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
 			{
-				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords[0], stazione.Blip.Coords[1], stazione.Blip.Coords[2]))
+				Blip blip = new Blip(AddBlipForCoord(stazione.Blip.Coords.X, stazione.Blip.Coords.Y, stazione.Blip.Coords.Z))
 				{
 					Sprite = (BlipSprite)stazione.Blip.Sprite,
 					Scale = stazione.Blip.Scale,
@@ -123,22 +123,22 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 			if (Cache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "polizia")
 				foreach (StazioniDiPolizia t2 in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
 				{
-					foreach (Vector3 t in t2.Spogliatoio)
+					foreach (Position t in t2.Spogliatoio)
 					{
-						World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
+						World.DrawMarker(MarkerType.HorizontalCircleSkinny, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 
-						if (!p.IsInRangeOf(t, 1.375f)) continue;
+						if (!p.IsInRangeOf(t.ToVector3, 1.375f)) continue;
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per cambiarti ed entrare/uscire in ~g~Servizio~w~");
 						if (Input.IsControlJustPressed(Control.Context)) MenuPolizia.CloakRoomMenu();
 					}
 
-					foreach (Vector3 t in t2.Armerie) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Red, false, false, true);
+					foreach (Position t in t2.Armerie) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Red, false, false, true);
 
 					foreach (SpawnerSpawn t1 in t2.Veicoli)
 					{
-						World.DrawMarker(MarkerType.CarSymbol, t1.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
+						World.DrawMarker(MarkerType.CarSymbol, t1.SpawnerMenu.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Blue, false, false, true);
 
-						if (p.IsInRangeOf(t1.SpawnerMenu, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere il veicolo");
 
@@ -150,12 +150,12 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 							}
 						}
 
-						foreach (Vector3 t in t1.Deleters)
+						foreach (Position t in t1.Deleters)
 							if (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
 							{
-								World.DrawMarker(MarkerType.CarSymbol, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								World.DrawMarker(MarkerType.CarSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
-								if (!p.IsInRangeOf(t, 1.375f) || HUD.MenuPool.IsAnyMenuOpen) continue;
+								if (!p.IsInRangeOf(t.ToVector3, 1.375f) || HUD.MenuPool.IsAnyMenuOpen) continue;
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare il veicolo nel deposito");
 
 								if (Input.IsControlJustPressed(Control.Context))
@@ -177,9 +177,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 					foreach (SpawnerSpawn t1 in t2.Elicotteri)
 					{
-						World.DrawMarker(MarkerType.HelicopterSymbol, t1.SpawnerMenu, new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
+						World.DrawMarker(MarkerType.HelicopterSymbol, t1.SpawnerMenu.ToVector3, new Vector3(0), new Vector3(0), new Vector3(3f, 3f, 1.5f), Colors.Blue, false, false, true);
 
-						if (p.IsInRangeOf(t1.SpawnerMenu, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
+						if (p.IsInRangeOf(t1.SpawnerMenu.ToVector3, 1.375f) && !HUD.MenuPool.IsAnyMenuOpen)
 						{
 							HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere l'elicottero");
 
@@ -191,18 +191,18 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 							}
 						}
 
-						foreach (Vector3 t in t1.Deleters)
+						foreach (Position t in t1.Deleters)
 						{
-							if (!Funzioni.IsSpawnPointClear(t, 2f))
-								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(t, 2f))
+							if (!Funzioni.IsSpawnPointClear(t.ToVector3, 2f))
+								foreach (Vehicle veh in Funzioni.GetVehiclesInArea(t.ToVector3, 2f))
 									if (!veh.HasDecor("VeicoloPolizia"))
 										veh.Delete();
 
 							if (!p.IsInHeli) continue;
 							{
-								World.DrawMarker(MarkerType.HelicopterSymbol, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
+								World.DrawMarker(MarkerType.HelicopterSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
-								if (!p.IsInRangeOf(t, 3.375f) || !p.IsInHeli || HUD.MenuPool.IsAnyMenuOpen) continue;
+								if (!p.IsInRangeOf(t.ToVector3, 3.375f) || !p.IsInHeli || HUD.MenuPool.IsAnyMenuOpen) continue;
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per parcheggiare l'elicottero nel deposito");
 
 								if (Input.IsControlJustPressed(Control.Context))
@@ -224,7 +224,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 					}
 
 					if (Cache.MyPlayer.User.CurrentChar.Job.Grade != Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Count - 1) continue;
-					foreach (Vector3 t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
+					foreach (Position t in t2.BossActions) World.DrawMarker(MarkerType.HorizontalCircleSkinny, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, .5f), Colors.Blue, false, false, true);
 				}
 			else
 				await BaseScript.Delay(5000);

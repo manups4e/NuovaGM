@@ -234,7 +234,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 			{
 				if (IsVehicleAttachedToTowTruck(VeicoloLavorativo.Handle, VeicoloDaRimuovere.Handle))
 				{
-					HUD.DrawText3D(PuntoDiConsegna.Position, Colors.WhiteSmoke, "Sgancia qui il veicolo per depositarlo!");
+					HUD.DrawText3D(PuntoDiConsegna.Position.ToPosition(), Colors.WhiteSmoke, "Sgancia qui il veicolo per depositarlo!");
 				}
 				else
 				{

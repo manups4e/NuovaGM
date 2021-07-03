@@ -230,13 +230,13 @@ namespace TheLastPlanet.Client
 
 	public class ConfigGarage
 	{
-		public Vector3 Pos { get; set; }
+		public Position Pos { get; set; }
 		public int NVehs { get; set; }
-		public Vector4 OutMarker { get; set; }
-		public Vector4 ModifyMarker { get; set; }
-		public Vector3[] ModifyCam { get; set; } = new Vector3[2];
-		public Vector4 SpawnInLocation { get; set; }
-		public List<Vector4> PosVehs { get; set; }
+		public Position OutMarker { get; set; }
+		public Position ModifyMarker { get; set; }
+		public Position[] ModifyCam { get; set; } = new Position[2];
+		public Position SpawnInLocation { get; set; }
+		public List<Position> PosVehs { get; set; }
 	}
 
 	public class Garages
@@ -244,10 +244,10 @@ namespace TheLastPlanet.Client
 		public string Label { get; set; }
 		public int tipo{ get; set; }
 		public int VehCapacity{ get; set; }
-		public Vector3 MarkerEntrata{ get; set; }
-		public Vector3 MarkerUscita{ get; set; }
-		public Vector3 SpawnDentro{ get; set; }
-		public Vector4 SpawnFuori{ get; set; }
+		public Position MarkerEntrata{ get; set; }
+		public Position MarkerUscita{ get; set; }
+		public Position SpawnDentro{ get; set; }
+		public Position SpawnFuori{ get; set; }
 		public ConfigCaseCamExt TelecameraFuori { get; set; }
 		public ConfigCaseCamExt TelecameraModificaDentro { get; set; }
 		public int Price { get; set; }
@@ -258,10 +258,10 @@ namespace TheLastPlanet.Client
 		public string Label { get; set; }
 		public int VehCapacity{ get; set; }
 		public int Tipo{ get; set; }
-		public Vector3 MarkerEntrata{ get; set; }
-		public Vector3 MarkerUscita{ get; set; }
-		public Vector3 SpawnDentro{ get; set; }
-		public Vector3 SpawnFuori{ get; set; }
+		public Position MarkerEntrata{ get; set; }
+		public Position MarkerUscita{ get; set; }
+		public Position SpawnDentro{ get; set; }
+		public Position SpawnFuori{ get; set; }
 		public ConfigCaseCamExt TelecameraFuori { get; set; }
 		public ConfigCaseCamInt TelecameraDentro { get; set; }
 		public List<string> Ipls { get; set; }
@@ -270,13 +270,13 @@ namespace TheLastPlanet.Client
 		public bool Is_room{ get; set; }
 		public bool Is_gateway{ get; set; }
 		public bool TettoIncluso{ get; set; }
-		public Vector3 MarkerTetto{ get; set; }
-		public Vector3 SpawnTetto{ get; set; }
+		public Position MarkerTetto{ get; set; }
+		public Position SpawnTetto{ get; set; }
 		public bool GarageIncluso{ get; set; }
-		public Vector3 MarkerGarageEsterno{ get; set; }
-		public Vector3 MarkerGarageInterno{ get; set; }
-		public Vector3 SpawnGarageAPiediDentro{ get; set; }
-		public Vector4 SpawnGarageInVehFuori{ get; set; }
+		public Position MarkerGarageEsterno{ get; set; }
+		public Position MarkerGarageInterno{ get; set; }
+		public Position SpawnGarageAPiediDentro{ get; set; }
+		public Position SpawnGarageInVehFuori{ get; set; }
 		public int Price{ get; set; }
 		public int Stile { get; set; } = 0;
 		public bool Strip { get; set; }
@@ -293,7 +293,7 @@ namespace TheLastPlanet.Client
 
 	public class ConfigCaseCamExt
 	{
-		public Vector3 pos { get; set; }
-		public Vector3 guarda { get; set; }
+		public Position pos { get; set; }
+		public Position guarda { get; set; }
 	}
 }

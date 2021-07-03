@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.MAINLOBBY
 			Marker.Draw();
 
 			if (!Scaleform.IsLoaded) return;
-			Scaleform.Render3D(Marker.Position, GameplayCamera.Rotation, Marker.Scale / 2);
+			Scaleform.Render3D(Marker.Position.ToVector3, GameplayCamera.Rotation, (Marker.Scale / 2).ToVector3);
 		}
 	}
 }

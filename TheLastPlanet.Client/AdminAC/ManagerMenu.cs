@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.AdminAC
 						}
 						else if (item == Teletrasportalo)
 						{
-							BaseScript.TriggerServerEvent("lprp:manager:TeletrasportaDaMe", p.ServerId, Cache.MyPlayer.User.Posizione.ToVector3);
+							Client.Instance.Events.Send("manager:TeletrasportaDaMe", p.ServerId);
 						}
 						else if (item == Specta)
 						{

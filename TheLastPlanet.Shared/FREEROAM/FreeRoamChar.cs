@@ -40,21 +40,21 @@ namespace TheLastPlanet.Shared
 	[Serialization]
 	public partial class FreeRoamChar
 	{
-		public ulong CharID;
-		public bool is_dead;
-		public Info Info = new();
-		public Finance Finance = new();
-		public Position Posizione = new();
-		public Gang Gang = new();
-		public Skin Skin = new();
-		public List<Weapons> Weapons = new();
-		public List<string> Proprietà = new(); // da aggiungere
-		public List<OwnedVehicle> Veicoli = new(); // da aggiungere
-		public Dressing Dressing = new();
-		public FreeRoamStats Statistiche = new();
+		public ulong CharID { get; set; }
+		public bool is_dead { get; set; }
+		public Info Info { get; set; }
+		public Finance Finance {get;set;}
+		public Position Posizione {get;set;}
+		public Gang Gang {get;set;}
+		public Skin Skin {get;set;}
+		public List<Weapons> Weapons {get;set;}
+		public List<string> Proprietà {get;set;} // da aggiungere
+		public List<OwnedVehicle> Veicoli {get;set;} // da aggiungere
+		public Dressing Dressing {get;set;}
+		public FreeRoamStats Statistiche {get;set;}
 		public FreeRoamChar() { }
-		public int Level = 1;
-		public int TotalXp;
+		public int Level { get; set; } = 1;
+		public int TotalXp { get; set; }
 
 		public FreeRoamChar(ulong id, Finance finance, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, FreeRoamStats statistiche)
 		{

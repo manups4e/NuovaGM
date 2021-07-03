@@ -32,7 +32,7 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 				{
 					Blip = new BlipLavoro()
 					{
-						Coords = new Vector3(425.1f, -979.5f, 30.7f),
+						Coords = new Position(425.1f, -979.5f, 30.7f),
 						Sprite = 60,
 						Display = 4,
 						Scale = 1f,
@@ -40,8 +40,8 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 						Nome = "Stazione di Polizia"
 					},
 
-					Spogliatoio = new List<Vector3>() {new(452.6f, -992.8f, 29.69f)},
-					Armerie = new List<Vector3>() {new(451.7f, -980.1f, 29.69f)},
+					Spogliatoio = new List<Position>() {new(452.6f, -992.8f, 29.69f)},
+					Armerie = new List<Position>() {new(451.7f, -980.1f, 29.69f)},
 					VeicoliAutorizzati = new List<Autorizzati>()
 					{
 						new() {Nome = "Macchina della Polizia 1", Model = "police", GradiAutorizzati = {-1}},
@@ -75,18 +75,18 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 					{
 						new()
 						{
-							SpawnerMenu = new Vector3(470.396f, -984.783f, 30.69f),
+							SpawnerMenu = new Position(470.396f, -984.783f, 30.69f),
 							SpawnPoints = new List<SpawnPoints>()
 							{
-								new() {Coords = new Vector3(438.4f, -1018.3f, 27.7f), Heading = 90f, Radius = 6f},
-								new() {Coords = new Vector3(441.0f, -1024.2f, 28.3f), Heading = 90f, Radius = 6f},
-								new() {Coords = new Vector3(453.5f, -1022.2f, 28.0f), Heading = 90f, Radius = 6f},
-								new() {Coords = new Vector3(450.9f, -1016.5f, 28.1f), Heading = 90f, Radius = 6f}
+								new() {Coords = new Position(438.4f, -1018.3f, 27.7f), Heading = 90f, Radius = 6f},
+								new() {Coords = new Position(441.0f, -1024.2f, 28.3f), Heading = 90f, Radius = 6f},
+								new() {Coords = new Position(453.5f, -1022.2f, 28.0f), Heading = 90f, Radius = 6f},
+								new() {Coords = new Position(450.9f, -1016.5f, 28.1f), Heading = 90f, Radius = 6f}
 							},
-							Deleters = new List<Vector3>()
+							Deleters = new List<Position>()
 							{
-								new Vector3(452.567f, -996.697f, 25.763f),
-								new Vector3(447.449f, -996.954f, 25.763f)
+								new Position(452.567f, -996.697f, 25.763f),
+								new Position(447.449f, -996.954f, 25.763f)
 							}
 						}
 					},
@@ -94,18 +94,18 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 					{
 						new SpawnerSpawn()
 						{
-							SpawnerMenu = new Vector3(461.1f, -981.5f, 43.6f),
+							SpawnerMenu = new Position(461.1f, -981.5f, 43.6f),
 							SpawnPoints = new List<SpawnPoints>()
 							{
-								new() {Coords = new Vector3(449.5f, -981.2f, 43.6f), Heading = 92.6f, Radius = 10f}
+								new() {Coords = new Position(449.5f, -981.2f, 43.6f), Heading = 92.6f, Radius = 10f}
 							},
-							Deleters = new List<Vector3>()
+							Deleters = new List<Position>()
 							{
-								new Vector3(449.5f, -981.2f, 43.6f),
+								new Position(449.5f, -981.2f, 43.6f),
 							}
 						}
 					},
-					BossActions = new List<Vector3>()
+					BossActions = new List<Position>()
 					{
 						new(448.4f, -973.2f, 29.69f)
 					}

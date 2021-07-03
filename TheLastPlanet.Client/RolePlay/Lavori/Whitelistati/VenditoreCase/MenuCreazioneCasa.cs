@@ -22,10 +22,10 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 	{
 		private static Camera MainCamera;
 		private static int travelSpeed = 0;
-		private static Vector3 curLocation;
-		private static Vector3 curRotation;
-		private static Vector3 CameraPosIngresso;
-		private static Vector3 CameraRotIngresso;
+		private static Position curLocation;
+		private static Position curRotation;
+		private static Position CameraPosIngresso;
+		private static Position CameraRotIngresso;
 		private static string travelSpeedStr = "Media";
 		private static int checkTimer = 0;
 		private static Marker markerIngrPiedi;
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem posCamera;
 		private static UIMenuColorPanel blipColor;
 		private static Prop renderCamObject;
-		private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+		private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.WhiteSmoke);
 		private static int interno = 0;
 		private static string abbreviazione;
 
@@ -51,10 +51,10 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 		{
 			MainCamera = null;
 			travelSpeed = 0;
-			curLocation = Vector3.Zero;
-			curRotation = Vector3.Zero;
-			CameraPosIngresso = Vector3.Zero;
-			CameraRotIngresso = Vector3.Zero;
+			curLocation = Position.Zero;
+			curRotation = Position.Zero;
+			CameraPosIngresso = Position.Zero;
+			CameraRotIngresso = Position.Zero;
 			travelSpeedStr = "Media";
 			checkTimer = 0;
 			markerIngrPiedi = null;
@@ -66,7 +66,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			posCamera = null;
 			blipColor = null;
 			renderCamObject = null;
-			dummyMarker = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.WhiteSmoke);
+			dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.WhiteSmoke);
 			interno = 0;
 			abbreviazione = "";
 			Istanza oldInstance = new();
@@ -272,12 +272,12 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 					{
 						case TipoImmobile.Casa:
 							casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
-							casaDummy.SpawnGarageInVehFuori = new Vector4(markerIngrGarage.Position, 0);
+							casaDummy.SpawnGarageInVehFuori = new Position(markerIngrGarage.Position, 0);
 
 							break;
 						case TipoImmobile.Garage:
 							garageDummy.MarkerEntrata = markerIngrGarage.Position;
-							garageDummy.SpawnFuori = new Vector4(markerIngrGarage.Position, 0);
+							garageDummy.SpawnFuori = new Position(markerIngrGarage.Position, 0);
 
 							break;
 					}
@@ -294,8 +294,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 				}
 				else if (item == posCamera)
 				{
-					CameraPosIngresso = MainCamera.Position;
-					CameraRotIngresso = (await MainCamera.CrosshairRaycast(1000)).HitPosition;
+					CameraPosIngresso = MainCamera.Position.ToPosition();
+					CameraRotIngresso = (await MainCamera.CrosshairRaycast(1000)).HitPosition.ToPosition();
 
 					switch (immobile)
 					{
@@ -402,8 +402,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 								PlaceObjectOnGroundProperly(renderCamObject.Handle);
 								MainCamera.Position = new Vector3(266.8514f, -998.9061f, -97.92068f);
 								MainCamera.PointAt(new Vector3(259.7751f, -998.6475f, -100.0068f));
-								casaDummy.MarkerUscita = new Vector3(266.094f, -1007.487f, -101.800f);
-								casaDummy.SpawnDentro = new Vector3(266.094f, -1007.487f, -101.800f);
+								casaDummy.MarkerUscita = new Position(266.094f, -1007.487f, -101.800f);
+								casaDummy.SpawnDentro = new Position(266.094f, -1007.487f, -101.800f);
 
 								break;
 							case TipoImmobile.Garage:
@@ -452,15 +452,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 									case TipoImmobile.Casa:
 										pos = new Vector3(266.8514f, -998.9061f, -97.92068f);
 										lookAt = new Vector3(259.7751f, -998.6475f, -100.0068f);
-										casaDummy.MarkerUscita = new Vector3(266.094f, -1007.487f, -101.800f);
-										casaDummy.SpawnDentro = new Vector3(266.094f, -1007.487f, -101.800f);
+										casaDummy.MarkerUscita = new Position(266.094f, -1007.487f, -101.800f);
+										casaDummy.SpawnDentro = new Position(266.094f, -1007.487f, -101.800f);
 
 										break;
 									case TipoImmobile.Garage:
 										pos = new Vector3(177.8964f, -1008.719f, -98.03687f);
 										lookAt = new Vector3(168.3609f, -1002.193f, -99.99992f);
-										garageDummy.SpawnDentro = new Vector3(179.015f, -1000.326f, -100f);
-										garageDummy.MarkerUscita = new Vector3(179.015f, -1000.326f, -100f);
+										garageDummy.SpawnDentro = new Position(179.015f, -1000.326f, -100f);
+										garageDummy.MarkerUscita = new Position(179.015f, -1000.326f, -100f);
 
 										break;
 								}
@@ -472,15 +472,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 									case TipoImmobile.Casa:
 										pos = new Vector3(339.3684f, -992.7239f, -98.21723f);
 										lookAt = new Vector3(341.4973f, -999.5391f, -100.1962f);
-										casaDummy.MarkerUscita = new Vector3(346.493f, -1013.031f, -99.196f);
-										casaDummy.SpawnDentro = new Vector3(346.493f, -1013.031f, -99.196f);
+										casaDummy.MarkerUscita = new Position(346.493f, -1013.031f, -99.196f);
+										casaDummy.SpawnDentro = new Position(346.493f, -1013.031f, -99.196f);
 
 										break;
 									case TipoImmobile.Garage:
 										pos = new Vector3(190.6334f, -1027.276f, -98.94763f);
 										lookAt = new Vector3(193.8157f, -1024.415f, -99.99996f);
-										garageDummy.SpawnDentro = new Vector3(207.1461f, -1018.326f, -98.999f);
-										garageDummy.MarkerUscita = new Vector3(207.1461f, -1018.326f, -98.999f);
+										garageDummy.SpawnDentro = new Position(207.1461f, -1018.326f, -98.999f);
+										garageDummy.MarkerUscita = new Position(207.1461f, -1018.326f, -98.999f);
 
 										break;
 								}
@@ -492,15 +492,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 									case TipoImmobile.Casa:
 										pos = new Vector3(-1465.857f, -535.3416f, 74.20998f);
 										lookAt = new Vector3(-1467.427f, -544.514f, 72.46823f);
-										casaDummy.SpawnDentro = new Vector3(-1452.841f, -539.489f, 74.044f);
-										casaDummy.MarkerUscita = new Vector3(-1452.164f, -540.640f, 74.044f);
+										casaDummy.SpawnDentro = new Position(-1452.841f, -539.489f, 74.044f);
+										casaDummy.MarkerUscita = new Position(-1452.164f, -540.640f, 74.044f);
 
 										break;
 									case TipoImmobile.Garage:
 										pos = new Vector3(206.7423f, -993.4413f, -98.09858f);
 										lookAt = new Vector3(190.6937f, -1008.027f, -99.62811f);
-										garageDummy.SpawnDentro = new Vector3(210.759f, -999.0323f, -98.99997f);
-										garageDummy.MarkerUscita = new Vector3(210.759f, -999.0323f, -98.99997f);
+										garageDummy.SpawnDentro = new Position(210.759f, -999.0323f, -98.99997f);
+										garageDummy.MarkerUscita = new Position(210.759f, -999.0323f, -98.99997f);
 
 										break;
 								}
@@ -512,15 +512,15 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 									case TipoImmobile.Casa:
 										pos = new Vector3(-42.78862f, -571.4902f, 89.38699f);
 										lookAt = new Vector3(-35.83893f, -583.5001f, 88.47382f);
-										casaDummy.SpawnDentro = new Vector3(-17.54766f, -589.1531f, 90.11485f);
-										casaDummy.MarkerUscita = new Vector3(-17.54766f, -589.1531f, 90.11485f);
+										casaDummy.SpawnDentro = new Position(-17.54766f, -589.1531f, 90.11485f);
+										casaDummy.MarkerUscita = new Position(-17.54766f, -589.1531f, 90.11485f);
 
 										break;
 									case TipoImmobile.Garage:
 										pos = new Vector3(220.5728f, -1007.01f, -98.10276f);
 										lookAt = new Vector3(225.9477f, -996.6439f, -99.9992f);
-										garageDummy.SpawnDentro = new Vector3(238.103f, -1004.813f, -98.99992f);
-										garageDummy.MarkerUscita = new Vector3(238.103f, -1004.813f, -98.99992f);
+										garageDummy.SpawnDentro = new Position(238.103f, -1004.813f, -98.99992f);
+										garageDummy.MarkerUscita = new Position(238.103f, -1004.813f, -98.99992f);
 
 										break;
 								}
@@ -531,8 +531,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 								{
 									pos = new Vector3(-169.7948f, 478.3921f, 138.4392f);
 									lookAt = new Vector3(-166.9105f, 485.8192f, 136.8266f);
-									casaDummy.SpawnDentro = new Vector3(-173.9128f, 496.8375f, 137.667f);
-									casaDummy.MarkerUscita = new Vector3(-173.9128f, 496.8375f, 137.667f);
+									casaDummy.SpawnDentro = new Position(-173.9128f, 496.8375f, 137.667f);
+									casaDummy.MarkerUscita = new Position(-173.9128f, 496.8375f, 137.667f);
 								}
 
 								break;
@@ -541,8 +541,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 								{
 									pos = new Vector3(-791.5707f, 343.7827f, 217.8111f);
 									lookAt = new Vector3(-784.6417f, 330.4529f, 216.0382f);
-									casaDummy.SpawnDentro = new Vector3(-786.5125f, 315.8108f, 217.6385f);
-									casaDummy.MarkerUscita = new Vector3(-786.5125f, 315.8108f, 217.6385f);
+									casaDummy.SpawnDentro = new Position(-786.5125f, 315.8108f, 217.6385f);
+									casaDummy.MarkerUscita = new Position(-786.5125f, 315.8108f, 217.6385f);
 								}
 
 								break;
@@ -935,8 +935,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 						MainCamera.Position = Cache.MyPlayer.User.Posizione.ToVector3 + new Vector3(0, 0, 100);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
-						curLocation = MainCamera.Position;
-						curRotation = MainCamera.Rotation;
+						curLocation = MainCamera.Position.ToPosition();
+						curRotation = MainCamera.Rotation.ToPosition();
 						checkTimer = GetGameTimer();
 						Client.Instance.AddTick(CreatorCameraControl);
 						Screen.Fading.FadeIn(500);
@@ -966,9 +966,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 							}
 
 							Client.Instance.AddTick(MarkerTick);
-							if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
-							if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
-							if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Vector3.Zero, new Vector3(1.5f), Colors.Red);
+							if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
+							if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
+							if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
 						}
 
 						break;
@@ -1034,17 +1034,17 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 						{
 							if (casaDummy.Price > 0)
 							{
-								if (casaDummy.MarkerEntrata != Vector3.Zero)
+								if (casaDummy.MarkerEntrata != Position.Zero)
 								{
-									if (casaDummy.TelecameraFuori.pos != Vector3.Zero && casaDummy.TelecameraFuori.guarda != Vector3.Zero)
+									if (casaDummy.TelecameraFuori.pos != Position.Zero && casaDummy.TelecameraFuori.guarda != Position.Zero)
 									{
 										if (casaDummy.GarageIncluso)
 										{
-											if (casaDummy.MarkerGarageEsterno != Vector3.Zero && casaDummy.SpawnGarageInVehFuori != Vector4.Zero)
+											if (casaDummy.MarkerGarageEsterno != Position.Zero && casaDummy.SpawnGarageInVehFuori != Position.Zero)
 											{
 												if (casaDummy.TettoIncluso)
 												{
-													if (casaDummy.MarkerTetto != Vector3.Zero)
+													if (casaDummy.MarkerTetto != Position.Zero)
 													{
 														BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.ToJson(), abbreviazione);
 														HUD.MenuPool.CloseAllMenus();
@@ -1070,7 +1070,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 										{
 											if (casaDummy.TettoIncluso)
 											{
-												if (casaDummy.MarkerTetto != Vector3.Zero)
+												if (casaDummy.MarkerTetto != Position.Zero)
 												{
 													BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "casa", casaDummy.ToJson(), abbreviazione);
 													Client.Impostazioni.RolePlay.Proprieta.Appartamenti.Add(abbreviazione, casaDummy);
@@ -1122,9 +1122,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 						{
 							if (garageDummy.Price > 0)
 							{
-								if (garageDummy.MarkerEntrata != Vector3.Zero)
+								if (garageDummy.MarkerEntrata != Position.Zero)
 								{
-									if (garageDummy.TelecameraFuori.pos != Vector3.Zero && garageDummy.TelecameraFuori.guarda != Vector3.Zero)
+									if (garageDummy.TelecameraFuori.pos != Position.Zero && garageDummy.TelecameraFuori.guarda != Position.Zero)
 									{
 										BaseScript.TriggerServerEvent("lprp:agenteimmobiliare:salvaAppartamento", "garage", garageDummy.ToJson(), abbreviazione);
 										Client.Impostazioni.RolePlay.Proprieta.Garages.Garages.Add(abbreviazione, garageDummy);
@@ -1328,8 +1328,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 				if (curRotation.Z < -179.999999999f) curRotation.Z = 180f;
 			}
 
-			MainCamera.Position = curLocation;
-			MainCamera.Rotation = curRotation;
+			MainCamera.Position = curLocation.ToVector3;
+			MainCamera.Rotation = curRotation.ToVector3;
 		}
 
 		private static async Task MarkerTick()
@@ -1338,7 +1338,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			Vector3 direction = res.HitPosition;
 			dummyMarker.Color = Colors.Red;
 			if (!posCamera.Selected) dummyMarker.Draw();
-			dummyMarker.Position = direction;
+			dummyMarker.Position = direction.ToPosition();
 			float z = 0;
 			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
 			if (z != 0 && res.DitHit) dummyMarker.Position.Z = z;

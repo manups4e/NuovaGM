@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.Loaded();
-			List<LogInInfo> data = await Client.Instance.Eventi.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
+			List<LogInInfo> data = await Client.Instance.Events.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
 			ToggleMenu(true, "charloading", data);
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
@@ -195,7 +195,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 				cambiato = false;
 				PedHash m = PedHash.FreemodeMale01;
 				PedHash f = PedHash.FreemodeFemale01;
-				SkinAndDress pers = await Client.Instance.Eventi.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
+				SkinAndDress pers = await Client.Instance.Events.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
 				if (p1 != null) p1.Delete();
 				Client.Logger.Debug(pers.ToJson());
 				p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 			*/
-			Cache.MyPlayer.User.CurrentChar = await Client.Instance.Eventi.Get<Char_data>("lprp:Select_Char", ID);
+			Cache.MyPlayer.User.CurrentChar = await Client.Instance.Events.Get<Char_data>("lprp:Select_Char", ID);
 			Char_data Data = Cache.MyPlayer.User.CurrentChar;
 			DestroyAllCams(true);
 			EnableGameplayCam(true);
@@ -308,7 +308,7 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 			await BaseScript.Delay(5000);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Eventi.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
+			Cache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Events.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
 			//EnableSwitchPauseBeforeDescent();
 			SwitchInPlayer(Cache.MyPlayer.Ped.Handle);
 			//Position pos = await Data.Posizione.FindGroundZ();

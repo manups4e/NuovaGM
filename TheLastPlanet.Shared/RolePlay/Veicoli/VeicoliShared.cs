@@ -13,13 +13,13 @@ namespace TheLastPlanet.Shared.Veicoli
 		[JsonIgnore]
 		Vehicle Vehicle = null;
 		[JsonProperty("targa")]
-		public string Targa;
+		public string Targa { get; set; }
 		[JsonProperty("vehicle_data")]
-		public VehicleData DatiVeicolo;
+		public VehicleData DatiVeicolo { get; set; }
 		[JsonProperty("garage")]
-		public VehGarage Garage;
+		public VehGarage Garage { get; set; }
 		[JsonProperty("stato")]
-		public string Stato;
+		public string Stato { get; set; }
 
 		public OwnedVehicle() { }
 		public OwnedVehicle(Vehicle veh, string targa, VehicleData data, VehGarage garage, string stato)
@@ -57,9 +57,9 @@ namespace TheLastPlanet.Shared.Veicoli
 	[Serialization]
 	public partial class VehGarage
 	{
-		public bool InGarage;
-		public string Garage;
-		public int Posto;
+		public bool InGarage { get; set; }
+		public string Garage { get; set; }
+		public int Posto { get; set; }
 		public VehGarage() { }
 		public VehGarage(bool ingarage, string garageName, int posto)
 		{
@@ -84,7 +84,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		[Ignore]
 		[JsonIgnore]
 		public VehProp props = new VehProp();
-		public bool Rubato;
+		public bool Rubato { get; set; }
 		public VehicleData() { }
 		public VehicleData(long insurance, VehProp dati, bool stolen)
 		{
@@ -97,31 +97,35 @@ namespace TheLastPlanet.Shared.Veicoli
 	[Serialization]
 	public partial class VehProp
 	{
-		public int Model;
-		public string Name;
-		public string Plate;
-		public int PlateIndex;
-		public float BodyHealth;
-		public float EngineHealth;
-		public float FuelLevel;
-		public float DirtLevel;
-		public int PrimaryColor;
-		public int SecondaryColor;
-		public Color CustomPrimaryColor;
-		public Color CustomSecondaryColor;
-		public bool HasCustomPrimaryColor;
-		public bool HasCustomSecondaryColor;
-		public int PearlescentColor;
-		public int WheelColor;
-		public int Wheels;
-		public int WindowTint;
+		public int Model { get; set; }
+		public string Name { get; set; }
+		public string Plate { get; set; }
+		public int PlateIndex { get; set; }
+		public float BodyHealth { get; set; }
+		public float EngineHealth { get; set; }
+		public float FuelLevel { get; set; }
+		public float DirtLevel { get; set; }
+		public int PrimaryColor { get; set; }
+		public int SecondaryColor { get; set; }
+		[Force] public int CustomPrimaryColorInt { get => CustomPrimaryColor.ToArgb(); set { CustomPrimaryColor = Color.FromArgb(value); } }
+		[Force] public int CustomSecondaryColorInt { get => CustomSecondaryColor.ToArgb(); set { CustomSecondaryColor = Color.FromArgb(value); } }
+		[Ignore] public Color CustomPrimaryColor { get; set; }
+		[Ignore] public Color CustomSecondaryColor { get; set; }
+		public bool HasCustomPrimaryColor { get; set; }
+		public bool HasCustomSecondaryColor { get; set; }
+		public int PearlescentColor { get; set; }
+		public int WheelColor { get; set; }
+		public int Wheels { get; set; }
+		public int WindowTint { get; set; }
 		public bool[] NeonEnabled = new bool[4];
 		public bool[] Extras = new bool[13];
-		public Color NeonColor;
-		public Color TireSmokeColor;
-		public List<VehMod> Mods = new List<VehMod>();
-		public bool ModKitInstalled;
-		public int ModLivery;
+		[Force] public int NeonColorInt { get => NeonColor.ToArgb(); set { NeonColor = Color.FromArgb(value); } }
+		[Force] public int TireSmokeColorInt { get => TireSmokeColor.ToArgb(); set { TireSmokeColor = Color.FromArgb(value); } }
+		[Ignore] public Color NeonColor { get; set; }
+		[Ignore] public Color TireSmokeColor { get; set; }
+		public List<VehMod> Mods { get; set; }
+		public bool ModKitInstalled { get; set; }
+		public int ModLivery { get; set; }
 		public VehProp() { }
 		public VehProp(int model, string name, string plate, int plateIndex, float bodyHealth, float engineHealth, float fuelLevel, float dirtLevel, int color1, int color2, Color custom1, Color custom2, bool hasCustom1, bool hasCustom2, int pearlescentColor, int wheelColor, int wheels, int windowTint, bool[] neonEnabled, bool[] extras, Color neonColor, Color tyreSmokeColor, bool modkit, List<VehMod> mods, int modLivery)
 		{
@@ -152,10 +156,10 @@ namespace TheLastPlanet.Shared.Veicoli
 	[Serialization]
 	public partial class VehMod
 	{
-		public int ModIndex;
-		public int Value;
-		public string ModName;
-		public string modType;
+		public int ModIndex { get; set; }
+		public int Value { get; set; }
+		public string ModName { get; set; }
+		public string modType { get; set; }
 
 		public VehMod(int modIndex, int value, string name, string type)
 		{
@@ -169,22 +173,22 @@ namespace TheLastPlanet.Shared.Veicoli
 	[Serialization]
 	public partial class _VeicoliAffitto
 	{
-		public List<Veicoloaff> biciclette = new List<Veicoloaff>();
-		public List<Veicoloaff> macchineGeneric = new List<Veicoloaff>();
-		public List<Veicoloaff> macchineMedium = new List<Veicoloaff>();
-		public List<Veicoloaff> macchineSuper = new List<Veicoloaff>();
-		public List<Veicoloaff> motoGeneric = new List<Veicoloaff>();
-		public List<Veicoloaff> motoMedium = new List<Veicoloaff>();
-		public List<Veicoloaff> motoSuper = new List<Veicoloaff>();
+		public List<Veicoloaff> biciclette { get; set; }
+		public List<Veicoloaff> macchineGeneric { get; set; }
+		public List<Veicoloaff> macchineMedium { get; set; }
+		public List<Veicoloaff> macchineSuper { get; set; }
+		public List<Veicoloaff> motoGeneric { get; set; }
+		public List<Veicoloaff> motoMedium { get; set; }
+		public List<Veicoloaff> motoSuper { get; set; }
 	}
 
 	[Serialization]
 	public partial class Veicoloaff
 	{
-		public string name;
-		public string description;
-		public int price;
-		public string model;
+		public string name { get; set; }
+		public string description { get; set; }
+		public int price { get; set; }
+		public string model { get; set; }
 		public Veicoloaff() { }
 		public Veicoloaff(string _name, string _desc, int _price, string _model)
 		{
@@ -205,8 +209,8 @@ namespace TheLastPlanet.Shared.Veicoli
 	[Serialization]
 	public partial class Treno
 	{
-		public int entity;
-		public int spawnidx;
+		public int entity { get; set; }
+		public int spawnidx { get; set; }
 
 		public Treno() { }
 		public Treno(int _ent, int sp)

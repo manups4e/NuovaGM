@@ -9,8 +9,8 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
     {
         public ConfigurazioneVendAuto Config = new ConfigurazioneVendAuto()
         {
-            BossActions = new Vector3(-32.0f, -1114.2f, 25.4f),
-            MenuVendita = new Vector3(-33.7f, -1102.0f, 25.4f),
+            BossActions = new Position(-32.0f, -1114.2f, 25.4f),
+            MenuVendita = new Position(-33.7f, -1102.0f, 25.4f),
         };
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>()
         {

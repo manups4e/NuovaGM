@@ -23,14 +23,14 @@ namespace TheLastPlanet.Server.Interactions
 
 		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
 		{
-			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.getCoords);
+			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.getCoords.ToPosition());
 			Pickups.Add(pickup);
 			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.ToJson(), user.Player.Handle);
 		}
 
 		public static void CreatePickup(Weapons oggetto, string label, User user)
 		{
-			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords, "weapon", oggetto.components, oggetto.tint);
+			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords.ToPosition(), "weapon", oggetto.components, oggetto.tint);
 			Pickups.Add(arma);
 			BaseScript.TriggerClientEvent("lprp:createPickup", arma.ToJson(), user.Player.Handle);
 		}
@@ -63,7 +63,7 @@ namespace TheLastPlanet.Server.Interactions
 					break;
 			}
 
-			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords, "account");
+			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords.ToPosition(), "account");
 			Pickups.Add(soldo);
 			BaseScript.TriggerClientEvent("lprp:createPickup", soldo.ToJson(), user.Player.Handle);
 		}

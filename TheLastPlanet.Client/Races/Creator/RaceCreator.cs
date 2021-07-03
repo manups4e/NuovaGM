@@ -82,7 +82,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			Cache.MyPlayer.Ped.IsInvincible = true;
 			Cache.MyPlayer.Ped.DiesInstantlyInWater = false;
 			Screen.Hud.IsRadarVisible = false;
-			placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition, new Vector3(6.7f), Colors.GreyDark);
+			placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new Position(6.7f), Colors.GreyDark);
 
 			if (cross == null)
 			{
@@ -872,7 +872,7 @@ namespace TheLastPlanet.Client.Races.Creator
 					Height = z + 0.3f;
 				cross.Position = curLocation;
 				cross.Rotation = new(0, 0, curRotation.Z);
-				placeMarker.Position = cross.Position + new Vector3(0, 0, 0.1f);
+				placeMarker.Position = (cross.Position + new Vector3(0, 0, 0.1f)).ToPosition();
 				placeMarker.Draw();
 
 				if (curRotation.X >= -11.5f)

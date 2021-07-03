@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             Client.Instance.AddTick(OnHudTick);
 
             //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
-            Client.Instance.Eventi.Mount("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
+            Client.Instance.Events.Mount("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
         }
 
         private static async Task OnHudTick()
