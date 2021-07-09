@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Drawing;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.NativeUI;
-using System.Drawing;
-using System.Threading.Tasks;
-using TheLastPlanet.Client.RolePlay.Core.LogIn;
 using TheLastPlanet.Client.RolePlay.LogIn;
+using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
-using TheLastPlanet.Client.SessionCache;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -25,10 +23,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		ReputationPoints = 8,
 		Money = 9
 	}
+
 	public sealed class Notifica
 	{
 		#region Fields
-		int _handle;
+
+		private int _handle;
+
 		#endregion
 
 		internal Notifica(int handle)
@@ -56,7 +57,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		Blue = 51,
 		Purple = 49,
 		Rose = 45,
-		RedDifferent = 52,
+		RedDifferent = 52
 	}
 
 	public enum IconType
@@ -71,8 +72,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 	public static class HUD
 	{
-		public static UITimerBarPool TimerBarPool = new UITimerBarPool();
-		public static MenuPool MenuPool = new MenuPool();
+		public static UITimerBarPool TimerBarPool = new();
+		public static MenuPool MenuPool = new();
 
 		public static void Init()
 		{
@@ -84,10 +85,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static async Task Menus()
 		{
 			MenuPool.ProcessMenus();
-			if (TimerBarPool.TimerBars.Count > 0)
-				TimerBarPool.Draw();
+			if (TimerBarPool.TimerBars.Count > 0) TimerBarPool.Draw();
 			await Task.FromResult(0);
 		}
+
 		/// <summary>
 		/// Mostra la notifica stile GTA
 		/// </summary>
@@ -98,6 +99,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			AddTextEntry("LprpNotification", msg);
 			BeginTextCommandThefeedPost("LprpNotification");
+
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
@@ -113,6 +115,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			AddTextEntry("LprpNotification", msg);
 			BeginTextCommandThefeedPost("LprpNotification");
 			ThefeedNextPostBackgroundColor((int)color);
+
 			return new Notifica(EndTextCommandThefeedPostTicker(blink, true));
 		}
 
@@ -128,6 +131,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
 			}
 		}
+
 		public static void ShowHelpNoMenu(string helpText)
 		{
 			if (!IsPlayerSwitchInProgress() && !LogIn.GuiEnabled)
@@ -167,7 +171,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async void ShowStatNotification(int value, string title)
 		{
-			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.MyPlayer.Ped);
+			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
 			BeginTextCommandThefeedPost("PS_UPDATE");
 			AddTextComponentInteger(value);
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, title, 2, value, value - 1, false, mug.Item2, mug.Item2);
@@ -175,19 +179,18 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			UnregisterPedheadshot(mug.Item1);
 		}
 
-
 		public static async void ShowVSNotification(Ped otherPed, HudColor color1, HudColor color2)
 		{
-			var mug = await Funzioni.GetPedMugshotAsync(Cache.MyPlayer.Ped);
-			var otherMug = await Funzioni.GetPedMugshotAsync(otherPed);
+			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(Cache.PlayerCache.MyPlayer.Ped);
+			Tuple<int, string> otherMug = await Funzioni.GetPedMugshotAsync(otherPed);
 			BeginTextCommandThefeedPost("");
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
 		}
 
 		public static async void ShowVSNotification(Ped otherPed1, Ped otherPed2, HudColor color1, HudColor color2)
 		{
-			var mug = await Funzioni.GetPedMugshotAsync(otherPed1);
-			var otherMug = await Funzioni.GetPedMugshotAsync(otherPed2);
+			Tuple<int, string> mug = await Funzioni.GetPedMugshotAsync(otherPed1);
+			Tuple<int, string> otherMug = await Funzioni.GetPedMugshotAsync(otherPed2);
 			BeginTextCommandThefeedPost("");
 			Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, 12, otherMug.Item2, otherMug.Item2, 1, color1, color2);
 		}
@@ -203,25 +206,22 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		/// <param name="lampeggia"></param>
 		public static void ShowAdvancedNotification(string titolo, string sottotitolo, string testo, string immagine, IconType iconType, bool lampeggia = false)
 		{
-			BeginTextCommandThefeedPost("jamyfafi");                                              //icontype 1 → Chat Box --2 → Email
-			AddTextComponentSubstringPlayerName(testo);                                        //3 → Add Friend Request--7 → Right Jumping Arrow
-			EndTextCommandThefeedPostMessagetext(immagine, immagine, false, (int)iconType, titolo, sottotitolo);             //8 → RP Icon --9 → $ Icon
+			BeginTextCommandThefeedPost("jamyfafi");                                                             //icontype 1 → Chat Box --2 → Email
+			AddTextComponentSubstringPlayerName(testo);                                                          //3 → Add Friend Request--7 → Right Jumping Arrow
+			EndTextCommandThefeedPostMessagetext(immagine, immagine, false, (int)iconType, titolo, sottotitolo); //8 → RP Icon --9 → $ Icon
 			EndTextCommandThefeedPostTicker(lampeggia, true);
 		}
 
-		public static void ShowAdvancedNotification(string text, string title, string subtitle = "", string iconSet = "CHAR_WE", string icon = "REBOOTBOTTOM", HudColor bgColor = HudColor.NONE, Color flashColor = new Color(), bool blink = false, NotificationType type = NotificationType.Default, bool showInBrief = true, bool sound = true)
+		public static void ShowAdvancedNotification(string text, string title, string subtitle = "", string iconSet = "CHAR_WE", string icon = "REBOOTBOTTOM", HudColor bgColor = HudColor.NONE, Color flashColor = new(), bool blink = false, NotificationType type = NotificationType.Default, bool showInBrief = true, bool sound = true)
 		{
 			BeginTextCommandThefeedPost("STRING");
 			AddTextComponentSubstringPlayerName(text);
-			if (bgColor != HudColor.NONE)
-				SetNotificationBackgroundColor((int)bgColor);
-			if (!flashColor.IsEmpty && blink)
-				SetNotificationFlashColor(flashColor.R, flashColor.G, flashColor.B, flashColor.A);
+			if (bgColor != HudColor.NONE) SetNotificationBackgroundColor((int)bgColor);
+			if (!flashColor.IsEmpty && blink) SetNotificationFlashColor(flashColor.R, flashColor.G, flashColor.B, flashColor.A);
 			EndTextCommandThefeedPostMessagetext(iconSet, icon, true, (int)type, title, subtitle);
 			EndTextCommandThefeedPostTicker(blink, showInBrief);
 			if (sound) Audio.PlaySoundFrontend("DELETE", "HUD_DEATHMATCH_SOUNDSET");
 		}
-
 
 		/*enum LoadingPromptTypes
         {
@@ -243,11 +243,11 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
 		{
 			ClearKeyboard(windowTitle, defaultText, maxLength);
-			while (UpdateOnscreenKeyboard() == 0)
-				await BaseScript.Delay(0);
+			while (UpdateOnscreenKeyboard() == 0) await BaseScript.Delay(0);
 
 			return UpdateOnscreenKeyboard() == 2 ? "" : GetOnscreenKeyboardResult();
 		}
+
 		private static void ClearKeyboard(string windowTitle, string defaultText, int maxLength)
 		{
 			AddTextEntry("FMlprp_KEY_TIP1", windowTitle);
@@ -264,8 +264,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			Screen.LoadingPrompt.Show(text, enumtype);
 			await BaseScript.Delay(msecs);
-			if (Screen.LoadingPrompt.IsActive)
-				Screen.LoadingPrompt.Hide();
+			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 		}
 
 		public static void CallFunctionFrontendHeader(string function, params object[] arguments)
@@ -290,8 +289,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			Vector3 cam = GameplayCamera.Position;
 			float dist = coord.Distance(cam);
-			float scaleInternal = (1 / dist) * scale;
-			float fov = (1 / GameplayCamera.FieldOfView) * 100;
+			float scaleInternal = 1 / dist * scale;
+			float fov = 1 / GameplayCamera.FieldOfView * 100;
 			float _scale = scaleInternal * fov;
 			SetTextScale(0.1f * _scale, 0.15f * _scale);
 			SetTextFont((int)font);
@@ -308,12 +307,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndTextCommandDisplayText(0, 0);
 			ClearDrawOrigin();
 		}
+
 		public static void DrawText3D(Camera camera, Position coord, Color c, string text, Font font = Font.ChaletComprimeCologne, float scale = 17)
 		{
 			Vector3 cam = camera.Position;
 			float dist = coord.Distance(cam);
-			float scaleInternal = (1 / dist) * scale;
-			float fov = (1 / camera.FieldOfView) * 100;
+			float scaleInternal = 1 / dist * scale;
+			float fov = 1 / camera.FieldOfView * 100;
 			float _scale = scaleInternal * fov;
 			SetTextScale(0.1f * _scale, 0.15f * _scale);
 			SetTextFont((int)font);
@@ -379,7 +379,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			EndTextCommandDisplayText(x, y);
 		}
 
-		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font)
+		public static void DrawText(float x, float y, string text, Color color, Font font)
 		{
 			SetTextFont((int)font);
 			SetTextScale(0.0f, 0.5f);
@@ -391,73 +391,74 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
 		}
-		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font, Alignment TextAlignment)
+
+		public static void DrawText(float x, float y, string text, Color color, Font font, Alignment TextAlignment)
 		{
 			SetTextFont((int)font);
 			SetTextScale(0.0f, 0.5f);
 			SetTextColour(color.R, color.G, color.B, color.A);
 			SetTextDropShadow();
 			SetTextOutline();
+
 			switch (TextAlignment)
 			{
 				case Alignment.Center:
 					SetTextCentre(true);
+
 					break;
 				case Alignment.Right:
 					SetTextRightJustify(true);
 					SetTextWrap(0, x);
+
 					break;
 			}
+
 			SetTextEntry("jamyfafi");
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
 		}
 
-		public static void DrawText(float x, float y, string text, Color color, CitizenFX.Core.UI.Font font, Alignment TextAlignment, bool Shadow = false, bool Outline = false, float Wrap = 0)
+		public static void DrawText(float x, float y, string text, Color color, Font font, Alignment TextAlignment, bool Shadow = false, bool Outline = false, float Wrap = 0)
 		{
 			int screenw = Screen.Resolution.Width;
 			int screenh = Screen.Resolution.Height;
 			const float height = 1080f;
 			float ratio = (float)screenw / screenh;
 			float width = height * ratio;
-
 			SetTextFont((int)font);
 			SetTextScale(0.0f, 0.5f);
 			SetTextColour(color.R, color.G, color.B, color.A);
-			if (Shadow)
-				SetTextDropShadow();
-			if (Outline)
-				SetTextOutline();
+			if (Shadow) SetTextDropShadow();
+			if (Outline) SetTextOutline();
+
 			if (Wrap != 0)
 			{
 				float xsize = (x + Wrap) / width;
 				SetTextWrap(x, xsize);
 			}
+
 			switch (TextAlignment)
 			{
 				case Alignment.Center:
 					SetTextCentre(true);
+
 					break;
 				case Alignment.Right:
 					SetTextRightJustify(true);
 					SetTextWrap(0, x);
+
 					break;
 			}
+
 			SetTextEntry("jamyfafi");
 			AddTextComponentSubstringPlayerName(text);
 			EndTextCommandDisplayText(x, y);
 		}
 
-
 		public static async Task ShowPlayerRankScoreAfterUpdate(int currentRankLimit, int nextRankLimit, int playersPreviousXP, int playersCurrentXP, int rank)
 		{
 			RequestHudScaleform(19);
-
-			while (!HasHudScaleformLoaded(19))
-			{
-				await BaseScript.Delay(0);
-			}
-
+			while (!HasHudScaleformLoaded(19)) await BaseScript.Delay(0);
 			PushScaleformMovieFunctionFromHudComponent(19, "OVERRIDE_ANIMATION_SPEED");
 			PushScaleformMovieFunctionParameterInt(2000);
 			PopScaleformMovieFunctionVoid();
@@ -491,23 +492,15 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			{
 				PushScaleformMovieFunctionFromHudComponent(19, "SHOW");
 				PopScaleformMovieFunctionVoid();
-
 			}
-			if (HasHudScaleformLoaded(19)) { return; }
 
+			if (HasHudScaleformLoaded(19)) return;
 			RequestHudScaleform(19);
-
-			while (!HasHudScaleformLoaded(19))
-			{
-				await BaseScript.Delay(0);
-			}
-
-			var rank = Cache.MyPlayer.User.FreeRoamChar.Level;
-			var xp = Cache.MyPlayer.User.FreeRoamChar.TotalXp;
-
-			var nowMaxXp = Experience.RankRequirement[rank];
-			var maxXp = Experience.NextLevelExperiencePoints(rank);
-
+			while (!HasHudScaleformLoaded(19)) await BaseScript.Delay(0);
+			int rank = Cache.PlayerCache.MyPlayer.User.FreeRoamChar.Level;
+			int xp = Cache.PlayerCache.MyPlayer.User.FreeRoamChar.TotalXp;
+			int nowMaxXp = Experience.RankRequirement[rank];
+			int maxXp = Experience.NextLevelExperiencePoints(rank);
 			PushScaleformMovieFunctionFromHudComponent(19, "SET_COLOUR");
 			PushScaleformMovieFunctionParameterInt(116);
 			PushScaleformMovieFunctionParameterInt(123);
@@ -525,16 +518,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task ShowFinishScaleform(bool lost = true)
 		{
-			var bg = new Scaleform("MP_CELEBRATION_BG");
-			var fg = new Scaleform("MP_CELEBRATION_FG");
-			var cb = new Scaleform("MP_CELEBRATION");
+			Scaleform bg = new("MP_CELEBRATION_BG");
+			Scaleform fg = new("MP_CELEBRATION_FG");
+			Scaleform cb = new("MP_CELEBRATION");
 			RequestScaleformMovie("MP_CELEBRATION_BG");
 			RequestScaleformMovie("MP_CELEBRATION_FG");
 			RequestScaleformMovie("MP_CELEBRATION");
-			while (!bg.IsLoaded || !fg.IsLoaded || !cb.IsLoaded)
-			{
-				await BaseScript.Delay(0);
-			}
+			while (!bg.IsLoaded || !fg.IsLoaded || !cb.IsLoaded) await BaseScript.Delay(0);
 
 			// Setting up colors.
 			bg.CallFunction("CREATE_STAT_WALL", "ch", "HUD_COLOUR_BLACK", -1);
@@ -549,7 +539,6 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			//bool won = new Random().Next(0, 2) == 0;
 			//bool won = true;
 			string win_lose = lost ? "CELEB_LOSER" : "CELEB_WINNER";
-
 			bg.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
 			fg.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
 			cb.CallFunction("ADD_WINNER_TO_WALL", "ch", win_lose, GetPlayerName(PlayerId()), "", 0, false, "", false);
@@ -565,9 +554,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			cb.CallFunction("SHOW_STAT_WALL", "ch");
 
 			// Drawing the wall on screen for 3 seconds + 1 seconds (for outro animation druation).
-			var timer = GetGameTimer();
+			int timer = GetGameTimer();
+
 			//DisableDrawing = true;
-			while (GetGameTimer() - timer <= (3000 + 1000))
+			while (GetGameTimer() - timer <= 3000 + 1000)
 			{
 				await BaseScript.Delay(0);
 				DrawScaleformMovieFullscreenMasked(bg.Handle, fg.Handle, 255, 255, 255, 255);
@@ -584,16 +574,13 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			bg.CallFunction("CLEANUP");
 			fg.CallFunction("CLEANUP");
 			cb.CallFunction("CLEANUP");
-
 			bg.Dispose();
 			fg.Dispose();
 			cb.Dispose();
 			//GameController.gameRestarting = false;
 			//GameController.Go();
 		}
-
 	}
-
 
 	public static class NotificationIcon
 	{

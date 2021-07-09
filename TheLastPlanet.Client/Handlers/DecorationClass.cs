@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client
 {
@@ -27,7 +26,7 @@ namespace TheLastPlanet.Client
 			/* DECOR LOCK */
 			EntityDecoration.LockProperties();
 
-			await Cache.Loaded();
+			await Cache.PlayerCache.Loaded();
 			Client.Instance.AddTick(GestionePlayersDecors.GestioneDecors);
 			await Task.FromResult(0);
 		}

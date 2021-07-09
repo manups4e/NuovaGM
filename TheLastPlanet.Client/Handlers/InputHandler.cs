@@ -8,7 +8,7 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -37,59 +37,60 @@ namespace TheLastPlanet.Client.Handlers
 		{
 			try
 			{
-				await Cache.Loaded();
-				Ped p = Cache.MyPlayer.Ped;
+				await Cache.PlayerCache.Loaded();
+				Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
 				foreach (InputController input in ListaInput)
-					if (input.Position != Vector3.Zero || input.Marker != null || input.InputMessage != null)
+					if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)
 					{
-						if (p.IsInRangeOf(input.Position, input.Radius.MarkerDistance)) // big range personalizzato sennò default 50f
+						if (p.IsInRangeOf(input.Position.ToVector3, 100f)) // big range personalizzato sennò default 50f
 						{
 							if (input.Marker != null) input.Marker.Draw();
 
-							if ((p.IsInRangeOf(input.Position, input.Radius.MinInputDistance) || input.Marker.IsInMarker) && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+							if (input.Marker.IsInMarker && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
 							{
 								if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
 
-								if (Game.IsControlJustPressed(0, input.Control))
-									if (Input.IsControlModifierPressed(input.Modifier))
-										switch (input.Check)
-										{
-											case PadCheck.Any:
-												input.Action.DynamicInvoke(p, input.parameters);
+								if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier))
+								{
+									switch (input.Check)
+									{
+										case PadCheck.Any:
+											input.Action.DynamicInvoke(p, input.parameters);
 
-												break;
-											case PadCheck.Controller:
-												if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+											break;
+										case PadCheck.Controller:
+											if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
 
-												break;
-											case PadCheck.Keyboard:
-												if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+											break;
+										case PadCheck.Keyboard:
+											if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
 
-												break;
-										}
+											break;
+									}
+								}
 							}
 						}
 					}
 					else
 					{
-						if (Game.IsControlJustPressed(0, input.Control) && !HUD.MenuPool.IsAnyMenuOpen)
-							if (Input.IsControlModifierPressed(input.Modifier))
-								switch (input.Check)
-								{
-									case PadCheck.Any:
+						if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier) && !HUD.MenuPool.IsAnyMenuOpen)
+						{
+							switch (input.Check)
+							{
+								case PadCheck.Any:
+									input.Action.DynamicInvoke(p, input.parameters);
+									break;
+								case PadCheck.Controller:
+									if (Input.WasLastInputFromController())
 										input.Action.DynamicInvoke(p, input.parameters);
-
-										break;
-									case PadCheck.Controller:
-										if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
-
-										break;
-									case PadCheck.Keyboard:
-										if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
-
-										break;
-								}
+									break;
+								case PadCheck.Keyboard:
+									if (!Input.WasLastInputFromController())
+										input.Action.DynamicInvoke(p, input.parameters);
+									break;
+							}
+						}
 					}
 
 				;

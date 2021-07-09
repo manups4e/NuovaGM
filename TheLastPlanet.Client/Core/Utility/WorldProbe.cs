@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Logger;
-using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -29,7 +28,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				Entity source = Cache.MyPlayer.User.StatiPlayer.InVeicolo ? (Entity)Cache.MyPlayer.Ped.CurrentVehicle : Cache.MyPlayer.Ped;
+				Entity source = Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo ? (Entity)Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle : Cache.PlayerCache.MyPlayer.Ped;
 
 				return GetVehicleInFrontOfPlayer(source, source, distance);
 			}

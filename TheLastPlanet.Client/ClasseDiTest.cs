@@ -5,11 +5,11 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
+using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client
 		{
 			UIMenu test = new("Test", "test", new System.Drawing.PointF(700, 300));
 			HUD.MenuPool.Add(test);
-			Ped ped = Cache.MyPlayer.Ped;
+			Ped ped = Cache.PlayerCache.MyPlayer.Ped;
 			Camera a1 = World.CreateCamera(new Vector3(-1503.000f, -1143.462f, 34.670f), Vector3.Zero, GameplayCamera.FieldOfView);
 			Camera a2 = World.CreateCamera(ped.GetOffsetPosition(new Vector3(0, 2f, 2f)), Vector3.Zero, GameplayCamera.FieldOfView);
 			UIMenu creaCam1 = test.AddSubMenu("CreaCam1", "");

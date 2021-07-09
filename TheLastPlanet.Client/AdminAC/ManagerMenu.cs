@@ -8,7 +8,6 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -66,7 +65,7 @@ namespace TheLastPlanet.Client.AdminAC
 					{
 						if (item == Teletrasportami)
 						{
-							Cache.MyPlayer.Ped.Position = p.Character.Position;
+							Cache.PlayerCache.MyPlayer.Ped.Position = p.Character.Position;
 						}
 						else if (item == Teletrasportalo)
 						{
@@ -74,8 +73,8 @@ namespace TheLastPlanet.Client.AdminAC
 						}
 						else if (item == Specta)
 						{
-							if (p == Cache.MyPlayer.Player) return;
-							Cache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
+							if (p == Cache.PlayerCache.MyPlayer.Player) return;
+							Cache.PlayerCache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
 							RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
 							NetworkSetInSpectatorMode(true, p.Character.Handle);
 							Client.Instance.AddTick(SpectatorMode);
@@ -128,7 +127,7 @@ namespace TheLastPlanet.Client.AdminAC
 						}
 						else if (item == Banna)
 						{
-							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.MyPlayer.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.PlayerCache.MyPlayer.Player.ServerId);
 						}
 
 						// string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
@@ -238,7 +237,7 @@ namespace TheLastPlanet.Client.AdminAC
 						}
 						else if (item == Kicka)
 						{
-							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.MyPlayer.Player.ServerId);
+							BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.PlayerCache.MyPlayer.Player.ServerId);
 						}
 					};
 
@@ -394,12 +393,12 @@ namespace TheLastPlanet.Client.AdminAC
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.MyPlayer.User.Posizione.ToVector3, Cache.MyPlayer.User.Posizione.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, Cache.PlayerCache.MyPlayer.User.Posizione.Heading);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Cache.MyPlayer.Ped.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicleNoPlayerInside(input, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), Cache.PlayerCache.MyPlayer.Ped.Heading);
 				}
 
 				VeicoloSalvato.DirtLevel = 0;
@@ -443,7 +442,7 @@ namespace TheLastPlanet.Client.AdminAC
 				}
 
 				//Prop obj = await World.CreateProp(oggettino.All(o => char.IsDigit(o)) ? new Model(Convert.ToInt32(oggettino)) : new Model(oggettino), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), true, true);
-				Prop obj = await Funzioni.CreateProp(oggettino.All(o => char.IsDigit(o)) ? new Model(Convert.ToInt32(oggettino)) : new Model(oggettino), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), new Vector3(0, 0, Cache.MyPlayer.Ped.Heading -180f), true);
+				Prop obj = await Funzioni.CreateProp(oggettino.All(o => char.IsDigit(o)) ? new Model(Convert.ToInt32(oggettino)) : new Model(oggettino), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 5f, 0), new Vector3(0, 0, Cache.PlayerCache.MyPlayer.Ped.Heading - 180f), true);
 			};
 
 			#endregion
@@ -627,16 +626,16 @@ namespace TheLastPlanet.Client.AdminAC
 
 		private static async Task SpectatorMode()
 		{
-			if (Cache.MyPlayer.Ped.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
+			if (Cache.PlayerCache.MyPlayer.Ped.HasDecor("AdminSpecta") && NetworkIsInSpectatorMode())
 			{
 				Game.DisableControlThisFrame(0, Control.Context);
 				HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per smettere di spectare");
 
 				if (Input.IsControlJustPressed(Control.Context))
 				{
-					Player p = new Player(Cache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
+					Player p = new(Cache.PlayerCache.MyPlayer.Ped.GetDecor<int>("AdminSpecta"));
 					NetworkSetInSpectatorMode(false, p.Character.Model);
-					Cache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
+					Cache.PlayerCache.MyPlayer.Ped.SetDecor("AdminSpecta", 0);
 					Client.Instance.RemoveTick(SpectatorMode);
 				}
 			}

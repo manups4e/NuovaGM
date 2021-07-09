@@ -14,7 +14,6 @@ using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.RolePlay.Veicoli;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -96,7 +95,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static User GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (var p in SessionCache.Cache.GiocatoriOnline)
+			foreach (var p in Cache.PlayerCache.GiocatoriOnline)
 				if (GetPlayerFromServerId(p.Player.ServerId) == id)
 					return p.User;
 
@@ -105,7 +104,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static User GetPlayerCharFromServerId(int id)
 		{
-			foreach (var p in Cache.GiocatoriOnline)
+			foreach (var p in Cache.PlayerCache.GiocatoriOnline)
 				if (p.Player.ServerId == id)
 					return p.User;
 
@@ -114,7 +113,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static User GetPlayerData(this Player player)
 		{
-			return player == Cache.MyPlayer.Player ? Cache.MyPlayer.User : GetPlayerCharFromServerId(player.ServerId);
+			return player == Cache.PlayerCache.MyPlayer.Player ? Cache.PlayerCache.MyPlayer.User : GetPlayerCharFromServerId(player.ServerId);
 		}
 
 		/*
@@ -127,7 +126,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			List<Player> players = GetPlayersInArea(coord, radius);
 			foreach (Player pl in players)
-				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle)
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.PlayerCache.MyPlayer.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, true, true);
 		}
 
@@ -135,7 +134,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
-				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
+				if (!NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.PlayerCache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, true, true);
 			});
 		}
 
@@ -143,7 +142,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			List<Player> players = GetPlayersInArea(coord, radius);
 			foreach (Player pl in players)
-				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle)
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.PlayerCache.MyPlayer.Player.Handle)
 					NetworkConcealPlayer(pl.Handle, false, false);
 		}
 
@@ -151,13 +150,13 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Client.Instance.GetPlayers.ToList().ForEach(pl =>
 			{
-				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
+				if (NetworkIsPlayerConcealed(pl.Handle) && pl.Handle != Cache.PlayerCache.MyPlayer.Player.Handle) NetworkConcealPlayer(pl.Handle, false, false);
 			});
 		}
 
 		public static async Task UpdateFace(Skin skin)
 		{
-			var id = Cache.MyPlayer.Ped.Handle;
+			var id = Cache.PlayerCache.MyPlayer.Ped.Handle;
 			SetPedHeadBlendData(id, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
 			SetPedHeadOverlay(id, 0, skin.blemishes.style, skin.blemishes.opacity);
 			SetPedHeadOverlay(id, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
@@ -182,7 +181,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task UpdateDress(Dressing dress)
 		{
-			var id = Cache.MyPlayer.Ped.Handle;
+			var id = Cache.PlayerCache.MyPlayer.Ped.Handle;
 			SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
 			SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
 			SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
@@ -342,7 +341,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void Teleport(Vector3 coords)
 		{
-			Ped playerPed = Cache.MyPlayer.Ped;
+			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
@@ -391,7 +390,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async void TeleportConVeh(Vector3 coords)
 		{
-			Ped playerPed = Cache.MyPlayer.Ped;
+			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 			ClearPedTasksImmediately(playerPed.Handle);
 			playerPed.IsPositionFrozen = true;
 			if (playerPed.IsVisible) NetworkFadeOutEntity(playerPed.Handle, true, false);
@@ -446,8 +445,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static int GetVehicleInDirection()
 		{
-			int ped = Cache.MyPlayer.Ped.Handle;
-			Vector3 coords = Cache.MyPlayer.Ped.Position;
+			int ped = Cache.PlayerCache.MyPlayer.Ped.Handle;
+			Vector3 coords = Cache.PlayerCache.MyPlayer.Ped.Position;
 			Vector3 inDirection = GetOffsetFromEntityInWorldCoords(ped, 0.0f, 5.0f, 0.0f);
 			int rayHandle = CastRayPointToPoint(coords.X, coords.Y, coords.Z, inDirection.X, inDirection.Y, inDirection.Z, 10, ped, 0);
 			bool a = false;
@@ -512,7 +511,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				result.PreviouslyOwnedByPlayer = true;
 
 				result.PlaceOnGround();
-				Cache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
+				Cache.PlayerCache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
 				vehicleModel.MarkAsNoLongerNeeded();
 				Screen.Fading.FadeIn(250);
 				return result;
@@ -809,7 +808,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static List<Player> GetPlayersInArea(Vector3 coords, float area, bool ignoreCallerPlayer = true)
 		{
-			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.MyPlayer.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
+			List<Player> playersInArea = ignoreCallerPlayer ? Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area && p != Cache.PlayerCache.MyPlayer.Player) : Client.Instance.GetPlayers.ToList().FindAll(p => Vector3.Distance(p.Character.Position, coords) < area);
 
 			return playersInArea;
 		}
@@ -952,7 +951,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.MyPlayer.User.Posizione.ToVector3); }
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
@@ -961,7 +960,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static Tuple<Player, float> GetClosestPlayer(Vector3 coords)
 		{
 			if (Client.Instance.GetPlayers.ToList().Count <= 1) return new Tuple<Player, float>(null, -1);
-			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.MyPlayer.Player);
+			Player closestPlayer = Client.Instance.GetPlayers.ToList().OrderBy(x => Vector3.Distance(x.Character.Position, coords)).FirstOrDefault(x => x != Cache.PlayerCache.MyPlayer.Player);
 
 			return new Tuple<Player, float>(closestPlayer, Vector3.Distance(coords, closestPlayer.Character.Position));
 		}

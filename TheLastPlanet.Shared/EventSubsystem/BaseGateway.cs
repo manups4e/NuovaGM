@@ -127,7 +127,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
                         PushDelegate(EventConstant.OutboundPipeline, source, data);
                         Logger.Debug(
-                            $"[{message.Endpoint}] Responded to {source} with {data.Length} byte(s) in {stopwatch.Elapsed.TotalMilliseconds}ms");
+                            $"[{message.Endpoint}] Responded to {(source.Handle == -1 ? "Server" : source)} with {data.Length} byte(s) in {stopwatch.Elapsed.TotalMilliseconds}ms");
                     }
                 }
                 else
@@ -137,11 +137,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             }
 			catch (Exception e)
 			{
-#if CLIENT
-                Client.Client.Logger.Error(e.ToString());
-#elif SERVER
-                Server.Server.Logger.Error(e.ToString());
-#endif
+                Logger.Error(e.ToString());
             }
         }
 
@@ -200,7 +196,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
                 PushDelegate(EventConstant.InboundPipeline, source, data);
                 Logger.Debug(
-                    $"[{endpoint}] Sent {data.Length} byte(s) to {source} in {stopwatch.Elapsed.TotalMilliseconds}ms");
+                    $"[{endpoint}] Sent {data.Length} byte(s) to {(source.Handle == -1 ? "Server" : source)} in {stopwatch.Elapsed.TotalMilliseconds}ms");
 
                 return message;
             }
@@ -231,7 +227,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             var elapsed = stopwatch.Elapsed.TotalMilliseconds;
 
             Logger.Debug(
-                $"[{message.Endpoint}] Received response from {source} of {holder.Data.Length} byte(s) in {elapsed}ms");
+                $"[{message.Endpoint}] Received response from {(source.Handle == -1 ? "Server" : source)} of {holder.Data.Length} byte(s) in {elapsed}ms");
 
             return holder.Value;
         }

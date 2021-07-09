@@ -29,7 +29,6 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public string group{ get; set; }
 		public UserGroup group_level{ get; set; }
 		public long playTime{ get; set; }
-		[Ignore]
 		public DateTime lastConnection{ get; set; }
 		public Status status { get; set; } = new();
 

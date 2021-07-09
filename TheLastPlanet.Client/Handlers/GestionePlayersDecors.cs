@@ -5,7 +5,6 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.SessionCache;
 
 namespace TheLastPlanet.Client
 {
@@ -15,12 +14,12 @@ namespace TheLastPlanet.Client
 
 		public static async Task GestioneDecors()
 		{
-			if (Cache.GiocatoriOnline.Count < 2) return;
+			if (Cache.PlayerCache.GiocatoriOnline.Count < 2) return;
 
 			if (Game.GameTime - checkTimer1 > 250)
 				foreach (Player player in Client.Instance.GetPlayers)
 				{
-					if (player == Cache.MyPlayer.Player) return;
+					if (player == Cache.PlayerCache.MyPlayer.Player) return;
 
 					if (player.GetPlayerData() == null) continue;
 					if (!player.GetPlayerData().StatiPlayer.Istanza.Stanziato) continue;
@@ -29,15 +28,15 @@ namespace TheLastPlanet.Client
 					{
 						if (player.GetPlayerData().StatiPlayer.Istanza.Instance != string.Empty)
 						{
-							if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
+							if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != 0 || Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
 							{
-								if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Cache.MyPlayer.Player.ServerId && Cache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
+								if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario != Cache.PlayerCache.MyPlayer.Player.ServerId && Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != player.ServerId)
 								{
 									if (!NetworkIsPlayerConcealed(player.Handle)) NetworkConcealPlayer(player.Handle, true, true);
 								}
 								else
 								{
-									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario == Cache.MyPlayer.Player.ServerId || Cache.MyPlayer.Player.ServerId == player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario)
+									if (player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario == Cache.PlayerCache.MyPlayer.Player.ServerId || Cache.PlayerCache.MyPlayer.Player.ServerId == player.GetPlayerData().StatiPlayer.Istanza.ServerIdProprietario)
 										if (NetworkIsPlayerConcealed(player.Handle))
 											NetworkConcealPlayer(player.Handle, false, false);
 								}

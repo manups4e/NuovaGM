@@ -1,12 +1,5 @@
-﻿using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.NativeUI
@@ -35,7 +28,7 @@ namespace TheLastPlanet.Client.NativeUI
 			TimerBars.Remove(item);
 		}
 
-		public async Task Draw()
+		public void Draw()
 		{
 			for (int i=0; i<TimerBars.Count; i++)
 			{

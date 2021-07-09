@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -56,12 +55,12 @@ namespace TheLastPlanet.Client.NativeUI
 			_warning.Dispose();
 			_warning = null;
 			_callInstr = false;
-			Cache.MyPlayer.Player.CanControlCharacter = true;
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
 		}
 
 		public async void ShowWarning(string title, string subtitle, string prompt = "", WarningPopupType type = WarningPopupType.Classico, int timer = 1000)
 		{
-			Cache.MyPlayer.Player.CanControlCharacter = false;
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
 			await Load();
 			_warning.CallFunction("SHOW_POPUP_WARNING", timer, title, subtitle, prompt, true, (int)type, $"The Last Planet - Versione: {Assembly.GetExecutingAssembly().GetName().Version}");
 		}
@@ -73,13 +72,13 @@ namespace TheLastPlanet.Client.NativeUI
 
 		public async void ShowWarningWithButtons(string title, string subtitle, string prompt, List<InstructionalButton> buttons, WarningPopupType type = WarningPopupType.Classico)
 		{
-			Cache.MyPlayer.Player.CanControlCharacter = false;
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
 			await Load();
 			_disableControls = true;
 			_buttonList = buttons;
 			if (buttons == null || buttons.Count == 0)
 			{
-				Cache.MyPlayer.Player.CanControlCharacter = true;
+				Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
 				return;
 			}
 			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(_buttonList);

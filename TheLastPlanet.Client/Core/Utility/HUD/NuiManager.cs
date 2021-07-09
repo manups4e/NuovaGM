@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using CitizenFX.Core;
-using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 

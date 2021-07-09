@@ -45,6 +45,14 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
                 {
                     throw new SerializationException(context, type, "Cannot serialize values of 'System.Object' type");
                 }
+
+                var nullableUnderlying = Nullable.GetUnderlyingType(type);
+
+                if (nullableUnderlying != null)
+                {
+                    type = nullableUnderlying;
+                }
+
                 if (type.IsEnum)
                 {
                     SerializePrimitive(typeof(int), Convert.ChangeType(value, TypeCode.Int32), context);
@@ -217,6 +225,12 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
                 if (!exists)
                 {
                     return default;
+                }
+                var nullableUnderlying = Nullable.GetUnderlyingType(type);
+
+                if (nullableUnderlying != null)
+                {
+                    type = nullableUnderlying;
                 }
                 if (type.IsEnum)
                 {

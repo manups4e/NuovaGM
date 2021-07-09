@@ -5,8 +5,6 @@ using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.SessionCache;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -14,7 +12,6 @@ namespace TheLastPlanet.Client.AdminAC
 {
 	internal static class ClientManager
 	{
-
 		public static void Init()
 		{
 			//Client.Instance.AddTick(AC);
@@ -25,27 +22,27 @@ namespace TheLastPlanet.Client.AdminAC
 
 		private static void AdminMenu(Ped p, object[] args)
 		{
-			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.MyPlayer.User.group_level);
+			if (!HUD.MenuPool.IsAnyMenuOpen) ManagerMenu.AdminMenu(Cache.PlayerCache.MyPlayer.User.group_level);
 		}
 
 		private static void Teleport(Ped p, object[] args)
 		{
-			if (Cache.MyPlayer.User != null && (int)Cache.MyPlayer.User.group_level > 1) TeleportToMarker();
+			if (Cache.PlayerCache.MyPlayer.User != null && (int)Cache.PlayerCache.MyPlayer.User.group_level > 1) TeleportToMarker();
 		}
 
 		private static async void _NoClip(Ped p, object[] args)
 		{
-			if (Cache.MyPlayer.User == null || (int)Cache.MyPlayer.User.group_level < 4) return;
+			if (Cache.PlayerCache.MyPlayer.User == null || (int)Cache.PlayerCache.MyPlayer.User.group_level < 4) return;
 
 			if (!NoClip)
 			{
-				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
-					curLocation = Cache.MyPlayer.Posizione.ToVector3;
+					curLocation = Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
 					curRotation = p.Rotation;
-					curHeading = Cache.MyPlayer.Posizione.Heading;
+					curHeading = Cache.PlayerCache.MyPlayer.Posizione.Heading;
 					TaskPlayAnim(PlayerPedId(), noclip_ANIM_A, noclip_ANIM_B, 8.0f, 0.0f, -1, 9, 0, false, false, false);
 				}
 				else
@@ -58,17 +55,16 @@ namespace TheLastPlanet.Client.AdminAC
 				p.Rotation = new Vector3(0);
 				Client.Instance.AddTick(noClip);
 				NoClip = true;
-				List<InstructionalButton> istr = new List<InstructionalButton>() 
+				List<InstructionalButton> istr = new()
 				{
 					new InstructionalButton(Control.FrontendLt, Control.Cover, "Sali"),
 					new InstructionalButton(Control.FrontendRt, Control.HUDSpecial, "Scendi"),
 					new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx"),
 					new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
-					new InstructionalButton(Control.FrontendX, "Cambia velocità"),
+					new InstructionalButton(Control.FrontendX, "Cambia velocità")
 				};
 				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
 				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(istr);
-
 			}
 			else
 			{
@@ -81,7 +77,7 @@ namespace TheLastPlanet.Client.AdminAC
 					await BaseScript.Delay(0);
 				}
 
-				if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
 				{
 					ClearPedTasksImmediately(PlayerPedId());
 					SetUserRadioControlEnabled(true);
@@ -109,11 +105,13 @@ namespace TheLastPlanet.Client.AdminAC
 		private static float curHeading;
 		private static string travelSpeedStr = "Media";
 
-		public static async Task AC() { }
+		public static async Task AC()
+		{
+		}
 
 		private static async Task noClip()
 		{
-			Ped p = Cache.MyPlayer.Ped;
+			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 			Game.DisableAllControlsThisFrame(0);
 			Game.EnableControlThisFrame(0, Control.LookLeftRight);
 			Game.EnableControlThisFrame(0, Control.LookUpDown);
@@ -168,12 +166,12 @@ namespace TheLastPlanet.Client.AdminAC
 					break;
 			}
 
-			Vector2 vect = new Vector2(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
+			Vector2 vect = new(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
 			Entity target = p;
-			if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) target = p.CurrentVehicle;
 			p.Velocity = new Vector3(0);
 
-			if (!Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
 			{
 				SetUserRadioControlEnabled(false);
 				p.IsInvincible = true;
@@ -204,12 +202,12 @@ namespace TheLastPlanet.Client.AdminAC
 
 		private static async void TeleportToMarker()
 		{
-			Position coords = Cache.MyPlayer.Posizione;
+			Position coords = Cache.PlayerCache.MyPlayer.Posizione;
 			bool blipFound = false;
 			// search for marker blip
 			int blipIterator = GetBlipInfoIdIterator();
 
-			for (Blip i = new Blip(GetFirstBlipInfoId(blipIterator)); i.Exists() != false; i = new Blip(GetNextBlipInfoId(blipIterator)))
+			for (Blip i = new(GetFirstBlipInfoId(blipIterator)); i.Exists(); i = new Blip(GetNextBlipInfoId(blipIterator)))
 				if (i.Type == 4)
 				{
 					coords = i.Position.ToPosition();
@@ -221,12 +219,12 @@ namespace TheLastPlanet.Client.AdminAC
 			if (blipFound)
 			{
 				// get entity to teleport
-				Entity ent = Cache.MyPlayer.Ped;
-				if (Cache.MyPlayer.User.StatiPlayer.InVeicolo) ent = Cache.MyPlayer.Ped.CurrentVehicle;
+				Entity ent = Cache.PlayerCache.MyPlayer.Ped;
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) ent = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;
-				float[] groundCheckHeight = new float[17] { 100.0f, 150.0f, 50.0f, 0.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
+				float[] groundCheckHeight = { 100.0f, 150.0f, 50.0f, 0.0f, 200.0f, 250.0f, 300.0f, 350.0f, 400.0f, 450.0f, 500.0f, 550.0f, 600.0f, 650.0f, 700.0f, 750.0f, 800.0f };
 				float ground = 0;
 
 				for (int i = 0; i < groundCheckHeight.Length; i++)
@@ -255,7 +253,9 @@ namespace TheLastPlanet.Client.AdminAC
 				HUD.ShowNotification("Teletrasportato!", NotificationColor.Blue, true);
 			}
 			else
+			{
 				HUD.ShowNotification("Punto in mappa non trovato, imposta un punto in mappa!", NotificationColor.Red, true);
+			}
 		}
 	}
 }

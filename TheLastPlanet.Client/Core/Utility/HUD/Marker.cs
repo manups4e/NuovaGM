@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
-using static TheLastPlanet.Client.SessionCache.Cache;
+using static TheLastPlanet.Client.Cache.PlayerCache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
 	public class Marker
 	{
-		public MarkerType MarkerType = MarkerType.VerticalCylinder;
-		public Position Position;
-		public Position Direction = Position.Zero;
-		public Position Rotation = Position.Zero;
-		public Position Scale = new(1.5f);
-		public Color Color;
-		public bool BobUpDown;
-		public bool Rotate;
-		public bool FaceCamera;
-		public bool IsInMarker = false;
+		public MarkerType MarkerType { get; set; }
+		public Position Position { get; set; }
+		public Position Direction  { get; set; }= Position.Zero;
+		public Position Rotation  { get; set; }= Position.Zero;
+		public Position Scale  { get; set; } = new(1.5f);
+		public Color Color { get; set; }
+		public bool BobUpDown { get; set; }
+		public bool Rotate { get; set; }
+		public bool FaceCamera { get; set; }
+		public bool IsInMarker  { get; set; }
 
 		public Marker(MarkerType type, Position position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{

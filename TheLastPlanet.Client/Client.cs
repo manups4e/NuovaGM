@@ -1,16 +1,16 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Logger;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared.Snowflakes;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.Internal.Events;
-using TheLastPlanet.Client.MAINLOBBY;
-using TheLastPlanet.Shared.Internal.Events;
+using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using Logger;
 using TheLastPlanet.Client.AdminAC;
+using TheLastPlanet.Client.Core.Ingresso;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.Internal.Events;
+using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client
 {
@@ -38,8 +38,7 @@ namespace TheLastPlanet.Client
 			DevManager.Init();
 			InputHandler.Init();
 			ListaPlayers.FivemPlayerlist.Init();
-			MainChooser.Init();
-
+			ServerJoining.Init();
 		}
 
 		/// <summary>

@@ -9,24 +9,29 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.RolePlay.Personale;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.SessionCache;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
 	internal static class Minimap
 	{
 		//public static Scaleform minimap = new Scaleform("MINIMAP");
-		public static void Init() { Client.Instance.AddTick(MinimapDrawing); }
+		public static void Init() => Client.Instance.AddTick(MinimapDrawing);
 
-		public static void Stop()
-		{
-			Client.Instance.RemoveTick(MinimapDrawing);
-		}
+		public static void Stop() => Client.Instance.RemoveTick(MinimapDrawing);
 
 		public static async Task MinimapDrawing()
 		{
-			Ped p = Cache.MyPlayer.Ped;
+			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
+			if (Cache.PlayerCache.ModalitàAttuale == ModalitaServer.Lobby)
+			{
+				if (Screen.Hud.IsRadarVisible)
+				{
+					Screen.Hud.IsRadarVisible = false;
+					return;
+				}
+			}
 			// SE NON STO NASCONDENDO L'HUD (cinematica)
 			if (!Main.ImpostazioniClient.ModCinema)
 			{
@@ -54,7 +59,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						}
 					}
 
-					switch (Cache.MyPlayer.User.StatiPlayer.InVeicolo)
+					switch (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
 					{
 						//se non sono su un veicolo e non ho il menu di pausa attivo.
 						case false when !IsPauseMenuActive():

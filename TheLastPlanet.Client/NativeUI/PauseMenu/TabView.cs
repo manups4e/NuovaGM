@@ -8,7 +8,6 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.SessionCache;
 using Font = CitizenFX.Core.UI.Font;
 
 namespace TheLastPlanet.Client.NativeUI.PauseMenu
@@ -25,7 +24,7 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
             SideStringBottom = "";
             Tabs = new List<TabItem>();
             Index = 0;
-            Name = Cache.MyPlayer.Player.Name;
+            Name = Cache.PlayerCache.MyPlayer.Player.Name;
             TemporarilyHidden = false;
             CanLeave = true;
             if(!HUD.MenuPool.PauseMenus.Contains(this))
@@ -40,7 +39,7 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
             SideStringBottom = "";
             Tabs = new List<TabItem>();
             Index = 0;
-            Name = Cache.MyPlayer.Player.Name;
+            Name = Cache.PlayerCache.MyPlayer.Player.Name;
             TemporarilyHidden = false;
             CanLeave = true;
             if (!HUD.MenuPool.PauseMenus.Contains(this))

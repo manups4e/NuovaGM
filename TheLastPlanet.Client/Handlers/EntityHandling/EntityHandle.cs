@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Handlers.Animations;
 using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Handlers.EntityHandling
 {
@@ -18,40 +11,55 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 		Network,
 		Local
 	}
-
-	public class EntityHandle
+	
+	#region Entity
+	public abstract class EntityHandle
 	{
 		public int Handle { get; set; }
 		public Position Position { get; set; }
 		public Model Model { get; set; }
 		public TypeSpawn TypeSpawn { get; set; }
-		public EntityHandle() { }
-		public EntityHandle(Position pos, TypeSpawn type) 
+		public ModalitaServer ModalitaSpawn { get; set; }
+
+		protected EntityHandle()
+		{
+		}
+
+		protected EntityHandle(Position pos, TypeSpawn type, ModalitaServer modalita)
 		{
 			Position = pos;
 			TypeSpawn = type;
+			ModalitaSpawn = modalita;
 		}
 
-		public void Delete() { }
+		protected virtual void Delete()
+		{
+		}
 	}
-
+#endregion
+	
 	#region Ped
+
 	public class PedHandle : EntityHandle
 	{
 		public Ped Ped { get; set; }
 		public AnimationQueue AnimQueue;
-		public PedHandle() { }
-		public PedHandle(string model, Position pos, TypeSpawn type) : base(pos, type)
+
+		public PedHandle()
+		{
+		}
+
+		public PedHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 		}
 
-		public PedHandle(PedHash model, Position pos, TypeSpawn type) : base(pos, type)
+		public PedHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 		}
 
-		public PedHandle(Model model, Position pos, TypeSpawn type) : base(pos, type)
+		public PedHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = model;
 		}
@@ -63,8 +71,10 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 				result = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
 			else
 				result = await Funzioni.SpawnPed(Model.Hash, Position);
+
 			return result;
 		}
+
 		public async Task Spawn()
 		{
 			if (TypeSpawn == TypeSpawn.Local)
@@ -74,25 +84,30 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 			AnimQueue = new AnimationQueue(Ped.Handle);
 		}
 	}
+
 	#endregion
 
 	#region Vehicle
+
 	public class VehicleHandle : EntityHandle
 	{
 		public Vehicle Vehicle { get; set; }
 
-		public VehicleHandle() { }
-		public VehicleHandle(string model, Position pos, TypeSpawn type) : base(pos, type)
+		public VehicleHandle()
+		{
+		}
+
+		public VehicleHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 		}
 
-		public VehicleHandle(PedHash model, Position pos, TypeSpawn type) : base(pos, type)
+		public VehicleHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 		}
 
-		public VehicleHandle(Model model, Position pos, TypeSpawn type) : base(pos, type)
+		public VehicleHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
 		{
 			Model = model;
 		}
@@ -104,6 +119,7 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 				result = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
 			else
 				result = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
+
 			return result;
 		}
 
@@ -115,30 +131,36 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 				Vehicle = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
 		}
 	}
+
 	#endregion
 
 	#region Prop
+
 	public class PropHandle : EntityHandle
 	{
 		public Prop Prop { get; set; }
 		private bool _placeOnGround;
 		private bool _dynamic;
-		public PropHandle() { }
-		public PropHandle(string model, Position pos, TypeSpawn type, bool placeOnGround = true, bool dynamic = true) : base(pos, type)
+
+		public PropHandle()
+		{
+		}
+
+		public PropHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 			_placeOnGround = placeOnGround;
 			_dynamic = dynamic;
 		}
 
-		public PropHandle(PedHash model, Position pos, TypeSpawn type, bool placeOnGround = true, bool dynamic = true) : base(pos, type)
+		public PropHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
 		{
 			Model = new Model(model);
 			_placeOnGround = placeOnGround;
 			_dynamic = dynamic;
 		}
 
-		public PropHandle(Model model, Position pos, TypeSpawn type, bool placeOnGround = true, bool dynamic = true) : base(pos, type)
+		public PropHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
 		{
 			Model = model;
 			_placeOnGround = placeOnGround;
@@ -152,17 +174,18 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 				result = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
 			else
 				result = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
+
 			return result;
 		}
 
 		public async Task Spawn()
 		{
 			if (TypeSpawn == TypeSpawn.Local)
-				Prop = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, true, true);
+				Prop = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
 			else
 				Prop = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
 		}
-
 	}
+
 	#endregion
 }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.SessionCache;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Handlers.EntityHandling
@@ -23,7 +22,7 @@ namespace TheLastPlanet.Client.Handlers.EntityHandling
 		{
 			foreach(var entity in Entità)
 			{
-				if(entity.Position.Distance(Cache.MyPlayer.Posizione) < 100)
+				if(entity.Position.Distance(Cache.PlayerCache.MyPlayer.Posizione) < 100)
 				{
 					if(entity.GetType() == typeof(PedHandle))
 					{
