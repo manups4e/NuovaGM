@@ -192,7 +192,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			string settings = await Client.Instance.Events.Get<string>("Config.CallClientConfig", modalita);
 			Client.Impostazioni.LoadConfig(modalita, settings);
 			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Bucket = modalita;
+			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = modalita;
 			Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);

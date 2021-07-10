@@ -327,7 +327,7 @@ namespace TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case
 				// gestire
 			}
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
 

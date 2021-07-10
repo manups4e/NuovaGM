@@ -48,12 +48,13 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				Cache.PlayerCache.MyPlayer.UpdatePedId();
 			}
 			NetworkSetTalkerProximity(-1000f);
+
 			// TODO: gestire questa parte separatamente per i vari pianeti
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
 			Cache.PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
 			Cache.PlayerCache.MyPlayer.Player.DispatchsCops = false;
 			Screen.Hud.IsRadarVisible = false;
-			/////////////////////////////////////////////////////////////
+			// TODO: gestire questa parte separatamente per i vari pianeti
 			CharSelect();
 		}
 
@@ -66,18 +67,10 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			RequestCollisionAtCoord(-1266.726f, -2986.766f, -48f);
 			Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
 			Cache.PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
-/*
-			await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.MyPlayer.UpdatePedId();
-			Cache.MyPlayer.Ped.Style.SetDefaultClothes();
-			while (!await Cache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			Cache.MyPlayer.UpdatePedId();
-*/
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 			p.Style.SetDefaultClothes();
-//			p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 			await Cache.PlayerCache.Loaded();
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Bucket = 0;
+			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = 0;
 			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			ShutdownLoadingScreen();

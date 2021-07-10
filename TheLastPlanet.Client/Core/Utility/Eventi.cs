@@ -153,7 +153,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Death.endConteggio();
 			BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.FinDiVita = false;
+			Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = false;
 			Screen.Fading.FadeIn(800);
 		}
 
@@ -167,7 +167,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static void DeleteVehicle()
 		{
 			Entity vehicle = new Vehicle(Funzioni.GetVehicleInDirection());
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) vehicle = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo) vehicle = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 			if (vehicle.Exists()) DecorRemove(vehicle.Handle, Main.decorName);
 			vehicle.Delete();
 		}

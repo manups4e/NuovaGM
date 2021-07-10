@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
+				else if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
 					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				{
 					SetRichPresence("E' in uno scontro a fuoco");
 				}
-				else if (player.GetPlayerData().StatiPlayer.Ammanettato)
+				else if (player.GetPlayerData().StatiPlayer.RolePlayStates.Ammanettato)
 				{
 					SetRichPresence("Legato o ammanettato");
 				}
@@ -153,11 +153,11 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				{
 					SetRichPresence("Fa paracadutismo");
 				}
-				else if (IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 2f))
 				{
 					SetRichPresence("AFK in gioco");
 				}
-				else if (player.GetPlayerData().StatiPlayer.InPausa)
+				else if (player.GetPlayerData().StatiPlayer.PlayerStates.InPausa)
 				{
 					SetRichPresence("In Pausa");
 				}

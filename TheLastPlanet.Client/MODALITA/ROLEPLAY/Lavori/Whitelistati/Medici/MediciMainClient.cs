@@ -146,7 +146,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 					foreach (SpawnerSpawn vehicle in osp.Veicoli)
 					{
-						if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+						if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 						{
 							World.DrawMarker(MarkerType.CarSymbol, vehicle.SpawnerMenu.ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Cyan, false, false, true);
 
@@ -170,7 +170,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 
-							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 							{
 								World.DrawMarker(MarkerType.CarSymbol, vehicle.Deleters[i].ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Red, false, false, true);
 
@@ -199,7 +199,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 					foreach (SpawnerSpawn heli in osp.Elicotteri)
 					{
-						if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu.ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Cyan, false, false, true);
+						if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo) World.DrawMarker(MarkerType.HelicopterSymbol, heli.SpawnerMenu.ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(2f, 2f, 1.5f).ToVector3, Colors.Cyan, false, false, true);
 
 						if (p.IsInRangeOf(heli.SpawnerMenu.ToVector3, 1.5f))
 						{
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 									if (!veh.HasDecor("VeicoloMedici") && !veh.HasDecor("VeicoloMedici"))
 										veh.Delete();
 
-							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 							{
 								World.DrawMarker(MarkerType.HelicopterSymbol, heli.Deleters[i].ToVector3, Position.Zero.ToVector3, Position.Zero.ToVector3, new Position(3f, 3f, 1.5f).ToVector3, Colors.Red, false, false, true);
 
@@ -300,7 +300,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 						if (!NetworkIsPlayerActive(id) || GetPlayerPed(id) == PlayerPedId()) continue;
 						Ped playerPed = new(GetPlayerPed(id));
 
-						if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+						if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 						{
 							if (!playerPed.CurrentVehicle.HasDecor("VeicoloMedici")) continue;
 
@@ -373,7 +373,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 		{
 			if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
 			{
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio)
 					foreach (KeyValuePair<Ped, Blip> morto in Morti)
 						morto.Value.Alpha = 255;
 				else

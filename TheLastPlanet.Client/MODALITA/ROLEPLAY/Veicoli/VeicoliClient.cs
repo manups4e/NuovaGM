@@ -118,7 +118,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 		{
 			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && Main.spawned)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && Main.spawned)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 
@@ -432,7 +432,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			{
 				DisableControlAction(2, 80, true);
 
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 				{
 					Vehicle veh = playerPed.CurrentVehicle;
 
@@ -453,7 +453,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 		{
 			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				Vehicle p = playerPed.CurrentVehicle;
 

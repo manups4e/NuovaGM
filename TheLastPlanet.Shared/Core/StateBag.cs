@@ -1,46 +1,152 @@
 ﻿using CitizenFX.Core;
 using Logger;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
-    public class SharedStateBag<T>
+
+    public class BaseStateBag<T>
     {
+        private Player _player;
+        private Entity _entity;
+
         public string Name { get; set; }
-        public SharedStateBag(string name)
+        public bool Replicated { get; set; }
+        public T Value
         {
-            Name = name;
+            get => _player != null ? _player.GetState<T>(Name) : _entity.GetState<T>(Name);
+            set
+            {
+                if (_player != null)
+                    _player.SetState(Name, value, Replicated);
+                else
+                    _entity.SetState(Name, value, Replicated);
+            }
         }
 
-        private void SetEnt(Entity entity, T value, bool replicate) => entity.State.Set(Name, value.ToBytes(), replicate);
+        public BaseStateBag(Player player, string name, bool replicated)
+        {
+            _player = player;
+            Name = name;
+            Replicated = replicated;
+            Value = default;
+        }
+        public BaseStateBag(Entity entity, string name, bool replicated)
+        {
+            _entity = entity;
+            Name = name;
+            Replicated = replicated;
+            Value = default;
+        }
+    }
+    
+    public class BaseBag
+    {
+        [Ignore] internal Player player;
 
-        public void Set(Ped ped, T value, bool replicate) => SetEnt(ped, value, replicate);
+        internal string _name;
 
-        public void Set(Vehicle veh, T value, bool replicate) => SetEnt(veh, value, replicate);
-
-        public void Set(Prop prop, T value, bool replicate) => SetEnt(prop, value, replicate);
-
-        public void Set(Player player, T value, bool replicate) => player.State.Set(Name, value.ToBytes(), replicate);
-
-        public T Get(Ped ped) => TypeCache<T>.IsSimpleType ? (T)ped.State.Get(Name) : (ped.State.Get(Name) as byte[]).FromBytes<T>();
-        public T Get(Vehicle veh) => TypeCache<T>.IsSimpleType ? (T)veh.State.Get(Name) : (veh.State.Get(Name) as byte[]).FromBytes<T>();
-        public T Get(Prop prop) => TypeCache<T>.IsSimpleType ? (T)prop.State.Get(Name) : (prop.State.Get(Name) as byte[]).FromBytes<T>();
-        public T Get(Player player) =>  TypeCache<T>.IsSimpleType ? (T)player.State.Get(Name) : (player.State.Get(Name) as byte[]).FromBytes<T>();
+        public BaseBag(Player pl, string name)
+        {
+            player = pl;
+            _name = name;
+        }
     }
 
-    public static class SharedStateBagsExtensions
+    public class PlayerStates : BaseBag
     {
-        public static void SetState<T>(this Ped ped, string name, T value, bool replicate) => ped.State.Set(name, value.ToBytes(), replicate);
+        private BaseStateBag<bool> _adminSpecta;
+        private BaseStateBag<bool> _inPausa;
+        private BaseStateBag<ModalitaServer> _modalita;
+        
+        public bool AdminSpecta
+        {
+            get => _adminSpecta.Value;
+            set => _adminSpecta.Value = value;
+        }
+        public bool InPausa
+        {
+            get => _inPausa.Value;
+            set => _inPausa.Value = value;
+        }
 
-        public static void SetState<T>(this Vehicle veh, string name, T value, bool replicate) => veh.State.Set(name, value.ToBytes(), replicate);
+        public ModalitaServer Modalita
+        {
+            get => _modalita.Value;
+            set => _modalita.Value = value;
+        }
+        
+        public PlayerStates(Player player, string name) : base(player, name)
+        {
+            _adminSpecta = new BaseStateBag<bool>(player, _name+":AdminSpecta", true);
+            _inPausa = new BaseStateBag<bool>(player, _name+":InPausa", true);
+            _modalita = new BaseStateBag<ModalitaServer>(player, _name+":Modalita", true);
+            AdminSpecta = false;
+            InPausa = false;
+            Modalita = ModalitaServer.Lobby;
+        }
+    }
 
-        public static void SetState<T>(this Prop prop, string name, T value, bool replicate) => prop.State.Set(name, value.ToBytes(), replicate);
+    public class RPStates : BaseBag
+    {
+        private BaseStateBag<bool> _svenuto;
+        private BaseStateBag<bool> _ammanettato;
+        private BaseStateBag<bool> _inCasa;
+        private BaseStateBag<bool> _inServizio;
+        private BaseStateBag<bool> _finDiVita;
+        private BaseStateBag<bool> _inVeicolo;
 
-        public static void SetState<T>(this Player player, string name, T value, bool replicate) => player.State.Set(name, value.ToBytes(), replicate);
+        public bool Svenuto
+        {
+            get => _svenuto.Value;
+            set => _svenuto.Value = value;
+        }
 
-        public static T GetState<T>(this Ped ped, string name) => (ped.State.Get(name) as byte[]).FromBytes<T>();
-        public static T GetState<T>(this Vehicle veh, string name) => (veh.State.Get(name) as byte[]).FromBytes<T>();
-        public static T GetState<T>(this Prop prop, string name) => (prop.State.Get(name) as byte[]).FromBytes<T>();
-        public static T GetState<T>(this Player player, string name) =>  (player.State.Get(name) as byte[]).FromBytes<T>();
+        public bool Ammanettato
+        {
+            get => _ammanettato.Value;
+            set => _ammanettato.Value = value;
+        }
 
+        public bool InCasa
+        {
+            get => _inCasa.Value;
+            set => _inCasa.Value = value;
+        }
+
+        public bool InServizio
+        {
+            get => _inServizio.Value;
+            set => _inServizio.Value = value;
+        }
+
+        public bool FinDiVita
+        {
+            get => _finDiVita.Value;
+            set => _finDiVita.Value = value;
+        }
+        
+        public bool InVeicolo
+        {
+            get => _inVeicolo.Value;
+            set => _inVeicolo.Value = value;
+        }
+
+        public RPStates(Player player, string name) : base(player, name)
+        {
+            _svenuto = new BaseStateBag<bool>(player, _name+":Svenuto", true);
+            _ammanettato = new BaseStateBag<bool>(player, _name+":Ammanettato", true);
+            _inCasa = new BaseStateBag<bool>(player, _name+":InCasa", true);
+            _inServizio = new BaseStateBag<bool>(player, _name+":InServizio", true);
+            _finDiVita = new BaseStateBag<bool>(player, _name+":FinDiVita", true);
+            _inVeicolo = new BaseStateBag<bool>(player, _name+":InVeicolo", true);
+
+            Svenuto = false;
+            Ammanettato = false;
+            InCasa = false;
+            InServizio = false;
+            FinDiVita = false;
+            InVeicolo = false;
+        }
     }
 }

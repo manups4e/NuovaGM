@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
@@ -21,7 +23,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			Marker.Draw();
 
 			if (!Scaleform.IsLoaded) return;
-			Scaleform.Render3D(Marker.Position.ToVector3, GameplayCamera.Rotation, (Marker.Scale / 2).ToVector3);
+			Position p = Marker.Position - Cache.PlayerCache.MyPlayer.Ped.Position.ToPosition();
+
+			var heading = API.GetHeadingFromVector_2d(p.X, p.Y);
+			
+			Scaleform.Render3D(Marker.Position.ToVector3, new(0, 0, -heading), (Marker.Scale / 2).ToVector3);
 		}
 	}
-}
+}	

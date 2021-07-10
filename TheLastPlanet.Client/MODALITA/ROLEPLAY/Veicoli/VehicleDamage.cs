@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static bool isPedDrivingAVehicle()
 		{
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 				if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Driver == Cache.PlayerCache.MyPlayer.Ped)
 				{
 					VehicleClass classe = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.ClassType;
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 		{
 			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				vehicle = playerPed.CurrentVehicle;
 

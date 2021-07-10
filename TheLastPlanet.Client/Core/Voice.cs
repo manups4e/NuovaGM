@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.Core
 		public static void UpdateVocalMode(int mode)
 		{
 			int nextMode = mode;
-			if (nextMode > 2 && !Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) nextMode = 0;
+			if (nextMode > 2 && Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo == false) nextMode = 0;
 			Mode = (Mode)nextMode;
 			OnModeModified();
 		}
@@ -147,7 +147,7 @@ namespace TheLastPlanet.Client.Core
 				if (Input.IsControlJustPressed(Control.FrontendSocialClub, PadCheck.Keyboard, ControlModifier.Shift)) UpdateVocalMode();
 			}
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo == true)
 			{
 				Vehicle veh = playerPed.CurrentVehicle;
 

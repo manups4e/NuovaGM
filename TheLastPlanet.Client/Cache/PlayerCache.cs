@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.Cache
 			{
 				if (!_inVeh)
 				{
-					MyPlayer.User.StatiPlayer.InVeicolo = true;
+					MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo = true;
 					_inVeh = true;
 				}
 			}
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Cache
 			{
 				if (_inVeh)
 				{
-					MyPlayer.User.StatiPlayer.InVeicolo = false;
+					MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo = false;
 					_inVeh = false;
 				}
 			}
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.Cache
 				if (!_inPausa)
 				{
 					_inPausa = true;
-					MyPlayer.User.StatiPlayer.InPausa = true;
+					MyPlayer.User.StatiPlayer.PlayerStates.InPausa = true;
 				}
 			}
 			else
@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client.Cache
 				if (_inPausa)
 				{
 					_inPausa = false;
-					MyPlayer.User.StatiPlayer.InPausa = false;
+					MyPlayer.User.StatiPlayer.PlayerStates.InPausa = false;
 				}
 			}
 

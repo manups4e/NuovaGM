@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				DateTime now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Cache.PlayerCache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = 0;
-				Cache.PlayerCache.MyPlayer.User.StatiPlayer.FinDiVita = false;
+				Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = false;
 			}
 
 			//Peds();
@@ -389,7 +389,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			#region DriveBy
 
 			if (gameTime - _timerDriveBy > 1000)
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 				{
 					if (p.SeatIndex == VehicleSeat.Driver)
 						SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);

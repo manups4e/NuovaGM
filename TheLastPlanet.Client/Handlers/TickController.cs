@@ -135,7 +135,7 @@ namespace TheLastPlanet.Client.Handlers
 
 		private static async Task TickHandler()
 		{
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				if (!_inUnVeicolo)
 				{

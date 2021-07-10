@@ -7,12 +7,12 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
-
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using static CitizenFX.Core.Native.API;
 #endif
+
 namespace TheLastPlanet.Shared
 {
 	public static class RandomExtensionSuperMethod
@@ -739,6 +739,17 @@ namespace TheLastPlanet.Shared
 			}
 			return inside;
 		}
+
+		public static void SetState<T>(this Player player, string key, T val, bool replicated) => player.State.Set(key, val.ToBytes(), replicated);
+		public static T GetState<T>(this Player player, string key) => (player.State.Get(key) as byte[]).FromBytes<T>();
+		public static void SetState<T>(this Ped ped, string key, T val, bool replicated) => ped.State.Set(key, val.ToBytes(), replicated);
+		public static T GetState<T>(this Ped ped, string key) => (ped.State.Get(key) as byte[]).FromBytes<T>();
+		public static void SetState<T>(this Vehicle veh, string key, T val, bool replicated) => veh.State.Set(key, val.ToBytes(), replicated);
+		public static T GetState<T>(this Vehicle veh, string key) => (veh.State.Get(key) as byte[]).FromBytes<T>();
+		public static void SetState<T>(this Prop prop, string key, T val, bool replicated) => prop.State.Set(key, val.ToBytes(), replicated);
+		public static T GetState<T>(this Prop prop, string key) => (prop.State.Get(key) as byte[]).FromBytes<T>();
+		public static void SetState<T>(this Entity ent, string key, T val, bool replicated) => ent.State.Set(key, val.ToBytes(), replicated);
+		public static T GetState<T>(this Entity ent, string key) => (ent.State.Get(key) as byte[]).FromBytes<T>();
 	}
 
 	internal class IgnoreJsonAttributesResolver : DefaultContractResolver

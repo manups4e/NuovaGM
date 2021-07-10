@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 
 			Vehicle vehicle = saveVehicle;
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				Vehicle veh = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 
@@ -172,7 +172,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 
 		public static void Finestrini(string finestrini)
 		{
-			if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo) return;
+			if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo) return;
 			if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Driver != Cache.PlayerCache.MyPlayer.Ped) return;
 
 			switch (finestrini)
@@ -370,7 +370,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
 				if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
 				{
-					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.Ped.IsWalking || Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && !Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
+					if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.Ped.IsWalking || Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && !Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
 					{
 						Game.DisableControlThisFrame(2, Control.FrontendLeft);
 						if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)

@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						}
 					}
 
-					switch (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+					switch (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 					{
 						//se non sono su un veicolo e non ho il menu di pausa attivo.
 						case false when !IsPauseMenuActive():

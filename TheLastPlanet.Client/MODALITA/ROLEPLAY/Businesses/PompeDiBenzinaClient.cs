@@ -209,7 +209,7 @@ namespace TheLastPlanet.Client.RolePlay.Businesses
 				World.DrawMarker(MarkerType.VerticalCylinder, new Vector3(_stations[i].ppos[0], _stations[i].ppos[1], _stations[i].ppos[2] - 1.00001f), new Vector3(0), new Vector3(0), new Vector3(1.1f, 1.1f, 1.3f), System.Drawing.Color.FromArgb(170, 0, 255, 0));
 
 				if (dist < 1.3f)
-					if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+					if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 					{
 						if (string.Equals(stationinfo.ownerchar, Cache.PlayerCache.MyPlayer.User.FullName, StringComparison.CurrentCultureIgnoreCase))
 						{

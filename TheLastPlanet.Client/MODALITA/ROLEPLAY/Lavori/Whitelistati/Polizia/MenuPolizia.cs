@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
 
-			switch (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio)
+			switch (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio)
 			{
 				case false when !PoliziaMainClient.InServizioDaPilota:
 					Uniforme = new UIMenuItem("Indossa l'uniforme", "Se ti cambi entri automaticamente in servizio!");
@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 					break;
 				default:
 				{
-					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio || PoliziaMainClient.InServizioDaPilota)
+					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio || PoliziaMainClient.InServizioDaPilota)
 					{
 						Giubbotto = Cache.PlayerCache.MyPlayer.Ped.Armor < 1 ? new UIMenuItem("Indossa il Giubbotto Anti-Proiettile", "Potrebbe salvarti la vita") : new UIMenuItem("Rimuovi il Giubbotto Anti-Proiettile", "Speriamo sia stato utile");
 						Spogliatoio.AddItem(Giubbotto);
@@ -99,7 +99,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 				if (item == Uniforme)
 				{
-					if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio)
+					if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio)
 					{
 						foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Polizia.Gradi.Where(Grado => Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name == "Polizia").Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
 							switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
@@ -114,12 +114,12 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 									break;
 							}
 
-						Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio = true;
+						Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio = true;
 					}
 					else
 					{
 						await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
-						Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio = false;
+						Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio = false;
 					}
 				}
 				else if (item == Pilota)
@@ -400,21 +400,21 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 								break;
 							case UIMenuItem i when i == accompagna:
-								if (player.StatiPlayer.Ammanettato) // rifare client-->server-->client
+								if (player.StatiPlayer.RolePlayStates.Ammanettato) // rifare client-->server-->client
 									BaseScript.TriggerServerEvent("lprp:polizia:accompagna", playerServerId, Cache.PlayerCache.MyPlayer.Ped.NetworkId);
 								else
 									HUD.ShowNotification("Non è ammanettato!!");
 
 								break;
 							case UIMenuItem i when i == mettiVeicolo:
-								if (player.StatiPlayer.Ammanettato) // rifare client-->server-->client
+								if (player.StatiPlayer.RolePlayStates.Ammanettato) // rifare client-->server-->client
 									BaseScript.TriggerServerEvent("lprp:polizia:mettiVeicolo", playerServerId);
 								else
 									HUD.ShowNotification("Non è ammanettato!!");
 
 								break;
 							case UIMenuItem i when i == togliVeicolo: // rifare client-->server-->client
-								if (player.StatiPlayer.Ammanettato)
+								if (player.StatiPlayer.RolePlayStates.Ammanettato)
 									BaseScript.TriggerServerEvent("lprp:polizia:esciVeicolo", playerServerId);
 								else
 									HUD.ShowNotification("Non è ammanettato!!");
@@ -737,7 +737,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
 
-					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloPolizia"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
@@ -846,7 +846,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 		{
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				if (p.CurrentVehicle.Driver == Cache.PlayerCache.MyPlayer.Ped && p.CurrentVehicle.Speed < 2 || p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) == Cache.PlayerCache.MyPlayer.Ped)
 				{

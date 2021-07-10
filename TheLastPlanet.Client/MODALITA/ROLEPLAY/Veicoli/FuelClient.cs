@@ -259,7 +259,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static void FillFuel()
 		{
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 			{
 				SetVehicleFuelLevel(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle, Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelCapacity);
 				HUD.ShowNotification("Il tuo carburante è stato riempito. Usalo SOLO in caso di ~r~EMERGENZE~w~!");
@@ -425,13 +425,13 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			{
 				Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 				{
 					if (playerPed.SeatIndex == VehicleSeat.Driver) veh = playerPed.CurrentVehicle;
 					if (playerPed.LastVehicle != null) lastveh = playerPed.LastVehicle;
 				}
 
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && veh.Driver == playerPed && modelValid(veh) && !veh.IsDead)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && veh.Driver == playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					if (LastVehicle != veh)
 					{
@@ -449,7 +449,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 						veh.IsDriveable = false;
 					}
 				}
-				else if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo && veh.Driver != playerPed && modelValid(veh) && !veh.IsDead)
+				else if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && veh.Driver != playerPed && modelValid(veh) && !veh.IsDead)
 				{
 					veh.FuelLevel = veh.HasDecor(DecorName) ? veh.GetDecor<float>(DecorName) : Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelCapacity;
 					curVehInit = false;
@@ -464,7 +464,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 						{
 							lastStation = i + 1;
 
-							if (fuelChecked == false && Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+							if (fuelChecked == false && Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 							{
 								fuelChecked = true;
 								BaseScript.TriggerServerEvent("lprp:businesses:checkfuelforstation", lastStation);
@@ -472,7 +472,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 							for (int j = 0; j < ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps.Count; j++)
 							{
-								if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+								if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 								{
 									if (veh.ClassType == VehicleClass.Industrial || lastveh.ClassType == VehicleClass.Industrial || veh.ClassType == VehicleClass.Commercial || lastveh.ClassType == VehicleClass.Commercial)
 										World.DrawMarker(MarkerType.TruckSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), Color.FromArgb(180, 255, 255, 0), false, false, true);
@@ -483,7 +483,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 								float pdist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
-								if (pdist < 3.05 && LastVehicle.Exists() && withinDist(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, LastVehicle) && !Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+								if (pdist < 3.05 && LastVehicle.Exists() && withinDist(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, LastVehicle) && !Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 								{
 									DisableControlAction(2, 22, true);
 

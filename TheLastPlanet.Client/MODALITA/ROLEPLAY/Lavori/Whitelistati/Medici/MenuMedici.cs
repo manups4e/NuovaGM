@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 			UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio");
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
-			cambio = !Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+			cambio = !Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
 			spogliatoio.AddItem(cambio);
 			cambio.Activated += async (item, index) =>
 			{
@@ -34,7 +34,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 				HUD.MenuPool.CloseAllMenus();
 				NetworkFadeOutEntity(PlayerPedId(), true, false);
 
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio)
+				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio)
 				{
 					foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
 						switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
@@ -49,11 +49,11 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 								break;
 						}
 
-					Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio = true;
+					Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio = true;
 				}
 				else
 				{
-					Cache.PlayerCache.MyPlayer.User.StatiPlayer.InServizio = false;
+					Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InServizio = false;
 					await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
 				}
 
@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
 
-					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+					if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");

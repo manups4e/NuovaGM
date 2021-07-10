@@ -15,6 +15,7 @@ using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Server.Core.Buckets;
+using Newtonsoft.Json;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
 {
@@ -30,6 +31,8 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
 			Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
 			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
+
+			// TODO: SPOSTARE IN ROLEPLAY
 			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
 			Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ClientId, Task<List<LogInInfo>>>(LogInfo));
 			Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));

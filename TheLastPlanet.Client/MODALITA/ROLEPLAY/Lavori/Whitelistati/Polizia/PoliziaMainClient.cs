@@ -58,11 +58,11 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 
 		private static async void AmmanettaSmanetta()
 		{
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato = !Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato;
+			Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato = !Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato;
 			RequestAnimDict("mp_arresting");
 			while (!HasAnimDictLoaded("mp_arresting")) await BaseScript.Delay(1);
 
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato)
 			{
 				Cache.PlayerCache.MyPlayer.Ped.Task.ClearAll();
 				Cache.PlayerCache.MyPlayer.Ped.Task.PlayAnimation("mp_arrestring", "idle", 8f, -1, (AnimationFlags)49);
@@ -94,19 +94,19 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 		private static async void Accompagna(int ped)
 		{
 			Ped pol = (Ped)Entity.FromNetworkId(ped);
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato) Cache.PlayerCache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato) Cache.PlayerCache.MyPlayer.Ped.Task.FollowToOffsetFromEntity(pol, new Vector3(1f, 1f, 0), 3f, -1, 1f, true);
 		}
 
 		private static async void TogliVeh()
 		{
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato)
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato)
+				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 					Cache.PlayerCache.MyPlayer.Ped.Task.LeaveVehicle();
 		}
 
 		private static async void MettiVeh()
 		{
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.Ammanettato)
+			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.Ammanettato)
 			{
 				Vehicle closestVeh = Cache.PlayerCache.MyPlayer.Ped.GetClosestVehicle();
 				if (closestVeh.IsSeatFree(VehicleSeat.LeftRear))
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 						}
 
 						foreach (Position t in t1.Deleters)
-							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.InVeicolo)
+							if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
 							{
 								World.DrawMarker(MarkerType.CarSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 
