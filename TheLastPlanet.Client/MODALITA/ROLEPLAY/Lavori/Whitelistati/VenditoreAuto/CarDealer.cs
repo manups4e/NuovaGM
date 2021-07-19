@@ -26,7 +26,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 		public static void Init()
 		{
 			carDealer = Client.Impostazioni.RolePlay.Lavori.VenditoriAuto;
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
 			Client.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
 		}
@@ -34,7 +34,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
 		public static void Stop()
 		{
 			carDealer = null;
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.RemoveEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
 			Client.Instance.RemoveEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
 		}

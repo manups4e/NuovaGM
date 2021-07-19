@@ -112,10 +112,8 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 			Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(Random.X, Random.Y, Random.Z - 1);
 			Cache.PlayerCache.MyPlayer.Ped.Heading = Random.W;
 			await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
 			while (!await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			if (Screen.LoadingPrompt.IsActive)
 				Screen.LoadingPrompt.Hide();
 

@@ -1340,7 +1340,8 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			dummyMarker.Position = direction.ToPosition();
 			float z = 0;
 			GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
-			if (z != 0 && res.DitHit) dummyMarker.Position.Z = z;
+			if (z != 0 && res.DitHit) 
+				dummyMarker.Position = new(dummyMarker.Position.X, dummyMarker.Position.Y, z);
 			if (markerIngressoCasa.Selected)
 				if (markerIngressoCasa.RightBadge != BadgeStyle.None)
 					markerIngrPiedi.Draw();

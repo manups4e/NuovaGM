@@ -62,7 +62,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			await Funzioni.UpdateFace(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin);
 			await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
 			// TODO: Cambiare con request

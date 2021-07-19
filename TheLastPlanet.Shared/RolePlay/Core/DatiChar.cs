@@ -239,8 +239,8 @@ namespace TheLastPlanet.Shared
 	[Serialization]
 	public partial class Dressing
 	{
-		public string Name { get; set; }
-		public string Description { get; set; }
+		public string? Name { get; set; }
+		public string? Description { get; set; }
 		public ComponentDrawables ComponentDrawables { get; set; }
 		public ComponentDrawables ComponentTextures { get; set; }
 		public PropIndices PropIndices { get; set; }

@@ -21,25 +21,44 @@ namespace TheLastPlanet.Shared.Internal.Events
     [Serialization]
     public partial class ClientId : ISource
     {
-
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
-		[Ignore][JsonIgnore]
-        public Player Player { get; set; }
+        [Ignore][JsonIgnore]
+        public Player Player
+        {
+#if CLIENT
+            get => Game.Player;
+#elif SERVER
+            get;set;
+#endif
+        }
+
+        private Ped _ped;
+        [Ignore][JsonIgnore]
+        public Ped Ped 
+        {
+#if CLIENT
+            get
+            {
+                var handle = API.PlayerPedId();
+                if(_ped is null || _ped.Handle != handle)
+                    _ped = new Ped(handle);
+                return _ped;
+            }
+#elif SERVER
+            get => Player.Character;
+#endif
+        }
+
 
 #if SERVER
-        [Ignore][JsonIgnore]
-        public Ped Ped => Player.Character;
         public static readonly ClientId Global = new(-1);
         public User User { get; set; }
 #elif CLIENT
-        [Ignore][JsonIgnore]
-        public Ped Ped { get; set; }
         
         [Ignore][JsonIgnore]
         public Position Posizione { get; set; }
-        public void UpdatePedId() => Ped = new Ped(API.PlayerPedId());
-        public bool Ready => Player != null && Ped != null && User != null;
+        public bool Ready => User != null;
         public User User { get; set; }
 #endif
 
@@ -50,8 +69,6 @@ namespace TheLastPlanet.Shared.Internal.Events
 		{
             Id = value.Item1;
             Handle = Game.Player.ServerId;
-            Player = Game.Player;
-            Ped = new Ped(API.PlayerPedId());
 			User = new(value.Item2);
         }
 #endif

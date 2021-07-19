@@ -17,7 +17,7 @@ namespace TheLastPlanet.Server.Veicoli
 
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(onPlayerSpawn));
+			Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(onPlayerSpawn));
 			Server.Instance.AddEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
 			Server.Instance.AddEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
 			Server.Instance.AddEventHandler("brakes:add_rear", new Action<int>(AddRear));
@@ -39,11 +39,11 @@ namespace TheLastPlanet.Server.Veicoli
 			}));
 		}
 
-		public static async void onPlayerSpawn([FromSource] Player p)
+		public static async void onPlayerSpawn(ClientId client)
 		{
 			await BaseScript.Delay(0);
 
-			if (p.Handle == "1")
+			if (client.Handle == 1)
 			{
 				Debug.WriteLine("train timeout activated.");
 				await BaseScript.Delay(15000);

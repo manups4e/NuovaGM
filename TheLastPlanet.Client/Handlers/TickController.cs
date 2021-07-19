@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.Handlers
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			// TICK HUD \\
 			TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 
@@ -107,7 +107,7 @@ namespace TheLastPlanet.Client.Handlers
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			// TICK HUD \\
 			TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
 			TickHUD.Clear();

@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
-
-namespace TheLastPlanet.Server.Core.Buckets
+#if SERVER
+using TheLastPlanet.Server;
+#endif
+namespace TheLastPlanet.Shared.Core.Buckets
 {
+	public delegate void PlayerJoining(ClientId client);
+	public delegate void PlayerLeft(ClientId client, string reason);
+
 	public enum BucketLockdownMode
 	{
 		strict,
@@ -23,15 +26,34 @@ namespace TheLastPlanet.Server.Core.Buckets
 		public List<ClientId> Players = new();
 		public List<Entity> Entities = new();
 		public int TotalPlayers => Players.Count;
+		private BucketLockdownMode _lockdownMode;
+		private bool _populationEnabled;
+
+		public event PlayerJoining OnPlayerJoin;
+		public event PlayerLeft OnPlayerLeft;
 
 		public BucketLockdownMode LockdownMode
 		{
-			set => _setBucketLockdownMode(value);
+			get => _lockdownMode;
+#if SERVER
+			set
+			{
+				_lockdownMode = value;
+				_setBucketLockdownMode(value);
+			}
+#endif
 		}
 
 		public bool PopulationEnabled
 		{
-			set => _enablePopulation(value);
+			get => _populationEnabled;
+#if SERVER
+			set
+			{
+				_populationEnabled = value;
+				_enablePopulation(value);
+			}
+#endif
 		}
 
 		public Bucket(int id, string name)
@@ -44,14 +66,29 @@ namespace TheLastPlanet.Server.Core.Buckets
 		{
 			if (Players.Contains(client)) return;
 			Players.Add(client);
+#if SERVER
 			if (API.GetPlayerRoutingBucket(client.Handle.ToString()) != ID) API.SetPlayerRoutingBucket(client.Handle.ToString(), ID);
+#endif
+			OnPlayerJoin?.Invoke(client);
+		}
+
+		public virtual void RemovePlayer(ClientId client, string reason = "")
+		{
+			if(Players.Contains(client))
+				Players.Remove(client);
+#if SERVER
+			if (API.GetPlayerRoutingBucket(client.Handle.ToString()) == ID) API.SetPlayerRoutingBucket(client.Handle.ToString(), 0);
+#endif
+			OnPlayerLeft?.Invoke(client, reason);
 		}
 
 		public virtual void AddEntity(Entity entity)
 		{
 			if (Entities.Contains(entity)) return;
 			Entities.Add(entity);
+#if SERVER
 			if (API.GetEntityRoutingBucket(entity.Handle) != ID) API.SetEntityRoutingBucket(entity.Handle, ID);
+#endif
 		}
 
 		public async virtual void AddEntity(int entityNetworkId)
@@ -60,8 +97,12 @@ namespace TheLastPlanet.Server.Core.Buckets
 			Entity ent = Entity.FromNetworkId(entityNetworkId);
 			while (ent == null) await BaseScript.Delay(0);
 			Entities.Add(ent);
+#if SERVER
 			if (API.GetEntityRoutingBucket(ent.Handle) != ID) API.SetEntityRoutingBucket(ent.Handle, ID);
+#endif
 		}
+
+#if SERVER
 
 		private void _setBucketLockdownMode(BucketLockdownMode mode)
 		{
@@ -86,26 +127,42 @@ namespace TheLastPlanet.Server.Core.Buckets
 		{
 			API.SetRoutingBucketPopulationEnabled(ID, enabled);
 		}
-
+#endif
 		public ModalitaServer GetBucketGameMode()
 		{
 			switch (ID)
 			{
-				case int n when (n >= 0 && n <= 999):
+				case var n when (n >= 0 && n <= 999):
 					return ModalitaServer.Lobby;
-				case int n when (n >= 1000 && n <= 1999):
+				case var n when (n >= 1000 && n <= 1999):
 					return ModalitaServer.Roleplay;
-				case int n when (n >= 2000 && n <= 2999):
+				case var n when (n >= 2000 && n <= 2999):
 					return ModalitaServer.Minigiochi;
-				case int n when (n >= 3000 && n <= 3999):
+				case var n when (n >= 3000 && n <= 3999):
 					return ModalitaServer.Gare;
-				case int n when (n >= 4000 && n <= 4999):
+				case var n when (n >= 4000 && n <= 4999):
 					return ModalitaServer.Negozio;
-				case int n when (n >= 5000 && n <= 5999):
+				case var n when (n >= 5000 && n <= 5999):
 					return ModalitaServer.FreeRoam;
 				default:
 					return ModalitaServer.UNKNOWN;
 			}
 		}
+
+#if SERVER
+
+		public void TriggerClientEvent(ClientId client, string endpoint, params object[] args)
+		{
+			if(Players.Contains(client))
+				Server.Server.Instance.Events.Send(client, endpoint, args);
+			else
+				Server.Server.Logger.Warning($"Buckets:TriggerClientEvent, client {client} not in the list for {Name}!");
+		}
+
+		public void TriggerClientEvent(string endpoint, params object[] args)
+		{
+			Server.Server.Instance.Events.Send(Players, endpoint, args);
+		}
+#endif
 	}
 }

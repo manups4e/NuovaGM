@@ -209,7 +209,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
             catch (Exception ex)
             {
                 throw new SerializationException(context, type,
-                    $"Failed to find \"{PackMethod}\" method; are you sure you have annotated the type with [Serialization] and the partial keyword?");
+                    $"Failed to find \"{PackMethod}\" method; are you sure you have annotated the type {type.Name} with [Serialization] and the partial keyword?");
             }
         }
 

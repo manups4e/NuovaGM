@@ -440,7 +440,7 @@ namespace TheLastPlanet.Server.Core
 					if (player.User.status.Spawned)
 					{
 						player.Player.TriggerEvent("lprp:mostrasalvataggio");
-						await player.User.SalvaPersonaggio();
+						await player.User.SalvaPersonaggioRoleplay();
 						Server.Logger.Info( "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
 						await Task.FromResult(0);
 					}

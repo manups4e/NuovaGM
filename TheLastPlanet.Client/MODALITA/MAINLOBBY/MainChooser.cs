@@ -90,7 +90,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 						return;
 					}
 
-					await CambiaBucket("~b~Server RolePlay~w~", ModalitaServer.Roleplay);
+					await CambiaBucket("~b~Pianeta RolePlay~w~", ModalitaServer.Roleplay);
 					await RolePlay.Initializer.Init();
 					Stop();
 				}

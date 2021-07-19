@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
 	static class MediciServer
 	{
-		private static List<int> Morti = new List<int>();
+		private static readonly List<int> Morti = new List<int>();
 		public static void Init()
 		{
-			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(Spawnato));
 			Server.Instance.AddEventHandler("lprp:onPlayerDeath", new Action<Player>(PlayerMorto));
 			Server.Instance.AddEventHandler("lprp:medici:rimuoviDaMorti", new Action<Player>(PlayerVivo));
 		}
@@ -34,10 +35,10 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 			}
 		}
 
-		private static void Spawnato([FromSource] Player player)
+		private static void Spawnato(ClientId client)
 		{
 			for (int i=0; i<Morti.Count; i++)
-				player.TriggerEvent("lprp:medici:aggiungiPlayerAiMorti", Morti[i]);
+				client.Player.TriggerEvent("lprp:medici:aggiungiPlayerAiMorti", Morti[i]);
 		}
 	}
 }

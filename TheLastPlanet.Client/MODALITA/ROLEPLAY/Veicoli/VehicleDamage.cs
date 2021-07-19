@@ -67,13 +67,13 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 		{
 			tireBurstMaxNumber = randomTireBurstInterval * 1200;
 			if (randomTireBurstInterval != 0) tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Stop()
 		{
 			tireBurstMaxNumber = 0;
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static bool isPedDrivingAVehicle()

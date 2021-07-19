@@ -60,7 +60,6 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
 			Client.Instance.AddEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
 			Client.Instance.AddEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
 			Client.Instance.AddEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
@@ -75,12 +74,11 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.AddEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
 			Client.Instance.AddEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
 			Client.Instance.AddEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(FuelSpawn));
 			Client.Instance.RemoveEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
 			Client.Instance.RemoveEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
 			Client.Instance.RemoveEventHandler("lprp:fuel:fillFuel", new Action(FillFuel));
@@ -95,7 +93,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			Client.Instance.RemoveEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
 			Client.Instance.RemoveEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
 			Client.Instance.RemoveEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Spawnato()
@@ -108,6 +106,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 			tanker = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.tanker;
 			maxtankerfuel = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.maxtankerfuel;
 			refuelCost = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.refuelCost;
+			CaricaBlipStazioni();
 		}
 
 		public static string getRandomPlate()
@@ -123,9 +122,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 		}
 
 		public static void checkfuel(int fuel, int price) { lastStationFuel = new StazioneSingola(fuel, price); }
-
-		public static void FuelSpawn() { CaricaBlipStazioni(); }
-
+		
 		public static void CaricaBlipStazioni()
 		{
 			foreach (GasStation p in ConfigShared.SharedConfig.Main.Veicoli.gasstations)

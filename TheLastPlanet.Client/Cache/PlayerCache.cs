@@ -27,9 +27,7 @@ namespace TheLastPlanet.Client.Cache
 			var pippo = await Client.Instance.Events.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
 			MyPlayer = new ClientId
 			{
-				Player = Game.Player,
 				Handle = Game.Player.ServerId,
-				Ped = new Ped(API.PlayerPedId()),
 				Id = pippo.Item1,
 				User = new User(pippo.Item2)
 			};

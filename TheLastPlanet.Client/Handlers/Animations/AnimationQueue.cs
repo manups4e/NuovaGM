@@ -119,11 +119,11 @@ namespace TheLastPlanet.Client.Handlers.Animations
                         await ped.Task.PlayAnimation(next.Group, next.AnimationId, 8f, -8f, -1, next.Flags, 0);
                     else
                     {
-                        var offset = new Position();
+                        var offset = Position.Zero;
 
                         if (next.Offset != null)
                         {
-                            var position = next.Position ?? ped.Position.ToPosition();
+							var position = next.Position != null ? next.Position : ped.Position.ToPosition();
 
                             position.Heading = ped.Heading;
 

@@ -242,8 +242,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
 			Screen.Fading.FadeIn(800);
 			Client.Instance.RemoveTick(Controllo);
-			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
-			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
+			BaseScript.TriggerEvent("tlg:roleplay:onPlayerSpawn");
+			Client.Instance.Events.Send("tlg:roleplay:onPlayerSpawn");
 			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
 		}
 

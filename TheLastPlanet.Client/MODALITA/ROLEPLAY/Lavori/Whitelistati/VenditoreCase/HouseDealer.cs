@@ -23,14 +23,14 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 		public static void Init()
 		{
 			house = Client.Impostazioni.RolePlay.Lavori.VenditoriCase;
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
 		}
 
 		public static void Stop()
 		{
 			house = null;
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static void Test(Ped playerPed, object[] args)

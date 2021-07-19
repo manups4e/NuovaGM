@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.RolePlay.Sport
 
 		public static async void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
 			{
 				Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.RolePlay.Sport
 
 		public static async void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa -= async (item, index) =>
 			{
 				Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);

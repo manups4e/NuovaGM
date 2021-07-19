@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Scripts
 			{
 				var user = Funzioni.GetUserFromPlayerId(p.Handle);
 				if (user != null && user.status.Spawned)
-					await user.SalvaPersonaggio();
+					await user.SalvaPersonaggioRoleplay();
 			}
 		}
 	}

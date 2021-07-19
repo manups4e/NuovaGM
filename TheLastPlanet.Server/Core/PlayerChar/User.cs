@@ -374,7 +374,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Player.TriggerEvent("lprp:ShowNotification", text);
 		}
 
-		public async Task SalvaPersonaggio()
+		public async Task SalvaPersonaggioRoleplay()
 		{
 			try
 			{
@@ -437,6 +437,8 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public Istanza(Player pl)
 		{
 			player = pl;
+			var obj = new { Stanziato = false, ServerIdProprietario = -1, IsProprietario = false, Instance = "" };
+			pl.State.Set("PlayerInstance", obj, true);
 		}
 
 		public bool Stanziato

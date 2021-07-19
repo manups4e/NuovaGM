@@ -23,10 +23,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => CurrentChar.Posizione;
 			set
 			{
-				CurrentChar.Posizione.X = value.X;
-				CurrentChar.Posizione.Y = value.Y;
-				CurrentChar.Posizione.Z = value.Z;
-				CurrentChar.Posizione.Heading = value.Heading;
+				CurrentChar.Posizione = new(value.X, value.Y, value.Z, value.Heading);
 			}
 		}
 
@@ -145,10 +142,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _stanziato;
 			set
 			{
-				dynamic p = PlayerCache.MyPlayer.Ped.State["PlayerInstance"];
-				p.Istanza.Stanziato = value;
+				dynamic p = PlayerCache.MyPlayer.Player.State["PlayerInstance"];
+				p.Stanziato = value;
 				_stanziato = value;
-				PlayerCache.MyPlayer.Ped.State.Set("PlayerInstance", p, true);
+				PlayerCache.MyPlayer.Player.State.Set("PlayerInstance", p, true);
 			}
 		}
 		public int ServerIdProprietario
@@ -156,10 +153,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _idProprietario;
 			set
 			{
-				dynamic p = PlayerCache.MyPlayer.Ped.State["PlayerInstance"];
-				p.Istanza.ServerIdProprietario = value;
+				dynamic p = PlayerCache.MyPlayer.Player.State["PlayerInstance"];
+				p.ServerIdProprietario = value;
 				_idProprietario = value;
-				PlayerCache.MyPlayer.Ped.State.Set("PlayerInstance", p, true);
+				PlayerCache.MyPlayer.Player.State.Set("PlayerInstance", p, true);
 			}
 		}
 		public bool IsProprietario
@@ -167,10 +164,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _isProprietario;
 			set
 			{
-				dynamic p = PlayerCache.MyPlayer.Ped.State["PlayerInstance"];
-				p.Istanza.IsProprietario = value;
+				dynamic p = PlayerCache.MyPlayer.Player.State["PlayerInstance"];
+				p.IsProprietario = value;
 				_isProprietario = value;
-				PlayerCache.MyPlayer.Ped.State.Set("PlayerInstance", p, true);
+				PlayerCache.MyPlayer.Player.State.Set("PlayerInstance", p, true);
 			}
 		}
 		public string Instance
@@ -178,10 +175,10 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			get => _instance;
 			set
 			{
-				dynamic p = PlayerCache.MyPlayer.Ped.State["PlayerInstance"];
-				p.Istanza.Instance = value;
+				dynamic p = PlayerCache.MyPlayer.Player.State["PlayerInstance"];
+				p.Instance = value;
 				_instance = value;
-				PlayerCache.MyPlayer.Ped.State.Set("PlayerInstance", p, true);
+				PlayerCache.MyPlayer.Player.State.Set("PlayerInstance", p, true);
 			}
 		}
 

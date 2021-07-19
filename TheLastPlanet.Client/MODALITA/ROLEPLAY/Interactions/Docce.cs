@@ -112,11 +112,11 @@ namespace TheLastPlanet.Client.RolePlay.Interactions
 
 		private static List<int> Doccie = new List<int>() { 1924030334, 1358716892, 879181614, -553740697 };
 
-		public static async void Init() { Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato)); }
+		public static async void Init() { Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato)); }
 
 		public static async void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		private static async void Spawnato()

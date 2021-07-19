@@ -49,7 +49,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
 			Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 			Needs.Add("Fame", new Necessità("Fame", 0, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
 			Needs.Add("Sete", new Necessità("Sete", 0, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
 			Client.Instance.RemoveEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
 			Needs = null;
 			Statistics = null;

@@ -18,15 +18,15 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             try
             {
                 var leveledUp = false;
-                var currentLevel = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
+                var currentLevel = BucketsHandler.FreeRoam.GetCurrentLevel(client);
                 var currentRankLimit = Experience.RankRequirement.Where(x => x.Key == currentLevel).First().Value;
                 var nextRankLimit = Experience.NextLevelExperiencePoints(currentLevel);
-                var currentXp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
+                var currentXp = BucketsHandler.FreeRoam.GetCurrentExperiencePoints(client);
 
-                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).AddExperience(client, experiencePoints);
+                BucketsHandler.FreeRoam.AddExperience(client, experiencePoints);
 
-                var updatedLevel = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
-                var updatedXp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
+                var updatedLevel = BucketsHandler.FreeRoam.GetCurrentLevel(client);
+                var updatedXp = BucketsHandler.FreeRoam.GetCurrentExperiencePoints(client);
                 var updatedCurrentRankLimit = currentRankLimit;
                 var updatedNextRankLimit = nextRankLimit;
 

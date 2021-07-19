@@ -14,6 +14,7 @@ using TheLastPlanet.Server.Veicoli;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Server.RolePlay.Core;
 
 namespace TheLastPlanet.Server
 {
@@ -29,6 +30,7 @@ namespace TheLastPlanet.Server
 			ServerManager.Init();
 			Main.Init();
 			Eventi.Init();
+			EventiRolePlay.Init();
 			EntityCreation.Init();
 			ChatServer.Init();
 			ChatEvents.Init();

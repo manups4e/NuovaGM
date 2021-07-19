@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client.RolePlay
 	{
 		public static async Task Init()
 		{
-			ClasseDiTest.Init(); // da rimouvere
+			//ClasseDiTest.Init(); // da rimouvere
 			DecorationClass.DichiaraDecor();
 			await CoreInitializer.LogInInitializer();
 			await Cache.PlayerCache.Loaded();
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.RolePlay
 
 		public static async Task Stop()
 		{
-			ClasseDiTest.Stop(); // da rimouvere
+			//ClasseDiTest.Stop(); // da rimouvere
 			DecorationClass.Stop();
 			Banking.BankingClient.Stop();
 			Businesses.PompeDiBenzinaClient.Stop();

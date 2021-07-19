@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.RolePlay.Giostre
 		{
 			func_220();
 			Client.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
 			Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
 			Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));

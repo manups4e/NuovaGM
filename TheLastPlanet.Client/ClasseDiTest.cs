@@ -1,46 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using Logger;
-using Newtonsoft.Json;
-using TheLastPlanet.Client.Cache;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.Core.Utility;
+﻿using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
-		public static async void Init()
+		public static void Init()
 		{
-			/*
-			await BaseScript.Delay(3000);
-			List<InstructionalButton> but = new List<InstructionalButton>()
-			{
-				new InstructionalButton(new List<Control>{ Control.FrontendLb, Control.FrontendRb, Control.FrontendLt, Control.FrontendRt }, "Primo", PadCheck.Controller),
-				new InstructionalButton(new List<Control>{ Control.FrontendAccept, Control.FrontendCancel, Control.FrontendX, Control.FrontendY }, new List<Control>{Control.Context, Control.Detonate, Control.Cover, Control.Reload }, "Secondo"),
-				new InstructionalButton(new List<Control>{ Control.MoveUpOnly, Control.MoveDownOnly, Control.MoveLeftOnly, Control.MoveRightOnly }, "Terzo", PadCheck.Keyboard),
-			};
-			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(but);
-			InstructionalButtonsHandler.InstructionalButtons.UpdateButtons();
-			InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-			*/
 		}
 
-
-
-		public static async void Stop()
+		public static void Stop()
 		{
-			//Client.Instance.AddTick(test);
-			//ClearFocus();
 		}
 
 		private static void AttivaMenu()
@@ -67,7 +40,7 @@ namespace TheLastPlanet.Client
 				World.RenderingCamera = null;
 				ClearFocus();
 			};
-			test.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
+			test.OnMenuStateChanged += (oldmenu, newmenu, state) =>
 			{
 				if (state == MenuState.ChangeForward)
 					if (newmenu == creaCam1)
@@ -77,23 +50,6 @@ namespace TheLastPlanet.Client
 					}
 			};
 			test.Visible = true;
-		}
-
-		private static int timer = 0;
-
-		public static async Task test()
-		{
-			/*
-			SET_PED_TO_RAGDOLL
-			CREATE_NM_MESSAGE
-			GIVE_PED_NM_MESSAGE
-			*/
-			/*
-			b.ProcessControls();
-			b.Update();
-			item2.ProcessControls();
-			*/
-			//if (Input.IsControlJustPressed(Control.Detonate)) AttivaMenu();
 		}
 	}
 }

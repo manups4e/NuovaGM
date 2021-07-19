@@ -125,7 +125,6 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 			Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
 			await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			Cache.PlayerCache.MyPlayer.Ped.IsVisible = false;
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
 			Cache.PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
@@ -144,10 +143,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
 			Cache.PlayerCache.MyPlayer.Ped.Heading = charSelectCoords.W;
 			await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
 			while (!await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01))) await BaseScript.Delay(50);
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 
 			if (Cache.PlayerCache.MyPlayer.Ped.Model == new Model(PedHash.FreemodeMale01))
 			{
@@ -312,8 +309,8 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			Cache.PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
 			Cache.PlayerCache.MyPlayer.User.status.Spawned = true;
-			BaseScript.TriggerEvent("lprp:onPlayerSpawn");
-			BaseScript.TriggerServerEvent("lprp:onPlayerSpawn");
+			BaseScript.TriggerEvent("tlg:roleplay:onPlayerSpawn");
+			Client.Instance.Events.Send("tlg:roleplay:onPlayerSpawn");
 			ClearFocus();
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
 			Cache.PlayerCache.MyPlayer.Ped.IsVisible = true;

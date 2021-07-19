@@ -25,14 +25,14 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
 			Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.RemoveEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
 			Client.Instance.RemoveEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
 		}

@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public void Draw()
 		{
 			World.DrawMarker(MarkerType, Position.ToVector3, Direction.ToVector3, Rotation.ToVector3, Scale.ToVector3, Color, BobUpDown, FaceCamera, Rotate);
-			IsInMarker = Position.Distance(MyPlayer.Posizione) <= Scale.X / 2;
+			IsInMarker = Position.Distance(MyPlayer.Posizione) <= (Scale / 2);
 		}
 	}
 }

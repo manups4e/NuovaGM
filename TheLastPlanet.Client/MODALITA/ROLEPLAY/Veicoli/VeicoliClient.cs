@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
 			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 			for (int i = 0; i < carGarageSpots.Count; i++)
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.RolePlay.Veicoli
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.RemoveEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
 			Client.Instance.RemoveEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 			for (int i = 0; i < carGarageSpots.Count; i++)

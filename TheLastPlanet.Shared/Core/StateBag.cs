@@ -73,7 +73,13 @@ namespace TheLastPlanet.Shared
         public ModalitaServer Modalita
         {
             get => _modalita.Value;
-            set => _modalita.Value = value;
+            set
+            {
+                _modalita.Value = value;
+#if CLIENT
+                Client.Client.Instance.Events.Send("lprp:addPlayerToBucket", value);
+#endif
+            }
         }
         
         public PlayerStates(Player player, string name) : base(player, name)

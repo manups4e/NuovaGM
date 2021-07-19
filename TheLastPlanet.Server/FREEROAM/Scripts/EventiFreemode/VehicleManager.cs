@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     SpawnedEventVehicles.Add(v);
                 }
 
-                Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
+                Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
             }
             catch (Exception e)
             {

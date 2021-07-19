@@ -54,7 +54,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
         {
             if (CurrentEvent == null) { return; }
             if (CurrentEvent.Id != eventId) { return; }
-            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateCurrentAttempt(client, eventId, currentAttempt);
+            BucketsHandler.FreeRoam.UpdateCurrentAttempt(client, eventId, currentAttempt);
         }
 
         private static async Task OnPeriodicTick()
@@ -64,11 +64,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 await BaseScript.Delay(1000);
                 if (CurrentEvent.CountdownTime > TimeSpan.Zero)
                 {
-                    Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.CountdownTime.TotalSeconds, false);
+                    Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.CountdownTime.TotalSeconds, false);
                     return;
                 }
                 // RIMUOVERE SE SI TORNA SOTTO CON I 1000 ANZICHE' 100
-                Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.EventTime.TotalSeconds, true);
+                Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.EventTime.TotalSeconds, true);
             }
             catch (Exception e)
             {
@@ -94,11 +94,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         NextEvent.IsStarted = false;
                         IsAnyEventActive = NextEvent.IsActive;
                         CurrentEvent = NextEvent;
-                        (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendEventData(CurrentEvent.Id);
+                        BucketsHandler.FreeRoam.SendEventData(CurrentEvent.Id);
                         ChooseNextEvent();
 
                         Server.Logger.Info($"Current Event [{CurrentEvent.Name}] | Next Event [{NextEvent.Name}]");
-                        Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:EventActivate", CurrentEvent.Id, NextEvent.Id);
+                        Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:EventActivate", CurrentEvent.Id, NextEvent.Id);
                     }
                 }
                 else
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                         if (CurrentEvent.CountdownTime == TimeSpan.Zero)
                         {
                             CurrentEvent.IsStarted = true;
-                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:EventStart", CurrentEvent.Id);
+                            Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:EventStart", CurrentEvent.Id);
                         }
                     }
                     else
@@ -120,7 +120,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             IsAnyEventActive = false;
                             await BaseScript.Delay(1500); // Delay to let everyone send in their results
 
-                            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendFinalTop3Players(CurrentEvent.Id, CurrentEvent.EventXpMultiplier);
+                            BucketsHandler.FreeRoam.SendFinalTop3Players(CurrentEvent.Id, CurrentEvent.EventXpMultiplier);
 
                             var cE = WorldEvents.Where(x => x.Id == CurrentEvent.Id).FirstOrDefault().ToJson();
                             CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE); // reset this element. it's actually the next event
@@ -128,12 +128,12 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             CurrentEvent.IsActive = false;
                             TimeUntilNextEvent = TimeSpan.FromSeconds(5);//TimeSpan.FromMinutes(rnd.Next(20, 30));
                             await BaseScript.Delay(3500); // Wait until we start the next event (total 5 seconds)
-                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:DestroyEventVehicles");
-                            Server.Instance.Events.Send((BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).Players, "worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);
+                            Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:DestroyEventVehicles");
+                            Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);
                         }
                         else
                         {
-                            (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).SendTop3Players(CurrentEvent.Id);
+                            BucketsHandler.FreeRoam.SendTop3Players(CurrentEvent.Id);
                         }
                     }
                 }
@@ -152,8 +152,8 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             {
                 if (eventId != CurrentEvent.Id) { return; }
 
-                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateCurrentAttempt(client, eventId, currentAttempt);
-                (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).UpdateBestAttempt(client, eventId, bestAttempt);
+                BucketsHandler.FreeRoam.UpdateCurrentAttempt(client, eventId, currentAttempt);
+                BucketsHandler.FreeRoam.UpdateBestAttempt(client, eventId, bestAttempt);
             }
             catch (Exception e)
             {
@@ -192,8 +192,8 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             try
             {
 
-                var xp = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentExperiencePoints(client);
-                var level = (BucketsHandler.FreeRoam.Bucket as FreeRoamBucket).GetCurrentLevel(client);
+                var xp = BucketsHandler.FreeRoam.GetCurrentExperiencePoints(client);
+                var level = BucketsHandler.FreeRoam.GetCurrentLevel(client);
                 Server.Instance.Events.Send(client, "worldeventsManage.Client:GetLevelXp", level, xp);
             }
             catch (Exception e)

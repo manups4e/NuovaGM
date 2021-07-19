@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -22,6 +23,19 @@ namespace TheLastPlanet.Server.Core
 				Identifier.Discord => player.Identifiers["discord"],
 				Identifier.Fivem   => player.Identifiers["fivem"],
 				Identifier.Ip      => player.Identifiers["ip"],
+				_                  => null
+			};
+		}
+
+		public static string GetLicense(this ClientId client, Identifier identifier)
+		{
+			return identifier switch
+			{
+				Identifier.Steam   => client.Player.Identifiers["steam"],
+				Identifier.License => client.Player.Identifiers["license2"],
+				Identifier.Discord => client.Player.Identifiers["discord"],
+				Identifier.Fivem   => client.Player.Identifiers["fivem"],
+				Identifier.Ip      => client.Player.Identifiers["ip"],
 				_                  => null
 			};
 		}

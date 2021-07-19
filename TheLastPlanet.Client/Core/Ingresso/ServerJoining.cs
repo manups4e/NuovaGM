@@ -45,7 +45,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			if (Cache.PlayerCache.MyPlayer.Ped.Model.Hash != (int) PedHash.FreemodeMale01)
 			{
 				await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-				Cache.PlayerCache.MyPlayer.UpdatePedId();
 			}
 			NetworkSetTalkerProximity(-1000f);
 
@@ -70,12 +69,12 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 			p.Style.SetDefaultClothes();
 			await Cache.PlayerCache.Loaded();
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = 0;
-			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
+			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = ModalitaServer.Lobby;
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
 			Screen.Fading.FadeIn(1000);
+			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
 			Client.Instance.AddTick(MainChooser.DrawMarkers);

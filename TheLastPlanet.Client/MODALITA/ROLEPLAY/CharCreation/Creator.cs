@@ -465,7 +465,6 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			Cache.PlayerCache.MyPlayer.UpdatePedId();
 			await UpdateFace(PlayerPedId(), plpl.Skin);
 			await UpdateDress(PlayerPedId(), plpl.Dressing);
 		}
@@ -1557,7 +1556,7 @@ namespace TheLastPlanet.Client.RolePlay.CharCreation
 					BD1.Detach();
 					BD1.Delete();
 					Cache.PlayerCache.MyPlayer.Ped.Detach();
-					BaseScript.TriggerServerEvent("lprp:finishCharServer", _data.ToJson());
+					Client.Instance.Events.Send("tlg:roleplay:finishCharServer", _data.ToJson());
 
 					Cache.PlayerCache.MyPlayer.User.CurrentChar = await Client.Instance.Events.Get<Char_data>("lprp:Select_Char", _data.CharID);
 					//BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);

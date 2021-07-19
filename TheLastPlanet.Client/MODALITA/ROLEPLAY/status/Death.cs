@@ -38,7 +38,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 
 			//Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 			//Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
@@ -54,7 +54,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Spawnato));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 
 			//Client.Instance.RemoveEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
 			//Client.Instance.RemoveEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));

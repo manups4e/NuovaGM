@@ -5,6 +5,7 @@ using TheLastPlanet.Server.Proprietà;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
@@ -14,10 +15,10 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 		{
 			Server.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
 			Server.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
-			Server.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action<Player>(Spawnato));
+			Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(Spawnato));
 		}
 
-		private static async void Spawnato([FromSource] Player player)
+		private static async void Spawnato(ClientId client)
 		{
 			dynamic aparts = await Server.Instance.Query("select * from immobili_creati");
 			if (aparts.Count > 0)
@@ -31,7 +32,7 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
 					else if (p.tipo == "garage")
 						garag.Add(p.abbreviazione, p.datiImmobile);
 				}
-				player.TriggerEvent("lprp:housedealer:caricaImmobiliDaDB", apart.ToJson(), garag.ToJson());
+				client.Player.TriggerEvent("lprp:housedealer:caricaImmobiliDaDB", apart.ToJson(), garag.ToJson());
 			}
 		}
 

@@ -125,14 +125,14 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			scopedWeapons = Client.Impostazioni.RolePlay.Main.ScopedWeapons;
 			passengerDriveBy = Client.Impostazioni.RolePlay.Main.PassengerDriveBy;
 			//Client.Instance.AddTick(Connesso);
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
 			Screen.Fading.FadeOut(800);
 		}
 
 		public static void Stop()
 		{
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(onPlayerSpawn));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(onPlayerSpawn));
 			Client.Instance.RemoveEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
 			ImpostazioniClient = null;
 		}

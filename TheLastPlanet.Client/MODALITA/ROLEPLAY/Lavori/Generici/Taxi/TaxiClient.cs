@@ -32,14 +32,14 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Taxi
 		public static void Init()
 		{
 			taxi = Client.Impostazioni.RolePlay.Lavori.Generici.Tassista;
-			Client.Instance.AddEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Add(Markers);
 		}
 
 		public static void Stop()
 		{
 			taxi = null;
-			Client.Instance.RemoveEventHandler("lprp:onPlayerSpawn", new Action(Eccolo));
+			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Remove(Markers);
 			Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == taxi.PosAccettazione);
 			if (p != null) p.Delete();
