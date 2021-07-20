@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Impostazioni.Shared.Configurazione.Generici;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Interactions
 {
@@ -21,21 +22,21 @@ namespace TheLastPlanet.Server.Interactions
 			Server.Instance.AddEventHandler("lprp:onPickup", new Action<Player, int>(OnPickup));
 		}
 
-		public static void CreatePickup(Inventory oggetto, int count, string label, User user)
+		public static void CreatePickup(Inventory oggetto, int count, string label, ClientId user)
 		{
-			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.getCoords.ToPosition());
+			OggettoRaccoglibile pickup = new OggettoRaccoglibile(Pickups.Count, oggetto.Item, count, ConfigShared.SharedConfig.Main.Generici.ItemList[oggetto.Item].prop, 0, label, user.Ped.Position.ToPosition());
 			Pickups.Add(pickup);
 			BaseScript.TriggerClientEvent("lprp:createPickup", pickup.ToJson(), user.Player.Handle);
 		}
 
-		public static void CreatePickup(Weapons oggetto, string label, User user)
+		public static void CreatePickup(Weapons oggetto, string label, ClientId user)
 		{
-			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.getCoords.ToPosition(), "weapon", oggetto.components, oggetto.tint);
+			OggettoRaccoglibile arma = new OggettoRaccoglibile(Pickups.Count, oggetto.name, oggetto.ammo, (ObjectHash)0, 0, label, user.Ped.Position.ToPosition(), "weapon", oggetto.components, oggetto.tint);
 			Pickups.Add(arma);
 			BaseScript.TriggerClientEvent("lprp:createPickup", arma.ToJson(), user.Player.Handle);
 		}
 
-		public static void CreatePickup(string name, int count, string label, User user)
+		public static void CreatePickup(string name, int count, string label, ClientId user)
 		{
 			ObjectHash oggetto = 0;
 
@@ -63,14 +64,15 @@ namespace TheLastPlanet.Server.Interactions
 					break;
 			}
 
-			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.getCoords.ToPosition(), "account");
+			OggettoRaccoglibile soldo = new OggettoRaccoglibile(Pickups.Count, name, count, oggetto, 0, label, user.Ped.Position.ToPosition(), "account");
 			Pickups.Add(soldo);
 			BaseScript.TriggerClientEvent("lprp:createPickup", soldo.ToJson(), user.Player.Handle);
 		}
 
 		private static void RemoveInventoryItemWithPickup([FromSource] Player player, string item, int count)
 		{
-			User user = player.GetCurrentChar();
+			ClientId client = Funzioni.GetClientFromPlayerId(player.Handle);
+			User user = client?.User ?? player.GetCurrentChar();
 			Tuple<bool, Inventory> oggetto = user.getInventoryItem(item);
 
 			if (oggetto.Item1)
@@ -79,7 +81,7 @@ namespace TheLastPlanet.Server.Interactions
 				{
 					user.removeInventoryItem(item, count);
 					string label = $"{oggetto.Item2.Item} [{count}]";
-					CreatePickup(oggetto.Item2, count, label, user);
+					CreatePickup(oggetto.Item2, count, label, client);
 				}
 				else
 				{
@@ -90,21 +92,23 @@ namespace TheLastPlanet.Server.Interactions
 
 		private static void RemoveWeaponWithPickup([FromSource] Player player, string weapon)
 		{
-			User user = player.GetCurrentChar();
+			ClientId client = Funzioni.GetClientFromPlayerId(player.Handle);
+			User user = client?.User ?? player.GetCurrentChar();
 
 			if (user.hasWeapon(weapon))
 			{
 				Tuple<int, Weapons> arma = user.getWeapon(weapon);
 				user.removeWeapon(weapon);
 				string label = Funzioni.GetWeaponLabel((uint)GetHashKey(weapon));
-				CreatePickup(arma.Item2, label, user);
+				CreatePickup(arma.Item2, label, client);
 			}
 		}
 
 		private static void RemoveAccountWithPickup([FromSource] Player player, string name, int amount)
 		{
 			string label = "";
-			User user = player.GetCurrentChar();
+			ClientId client = Funzioni.GetClientFromPlayerId(player.Handle);
+			User user = client?.User ?? player.GetCurrentChar();
 
 			switch (name)
 			{
@@ -120,7 +124,7 @@ namespace TheLastPlanet.Server.Interactions
 					break;
 			}
 
-			CreatePickup(name, amount, label, user);
+			CreatePickup(name, amount, label, client);
 		}
 
 		private static void OnPickup([FromSource] Player source, int id)
