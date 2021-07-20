@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.WhiteSmoke);
 			interno = 0;
 			abbreviazione = "";
-			Istanza oldInstance = new();
+			InstanceBags oldInstance = new(Game.Player, "PlayerInstance");
 			ConfigCase casaDummy = new();
 			casaDummy.VehCapacity = 2;
 			Garages garageDummy = new();
