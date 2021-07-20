@@ -29,7 +29,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public User(BasePlayerShared result)
 		{
-			lastConnection = result.lastConnection;
 			ID = result.ID;
 			PlayerID = result.PlayerID;
 			group = result.group;
@@ -40,7 +39,7 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			Identifiers = result.Identifiers;
 			StatiPlayer = new PlayerStateBags();
 		}
-
+		
 		public User() { }
 
 		[Ignore][JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
@@ -114,13 +113,13 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 	public class PlayerStateBags
 	{
-		public Istanza Istanza { get; set; }
 		public PlayerStates PlayerStates{ get; set; }
 		public RPStates RolePlayStates { get; set; }
+		public InstanceBags Istanza;
 
 		public PlayerStateBags()
 		{
-			Istanza = new();
+			Istanza = new(Game.Player, "PlayerInstance");
 			PlayerStates = new(Game.Player, "PlayerStates");
 			RolePlayStates = new(Game.Player, "RolePlayStates");
 		}

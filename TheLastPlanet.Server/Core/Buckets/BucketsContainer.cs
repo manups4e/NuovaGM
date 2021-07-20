@@ -355,7 +355,6 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             Modalita = modalitaServer;
             Bucket = bucket;
-            Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
             Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ClientId, Task<List<LogInInfo>>>(LogInfo));
             Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
             Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
@@ -385,22 +384,6 @@ namespace TheLastPlanet.Server.Core.Buckets
         }
 
         #region EVENTS
-        private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(ClientId source)
-        {
-            try
-            {
-                source.User.StatiPlayer = new PlayerStateBags(source.Player);
-                await BaseScript.Delay(100);
-                await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
-                return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
-            }
-            catch (Exception e)
-            {
-                Server.Logger.Error(e.ToString());
-
-                return default;
-            }
-        }
 
         private static async Task<List<LogInInfo>> LogInfo(ClientId client)
         {
@@ -444,13 +427,6 @@ namespace TheLastPlanet.Server.Core.Buckets
                 Position = loc.FromJson<Position>(),
                 Dressing = dress.FromJson<Dressing>()
             };
-
-            Server.Logger.Debug(result.Position.ToJson());
-            Server.Logger.Debug(BitConverter.ToString(result.Position.ToBytes()));
-
-            Server.Logger.Debug(result.ToJson());
-            Server.Logger.Debug(BitConverter.ToString(result.ToBytes()));
-
             return result;
         }
 

@@ -29,7 +29,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 #if CLIENT
             get => Game.Player;
 #elif SERVER
-            get;set;
+            get; set;
 #endif
         }
 
@@ -110,7 +110,6 @@ namespace TheLastPlanet.Shared.Internal.Events
         public ClientId(User user)
         {
             Handle = Convert.ToInt32(user.Player.Handle);
-
             Player = user.Player;
             User = user;
             Id = user.PlayerID;

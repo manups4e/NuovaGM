@@ -31,6 +31,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
 			Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
 			Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
+			Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
 
 #if DEBUG
 			Server.Instance.AddEventHandler("onResourceStart", new Action<string>(async (resName) =>
@@ -167,12 +168,30 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				{
 					Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
 				}
-				Server.Instance.Clients.Remove(Server.Instance.Clients.FirstOrDefault(x=>x.Handle.ToString() == ped.Player.Handle));
+				Server.Instance.Clients.Remove(Server.Instance.Clients.FirstOrDefault(x=>x.Handle.ToString() == player.Handle));
 			}
 
 			Server.Logger.Info(text);
 			// TODO: creare funzione per sapere il bucket del player come oggetto
 			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
 		}
+
+		private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(ClientId source)
+		{
+			try
+			{
+				source.User.StatiPlayer = new PlayerStateBags(source.Player);
+				await BaseScript.Delay(100);
+				await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
+				return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
+			}
+			catch (Exception e)
+			{
+				Server.Logger.Error(e.ToString());
+
+				return default;
+			}
+		}
+
 	}
 }

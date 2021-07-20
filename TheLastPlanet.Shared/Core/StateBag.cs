@@ -1,4 +1,5 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
@@ -154,5 +155,116 @@ namespace TheLastPlanet.Shared
             FinDiVita = false;
             InVeicolo = false;
         }
+    }
+
+    public class InstanceBags : BaseBag
+    {
+	    private BaseStateBag<bool> _stanziato;
+	    private BaseStateBag<int> _serverIdProprietario;
+	    private BaseStateBag<bool> _isOwner;
+	    private BaseStateBag<string> _instance;
+        public InstanceBags(Player player, string name) : base(player, name)
+        {
+	        _stanziato = new BaseStateBag<bool>(player, _name+":Stanziato", true);
+	        _serverIdProprietario = new BaseStateBag<int>(player, _name+":ServerIdProprietario", true);
+	        _isOwner = new BaseStateBag<bool>(player, _name+":IsOwner", true);
+	        _instance = new BaseStateBag<string>(player, _name+":Istanza", true);
+        }
+
+     	public bool Stanziato
+        {
+	        get => _stanziato.Value;
+	        set => _stanziato.Value = value;
+        }
+		public int ServerIdProprietario
+		{
+			get => _serverIdProprietario.Value;
+			set => _serverIdProprietario.Value = value;
+		}
+		public bool IsProprietario
+		{
+			get => _isOwner.Value;
+			set => _isOwner.Value = value;
+		}
+
+		public string Instance
+		{
+			get => _instance.Value;
+			set => _instance.Value = value;
+		}
+
+		/// <summary>
+		/// Istanza generica
+		/// </summary>
+		public void Istanzia()
+		{
+			Stanziato = true;
+#if CLIENT
+			ServerIdProprietario = Game.Player.ServerId;
+#elif SERVER
+			ServerIdProprietario = Convert.ToInt32(player.Handle);
+#endif
+			IsProprietario = true;
+			Instance = string.Empty;
+		}
+
+		/// <summary>
+		/// Istanza generica specificando quale Istanza
+		/// </summary>
+		public void Istanzia(string instance)
+		{
+			Stanziato = true;
+#if CLIENT
+			ServerIdProprietario = Game.Player.ServerId;
+#elif SERVER
+			ServerIdProprietario = Convert.ToInt32(player.Handle);
+#endif
+			IsProprietario = true;
+			this.Instance = instance;
+		}
+
+		/// <summary>
+		/// Istanza specifica
+		/// </summary>
+		public void Istanzia(int ServerId, string instance)
+		{
+			Stanziato = true;
+			ServerIdProprietario = ServerId;
+			IsProprietario = true;
+			this.Instance = instance;
+		}
+
+		/// <summary>
+		/// Rimuovi da istanza
+		/// </summary>
+		public void RimuoviIstanza()
+		{
+			Stanziato = false;
+			ServerIdProprietario = 0;
+			IsProprietario = false;
+			Instance = string.Empty;
+		}
+
+		/// <summary>
+		/// Cambia Istanza con una nuova (es. casa e garage)
+		/// </summary>
+		/// <param name="instance">Specifica quale istanza</param>
+		public void CambiaIstanza(string instance)
+		{
+			if (Stanziato)
+				if (Instance != instance)
+					Instance = instance;
+		}
+
+		/// <summary>
+		/// Cambia Proprietario dell'istanza
+		/// </summary>
+		/// <param name="netId">networkId del proprietario</param>
+		public void CambiaIstanza(int netId)
+		{
+			if (Stanziato)
+				if (ServerIdProprietario != netId)
+					ServerIdProprietario = netId;
+		}
     }
 }

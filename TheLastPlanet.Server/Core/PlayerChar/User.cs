@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Shared;
-using Logger;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 using System.Threading.Tasks;
@@ -26,32 +25,29 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public User(Player player, BasePlayerShared result)
 		{
-			lastConnection = DateTime.Now;
 			source = player.Handle;
 			ID = result.ID;
 			PlayerID = result.PlayerID;
 			group = result.group;
 			group_level = result.group_level;
 			playTime = result.playTime;
-			Player = player;
 			char_data = result.char_data;
 			LastSaved = DateTime.Now;
-			Identifiers.Steam = Player.GetLicense(Identifier.Steam);
-			Identifiers.License = Player.GetLicense(Identifier.License);
-			Identifiers.Discord = Player.GetLicense(Identifier.Discord);
-			Identifiers.Fivem = Player.GetLicense(Identifier.Fivem);
-			Identifiers.Ip = Player.GetLicense(Identifier.Ip);
+			Player = player;
+			Identifiers.Steam = player.GetLicense(Identifier.Steam);
+			Identifiers.License = player.GetLicense(Identifier.License);
+			Identifiers.Discord = player.GetLicense(Identifier.Discord);
+			Identifiers.Fivem = player.GetLicense(Identifier.Fivem);
+			Identifiers.Ip = player.GetLicense(Identifier.Ip);
 		}
 
 		public User(Player player, dynamic result)
 		{
-			lastConnection = DateTime.Now;
 			source = player.Handle;
 			ID = result.UserID;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
-			Player = player;
 			StatiPlayer = new PlayerStateBags(player);
 			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			LastSaved = DateTime.Now;
@@ -59,7 +55,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public User(dynamic result)
 		{
-			lastConnection = DateTime.Now;
 			//source = player.Handle;
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
@@ -412,121 +407,16 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 	}
 
-	public partial class PlayerStateBags
+	public class PlayerStateBags
 	{
-		[Ignore][JsonIgnore]
-		private Player player;
 		public PlayerStates PlayerStates;
 		public RPStates RolePlayStates;
-		public Istanza Istanza;
+		public InstanceBags Istanza;
 		public PlayerStateBags(Player pl)
 		{
-			player = pl;
 			PlayerStates = new(pl, "PlayerStates");
 			RolePlayStates = new(pl, "RolePlayStates");
-			Istanza = new Istanza(pl);
-		}
-	}
-
-	[Serialization]
-	public partial class Istanza
-	{
-		[Ignore][JsonIgnore]
-		private Player player;
-
-		public Istanza(Player pl)
-		{
-			player = pl;
-			var obj = new { Stanziato = false, ServerIdProprietario = -1, IsProprietario = false, Instance = "" };
-			pl.State.Set("PlayerInstance", obj, true);
-		}
-
-		public bool Stanziato
-		{
-			get => player.State["PlayerInstance"].Istanza.Stanziato;
-			set => player.State["PlayerInstance"].Istanza.Stanziato = value;
-		}
-		public int ServerIdProprietario
-		{
-			get => player.State["PlayerInstance"].Istanza.ServerIdProprietario;
-			set => player.State["PlayerInstance"].Istanza.ServerIdProprietario = value;
-		}
-		public bool IsProprietario
-		{
-			get => player.State["PlayerInstance"].Istanza.IsProprietario;
-			set => player.State["PlayerInstance"].Istanza.IsProprietario = value;
-		}
-
-		public string Instance
-		{
-			get => player.State["PlayerInstance"].Istanza.Instance;
-			set => player.State["PlayerInstance"].Istanza.Instance = value;
-		}
-
-		/// <summary>
-		/// Istanza generica
-		/// </summary>
-		public void Istanzia()
-		{
-			Stanziato = true;
-			ServerIdProprietario = Convert.ToInt32(player.Handle);
-			IsProprietario = true;
-			Instance = string.Empty;
-		}
-
-		/// <summary>
-		/// Istanza generica specificando quale Istanza
-		/// </summary>
-		public void Istanzia(string Instance)
-		{
-			Stanziato = true;
-			ServerIdProprietario = Convert.ToInt32(player.Handle);
-			IsProprietario = true;
-			this.Instance = Instance;
-		}
-
-		/// <summary>
-		/// Istanza specifica
-		/// </summary>
-		public void Istanzia(int ServerId, string Instance)
-		{
-			Stanziato = true;
-			ServerIdProprietario = ServerId;
-			IsProprietario = true;
-			this.Instance = Instance;
-		}
-
-		/// <summary>
-		/// Rimuovi da istanza
-		/// </summary>
-		public void RimuoviIstanza()
-		{
-			Stanziato = false;
-			ServerIdProprietario = 0;
-			IsProprietario = false;
-			Instance = string.Empty;
-		}
-
-		/// <summary>
-		/// Cambia Istanza con una nuova (es. casa e garage)
-		/// </summary>
-		/// <param name="instance">Specifica quale istanza</param>
-		public void CambiaIstanza(string instance)
-		{
-			if (Stanziato)
-				if (Instance != instance)
-					Instance = instance;
-		}
-
-		/// <summary>
-		/// Cambia Proprietario dell'istanza
-		/// </summary>
-		/// <param name="netId">networkId del proprietario</param>
-		public void CambiaIstanza(int netId)
-		{
-			if (Stanziato)
-				if (ServerIdProprietario != netId)
-					ServerIdProprietario = netId;
+			Istanza = new (pl, "PlayerInstance");
 		}
 	}
 }
