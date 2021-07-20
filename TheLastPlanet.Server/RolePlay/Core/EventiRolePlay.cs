@@ -80,16 +80,20 @@ namespace TheLastPlanet.Server.RolePlay.Core
 					TimeSpan time = (DateTime.Now - user.LastSaved);
 					if (time.Minutes > 10)
 					{
-						BaseScript.TriggerClientEvent(user.Player, "lprp:mostrasalvataggio");
+						BaseScript.TriggerClientEvent(a.Player, "lprp:mostrasalvataggio");
 						await user.SalvaPersonaggioRoleplay();
 						Server.Logger.Info("Salvato personaggio: '" + user.FullName + "' appartenente a '" +
-						                   user.Player.Name + "' - " + user.Identifiers.Discord);
+						                   a.Player.Name + "' - " + user.Identifiers.Discord);
 					}
 
+					if(user.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Roleplay)
+						return BucketsHandler.RolePlay.Bucket.Players;
+					else if(user.StatiPlayer.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+						return BucketsHandler.FreeRoam.Bucket.Players;
 					return Server.Instance.Clients;
 				}));
-			Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<Task<Dictionary<string, User>>>(async () =>
-				(await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => p.Player.Handle)));
+			Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<ClientId, Task<Dictionary<string, User>>>(async (a) =>
+				(await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => a.Player.Handle)));
 		}
 
 		public static void FinishChar(ClientId client, string data)
@@ -336,18 +340,20 @@ namespace TheLastPlanet.Server.RolePlay.Core
 		private static void GiveItemToOtherPlayer(ClientId source, int target, string itemName, int amount)
 		{
 			User player = source.User;
-			User targetPlayer = Funzioni.GetUserFromPlayerId("" + target);
+			ClientId targetClient = Funzioni.GetClientFromPlayerId(target);
+			User targetPlayer = targetClient.User;
 			player.removeInventoryItem(itemName, amount);
 			player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
 			targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].peso);
-			targetPlayer.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
+			targetClient.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
 			targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
 		}
 
 		private static void GiveWeaponToOtherPlayer(ClientId source, int target, string weaponName, int ammo)
 		{
 			User player = source.User;
-			User targetPlayer = Funzioni.GetPlayerFromId(target).GetCurrentChar();
+			ClientId targetClient = Funzioni.GetClientFromPlayerId(target);
+			User targetPlayer = targetClient.User;
 			Tuple<int, Weapons> weapon = player.getWeapon(weaponName);
 			Weapons arma = weapon.Item2;
 
@@ -362,7 +368,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 				targetPlayer.addWeapon(weaponName, ammo);
 				foreach (Components comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
 				if (arma.tint != 0) targetPlayer.addWeaponTint(weaponName, arma.tint);
-				targetPlayer.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
+				targetClient.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
 				targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");
 			}
 		}
