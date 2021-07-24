@@ -204,10 +204,17 @@ namespace TheLastPlanet.Generators
         public static IEnumerable<Tuple<ISymbol, ITypeSymbol>> GetMembers(ITypeSymbol symbol)
         {
             var members = new List<Tuple<ISymbol, bool>>();
+            var overrides = new List<string>();
 
             foreach (var member in GetAllMembers(symbol))
             {
                 if (member is not IPropertySymbol && member is not IFieldSymbol) continue;
+                if (overrides.Contains(member.Name)) continue;
+                if (member.IsOverride)
+                {
+                    members.RemoveAll(self => self.Item1.Name == member.Name);
+                    overrides.Add(member.Name);
+                }
 
                 var attributes = member.GetAttributes();
 
