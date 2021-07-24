@@ -39,24 +39,19 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization
             return _memory.ToArray();
         }
 
-        public SerializationContext(string source, string details, ISerialization serialization)
+        public SerializationContext(string source, string details, ISerialization serialization, byte[] data = null)
         {
             Source = source;
             Details = details;
             _serialization = serialization;
-            _memory = new MemoryStream();
+            _memory = data != null ? new MemoryStream(data) : new MemoryStream();
             _writer = new BinaryWriter(_memory);
-        }
-
-        public SerializationContext(string source, string details, ISerialization serialization, byte[] data)
-        {
-            Source = source;
-            Details = details;
-            _serialization = serialization;
-            _memory = new MemoryStream(data);
             _reader = new BinaryReader(_memory);
 
-            Original = data;
+            if (data != null)
+            {
+                Original = data;
+            }
         }
 
         public void Dispose()

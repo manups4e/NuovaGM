@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.CodeAnalysis;
+using TheLastPlanet.Generators.Generation;
 using TheLastPlanet.Generators.Syntax;
 
 namespace TheLastPlanet.Generators.Serialization
@@ -7,8 +8,8 @@ namespace TheLastPlanet.Generators.Serialization
     public abstract class BaseTupleSerialization : IDefaultSerialization
     {
         public abstract int Items { get; }
-        
-        public void Serialize(SerializationEngine engine, IPropertySymbol property, ITypeSymbol type, CodeWriter code,
+
+        public void Serialize(ISymbol member, ITypeSymbol type, CodeWriter code,
             string name,
             string typeIdentifier, Location location)
         {
@@ -17,27 +18,25 @@ namespace TheLastPlanet.Generators.Serialization
 
             for (var idx = 0; idx < Items; idx++)
             {
-                var item = idx + 1;
-
-                engine.AppendWriteLogic(property, types[idx], code, $"{name}.Item{item}", location);
+                WriteGenerator.Make(member, types[idx], code, $"{name}.Item{idx + 1}", location);
             }
         }
 
-        public void Deserialize(SerializationEngine engine, IPropertySymbol property, ITypeSymbol type, CodeWriter code,
+        public void Deserialize(ISymbol member, ITypeSymbol type, CodeWriter code,
             string name,
             string typeIdentifier, Location location)
         {
             var named = (INamedTypeSymbol) type;
             var types = named.TypeArguments;
-            var prefix = SerializationEngine.GetVariablePrefix(name);
+            var prefix = GenerationEngine.GetCamelCase(name);
 
             for (var idx = 0; idx < Items; idx++)
             {
                 var item = idx + 1;
                 var identifier = $"{prefix}Item{item}";
 
-                code.AppendLine($"{SerializationEngine.GetQualifiedName(types[idx])} {identifier} = default;");
-                engine.AppendReadLogic(property, types[0], code, identifier, location);
+                code.AppendLine($"{GenerationEngine.GetQualifiedName(types[idx])} {identifier} = default;");
+                ReadGenerator.Make(member, types[idx], code, identifier, location);
             }
 
             code.AppendLine(

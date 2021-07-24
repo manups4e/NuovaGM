@@ -3,6 +3,6 @@
     public enum EventFlowType
     {
         Straight,
-        Circle
+        Circular
     }
 }

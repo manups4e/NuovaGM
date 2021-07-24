@@ -80,7 +80,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                     return @delegate.DynamicInvoke(parameters.ToArray());
                 }
 
-                if (message.Flow == EventFlowType.Circle)
+                if (message.Flow == EventFlowType.Circular)
                 {
                     var stopwatch = StopwatchUtil.StartNew();
                     var subscription = _handlers.SingleOrDefault(self => self.Endpoint == message.Endpoint) ??
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         protected async Task<T> GetInternal<T>(ISource source, string endpoint, params object[] args)
         {
             var stopwatch = StopwatchUtil.StartNew();
-            var message = await SendInternal(EventFlowType.Circle, source, endpoint, args);
+            var message = await SendInternal(EventFlowType.Circular, source, endpoint, args);
             var token = new CancellationTokenSource();
             var holder = new EventValueHolder<T>();
 
