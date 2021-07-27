@@ -1,10 +1,12 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Logger;
+﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
@@ -14,24 +16,21 @@ namespace TheLastPlanet.Shared
         public float X { get; set; }
         public float Y { get; set; }
         public float Z { get; set; }
-        public float Heading { get; set; }
-
+        public float Heading { get => Roll; set => Roll = value; }
+        public float Yaw { get; set; }
+        public float Pitch { get; set; }
+        public float Roll { get; set; }
+        
         public static readonly Position Zero = new();
 
-        public Position()
-        {
-            X = 0f;
-            Y = 0f;
-            Z = 0f;
-            Heading = 0f;
-        }
 
-        public Position(float x, float y, float z, float heading)
+        internal Position() { }
+
+        public Position(float value)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            Heading = heading;
+            X = value;
+            Y = value;
+            Z = value;
         }
 
         public Position(float x, float y, float z)
@@ -41,20 +40,23 @@ namespace TheLastPlanet.Shared
             Z = z;
         }
 
-        public Position(Vector3 value, float heading)
+        public Position(float x, float y, float z, float heading)
         {
-            X = value.X;
-            Y = value.Y;
-            Z = value.Z;
-            Heading = heading;
+            X = x;
+            Y = y;
+            Z = z;
+            Roll = heading;
         }
 
-        public Position(Position value, float heading)
+
+        public Position(float x, float y, float z, float yaw, float pitch, float roll)
         {
-            X = value.X;
-            Y = value.Y;
-            Z = value.Z;
-            Heading = heading;
+            X = x;
+            Y = y;
+            Z = z;
+            Yaw = yaw;
+            Pitch = pitch;
+            Roll = roll;
         }
 
         public Position(Vector3 value)
@@ -64,135 +66,7 @@ namespace TheLastPlanet.Shared
             Z = value.Z;
         }
 
-        public Position(float value)
-        {
-            X = value;
-            Y = value;
-            Z = value;
-        }
-
-        public Position(BinaryReader reader)
-        {
-            X = reader.ReadSingle();
-            Y = reader.ReadSingle();
-            Z = reader.ReadSingle();
-            Heading = reader.ReadSingle();
-        }
-
-        public void PackSerializedBytes(BinaryWriter writer)
-        {
-			writer.Write(X);
-			writer.Write(Y);
-			writer.Write(Z);
-			writer.Write(Heading);
-        }
-
-        public Position Subtract(Position position)
-        {
-            X -= position.X;
-            Y -= position.Y;
-            Z -= position.Z;
-            Heading -= position.Heading;
-
-            return this;
-        }
-
-        public Position Add(Position position)
-        {
-            X += position.X;
-            Y += position.Y;
-            Z += position.Z;
-            Heading += position.Heading;
-
-            return this;
-        }
-
-		public Position Clone() => new Position(X, Y, Z, Heading);
-
-		public override string ToString() => $"X = {X}, Y = {Y}, Z = {Z} [Heading = {Heading}]";
-
-		[Ignore][JsonIgnore]
-        public bool IsZero => X == 0 && Y == 0 && Z == 0;
-
-		public float[] ToArray() => new[] { X, Y, Z };
-
-		[Ignore][JsonIgnore]
-        public Vector3 ToVector3 => new(X, Y, Z);
-        [Ignore][JsonIgnore]
-        public Vector4 ToVector4 => new(X, Y, Z, Heading);
-
-        public float Distance(Vector3 value)
-        {
-            float x = X - value.X;
-            float y = Y - value.Y;
-            float z = Z - value.Z;
-            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
-        }
-        public float Distance(Position value)
-        {
-            float x = X - value.X;
-            float y = Y - value.Y;
-            float z = Z - value.Z;
-            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
-        }
-
-		public bool IsInRangeOf(Vector3 value, float radius) => Distance(value) <= radius;
-
-		public static Position operator +(Position left, Position right) => new(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
-        public static Position operator +(Position value) => value;
-        public static Position operator +(Position value, float scalar) => new(value.X + scalar, value.Y + scalar, value.Z + scalar);
-        public static Position operator +(float scalar, Position value) => new(scalar + value.X, scalar + value.Y, scalar + value.Z);
-        public static Position operator -(Position left, Position right) => new(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
-		public static Position operator -(Position value) => new(-value.X, -value.Y, -value.Z);
-        public static Position operator -(Position value, float scalar) => new(value.X - scalar, value.Y - scalar, value.Z - scalar);
-        public static Position operator -(float scalar, Position value) => new(scalar - value.X, scalar - value.Y, scalar - value.Z);
-        public static Position operator *(float scale, Position value) => new(value.X * scale, value.Y * scale, value.Z * scale);
-		public static Position operator *(Position value, float scale) => new(value.X * scale, value.Y * scale, value.Z * scale);
-        public static Position operator *(Position left, Position right) => new(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
-        public static Position operator /(Position value, float scale) => new(value.X / scale, value.Y / scale, value.Z / scale);
-		public static Position operator /(float scale, Position value) => new(scale / value.X, scale / value.Y, scale / value.Z);
-		public static Position operator /(Position value, Position scale) => new(value.X / scale.X, value.Y / scale.Y, value.Z / scale.Z);
-
-        public static bool operator ==(Position left, Position right) => left?.Equals(right) ?? false;
-        public static bool operator !=(Position left, Position right) => !(left == right);
-
-        public static bool operator >(Position left, Position right) => left.X > right.X || left.Y > right.Y || left.Z > right.Z;
-		public static bool operator <(Position left, Position right) => left.X < right.X || left.Y < right.Y || left.Z < right.Z;
-
-		public static bool operator >=(Position left, Position right) => left.X >= right.X || left.Y >= right.Y || left.Z >= right.Z;
-		public static bool operator <=(Position left, Position right) => left.X <= right.X || left.Y <= right.Y || left.Z <= right.Z;
-
-		public static bool operator >=(float left, Position right) => left >= right.X || left >= right.Y || left >= right.Z;
-		public static bool operator <=(float left, Position right) => left <= right.X || left <= right.Y || left <= right.Z;
-
-		public bool Equals(ref Position other) => other is not null && MathUtil.NearEqual(other.X, X) && MathUtil.NearEqual(other.Y, Y) && MathUtil.NearEqual(other.Z, Z);
-		public bool Equals(Position other) => Equals(ref other);
-
-		public override int GetHashCode() => this.GetHashCode();
-	}
-
-
-    [Serialization]
-    public partial class RotatablePosition
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float Yaw { get; set; }
-        public float Pitch { get; set; }
-        public float Roll { get; set; }
-
-        public RotatablePosition() { }
-        public RotatablePosition(float x, float y, float z, float yaw, float pitch, float roll)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            Yaw = yaw;
-            Pitch = pitch;
-            Roll = roll;
-        }
-        public RotatablePosition(Vector3 pos, Vector3 rot)
+        public Position(Vector3 pos, Vector3 rot)
         {
             X = pos.X;
             Y = pos.Y;
@@ -202,10 +76,157 @@ namespace TheLastPlanet.Shared
             Roll = rot.Z;
         }
 
-        [Ignore][JsonIgnore]
+        public Position(Vector3 value, float heading)
+        {
+            X = value.X;
+            Y = value.Y;
+            Z = value.Z;
+            Roll = heading;
+        }
+
+        public Position(Vector3 pos, float yaw, float pitch, float roll)
+        {
+            X = pos.X;
+            Y = pos.Y;
+            Z = pos.Z;
+            Yaw = yaw;
+            Pitch = pitch;
+            Roll = roll;
+        }
+
+        public Position(BinaryReader reader)
+        {
+            X = reader.ReadSingle();
+            Y = reader.ReadSingle();
+            Z = reader.ReadSingle();
+            Yaw = reader.ReadSingle();
+            Pitch = reader.ReadSingle();
+            Roll = reader.ReadSingle();
+        }
+
+        public void PackSerializedBytes(BinaryWriter writer)
+        {
+            writer.Write(X);
+            writer.Write(Y);
+            writer.Write(Z);
+            writer.Write(Yaw);
+            writer.Write(Pitch);
+            writer.Write(Roll);
+        }
+
+        public Position Subtract(Position position)
+        {
+            X -= position.X;
+            Y -= position.Y;
+            Z -= position.Z;
+            Yaw -= position.Yaw;
+            Pitch -= position.Pitch;
+            Roll -= position.Roll;
+
+            return this;
+        }
+
+        public Position Add(Position position)
+        {
+            X += position.X;
+            Y += position.Y;
+            Z += position.Z;
+            Yaw += position.Yaw;
+            Pitch += position.Pitch;
+            Roll += position.Roll;
+
+            return this;
+        }
+
+        public Position Clone() => new(X, Y, Z, Yaw, Pitch, Roll);
+
+        public override string ToString() => $"X:{X}, Y:{Y}, Z:{Z} [Yaw(X):{Yaw}, Pitch(Y):{Pitch}, Roll(Z):{Roll}]";
+
+        [Ignore]
+        [JsonIgnore]
+        public bool IsZero => X == 0 && Y == 0 && Z == 0 && Yaw == 0 && Pitch == 0 && Roll == 0;
+
+        public float[] ToArray() => new[] { X, Y, Z, Yaw, Pitch, Roll };
+
+        [Ignore]
+        [JsonIgnore]
         public Vector3 ToVector3 => new(X, Y, Z);
-        [Ignore][JsonIgnore]
-        public Vector3 ToRot => new(Yaw, Pitch, Roll);
+
+        [Ignore]
+        [JsonIgnore]
+        public Vector3 ToRotationVector => new(Yaw, Pitch, Roll);
+
+        [Ignore]
+        [JsonIgnore]
+        public Vector4 ToVector4 => new(X, Y, Z, Roll);
+
+        public float Distance(Vector3 value)
+        {
+            float x = X - value.X;
+            float y = Y - value.Y;
+            float z = Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+        public float Distance(Vector4 value)
+        {
+            float x = X - value.X;
+            float y = Y - value.Y;
+            float z = Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+        public float Distance(Position value)
+        {
+            float x = X - value.X;
+            float y = Y - value.Y;
+            float z = Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+        public bool IsInRangeOf(Vector3 value, float radius) => Distance(value) <= radius;
+        public bool IsInRangeOf(Position value, float radius) => Distance(value) <= radius;
+
+        public static Position operator +(Position left, Position right) => new(left.X + right.X, left.Y + right.Y, left.Z + right.Z, left.Yaw + right.Yaw, left.Pitch + right.Pitch, left.Roll + right.Roll);
+        public static Position operator +(Position value) => value;
+        public static Position operator +(Position value, float scalar) => new(value.X + scalar, value.Y + scalar, value.Z + scalar, value.Yaw + scalar, value.Pitch + scalar, value.Roll + scalar);
+        public static Position operator +(float scalar, Position value) => new(scalar + value.X, scalar + value.Y, scalar + value.Z, value.Yaw + scalar, value.Pitch + scalar, value.Roll + scalar);
+        public static Position operator -(Position left, Position right) => new(left.X - right.X, left.Y - right.Y, left.Z - right.Z, left.Yaw - right.Yaw, left.Pitch - right.Pitch, left.Roll - right.Roll);
+        public static Position operator -(Position value) => new(-value.X, -value.Y, -value.Z, -value.Yaw, -value.Pitch, -value.Roll);
+        public static Position operator -(Position value, float scalar) => new(value.X - scalar, value.Y - scalar, value.Z - scalar, value.Yaw - scalar, value.Pitch - scalar, value.Roll - scalar);
+        public static Position operator -(float scalar, Position value) => new(scalar - value.X, scalar - value.Y, scalar - value.Z, scalar - value.Yaw, scalar - value.Pitch, scalar - value.Roll);
+        public static Position operator *(float scale, Position value) => new(value.X * scale, value.Y * scale, value.Z * scale, value.Pitch * scale, value.Yaw * scale, value.Roll * scale);
+        public static Position operator *(Position value, float scale) => new(value.X * scale, value.Y * scale, value.Z * scale, value.Pitch * scale, value.Yaw * scale, value.Roll * scale);
+        public static Position operator *(Position left, Position right) => new(left.X * right.X, left.Y * right.Y, left.Z * right.Z, left.Yaw * right.Yaw, left.Pitch * right.Pitch, left.Roll * right.Roll);
+        public static Position operator /(Position value, float scale) => new(value.X / scale, value.Y / scale, value.Z / scale, value.Yaw / scale, value.Pitch / scale, value.Roll / scale);
+        public static Position operator /(float scale, Position value) => new(scale / value.X, scale / value.Y, scale / value.Z, scale / value.Yaw, scale / value.Pitch, scale / value.Roll);
+        public static Position operator /(Position value, Position scale) => new(value.X / scale.X, value.Y / scale.Y, value.Z / scale.Z, value.Yaw / scale.Yaw, value.Pitch / scale.Pitch, value.Roll / scale.Roll);
+
+        public static bool operator ==(Position left, Position right) => left?.Equals(right) ?? false;
+        public static bool operator !=(Position left, Position right) => !(left == right);
+
+        public static bool operator >(Position left, Position right) => left.X > right.X || left.Y > right.Y || left.Z > right.Z || left.Yaw > right.Yaw || left.Pitch > right.Pitch || left.Roll > right.Roll;
+        public static bool operator <(Position left, Position right) => left.X < right.X || left.Y < right.Y || left.Z < right.Z || left.Yaw < right.Yaw || left.Pitch < right.Pitch || left.Roll < right.Roll;
+
+        public static bool operator >=(Position left, Position right) => left.X >= right.X || left.Y >= right.Y || left.Z >= right.Z || left.Yaw >= right.Yaw || left.Pitch >= right.Pitch || left.Roll >= right.Roll;
+        public static bool operator <=(Position left, Position right) => left.X <= right.X || left.Y <= right.Y || left.Z <= right.Z || left.Yaw <= right.Yaw || left.Pitch <= right.Pitch || left.Roll <= right.Roll;
+
+        public static bool operator >=(float left, Position right) => left >= right.X || left >= right.Y || left >= right.Z || left >= right.Yaw || left >= right.Pitch || left >= right.Roll;
+        public static bool operator <=(float left, Position right) => left <= right.X || left <= right.Y || left <= right.Z || left <= right.Yaw || left <= right.Pitch || left <= right.Roll;
+
+        public bool Equals(ref Position other) => other is not null && MathUtil.NearEqual(other.X, X) && MathUtil.NearEqual(other.Y, Y) && MathUtil.NearEqual(other.Z, Z) 
+            && MathUtil.NearEqual(other.Yaw, Yaw) && MathUtil.NearEqual(other.Pitch, Pitch) && MathUtil.NearEqual(other.Roll, Roll);
+
+        public bool Equals(Position other) => Equals(ref other);
+
+        public override bool Equals(object value)
+        {
+            if ((value is not Position || value is null))
+                return false;
+
+            var strongValue = (Position)value;
+            return Equals(ref strongValue);
+        }
 
     }
 }
