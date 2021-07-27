@@ -23,21 +23,22 @@ namespace TheLastPlanet.Shared.Internal.Events
     {
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
-        [Ignore][JsonIgnore]
-        public Player Player
-        {
-#if CLIENT
-            get => Game.Player;
-#elif SERVER
-            get; set;
-#endif
-        }
+        public User User { get; set; }
+        public Identifiers Identifiers => User.Identifiers;
 
+        [Ignore]
+        public ClientStateBags ClientStateBags { get; set; }
+#if CLIENT
         private Ped _ped;
+        [Ignore][JsonIgnore]
+        public Position Posizione { get; set; }
+        [Ignore][JsonIgnore]
+        public bool Ready => User != null;
+        [Ignore] [JsonIgnore]
+        public Player Player { get => new(API.GetPlayerFromServerId(Handle)); }
         [Ignore][JsonIgnore]
         public Ped Ped 
         {
-#if CLIENT
             get
             {
                 var handle = API.PlayerPedId();
@@ -45,24 +46,19 @@ namespace TheLastPlanet.Shared.Internal.Events
                     _ped = new Ped(handle);
                 return _ped;
             }
-#elif SERVER
-            get => Player.Character;
-#endif
         }
 
+#elif SERVER
+        [Ignore] [JsonIgnore]
+        public Player Player { get => Server.Server.Instance.GetPlayers[Handle]; }
 
-#if SERVER
+        [Ignore] [JsonIgnore]
+        public Ped Ped { get => Player.Character; }
+
         public static readonly ClientId Global = new(-1);
-        public User User { get; set; }
-#elif CLIENT
-        
-        [Ignore][JsonIgnore]
-        public Position Posizione { get; set; }
-        public bool Ready => User != null;
-        public User User { get; set; }
 #endif
 
-        public Identifiers Identifiers => User.Identifiers;
+
         public ClientId() { }
 #if CLIENT
         public ClientId(Tuple<Snowflake, User> value)
@@ -70,6 +66,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Id = value.Item1;
             Handle = Game.Player.ServerId;
 			User = new(value.Item2);
+            ClientStateBags = new ClientStateBags(Player);
         }
 #endif
         public ClientId(Snowflake id)
@@ -88,6 +85,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 Handle = Convert.ToInt32(owner.Handle);
                 LoadUser();
 #endif
+                ClientStateBags = new(Player);
             }
             else
             {
@@ -99,10 +97,11 @@ namespace TheLastPlanet.Shared.Internal.Events
         public ClientId(int handle)
         {
             Handle = handle;
-            Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
+            //Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
             if (handle > 0)
                 LoadUser();
             Id = User != null ? User.PlayerID : Snowflake.Empty;
+            ClientStateBags = new(Player);
         }
 #endif
 
@@ -110,9 +109,10 @@ namespace TheLastPlanet.Shared.Internal.Events
         public ClientId(User user)
         {
             Handle = Convert.ToInt32(user.Player.Handle);
-            Player = user.Player;
+            //Player = user.Player;
             User = user;
             Id = user.PlayerID;
+            ClientStateBags = new(Player);
         }
 #endif
 
@@ -121,6 +121,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Id = id;
             Handle = handle;
             LoadUser();
+            ClientStateBags = new(Player);
         }
 
         public override string ToString()
@@ -185,5 +186,19 @@ namespace TheLastPlanet.Shared.Internal.Events
         public static explicit operator ClientId(int handle) => new(handle);
 #endif
 
+    }
+
+    public class ClientStateBags
+	{
+        public PlayerStates PlayerStates { get; set; }
+        public RPStates RolePlayStates { get; set; }
+        public InstanceBags Istanza { get; set; }
+
+        public ClientStateBags(Player player)
+        {
+            PlayerStates = new(player, "PlayerStates");
+            RolePlayStates = new(player, "RolePlayStates");
+            Istanza = new(player, "PlayerInstance");
+        }
     }
 }
