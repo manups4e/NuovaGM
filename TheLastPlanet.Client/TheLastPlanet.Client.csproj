@@ -12,6 +12,7 @@
     <AssemblyVersion>5.78.*</AssemblyVersion>
     <FileVersion>5.78</FileVersion>
     <Deterministic>false</Deterministic>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
 

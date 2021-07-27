@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 		private static UIMenuItem posCamera;
 		private static UIMenuColorPanel blipColor;
 		private static Prop renderCamObject;
-		private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.WhiteSmoke);
+		private static Marker dummyMarker = new(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.WhiteSmoke);
 		private static int interno = 0;
 		private static string abbreviazione;
 
@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 			posCamera = null;
 			blipColor = null;
 			renderCamObject = null;
-			dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.WhiteSmoke);
+			dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.WhiteSmoke);
 			interno = 0;
 			abbreviazione = "";
 			InstanceBags oldInstance = new(Game.Player, "PlayerInstance");
@@ -271,12 +271,12 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 					{
 						case TipoImmobile.Casa:
 							casaDummy.MarkerGarageEsterno = markerIngrGarage.Position;
-							casaDummy.SpawnGarageInVehFuori = new Position(markerIngrGarage.Position, 0);
+							casaDummy.SpawnGarageInVehFuori = markerIngrGarage.Position;
 
 							break;
 						case TipoImmobile.Garage:
 							garageDummy.MarkerEntrata = markerIngrGarage.Position;
-							garageDummy.SpawnFuori = new Position(markerIngrGarage.Position, 0);
+							garageDummy.SpawnFuori = markerIngrGarage.Position;
 
 							break;
 					}
@@ -965,9 +965,9 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 							}
 
 							Client.Instance.AddTick(MarkerTick);
-							if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
-							if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
-							if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Position.Zero, new Position(1.5f), Colors.Red);
+							if (markerIngrPiedi == null) markerIngrPiedi = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
+							if (markerIngrGarage == null) markerIngrGarage = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
+							if (markerIngrTetto == null) markerIngrTetto = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.Red);
 						}
 
 						break;

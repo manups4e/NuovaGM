@@ -33,6 +33,7 @@ namespace TheLastPlanet.Client.Cache
 			};
 			Client.Instance.AddTick(TickStatiPlayer);
 			await Task.FromResult(0);
+
 		}
 
 		public static async Task Loaded()
@@ -47,11 +48,11 @@ namespace TheLastPlanet.Client.Cache
 
 			#region Posizione
 
-			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
+			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			if (!MyPlayer.User.status.Spawned) return;
 			if (MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
-			MyPlayer.User.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Heading);
+			MyPlayer.User.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			#endregion
 

@@ -20,7 +20,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 		[5000] = new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true },
 */
 
-		public static BucketsContainer Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+		public static LobbyBucketsContainer Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
 		public static BucketsContainer Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
 		public static RolePlayBucketsContainer RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
 		public static FreeRoamBucketContainer FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
@@ -29,11 +29,11 @@ namespace TheLastPlanet.Server.Core.Buckets
 
 		public static void Init()
 		{
-			Server.Instance.Events.Mount("lprp:addPlayerToBucket", new Action<ClientId, ModalitaServer>(AddPlayerToBucket));
-			Server.Instance.Events.Mount("lprp:removePlayerToBucket", new Action<ClientId, ModalitaServer, string>(RemovePlayerFromBucket));
-			Server.Instance.Events.Mount("lprp:checkSeGiaDentro", new Func<ClientId, ModalitaServer, Task<bool>>(CheckIn));
-			Server.Instance.Events.Mount("lprp:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
-			Server.Instance.Events.Mount("lprp:richiediContoBuckets", new Func<ClientId, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
+			Server.Instance.Events.Mount("tlg:addPlayerToBucket", new Action<ClientId, ModalitaServer>(AddPlayerToBucket));
+			Server.Instance.Events.Mount("tlg:removePlayerToBucket", new Action<ClientId, ModalitaServer, string>(RemovePlayerFromBucket));
+			Server.Instance.Events.Mount("tlg:checkSeGiaDentro", new Func<ClientId, ModalitaServer, Task<bool>>(CheckIn));
+			Server.Instance.Events.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
+			Server.Instance.Events.Mount("tlg:richiediContoBuckets", new Func<ClientId, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
 		}
 
 		/// <summary>
@@ -46,13 +46,13 @@ namespace TheLastPlanet.Server.Core.Buckets
 			switch (id)
 			{
 				case ModalitaServer.Lobby:
-					Lobby.Bucket.AddPlayer(player);
+					Lobby.AddPlayer(player);
 					break;
 				case ModalitaServer.Roleplay:
-					RolePlay.Bucket.AddPlayer(player);
+					RolePlay.AddPlayer(player);
 					break;
 				case ModalitaServer.FreeRoam:
-					FreeRoam.Bucket.Players.Add(player);
+					FreeRoam.AddPlayer(player);
 					break;
 				case ModalitaServer.Gare:
 					break;
@@ -66,13 +66,13 @@ namespace TheLastPlanet.Server.Core.Buckets
 			switch (id)
 			{
 				case ModalitaServer.Lobby:
-					Lobby.Bucket.RemovePlayer(player, reason);
+					Lobby.RemovePlayer(player, reason);
 					break;
 				case ModalitaServer.Roleplay:
-					RolePlay.Bucket.RemovePlayer(player, reason);
+					RolePlay.RemovePlayer(player, reason);
 					break;
 				case ModalitaServer.FreeRoam:
-					FreeRoam.Bucket.RemovePlayer(player, reason);
+					FreeRoam.RemovePlayer(player, reason);
 					break;
 				case ModalitaServer.Gare:
 					break;
@@ -139,4 +139,20 @@ namespace TheLastPlanet.Server.Core.Buckets
 					return true;
 			}
 		}
-	}}
+
+		public static void UpdateBucketsCount()
+		{
+			Dictionary<ModalitaServer, int> result = new()
+			{
+				[ModalitaServer.Lobby] = Lobby.GetTotalPlayers(),
+				[ModalitaServer.FreeRoam] = FreeRoam.GetTotalPlayers(),
+				[ModalitaServer.Roleplay] = RolePlay.GetTotalPlayers(),
+				[ModalitaServer.Gare] = Gare.GetTotalPlayers(),
+				[ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
+			};
+
+			Server.Instance.Events.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);
+		}
+
+	}
+}

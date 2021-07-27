@@ -162,11 +162,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				string disc = ped.Identifiers.Discord;
 				if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Roleplay)
 				{
-					BucketsHandler.FreeRoam.RemovePlayer(client, reason);
+					BucketsHandler.RolePlay.RemovePlayer(client, reason);
 				}
-				else if(ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Lobby)
+				else if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Lobby)
 				{
 					Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
+				}
+				else if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+				{
+					BucketsHandler.FreeRoam.RemovePlayer(client, reason);
 				}
 				Server.Instance.Clients.Remove(Server.Instance.Clients.FirstOrDefault(x=>x.Handle.ToString() == player.Handle));
 			}

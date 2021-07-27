@@ -295,7 +295,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
 				foreach (var p in Cache.PlayerCache.GiocatoriOnline)
 					if (p.User.CurrentChar.Job.Name == "Medici")
 					{
-						int id = GetPlayerFromServerId(p.User.source);
+						int id = GetPlayerFromServerId(p.Player.ServerId);
 
 						if (!NetworkIsPlayerActive(id) || GetPlayerPed(id) == PlayerPedId()) continue;
 						Ped playerPed = new(GetPlayerPed(id));

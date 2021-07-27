@@ -240,7 +240,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia
 				foreach (var p in Cache.PlayerCache.GiocatoriOnline)
 					if (p.User.CurrentChar.Job.Name == "Polizia")
 					{
-						int id = GetPlayerFromServerId(p.User.source);
+						int id = GetPlayerFromServerId(p.Player.ServerId);
 						Ped playerPed = new(GetPlayerPed(id));
 
 						if (!NetworkIsPlayerActive(id) || playerPed.Handle == Cache.PlayerCache.MyPlayer.Ped.Handle) continue;

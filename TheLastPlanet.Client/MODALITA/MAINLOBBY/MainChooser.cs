@@ -13,11 +13,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 	{
 		public static Dictionary<ModalitaServer, int> Bucket_n_Players { get; set; }
 
-		private static BucketMarker RP_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new Position(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
-		private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new Position(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
-		private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new Position(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
-		private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new Position(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
-		private static BucketMarker Roam_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new Position(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
+		private static BucketMarker RP_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1266.863f, -3013.068f, -49.0f), new(10f, 10f, 1f), Colors.RoyalBlue), "", "mp_mission_name_freemode_199");
+		private static BucketMarker Mini_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1280.206f, -3021.234f, -49.0f), new(10f, 10f, 1f), Colors.ForestGreen), "", "mp_mission_name_freemode_1999");
+		private static BucketMarker Gare_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1267.147f, -3032.353f, -49.0f), new(10f, 10f, 1f), Colors.MediumPurple), "", "mp_mission_name_freemode_19999");
+		private static BucketMarker Nego_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1251.566f, -3032.304f, -49.0f), new(10f, 10f, 1f), Colors.Orange), "", "mp_mission_name_freemode_199999");
+		private static BucketMarker Roam_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
 
 		private static ParticleEffectsAssetNetworked DespawnParticle = new("scr_powerplay");
 
@@ -31,11 +31,16 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		private static Position _posGare = Position.Zero;
 		private static Position _posNego = Position.Zero;
 		private static Position _posRoam = Position.Zero;
+		private static bool firstTick = true;
 
 		public static async Task DrawMarkers()
 		{
 			await Cache.PlayerCache.Loaded();
-
+			if (firstTick)
+			{
+				await BaseScript.Delay(100);
+				firstTick = false;
+			}
 			if (_posRp == Position.Zero)
 			{
 				_posRp = await RP_Marker.Marker.Position.GetPositionWithGroundZ();
@@ -177,7 +182,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			await BaseScript.Delay(10);
 			Screen.Fading.FadeIn(1);
 			await BaseScript.Delay(3000);
-			bool dentro = await Client.Instance.Events.Get<bool>("lprp:checkSeGiaDentro", modalita);
+			bool dentro = await Client.Instance.Events.Get<bool>("tlg:checkSeGiaDentro", modalita);
 
 			if (dentro)
 			{
@@ -193,7 +198,6 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			Client.Impostazioni.LoadConfig(modalita, settings);
 			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
 			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = modalita;
-			Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
 			PopupWarningThread.Warning.Dispose();

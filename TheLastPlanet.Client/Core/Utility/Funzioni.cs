@@ -665,7 +665,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				}
 
 				int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnProp", propModel.Hash, 
-					new RotatablePosition(coords, rot));
+					new Position(coords, rot));
 				var result = (Prop)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 				if (placeOnGround) PlaceObjectOnGroundProperly(result.Handle);

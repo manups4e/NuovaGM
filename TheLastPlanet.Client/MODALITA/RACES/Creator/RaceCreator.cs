@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			Cache.PlayerCache.MyPlayer.Ped.IsInvincible = true;
 			Cache.PlayerCache.MyPlayer.Ped.DiesInstantlyInWater = false;
 			Screen.Hud.IsRadarVisible = false;
-			placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new Position(6.7f), Colors.GreyDark);
+			placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new(6.7f), Colors.GreyDark);
 
 			if (cross == null)
 			{

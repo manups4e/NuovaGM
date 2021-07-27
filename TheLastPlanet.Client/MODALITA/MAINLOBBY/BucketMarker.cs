@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
 			var heading = API.GetHeadingFromVector_2d(p.X, p.Y);
 			
-			Scaleform.Render3D(Marker.Position.ToVector3, new(0, 0, -heading), (Marker.Scale / 2).ToVector3);
+			Scaleform.Render3D(Marker.Position.ToVector3, new(0, 0, -heading), Marker.Scale / 2);
 		}
 	}
 }	

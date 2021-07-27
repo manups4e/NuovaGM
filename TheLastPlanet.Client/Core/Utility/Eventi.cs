@@ -53,7 +53,11 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async Task AggiornaPlayers()
 		{
 			Cache.PlayerCache.GiocatoriOnline = await Client.Instance.Events.Get<List<ClientId>>("lprp:callPlayers", Cache.PlayerCache.MyPlayer.User.CurrentChar.Posizione);
-			Cache.PlayerCache.MyPlayer.User.CurrentChar = Cache.PlayerCache.GiocatoriOnline.FirstOrDefault(x => x.Id == Cache.PlayerCache.MyPlayer.Id).User.CurrentChar;
+			Cache.PlayerCache.MyPlayer.User.CurrentChar = Cache.PlayerCache.GiocatoriOnline.FirstOrDefault(x => x.Id == Cache.PlayerCache.MyPlayer.Id)?.User.CurrentChar;
+			foreach(var client in Cache.PlayerCache.GiocatoriOnline)
+				Client.Logger.Debug($"{client.ToJson()}");
+
+
 		}
 
 		public static async void LoadModel()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
+using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
@@ -404,18 +405,15 @@ namespace TheLastPlanet.Client.RolePlay.LogIn
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
-			PopupWarningThread.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Server RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, WarningPopupType.Classico);
+			PopupWarningThread.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, WarningPopupType.Classico);
 			PopupWarningThread.Warning.OnButtonPressed += async (a) =>
 			{
-				Client.Logger.Debug(a.ToJson());
-
 				if (a.GamepadButton == Control.FrontendCancel)
-				{
 					Attiva();
-				}
 				else if (a.GamepadButton == Control.FrontendAccept)
 				{
 					await Initializer.Stop();
+					Client.Instance.Events.Send("tlg:removePlayerToBucket", ModalitaServer.Roleplay, "Uscita LogIn");
 					ServerJoining.PlayerSpawned();
 					World.RenderingCamera = null;
 				}

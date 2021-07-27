@@ -19,6 +19,15 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		public static void Init()
 		{
 			Client.Instance.AddTick(Entra);
+			Client.Instance.Events.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ModalitaServer, int>>(UpdateCountPlayers));
+		}
+
+		private static async void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
+		{
+			await BaseScript.Delay(0);
+			MainChooser.Bucket_n_Players = count;
+			await BaseScript.Delay(0);
+			Client.Logger.Debug($"MainChooser.Bucket_n_Players => {MainChooser.Bucket_n_Players.ToJson()}");
 		}
 
 		private static async Task Entra()
@@ -39,6 +48,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 			SmugglerHangar.LoadDefault();
 			await Cache.PlayerCache.InitPlayer();
+			Client.Logger.Debug("Player => " + Cache.PlayerCache.MyPlayer.Player.Name);
 			while (!NetworkIsPlayerActive(Cache.PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
 			BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
 			Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
@@ -74,7 +84,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
 			Screen.Fading.FadeIn(1000);
-			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("lprp:richiediContoBuckets");
+			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
 			Client.Instance.AddTick(MainChooser.DrawMarkers);

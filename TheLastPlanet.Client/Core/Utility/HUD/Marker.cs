@@ -15,9 +15,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 	{
 		public MarkerType MarkerType { get; set; }
 		public Position Position { get; set; }
-		public Position Direction  { get; set; }= Position.Zero;
-		public Position Rotation  { get; set; }= Position.Zero;
-		public Position Scale  { get; set; } = new(1.5f);
+		public Vector3 Direction { get; set; } = Vector3.Zero;
+		public Vector3 Scale  { get; set; } = new(1.5f);
 		public Color Color { get; set; }
 		public bool BobUpDown { get; set; }
 		public bool Rotate { get; set; }
@@ -36,7 +35,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			FaceCamera = faceCamera;
 		}
 
-		public Marker(MarkerType type, Position position, Position scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
+		public Marker(MarkerType type, Position position, Vector3 scale, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
 			MarkerType = type;
 			Position = position;
@@ -51,8 +50,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public void Draw()
 		{
-			World.DrawMarker(MarkerType, Position.ToVector3, Direction.ToVector3, Rotation.ToVector3, Scale.ToVector3, Color, BobUpDown, FaceCamera, Rotate);
-			IsInMarker = Position.Distance(MyPlayer.Posizione) <= (Scale / 2);
+			World.DrawMarker(MarkerType, Position.ToVector3, Direction, Position.ToRotationVector, Scale, Color, BobUpDown, FaceCamera, Rotate);
+			IsInMarker = Position.Distance(MyPlayer.Posizione) <= (Scale / 2).X || Position.Distance(MyPlayer.Posizione) <= (Scale / 2).Y || Position.Distance(MyPlayer.Posizione) <= (Scale / 2).Z;
 		}
 	}
 }

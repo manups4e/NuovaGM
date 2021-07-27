@@ -71,6 +71,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             foreach (var worldEvent in WorldEventsManager.WorldEvents)
                 highscores.Add(new PlayerScore { EventId = worldEvent.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = worldEvent.EventXpMultiplier });
             client.User.PlayerScores = highscores;
+            BucketsHandler.UpdateBucketsCount();
         }
 
 
@@ -83,6 +84,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 await Task.FromResult(0);
             });
             Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta FreeRoam.");
+            BucketsHandler.UpdateBucketsCount();
         }
 
         public void UpdateCurrentAttempt(ClientId client, int eventId, float currentAttempt)
@@ -368,6 +370,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(ClientId client)
         {
             Bucket.AddPlayer(client);
+            BucketsHandler.UpdateBucketsCount();
         }
 
         public async void RemovePlayer(ClientId client, string reason = "")
@@ -380,6 +383,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
             else
                 Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta RolePlay senza selezionare un personaggio.");
+            BucketsHandler.UpdateBucketsCount();
 
         }
 
@@ -387,6 +391,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private static async Task<List<LogInInfo>> LogInfo(ClientId client)
         {
+            Server.Logger.Debug(client.User.ToJson());
             string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
             var info = await MySQL.QueryListAsync(query, new
             {
@@ -454,5 +459,36 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         #endregion
 
+    }
+
+    public class LobbyBucketsContainer
+	{
+        public ModalitaServer Modalita { get; set; }
+        public Bucket Bucket { get; set; }
+
+        public LobbyBucketsContainer(ModalitaServer modalitaServer, Bucket bucket)
+        {
+            Modalita = modalitaServer;
+            Bucket = bucket;
+        }
+
+        public int GetTotalPlayers()
+        {
+            if (Bucket != null)
+                return Bucket.TotalPlayers;
+            return 0;
+        }
+
+        public void AddPlayer(ClientId client)
+        {
+            Bucket.AddPlayer(client);
+            BucketsHandler.UpdateBucketsCount();
+        }
+
+        public async void RemovePlayer(ClientId client, string reason = "")
+        {
+            Bucket.RemovePlayer(client, reason);
+            BucketsHandler.UpdateBucketsCount();
+        }
     }
 }
