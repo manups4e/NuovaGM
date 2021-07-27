@@ -64,7 +64,7 @@ namespace TheLastPlanet.Shared.Core.Buckets
 
 		public virtual void AddPlayer(ClientId client)
 		{
-			if (Players.Contains(client)) return;
+			if (Players.Any(x=> x.Handle == client.Handle)) return;
 			Players.Add(client);
 #if SERVER
 			if (API.GetPlayerRoutingBucket(client.Handle.ToString()) != ID) API.SetPlayerRoutingBucket(client.Handle.ToString(), ID);
@@ -74,8 +74,8 @@ namespace TheLastPlanet.Shared.Core.Buckets
 
 		public virtual void RemovePlayer(ClientId client, string reason = "")
 		{
-			if(Players.Contains(client))
-				Players.Remove(client);
+			if (!Players.Any(x => x.Handle == client.Handle)) return;
+			Players.Remove(client);
 #if SERVER
 			if (API.GetPlayerRoutingBucket(client.Handle.ToString()) == ID) API.SetPlayerRoutingBucket(client.Handle.ToString(), 0);
 #endif

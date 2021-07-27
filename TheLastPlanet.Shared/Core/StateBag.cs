@@ -78,7 +78,7 @@ namespace TheLastPlanet.Shared
             {
                 _modalita.Value = value;
 #if CLIENT
-                Client.Client.Instance.Events.Send("lprp:addPlayerToBucket", value);
+                Client.Client.Instance.Events.Send("tlg:addPlayerToBucket", value);
 #endif
             }
         }
