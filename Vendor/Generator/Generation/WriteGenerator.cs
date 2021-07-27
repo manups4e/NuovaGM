@@ -1,10 +1,10 @@
 using System.Linq;
+using TheLastPlanet.Events.Generator.Models;
+using TheLastPlanet.Events.Generator.Problems;
+using TheLastPlanet.Events.Generator.Syntax;
 using Microsoft.CodeAnalysis;
-using TheLastPlanet.Generators.Models;
-using TheLastPlanet.Generators.Problems;
-using TheLastPlanet.Generators.Syntax;
 
-namespace TheLastPlanet.Generators.Generation
+namespace TheLastPlanet.Events.Generator.Generation
 {
     public static class WriteGenerator
     {
@@ -20,7 +20,7 @@ namespace TheLastPlanet.Generators.Generation
 
                 if (nullable)
                 {
-                    var underlying = ((INamedTypeSymbol)type).TypeArguments.FirstOrDefault();
+                    var underlying = GenerationEngine.GetNamedTypeSymbol(type).TypeArguments.FirstOrDefault();
 
                     hasUnderlying = underlying != null;
                     type = underlying ?? type.WithNullableAnnotation(NullableAnnotation.None);
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Generators.Generation
                 {
                     serialization.Serialize(member, type, code, name, GenerationEngine.GetIdentifierWithArguments(type),
                         location);
-
+                
                     return;
                 }
 
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Generators.Generation
                         case TypeKind.Struct:
                         case TypeKind.Class:
                             var enumerable = GenerationEngine.GetQualifiedName(type) == GenerationEngine.EnumerableQualifiedName
-                                ? (INamedTypeSymbol)type
+                                ? GenerationEngine.GetNamedTypeSymbol(type)
                                 : type.AllInterfaces.FirstOrDefault(self =>
                                     GenerationEngine.GetQualifiedName(self) == GenerationEngine.EnumerableQualifiedName);
 
@@ -93,7 +93,7 @@ namespace TheLastPlanet.Generators.Generation
                                             _ => current
                                         });
 
-                                    var prefix = GenerationEngine.GetCamelCase(name);
+                                    var prefix = GenerationEngine.GetVariableName(name);
 
                                     code.AppendLine($"var {prefix}Count = {name}.{countTechnique};");
                                     code.AppendLine($"writer.Write({prefix}Count);");
@@ -143,7 +143,7 @@ namespace TheLastPlanet.Generators.Generation
 
                             break;
                         case TypeKind.Array:
-                            var array = (IArrayTypeSymbol)type;
+                            var array = (IArrayTypeSymbol) type;
 
                             code.AppendLine($"writer.Write({name}.Length);");
 
@@ -153,7 +153,7 @@ namespace TheLastPlanet.Generators.Generation
                             }
                             else
                             {
-                                var prefix = GenerationEngine.GetCamelCase(name);
+                                var prefix = GenerationEngine.GetVariableName(name);
                                 var indexName = $"{prefix}Idx";
 
                                 using (code.BeginScope(

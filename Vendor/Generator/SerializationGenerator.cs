@@ -5,15 +5,16 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace TheLastPlanet.Generators
+namespace TheLastPlanet.Events.Generator
 {
     [Generator]
     public class SerializationGenerator : ISourceGenerator
     {
         private readonly List<string> _sources = new();
+
         public void Initialize(GeneratorInitializationContext context)
         {
-			context.RegisterForSyntaxNotifications(() => GenerationEngine.Instance);
+            context.RegisterForSyntaxNotifications(() => GenerationEngine.Instance);
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -28,7 +29,6 @@ namespace TheLastPlanet.Generators
                 var identifier = item.TypeSymbol.Name;
                 var count = _sources.Count(self => self == identifier);
                 var unique = $"{identifier}{(count != 0 ? Convert.ToChar(65 + count) : string.Empty)}.Serialization.cs";
-
 
                 foreach (var problem in engine.Problems)
                 {
@@ -48,6 +48,7 @@ namespace TheLastPlanet.Generators
                 }
 
                 engine.Problems.Clear();
+
                 try
                 {
                     context.AddSource(unique, SourceText.From(code.ToString(), Encoding.UTF8));
@@ -60,6 +61,9 @@ namespace TheLastPlanet.Generators
                         $"Duplicate entry '{item.TypeSymbol.ContainingNamespace}.{item.TypeSymbol.MetadataName}' ({unique})");
                 }
             }
+            
+            _sources.Clear();
+            GenerationEngine.Instance.Init();
 
             // context.AddSource("Logs.cs",
             //     SourceText.From(

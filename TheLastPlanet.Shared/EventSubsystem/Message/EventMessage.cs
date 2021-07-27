@@ -9,7 +9,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Message
     public partial class EventMessage : IMessage
     {
         public Snowflake Id { get; set; }
-        public string Signature { get; set; }
+        public string? Signature { get; set; }
         public string Endpoint { get; set; }
         public EventFlowType Flow { get; set; }
         public IEnumerable<EventParameter> Parameters { get; set; }

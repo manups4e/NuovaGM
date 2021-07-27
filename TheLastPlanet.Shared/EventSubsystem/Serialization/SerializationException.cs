@@ -15,7 +15,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Exceptions
                 if (Context != null && InvolvedType != null && _message != null)
                 {
                     return
-                        $"{Context.Source}: {(Context.Details != null ? $"({Context.Details}) " : string.Empty)}({InvolvedType.FullName}) {_message}:";
+                        $"{Context.Source}: {(Context.Details != null ? $"[{Context.Details}] " : string.Empty)}({InvolvedType.FullName}) {_message}:";
                 }
 
                 return null;

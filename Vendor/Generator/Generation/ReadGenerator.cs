@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
+using TheLastPlanet.Events.Generator.Models;
+using TheLastPlanet.Events.Generator.Problems;
+using TheLastPlanet.Events.Generator.Syntax;
 using Microsoft.CodeAnalysis;
-using TheLastPlanet.Generators.Models;
-using TheLastPlanet.Generators.Problems;
-using TheLastPlanet.Generators.Syntax;
 
-namespace TheLastPlanet.Generators.Generation
+namespace TheLastPlanet.Events.Generator.Generation
 {
     public static class ReadGenerator
     {
@@ -18,14 +18,16 @@ namespace TheLastPlanet.Generators.Generation
             {
                 var nullable = type.NullableAnnotation == NullableAnnotation.Annotated;
 
-                if (nullable)
                 {
-                    var underlying = ((INamedTypeSymbol)type).TypeArguments.FirstOrDefault();
+                    if (nullable)
+                    {
+                        var underlying = GenerationEngine.GetNamedTypeSymbol(type).TypeArguments.FirstOrDefault();
 
-                    type = underlying ?? type.WithNullableAnnotation(NullableAnnotation.None);
+                        type = underlying ?? type.WithNullableAnnotation(NullableAnnotation.None);
 
-                    code.AppendLine("if (reader.ReadBoolean())");
-                    code.Open();
+                        code.AppendLine("if (reader.ReadBoolean())");
+                        code.Open();
+                    }
                 }
 
                 if (GenerationEngine.DefaultSerialization.TryGetValue(GenerationEngine.GetQualifiedName(type),
@@ -63,14 +65,14 @@ namespace TheLastPlanet.Generators.Generation
                         case TypeKind.Class:
                             var enumerable = GenerationEngine.GetQualifiedName(type) ==
                                              GenerationEngine.EnumerableQualifiedName
-                                ? (INamedTypeSymbol)type
+                                ? GenerationEngine.GetNamedTypeSymbol(type)
                                 : type.AllInterfaces.FirstOrDefault(self =>
                                     GenerationEngine.GetQualifiedName(self) ==
                                     GenerationEngine.EnumerableQualifiedName);
 
                             if (enumerable != null)
                             {
-                                var elementType = (INamedTypeSymbol)enumerable.TypeArguments.First();
+                                var elementType = enumerable.TypeArguments.First();
 
                                 if (type.TypeKind == TypeKind.Interface &&
                                     GenerationEngine.GetQualifiedName(type) != GenerationEngine.EnumerableQualifiedName)
@@ -96,25 +98,26 @@ namespace TheLastPlanet.Generators.Generation
 
                                 using (code.BeginScope())
                                 {
-                                    var prefix = GenerationEngine.GetCamelCase(name);
+                                    var prefix = GenerationEngine.GetVariableName(name);
 
                                     code.AppendLine($"var {prefix}Count = reader.ReadInt32();");
 
                                     var constructor =
-                                        ((INamedTypeSymbol)type).Constructors.FirstOrDefault(
+                                        GenerationEngine.GetNamedTypeSymbol(type).Constructors.FirstOrDefault(
                                             self => GenerationEngine.GetQualifiedName(self.Parameters.FirstOrDefault()
                                                         ?.Type) ==
                                                     GenerationEngine.EnumerableQualifiedName);
-
                                     var method = GenerationEngine.HasImplementation(type, "Add",
                                         GenerationEngine.GetQualifiedName(elementType));
                                     var deconstructed = false;
 
                                     if (GenerationEngine.DeconstructionTypes.ContainsKey(
-                                        GenerationEngine.GetQualifiedName(elementType)))
+                                            GenerationEngine.GetQualifiedName(elementType)) &&
+                                        elementType is INamedTypeSymbol named)
                                     {
                                         deconstructed = GenerationEngine.HasImplementation(type, "Add",
-                                            elementType.TypeArguments.Cast<INamedTypeSymbol>()
+                                            named.TypeArguments
+                                                .Select(GenerationEngine.GetNamedTypeSymbol)
                                                 .Select(GenerationEngine.GetQualifiedName)
                                                 .ToArray());
                                     }
@@ -135,22 +138,25 @@ namespace TheLastPlanet.Generators.Generation
                                     using (code.BeginScope(
                                         $"for (var {indexName} = 0; {indexName} < {prefix}Count; {indexName}++)"))
                                     {
-                                        var shouldBeTransient = method || deconstructed;
-                                        var variable = shouldBeTransient
-                                            ? $"{prefix}Transient"
-                                            : $"{prefix}Temp[{indexName}]";
+                                        var pointer = !method && !deconstructed;
+                                        var variable = pointer
+                                            ? $"{prefix}TempEntry"
+                                            : $"{prefix}Transient";
 
-                                        if (shouldBeTransient)
-                                            code.AppendLine(
-                                                $"{GenerationEngine.GetIdentifierWithArguments(elementType)} {variable};");
+                                        code.AppendLine(
+                                            $"{GenerationEngine.GetIdentifierWithArguments(elementType)} {variable};");
 
                                         Make(member, elementType, code, variable, location, scope);
 
-                                        if (method)
+                                        if (pointer)
+                                        {
+                                            code.AppendLine($"{prefix}Temp[{indexName}] = {variable};");
+                                        }
+                                        else if (method)
                                         {
                                             code.AppendLine($"{name}.Add({prefix}Transient);");
                                         }
-                                        else if (deconstructed)
+                                        else
                                         {
                                             var arguments = GenerationEngine
                                                 .DeconstructionTypes[GenerationEngine.GetQualifiedName(elementType)]
@@ -165,37 +171,37 @@ namespace TheLastPlanet.Generators.Generation
                                         return;
                                     }
 
+                                    if (GenerationEngine.GetQualifiedName(type) ==
+                                        GenerationEngine.EnumerableQualifiedName)
+                                    {
+                                        code.AppendLine($"{name} = {prefix}Temp;");
+
+                                        return;
+                                    }
+
                                     if (constructor != null)
                                     {
                                         code.AppendLine(
-                                            $"{name} = new {GenerationEngine.GetIdentifierWithArguments(enumerable)}({prefix}Temp);");
+                                            $"{name} = new {GenerationEngine.GetIdentifierWithArguments(type)}({prefix}Temp);");
 
                                         return;
                                     }
 
-                                    if (GenerationEngine.GetQualifiedName(type) !=
-                                        GenerationEngine.EnumerableQualifiedName)
+                                    var problem = new SerializationProblem
                                     {
-                                        var problem = new SerializationProblem
-                                        {
-                                            Descriptor = new DiagnosticDescriptor(ProblemId.EnumerableProperties,
-                                                "Enumerable Properties",
-                                                "Could not deserialize property '{0}' because enumerable type {1} did not contain a suitable way of adding items",
-                                                "serialization",
-                                                DiagnosticSeverity.Error, true),
-                                            Locations = new[] { member.Locations.FirstOrDefault(), location },
-                                            Format = new object[] { member.Name, type.Name, elementType.Name }
-                                        };
+                                        Descriptor = new DiagnosticDescriptor(ProblemId.EnumerableProperties,
+                                            "Enumerable Properties",
+                                            "Could not deserialize property '{0}' because enumerable type {1} did not contain a suitable way of adding items",
+                                            "serialization",
+                                            DiagnosticSeverity.Error, true),
+                                        Locations = new[] { member.Locations.FirstOrDefault(), location },
+                                        Format = new object[] { member.Name, type.Name, elementType.Name }
+                                    };
 
-                                        GenerationEngine.Instance.Problems.Add(problem);
+                                    GenerationEngine.Instance.Problems.Add(problem);
 
-                                        code.AppendLine(
-                                            $"throw new Exception(\"{string.Format(problem.Descriptor.MessageFormat.ToString(), problem.Format)}\");");
-
-                                        return;
-                                    }
-
-                                    code.AppendLine($"{name} = {prefix}Temp;");
+                                    code.AppendLine(
+                                        $"throw new Exception(\"{string.Format(problem.Descriptor.MessageFormat.ToString(), problem.Format)}\");");
                                 }
                             }
                             else
@@ -221,7 +227,9 @@ namespace TheLastPlanet.Generators.Generation
                                     return;
                                 }
 
-                                if (GenerationEngine.HasImplementation(type, GenerationEngine.UnpackingMethod) ||
+                                if (GenerationEngine.GetNamedTypeSymbol(type).Constructors.Any(self =>
+                                        self.Parameters.Length == 1 &&
+                                        self.Parameters.Single().Type.MetadataName == "BinaryReader") ||
                                     GenerationEngine.HasMarkedAsSerializable(type))
                                 {
                                     code.AppendLine(
@@ -229,15 +237,14 @@ namespace TheLastPlanet.Generators.Generation
                                 }
                                 else
                                 {
-                                    var named = (INamedTypeSymbol)type;
                                     var hasConstructor = false;
 
-                                    foreach (var constructor in named.Constructors)
+                                    foreach (var constructor in GenerationEngine.GetNamedTypeSymbol(type).Constructors)
                                     {
                                         hasConstructor = true;
 
                                         var parameters = constructor.Parameters;
-                                        var members = GenerationEngine.GetMembers(type);
+                                        var members = GenerationEngine.GetMembers(type, GenerationType.Read);
                                         var index = 0;
 
                                         foreach (var (_, valueType) in members)
@@ -267,18 +274,21 @@ namespace TheLastPlanet.Generators.Generation
 
                                     if (hasConstructor)
                                     {
-                                        var members = GenerationEngine.GetMembers(type);
+                                        var members = GenerationEngine.GetMembers(type, GenerationType.Read);
 
-                                        foreach (var (deep, valueType) in GenerationEngine.GetMembers(type))
+                                        foreach (var (deep, valueType) in GenerationEngine.GetMembers(type,
+                                            GenerationType.Read))
                                         {
                                             code.AppendLine(
-                                                $"{GenerationEngine.GetIdentifierWithArguments(valueType)} {GenerationEngine.GetCamelCase(name + deep.Name)} = default;");
+                                                $"{GenerationEngine.GetIdentifierWithArguments(valueType)} {GenerationEngine.GetVariableName(name + deep.Name)} = default;");
                                         }
 
-                                        GenerationEngine.Generate($"{GenerationEngine.GetCamelCase(name)}", type, code, GenerationType.Read);
+                                        GenerationEngine.Generate($"{GenerationEngine.GetVariableName(name)}", type,
+                                            code,
+                                            GenerationType.Read);
 
                                         code.AppendLine(
-                                            $"{name} = new {GenerationEngine.GetIdentifierWithArguments(type)}({string.Join(", ", members.Select(self => GenerationEngine.GetCamelCase(name + self.Item1.Name)))});");
+                                            $"{name} = new {GenerationEngine.GetIdentifierWithArguments(type)}({string.Join(", ", members.Select(self => GenerationEngine.GetVariableName(name + self.Item1.Name)))});");
                                     }
                                     else
                                     {
@@ -295,23 +305,31 @@ namespace TheLastPlanet.Generators.Generation
 
                             break;
                         case TypeKind.Array:
-                            var array = (IArrayTypeSymbol)type;
+                            var array = (IArrayTypeSymbol) type;
 
                             using (code.BeginScope())
                             {
-                                var prefix = GenerationEngine.GetCamelCase(name);
+                                var prefix = GenerationEngine.GetVariableName(name);
 
                                 code.AppendLine($"var {prefix}Length = reader.ReadInt32();");
-                                code.AppendLine(
-                                    $"{name} = new {GenerationEngine.GetIdentifierWithArguments(array.ElementType)}[{prefix}Length];");
 
-                                var indexName = $"{prefix}Idx";
-
-                                using (code.BeginScope(
-                                    $"for (var {indexName} = 0; {indexName} < {prefix}Length; {indexName}++)"))
+                                if (GenerationEngine.GetQualifiedName(array.ElementType) == "System.Byte")
                                 {
-                                    Make(member, array.ElementType, code, $"{name}[{indexName}]", location,
-                                        scope);
+                                    code.AppendLine($"{name} = reader.ReadBytes({prefix}Length);");
+                                }
+                                else
+                                {
+                                    var indexName = $"{prefix}Idx";
+
+                                    code.AppendLine(
+                                        $"{name} = new {GenerationEngine.GetIdentifierWithArguments(array.ElementType)}[{prefix}Length];");
+
+                                    using (code.BeginScope(
+                                        $"for (var {indexName} = 0; {indexName} < {prefix}Length; {indexName}++)"))
+                                    {
+                                        Make(member, array.ElementType, code, $"{name}[{indexName}]", location,
+                                            scope);
+                                    }
                                 }
                             }
 

@@ -7,6 +7,6 @@ namespace TheLastPlanet.Shared.Internal.Events
     {
         Snowflake Id { get; set; }
         string Endpoint { get; set; }
-        string Signature { get; set; }
+        string? Signature { get; set; }
     }
 }

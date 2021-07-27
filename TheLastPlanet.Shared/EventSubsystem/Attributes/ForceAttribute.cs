@@ -7,5 +7,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Attributes
     /// </summary>
     public class ForceAttribute : Attribute
     {
+        public bool Read { get; set; } = true;
+        public bool Write { get; set; } = true;
     }
 }

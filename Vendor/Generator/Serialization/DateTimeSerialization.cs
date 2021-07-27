@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using TheLastPlanet.Generators.Syntax;
+﻿using TheLastPlanet.Events.Generator.Syntax;
+using Microsoft.CodeAnalysis;
 
-namespace TheLastPlanet.Generators.Serialization
+namespace TheLastPlanet.Events.Generator.Serialization
 {
     public class DateTimeSerialization : IDefaultSerialization
     {

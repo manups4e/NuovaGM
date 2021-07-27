@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-namespace TheLastPlanet.Generators.Problems
+namespace TheLastPlanet.Events.Generator.Problems
 {
     public struct SerializationProblem
     {

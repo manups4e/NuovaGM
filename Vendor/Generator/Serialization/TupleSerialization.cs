@@ -1,9 +1,9 @@
 ﻿using System.Linq;
+using TheLastPlanet.Events.Generator.Generation;
+using TheLastPlanet.Events.Generator.Syntax;
 using Microsoft.CodeAnalysis;
-using TheLastPlanet.Generators.Generation;
-using TheLastPlanet.Generators.Syntax;
 
-namespace TheLastPlanet.Generators.Serialization
+namespace TheLastPlanet.Events.Generator.Serialization
 {
     public abstract class BaseTupleSerialization : IDefaultSerialization
     {
@@ -13,7 +13,7 @@ namespace TheLastPlanet.Generators.Serialization
             string name,
             string typeIdentifier, Location location)
         {
-            var named = (INamedTypeSymbol) type;
+            var named = GenerationEngine.GetNamedTypeSymbol(type);
             var types = named.TypeArguments;
 
             for (var idx = 0; idx < Items; idx++)
@@ -26,9 +26,9 @@ namespace TheLastPlanet.Generators.Serialization
             string name,
             string typeIdentifier, Location location)
         {
-            var named = (INamedTypeSymbol) type;
+            var named = GenerationEngine.GetNamedTypeSymbol(type);
             var types = named.TypeArguments;
-            var prefix = GenerationEngine.GetCamelCase(name);
+            var prefix = GenerationEngine.GetVariableName(name);
 
             for (var idx = 0; idx < Items; idx++)
             {
@@ -43,17 +43,17 @@ namespace TheLastPlanet.Generators.Serialization
                 $"{name} = new {typeIdentifier}({string.Join(", ", Enumerable.Range(1, Items).Select(self => $"{prefix}Item{self}"))});");
         }
     }
-    
+
     public class TupleSingleSerialization : BaseTupleSerialization
     {
         public override int Items => 1;
     }
-    
+
     public class TupleDoubleSerialization : BaseTupleSerialization
     {
         public override int Items => 2;
     }
-    
+
     public class TupleTripleSerialization : BaseTupleSerialization
     {
         public override int Items => 3;
@@ -63,17 +63,17 @@ namespace TheLastPlanet.Generators.Serialization
     {
         public override int Items => 4;
     }
-    
+
     public class TupleQuintupleSerialization : BaseTupleSerialization
     {
         public override int Items => 5;
     }
-    
+
     public class TupleSextupleSerialization : BaseTupleSerialization
     {
         public override int Items => 6;
     }
-    
+
     public class TupleSeptupleSerialization : BaseTupleSerialization
     {
         public override int Items => 7;

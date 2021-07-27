@@ -7,7 +7,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization
     {
         public string Source { get; set; }
         public string Details { get; set; }
-        public BinaryWriter Writer
+        public BinaryWriter? Writer
         {
             get => _writer;
             set
@@ -17,7 +17,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization
             }
         }
 
-        public BinaryReader Reader
+        public BinaryReader? Reader
         {
             get => _reader;
             set
@@ -27,19 +27,19 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization
             }
         }
 
-        public byte[] Original { get; set; }
+        public byte[]? Original { get; set; }
 
         private ISerialization _serialization;
         private MemoryStream _memory;
-        private BinaryReader _reader;
-        private BinaryWriter _writer;
+        private BinaryReader? _reader;
+        private BinaryWriter? _writer;
 
         public byte[] GetData()
         {
             return _memory.ToArray();
         }
 
-        public SerializationContext(string source, string details, ISerialization serialization, byte[] data = null)
+        public SerializationContext(string source, string details, ISerialization serialization, byte[]? data = null)
         {
             Source = source;
             Details = details;

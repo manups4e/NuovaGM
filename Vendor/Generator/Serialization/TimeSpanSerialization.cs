@@ -1,7 +1,7 @@
+using TheLastPlanet.Events.Generator.Syntax;
 using Microsoft.CodeAnalysis;
-using TheLastPlanet.Generators.Syntax;
 
-namespace TheLastPlanet.Generators.Serialization
+namespace TheLastPlanet.Events.Generator.Serialization
 {
     public class TimeSpanSerialization : IDefaultSerialization
     {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>Lusive.Events.Generator</id>
+        <version>1.0.0</version>
+        <authors>Lusive</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <description>Source Generator</description>
+        <repository type="git" url="https://github.com/frostylucas/fx-events.git" branch="main"/>
+        <copyright>$copyright$</copyright>
+        <tags>citizenfx fivem events fx-events fxevents</tags>
+    </metadata>
+</package>

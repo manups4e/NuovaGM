@@ -1,4 +1,4 @@
-namespace TheLastPlanet.Generators.Models
+namespace TheLastPlanet.Events.Generator.Models
 {
     public enum GenerationType
     {

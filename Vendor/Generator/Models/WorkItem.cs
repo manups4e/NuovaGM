@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TheLastPlanet.Generators.Models
+namespace TheLastPlanet.Events.Generator.Models
 {
     public struct WorkItem
     {
