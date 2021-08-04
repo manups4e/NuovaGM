@@ -115,6 +115,8 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     }
                     else
                     {
+                        await BaseScript.Delay(1000);
+                        CurrentEvent.EventTime = CurrentEvent.EventTime.Subtract(TimeSpan.FromSeconds(1));
                         if (CurrentEvent.EventTime == TimeSpan.Zero)
                         {
                             IsAnyEventActive = false;
