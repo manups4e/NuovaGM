@@ -9,6 +9,7 @@ namespace TheLastPlanet.Server.Discord.GuildData
 		public List<Emoji> emojis = new List<Emoji>();
 		public List<VoiceState> voice_states = new List<VoiceState>();
 		public List<Channel> channels = new List<Channel>();
+		public List<Member> members = new List<Member>();
 		public string name;
 		public string icon;
 		public string preferred_locale;

@@ -6,7 +6,7 @@
 		public string name;
 		public bool hoist;
 		public int? position;
-		public int? permissions;
+		public ulong? permissions;
 		public bool managed;
 		public bool mentionable;
 		public string Mention;

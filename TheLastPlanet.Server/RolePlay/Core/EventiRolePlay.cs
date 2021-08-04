@@ -86,9 +86,9 @@ namespace TheLastPlanet.Server.RolePlay.Core
 						                   a.Player.Name + "' - " + user.Identifiers.Discord);
 					}
 
-					if(user.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Roleplay)
+					if(user.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
 						return BucketsHandler.RolePlay.Bucket.Players;
-					else if(user.StatiPlayer.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+					else if(user.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
 						return BucketsHandler.FreeRoam.Bucket.Players;
 					return Server.Instance.Clients;
 				}));
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 		public static void deathStatus(ClientId source, bool value)
 		{
 			source.User.DeathStatus = value;
-			source.User.StatiPlayer.RolePlayStates.FinDiVita = value;
+			source.User.Status.RolePlayStates.FinDiVita = value;
 		}
 
 		public static void PayFine(ClientId source, int amount)
@@ -137,7 +137,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 			foreach (var client in from ClientId client in BucketsHandler.RolePlay.Bucket.Players where client.Handle != source.Handle select client)
 				client.Player.TriggerEvent("lprp:ShowNotification","~g~" + user.FullName + " (" + source.Player.Name + ")~w~ è entrato in città");
 			source.Player.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
-			user.status.Spawned = true;
+			user.Status.Spawned = true;
 		}
 
 		//TODO: DA CAMBIARE CON NUOVO METODO
@@ -148,7 +148,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 
 			User user = client.User;
 
-			if (user.status.Spawned)
+			if (user.Status.Spawned)
 			{
 				client.Player.TriggerEvent("lprp:mostrasalvataggio");
 				await user.SalvaPersonaggioRoleplay();

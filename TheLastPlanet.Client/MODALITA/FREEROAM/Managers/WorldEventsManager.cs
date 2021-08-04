@@ -61,10 +61,10 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
                 await BaseScript.Delay(1000);
 
                 if(JoinWaitTime != 0)
-                    JoinWaitTime = JoinWaitTime - 1;
+                    JoinWaitTime--;
 
                 if (DownTime != 0)
-                    DownTime = DownTime - 1;
+                    DownTime--;
             }
             catch (Exception e)
             {
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
 
         private static void OnPeriodicSync(int eventTime, bool isStarted)
         {
-            if(ActiveWorldEvent == null) { return; }
+            if (ActiveWorldEvent == null) { return; }
 
             if (isStarted)
             {

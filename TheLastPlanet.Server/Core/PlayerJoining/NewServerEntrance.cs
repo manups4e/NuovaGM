@@ -160,15 +160,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			if (ped != null)
 			{
 				string disc = ped.Identifiers.Discord;
-				if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Roleplay)
+				if (ped.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
 				{
 					BucketsHandler.RolePlay.RemovePlayer(client, reason);
 				}
-				else if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.Lobby)
+				else if (ped.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
 				{
 					Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
 				}
-				else if (ped.StatiPlayer.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+				else if (ped.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
 				{
 					BucketsHandler.FreeRoam.RemovePlayer(client, reason);
 				}
@@ -184,7 +184,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 		{
 			try
 			{
-				source.User.StatiPlayer = new PlayerStateBags(source.Player);
+				source.User.Status = new Status(source.Player);
 				await BaseScript.Delay(100);
 				await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
 				return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);

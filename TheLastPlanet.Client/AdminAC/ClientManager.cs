@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.AdminAC
 
 			if (!NoClip)
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 				{
 					RequestAnimDict(noclip_ANIM_A);
 					while (!HasAnimDictLoaded(noclip_ANIM_A)) await BaseScript.Delay(0);
@@ -77,7 +77,7 @@ namespace TheLastPlanet.Client.AdminAC
 					await BaseScript.Delay(0);
 				}
 
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 				{
 					ClearPedTasksImmediately(PlayerPedId());
 					SetUserRadioControlEnabled(true);
@@ -168,10 +168,10 @@ namespace TheLastPlanet.Client.AdminAC
 
 			Vector2 vect = new(forwardPush * (float)Math.Sin(Funzioni.Deg2rad(curHeading)) * -1.0f, forwardPush * (float)Math.Cos(Funzioni.Deg2rad(curHeading)));
 			Entity target = p;
-			if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo) target = p.CurrentVehicle;
+			if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo) target = p.CurrentVehicle;
 			p.Velocity = new Vector3(0);
 
-			if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
+			if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 			{
 				SetUserRadioControlEnabled(false);
 				p.IsInvincible = true;
@@ -220,7 +220,7 @@ namespace TheLastPlanet.Client.AdminAC
 			{
 				// get entity to teleport
 				Entity ent = Cache.PlayerCache.MyPlayer.Ped;
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo) ent = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
+				if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo) ent = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 
 				// load needed map region and check height levels for ground existence
 				bool groundFound = false;

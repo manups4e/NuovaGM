@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			vehContr.AddItem(port);
 			vehContr.AddItem(motore);
 
-			if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
+			if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 			{
 				chiudi.Enabled = false;
 				fin.Enabled = false;
@@ -221,7 +221,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 				else if (_item == salva)
 					switch (_checked)
 					{
-						case true when Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo:
+						case true when Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo:
 						{
 							EventiPersonalMenu.Save(_checked);
 
@@ -785,7 +785,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			UIMenuItem item9 = new UIMenuItem("Ubriaco", "Vacci piano!");
 			animMenu1.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item1)
 						playerPed.Task.StartScenario("WORLD_HUMAN_MUSICIAN", me.GetPlayerData().Posizione.ToVector3);
@@ -830,7 +830,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu2.AddItem(item13);
 			animMenu2.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item10)
 						playerPed.Task.PlayAnimation("gestures@m@standing@casual", "gesture_hello");
@@ -883,7 +883,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu3.AddItem(item30);
 			animMenu3.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item14)
 						playerPed.Task.PlayAnimation("random@arrests@busted", "idle_c");
@@ -958,7 +958,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu4.AddItem(item45);
 			animMenu4.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item31)
 						playerPed.Task.StartScenario("WORLD_HUMAN_CHEERING", me.GetPlayerData().Posizione.ToVector3);
@@ -1008,7 +1008,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu5.AddItem(item50);
 			animMenu5.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item46)
 						playerPed.Task.PlayAnimation("amb@world_human_muscle_flex@arms_at_side@base", "base");
@@ -1044,7 +1044,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu6.AddItem(item58);
 			animMenu6.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item51)
 						playerPed.Task.PlayAnimation("amb@world_human_aa_coffee@idle_a", "idle_a");
@@ -1092,7 +1092,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			animMenu7.AddItem(item69);
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item59)
 						playerPed.Task.PlayAnimation("oddjobs@towing", "m_blow_job_loop");
@@ -1132,7 +1132,7 @@ namespace TheLastPlanet.Client.RolePlay.Personale
 			UIMenuItem item77 = new UIMenuItem("Tieni la folla2", "Ho detto calmi");
 			animMenu7.OnItemSelect += (_menu, _item, _index) =>
 			{
-				if (!Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo && playerPed.IsAlive)
+				if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.IsAlive)
 				{
 					if (_item == item70)
 						playerPed.Task.PlayAnimation("anim@mp_player_intupperface_palm", "idle_a");

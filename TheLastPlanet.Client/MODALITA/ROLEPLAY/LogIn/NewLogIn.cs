@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 				p.Style.SetDefaultClothes();
 				p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 				await Cache.PlayerCache.Loaded();
-				Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+				Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
 				await BaseScript.Delay(100);
 				Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 				p.IsVisible = false;
@@ -280,9 +280,9 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			await BaseScript.Delay(2000);
 			Eventi.LoadModel();
 			if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
 			Cache.PlayerCache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.PlayerCache.MyPlayer.Ped.Handle);
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Ingresso");
+			Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
@@ -308,7 +308,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.LogIn
 			await BaseScript.Delay(1000);
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			Cache.PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
-			Cache.PlayerCache.MyPlayer.User.status.Spawned = true;
+			Cache.PlayerCache.MyPlayer.User.Status.Spawned = true;
 			BaseScript.TriggerEvent("tlg:roleplay:onPlayerSpawn");
 			Client.Instance.Events.Send("tlg:roleplay:onPlayerSpawn");
 			ClearFocus();

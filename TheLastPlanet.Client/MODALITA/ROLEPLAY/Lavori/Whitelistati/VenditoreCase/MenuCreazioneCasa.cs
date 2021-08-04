@@ -914,14 +914,14 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
 				switch (state)
 				{
 					case MenuState.Opened:
-						oldInstance = Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza;
-						Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.Istanzia("Creatore Immobiliare");
+						oldInstance = Cache.PlayerCache.MyPlayer.User.Status.Istanza;
+						Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Creatore Immobiliare");
 
 						break;
 					case MenuState.Closed:
 					{
-						if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
-						Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza = oldInstance;
+						if (Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+						Cache.PlayerCache.MyPlayer.User.Status.Istanza = oldInstance;
 
 						break;
 					}

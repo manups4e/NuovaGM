@@ -376,7 +376,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         public async void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
-            if (client.User.status.Spawned)
+            if (client.User.Status.Spawned)
             {
                 await client.User.SalvaPersonaggioRoleplay();
                 Server.Logger.Info($"Salvato personaggio: {client.User.FullName} [{client.Player.Name}] all'uscita dal pianeta RolePlay -- Discord:{client.Identifiers.Discord}");

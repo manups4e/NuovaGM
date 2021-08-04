@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore
 					}
 				}
 
-				/*			if (Vector3.Distance(Cache.Char.posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Cache.Char.StatiPlayer.RolePlayStates.InVeicolo)
+				/*			if (Vector3.Distance(Cache.Char.posizione.ToVector3(), PuntiPesca.AffittoBarca) < 2f && !Cache.Char.Status.RolePlayStates.InVeicolo)
 							{
 								HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per scegliere una ~b~barca~w~.");
 								if (Input.IsControlJustPressed(Control.Context))

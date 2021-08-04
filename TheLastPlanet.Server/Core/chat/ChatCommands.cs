@@ -437,7 +437,7 @@ namespace TheLastPlanet.Server.Core
 
 				foreach (var player in Server.Instance.Clients)
 				{
-					if (player.User.status.Spawned)
+					if (player.User.Status.Spawned)
 					{
 						player.Player.TriggerEvent("lprp:mostrasalvataggio");
 						await player.User.SalvaPersonaggioRoleplay();
@@ -470,7 +470,7 @@ namespace TheLastPlanet.Server.Core
 			if (p!=null)
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-				if (pers.status.Spawned)
+				if (pers.Status.Spawned)
 					pers.SetJob(args[1], Convert.ToInt32(args[2]));
 				else
 					sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
@@ -488,7 +488,7 @@ namespace TheLastPlanet.Server.Core
 			if (p != null)
 			{
 				User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-				if (pers.status.Spawned)
+				if (pers.Status.Spawned)
 					pers.SetGang(args[1], Convert.ToInt32(args[2]));
 				else
 					sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });

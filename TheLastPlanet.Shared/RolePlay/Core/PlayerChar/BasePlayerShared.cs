@@ -29,14 +29,12 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public string group{ get; set; }
 		public UserGroup group_level{ get; set; }
 		public long playTime{ get; set; }
-		public Status status { get; set; } = new();
+		[Ignore] [JsonIgnore] 
+		public Status Status { get; set; }
 
 		[Ignore][JsonIgnore] public Player Player;
 		public Identifiers Identifiers { get; set; } = new();
 		
-		[Ignore] [JsonIgnore]
-		public PlayerStateBags StatiPlayer { get; set; }
-
 		public List<Char_data> Characters { get; set; } = new();
 		[Ignore][JsonIgnore]
 		private Char_data _current;
@@ -77,10 +75,21 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public string[] ToArray() => new string[] { Steam, Discord, License, Fivem, Ip };
 	}
 
-	[Serialization]
-	public partial class Status
+	public class Status
 	{
-		public bool Connected { get; set; } = true;
-		public bool Spawned { get; set; } = false;
+		private BaseStateBag<bool> _spawned;
+
+		public bool Spawned { get => _spawned.Value; set => _spawned.Value = value; }
+		public PlayerStates PlayerStates;
+		public RPStates RolePlayStates;
+		public InstanceBags Istanza;
+		public Status() { }
+		public Status(Player player)
+		{
+			_spawned = new(player, "spawned", true);
+			PlayerStates = new(player, "PlayerStates");
+			RolePlayStates = new(player, "RolePlayStates");
+			Istanza = new(player, "PlayerInstance");
+		}
 	}
 }

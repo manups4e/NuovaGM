@@ -21,7 +21,7 @@ namespace TheLastPlanet.Server.Scripts
 			foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
 			{
 				var user = Funzioni.GetUserFromPlayerId(p.Handle);
-				if (user != null && user.status.Spawned)
+				if (user != null && user.Status.Spawned)
 					await user.SalvaPersonaggioRoleplay();
 			}
 		}

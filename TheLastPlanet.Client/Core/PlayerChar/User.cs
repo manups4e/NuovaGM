@@ -15,7 +15,8 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	[Serialization]
 	public partial class User : BasePlayerShared
 	{
-		[Ignore][JsonIgnore]
+		[Ignore]
+		[JsonIgnore]
 		public Position Posizione
 		{
 			get => CurrentChar.Posizione;
@@ -35,24 +36,24 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 			Player = Game.Player;
 			char_data = result.char_data;
 			Identifiers = result.Identifiers;
-			StatiPlayer = new PlayerStateBags();
+			Status = new(Game.Player);
 		}
-		
+
 		public User() { }
 
-		[Ignore][JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
+		[Ignore] [JsonIgnore] public string FullName => CurrentChar.Info.firstname + " " + CurrentChar.Info.lastname;
 
-		[Ignore][JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
+		[Ignore] [JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
 
-		[Ignore][JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
+		[Ignore] [JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
 
-		[Ignore][JsonIgnore] public int Money => CurrentChar.Finance.Money;
+		[Ignore] [JsonIgnore] public int Money => CurrentChar.Finance.Money;
 
-		[Ignore][JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
+		[Ignore] [JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
 
-		[Ignore][JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
+		[Ignore] [JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
 
-		[Ignore][JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
+		[Ignore] [JsonIgnore] public List<Inventory> Inventory => GetCharInventory();
 
 		public Tuple<bool, Inventory, Item> GetInventoryItem(string item)
 		{
@@ -106,20 +107,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 		public bool HasLicense(string license)
 		{
 			return CurrentChar.Licenze.Any(x => x.name == license);
-		}
-	}
-
-	public class PlayerStateBags
-	{
-		public PlayerStates PlayerStates{ get; set; }
-		public RPStates RolePlayStates { get; set; }
-		public InstanceBags Istanza { get; set; }
-
-		public PlayerStateBags()
-		{
-			PlayerStates = new(Game.Player, "PlayerStates");
-			RolePlayStates = new(Game.Player, "RolePlayStates");
-			Istanza = new(Game.Player, "PlayerInstance");
 		}
 	}
 }

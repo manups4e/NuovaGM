@@ -15,14 +15,14 @@ namespace TheLastPlanet.Client
 
 		public static async Task GestioneDecors()
 		{
-			if (Cache.PlayerCache.GiocatoriOnline.Count < 2) return;
+			if (Cache.PlayerCache.GiocatoriOnline.Count is 1) return;
 
 			if (Game.GameTime - checkTimer1 > 250)
 				foreach (var client in Cache.PlayerCache.GiocatoriOnline.Where(x=>x.Handle != Cache.PlayerCache.MyPlayer.Handle))
 				{
 					if (client == Cache.PlayerCache.MyPlayer) return;
 
-					if (client.User == null) continue;
+					if (!client.User.Status.Spawned) continue;
 					if (!client.ClientStateBags.Istanza.Stanziato)
 					{
 						if (NetworkIsPlayerConcealed(client.Player.Handle))
@@ -32,9 +32,9 @@ namespace TheLastPlanet.Client
 
 					if (client.ClientStateBags.Istanza.Instance != string.Empty)
 					{
-						if (client.ClientStateBags.Istanza.ServerIdProprietario != 0 || Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != 0)
+						if (client.ClientStateBags.Istanza.ServerIdProprietario != 0 || Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != 0)
 						{
-							if (client.ClientStateBags.Istanza.ServerIdProprietario != Cache.PlayerCache.MyPlayer.Player.ServerId && Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.ServerIdProprietario != client.Handle)
+							if (client.ClientStateBags.Istanza.ServerIdProprietario != Cache.PlayerCache.MyPlayer.Player.ServerId && Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != client.Handle)
 							{
 								if (!NetworkIsPlayerConcealed(client.Player.Handle)) NetworkConcealPlayer(client.Player.Handle, true, true);
 							}
@@ -56,7 +56,7 @@ namespace TheLastPlanet.Client
 					}
 
 					/*
-					if (!player.User.StatiPlayer.InPausa) continue;
+					if (!player.User.Status.InPausa) continue;
 					if (player.Character.IsInRangeOf(Cache.MyPlayer.User.posizione.ToVector3, 30))
 						HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 					*/

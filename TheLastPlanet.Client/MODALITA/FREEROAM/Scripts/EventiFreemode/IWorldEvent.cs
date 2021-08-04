@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
         public TimeSpan CountdownTime { get; set; }
         public TimeSpan TimeRemaining { get; set; }
         public TextTimerBar CountdownTimerBar = new TextTimerBar("Nuovo Evento", "");
-        public TextTimerBar TimeRemainingTimerBar = new TextTimerBar("Fine Evento", "");
+        public TextTimerBar TimeRemainingTimerBar = new TextTimerBar("Fine evento", "");
         public TextTimerBar CurrentAttemptTimerBar = new TextTimerBar("Tentativo attuale", "0");
         public TextTimerBar YourBestTimerBar = new TextTimerBar("Il tuo meglio", "0");
         public TextTimerBar FirstPlaceTimerBar = new TextTimerBar("~y~1°: Player 1", "~y~0");
@@ -125,7 +125,7 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
                     await BaseScript.Delay(1000);
                     if (TimeRemaining == TimeSpan.Zero)
                     {
-                        BaseScript.TriggerServerEvent("worldEventsManage.Server:EventEnded", Id, CurrentAttempt, BestAttempt);
+                        Client.Instance.Events.Send("worldEventsManage.Server:EventEnded", Id, CurrentAttempt, BestAttempt);
                         await BaseScript.Delay(5000);
                         ResetEvent();
                         return;
@@ -139,12 +139,34 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
                         CountdownStarted = true;
                     }
 
-                    BaseScript.TriggerServerEvent("worldEventsManage.Server:UpdateCurrentEvent", Id, CurrentAttempt);
+                    var x = 0;
+                    switch (PlayerStatType)
+                    {
+                        case PlayerStatType.Int:
+                            StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
+                            CurrentAttempt = x;
+                            break;
+                        case PlayerStatType.Float:
+                            var f = 0f;
+                            StatGetFloat(unchecked((uint)PlayerStat), ref f, 1);
+                            CurrentAttempt = f;
+                            break;
+                        default:
+                            StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
+                            break;
+                    }
+
+                    if (CurrentAttempt > BestAttempt)
+                    {
+                        BestAttempt = CurrentAttempt;
+                    }
+
+                    Client.Instance.Events.Send("worldEventsManage.Server:UpdateCurrentEvent", Id, CurrentAttempt);
 
                     CurrentAttemptTimerBar.Text = Math.Round(CurrentAttempt, 2).ToString() + " " + StatUnit;
                     YourBestTimerBar.Text = Math.Round(BestAttempt, 2).ToString() + " " + StatUnit;
 
-                    TimeRemainingTimerBar.Text = $"{(TimeRemaining.TotalSeconds > 10 ? "~s~" : "~r~")} {TimeRemaining:mm\\:ss}";
+                    TimeRemainingTimerBar.Text = $"{(TimeRemaining.TotalSeconds > 10 ? "~s~" : "~r~")} {TimeRemaining.ToString(@"mm\:ss")}";
                     return;
                 }
 

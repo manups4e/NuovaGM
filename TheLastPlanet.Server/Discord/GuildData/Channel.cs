@@ -23,7 +23,7 @@ namespace TheLastPlanet.Server.Discord.GuildData
 	{
 		public int? type;
 		public int? allow;
-		public int? deny;
+		public ulong? deny;
 		public ulong? id;
 	}
 }

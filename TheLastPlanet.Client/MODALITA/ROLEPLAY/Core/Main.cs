@@ -183,10 +183,10 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
 			BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
 			SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.Istanza.RimuoviIstanza();
+			Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
 			playerPed.IsVisible = true;
-			Cache.PlayerCache.MyPlayer.User.status.Spawned = true;
-			spawned = Cache.PlayerCache.MyPlayer.User.status.Spawned;
+			Cache.PlayerCache.MyPlayer.User.Status.Spawned = true;
+			spawned = Cache.PlayerCache.MyPlayer.User.Status.Spawned;
 			
 			//BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.CurrentChar.CharID);
 			//BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
@@ -197,7 +197,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 				DateTime now = DateTime.Now;
 				BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Cache.PlayerCache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
 				playerPed.Health = 0;
-				Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = false;
+				Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = false;
 			}
 
 			//Peds();
@@ -389,7 +389,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 			#region DriveBy
 
 			if (gameTime - _timerDriveBy > 1000)
-				if (Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 				{
 					if (p.SeatIndex == VehicleSeat.Driver)
 						SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);

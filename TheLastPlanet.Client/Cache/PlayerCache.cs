@@ -31,7 +31,7 @@ namespace TheLastPlanet.Client.Cache
 				Id = pippo.Item1,
 				User = new User(pippo.Item2)
 			};
-			Client.Instance.AddTick(TickStatiPlayer);
+			Client.Instance.AddTick(TickStatus);
 			await Task.FromResult(0);
 
 		}
@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.Cache
 			while (MyPlayer == null || MyPlayer != null && !MyPlayer.Ready) await BaseScript.Delay(0);
 		}
 
-		public static async Task TickStatiPlayer()
+		public static async Task TickStatus()
 		{
 			await Loaded();
 			await BaseScript.Delay(200);
@@ -50,8 +50,8 @@ namespace TheLastPlanet.Client.Cache
 
 			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
-			if (!MyPlayer.User.status.Spawned) return;
-			if (MyPlayer.User.StatiPlayer.Istanza.Stanziato) return;
+			if (!MyPlayer.User.Status.Spawned) return;
+			if (MyPlayer.User.Status.Istanza.Stanziato) return;
 			MyPlayer.User.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			#endregion
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.Cache
 			{
 				if (!_inVeh)
 				{
-					MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo = true;
+					MyPlayer.User.Status.RolePlayStates.InVeicolo = true;
 					_inVeh = true;
 				}
 			}
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.Cache
 			{
 				if (_inVeh)
 				{
-					MyPlayer.User.StatiPlayer.RolePlayStates.InVeicolo = false;
+					MyPlayer.User.Status.RolePlayStates.InVeicolo = false;
 					_inVeh = false;
 				}
 			}
@@ -84,7 +84,7 @@ namespace TheLastPlanet.Client.Cache
 				if (!_inPausa)
 				{
 					_inPausa = true;
-					MyPlayer.User.StatiPlayer.PlayerStates.InPausa = true;
+					MyPlayer.User.Status.PlayerStates.InPausa = true;
 				}
 			}
 			else
@@ -92,7 +92,7 @@ namespace TheLastPlanet.Client.Cache
 				if (_inPausa)
 				{
 					_inPausa = false;
-					MyPlayer.User.StatiPlayer.PlayerStates.InPausa = false;
+					MyPlayer.User.Status.PlayerStates.InPausa = false;
 				}
 			}
 

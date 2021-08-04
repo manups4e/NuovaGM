@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 			p.Style.SetDefaultClothes();
 			await Cache.PlayerCache.Loaded();
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.PlayerStates.Modalita = ModalitaServer.Lobby;
+			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();

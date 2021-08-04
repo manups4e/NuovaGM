@@ -142,7 +142,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 
 		public static void onPlayerDeath(DatiMorte morte)
 		{
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = true;
+			Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = true;
 			Main.IsDead = true;
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
 			StartScreenEffect("DeathFailOut", 0, false);
@@ -169,7 +169,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 						List<dynamic> data = new List<dynamic>() { killed, victimCoords, weaponHash, deathCause, killerId, killerCoords, Math.Round(distance) };
 						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Cache.Char.StatiPlayer.FinDiVita = true;
+						Cache.Char.Status.FinDiVita = true;
 					}
 					else
 					{
@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 						List<dynamic> data = new List<dynamic>() { killed, deathCause };
 						BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 						BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
-						Cache.Char.StatiPlayer.FinDiVita = true;
+						Cache.Char.Status.FinDiVita = true;
 					}
 				}
 
@@ -194,7 +194,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 					data.Add(killerType);
 					data.Add(deathCoords);
 					data.Add(deathCause);
-					Cache.Char.StatiPlayer.FinDiVita = true;
+					Cache.Char.Status.FinDiVita = true;
 					BaseScript.TriggerEvent("lprp:onPlayerDeath", data);
 					BaseScript.TriggerServerEvent("lprp:onPlayerDeath", data);
 				}
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 			EarlyRespawnTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.EarlySpawnTimer);
 			BleedoutTimer = TimeSpan.FromSeconds(Client.Impostazioni.RolePlay.Main.BleedoutTimer);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", true);
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = true;
+			Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = true;
 			Main.IsDead = true;
 			if (EarlyRespawn)
 				if (EarlyRespawnFine)
@@ -329,7 +329,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.Status
 			Screen.Effects.Stop(ScreenEffect.DeathFailOut);
 			Screen.Fading.FadeIn(800);
 			BaseScript.TriggerServerEvent("lprp:setDeathStatus", false);
-			Cache.PlayerCache.MyPlayer.User.StatiPlayer.RolePlayStates.FinDiVita = false;
+			Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = false;
 		}
 
 		// -- AGGIUNGERE CONTROLLO PER PARTI DEL CORPO DANNEGGIATE E ARMI DA FUOCO

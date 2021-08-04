@@ -39,6 +39,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Identifiers.Discord = player.GetLicense(Identifier.Discord);
 			Identifiers.Fivem = player.GetLicense(Identifier.Fivem);
 			Identifiers.Ip = player.GetLicense(Identifier.Ip);
+			Status = new(player);
 		}
 
 		public User(Player player, dynamic result)
@@ -48,7 +49,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			group = result.group;
 			group_level = (UserGroup)result.group_level;
 			playTime = result.playTime;
-			StatiPlayer = new PlayerStateBags(player);
 			Characters = (result.char_data as string).FromJson<List<Char_data>>();
 			LastSaved = DateTime.Now;
 		}
@@ -72,7 +72,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public bool DeathStatus
 		{
 			get => CurrentChar.is_dead;
-			set { CurrentChar.is_dead = value; StatiPlayer.RolePlayStates.Svenuto = true; }
+			set { CurrentChar.is_dead = value; Status.RolePlayStates.Svenuto = true; }
 		}
 
 		[Ignore][JsonIgnore]
@@ -215,9 +215,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public void removeWeapon(string weaponName)
 		{
-			Server.Logger.Debug("index = " + getWeapon(weaponName).Item1);
-			Server.Logger.Debug(JsonConvert.SerializeObject(getWeapon(weaponName).Item2));
-
 			if (hasWeapon(weaponName))
 			{
 				CurrentChar.Weapons.Remove(getWeapon(weaponName).Item2);
@@ -340,8 +337,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			{
 				FreeRoamChar.TotalXp += experiencePoints;
 			}
-
-
 		}
 
 		public void UpdateCurrentAttempt(int eventId, float currentAttempt)
@@ -405,18 +400,5 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			await Task.FromResult(0);
 		}
 
-	}
-
-	public class PlayerStateBags
-	{
-		public PlayerStates PlayerStates;
-		public RPStates RolePlayStates;
-		public InstanceBags Istanza;
-		public PlayerStateBags(Player pl)
-		{
-			PlayerStates = new(pl, "PlayerStates");
-			RolePlayStates = new(pl, "RolePlayStates");
-			Istanza = new (pl, "PlayerInstance");
-		}
 	}
 }

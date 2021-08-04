@@ -52,6 +52,7 @@ namespace TheLastPlanet.Shared
             player = pl;
             _name = name;
         }
+        public BaseBag() { }
     }
 
     public class PlayerStates : BaseBag
@@ -82,7 +83,7 @@ namespace TheLastPlanet.Shared
 #endif
             }
         }
-        
+        public PlayerStates() { }
         public PlayerStates(Player player, string name) : base(player, name)
         {
             _adminSpecta = new BaseStateBag<bool>(player, _name+":AdminSpecta", true);
@@ -139,6 +140,8 @@ namespace TheLastPlanet.Shared
             set => _inVeicolo.Value = value;
         }
 
+        public RPStates() { }
+
         public RPStates(Player player, string name) : base(player, name)
         {
             _svenuto = new BaseStateBag<bool>(player, _name+":Svenuto", true);
@@ -163,6 +166,7 @@ namespace TheLastPlanet.Shared
 	    private BaseStateBag<int> _serverIdProprietario;
 	    private BaseStateBag<bool> _isOwner;
 	    private BaseStateBag<string> _instance;
+        public InstanceBags() { }
         public InstanceBags(Player player, string name) : base(player, name)
         {
 	        _stanziato = new BaseStateBag<bool>(player, _name+":Stanziato", true);
