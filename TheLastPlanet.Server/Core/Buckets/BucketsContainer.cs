@@ -204,7 +204,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 foreach (var player in Bucket.Players)
                 {
                     var score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
-                    if (score != null)
+                    if (score != null && score.CurrentAttempt > 0)
                     {
                         if (!tempDictionary.ContainsKey(player.Player.Name))
                             tempDictionary.Add(player.Player.Name, score.CurrentAttempt);
