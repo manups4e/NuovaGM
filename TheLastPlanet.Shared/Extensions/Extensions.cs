@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using TheLastPlanet.Shared.Internal.Events;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
@@ -733,6 +734,18 @@ namespace TheLastPlanet.Shared
 			}
 			return inside;
 		}
+
+#if SERVER
+		public static void TriggerSubsystemEvent(this Player player, string endpoint, params object[] args)
+		{
+			Server.Server.Instance.Events.Send(player, endpoint, args);
+		}
+
+		public static void TriggerSubsystemEvent(this ClientId client, string endpoint, params object[] args)
+		{
+			Server.Server.Instance.Events.Send(client, endpoint, args);
+		}
+#endif
 
 		public static void SetState<T>(this Player player, string key, T val, bool replicated) => player.State.Set(key, val.ToBytes(), replicated);
 		public static T GetState<T>(this Player player, string key) => (player.State.Get(key) as byte[]).FromBytes<T>();
