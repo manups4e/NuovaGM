@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.RolePlay.Giostre
 		public static bool SonoSeduto = false;
 		private static bool Scaleform = false;
 		private static Scaleform Buttons = new Scaleform("instructional_buttons");
-		private static UITimerBarItem montagna = new UITimerBarItem("Montagne Russe:") { Enabled = false };
+		private static TextTimerBar montagna = new TextTimerBar("Montagne Russe:", "") { Enabled = false };
 
 		private static List<Vector3> ingressi = new List<Vector3>
 		{
@@ -129,13 +129,13 @@ namespace TheLastPlanet.Client.RolePlay.Giostre
 				switch (Montagna.State)
 				{
 					case "ATTESA":
-						montagna.TextTimerBar.Caption = tempo + " sec.";
+						montagna.Caption = tempo + " sec.";
 
 						while (tempo > 0)
 						{
 							await BaseScript.Delay(1000);
 							tempo--;
-							montagna.TextTimerBar.Caption = tempo + "sec.";
+							montagna.Caption = tempo + "sec.";
 
 							if (Montagna.State != "ATTESA") return;
 						}

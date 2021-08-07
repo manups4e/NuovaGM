@@ -102,8 +102,8 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 
                 ActivateEventTimerBars();
 
-                CountdownTimerBar.Text = CountdownTime.ToString(@"mm\:ss");
-                TimeRemainingTimerBar.Text = TimeRemaining.ToString(@"mm\:ss");
+                CountdownTimerBar.Caption = CountdownTime.ToString(@"mm\:ss");
+                TimeRemainingTimerBar.Caption = TimeRemaining.ToString(@"mm\:ss");
                 EventNameTimerBar.Label = Name;
             }
             else
@@ -163,10 +163,10 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 
                     Client.Instance.Events.Send("worldEventsManage.Server:UpdateCurrentEvent", Id, CurrentAttempt);
 
-                    CurrentAttemptTimerBar.Text = Math.Round(CurrentAttempt, 2).ToString() + " " + StatUnit;
-                    YourBestTimerBar.Text = Math.Round(BestAttempt, 2).ToString() + " " + StatUnit;
+                    CurrentAttemptTimerBar.Caption = Math.Round(CurrentAttempt, 2).ToString() + " " + StatUnit;
+                    YourBestTimerBar.Caption = Math.Round(BestAttempt, 2).ToString() + " " + StatUnit;
 
-                    TimeRemainingTimerBar.Text = $"{(TimeRemaining.TotalSeconds > 10 ? "~s~" : "~r~")} {TimeRemaining.ToString(@"mm\:ss")}";
+                    TimeRemainingTimerBar.Caption = $"{(TimeRemaining.TotalSeconds > 10 ? "~s~" : "~r~")} {TimeRemaining.ToString(@"mm\:ss")}";
                     return;
                 }
 
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
                     CountdownStarted = true;
                 }
 
-                CountdownTimerBar.Text = $"{(CountdownTime.TotalSeconds > 5 ? "~s~" : "~r~")} {CountdownTime:mm\\:ss}";
+                CountdownTimerBar.Caption = $"{(CountdownTime.TotalSeconds > 5 ? "~s~" : "~r~")} {CountdownTime:mm\\:ss}";
             }
             catch (Exception ex)
             {
@@ -268,10 +268,10 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 
             CountdownTime = TimeSpan.FromSeconds(EventCountdownTime);
             TimeRemaining = TimeSpan.FromSeconds(EventTime);
-            CurrentAttemptTimerBar.Text = "0" + StatUnit;
-            FirstPlaceTimerBar.Text = "~y~0" + StatUnit;
-            SecondPlaceTimerBar.Text = "~c~0" + StatUnit;
-            ThirdPlaceTimerBar.Text = "~o~0" + StatUnit;
+            CurrentAttemptTimerBar.Caption = "0" + StatUnit;
+            FirstPlaceTimerBar.Caption = "~y~0" + StatUnit;
+            SecondPlaceTimerBar.Caption = "~c~0" + StatUnit;
+            ThirdPlaceTimerBar.Caption = "~o~0" + StatUnit;
             TimerBars.Clear();
 
             IsActive = false;

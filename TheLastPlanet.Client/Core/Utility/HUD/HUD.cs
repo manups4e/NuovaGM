@@ -72,7 +72,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 	public static class HUD
 	{
-		public static UITimerBarPool TimerBarPool = new();
+		public static TimerBarPool TimerBarPool = new();
 		public static MenuPool MenuPool = new();
 
 		public static void Init()
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static async Task Menus()
 		{
 			MenuPool.ProcessMenus();
-			if (TimerBarPool.TimerBars.Count > 0) TimerBarPool.Draw();
+			if (TimerBarPool.ToList().Count > 0) TimerBarPool.Draw();
 			await Task.FromResult(0);
 		}
 

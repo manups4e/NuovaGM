@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 		private static Blip BlipVeicoloDaRimuovere;
 		private static Blip PuntoDiConsegna;
 		private static Vector4 puntoDiSpawn;
-		private static UITimerBarItem timerVeicolo = new UITimerBarItem("Veicolo da rimorchiare");
+		private static TextTimerBar timerVeicolo = new TextTimerBar ("Veicolo da rimorchiare", "");
 		private static int TempoRimozione;
 		private static bool distwarn = false;
 
@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 					Client.Instance.RemoveTick(LavoroRimozioneForzata);
 					Client.Instance.RemoveTick(ControlloRimozione);
 					Client.Instance.AddTick(InizioLavoro);
-					if (HUD.TimerBarPool.TimerBars.Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
+					if (HUD.TimerBarPool.ToList().Contains(timerVeicolo)) HUD.TimerBarPool.Remove(timerVeicolo);
 					HUD.ShowNotification("Ti sei allontanato troppo dal tuo veicolo, il veicolo è stato riportato in azienda e hai perso il lavoro!", NotificationColor.Red, true);
 					Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name = "Disoccupato";
 					Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade = 0;
@@ -255,7 +255,7 @@ namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Rimozione
 			while (TempoRimozione > 0)
 			{
 				string tempo = TempoRimozione > 59 ? TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60 < 10 ? $"{(int)Math.Floor(TempoRimozione / 60f)}:0{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : $"{(int)Math.Floor(TempoRimozione / 60f)}:{TempoRimozione - (int)Math.Floor(TempoRimozione / 60f) * 60}" : TempoRimozione > 9 ? $"{TempoRimozione}" : $"0{TempoRimozione}";
-				timerVeicolo.TextTimerBar.Caption = tempo;
+				timerVeicolo.Caption = tempo;
 				await BaseScript.Delay(1000);
 				TempoRimozione--;
 

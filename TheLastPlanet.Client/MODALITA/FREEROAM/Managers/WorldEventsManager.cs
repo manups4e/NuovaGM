@@ -195,11 +195,11 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
                 if (top3Players.Count < 3) { return; }
 
                 ActiveWorldEvent.FirstPlaceTimerBar.Label = $"~y~1°: {top3Players.ElementAt(0).Key}";
-                ActiveWorldEvent.FirstPlaceTimerBar.Text = $"~y~{Math.Round(top3Players.ElementAt(0).Value, 2)} {ActiveWorldEvent.StatUnit}";
+                ActiveWorldEvent.FirstPlaceTimerBar.Caption = $"~y~{Math.Round(top3Players.ElementAt(0).Value, 2)} {ActiveWorldEvent.StatUnit}";
                 ActiveWorldEvent.SecondPlaceTimerBar.Label = $"~c~2°: {top3Players.ElementAt(1).Key}";
-                ActiveWorldEvent.SecondPlaceTimerBar.Text = $"~c~{Math.Round(top3Players.ElementAt(1).Value, 2)} {ActiveWorldEvent.StatUnit}";
+                ActiveWorldEvent.SecondPlaceTimerBar.Caption = $"~c~{Math.Round(top3Players.ElementAt(1).Value, 2)} {ActiveWorldEvent.StatUnit}";
                 ActiveWorldEvent.ThirdPlaceTimerBar.Label = $"~o~3°: {top3Players.ElementAt(2).Key}";
-                ActiveWorldEvent.ThirdPlaceTimerBar.Text = $"~o~{Math.Round(top3Players.ElementAt(2).Value, 2)} {ActiveWorldEvent.StatUnit}";
+                ActiveWorldEvent.ThirdPlaceTimerBar.Caption = $"~o~{Math.Round(top3Players.ElementAt(2).Value, 2)} {ActiveWorldEvent.StatUnit}";
             }
             catch (Exception e)
             {

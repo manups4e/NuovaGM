@@ -7,6 +7,7 @@ namespace TheLastPlanet.Client.NativeUI
     public abstract class TimerBarBase
     {
         public string Label { get; set; }
+        public bool Enabled { get; set; } = true;
 
         public TimerBarBase(string label)
         {
@@ -15,6 +16,7 @@ namespace TheLastPlanet.Client.NativeUI
 
         public virtual void Draw(int interval)
         {
+            if (!Enabled) return;
             SizeF res = ScreenTools.ResolutionMaintainRatio;
             PointF safe = ScreenTools.SafezoneBounds;
             new UIResText(Label, new PointF((int)res.Width - safe.X - 180, (int)res.Height - safe.Y - (30 + (4 * interval))), 0.3f, Colors.White, Font.ChaletLondon, Alignment.Right).Draw();

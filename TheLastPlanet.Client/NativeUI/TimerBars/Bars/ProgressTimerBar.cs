@@ -1,5 +1,4 @@
-﻿
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace TheLastPlanet.Client.NativeUI
 {
@@ -34,6 +33,7 @@ namespace TheLastPlanet.Client.NativeUI
 
         public override void Draw(int interval)
         {
+            if (!Enabled) return;
             SizeF res = ScreenTools.ResolutionMaintainRatio;
             PointF safe = ScreenTools.SafezoneBounds;
 
