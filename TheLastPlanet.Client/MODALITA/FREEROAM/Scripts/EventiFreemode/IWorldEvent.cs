@@ -27,14 +27,14 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
         public double EventCountdownTime { get; set; } = 90;
         public TimeSpan CountdownTime { get; set; }
         public TimeSpan TimeRemaining { get; set; }
-        public TextTimerBar CountdownTimerBar = new TextTimerBar("Nuovo Evento", "");
-        public TextTimerBar TimeRemainingTimerBar = new TextTimerBar("Fine evento", "");
-        public TextTimerBar CurrentAttemptTimerBar = new TextTimerBar("Tentativo attuale", "0");
-        public TextTimerBar YourBestTimerBar = new TextTimerBar("Il tuo meglio", "0");
-        public TextTimerBar FirstPlaceTimerBar = new TextTimerBar("~y~1°: Player 1", "~y~0");
-        public TextTimerBar SecondPlaceTimerBar = new TextTimerBar("~c~2°: Player 2", "~c~0");
-        public TextTimerBar ThirdPlaceTimerBar = new TextTimerBar("~o~3°: Player 3", "~o~0");
-        public TextTimerBar EventNameTimerBar = new TextTimerBar("Nome Evento:", "");
+        public TextTimerBar CountdownTimerBar = new("Nuovo Evento", "");
+        public TextTimerBar TimeRemainingTimerBar = new("Fine evento", "");
+        public TextTimerBar CurrentAttemptTimerBar = new("Tentativo attuale", "0");
+        public TextTimerBar YourBestTimerBar = new("Il tuo meglio", "0");
+        public TextTimerBar FirstPlaceTimerBar = new("~y~1°: Player 1", "~y~0");
+        public TextTimerBar SecondPlaceTimerBar = new("~c~2°: Player 2", "~c~0");
+        public TextTimerBar ThirdPlaceTimerBar = new("~o~3°: Player 3", "~o~0");
+        public TextTimerBar EventNameTimerBar = new("Nome Evento:", "");
 
         public virtual Dictionary<Vector4, VehicleHash> VehicleSpawnLocations { get; set; }
 
