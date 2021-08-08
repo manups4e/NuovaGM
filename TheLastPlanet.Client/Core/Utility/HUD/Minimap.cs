@@ -24,73 +24,77 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (Cache.PlayerCache.ModalitàAttuale == ModalitaServer.Lobby)
+			switch (Cache.PlayerCache.ModalitàAttuale)
 			{
-				if (Screen.Hud.IsRadarVisible)
-				{
-					Screen.Hud.IsRadarVisible = false;
-					return;
-				}
-			}
-			// SE NON STO NASCONDENDO L'HUD (cinematica)
-			if (!Main.ImpostazioniClient.ModCinema)
-			{
-				if (Main.ImpostazioniClient.MiniMappaAttiva)
-				{
-					if (!IsRadarEnabled()) Screen.Hud.IsRadarVisible = true;
-
-					switch (Main.ImpostazioniClient.DimensioniMinimappa)
+				case ModalitaServer.Lobby:
+					if (Screen.Hud.IsRadarVisible)
+						Screen.Hud.IsRadarVisible = false;
+					break;
+				case ModalitaServer.FreeRoam:
+					if (!Screen.Hud.IsRadarVisible)
+						Screen.Hud.IsRadarVisible = true;
+					break;
+				case ModalitaServer.Roleplay:
+					// SE NON STO NASCONDENDO L'HUD (cinematica)
+					if (!Main.ImpostazioniClient.ModCinema)
 					{
-						// se ho settato la minimappa piccina
-						case 0:
+						if (Main.ImpostazioniClient.MiniMappaAttiva)
 						{
-							if (IsBigmapActive())              // se attualmente la minimappa è ingrandita
-								SetBigmapActive(false, false); // riduciamola
+							if (!IsRadarEnabled()) Screen.Hud.IsRadarVisible = true;
 
-							break;
+							switch (Main.ImpostazioniClient.DimensioniMinimappa)
+							{
+								// se ho settato la minimappa piccina
+								case 0:
+									{
+										if (IsBigmapActive())              // se attualmente la minimappa è ingrandita
+											SetBigmapActive(false, false); // riduciamola
+
+										break;
+									}
+								// altrimenti
+								case 1:
+									{
+										if (!IsBigmapActive())            // se è piccina
+											SetBigmapActive(true, false); // ingrandiscila
+
+										break;
+									}
+							}
+
+							switch (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+							{
+								//se non sono su un veicolo e non ho il menu di pausa attivo.
+								case false when !IsPauseMenuActive():
+									DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
+
+									break;
+								case true when Main.ImpostazioniClient.MiniMappaInAuto:
+									{
+										Vehicle veh = p.CurrentVehicle;
+
+										if (veh == null) return;
+										if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning) DisableRadarThisFrame();
+
+										break;
+									}
+								case true:
+									DisableRadarThisFrame();
+
+									break;
+							}
 						}
-						// altrimenti
-						case 1:
+						else
 						{
-							if (!IsBigmapActive())            // se è piccina
-								SetBigmapActive(true, false); // ingrandiscila
-
-							break;
+							if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
 						}
 					}
-
-					switch (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+					else
 					{
-						//se non sono su un veicolo e non ho il menu di pausa attivo.
-						case false when !IsPauseMenuActive():
-							DisableRadarThisFrame(); // lascia la minimappa attiva, ma nasconda la mappa se non sono in un veicolo
-
-							break;
-						case true when Main.ImpostazioniClient.MiniMappaInAuto:
-						{
-							Vehicle veh = p.CurrentVehicle;
-
-							if (veh == null) return;
-							if (veh.Model.IsBicycle || IsThisModelAJetski((uint)veh.Model.Hash) || veh.Model.IsQuadbike || !veh.IsEngineRunning) DisableRadarThisFrame();
-
-							break;
-						}
-						case true:
-							DisableRadarThisFrame();
-
-							break;
+						if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
 					}
-				}
-				else
-				{
-					if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
-				}
+				break;
 			}
-			else
-			{
-				if (IsRadarEnabled()) Screen.Hud.IsRadarVisible = false;
-			}
-
 			await Task.FromResult(0);
 		}
 	}
