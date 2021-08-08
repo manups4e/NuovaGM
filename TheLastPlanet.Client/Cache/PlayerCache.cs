@@ -57,45 +57,11 @@ namespace TheLastPlanet.Client.Cache
 			#endregion
 
 			#region Check Veicolo
-
-			if (MyPlayer.Ped.IsInVehicle())
-			{
-				if (!_inVeh)
-				{
-					MyPlayer.User.Status.RolePlayStates.InVeicolo = true;
-					_inVeh = true;
-				}
-			}
-			else
-			{
-				if (_inVeh)
-				{
-					MyPlayer.User.Status.RolePlayStates.InVeicolo = false;
-					_inVeh = false;
-				}
-			}
-
+ 			MyPlayer.User.Status.RolePlayStates.InVeicolo = MyPlayer.Ped.IsInVehicle();
 			#endregion
 
 			#region Check Pausa
-
-			if (Game.IsPaused || HUD.MenuPool.PauseMenus.Any(x => x.Visible))
-			{
-				if (!_inPausa)
-				{
-					_inPausa = true;
-					MyPlayer.User.Status.PlayerStates.InPausa = true;
-				}
-			}
-			else
-			{
-				if (_inPausa)
-				{
-					_inPausa = false;
-					MyPlayer.User.Status.PlayerStates.InPausa = false;
-				}
-			}
-
+			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused || HUD.MenuPool.PauseMenus.Any(x => x.Visible);
 			#endregion
 
 			await Task.FromResult(0);
