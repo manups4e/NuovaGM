@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
         private static bool FirstSpawn = true;
         private static readonly Random rnd = new Random();
 
-        public static void Init()
+        public static async void Init()
         {
             //Client.Instance.AddTick(OnDefaultTick);
             //Client.Instance.AddTick(OnDiscordTick);
@@ -36,7 +36,6 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
 
             Client.Instance.Events.Mount("worldEventsManage.Client:EventActivate",new Action<int, int>(OnActivateEvent));
             Client.Instance.Events.Mount("worldeventsManager.Client:GetEventData",new Action<int, float, float>(OnGetEventData));
-            Client.Instance.Events.Mount("worldEventsManage.Client:Status", new Action<int, int, int, int, bool>(OnGetStatus));
             Client.Instance.Events.Mount("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
             Client.Instance.Events.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
             Client.Instance.Events.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
@@ -51,7 +50,8 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
             WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
             WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            Client.Instance.Events.Send("worldEventsManage.Server:GetStatus"); // può diventare un callback
+            Tuple<int, int, int, int, bool> status = await Client.Instance.Events.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
+            OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
         }
 
         private static async Task OnWaitTick()
@@ -225,6 +225,7 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
 
             if (DownTime > 0) { Screen.LoadingPrompt.Show("Preparazione prossimo evento"); }
         }
+
 
         private static void OnGetStatus(int currentId, int nextId, int downTime, int joinWaitTime, bool isStarted)
         {

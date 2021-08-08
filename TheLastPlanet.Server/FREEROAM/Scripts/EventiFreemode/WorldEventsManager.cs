@@ -43,7 +43,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             Server.Instance.Events.Mount("worldEventsManage.Server:AddParticipant", new Action<ClientId>(OnAddParticipant));
             Server.Instance.Events.Mount("worldEventsManage.Server:EventEnded", new Action<ClientId, int, int, int>(OnEventEnded));
             Server.Instance.Events.Mount("worldEventsManage.Server:UpdateCurrentEvent", new Action<ClientId, int, float>(OnUpdateCurrentEvent));
-            Server.Instance.Events.Mount("worldEventsManage.Server:GetStatus", new Action<ClientId>(OnGetStatus));
+            Server.Instance.Events.Mount("worldEventsManage.Server:GetStatus", new Func<ClientId, Task<Tuple<int, int, int, int, bool>>>(OnGetStatus));
 
             Server.Instance.AddTick(OnPeriodicTick);
             Server.Instance.AddTick(OnEventTick);
@@ -163,7 +163,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
         }
 
-        private static void OnGetStatus(ClientId client)
+        private static async Task<Tuple<int, int, int, int, bool>> OnGetStatus(ClientId client)
         {
             try
             {
@@ -172,8 +172,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 var isStarted = CurrentEvent.IsStarted;
                 if (!CurrentEvent.IsActive)
                 {
-                    Server.Instance.Events.Send(client, "worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
-                    return;
+                    return new(CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
                 }
 
                 if (CurrentEvent.IsStarted)
@@ -181,11 +180,12 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 else
                     joinWaitTime = (int)CurrentEvent.CountdownTime.TotalSeconds;
 
-                Server.Instance.Events.Send(client, "worldEventsManage.Client:Status", CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
+                return new(CurrentEvent.Id, NextEvent.Id, (int)TimeUntilNextEvent.TotalSeconds, joinWaitTime, isStarted);
             }
             catch (Exception e)
             {
                 Server.Logger.Error(e.ToString());
+                return default;
             }
         }
 
