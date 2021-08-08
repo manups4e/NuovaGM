@@ -149,6 +149,8 @@ namespace TheLastPlanet.Client.FreeRoam.Managers
                     score = Math.Round(ActiveWorldEvent.CurrentAttempt, 2).ToString();
 
                 var description = $"{top3.ElementAt(0).Key} ha vinto la sfida {ActiveWorldEvent.Name} con un punteggio di {top3.ElementAt(2).Value}{ActiveWorldEvent.StatUnit}";
+                if (top3.All(x => x.Key.StartsWith("-")))
+                    description = $"Nessuno ha partecipato alla sfida, non ci sono vincitori!";
                 switch (place)
                 {
                     case 1:
