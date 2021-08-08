@@ -154,7 +154,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 foreach (var player in Bucket.Players)
                 {
                     var score = player.User.PlayerScores.Where(x => x.EventId == eventId).FirstOrDefault();
-                    if (score != null)
+                    if (score != null && score.CurrentAttempt > 0)
                     {
                         var xpGain = (int)Math.Min(score.CurrentAttempt * eventMultiplier, Experience.RankRequirement[player.User.FreeRoamChar.Level + 1] - Experience.RankRequirement[player.User.FreeRoamChar.Level]);
 
