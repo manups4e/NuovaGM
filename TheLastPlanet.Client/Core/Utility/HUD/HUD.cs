@@ -5,7 +5,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;

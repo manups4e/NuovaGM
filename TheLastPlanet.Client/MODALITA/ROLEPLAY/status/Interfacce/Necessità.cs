@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.RolePlay.Core.Status;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 
-namespace TheLastPlanet.Client.RolePlay.Core.status.Interfacce
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.status.Interfacce
 {
 	public class Necessità
 	{

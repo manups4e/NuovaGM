@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Logger;
 
-namespace TheLastPlanet.Client.RolePlay.Veicoli
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
 	internal static class EffettiRuote
 	{

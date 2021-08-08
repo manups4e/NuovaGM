@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.RolePlay.Proprietà.Garage
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Garage
 {
 	static class GarageClient
 	{

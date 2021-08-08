@@ -4,7 +4,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Veicoli
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
 	internal static class Assicurazione
 	{

@@ -2,20 +2,19 @@
 using CitizenFX.Core.UI;
 using Logger;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.RolePlay.Core.CharCreation;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.RolePlay.Personale;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
-using TheLastPlanet.Client.RolePlay.CharCreation;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.NativeUI;
 
-namespace TheLastPlanet.Client.RolePlay.Core
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
 	static class Main
 	{

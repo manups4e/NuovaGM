@@ -15,7 +15,7 @@ using Logger;
 using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreAuto
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto
 {
 	// void func_747(int iParam0) in carmod_shop.c
 	internal static class CarDealer

@@ -8,13 +8,13 @@ using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.CharCreation;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.LogIn
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 {
 	internal static class LogIn
 	{

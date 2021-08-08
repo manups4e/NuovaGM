@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
 
-namespace TheLastPlanet.Client.RolePlay.Negozi
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
 	internal class ConfigClothes
 	{

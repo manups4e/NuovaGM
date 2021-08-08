@@ -1,25 +1,25 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.RolePlay.Giostre;
-using TheLastPlanet.Client.RolePlay.Core.Status;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.Veicoli;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.NativeUI.PauseMenu;
 using System.Drawing;
 using Impostazioni.Shared.Configurazione.Generici;
 
-namespace TheLastPlanet.Client.RolePlay.Personale
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 {
 	internal static class PersonalMenu
 	{

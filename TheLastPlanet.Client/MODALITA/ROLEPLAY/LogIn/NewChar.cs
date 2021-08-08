@@ -1,4 +1,4 @@
-﻿namespace TheLastPlanet.Client.RolePlay.LogIn
+﻿namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 {
 	public class NewChar
 	{

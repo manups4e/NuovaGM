@@ -6,9 +6,10 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 {
 	internal static class CamerasFirstTime
 	{
@@ -155,9 +156,9 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			tassista.Request();
 			while (!tassista.IsLoaded) await tassista.Request(1);
 
-			if (!Funzioni.IsSpawnPointClear(new Vector3(-640.411f, -525.006f, 25.331f), 2f))
+			if (!new Vector3(-640.411f, -525.006f, 25.331f).IsSpawnPointClear(2f))
 			{
-				Vehicle[] vehs = Funzioni.GetVehiclesInArea(new Vector3(-640.411f, -525.006f, 25.331f), 2f);
+				Vehicle[] vehs = new Vector3(-640.411f, -525.006f, 25.331f).GetVehiclesInArea(2f);
 
 				foreach (Vehicle v in vehs)
 				{
@@ -168,7 +169,7 @@ namespace TheLastPlanet.Client.RolePlay.Core.CharCreation
 			}
 
 			Vehicle taxi = await Funzioni.SpawnLocalVehicle("taxi", new Vector3(-640.411f, -525.006f, 25.331f), 268.927f);
-			EntityDecoration.SetDecor(taxi, Main.decorName, Main.decorInt);
+			taxi.SetDecor(Main.decorName, Main.decorInt);
 			Ped Tax = await taxi.CreatePedOnSeat(VehicleSeat.Driver, tassista);
 			Tax.BlockPermanentEvents = true;
 			playerPed.SetIntoVehicle(taxi, VehicleSeat.RightRear);

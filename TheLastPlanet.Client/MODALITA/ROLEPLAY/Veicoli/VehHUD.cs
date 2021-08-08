@@ -12,7 +12,7 @@ using System.Drawing;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.RolePlay.Veicoli
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
 	internal static class VehHud
 	{

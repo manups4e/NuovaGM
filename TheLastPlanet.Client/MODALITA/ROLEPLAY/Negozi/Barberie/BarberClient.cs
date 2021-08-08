@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Impostazioni.Client.Configurazione.Negozi.Barbieri;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Negozi
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
 	internal static class BarberClient
 	{

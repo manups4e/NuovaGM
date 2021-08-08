@@ -3,7 +3,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	internal static class OggettiGenerici
 	{

@@ -1,10 +1,10 @@
 ﻿using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici;
-using TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Polizia;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia;
 using System;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati
 {
 	internal static class DutyManager
 	{

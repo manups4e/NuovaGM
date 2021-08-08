@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core.Status
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 {
 	internal static class Death
 	{

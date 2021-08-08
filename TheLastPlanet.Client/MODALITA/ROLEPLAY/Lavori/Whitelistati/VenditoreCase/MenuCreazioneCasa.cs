@@ -15,7 +15,7 @@ using Logger;
 using System.Drawing;
 using TheLastPlanet.Client.Core.PlayerChar;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
 	internal static class MenuCreazioneCasa
 	{

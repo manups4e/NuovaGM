@@ -7,15 +7,15 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Impostazioni.Client.Configurazione.Lavori.Generici;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.Veicoli;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 {
 	// NON E PIU UN LAVORO... LIBERO PER TUTTI.. CREARE PUNTI DI AFFITTO BARCHE PER CHI LE VUOLE..
 	// CREARE PUNTI GENERICI DI VENDITA DEL PESCE, E PUNTI GENERICI DI ATTACCO / STACCO BARCHE PER CHI LE POSSIEDE

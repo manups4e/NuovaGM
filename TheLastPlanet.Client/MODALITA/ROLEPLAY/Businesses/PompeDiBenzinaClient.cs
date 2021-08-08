@@ -10,7 +10,7 @@ using Impostazioni.Shared.Configurazione.Generici;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Businesses
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 {
 	internal class PompeDiBenzinaClient
 	{

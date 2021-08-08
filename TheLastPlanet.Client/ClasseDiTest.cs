@@ -1,4 +1,6 @@
 ﻿using CitizenFX.Core;
+using System.Threading.Tasks;
+using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
@@ -8,6 +10,7 @@ namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
+		// TODO: PROGRESSBARS IN NATIVEUI.. DA FINIRE E MIGLIORARE
 		public static void Init()
 		{
 		}

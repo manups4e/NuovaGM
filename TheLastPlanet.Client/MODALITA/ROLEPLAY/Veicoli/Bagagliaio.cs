@@ -10,10 +10,10 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.Veicoli;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 
-namespace TheLastPlanet.Client.RolePlay.Veicoli
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
 	internal static class Bagagliaio
 	{

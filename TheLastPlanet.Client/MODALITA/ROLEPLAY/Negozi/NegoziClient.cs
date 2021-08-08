@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using Impostazioni.Client.Configurazione.Negozi.Generici;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
 
-namespace TheLastPlanet.Client.RolePlay.Negozi
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
 	internal static class NegoziClient
 	{

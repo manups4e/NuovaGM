@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.RolePlay.Personale;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared.Veicoli;
 using System;
@@ -14,7 +14,7 @@ using Logger;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.RolePlay.Veicoli
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
 	internal static class VeicoliClient
 	{

@@ -12,7 +12,7 @@ using TheLastPlanet.Shared;
 using Logger;
 using System.Linq;
 
-namespace TheLastPlanet.Client.RolePlay.Proprietà.Hotel
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 {
 	internal static class Hotels
 	{

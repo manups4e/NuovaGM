@@ -5,11 +5,13 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.IPLs;
-using TheLastPlanet.Client.RolePlay.CharCreation;
-using TheLastPlanet.Client.RolePlay.Core;
-using TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
 
-namespace TheLastPlanet.Client.RolePlay
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 {
 	internal static class Initializer
 	{
@@ -19,11 +21,11 @@ namespace TheLastPlanet.Client.RolePlay
 			DecorationClass.DichiaraDecor();
 			await CoreInitializer.LogInInitializer();
 			await Cache.PlayerCache.Loaded();
-			Banking.BankingClient.Init();
-			Businesses.PompeDiBenzinaClient.Init();
+			BankingClient.Init();
+			PompeDiBenzinaClient.Init();
 			PublicTraffic.Init();
 			Creator.Init();
-			Core.CharCreation.CamerasFirstTime.Init();
+			CamerasFirstTime.Init();
 			Core.Status.Death.Init();
 			Core.Status.StatsNeeds.Init();
 			Voice.Init();
@@ -37,7 +39,7 @@ namespace TheLastPlanet.Client.RolePlay
 			AppartamentiClient.Init();
 			Negozi.BarberClient.Init();
 			Negozi.NegozioAbitiClient.Init();
-			Negozi.NegoziBusiness.Init();
+			NegoziBusiness.Init();
 			Negozi.NegoziClient.Init();
 			Veicoli.FuelClient.Init();
 			Veicoli.VehicleDamage.Init();
@@ -73,11 +75,11 @@ namespace TheLastPlanet.Client.RolePlay
 		{
 			//ClasseDiTest.Stop(); // da rimouvere
 			DecorationClass.Stop();
-			Banking.BankingClient.Stop();
-			Businesses.PompeDiBenzinaClient.Stop();
+			BankingClient.Stop();
+			PompeDiBenzinaClient.Stop();
 			PublicTraffic.Stop();
 			Creator.Stop();
-			Core.CharCreation.CamerasFirstTime.Stop();
+			CamerasFirstTime.Stop();
 			Core.Status.Death.Stop();
 			Core.Status.StatsNeeds.Stop();
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Stop();
@@ -90,7 +92,7 @@ namespace TheLastPlanet.Client.RolePlay
 			AppartamentiClient.Stop();
 			Negozi.BarberClient.Stop();
 			Negozi.NegozioAbitiClient.Stop();
-			Negozi.NegoziBusiness.Stop();
+			NegoziBusiness.Stop();
 			Negozi.NegoziClient.Stop();
 			Veicoli.FuelClient.Stop();
 			Veicoli.VehicleDamage.Stop();

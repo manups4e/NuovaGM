@@ -8,7 +8,7 @@ using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Negozi
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
 	internal static class NegozioAbitiClient
 	{

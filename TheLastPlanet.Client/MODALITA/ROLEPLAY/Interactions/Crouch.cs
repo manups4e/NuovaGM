@@ -4,7 +4,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	static class Crouch
 	{

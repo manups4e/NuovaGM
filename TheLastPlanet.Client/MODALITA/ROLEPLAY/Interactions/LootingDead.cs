@@ -12,7 +12,7 @@ using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	internal static class LootingDead
 	{

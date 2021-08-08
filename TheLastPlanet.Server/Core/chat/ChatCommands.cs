@@ -320,13 +320,12 @@ namespace TheLastPlanet.Server.Core
 				{
 					Player p = Server.Instance.GetPlayers[Convert.ToInt32(args[0])];
 					Server.Logger.Info( "Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
-					BaseScript.TriggerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- Comandi: " + sender.Name + " ha usato il comando revive su " + GetPlayerName(args[0]));
-					BaseScript.TriggerClientEvent(p, "lprp:reviveChar");
+					p.TriggerSubsystemEvent("lprp:reviveChar");
 				}
 			}
 			else
 			{
-				sender.TriggerEvent("lprp:reviveChar");
+				sender.TriggerSubsystemEvent("lprp:reviveChar");
 			}
 		}
 		// FINE REVIVE
@@ -400,33 +399,30 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Teleport(Player sender, List<string> args, string rawCommand)
 		{
-			float x = 0;
-			float y = 0;
-			float z = 0;
-			if (float.TryParse(args[0], out x) && float.TryParse(args[1], out y) && float.TryParse(args[2], out z))
-				sender.TriggerEvent("lprp:teleportCoords", args[0], args[1], args[2]);
+			if (float.TryParse(args[0], out float x) && float.TryParse(args[1], out float y) && float.TryParse(args[2], out float z))
+				sender.TriggerSubsystemEvent("lprp:teleportCoords", new Position(x, y, z));
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });
 		}
 
 		public static void Muori(Player sender, List<string> args, string rawCommand)
 		{
-			sender.TriggerEvent("lprp:death");
+			sender.TriggerSubsystemEvent("lprp:death");
 		}
 
 		public static void SpawnVehicle(Player sender, List<string> args, string rawCommand)
 		{
-			sender.TriggerEvent("lprp:spawnVehicle", args[0]);
+			sender.TriggerSubsystemEvent("lprp:spawnVehicle", args[0]);
 		}
 
 		public static void Dv(Player sender, List<string> args, string rawCommand)
 		{
-			sender.TriggerEvent("lprp:deleteVehicle");
+			sender.TriggerSubsystemEvent("lprp:deleteVehicle");
 		}
 
 		public static void Delgun(Player sender, List<string> args, string rawCommand)
 		{
-			sender.TriggerEvent("lprp:ObjectDeleteGun", args[0]);
+			sender.TriggerSubsystemEvent("lprp:ObjectDeleteGun", args[0]);
 		}
 
 		private static async void Salvatutti(Player sender, List<string> args, string rawCommand)
@@ -439,7 +435,7 @@ namespace TheLastPlanet.Server.Core
 				{
 					if (player.User.Status.Spawned)
 					{
-						player.Player.TriggerEvent("lprp:mostrasalvataggio");
+						player.Player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
 						await player.User.SalvaPersonaggioRoleplay();
 						Server.Logger.Info( "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
 						await Task.FromResult(0);
@@ -456,9 +452,9 @@ namespace TheLastPlanet.Server.Core
 		public static void Sviluppatore(Player sender, List<string> args, string rawCommand)
 		{
 			if (args[0].ToLower() == "on")
-				sender.TriggerEvent("lprp:sviluppatoreOn", true);
+				sender.TriggerSubsystemEvent("lprp:sviluppatoreOn", true);
 			else if (args[0].ToLower() == "off")
-				sender.TriggerEvent("lprp:sviluppatoreOn", false);
+				sender.TriggerSubsystemEvent("lprp:sviluppatoreOn", false);
 			else
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
 		}
@@ -539,11 +535,11 @@ namespace TheLastPlanet.Server.Core
 				if (args != null && args.Count > 0 && args.Count < 3)
 				{
 					BaseScript.TriggerEvent("UpdateFromCommandTime", Tempo);
-					sender.TriggerEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
 				}
 				else
 				{
-					sender.TriggerEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
 				}
 			}
 		}
@@ -567,9 +563,9 @@ namespace TheLastPlanet.Server.Core
 			{
 				BaseScript.TriggerEvent("freezeTime", freeze);
 				if (freeze)
-					sender.TriggerEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
 				else
-					sender.TriggerEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
 			}
 		}
 
@@ -673,7 +669,7 @@ namespace TheLastPlanet.Server.Core
 							break;
 					}
 
-					sender.TriggerEvent("lprp:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
 				}
 			}
 		}
@@ -695,12 +691,12 @@ namespace TheLastPlanet.Server.Core
 					}
 					else
 					{
-						sender.TriggerEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+						sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
 					}
 				}
 				else
 				{
-					sender.TriggerEvent("lprp:ShowNotification", "Nessun id specificato!!");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessun id specificato!!");
 				}
 			}
 		}
@@ -722,12 +718,12 @@ namespace TheLastPlanet.Server.Core
 					}
 					else
 					{
-						sender.TriggerEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+						sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
 					}
 				}
 				else
 				{
-					sender.TriggerEvent("lprp:ShowNotification", "Nessun id specificato!!");
+					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessun id specificato!!");
 				}
 			}
 		}

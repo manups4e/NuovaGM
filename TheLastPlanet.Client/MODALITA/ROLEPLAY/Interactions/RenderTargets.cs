@@ -1,7 +1,7 @@
 ﻿using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	internal static class RenderTargets
 	{

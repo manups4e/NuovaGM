@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CitizenFX.Core;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace Impostazioni.Client.Configurazione.Main
 {

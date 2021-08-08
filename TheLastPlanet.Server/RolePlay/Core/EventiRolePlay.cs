@@ -345,7 +345,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 			player.removeInventoryItem(itemName, amount);
 			player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
 			targetPlayer.addInventoryItem(itemName, amount, ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].peso);
-			targetClient.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
+			targetClient.TriggerSubsystemEvent("lprp:riceviOggettoAnimazione");
 			targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
 		}
 
@@ -368,7 +368,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 				targetPlayer.addWeapon(weaponName, ammo);
 				foreach (Components comp in arma.components) targetPlayer.addWeaponComponent(weaponName, comp.name);
 				if (arma.tint != 0) targetPlayer.addWeaponTint(weaponName, arma.tint);
-				targetClient.Player.TriggerEvent("lprp:riceviOggettoAnimazione");
+				targetClient.TriggerSubsystemEvent("lprp:riceviOggettoAnimazione");
 				targetPlayer.showNotification($"Hai ricevuto un'arma con {ammo} munizioni da {player.FullName}");
 			}
 		}

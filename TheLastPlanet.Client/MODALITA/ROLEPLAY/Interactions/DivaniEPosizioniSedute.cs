@@ -9,7 +9,7 @@ using System;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	internal static class DivaniEPosizioniSedute
 	{

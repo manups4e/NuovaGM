@@ -9,7 +9,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 {
 	class PescatoreJob : LavoroBase
 	{

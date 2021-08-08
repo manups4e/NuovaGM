@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Logger;
-using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.RolePlay.CharCreation;
-using TheLastPlanet.Client.RolePlay.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core.LogIn
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.LogIn
 {
 	internal static class NewLogIn
 	{

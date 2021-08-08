@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.RolePlay.Interactions;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;

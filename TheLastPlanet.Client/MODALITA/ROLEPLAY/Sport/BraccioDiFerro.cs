@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.RolePlay.Sport
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 {
 	public static class BraccioDiFerro
 	{

@@ -11,12 +11,12 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.RolePlay.Proprietà.Appartamenti.Case;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Shared.Veicoli;
 
-namespace TheLastPlanet.Client.RolePlay.Proprietà
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
 {
 	internal static class Manager
 	{

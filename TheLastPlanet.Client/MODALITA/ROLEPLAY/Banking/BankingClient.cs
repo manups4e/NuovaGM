@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.RolePlay.Banking
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 {
 	static class BankingClient
 	{
@@ -404,8 +404,8 @@ namespace TheLastPlanet.Client.RolePlay.Banking
 				ShowCursorThisFrame();
 				fVar0 = Game.GetControlNormal(2, Control.CursorX);
 				fVar1 = Game.GetControlNormal(2, Control.CursorY);
-				if (((fVar0 >= 0f && fVar0 <= 1f) && fVar1 >= 0f) && fVar1 <= 1f) atm.CallFunction("SET_MOUSE_INPUT", fVar0, fVar1);
-				fVar2 = 1f + (10f * Timestep());
+				if (fVar0 >= 0f && fVar0 <= 1f && fVar1 >= 0f && fVar1 <= 1f) atm.CallFunction("SET_MOUSE_INPUT", fVar0, fVar1);
+				fVar2 = 1f + 10f * Timestep();
 				if (Game.IsControlPressed(2, Control.CursorScrollDown) || Game.IsControlPressed(2, Control.FrontendDown)) iVar1 = -200;
 				if (Game.IsControlPressed(2, Control.CursorScrollUp) || Game.IsControlPressed(2, Control.FrontendUp)) iVar1 = 200;
 				atm.CallFunction("SET_ANALOG_STICK_INPUT", 0f, 0f, iVar1 * fVar2);
@@ -420,7 +420,7 @@ namespace TheLastPlanet.Client.RolePlay.Banking
 				iVar1 = Game.GetControlValue(0, Control.FrontendRightAxisY) - 128;
 				if (iVar0 < 10 && iVar0 > -10) iVar0 = 0;
 				if (iVar1 < 10 && iVar1 > -10) iVar1 = 0;
-				fVar2 = 1f + (10f * Timestep());
+				fVar2 = 1f + 10f * Timestep();
 
 				if (iLocal_674 != iVar0 || iLocal_675 != iVar1)
 				{

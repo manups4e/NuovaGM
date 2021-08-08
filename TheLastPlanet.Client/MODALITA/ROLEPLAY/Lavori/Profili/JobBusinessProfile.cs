@@ -9,7 +9,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Profili
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Profili
 {
 	public class JobBusinessProfile : JobProfile
 	{

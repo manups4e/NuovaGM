@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.RolePlay.Lavori.Generici.Pescatore;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
 {
 	internal static class JobManager
 	{

@@ -9,6 +9,7 @@ using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Telefono.Models;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
 
 namespace TheLastPlanet.Client.Telefono
 {
@@ -46,7 +47,7 @@ namespace TheLastPlanet.Client.Telefono
 		{
 			Ped ped = Cache.PlayerCache.MyPlayer.Ped;
 
-			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || RolePlay.Banking.BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
+			if (!(HUD.MenuPool.IsAnyMenuOpen || Game.IsPaused || BankingClient.InterfacciaAperta || ped.IsAiming || ped.IsAimingFromCover || ped.IsShooting))
 			{
 				if (Input.IsControlJustPressed(Control.Phone) && !IsPedRunningMobilePhoneTask(ped.Handle))
 				{

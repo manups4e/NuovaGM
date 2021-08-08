@@ -57,7 +57,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
 				await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
 			}
 			NetworkSetTalkerProximity(-1000f);
-
+			
+			// eventi di utility.. da sistemare (togliere gli eventi non di utility e spostarli)
+			Utility.Eventi.Init();
 			// TODO: gestire questa parte separatamente per i vari pianeti
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
 			Cache.PlayerCache.MyPlayer.Player.IgnoredByPolice = true;

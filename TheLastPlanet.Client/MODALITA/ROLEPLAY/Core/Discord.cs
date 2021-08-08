@@ -1,14 +1,13 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Client.RolePlay.Core.CharCreation;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using System;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.RolePlay.CharCreation;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Core
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
 	static class Discord
 	{
@@ -36,7 +35,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 
 			if (!Main.spawned)
 			{
-				if (!RolePlay.LogIn.LogIn.GuiEnabled)
+				if (!MODALITA.ROLEPLAY.LogIn.LogIn.GuiEnabled)
 				{
 					if (Creator.Creazione.Visible || Creator.Apparel.Visible || Creator.Apparenze.Visible || Creator.Dettagli.Visible || Creator.Genitori.Visible || Creator.Info.Visible) SetRichPresence("Sta creando un personaggio");
 				}

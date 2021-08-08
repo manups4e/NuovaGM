@@ -11,14 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.RolePlay.Veicoli;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using System.Drawing;
 using Impostazioni.Client.Configurazione.Lavori.Generici;
-using TheLastPlanet.Client.RolePlay.Interactions;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Generici.Taxi
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 {
 	internal static class TaxiClient
 	{

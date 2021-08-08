@@ -7,14 +7,14 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Client.NativeUI.PauseMenu;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.RolePlay.Personale;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {

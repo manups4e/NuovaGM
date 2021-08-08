@@ -5,17 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.RolePlay.Core.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.LogIn;
 
-namespace TheLastPlanet.Client.RolePlay.Core
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
 	static class CoreInitializer
 	{
 		public static async Task LogInInitializer()
 		{
-			RolePlay.LogIn.LogIn.Init();
+			MODALITA.ROLEPLAY.LogIn.LogIn.Init();
 			Main.Init();
-			Eventi.Init();
+			EventiRoleplay.Init();
 			TimeWeather.Meteo.Init();
 			TimeWeather.Orario.Init();
 			await Task.FromResult(0);
@@ -23,7 +24,7 @@ namespace TheLastPlanet.Client.RolePlay.Core
 
 		public static async Task LogInStop()
 		{
-			RolePlay.LogIn.LogIn.Stop();
+			MODALITA.ROLEPLAY.LogIn.LogIn.Stop();
 			Main.Stop();
 			//Eventi.Stop();
 			TimeWeather.Meteo.Stop();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CitizenFX.Core;
-using TheLastPlanet.Client.RolePlay.Lavori;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori;
 using TheLastPlanet.Shared;
 
 namespace Impostazioni.Client.Configurazione.Lavori.WhiteList

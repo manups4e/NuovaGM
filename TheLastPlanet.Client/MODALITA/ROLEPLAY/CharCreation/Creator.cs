@@ -9,13 +9,12 @@ using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.RolePlay.Core.CharCreation;
-using TheLastPlanet.Client.RolePlay.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.CharCreation
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 {
 	internal static class Creator
 	{

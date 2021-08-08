@@ -9,7 +9,7 @@ using Font = CitizenFX.Core.UI.Font;
 using CitizenFX.Core.UI;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.NativeUI
 {

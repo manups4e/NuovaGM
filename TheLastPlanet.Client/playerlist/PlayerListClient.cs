@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.RolePlay.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using System;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
 
 namespace TheLastPlanet.Client.ListaPlayers
 {
@@ -81,9 +82,9 @@ namespace TheLastPlanet.Client.ListaPlayers
 		/// <returns></returns>
 		private static async Task DisplayController()
 		{
-			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !RolePlay.Banking.BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !BankingClient.InterfacciaAperta && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
-				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.MostraMoney();
+				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) BankingClient.MostraMoney();
 				UpdateMaxPages();
 
 				if (ScaleSetup)
@@ -93,7 +94,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 					if (currentPage > maxPages)
 					{
 						currentPage = 0;
-						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) BankingClient.NascondiMoney();
 					}
 
 					await LoadScale();
@@ -124,13 +125,13 @@ namespace TheLastPlanet.Client.ListaPlayers
 						else
 						{
 							currentPage = 0;
-							if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
+							if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) BankingClient.NascondiMoney();
 						}
 					}
 					else
 					{
 						currentPage = 0;
-						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) RolePlay.Banking.BankingClient.NascondiMoney();
+						if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) BankingClient.NascondiMoney();
 					}
 				}
 			}

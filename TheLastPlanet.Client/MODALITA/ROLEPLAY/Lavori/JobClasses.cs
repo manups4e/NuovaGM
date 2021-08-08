@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Impostazioni.Client.Configurazione.Lavori.Generici;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
 {
 	public class _ConfigPolizia
 	{

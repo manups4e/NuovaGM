@@ -14,7 +14,7 @@ using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.Medici
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 {
 	internal static class MediciMainClient
 	{

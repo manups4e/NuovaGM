@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.RolePlay.TimeWeather
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.TimeWeather
 {
 	internal static class Meteo
 	{

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.RolePlay.Giostre
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 {
 	internal static class Funivia
 	{

@@ -14,7 +14,7 @@ using Impostazioni.Client.Configurazione.Lavori.WhiteList;
 using Logger;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Lavori.Whitelistati.VenditoreCase
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
 	internal static class HouseDealer
 	{

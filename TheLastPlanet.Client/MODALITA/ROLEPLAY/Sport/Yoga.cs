@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 
-namespace TheLastPlanet.Client.RolePlay.Sport
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 {
 	static class Yoga
 	{

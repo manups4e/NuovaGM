@@ -9,7 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.NativeUI;
 
-namespace TheLastPlanet.Client.RolePlay.Interactions
+namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
 	public enum TVChannel
 	{

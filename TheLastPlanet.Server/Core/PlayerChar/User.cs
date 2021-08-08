@@ -202,8 +202,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			if (!hasWeapon(weaponName))
 			{
 				CurrentChar.Weapons.Add(new Weapons(weaponName, ammo, new List<Components>(), 0));
-				Player.TriggerEvent("lprp:addWeapon", weaponName, ammo);
-
+				Player.TriggerSubsystemEvent("lprp:addWeapon", weaponName, ammo);
 			}
 		}
 
@@ -218,7 +217,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			if (hasWeapon(weaponName))
 			{
 				CurrentChar.Weapons.Remove(getWeapon(weaponName).Item2);
-				Player.TriggerEvent("lprp:removeWeapon", weaponName);
+				Player.TriggerSubsystemEvent("lprp:removeWeapon", weaponName);
 
 			}
 		}
@@ -229,12 +228,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 			if (hasWeaponComponent(weaponName, weaponComponent))
 			{
-				Player.TriggerEvent("lprp:possiediArma", weaponName, weaponComponent);
+				Player.TriggerSubsystemEvent("lprp:possiediArma", weaponName, weaponComponent);
 			}
 			else
 			{
 				CurrentChar.Weapons[num].components.Add(new Components(weaponComponent, true));
-				Player.TriggerEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
+				Player.TriggerSubsystemEvent("lprp:addWeaponComponent", weaponName, weaponComponent);
 
 			}
 		}
@@ -249,7 +248,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 					if (CurrentChar.Weapons[num].components[i].name == weaponComponent)
 					{
 						CurrentChar.Weapons[num].components.RemoveAt(i);
-						Player.TriggerEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
+						Player.TriggerSubsystemEvent("lprp:removeWeaponComponent", weaponName, weaponComponent);
 		
 					}
 		}
@@ -263,12 +262,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			{
 				if (hasWeaponTint(weaponName, tint))
 				{
-					Player.TriggerEvent("lprp:possiediTinta", weaponName, tint);
+					Player.TriggerSubsystemEvent("lprp:possiediTinta", weaponName, tint);
 				}
 				else
 				{
 					CurrentChar.Weapons[num].tint = tint;
-					Player.TriggerEvent("lprp:addWeaponTint", weaponName, tint);
+					Player.TriggerSubsystemEvent("lprp:addWeaponTint", weaponName, tint);
 	
 				}
 			}
