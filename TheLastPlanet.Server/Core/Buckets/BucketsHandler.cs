@@ -42,9 +42,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 		/// <param name="id">Id del bucket</param>
 		private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
 		{
-			Server.Logger.Debug($"{id}, {player.User.Status.PlayerStates.Modalita}");
-			if (id != ModalitaServer.Lobby) Lobby.RemovePlayer(player);
-			else RemovePlayerFromBucket(player, player.User.Status.PlayerStates.Modalita, "");
+			RemovePlayerFromBucket(player, player.User.Status.PlayerStates.Modalita, "");
 			switch (id)
 			{
 				case ModalitaServer.Lobby:
@@ -62,7 +60,6 @@ namespace TheLastPlanet.Server.Core.Buckets
 					break;
 			}
 			player.User.Status.PlayerStates.Modalita = id;
-			Server.Logger.Debug($"{id}, {player.User.Status.PlayerStates.Modalita}");
 			UpdateBucketsCount();
 		}
 
@@ -70,6 +67,9 @@ namespace TheLastPlanet.Server.Core.Buckets
 		{
 			switch (id)
 			{
+				case ModalitaServer.Lobby:
+					Lobby.RemovePlayer(player, reason);
+					break;
 				case ModalitaServer.Roleplay:
 					RolePlay.RemovePlayer(player, reason);
 					break;
