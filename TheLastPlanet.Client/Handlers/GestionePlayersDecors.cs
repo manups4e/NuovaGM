@@ -22,25 +22,25 @@ namespace TheLastPlanet.Client
 				{
 					if (client == Cache.PlayerCache.MyPlayer) return;
 
-					if (!client.User.Status.Spawned) continue;
-					if (!client.ClientStateBags.Istanza.Stanziato)
+					if (client.User is null || !client.User.Status.Spawned) continue;
+					if (!client.User.Status.Istanza.Stanziato)
 					{
 						if (NetworkIsPlayerConcealed(client.Player.Handle))
 							NetworkConcealPlayer(client.Player.Handle, false, false);
 						continue;
 					}
 
-					if (client.ClientStateBags.Istanza.Instance != string.Empty)
+					if (client.User.Status.Istanza.Instance != string.Empty)
 					{
-						if (client.ClientStateBags.Istanza.ServerIdProprietario != 0 || Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != 0)
+						if (client.User.Status.Istanza.ServerIdProprietario != 0 || Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != 0)
 						{
-							if (client.ClientStateBags.Istanza.ServerIdProprietario != Cache.PlayerCache.MyPlayer.Player.ServerId && Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != client.Handle)
+							if (client.User.Status.Istanza.ServerIdProprietario != Cache.PlayerCache.MyPlayer.Player.ServerId && Cache.PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != client.Handle)
 							{
 								if (!NetworkIsPlayerConcealed(client.Player.Handle)) NetworkConcealPlayer(client.Player.Handle, true, true);
 							}
 							else
 							{
-								if (client.ClientStateBags.Istanza.ServerIdProprietario == Cache.PlayerCache.MyPlayer.Player.ServerId || Cache.PlayerCache.MyPlayer.Player.ServerId == client.ClientStateBags.Istanza.ServerIdProprietario)
+								if (client.User.Status.Istanza.ServerIdProprietario == Cache.PlayerCache.MyPlayer.Player.ServerId || Cache.PlayerCache.MyPlayer.Player.ServerId == client.User.Status.Istanza.ServerIdProprietario)
 									if (NetworkIsPlayerConcealed(client.Player.Handle))
 										NetworkConcealPlayer(client.Player.Handle, false, false);
 							}

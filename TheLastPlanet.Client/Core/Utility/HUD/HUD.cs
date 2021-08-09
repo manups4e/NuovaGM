@@ -85,7 +85,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public static async Task Menus()
 		{
 			MenuPool.ProcessMenus();
-			if (TimerBarPool.ToList().Count > 0) TimerBarPool.Draw();
+			//if (TimerBarPool.ToList().Count > 0) TimerBarPool.Draw();
 			await Task.FromResult(0);
 		}
 

@@ -71,20 +71,21 @@ namespace TheLastPlanet.Server.Core.Buckets
             foreach (var worldEvent in WorldEventsManager.WorldEvents)
                 highscores.Add(new PlayerScore { EventId = worldEvent.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = worldEvent.EventXpMultiplier });
             client.User.PlayerScores = highscores;
-            BucketsHandler.UpdateBucketsCount();
         }
 
 
         public async void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
-            await Bucket.Players.ForEachAsync(async (x) =>
+            if (Bucket.Players.Count > 0)
             {
-                x.User.showNotification($"Il player {client.Player.Name} è uscito.");
-                await Task.FromResult(0);
-            });
+                await Bucket.Players.ForEachAsync(async (x) =>
+                {
+                    x.User.showNotification($"Il player {client.Player.Name} è uscito.");
+                    await Task.FromResult(0);
+                });
+            }
             Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta FreeRoam.");
-            BucketsHandler.UpdateBucketsCount();
         }
 
         public void UpdateCurrentAttempt(ClientId client, int eventId, float currentAttempt)
@@ -370,7 +371,6 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(ClientId client)
         {
             Bucket.AddPlayer(client);
-            BucketsHandler.UpdateBucketsCount();
         }
 
         public async void RemovePlayer(ClientId client, string reason = "")
@@ -383,15 +383,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
             else
                 Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta RolePlay senza selezionare un personaggio.");
-            BucketsHandler.UpdateBucketsCount();
-
         }
 
         #region EVENTS
 
         private static async Task<List<LogInInfo>> LogInfo(ClientId client)
         {
-            Server.Logger.Debug(client.User.ToJson());
             string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
             var info = await MySQL.QueryListAsync(query, new
             {
@@ -482,13 +479,11 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(ClientId client)
         {
             Bucket.AddPlayer(client);
-            BucketsHandler.UpdateBucketsCount();
         }
 
         public async void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
-            BucketsHandler.UpdateBucketsCount();
         }
     }
 }

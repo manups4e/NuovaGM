@@ -86,9 +86,29 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
 			Screen.Fading.FadeIn(1000);
-			MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
+			//MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
+			Client.Instance.AddTick(MainChooser.DrawMarkers);
+			SpawnParticle.MarkAsNoLongerNeeded();
+		}
+
+		public static async void ReturnToLobby()
+		{
+			SpawnParticle.Request();
+			while (!SpawnParticle.IsLoaded) await BaseScript.Delay(0);
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
+			if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
+			RequestCollisionAtCoord(-1266.726f, -2986.766f, -48f);
+			Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
+			Cache.PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
+			Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
+			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
+			Screen.Fading.FadeIn(1000);
+			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
+			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
 			Client.Instance.AddTick(MainChooser.DrawMarkers);
 			SpawnParticle.MarkAsNoLongerNeeded();
 		}

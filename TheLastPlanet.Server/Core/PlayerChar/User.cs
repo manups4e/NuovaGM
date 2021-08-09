@@ -17,10 +17,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 	{
 		[Ignore][JsonIgnore] public string source;
 
-		public User()
-		{
-		}
-
 		[Ignore][JsonIgnore] public DateTime LastSaved;
 
 		public User(Player player, BasePlayerShared result)

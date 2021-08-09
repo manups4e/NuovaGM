@@ -30,7 +30,6 @@ namespace TheLastPlanet.Server.Core.Buckets
 		public static void Init()
 		{
 			Server.Instance.Events.Mount("tlg:addPlayerToBucket", new Action<ClientId, ModalitaServer>(AddPlayerToBucket));
-			Server.Instance.Events.Mount("tlg:removePlayerToBucket", new Action<ClientId, ModalitaServer, string>(RemovePlayerFromBucket));
 			Server.Instance.Events.Mount("tlg:checkSeGiaDentro", new Func<ClientId, ModalitaServer, Task<bool>>(CheckIn));
 			Server.Instance.Events.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
 			Server.Instance.Events.Mount("tlg:richiediContoBuckets", new Func<ClientId, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
@@ -43,6 +42,9 @@ namespace TheLastPlanet.Server.Core.Buckets
 		/// <param name="id">Id del bucket</param>
 		private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
 		{
+			Server.Logger.Debug($"{id}, {player.User.Status.PlayerStates.Modalita}");
+			if (id != ModalitaServer.Lobby) Lobby.RemovePlayer(player);
+			else RemovePlayerFromBucket(player, player.User.Status.PlayerStates.Modalita, "");
 			switch (id)
 			{
 				case ModalitaServer.Lobby:
@@ -59,15 +61,15 @@ namespace TheLastPlanet.Server.Core.Buckets
 				case ModalitaServer.Minigiochi:
 					break;
 			}
+			player.User.Status.PlayerStates.Modalita = id;
+			Server.Logger.Debug($"{id}, {player.User.Status.PlayerStates.Modalita}");
+			UpdateBucketsCount();
 		}
 
 		private static void RemovePlayerFromBucket(ClientId player, ModalitaServer id, string reason)
 		{
 			switch (id)
 			{
-				case ModalitaServer.Lobby:
-					Lobby.RemovePlayer(player, reason);
-					break;
 				case ModalitaServer.Roleplay:
 					RolePlay.RemovePlayer(player, reason);
 					break;
@@ -81,6 +83,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 			}
 		}
 
+
 		/// <summary>
 		/// Aggiunge un Entity al bucket rimuovendolo dagli altri buckets
 		/// </summary>
@@ -89,21 +92,18 @@ namespace TheLastPlanet.Server.Core.Buckets
 		private static void AddEntityToBucket(int entity, ModalitaServer id)
 		{
 			Entity ent = Entity.FromNetworkId(entity);
+			if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
 			switch (id)
 			{
 				case ModalitaServer.Roleplay:
-					if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
 					RolePlay.Bucket.AddEntity(ent);
 					break;
 				case ModalitaServer.FreeRoam:
-					if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
 					FreeRoam.Bucket.Entities.Add(ent);
 					break;
 				case ModalitaServer.Gare:
-					if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
 					break;
 				case ModalitaServer.Minigiochi:
-					if (Lobby.Bucket.Entities.Contains(ent)) Lobby.Bucket.Entities.Remove(ent);
 					break;
 			}
 		}
@@ -151,6 +151,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 				[ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
 			};
 
+			Server.Logger.Debug($"MainChooser.Bucket_n_Players => {result.ToJson()}");
 			Server.Instance.Events.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);
 		}
 

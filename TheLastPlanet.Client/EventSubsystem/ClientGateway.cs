@@ -22,6 +22,7 @@ namespace TheLastPlanet.Client.Internal.Events
             DelayDelegate = async delay => await BaseScript.Delay(delay);
             PrepareDelegate = PrepareAsync;
             PushDelegate = Push;
+
             Client.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<byte[]>(async serialized =>
             {
                 try
@@ -60,7 +61,7 @@ namespace TheLastPlanet.Client.Internal.Events
                 while (_signature == null)
                     await BaseScript.Delay(0);
 
-                Client.Logger.Debug($"[{message}] Halted {stopwatch.Elapsed.TotalMilliseconds}ms due to signature retrieval.");
+                //Client.Logger.Debug($"[{message}] Halted {stopwatch.Elapsed.TotalMilliseconds}ms due to signature retrieval.");
             }
 
             message.Signature = _signature;

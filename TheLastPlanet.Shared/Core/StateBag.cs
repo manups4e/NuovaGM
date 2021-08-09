@@ -19,7 +19,7 @@ namespace TheLastPlanet.Shared
             set
             {
                 if (_player != null)
-                    _player.SetState(Name, value, Replicated);
+                    _player.SetState(Name, value, true);
                 else
                     _entity.SetState(Name, value, Replicated);
             }
@@ -77,8 +77,9 @@ namespace TheLastPlanet.Shared
             get => _modalita.Value;
             set
             {
+#if SERVER
                 _modalita.Value = value;
-#if CLIENT
+#elif CLIENT
                 Client.Client.Instance.Events.Send("tlg:addPlayerToBucket", value);
 #endif
             }
@@ -91,7 +92,6 @@ namespace TheLastPlanet.Shared
             _modalita = new BaseStateBag<ModalitaServer>(player, _name+":Modalita", true);
             AdminSpecta = false;
             InPausa = false;
-            Modalita = ModalitaServer.Lobby;
         }
     }
 

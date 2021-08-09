@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Server.Core.Buckets;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -54,7 +55,76 @@ namespace TheLastPlanet.Server.Core
 			RegisterCommand("status", new Action<int, List<object>, string>((a, b, c) =>
 			{
 				if (a != 0) return;
-				foreach (Player player in Server.Instance.GetPlayers) Server.Logger.Info( $"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}");
+				if (b.Count == 0)
+				{
+					if (Server.Instance.GetPlayers.Count() > 0)
+					{
+						Server.Logger.Info($"Player totali: {Server.Instance.GetPlayers.Count()}.");
+						foreach (Player player in Server.Instance.GetPlayers) Server.Logger.Info($"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}, Pianeta:{player.GetCurrentChar().Status.PlayerStates.Modalita}");
+					}
+					else
+						Server.Logger.Info("Non ci sono player in nel server");
+				}
+				else
+				{
+					switch (b[0] as string)
+					{
+						case "0":
+							if (BucketsHandler.Lobby.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"Lobby -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.Lobby.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+						case "1":
+							if (BucketsHandler.RolePlay.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"Roleplay -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.RolePlay.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+						case "2":
+							if (BucketsHandler.Minigiochi.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"Minigiochi -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.Minigiochi.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+						case "3":
+							if (BucketsHandler.Gare.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"Gare -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.Gare.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+						case "4":
+							if (BucketsHandler.Negozio.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"Negozio -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.Negozio.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+						case "5":
+							if (BucketsHandler.FreeRoam.GetTotalPlayers() > 0)
+							{
+								Server.Logger.Info($"FreeRoam -- Player totali: {Server.Instance.GetPlayers.Count()}");
+								foreach (ClientId client in BucketsHandler.FreeRoam.Bucket.Players) Server.Logger.Info($"ID:{client.Handle}, {client.Player.Name}, Discord:{client.Identifiers.Discord}, Ping:{client.Player.Ping}");
+							}
+							else
+								Server.Logger.Info("Non ci sono player in questo pianeta");
+							break;
+					}
+				}
 			}), true);
 
 			//			Server.Instance.AddCommand("nome comando", new Action<Player, List<string>, string>(funzione comando), false, new ChatSuggestion("", new SuggestionParam[] { new SuggestionParam() }));

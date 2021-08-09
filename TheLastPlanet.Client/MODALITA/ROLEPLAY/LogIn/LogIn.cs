@@ -192,7 +192,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 				PedHash f = PedHash.FreemodeFemale01;
 				SkinAndDress pers = await Client.Instance.Events.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
 				if (p1 != null) p1.Delete();
-				Client.Logger.Debug(pers.ToJson());
 				p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
 				p1.Style.SetDefaultClothes();
 				await SetSkinAndClothes(p1, pers);
@@ -413,8 +412,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 				else if (a.GamepadButton == Control.FrontendAccept)
 				{
 					await Initializer.Stop();
-					Client.Instance.Events.Send("tlg:removePlayerToBucket", ModalitaServer.Roleplay, "Uscita LogIn");
-					ServerJoining.PlayerSpawned();
+					ServerJoining.ReturnToLobby();
 					World.RenderingCamera = null;
 				}
 			};

@@ -136,8 +136,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                     var data = context.GetData();
 
                     PushDelegate(EventConstant.OutboundPipeline, source, data);
-                    Logger.Debug(
-                        $"[{message.Endpoint}] Responded to {source} with {data.Length} byte(s) in {stopwatch.Elapsed.TotalMilliseconds}ms");
+                    //Logger.Debug($"[{message.Endpoint}] Responded to {source} with {data.Length} byte(s) in {stopwatch.Elapsed.TotalMilliseconds}ms");
                 }
             }
             else
@@ -203,8 +202,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 var data = context.GetData();
 
                 PushDelegate(EventConstant.InboundPipeline, source, data);
-                Logger.Debug(
-                    $"[{endpoint}] Sent {data.Length} byte(s) to {source} in {stopwatch.Elapsed.TotalMilliseconds}ms");
+                //Logger.Debug($"[{endpoint}] Sent {data.Length} byte(s) to {source} in {stopwatch.Elapsed.TotalMilliseconds}ms");
 
                 return message;
             }
@@ -234,8 +232,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 
             var elapsed = stopwatch.Elapsed.TotalMilliseconds;
 
-            Logger.Debug(
-                $"[{message.Endpoint}] Received response from {source} of {holder.Data.Length} byte(s) in {elapsed}ms");
+            //Logger.Debug($"[{message.Endpoint}] Received response from {source} of {holder.Data.Length} byte(s) in {elapsed}ms");
 
             return holder.Value;
         }

@@ -26,8 +26,8 @@ namespace TheLastPlanet.Shared.Internal.Events
         public User User { get; set; }
         public Identifiers Identifiers => User.Identifiers;
 
-        [Ignore]
-        public ClientStateBags ClientStateBags { get; set; }
+        //[Ignore]
+        //public ClientStateBags ClientStateBags { get; set; }
 #if CLIENT
         private Ped _ped;
         [Ignore][JsonIgnore]
@@ -66,7 +66,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Id = value.Item1;
             Handle = Game.Player.ServerId;
 			User = new(value.Item2);
-            ClientStateBags = new ClientStateBags(Player);
+            //ClientStateBags = new ClientStateBags(Player);
         }
 #endif
         public ClientId(Snowflake id)
@@ -85,7 +85,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 Handle = Convert.ToInt32(owner.Handle);
                 LoadUser();
 #endif
-                ClientStateBags = new(Player);
+                //ClientStateBags = new(Player);
             }
             else
             {
@@ -101,7 +101,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             if (handle > 0)
                 LoadUser();
             Id = User != null ? User.PlayerID : Snowflake.Empty;
-            ClientStateBags = new(Player);
+            //ClientStateBags = new(Player);
         }
 #endif
 
@@ -112,7 +112,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             //Player = user.Player;
             User = user;
             Id = user.PlayerID;
-            ClientStateBags = new(Player);
+            //ClientStateBags = new(Player);
         }
 #endif
 
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Id = id;
             Handle = handle;
             LoadUser();
-            ClientStateBags = new(Player);
+            //ClientStateBags = new(Player);
         }
 
         public override string ToString()
@@ -166,6 +166,7 @@ namespace TheLastPlanet.Shared.Internal.Events
 #endif
             if (res != null)
                 User = res.User;
+            /*
 #if SERVER
             else
             {
@@ -180,6 +181,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 }));
             }
 #endif
+            */
         }
 
 #if SERVER

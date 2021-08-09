@@ -153,31 +153,37 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 					"Disconnected." or "Exited."  => name + " si e' disconnesso.",
 					_                             => name + " si e' disconnesso: " + reason
 				};
-			
-			var client = Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle);
-			User ped = client?.User;
-
-			if (ped != null)
+			try
 			{
-				string disc = ped.Identifiers.Discord;
-				if (ped.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
-				{
-					BucketsHandler.RolePlay.RemovePlayer(client, reason);
-				}
-				else if (ped.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
-				{
-					Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
-				}
-				else if (ped.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
-				{
-					BucketsHandler.FreeRoam.RemovePlayer(client, reason);
-				}
-				Server.Instance.Clients.Remove(Server.Instance.Clients.FirstOrDefault(x=>x.Handle.ToString() == player.Handle));
-			}
+				var client = Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle);
+				User ped = client?.User;
 
-			Server.Logger.Info(text);
-			// TODO: creare funzione per sapere il bucket del player come oggetto
-			BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
+				if (ped != null)
+				{
+					string disc = ped.Identifiers.Discord;
+					if (ped.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
+					{
+						Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
+					}
+					else if (ped.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
+					{
+						BucketsHandler.RolePlay.RemovePlayer(client, reason);
+					}
+					else if (ped.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+					{
+						BucketsHandler.FreeRoam.RemovePlayer(client, reason);
+					}
+					Server.Instance.Clients.Remove(Server.Instance.Clients.FirstOrDefault(x => x.Handle.ToString() == player.Handle));
+				}
+
+				Server.Logger.Info(text);
+				// TODO: creare funzione per sapere il bucket del player come oggetto
+				BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
+			}
+			catch(Exception e)
+			{
+				Server.Logger.Error(e.ToString());
+			}
 		}
 
 		private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(ClientId source)

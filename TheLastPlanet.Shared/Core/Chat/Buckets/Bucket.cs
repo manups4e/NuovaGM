@@ -74,11 +74,8 @@ namespace TheLastPlanet.Shared.Core.Buckets
 
 		public virtual void RemovePlayer(ClientId client, string reason = "")
 		{
-			if (!Players.Any(x => x.Handle == client.Handle)) return;
-			Players.Remove(client);
-#if SERVER
-			if (API.GetPlayerRoutingBucket(client.Handle.ToString()) == ID) API.SetPlayerRoutingBucket(client.Handle.ToString(), 0);
-#endif
+			if (!Players.Any(x => x.Handle == client.Handle))return;
+			Players.Remove(Players.FirstOrDefault(x=>x.Handle == client.Handle));
 			OnPlayerLeft?.Invoke(client, reason);
 		}
 
