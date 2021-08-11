@@ -24,10 +24,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 		private static async void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
 		{
-			await BaseScript.Delay(0);
 			MainChooser.Bucket_n_Players = count;
-			await BaseScript.Delay(0);
-			Client.Logger.Debug($"MainChooser.Bucket_n_Players => {MainChooser.Bucket_n_Players.ToJson()}");
 		}
 
 		private static async Task Entra()
@@ -95,14 +92,19 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 		public static async void ReturnToLobby()
 		{
+			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
+			Screen.Fading.FadeOut(500);
+			while (Screen.Fading.IsFadingOut) await BaseScript.Delay(0);
 			SpawnParticle.Request();
 			while (!SpawnParticle.IsLoaded) await BaseScript.Delay(0);
-			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
 			if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
 			RequestCollisionAtCoord(-1266.726f, -2986.766f, -48f);
 			Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
 			Cache.PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
+
+			// TODO: sostituire con caricamento personaggio freeroam.
 			Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
+
 			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			Screen.Fading.FadeIn(1000);

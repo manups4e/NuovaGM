@@ -151,7 +151,6 @@ namespace TheLastPlanet.Server.Core.Buckets
 				[ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
 			};
 
-			Server.Logger.Debug($"MainChooser.Bucket_n_Players => {result.ToJson()}");
 			Server.Instance.Events.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);
 		}
 
