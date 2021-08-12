@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     Screen.ShowSubtitle($"Preparati per la sfida ~b~{Name}~w~.", 50);
                 else
                 {
-                    if (Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, CurrentPlace) > 50f)
+                    if (!Cache.PlayerCache.MyPlayer.Posizione.IsInRangeOf(CurrentPlace, 50f))
                         Screen.ShowSubtitle("Entra nell'area e difendila il più possibile per conquistare RP", 50);
                     else
                     {
@@ -89,7 +89,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             {
                 Client.Logger.Error(ex.ToString());
             }
-
             await Task.FromResult(0);
         }
     }
