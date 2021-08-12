@@ -54,7 +54,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
         public override async void OnEventActivated()
         {
             FirstStartedTick = true;
-            Cache.PlayerCache.MyPlayer.Ped.Weapons.RemoveAll();
+            //Cache.PlayerCache.MyPlayer.Ped.Weapons.RemoveAll();
             //Cache.MyPlayer.Ped.Weapons.Give(WeaponHash.Parachute, 1, true, true);
 
             //HUD.ShowAdvancedNotification($"Ti è stato dato un paracadute per la sfida ~b~{Name}~w~", "Paracadute consegnato", "", "CHAR_AMMUNATION", "CHAR_AMMUNATION", HudColor.HUD_COLOUR_REDDARK, default(System.Drawing.Color), false, NotificationType.Bubble);
