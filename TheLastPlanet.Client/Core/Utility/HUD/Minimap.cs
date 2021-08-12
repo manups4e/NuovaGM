@@ -10,6 +10,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -22,6 +23,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static async Task MinimapDrawing()
 		{
+			await PlayerCache.Loaded();
+			
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
 			switch (Cache.PlayerCache.ModalitàAttuale)
