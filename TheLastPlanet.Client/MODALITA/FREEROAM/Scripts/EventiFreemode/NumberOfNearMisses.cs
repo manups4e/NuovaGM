@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
         {
             if (IsStarted) 
             {   
-                Vehicle veh = new Vehicle(vehicle);
+                Vehicle veh = new(vehicle);
                 if (veh == Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle)
                 {
                     API.StatSetInt(unchecked((uint)PlayerStats.NumberNearMisses), 0, true);
