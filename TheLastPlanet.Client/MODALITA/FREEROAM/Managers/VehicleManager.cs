@@ -7,7 +7,7 @@ using Logger;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.FreeRoam.Managers
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     static class VehicleManager
     {

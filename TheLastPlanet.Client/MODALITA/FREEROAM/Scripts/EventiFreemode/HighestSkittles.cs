@@ -6,7 +6,7 @@ using Logger;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
     public class HighestSkittles : IWorldEvent
     {

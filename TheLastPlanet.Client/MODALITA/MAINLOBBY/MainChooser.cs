@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 					}
 
 					await CambiaBucket("~b~Pianeta RolePlay~w~", ModalitaServer.Roleplay);
-					await MODALITA.ROLEPLAY.Initializer.Init();
+					await ROLEPLAY.Initializer.Init();
 					Stop();
 				}
 			}
@@ -166,7 +166,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
 					await CambiaBucket("~f~Pianeta FreeRoam~w~", ModalitaServer.FreeRoam);
 					Screen.Fading.FadeIn(1000);
-					await FreeRoam.Initializer.Init();
+					await FREEROAM.Initializer.Init();
 					Cache.PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
 					BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
 					Stop();

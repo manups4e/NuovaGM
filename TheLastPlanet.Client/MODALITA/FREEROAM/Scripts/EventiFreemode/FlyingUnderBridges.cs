@@ -7,11 +7,11 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Client.FreeRoam.Managers;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
     public class FlyingUnderBridges : IWorldEvent
     {

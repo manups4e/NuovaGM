@@ -6,12 +6,12 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode;
 using Logger;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.NativeUI;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 
-namespace TheLastPlanet.Client.FreeRoam.Managers
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     static class WorldEventsManager
     {

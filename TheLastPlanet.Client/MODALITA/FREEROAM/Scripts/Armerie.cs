@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Scripts
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 {
 	static class Armerie
 	{

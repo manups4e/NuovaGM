@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
 	static class Environment
 	{

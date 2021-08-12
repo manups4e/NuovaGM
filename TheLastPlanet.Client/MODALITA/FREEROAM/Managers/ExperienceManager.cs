@@ -4,7 +4,7 @@ using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
-namespace TheLastPlanet.Client.FreeRoam.Managers
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     public static class ExperienceManager
     {

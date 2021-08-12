@@ -8,7 +8,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
     class MostPistolHeadshots : IWorldEvent
     {

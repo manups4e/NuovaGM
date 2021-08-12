@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.RolePlay.Core;
+using TheLastPlanet.Server.FREEROAM;
 
 namespace TheLastPlanet.Server
 {
@@ -24,9 +25,9 @@ namespace TheLastPlanet.Server
 		{
 			BucketsHandler.Init();
 			RequestInternal.Init();
+			NewServerEntrance.Init();
 			await ConfigServer.Init();
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);
-			NewServerEntrance.Init();
 			ServerManager.Init();
 			Main.Init();
 			Eventi.Init();
@@ -55,6 +56,7 @@ namespace TheLastPlanet.Server
 			BotDiscordHandler.Init();
 			WorldEventsManager.Init();
 			VehicleManager.Init();
+			PlayerBlipsHandler.Init();
 			await Task.FromResult(0);
 		}
 	}

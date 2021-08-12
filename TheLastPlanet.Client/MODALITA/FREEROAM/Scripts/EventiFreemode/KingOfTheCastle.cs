@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
+using Environment = TheLastPlanet.Client.MODALITA.FREEROAM.Managers.Environment;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
-    public class KingOfTheCastle : IWorldEvent
+	public class KingOfTheCastle : IWorldEvent
     {
         private Blip radius;
         private Blip icon;
@@ -55,7 +57,7 @@ namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
-            Environment.EnableWanted(true);
+			Environment.EnableWanted(true);
             Client.Instance.RemoveTick(OnTick);
             base.ResetEvent();
         }

@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.FreeRoam.Managers;
 using TheLastPlanet.Shared;
 using Logger;
 
-namespace TheLastPlanet.Client.FreeRoam.Scripts.EventiFreemode
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
     public class LongestSurvivedFreefall : IWorldEvent
     {

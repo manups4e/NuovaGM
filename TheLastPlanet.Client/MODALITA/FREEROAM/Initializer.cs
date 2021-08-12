@@ -7,12 +7,11 @@ using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Client.FreeRoam.Managers;
-using TheLastPlanet.Client.FreeRoam.Scripts;
 using TheLastPlanet.Client.ListaPlayers;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.FreeRoam
+namespace TheLastPlanet.Client.MODALITA.FREEROAM
 {
 	class Initializer
 	{
@@ -21,6 +20,7 @@ namespace TheLastPlanet.Client.FreeRoam
 			ExperienceManager.Init();
 			WorldEventsManager.Init();
 			ExperienceManager.Init();
+			PlayerBlipsHandler.Init();
 			//AGGIUNGERE GESTIONE METEO
 			//AGGIUNGERE GESTIONE ORARIO
 			//AGGIUNGERE GESTIONE STATISTICHE

@@ -66,7 +66,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 			PauseMenu.Init();
-			Minimap.Init();
 			TickController.Init();
 			await Task.FromResult(0);
 		}

@@ -5,7 +5,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 
-namespace TheLastPlanet.Client.FreeRoam.Managers
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     static class HudManager
     {

@@ -37,6 +37,7 @@ namespace TheLastPlanet.Client
 			ClientManager.Init();
 			DevManager.Init();
 			InputHandler.Init();
+			Minimap.Init();
 			ListaPlayers.FivemPlayerlist.Init();
 			ServerJoining.Init();
 		}
