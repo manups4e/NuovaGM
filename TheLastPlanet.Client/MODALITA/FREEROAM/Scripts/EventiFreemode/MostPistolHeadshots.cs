@@ -18,9 +18,11 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
         public override void OnEventActivated()
         {
             FirstStartedTick = true;
+            /*
             Cache.PlayerCache.MyPlayer.Ped.Weapons.RemoveAll();
             Cache.PlayerCache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 255, true, false);
             HUD.ShowAdvancedNotification($"Ti è stata data una pistola per la sfida ~b~{Name}~w~", "Arma equipaggiata", "", "CHAR_AMMUNATION", "CHAR_AMMUNATION", HudColor.HUD_COLOUR_REDDARK, default,false, NotificationType.Bubble);
+            */
             Client.Instance.AddTick(OnTick);
             base.OnEventActivated();
         }
