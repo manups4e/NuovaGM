@@ -237,7 +237,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 				public string MovieName;
 				public int MovieId = -1;
 				public int Stage = 0;
-				public enum Position
+				public enum BPosition
 				{
 					none = -1,
 					left = 0,
@@ -252,13 +252,13 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 				{
 					NeedToLoad = state;
 				}
-				public void SelectMission(Position position)
+				public void SelectMission(BPosition position)
 				{
 					API.BeginScaleformMovieMethod(MovieId, "SET_SELECTED_MISSION");
 					API.PushScaleformMovieMethodParameterInt((int)position); // Mission index 0 to 2(-1 = no mission)
 					API.EndScaleformMovieMethod();
 				}
-				public async void SetMission(Position position, string name = null, string desc = null, string textdict = null, float x = 0, float y = 0)
+				public async void SetMission(BPosition position, string name = null, string desc = null, string textdict = null, float x = 0, float y = 0)
 				{
 					if (NeedToLoad)
 					{
@@ -281,17 +281,17 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 								}
 								else
 								{
-									RemoveMission(Position.none);
-									RemoveMission(Position.left);
-									RemoveMission(Position.center);
-									RemoveMission(Position.right);
-									SelectMission(Position.none);
+									RemoveMission(BPosition.none);
+									RemoveMission(BPosition.left);
+									RemoveMission(BPosition.center);
+									RemoveMission(BPosition.right);
+									SelectMission(BPosition.none);
 								}
 							}
 						}
 					}
 				}
-				public void RemoveMission(Position pos)
+				public void RemoveMission(BPosition pos)
 				{
 					API.BeginScaleformMovieMethod(MovieId, "HIDE_MISSION");
 					API.PushScaleformMovieMethodParameterInt((int)pos);
@@ -299,8 +299,8 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 				}
 				public void Clear()
 				{
-					SelectMission(Position.none);
-					SetMission(Position.none);
+					SelectMission(BPosition.none);
+					SetMission(BPosition.none);
 					if (API.IsNamedRendertargetRegistered(Prop))
 						API.ReleaseNamedRendertarget(Prop);
 					if (API.HasScaleformMovieLoaded(MovieId))
