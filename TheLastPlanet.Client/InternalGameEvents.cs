@@ -9,6 +9,15 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
+	public delegate void VehicleDestroyedEvent(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag);
+	public delegate void PedKilledByVehicleEvent(int ped, int vehicle);
+	public delegate void PedKilledByPlayerEvent(int ped, int player, uint weaponHash, bool isMeleeDamage);
+	public delegate void PedKilledByPedEvent(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage);
+	public delegate void PedDiedEvent(int ped, int attacker, uint weaponHash, bool isMeleeDamage);
+	public delegate void EntityKilledEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
+	public delegate void VehicleDamagedEvent(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag);
+	public delegate void EntityDamagedEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
+
 	public class InternalGameEvents
 	{
 		public const string damageEventName = "DamageEvents";
@@ -17,6 +26,15 @@ namespace TheLastPlanet.Client
 		{
 			Client.Instance.AddEventHandler("gameEventTriggered", new Action<string, List<object>>(GameEventTriggered));
 		}
+
+		public static event VehicleDestroyedEvent OnVehicleDestroyed;
+		public static event PedKilledByVehicleEvent OnPedKilledByVehicle;
+		public static event PedKilledByPlayerEvent OnPedKilledByPlayer;
+		public static event PedKilledByPedEvent OnPedKilledByPed;
+		public static event PedDiedEvent OnPedDied;
+		public static event EntityKilledEvent OnEntityKilled;
+		public static event VehicleDamagedEvent OnVehicleDamaged;
+		public static event EntityDamagedEvent OnEntityDamaged;
 
 		/// <summary>
 		/// Event gets triggered whenever a vehicle is destroyed.
@@ -27,7 +45,8 @@ namespace TheLastPlanet.Client
 		/// <param name="isMeleeDamage">True if the damage dealt was using any melee weapon (including unarmed).</param>
 		/// <param name="vehicleDamageTypeFlag">Vehicle damage type flag, 93 is vehicle tires damaged, others unknown.</param>
 		private static void VehicleDestroyed(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag) 
-		{ 
+		{
+			OnVehicleDestroyed?.Invoke(vehicle, attacker, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 			BaseScript.TriggerEvent(damageEventName + ":VehicleDestroyed", vehicle, attacker, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 			Client.Logger.Debug($"[{damageEventName}:VehicleDestroyed] vehicle: {vehicle}, attacker: {attacker}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}, vehicleDamageTypeFlag: {vehicleDamageTypeFlag}");
 		}
@@ -38,7 +57,8 @@ namespace TheLastPlanet.Client
 		/// <param name="ped">Ped that got killed.</param>
 		/// <param name="vehicle">Vehicle that was used to kill the ped.</param>
 		private static void PedKilledByVehicle(int ped, int vehicle) 
-		{ 
+		{
+			OnPedKilledByVehicle?.Invoke(ped, vehicle);
 			BaseScript.TriggerEvent(damageEventName + ":PedKilledByVehicle", ped, vehicle);
 			Client.Logger.Debug($"[{damageEventName}:PedKilledByVehicle] ped: {ped}, vehicle: {vehicle}");
 		}
@@ -51,7 +71,8 @@ namespace TheLastPlanet.Client
 		/// <param name="weaponHash">The weapon hash used to kill the ped.</param>
 		/// <param name="isMeleeDamage">True if the ped was killed with a melee weapon (including unarmed).</param>
 		private static void PedKilledByPlayer(int ped, int player, uint weaponHash, bool isMeleeDamage) 
-		{ 
+		{
+			OnPedKilledByPlayer(ped, player, weaponHash, isMeleeDamage);
 			BaseScript.TriggerEvent(damageEventName + ":PedKilledByPlayer", ped, player, weaponHash, isMeleeDamage);
 			Client.Logger.Debug($"[{damageEventName}:PedKilledByPlayer] ped: {ped}, player: {player}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
@@ -64,7 +85,8 @@ namespace TheLastPlanet.Client
 		/// <param name="weaponHash">Weapon hash used to kill the ped.</param>
 		/// <param name="isMeleeDamage">True if the ped was killed using a melee weapon (including unarmed).</param>
 		private static void PedKilledByPed(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage) 
-		{ 
+		{
+			OnPedKilledByPed?.Invoke(ped, attackerPed, weaponHash, isMeleeDamage);
 			BaseScript.TriggerEvent(damageEventName + ":PedKilledByPed", ped, attackerPed, weaponHash, isMeleeDamage);
 			Client.Logger.Debug($"[{damageEventName}:PedKilledByPed] ped: {ped}, attackerPed: {attackerPed}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
@@ -77,20 +99,21 @@ namespace TheLastPlanet.Client
 		/// <param name="weaponHash">Weapon hash used to kill the ped.</param>
 		/// <param name="isMeleeDamage">True whenever the ped was killed using a melee weapon (including unarmed).</param>
 		private static void PedDied(int ped, int attacker, uint weaponHash, bool isMeleeDamage) 
-		{ 
+		{
+			OnPedDied.Invoke(ped, attacker, weaponHash, isMeleeDamage);
 			BaseScript.TriggerEvent(damageEventName + ":PedDied", ped, attacker, weaponHash, isMeleeDamage);
 			Client.Logger.Debug($"[{damageEventName}:PedDied] ped: {ped}, attacker: {attacker}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
 
 		/// <summary>
 		/// Gets triggered whenever an entity died, that's not a vehicle, or a ped.
-		/// </summary>
 		/// <param name="entity">Entity that was killed/destroyed.</param>
 		/// <param name="attacker">The attacker that destroyed/killed the entity.</param>
 		/// <param name="weaponHash">The weapon hash used to kill/destroy the entity.</param>
 		/// <param name="isMeleeDamage">True whenever the entity was killed/destroyed with a melee weapon.</param>
 		private static void EntityKilled(int entity, int attacker, uint weaponHash, bool isMeleeDamage) 
-		{ 
+		{
+			OnEntityKilled.Invoke(entity, attacker, weaponHash, isMeleeDamage);
 			BaseScript.TriggerEvent(damageEventName + ":EntityKilled", entity, attacker, weaponHash, isMeleeDamage);
 			Client.Logger.Debug($"[{damageEventName}:EntityKilled] entity: {entity}, attacker: {attacker}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
@@ -104,7 +127,8 @@ namespace TheLastPlanet.Client
 		/// <param name="isMeleeDamage">True whenever the vehicle was damaged using a melee weapon (including unarmed).</param>
 		/// <param name="vehicleDamageTypeFlag">Vehicle damage type flag, 93 is vehicle tire damage, others are unknown.</param>
 		private static void VehicleDamaged(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag) 
-		{ 
+		{
+			OnVehicleDamaged?.Invoke(vehicle, attacker, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 			BaseScript.TriggerEvent(damageEventName + ":VehicleDamaged", vehicle, attacker, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 			Client.Logger.Debug($"[{damageEventName}:VehicleDamaged] vehicle: {vehicle}, attacker: {attacker}, weaponHash: {weaponHash}, vehicleDamageTypeFlag: {vehicleDamageTypeFlag}");
 		}
@@ -117,7 +141,8 @@ namespace TheLastPlanet.Client
 		/// <param name="weaponHash">The weapon hash used to damage the entity.</param>
 		/// <param name="isMeleeDamage">True if the damage was done using a melee weapon (including unarmed).</param>
 		private static void EntityDamaged(int entity, int attacker, uint weaponHash, bool isMeleeDamage) 
-		{ 
+		{
+			OnEntityDamaged?.Invoke(entity, attacker, weaponHash, isMeleeDamage);
 			BaseScript.TriggerEvent(damageEventName + ":EntityDamaged", entity, attacker, weaponHash, isMeleeDamage);
 			Client.Logger.Debug($"[{damageEventName}:EntityDamaged] entity: {entity}, attacker: {attacker}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
