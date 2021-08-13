@@ -56,34 +56,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		{
 			foreach (var player in Client.Instance.GetPlayers)
 			{
-				/*
-				if (player.Character.LodDistance != 0xFFFF)
-					player.Character.LodDistance = 0xFFFF;
-				if (!player.Character.IsInVehicle())
-				{
-					if (!GamerTags.ContainsKey(player.Handle) || !IsMpGamerTagActive(GamerTags[player.Handle].Tag))
-					{
-						if (GamerTags.ContainsKey(player.Handle))
-							RemoveMpGamerTag(GamerTags[player.Handle].Tag);
-						GamerTags[player.Handle] = new GamerTag()
-						{
-							Tag = CreateMpGamerTag(player.Character.Handle, "", false, false, "", 0),
-							Ped = player.Character
-						};
-					}
-
-					int tag = GamerTags[player.Handle].Tag;
-					SetMpGamerTagName(tag, player.Name);
-					//SetMpGamerTagColour
-
-					// AGGIUNGERE OPZIONE SE IL PLAYER VUOLE DISATTIVARE LA GAMERTAG
-					SetMpGamerTagVisibility(tag, 0, true);
-					SetMpGamerTagVisibility(tag, 4, NetworkIsPlayerTalking(player.Handle));
-				}
-				*/
-
-
-				if(NetworkIsPlayerActive(player.Handle) /*&& player.Handle != PlayerCache.MyPlayer.Player.Handle*/) // decommentare per non mostrare il mio player
+				if(NetworkIsPlayerActive(player.Handle) && player.Handle != PlayerCache.MyPlayer.Player.Handle)
 				{
 					Ped ped = player.Character;
 
@@ -115,11 +88,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 					if (PlayerCache.MyPlayer.Posizione.Distance(ped.Position) < 250f && HasEntityClearLosToEntity(PlayerCache.MyPlayer.Ped.Handle, ped.Handle, 17))
 					{
 						SetMpGamerTagVisibility(tag, (int)GamerTagType.GAMER_NAME, true);
-						SetMpGamerTagVisibility(tag, (int)GamerTagType.healthArmour, /*PlayerCache.MyPlayer.Player.IsTargetting(ped)*/ true);
+						SetMpGamerTagVisibility(tag, (int)GamerTagType.healthArmour, PlayerCache.MyPlayer.Player.IsTargetting(ped));
 						SetMpGamerTagVisibility(tag, (int)GamerTagType.AUDIO_ICON, NetworkIsPlayerTalking(player.Handle));
+						SetMpGamerTagVisibility(tag, (int)GamerTagType.WANTED_STARS, player.WantedLevel > 0);
 
+						SetMpGamerTagWantedLevel(tag, player.WantedLevel);
 						SetMpGamerTagAlpha(tag, (int)GamerTagType.AUDIO_ICON, 255);
 						SetMpGamerTagAlpha(tag, (int)GamerTagType.healthArmour, 255);
+
 
 						/* DA CONSIDERARE
 						-- override settings 
@@ -151,6 +127,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 						SetMpGamerTagVisibility(tag, (int)GamerTagType.GAMER_NAME, false);
 						SetMpGamerTagVisibility(tag, (int)GamerTagType.healthArmour, false);
 						SetMpGamerTagVisibility(tag, (int)GamerTagType.AUDIO_ICON, false);
+						SetMpGamerTagVisibility(tag, (int)GamerTagType.WANTED_STARS, false);
 					}
 				}
 				else
