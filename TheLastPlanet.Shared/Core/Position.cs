@@ -168,6 +168,15 @@ namespace TheLastPlanet.Shared
             return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
         }
 
+        public static float Distance(Position pos, Vector3 value)
+        {
+            float x = pos.X - value.X;
+            float y = pos.Y - value.Y;
+            float z = pos.Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+
         public float Distance(Vector4 value)
         {
             float x = X - value.X;
@@ -176,11 +185,27 @@ namespace TheLastPlanet.Shared
             return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
         }
 
+        public static float Distance(Position pos, Vector4 value)
+        {
+            float x = pos.X - value.X;
+            float y = pos.Y - value.Y;
+            float z = pos.Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
         public float Distance(Position value)
         {
             float x = X - value.X;
             float y = Y - value.Y;
             float z = Z - value.Z;
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+        public static float Distance(Position pos, Position value)
+        {
+            float x = pos.X - value.X;
+            float y = pos.Y - value.Y;
+            float z = pos.Z - value.Z;
             return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
         }
 
