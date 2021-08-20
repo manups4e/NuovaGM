@@ -58,7 +58,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Interactions.PickupsClient.Init();
 			Interactions.OggettiGenerici.Init();
 			Interactions.PrimaPersonaObbligatoria.Init();
-			InternalGameEvents.Init();
 			Sport.Yoga.Init();
 
 			//Telefono.PhoneMainClient.Init();

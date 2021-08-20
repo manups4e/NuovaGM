@@ -11,7 +11,7 @@ namespace TheLastPlanet.Client
 {
 	public delegate void VehicleDestroyedEvent(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag);
 	public delegate void PedKilledByVehicleEvent(int ped, int vehicle);
-	public delegate void PedKilledByPlayerEvent(int ped, int player, uint weaponHash, bool isMeleeDamage);
+	public delegate void PedKilledByPlayerEvent(int ped, int killer, uint weaponHash, bool isMeleeDamage);
 	public delegate void PedKilledByPedEvent(int ped, int attackerPed, uint weaponHash, bool isMeleeDamage);
 	public delegate void PedDiedEvent(int ped, int attacker, uint weaponHash, bool isMeleeDamage);
 	public delegate void EntityKilledEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
@@ -67,14 +67,14 @@ namespace TheLastPlanet.Client
 		/// Event gets triggered whenever a ped is killed by a player.
 		/// </summary>
 		/// <param name="ped">The ped that got killed.</param>
-		/// <param name="player">The player that killed the ped.</param>
+		/// <param name="killerPlayer">The player that killed the ped.</param>
 		/// <param name="weaponHash">The weapon hash used to kill the ped.</param>
 		/// <param name="isMeleeDamage">True if the ped was killed with a melee weapon (including unarmed).</param>
-		private static void PedKilledByPlayer(int ped, int player, uint weaponHash, bool isMeleeDamage) 
+		private static void PedKilledByPlayer(int ped, int killerPlayer, uint weaponHash, bool isMeleeDamage) 
 		{
-			OnPedKilledByPlayer(ped, player, weaponHash, isMeleeDamage);
-			BaseScript.TriggerEvent(damageEventName + ":PedKilledByPlayer", ped, player, weaponHash, isMeleeDamage);
-			Client.Logger.Debug($"[{damageEventName}:PedKilledByPlayer] ped: {ped}, player: {player}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
+			OnPedKilledByPlayer(ped, killerPlayer, weaponHash, isMeleeDamage);
+			BaseScript.TriggerEvent(damageEventName + ":PedKilledByPlayer", ped, killerPlayer, weaponHash, isMeleeDamage);
+			Client.Logger.Debug($"[{damageEventName}:PedKilledByPlayer] ped: {ped}, player: {killerPlayer}, weaponHash: {weaponHash}, isMeleeDamage: {isMeleeDamage}");
 		}
 
 		/// <summary>
