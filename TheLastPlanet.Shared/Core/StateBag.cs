@@ -60,7 +60,14 @@ namespace TheLastPlanet.Shared
         private BaseStateBag<bool> _adminSpecta;
         private BaseStateBag<bool> _inPausa;
         private BaseStateBag<ModalitaServer> _modalita;
-        
+        private BaseStateBag<bool> _wanted;
+
+        public bool Wanted
+        {
+            get => _wanted.Value;
+            set => _wanted.Value = value;
+        }
+
         public bool AdminSpecta
         {
             get => _adminSpecta.Value;
@@ -90,8 +97,7 @@ namespace TheLastPlanet.Shared
             _adminSpecta = new BaseStateBag<bool>(player, _name+":AdminSpecta", true);
             _inPausa = new BaseStateBag<bool>(player, _name+":InPausa", true);
             _modalita = new BaseStateBag<ModalitaServer>(player, _name+":Modalita", true);
-            AdminSpecta = false;
-            InPausa = false;
+            _wanted = new BaseStateBag<bool>(player, _name + ":WantedAttivo", true);
         }
     }
 

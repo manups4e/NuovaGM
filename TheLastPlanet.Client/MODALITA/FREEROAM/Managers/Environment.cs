@@ -12,6 +12,11 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 	{
 		public static void Init()
 		{
+			GestisciInteriors();
+		}
+
+		private static void GestisciInteriors()
+		{
 			RequestIpl("chop_props");
 			RequestIpl("FIBlobby");
 			RemoveIpl("FIBlobbyfake");
@@ -140,7 +145,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			RequestIpl("RC12B_Destroyed");
 			RequestIpl("RC12B_HospitalInterior");
 		}
-
 		public static void EnablePvP(bool enabled)
 		{
 			NetworkSetFriendlyFireOption(enabled);
@@ -158,12 +162,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 				SetPlayerWantedLevelNow(PlayerId(), false);
 			}
 			SetMaxWantedLevel(enabled ? 5 : 0);
-			Cache.PlayerCache.MyPlayer.Ped.SetDecor("WantedAttivo", enabled);
+			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Wanted = enabled; 
 		}
 
 		public static void SetWantedLevel(int level, bool permanent, int maxLevel = 5)
 		{
-			if (!Cache.PlayerCache.MyPlayer.Ped.GetDecor<bool>("WantedAttivo"))
+			if (!Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Wanted)
 				return;
 
 			if (permanent)
@@ -175,6 +179,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
 		}
 
+		// TODO: Gestire il tempo nel server per tutti i player ( e il meteo perché no)
 		public static async Task UpdateTime()
 		{
 			await BaseScript.Delay(1000);
