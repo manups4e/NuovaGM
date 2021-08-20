@@ -25,6 +25,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 			//AGGIUNGERE GESTIONE ORARIO
 			//AGGIUNGERE GESTIONE STATISTICHE
 			//AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
+			BaseEventsFreeRoam.Init();
 			//Death.Init();
 			PlayerTags.Init();
 			await Task.FromResult(0);

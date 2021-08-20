@@ -57,6 +57,7 @@ namespace TheLastPlanet.Server
 			WorldEventsManager.Init();
 			VehicleManager.Init();
 			PlayerBlipsHandler.Init();
+			BaseEventsFreeRoam.Init();
 			await Task.FromResult(0);
 		}
 	}
