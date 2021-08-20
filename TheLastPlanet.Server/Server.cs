@@ -37,8 +37,8 @@ namespace TheLastPlanet.Server
 			SetConvarReplicated("DEBUG", "0");
 #endif
 			SnowflakeGenerator.Create(2);
-			SetConvarServerInfo("sv_projectName", "THE LAST PLANET");
-			SetConvarServerInfo("sv_projectDesc", "Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
+			SetConvarServerInfo("sv_projectName", "^2THE ^0LAST ^1GALAXY.");
+			SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
 			SetConvarServerInfo("locale", "it-IT");
 			SetConvarServerInfo("tags", "RolePlay, GTAO style");
 			SetGameType("RolePlay");
