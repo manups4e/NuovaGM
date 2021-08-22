@@ -20,7 +20,44 @@ namespace TheLastPlanet.Client.Handlers
 
 	internal static class InputHandler
 	{
-		public static List<InputController> ListaInput = new();
+		private static List<InputController> _listaInput = new();
+		public static List<InputController> ToList => _listaInput.ToList();
+
+		public static void AddInput(InputController input)
+		{
+			if (_listaInput.Contains(input)) return;
+			_listaInput.Add(input);
+		}
+
+		public static void RemoveInput(InputController input)
+		{
+			if (!_listaInput.Contains(input)) return;
+			_listaInput.Remove(input);
+		}
+
+		public static void AddInputList(List<InputController> inputs)
+		{
+			foreach (var input in inputs) 
+			{ 
+				if (_listaInput.Contains(input)) continue;
+				_listaInput.Add(input);
+			}
+		}
+
+		public static void RemoveInputList(List<InputController> inputs)
+		{
+			foreach (var input in inputs)
+			{
+				if (!_listaInput.Contains(input)) continue;
+				_listaInput.Remove(input);
+			}
+		}
+
+
+		public static void Clear()
+		{
+			_listaInput.Clear();
+		}
 
 		public static void Init()
 		{
@@ -29,7 +66,7 @@ namespace TheLastPlanet.Client.Handlers
 
 		public static void Stop()
 		{
-			ListaInput.Clear();
+			_listaInput.Clear();
 			Client.Instance.RemoveTick(InputHandling);
 		}
 
@@ -40,7 +77,7 @@ namespace TheLastPlanet.Client.Handlers
 				await Cache.PlayerCache.Loaded();
 				Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-				foreach (InputController input in ListaInput)
+				foreach (InputController input in _listaInput)
 				{
 					if (input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
 					if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)

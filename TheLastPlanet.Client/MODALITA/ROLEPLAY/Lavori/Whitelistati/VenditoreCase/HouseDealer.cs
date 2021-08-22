@@ -19,18 +19,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 	internal static class HouseDealer
 	{
 		private static ConfigVenditoriCase house;
-
+		private static InputController input = new InputController(Control.Context, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test));
 		public static void Init()
 		{
 			house = Client.Impostazioni.RolePlay.Lavori.VenditoriCase;
 			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
+			Handlers.InputHandler.AddInput(input);
 		}
 
 		public static void Stop()
 		{
 			house = null;
 			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+			Handlers.InputHandler.RemoveInput(input);
 		}
 
 		private static void Test(Ped playerPed, object[] args)

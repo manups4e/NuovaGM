@@ -90,16 +90,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 		public static int delay_ind_timer = 180;
 		public static Dictionary<Vehicle, int> state_indic = new Dictionary<Vehicle, int>();
 
+		private static List<InputController> inputs = new();
+
 		public static void Init()
 		{
 			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
 			Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
 			for (int i = 0; i < carGarageSpots.Count; i++)
-				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
+			{
+				inputs.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
 				{
 					MenuAffittoVeicoli.MenuAffitto((int)a[0]);
 				}), i));
+			}
+			InputHandler.AddInputList(inputs);
 		}
 
 		public static void Stop()
@@ -107,11 +112,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 			Client.Instance.RemoveEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
 			Client.Instance.RemoveEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
-			for (int i = 0; i < carGarageSpots.Count; i++)
-				InputHandler.ListaInput.Add(new InputController(Control.Context, carGarageSpots[i].ToPosition(), "Premi ~INPUT_CONTEXT~ per affittare un veicolo", null,ModalitaServer.Roleplay,  PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>((playerPed, a) =>
-				{
-					MenuAffittoVeicoli.MenuAffitto((int)a[0]);
-				}), i));
+			InputHandler.RemoveInputList(inputs);
+			inputs.Clear();
 		}
 
 		public static async Task Lux()

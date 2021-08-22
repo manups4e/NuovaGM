@@ -107,6 +107,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 
 		private static List<ObjectHash> ATMs = new List<ObjectHash>() { ObjectHash.prop_atm_01, ObjectHash.prop_atm_02, ObjectHash.prop_atm_03, ObjectHash.prop_fleeca_atm };
 
+		private static List<InputController> atmInputs = new();
 		private static Prop ClosestATM;
 		public static bool InterfacciaAperta = false;
 
@@ -115,10 +116,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 			Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-			foreach (Position pos in _atmpos) InputHandler.ListaInput.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", null, ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+			foreach (Position pos in _atmpos) atmInputs.Add(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", null, ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+			InputHandler.AddInputList(atmInputs);
 			AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
-			AddTextEntry("HUD_CASH", "€~1~");
-			AddTextEntry("HUD_CASH_S", "€~a~");
 		}
 
 		public static void Stop()
@@ -126,10 +126,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 			Client.Instance.RemoveEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
 			Client.Instance.RemoveEventHandler("lprp:changeMoney", new Action<int>(AggMon));
 			Client.Instance.RemoveEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
-			foreach (Position pos in _atmpos) InputHandler.ListaInput.Remove(new InputController(Control.Context, pos, "Premi ~INPUT_CONTEXT~ per gestire il conto", null, ModalitaServer.Roleplay, PadCheck.Controller, action: new Action<Ped, object[]>(ApriConto)));
+			InputHandler.RemoveInputList(atmInputs);
+			atmInputs.Clear();
 			AddTextEntry("MENU_PLYR_BANK", "Soldi in Banca");
-			AddTextEntry("HUD_CASH", "€~1~");
-			AddTextEntry("HUD_CASH_S", "€~a~");
 		}
 
 		private static async void AggMon(int mon)

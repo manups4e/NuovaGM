@@ -41,14 +41,17 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			"Silent Hill 1"
 		};
 
+		private static InputController pauseMenu = new InputController(Control.DropWeapon, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu));
+
 		public static void Init()
 		{
-			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu)));
+			InputHandler.AddInput(pauseMenu);
 			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 
 		public static void Stop()
 		{
+			InputHandler.RemoveInput(pauseMenu);
 			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 

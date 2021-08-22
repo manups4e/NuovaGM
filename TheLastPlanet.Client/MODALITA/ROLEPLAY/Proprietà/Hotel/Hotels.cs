@@ -11,6 +11,7 @@ using TheLastPlanet.Client.Core;
 using TheLastPlanet.Shared;
 using Logger;
 using System.Linq;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 {
@@ -20,10 +21,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 		private static bool IsInPiccola;
 		private static bool IsInMedia;
 		private static bool IsInAppartamento;
+		private static List<InputController> hotelInputs = new();
+		private static List<Blip> blips = new();
 
 		public static void Init()
 		{
-			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			InputHandler.AddInputList(hotelInputs);
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
 				Client.Logger.Debug("Hash = " + GetHashKey(hash[0] + ""));
@@ -36,7 +40,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 				Color = BlipColor.Yellow,
 				IsShortRange = true,
 				Name = "Hotel"
-			})) { }
+			})) { blips.Add(p); }
 
 			RegisterCommand("weaphash", new Action<int, List<dynamic>, string>(async (id, hash, comando) =>
 			{
@@ -45,19 +49,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 				Prop pickupObject = new Prop(CreateWeaponObject(Funzioni.HashUint(hash[0]), 50, Cache.PlayerCache.MyPlayer.Posizione.X, Cache.PlayerCache.MyPlayer.Posizione.Y, Cache.PlayerCache.MyPlayer.Posizione.Z, true, 1.0f, 0));
 				Client.Logger.Debug("Hash = " + pickupObject.Model.Hash);
 			}), false);
-
-			foreach (Blip p in Client.Impostazioni.RolePlay.Proprieta.hotels.Select(hotel => new Blip(AddBlipForCoord(hotel.Coords[0], hotel.Coords[1], hotel.Coords[2]))
-			{
-				Sprite = BlipSprite.Heist,
-				Scale = 1.0f,
-				Color = BlipColor.Yellow,
-				IsShortRange = true,
-				Name = "Hotel"
-			})) { }
 		}
 
 		public static void Stop()
 		{
+			InputHandler.RemoveInputList(hotelInputs);
+			blips.ForEach(x => x.Delete());
+			blips.Clear();
+			hotelInputs.Clear();
 		}
 
 		private static async void MenuHotel(Ped _, object[] args)

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
@@ -12,12 +13,23 @@ namespace TheLastPlanet.Client.AdminAC
 {
 	internal static class ClientManager
 	{
+		private static InputController adminMenu = new(Control.DropAmmo, ModalitaServer.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu));
+		private static InputController noclip = new(Control.ReplayStartStopRecordingSecondary, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip));
+		private static InputController teleport = new(Control.SaveReplayClip, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport));
 		public static void Init()
 		{
 			//Client.Instance.AddTick(AC);
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, ModalitaServer.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport)));
+
+			InputHandler.AddInput(adminMenu);
+			InputHandler.AddInput(noclip);
+			InputHandler.AddInput(teleport);
+		}
+
+		public static void Stop()
+		{
+			InputHandler.RemoveInput(adminMenu);
+			InputHandler.RemoveInput(noclip);
+			InputHandler.RemoveInput(teleport);
 		}
 
 		private static void AdminMenu(Ped p, object[] args)

@@ -12,6 +12,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 {
 	static class Armerie
 	{
+		private static List<InputController> inputs = new();
 		private static List<Blip> blips = new();
 		private static List<Position> negozi = new()
 		{
@@ -27,15 +28,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 			new(-1306.2f, -394.0f, 35.6f),
 		};
 
-		private static string GetWeaponByName(int i)
-		{
-			switch (i)
-			{
-				case 0:	return string.Empty;
-			}
-			return string.Empty;
-		}
-
 		public static void Init()
 		{
 			foreach(var v in negozi)
@@ -48,8 +40,18 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 				bliparmi.IsShortRange = true;
 				bliparmi.Name = "AMMU-NATION";
 				blips.Add(bliparmi);
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v, "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, ModalitaServer.FreeRoam, action: new Action<Ped, object[]>(MenuArmeria)));
+				var inp = new InputController(Control.Context, v, "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, ModalitaServer.FreeRoam, action: new Action<Ped, object[]>(MenuArmeria));
+				InputHandler.AddInput(inp);
+				inputs.Add(inp);
 			}
+		}
+
+		public static void Stop()
+		{
+			blips.ForEach(v => v.Delete());
+			blips.Clear();
+			inputs.ForEach(x => InputHandler.RemoveInput(x));
+			inputs.Clear();
 		}
 
 		private static async void MenuArmeria(Ped p, object[] _)
@@ -57,11 +59,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 
 		}
 
-		public static void Stop()
+		private static string GetWeaponByName(int i)
 		{
-			blips.ForEach(v => v.Delete());
-			blips.Clear();
-			InputHandler.ListaInput.RemoveAll(x => x.Modalita == ModalitaServer.FreeRoam && x.InputMessage == "Premi ~INPUT_CONTEXT~ per accedere all'armeria");
+			switch (i)
+			{
+				case 0: return string.Empty;
+			}
+			return string.Empty;
 		}
 	}
 }
