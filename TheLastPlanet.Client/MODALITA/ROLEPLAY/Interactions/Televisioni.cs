@@ -114,7 +114,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 		private static Tuple<Vector3, Vector3> OttieniCoords(int iParam1)
 		{
-			Prop tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
+			Prop tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Z, 10f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
 
 			switch (iParam1)
 			{
@@ -171,11 +171,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 				case 143361:
 				case 144897:
 				case 145153:
-					tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
 
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.13f), tv.Rotation);
 				case 149761:
-					tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
+					tv = new Prop(GetClosestObjectOfType(Cache.PlayerCache.MyPlayer.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Z, 5f, (uint)World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => TVHashes.Contains((ObjectHash)(uint)o.Model.Hash)).First(o => Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, o.Position) < 5f).Model.Hash, false, false, true));
 
 					return new Tuple<Vector3, Vector3>(tv.Position + new Vector3(0, 0, -0.21f), tv.Rotation);
 			}

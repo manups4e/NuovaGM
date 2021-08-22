@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 				{
 					if (newmenu != appartamento || state != MenuState.ChangeForward) return;
 					newmenu.Clear();
-					List<Player> players = Funzioni.GetPlayersInArea(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, 3.5f, false);
+					List<Player> players = Funzioni.GetPlayersInArea(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 3.5f, false);
 
 					foreach (Player p in players)
 					{

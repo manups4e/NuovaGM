@@ -15,8 +15,6 @@ namespace TheLastPlanet.Client.Cache
 {
 	public static class PlayerCache
 	{
-		private static bool _inVeh;
-		private static bool _inPausa;
 		public static ClientId MyPlayer { get; private set; }
 		public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
 		public static List<ClientId> GiocatoriOnline = new();
@@ -52,7 +50,7 @@ namespace TheLastPlanet.Client.Cache
 
 			if (!MyPlayer.User.Status.Spawned) return;
 			if (MyPlayer.User.Status.Istanza.Stanziato) return;
-			MyPlayer.User.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
+			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			#endregion
 

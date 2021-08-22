@@ -15,17 +15,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 	[Serialization]
 	public partial class User : BasePlayerShared
 	{
-		[Ignore]
-		[JsonIgnore]
-		public Position Posizione
-		{
-			get => CurrentChar.Posizione;
-			set
-			{
-				CurrentChar.Posizione = new(value.X, value.Y, value.Z, value.Heading);
-			}
-		}
-
 		public User(BasePlayerShared result)
 		{
 			ID = result.ID;

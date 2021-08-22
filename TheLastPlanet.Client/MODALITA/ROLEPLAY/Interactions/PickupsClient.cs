@@ -44,7 +44,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 					if (pick.HasDecor("PickupOggetto") || pick.HasDecor("PickupArma") || pick.HasDecor("PickupAccount"))
 					{
-						float dist = Cache.PlayerCache.MyPlayer.User.Posizione.Distance(pick.Position);
+						float dist = Cache.PlayerCache.MyPlayer.Posizione.Distance(pick.Position);
 
 						if (dist < 5)
 						{

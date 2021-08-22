@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			else
 			{
 				if (vehicle == null || !vehicle.Exists()) return;
-				float distanceToVeh = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, vehicle.Position);
 
 				if (distanceToVeh <= 20f)
 				{
@@ -263,7 +263,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			{
 				Vehicle vehicle = saveVehicle;
 				VehicleLockStatus islocked = vehicle.LockStatus;
-				float distanceToVeh = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, vehicle.Position);
+				float distanceToVeh = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, vehicle.Position);
 
 				if (toggle)
 				{

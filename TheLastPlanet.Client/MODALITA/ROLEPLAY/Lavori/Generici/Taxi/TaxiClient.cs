@@ -240,7 +240,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 									else
 									{
 										if (p.IsSittingInVehicle(VeicoloServizio))
-											if (Cache.PlayerCache.MyPlayer.User.Posizione.Distance(NPCPasseggero.Position) < 8.0001f)
+											if (Cache.PlayerCache.MyPlayer.Posizione.Distance(NPCPasseggero.Position) < 8.0001f)
 											{
 												NPCPasseggero.IsPersistent = true;
 												NPCPasseggero.BlockPermanentEvents = true;
@@ -393,7 +393,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 								{
 									if (jobs.flag[1] == 0)
 									{
-										Vector3 pos = Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3;
+										Vector3 pos = Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
 										Ped rand = new Ped(GetRandomPedAtCoord(pos.X, pos.Y, pos.Z, taxi.pickupRange, taxi.pickupRange, taxi.pickupRange, 26));
 
 										if (rand.Exists())
@@ -424,7 +424,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 					}
 					else
 					{
-						if (Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, VeicoloServizio.Position) > 30f)
+						if (Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, VeicoloServizio.Position) > 30f)
 							VaiFuoriServizio(1);
 						else
 							Screen.ShowSubtitle("Torna sulla tua auto per ~g~continuare~w~ o ~r~allontanati~w~ dal taxi per smettere di lavorare");

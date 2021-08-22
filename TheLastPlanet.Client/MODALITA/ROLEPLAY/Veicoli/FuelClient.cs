@@ -374,7 +374,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100) cl = i;
 				if (cl > 0)
 					BaseScript.TriggerServerEvent("lprp:businesses:saddfuel", cl, amount);
@@ -389,7 +389,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100) cl = i;
 				if (cl > 0)
 					BaseScript.TriggerServerEvent("lprp:businesses:saddmoney", cl, amount);
@@ -404,7 +404,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 			for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 			{
-				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 				if (dist < 100) cl = i;
 				if (cl > 0)
 					BaseScript.TriggerServerEvent("lprp:businesses:sresetmanage", cl);
@@ -455,7 +455,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 				if (veh.Exists() || lastveh.Exists())
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+						float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 
 						if (dist <= 80f)
 						{
@@ -478,9 +478,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 									else if (veh.Model.IsBike || lastveh.Model.IsBike) World.DrawMarker(MarkerType.BikeSymbol, new Vector3(ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].X, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Y, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j].Z + 1), new Vector3(0), new Vector3(0), new Vector3(2.0f, 2.0f, 1.8f), Color.FromArgb(180, 255, 255, 0), false, false, true);
 								}
 
-								float pdist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
+								float pdist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pumps[j]);
 
-								if (pdist < 3.05 && LastVehicle.Exists() && withinDist(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, LastVehicle) && !Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+								if (pdist < 3.05 && LastVehicle.Exists() && withinDist(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, LastVehicle) && !Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
 								{
 									DisableControlAction(2, 22, true);
 
@@ -547,7 +547,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 						if (lastStation > 0)
 						{
-							float dista = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos);
+							float dista = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[lastStation - 1].pos);
 
 							if (dista > 80f)
 							{
@@ -561,7 +561,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 				if (wep.Hash == WeaponHash.PetrolCan && LastVehicle.Exists())
 				{
-					float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, LastVehicle.Position);
+					float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, LastVehicle.Position);
 
 					if (dist < 2 && LastVehicle.HasDecor(DecorName))
 					{
@@ -620,7 +620,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 			if (jobTruck.Handle == 0)
 				for (int i = 0; i < registrySpots.Count; i++)
 				{
-					float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, registrySpots[i]);
+					float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, registrySpots[i]);
 
 					if (dist < 80)
 					{
@@ -663,7 +663,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 			{
 				Vector3 spot = tankerSpots[curRegPickup].pos;
 				World.DrawMarker(MarkerType.TruckSymbol, new Vector3(spot.X, spot.Y, spot.Z), new Vector3(0), new Vector3(0), new Vector3(2.1f, 2.1f, 1.3f), Color.FromArgb(170, 0, 255, 0), false, false, true);
-				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, spot);
+				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, spot);
 
 				if (dist < 2.1)
 				{
@@ -692,7 +692,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 					for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
 					{
-						float dis = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
+						float dis = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
 
 						if (dis < 80)
 						{
@@ -722,7 +722,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 					for (int i = 0; i < refuelspots.Count; i++)
 					{
-						float di = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, refuelspots[i]);
+						float di = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, refuelspots[i]);
 
 						if (di < 80)
 						{
@@ -765,7 +765,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 					}
 				}
 
-				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, jobTruck.Position);
+				float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, jobTruck.Position);
 
 				if (dist > 40f)
 				{

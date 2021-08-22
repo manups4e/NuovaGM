@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 		public static async Task ControlloMachines()
 		{
-			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.User.Posizione.Distance(o.Position) < MachineRange);
+			VendingMachineClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => VendingHashes.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.Posizione.Distance(o.Position) < MachineRange);
 			await BaseScript.Delay(200);
 		}
 

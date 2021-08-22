@@ -467,7 +467,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 			{
 				//				if (Ingresso.Ingresso.guiEnabled)
 				//				else if (Menus.Creazione.Visible || Menus.Apparel.Visible || Menus.Apparenze.Visible || Menus.Dettagli.Visible || Menus.Genitori.Visible || Menus.Info.Visible)
-				currentPosition = Cache.PlayerCache.MyPlayer.User == null ? Cache.PlayerCache.MyPlayer.Ped.Position : Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3;
+				currentPosition = Cache.PlayerCache.MyPlayer.User == null ? Cache.PlayerCache.MyPlayer.Ped.Position : Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (Funzioni.IsAnyControlJustPressed())
 				{
@@ -480,7 +480,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 
 				if (t >= Client.Impostazioni.RolePlay.Main.AFKCheckTime)
 				{
-					if (Vector3.Distance(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
+					if (Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, currentPosition) < 3f) BaseScript.TriggerServerEvent("lprp:dropPlayer", "Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo AFK");
 				}
 				else
 				{

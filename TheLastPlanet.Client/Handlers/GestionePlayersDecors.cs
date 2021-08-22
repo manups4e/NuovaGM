@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client
 
 					/*
 					if (!player.User.Status.InPausa) continue;
-					if (player.Character.IsInRangeOf(Cache.MyPlayer.User.posizione.ToVector3, 30))
+					if (player.Character.IsInRangeOf(Cache.MyPlayer.Posizione.ToVector3, 30))
 						HUD.DrawText3D(player.Character.Bones[Bone.SKEL_Head].Position + new Vector3(0, 0, 0.85f), Colors.White, "IN PAUSA");
 					*/
 					checkTimer1 = Game.GameTime;

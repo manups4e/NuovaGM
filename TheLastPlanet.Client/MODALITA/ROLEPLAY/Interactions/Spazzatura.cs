@@ -64,7 +64,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 		public static async Task ControlloSpazzatura()
 		{
-			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.User.Posizione.Distance(o.Position) < TrashRange);
+			BinClosest = World.GetAllProps().Where(o => Cestini.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.Posizione.Distance(o.Position) < TrashRange);
 			await BaseScript.Delay(500);
 		}
 

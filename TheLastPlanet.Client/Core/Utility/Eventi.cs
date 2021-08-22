@@ -26,6 +26,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.Events.Mount("lprp:sendUserInfo", new Action<string, string>(sendUserInfo));
 			Client.Instance.Events.Mount("lprp:ObjectDeleteGun", new Action<string>(DelGun));
 			Client.Instance.Events.Mount("lprp:ShowNotification", new Action<string>(notification));
+			Client.Instance.Events.Mount("lpop:ShowNotification", new Action<string>(notification));
 			Client.Instance.Events.Mount("lprp:death", new Action(death));
 			Client.Instance.Events.Mount("lprp:announce", new Action<string>(announce));
 			Client.Instance.Events.Mount("lprp:reviveChar", new Action(Revive));

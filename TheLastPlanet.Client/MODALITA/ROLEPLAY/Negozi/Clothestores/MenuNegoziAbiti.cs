@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
 		private static void StartScenario(string anim)
 		{
-			Cache.PlayerCache.MyPlayer.Ped.Task.StartScenario(anim, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3);
+			Cache.PlayerCache.MyPlayer.Ped.Task.StartScenario(anim, Cache.PlayerCache.MyPlayer.Posizione.ToVector3);
 		}
 
 		public static async Task UpdateDress(dynamic dress)

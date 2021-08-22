@@ -387,7 +387,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
 						gestioneInteriorCasa.AddItem(interior);
 						if (immobile == TipoImmobile.Casa) opzioniInterior = gestioneInteriorCasa.AddSubMenu("Opzioni interno selezionato");
-						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
@@ -424,7 +424,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
 						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
 						renderCamObject.IsVisible = false;
-						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
+						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						Vector3 pos = Vector3.Zero;
@@ -931,7 +931,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
 						if (MainCamera == null) MainCamera = World.CreateCamera(Vector3.Zero, new Vector3(0, 0, 0), 45f);
-						MainCamera.Position = Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3 + new Vector3(0, 0, 100);
+						MainCamera.Position = Cache.PlayerCache.MyPlayer.Posizione.ToVector3 + new Vector3(0, 0, 100);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
 						curLocation = MainCamera.Position.ToPosition();

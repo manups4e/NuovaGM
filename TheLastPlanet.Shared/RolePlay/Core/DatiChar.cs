@@ -6,6 +6,9 @@ using Impostazioni.Shared.Configurazione.Generici;
 using Newtonsoft.Json;
 using Logger;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
+#if CLIENT
+using TheLastPlanet.Client.Cache;
+#endif
 
 namespace TheLastPlanet.Shared
 {
@@ -53,7 +56,14 @@ namespace TheLastPlanet.Shared
 		public bool is_dead { get; set; }
 		public Info Info { get; set; } = new();
 		public Finance Finance { get; set; }= new();
-		public Position Posizione { get; set; }= new();
+		public Position Posizione 
+		{
+#if CLIENT
+			get => PlayerCache.MyPlayer.Posizione;
+#elif SERVER
+			get; set;
+#endif
+		}
 		public Job Job { get; set; }= new();
 		public Gang Gang { get; set; }= new();
 		public Skin Skin { get; set; }= new();

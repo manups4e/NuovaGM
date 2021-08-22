@@ -60,7 +60,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 
 			for (int i = 0; i < _stations.Count; i++)
 			{
-				float dist = Cache.PlayerCache.MyPlayer.User.Posizione.Distance(pos);
+				float dist = Cache.PlayerCache.MyPlayer.Posizione.Distance(pos);
 
 				if (dist < 50f)
 				{
@@ -202,7 +202,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 		{
 			for (int i = 0; i < _stations.Count; i++)
 			{
-				float dist = Cache.PlayerCache.MyPlayer.User.Posizione.Distance(_stations[i].ppos);
+				float dist = Cache.PlayerCache.MyPlayer.Posizione.Distance(_stations[i].ppos);
 
 				if (!(dist < 80)) continue;
 				StationDiBenzina stationinfo = GetStationInfo(i + 1);

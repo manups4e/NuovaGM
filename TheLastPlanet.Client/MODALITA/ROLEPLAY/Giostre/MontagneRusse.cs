@@ -109,7 +109,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 		{
 			try
 			{
-				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.User.Posizione.Distance(o.Position) < 300f);
+				MRClosest = World.GetAllProps().Select(o => new Prop(o.Handle)).Where(o => DaEliminare.Contains((ObjectHash)(uint)o.Model.Hash)).FirstOrDefault(o => Cache.PlayerCache.MyPlayer.Posizione.Distance(o.Position) < 300f);
 				if (MRClosest != null && MRClosest.Exists()) MRClosest.Delete();
 			}
 			catch (Exception e)

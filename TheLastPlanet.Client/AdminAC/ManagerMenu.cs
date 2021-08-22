@@ -393,7 +393,7 @@ namespace TheLastPlanet.Client.AdminAC
 
 				if (SpawnaNelVeicolo)
 				{
-					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, Cache.PlayerCache.MyPlayer.User.Posizione.Heading);
+					VeicoloSalvato = await Funzioni.SpawnVehicle(input, Cache.PlayerCache.MyPlayer.Posizione.ToVector3, Cache.PlayerCache.MyPlayer.Posizione.Heading);
 					if (VeicoloSalvato.Model.IsHelicopter || VeicoloSalvato.Model.IsPlane) SetHeliBladesFullSpeed(VeicoloSalvato.Handle);
 				}
 				else
