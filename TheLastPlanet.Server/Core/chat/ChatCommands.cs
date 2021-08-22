@@ -521,12 +521,12 @@ namespace TheLastPlanet.Server.Core
 
 		public static void Sviluppatore(Player sender, List<string> args, string rawCommand)
 		{
-			if (args[0].ToLower() == "on")
-				sender.TriggerSubsystemEvent("lprp:sviluppatoreOn", true);
-			else if (args[0].ToLower() == "off")
-				sender.TriggerSubsystemEvent("lprp:sviluppatoreOn", false);
-			else
+			if(args.Count == 0 || string.IsNullOrWhiteSpace(args[0]))
+			{
 				sender.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO sviluppatore] = ", "Errore argomento non valido, riprova!" }, color = new[] { 255, 0, 0 } });
+				return;
+			}
+			sender.TriggerSubsystemEvent("lprp:sviluppatoreOn", args[0].ToLower() == "on");
 		}
 
 		public static void SetJob(Player sender, List<string> args, string rawCommand)
