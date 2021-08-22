@@ -44,22 +44,23 @@ namespace TheLastPlanet.Client.Cache
 			await Loaded();
 			await BaseScript.Delay(200);
 
-			#region Posizione
-
-			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
-
-			if (!MyPlayer.User.Status.Spawned) return;
-			if (MyPlayer.User.Status.Istanza.Stanziato) return;
-			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
-
-			#endregion
-
 			#region Check Veicolo
+
  			MyPlayer.User.Status.RolePlayStates.InVeicolo = MyPlayer.Ped.IsInVehicle();
+
 			#endregion
 
 			#region Check Pausa
-			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused || HUD.MenuPool.PauseMenus.Any(x => x.Visible);
+
+			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused || HUD.MenuPool.IsAnyPauseMenuOpen;
+
+			#endregion
+
+			#region Posizione
+
+			if (ModalitàAttuale == ModalitaServer.Lobby || !MyPlayer.User.Status.Spawned || MyPlayer.User.Status.Istanza.Stanziato) return;
+			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
+
 			#endregion
 
 			await Task.FromResult(0);
