@@ -244,6 +244,16 @@ namespace TheLastPlanet.Client.NativeUI
             get { return _menuList.Any(menu => menu.Visible) || PauseMenus.Any(x => x.Visible); }
         }
 
+        public bool IsAnyPauseMenuOpen
+        {
+            get { return PauseMenus.Any(x => x.Visible); }
+        }
+
+        public bool IsAnyNativeUIMenuOpen
+        {
+            get { return _menuList.Any(menu => menu.Visible); }
+        }
+
         bool firstTick = true;
         /// <summary>
         /// Process all of your menus' functions. Call this in a tick event.
