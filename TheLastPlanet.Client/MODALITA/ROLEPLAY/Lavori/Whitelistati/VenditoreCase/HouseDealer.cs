@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 		{
 			house = Client.Impostazioni.RolePlay.Lavori.VenditoriCase;
 			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test)));
 		}
 
 		public static void Stop()

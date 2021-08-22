@@ -15,9 +15,9 @@ namespace TheLastPlanet.Client.AdminAC
 		public static void Init()
 		{
 			//Client.Instance.AddTick(AC);
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
-			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.DropAmmo, ModalitaServer.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.ReplayStartStopRecordingSecondary, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip)));
+			Handlers.InputHandler.ListaInput.Add(new InputController(Control.SaveReplayClip, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport)));
 		}
 
 		private static void AdminMenu(Ped p, object[] args)

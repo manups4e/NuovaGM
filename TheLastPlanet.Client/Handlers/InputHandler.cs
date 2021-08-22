@@ -41,6 +41,8 @@ namespace TheLastPlanet.Client.Handlers
 				Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
 				foreach (InputController input in ListaInput)
+				{
+					if (input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
 					if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)
 					{
 						if (p.IsInRangeOf(input.Position.ToVector3, 100f)) // big range personalizzato sennò default 50f
@@ -92,9 +94,8 @@ namespace TheLastPlanet.Client.Handlers
 							}
 						}
 					}
-
-				;
-				await Task.FromResult(0);
+					await Task.FromResult(0);
+				}
 			}
 			catch (Exception e)
 			{

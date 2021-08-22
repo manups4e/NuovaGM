@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public static void Init()
 		{
-			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu)));
+			InputHandler.ListaInput.Add(new InputController(Control.DropWeapon, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(LastPlanetMenu)));
 			Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
 		}
 

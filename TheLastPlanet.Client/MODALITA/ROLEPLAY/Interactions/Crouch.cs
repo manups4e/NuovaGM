@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -12,7 +13,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 		public static void Init()
 		{
-			InputHandler.ListaInput.Add(new InputController(Control.Duck, action: new Action<Ped>(Crouching)));
+			InputHandler.ListaInput.Add(new InputController(Control.Duck, ModalitaServer.Roleplay, action: new Action<Ped>(Crouching)));
 		}
 
 		public static void Crouching(Ped me)

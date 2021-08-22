@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 
 		public static void Init()
 		{
-			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) Handlers.InputHandler.ListaInput.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{
 				Client.Logger.Debug("Hash = " + GetHashKey(hash[0] + ""));

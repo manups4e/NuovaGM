@@ -22,17 +22,14 @@ namespace TheLastPlanet.Client.AdminAC
 
 		public static void Init()
 		{
-			Client.Instance.AddEventHandler("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
+			Client.Instance.Events.Mount("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
 		}
 
 		public static void Sviluppatore(bool toggle)
 		{
 			if (toggle)
 			{
-				if (Main.spawned)
-					Client.Instance.AddTick(OnTickSviluppo);
-				else
-					HUD.ShowNotification("Devi essere spawnato prima! Scegli un personaggio!!");
+				Client.Instance.AddTick(OnTickSviluppo);
 			}
 			else
 			{
@@ -98,13 +95,13 @@ namespace TheLastPlanet.Client.AdminAC
 			else
 			{
 				foreach (Prop p in World.GetAllProps())
-					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, 20f))
+					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 20f) && HasEntityClearLosToEntity(p.Handle, Cache.PlayerCache.MyPlayer.Ped.Handle, 17))
 						HUD.DrawText3D(p.Position.ToPosition(), Colors.Aquamarine, Enum.GetName(typeof(ObjectHash), (uint)p.Model.Hash));
 				foreach (Ped p in World.GetAllPeds())
-					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, 20f) && p != Cache.PlayerCache.MyPlayer.Ped)
+					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 20f) && p != Cache.PlayerCache.MyPlayer.Ped && HasEntityClearLosToEntity(p.Handle, Cache.PlayerCache.MyPlayer.Ped.Handle, 17))
 						HUD.DrawText3D(p.Position.ToPosition(), Colors.Orange, Enum.GetName(typeof(PedHash), (uint)p.Model.Hash));
 				foreach (Vehicle p in World.GetAllVehicles())
-					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.User.Posizione.ToVector3, 20f))
+					if (p.IsInRangeOf(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, 20f) && HasEntityClearLosToEntity(p.Handle, Cache.PlayerCache.MyPlayer.Ped.Handle, 17))
 						HUD.DrawText3D(p.Position.ToPosition(), Colors.Green, Enum.GetName(typeof(VehicleHash), (uint)p.Model.Hash));
 			}
 

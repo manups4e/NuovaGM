@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				bliptfs.Color = BlipColor.Green;
 				bliptfs.IsShortRange = true;
 				bliptfs.Name = "24/7";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(tfs)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(tfs)));
 			}
 
 			foreach (Vector3 v in NegoziGenerici.rq)
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				bliptrq.Color = BlipColor.Green;
 				bliptrq.IsShortRange = true;
 				bliptrq.Name = "Robs Liquor";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(rq)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(rq)));
 			}
 
 			foreach (Vector3 v in NegoziGenerici.ltd)
@@ -64,7 +64,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				blipltd.Color = BlipColor.Green;
 				blipltd.IsShortRange = true;
 				blipltd.Name = "Limited Gasoline";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, action: new Action<Ped, object[]>(ltd)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", null, ModalitaServer.Roleplay, action: new Action<Ped, object[]>(ltd)));
 			}
 
 			foreach (Vector3 v in NegoziGenerici.armerie)
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				bliparmi.Color = BlipColor.Green;
 				bliparmi.IsShortRange = true;
 				bliparmi.Name = "Armeria";
-				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
+				InputHandler.ListaInput.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null,ModalitaServer.Roleplay,  action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
 			}
 		}
 
