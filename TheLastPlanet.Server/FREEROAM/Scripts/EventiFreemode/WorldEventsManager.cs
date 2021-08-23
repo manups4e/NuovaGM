@@ -34,7 +34,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
         private static WorldEvent CurrentEvent;
         private static WorldEvent NextEvent;
         private static Random rnd = new Random();
-        private static TimeSpan TimeUntilNextEvent = TimeSpan.FromSeconds(5);//TimeSpan.FromMinutes(rnd.Next(20, 30));
+        private static TimeSpan TimeUntilNextEvent = TimeSpan.FromMinutes(rnd.Next(40, 45));//TimeSpan.FromSeconds(5);
 
         private static bool IsAnyEventActive = false;
 
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE); // reset this element. it's actually the next event
                             CurrentEvent.IsStarted = false;
                             CurrentEvent.IsActive = false;
-                            TimeUntilNextEvent = TimeSpan.FromSeconds(5);//TimeSpan.FromMinutes(rnd.Next(20, 30));
+                            TimeUntilNextEvent = TimeSpan.FromMinutes(rnd.Next(40, 45));
                             await BaseScript.Delay(3500); // Wait until we start the next event (total 5 seconds)
                             Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:DestroyEventVehicles");
                             Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);

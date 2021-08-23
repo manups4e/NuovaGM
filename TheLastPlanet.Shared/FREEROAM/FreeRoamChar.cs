@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Logger;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
+
+// TODO: DEVO AGGIUNGERE IL SAlVATAGGIO NEL DB (guardare tickHandler.cs)
 namespace TheLastPlanet.Shared
 {
 	public enum PlayerStats : int
@@ -42,9 +44,8 @@ namespace TheLastPlanet.Shared
 	{
 		public ulong CharID { get; set; }
 		public bool is_dead { get; set; }
-		public Info Info { get; set; }
 		public Finance Finance {get;set;}
-		public Position Posizione {get;set;}
+		public Position Posizione { get; set; }
 		public Gang Gang {get;set;}
 		public Skin Skin {get;set;}
 		public List<Weapons> Weapons {get;set;}
@@ -52,9 +53,10 @@ namespace TheLastPlanet.Shared
 		public List<OwnedVehicle> Veicoli {get;set;} // da aggiungere
 		public Dressing Dressing {get;set;}
 		public FreeRoamStats Statistiche {get;set;}
-		public FreeRoamChar() { }
 		public int Level { get; set; } = 1;
 		public int TotalXp { get; set; }
+
+		public FreeRoamChar() { }
 
 		public FreeRoamChar(ulong id, Finance finance, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, FreeRoamStats statistiche)
 		{

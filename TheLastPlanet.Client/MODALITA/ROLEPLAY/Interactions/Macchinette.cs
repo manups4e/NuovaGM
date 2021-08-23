@@ -48,6 +48,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 			Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
 			if (VendingMachineClosest != null)
+			{
 				if (!p.IsDead && !HUD.MenuPool.IsAnyMenuOpen)
 				{
 					if (Cache.PlayerCache.MyPlayer.User.Money > 5)
@@ -127,6 +128,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 						HUD.ShowNotification("Non hai abbastanza contanti!!", NotificationColor.RedDifferent, true);
 					}
 				}
+			}
 		}
 	}
 }

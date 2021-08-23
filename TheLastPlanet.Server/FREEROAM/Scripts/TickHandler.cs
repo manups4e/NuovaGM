@@ -12,7 +12,7 @@ namespace TheLastPlanet.Server.Scripts
 	{
 		public static void Init()
 		{
-			Server.Instance.AddTick(Salvataggio);
+			//Server.Instance.AddTick(Salvataggio);
 		}
 
 		private static async Task Salvataggio()

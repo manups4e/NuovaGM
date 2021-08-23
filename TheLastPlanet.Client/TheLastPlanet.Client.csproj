@@ -25,6 +25,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>false</DebugSymbols>
     <DocumentationFile></DocumentationFile>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
 
@@ -42,6 +43,8 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <DebugSymbols>true</DebugSymbols>
     <Obfuscate>True</Obfuscate>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

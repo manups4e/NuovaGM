@@ -182,7 +182,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		// TODO: Gestire il tempo nel server per tutti i player ( e il meteo perché no)
 		public static async Task UpdateTime()
 		{
-			await BaseScript.Delay(1000);
+			await BaseScript.Delay(10);
 			int h = 0; int m = 0; int s = 0;
 			NetworkGetServerTime(ref h, ref m, ref s);
 			NetworkOverrideClockTime(h, m, s);
