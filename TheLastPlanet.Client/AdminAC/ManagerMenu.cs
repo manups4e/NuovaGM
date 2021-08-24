@@ -380,7 +380,7 @@ namespace TheLastPlanet.Client.AdminAC
 					return;
 				}
 
-				if (!IsModelValid((uint)Convert.ToInt32(input)))
+				if (!IsModelValid(Funzioni.HashUint(input)))
 				{
 					HUD.ShowNotification("Modello errato!");
 
