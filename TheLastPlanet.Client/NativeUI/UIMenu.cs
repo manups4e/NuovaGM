@@ -10,6 +10,7 @@ using CitizenFX.Core.UI;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.NativeUI
 {
@@ -1300,7 +1301,7 @@ namespace TheLastPlanet.Client.NativeUI
 		private float CalculateItemHeight()
 		{
 			float ItemOffset = 0 + _mainMenu.Items[1].Position.Y - 37f;
-			for (int i = 0; i < MenuItems.Count; i++)
+			for (int i = 0; i < (MenuItems.Count < MaxItemsOnScreen? MenuItems.Count : MaxItemsOnScreen) ; i++)
 				ItemOffset += MenuItems[i]._rectangle.Size.Height;
 			return ItemOffset;
 		}
@@ -1310,7 +1311,7 @@ namespace TheLastPlanet.Client.NativeUI
 		/// </summary>
 		private float CalculatePanelsPosition(bool hasDescription)
 		{
-			float Height = CalculateWindowHeight() + 40 + _mainMenu.Position.Y + CalculateCinematicHeight();
+			float Height = CalculateWindowHeight() + 126 + _mainMenu.Position.Y + CalculateCinematicHeight();
 			if (hasDescription)
 				Height += _descriptionRectangle.Size.Height + 5;
 			return CalculateItemHeight() + Height;
@@ -1817,7 +1818,7 @@ namespace TheLastPlanet.Client.NativeUI
 
 		private float CalculateCinematicHeight()
 		{
-			return Main.ImpostazioniClient != null ? Main.ImpostazioniClient.ModCinema ? Main.ImpostazioniClient.LetterBox : 0f : 0f;
+			return Main.ImpostazioniClient is null ? 0f : (Main.ImpostazioniClient.ModCinema ? Main.ImpostazioniClient.LetterBox : 0f);
 		}
 
 		/// <summary>

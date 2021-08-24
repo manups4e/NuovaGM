@@ -47,14 +47,15 @@ namespace TheLastPlanet.Client.NativeUI
 
 		internal override void Position(float y)
 		{
+			var Y = y + 35f;
 			float ParentOffsetX = ParentItem.Offset.X;
 			int ParentOffsetWidth = ParentItem.Parent.WidthOffset;
 			Background.Position = new PointF(ParentOffsetX, 35f + y);
-			ActiveBar.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 9, 50 + 35f + y);
+			ActiveBar.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 9, 50 + Y);
 			BackgroundBar.Position = ActiveBar.Position;
-			Min.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 25, 15 + 35f + y);
-			Max.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 398, 15 + 35f + y);
-			Title.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 215.5f, 15 + 35f + y);
+			Min.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 25, 15 + Y);
+			Max.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 398, 15 + Y);
+			Title.Position = new PointF(ParentOffsetX + (ParentOffsetWidth / 2) + 215.5f, 15 + Y);
 		}
 
 		public void UpdateParent(float Percentage)

@@ -56,7 +56,7 @@ namespace TheLastPlanet.Client.NativeUI
 
 		internal override void Position(float y)
 		{
-			float Y = y;
+			float Y = y + 35f;
 			float ParentOffsetX = ParentItem.Offset.X;
 			int ParentOffsetWidth = ParentItem.Parent.WidthOffset;
 			Background.Position = new PointF(ParentOffsetX, Y);

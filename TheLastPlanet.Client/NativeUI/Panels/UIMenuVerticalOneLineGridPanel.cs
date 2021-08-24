@@ -46,14 +46,12 @@ namespace TheLastPlanet.Client.NativeUI
 
 		internal override void Position(float y)
 		{
-			//var Y = y - 205;
-			float Y = y;
 			float ParentOffsetX = ParentItem.Offset.X;
 			int ParentOffsetWidth = ParentItem.Parent.WidthOffset;
-			Background.Position = new PointF(ParentOffsetX, Y);
-			Grid.Position = new PointF(ParentOffsetX + 115.5f + (ParentOffsetWidth / 2), 37.5f + Y);
-			Top.Position = new PointF(ParentOffsetX + 215.5f + (ParentOffsetWidth / 2), 5f + Y);
-			Bottom.Position = new PointF(ParentOffsetX + 215.5f + (ParentOffsetWidth / 2), 240f + Y);
+			Background.Position = new PointF(ParentOffsetX, 35 + y);
+			Grid.Position = new PointF(ParentOffsetX + 115.5f + (ParentOffsetWidth / 2), 37.5f + y);
+			Top.Position = new PointF(ParentOffsetX + 215.5f + (ParentOffsetWidth / 2), 5f + y);
+			Bottom.Position = new PointF(ParentOffsetX + 215.5f + (ParentOffsetWidth / 2), 240f + y);
 			if (!CircleLocked)
 			{
 				CircleLocked = true;
