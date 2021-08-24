@@ -14,6 +14,7 @@ using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -502,13 +503,16 @@ namespace TheLastPlanet.Client.Core.Utility
 				var result = (Vehicle)Entity.FromNetworkId(callback);
 				while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
-				result.NeedsToBeHotwired = false;
-				result.RadioStation = RadioStation.RadioOff;
-				result.IsEngineStarting = false;
-				result.IsEngineRunning = false;
-				result.IsDriveable = false;
-				result.IsPersistent = true;
-				result.PreviouslyOwnedByPlayer = true;
+				if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
+				{
+					result.NeedsToBeHotwired = false;
+					result.RadioStation = RadioStation.RadioOff;
+					result.IsEngineStarting = false;
+					result.IsEngineRunning = false;
+					result.IsDriveable = false;
+					result.IsPersistent = true;
+					result.PreviouslyOwnedByPlayer = true;
+				}
 
 				result.PlaceOnGround();
 				Cache.PlayerCache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
