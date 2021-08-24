@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.Cache
 
 			#region Posizione
 
-			if (ModalitàAttuale == ModalitaServer.Lobby || !MyPlayer.User.Status.Spawned || MyPlayer.User.Status.Istanza.Stanziato) return;
+			// TODO: non salvare position nel db se siamo in un interior
 			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			#endregion
