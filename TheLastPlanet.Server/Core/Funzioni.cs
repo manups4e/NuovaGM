@@ -11,6 +11,7 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared.Snowflakes;
 using TheLastPlanet.Shared.Internal.Events;
+using System.Collections.Generic;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -282,6 +283,21 @@ namespace TheLastPlanet.Server.Core
 			}
 
 			return false;
+		}
+
+		public static List<ClientId> GetClosestClients(ClientId client, float radius)
+		{
+			return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Ped.Position) <= radius).ToList();
+		}
+
+		public static List<ClientId> GetClosestClients(Ped client, float radius)
+		{
+			return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Position) <= radius).ToList();
+		}
+
+		public static List<ClientId> GetClosestClients(Player client, float radius)
+		{
+			return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Character.Position) <= radius).ToList();
 		}
 
 		public static bool IsPlayerAndHasPermission(int player, UserGroup level)
