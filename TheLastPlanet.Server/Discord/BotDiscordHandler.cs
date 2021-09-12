@@ -4,6 +4,7 @@ using TheLastPlanet.Server.Discord.GuildData;
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace TheLastPlanet.Server.Discord
 {
@@ -28,8 +29,14 @@ namespace TheLastPlanet.Server.Discord
 
 			if (risposta.status == System.Net.HttpStatusCode.OK)
 			{
-				TheLastServer = risposta.content.FromJson<Guild>();
-				Server.Logger.Info( $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
+				try
+				{
+					TheLastServer = risposta.content.FromJson<Guild>();
+					Server.Logger.Info( $"Connesso a {TheLastServer.name}, totale membri {TheLastServer.member_count}");
+				}catch(Exception e)
+				{
+					Server.Logger.Error(e.ToString());
+				}
 			}
 		}
 

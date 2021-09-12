@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Discord.GuildData
 	public class PermissionOverwrite
 	{
 		public int? type;
-		public int? allow;
+		public ulong? allow;
 		public ulong? deny;
 		public ulong? id;
 	}
