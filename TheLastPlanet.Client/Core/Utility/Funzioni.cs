@@ -15,6 +15,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Cache;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -943,9 +944,9 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		#endregion
 
-		public static float Rad2deg(float rad) { return rad * (180.0f / (float)Math.PI); }
-
-		public static float Deg2rad(float deg) { return deg * ((float)Math.PI / 180.0f); }
+		public static float Rad2deg(float rad) => rad * (180.0f / (float)Math.PI);
+		public static float Deg2rad(float deg) => deg * ((float)Math.PI / 180.0f);
+		public static float Convert180to360(float deg) => (deg + 450) % 360;
 
 		public static Player GetPlayerFromPed(Ped ped)
 		{
@@ -1022,18 +1023,16 @@ namespace TheLastPlanet.Client.Core.Utility
 			return vehs.Length < 1;
 		}
 
-		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius) { return World.GetAllVehicles().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
+		public static Vehicle[] GetVehiclesInArea(this Vector3 Coords, float Radius) => World.GetAllVehicles().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 
-		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius) { return World.GetAllProps().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
+		public static Prop[] GetPropsInArea(this Vector3 Coords, float Radius) => World.GetAllProps().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 
-		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius) { return World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray(); }
+		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius) => World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 
-		public static Vector2 WorldToScreen(Vector3 position)
+		public static PointF WorldToScreen(Vector3 position)
 		{
-			OutputArgument screenX = new OutputArgument();
-			OutputArgument screenY = new OutputArgument();
-
-			return !Function.Call<bool>(Hash._WORLD3D_TO_SCREEN2D, position.X, position.Y, position.Z, screenX, screenY) ? Vector2.Zero : new Vector2(screenX.GetResult<float>(), screenY.GetResult<float>());
+			float screenX = 0, screenY = 0;
+			return !World3dToScreen2d(position.X, position.Y, position.Z, ref screenX, ref screenY) ? PointF.Empty : new(screenX, screenY);
 		}
 
 		public static void StartScenario(Ped ped, string scenario) { TaskStartScenarioInPlace(ped.Handle, scenario, 0, true); }

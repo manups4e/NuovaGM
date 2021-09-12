@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.AdminAC
 		private static readonly Color DefaultCrosshair = Color.FromArgb(120, 120, 120);
 		private static readonly Color ActiveCrosshair = Color.FromArgb(255, 255, 255);
 
-		private static readonly Vector2 DefaultPos = new(0.6f, 0.5f);
+		private static readonly PointF DefaultPos = new(0.6f, 0.5f);
 
 		public static void Init()
 		{
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.AdminAC
 				Vehicle veicolo = new(GetVehiclePedIsIn(PlayerPedId(), false));
 				VehProp props = await veicolo.GetVehicleProperties();
 				Vector3 entityPos = veicolo.Position;
-				Vector2 pos = Funzioni.WorldToScreen(entityPos);
+				PointF pos = Funzioni.WorldToScreen(entityPos);
 				if (pos.X <= 0f || pos.Y <= 0f || pos.X >= 1f || pos.Y >= 1f) pos = DefaultPos;
 				float dist = Vector3.Distance(pl.Position, entityPos);
 				float offsetX = MathUtil.Clamp((1f - dist / 100f) * 0.1f, 0f, 0.1f);

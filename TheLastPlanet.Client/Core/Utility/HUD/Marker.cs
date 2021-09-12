@@ -48,10 +48,19 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 			FaceCamera = faceCamera;
 		}
 
-		public void Draw()
+		public void Draw(bool useZ = false)
 		{
 			World.DrawMarker(MarkerType, Position.ToVector3, Direction, Position.ToRotationVector, Scale, Color, BobUpDown, FaceCamera, Rotate);
-			IsInMarker = Position.Distance(MyPlayer.Posizione) <= (Scale / 2).X || Position.Distance(MyPlayer.Posizione) <= (Scale / 2).Y || Position.Distance(MyPlayer.Posizione) <= (Scale / 2).Z;
+			if (useZ)
+			{
+				float distanceSquared = Position.ToVector3.DistanceToSquared(MyPlayer.Posizione.ToVector3);
+				IsInMarker = (distanceSquared < Math.Pow(Scale.X / 2, 2) || distanceSquared < Math.Pow(Scale.Y / 2, 2)) || distanceSquared < Math.Pow(Scale.Z / 2, 2);
+			}
+			else
+			{
+				var pos = Position.ToVector3.DistanceToSquared2D(MyPlayer.Posizione.ToVector3);
+				IsInMarker = pos <= Math.Pow(Scale.X / 2, 2) || pos <= Math.Pow(Scale.Y / 2, 2);
+			}
 		}
 	}
 }

@@ -24,9 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
 			if (!Scaleform.IsLoaded) return;
 			Position p = Marker.Position - Cache.PlayerCache.MyPlayer.Ped.Position.ToPosition();
-
 			var heading = API.GetHeadingFromVector_2d(p.X, p.Y);
-			
 			Scaleform.Render3D(Marker.Position.ToVector3, new(0, 0, -heading), Marker.Scale / 2);
 		}
 	}
