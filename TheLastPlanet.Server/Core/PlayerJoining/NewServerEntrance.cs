@@ -46,6 +46,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 
 		private static async void PlayerConnecting([FromSource] Player source, string playerName, dynamic denyWithReason, dynamic deferrals)
 		{
+			Server.Logger.Info($"{source.Name} si sta connettendo.");
 			deferrals.defer();
 			await BaseScript.Delay(500);
 
