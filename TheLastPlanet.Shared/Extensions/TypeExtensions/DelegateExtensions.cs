@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 
-namespace TheLastPlanet.Shared.Extensions
+namespace TheLastPlanet.Shared.TypeExtensions
 {
     
     public static class DelegateExtensions

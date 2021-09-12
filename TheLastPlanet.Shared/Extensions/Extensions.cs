@@ -16,10 +16,10 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Shared
 {
-	public static class RandomExtensionSuperMethod
+	public static class Extensions
 	{
 
-		private static Logger.Log Logger = new Log();
+		private static Log Logger = new Log();
 		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>
@@ -733,6 +733,31 @@ namespace TheLastPlanet.Shared
 					inside = !inside;
 			}
 			return inside;
+		}
+
+		public static bool PointIsWithinCircle(float circleRadius, float circleCenterPointX, float circleCenterPointY, float pointToCheckX, float pointToCheckY)
+		{
+			return (Math.Pow(pointToCheckX - circleCenterPointX, 2) + Math.Pow(pointToCheckY - circleCenterPointY, 2)) < (Math.Pow(circleRadius, 2));
+		}
+
+		public static bool PointIsWithinSphere(float sphereRadius, Vector3 SphereCenter, Vector3 PointToCheck)
+		{
+			return (Math.Pow(SphereCenter.X - PointToCheck.X, 2) + Math.Pow(SphereCenter.Y - PointToCheck.Y, 2) + Math.Pow(SphereCenter.Z - PointToCheck.Z, 2)) < Math.Pow(sphereRadius, 2);
+		}
+
+		public static bool IsInMarker(Position markerPos, Position pos, Vector3 Scale)
+		{
+			var center = markerPos.ToVector3;
+
+			float _xRadius = Scale.X / 2;
+			float _yRadius = Scale.Y / 2;
+			float _wRadius = Scale.Z / 2;
+
+			if (_xRadius <= 0f || _yRadius <= 0f || _wRadius <= 0f)
+				return false;
+
+			Vector3 normalized = new(pos.X - center.X, pos.Y - center.Y, center.Z - pos.Z);
+			return (Math.Pow(normalized.X, 2) / Math.Pow(_xRadius, 2) + Math.Pow(normalized.Y, 2) / Math.Pow(_yRadius, 2) + Math.Pow(normalized.Z, 2) / Math.Pow(_wRadius, 2)) <= 1f;
 		}
 
 #if SERVER

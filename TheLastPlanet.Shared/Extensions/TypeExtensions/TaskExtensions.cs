@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 
-namespace TheLastPlanet.Shared.Extensions
+namespace TheLastPlanet.Shared.TypeExtensions
 {
     
     public static class TaskExtensions

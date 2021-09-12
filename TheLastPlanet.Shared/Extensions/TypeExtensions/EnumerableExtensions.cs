@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace TheLastPlanet.Shared.Extensions
+namespace TheLastPlanet.Shared.TypeExtensions
 {
     
     public static class EnumerableExtensions

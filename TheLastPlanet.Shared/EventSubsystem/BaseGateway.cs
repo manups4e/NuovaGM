@@ -11,7 +11,7 @@ using TheLastPlanet.Shared.Internal.Events.Message;
 using TheLastPlanet.Shared.Internal.Events.Models;
 using TheLastPlanet.Shared.Internal.Events.Payload;
 using TheLastPlanet.Shared.Internal.Events.Serialization;
-using TheLastPlanet.Shared.Extensions;
+using TheLastPlanet.Shared.TypeExtensions;
 using System.Data.Common;
 
 namespace TheLastPlanet.Shared.Internal.Events

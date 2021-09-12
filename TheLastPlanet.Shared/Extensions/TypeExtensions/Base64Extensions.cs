@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TheLastPlanet.Shared.Extensions
+namespace TheLastPlanet.Shared.TypeExtensions
 {
     
     public static class Base64Extensions
