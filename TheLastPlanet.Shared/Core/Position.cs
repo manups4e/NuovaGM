@@ -126,6 +126,17 @@ namespace TheLastPlanet.Shared
             return this;
         }
 
+        public static Position Subtract(Position pos, Position position)
+        {
+            return new(
+            pos.X - position.X,
+            pos.Y - position.Y,
+            pos.Z - position.Z,
+            pos.Yaw - position.Yaw,
+            pos.Pitch - position.Pitch,
+            pos.Roll - position.Roll);
+        }
+
         public Position Add(Position position)
         {
             X += position.X;
@@ -207,6 +218,11 @@ namespace TheLastPlanet.Shared
             float y = pos.Y - value.Y;
             float z = pos.Z - value.Z;
             return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
+        }
+
+        public float LengthSquared()
+        {
+            return (X * X) + (Y * Y) + (Z * Z);
         }
 
         public bool IsInRangeOf(Vector3 value, float radius) => Distance(value) <= radius;
