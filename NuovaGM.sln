@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31423.177
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 16.0.28729.10
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Client", "TheLastPlanet.Client\TheLastPlanet.Client.csproj", "{477054AE-FBE1-4A93-8591-E2C61DD14390}"
 EndProject
@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Server", "The
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Vendor\Generator\Generator.csproj", "{312E3A89-4B3E-4340-8113-90D89664F85C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{A359FBA0-3513-483A-A6D4-F7FCBEEA8D94}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
+		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
+		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{a359fba0-3513-483a-a6d4-f7fcbeea8d94}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Offuscata|Any CPU = Offuscata|Any CPU

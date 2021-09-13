@@ -23,7 +23,7 @@
     <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
@@ -59,9 +59,9 @@
     </Reference>
 
     <Reference Include="Microsoft.CSharp" />
-    <Compile Include="..\TheLastPlanet.Shared\**\*.cs" />
+    <!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
     <Compile Include="..\Impostazioni\Client\**\*.cs" />
-    <Compile Include="..\Impostazioni\Shared\**\*.cs" />
+	  <!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
     <!--PER OFFUSCARE-->
     <Content Include="TheLastPlanet.Client.crproj" />
     <!--PER OFFUSCARE-->
@@ -72,6 +72,8 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
   </Target>
+
+  <Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 
 
 </Project>

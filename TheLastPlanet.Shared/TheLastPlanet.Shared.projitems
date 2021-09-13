@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a359fba0-3513-483a-a6d4-f7fcbeea8d94</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TheLastPlanet.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ConfigShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\Buckets\Bucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\ChatShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ModalitàServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Position.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\SharedScript.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\StateBag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\ConcurrentAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\ForceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\IgnoreAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\SerializationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\BaseGateway.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\ClientId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\IEventLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\Impl\ClientStopwatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\Impl\ServerStopwatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\StopwatchUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\EventConstant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\EventHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Exceptions\EventException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\ISerializable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\ISource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Message\EventFlowType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Message\EventMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Message\EventParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Message\EventResponseMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Models\EventObservable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Models\EventValueHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Serialization\Implementations\BinarySerialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Serialization\Implementations\JsonSerialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Serialization\ISerialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Serialization\SerializationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Serialization\SerializationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\ServerId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\BinaryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContractResolvers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectHash.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\Base64Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\BooleanExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\DelegateExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\EnumerableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\ObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions\TaskExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\BlipInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\Experience.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\FreeRoamChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\Utils\Rank.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\Utils\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\Utils\Timer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FREEROAM\WorldEventsShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logger\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Businesses\StationDiBenzina.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\DatiChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\LogInInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Core\PlayerChar\BasePlayerShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Inventario\IInventoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Business.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Employee.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Whitelistati\JobGrade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Lavori\Whitelistati\Veicoli.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Meteo\SharedMeteo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RolePlay\Veicoli\VeicoliShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\Clock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\Program.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\Serialization\SnowflakeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\Snowflake.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\SnowflakeConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\SnowflakeFragments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\SnowflakeGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Snowflake\SnowflakeRepresentation.cs" />
+		<Compile Include="..\Impostazioni\Shared\**\*.cs" />
+  </ItemGroup>
+</Project>
