@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 				bliparmi.IsShortRange = true;
 				bliparmi.Name = "AMMU-NATION";
 				blips.Add(bliparmi);
-				var inp = new InputController(Control.Context, v, "Premi ~INPUT_CONTEXT~ per accedere all'armeria", null, ModalitaServer.FreeRoam, action: new Action<Ped, object[]>(MenuArmeria));
+				var inp = new InputController(Control.Context, v, "Premi ~INPUT_CONTEXT~ per accedere all'armeria", new((MarkerType)(-1), v, NativeUI.Colors.Transparent), ModalitaServer.FreeRoam, action: new Action<Ped, object[]>(MenuArmeria));
 				InputHandler.AddInput(inp);
 				inputs.Add(inp);
 			}
