@@ -19,7 +19,7 @@ namespace TheLastPlanet.Shared
 	public static class Extensions
 	{
 
-		private static Log Logger = new Log();
+		private static Log Logger = new();
 		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>

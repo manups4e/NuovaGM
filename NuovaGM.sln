@@ -11,9 +11,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Vendor\Generat
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{A359FBA0-3513-483A-A6D4-F7FCBEEA8D94}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Client", "Impostazioni.Client\Impostazioni.Client.shproj", "{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Server", "Impostazioni.Server\Impostazioni.Server.shproj", "{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Shared", "Impostazioni.Shared\Impostazioni.Shared.shproj", "{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Impostazioni.Server\Impostazioni.Server.projitems*{032b03ad-3a70-4c81-8ec5-3beba0f69bbe}*SharedItemsImports = 13
+		Impostazioni.Client\Impostazioni.Client.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
 		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
+		Impostazioni.Client\Impostazioni.Client.projitems*{6e4a0def-350b-4f68-a5c2-b77c5f0f95cb}*SharedItemsImports = 13
+		Impostazioni.Shared\Impostazioni.Shared.projitems*{8b4ab3f9-7b5d-4aa1-85d7-90a9fcc75d59}*SharedItemsImports = 13
+		Impostazioni.Server\Impostazioni.Server.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
 		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
 		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{a359fba0-3513-483a-a6d4-f7fcbeea8d94}*SharedItemsImports = 13
 	EndGlobalSection

@@ -1,81 +1,79 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <DebugType>embedded</DebugType>
-    <TargetName>TheLastPlanet.Client.net</TargetName>
-    <DefineConstants>DEBUG;CLIENT</DefineConstants>
-    <AssemblyName>TheLastPlanet.Client.net</AssemblyName>
-    <RootNamespace>TheLastPlanet.Client</RootNamespace>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
-    <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release;Offuscata</Configurations>
-    <AssemblyVersion>5.78.*</AssemblyVersion>
-    <FileVersion>5.78</FileVersion>
-    <Deterministic>false</Deterministic>
-    <Nullable>annotations</Nullable>
-    <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
-    <!--<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<DebugType>embedded</DebugType>
+		<TargetName>TheLastPlanet.Client.net</TargetName>
+		<DefineConstants>DEBUG;CLIENT</DefineConstants>
+		<AssemblyName>TheLastPlanet.Client.net</AssemblyName>
+		<RootNamespace>TheLastPlanet.Client</RootNamespace>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<LangVersion>latest</LangVersion>
+		<Configurations>Debug;Release;Offuscata</Configurations>
+		<AssemblyVersion>5.78.*</AssemblyVersion>
+		<FileVersion>5.78</FileVersion>
+		<Deterministic>false</Deterministic>
+		<Nullable>annotations</Nullable>
+		<!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
+		<!--<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
+	</PropertyGroup>
 
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<DebugSymbols>true</DebugSymbols>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
 
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>false</DebugSymbols>
-    <Obfuscate>True</Obfuscate>
-    <DocumentationFile />
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<OutputPath>C:\Users\manups4e\source\repos\output\NuovaGM\</OutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<DebugSymbols>false</DebugSymbols>
+		<Obfuscate>True</Obfuscate>
+		<DocumentationFile />
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DebugSymbols>true</DebugSymbols>
-    <Obfuscate>True</Obfuscate>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<DebugSymbols>true</DebugSymbols>
+		<Obfuscate>True</Obfuscate>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Optimize>True</Optimize>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.4385" />
-    <PackageReference Include="Confuser.MSBuild" Version="1.5.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+	<ItemGroup>
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.4385" />
+		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+		</Reference>
 
-    <Reference Include="Microsoft.CSharp" />
-    <!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
-    <Compile Include="..\Impostazioni\Client\**\*.cs" />
-	  <!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
-    <!--PER OFFUSCARE-->
-    <Content Include="TheLastPlanet.Client.crproj" />
-    <!--PER OFFUSCARE-->
+		<Reference Include="Microsoft.CSharp" />
+		<!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
+		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
+		<!--PER OFFUSCARE-->
+		<Content Include="TheLastPlanet.Client.crproj" />
+		<!--PER OFFUSCARE-->
 
-    <ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
+		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
-  </Target>
+	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
+	<Import Project="..\Impostazioni.Client\Impostazioni.Client.projitems" Label="Shared" />
 
-  <Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
-
-
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
+	</Target>
 </Project>
 
 <!--se servisse di nuovo la configurazione in LUA-->

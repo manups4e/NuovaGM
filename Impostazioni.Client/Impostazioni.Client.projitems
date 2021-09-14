@@ -3,13 +3,17 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>a359fba0-3513-483a-a6d4-f7fcbeea8d94</SharedGUID>
+    <SharedGUID>6e4a0def-350b-4f68-a5c2-b77c5f0f95cb</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>TheLastPlanet.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Impostazioni.Client</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
   </ItemGroup>
-  <Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="SharedSettings" />
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Businesses\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Meteo\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Proprietà\" />
+  </ItemGroup>
 </Project>

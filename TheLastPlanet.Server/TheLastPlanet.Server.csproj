@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Impostazioni\Server\**\*.cs" />
+	  <!--<Compile Include="..\Impostazioni\Server\**\*.cs" />-->
 	<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
 	<!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
     <Content Include="TheLastPlanet.Server.crproj" />
@@ -61,5 +61,6 @@
   </Target>
 
   <Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
+  <Import Project="..\Impostazioni.Server\Impostazioni.Server.projitems" Label="Shared" />
 
 </Project>

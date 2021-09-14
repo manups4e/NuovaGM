@@ -3,14 +3,11 @@ using System.IO;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-#if SERVER
-using TheLastPlanet.Server;
-#endif
+
 namespace Logger
 {
 	public class Log
 	{
-
 		// Colors
 		public const string LIGHT_RED = "^1";
 		public const string LIGHT_GREEN = "^2";
