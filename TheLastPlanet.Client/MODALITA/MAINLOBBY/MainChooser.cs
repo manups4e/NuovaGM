@@ -198,10 +198,10 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			Client.Impostazioni.LoadConfig(modalita, settings);
 			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
 			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = modalita;
+			Cache.PlayerCache.ModalitàAttuale = modalita;
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
 			PopupWarningThread.Warning.Dispose();
-			Cache.PlayerCache.ModalitàAttuale = modalita;
 		}
 	}
 }
