@@ -437,20 +437,21 @@ namespace TheLastPlanet.Server.Core.Buckets
             string query = "SELECT * FROM personaggi WHERE CharID = @id";
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
             Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
-            user.CurrentChar = new Char_data()
-            {
-                Info = res.info.FromJson<Info>(),
-                Finance = new Finance(res.money, res.bank, res.dirtyCash),
-                Posizione = res.location.FromJson<Position>(),
-                Job = new Job(res.job, res.job_grade),
-                Gang = new Gang(res.gang, res.gang_grade),
-                Skin = res.skin.FromJson<Skin>(),
-                Inventory = res.inventory.FromJson<List<Inventory>>(),
-                Weapons = res.weapons.FromJson<List<Weapons>>(),
-                Dressing = res.dressing.FromJson<Dressing>(),
-                Needs = res.needs.FromJson<Needs>(),
-                Statistiche = res.statistiche.FromJson<Statistiche>()
-            };
+
+            user.CurrentChar = new Char_data(
+                id,
+                res.info.FromJson<Info>(),
+                new Finance(res.Money, res.Bank, res.DirtyCash),
+                new Job(res.job, res.job_grade),
+                new Gang(res.gang, res.gang_grade),
+                res.skin.FromJson<Skin>(),
+                res.dressing.FromJson<Dressing>(),
+                res.weapons.FromJson<List<Weapons>>(),
+                res.inventory.FromJson<List<Inventory>>(),
+                res.needs.FromJson<Needs>(),
+                res.statistiche.FromJson<Statistiche>(),
+                res.is_dead
+            ){ Posizione = res.location.FromJson<Position>() };
             return user.CurrentChar;
         }
 

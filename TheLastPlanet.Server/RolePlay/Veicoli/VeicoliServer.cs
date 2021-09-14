@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using Newtonsoft.Json;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared;
@@ -29,11 +30,11 @@ namespace TheLastPlanet.Server.Veicoli
 			{
 				const string query = "SELECT * FROM owned_vehicles WHERE UserID = @disc AND char_id = @pers";
 				Player player = a.Player;
-				IEnumerable<OwnedVehicle> vehs = await MySQL.QueryListAsync<OwnedVehicle>(query, new { disc = player.GetCurrentChar().ID, pers = b });
-				List<OwnedVehicle> ownedVehicles = vehs.ToList();
-				await BaseScript.Delay(10);
-				if (ownedVehicles.Count <= 0) return player.GetCurrentChar().CurrentChar.Veicoli;
-				foreach (dynamic veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Veicoli.Add(new OwnedVehicle(veh));
+				dynamic vehs = await MySQL.QueryListAsync(query, new { disc = player.GetCurrentChar().ID, pers = b });
+				List<OwnedVehicle> ownedVehicles= new();
+				foreach (var v in vehs)
+					ownedVehicles.Add(new(v.targa, v.vehicle_data, v.garage, v.stato));
+				foreach (var veh in ownedVehicles) player.GetCurrentChar().CurrentChar.Veicoli.Add(veh);
 
 				return player.GetCurrentChar().CurrentChar.Veicoli;
 			}));
