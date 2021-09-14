@@ -18,10 +18,10 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		public Vector3 Direction { get; set; } = Vector3.Zero;
 		public Vector3 Scale  { get; set; } = new(1.5f);
 		public Color Color { get; set; }
-		public bool BobUpDown { get; set; }
-		public bool Rotate { get; set; }
-		public bool FaceCamera { get; set; }
-		public bool IsInMarker  { get; set; }
+		public bool BobUpDown = false;
+		public bool Rotate = false;
+		public bool FaceCamera = false;
+		public bool IsInMarker  = false;
 
 		public Marker(MarkerType type, Position position, Color color, bool bobUpDown = false, bool rotate = false, bool faceCamera = false)
 		{
