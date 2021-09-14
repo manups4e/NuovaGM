@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Client.NativeUI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 using System.Collections.Generic;
@@ -44,44 +45,44 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Binco's" };
 				SetBlipDisplay(blip.Handle, 4);
-				bincoInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoVest), v.Vestiti.W));
-				bincoInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoScarpe), v.Scarpe.W));
-				bincoInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
-				bincoInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
-				bincoInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
+				bincoInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoVest), v.Vestiti.W));
+				bincoInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoScarpe), v.Scarpe.W));
+				bincoInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
+				bincoInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
+				bincoInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
 			}
 
 			foreach (NegozioAbiti v in ConfigClothes.Discount)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Discount's" };
 				SetBlipDisplay(blip.Handle, 4);
-				discountInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountVest), v.Vestiti.W));
-				discountInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountScarpe), v.Scarpe.W));
-				discountInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
-				discountInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
-				discountInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
+				discountInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountVest), v.Vestiti.W));
+				discountInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountScarpe), v.Scarpe.W));
+				discountInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
+				discountInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
+				discountInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
 			}
 
 			foreach (NegozioAbiti v in ConfigClothes.Suburban)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Suburban's" };
 				SetBlipDisplay(blip.Handle, 4);
-				suburbanInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanVest), v.Vestiti.W));
-				suburbanInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanScarpe), v.Scarpe.W));
-				suburbanInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
-				suburbanInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
-				suburbanInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
+				suburbanInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanVest), v.Vestiti.W));
+				suburbanInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanScarpe), v.Scarpe.W));
+				suburbanInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
+				suburbanInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
+				suburbanInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
 			}
 
 			foreach (NegozioAbiti v in ConfigClothes.Ponsombys)
 			{
 				Blip blip = new Blip(AddBlipForCoord(v.Blip.X, v.Blip.Y, v.Blip.Z)) { Sprite = (BlipSprite)v.BlipId, Color = (BlipColor)v.BlipColor, IsShortRange = true, Name = "Ponsombys" };
 				SetBlipDisplay(blip.Handle, 4);
-				ponsombysInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysVest), v.Vestiti.W));
-				ponsombysInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysScarpe), v.Scarpe.W));
-				ponsombysInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
-				ponsombysInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
-				ponsombysInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", null, ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
+				ponsombysInputs.Add(new InputController(Control.Context, v.Vestiti.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i vestiti", new((MarkerType)(-1), v.Vestiti.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysVest), v.Vestiti.W));
+				ponsombysInputs.Add(new InputController(Control.Context, v.Scarpe.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare le scarpe", new((MarkerType)(-1), v.Scarpe.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysScarpe), v.Scarpe.W));
+				ponsombysInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
+				ponsombysInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
+				ponsombysInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
 			}
 			InputHandler.AddInputList(bincoInputs);
 			InputHandler.AddInputList(discountInputs);
