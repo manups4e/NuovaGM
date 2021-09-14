@@ -79,57 +79,69 @@ namespace TheLastPlanet.Client.Handlers
 
 				foreach (InputController input in _listaInput)
 				{
-					if (input.Modalita != ModalitaServer.UNKNOWN && input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
-					if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)
+					try
 					{
-						if (p.IsInRangeOf(input.Position.ToVector3, 100f)) // big range personalizzato sennò default 50f
+						if (input.Modalita != ModalitaServer.UNKNOWN && input.Modalita != Cache.PlayerCache.ModalitàAttuale) continue;
+						if (input.Position != Position.Zero || input.Marker != null || input.InputMessage != null)
 						{
-							if (input.Marker != null) input.Marker.Draw();
-
-							if (input.Marker.IsInMarker && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+							if (p.IsInRangeOf(input.Position.ToVector3, 100f)) // big range personalizzato sennò default 50f
 							{
-								if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
-
-								if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier))
+								if (input.Marker is null)
 								{
-									switch (input.Check)
+									Client.Logger.Debug($"Input with null marker =>{input.Control}, {input.InputMessage}, {input.Position}");
+									continue;
+								}
+
+								input.Marker.Draw();
+								if (input.Marker.IsInMarker && !HUD.MenuPool.IsAnyMenuOpen) // radius personalizzato sennò default 1.375f
+								{
+									if (!string.IsNullOrWhiteSpace(input.InputMessage)) HUD.ShowHelp(input.InputMessage);
+
+									if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier))
 									{
-										case PadCheck.Any:
-											input.Action.DynamicInvoke(p, input.parameters);
+										switch (input.Check)
+										{
+											case PadCheck.Any:
+												input.Action.DynamicInvoke(p, input.parameters);
 
-											break;
-										case PadCheck.Controller:
-											if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+												break;
+											case PadCheck.Controller:
+												if (Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
 
-											break;
-										case PadCheck.Keyboard:
-											if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
-
-											break;
+												break;
+											case PadCheck.Keyboard:
+												if (!Input.WasLastInputFromController()) input.Action.DynamicInvoke(p, input.parameters);
+												break;
+										}
 									}
 								}
 							}
 						}
-					}
-					else
-					{
-						if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier) && !HUD.MenuPool.IsAnyMenuOpen)
+						else
 						{
-							switch (input.Check)
+							if (Input.IsControlJustPressed(input.Control, input.Check, input.Modifier) && !HUD.MenuPool.IsAnyMenuOpen)
 							{
-								case PadCheck.Any:
-									input.Action.DynamicInvoke(p, input.parameters);
-									break;
-								case PadCheck.Controller:
-									if (Input.WasLastInputFromController())
+								switch (input.Check)
+								{
+									case PadCheck.Any:
 										input.Action.DynamicInvoke(p, input.parameters);
-									break;
-								case PadCheck.Keyboard:
-									if (!Input.WasLastInputFromController())
-										input.Action.DynamicInvoke(p, input.parameters);
-									break;
+										break;
+									case PadCheck.Controller:
+										if (Input.WasLastInputFromController())
+											input.Action.DynamicInvoke(p, input.parameters);
+										break;
+									case PadCheck.Keyboard:
+										if (!Input.WasLastInputFromController())
+											input.Action.DynamicInvoke(p, input.parameters);
+										break;
+								}
 							}
 						}
+					}
+					catch(Exception e)
+					{
+						Client.Logger.Error(input.ToJson());
+						Client.Logger.Error(e.ToString());
 					}
 					await Task.FromResult(0);
 				}
