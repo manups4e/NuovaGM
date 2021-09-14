@@ -154,7 +154,7 @@ namespace TheLastPlanet.Client
 		/// <param name="data"></param>
 		private static void GameEventTriggered(string eventName, List<object> data)
 		{
-			Debug.WriteLine($"game event {eventName} ({String.Join(", ", data.ToArray())})");
+			Client.Logger.Debug($"game event {eventName} ({String.Join(", ", data.ToArray())})");
 			if (eventName == "CEventNetworkEntityDamage")
 			{
 				Entity victim = Entity.FromHandle(int.Parse(data[0].ToString()));
