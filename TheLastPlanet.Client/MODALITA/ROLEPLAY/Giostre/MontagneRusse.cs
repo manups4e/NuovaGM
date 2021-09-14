@@ -312,10 +312,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 				NetworkStartSynchronisedScene(iLocal_1442);
 			}
 
-			await BaseScript.Delay(5000);
 			Vector3 vVar0 = GetOffsetFromEntityGivenWorldCoords(Carrello.Handle, personaggio.Position.X, personaggio.Position.Y, personaggio.Position.Z);
-			Function.Call((Hash)0x267c78c60e806b9a, personaggio.Handle, true);
 			AttachEntityToEntity(personaggio.Handle, Carrello.Handle, 0, vVar0.X, vVar0.Y, vVar0.Z, 0, 0, personaggio.Heading - 139.96f, false, false, false, false, 0, true);
+			NetworkAllowLocalEntityAttachment(personaggio.Handle, true);
+			await BaseScript.Delay(5000);
 			if (personaggio.NetworkId == Cache.PlayerCache.MyPlayer.Ped.NetworkId) SonoSeduto = true;
 			BaseScript.TriggerServerEvent("lprp:montagnerusse:syncCarrelli", index, Montagna.Carrelli[index].Occupato);
 			RemoveAnimDict(RollerAnim);
