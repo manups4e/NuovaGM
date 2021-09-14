@@ -82,6 +82,8 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			ShutdownLoadingScreen();
 			ShutdownLoadingScreenNui();
+			ClampGameplayCamPitch(0, 0);
+			ClampGameplayCamYaw(0, 0);
 			Screen.Fading.FadeIn(1000);
 			//MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
