@@ -17,6 +17,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Server", "Impo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Shared", "Impostazioni.Shared\Impostazioni.Shared.shproj", "{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impostazioni", "Impostazioni", "{95A5FB57-0877-466C-AEF9-7B0693FFCE05}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Impostazioni.Server\Impostazioni.Server.projitems*{032b03ad-3a70-4c81-8ec5-3beba0f69bbe}*SharedItemsImports = 13
@@ -55,6 +57,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
+		{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
+		{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65064A5E-AA17-4390-9E44-7B53F7A6B9B2}
