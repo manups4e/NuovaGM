@@ -47,6 +47,16 @@ namespace TheLastPlanet.Shared
 		}
 
 		/// <summary>
+		/// Returns a random floating-point number that is greater than or equal to 0.0f, and less than 1.0f.
+		/// </summary>
+		/// <param name="rand">A random number generator.</param>
+		/// <returns>A single-precision floating point number that is greater than or equal to 0.0f, and less than 1.0f.</returns>
+		public static float NextFloat(this Random rand, float maxValue)
+		{
+			return NextFloat(rand, 0, maxValue);
+		}
+
+		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>
 		/// <param name="rand">A random number generator.</param>
