@@ -79,17 +79,16 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
 			        API.SetPauseMenuActive(true);
 			        Screen.Effects.Start(ScreenEffect.FocusOut, 800);
 			        API.TransitionToBlurred(700);
-                    InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-                    List<InstructionalButton> buttons = new List<InstructionalButton>()
+                    List<InstructionalButton> buttons = new()
                     {
                         new InstructionalButton(Control.PhoneSelect, UIMenu._selectTextLocalized),
                         new InstructionalButton(Control.PhoneCancel, UIMenu._backTextLocalized),
-                        new InstructionalButton(Control.FrontendRb, ""),
-                        new InstructionalButton(Control.FrontendLb, _browseTextLocalized),
+                        new InstructionalButton(InputGroup.INPUTGROUP_FRONTEND_BUMPERS, _browseTextLocalized),
                     };
                     InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(buttons);
-		        }
-		        else
+                    InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
+                }
+                else
 		        {
 			        API.SetPauseMenuActive(false);
 			        Screen.Effects.Start(ScreenEffect.FocusOut, 500);
@@ -97,7 +96,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
                     InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
 
                 }
-
 		        _visible = value;
 	        }
         }
@@ -110,7 +108,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
         public int Index;
         private bool _visible;
 
-        private Scaleform _sc;
         private Scaleform _header;
 
         public async void ShowHeader()
@@ -142,11 +139,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
             _header.CallFunction("SHOW_HEADING_DETAILS", true);
             _header.CallFunction("SHOW_MENU", true);
             _loaded = true;
-        }
-
-        public void DrawInstructionalButton(int slot, Control control, string text)
-        {
-            _sc.CallFunction("SET_DATA_SLOT", slot, API.GetControlInstructionalButton(2, (int)control, 0), text);
         }
 
         public void ProcessControls()
@@ -319,11 +311,6 @@ namespace TheLastPlanet.Client.NativeUI.PauseMenu
             }
             Tabs[Index].Draw();
 
-            _sc.CallFunction("DRAW_INSTRUCTIONAL_BUTTONS", -1);
-            if (!Main.ImpostazioniClient.ModCinema)
-                _sc.Render2D();
-            else
-                API.DrawScaleformMovie(_sc.Handle, 0.5f, 0.5f - (Main.ImpostazioniClient.LetterBox / 1000), 1f, 1f, 255, 255, 255, 255, 0);
             if (DisplayHeader)
             {
                 if (!_loaded)

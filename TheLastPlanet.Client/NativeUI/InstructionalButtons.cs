@@ -12,6 +12,42 @@ using TheLastPlanet.Shared;
 namespace TheLastPlanet.Client.NativeUI
 {
     public delegate void OnInstructionControlSelected(Control control);
+    public enum InputGroup
+    {
+        UNUSED = -1,
+        INPUTGROUP_MOVE = 0,
+        INPUTGROUP_LOOK = 1,
+        INPUTGROUP_WHEEL = 2,
+        INPUTGROUP_CELLPHONE_NAVIGATE = 3,
+        INPUTGROUP_CELLPHONE_NAVIGATE_UD = 4,
+        INPUTGROUP_CELLPHONE_NAVIGATE_LR = 5,
+        INPUTGROUP_FRONTEND_DPAD_ALL = 6,
+        INPUTGROUP_FRONTEND_DPAD_UD = 7,
+        INPUTGROUP_FRONTEND_DPAD_LR = 8,
+        INPUTGROUP_FRONTEND_LSTICK_ALL = 9,
+        INPUTGROUP_FRONTEND_RSTICK_ALL = 10,
+        INPUTGROUP_FRONTEND_GENERIC_UD = 11,
+        INPUTGROUP_FRONTEND_GENERIC_LR = 12,
+        INPUTGROUP_FRONTEND_GENERIC_ALL = 13,
+        INPUTGROUP_FRONTEND_BUMPERS = 14,
+        INPUTGROUP_FRONTEND_TRIGGERS = 15,
+        INPUTGROUP_FRONTEND_STICKS = 16,
+        INPUTGROUP_SCRIPT_DPAD_ALL = 17,
+        INPUTGROUP_SCRIPT_DPAD_UD = 18,
+        INPUTGROUP_SCRIPT_DPAD_LR = 19,
+        INPUTGROUP_SCRIPT_LSTICK_ALL = 20,
+        INPUTGROUP_SCRIPT_RSTICK_ALL = 21,
+        INPUTGROUP_SCRIPT_BUMPERS = 22,
+        INPUTGROUP_SCRIPT_TRIGGERS = 23,
+        INPUTGROUP_WEAPON_WHEEL_CYCLE = 24,
+        INPUTGROUP_FLY = 25,
+        INPUTGROUP_SUB = 26,
+        INPUTGROUP_VEH_MOVE_ALL = 27,
+        INPUTGROUP_CURSOR = 28,
+        INPUTGROUP_CURSOR_SCROLL = 29,
+        INPUTGROUP_SNIPER_ZOOM_SECONDARY = 30,
+        INPUTGROUP_VEH_HYDRAULICS_CONTROL = 31,
+    };
 
     public class InstructionalButton
     {
@@ -23,6 +59,7 @@ namespace TheLastPlanet.Client.NativeUI
 
         public Control GamepadButton { get; private set; }
         public Control KeyboardButton { get; private set; }
+        public InputGroup InputButton { get; private set; } = InputGroup.UNUSED;
         public List<Control> ControllerButtons { get; private set; }
         public List<Control> KeyboardButtons { get; private set; }
         public PadCheck PadCheck { get; private set; }
@@ -79,6 +116,12 @@ namespace TheLastPlanet.Client.NativeUI
             Text = text;
             PadCheck = padFilter;
         }
+        public InstructionalButton(InputGroup control, string text, PadCheck padFilter = PadCheck.Any)
+        {
+            InputButton = control;
+            Text = text;
+            PadCheck = padFilter;
+        }
 
 
         /// <summary>
@@ -117,6 +160,7 @@ namespace TheLastPlanet.Client.NativeUI
                 }
                 return retVal;
             }
+            else if (InputButton != InputGroup.UNUSED) return $"~{InputButton}~";
             return IsUsingController ? API.GetControlInstructionalButton(2, (int)GamepadButton, 1) : API.GetControlInstructionalButton(2, (int)KeyboardButton, 1);
         }
 
@@ -200,6 +244,30 @@ namespace TheLastPlanet.Client.NativeUI
             _changed = true;
         }
 
+        /// <summary>
+        /// Removes a List of <see cref="InstructionalButton"/>
+        /// </summary>
+        /// <param name="buttons">The List of <see cref="InstructionalButton"/> to remove.</param>
+        public void RemoveInstructionalButtons(List<InstructionalButton> buttons)
+        {
+            foreach (var button in buttons)
+            {
+                if (ControlButtons.Contains(button))
+                    ControlButtons.Remove(button);
+            }
+            _changed = true;
+        }
+
+        /// <summary>
+        /// Clears all the buttons
+        /// </summary>
+        /// <param name="button">The index to remove.</param>
+        public void ClearButtonList()
+        {
+            ControlButtons.Clear();
+            _changed = true;
+        }
+
         public async void AddSavingText(int value, string text, int time)
 		{
             _isSaving = true;
@@ -214,13 +282,13 @@ namespace TheLastPlanet.Client.NativeUI
         public void UpdateButtons()
 		{
             if (!_changed) return;
-            _sc.CallFunction("CLEAR_ALL");
+            _sc.CallFunction("SET_DATA_SLOT_EMPTY");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             int count = 0;
 
-            foreach (InstructionalButton button in ControlButtons)
+            foreach (InstructionalButton button in ControlButtons.ToList())
             {
-				if (button.IsUsingController)
+                if (button.IsUsingController)
 				{
                     if (button.PadCheck == PadCheck.Keyboard) continue;
                     if(PopupWarningThread.Warning.IsShowing)
@@ -286,7 +354,7 @@ namespace TheLastPlanet.Client.NativeUI
 
             if (!PopupWarningThread.Warning.IsShowing) Draw(); 
 
-            foreach (InstructionalButton button in ControlButtons)
+            foreach (InstructionalButton button in ControlButtons.Where(x => x.InputButton == InputGroup.UNUSED))
 			{
                 if (Input.IsControlJustPressed(button.GamepadButton, button.PadCheck) || (button.ControllerButtons != null && button.ControllerButtons.Any(x=>Input.IsControlJustPressed(x, button.PadCheck))))
                     button.InvokeEvent(button.GamepadButton);
