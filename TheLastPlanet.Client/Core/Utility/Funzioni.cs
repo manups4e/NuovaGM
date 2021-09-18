@@ -1029,13 +1029,117 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static Ped[] GetPedsInArea(this Vector3 Coords, float Radius) => World.GetAllPeds().Where(x => x.IsInRangeOf(Coords, Radius)).ToArray();
 
+		private static Vector3 PolarSphereToWorld3D(Vector3 center, float radius, float polarAngleDeg, float azimuthAngleDeg)
+		{
+			// CONVERT THE ANGLE FROM DEG TO RAD
+			var polarAngleRad = polarAngleDeg * (Math.PI / 180.0f);
+			var azimuthAngleRad = azimuthAngleDeg * (Math.PI / 180.0f);
+			// RETURN THE TRANSFORMATION
+			return new Vector3(
+				center.X + radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Cos(polarAngleRad)),
+				center.Y - radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Sin(polarAngleRad)),
+				center.Z - radius * (float)Math.Cos(azimuthAngleRad));
+		}
+
 		public static PointF WorldToScreen(Vector3 position)
 		{
 			float screenX = 0, screenY = 0;
 			return !World3dToScreen2d(position.X, position.Y, position.Z, ref screenX, ref screenY) ? PointF.Empty : new(screenX, screenY);
 		}
 
-		public static void StartScenario(Ped ped, string scenario) { TaskStartScenarioInPlace(ped.Handle, scenario, 0, true); }
+		public static PointF WorldToScreenShifted(Vector3 position)
+        {
+			float screenX = 0, screenY = 0;
+            return !World3dToScreen2d(position.X, position.Y, position.Z, ref screenX, ref screenY)
+                ? PointF.Empty
+                : (new((screenX - 0.5f) * 2, (screenY - 0.5f) * 2));
+        }
+        private static Vector3 RotationToDirection(Vector3 rotation)
+        {
+			var z = Deg2rad(rotation.Z);
+			var x = Deg2rad(rotation.X);
+			float num = (float)Math.Abs(Math.Cos(x));
+			return new((float)-Math.Sin(z) * num, (float)Math.Cos(z) * num, (float)Math.Sin(x));
+		}
+
+		private static PointF processCoordinates(PointF coords)
+        {
+			int screenX = 0, screenY = 0;
+			GetActiveScreenResolution(ref screenX, ref screenY);
+			var relativeX = 1 - (coords.X / screenX) * 1.0f * 2;
+			var relativeY = 1 - (coords.Y / screenY) * 1.0f * 2;
+			if (relativeX > 0.0f)
+				relativeX = -relativeX;
+			else
+				relativeX = Math.Abs(relativeX);
+
+			if (relativeY > 0.0f)
+				relativeY = -relativeY;
+			else
+				relativeY = Math.Abs(relativeY);
+
+			return new(relativeX, relativeY);
+		}
+
+
+		private static Vector3 s2w(Vector3 camPos, float relX, float relY) {
+			var camRot = GetGameplayCamRot(0);
+			var camForward = RotationToDirection(camRot);
+			var rotUp = Vector3.Add(camRot, new Vector3(10f, 0, 0));
+			var rotDown = Vector3.Add(camRot, new Vector3(-10f, 0, 0));
+			var rotLeft = Vector3.Add(camRot, new Vector3(0f, 0, -10f));
+			var rotRight = Vector3.Add(camRot, new Vector3(0f, 0, 10f));
+
+			var camRight = Vector3.Subtract(RotationToDirection(rotRight), RotationToDirection(rotLeft));
+			var camUp = Vector3.Subtract(RotationToDirection(rotUp), RotationToDirection(rotDown));
+
+
+			var rollRad = -Deg2rad(camRot.Y);
+			var camRightRoll = Vector3.Subtract(Vector3.Multiply(camRight, (float)Math.Cos(rollRad)), Vector3.Multiply(camUp, (float)Math.Sin(rollRad)));
+			var camUpRoll = Vector3.Add(Vector3.Multiply(camRight, (float)Math.Sin(rollRad)), Vector3.Multiply(camUp, (float)Math.Cos(rollRad)));
+
+			var point3D = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), camRightRoll), camUpRoll);
+			var point2D = WorldToScreenShifted(point3D);
+
+			if (point2D == PointF.Empty)
+				return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
+
+			var point3DZero = Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
+			var point2DZero = WorldToScreenShifted(point3DZero);
+
+			if (point2DZero == PointF.Empty)
+				return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
+
+			var eps = 0.001;
+
+			if (Math.Abs(point2D.X - point2DZero.X) < eps || Math.Abs(point2D.Y - point2DZero.Y) < eps)
+				return Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f));
+
+			var scaleX = (relX - point2DZero.X) / (point2D.X - point2DZero.X);
+			var scaleY = (relY - point2DZero.Y) / (point2D.Y - point2DZero.Y);
+			var point3Dret = Vector3.Add(Vector3.Add(Vector3.Add(camPos, Vector3.Multiply(camForward, 10.0f)), Vector3.Multiply(camRightRoll, scaleX)), Vector3.Multiply(camUpRoll, scaleY));
+			return point3Dret;
+		}
+
+		public static RaycastResult ScreenToWorld(IntersectOptions flags, Entity ignore)
+        {
+			// provare sennò usare funzione simile a NativeUI (MouseInBounds) per avere la posizione del cursore
+			Vector3 pos = GetPauseMenuCursorPosition();
+			var absoluteX = Math.Abs(pos.X);
+			var absoluteY = Math.Abs(pos.Y);
+
+			var camPos = GetGameplayCamCoord();
+			var processedCoords = processCoordinates(new(absoluteX, absoluteY));
+			var target = s2w(camPos, absoluteX, absoluteY);
+
+			var dir = Vector3.Subtract(target, camPos);
+			var from = Vector3.Add(camPos, Vector3.Multiply(dir, 0.05f));
+			var to = Vector3.Add(camPos, Vector3.Multiply(dir, 300f));
+
+			return World.Raycast(from, to, flags, ignore);
+		}
+
+		public static void StartScenario(this Ped ped, string scenario) { TaskStartScenarioInPlace(ped.Handle, scenario, 0, true); }
 
 		public static int GetRandomInt(int end) { return new Random(GetGameTimer()).Next(end); }
 

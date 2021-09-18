@@ -11,8 +11,8 @@ namespace TheLastPlanet.Client.Core.Utility
 {
 	internal static class WorldProbe
 	{
-		public static AsyncRaycastResult CrossairRaycastResult;
-		public static AsyncRaycastResult CrossairRenderingRaycastResult;
+		public static RaycastResult CrossairRaycastResult;
+		public static RaycastResult CrossairRenderingRaycastResult;
 
 		static WorldProbe()
 		{
@@ -20,8 +20,18 @@ namespace TheLastPlanet.Client.Core.Utility
 			{
 				CrossairRaycastResult = await GamePlayCamCrosshairRaycast();
 				CrossairRenderingRaycastResult = await CrosshairRaycast();
+
 				await Task.FromResult(0);
 			}));
+		}
+
+		public static Vector3 GetGamePlayCameraForwardVector()
+		{
+			Vector3 rot = GameplayCamera.Rotation;
+			double rotX = rot.X / 57.295779513082320876798154814105;
+			double rotZ = rot.Z / 57.295779513082320876798154814105;
+			double multXY = Math.Abs(Math.Cos(rotX));
+			return new Vector3((float)(-Math.Sin(rotZ) * multXY), (float)(Math.Cos(rotZ) * multXY), (float)System.Math.Sin(rotX));
 		}
 
 		public static Vehicle GetVehicleInFrontOfPlayer(float distance = 5f)
@@ -109,7 +119,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			return default;
 		}
 
-		public static async Task<AsyncRaycastResult> GamePlayCamCrosshairRaycast(float distance = 1000, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> GamePlayCamCrosshairRaycast(float distance = 1000, Entity ignoredEntity = null)
 		{
 			try
 			{
@@ -126,7 +136,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			return default;
 		}
 
-		public static async Task<AsyncRaycastResult> CrosshairRaycast(this Camera cam, float distance = 1000, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> CrosshairRaycast(this Camera cam, float distance = 1000, Entity ignoredEntity = null)
 		{
 			try
 			{
@@ -143,7 +153,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			return default;
 		}
 
-		public static async Task<AsyncRaycastResult> CrosshairRaycast(this Camera cam, IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> CrosshairRaycast(this Camera cam, IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
 		{
 			try
 			{
@@ -160,7 +170,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			return default;
 		}
 
-		public static async Task<AsyncRaycastResult> CrosshairRaycast(IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> CrosshairRaycast(IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
 		{
 			try
 			{
@@ -182,7 +192,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				AsyncRaycastResult raycast = await Raycast(ped.Position, ped.ForwardVector * maxDistance, IntersectOptions.Everything);
+				RaycastResult raycast = await Raycast(ped.Position, ped.ForwardVector * maxDistance, IntersectOptions.Everything);
 
 				if (raycast.DitHitEntity) return (Entity)raycast.HitEntity;
 			}
@@ -198,7 +208,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			try
 			{
-				AsyncRaycastResult raycast = await Raycast(player.Character.Position, player.Character.ForwardVector * distance, IntersectOptions.Everything);
+				RaycastResult raycast = await Raycast(player.Character.Position, player.Character.ForwardVector * distance, IntersectOptions.Everything);
 
 				if (raycast.DitHitEntity) return (Entity)raycast.HitEntity;
 			}
@@ -210,41 +220,31 @@ namespace TheLastPlanet.Client.Core.Utility
 			return null;
 		}
 
-		public static async Task<AsyncRaycastResult> Raycast(Vector3 source, Vector3 target, IntersectOptions options, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> Raycast(Vector3 source, Vector3 target, IntersectOptions options, Entity ignoredEntity = null)
 		{
 			int RayShape = StartShapeTestLosProbe(source.X, source.Y, source.Z, target.X, target.Y, target.Z, (int)options, ignoredEntity == null ? 0 : ignoredEntity.Handle, 7);
-			Vector3 hitPositionArg = new Vector3();
-			bool hitSomethingArg = false;
-			int entityHandleArg = 0;
-			Vector3 surfaceNormalArg = new Vector3();
-			int result = 0;
+			RaycastResult result = new(0);
 
-			while (result != 2)
+			while (result.Result != 2)
 			{
 				await BaseScript.Delay(0);
-				result = GetShapeTestResult(RayShape, ref hitSomethingArg, ref hitPositionArg, ref surfaceNormalArg, ref entityHandleArg);
+				result = new(RayShape);
 			}
-
-			return new AsyncRaycastResult(hitSomethingArg, hitPositionArg, surfaceNormalArg, entityHandleArg, result);
+			return result;
 		}
 
-		public static async Task<AsyncRaycastResult> Raycast(Vector3 source, Vector3 direction, float maxDistance, IntersectOptions options, Entity ignoredEntity = null)
+		public static async Task<RaycastResult> Raycast(Vector3 source, Vector3 direction, float maxDistance, IntersectOptions options, Entity ignoredEntity = null)
 		{
 			Vector3 target = source + direction * maxDistance;
 			int RayShape = StartShapeTestLosProbe(source.X, source.Y, source.Z, target.X, target.Y, target.Z, (int)options, ignoredEntity == null ? 0 : ignoredEntity.Handle, 7);
-			Vector3 hitPositionArg = new Vector3();
-			bool hitSomethingArg = false;
-			int entityHandleArg = 0;
-			Vector3 surfaceNormalArg = new Vector3();
-			int result = 0;
+			RaycastResult result = new(0);
 
-			while (result != 2)
+			while (result.Result != 2)
 			{
 				await BaseScript.Delay(0);
-				result = GetShapeTestResult(RayShape, ref hitSomethingArg, ref hitPositionArg, ref surfaceNormalArg, ref entityHandleArg);
+				result = new(RayShape);
 			}
-
-			return new AsyncRaycastResult(hitSomethingArg, hitPositionArg, surfaceNormalArg, entityHandleArg, result);
+			return result;
 		}
 
 		public static RaycastResult SynchronousCrosshairRaycast(this Camera cam, IntersectOptions options = IntersectOptions.Everything, float distance = 1000, Entity ignoredEntity = null)
@@ -252,36 +252,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			Vector3 position = cam.Position;
 			Vector3 direction = position + distance * cam.CamForwardVector();
 			return new (StartExpensiveSynchronousShapeTestLosProbe(position.X, position.Y, position.Z, direction.X, direction.Y, direction.Z, (int)options, ignoredEntity == null ? 0 : ignoredEntity.Handle, 0));
-		}
-	}
-
-	public struct AsyncRaycastResult
-	{
-		public Entity HitEntity { get; }
-		public Vector3 HitPosition { get; }
-		public Vector3 SurfaceNormal { get; }
-		public bool DitHit { get; }
-		public bool DitHitEntity { get; }
-		public int Result { get; }
-
-		public AsyncRaycastResult(bool ditHit, Vector3 hitPosition, Vector3 surfaceNormal, int entityHandle, int result) : this()
-		{
-			DitHit = ditHit;
-			HitPosition = hitPosition;
-			SurfaceNormal = surfaceNormal;
-
-			if (entityHandle == 0)
-			{
-				HitEntity = null;
-				DitHitEntity = false;
-			}
-			else
-			{
-				HitEntity = Entity.FromHandle(entityHandle);
-				DitHitEntity = true;
-			}
-
-			Result = result;
 		}
 	}
 }

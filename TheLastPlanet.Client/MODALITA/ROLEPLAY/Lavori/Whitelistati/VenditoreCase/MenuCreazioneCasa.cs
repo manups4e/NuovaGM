@@ -1333,7 +1333,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
 		private static async Task MarkerTick()
 		{
-			AsyncRaycastResult res = await MainCamera.CrosshairRaycast(150f);
+            RaycastResult res = await MainCamera.CrosshairRaycast(150f);
 			Vector3 direction = res.HitPosition;
 			dummyMarker.Color = Colors.Red;
 			if (!posCamera.Selected) dummyMarker.Draw();
@@ -1357,7 +1357,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 		{
 			if (blipColor != null)
 			{
-				AsyncRaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
+                RaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
 				Vector3 direction = res.HitPosition;
 				Vector3 pos = new(direction.X, direction.Y, curLocation.Z);
 				string val = blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string;

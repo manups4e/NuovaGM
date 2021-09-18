@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.AdminAC
 		public static async Task OnTickSviluppo()
 		{
 			Ped pl = Cache.PlayerCache.MyPlayer.Ped;
-			AsyncRaycastResult Crossair = WorldProbe.CrossairRaycastResult;
+            RaycastResult Crossair = WorldProbe.CrossairRaycastResult;
 			//TODO: in worldprobe un metodo fisso da cui prendere i valori in modo syncrono
 			HUD.DrawText(0.4f, 0.925f, $"~o~Posizione~w~: {(Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo ? pl.CurrentVehicle.Position : pl.Position)} H:{(Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo ? pl.CurrentVehicle.Heading : pl.Heading)}");
 			HUD.DrawText(0.4f, 0.95f, $"Rotazione: {(Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo ? pl.CurrentVehicle.Rotation : pl.Rotation)}");
