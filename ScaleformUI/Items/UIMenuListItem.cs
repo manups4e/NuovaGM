@@ -65,7 +65,11 @@ namespace ScaleformUI
         {
         }
 
-		public UIMenuListItem(string text, List<dynamic> items, int index, string description, HudColor mainColor, HudColor higlightColor) : base(text, description, mainColor, higlightColor)
+        public UIMenuListItem(string text, List<dynamic> items, int index, string description, HudColor mainColor, HudColor higlightColor) : this(text, items, index, description, mainColor, higlightColor, HudColor.NONE, HudColor.NONE)
+        {
+        }
+        
+        public UIMenuListItem(string text, List<dynamic> items, int index, string description, HudColor mainColor, HudColor higlightColor, HudColor textColor, HudColor highlightTextColor) : base(text, description, mainColor, higlightColor, textColor, highlightTextColor)
 		{
 			const int y = 0;
 			_items = items;

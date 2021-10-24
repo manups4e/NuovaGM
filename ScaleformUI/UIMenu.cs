@@ -1989,22 +1989,18 @@ namespace ScaleformUI
 							UIMenuStatisticsPanel sp = (UIMenuStatisticsPanel)panel;
 							NativeUIScaleform._nativeui.CallFunction("ADD_PANEL", it, 3);
 							if (sp.Items.Count > 0)
-							{
 								foreach (var stat in sp.Items)
-								{
 									NativeUIScaleform._nativeui.CallFunction("ADD_STATISTIC_TO_PANEL", it, pan, stat.Text, stat.Value);
-								}
-							}
 							break;
 
 					}
 				}
-				NativeUIScaleform._nativeui.CallFunction("SET_CURRENT_ITEM", CurrentSelection);
-				SetStreamedTextureDictAsNoLongerNeeded(_customTexture.Key);
-				SetStreamedTextureDictAsNoLongerNeeded("commonmenu");
-				SetStreamedTextureDictAsNoLongerNeeded("pause_menu_pages_char_mom_dad");
-				SetStreamedTextureDictAsNoLongerNeeded("char_creator_portraits");
 			}
+			NativeUIScaleform._nativeui.CallFunction("SET_CURRENT_ITEM", CurrentSelection);
+			SetStreamedTextureDictAsNoLongerNeeded(_customTexture.Key);
+			SetStreamedTextureDictAsNoLongerNeeded("commonmenu");
+			SetStreamedTextureDictAsNoLongerNeeded("pause_menu_pages_char_mom_dad");
+			SetStreamedTextureDictAsNoLongerNeeded("char_creator_portraits");
 		}
 
 		/// <summary>
@@ -2030,7 +2026,7 @@ namespace ScaleformUI
 					_maxItem = MaxItemsOnScreen + CurrentSelection;
 					_minItem = CurrentSelection;
 				}
-				NativeUIScaleform._nativeui.CallFunction("SET_CURRENT_ITEM", this.CurrentSelection);
+				NativeUIScaleform._nativeui.CallFunction("SET_CURRENT_ITEM", CurrentSelection);
 			}
 		}
 

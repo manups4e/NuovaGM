@@ -223,14 +223,17 @@ namespace ScaleformUI
         /// Basic menu button.
         /// </summary>
         /// <param name="text">Button label.</param>
-        public UIMenuItem(string text) : this(text, "", HudColor.HUD_COLOUR_PAUSE_BG, HudColor.HUD_COLOUR_WHITE) { }
+        public UIMenuItem(string text) : this(text, "") { }
 
         /// <summary>
         /// Basic menu button with description.
         /// </summary>
         /// <param name="text">Button label.</param>
         /// <param name="description">Description.</param>
-        public UIMenuItem(string text, string description) : this(text, description, HudColor.HUD_COLOUR_PAUSE_BG, HudColor.HUD_COLOUR_WHITE) { }
+        public UIMenuItem(string text, string description) : this(text, description, HudColor.HUD_COLOUR_PAUSE_BG, HudColor.HUD_COLOUR_WHITE, HudColor.NONE, HudColor.NONE) { }
+
+
+        public UIMenuItem(string text, string description, HudColor mainColor, HudColor highlightColor) : this(text, description, mainColor, highlightColor, HudColor.NONE, HudColor.NONE) { }
 
         /// <summary>
         /// Basic menu button with description and colors.
@@ -239,15 +242,14 @@ namespace ScaleformUI
         /// <param name="description">Button label.</param>
         /// <param name="description">Button label.</param>
         /// <param name="description">Button label.</param>
-        public UIMenuItem(string text, string description, HudColor color, HudColor highlightColor)
+        public UIMenuItem(string text, string description, HudColor color, HudColor highlightColor, HudColor textColor, HudColor highlightedTextColor)
         {
             Enabled = true;
-
             MainColor = color;
             HighlightColor = highlightColor;
+            TextColor = textColor;
+            HighlightedTextColor = highlightedTextColor;
 
-            TextColor = HudColor.HUD_COLOUR_WHITE;
-            HighlightedTextColor = HudColor.HUD_COLOUR_BLACK;
             Label = text;
             Description = description;
         }
