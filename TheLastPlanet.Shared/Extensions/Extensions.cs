@@ -8,9 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using TheLastPlanet.Shared.Internal.Events;
+using System.Text;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using static CitizenFX.Core.Native.API;
 #endif
 
@@ -419,6 +420,28 @@ namespace TheLastPlanet.Shared
 				result = rand.NextULong();
 			} while (result >= bias);
 			return result % range + minValue;
+		}
+
+		public static string GetRandomString(int size, bool lowerCase = false)
+		{
+			var builder = new StringBuilder(size);
+			var random = new Random();
+			// Unicode/ASCII Letters are divided into two blocks
+			// (Letters 65–90 / 97–122):
+			// The first group containing the uppercase letters and
+			// the second group containing the lowercase.  
+
+			// char is a single Unicode character  
+			char offset = lowerCase ? 'a' : 'A';
+			const int lettersOffset = 26; // A...Z or a..z: length=26  
+
+			for (var i = 0; i < size; i++)
+			{
+				var @char = (char)random.Next(offset, offset + lettersOffset);
+				builder.Append(@char);
+			}
+
+			return lowerCase ? builder.ToString().ToLower() : builder.ToString();
 		}
 
 
