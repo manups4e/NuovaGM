@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 16.0.28729.10
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Client", "TheLastPlanet.Client\TheLastPlanet.Client.csproj", "{477054AE-FBE1-4A93-8591-E2C61DD14390}"
+	ProjectSection(ProjectDependencies) = postProject
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F} = {936D2DB3-9669-4EB5-8EF9-5F52E35E743F}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Server", "TheLastPlanet.Server\TheLastPlanet.Server.csproj", "{929C2CBD-6759-4984-A4E0-14C1A0EA5DDA}"
 EndProject
@@ -18,6 +21,10 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Shared", "Impostazioni.Shared\Impostazioni.Shared.shproj", "{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impostazioni", "Impostazioni", "{95A5FB57-0877-466C-AEF9-7B0693FFCE05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleformUI", "ScaleformUI\ScaleformUI.csproj", "{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condiviso", "Condiviso", "{5FCCD1FE-371D-4C56-944B-3C7F64E58C82}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -54,11 +61,18 @@ Global
 		{312E3A89-4B3E-4340-8113-90D89664F85C}.Offuscata|Any CPU.Build.0 = Debug|Any CPU
 		{312E3A89-4B3E-4340-8113-90D89664F85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{312E3A89-4B3E-4340-8113-90D89664F85C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Offuscata|Any CPU.ActiveCfg = Debug|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Offuscata|Any CPU.Build.0 = Debug|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A359FBA0-3513-483A-A6D4-F7FCBEEA8D94} = {5FCCD1FE-371D-4C56-944B-3C7F64E58C82}
 		{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
 		{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
 		{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}

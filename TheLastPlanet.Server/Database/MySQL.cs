@@ -156,9 +156,9 @@ namespace TheLastPlanet.Server
 		{
 			try
 			{
-				using (MySqlConnection conn = new MySqlConnection(_connectionString))
+				using (MySqlConnection conn = new(_connectionString))
 				{
-					CommandDefinition def = new CommandDefinition(query, parameters);
+					CommandDefinition def = new(query, parameters);
 					int res = await conn.ExecuteAsync(def);
 					conn.Close();
 
@@ -172,7 +172,6 @@ namespace TheLastPlanet.Server
 				return 0;
 			}
 		}
-
 		#endregion
 	}
 }

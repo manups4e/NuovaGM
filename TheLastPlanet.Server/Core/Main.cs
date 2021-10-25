@@ -6,6 +6,7 @@ using static CitizenFX.Core.Native.API;
 using Logger;
 using TheLastPlanet.Server.Core.PlayerChar;
 using System.Linq;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -42,7 +43,7 @@ namespace TheLastPlanet.Server.Core
 				await BaseScript.Delay(60000);
 				if (Server.Instance.Clients.Count > 0)
 				{
-					foreach (var user in from user in Server.Instance.Clients where user.User.Status.Spawned select user)
+					foreach (var user in from user in Server.Instance.Clients where user.Player is not null && user.User.Status.Spawned select user)
 						user.User.playTime += 60;
 				}
 			}
