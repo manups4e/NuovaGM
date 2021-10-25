@@ -1957,7 +1957,7 @@ namespace ScaleformUI
 						break;
 					case UIMenuProgressItem:
 						UIMenuProgressItem slItem = (UIMenuProgressItem)item;
-						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", slItem._itemId, slItem.Label, slItem.Description, slItem._max, slItem._multiplier, slItem.Value, (int)slItem.MainColor, (int)slItem.HighlightColor, (int)slItem.TextColor, (int)slItem.HighlightedTextColor, (int)slItem.SliderColor, (int)slItem.BackgroundSliderColor, slItem._heritage);
+						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", slItem._itemId, slItem.Label, slItem.Description, slItem._max, slItem._multiplier, slItem.Value, (int)slItem.MainColor, (int)slItem.HighlightColor, (int)slItem.TextColor, (int)slItem.HighlightedTextColor, (int)slItem.SliderColor, (int)slItem.BackgroundSliderColor);
 						break;
 					default:
 						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", item._itemId, item.Label, item.Description, (int)item.MainColor, (int)item.HighlightColor, (int)item.TextColor, (int)item.HighlightedTextColor);
