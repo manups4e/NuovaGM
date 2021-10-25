@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Veicoli;

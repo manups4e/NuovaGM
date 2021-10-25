@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.Cache
 
 			#region Check Pausa
 
-			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused || HUD.MenuPool.IsAnyPauseMenuOpen;
+			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused /*|| HUD.MenuPool.IsAnyPauseMenuOpen*/;
 
 			#endregion
 

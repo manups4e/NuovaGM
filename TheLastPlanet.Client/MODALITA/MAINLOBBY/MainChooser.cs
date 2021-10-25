@@ -4,7 +4,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
@@ -178,7 +178,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		{
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(500);
-			PopupWarningThread.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
+			NativeUIScaleform.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
 			await BaseScript.Delay(10);
 			Screen.Fading.FadeIn(1);
 			await BaseScript.Delay(3000);
@@ -186,22 +186,22 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
 			if (dentro)
 			{
-				PopupWarningThread.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
+				NativeUIScaleform.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
 				ServerJoining.PlayerSpawned();
 				await BaseScript.Delay(3000);
-				PopupWarningThread.Warning.Dispose();
+				NativeUIScaleform.Warning.Dispose();
 
 				return;
 			}
 
 			string settings = await Client.Instance.Events.Get<string>("Config.CallClientConfig", modalita);
 			Client.Impostazioni.LoadConfig(modalita, settings);
-			PopupWarningThread.Warning.UpdateWarning(nome, "Caricamento completato!");
+			NativeUIScaleform.Warning.UpdateWarning(nome, "Caricamento completato!");
 			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = modalita;
 			Cache.PlayerCache.ModalitàAttuale = modalita;
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(1);
-			PopupWarningThread.Warning.Dispose();
+			NativeUIScaleform.Warning.Dispose();
 		}
 	}
 }

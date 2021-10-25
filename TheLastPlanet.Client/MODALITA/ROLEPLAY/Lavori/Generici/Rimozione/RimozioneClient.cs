@@ -3,7 +3,7 @@ using CitizenFX.Core.UI;
 using Logger;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using TheLastPlanet.Shared;
 using System;

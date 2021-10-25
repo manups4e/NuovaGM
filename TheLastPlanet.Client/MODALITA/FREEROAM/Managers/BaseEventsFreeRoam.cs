@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Cache;
 
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			else
 				Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, API.GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			BigMessageThread.MessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
+			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Client.Instance.Events.Send("lpop:onPlayerDied", -1, attackerPed, API.GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			BigMessageThread.MessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
+			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -79,7 +79,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Client.Instance.Events.Send("lpop:onPlayerDied", suicidato ? 0 : -1, attacker, API.GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			BigMessageThread.MessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), suicidato ? "Ti Sei suicidato" : "");
+			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), suicidato ? "Ti Sei suicidato" : "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -93,7 +93,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Game.PlaySound("TextHit", "WastedSounds");
 			Client.Instance.Events.Send("lpop:onPlayerDied", 1, killerPed.ServerId, API.GetEntityCoords(ped, false).ToPosition());
-			BigMessageThread.MessageInstance.ShowMpWastedMessage(Game.GetGXTEntry("RESPAWN_W_MP"), $"{killerPed.Name} ti ha ucciso");
+			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage(Game.GetGXTEntry("RESPAWN_W_MP"), $"{killerPed.Name} ti ha ucciso");
 			await BaseScript.Delay(5000);
 			Revive();
 		}

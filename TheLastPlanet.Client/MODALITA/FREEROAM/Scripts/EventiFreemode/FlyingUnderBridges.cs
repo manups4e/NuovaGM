@@ -8,7 +8,7 @@ using CitizenFX.Core.UI;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode

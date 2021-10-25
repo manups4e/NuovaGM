@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 string str = "pioggia";
                 int textureIndex = raindrop.textureNumber;
                 SizeF size = new SizeF(raindrop.size, raindrop.size);
-                NativeUI.Sprite.Draw(str, "raindrop_"+ textureIndex, point.X, point.Y, size.Width, size.Height, raindrop.heading, color);
+                ScaleformUI.Sprite.Draw(str, "raindrop_"+ textureIndex, point.X, point.Y, size.Width, size.Height, raindrop.heading, color);
             }
         }
     }

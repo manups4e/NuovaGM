@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.NativeUI;
-using TheLastPlanet.Client.NativeUI.PauseMenu;
+using ScaleformUI;
+using ScaleformUI.PauseMenu;
 using TheLastPlanet.Shared;
 using Logger;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
@@ -306,3 +307,4 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		}
 	}
 }
+*/

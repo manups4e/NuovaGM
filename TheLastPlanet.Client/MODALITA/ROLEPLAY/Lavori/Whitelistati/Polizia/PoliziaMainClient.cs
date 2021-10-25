@@ -6,7 +6,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;

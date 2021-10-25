@@ -9,6 +9,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Inventario;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
@@ -29,6 +30,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Core.Status.Death.Init();
 			Core.Status.StatsNeeds.Init();
 			Voice.Init();
+			BaseInventory.Init();
 			Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
 			Lavori.Whitelistati.Medici.MediciMainClient.Init();
 			Lavori.Generici.Pescatore.PescatoreClient.Init();
@@ -58,13 +60,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Interactions.PickupsClient.Init();
 			Interactions.OggettiGenerici.Init();
 			Interactions.PrimaPersonaObbligatoria.Init();
+			Interactions.Pioggia.Init();
 			Sport.Yoga.Init();
 
 			//Telefono.PhoneMainClient.Init();
 			//CodaControl.CodaAdminPanel.Init();
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Init();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
-			PauseMenu.Init();
+			//PauseMenu.Init();
 			TickController.Init();
 			await Task.FromResult(0);
 		}
@@ -108,7 +111,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Sport.Yoga.Stop();
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Stop();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Stop();
-			PauseMenu.Stop();
+			//PauseMenu.Stop();
 			Minimap.Stop();
 			TickController.Stop();
 			await CoreInitializer.LogInStop();

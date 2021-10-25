@@ -9,7 +9,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
@@ -273,12 +273,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 			{
 				UIMenuItem piano = new($"{i + 1}° piano");
 				Ascensore.AddItem(piano);
-				if (i == LivelloGarage) piano.SetRightBadge(BadgeStyle.Car);
+				if (i == LivelloGarage) piano.SetRightBadge(BadgeIcon.CAR);
 			}
 
 			Ascensore.OnItemSelect += async (menu, item, index) =>
 			{
-				if (item.RightBadge == BadgeStyle.Car)
+				if (item.RightBadge == BadgeIcon.CAR)
 				{
 					HUD.ShowNotification("Questo è il garage attuale!!", true);
 				}

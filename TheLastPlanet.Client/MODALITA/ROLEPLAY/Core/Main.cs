@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -471,8 +471,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (Funzioni.IsAnyControlJustPressed())
 				{
-					if (!PopupWarningThread.Warning.IsShowing) return;
-					PopupWarningThread.Warning.Dispose();
+					if (!NativeUIScaleform.Warning.IsShowing) return;
+					NativeUIScaleform.Warning.Dispose();
 					triggerato = false;
 					return;
 				}
@@ -492,10 +492,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 
 							if (!triggerato)
 							{
-								PopupWarningThread.Warning.ShowWarning("Last Planet Shield 2.0", Text, "");
+								NativeUIScaleform.Warning.ShowWarning("Last Planet Shield 2.0", Text, "");
 								triggerato = true;
 							}
-							PopupWarningThread.Warning.UpdateWarning("Last Planet Shield 2.0", Text, "", WarningPopupType.Serio);
+							NativeUIScaleform.Warning.UpdateWarning("Last Planet Shield 2.0", Text, "", "", WarningPopupType.Serious);
 						}
 					}
 				}

@@ -5,7 +5,7 @@ using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -75,12 +75,12 @@ namespace TheLastPlanet.Client.AdminAC
 					new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
 					new InstructionalButton(Control.FrontendX, "Cambia velocità")
 				};
-				InstructionalButtonsHandler.InstructionalButtons.Enabled = true;
-				InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(istr);
+				NativeUIScaleform.InstructionalButtons.Enabled = true;
+				NativeUIScaleform.InstructionalButtons.SetInstructionalButtons(istr);
 			}
 			else
 			{
-				InstructionalButtonsHandler.InstructionalButtons.Enabled = false;
+				NativeUIScaleform.InstructionalButtons.Enabled = false;
 				Client.Instance.RemoveTick(noClip);
 
 				while (p.IsInvincible)

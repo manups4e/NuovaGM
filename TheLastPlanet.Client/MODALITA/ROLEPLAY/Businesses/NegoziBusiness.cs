@@ -2,7 +2,7 @@
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 
 			Negozio.OnItemSelect += (menu, item, index) =>
 			{
-				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Text).Key;
+				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Label).Key;
 
 				if (!string.IsNullOrEmpty(nome))
 				{

@@ -10,7 +10,7 @@ using Logger;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -115,9 +115,9 @@ namespace TheLastPlanet.Client.Races.Creator
 
 			UIMenuItem titolo = new("Titolo");
 			Dettagli.AddItem(titolo);
-			titolo.SetRightBadge(BadgeStyle.Alert);
+			titolo.SetRightBadge(BadgeIcon.WARNING);
 			UIMenuItem descrizione = new("Descrizione");
-			descrizione.SetRightBadge(BadgeStyle.Alert);
+			descrizione.SetRightBadge(BadgeIcon.WARNING);
 			Dettagli.AddItem(descrizione);
 			UIMenuItem foto = new("Foto");
 			Dettagli.AddItem(foto);
@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			UIMenuListItem numPlayers = new("Max Giocatori", new List<dynamic>() { 32, 64 }, data.MaxPlayers);
 			Dettagli.AddItem(numPlayers);
 			UIMenu veicoliDisponibili = Dettagli.AddSubMenu("Veicoli Disponibili", "Attenzione, se si sceglie la griglia piccola saranno disponibili solo le MOTO"); // aggiungere le classi dei veicoli e premendo espandi scegliamo i singoli veicoli
-			veicoliDisponibili.ParentItem.SetRightBadge(BadgeStyle.Car);
+			veicoliDisponibili.ParentItem.SetRightBadge(BadgeIcon.CAR	);
 			#region veicoliDisponibili
 			UIMenuCheckboxItem Compacts = new UIMenuCheckboxItem("Compacts", UIMenuCheckboxStyle.Tick, false, "");
 			veicoliDisponibili.AddItem(Compacts);
@@ -201,8 +201,8 @@ namespace TheLastPlanet.Client.Races.Creator
 				if (!(string.IsNullOrWhiteSpace(data.Titolo) && string.IsNullOrWhiteSpace(data.Descrizione)))
 				{
 					// unlocks everything
-					titolo.SetRightBadge(BadgeStyle.None);
-					descrizione.SetRightBadge(BadgeStyle.None);
+					titolo.SetRightBadge(BadgeIcon.NONE);
+					descrizione.SetRightBadge(BadgeIcon.NONE);
 				}
 			};
 
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				try
 				{
 					VehicleClass classe;
-					bool success = Enum.TryParse(b.Text, out classe);
+					bool success = Enum.TryParse(b.Label, out classe);
 					if (success)
 					{
 						if (c)
@@ -384,7 +384,7 @@ namespace TheLastPlanet.Client.Races.Creator
 			#endregion
 
 			#endregion
-
+			/*
 			#region PROPS E POSIZIONAMENTO
 			UIMenuDynamicListItem tipo = new("Tipo", RaceCreatorHelper.GetPropName(-248283675), async (sender, direction) =>
 			{
@@ -589,7 +589,7 @@ namespace TheLastPlanet.Client.Races.Creator
 
 
 			#endregion
-
+			*/
 			#endregion
 
 			UIMenuItem Esci = new("Esci");
@@ -602,7 +602,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				{
 					if (b == propPlacing)
 					{
-						var aa = await categoria.Callback(categoria, UIMenuDynamicListItem.ChangeDirection.None);
+						//var aa = await categoria.Callback(categoria, UIMenuDynamicListItem.ChangeDirection.None);
 					}
 				}
 				if (c == MenuState.ChangeBackward)
@@ -992,7 +992,7 @@ namespace TheLastPlanet.Client.Races.Creator
 				#region CreaProp
 				if (Input.IsControlJustPressed(Control.FrontendAccept))
 				{
-					var submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Text == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
+					var submenuselected = Creator.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento").Value.Children.FirstOrDefault(x => x.Key.Label == "Posizionamento tracciato").Value.Children.Values.Any(x => x.ParentItem.Selected);
 					if (submenuselected) return;
 					// controllo che non ho selezionato i submenu
 					var model = RaceCreatorHelper.GetModel(categoriaScelta, tipoPropScelto);

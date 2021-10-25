@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
@@ -247,10 +247,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 			UIMenu marker = selezionePunto.AddSubMenu("Gestione markers");
 			marker.MouseControlsEnabled = false;
 			marker.SetKey(UIMenu.MenuControls.Select, Control.Attack);
-			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", Colors.DarkRed, Colors.RedLight);
-			posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", Colors.DarkRed, Colors.RedLight);
+			markerIngressoCasa = new UIMenuItem("Punto di ingresso a piedi", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO",  HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
+			markerIngressoGarage = new UIMenuItem("Punto di ingresso per il garage", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
+			markerIngressoTetto = new UIMenuItem("Punto di ingresso dal tetto", "Il marker è puramente di guida, NON SARA' VISIBILE IN GIOCO", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
+			posCamera = new UIMenuItem("Posizione della telecamera in anteprima", "Imposta la posizione e la rotazione della telecamera quando il cittadino torna a casa o citofona", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
 			marker.OnItemSelect += async (menu, item, index) =>
 			{
 				if (item == markerIngressoCasa)
@@ -311,9 +311,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 					}
 				}
 
-				item.MainColor = Colors.DarkGreen;
-				item.HighlightColor = Colors.GreenLight;
-				item.SetRightBadge(BadgeStyle.Star);
+				item.MainColor = HudColor.HUD_COLOUR_GREENDARK;
+				item.HighlightColor = HudColor.HUD_COLOUR_GREENLIGHT;
+				item.SetRightBadge(BadgeIcon.STAR);
 			};
 
 			#endregion
@@ -1171,8 +1171,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 			if (blipColor != null)
 				if (blipColor.ParentItem.Parent.Visible)
 				{
-					if (Input.IsControlJustPressed(Control.FrontendLb)) blipColor.GoLeft();
-					if (Input.IsControlJustPressed(Control.FrontendRb)) blipColor.GoRight();
+					if (Input.IsControlJustPressed(Control.FrontendLb)) blipColor.CurrentSelection++;
+					if (Input.IsControlJustPressed(Control.FrontendRb)) blipColor.CurrentSelection--;
 				}
 
 			Game.DisableAllControlsThisFrame(0);
@@ -1343,13 +1343,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 			if (z != 0 && res.DitHit) 
 				dummyMarker.Position = new(dummyMarker.Position.X, dummyMarker.Position.Y, z);
 			if (markerIngressoCasa.Selected)
-				if (markerIngressoCasa.RightBadge != BadgeStyle.None)
+				if (markerIngressoCasa.RightBadge != BadgeIcon.NONE)
 					markerIngrPiedi.Draw();
 			if (markerIngressoGarage.Selected)
-				if (markerIngressoGarage.RightBadge != BadgeStyle.None)
+				if (markerIngressoGarage.RightBadge != BadgeIcon.NONE)
 					markerIngrGarage.Draw();
 			if (markerIngressoTetto.Selected)
-				if (markerIngressoTetto.RightBadge != BadgeStyle.None)
+				if (markerIngressoTetto.RightBadge != BadgeIcon.NONE)
 					markerIngrTetto.Draw();
 		}
 
@@ -1360,8 +1360,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 RaycastResult res = await MainCamera.CrosshairRaycast(IntersectOptions.Everything, 150f);
 				Vector3 direction = res.HitPosition;
 				Vector3 pos = new(direction.X, direction.Y, curLocation.Z);
-				string val = blipColor.ParentItem.Items[blipColor.ParentItem.Index] as string;
-				World.DrawMarker((MarkerType)8, pos, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(5f), blipColor.CurrentColor, true, false, true, "blips", val.Substring(1, val.Length - 2).ToLower());
+				string val = (blipColor.ParentItem as UIMenuListItem).Items[(blipColor.ParentItem as UIMenuListItem).Index] as string;
+				int r = 0, g = 0, b = 0, a = 0;
+				GetHudColour(blipColor.CurrentSelection, ref r, ref b, ref g, ref a);
+				World.DrawMarker((MarkerType)8, pos, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(5f), Color.FromArgb(a,r,g,b), true, false, true, "blips", val.Substring(1, val.Length - 2).ToLower());
 				//metto un marker sotto
 				float z = 0;
 				GetGroundZFor_3dCoord(pos.X, pos.Y, pos.Z, ref z, false);

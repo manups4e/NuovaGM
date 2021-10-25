@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared.Veicoli;
 using System;
 using Impostazioni.Client.Configurazione.Veicoli;

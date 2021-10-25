@@ -8,7 +8,7 @@ using CitizenFX.Core.UI;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Snowflakes;
@@ -18,7 +18,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 {
 	internal static class Creator
 	{
-		private static MenuPool pool = HUD.MenuPool;
 		private static List<dynamic> momfaces = new List<dynamic>()
 		{
 			"Hannah",
@@ -420,7 +419,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 		};
 		private static Char_data _dataMaschio;
 		private static Char_data _dataFemmina;
-		private static readonly Ped p1 = new Ped(0);
+
 		private static string _selezionato = "";
 		private static readonly Camera cam2 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
 		private static Scaleform _boardScalep1 = new Scaleform("mugshot_board_01");
@@ -464,8 +463,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			await UpdateFace(PlayerPedId(), plpl.Skin);
-			await UpdateDress(PlayerPedId(), plpl.Dressing);
+			UpdateFace(PlayerPedId(), plpl.Skin);
+			UpdateDress(PlayerPedId(), plpl.Dressing);
 		}
 
 		#region Creazione
@@ -494,8 +493,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
 				sub_8d2b2();
 				Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("CreazionePersonaggio");
-				_dataMaschio = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, (float)Math.Round(GetRandomFloatInRange(.5f, 1f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
-				_dataFemmina = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, (float)Math.Round(GetRandomFloatInRange(0f, .5f), 1), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1), (float)Math.Round(GetRandomFloatInRange(0, 1f), 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Complexions.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), (float)Math.Round(GetRandomFloatInRange(0f, 1f), 1), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+				_dataMaschio = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 180, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_m_freemode_01", 0.9f, GetRandomFloatInRange(.5f, 1f), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(GetRandomIntInRange(0, Beards.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
+				_dataFemmina = new Char_data(SnowflakeGenerator.Instance.Next().ToInt64(), new Info(nome, cognome, dob, 160, Convert.ToInt64(Prefisso[Funzioni.GetRandomInt(Prefisso.Length)] + Funzioni.GetRandomInt(1000000, 9999999)), assicurazione), new Finance(1000, 3000, 0), new Job("Disoccupato", 0), new Gang("Incensurato", 0), new Skin(sesso, "mp_f_freemode_01", 0.1f, GetRandomFloatInRange(0f, .5f), new Face(GetRandomIntInRange(0, momfaces.Count), GetRandomIntInRange(0, dadfaces.Count), new float[20] { GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f), GetRandomFloatInRange(0, 1f) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(GetRandomIntInRange(0, Lipstick.Count), 100f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, BlusherDonna.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairDonna.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 3, 0, -1, 10, 1, 3, 0, 0, 3), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 0, -1, 2, 1, 0, 0, 0, 1), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new List<Inventory>(), new Needs(), new Statistiche(), false);
 				_data = _selezionato.ToLower() == "maschio" ? _dataMaschio : _dataFemmina;
 				BaseScript.TriggerEvent("lprp:aggiornaModel", _data.ToJson());
 				await BaseScript.Delay(1000);
@@ -577,44 +576,38 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 				Screen.Fading.FadeIn(800);
 				Point offset = new Point(50, 50);
-				pool.MouseEdgeEnabled = false;
-				InstructionalButton gzmgp = new InstructionalButton(Control.FrontendLt, "ZOOM");
+				HUD.MenuPool.MouseEdgeEnabled = false;
 				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
 				Creazione.ControlDisablingEnabled = true;
-				pool.Add(Creazione);
+				HUD.MenuPool.Add(Creazione);
 				UIMenuListItem Sesso;
 				Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
 				Creazione.AddItem(Sesso);
-				Info = pool.AddSubMenu(Creazione, "Info Personaggio", "Nome.. Cognome..");
+				Info = HUD.MenuPool.AddSubMenu(Creazione, "Info Personaggio", "Nome.. Cognome..");
 				Info.ControlDisablingEnabled = true;
-				Info.InstructionalButtons.Add(gzmgp);
-				Genitori = pool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
+				Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
 				Genitori.ControlDisablingEnabled = true;
-				Genitori.InstructionalButtons.Add(gzmgp);
-				Dettagli = pool.AddSubMenu(Creazione, GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
+				Dettagli = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
 				Dettagli.ControlDisablingEnabled = true;
-				Dettagli.InstructionalButtons.Add(gzmgp);
-				Apparenze = pool.AddSubMenu(Creazione, GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
+				Apparenze = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APP"), GetLabelText("FACE_MM_H6"));
 				Apparenze.ControlDisablingEnabled = true;
-				Apparenze.InstructionalButtons.Add(gzmgp);
-				Apparel = pool.AddSubMenu(Creazione, GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
+				Apparel = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_APPA"), GetLabelText("FACE_APPA_H"));
 				Apparel.ControlDisablingEnabled = true;
-				Apparel.InstructionalButtons.Add(gzmgp);
 				InstructionalButton button1 = new InstructionalButton(Control.LookLeftRight, "Guarda a Destra/Sinistra");
 				InstructionalButton button2 = new InstructionalButton(Control.FrontendLb, "Guarda a Sinistra");
 				InstructionalButton button3 = new InstructionalButton(Control.FrontendRb, "Guarda a Destra");
-				InstructionalButton button4 = new InstructionalButton(Control.LookLeftRight, "Cambia dettagli");
-				InstructionalButton button5 = new InstructionalButton(Control.LookUpDown, "Cambia dettagli");
+				InstructionalButton button4 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Cambia dettagli");
+				InstructionalButton button5 = new InstructionalButton(InputGroup.INPUTGROUP_LOOK, "Gestisci Panelli", ScaleformUI.PadCheck.Keyboard);
 				Creazione.InstructionalButtons.Add(button3);
 				Creazione.InstructionalButtons.Add(button2);
 				Genitori.InstructionalButtons.Add(button3);
 				Genitori.InstructionalButtons.Add(button2);
 				Apparenze.InstructionalButtons.Add(button3);
 				Apparenze.InstructionalButtons.Add(button2);
+				Apparenze.InstructionalButtons.Add(button5);
 				Dettagli.InstructionalButtons.Add(button3);
 				Dettagli.InstructionalButtons.Add(button2);
 				Dettagli.InstructionalButtons.Add(button4);
-				Dettagli.InstructionalButtons.Add(button5);
 
 				#endregion
 
@@ -643,8 +636,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				for (int i = 0; i < 101; i++) lista.Add(i);
 				UIMenuListItem mamma = new UIMenuListItem("Mamma", momfaces, _data.Skin.face.mom);
 				UIMenuListItem papa = new UIMenuListItem("Papà", dadfaces, _data.Skin.face.dad);
-				UIMenuSliderHeritageItem resemblance = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.resemblance * 100) };
-				UIMenuSliderHeritageItem skinmix = new UIMenuSliderHeritageItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.skinmix * 100) };
+				UIMenuSliderItem resemblance = new UIMenuSliderItem(GetLabelText("FACE_H_DOM"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.resemblance * 100) };
+				UIMenuSliderItem skinmix = new UIMenuSliderItem(GetLabelText("FACE_H_STON"), "", true) { Multiplier = 2, Value = (int)Math.Round(_data.Skin.skinmix * 100) };
 				Genitori.AddItem(mamma);
 				Genitori.AddItem(papa);
 				Genitori.AddItem(resemblance);
@@ -655,17 +648,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				#region Dettagli
 
 				UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[7], _data.Skin.face.tratti[6]));
-				UIMenuHorizontalOneLineGridPanel GridOcch = new UIMenuHorizontalOneLineGridPanel("Stretti", "Grandi", _data.Skin.face.tratti[11]);
+				UIMenuGridPanel GridOcch = new UIMenuGridPanel("Stretti", "Grandi", new PointF(_data.Skin.face.tratti[11], 0));
 				UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.Skin.face.tratti[0], _data.Skin.face.tratti[1]));
 				UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.Skin.face.tratti[2], _data.Skin.face.tratti[3]));
 				UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.Skin.face.tratti[5], _data.Skin.face.tratti[4]));
 				UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[9], _data.Skin.face.tratti[8]));
-				UIMenuHorizontalOneLineGridPanel GridGuance = new UIMenuHorizontalOneLineGridPanel("Magre", "Paffute", _data.Skin.face.tratti[10]);
-				UIMenuHorizontalOneLineGridPanel GridLabbra = new UIMenuHorizontalOneLineGridPanel("Sottili", "Carnose", _data.Skin.face.tratti[12]);
+				UIMenuGridPanel GridGuance = new UIMenuGridPanel("Magre", "Paffute", new PointF(_data.Skin.face.tratti[10], 0));
+				UIMenuGridPanel GridLabbra = new UIMenuGridPanel("Sottili", "Carnose", new PointF(_data.Skin.face.tratti[12], 0));
 				UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.Skin.face.tratti[13], _data.Skin.face.tratti[14]));
 				UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[16], _data.Skin.face.tratti[15]));
 				UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.Skin.face.tratti[18], _data.Skin.face.tratti[17]));
-				UIMenuHorizontalOneLineGridPanel GridCollo = new UIMenuHorizontalOneLineGridPanel("Stretto", "Largo", _data.Skin.face.tratti[19]);
+				UIMenuGridPanel GridCollo = new UIMenuGridPanel("Stretto", "Largo", new PointF(_data.Skin.face.tratti[19], 0));
 				_arcSopr.AddPanel(GridSopr);
 				_occhi.AddPanel(GridOcch);
 				_naso.AddPanel(GridNaso);
@@ -757,7 +750,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 				Sesso.OnListChanged += async (item, _newIndex) =>
 				{
-					pool.CloseAllMenus();
+					HUD.MenuPool.CloseAllMenus();
 					Screen.Effects.Start(ScreenEffect.MpCelebWin);
 					await BaseScript.Delay(1000);
 					Screen.Fading.FadeOut(1000);
@@ -807,11 +800,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 						{
 							if (result == "Nuovo" || result == "Nome")
 							{
-								HUD.ShowNotification("Hai inserito un Nome non accettabile! Riprova", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito un Nome non accettabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else if (result.Length < 4)
 							{
-								HUD.ShowNotification("Hai inserito un Nome troppo corto!", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito un Nome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else
 							{
@@ -829,11 +822,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 						{
 							if (result == "Personaggio" || result == "Cognome")
 							{
-								HUD.ShowNotification("Hai inserito un Cognome non accetabile! Riprova", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito un Cognome non accetabile! Riprova", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else if (result.Length < 4)
 							{
-								HUD.ShowNotification("Hai inserito un Cognome troppo corto!", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito un Cognome troppo corto!", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else
 							{
@@ -850,11 +843,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 						{
 							if (result == "01/12/199cambiami" || result == "gg/mm/yyyy")
 							{
-								HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else if (result.ToCharArray()[2] != '/' || result.ToCharArray()[5] != '/' || result.Length < 10 || result.Length > 10)
 							{
-								HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", NotificationColor.Red, true);
+								HUD.ShowNotification("Hai inserito la data in formato errato!\nIl ~b~formato~w~ giusto è 'gg/mm/yyyy'.", TheLastPlanet.Client.Core.Utility.HUD.NotificationColor.Red, true);
 							}
 							else
 							{
@@ -898,7 +891,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				{
 					if (_item == resemblance)
 						_data.Skin.resemblance = _newIndex / 100f;
-					else if (_item == skinmix) _data.Skin.skinmix = _newIndex / 100f;
+					else if (_item == skinmix) 
+						_data.Skin.skinmix = (_newIndex / 100f) * -1 + 1;
 					if (_data.Skin.sex == "Maschio")
 						_dataMaschio = _data;
 					else
@@ -909,112 +903,138 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				#endregion
 
 				#region Apparenze
+				Apparenze.OnColorPanelChange += (a, b, c) =>
+				{
+					if (a == Capelli)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.hair.color[0] = c;
+						else if (b == a.Panels[1])
+							_data.Skin.hair.color[1] = c;
+					}
+					else if (a == sopracciglia)
+                    {
+						if (b == a.Panels[0])
+							_data.Skin.facialHair.eyebrow.color[0] = c;
+						else if (b == a.Panels[1])
+							_data.Skin.facialHair.eyebrow.color[1] = c;
+					}
+					else if (a == Barba)
+                    {
+						if (b == a.Panels[0])
+							_data.Skin.facialHair.beard.color[0] = c;
+						else if (b == a.Panels[1])
+							_data.Skin.facialHair.beard.color[1] = c;
+					}
+					else if (a == Blusher)
+                    {
+						if (b == a.Panels[0])
+							_data.Skin.blusher.color[0] = c;
+						else if (b == a.Panels[1])
+							_data.Skin.blusher.color[1] = c;
+					}
+					else if (a == LipStick)
+                    {
+						if (b == a.Panels[0])
+							_data.Skin.lipstick.color[0] = c;
+						else if (b == a.Panels[1])
+							_data.Skin.lipstick.color[1] = c;
+					}
+					UpdateFace(PlayerPedId(), _data.Skin);
+				};
+				Apparenze.OnPercentagePanelChange += (a, b, c) =>
+				{
+					var perc = c / 100;
+					if(a == sopracciglia)
+                    {
+						if(b == a.Panels[2])
+							_data.Skin.facialHair.eyebrow.opacity = perc;
+					}
+					else if (a == Barba)
+					{
+						if (b == a.Panels[2])
+							_data.Skin.facialHair.beard.opacity = perc;
+					}
+					else if (a == Blusher)
+					{
+						if (b == a.Panels[2])
+							_data.Skin.blusher.opacity = perc;
+					}
+					else if (a == LipStick)
+					{
+						if (b == a.Panels[2])
+							_data.Skin.lipstick.opacity = perc;
+					}
+					else if (a == SkinBlemishes)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.blemishes.opacity = perc;
+					}
+					else if (a == SkinAgeing)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.ageing.opacity = perc;
+					}
+					else if (a == SkinComplexion)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.complexion.opacity = perc;
+					}
+					else if (a == SkinMoles)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.freckles.opacity = perc;
+					}
+					else if (a == SkinDamage)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.skinDamage.opacity = perc;
+					}
+
+					else if (a == EyeMakup)
+					{
+						if (b == a.Panels[0])
+							_data.Skin.makeup.opacity = perc;
+					}
+					UpdateFace(PlayerPedId(), _data.Skin);
+				};
 
 				Apparenze.OnListChange += async (_sender, _listItem, _newIndex) =>
 				{
 					if (_listItem == Capelli)
-					{
 						_data.Skin.hair.style = _newIndex;
-						_data.Skin.hair.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.hair.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-					}
 
-					if (_listItem == sopracciglia)
-					{
+					else if (_listItem == sopracciglia)
 						_data.Skin.facialHair.eyebrow.style = _newIndex;
-						_data.Skin.facialHair.eyebrow.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.facialHair.eyebrow.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.facialHair.eyebrow.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
-					}
 
-					if (_listItem == Barba)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.facialHair.beard.style = 255;
-						else
-							_data.Skin.facialHair.beard.style = _newIndex - 1;
-						_data.Skin.facialHair.beard.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.facialHair.beard.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.facialHair.beard.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == Barba)
+						_data.Skin.facialHair.beard.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == Blusher)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.blusher.style = 255;
-						else
-							_data.Skin.blusher.style = _newIndex - 1;
-						_data.Skin.blusher.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.blusher.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.blusher.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == Blusher)
+						_data.Skin.blusher.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == LipStick)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.lipstick.style = 255;
-						else
-							_data.Skin.lipstick.style = _newIndex - 1;
-						_data.Skin.lipstick.color[0] = (_listItem.Panels[0] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.lipstick.color[1] = (_listItem.Panels[1] as UIMenuColorPanel).CurrentSelection;
-						_data.Skin.lipstick.opacity = (_listItem.Panels[2] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == LipStick)
+						_data.Skin.lipstick.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == SkinBlemishes)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.blemishes.style = 255;
-						else
-							_data.Skin.blemishes.style = _newIndex - 1;
-						_data.Skin.blemishes.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == SkinBlemishes)
+						_data.Skin.blemishes.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == SkinAgeing)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.ageing.style = 255;
-						else
-							_data.Skin.ageing.style = _newIndex - 1;
-						_data.Skin.ageing.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == SkinAgeing)
+						_data.Skin.ageing.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == SkinComplexion)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.complexion.style = 255;
-						else
-							_data.Skin.complexion.style = _newIndex - 1;
-						_data.Skin.complexion.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == SkinComplexion)
+						_data.Skin.complexion.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == SkinMoles)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.freckles.style = 255;
-						else
-							_data.Skin.freckles.style = _newIndex - 1;
-						_data.Skin.freckles.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == SkinMoles)
+                        _data.Skin.freckles.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == SkinDamage)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.skinDamage.style = 255;
-						else
-							_data.Skin.skinDamage.style = _newIndex - 1;
-						_data.Skin.skinDamage.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == SkinDamage)
+						_data.Skin.skinDamage.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-					if (_listItem == EyeColor) _data.Skin.eye.style = _newIndex;
+					else if (_listItem == EyeColor) _data.Skin.eye.style = _newIndex;
 
-					if (_listItem == EyeMakup)
-					{
-						if (_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF"))
-							_data.Skin.makeup.style = 255;
-						else
-							_data.Skin.makeup.style = _newIndex - 1;
-						_data.Skin.makeup.opacity = (_listItem.Panels[0] as UIMenuPercentagePanel).Percentage;
-					}
+					else if (_listItem == EyeMakup)
+						_data.Skin.makeup.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
 					UpdateFace(PlayerPedId(), _data.Skin);
 				};
@@ -1035,11 +1055,74 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				int oldIndexMasce = 0;
 				int oldIndexMentoPro = 0;
 				int oldIndexMentoFor = 0;
+
+				Dettagli.OnGridPanelChange += (a, b, c) =>
+				{
+					if(a == _arcSopr)
+                    {
+						_data.Skin.face.tratti[7] = c.X * 2f - 1f;
+						_data.Skin.face.tratti[6] = c.Y * 2f - 1f;
+					}
+                    if (a == _occhi)
+                    {
+						_data.Skin.face.tratti[11] = (c.X * 2f - 1f) / -1;
+					}
+					if (a == _naso)
+					{
+						_data.Skin.face.tratti[0] = c.X * 2f - 1f;
+						_data.Skin.face.tratti[1] = c.Y * 2f - 1f;
+					}
+					if (a == _nasoPro)
+					{
+						_data.Skin.face.tratti[3] = (c.Y * 2f - 1f) / 1;
+						_data.Skin.face.tratti[2] = c.X * 2f - 1f;
+					}
+					if (a == _nasoPun)
+					{
+						_data.Skin.face.tratti[5] = (c.Y * 2f - 1f) / 1;
+						_data.Skin.face.tratti[4] = c.X * 2f - 1f;
+					}
+					if (a == _zigo)
+					{
+						_data.Skin.face.tratti[9] = c.X * 2f - 1f;
+						_data.Skin.face.tratti[8] = c.Y * 2f - 1f;
+					}
+					if (a == _guance)
+					{
+						_data.Skin.face.tratti[10] = c.X;
+					}
+					if (a == _collo)
+					{
+						_data.Skin.face.tratti[19] = c.X * 2f - 1f;
+					}
+					if (a == _labbra)
+					{
+						_data.Skin.face.tratti[12] = (c.X * 2f - 1f) / -1;
+					}
+					if (a == _masce)
+					{
+						_data.Skin.face.tratti[13] = (c.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[14] = c.Y * 2f - 1f;
+					}
+					if (a == _mentoPro)
+					{
+						_data.Skin.face.tratti[16] = c.X * 2f - 1f;
+						_data.Skin.face.tratti[15] = c.Y * 2f - 1f;
+					}
+					if (a == _mentoFor)
+					{
+						_data.Skin.face.tratti[18] = (c.X * 2f - 1f) / -1;
+						_data.Skin.face.tratti[17] = c.Y * 2f - 1f;
+					}
+					UpdateFace(PlayerPedId(), _data.Skin);
+				};
+
 				Dettagli.OnListChange += async (_sender, _listItem, _newIndex) =>
 				{
 					if (_listItem == _arcSopr)
 					{
 						if (!(IsControlPressed(0, 24) || IsDisabledControlPressed(0, 24)))
+						{
 							if (oldIndexarcSopr != _newIndex)
 							{
 								switch (_listItem.Items[_newIndex])
@@ -1047,7 +1130,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 									case "Alte":
 										_data.Skin.face.tratti[6] = 0.00001f * 2f - 1f;
 										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF((_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.X, 0.00001f);
-
 										break;
 									case "Basse":
 										_data.Skin.face.tratti[6] = 0.999999f * 2f - 1f;
@@ -1063,7 +1145,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 								oldIndexarcSopr = _newIndex;
 							}
-
+						}
 						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						_data.Skin.face.tratti[7] = var.X * 2f - 1f;
 						_data.Skin.face.tratti[6] = var.Y * 2f - 1f;
@@ -1077,22 +1159,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 								{
 									case "Grandi":
 										_data.Skin.face.tratti[11] = 0.00001f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Stretti":
 										_data.Skin.face.tratti[11] = 0.999999f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
 										_data.Skin.face.tratti[11] = 0.5f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
-						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						_data.Skin.face.tratti[11] = (var.X * 2f - 1f) / -1;
 					}
 
@@ -1216,22 +1298,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 								{
 									case "Paffute":
 										_data.Skin.face.tratti[10] = 0.00001f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Magre":
 										_data.Skin.face.tratti[10] = 0.999999f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
 										_data.Skin.face.tratti[10] = 0.5f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
-						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						_data.Skin.face.tratti[10] = var.X;
 					}
 
@@ -1243,22 +1325,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 								{
 									case "Stretto":
 										_data.Skin.face.tratti[19] = 0.00001f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Largo":
 										_data.Skin.face.tratti[19] = 0.999999f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
 										_data.Skin.face.tratti[19] = 0.5f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
-						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						_data.Skin.face.tratti[19] = var.X * 2f - 1f;
 					}
 
@@ -1270,22 +1352,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 								{
 									case "Sottili":
 										_data.Skin.face.tratti[12] = 0.00001f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.00001f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Carnose":
 										_data.Skin.face.tratti[12] = 0.999999f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.999999f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 									case "Standard":
 										_data.Skin.face.tratti[12] = 0.5f * 2f - 1f;
-										(_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition.Y);
+										(_listItem.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(0.5f, (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition.Y);
 
 										break;
 								}
 
-						PointF var = (_listItem.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_listItem.Panels[0] as UIMenuGridPanel).CirclePosition;
 						_data.Skin.face.tratti[12] = (var.X * 2f - 1f) / -1;
 					}
 
@@ -1415,7 +1497,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 							if (_newMenu == Apparenze)
 							{
-								if (!IsHelpMessageBeingDisplayed()) HUD.ShowHelp("Usa il ~INPUTGROUP_LOOK~ per controllare i pannelli");
 								Apparenze.Clear();
 
 								if (_selezionato == "Maschio")
@@ -1440,19 +1521,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 									CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
 									soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
 									soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity;
+									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
 									BarbaCol1.CurrentSelection = _data.Skin.facialHair.beard.color[0];
 									BarbaCol2.CurrentSelection = _data.Skin.facialHair.beard.color[1];
-									BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity;
-									BlemOp.Percentage = _data.Skin.blemishes.opacity;
-									AgeOp.Percentage = _data.Skin.ageing.opacity;
-									CompOp.Percentage = _data.Skin.complexion.opacity;
-									FrecOp.Percentage = _data.Skin.freckles.opacity;
-									DamageOp.Percentage = _data.Skin.skinDamage.opacity;
-									MakupOp.Percentage = _data.Skin.makeup.opacity;
+									BarbaOp.Percentage = _data.Skin.facialHair.beard.opacity * 100;
+									BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+									AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+									CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+									FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+									DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+									MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
 									LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
 									LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-									LipOp.Percentage = _data.Skin.lipstick.opacity;
+									LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
 								}
 								else
 								{
@@ -1476,19 +1557,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 									CapelCol2.CurrentSelection = _data.Skin.hair.color[1];
 									soprCol1.CurrentSelection = _data.Skin.facialHair.eyebrow.color[0];
 									soprCol2.CurrentSelection = _data.Skin.facialHair.eyebrow.color[1];
-									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity;
-									BlemOp.Percentage = _data.Skin.blemishes.opacity;
-									AgeOp.Percentage = _data.Skin.ageing.opacity;
-									CompOp.Percentage = _data.Skin.complexion.opacity;
-									FrecOp.Percentage = _data.Skin.freckles.opacity;
-									DamageOp.Percentage = _data.Skin.skinDamage.opacity;
-									MakupOp.Percentage = _data.Skin.makeup.opacity;
+									soprOp.Percentage = _data.Skin.facialHair.eyebrow.opacity * 100;
+									BlemOp.Percentage = _data.Skin.blemishes.opacity * 100;
+									AgeOp.Percentage = _data.Skin.ageing.opacity * 100;
+									CompOp.Percentage = _data.Skin.complexion.opacity * 100;
+									FrecOp.Percentage = _data.Skin.freckles.opacity * 100;
+									DamageOp.Percentage = _data.Skin.skinDamage.opacity * 100;
+									MakupOp.Percentage = _data.Skin.makeup.opacity * 100;
 									BlushCol1.CurrentSelection = _data.Skin.blusher.color[0];
 									BlushCol2.CurrentSelection = _data.Skin.blusher.color[1];
-									BlushOp.Percentage = _data.Skin.blusher.opacity;
+									BlushOp.Percentage = _data.Skin.blusher.opacity * 100;
 									LipCol1.CurrentSelection = _data.Skin.lipstick.color[0];
 									LipCol2.CurrentSelection = _data.Skin.lipstick.color[1];
-									LipOp.Percentage = _data.Skin.lipstick.opacity;
+									LipOp.Percentage = _data.Skin.lipstick.opacity * 100;
 								}
 							}
 							else if (_newMenu == Apparel)
@@ -1540,8 +1621,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 				#region CREA_BUTTON_FINISH
 
-				UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
-				Salva.SetRightBadge(BadgeStyle.Tick);
+				UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", HudColor.HUD_COLOUR_FREEMODE_DARK, HudColor.HUD_COLOUR_FREEMODE);
+				Salva.SetRightBadge(BadgeIcon.TICK);
 				Creazione.AddItem(Salva);
 				Salva.Activated += async (_selectedItem, _index) =>
 				{
@@ -1551,7 +1632,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 						if (_dummyPed.Exists())
 							_dummyPed.Delete();
 					Creazione.Visible = false;
-					pool.CloseAllMenus();
+					HUD.MenuPool.CloseAllMenus();
 					BD1.Detach();
 					BD1.Delete();
 					Cache.PlayerCache.MyPlayer.Ped.Detach();
@@ -1587,7 +1668,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 		#region Controllo tasti
 
-		private static float fov = 10.00255f;
 		private static float CoordX;
 		private static bool left = false;
 		private static bool right = false;
@@ -1596,7 +1676,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 		public static async Task TastiMenu()
 		{
 			Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
-
 			if (Creazione.Visible || Dettagli.Visible || Apparenze.Visible || Genitori.Visible)
 			{
 				if ((IsControlPressed(0, 205) || IsDisabledControlPressed(0, 205)) && IsInputDisabled(2) || (IsControlPressed(2, 205) || IsDisabledControlPressed(2, 205)) && !IsInputDisabled(2))
@@ -1627,25 +1706,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 					//TaskClearLookAt(playerPed.Handle);
 				}
 			}
-			else if ((Dettagli.Visible || Apparenze.Visible || Genitori.Visible) && !Creazione.Visible)
-			{
-				if (IsDisabledControlPressed(0, 207) && IsInputDisabled(2) || IsDisabledControlPressed(2, 207) && !IsInputDisabled(2) || IsControlPressed(0, 207) && IsInputDisabled(2) || IsControlPressed(2, 207) && !IsInputDisabled(2))
-				{
-					fov -= .3f;
-					if (fov < 8.0f) fov = 8.0f;
-					ncamm.FieldOfView = fov;
-				}
-
-				if (IsDisabledControlJustReleased(0, 207) || IsControlJustReleased(0, 207))
-					do
-					{
-						await BaseScript.Delay(0);
-						fov += .3f;
-						if (fov > 10.00255f) fov = 10.00255f;
-						ncamm.FieldOfView = fov;
-					} while (fov < 10.00255f && !IsDisabledControlJustReleased(0, 207) && !IsControlJustReleased(0, 207));
-			}
-
 			if (!IsInputDisabled(2))
 				if (Dettagli.Visible)
 				{
@@ -1694,7 +1754,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 
 					if (_occhi.Selected)
 					{
-						PointF var = (_occhi.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_occhi.Panels[0] as UIMenuGridPanel).CirclePosition;
 						CoordX = var.X;
 						CoordY = var.Y;
 
@@ -1715,13 +1775,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 							}
 
 							_data.Skin.face.tratti[11] = (CoordX * 2f - 1f) / -1;
-							(_occhi.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
+							(_occhi.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
 
 					if (_guance.Selected)
 					{
-						PointF var = (_guance.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_guance.Panels[0] as UIMenuGridPanel).CirclePosition;
 						CoordX = var.X;
 						CoordY = var.Y;
 
@@ -1742,13 +1802,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 							}
 
 							_data.Skin.face.tratti[10] = (CoordX * 2f - 1f) / -1;
-							(_guance.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
+							(_guance.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
 
 					if (_labbra.Selected)
 					{
-						PointF var = (_labbra.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_labbra.Panels[0] as UIMenuGridPanel).CirclePosition;
 						CoordX = var.X;
 						CoordY = var.Y;
 
@@ -1769,13 +1829,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 							}
 
 							_data.Skin.face.tratti[12] = (CoordX * 2f - 1f) / -1;
-							(_labbra.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
+							(_labbra.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
 
 					if (_collo.Selected)
 					{
-						PointF var = (_collo.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition;
+						PointF var = (_collo.Panels[0] as UIMenuGridPanel).CirclePosition;
 						CoordX = var.X;
 						CoordY = var.Y;
 
@@ -1796,7 +1856,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 							}
 
 							_data.Skin.face.tratti[19] = CoordX * 2f - 1f;
-							(_collo.Panels[0] as UIMenuHorizontalOneLineGridPanel).CirclePosition = new PointF(CoordX, .5f);
+							(_collo.Panels[0] as UIMenuGridPanel).CirclePosition = new PointF(CoordX, .5f);
 						}
 					}
 
@@ -2224,17 +2284,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 		public static async Task Controllo()
 		{
 			for (int i = 0; i < 32; i++) Game.DisableAllControlsThisFrame(i);
-			if (p1.Exists()) p1.Heading += 1f;
 
 			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
-				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi annullare la creazione del personaggio?", "Tornerai alla selezione del personaggio,", "e la creazione verrà annullata.", new List<InstructionalButton>
+				NativeUIScaleform.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
 				{
 					new InstructionalButton(Control.FrontendCancel, "No"),
 					new InstructionalButton(Control.FrontendAccept, "Si"),
-				}, WarningPopupType.Classico);
-				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+				});
+				NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
 				{
 					if (a.GamepadButton == Control.FrontendCancel)
 					{
@@ -2249,7 +2308,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 						if (_dummyPed != null)
 							if (_dummyPed.Exists())
 								_dummyPed.Delete();
-						//LogIn.LogIn.CharSelect();
+						LogIn.LogIn.Inizializza();
 					}
 				};
 			}
@@ -2314,7 +2373,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			return "mp_character_creation@lineup@male_a";
 		}
 
-		public static async Task UpdateFace(int Handle, Skin skin)
+		public static async void UpdateFace(int Handle, Skin skin)
 		{
 			SetPedHeadBlendData(Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
 			SetPedHeadOverlay(Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
@@ -2336,10 +2395,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			SetPedHairColor(Handle, skin.hair.color[0], skin.hair.color[1]);
 			SetPedPropIndex(Handle, 2, skin.ears.style, skin.ears.color, false);
 			for (int i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(Handle, i, skin.face.tratti[i]);
-			await Task.FromResult(0);
 		}
 
-		public static async Task UpdateDress(int Handle, Dressing dress)
+		public static async void UpdateDress(int Handle, Dressing dress)
 		{
 			SetPedComponentVariation(Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
 			SetPedComponentVariation(Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
@@ -2388,7 +2446,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				ClearPedProp(Handle, 8);
 			else
 				SetPedPropIndex(Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
-			await Task.FromResult(0);
 		}
 
 		private static void sub_8d2b2()

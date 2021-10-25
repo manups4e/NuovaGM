@@ -5,7 +5,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using System.Linq;
 using System;
@@ -15,7 +15,6 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.NativeUI.PauseMenu;
 using System.Drawing;
 using Impostazioni.Shared.Configurazione.Generici;
 using TheLastPlanet.Client.Cache;
@@ -73,11 +72,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
 		public static async void menuPersonal()
 		{
+			HUD.MenuPool.CloseAllMenus();
 			Ped playerPed = PlayerCache.MyPlayer.Ped;
 			Player me = PlayerCache.MyPlayer.Player;
 			Point pos = new Point(50, 50);
 			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
-			pool.Add(PersonalMenu);
+			HUD.MenuPool.Add(PersonalMenu);
 
 			#region GPS Veloce
 
@@ -144,7 +144,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 						break;
 				}
 
-				if (_item.Items[_item.Index] == "Nessuno")
+				if ((string)_item.Items[_item.Index] == "Nessuno")
 				{
 					try
 					{
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
 			#region Controlli Veicolo
 
-			UIMenu vehContr = pool.AddSubMenu(PersonalMenu, "Controlli Veicolo", "Controlla il tuo veicolo con questi comandi rapidi", pos);
+			UIMenu vehContr = HUD.MenuPool.AddSubMenu(PersonalMenu, "Controlli Veicolo", "Controlla il tuo veicolo con questi comandi rapidi", pos);
 			UIMenuItem fuel = new UIMenuItem("Carburante veicolo salvato", "Facciamo il pieno?");
 			UIMenuCheckboxItem salva = new UIMenuCheckboxItem("Salva Veicolo", salvato, "Salva qui il tuo veicolo!");
 			UIMenuCheckboxItem chiudi = new UIMenuCheckboxItem("Serratura", chiuso, "Apri o chiudi il tuo veicolo (Salvalo prima!)");
@@ -272,8 +272,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
 			#region Personaggio e dati personali
 
-			UIMenu persMenu = pool.AddSubMenu(PersonalMenu, "Personaggio Attuale");
-			UIMenu datiPers = pool.AddSubMenu(persMenu, "Dati Personaggio", "Imparati");
+			UIMenu persMenu = HUD.MenuPool.AddSubMenu(PersonalMenu, "Personaggio Attuale");
+			UIMenu datiPers = HUD.MenuPool.AddSubMenu(persMenu, "Dati Personaggio", "Imparati");
 			datiPers.OnMenuStateChanged += async (oldmenu, _menu, state) =>
 			{
 				if (state != MenuState.ChangeForward) return;
@@ -307,15 +307,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 				datiPers.AddItem(gang);
 				UIMenu money = datiPers.AddSubMenu("Soldi: ", "I suoi soldi");
 				money.ParentItem.SetRightLabel("~g~$" + me.GetPlayerData().Money);
-				money.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
+				money.ParentItem.SetRightBadge(BadgeIcon.MP_CASH);
 				datiPers.AddItem(bank);
 				UIMenu dirty = datiPers.AddSubMenu("Soldi Sporchi: ", "I soldi sporchi");
 				dirty.ParentItem.SetRightLabel("~r~$" + me.GetPlayerData().DirtyCash);
-				dirty.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
+				dirty.ParentItem.SetRightBadge(BadgeIcon.MP_CASH);
 				UIMenu daiMoney = money.AddSubMenu("Dai a qualcuno", "A chi?");
 				UIMenu daiDirty = dirty.AddSubMenu("Dai a qualcuno", "A chi?");
-				daiMoney.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
-				daiMoney.ParentItem.SetRightBadge(BadgeStyle.ArrowRight);
+				daiMoney.ParentItem.SetRightBadge(BadgeIcon.MP_CASH);
+				daiDirty.ParentItem.SetRightBadge(BadgeIcon.MP_CASH);
 				UIMenuItem getta = new UIMenuItem("Butta via", "perché?");
 				money.AddItem(getta);
 				dirty.AddItem(getta);
@@ -368,7 +368,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					}
 				};
 			};
-			UIMenu salute = pool.AddSubMenu(persMenu, "Salute", "Fame, sete..", pos);
+			UIMenu salute = HUD.MenuPool.AddSubMenu(persMenu, "Salute", "Fame, sete..", pos);
 			fa.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Fame"].GetPercent(), 2) + "%");
 			se.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Sete"].GetPercent(), 2) + "%");
 			st.SetRightLabel("" + Math.Round(StatsNeeds.Needs["Stanchezza"].GetPercent(), 2) + "%");
@@ -391,7 +391,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 						break;
 				}
 			};
-			UIMenu Inventory = pool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
+			UIMenu Inventory = HUD.MenuPool.AddSubMenu(persMenu, "Inventario Personale", "Tasche", pos);
 			Inventory.OnMenuStateChanged += async (oldmenu, menu, state) =>
 			{
 				if (state != MenuState.ChangeForward || menu != Inventory) return;
@@ -403,11 +403,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					foreach (Inventory it in inv)
 						if (it.Amount > 0)
 						{
-							UIMenu newItemMenu = pool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].label, "[Quantità: " + it.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].description);
+							UIMenu newItemMenu = HUD.MenuPool.AddSubMenu(Inventory, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].label, "[Quantità: " + it.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].description);
 
 							if (ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.use)
 							{
-								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.description, Colors.GreenLight, Colors.Green);
+								UIMenuItem useButton = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].use.description, HudColor.HUD_COLOUR_GREENLIGHT, HudColor.HUD_COLOUR_GREEN);
 								newItemMenu.AddItem(useButton);
 								newItemMenu.OnItemSelect += (_menu, _item, _index) =>
 								{
@@ -423,8 +423,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 								List<dynamic> amountino = new List<dynamic>();
 								for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
 								UIMenu giveButton = newItemMenu.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.label, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].give.description);
-								giveButton.ParentItem.HighlightColor = Colors.Cyan;
-								giveButton.ParentItem.HighlightedTextColor = Colors.DarkCyan;
+								giveButton.ParentItem.HighlightColor = HudColor.HUD_COLOUR_FREEMODE;
+								giveButton.ParentItem.HighlightedTextColor = HudColor.HUD_COLOUR_FREEMODE_DARK;
 								List<int> playerId = new List<int>();
 								List<Player> players = Funzioni.GetPlayersInArea(PlayerCache.MyPlayer.Posizione.ToVector3, 3f);
 
@@ -453,7 +453,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 							{
 								List<dynamic> amountino = new List<dynamic>();
 								for (int j = 0; j < it.Amount; j++) amountino.Add((j + 1).ToString());
-								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.description, Colors.RedLight, Colors.Red);
+								UIMenuListItem dropButton = new UIMenuListItem(ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.label, amountino, 0, ConfigShared.SharedConfig.Main.Generici.ItemList[it.Item].drop.description, HudColor.HUD_COLOUR_REDLIGHT, HudColor.HUD_COLOUR_RED);
 								newItemMenu.AddItem(dropButton);
 								newItemMenu.OnListSelect += async (_menu, _listItem, Index) =>
 								{
@@ -472,10 +472,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 				}
 				else
 				{
-					Inventory.AddItem(new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red));
+					Inventory.AddItem(new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED));
 				}
 			};
-			UIMenu weapMenu = pool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
+			UIMenu weapMenu = HUD.MenuPool.AddSubMenu(persMenu, "Inventario Armi", "Le tue armi", pos);
 			weapMenu.OnMenuStateChanged += async (oldmenu, menu, state) =>
 			{
 				if (state != MenuState.ChangeForward || menu != weapMenu) return;
@@ -486,11 +486,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					for (int i = 0; i < me.GetPlayerData().GetCharWeapons().Count; i++)
 					{
 						Weapons armi = me.GetPlayerData().GetCharWeapons()[i];
-						UIMenu arma = pool.AddSubMenu(weapMenu, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
+						UIMenu arma = HUD.MenuPool.AddSubMenu(weapMenu, Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Munizioni: " + armi.ammo);
 
 						if (armi.components.Count > 0)
 						{
-							UIMenu componenti = pool.AddSubMenu(arma, "Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Scegli qui quali abilitare tra quelli che hai!");
+							UIMenu componenti = HUD.MenuPool.AddSubMenu(arma, "Componenti " + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name)), "Scegli qui quali abilitare tra quelli che hai!");
 
 							for (int j = 0; j < armi.components.Count; j++)
 							{
@@ -503,7 +503,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 									componenti.AddItem(componente);
 									componenti.OnCheckboxChange += (_menu, _item, _checked) =>
 									{
-										if (_item.Text == Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)))
+										if (_item.Label == Funzioni.GetWeaponLabel(Funzioni.HashUint(comp.name)))
 										{
 											uint componentHash = Funzioni.HashUint(comp.name);
 											List<Weapons> armiAgg = new List<Weapons>();
@@ -531,7 +531,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 							UIMenuItem giveButton = new UIMenuItem($"Dai {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", Colors.Cyan, Colors.DarkCyan);
 							arma.AddItem(giveButton);
 							*/
-						UIMenuItem dropButton = new UIMenuItem($"Gettare {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", Colors.RedLight, Colors.Red);
+						UIMenuItem dropButton = new UIMenuItem($"Gettare {Funzioni.GetWeaponLabel(Funzioni.HashUint(armi.name))}", "", HudColor.HUD_COLOUR_REDLIGHT, HudColor.HUD_COLOUR_RED);
 						arma.AddItem(dropButton);
 						dropButton.Activated += async (_menu, item) =>
 						{
@@ -546,7 +546,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 				}
 				else
 				{
-					UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", Colors.RedDark, Colors.Red);
+					UIMenuItem noItemsButton = new UIMenuItem("Non hai niente nell'inventario.", "Datti da fare!!", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
 					weapMenu.AddItem(noItemsButton);
 				}
 			};
@@ -556,7 +556,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			#region Lavoro
 
 			/*
-			UIMenu WorkMenu = pool.AddSubMenu(PersonalMenu, "Menu Lavoro", "Menu dei Lavori", pos);
+			UIMenu WorkMenu = HUD.MenuPool.AddSubMenu(PersonalMenu, "Menu Lavoro", "Menu dei Lavori", pos);
 			for (int i = 0; i < 20; i++)
 			{
 				WorkMenu.AddItem(new UIMenuItem("Fregati!"));
@@ -607,12 +607,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 				"Con la ciccia ai glutei",
 				"Fiera"
 			};
-			UIMenu ANeStil = pool.AddSubMenu(PersonalMenu, "Animazioni e Stile");
-			UIMenu umore = pool.AddSubMenu(ANeStil, "Stile Camminata", "Le emozioni contano", pos);
+			UIMenu ANeStil = HUD.MenuPool.AddSubMenu(PersonalMenu, "Animazioni e Stile");
+			UIMenu umore = HUD.MenuPool.AddSubMenu(ANeStil, "Stile Camminata", "Le emozioni contano", pos);
 			UIMenuListItem Item1 = new UIMenuListItem("Umori", umori, 0, "Come si sente il tuo personaggio oggi?");
 			UIMenuListItem Item2 = new UIMenuListItem("Stile", attegg, 0, "Che atteggiamento ha il tuo personaggio?");
 			UIMenuListItem Item3 = new UIMenuListItem("Femminili", donn, 0, "Perche a noi importa del gentil sesso!");
-			UIMenuItem Item4 = new UIMenuItem("~r~Reset", "Perche atteggiarti quando puoi camminare normalmente?", Colors.RedDark, Colors.RedLight);
+			UIMenuItem Item4 = new UIMenuItem("~r~Reset", "Perche atteggiarti quando puoi camminare normalmente?", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
 			umore.AddItem(Item1);
 			umore.AddItem(Item2);
 			umore.AddItem(Item3);
@@ -773,8 +773,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Sei ferito! Non puoi fare quest'azione al momento!", NotificationColor.Red, true);
 				}
 			};
-			UIMenu animMenu = pool.AddSubMenu(ANeStil, "Menu Animazioni", "~g~Quando il RolePlay diventa anche divertente", pos);
-			UIMenu animMenu1 = pool.AddSubMenu(animMenu, "Festa", "~g~Per divertirci");
+			UIMenu animMenu = HUD.MenuPool.AddSubMenu(ANeStil, "Menu Animazioni", "~g~Quando il RolePlay diventa anche divertente", pos);
+			UIMenu animMenu1 = HUD.MenuPool.AddSubMenu(animMenu, "Festa", "~g~Per divertirci");
 			UIMenuItem item1 = new UIMenuItem("Suonare", "Che bella musica!");
 			UIMenuItem item2 = new UIMenuItem("Dj", "Che bella musica!");
 			UIMenuItem item3 = new UIMenuItem("Bere una bibita", "Ancora meglio se in compagnia!");
@@ -820,7 +820,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			animMenu1.AddItem(item7);
 			animMenu1.AddItem(item8);
 			animMenu1.AddItem(item9);
-			UIMenu animMenu2 = pool.AddSubMenu(animMenu, "Saluti", "~g~Fagli sapere che li stai chiamando", pos);
+			UIMenu animMenu2 = HUD.MenuPool.AddSubMenu(animMenu, "Saluti", "~g~Fagli sapere che li stai chiamando", pos);
 			UIMenuItem item10 = new UIMenuItem("Salutare", "Fai ciao con la manina!");
 			UIMenuItem item11 = new UIMenuItem("Saluto tra Amici", "Lo ami quasi come un cugino!");
 			UIMenuItem item12 = new UIMenuItem("Saluto in Gang", "Lo ami come se fossi te stesso!");
@@ -846,7 +846,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu3 = pool.AddSubMenu(animMenu, "Lavori", "~g~Il RolePlay non è solo un gioco!", pos);
+			UIMenu animMenu3 = HUD.MenuPool.AddSubMenu(animMenu, "Lavori", "~g~Il RolePlay non è solo un gioco!", pos);
 			UIMenuItem item14 = new UIMenuItem("Arrendersi alla polizia", "Prima che sparino!");
 			UIMenuItem item15 = new UIMenuItem("Pescatore", "Per rilassarsi al porto!");
 			UIMenuItem item16 = new UIMenuItem("Agricoltore - Vendemmia", "Per chi ama la natura!");
@@ -925,7 +925,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu4 = pool.AddSubMenu(animMenu, "Umore", "~g~Cosa vuoi dirgli col corpo?", pos);
+			UIMenu animMenu4 = HUD.MenuPool.AddSubMenu(animMenu, "Umore", "~g~Cosa vuoi dirgli col corpo?", pos);
 			UIMenuItem item31 = new UIMenuItem("Congratularsi", "Meglio di Cosi!");
 			UIMenuItem item32 = new UIMenuItem("Super", "Pollice in SU!");
 			UIMenuItem item33 = new UIMenuItem("Indicare", "TU!");
@@ -996,7 +996,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu5 = pool.AddSubMenu(animMenu, "Sports", "~g~Tenersi in forma è importante..", pos);
+			UIMenu animMenu5 = HUD.MenuPool.AddSubMenu(animMenu, "Sports", "~g~Tenersi in forma è importante..", pos);
 			UIMenuItem item46 = new UIMenuItem("Mostra i tuoi muscoli", "Le donne ti vorranno e gli uomini vorranno essere te!");
 			UIMenuItem item47 = new UIMenuItem("Fare i pesi", "Per bicipiti da urlo!");
 			UIMenuItem item48 = new UIMenuItem("Fare le flessioni", "oh yeah!");
@@ -1026,7 +1026,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu6 = pool.AddSubMenu(animMenu, "Varie", "~g~Per la vita quotidiana", pos);
+			UIMenu animMenu6 = HUD.MenuPool.AddSubMenu(animMenu, "Varie", "~g~Per la vita quotidiana", pos);
 			UIMenuItem item51 = new UIMenuItem("Bere un caffè", "Non Dormire!");
 			UIMenuItem item52 = new UIMenuItem("Sedersi", "Il tuo sedere ringrazia!");
 			UIMenuItem item53 = new UIMenuItem("Sedersi per terra", "Ci sono le panchine eh!");
@@ -1068,7 +1068,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu7 = pool.AddSubMenu(animMenu, "Hard", "~g~La vita può prendere delle pieghe inaspettate nel RolePlay", pos);
+			UIMenu animMenu7 = HUD.MenuPool.AddSubMenu(animMenu, "Hard", "~g~La vita può prendere delle pieghe inaspettate nel RolePlay", pos);
 			UIMenuItem item59 = new UIMenuItem("L'uomo si fa fare un b******* in auto", "Meglio di Cosi!");
 			UIMenuItem item60 = new UIMenuItem("La donna fa un b******* in auto", "Pollice in SU! ..e non solo quello ;)");
 			UIMenuItem item61 = new UIMenuItem("Uomo sesso in auto", "Grande!");
@@ -1122,7 +1122,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					HUD.ShowNotification("Non puoi usare quest'animazione adesso!!", NotificationColor.Red);
 				}
 			};
-			UIMenu animMenu8 = pool.AddSubMenu(animMenu, "Nuove", "~g~Perche ci siamo evoluti~w~", pos);
+			UIMenu animMenu8 = HUD.MenuPool.AddSubMenu(animMenu, "Nuove", "~g~Perche ci siamo evoluti~w~", pos);
 			UIMenuItem item70 = new UIMenuItem("Facepalm", "La mamma degli idioti è sempre incinta");
 			UIMenuItem item71 = new UIMenuItem("Incrocia le braccia", "Serio!");
 			UIMenuItem item72 = new UIMenuItem("Dannazione", "");
@@ -1169,7 +1169,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
 			#region Gangs
 
-			UIMenu bandeCriminali = pool.AddSubMenu(PersonalMenu, "Bande criminali", "Fonda e gestisti la tua banda criminale!");
+			UIMenu bandeCriminali = PersonalMenu.AddSubMenu("Bande criminali", "Fonda e gestisti la tua banda criminale!");
 
 			if (me.GetPlayerData().CurrentChar.Gang.Name == "Incensurato")
 			{
@@ -1187,8 +1187,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 						if (Main.GangsAttive.Count < 3)
 						{
 							string gname = await HUD.GetUserInput("Nome della Banda", "", 15);
-							pool.CloseAllMenus();
-							BigMessageThread.MessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
+							HUD.MenuPool.CloseAllMenus();
+							NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang(gname, 5);
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
@@ -1208,16 +1208,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			{
 				if (me.GetPlayerData().CurrentChar.Gang.Grade > 4)
 				{
-					UIMenu assumi = pool.AddSubMenu(bandeCriminali, "Assumi membri");
-					UIMenu gestione = pool.AddSubMenu(bandeCriminali, "Gestione banda");
-					UIMenu abilitàBoss = pool.AddSubMenu(bandeCriminali, "Abilità Boss");
+					UIMenu assumi = HUD.MenuPool.AddSubMenu(bandeCriminali, "Assumi membri");
+					UIMenu gestione = HUD.MenuPool.AddSubMenu(bandeCriminali, "Gestione banda");
+					UIMenu abilitàBoss = HUD.MenuPool.AddSubMenu(bandeCriminali, "Abilità Boss");
 					UIMenuItem ritirati = new UIMenuItem("Ritirati", "Attenzione.. non potrai fondare una banda prima di altre 6 ore!");
 					bandeCriminali.AddItem(ritirati);
 					ritirati.Activated += (menu, item) =>
 					{
-						pool.CloseAllMenus();
+						HUD.MenuPool.CloseAllMenus();
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
+						NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
@@ -1228,8 +1228,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					bandeCriminali.AddItem(ritirati);
 					ritirati.Activated += (menu, item) =>
 					{
-						pool.CloseAllMenus();
-						BigMessageThread.MessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
+						HUD.MenuPool.CloseAllMenus();
+						NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
@@ -422,7 +422,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				}
 
 				if (t.Name != Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name) continue;
-				vest.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
+				vest.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
 				ciao = vest;
 			}
 
@@ -445,9 +445,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 1);
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing = completi[_index];
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
-						ciao.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.NONE);
 						ciao = _item;
-						ciao.SetRightBadge(BadgeStyle.Clothes);
+						ciao.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + completi[_index].Price + "$~w~, in contanti");
 					}
 					else
@@ -457,9 +457,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", completi[_index].Price, 2);
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing = completi[_index];
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing = new Dressing(completi[_index].Name, completi[_index].Description, completi[_index].ComponentDrawables, completi[_index].ComponentTextures, completi[_index].PropIndices, completi[_index].PropTextures);
-							ciao.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.NONE);
 							ciao = _item;
-							ciao.SetRightBadge(BadgeStyle.Clothes);
+							ciao.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + completi[_index].Price + "$~w~, con carta di credito");
 						}
 						else
@@ -545,9 +545,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					}
 
 					if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Pantaloni != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni != texture) continue;
-					Pant.ParentItem.SetRightBadge(BadgeStyle.Clothes);
+					Pant.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
 					ciao = Pant.ParentItem;
-					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
+					pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
 					ciaone = pant;
 				}
 
@@ -603,12 +603,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-						ciao.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.NONE);
 						ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
-						ciao.SetRightBadge(BadgeStyle.Clothes);
-						ciaone.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.CLOTHING);
+						ciaone.SetRightBadge(BadgeIcon.NONE);
 						ciaone = _item;
-						ciaone.SetRightBadge(BadgeStyle.Clothes);
+						ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -620,12 +620,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Pantaloni = text;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							ciao.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.NONE);
 							ciao = MenuPant.MenuItems[MenuPant.CurrentSelection];
-							ciao.SetRightBadge(BadgeStyle.Clothes);
-							ciaone.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.CLOTHING);
+							ciaone.SetRightBadge(BadgeIcon.NONE);
 							ciaone = _item;
-							ciaone.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -715,9 +715,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					}
 
 					if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Scarpe != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe != texture) continue;
-					Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
+					Scarp.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
 					ciao = Scarp.ParentItem;
-					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
+					pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
 					ciaone = pant;
 				}
 
@@ -772,12 +772,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-						ciao.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.NONE);
 						ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
-						ciao.SetRightBadge(BadgeStyle.Clothes);
-						ciaone.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.CLOTHING);
+						ciaone.SetRightBadge(BadgeIcon.NONE);
 						ciaone = _item;
-						ciaone.SetRightBadge(BadgeStyle.Clothes);
+						ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -789,12 +789,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Scarpe = text;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							ciao.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.NONE);
 							ciao = MenuScarpe.MenuItems[MenuScarpe.CurrentSelection];
-							ciao.SetRightBadge(BadgeStyle.Clothes);
-							ciaone.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.CLOTHING);
+							ciaone.SetRightBadge(BadgeIcon.NONE);
 							ciaone = _item;
-							ciaone.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -886,9 +886,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					}
 
 					if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie != v.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie != texture) continue;
-					Scarp.ParentItem.SetRightBadge(BadgeStyle.Clothes);
+					Scarp.ParentItem.SetRightBadge(BadgeIcon.CLOTHING);
 					ciao = Scarp.ParentItem;
-					pant.SetRightBadge(BadgeStyle.Clothes); // cambiare con la collezione di abiti
+					pant.SetRightBadge(BadgeIcon.CLOTHING); // cambiare con la collezione di abiti
 					ciaone = pant;
 				}
 
@@ -943,12 +943,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-						ciao.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.NONE);
 						ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
-						ciao.SetRightBadge(BadgeStyle.Clothes);
-						ciaone.SetRightBadge(BadgeStyle.None);
+						ciao.SetRightBadge(BadgeIcon.CLOTHING);
+						ciaone.SetRightBadge(BadgeIcon.NONE);
 						ciaone = _item;
-						ciaone.SetRightBadge(BadgeStyle.Clothes);
+						ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -960,12 +960,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orecchie = text;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							ciao.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.NONE);
 							ciao = MenuOcchiali.MenuItems[MenuOcchiali.CurrentSelection];
-							ciao.SetRightBadge(BadgeStyle.Clothes);
-							ciaone.SetRightBadge(BadgeStyle.None);
+							ciao.SetRightBadge(BadgeIcon.CLOTHING);
+							ciaone.SetRightBadge(BadgeIcon.NONE);
 							ciaone = _item;
-							ciaone.SetRightBadge(BadgeStyle.Clothes);
+							ciaone.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1084,7 +1084,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 				Borse.AddItem(bors);
 
 				if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentDrawables.Borsa_Paracadute != borsa.Modello) continue;
-				bors.SetRightBadge(BadgeStyle.Clothes);
+				bors.SetRightBadge(BadgeIcon.CLOTHING);
 				BorsAtt = bors;
 			}
 
@@ -1118,9 +1118,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
 					Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 					Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-					BorsAtt.SetRightBadge(BadgeStyle.None);
+					BorsAtt.SetRightBadge(BadgeIcon.NONE);
 					BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
-					BorsAtt.SetRightBadge(BadgeStyle.Clothes);
+					BorsAtt.SetRightBadge(BadgeIcon.CLOTHING);
 					HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 				}
 				else
@@ -1132,9 +1132,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.ComponentTextures.Borsa_Paracadute = 0;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-						BorsAtt.SetRightBadge(BadgeStyle.None);
+						BorsAtt.SetRightBadge(BadgeIcon.NONE);
 						BorsAtt = _menu.MenuItems[_menu.CurrentSelection];
-						BorsAtt.SetRightBadge(BadgeStyle.Clothes);
+						BorsAtt.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 					}
 					else
@@ -1166,13 +1166,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
 				if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == -1)
 				{
-					CappRim.SetRightBadge(BadgeStyle.Clothes);
+					CappRim.SetRightBadge(BadgeIcon.CLOTHING);
 					CappAtt = CappRim;
 				}
 
 				if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != -1 && Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere == cappellino.Modello)
 				{
-					capelino.SetRightBadge(BadgeStyle.Clothes);
+					capelino.SetRightBadge(BadgeIcon.CLOTHING);
 					CappAtt = CappRim;
 				}
 
@@ -1214,7 +1214,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					}
 
 					if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Cappelli_Maschere != cappellino.Modello || Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere != texture) continue;
-					newCap.SetRightBadge(BadgeStyle.Clothes);
+					newCap.SetRightBadge(BadgeIcon.CLOTHING);
 					CappAtt1 = newCap;
 				}
 
@@ -1248,12 +1248,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							CappAtt.SetRightBadge(BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeIcon.NONE);
 							CappAtt = Capp.MenuItems[Capp.CurrentSelection];
-							CappAtt.SetRightBadge(BadgeStyle.Clothes);
-							CappAtt1.SetRightBadge(BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeIcon.CLOTHING);
+							CappAtt1.SetRightBadge(BadgeIcon.NONE);
 							CappAtt1 = _menu.MenuItems[_menu.CurrentSelection];
-							CappAtt1.SetRightBadge(BadgeStyle.Clothes);
+							CappAtt1.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1265,12 +1265,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = IntCappAttMod;
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-								CappAtt.SetRightBadge(BadgeStyle.None);
+								CappAtt.SetRightBadge(BadgeIcon.NONE);
 								CappAtt = Capp.MenuItems[Capp.CurrentSelection];
-								CappAtt.SetRightBadge(BadgeStyle.Clothes);
-								CappAtt1.SetRightBadge(BadgeStyle.None);
+								CappAtt.SetRightBadge(BadgeIcon.CLOTHING);
+								CappAtt1.SetRightBadge(BadgeIcon.NONE);
 								CappAtt1 = _menu.MenuItems[_menu.CurrentSelection];
-								CappAtt1.SetRightBadge(BadgeStyle.Clothes);
+								CappAtt1.SetRightBadge(BadgeIcon.CLOTHING);
 								HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 							}
 							else
@@ -1312,9 +1312,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-						CappAtt.SetRightBadge(BadgeStyle.None);
+						CappAtt.SetRightBadge(BadgeIcon.NONE);
 						CappAtt = _menu.MenuItems[_menu.CurrentSelection];
-						CappAtt.SetRightBadge(BadgeStyle.Clothes);
+						CappAtt.SetRightBadge(BadgeIcon.CLOTHING);
 						HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 					}
 					else
@@ -1326,9 +1326,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Cappelli_Maschere = -1;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							CappAtt.SetRightBadge(BadgeStyle.None);
+							CappAtt.SetRightBadge(BadgeIcon.NONE);
 							CappAtt = _menu.MenuItems[_menu.CurrentSelection];
-							CappAtt.SetRightBadge(BadgeStyle.Clothes);
+							CappAtt.SetRightBadge(BadgeIcon.CLOTHING);
 							HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
 						}
 						else
@@ -1344,11 +1344,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
 				if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orecchie == Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Modello)
 				{
-					//					_listItem.SetRightBadge(BadgeStyle.Clothes);
+					//					_listItem.SetRightBadge(BadgeIcon.CLOTHING);
 				}
 				else
 				{
-					//					_listItem.SetRightBadge(BadgeStyle.None);
+					//					_listItem.SetRightBadge(BadgeIcon.NONE);
 				}
 
 				_listItem.Description = Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Description + ", Prezzo: $" + Accessorio.Testa.Orecchini.OrderBy(x => x.Price).ToList()[_newIndex].Price;
@@ -1536,16 +1536,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					{
 						if (orologio.Modello == -1)
 						{
-							NoOrol.SetRightBadge(BadgeStyle.Clothes);
+							NoOrol.SetRightBadge(BadgeIcon.CLOTHING);
 							OrolAtt = NoOrol;
 						}
 						else
 						{
-							OrologinoItem.SetRightBadge(BadgeStyle.Clothes);
+							OrologinoItem.SetRightBadge(BadgeIcon.CLOTHING);
 							OrolAtt = OrologinoItem;
 						}
 
-						NewOrol.SetRightBadge(BadgeStyle.Clothes);
+						NewOrol.SetRightBadge(BadgeIcon.CLOTHING);
 						OrolMod = NewOrol;
 					}
 
@@ -1599,12 +1599,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
-							OrolAtt.SetRightBadge(BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeIcon.NONE);
 							OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
-							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
-							OrolMod.SetRightBadge(BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
+							OrolMod.SetRightBadge(BadgeIcon.NONE);
 							OrolMod = _menu.MenuItems[_menu.CurrentSelection];
-							OrolMod.SetRightBadge(BadgeStyle.Clothes);
+							OrolMod.SetRightBadge(BadgeIcon.CLOTHING);
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
 						}
 						else
@@ -1614,12 +1614,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = IntOrolAtt;
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = IntOrolMod;
-								OrolAtt.SetRightBadge(BadgeStyle.None);
+								OrolAtt.SetRightBadge(BadgeIcon.NONE);
 								OrolAtt = Orol.MenuItems[Orol.CurrentSelection];
-								OrolAtt.SetRightBadge(BadgeStyle.Clothes);
-								OrolMod.SetRightBadge(BadgeStyle.None);
+								OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
+								OrolMod.SetRightBadge(BadgeIcon.NONE);
 								OrolMod = _menu.MenuItems[_menu.CurrentSelection];
-								OrolMod.SetRightBadge(BadgeStyle.Clothes);
+								OrolMod.SetRightBadge(BadgeIcon.CLOTHING);
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 								Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
 								if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");
@@ -1659,9 +1659,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 						BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 1);
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
-						OrolAtt.SetRightBadge(BadgeStyle.None);
+						OrolAtt.SetRightBadge(BadgeIcon.NONE);
 						OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
-						OrolAtt.SetRightBadge(BadgeStyle.Clothes);
+						OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.ears.style = Accessorio.Orologi.OrderBy(x => x.Price).ToList()[_index].Modello;
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
 						if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, in contanti");
@@ -1673,9 +1673,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							BaseScript.TriggerServerEvent("lprp:abiti:compra", val, 2);
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropIndices.Orologi = -1;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.PropTextures.Orologi = -1;
-							OrolAtt.SetRightBadge(BadgeStyle.None);
+							OrolAtt.SetRightBadge(BadgeIcon.NONE);
 							OrolAtt = _menu.MenuItems[_menu.CurrentSelection];
-							OrolAtt.SetRightBadge(BadgeStyle.Clothes);
+							OrolAtt.SetRightBadge(BadgeIcon.CLOTHING);
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Name = null;
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing.Description = null;
 							if (val > 0) HUD.ShowNotification("Hai speso ~g~" + val + "$~w~, con carta di credito");

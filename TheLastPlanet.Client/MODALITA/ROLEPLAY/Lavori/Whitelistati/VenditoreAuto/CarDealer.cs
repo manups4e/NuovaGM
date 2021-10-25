@@ -3,7 +3,7 @@ using static CitizenFX.Core.Native.API;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 						};
 					}
 
-					UIMenuItem mostra = new UIMenuItem("Mostra a selezionati", "", Colors.GreenDark, Colors.GreenLight);
+					UIMenuItem mostra = new UIMenuItem("Mostra a selezionati", "", HudColor.HUD_COLOUR_GREENDARK, HudColor.HUD_COLOUR_GREEN);
 					_newsubmenu.AddItem(mostra);
 					mostra.Activated += (menu, item) =>
 					{
@@ -203,9 +203,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 										prendi.AddItem(c);
 										c.Activated += async (_menu_, _item_) =>
 										{
-											string s1 = Funzioni.GetRandomString(2);
+											string s1 = Extensions.GetRandomString(2);
 											await BaseScript.Delay(100);
-											string s2 = Funzioni.GetRandomString(2);
+											string s2 = Extensions.GetRandomString(2);
 											string plate = s1 + " " + Funzioni.GetRandomInt(001, 999).ToString("000") + s2;
 											PreviewVeh.Mods.LicensePlate = plate;
 											VehProp prop = await PreviewVeh.GetVehicleProperties();
@@ -333,7 +333,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 										player.AddItem(posto);
 									}
 
-									player.OnItemSelect += (menu, item, index) => BaseScript.TriggerServerEvent("lprp:carDealer:vendi", user.ServerId, item.Text);
+									player.OnItemSelect += (menu, item, index) => BaseScript.TriggerServerEvent("lprp:carDealer:vendi", user.ServerId, item.Label);
 								}
 							}
 							else

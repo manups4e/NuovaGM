@@ -47,7 +47,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.4385" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.4821" />
 		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -63,6 +63,7 @@
 		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
 		<!--PER OFFUSCARE-->
 		<Content Include="TheLastPlanet.Client.crproj" />
+		<ProjectReference Include="..\ScaleformUI\ScaleformUI.csproj" />
 		<!--PER OFFUSCARE-->
 
 		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
@@ -73,6 +74,7 @@
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
+		<Exec Command="copy /y $(OutDir)\ScaleformUI.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
 	</Target>
 </Project>
 

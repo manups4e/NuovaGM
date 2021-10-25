@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using Logger;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
@@ -174,7 +174,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 if (CountdownTime == TimeSpan.Zero)
                 {
                     StartEventTimerBars();
-                    MediumMessageBase.MessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, true);
+                    NativeUIScaleform.MedMessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, true);
                     Audio.PlaySoundFrontend("FLIGHT_SCHOOL_LESSON_PASSED", "HUD_AWARDS");
                     IsStarted = true;
                     CountdownStarted = false;

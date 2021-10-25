@@ -7,7 +7,7 @@ using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Shared;
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 			Screen.Hud.IsRadarVisible = false;
 		}
 
-		private static async void Inizializza()
+		public static async void Inizializza()
 		{
 			while (true)
 			{
@@ -404,8 +404,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
-			PopupWarningThread.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, WarningPopupType.Classico);
-			PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+			NativeUIScaleform.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, "", WarningPopupType.Classic);
+			NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
 			{
 				if (a.GamepadButton == Control.FrontendCancel)
 					Attiva();

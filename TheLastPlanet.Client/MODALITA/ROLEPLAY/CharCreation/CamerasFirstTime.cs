@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using static CitizenFX.Core.Native.API;
 
@@ -37,12 +37,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				await SiComincia();
 			else
 			{
-				PopupWarningThread.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
+				NativeUIScaleform.Warning.ShowWarningWithButtons("Vuoi saltare la Presentazione?", "Premi SI e potrai usare direttamente il nuovo personaggio.", "", new List<InstructionalButton>
 				{
 					new InstructionalButton(Control.FrontendCancel, "No"),
 					new InstructionalButton(Control.FrontendAccept, "Si"),
-				}, WarningPopupType.Classico);
-				PopupWarningThread.Warning.OnButtonPressed += async (a) =>
+				});
+				NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
 				{
 					if (a.GamepadButton == Control.FrontendCancel)
 						await SiComincia();
@@ -137,7 +137,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			Cam8.PointAt(new Vector3(-133.448f, -512.632f, 30.427f));
 			Cam7.InterpTo(Cam8, 10000, 0, 1);
 			await BaseScript.Delay(3000);
-			BigMessageThread.MessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
+			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage(Client.Impostazioni.RolePlay.Main.NomeServer, "Benvenuto, nell'Ultimo vero Pianeta del RolePlay!");
 			await BaseScript.Delay(4000);
 			await BaseScript.Delay(1000);
 			Cam7.Delete();

@@ -3,7 +3,7 @@ using Logger;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
@@ -78,26 +78,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 					if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi1"))
 					{
 						ArmiLic1.ParentItem.Enabled = false;
-						ArmiLic1.ParentItem.SetRightBadge(BadgeStyle.Lock);
+						ArmiLic1.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 					}
 
 					if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi2"))
 					{
 						ArmiLic2.ParentItem.Enabled = false;
-						ArmiLic2.ParentItem.SetRightBadge(BadgeStyle.Lock);
+						ArmiLic2.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 					}
 
 					if (!Cache.PlayerCache.MyPlayer.User.HasLicense("Armi3"))
 					{
 						ArmiLic3.ParentItem.Enabled = false;
-						ArmiLic3.ParentItem.SetRightBadge(BadgeStyle.Lock);
+						ArmiLic3.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 					}
 
 					if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Weapons.Count != 0) return;
 					component.ParentItem.Enabled = false;
-					component.ParentItem.SetRightBadge(BadgeStyle.Lock);
+					component.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 					Tinte.ParentItem.Enabled = false;
-					Tinte.ParentItem.SetRightBadge(BadgeStyle.Lock);
+					Tinte.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 				}
 
 				#region ArmiBase
@@ -113,7 +113,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							arma.SetRightLabel("~g~" + armi1[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi1[i].price + "$");
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi1[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
 						ArmiLic1.AddItem(arma);
 					}
 
@@ -148,7 +148,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								Client.Instance.Events.Send("lprp:addWeapon", armi1[_index].name, 250);
 								Client.Instance.Events.Send("lprp:removemoney", armi1[_index].price);
 								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
-								_item.SetRightBadge(BadgeStyle.Gun);
+								_item.SetRightBadge(BadgeIcon.GUN);
 							}
 							else
 							{
@@ -157,7 +157,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 									Client.Instance.Events.Send("lprp:addWeapon", armi1[_index].name, 250);
 									Client.Instance.Events.Send("lprp:removebank", armi1[_index].price);
 									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
-									_item.SetRightBadge(BadgeStyle.Gun);
+									_item.SetRightBadge(BadgeIcon.GUN);
 								}
 								else
 								{
@@ -183,7 +183,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							arma.SetRightLabel("~g~" + armi2[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi2[i].price + "$");
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi2[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
 						ArmiLic2.AddItem(arma);
 					}
 
@@ -218,7 +218,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								Client.Instance.Events.Send("lprp:addWeapon", armi2[_index].name, 250);
 								Client.Instance.Events.Send("lprp:removemoney", armi2[_index].price);
 								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
-								_item.SetRightBadge(BadgeStyle.Gun);
+								_item.SetRightBadge(BadgeIcon.GUN);
 							}
 							else
 							{
@@ -227,7 +227,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 									Client.Instance.Events.Send("lprp:addWeapon", armi2[_index].name, 250);
 									Client.Instance.Events.Send("lprp:removebank", armi2[_index].price);
 									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
-									_item.SetRightBadge(BadgeStyle.Gun);
+									_item.SetRightBadge(BadgeIcon.GUN);
 								}
 								else
 								{
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 							arma.SetRightLabel("~g~" + armi3[i].price + "$");
 						else
 							arma.SetRightLabel("~r~" + armi3[i].price + "$");
-						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name))) arma.SetRightBadge(BadgeStyle.Gun);
+						if (playerPed.Weapons.HasWeapon((WeaponHash)Funzioni.HashUint(armi3[i].name))) arma.SetRightBadge(BadgeIcon.GUN);
 						ArmiLic3.AddItem(arma);
 					}
 
@@ -288,7 +288,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								Client.Instance.Events.Send("lprp:addWeapon", armi3[_index].name, 250);
 								Client.Instance.Events.Send("lprp:removemoney", armi3[_index].price);
 								HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
-								_item.SetRightBadge(BadgeStyle.Gun);
+								_item.SetRightBadge(BadgeIcon.GUN);
 							}
 							else
 							{
@@ -297,7 +297,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 									Client.Instance.Events.Send("lprp:addWeapon", armi3[_index].name, 250);
 									Client.Instance.Events.Send("lprp:removebank", armi3[_index].price);
 									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
-									_item.SetRightBadge(BadgeStyle.Gun);
+									_item.SetRightBadge(BadgeIcon.GUN);
 								}
 								else
 								{
@@ -332,18 +332,18 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 										compon.SetRightLabel("~r~" + co.price + "$");
 									for (int k = 0; k < armi.components.Count; k++)
 										if (armi.components[k].name == co.name)
-											compon.SetRightBadge(BadgeStyle.Ammo);
+											compon.SetRightBadge(BadgeIcon.AMMO);
 								}
 
 							Arma.OnItemSelect += async (_menu, _item, _index) =>
 							{
-								if (_item.RightBadge == BadgeStyle.Ammo)
+								if (_item.RightBadge == BadgeIcon.AMMO)
 								{
 									HUD.ShowNotification("Hai già acquistato questo componente!!", true);
 								}
 								else
 								{
-									ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Text);
+									ArmiLicenza arm = componenti.FirstOrDefault(x => Funzioni.GetWeaponLabel(Funzioni.HashUint(x.name)) == _item.Label);
 									Client.Logger.Debug( "Prezzo = " + arm.price);
 									Client.Logger.Debug( "name = " + arm.name);
 
@@ -352,7 +352,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 										Client.Instance.Events.Send("lprp:addWeaponComponent", armi.name, arm.name);
 										Client.Instance.Events.Send("lprp:removemoney", arm.price);
 										HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
-										_item.SetRightBadge(BadgeStyle.Ammo);
+										_item.SetRightBadge(BadgeIcon.AMMO);
 									}
 									else
 									{
@@ -361,7 +361,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 											Client.Instance.Events.Send("lprp:addWeaponComponent", armi.name, arm.name);
 											Client.Instance.Events.Send("lprp:removebank", arm.price);
 											HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
-											_item.SetRightBadge(BadgeStyle.Ammo);
+											_item.SetRightBadge(BadgeIcon.AMMO);
 										}
 										else
 										{
@@ -396,12 +396,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 								tintina.SetRightLabel("~g~" + tin.price + "$");
 							else
 								tintina.SetRightLabel("~r~" + tin.price + "$");
-							if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeStyle.Ammo);
+							if (Cache.PlayerCache.MyPlayer.User.HasWeaponTint(armi.name, Convert.ToInt32(tin.name.Substring(7)))) tintina.SetRightBadge(BadgeIcon.AMMO);
 						}
 
 						Tnt.OnItemSelect += async (_menu, _item, _index) =>
 						{
-							if (_item.RightBadge == BadgeStyle.Ammo)
+							if (_item.RightBadge == BadgeIcon.AMMO)
 							{
 								HUD.ShowNotification("Hai già acquistato questo colore!!", true);
 							}
@@ -412,10 +412,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 									Client.Instance.Events.Send("lprp:removemoney", tinte[_index].price);
 									Client.Instance.Events.Send("lprp:addWeaponTint", armi.name, _index);
 									HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
-									_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
-									//attTi.SetRightBadge(BadgeStyle.None);
+									_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
+									//attTi.SetRightBadge(BadgeIcon.NONE);
 									//attTi = _item;
-									_item.SetRightBadge(BadgeStyle.Ammo);
+									_item.SetRightBadge(BadgeIcon.AMMO);
 									armi.tint = _index;
 								}
 								else
@@ -425,10 +425,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 										Client.Instance.Events.Send("lprp:removebank", tinte[_index].price);
 										Client.Instance.Events.Send("lprp:addWeaponTint", armi.name, _index);
 										HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
-										_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeStyle.None));
-										//attTi.SetRightBadge(BadgeStyle.None);
+										_menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
+										//attTi.SetRightBadge(BadgeIcon.NONE);
 										//attTi = _item;
-										_item.SetRightBadge(BadgeStyle.Ammo);
+										_item.SetRightBadge(BadgeIcon.AMMO);
 										armi.tint = _index;
 									}
 									else

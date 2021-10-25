@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Impostazioni.Shared.Configurazione.Generici;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
@@ -123,7 +123,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async void announce(string msg)
 		{
 			Game.PlaySound("DELETE", "HUD_DEATHMATCH_SOUNDSET");
-			BigMessageThread.MessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
+			NativeUIScaleform.BigMessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
 		}
 
 		public static async void Revive()

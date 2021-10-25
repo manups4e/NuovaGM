@@ -8,7 +8,7 @@ using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using Logger;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
@@ -173,7 +173,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                         break;
                 }
 
-                MediumMessageBase.MessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
+                NativeUIScaleform.MedMessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
             }
             catch (Exception e)
             {

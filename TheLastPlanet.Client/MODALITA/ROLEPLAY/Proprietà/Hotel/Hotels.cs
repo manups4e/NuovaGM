@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.Core.Utility;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
@@ -26,7 +26,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 
 		public static void Init()
 		{
-			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), NativeUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
+			foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
 			InputHandler.AddInputList(hotelInputs);
 			RegisterCommand("hash", new Action<int, List<dynamic>, string>((id, hash, comando) =>
 			{

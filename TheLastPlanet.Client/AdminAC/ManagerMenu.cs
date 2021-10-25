@@ -7,7 +7,7 @@ using CitizenFX.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
 
@@ -110,7 +110,7 @@ namespace TheLastPlanet.Client.AdminAC
 					UIMenu Ban = Giocatore.AddSubMenu("~r~Banna Player~w~");
 					UIMenuItem motivazioneBan = new("Motivazione", "UNA VOLTA SPECIFICATA LA MOTIVAZIONE.. VERRA' MOSTRATA QUI!!");
 					UIMenuListItem TempoBan = new("Tempo di Ban", tempiban, 0, "NB: UNA VOLTA CONFERMATO IL BAN, IL TEMPO ~h~~r~NON~w~ SI PUO' CAMBIARE");
-					UIMenuItem Banna = new("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+					UIMenuItem Banna = new("Banna", "NB:~r~ IL BAN E' UNA TUA RESPONABILITA', DATO CHE IL TUO NOME VERRA' INSERITO NELLA MOTIVAZIONE~W~!", HudColor.HUD_COLOUR_REDDARK, HudColor.HUD_COLOUR_RED);
 					UIMenuCheckboxItem temp = new("Temporaneo", UIMenuCheckboxStyle.Tick, false, "Temporaneo?");
 					Ban.AddItem(motivazioneBan);
 					Ban.AddItem(TempoBan);
@@ -284,7 +284,7 @@ namespace TheLastPlanet.Client.AdminAC
 
 						#region Inventario
 
-						UIMenuItem addItem = new("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità", Color.FromArgb(100, 0, 139, 139), Color.FromArgb(255, 0, 255, 255));
+						UIMenuItem addItem = new("Aggiungi un oggetto all'inventario", "Dovrai inserire nome dell'oggetto e poi la sua quantità");
 						Inventario.AddItem(addItem);
 
 						if (chars.Inventory.Count > 0)
@@ -292,8 +292,8 @@ namespace TheLastPlanet.Client.AdminAC
 							{
 								if (item.Amount <= 0) continue;
 								UIMenu newItemMenu = Inventario.AddSubMenu(ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].label, "[Quantità: " + item.Amount.ToString() + "] " + ConfigShared.SharedConfig.Main.Generici.ItemList[item.Item].description);
-								UIMenuItem add = new("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?", Color.FromArgb(40, 22, 242, 26), Color.FromArgb(170, 13, 195, 16));
-								UIMenuItem rem = new("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?", Color.FromArgb(40, 195, 16, 13), Color.FromArgb(170, 165, 10, 7));
+								UIMenuItem add = new("Aggiungi", "Quanti ne ~y~aggiungiamo~w~?");
+								UIMenuItem rem = new("Rimuovi", "Quanti ne ~y~rimuoviamo~w~?");
 								newItemMenu.AddItem(add);
 								newItemMenu.AddItem(rem);
 								Inventory item1 = item;
@@ -604,10 +604,10 @@ namespace TheLastPlanet.Client.AdminAC
 			{
 				Meteo.ParentItem.Enabled = false;
 				Meteo.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-				Meteo.ParentItem.SetRightBadge(BadgeStyle.Lock);
+				Meteo.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 				Orario.ParentItem.Enabled = false;
 				Orario.ParentItem.Description = "NON HAI I PERMESSI NECESSARI";
-				Orario.ParentItem.SetRightBadge(BadgeStyle.Lock);
+				Orario.ParentItem.SetRightBadge(BadgeIcon.LOCK);
 			}
 			else
 			{

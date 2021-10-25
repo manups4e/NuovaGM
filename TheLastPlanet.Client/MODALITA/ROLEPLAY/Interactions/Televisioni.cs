@@ -7,7 +7,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -205,7 +205,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 				new InstructionalButton((Control)219, GetLabelText("HUD_INPUT77")),
 				new InstructionalButton((Control)236, GetLabelText("HUD_INPUT87")),
 			};
-			InstructionalButtonsHandler.InstructionalButtons.SetInstructionalButtons(buttons);
+			NativeUIScaleform.InstructionalButtons.SetInstructionalButtons(buttons);
 			Game.DisableControlThisFrame(0, Control.MoveLeftOnly);
 			Game.DisableControlThisFrame(0, Control.MoveRightOnly);
 			Game.DisableControlThisFrame(0, Control.MoveUpOnly);

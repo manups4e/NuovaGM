@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
@@ -97,8 +97,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 						GettaMenu.OnItemSelect += async (menu, item, index) =>
 						{
-							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", item.Text, (item as UIMenuListItem).Index + 1);
-							HUD.ShowNotification($"Hai gettato nella spazzatura ~y~{(item as UIMenuListItem).Index + 1}x {item.Text}~w~");
+							BaseScript.TriggerServerEvent("lprp:removeIntenvoryItem", item.Label, (item as UIMenuListItem).Index + 1);
+							HUD.ShowNotification($"Hai gettato nella spazzatura ~y~{(item as UIMenuListItem).Index + 1}x {item.Label}~w~");
 						};
 						GettaMenu.Visible = true;
 					}

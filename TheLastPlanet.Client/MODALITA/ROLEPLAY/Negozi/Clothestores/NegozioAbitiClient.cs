@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.NativeUI;
+using ScaleformUI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
 using System.Collections.Generic;
