@@ -23,8 +23,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
 		public static async void CloakRoomMenu()
 		{
-			AbitiLav PilotaMaschio = new AbitiLav() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(0, -1, -1, -1, -1, -1, -1, -1, -1) };
-			AbitiLav PilotaFemmina = new AbitiLav() { Abiti = new ComponentDrawables(-1, 0, -1, 25, 0, -1, 24, 0, 13, 0, 0, 1), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 1, -1, 0, 0, 0, 0, 0, 4), Accessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) };
+			AbitiLav PilotaMaschio = new() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(0, -1, -1, -1, -1, -1, -1, -1, -1) };
+			AbitiLav PilotaFemmina = new() { Abiti = new ComponentDrawables(-1, 0, -1, 25, 0, -1, 24, 0, 13, 0, 0, 1), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 1, -1, 0, 0, 0, 0, 0, 4), Accessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) };
 			UIMenu Spogliatoio = new UIMenu("Spogliatoio Polizia", "Cambiati ed entra/esci dal servizio");
 			HUD.MenuPool.Add(Spogliatoio);
 
