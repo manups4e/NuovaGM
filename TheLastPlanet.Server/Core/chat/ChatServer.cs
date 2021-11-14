@@ -23,8 +23,8 @@ namespace TheLastPlanet.Server.Core
 
 		public static void chatMessage(int id, string name, string message)
 		{
-			Player p = Funzioni.GetPlayerFromId(id);
-			User user = p.GetCurrentChar();
+			var p = Funzioni.GetClientFromPlayerId(id);
+			User user = p.User;
 
 			if ((int)user.group_level <= -1) return;
 			if (!user.Status.Spawned && user.group_level <= UserGroup.Helper) return;
@@ -40,7 +40,7 @@ namespace TheLastPlanet.Server.Core
 				if (comm != null)
 					if (user.group_level >= comm.Restriction)
 					{
-						comm.Source = p;
+						comm.Source = p.Player;
 						comm.rawCommand = message;
 						if (command.Length > 1)
 							comm.Args = command.Skip(1).ToList();
@@ -49,7 +49,7 @@ namespace TheLastPlanet.Server.Core
 						comm.Action.DynamicInvoke(p, comm.Args, comm.rawCommand);
 					}
 
-				chatCommandEntered(p, fullCommand, command, cmd, comm);
+				chatCommandEntered(p.Player, fullCommand, command, cmd, comm);
 			}
 			else
 			{

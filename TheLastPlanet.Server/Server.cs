@@ -12,6 +12,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.Internal.Events;
+using System.Linq;
 
 namespace TheLastPlanet.Server
 {
