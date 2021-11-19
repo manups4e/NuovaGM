@@ -47,11 +47,13 @@ namespace TheLastPlanet.Shared
 		public string rawCommand;
 		public List<string> Args;
 		public UserGroup Restriction;
-		public ChatCommand(string commandName, UserGroup minGroupAllowed, Delegate handler)
+		public ModalitaServer Modalita;
+		public ChatCommand(string commandName, UserGroup minGroupAllowed, ModalitaServer mode, Delegate handler)
 		{
 			CommandName = commandName;
 			Restriction = minGroupAllowed;
 			Action = handler;
+			Modalita = mode;
 		}
 	}
 }

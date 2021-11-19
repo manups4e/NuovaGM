@@ -2,7 +2,9 @@
 using Logger;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using static CitizenFX.Core.Native.API;
@@ -23,45 +25,83 @@ namespace TheLastPlanet.Server.Core
 
 		public static void chatMessage(int id, string name, string message)
 		{
-			var p = Funzioni.GetClientFromPlayerId(id);
-			User user = p.User;
-
-			if ((int)user.group_level <= -1) return;
-			if (!user.Status.Spawned && user.group_level <= UserGroup.Helper) return;
-
-			if (message.StartsWith("/"))
+			try
 			{
-				string fullCommand = message.Replace("/", "");
-				string[] command = fullCommand.Split(' ');
-				string cmd = command[0];
-				ChatCommand comm = null;
-				if (Commands.Any(x => x.CommandName.ToLower() == cmd.ToLower())) comm = Commands.FirstOrDefault(x => x.CommandName.ToLower() == cmd.ToLower());
+				var p = Funzioni.GetClientFromPlayerId(id);
+				User user = p.User;
+				var currentMode = user.Status.PlayerStates.Modalita;
+				if ((int)user.group_level <= -1) return;
+				if (!user.Status.Spawned && user.group_level <= UserGroup.Helper) return;
 
-				if (comm != null)
-					if (user.group_level >= comm.Restriction)
+				if (message.StartsWith("/"))
+				{
+					string fullCommand = message.Replace("/", "");
+					string[] command = fullCommand.Split(' ');
+					string cmd = command[0];
+					ChatCommand comm = null;
+					if (Commands.Any(x => x.CommandName.ToLower() == cmd.ToLower())) comm = Commands.FirstOrDefault(x => x.CommandName.ToLower() == cmd.ToLower());
+
+					if (comm is not null)
 					{
-						comm.Source = p.Player;
-						comm.rawCommand = message;
-						if (command.Length > 1)
-							comm.Args = command.Skip(1).ToList();
-						else
-							comm.Args = new List<string>();
-						comm.Action.DynamicInvoke(p, comm.Args, comm.rawCommand);
+						if (user.group_level >= comm.Restriction)
+						{
+							if (currentMode == comm.Modalita || comm.Modalita == ModalitaServer.UNKNOWN)
+							{
+								comm.Source = p.Player;
+								comm.rawCommand = message;
+								if (command.Length > 1)
+									comm.Args = command.Skip(1).ToList();
+								else
+									comm.Args = new List<string>();
+								comm.Action.DynamicInvoke(p, comm.Args, comm.rawCommand);
+							}
+						}
 					}
-
-				chatCommandEntered(p.Player, fullCommand, command, cmd, comm);
+					chatCommandEntered(p.Player, fullCommand, command, cmd, comm, currentMode);
+				}
+				else
+				{
+					switch (currentMode)
+					{
+						case ModalitaServer.Roleplay:
+							BucketsHandler.FreeRoam.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, /*user.FullName + ":",*/ message);
+							break;
+						case ModalitaServer.Lobby:
+							foreach (var player in BucketsHandler.Lobby.Bucket.Players)
+							{
+								p.Player.TriggerEvent("chat:addMessage", new
+								{
+									color = new[] { 255, 255, 255 },
+									multiline = true,
+									args = new[] { name, message }
+								});
+							}
+							break;
+						case ModalitaServer.FreeRoam:
+							foreach (var player in BucketsHandler.FreeRoam.Bucket.Players)
+							{
+								p.Player.TriggerEvent("chat:addMessage", new
+								{
+									color = new[] { 255, 255, 255 },
+									multiline = true,
+									args = new[] { name, message }
+								});
+							}
+							break;
+					}
+					//BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), /*user.FullName + ":",*/ message);
+				}
+				CancelEvent();
 			}
-			else
-			{
-				BaseScript.TriggerClientEvent("lprp:triggerProximityDisplay", Convert.ToInt32(p.Handle), /*user.FullName + ":",*/ message);
-			}
-
-			CancelEvent();
+			catch (Exception e)
+            {
+				Server.Logger.Error(e.ToString());
+            }
 		}
 
 		//private static void ConsoleCommand(string name, string command) { }
 
-		public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm)
+		public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm, ModalitaServer mode)
 		{
 			DateTime data = DateTime.Now;
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
@@ -72,22 +112,21 @@ namespace TheLastPlanet.Server.Core
 				{
 					string txt;
 					if (command.Length > 1)
-						txt = $"Comando: /{cmd} invocato da {sender.Name} con testo: {fullCommand.Substring(cmd.Length + 1)}";
+						txt = $"Comando: /{cmd} invocato da {sender.Name} con testo: {fullCommand.Substring(cmd.Length + 1)}, in modalità {mode}";
 					else
-						txt = $"Comando: /{cmd} invocato da {sender.Name}";
-					Server.Logger.Info( txt);
+						txt = $"Comando: /{cmd} invocato da {sender.Name}, in modalità {mode}";
+					Server.Logger.Info(txt);
 				}
 				else
 				{
 					user.showNotification("Non hai i permessi per usare questo comando!");
-					Server.Logger.Warning( sender.Name + " ha provato a usare il comando " + cmd + ".");
+					Server.Logger.Warning($"{sender.Name} ha provato a usare il comando {cmd}, in modalità {mode}");
 				}
 			}
 			else
 			{
 				user.showNotification("Hai inserito un comando non valido!");
-				Server.Logger.Warning( sender.Name + " ha inserito un comando non valido: " + cmd);
-				BaseScript.TriggerEvent("lprp:serverLog", data.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + sender.Name + " ha inserito un comando non valido: " + cmd + ".");
+				Server.Logger.Warning($"{sender.Name} ha inserito un comando non valido: {cmd}");
 			}
 		}
 
