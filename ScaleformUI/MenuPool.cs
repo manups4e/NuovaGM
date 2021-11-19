@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using ScaleformUI.PauseMenu;
 using Control = CitizenFX.Core.Control;
 
 namespace ScaleformUI
@@ -61,6 +62,7 @@ namespace ScaleformUI
         public event MenuStateChangeEvent OnMenuStateChanged;
 
         internal readonly List<UIMenu> _menuList = new List<UIMenu>();
+        internal readonly List<TabView> _pauseMenuList = new List<TabView>();
 
         /// <summary>
         /// Add your menu to the menu pool.
@@ -70,6 +72,10 @@ namespace ScaleformUI
         {
             _menuList.Add(menu);
             menu._poolcontainer = this;
+        }
+        public void Add(TabView menu)
+        {
+            _pauseMenuList.Add(menu);
         }
 
         /// <summary>
@@ -177,6 +183,9 @@ namespace ScaleformUI
                 if (_menuList[i].Visible)
                     _menuList[i].ProcessControl();
             }
+            var pauseMenu = _pauseMenuList.SingleOrDefault(x => x.Visible);
+            if (pauseMenu is not null)
+                pauseMenu.ProcessControls();
         }
 
 
@@ -235,6 +244,9 @@ namespace ScaleformUI
                 if (_menuList[i].Visible)
                     _menuList[i].Draw();
             }
+            var pauseMenu = _pauseMenuList.SingleOrDefault(x => x.Visible);
+            if (pauseMenu is not null)
+                pauseMenu.Draw();
         }
 
 

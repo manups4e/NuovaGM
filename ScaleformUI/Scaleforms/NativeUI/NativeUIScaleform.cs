@@ -9,6 +9,7 @@ namespace ScaleformUI
 {
     public class NativeUIScaleform : BaseScript
     {
+        public static PauseMenuScaleform PauseMenu { get; set; }
         public static MediumMessageHandler MedMessageInstance { get; set; }
         public static InstructionalButtonsScaleform InstructionalButtons { get; set; }
         public static BigMessageHandler BigMessageInstance { get; set; }
@@ -21,6 +22,7 @@ namespace ScaleformUI
             BigMessageInstance = new BigMessageHandler();
             InstructionalButtons = new InstructionalButtonsScaleform();
             InstructionalButtons.Load();
+            PauseMenu = new PauseMenuScaleform();
             _nativeui = new Scaleform("nativeui");
             Tick += NativeUIThread_Tick;
         }
@@ -34,6 +36,9 @@ namespace ScaleformUI
 
             if (_nativeui is null)
                 _nativeui = new Scaleform("nativeui");
+
+            if (!PauseMenu.Loaded)
+                PauseMenu.Load();
 
             await Task.FromResult(0);
         }
