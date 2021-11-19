@@ -9,8 +9,9 @@ namespace Impostazioni.Shared.Configurazione.Generici
         public float ss_wind_speed_max = 10f;
         public float ss_night_time_speed_mult = 1f;
         public float ss_day_time_speed_mult = 1f;
-        public bool ss_enable_dynamic_weather = true;
-        public int ss_default_weather = new Random().Next(0, 9);
+        public bool ss_enable_dynamic_weather = false;
+        //public int ss_default_weather = new Random().Next(0, 9);
+        public int ss_default_weather = 13;
         public int ss_weather_timer = 10;
         public bool ss_reduce_rain_chance = true;
         public int ss_rain_timeout = 45;
