@@ -26,9 +26,9 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			Player target = new Player(API.GetPlayerFromServerId(player));
 			if (Messaggi.ContainsKey(player))
-				Messaggi[player].Add(new ProxMess(title + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position));
+				Messaggi[player].Add(new ProxMess(title + " " +text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position));
 			else
-				Messaggi.Add(player, new List<ProxMess>() { new ProxMess(title + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position) });
+				Messaggi.Add(player, new List<ProxMess>() { new ProxMess(title + " " + text, Colors.WhiteSmoke, target.Character.Bones[Bone.SKEL_Head].Position) });
 		}
 
 		public static async Task Prossimità()

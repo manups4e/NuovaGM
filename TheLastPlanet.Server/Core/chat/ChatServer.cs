@@ -64,7 +64,7 @@ namespace TheLastPlanet.Server.Core
 					switch (currentMode)
 					{
 						case ModalitaServer.Roleplay:
-							BucketsHandler.FreeRoam.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, /*user.FullName + ":",*/ message);
+							BucketsHandler.RolePlay.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, user.FullName + ":", message);
 							break;
 						case ModalitaServer.Lobby:
 							foreach (var player in BucketsHandler.Lobby.Bucket.Players)

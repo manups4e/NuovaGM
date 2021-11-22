@@ -158,7 +158,7 @@ namespace TheLastPlanet.Shared.Core.Buckets
 
 		public void TriggerClientEvent(string endpoint, params object[] args)
 		{
-			Server.Server.Instance.Events.Send(Players, endpoint, args);
+			Server.Server.Instance.Events.Send(Players.ToList(), endpoint, args);
 		}
 #endif
 	}
