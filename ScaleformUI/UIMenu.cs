@@ -848,7 +848,7 @@ namespace ScaleformUI
 		private bool _justOpened = true;
 		private bool _itemsDirty = false;
 
-		private KeyValuePair<string, string> _customTexture;
+		internal KeyValuePair<string, string> _customTexture;
 
 		//Pagination
 		private const int MaxItemsOnScreen = 9;
@@ -1024,9 +1024,8 @@ namespace ScaleformUI
 		/// <param name="offset">PointF object with X and Y data for offsets. Applied to all menu elements.</param>
 		/// <param name="customBanner">Path to your custom texture.</param>
 		/// <param name="glare">Add menu Glare scaleform?.</param>
-		public UIMenu(string title, string subtitle, PointF offset, string customBanner) : this(title, subtitle, offset, "commonmenu", "interaction_bgd", false)
+		public UIMenu(string title, string subtitle, PointF offset, KeyValuePair<string, string> customBanner, bool glare = false) : this(title, subtitle, offset, customBanner.Key, customBanner.Value, glare)
 		{
-			BannerTexture = customBanner;
 		}
 
 
@@ -1127,9 +1126,9 @@ namespace ScaleformUI
 		/// Set the banner to your own custom texture. Set it to "" if you want to restore the banner.
 		/// </summary>
 		/// <param name="pathToCustomSprite">Path to your sprite image.</param>
-		public void SetBannerType(string pathToCustomSprite)
+		public void SetBannerType(KeyValuePair<string, string> pathToCustomSprite)
 		{
-			BannerTexture = pathToCustomSprite;
+			_customTexture = pathToCustomSprite;
 		}
 
 		/// <summary>
