@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 					await Cache.PlayerCache.Loaded();
 					Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
 					await BaseScript.Delay(100);
-					Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
+					//Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 					p.IsVisible = false;
 					p.IsPositionFrozen = true;
 					RequestCollisionAtCoord(charCreateCoords.X, charCreateCoords.Y, charCreateCoords.Z - 1);

@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 			Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
 			await BaseScript.Delay(100);
-			Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
+			//Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 			Cache.PlayerCache.MyPlayer.Ped.IsVisible = false;
 			Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
 			Camera charSelectionCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true));
