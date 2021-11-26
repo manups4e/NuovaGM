@@ -18,11 +18,19 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
 		public static void Init()
 		{
-			Client.Instance.AddTick(Entra);
+#if DEBUG
+			Client.Instance.AddTick(Entra); 
+#endif
 			Client.Instance.Events.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ModalitaServer, int>>(UpdateCountPlayers));
+            InternalGameEvents.PlayerJoined += InternalGameEvents_PlayerJoined;
 		}
 
-		private static async void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
+        private static void InternalGameEvents_PlayerJoined()
+        {
+			PlayerSpawned();
+		}
+
+        private static void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
 		{
 			MainChooser.Bucket_n_Players = count;
 		}
