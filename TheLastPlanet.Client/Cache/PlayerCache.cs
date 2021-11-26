@@ -15,10 +15,15 @@ namespace TheLastPlanet.Client.Cache
 {
 	public static class PlayerCache
 	{
+		internal static bool _inVeh;
+		private static bool _inPausa;
+
+
 		public static ClientId MyPlayer { get; private set; }
 		public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
 		public static List<ClientId> GiocatoriOnline = new();
 		public static ModalitaServer ModalitàAttuale = ModalitaServer.Lobby;
+
 
 		public static async Task InitPlayer()
 		{
@@ -46,13 +51,44 @@ namespace TheLastPlanet.Client.Cache
 
 			#region Check Veicolo
 
- 			MyPlayer.User.Status.RolePlayStates.InVeicolo = MyPlayer.Ped.IsInVehicle();
+			if (!_inVeh)
+			{
+				if (MyPlayer.Ped.IsInVehicle())
+				{
+					MyPlayer.User.Status.RolePlayStates.InVeicolo = true;
+					_inVeh = true;
+				}
+			}
+			else if(_inVeh)
+            {
+                if (!MyPlayer.Ped.IsInVehicle())
+                {
+					MyPlayer.User.Status.RolePlayStates.InVeicolo = false;
+					_inVeh = false;
+				}
+			}
 
 			#endregion
 
 			#region Check Pausa
 
-			MyPlayer.User.Status.PlayerStates.InPausa = Game.IsPaused /*|| HUD.MenuPool.IsAnyPauseMenuOpen*/;
+			//|| HUD.MenuPool.IsAnyPauseMenuOpen
+			if (!_inPausa)
+			{
+				if (Game.IsPaused)
+				{
+					_inPausa = true;
+					MyPlayer.User.Status.PlayerStates.InPausa = true;
+				}
+			}
+            else
+            {
+				if (!Game.IsPaused)
+				{
+					_inPausa = false;
+					MyPlayer.User.Status.PlayerStates.InPausa = false;
+				}
+			}
 
 			#endregion
 
