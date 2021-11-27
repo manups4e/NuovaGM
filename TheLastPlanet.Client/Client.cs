@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Impostazioni.Shared.Core;
 using Logger;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.Internal.Events;
+using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Snowflakes;
 
@@ -24,6 +26,7 @@ namespace TheLastPlanet.Client
 		public ClientGateway Events;
 		public List<ClientId> Clients = new();
 		public NuiManager NuiManager = new();
+		public StateBagsHandler StateBagsHandler;
 		public Client() { Inizializza(); }
 
 		private async void Inizializza()
@@ -41,6 +44,8 @@ namespace TheLastPlanet.Client
 			ListaPlayers.FivemPlayerlist.Init();
 			InternalGameEvents.Init();
 			ServerJoining.Init();
+			StateBagsHandler = new StateBagsHandler();
+			GestionePlayersDecors.Init();
 		}
 
 		/// <summary>
