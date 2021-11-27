@@ -33,7 +33,7 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public Status Status { get; set; }
 
 		[Ignore][JsonIgnore] public Player Player;
-		public Identifiers Identifiers { get; set; } = new();
+		public Identifiers Identifiers { get; set; } = new Identifiers();
 		
 		public List<Char_data> Characters { get; set; } = new();
 		[Ignore][JsonIgnore]
