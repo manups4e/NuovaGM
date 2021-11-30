@@ -29,8 +29,6 @@ namespace ScaleformUI
 
 		public UIMenuProgressItem(string text, int maxCount, int startIndex, string description, bool heritage = false) : this(text, maxCount, startIndex, description, HudColor.HUD_COLOUR_FREEMODE, HudColor.HUD_COLOUR_PAUSE_BG)
 		{
-			_max = maxCount;
-			_value = startIndex;
 		}
 
 		public UIMenuProgressItem(string text, int maxCount, int startIndex, string description, HudColor sliderColor, HudColor backgroundSliderColor) : base(text, description)

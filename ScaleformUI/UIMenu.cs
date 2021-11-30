@@ -1702,12 +1702,13 @@ namespace ScaleformUI
 			ScaleformMovieMethodAddParamInt(10);
 			var ret = EndScaleformMovieMethodReturnValue();
 			while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
+			var res = GetScaleformMovieFunctionReturnInt(ret);
 			switch (MenuItems[CurrentSelection])
 			{
 				case UIMenuListItem:
 					{
 						UIMenuListItem it = (UIMenuListItem)MenuItems[CurrentSelection];
-						it.Index--;
+						it.Index = res;
 						ListChange(it, it.Index);
 						it.ListChangedTrigger(it.Index);
 						break;
@@ -1715,15 +1716,22 @@ namespace ScaleformUI
 				case UIMenuSliderItem:
 					{
 						UIMenuSliderItem it = (UIMenuSliderItem)MenuItems[CurrentSelection];
-						it.Value -= it.Multiplier;
+						it.Value = res;
 						SliderChange(it, it.Value);
 						break;
 					}
 				case UIMenuProgressItem:
 					{
 						UIMenuProgressItem it = (UIMenuProgressItem)MenuItems[CurrentSelection];
-						it.Value--;
+						it.Value= res;
 						ProgressChange(it, it.Value);
+						break;
+					}
+				case UIMenuStatsItem:
+					{
+						UIMenuStatsItem it = (UIMenuStatsItem)MenuItems[CurrentSelection];
+						it.Value=res;
+						// aggiungere evento
 						break;
 					}
 			}
@@ -1735,12 +1743,13 @@ namespace ScaleformUI
 			ScaleformMovieMethodAddParamInt(11);
 			var ret = EndScaleformMovieMethodReturnValue();
 			while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
+			var res = GetScaleformMovieFunctionReturnInt(ret);
 			switch (MenuItems[CurrentSelection])
 			{
 				case UIMenuListItem:
 					{
 						UIMenuListItem it = (UIMenuListItem)MenuItems[CurrentSelection];
-						it.Index++;
+						it.Index = res;
 						ListChange(it, it.Index);
 						it.ListChangedTrigger(it.Index);
 						break;
@@ -1748,17 +1757,24 @@ namespace ScaleformUI
 				case UIMenuSliderItem:
 					{
 						UIMenuSliderItem it = (UIMenuSliderItem)MenuItems[CurrentSelection];
-						it.Value += it.Multiplier;
+						it.Value = res;
 						SliderChange(it, it.Value);
 						break;
 					}
 				case UIMenuProgressItem:
 					{
 						UIMenuProgressItem it = (UIMenuProgressItem)MenuItems[CurrentSelection];
-						it.Value++;
+						it.Value = res;
 						ProgressChange(it, it.Value);
 						break;
 					}
+				case UIMenuStatsItem:
+                    {
+						UIMenuStatsItem it = (UIMenuStatsItem)MenuItems[CurrentSelection];
+						it.Value = res;
+						// aggiungere evento
+						break;
+                    }
 			}
 		}
 
@@ -1956,7 +1972,12 @@ namespace ScaleformUI
 						break;
 					case UIMenuProgressItem:
 						UIMenuProgressItem slItem = (UIMenuProgressItem)item;
-						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", slItem._itemId, slItem.Label, slItem.Description, slItem._max, slItem._multiplier, slItem.Value, (int)slItem.MainColor, (int)slItem.HighlightColor, (int)slItem.TextColor, (int)slItem.HighlightedTextColor, (int)slItem.SliderColor, (int)slItem.BackgroundSliderColor);
+						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", slItem._itemId, slItem.Label, slItem.Description, slItem._max, slItem._multiplier, slItem.Value, (int)slItem.MainColor, (int)slItem.HighlightColor, (int)slItem.TextColor, (int)slItem.HighlightedTextColor, (int)slItem.SliderColor);
+						break;
+
+					case UIMenuStatsItem:
+						UIMenuStatsItem statsItem = (UIMenuStatsItem)item;
+						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", 5, statsItem.Label, statsItem.Description, statsItem.Value, statsItem.Type, (int)statsItem.Color);
 						break;
 					default:
 						NativeUIScaleform._nativeui.CallFunction("ADD_ITEM", item._itemId, item.Label, item.Description, (int)item.MainColor, (int)item.HighlightColor, (int)item.TextColor, (int)item.HighlightedTextColor);
