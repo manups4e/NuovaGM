@@ -14,6 +14,7 @@ using CitizenFX.Core.UI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.Cache;
 using System.Drawing;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -95,19 +96,24 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static User GetPlayerCharFromPlayerId(int id)
 		{
-			foreach (var p in Cache.PlayerCache.GiocatoriOnline)
-				if (GetPlayerFromServerId(p.Player.ServerId) == id)
-					return p.User;
-
-			return null;
+            foreach (var p in from p in PlayerCache.GiocatoriOnline where GetPlayerFromServerId(p.Player.ServerId) == id select p) return p.User;
+            return null;
 		}
 
 		public static User GetPlayerCharFromServerId(int id)
 		{
-			foreach (var p in Cache.PlayerCache.GiocatoriOnline)
-				if (p.Player.ServerId == id)
-					return p.User;
+            foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId == id select p) return p.User;
+            return null;
+		}
 
+		public static ClientId GetClientIdFromServerId(int id)
+        {
+			foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId == id select p) return p;
+			return null;
+		}
+		public static ClientId GetClientIdFromServerId(string id)
+		{
+			foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId.ToString() == id select p) return p;
 			return null;
 		}
 
@@ -923,8 +929,10 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static float Rad2deg(float rad) => rad * (180.0f / (float)Math.PI);
 		public static float Deg2rad(float deg) => deg * ((float)Math.PI / 180.0f);
 		public static float Convert180to360(float deg) => (deg + 450) % 360;
+        public static float Normalize(float value, float min, float max) => (value - min) / (max - min);
+        public static float Denormalize(float normalized, float min, float max) => (normalized * (max - min) + min);
 
-		public static Player GetPlayerFromPed(Ped ped)
+        public static Player GetPlayerFromPed(Ped ped)
 		{
 			return Client.Instance.GetPlayers.ToList().FirstOrDefault(pl => pl.Character.NetworkId == ped.NetworkId);
 		}
@@ -932,7 +940,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <summary>
 		/// Controlla distanza dal Ped del giocatore a tutti i players e ritorna il piu vicino e la sua distanza
 		/// </summary>
-		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(Cache.PlayerCache.MyPlayer.Posizione.ToVector3); }
+		public static Tuple<Player, float> GetClosestPlayer() { return GetClosestPlayer(PlayerCache.MyPlayer.Posizione.ToVector3); }
 
 		/// <summary>
 		/// Controlla la distanza tra le coordinate inserite e tutti i Players e ritorna il Player piu vicino a quelle coordinate
