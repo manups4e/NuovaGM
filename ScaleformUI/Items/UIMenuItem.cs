@@ -230,10 +230,10 @@ namespace ScaleformUI
         /// </summary>
         /// <param name="text">Button label.</param>
         /// <param name="description">Description.</param>
-        public UIMenuItem(string text, string description) : this(text, description, HudColor.HUD_COLOUR_PAUSE_BG, HudColor.HUD_COLOUR_WHITE, HudColor.NONE, HudColor.NONE) { }
+        public UIMenuItem(string text, string description) : this(text, description, HudColor.HUD_COLOUR_PAUSE_BG, HudColor.HUD_COLOUR_WHITE, HudColor.HUD_COLOUR_WHITE, HudColor.HUD_COLOUR_BLACK) { }
 
 
-        public UIMenuItem(string text, string description, HudColor mainColor, HudColor highlightColor) : this(text, description, mainColor, highlightColor, HudColor.NONE, HudColor.NONE) { }
+        public UIMenuItem(string text, string description, HudColor mainColor, HudColor highlightColor) : this(text, description, mainColor, highlightColor, HudColor.HUD_COLOUR_WHITE, HudColor.HUD_COLOUR_BLACK) { }
 
         /// <summary>
         /// Basic menu button with description and colors.

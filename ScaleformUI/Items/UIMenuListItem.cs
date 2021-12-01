@@ -65,7 +65,7 @@ namespace ScaleformUI
         {
         }
 
-        public UIMenuListItem(string text, List<dynamic> items, int index, string description, HudColor mainColor, HudColor higlightColor) : this(text, items, index, description, mainColor, higlightColor, HudColor.NONE, HudColor.NONE)
+        public UIMenuListItem(string text, List<dynamic> items, int index, string description, HudColor mainColor, HudColor higlightColor) : this(text, items, index, description, mainColor, higlightColor, HudColor.HUD_COLOUR_WHITE, HudColor.HUD_COLOUR_BLACK)
         {
         }
         

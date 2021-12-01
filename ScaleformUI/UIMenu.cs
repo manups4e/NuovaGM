@@ -1676,25 +1676,39 @@ namespace ScaleformUI
 
 		public async void GoUp()
 		{
-			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
-			BeginScaleformMovieMethod(NativeUIScaleform._nativeui.Handle, "SET_INPUT_EVENT");
-			ScaleformMovieMethodAddParamInt(8);
-			var ret = EndScaleformMovieMethodReturnValue();
-			while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
-			_activeItem = GetScaleformMovieFunctionReturnInt(ret);
-			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
-			IndexChange(CurrentSelection);
+			try
+			{
+				MenuItems[CurrentSelection].Selected = false;
+				BeginScaleformMovieMethod(NativeUIScaleform._nativeui.Handle, "SET_INPUT_EVENT");
+				ScaleformMovieMethodAddParamInt(8);
+				var ret = EndScaleformMovieMethodReturnValue();
+				while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
+				_activeItem = GetScaleformMovieFunctionReturnInt(ret);
+				MenuItems[CurrentSelection].Selected = true;
+				IndexChange(CurrentSelection);
+			}
+			catch(Exception e)
+            {
+				Debug.WriteLine(e.ToString());
+            }
 		}
 		public async void GoDown()
 		{
-			MenuItems[_activeItem % (MenuItems.Count)].Selected = false;
-			BeginScaleformMovieMethod(NativeUIScaleform._nativeui.Handle, "SET_INPUT_EVENT");
-			ScaleformMovieMethodAddParamInt(9);
-			var ret = EndScaleformMovieMethodReturnValue();
-			while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
-			_activeItem = GetScaleformMovieFunctionReturnInt(ret);
-			MenuItems[_activeItem % (MenuItems.Count)].Selected = true;
-			IndexChange(CurrentSelection);
+			try
+			{
+				MenuItems[CurrentSelection].Selected = false;
+				BeginScaleformMovieMethod(NativeUIScaleform._nativeui.Handle, "SET_INPUT_EVENT");
+				ScaleformMovieMethodAddParamInt(9);
+				var ret = EndScaleformMovieMethodReturnValue();
+				while (!IsScaleformMovieMethodReturnValueReady(ret)) await BaseScript.Delay(0);
+				_activeItem = GetScaleformMovieFunctionReturnInt(ret);
+				MenuItems[CurrentSelection].Selected = true;
+				IndexChange(CurrentSelection);
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.ToString());
+			}
 		}
 		public async void GoLeft()
 		{
