@@ -403,8 +403,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
             RequestModel(hash);
             while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
             SetPlayerModel(PlayerId(), hash);
-            UpdateFace(PlayerPedId(), plpl.Skin);
-            UpdateDress(PlayerPedId(), plpl.Dressing);
+            UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, plpl.Skin);
+            UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, plpl.Dressing);
         }
 
         #region Creazione
@@ -429,8 +429,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                 while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
                 sub_8d2b2();
                 Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("CreazionePersonaggio");
-                _dataMaschio = new FreeRoamChar(SnowflakeGenerator.Instance.Next().ToInt64(),new Finance(1000,3000,0),new Gang("Incensurato", 0),new Skin("Maschio", "mp_m_freemode_01", 0, GetRandomFloatInRange(.5f,1f),new Face(0,0,new float[20] { Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1) }),new A2(GetRandomIntInRange(0, Ageing.Count),GetRandomFloatInRange(0f,1f)),new A2(255,0f),new A2(GetRandomIntInRange(0,blemishes.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Complexions.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Danni_Pelle.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Nei_e_Porri.Count),GetRandomFloatInRange(0f,1f)),new A3(255,0f,new int[2] { 0,0 }),new A3(255,0f,new int[2] { 0,0 }),new Facial(new A3(GetRandomIntInRange(0,Beards.Count),GetRandomFloatInRange(0f,1f),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) }),new A3(GetRandomIntInRange(0,eyebrow.Count),GetRandomFloatInRange(0f,1f),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) })),new Hair(GetRandomIntInRange(0,HairUomo.Count),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) }),new Eye(GetRandomIntInRange(0,Colore_Occhi.Count)),new Ears(255,0)),new Dressing("Iniziale","Per cominciare",new ComponentDrawables(-1,0,GetPedDrawableVariation(PlayerPedId(),2),0,0,-1,15,0,15,0,0,56),new ComponentDrawables(-1,0,GetPedTextureVariation(PlayerPedId(),2),0,4,-1,14,0,0,0,0,0),new PropIndices(-1,GetPedPropIndex(PlayerPedId(),2),-1,-1,-1,-1,-1,-1,-1),new PropIndices(-1,GetPedPropTextureIndex(PlayerPedId(),2),-1,-1,-1,-1,-1,-1,-1)),new List<Weapons>(),new FreeRoamStats());
-                _dataFemmina = new FreeRoamChar(SnowflakeGenerator.Instance.Next().ToInt64(), new Finance(1000, 3000, 0), new Gang("Incensurato", 0), new Skin("Femmina", "mp_f_freemode_01", 0, GetRandomFloatInRange(.5f, 1f), new Face(21, 0, new float[20] { Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(PlayerPedId(), 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(PlayerPedId(), 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(PlayerPedId(), 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new FreeRoamStats());
+                _dataMaschio = new FreeRoamChar(SnowflakeGenerator.Instance.Next().ToInt64(),new Finance(1000,3000,0),new Gang("Incensurato", 0),new Skin("Maschio", "mp_m_freemode_01", 0, GetRandomFloatInRange(.5f,1f),new Face(0,0,new float[20] { Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1) }),new A2(GetRandomIntInRange(0, Ageing.Count),GetRandomFloatInRange(0f,1f)),new A2(255,0f),new A2(GetRandomIntInRange(0,blemishes.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Complexions.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Danni_Pelle.Count),GetRandomFloatInRange(0f,1f)),new A2(GetRandomIntInRange(0,Nei_e_Porri.Count),GetRandomFloatInRange(0f,1f)),new A3(255,0f,new int[2] { 0,0 }),new A3(255,0f,new int[2] { 0,0 }),new Facial(new A3(GetRandomIntInRange(0,Beards.Count),GetRandomFloatInRange(0f,1f),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) }),new A3(GetRandomIntInRange(0,eyebrow.Count),GetRandomFloatInRange(0f,1f),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) })),new Hair(GetRandomIntInRange(0,HairUomo.Count),new int[2] { GetRandomIntInRange(0,63),GetRandomIntInRange(0,63) }),new Eye(GetRandomIntInRange(0,Colore_Occhi.Count)),new Ears(255,0)),new Dressing("Iniziale","Per cominciare",new ComponentDrawables(-1,0,GetPedDrawableVariation(Cache.PlayerCache.MyPlayer.Ped.Handle,2),0,0,-1,15,0,15,0,0,56),new ComponentDrawables(-1,0,GetPedTextureVariation(Cache.PlayerCache.MyPlayer.Ped.Handle,2),0,4,-1,14,0,0,0,0,0),new PropIndices(-1,GetPedPropIndex(Cache.PlayerCache.MyPlayer.Ped.Handle,2),-1,-1,-1,-1,-1,-1,-1),new PropIndices(-1,GetPedPropTextureIndex(Cache.PlayerCache.MyPlayer.Ped.Handle,2),-1,-1,-1,-1,-1,-1,-1)),new List<Weapons>(),new FreeRoamStats());
+                _dataFemmina = new FreeRoamChar(SnowflakeGenerator.Instance.Next().ToInt64(), new Finance(1000, 3000, 0), new Gang("Incensurato", 0), new Skin("Femmina", "mp_f_freemode_01", 0, GetRandomFloatInRange(.5f, 1f), new Face(21, 0, new float[20] { Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1), Funzioni.Normalize(0f, -1, 1) }), new A2(GetRandomIntInRange(0, Ageing.Count), GetRandomFloatInRange(0f, 1f)), new A2(255, 0f), new A2(GetRandomIntInRange(0, blemishes.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Complexions.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Danni_Pelle.Count), GetRandomFloatInRange(0f, 1f)), new A2(GetRandomIntInRange(0, Nei_e_Porri.Count), GetRandomFloatInRange(0f, 1f)), new A3(255, 0f, new int[2] { 0, 0 }), new A3(255, 0f, new int[2] { 0, 0 }), new Facial(new A3(255, 0f, new int[2] { 0, 0 }), new A3(GetRandomIntInRange(0, eyebrow.Count), GetRandomFloatInRange(0f, 1f), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) })), new Hair(GetRandomIntInRange(0, HairUomo.Count), new int[2] { GetRandomIntInRange(0, 63), GetRandomIntInRange(0, 63) }), new Eye(GetRandomIntInRange(0, Colore_Occhi.Count)), new Ears(255, 0)), new Dressing("Iniziale", "Per cominciare", new ComponentDrawables(-1, 0, GetPedDrawableVariation(Cache.PlayerCache.MyPlayer.Ped.Handle, 2), 0, 0, -1, 15, 0, 15, 0, 0, 56), new ComponentDrawables(-1, 0, GetPedTextureVariation(Cache.PlayerCache.MyPlayer.Ped.Handle, 2), 0, 4, -1, 14, 0, 0, 0, 0, 0), new PropIndices(-1, GetPedPropIndex(Cache.PlayerCache.MyPlayer.Ped.Handle, 2), -1, -1, -1, -1, -1, -1, -1), new PropIndices(-1, GetPedPropTextureIndex(Cache.PlayerCache.MyPlayer.Ped.Handle, 2), -1, -1, -1, -1, -1, -1, -1)), new List<Weapons>(), new FreeRoamStats());
                 _data = _selezionato.ToLower() == "maschio" ? _dataMaschio : _dataFemmina;
                 AggiornaModel(_data.ToJson());
                 await BaseScript.Delay(1000);
@@ -440,7 +440,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                 Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
                 Cache.PlayerCache.MyPlayer.Ped.BlockPermanentEvents = true;
                 ped_cre_board(_data);
-                TaskWalkInToRoom(Cache.PlayerCache.MyPlayer.Ped, _selezionato == "Maschio" ? sub_7dd83(1, 0, "Maschio") : sub_7dd83(1, 0, "Femmina"));
+                await TaskWalkInToRoom(Cache.PlayerCache.MyPlayer.Ped, _selezionato == "Maschio" ? sub_7dd83(1, 0, "Maschio") : sub_7dd83(1, 0, "Femmina"));
                 await BaseScript.Delay(2000);
                 RenderScriptCams(true, true, 0, false, false);
                 cam2.Delete();
@@ -519,7 +519,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                 UIMenuListItem Sesso;
                 Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
                 Creazione.AddItem(Sesso);
-                Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
+                Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), "~INPUT_CONTEXT~ " + GetLabelText("FACE_MM_H3"));
                 Genitori.ControlDisablingEnabled = true;
                 Dettagli = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_FEAT"), GetLabelText("FACE_MM_H4"));
                 Dettagli.ControlDisablingEnabled = true;
@@ -565,30 +565,32 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
 
                 #region Dettagli
 
-                _arcSopr = new UIMenuListItem("Arcate Sopraccigliari", _arcSop, 0);
-                _occhi = new UIMenuListItem("Occhi", _occ, 0, "Guarda bene le palpebre!");
-                _naso = new UIMenuListItem("Naso", _nas, 0);
-                _nasoPro = new UIMenuListItem("Profilo del Naso", new List<dynamic>() { "Standard", "Breve", "Lungo" }, 0);
-                _nasoPun = new UIMenuListItem("Punta del Naso", new List<dynamic>() { "Standard", "Punta su", "Punta giù" }, 0);
-                _zigo = new UIMenuListItem("Zigomi", new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
-                _guance = new UIMenuListItem("Guance", new List<dynamic>() { "Standard", "Magre", "Paffute" }, 0);
-                _labbra = new UIMenuListItem("Labbra", new List<dynamic>() { "Standard", "Sottili", "Carnose" }, 0);
-                _masce = new UIMenuListItem("Mascella", new List<dynamic>() { "Standard", "Stretta", "Larga" }, 0);
-                _mentoPro = new UIMenuListItem("Profilo del mento", new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
-                _mentoFor = new UIMenuListItem("Forma del mento", new List<dynamic>() { "Standard", "Squadrato", "A punta" }, 0);
+                _arcSopr = new UIMenuListItem(GetLabelText("FACE_F_BROW"), _arcSop, 0);
+                _occhi = new UIMenuListItem(GetLabelText("FACE_F_EYES"), _occ, 0, "Guarda bene le palpebre!");
+                _naso = new UIMenuListItem(GetLabelText("FACE_F_NOSE"), _nas, 0);
+                _nasoPro = new UIMenuListItem(GetLabelText("FACE_F_NOSEP"), new List<dynamic>() { "Standard", "Breve", "Lungo" }, 0);
+                _nasoPun = new UIMenuListItem(GetLabelText("FACE_F_NOSET"), new List<dynamic>() { "Standard", "Punta su", "Punta giù" }, 0);
+                _zigo = new UIMenuListItem(GetLabelText("FACE_F_CHEEK"), new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
+                _guance = new UIMenuListItem(GetLabelText("FACE_F_CHEEKS"), new List<dynamic>() { "Standard", "Magre", "Paffute" }, 0);
+                _labbra = new UIMenuListItem(GetLabelText("FACE_F_LIPS"), new List<dynamic>() { "Standard", "Sottili", "Carnose" }, 0);
+                _masce = new UIMenuListItem(GetLabelText("FACE_F_JAW"), new List<dynamic>() { "Standard", "Stretta", "Larga" }, 0);
+                _mentoPro = new UIMenuListItem(GetLabelText("FACE_F_CHIN"), new List<dynamic>() { "Standard", "In dentro", "In fuori" }, 0);
+                _mentoFor = new UIMenuListItem(GetLabelText("FACE_F_CHINS"), new List<dynamic>() { "Standard", "Squadrato", "A punta" }, 0);
                 _collo = new UIMenuListItem("Collo", new List<dynamic>() { "Standard", "Stretto", "Largo" }, 0);
-                UIMenuGridPanel GridSopr = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[7], _data.Skin.face.tratti[6]));
-                UIMenuGridPanel GridOcch = new UIMenuGridPanel("Stretti", "Grandi", new PointF(_data.Skin.face.tratti[11], 0));
-                UIMenuGridPanel GridNaso = new UIMenuGridPanel("Su", "Stretto", "Largo", "Giù", new PointF(_data.Skin.face.tratti[0], _data.Skin.face.tratti[1]));
-                UIMenuGridPanel GridNasoPro = new UIMenuGridPanel("Convesso", "Breve", "Lungo", "Infossato", new PointF(_data.Skin.face.tratti[2], _data.Skin.face.tratti[3]));
-                UIMenuGridPanel GridNasoPun = new UIMenuGridPanel("Punta in su", "Rotta SX", "Rotta DX", "Punta in giù", new PointF(_data.Skin.face.tratti[5], _data.Skin.face.tratti[4]));
-                UIMenuGridPanel GridZigo = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[9], _data.Skin.face.tratti[8]));
-                UIMenuGridPanel GridGuance = new UIMenuGridPanel("Magre", "Paffute", new PointF(_data.Skin.face.tratti[10], 0));
-                UIMenuGridPanel GridLabbra = new UIMenuGridPanel("Sottili", "Carnose", new PointF(_data.Skin.face.tratti[12], 0));
-                UIMenuGridPanel GridMasce = new UIMenuGridPanel("Arrotondata", "Stretta", "Larga", "Squadrata", new PointF(_data.Skin.face.tratti[13], _data.Skin.face.tratti[14]));
-                UIMenuGridPanel GridMentoPro = new UIMenuGridPanel("Su", "In dentro", "In fuori", "Giù", new PointF(_data.Skin.face.tratti[16], _data.Skin.face.tratti[15]));
-                UIMenuGridPanel GridMentoFor = new UIMenuGridPanel("Arrotondato", "Squadrato", "A punta", "Fossetta", new PointF(_data.Skin.face.tratti[18], _data.Skin.face.tratti[17]));
-                UIMenuGridPanel GridCollo = new UIMenuGridPanel("Stretto", "Largo", new PointF(_data.Skin.face.tratti[19], 0));
+
+                UIMenuGridPanel GridSopr = new(GetLabelText("FACE_F_UP_B"), GetLabelText("FACE_F_IN_B"), GetLabelText("FACE_F_OUT_B"), GetLabelText("FACE_F_DOWN_B"), new PointF(_data.Skin.face.tratti[7], _data.Skin.face.tratti[6]));
+                UIMenuGridPanel GridOcch = new(GetLabelText("FACE_F_SQUINT"), GetLabelText("FACE_F_WIDE_E"), new PointF(_data.Skin.face.tratti[11], 0));
+                UIMenuGridPanel GridNaso = new(GetLabelText("FACE_F_UP_N"), GetLabelText("FACE_F_NAR_N"), GetLabelText("FACE_F_WIDE_N"), GetLabelText("FACE_F_DOWN_N"), new PointF(_data.Skin.face.tratti[0], _data.Skin.face.tratti[1]));
+                UIMenuGridPanel GridNasoPro = new(GetLabelText("FACE_F_CROOK"), GetLabelText("FACE_F_SHORT"), GetLabelText("FACE_F_LONG"), GetLabelText("FACE_F_CURV"), new PointF(_data.Skin.face.tratti[2], _data.Skin.face.tratti[3]));
+                UIMenuGridPanel GridNasoPun = new(GetLabelText("FACE_F_TIPU"), GetLabelText("FACE_F_BRL"), GetLabelText("FACE_F_BRR"), GetLabelText("FACE_F_TIPD"), new PointF(_data.Skin.face.tratti[5], _data.Skin.face.tratti[4]));
+                UIMenuGridPanel GridZigo = new(GetLabelText("FACE_F_UP_CHEE"), GetLabelText("FACE_F_IN_C"), GetLabelText("FACE_F_OUT_C"), GetLabelText("FACE_F_DOWN_C"), new PointF(_data.Skin.face.tratti[9], _data.Skin.face.tratti[8]));
+                UIMenuGridPanel GridGuance = new(GetLabelText("FACE_F_GAUNT"), GetLabelText("FACE_F_PUFF"), new PointF(_data.Skin.face.tratti[10], 0));
+                UIMenuGridPanel GridLabbra = new(GetLabelText("FACE_F_THIN"), GetLabelText("FACE_F_FAT"), new PointF(_data.Skin.face.tratti[12], 0));
+                UIMenuGridPanel GridMasce = new(GetLabelText("FACE_F_RND"), GetLabelText("FACE_F_NAR_J"), GetLabelText("FACE_F_WIDE_J"), GetLabelText("FACE_F_SQ_J"), new PointF(_data.Skin.face.tratti[13], _data.Skin.face.tratti[14]));
+                UIMenuGridPanel GridMentoPro = new(GetLabelText("FACE_F_UP_CHIN"), GetLabelText("FACE_F_IN_CH"), GetLabelText("FACE_F_OUT_CH"), GetLabelText("FACE_F_DOWN_CH"), new PointF(_data.Skin.face.tratti[16], _data.Skin.face.tratti[15]));
+                UIMenuGridPanel GridMentoFor = new(GetLabelText("FACE_F_RDD"), GetLabelText("FACE_F_SQ_CH"), GetLabelText("FACE_F_PTD"), GetLabelText("FACE_F_BUM"), new PointF(_data.Skin.face.tratti[18], _data.Skin.face.tratti[17]));
+                UIMenuGridPanel GridCollo = new("Stretto", "Largo", new PointF(_data.Skin.face.tratti[19], 0));
+
                 _arcSopr.AddPanel(GridSopr);
                 _occhi.AddPanel(GridOcch);
                 _naso.AddPanel(GridNaso);
@@ -618,44 +620,44 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
 
                 #region Apparenze
 
-                UIMenuListItem Capelli = new UIMenuListItem("", HairUomo, _data.Skin.hair.style);
-                UIMenuListItem sopracciglia = new UIMenuListItem(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.Skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuColorPanel soprCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
-                UIMenuColorPanel soprCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
-                UIMenuPercentagePanel soprOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem Capelli = new("", HairUomo, _data.Skin.hair.style);
+                UIMenuListItem sopracciglia = new(GetLabelText("FACE_F_EYEBR"), eyebrow, _data.Skin.facialHair.eyebrow.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuColorPanel soprCol1 = new("Colore principale", ColorPanelType.Hair);
+                UIMenuColorPanel soprCol2 = new("Colore secondario", ColorPanelType.Hair);
+                UIMenuPercentagePanel soprOp = new("Opacità", "0%", "100%");
                 sopracciglia.AddPanel(soprCol1);
                 sopracciglia.AddPanel(soprCol2);
                 sopracciglia.AddPanel(soprOp);
-                UIMenuListItem Barba = new UIMenuListItem(GetLabelText("FACE_F_BEARD"), Beards, _data.Skin.facialHair.beard.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuColorPanel BarbaCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Hair);
-                UIMenuColorPanel BarbaCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Hair);
-                UIMenuPercentagePanel BarbaOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem Barba = new(GetLabelText("FACE_F_BEARD"), Beards, _data.Skin.facialHair.beard.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuColorPanel BarbaCol1 = new("Colore principale", ColorPanelType.Hair);
+                UIMenuColorPanel BarbaCol2 = new("Colore secondario", ColorPanelType.Hair);
+                UIMenuPercentagePanel BarbaOp = new("Opacità", "0%", "100%");
                 Barba.AddPanel(BarbaCol1);
                 Barba.AddPanel(BarbaCol2);
                 Barba.AddPanel(BarbaOp);
-                UIMenuListItem SkinBlemishes = new UIMenuListItem(GetLabelText("FACE_F_SKINB"), blemishes, _data.Skin.blemishes.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel BlemOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem SkinBlemishes = new(GetLabelText("FACE_F_SKINB"), blemishes, _data.Skin.blemishes.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel BlemOp = new("Opacità", "0%", "100%");
                 SkinBlemishes.AddPanel(BlemOp);
-                UIMenuListItem SkinAgeing = new UIMenuListItem(GetLabelText("FACE_F_SKINA"), Ageing, _data.Skin.ageing.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel AgeOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem SkinAgeing = new(GetLabelText("FACE_F_SKINA"), Ageing, _data.Skin.ageing.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel AgeOp = new("Opacità", "0%", "100%");
                 SkinAgeing.AddPanel(AgeOp);
-                UIMenuListItem SkinComplexion = new UIMenuListItem(GetLabelText("FACE_F_SKC"), Complexions, _data.Skin.complexion.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel CompOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem SkinComplexion = new(GetLabelText("FACE_F_SKC"), Complexions, _data.Skin.complexion.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel CompOp = new("Opacità", "0%", "100%");
                 SkinComplexion.AddPanel(CompOp);
-                UIMenuListItem SkinMoles = new UIMenuListItem(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.Skin.freckles.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel FrecOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem SkinMoles = new(GetLabelText("FACE_F_MOLE"), Nei_e_Porri, _data.Skin.freckles.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel FrecOp = new("Opacità", "0%", "100%");
                 SkinMoles.AddPanel(FrecOp);
-                UIMenuListItem SkinDamage = new UIMenuListItem(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.Skin.skinDamage.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel DamageOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem SkinDamage = new(GetLabelText("FACE_F_SUND"), Danni_Pelle, _data.Skin.skinDamage.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel DamageOp = new("Opacità", "0%", "100%");
                 SkinDamage.AddPanel(DamageOp);
-                UIMenuListItem EyeColor = new UIMenuListItem(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.Skin.eye.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuListItem EyeMakup = new UIMenuListItem(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.Skin.makeup.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuPercentagePanel MakupOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem EyeColor = new(GetLabelText("FACE_APP_EYE"), Colore_Occhi, _data.Skin.eye.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuListItem EyeMakup = new(GetLabelText("FACE_F_EYEM"), Trucco_Occhi, _data.Skin.makeup.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuPercentagePanel MakupOp = new("Opacità", "0%", "100%");
                 EyeMakup.AddPanel(MakupOp);
-                UIMenuListItem Blusher = new UIMenuListItem(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.Skin.blusher.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
-                UIMenuColorPanel BlushCol1 = new UIMenuColorPanel("Colore principale", ColorPanelType.Makeup);
-                UIMenuColorPanel BlushCol2 = new UIMenuColorPanel("Colore secondario", ColorPanelType.Makeup);
-                UIMenuPercentagePanel BlushOp = new UIMenuPercentagePanel("Opacità", "0%", "100%");
+                UIMenuListItem Blusher = new(GetLabelText("FACE_F_BLUSH"), BlusherDonna, _data.Skin.blusher.style, "Modifica il tuo aspetto, usa il ~y~mouse~w~ per modificare i pannelli");
+                UIMenuColorPanel BlushCol1 = new("Colore principale", ColorPanelType.Makeup);
+                UIMenuColorPanel BlushCol2 = new("Colore secondario", ColorPanelType.Makeup);
+                UIMenuPercentagePanel BlushOp = new("Opacità", "0%", "100%");
                 Blusher.AddPanel(BlushCol1);
                 Blusher.AddPanel(BlushCol2);
                 Blusher.AddPanel(BlushOp);
@@ -689,6 +691,32 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                 Statistiche.AddItem(flying);
                 Statistiche.AddItem(driving);
                 Statistiche.AddItem(lungs);
+
+                #endregion
+
+                #region VESTITI
+                var styleList = new List<dynamic>();
+                for (int i = 0; i < 8; i++)styleList.Add(GetLabelText("FACE_A_STY_" + i));
+
+                var outfitList = new List<dynamic>();
+                for (int i = 0; i < 8; i++) outfitList.Add(GetLabelText(getOutfit(i, _selezionato == "Maschio")));
+
+                var hatList = new List<dynamic>() { GetLabelText("FACE_OFF") };
+
+                var glassesList = new List<dynamic>() { GetLabelText("FACE_OFF") };
+
+
+                UIMenuListItem stile = new(GetLabelText("FACE_APP_STY"), styleList, 0, GetLabelText("FACE_APPA_H"));
+                UIMenuListItem outfit = new(GetLabelText("FACE_APP_OUT"), outfitList, 0, GetLabelText("FACE_APPA_H"));
+
+                UIMenuListItem hat = new(GetLabelText("FACE_HAT"), hatList, 0, GetLabelText("FACE_APPA_H"));
+                UIMenuListItem glasses = new(GetLabelText("FACE_GLS"), glassesList, 0, GetLabelText("FACE_APPA_H"));
+
+                //UIMenuListItem outfit = new UIMenuListItem(GetLabelText("FACE_APP_OUT"));
+                Apparel.AddItem(stile);
+                Apparel.AddItem(outfit);
+                Apparel.AddItem(hat);
+                Apparel.AddItem(glasses);
 
                 #endregion
 
@@ -754,7 +782,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         _dataMaschio = _data;
                     else
                         _dataFemmina = _data;
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
                 Genitori.OnSliderChange += async (_sender, _item, _newIndex) =>
                 {
@@ -766,7 +794,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         _dataMaschio = _data;
                     else
                         _dataFemmina = _data;
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
 
                 #endregion
@@ -809,7 +837,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         else if (b == a.Panels[1])
                             _data.Skin.lipstick.color[1] = c;
                     }
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
                 Apparenze.OnPercentagePanelChange += (a, b, c) =>
                 {
@@ -865,7 +893,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         if (b == a.Panels[0])
                             _data.Skin.makeup.opacity = perc;
                     }
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
 
                 Apparenze.OnListChange += async (_sender, _listItem, _newIndex) =>
@@ -905,7 +933,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                     else if (_listItem == EyeMakup)
                         _data.Skin.makeup.style = (string)_listItem.Items[_newIndex] == GetLabelText("FACE_F_P_OFF") ? 255 : _newIndex - 1;
 
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
 
                 #endregion
@@ -984,7 +1012,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         _data.Skin.face.tratti[17] = Funzioni.Denormalize(-c.X, -1f, 1f);
                         _data.Skin.face.tratti[18] = Funzioni.Denormalize(c.Y, -1f, 1f);
                     }
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
 
                 Dettagli.OnListChange += async (_sender, _listItem, _newIndex) =>
@@ -1325,15 +1353,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         _data.Skin.face.tratti[17] = Funzioni.Denormalize(var.Y, -1, 1);
                     }
 
-                    UpdateFace(PlayerPedId(), _data.Skin);
+                    UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Skin);
                 };
 
                 #endregion
 
                 #region VESTITI
 
-                Apparel.OnIndexChange += async (sender, index) =>
+                Apparel.OnListChange += async (sender, item, index) =>
                 {
+                    if (item == stile)
+                    {
+                        List<dynamic> list = new();
+                        for(int i=0+index; i<8+index; i++)
+                            list.Add(GetLabelText(getOutfit(i, _selezionato == "Maschio")));
+                        outfit.ChangeList(list, 0);
+                    }
+                    /*
                     if (_data.Skin.sex == "Maschio")
                     {
                         Dressing dress = new Dressing(CompletiMaschio[index].Name, CompletiMaschio[index].Description, CompletiMaschio[index].ComponentDrawables, CompletiMaschio[index].ComponentTextures, CompletiMaschio[index].PropIndices, CompletiMaschio[index].PropTextures);
@@ -1347,8 +1383,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                         _dataFemmina = _data;
                     }
 
-                    UpdateDress(PlayerPedId(), _data.Dressing);
+                    UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Dressing);
                     TaskProvaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.sex));
+                    */
                 };
 
                 #endregion
@@ -1445,27 +1482,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                                 else if (_newMenu == Apparel)
                                 {
                                     TaskCreaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
-
-                                    if (_selezionato == "Maschio")
-                                    {
-                                        for (int i = 0; i < CompletiMaschio.Count; i++)
-                                        {
-                                            UIMenuItem abito = new UIMenuItem(CompletiMaschio[i].Name, CompletiMaschio[i].Description);
-                                            Apparel.AddItem(abito);
-                                        }
-
-                                        UpdateDress(PlayerPedId(), CompletiMaschio[0]);
-                                    }
-                                    else
-                                    {
-                                        for (int i = 0; i < CompletiFemmina.Count; i++)
-                                        {
-                                            UIMenuItem abito = new UIMenuItem(CompletiFemmina[i].Name, CompletiFemmina[i].Description);
-                                            Apparel.AddItem(abito);
-                                        }
-
-                                        UpdateDress(PlayerPedId(), CompletiFemmina[0]);
-                                    }
+                                    //UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, CompletiFemmina[0]);
                                 }
 
                                 break;
@@ -1478,7 +1495,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
                             {
                                 if (_oldMenu == Apparel)
                                 {
-                                    Apparel.Clear();
                                     TaskClothesALoop(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _selezionato));
                                 }
 
@@ -2456,10 +2472,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
         {
             int sequence = 0;
             OpenSequenceTask(ref sequence);
-            TaskPlayAnim(PlayerPedId(), sub_7dd83(1, 0, _selezionato), "react_light", 8.0f, -8.0f, -1, 512, 0, false, false, false);
-            TaskPlayAnim(PlayerPedId(), sub_7dd83(1, 0, _selezionato), "Loop", 8.0f, -8.0f, -1, 513, 0, false, false, false);
+            TaskPlayAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, sub_7dd83(1, 0, _selezionato), "react_light", 8.0f, -8.0f, -1, 512, 0, false, false, false);
+            TaskPlayAnim(Cache.PlayerCache.MyPlayer.Ped.Handle, sub_7dd83(1, 0, _selezionato), "Loop", 8.0f, -8.0f, -1, 513, 0, false, false, false);
             CloseSequenceTask(sequence);
-            TaskPerformSequence(PlayerPedId(), sequence);
+            TaskPerformSequence(Cache.PlayerCache.MyPlayer.Ped.Handle, sequence);
             ClearSequenceTask(ref sequence);
         }
 
@@ -2496,6 +2512,334 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
             TaskPerformSequence(p.Handle, sequence);
             ClearSequenceTask(ref sequence);
             await Task.FromResult(0);
+        }
+
+        static string getOutfit(int iParam0, bool bParam1)
+        {
+            switch (iParam0)
+            {
+                case 0:
+                    if (bParam1)
+                        return "FACE_O_M_STR0";
+                    else
+                        return "FACE_O_F_STR0";
+                case 1:
+                    if (bParam1)
+                        return "FACE_O_M_STR1";
+                    else
+                        return "FACE_O_F_STR1";
+                case 2:
+                    if (bParam1)
+                        return "FACE_O_M_STR2";
+                    else
+                        return "FACE_O_F_STR2";
+                case 3:
+                    if (bParam1)
+                        return "FACE_O_M_STR3";
+                    else
+                        return "FACE_O_F_STR3";
+                case 4:
+                    if (bParam1)
+                        return "FACE_O_M_STR4";
+                    else
+                        return "FACE_O_F_STR4";
+                case 5:
+                    if (bParam1)
+                        return "FACE_O_M_STR5";
+                    else
+                        return "FACE_O_F_STR5";
+                case 6:
+                    if (bParam1)
+                        return "FACE_O_M_STR6";
+                    else
+                        return "FACE_O_F_STR6";
+                case 7:
+                    if (bParam1)
+                        return "FACE_O_M_STR7";
+                    else
+                        return "FACE_O_F_STR7";
+                case 8:
+                    if (bParam1)
+                        return "FACE_O_M_FLS0";
+                    else
+                        return "FACE_O_F_FLS0";
+                case 9:
+                    if (bParam1)
+                        return "FACE_O_M_FLS1";
+                    else
+                        return "FACE_O_F_FLS1";
+                case 10:
+                    if (bParam1)
+                        return "FACE_O_M_FLS2";
+                    else
+                        return "FACE_O_F_FLS2";
+                case 11:
+                    if (bParam1)
+                        return "FACE_O_M_FLS3";
+                    else
+                        return "FACE_O_F_FLS3";
+                case 12:
+                    if (bParam1)
+                        return "FACE_O_M_FLS4";
+                    else
+                        return "FACE_O_F_FLS4";
+                case 13:
+                    if (bParam1)
+                        return "FACE_O_M_FLS5";
+                    else
+                        return "FACE_O_F_FLS5";
+                case 14:
+                    if (bParam1)
+                        return "FACE_O_M_FLS7";
+                    else
+                        return "FACE_O_F_FLS6";
+                case 15:
+                    if (bParam1)
+                        return "FACE_O_M_FLS6";
+                    else
+                        return "FACE_O_F_FLS7";
+                case 16:
+                    if (bParam1)
+                        return "FACE_O_M_PAR0";
+                    else
+                        return "FACE_O_F_PAR0";
+                case 17:
+                    if (bParam1)
+                        return "FACE_O_M_PAR1";
+                    else
+                        return "FACE_O_F_PAR1";
+                case 18:
+                    if (bParam1)
+                        return "FACE_O_M_PAR2";
+                    else
+                        return "FACE_O_F_PAR2";
+                case 19:
+                    if (bParam1)
+                        return "FACE_O_M_PAR3";
+                    else
+                        return "FACE_O_F_PAR3";
+                case 20:
+                    if (bParam1)
+                        return "FACE_O_M_PAR4";
+                    else
+                        return "FACE_O_F_PAR4";
+                case 21:
+                    if (bParam1)
+                        return "FACE_O_M_PAR5";
+                    else
+                        return "FACE_O_F_PAR5";
+                case 22:
+                    if (bParam1)
+                        return "FACE_O_M_PAR6";
+                    else
+                        return "FACE_O_F_PAR6";
+                case 23:
+                    if (bParam1)
+                        return "FACE_O_M_PAR7";
+                    else
+                        return "FACE_O_F_PAR7";
+                case 24:
+                    if (bParam1)
+                        return "FACE_O_M_BEA0";
+                    else
+                        return "FACE_O_F_BEA0";
+                case 25:
+                    if (bParam1)
+                        return "FACE_O_M_BEA1";
+                    else
+                        return "FACE_O_F_BEA1";
+                case 26:
+                    if (bParam1)
+                        return "FACE_O_M_BEA2";
+                    else
+                        return "FACE_O_F_BEA2";
+                case 27:
+                    if (bParam1)
+                        return "FACE_O_M_BEA3";
+                    else
+                        return "FACE_O_F_BEA3";
+                case 28:
+                    if (bParam1)
+                        return "FACE_O_M_BEA4";
+                    else
+                        return "FACE_O_F_BEA4";
+                case 29:
+                    if (bParam1)
+                        return "FACE_O_M_BEA5";
+                    else
+                        return "FACE_O_F_BEA5";
+                case 30:
+                    if (bParam1)
+                        return "FACE_O_M_BEA6";
+                    else
+                        return "FACE_O_F_BEA6";
+                case 31:
+                    if (bParam1)
+                        return "FACE_O_M_BEA7";
+                    else
+                        return "FACE_O_F_BEA7";
+                case 32:
+                    if (bParam1)
+                        return "FACE_O_M_SMA0";
+                    else
+                        return "FACE_O_F_SMA0";
+                case 33:
+                    if (bParam1)
+                        return "FACE_O_M_SMA1";
+                    else
+                        return "FACE_O_F_SMA1";
+                case 34:
+                    if (bParam1)
+                        return "FACE_O_M_SMA2";
+                    else
+                        return "FACE_O_F_SMA2";
+                case 35:
+                    if (bParam1)
+                        return "FACE_O_M_SMA3";
+                    else
+                        return "FACE_O_F_SMA3";
+                case 36:
+                    if (bParam1)
+                        return "FACE_O_M_SMA4";
+                    else
+                        return "FACE_O_F_SMA4";
+                case 37:
+                    if (bParam1)
+                        return "FACE_O_M_SMA5";
+                    else
+                        return "FACE_O_F_SMA5";
+                case 38:
+                    if (bParam1)
+                        return "FACE_O_M_SMA6";
+                    else
+                        return "FACE_O_F_SMA6";
+                case 39:
+                    if (bParam1)
+                        return "FACE_O_M_SMA7";
+                    else
+                        return "FACE_O_F_SMA7";
+                case 40:
+                    if (bParam1)
+                        return "FACE_O_M_SPO0";
+                    else
+                        return "FACE_O_F_SPO0";
+                case 41:
+                    if (bParam1)
+                        return "FACE_O_M_SPO1";
+                    else
+                        return "FACE_O_F_SPO1";
+                case 42:
+                    if (bParam1)
+                        return "FACE_O_M_SPO2";
+                    else
+                        return "FACE_O_F_SPO2";
+                case 43:
+                    if (bParam1)
+                        return "FACE_O_M_SPO3";
+                    else
+                        return "FACE_O_F_SPO3";
+                case 44:
+                    if (bParam1)
+                        return "FACE_O_M_SPO4";
+                    else
+                        return "FACE_O_F_SPO4";
+                case 45:
+                    if (bParam1)
+                        return "FACE_O_M_SPO5";
+                    else
+                        return "FACE_O_F_SPO5";
+                case 46:
+                    if (bParam1)
+                        return "FACE_O_M_SPO6";
+                    else
+                        return "FACE_O_F_SPO6";
+                case 47:
+                    if (bParam1)
+                        return "FACE_O_M_SPO7";
+                    else
+                        return "FACE_O_F_SPO7";
+                case 48:
+                    if (bParam1)
+                        return "FACE_O_M_ECC0";
+                    else
+                        return "FACE_O_F_ECC0";
+                case 49:
+                    if (bParam1)
+                        return "FACE_O_M_ECC1";
+                    else
+                        return "FACE_O_F_ECC1";
+                case 50:
+                    if (bParam1)
+                        return "FACE_O_M_ECC2";
+                    else
+                        return "FACE_O_F_ECC2";
+                case 51:
+                    if (bParam1)
+                        return "FACE_O_M_ECC3";
+                    else
+                        return "FACE_O_F_ECC3";
+                case 52:
+                    if (bParam1)
+                        return "FACE_O_M_ECC4";
+                    else
+                        return "FACE_O_F_ECC4";
+                case 53:
+                    if (bParam1)
+                        return "FACE_O_M_ECC5";
+                    else
+                        return "FACE_O_F_ECC5";
+                case 54:
+                    if (bParam1)
+                        return "FACE_O_M_ECC6";
+                    else
+                        return "FACE_O_F_ECC6";
+                case 55:
+                    if (bParam1)
+                        return "FACE_O_M_ECC7";
+                    else
+                        return "FACE_O_F_ECC7";
+                case 56:
+                    if (bParam1)
+                        return "FACE_O_M_CAS0";
+                    else
+                        return "FACE_O_F_CAS0";
+                case 57:
+                    if (bParam1)
+                        return "FACE_O_M_CAS1";
+                    else
+                        return "FACE_O_F_CAS1";
+                case 58:
+                    if (bParam1)
+                        return "FACE_O_M_CAS2";
+                    else
+                        return "FACE_O_F_CAS2";
+                case 59:
+                    if (bParam1)
+                        return "FACE_O_M_CAS3";
+                    else
+                        return "FACE_O_F_CAS4";
+                case 60:
+                    if (bParam1)
+                        return "FACE_O_M_CAS4";
+                    else
+                        return "FACE_O_F_CAS3";
+                case 61:
+                    if (bParam1)
+                        return "FACE_O_M_CAS5";
+                    else
+                        return "FACE_O_F_CAS5";
+                case 62:
+                    if (bParam1)
+                        return "FACE_O_M_CAS6";
+                    else
+                        return "FACE_O_F_CAS6";
+                case 63:
+                    if (bParam1)
+                        return "FACE_O_M_CAS7";
+                    else
+                        return "FACE_O_F_CAS7";
+            }
+            return "";
         }
     }
 
