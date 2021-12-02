@@ -89,7 +89,6 @@ namespace ScaleformUI
             return _items.FindIndex(p => ReferenceEquals(p, item));
         }
 
-
 		/// <summary>
 		/// Find an item by it's index and return the item.
 		/// </summary>
@@ -119,6 +118,13 @@ namespace ScaleformUI
         internal virtual void ListSelectedTrigger(int newindex)
         {
             OnListSelected?.Invoke(this, newindex);
+        }
+
+        public void ChangeList(List<dynamic> list, int index)
+        {
+            _items.Clear();
+            _items = list;
+            NativeUIScaleform._nativeui.CallFunction("UPDATE_LISTITEM_LIST", Parent.MenuItems.IndexOf(this), string.Join(",", _items), index);
         }
 
         public override void SetRightBadge(BadgeIcon badge)
