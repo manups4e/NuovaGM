@@ -427,7 +427,7 @@ namespace TheLastPlanet.Shared
 			var builder = new StringBuilder(size);
 			var random = new Random();
 			// Unicode/ASCII Letters are divided into two blocks
-			// (Letters 65–90 / 97–122):
+			// (Letters 65ï¿½90 / 97ï¿½122):
 			// The first group containing the uppercase letters and
 			// the second group containing the lowercase.  
 
@@ -619,7 +619,7 @@ namespace TheLastPlanet.Shared
 		}
 
 		/// <summary>
-		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// Carica la zona dove la telecamera ï¿½ stata creata (anche se il ped ï¿½ lontano). Si resetta con ClearFocus().
 		/// </summary>
 		/// <param name="pos"></param>
 		public static void SetFocus(this Vector3 pos)
@@ -628,7 +628,7 @@ namespace TheLastPlanet.Shared
 		}
 
 		/// <summary>
-		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// Carica la zona dove la telecamera ï¿½ stata creata (anche se il ped ï¿½ lontano). Si resetta con ClearFocus().
 		/// </summary>
 		/// <param name="pos"></param>
 		public static void SetFocus(this Vector4 pos)
@@ -637,7 +637,7 @@ namespace TheLastPlanet.Shared
 		}
 
 		/// <summary>
-		/// Carica la zona dove la telecamera è stata creata (anche se il ped è lontano). Si resetta con ClearFocus().
+		/// Carica la zona dove la telecamera ï¿½ stata creata (anche se il ped ï¿½ lontano). Si resetta con ClearFocus().
 		/// </summary>
 		/// <param name="pos"></param>
 		public static void SetFocus(this Position pos)
@@ -807,16 +807,7 @@ namespace TheLastPlanet.Shared
 
 		public static void SetState<T>(this Player player, string key, T val, bool replicated) => player.State.Set(key, val.ToBytes(), replicated);
 		public static T GetState<T>(this Player player, string key) => (player.State.Get(key) as byte[]).FromBytes<T>();
-		
-		public static void SetState<T>(this Ped ped, string key, T val, bool replicated) => ped.State.Set(key, val.ToBytes(), replicated);
-		public static T GetState<T>(this Ped ped, string key) => (ped.State.Get(key) as byte[]).FromBytes<T>();
-		
-		public static void SetState<T>(this Vehicle veh, string key, T val, bool replicated) => veh.State.Set(key, val.ToBytes(), replicated);
-		public static T GetState<T>(this Vehicle veh, string key) => (veh.State.Get(key) as byte[]).FromBytes<T>();
-		
-		public static void SetState<T>(this Prop prop, string key, T val, bool replicated) => prop.State.Set(key, val.ToBytes(), replicated);
-		public static T GetState<T>(this Prop prop, string key) => (prop.State.Get(key) as byte[]).FromBytes<T>();
-		
+			
 		public static void SetState<T>(this Entity ent, string key, T val, bool replicated) => ent.State.Set(key, val.ToBytes(), replicated);
 		public static T GetState<T>(this Entity ent, string key) => (ent.State.Get(key) as byte[]).FromBytes<T>();
 	}
