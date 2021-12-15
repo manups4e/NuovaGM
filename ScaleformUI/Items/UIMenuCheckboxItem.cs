@@ -62,7 +62,7 @@ namespace ScaleformUI
         /// <param name="description">Description for this item.</param>
         /// <param name="mainColor">Main item color.</param>
         /// <param name="highlightColor">Highlight item color.</param>
-        public UIMenuCheckboxItem(string text, UIMenuCheckboxStyle style, bool check, string description, HudColor mainColor, HudColor highlightColor) : base(text, description, mainColor, highlightColor, HudColor.NONE, HudColor.NONE)
+        public UIMenuCheckboxItem(string text, UIMenuCheckboxStyle style, bool check, string description, HudColor mainColor, HudColor highlightColor) : base(text, description, mainColor, highlightColor, HudColor.HUD_COLOUR_WHITE, HudColor.HUD_COLOUR_BLACK)
         {
             Style = style;
             _checked = check;

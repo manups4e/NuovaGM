@@ -120,8 +120,8 @@ namespace ScaleformUI
 				g = 10 - g;
 
 				// Then, get the screen resolution
-				int screenw = Screen.Resolution.Width;
-				int screenh = Screen.Resolution.Height;
+				float screenw = Screen.ScaledWidth;
+				float screenh = Screen.Height;
 				// Calculate the ratio
 				float ratio = (float)screenw / screenh;
 				// And this thing (that I don't know what it does)

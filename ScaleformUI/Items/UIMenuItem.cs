@@ -201,8 +201,8 @@ namespace ScaleformUI
         public HudColor MainColor { get; set; }
         public HudColor HighlightColor { get; set; }
 
-        public HudColor TextColor { get; set; }
-        public HudColor HighlightedTextColor { get; set; }
+        public HudColor TextColor { get; set; } = HudColor.HUD_COLOUR_WHITE;
+        public HudColor HighlightedTextColor { get; set; } = HudColor.HUD_COLOUR_BLACK;
 
         public List<UIMenuPanel> Panels = new();
         private bool _selected;

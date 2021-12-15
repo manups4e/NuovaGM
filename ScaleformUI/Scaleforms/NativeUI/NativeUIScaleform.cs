@@ -14,16 +14,19 @@ namespace ScaleformUI
         public static InstructionalButtonsScaleform InstructionalButtons { get; set; }
         public static BigMessageHandler BigMessageInstance { get; set; }
         public static PopupWarning Warning { get; set; }
+        public static PlayerListHandler PlayerListInstance { get; set; }
+
         internal static Scaleform _nativeui { get; set; }
         public NativeUIScaleform()
         {
-            Warning = new PopupWarning();
-            MedMessageInstance = new MediumMessageHandler();
-            BigMessageInstance = new BigMessageHandler();
-            InstructionalButtons = new InstructionalButtonsScaleform();
+            Warning = new();
+            MedMessageInstance = new();
+            BigMessageInstance = new();
+            PlayerListInstance = new();
+            PauseMenu = new();
+            _nativeui = new("nativeui");
+            InstructionalButtons = new();
             InstructionalButtons.Load();
-            PauseMenu = new PauseMenuScaleform();
-            _nativeui = new Scaleform("nativeui");
             Tick += NativeUIThread_Tick;
         }
 
@@ -32,6 +35,7 @@ namespace ScaleformUI
             Warning.Update();
             MedMessageInstance.Update();
             BigMessageInstance.Update();
+            PlayerListInstance.Update();
             InstructionalButtons.HandleScaleform();
 
             if (_nativeui is null)

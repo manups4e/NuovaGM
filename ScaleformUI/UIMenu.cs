@@ -1431,7 +1431,10 @@ namespace ScaleformUI
 			float y = Offset.Y / Screen.Height;
 			float width = 1280 / Screen.ScaledWidth;
 			float height = 720 / Screen.Height;
-			DrawScaleformMovie(NativeUIScaleform._nativeui.Handle, x + (width / 2.0f), y + (height / 2.0f), width, height, 255, 255, 255, 255, 0);
+			x += ScreenTools.SafezoneBounds.X / 100;
+			y += ScreenTools.SafezoneBounds.Y / 100;
+			Debug.WriteLine($"X:{x}, Y:{y}, W:{width}, H:{height}");
+			NativeUIScaleform._nativeui.Render2D();
 
 			if (Glare)
 			{
