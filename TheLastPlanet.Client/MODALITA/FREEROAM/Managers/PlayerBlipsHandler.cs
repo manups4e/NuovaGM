@@ -9,6 +9,7 @@ using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -17,12 +18,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		private static List<FRBlipsInfo> _fRBlipsInfos = new();
 		private static Dictionary<int, Blip> playerBlips = new();
 
-		public static void Init()
-		{
-			Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
-		}
+        public static void Init() => FreeRoamLogin.OnPlayerJoined += () => Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
 
-		private static void UpdateBlips(List<FRBlipsInfo> info)
+        private static void UpdateBlips(List<FRBlipsInfo> info)
 		{
 			_fRBlipsInfos = info;
 			UpdatePlayerBlips();

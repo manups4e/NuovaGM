@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Shared;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -35,13 +36,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 	static class PlayerTags
 	{
 		public static Dictionary<int, GamerTag> GamerTags = new Dictionary<int, GamerTag>();
-		public static void Init()
-		{
-			Client.Instance.AddTick(GamerTagsHandler);
-		}
+        public static void Init() => FreeRoamLogin.OnPlayerJoined += () => Client.Instance.AddTick(GamerTagsHandler);
 
-		public static void Stop()
+        public static void Stop()
 		{
+			FreeRoamLogin.OnPlayerJoined -= () => Client.Instance.AddTick(GamerTagsHandler);
+			Client.Instance.RemoveTick(GamerTagsHandler);
 			foreach (var player in Client.Instance.GetPlayers)
 			{
 				if (GamerTags.ContainsKey(player.ServerId))

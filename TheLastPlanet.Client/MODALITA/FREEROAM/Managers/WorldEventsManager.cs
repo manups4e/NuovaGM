@@ -10,6 +10,7 @@ using Logger;
 using TheLastPlanet.Shared;
 using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -28,14 +29,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         private static bool FirstSpawn = true;
         private static readonly Random rnd = new Random();
 
-        public static async void Init()
+        public static void Init() => FreeRoamLogin.OnPlayerJoined += FreeRoamLogin_OnPlayerJoined;
+        private static async void FreeRoamLogin_OnPlayerJoined()
         {
             //Client.Instance.AddTick(OnDefaultTick);
             //Client.Instance.AddTick(OnDiscordTick);
             Client.Instance.AddTick(OnWaitTick);
 
-            Client.Instance.Events.Mount("worldEventsManage.Client:EventActivate",new Action<int, int>(OnActivateEvent));
-            Client.Instance.Events.Mount("worldeventsManager.Client:GetEventData",new Action<int, float, float>(OnGetEventData));
+            Client.Instance.Events.Mount("worldEventsManage.Client:EventActivate", new Action<int, int>(OnActivateEvent));
+            Client.Instance.Events.Mount("worldeventsManager.Client:GetEventData", new Action<int, float, float>(OnGetEventData));
             Client.Instance.Events.Mount("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
             Client.Instance.Events.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
             Client.Instance.Events.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
@@ -52,6 +54,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
             var status = await Client.Instance.Events.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
             OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
+        }
+
+        public static void Stop()
+        {
+            FreeRoamLogin.OnPlayerJoined -= FreeRoamLogin_OnPlayerJoined;
+            Client.Instance.RemoveTick(OnWaitTick);
+            Client.Instance.Events.Unmount("worldEventsManage.Client:EventActivate");
+            Client.Instance.Events.Unmount("worldeventsManager.Client:GetEventData");
+            Client.Instance.Events.Unmount("worldEventsManage.Client:NextEventIn");
+            Client.Instance.Events.Unmount("worldEventsManage.Client:GetTop3");
+            Client.Instance.Events.Unmount("worldEventsManage.Client:FinalTop3");
+            Client.Instance.Events.Unmount("worldEventsManage.Client:PeriodicSync");
+            WorldEvents.Clear();
         }
 
         private static async Task OnWaitTick()

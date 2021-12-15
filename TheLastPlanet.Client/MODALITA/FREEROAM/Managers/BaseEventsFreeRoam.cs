@@ -10,18 +10,30 @@ using System.Threading.Tasks;
 using ScaleformUI;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Cache;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
 	static class BaseEventsFreeRoam
 	{
-		public static void Init()
-		{
+        public static void Init() => FreeRoamLogin.OnPlayerJoined += FreeRoamLogin_OnPlayerJoined;
+
+        private static void FreeRoamLogin_OnPlayerJoined()
+        {
 			InternalGameEvents.OnPedKilledByPlayer += OnPedKilledByPlayer;
 			InternalGameEvents.OnPedDied += OnPedDied;
 			InternalGameEvents.OnPedKilledByPed += OnPedKilledByPed;
 			InternalGameEvents.OnPedKilledByVehicle += OnPedKilledByVehicle;
 			Environment.EnablePvP(true);
+		}
+		public static void Stop()
+        {
+			FreeRoamLogin.OnPlayerJoined -= FreeRoamLogin_OnPlayerJoined;
+			InternalGameEvents.OnPedKilledByPlayer -= OnPedKilledByPlayer;
+			InternalGameEvents.OnPedDied -= OnPedDied;
+			InternalGameEvents.OnPedKilledByPed -= OnPedKilledByPed;
+			InternalGameEvents.OnPedKilledByVehicle -= OnPedKilledByVehicle;
+			Environment.EnablePvP(false);
 		}
 
 		private static async void OnPedKilledByVehicle(int ped, int vehicle)
