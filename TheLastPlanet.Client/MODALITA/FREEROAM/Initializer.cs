@@ -9,6 +9,7 @@ using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.ListaPlayers;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM
@@ -17,6 +18,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 	{
 		public static async Task Init()
 		{
+			LoaderSpawner.Init();
+			/*
 			ExperienceManager.Init();
 			WorldEventsManager.Init();
 			ExperienceManager.Init();
@@ -28,6 +31,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 			BaseEventsFreeRoam.Init();
 			//Death.Init();
 			PlayerTags.Init();
+			*/
 			await Task.FromResult(0);
 		}
 
