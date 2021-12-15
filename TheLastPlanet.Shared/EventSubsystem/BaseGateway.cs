@@ -242,5 +242,10 @@ namespace TheLastPlanet.Shared.Internal.Events
             Logger.Debug($"Mounted: {endpoint}");
             _handlers.Add(new EventHandler(endpoint, @delegate));
         }
+        public void Unmount(string endpoint)
+        {
+            if (_handlers.Any(x => x.Endpoint == endpoint))
+                _handlers.RemoveAll(x => x.Endpoint == endpoint);
+        }
     }
 }
