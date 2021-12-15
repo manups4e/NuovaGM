@@ -13,6 +13,7 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.Internal.Events;
 using System.Linq;
+using Impostazioni.Shared.Core;
 
 namespace TheLastPlanet.Server
 {
@@ -39,7 +40,7 @@ namespace TheLastPlanet.Server
 #endif
 			SnowflakeGenerator.Create(2);
 			SetConvarServerInfo("sv_projectName", "^2THE ^0LAST ^1GALAXY.");
-			SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel RolePlay incatenarli!");
+			SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel videogioco incatenarli!");
 			SetConvarServerInfo("locale", "it-IT");
 			SetConvarServerInfo("tags", "RolePlay, GTAO style");
 			SetGameType("RolePlay");

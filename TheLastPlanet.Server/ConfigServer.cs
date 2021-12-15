@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 using Impostazioni.Server.Configurazione.Coda;
 using Impostazioni.Server.Configurazione.Main;
+using TheLastPlanet.Server.Properties;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 
@@ -12,7 +13,7 @@ namespace TheLastPlanet.Server
 	{
 		public static async Task Init()
 		{
-			string jsonServerConfig = API.LoadResourceFile(API.GetCurrentResourceName(), "configs/ServerConfig.json");
+			string jsonServerConfig = Resources.ServerConfig;
 			Server.Impostazioni = jsonServerConfig.FromJson<Configurazione>();
 			ConfigShared.SharedConfig = new SharedConfig();
 			Server.Instance.Events.Mount("Config.CallClientConfig", new Func<ClientId, ModalitaServer, Task<string>>(ClientConfigCallback));
@@ -27,7 +28,8 @@ namespace TheLastPlanet.Server
 				case ModalitaServer.Lobby:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Lobby.json");
 				case ModalitaServer.Roleplay:
-					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_RolePlay.json");
+					return Resources.Client_RolePlay;
+					//return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_RolePlay.json");
 				case ModalitaServer.Minigiochi:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Minigiochi.json");
 				case ModalitaServer.Gare:
@@ -35,7 +37,8 @@ namespace TheLastPlanet.Server
 				case ModalitaServer.Negozio:
 					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Negozio.json");
 				case ModalitaServer.FreeRoam:
-					return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_FreeRoam.json");
+					return Resources.Client_FreeRoam;
+					//return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_FreeRoam.json");
 				default:
 			return string.Empty;
 			}
