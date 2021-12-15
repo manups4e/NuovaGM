@@ -17,6 +17,7 @@ namespace TheLastPlanet.Client
 	public delegate void EntityKilledEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
 	public delegate void VehicleDamagedEvent(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag);
 	public delegate void EntityDamagedEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
+	public delegate void PlayerJoined();
 
 	public class InternalGameEvents
 	{
@@ -35,7 +36,7 @@ namespace TheLastPlanet.Client
 		public static event EntityKilledEvent OnEntityKilled;
 		public static event VehicleDamagedEvent OnVehicleDamaged;
 		public static event EntityDamagedEvent OnEntityDamaged;
-
+		public static event PlayerJoined PlayerJoined;
 		/// <summary>
 		/// Event gets triggered whenever a vehicle is destroyed.
 		/// </summary>
@@ -154,84 +155,99 @@ namespace TheLastPlanet.Client
 		/// <param name="data"></param>
 		private static void GameEventTriggered(string eventName, List<object> data)
 		{
-			Client.Logger.Debug($"game event {eventName} ({String.Join(", ", data.ToArray())})");
-			if (eventName == "CEventNetworkEntityDamage")
+			Client.Logger.Debug($"game event {eventName} ({string.Join(", ", data.ToArray())})");
+			switch (eventName)
 			{
-				Entity victim = Entity.FromHandle(int.Parse(data[0].ToString()));
-				Entity attacker = Entity.FromHandle(int.Parse(data[1].ToString()));
-				int attackerint = int.Parse(data[1].ToString());
-
-				bool victimDied = int.Parse(data[5].ToString()) == 1;
-
-				uint weaponHash = (uint)int.Parse(data[6].ToString());
-
-				bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
-				int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
-
-				if (victim == null) return;
-
-				if (attacker != null && attackerint != -1)
-				{
-					if (victimDied)
+				case "CEventNetworkEntityDamage":
 					{
-						// victim died
-						// vehicle destroyed
-						if (victim.Model.IsVehicle)
+						Entity victim = Entity.FromHandle(int.Parse(data[0].ToString()));
+						Entity attacker = Entity.FromHandle(int.Parse(data[1].ToString()));
+						int attackerint = int.Parse(data[1].ToString());
+
+						bool victimDied = int.Parse(data[5].ToString()) == 1;
+
+						uint weaponHash = (uint)int.Parse(data[6].ToString());
+
+						bool isMeleeDamage = int.Parse(data[9].ToString()) != 0;
+						int vehicleDamageTypeFlag = int.Parse(data[10].ToString());
+
+						if (victim == null) return;
+
+						if (attacker != null && attackerint != -1)
 						{
-							VehicleDestroyed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
-						}
-						// other entity died
-						else
-						{
-							// victim is a ped
-							if (victim is Ped ped)
-								switch (attacker)
+							if (victimDied)
+							{
+								// victim died
+								// vehicle destroyed
+								if (victim.Model.IsVehicle)
 								{
-									case Vehicle veh:
-										PedKilledByVehicle(victim.Handle, veh.Handle);
-
-										break;
-									case Ped p when p.IsPlayer:
-										int player = NetworkGetPlayerIndexFromPed(p.Handle);
-										PedKilledByPlayer(ped.Handle, player, weaponHash, isMeleeDamage);
-
-										break;
-									case Ped p:
-										PedKilledByPed(ped.Handle, p.Handle, weaponHash, isMeleeDamage);
-
-										break;
-									default:
-										PedDied(ped.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-
-										break;
+									VehicleDestroyed(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
 								}
-							// victim is not a ped
+								// other entity died
+								else
+								{
+									// victim is a ped
+									if (victim is Ped ped)
+										switch (attacker)
+										{
+											case Vehicle veh:
+												PedKilledByVehicle(victim.Handle, veh.Handle);
+
+												break;
+											case Ped p when p.IsPlayer:
+												int player = NetworkGetPlayerIndexFromPed(p.Handle);
+												PedKilledByPlayer(ped.Handle, player, weaponHash, isMeleeDamage);
+
+												break;
+											case Ped p:
+												PedKilledByPed(ped.Handle, p.Handle, weaponHash, isMeleeDamage);
+
+												break;
+											default:
+												PedDied(ped.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+
+												break;
+										}
+									// victim is not a ped
+									else
+										EntityKilled(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+								}
+							}
 							else
-								EntityKilled(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+							{
+								// only damaged
+								if (!victim.Model.IsVehicle)
+									EntityDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
+								else
+									VehicleDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+							}
+						}
+						else
+						{
+							if (victimDied)
+								PedDied(victim.Handle, -1, weaponHash, isMeleeDamage);
+							else
+							{
+								// only damaged
+								if (!victim.Model.IsVehicle)
+									EntityDamaged(victim.Handle, -1, weaponHash, isMeleeDamage);
+								else
+									VehicleDamaged(victim.Handle, -1, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+							}
 						}
 					}
-					else
+					break;
+				case "CEventNetworkPlayerEnteredVehicle":
 					{
-						// only damaged
-						if (!victim.Model.IsVehicle)
-							EntityDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage);
-						else
-							VehicleDamaged(victim.Handle, attacker.Handle, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+						int player = int.Parse(data[0].ToString());
+						int vehicle = int.Parse(data[1].ToString());
 					}
-				}
-				else
-				{
-					if (victimDied) 
-						PedDied(victim.Handle, -1, weaponHash, isMeleeDamage);
-					else
-					{
-						// only damaged
-						if (!victim.Model.IsVehicle)
-							EntityDamaged(victim.Handle, -1, weaponHash, isMeleeDamage);
-						else
-							VehicleDamaged(victim.Handle, -1, weaponHash, isMeleeDamage, vehicleDamageTypeFlag);
+					break;
+				case "CEventNetworkStartSession":
+                    {
+						PlayerJoined?.Invoke();
 					}
-				}
+					break;
 			}
 		}
 	}

@@ -13,13 +13,14 @@
 		<FileVersion>5.78</FileVersion>
 		<Deterministic>false</Deterministic>
 		<Nullable>annotations</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
 		<!--<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
 	</PropertyGroup>
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<!--GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies-->
 		<OutputPath>G:\Progetti\source\repos\output\NuovaGM\</OutputPath>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -47,7 +48,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.4836" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5041" />
 		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
