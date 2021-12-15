@@ -27,8 +27,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 		{
 			// alleggerire carico peso
 			//Ped playerPed = Cache.PlayerPed;
-			Tuple<Player, float> closest = new Tuple<Player, float>(new Player(0), -1);
 
+			Tuple<Player, float> closest = new(new Player(0), -1);
 			if (Game.GameTime - _checkTimer > 1000)
 			{
 				closest = Funzioni.GetClosestPlayer();
@@ -36,12 +36,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 			}
 
 			if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio)
+			{
 				if (closest.Item2 > -1 && closest.Item2 < 3f)
-					if (closest.Item1.GetPlayerData().Status.RolePlayStates.Svenuto || closest.Item1.GetPlayerData().Status.RolePlayStates.FinDiVita)
+				{
+					var client = Funzioni.GetClientIdFromServerId(closest.Item1.ServerId);
+					if (client.User.Status.RolePlayStates.Svenuto || client.User.Status.RolePlayStates.FinDiVita)
 					{
 						HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");
 						if (Input.IsControlJustPressed(Control.Context)) LootMenu(closest.Item1);
 					}
+				}
+			}
 
 			await Task.FromResult(0);
 		}

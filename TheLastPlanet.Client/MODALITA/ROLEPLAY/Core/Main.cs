@@ -13,10 +13,11 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
 using static CitizenFX.Core.Native.API;
 using ScaleformUI;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Creator;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
-	static class Main
+    static class Main
 	{
 		public static string decorName;
 		public static int decorInt;

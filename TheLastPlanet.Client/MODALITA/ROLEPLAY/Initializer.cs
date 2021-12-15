@@ -15,7 +15,7 @@ using TheLastPlanet.Client.RolePlay.MenuPausa;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 {
-	internal static class Initializer
+    internal static class Initializer
 	{
 		public static async Task Init()
 		{

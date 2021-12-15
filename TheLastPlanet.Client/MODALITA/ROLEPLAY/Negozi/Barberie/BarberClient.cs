@@ -918,7 +918,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 			{
 				if (c != MenuState.Closed || a != MenuPrincipale) return;
 				ClearPedTasks(PlayerPedId());
-				await Funzioni.UpdateFace(skin);
+				Funzioni.UpdateFace(PlayerPedId(), skin);
 				RenderScriptCams(false, true, 1000, true, false);
 				Client.Instance.RemoveTick(NuovaCam);
 			};

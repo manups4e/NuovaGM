@@ -16,7 +16,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 {
-	internal static class LogIn
+    public static class LogIn
 	{
 		public static bool GuiEnabled = false;
 		public static Camera attuale;

@@ -9,7 +9,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Shared;
 using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {

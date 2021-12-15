@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.LogIn;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -14,7 +14,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 	{
 		public static async Task LogInInitializer()
 		{
-			MODALITA.ROLEPLAY.LogIn.LogIn.Init();
+			LogIn.LogIn.Init();
 			Main.Init();
 			EventiRoleplay.Init();
 			TimeWeather.Meteo.Init();
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 
 		public static async Task LogInStop()
 		{
-			MODALITA.ROLEPLAY.LogIn.LogIn.Stop();
+			LogIn.LogIn.Stop();
 			Main.Stop();
 			//Eventi.Stop();
 			TimeWeather.Meteo.Stop();

@@ -6,10 +6,11 @@ using System;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.MODALITA.FREEROAM.Creator;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
-	static class Discord
+    static class Discord
 	{
 		public static void Init()
 		{
