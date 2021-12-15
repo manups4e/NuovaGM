@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
             WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            Tuple<int, int, int, int, bool> status = await Client.Instance.Events.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
+            var status = await Client.Instance.Events.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
             OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
         }
 

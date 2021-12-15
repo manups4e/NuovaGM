@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     Screen.ShowSubtitle($"Preparati per la sfida ~b~{Name}~w~ usando solo la tua Pistola.", 50);
                 else
                 {
-                    Screen.ShowSubtitle("Effettua più colpi alla testa che puoi con la tua Pistola.", 50);
+                    Screen.ShowSubtitle("Effettua più colpi alla testa che puoi con la tua Pistola. Se non ne hai una, puoi acquistarla in qualunque Armeria.", 50);
                     var x = 0;
                     API.StatGetInt(unchecked((uint)PlayerStat), ref x, -1);
                     CurrentAttempt = x;
