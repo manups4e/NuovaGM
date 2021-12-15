@@ -18,34 +18,31 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 	{
 		public static async Task Init()
 		{
-			LoaderSpawner.Init();
-			/*
+			FreeRoamLogin.Init();
 			ExperienceManager.Init();
 			WorldEventsManager.Init();
-			ExperienceManager.Init();
 			PlayerBlipsHandler.Init();
+			BaseEventsFreeRoam.Init();
+			PlayerTags.Init();
 			//AGGIUNGERE GESTIONE METEO
 			//AGGIUNGERE GESTIONE ORARIO
 			//AGGIUNGERE GESTIONE STATISTICHE
 			//AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
-			BaseEventsFreeRoam.Init();
 			//Death.Init();
-			PlayerTags.Init();
-			*/
 			await Task.FromResult(0);
 		}
 
 		public static async Task Stop()
 		{
-			ExperienceManager.Init();
-			WorldEventsManager.Init();
-			ExperienceManager.Init();
+			ExperienceManager.Stop();
+			WorldEventsManager.Stop();
+			BaseEventsFreeRoam.Stop();
+			PlayerTags.Stop();
 			//AGGIUNGERE GESTIONE METEO
 			//AGGIUNGERE GESTIONE ORARIO
 			//AGGIUNGERE GESTIONE STATISTICHE
 			//AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
 			//Death.Init();
-			PlayerTags.Init();
 			await Task.FromResult(0);
 		}
 	}
