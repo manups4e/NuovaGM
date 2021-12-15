@@ -16,8 +16,10 @@ using Impostazioni.Shared.Configurazione.Generici;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 {
-    internal class LoaderSpawner
+    public delegate void FreeRoamPlayerLoadedEvent();
+    public static class FreeRoamLogin
     {
+        public static event FreeRoamPlayerLoadedEvent OnPlayerJoined;
         public static void Init()
         {
             Inizializza();
@@ -31,14 +33,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
             if (roamchar.CharID == 0 && roamchar.Skin is null)
             {
-                API.RequestModel((uint)PedHash.FreemodeMale01);
-                API.RequestModel((uint)PedHash.FreemodeFemale01);
+                RequestModel((uint)PedHash.FreemodeMale01);
+                RequestModel((uint)PedHash.FreemodeFemale01);
                 FreeRoamCreator.Init();
                 var sex = Funzioni.GetRandomInt(0, 100) > 50 ? "Maschio" : "Femmina";
                 await FreeRoamCreator.CharCreationMenu(sex);
                 return;
             }
 
+            await CaricaPlayer(roamchar);
+        }
+
+        public static async Task CaricaPlayer(FreeRoamChar roamchar)
+        {
             if (PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerCache.MyPlayer.Ped.Handle, true, false);
             var apos = PlayerCache.MyPlayer.Ped.Position;
             var rpos = roamchar.Posizione;
@@ -49,7 +56,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             int switchType = GetIdealPlayerSwitchType(apos.X, apos.Y, apos.Z, rpos.X, rpos.Y, rpos.Z);
             SwitchOutPlayer(PlayerCache.MyPlayer.Ped.Handle, 1 | 32 | 128 | 16384, switchType);
             await BaseScript.Delay(2000);
-            if(Screen.Fading.IsFadedOut) Screen.Fading.FadeIn(1000);
+            if (Screen.Fading.IsFadedOut) Screen.Fading.FadeIn(1000);
 
             Screen.LoadingPrompt.Show("Caricamento", LoadingSpinnerType.Clockwise1);
 
@@ -63,19 +70,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             StartPlayerTeleport(PlayerId(), rpos.X, rpos.Y, rpos.Z, rpos.Heading, false, true, true);
             while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
 
-            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
-
-            ExperienceManager.Init();
-            WorldEventsManager.Init();
-            ExperienceManager.Init();
-            PlayerBlipsHandler.Init();
             //AGGIUNGERE GESTIONE METEO
             //AGGIUNGERE GESTIONE ORARIO
-            //AGGIUNGERE GESTIONE STATISTICHE
-            //AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
-            BaseEventsFreeRoam.Init();
-            //Death.Init();
-            PlayerTags.Init();
+
+            // PARTE FINALE
+            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
+            OnPlayerJoined?.Invoke();
 
             SwitchInPlayer(PlayerCache.MyPlayer.Ped.Handle);
             while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
