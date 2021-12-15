@@ -58,6 +58,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             Modalita = modalitaServer;
             Bucket = bucket;
             Server.Instance.Events.Mount("tlg:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
+            Server.Instance.Events.Mount("tlg:Save_FreeRoamChar", new Action<ClientId>(SavePlayerData));
         }
 
         public int GetTotalPlayers()
@@ -78,6 +79,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         public async void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
+            SavePlayerData(client);
             if (Bucket.Players.Count > 0)
             {
                 await Bucket.Players.ForEachAsync(async (x) =>
@@ -323,6 +325,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         private async Task<FreeRoamChar> LoadFreeRoamChar(ClientId source, int id)
         {
             //API.DeleteResourceKvpNoSync($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
+            if (source.User.ID != id) return null;
             string sbytes = API.GetResourceKvpString($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
             if (string.IsNullOrWhiteSpace(sbytes))
             {
@@ -333,6 +336,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 byte[] bytes = sbytes.ToBytes();
                 source.User.FreeRoamChar = bytes.FromBytes<FreeRoamChar>();
             }
+            return source.User.FreeRoamChar;
 
             /*
             string query = "SELECT * FROM freeroampersonaggi WHERE UserID = @id";
@@ -355,9 +359,13 @@ namespace TheLastPlanet.Server.Core.Buckets
                 Level = res.level,
                 TotalXp = res.totalXp,
             };
-            */
             return source.User.FreeRoamChar;
+            */
+        }
 
+        private void SavePlayerData(ClientId client)
+        {
+            API.SetResourceKvpNoSync("freeroam:player_{source.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
     }
 
