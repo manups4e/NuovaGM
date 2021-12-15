@@ -22,9 +22,6 @@ namespace Impostazioni.Shared.Core
         private readonly Logger.Log logger = new();
         public StateBagsHandler()
         {
-#if SERVER
-            return;
-#endif
             API.AddStateBagChangeHandler("", "", new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
             {
                 if (replicated) return;
