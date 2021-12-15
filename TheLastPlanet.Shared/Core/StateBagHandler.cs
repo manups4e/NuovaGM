@@ -25,14 +25,14 @@ namespace Impostazioni.Shared.Core
 #if SERVER
             return;
 #endif
-            API.AddStateBagChangeHandler(null, null, new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
+            API.AddStateBagChangeHandler("", "", new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
             {
-                if (!replicated) return;
+                if (replicated) return;
 
                 var entType = bagName.Substring(0, bagName.IndexOf(':'));
                 int userId = Convert.ToInt32(bagName.Substring(bagName.IndexOf(':') + 1));
 
-                //logger.Warning($"{bagName}, {key}, {value}, {_unused}, {replicated}");
+                logger.Warning($"{bagName}, {key}, {value}, {_unused}, {replicated}");
                 switch (entType)
                 {
                     case "player":
@@ -68,7 +68,7 @@ namespace Impostazioni.Shared.Core
                                 { 
                                     InstanceBag inst = (value as byte[]).FromBytes<InstanceBag>();
                                     OnInstanceBagChange?.Invoke(userId, inst);
-                                break;
+                                    break;
                                 }
                         }
                         break;
