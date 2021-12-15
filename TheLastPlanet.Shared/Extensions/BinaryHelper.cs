@@ -1,4 +1,6 @@
-﻿using TheLastPlanet.Shared.Internal.Events.Serialization;
+﻿using System.Globalization;
+using System.Linq;
+using TheLastPlanet.Shared.Internal.Events.Serialization;
 using TheLastPlanet.Shared.Internal.Events.Serialization.Implementations;
 
 namespace TheLastPlanet.Shared
@@ -18,6 +20,13 @@ namespace TheLastPlanet.Shared
         {
             using SerializationContext context = new("BinarySerializer", "Binary deserialization", _serialization, data);
             return context.Deserialize<T>();
+        }
+
+        public static byte[] ToBytes(this string str)
+        {
+            var arr = str.ToCharArray();
+            if (arr[2] != '-' && arr[5] != '-') return default;
+            return str.Split('-').Select(x => byte.Parse(x, NumberStyles.HexNumber)).ToArray();
         }
     }
 }
