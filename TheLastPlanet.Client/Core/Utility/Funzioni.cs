@@ -160,64 +160,101 @@ namespace TheLastPlanet.Client.Core.Utility
 			});
 		}
 
-		public static async Task UpdateFace(Skin skin)
+		public static void UpdateFace(int Handle, Skin skin)
 		{
-			var id = Cache.PlayerCache.MyPlayer.Ped.Handle;
-			SetPedHeadBlendData(id, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
-			SetPedHeadOverlay(id, 0, skin.blemishes.style, skin.blemishes.opacity);
-			SetPedHeadOverlay(id, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
-			SetPedHeadOverlayColor(id, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
-			SetPedHeadOverlay(id, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
-			SetPedHeadOverlayColor(id, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
-			SetPedHeadOverlay(id, 3, skin.ageing.style, skin.ageing.opacity);
-			SetPedHeadOverlay(id, 4, skin.makeup.style, skin.makeup.opacity);
-			SetPedHeadOverlay(id, 5, skin.blusher.style, skin.blusher.opacity);
-			SetPedHeadOverlay(id, 6, skin.complexion.style, skin.complexion.opacity);
-			SetPedHeadOverlay(id, 7, skin.skinDamage.style, skin.skinDamage.opacity);
-			SetPedHeadOverlay(id, 8, skin.lipstick.style, skin.lipstick.opacity);
-			SetPedHeadOverlayColor(id, 8, 1, skin.lipstick.color[0], skin.lipstick.color[1]);
-			SetPedHeadOverlay(id, 9, skin.freckles.style, skin.freckles.opacity);
-			SetPedEyeColor(id, skin.eye.style);
-			SetPedComponentVariation(id, 2, skin.hair.style, 0, 0);
-			SetPedHairColor(id, skin.hair.color[0], skin.hair.color[1]);
-			SetPedPropIndex(id, 2, skin.ears.style, skin.ears.color, true);
-			for (var i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(id, i, skin.face.tratti[i]);
-			await Task.FromResult(0);
+			SetPedHeadBlendData(Handle, skin.face.mom, skin.face.dad, 0, skin.face.mom, skin.face.dad, 0, skin.resemblance, skin.skinmix, 0f, false);
+			SetPedHeadOverlay(Handle, 0, skin.blemishes.style, skin.blemishes.opacity);
+			SetPedHeadOverlay(Handle, 1, skin.facialHair.beard.style, skin.facialHair.beard.opacity);
+			SetPedHeadOverlayColor(Handle, 1, 1, skin.facialHair.beard.color[0], skin.facialHair.beard.color[1]);
+			SetPedHeadOverlay(Handle, 2, skin.facialHair.eyebrow.style, skin.facialHair.eyebrow.opacity);
+			SetPedHeadOverlayColor(Handle, 2, 1, skin.facialHair.eyebrow.color[0], skin.facialHair.eyebrow.color[1]);
+			SetPedHeadOverlay(Handle, 3, skin.ageing.style, skin.ageing.opacity);
+			SetPedHeadOverlay(Handle, 4, skin.makeup.style, skin.makeup.opacity);
+			SetPedHeadOverlay(Handle, 5, skin.blusher.style, skin.blusher.opacity);
+			SetPedHeadOverlayColor(Handle, 5, 2, skin.blusher.color[0], skin.blusher.color[1]);
+			SetPedHeadOverlay(Handle, 6, skin.complexion.style, skin.complexion.opacity);
+			SetPedHeadOverlay(Handle, 7, skin.skinDamage.style, skin.skinDamage.opacity);
+			SetPedHeadOverlay(Handle, 8, skin.lipstick.style, skin.lipstick.opacity);
+			SetPedHeadOverlayColor(Handle, 8, 2, skin.lipstick.color[0], skin.lipstick.color[1]);
+			SetPedHeadOverlay(Handle, 9, skin.freckles.style, skin.freckles.opacity);
+			SetPedEyeColor(Handle, skin.eye.style);
+			SetPedComponentVariation(Handle, 2, skin.hair.style, 0, 0);
+			SetPedHairColor(Handle, skin.hair.color[0], skin.hair.color[1]);
+			SetPedPropIndex(Handle, 2, skin.ears.style, skin.ears.color, false);
+			for (int i = 0; i < skin.face.tratti.Length; i++) SetPedFaceFeature(Handle, i, skin.face.tratti[i]);
 		}
 
-		public static async Task UpdateDress(Dressing dress)
+		public static void UpdateDress(int Handle, Dressing dress)
 		{
-			var id = Cache.PlayerCache.MyPlayer.Ped.Handle;
-			SetPedComponentVariation(id, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
-			SetPedComponentVariation(id, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
-			if (dress.PropIndices.Cappelli_Maschere == -1) ClearPedProp(id, 0);
-			SetPedPropIndex(id, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
-			if (dress.PropIndices.Orecchie == -1) ClearPedProp(id, 2);
-			SetPedPropIndex(id, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
-			if (dress.PropIndices.Occhiali_Occhi == -1) ClearPedProp(id, 1);
-			SetPedPropIndex(id, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
-			if (dress.PropIndices.Unk_3 == -1) ClearPedProp(id, 3);
-			SetPedPropIndex(id, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
-			if (dress.PropIndices.Unk_4 == -1) ClearPedProp(id, 4);
-			SetPedPropIndex(id, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
-			if (dress.PropIndices.Unk_5 == -1) ClearPedProp(id, 5);
-			SetPedPropIndex(id, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
-			if (dress.PropIndices.Orologi == -1) ClearPedProp(id, 6);
-			SetPedPropIndex(id, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
-			if (dress.PropIndices.Bracciali == -1) ClearPedProp(id, 7);
-			SetPedPropIndex(id, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
-			if (dress.PropIndices.Unk_8 == -1) ClearPedProp(id, 8);
-			SetPedPropIndex(id, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
-			await Task.FromResult(0);
+			if (dress.ComponentDrawables.Faccia != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Faccia, dress.ComponentDrawables.Faccia, dress.ComponentTextures.Faccia, 2);
+
+			if (dress.ComponentDrawables.Maschera != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Maschera, dress.ComponentDrawables.Maschera, dress.ComponentTextures.Maschera, 2);
+
+			if (dress.ComponentDrawables.Torso != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso, dress.ComponentDrawables.Torso, dress.ComponentTextures.Torso, 2);
+
+			if (dress.ComponentDrawables.Pantaloni != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Pantaloni, dress.ComponentDrawables.Pantaloni, dress.ComponentTextures.Pantaloni, 2);
+
+			if (dress.ComponentDrawables.Borsa_Paracadute != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Borsa_Paracadute, dress.ComponentDrawables.Borsa_Paracadute, dress.ComponentTextures.Borsa_Paracadute, 2);
+
+			if (dress.ComponentDrawables.Scarpe != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Scarpe, dress.ComponentDrawables.Scarpe, dress.ComponentTextures.Scarpe, 2);
+
+			if (dress.ComponentDrawables.Accessori != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Accessori, dress.ComponentDrawables.Accessori, dress.ComponentTextures.Accessori, 2);
+
+			if (dress.ComponentDrawables.Sottomaglia != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Sottomaglia, dress.ComponentDrawables.Sottomaglia, dress.ComponentTextures.Sottomaglia, 2);
+
+			if (dress.ComponentDrawables.Kevlar != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Kevlar, dress.ComponentDrawables.Kevlar, dress.ComponentTextures.Kevlar, 2);
+
+			if (dress.ComponentDrawables.Badge != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Badge, dress.ComponentDrawables.Badge, dress.ComponentTextures.Badge, 2);
+
+			if (dress.ComponentDrawables.Torso_2 != -1)
+				SetPedComponentVariation(Handle, (int)DrawableIndexes.Torso_2, dress.ComponentDrawables.Torso_2, dress.ComponentTextures.Torso_2, 2);
+
+			if (dress.PropIndices.Cappelli_Maschere == -1)
+				ClearPedProp(Handle, 0);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Cappelli_Maschere, dress.PropIndices.Cappelli_Maschere, dress.PropTextures.Cappelli_Maschere, false);
+			if (dress.PropIndices.Orecchie == -1)
+				ClearPedProp(Handle, 2);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Orecchie, dress.PropIndices.Orecchie, dress.PropTextures.Orecchie, false);
+			if (dress.PropIndices.Occhiali_Occhi == -1)
+				ClearPedProp(Handle, 1);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Occhiali_Occhi, dress.PropIndices.Occhiali_Occhi, dress.PropTextures.Occhiali_Occhi, true);
+			if (dress.PropIndices.Unk_3 == -1)
+				ClearPedProp(Handle, 3);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_3, dress.PropIndices.Unk_3, dress.PropTextures.Unk_3, true);
+			if (dress.PropIndices.Unk_4 == -1)
+				ClearPedProp(Handle, 4);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_4, dress.PropIndices.Unk_4, dress.PropTextures.Unk_4, true);
+			if (dress.PropIndices.Unk_5 == -1)
+				ClearPedProp(Handle, 5);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_5, dress.PropIndices.Unk_5, dress.PropTextures.Unk_5, true);
+			if (dress.PropIndices.Orologi == -1)
+				ClearPedProp(Handle, 6);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Orologi, dress.PropIndices.Orologi, dress.PropTextures.Orologi, true);
+			if (dress.PropIndices.Bracciali == -1)
+				ClearPedProp(Handle, 7);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Bracciali, dress.PropIndices.Bracciali, dress.PropTextures.Bracciali, true);
+			if (dress.PropIndices.Unk_8 == -1)
+				ClearPedProp(Handle, 8);
+			else
+				SetPedPropIndex(Handle, (int)PropIndexes.Unk_8, dress.PropIndices.Unk_8, dress.PropTextures.Unk_8, true);
 		}
 
 		/// <summary>

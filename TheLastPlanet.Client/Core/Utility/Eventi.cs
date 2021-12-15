@@ -43,20 +43,19 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Cache.PlayerCache.GiocatoriOnline = await Client.Instance.Events.Get<List<ClientId>>("lprp:callPlayers", Cache.PlayerCache.MyPlayer.User.CurrentChar.Posizione);
 			Cache.PlayerCache.MyPlayer.User.CurrentChar = Cache.PlayerCache.GiocatoriOnline.FirstOrDefault(x => x.Id == Cache.PlayerCache.MyPlayer.Id)?.User.CurrentChar;
+
 			foreach(var client in Cache.PlayerCache.GiocatoriOnline)
 				Client.Logger.Debug($"{client.ToJson()}");
-
-
 		}
 
 		public static async void LoadModel()
 		{
-			uint hash = Funzioni.HashUint(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.model);
+			uint hash = Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.model;
 			RequestModel(hash);
 			while (!HasModelLoaded(hash)) await BaseScript.Delay(1);
 			SetPlayerModel(PlayerId(), hash);
-			await Funzioni.UpdateFace(Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin);
-			await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+			Funzioni.UpdateFace(Cache.PlayerCache.MyPlayer.Ped.Handle, Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin);
+			Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
 			// TODO: Cambiare con request
 			RestoreWeapons();
 		}
@@ -155,7 +154,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		{
 			Vector3 coords = Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
 			Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.PlayerCache.MyPlayer.Ped.Heading);
-			if (Veh != null) Veh.PreviouslyOwnedByPlayer = true;
+			Veh.PreviouslyOwnedByPlayer = true;
 		}
 
 		public static void DeleteVehicle()
