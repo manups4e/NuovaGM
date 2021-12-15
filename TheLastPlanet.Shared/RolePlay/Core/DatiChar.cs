@@ -350,7 +350,7 @@ namespace TheLastPlanet.Shared
 	public class Skin
 	{
 		public string sex { get; set; } = "Maschio";
-		public string model { get; set; } = "mp_m_freemode_01";
+		public uint model { get; set; } = 1885233650u;
 		public float resemblance { get; set; } = 0f;
 		public float skinmix { get; set; } = 0f;
 		public Face face { get; set; } 
@@ -368,7 +368,7 @@ namespace TheLastPlanet.Shared
 		public Ears ears { get; set; }
 
 		public Skin() { }
-		public Skin(string sex, string model, float resemblance, float skinmix, Face face, A2 ageing, A2 makeup, A2 blemishes, A2 complexion, A2 skinDamage, A2 freckles, A3 lipstick, A3 blusher, Facial facialHair, Hair hair, Eye eye, Ears ears)
+		public Skin(string sex, uint model, float resemblance, float skinmix, Face face, A2 ageing, A2 makeup, A2 blemishes, A2 complexion, A2 skinDamage, A2 freckles, A3 lipstick, A3 blusher, Facial facialHair, Hair hair, Eye eye, Ears ears)
 		{
 			this.sex = sex;
 			this.model = model;

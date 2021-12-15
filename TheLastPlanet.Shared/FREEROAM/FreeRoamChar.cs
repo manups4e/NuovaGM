@@ -58,15 +58,26 @@ namespace TheLastPlanet.Shared
 
 		public FreeRoamChar() { }
 
+		public FreeRoamChar(ulong id) 
+		{
+			CharID = id;
+			Finance = new();
+			Gang = new();
+			Skin = new();
+			Dressing = new();
+			Weapons = new();
+			Statistiche = new();
+		}
+
 		public FreeRoamChar(ulong id, Finance finance, Gang gang, Skin skin, Dressing dressing, List<Weapons> weapons, FreeRoamStats statistiche)
 		{
-			this.CharID = id;
-			this.Finance = finance;
-			this.Gang = gang;
-			this.Skin = skin;
-			this.Dressing = dressing;
-			this.Weapons = weapons;
-			this.Statistiche = statistiche;
+			CharID = id;
+			Finance = finance;
+			Gang = gang;
+			Skin = skin;
+			Dressing = dressing;
+			Weapons = weapons;
+			Statistiche = statistiche;
 		}
 	}
 
