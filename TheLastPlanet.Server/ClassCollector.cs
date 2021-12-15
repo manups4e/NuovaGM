@@ -16,6 +16,7 @@ using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.RolePlay.Core;
 using TheLastPlanet.Server.FREEROAM;
+using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Server
 {
@@ -42,7 +43,7 @@ namespace TheLastPlanet.Server
 			HouseDealerServer.Init();
 			PoliziaServer.Init();
 			MediciServer.Init();
-			FPLServer.Init();
+			PlayerListServer.Init();
 			AppartamentiServer.Init();
 			FuelServer.Init();
 			VeicoliServer.Init();
@@ -58,6 +59,7 @@ namespace TheLastPlanet.Server
 			VehicleManager.Init();
 			PlayerBlipsHandler.Init();
 			BaseEventsFreeRoam.Init();
+			EventiFreeRoam.Init();
 			await Task.FromResult(0);
 		}
 	}
