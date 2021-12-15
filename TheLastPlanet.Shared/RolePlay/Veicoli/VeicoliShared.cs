@@ -75,8 +75,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	[Serialization]
-	public partial class VehicleData
+	public class VehicleData
 	{
 		[Ignore]
 		[JsonIgnore]
@@ -94,8 +93,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	[Serialization]
-	public partial class VehProp
+	public class VehProp
 	{
 		public int Model { get; set; }
 		public string Name { get; set; }
@@ -153,8 +151,7 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	[Serialization]
-	public partial class VehMod
+	public class VehMod
 	{
 		public int ModIndex { get; set; }
 		public int Value { get; set; }
@@ -168,18 +165,6 @@ namespace TheLastPlanet.Shared.Veicoli
 			ModName = name;
 			modType = type;
 		}
-	}
-
-	[Serialization]
-	public partial class _VeicoliAffitto
-	{
-		public List<Veicoloaff> biciclette { get; set; }
-		public List<Veicoloaff> macchineGeneric { get; set; }
-		public List<Veicoloaff> macchineMedium { get; set; }
-		public List<Veicoloaff> macchineSuper { get; set; }
-		public List<Veicoloaff> motoGeneric { get; set; }
-		public List<Veicoloaff> motoMedium { get; set; }
-		public List<Veicoloaff> motoSuper { get; set; }
 	}
 
 	[Serialization]
@@ -206,8 +191,8 @@ namespace TheLastPlanet.Shared.Veicoli
 		}
 	}
 
-	[Serialization]
-	public partial class Treno
+
+	public class Treno
 	{
 		public int entity { get; set; }
 		public int spawnidx { get; set; }
