@@ -6,6 +6,7 @@ using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using ScaleformUI;
 using TheLastPlanet.Shared;
+using CitizenFX.Core.Native;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
@@ -38,7 +39,8 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			await Cache.PlayerCache.Loaded();
 			if (firstTick)
 			{
-				await BaseScript.Delay(100);
+				API.StopPlayerSwitch();
+				await BaseScript.Delay(1000);
 				firstTick = false;
 			}
 			if (_posRp == Position.Zero)
@@ -165,10 +167,8 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 					}
 
 					await CambiaBucket("~f~Pianeta FreeRoam~w~", ModalitaServer.FreeRoam);
-					Screen.Fading.FadeIn(1000);
+					//Screen.Fading.FadeIn(1000);
 					await FREEROAM.Initializer.Init();
-					Cache.PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
-					BaseScript.TriggerServerEvent("worldEventsManage.Server:AddParticipant");
 					Stop();
 				}
 			}
@@ -177,10 +177,10 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		private static async Task CambiaBucket(string nome, ModalitaServer modalita)
 		{
 			Screen.Fading.FadeOut(500);
-			await BaseScript.Delay(500);
-			NativeUIScaleform.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
-			await BaseScript.Delay(10);
-			Screen.Fading.FadeIn(1);
+			await BaseScript.Delay(600);
+			NativeUIScaleform.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", 2000, "Attendi...");
+			await BaseScript.Delay(100);
+			Screen.Fading.FadeIn(0);
 			await BaseScript.Delay(3000);
 			bool dentro = await Client.Instance.Events.Get<bool>("tlg:checkSeGiaDentro", modalita);
 
@@ -200,7 +200,8 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = modalita;
 			Cache.PlayerCache.ModalitàAttuale = modalita;
 			await BaseScript.Delay(2000);
-			Screen.Fading.FadeOut(1);
+			Screen.Fading.FadeOut(0);
+			await BaseScript.Delay(100);
 			NativeUIScaleform.Warning.Dispose();
 		}
 	}
