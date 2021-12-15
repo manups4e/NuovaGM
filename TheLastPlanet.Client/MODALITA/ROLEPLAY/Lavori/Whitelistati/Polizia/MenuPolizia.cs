@@ -28,33 +28,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 			UIMenu Spogliatoio = new UIMenu("Spogliatoio Polizia", "Cambiati ed entra/esci dal servizio");
 			HUD.MenuPool.Add(Spogliatoio);
 
-			#region PER TESTARE GLI OUTFIT GENERICI (TUTTI)
-
-			/*
-						foreach (Test p in PoliziaMainClient.Testicolo)
-						{
-							UIMenuItem abito = new UIMenuItem("Numero " + PoliziaMainClient.Testicolo.IndexOf(p));
-							Spogliatoio.AddItem(abito);
-						}
-
-						Spogliatoio.OnIndexChange += async (menu, index) =>
-						{
-							for (int i = 0; i < 12; i++)
-							{
-								if (i != 2)
-									SetPedComponentVariation(PlayerPedId(), i, PoliziaMainClient.Testicolo[index].ComponentDrawables[i], PoliziaMainClient.Testicolo[index].ComponentTextures[i], 2);
-								if (i<9)
-									if (PoliziaMainClient.Testicolo[index].PropIndices[i] == -1) 
-										ClearPedProp(PlayerPedId(), i);
-									else
-										SetPedPropIndex(PlayerPedId(), i, PoliziaMainClient.Testicolo[index].PropIndices[i], PoliziaMainClient.Testicolo[index].PropTextures[i], true);
-							}
-							await Task.FromResult(0);
-						};
-			*/
-
-			#endregion
-
 			UIMenuItem Uniforme = new UIMenuItem("");
 			UIMenuItem Giubbotto = new UIMenuItem("");
 			UIMenuItem Pilota = new UIMenuItem("");
@@ -118,7 +91,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 					}
 					else
 					{
-						await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+						Funzioni.UpdateDress(PlayerPedId(), Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
 						Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio = false;
 					}
 				}

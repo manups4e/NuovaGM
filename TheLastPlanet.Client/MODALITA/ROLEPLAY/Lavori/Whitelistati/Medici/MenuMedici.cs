@@ -54,7 +54,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 				else
 				{
 					Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio = false;
-					await Funzioni.UpdateDress(Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
+					Funzioni.UpdateDress(PlayerPedId(), Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
 				}
 
 				await BaseScript.Delay(500);
