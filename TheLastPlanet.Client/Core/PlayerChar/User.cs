@@ -34,11 +34,11 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		[Ignore] [JsonIgnore] public string DoB => CurrentChar.Info.dateOfBirth;
 
-		[Ignore] [JsonIgnore] public bool DeathStatus => CurrentChar.is_dead;
+		[Ignore] [JsonIgnore] public bool DeathStatus => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.is_dead : FreeRoamChar.is_dead;
 
-		[Ignore] [JsonIgnore] public int Money => CurrentChar.Finance.Money;
+		[Ignore] [JsonIgnore] public int Money => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay? CurrentChar.Finance.Money : FreeRoamChar.Finance.Money;
 
-		[Ignore] [JsonIgnore] public int Bank => CurrentChar.Finance.Bank;
+		[Ignore] [JsonIgnore] public int Bank => PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Finance.Bank : FreeRoamChar.Finance.Bank;
 
 		[Ignore] [JsonIgnore] public int DirtyCash => CurrentChar.Finance.DirtyCash;
 
@@ -57,24 +57,33 @@ namespace TheLastPlanet.Client.Core.PlayerChar
 
 		public List<Weapons> GetCharWeapons()
 		{
-			return CurrentChar.Weapons;
+			return PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Weapons : FreeRoamChar.Weapons;
 		}
 
 		public bool HasWeapon(string weaponName)
 		{
-			return CurrentChar.Weapons.Any(x => x.name == weaponName);
+			return PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Weapons.Any(x => x.name == weaponName): FreeRoamChar.Weapons.Any(x => x.name == weaponName);
 		}
 
 		public bool HasWeapon(WeaponHash weaponName)
 		{
-			return CurrentChar.Weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
+			return PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay ? CurrentChar.Weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName): FreeRoamChar.Weapons.Any(x => Funzioni.HashInt(x.name) == (int)weaponName);
 		}
 
 		public Tuple<int, Weapons> GetWeapon(string weaponName)
 		{
-			for (int i = 0; i < CurrentChar.Weapons.Count; i++)
-				if (CurrentChar.Weapons[i].name == weaponName)
-					return new Tuple<int, Weapons>(i, CurrentChar.Weapons[i]);
+			if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
+			{
+				for (int i = 0; i < CurrentChar.Weapons.Count; i++)
+					if (CurrentChar.Weapons[i].name == weaponName)
+						return new Tuple<int, Weapons>(i, CurrentChar.Weapons[i]);
+			}
+            else
+            {
+				for (int i = 0; i < FreeRoamChar.Weapons.Count; i++)
+					if (FreeRoamChar.Weapons[i].name == weaponName)
+						return new Tuple<int, Weapons>(i, FreeRoamChar.Weapons[i]);
+			}
 
 			return new Tuple<int, Weapons>(0, null);
 		}
