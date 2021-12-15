@@ -49,6 +49,13 @@ namespace TheLastPlanet.Client.Cache
 			await Loaded();
 			await BaseScript.Delay(200);
 
+			#region Posizione
+
+			// TODO: non salvare position nel db se siamo in un interior
+			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
+
+			#endregion
+
 			#region Check Veicolo
 
 			if (!_inVeh)
@@ -89,13 +96,6 @@ namespace TheLastPlanet.Client.Cache
 					MyPlayer.User.Status.PlayerStates.InPausa = false;
 				}
 			}
-
-			#endregion
-
-			#region Posizione
-
-			// TODO: non salvare position nel db se siamo in un interior
-			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
 			#endregion
 
