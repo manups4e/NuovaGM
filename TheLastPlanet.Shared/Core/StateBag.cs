@@ -111,42 +111,49 @@ namespace TheLastPlanet.Shared
         private readonly BaseStateBag<bool> _finDiVita;
         private readonly BaseStateBag<bool> _inVeicolo;
 
+        private bool svenuto;
+        private bool ammanettato;
+        private bool inCasa;
+        private bool inServizio;
+        private bool finDiVita;
+        private bool inVeicolo;
+
         public bool Svenuto
         {
-            get => _svenuto.Value;
-            set => _svenuto.Value = value;
+            get => svenuto;
+            set => svenuto = value;
         }
 
         public bool Ammanettato
         {
-            get => _ammanettato.Value;
-            set => _ammanettato.Value = value;
+            get => ammanettato;
+            set => ammanettato = value;
         }
 
         public bool InCasa
         {
-            get => _inCasa.Value;
-            set => _inCasa.Value = value;
+            get => inCasa;
+            set => inCasa = value;
         }
 
         public bool InServizio
         {
-            get => _inServizio.Value;
-            set => _inServizio.Value = value;
+            get => inServizio;
+            set => inServizio = value;
         }
 
         public bool FinDiVita
         {
-            get => _finDiVita.Value;
-            set => _finDiVita.Value = value;
+            get => finDiVita;
+            set => finDiVita = value;
         }
 
         public bool InVeicolo
         {
-            get => _inVeicolo.Value;
-            set => _inVeicolo.Value = value;
+            get => inVeicolo;
+            set => inVeicolo = value;
         }
-
+        
         public RPStates() { }
 
         public RPStates(Player player, string name) : base(player, name)
