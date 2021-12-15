@@ -1,6 +1,6 @@
 {
     "Main":{
-       "NomeServer":"The Last Planet",
+       "NomeServer":"The Last Galaxy",
        "DiscordAppId":"625350962776637491",
        "DiscordRichPresenceAsset":"majoras2",
        "PassengerDriveBy":true,
@@ -3141,9 +3141,7 @@
              "InizioLavoro":{
                 "X":374.144,
                 "Y":-1611.078,
-                "Z":29.292,
-                "IsNormalized":false,
-                "IsZero":false
+                "Z":29.292
              },
              "PuntiDespawn":[
                 {
@@ -18103,11 +18101,11 @@
              },
              "PosVehs":[
                 
-             ]
-          },
-          "Garages":{
+            ]
+         },
+         "Garages":{
             
-          }
+         }
        }
     }
- }
+}

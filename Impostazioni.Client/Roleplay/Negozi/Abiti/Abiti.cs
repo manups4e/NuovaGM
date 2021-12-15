@@ -24,7 +24,6 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         public List<Singolo> PonsPant { get; set; }
         public List<Singolo> Occhiali { get; set; }
         public Accessori Accessori { get; set; }
-		public Abiti() { }
     }
 
 }

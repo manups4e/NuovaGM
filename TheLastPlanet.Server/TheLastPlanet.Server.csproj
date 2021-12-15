@@ -71,8 +71,24 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Client_FreeRoam.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Client_RolePlay.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ServerConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\SharedConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
+	  <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
+	  <Exec Command="copy /y $(OutDir)\Resources\*.json L:\FiveM\ManuGamemode\resources\[local]\tlp\configs\" />
   </Target>
 
   <Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />

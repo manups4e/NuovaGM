@@ -2,7 +2,7 @@
    "Main":{
       "AfkTimeout":300,
       "AutoSavingInterval":180000,
-      "PingThreshold":250,
+      "PingThreshold":300,
       "MaxPlayerNameLength":24,
       "EnableVoiceChat":false,
       "DiscordNotificationInterval":900000,

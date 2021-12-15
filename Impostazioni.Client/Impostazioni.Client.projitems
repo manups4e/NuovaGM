@@ -11,9 +11,4 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Businesses\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Meteo\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Proprietà\" />
-  </ItemGroup>
 </Project>

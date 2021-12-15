@@ -36,8 +36,7 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         public List<Singolo> Bracciali { get; set; } = new List<Singolo>();
     }
 
-    [Serialization]
-    public partial class Testa
+    public class Testa
     {
         public List<Singolo> Orecchini { get; set; } = new List<Singolo>();
         public List<Singolo> Auricolari { get; set; } = new List<Singolo>();
