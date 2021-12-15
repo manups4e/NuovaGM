@@ -26,7 +26,7 @@ namespace TheLastPlanet.Events.Generator
             foreach (var item in engine.WorkItems)
             {
                 var code = engine.Compile(item);
-                var identifier = item.TypeSymbol.Name;
+                var identifier = $"{item.TypeSymbol.ContainingNamespace}.{item.TypeSymbol.Name}";
                 var count = _sources.Count(self => self == identifier);
                 var unique = $"{identifier}{(count != 0 ? Convert.ToChar(65 + count) : string.Empty)}.Serialization.cs";
 
@@ -38,10 +38,7 @@ namespace TheLastPlanet.Events.Generator
                     {
                         location = entry;
 
-                        if (!location.IsInMetadata)
-                        {
-                            break;
-                        }
+                        if (!location.IsInMetadata) { break; }
                     }
 
                     context.ReportDiagnostic(Diagnostic.Create(problem.Descriptor, location, problem.Format));
@@ -52,7 +49,6 @@ namespace TheLastPlanet.Events.Generator
                 try
                 {
                     context.AddSource(unique, SourceText.From(code.ToString(), Encoding.UTF8));
-
                     _sources.Add(identifier);
                 }
                 catch (ArgumentException)

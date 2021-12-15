@@ -78,13 +78,6 @@ namespace TheLastPlanet.Events.Generator
             Logs = new List<string>();
         }
 
-        public void ClearAll()
-        {
-            WorkItems.Clear();
-            Problems.Clear();
-            Logs.Clear();
-        }
-
         public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
         {
             if (context.Node is not ClassDeclarationSyntax classDecl) return;
@@ -129,6 +122,11 @@ namespace TheLastPlanet.Events.Generator
             }
 
             if (unit == null || namespaceDecl == null) return;
+
+            if(WorkItems.Any(x=>x.TypeSymbol.Name == symbol.Name && x.TypeSymbol.ContainingNamespace.Name == symbol.ContainingNamespace.Name))
+            {
+                WorkItems.RemoveAll(x => x.TypeSymbol.Name == symbol.Name);
+            }
 
             WorkItems.Add(new WorkItem
             {
