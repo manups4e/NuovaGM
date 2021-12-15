@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			InternalGameEvents.OnPedDied += OnPedDied;
 			InternalGameEvents.OnPedKilledByPed += OnPedKilledByPed;
 			InternalGameEvents.OnPedKilledByVehicle += OnPedKilledByVehicle;
-			PlayerCache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 250, true, true);
 			Environment.EnablePvP(true);
 		}
 
@@ -41,16 +40,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 					if (lastPed.Handle != PlayerCache.MyPlayer.Ped.Handle)
 					{
 						Player playerKiller = new(NetworkGetPlayerIndexFromPed(lastPed.Handle));
-						Client.Instance.Events.Send("lpop:onPlayerDied", 1, playerKiller.Handle, API.GetEntityCoords(ped, false).ToPosition());
+						Client.Instance.Events.Send("lpop:onPlayerDied", 1, playerKiller.Handle, GetEntityCoords(ped, false).ToPosition());
 					}
 					else
-						Client.Instance.Events.Send("lpop:onPlayerDied", 0, -1, API.GetEntityCoords(ped, false).ToPosition());
+						Client.Instance.Events.Send("lpop:onPlayerDied", 0, -1, GetEntityCoords(ped, false).ToPosition());
 				}
 				else
-					Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, API.GetEntityCoords(ped, false).ToPosition());
+					Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
 			}
 			else
-				Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, API.GetEntityCoords(ped, false).ToPosition());
+				Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
 			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
@@ -63,7 +62,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			Screen.Effects.Start(ScreenEffect.DeathFailMpIn);
 			Game.PlaySound("Bed", "WastedSounds");
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
-			Client.Instance.Events.Send("lpop:onPlayerDied", -1, attackerPed, API.GetEntityCoords(ped, false).ToPosition());
+			Client.Instance.Events.Send("lpop:onPlayerDied", -1, attackerPed, GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
 			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
