@@ -12,8 +12,7 @@ using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar
 {
-	[Serialization]
-	public partial class User : BasePlayerShared
+	public class User : BasePlayerShared
 	{
 		public User(BasePlayerShared result)
 		{

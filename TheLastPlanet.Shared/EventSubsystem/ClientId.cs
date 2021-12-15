@@ -156,7 +156,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             return client.Handle == Handle;
         }
 
-        public async void LoadUser()
+        public void LoadUser()
 		{
             ClientId res;
 #if SERVER
@@ -188,19 +188,5 @@ namespace TheLastPlanet.Shared.Internal.Events
         public static explicit operator ClientId(int handle) => new(handle);
 #endif
 
-    }
-
-    public class ClientStateBags
-	{
-        public PlayerStates PlayerStates { get; set; }
-        public RPStates RolePlayStates { get; set; }
-        public InstanceBags Istanza { get; set; }
-
-        public ClientStateBags(Player player)
-        {
-            PlayerStates = new(player, "PlayerStates");
-            RolePlayStates = new(player, "RolePlayStates");
-            Istanza = new(player, "PlayerInstance");
-        }
     }
 }

@@ -12,13 +12,13 @@ using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Server.Core.PlayerChar
 {
-	[Serialization]
-	public partial class User : BasePlayerShared
+	public class User : BasePlayerShared
 	{
 		[Ignore][JsonIgnore] public string source;
 
 		[Ignore][JsonIgnore] public DateTime LastSaved;
 
+		public User() { }
 		public User(Player player, BasePlayerShared result)
 		{
 			source = player.Handle;
@@ -35,7 +35,6 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			Identifiers.Discord = player.GetLicense(Identifier.Discord);
 			Identifiers.Fivem = player.GetLicense(Identifier.Fivem);
 			Identifiers.Ip = player.GetLicense(Identifier.Ip);
-			Status = new(player);
 		}
 
 		public User(Player player, dynamic result)
