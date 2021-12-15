@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             Modalita = modalitaServer;
             Bucket = bucket;
-            Server.Instance.Events.Mount("lprp:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
+            Server.Instance.Events.Mount("tlg:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
         }
 
         public int GetTotalPlayers()
@@ -321,15 +322,26 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private async Task<FreeRoamChar> LoadFreeRoamChar(ClientId source, int id)
         {
+            //API.DeleteResourceKvpNoSync($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
+            string sbytes = API.GetResourceKvpString($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
+            if (string.IsNullOrWhiteSpace(sbytes))
+            {
+                source.User.FreeRoamChar = new();
+            }
+            else
+            {
+                byte[] bytes = sbytes.ToBytes();
+                source.User.FreeRoamChar = bytes.FromBytes<FreeRoamChar>();
+            }
+
+            /*
             string query = "SELECT * FROM freeroampersonaggi WHERE UserID = @id";
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
             FreeRoamChar_Metadata res = await MySQL.QuerySingleAsync<FreeRoamChar_Metadata>(query, new { id });
             if (res == null)
             {
                 user.FreeRoamChar = new FreeRoamChar();
-                Bucket?.AddPlayer(source);
                 return user.FreeRoamChar;
-
             }
             user.FreeRoamChar = new()
             {
@@ -343,8 +355,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                 Level = res.level,
                 TotalXp = res.totalXp,
             };
-            Bucket?.AddPlayer(source);
-            return user.FreeRoamChar;
+            */
+            return source.User.FreeRoamChar;
 
         }
     }

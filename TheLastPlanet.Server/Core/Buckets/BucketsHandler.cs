@@ -13,19 +13,19 @@ namespace TheLastPlanet.Server.Core.Buckets
 {
 	internal static class BucketsHandler
 	{
-/*
-		[0] = new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false },
-		[1000] = new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true },
-		[4000] = new Bucket(4000, "NEGOZIO") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false },
-		[5000] = new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true },
-*/
+		/*
+				[0] = new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false },
+				[1000] = new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true },
+				[4000] = new Bucket(4000, "NEGOZIO") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false },
+				[5000] = new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true },
+		*/
 
-		public static LobbyBucketsContainer Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
-		public static BucketsContainer Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
-		public static RolePlayBucketsContainer RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-		public static FreeRoamBucketContainer FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-		public static BucketsContainer Gare = new(ModalitaServer.Gare, new List<Bucket>());
-		public static BucketsContainer Minigiochi = new(ModalitaServer.Minigiochi, new List<Bucket>());
+		public static LobbyBucketsContainer Lobby;
+		public static BucketsContainer Negozio;
+		public static RolePlayBucketsContainer RolePlay;
+		public static FreeRoamBucketContainer FreeRoam;
+		public static BucketsContainer Gare;
+		public static BucketsContainer Minigiochi;
 
 		public static void Init()
 		{
@@ -33,14 +33,20 @@ namespace TheLastPlanet.Server.Core.Buckets
 			Server.Instance.Events.Mount("tlg:checkSeGiaDentro", new Func<ClientId, ModalitaServer, Task<bool>>(CheckIn));
 			Server.Instance.Events.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
 			Server.Instance.Events.Mount("tlg:richiediContoBuckets", new Func<ClientId, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
-		}
+			Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+			Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+			RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+			FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
+			Gare = new(ModalitaServer.Gare, new List<Bucket>());
+			Minigiochi = new(ModalitaServer.Minigiochi, new List<Bucket>());
+	}
 
-		/// <summary>
-		/// Aggiunge un player al bucket rimuovendolo dagli altri buckets
-		/// </summary>
-		/// <param name="player">Player da aggiungere</param>
-		/// <param name="id">Id del bucket</param>
-		private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
+	/// <summary>
+	/// Aggiunge un player al bucket rimuovendolo dagli altri buckets
+	/// </summary>
+	/// <param name="player">Player da aggiungere</param>
+	/// <param name="id">Id del bucket</param>
+	private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
 		{
 			RemovePlayerFromBucket(player, player.User.Status.PlayerStates.Modalita, "");
 			switch (id)
