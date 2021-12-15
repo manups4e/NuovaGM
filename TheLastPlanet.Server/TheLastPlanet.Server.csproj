@@ -1,97 +1,96 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <UserSecretsId>1df517d5-02d3-48ad-b0f5-f417f27ca1b2</UserSecretsId>
-    <AssemblyName>TheLastPlanet.Server.net</AssemblyName>
-    <RootNamespace>TheLastPlanet.Server</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Configurations>Debug;Release;Offuscata</Configurations>
-    <AssemblyVersion>5.78.*</AssemblyVersion>
-    <FileVersion>5.78</FileVersion>
-    <Deterministic>false</Deterministic>
-    <Nullable>annotations</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<UserSecretsId>1df517d5-02d3-48ad-b0f5-f417f27ca1b2</UserSecretsId>
+		<AssemblyName>TheLastPlanet.Server.net</AssemblyName>
+		<RootNamespace>TheLastPlanet.Server</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Configurations>Debug;Release;Offuscata</Configurations>
+		<AssemblyVersion>5.78.*</AssemblyVersion>
+		<FileVersion>5.78</FileVersion>
+		<Deterministic>false</Deterministic>
+		<Nullable>annotations</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>SERVER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <OutputPath>G:\Progetti\source\repos\output\NuovaGM\</OutputPath>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>SERVER</DefineConstants>
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<OutputPath>G:\Progetti\source\repos\output\NuovaGM\</OutputPath>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
-    <DefineConstants>SERVER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <OutputPath>G:\Progetti\source\repos\output\NuovaGM\</OutputPath>
-    <PlatformTarget>x64</PlatformTarget>
-    <Obfuscate>True</Obfuscate>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Offuscata|AnyCPU'">
+		<DefineConstants>SERVER</DefineConstants>
+		<GenerateSerializationAssemblies>auto</GenerateSerializationAssemblies>
+		<OutputPath>G:\Progetti\source\repos\output\NuovaGM\</OutputPath>
+		<PlatformTarget>x64</PlatformTarget>
+		<Obfuscate>True</Obfuscate>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;SERVER</DefineConstants>
-    <PlatformTarget>x64</PlatformTarget>
-    <Obfuscate>True</Obfuscate>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;SERVER</DefineConstants>
+		<PlatformTarget>x64</PlatformTarget>
+		<Obfuscate>True</Obfuscate>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.5041" />
-    <PackageReference Include="Confuser.MSBuild" Version="1.5.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="MySqlConnector" Version="2.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CitizenFX.Core.Server" Version="1.0.5041" />
+		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="MySqlConnector" Version="2.1.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <!--<Compile Include="..\Impostazioni\Server\**\*.cs" />-->
-	<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
-	<!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
-    <Content Include="TheLastPlanet.Server.crproj" />
-    <ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
+	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
+	<Import Project="..\Impostazioni.Server\Impostazioni.Server.projitems" Label="Shared" />
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<!--<Compile Include="..\Impostazioni\Server\**\*.cs" />-->
+		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
+		<!--<Compile Include="..\TheLastPlanet.Shared\**\*.cs" />-->
+		<Content Include="TheLastPlanet.Server.crproj" />
+		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Resources\Client_FreeRoam.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Client_RolePlay.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\ServerConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\SharedConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
-	  <Exec Command="copy /y $(OutDir)\Resources\*.json L:\FiveM\ManuGamemode\resources\[local]\tlp\configs\" />
-  </Target>
+	<ItemGroup>
+		<None Update="Resources\Client_FreeRoam.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Client_RolePlay.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\ServerConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\SharedConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
-  <Import Project="..\Impostazioni.Server\Impostazioni.Server.projitems" Label="Shared" />
-
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy /y $(OutDir)\TheLastPlanet.Server.net.* L:\FiveM\ManuGamemode\resources\[local]\tlp\Server\" />
+		<Exec Command="copy /y $(OutDir)\Resources\*.json L:\FiveM\ManuGamemode\resources\[local]\tlp\configs\" />
+	</Target>
 </Project>
