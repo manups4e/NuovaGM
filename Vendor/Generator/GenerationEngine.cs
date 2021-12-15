@@ -78,6 +78,13 @@ namespace TheLastPlanet.Events.Generator
             Logs = new List<string>();
         }
 
+        public void ClearAll()
+        {
+            WorkItems.Clear();
+            Problems.Clear();
+            Logs.Clear();
+        }
+
         public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
         {
             if (context.Node is not ClassDeclarationSyntax classDecl) return;
