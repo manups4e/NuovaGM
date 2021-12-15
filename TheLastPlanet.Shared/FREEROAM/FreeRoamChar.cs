@@ -44,21 +44,21 @@ namespace TheLastPlanet.Shared
 	{
 		public ulong CharID { get; set; }
 		public bool is_dead { get; set; }
-		public Finance Finance {get;set;}
+		public Finance Finance { get; set; }
 		public Position Posizione { get; set; }
-		public Gang Gang {get;set;}
-		public Skin Skin {get;set;}
-		public List<Weapons> Weapons {get;set;}
-		public List<string> Proprietà {get;set;} // da aggiungere
-		public List<OwnedVehicle> Veicoli {get;set;} // da aggiungere
-		public Dressing Dressing {get;set;}
-		public FreeRoamStats Statistiche {get;set;}
+		public Gang Gang { get; set; }
+		public Skin Skin { get; set; }
+		public List<Weapons> Weapons { get; set; }
+		public List<string> Proprietà { get; set; } // da aggiungere
+		public List<OwnedVehicle> Veicoli { get; set; } // da aggiungere
+		public Dressing Dressing { get; set; }
+		public FreeRoamStats Statistiche { get; set; }
 		public int Level { get; set; } = 1;
 		public int TotalXp { get; set; }
 
 		public FreeRoamChar() { }
 
-		public FreeRoamChar(ulong id) 
+		public FreeRoamChar(ulong id)
 		{
 			CharID = id;
 			Finance = new();
