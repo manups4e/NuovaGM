@@ -187,7 +187,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			if (dentro)
 			{
 				NativeUIScaleform.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
-				ServerJoining.PlayerSpawned();
+				ServerJoining.ReturnToLobby();
 				await BaseScript.Delay(3000);
 				NativeUIScaleform.Warning.Dispose();
 
