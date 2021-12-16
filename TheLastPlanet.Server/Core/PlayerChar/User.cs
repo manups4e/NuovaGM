@@ -14,9 +14,9 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 {
 	public class User : BasePlayerShared
 	{
-		[Ignore][JsonIgnore] public string source;
+		[Ignore] [JsonIgnore] public string source;
 
-		[Ignore][JsonIgnore] public DateTime LastSaved;
+		[Ignore] [JsonIgnore] public DateTime LastSaved;
 
 		public User() { }
 		public User(Player player, BasePlayerShared result)
@@ -30,11 +30,14 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 			char_data = result.char_data;
 			LastSaved = DateTime.Now;
 			Player = player;
-			Identifiers.Steam = player.GetLicense(Identifier.Steam);
-			Identifiers.License = player.GetLicense(Identifier.License);
-			Identifiers.Discord = player.GetLicense(Identifier.Discord);
-			Identifiers.Fivem = player.GetLicense(Identifier.Fivem);
-			Identifiers.Ip = player.GetLicense(Identifier.Ip);
+			Identifiers = new()
+			{
+				Steam = player.GetLicense(Identifier.Steam),
+				License = player.GetLicense(Identifier.License),
+				Discord = player.GetLicense(Identifier.Discord),
+				Fivem = player.GetLicense(Identifier.Fivem),
+				Ip = player.GetLicense(Identifier.Ip),
+			};
 		}
 
 		public User(Player player, dynamic result)
