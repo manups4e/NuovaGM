@@ -1471,7 +1471,7 @@ namespace Impostazioni.Shared.Configurazione.Generici
 	[Serialization]
 	public partial class Arma
 	{
-		public string name;
+		public string? name;
 		public List<Components> components = new List<Components>();
 		public List<Tinte> tints = new List<Tinte>();
 		public Arma() { }
