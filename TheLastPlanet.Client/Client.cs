@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Impostazioni.Shared.Core;
 using Logger;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.Ingresso;
@@ -27,6 +26,7 @@ namespace TheLastPlanet.Client
 		public List<ClientId> Clients = new();
 		public NuiManager NuiManager = new();
 		public StateBagsHandler StateBagsHandler;
+		public StateBag ServerState => GlobalState;
 		public Client() { Inizializza(); }
 
 		private async void Inizializza()

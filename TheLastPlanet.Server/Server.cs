@@ -13,7 +13,6 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.Internal.Events;
 using System.Linq;
-using Impostazioni.Shared.Core;
 
 namespace TheLastPlanet.Server
 {
@@ -27,9 +26,10 @@ namespace TheLastPlanet.Server
 		public static Configurazione Impostazioni = null;
 		public ServerGateway Events;
 		public static bool Debug;
+		public StateBag ServerState => GlobalState;
 
 		public Server()
-		{
+		{ 
 			Instance = this;
 			Logger = new Log();
 #if DEBUG

@@ -46,9 +46,9 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<Optimize>True</Optimize>
 	</PropertyGroup>
-
-	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 	<Import Project="..\Impostazioni.Client\Impostazioni.Client.projitems" Label="Shared" />
+	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
+	<Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="Shared" />
 	<ItemGroup>
 		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5090" />
 		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
