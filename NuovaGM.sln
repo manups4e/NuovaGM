@@ -12,8 +12,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLastPlanet.Server", "The
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Vendor\Generator\Generator.csproj", "{312E3A89-4B3E-4340-8113-90D89664F85C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{A359FBA0-3513-483A-A6D4-F7FCBEEA8D94}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Client", "Impostazioni.Client\Impostazioni.Client.shproj", "{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Server", "Impostazioni.Server\Impostazioni.Server.shproj", "{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE}"
@@ -26,16 +24,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleformUI", "ScaleformUI\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condiviso", "Condiviso", "{5FCCD1FE-371D-4C56-944B-3C7F64E58C82}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{5D0E5616-DB3C-414A-BB2E-F21930E804CA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Impostazioni.Server\Impostazioni.Server.projitems*{032b03ad-3a70-4c81-8ec5-3beba0f69bbe}*SharedItemsImports = 13
 		Impostazioni.Client\Impostazioni.Client.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
+		Impostazioni.Shared\Impostazioni.Shared.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
 		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{477054ae-fbe1-4a93-8591-e2c61dd14390}*SharedItemsImports = 5
+		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{5d0e5616-db3c-414a-bb2e-f21930e804ca}*SharedItemsImports = 13
 		Impostazioni.Client\Impostazioni.Client.projitems*{6e4a0def-350b-4f68-a5c2-b77c5f0f95cb}*SharedItemsImports = 13
 		Impostazioni.Shared\Impostazioni.Shared.projitems*{8b4ab3f9-7b5d-4aa1-85d7-90a9fcc75d59}*SharedItemsImports = 13
 		Impostazioni.Server\Impostazioni.Server.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
+		Impostazioni.Shared\Impostazioni.Shared.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
 		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{929c2cbd-6759-4984-a4e0-14c1a0ea5dda}*SharedItemsImports = 5
-		TheLastPlanet.Shared\TheLastPlanet.Shared.projitems*{a359fba0-3513-483a-a6d4-f7fcbeea8d94}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,10 +74,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A359FBA0-3513-483A-A6D4-F7FCBEEA8D94} = {5FCCD1FE-371D-4C56-944B-3C7F64E58C82}
 		{6E4A0DEF-350B-4F68-A5C2-B77C5F0F95CB} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
 		{032B03AD-3A70-4C81-8EC5-3BEBA0F69BBE} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
 		{8B4AB3F9-7B5D-4AA1-85D7-90A9FCC75D59} = {95A5FB57-0877-466C-AEF9-7B0693FFCE05}
+		{5D0E5616-DB3C-414A-BB2E-F21930E804CA} = {5FCCD1FE-371D-4C56-944B-3C7F64E58C82}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65064A5E-AA17-4390-9E44-7B53F7A6B9B2}

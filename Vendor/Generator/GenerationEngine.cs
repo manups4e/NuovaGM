@@ -125,7 +125,7 @@ namespace TheLastPlanet.Events.Generator
 
             if(WorkItems.Any(x=>x.TypeSymbol.Name == symbol.Name && x.TypeSymbol.ContainingNamespace.Name == symbol.ContainingNamespace.Name))
             {
-                WorkItems.RemoveAll(x => x.TypeSymbol.Name == symbol.Name);
+                WorkItems.RemoveAll(x => x.TypeSymbol.Name == symbol.Name && x.TypeSymbol.ContainingNamespace.Name == symbol.ContainingNamespace.Name);
             }
 
             WorkItems.Add(new WorkItem
