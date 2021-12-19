@@ -12,44 +12,33 @@ namespace TheLastPlanet.Server.Core
 {
 	public static class Main
 	{
-		private static long _starttick;
 		private static DateTime Now;
 		public static void Init()
 		{
-			Server.Instance.AddTick(Orario);
-			Server.Instance.AddTick(PlayTime);
-			_starttick = GetGameTimer();
+			Task.Run(Orario_Playtime);
 			Now = DateTime.Now;
 		}
 
-		private static async Task Orario()
+		private static async Task Orario_Playtime()
 		{
 			try
 			{
-				var ora = DateTime.Now - Now;
-				SetConvarServerInfo("Attivo da:",$"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
-				await BaseScript.Delay(60000);
-			}
-			catch (Exception e)
-			{
-				Server.Logger.Error( e.ToString() + e.StackTrace);
-			}
-		}
-
-		private static async Task PlayTime()
-		{
-			try
-			{
-				await BaseScript.Delay(60000);
-				if (Server.Instance.Clients.Count > 0)
+				while (true)
 				{
-					foreach (var user in from user in Server.Instance.Clients where user.Player is not null && user.User.Status.Spawned select user)
-						user.User.playTime += 60;
+					await BaseScript.Delay(60000);
+					if (Server.Instance.Clients.Count > 0)
+					{
+						foreach (var user in from user in Server.Instance.Clients where user.Player is not null && user.User is not null && user.User.Status.Spawned select user)
+							user.User.playTime += 60;
+					}
+					var ora = DateTime.Now - Now;
+					await BaseScript.Delay(0);
+					SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
 				}
 			}
 			catch (Exception e)
 			{
-				Server.Logger.Error( e.ToString() + e.StackTrace);
+				Server.Logger.Error(e.ToString() + e.StackTrace);
 			}
 		}
 	}
