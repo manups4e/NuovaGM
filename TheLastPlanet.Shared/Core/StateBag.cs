@@ -1,6 +1,5 @@
 ﻿using System;
 using CitizenFX.Core;
-using Impostazioni.Shared.Core;
 using Logger;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
