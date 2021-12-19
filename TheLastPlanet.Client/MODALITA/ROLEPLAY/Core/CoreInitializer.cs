@@ -17,8 +17,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 			LogIn.LogIn.Init();
 			Main.Init();
 			EventiRoleplay.Init();
-			TimeWeather.Meteo.Init();
-			TimeWeather.Orario.Init();
+			TimeWeather.MeteoClient.Init();
+			TimeWeather.OrarioClient.Init();
 			await Task.FromResult(0);
 		}
 
@@ -27,8 +27,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 			LogIn.LogIn.Stop();
 			Main.Stop();
 			//Eventi.Stop();
-			TimeWeather.Meteo.Stop();
-			TimeWeather.Orario.Stop();
+			TimeWeather.MeteoClient.Stop();
+			TimeWeather.OrarioClient.Stop();
 			await Task.FromResult(0);
 		}
 	}

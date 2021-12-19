@@ -49,8 +49,8 @@ namespace TheLastPlanet.Server
 			VeicoliServer.Init();
 			GiostreServer.Init();
 			//Telefoni.TelefonoMainServer.Init();
-			TimeWeather.Meteo.Init();
-			TimeWeather.Orario.Init();
+			TimeWeather.MeteoServer.Init();
+			TimeWeather.OrarioServer.Init();
 			PickupsServer.Init();
 			//NuovaCoda.Init();
 			ServerManager.Init();

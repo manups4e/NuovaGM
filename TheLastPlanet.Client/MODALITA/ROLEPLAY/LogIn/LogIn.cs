@@ -160,7 +160,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 			dummyPed.IsCollisionProof = false;
 			dummyPed.BlockPermanentEvents = true;
 			GuiEnabled = true;
-			TimeWeather.Meteo.SetMeteo((int)Weather.ExtraSunny, false, true);
+			TimeWeather.MeteoClient.SetMeteoPerMe((int)CitizenFX.Core.Weather.ExtraSunny, false, true);
 			NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
 			await Cache.PlayerCache.Loaded();
 			List<LogInInfo> data = await Client.Instance.Events.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
@@ -292,11 +292,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
-			AdvanceClockTimeTo(TimeWeather.Orario.h, TimeWeather.Orario.m, TimeWeather.Orario.s);
+			AdvanceClockTimeTo(TimeWeather.OrarioClient.h, TimeWeather.OrarioClient.m, TimeWeather.OrarioClient.s);
 			if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(7000);
-			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
-			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
+			Client.Instance.AddTick(TimeWeather.OrarioClient.AggiornaTempo);
+			Client.Instance.Events.Send("SyncWeatherForMe", true);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);
 			await BaseScript.Delay(5000);

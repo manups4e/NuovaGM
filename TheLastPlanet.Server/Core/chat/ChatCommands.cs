@@ -591,12 +591,20 @@ namespace TheLastPlanet.Server.Core
 					m = 0;
 				}
 			}
+			if (args != null && args.Count > 0 && args.Count < 3)
+			{
+				TimeWeather.OrarioServer.Update(Tempo);
+				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
+			}
+			else
+				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
 
+			/*
 			if (sender.Handle == 0)
 			{
 				if (args != null && args.Count > 0 && args.Count < 3)
 				{
-					BaseScript.TriggerEvent("UpdateFromCommandTime", Tempo);
+					TimeWeather.Orario.Update(Tempo);
 					Server.Logger.Info( $"Time -- Orario server impostato alle ore {h}:{m}");
 				}
 				else
@@ -608,7 +616,7 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args != null && args.Count > 0 && args.Count < 3)
 				{
-					BaseScript.TriggerEvent("UpdateFromCommandTime", Tempo);
+					TimeWeather.Orario.Update(Tempo);
 					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
 				}
 				else
@@ -616,18 +624,25 @@ namespace TheLastPlanet.Server.Core
 					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
 				}
 			}
+			*/
 		}
 
 		public static void FreezeTime(ClientId sender, List<string> args, string rawCommand)
 		{
-			int h = (int)Math.Floor(TimeWeather.Orario.secondOfDay / 3600f);
-			int m = (int)Math.Floor((TimeWeather.Orario.secondOfDay - h * 3600) / 60f);
 			bool freeze = false;
 			if (args[0].ToLower() == "true" || args[0].ToLower() == "1" || args[0].ToLower() == "vero" || args[0].ToLower() == "si") freeze = true;
+			TimeWeather.OrarioServer.FreezeTime(freeze);
+			int h = (int)Math.Floor(TimeWeather.OrarioServer.TempoOrario.SecondOfDay / 3600f);
+			int m = (int)Math.Floor((TimeWeather.OrarioServer.TempoOrario.SecondOfDay - h * 3600) / 60f);
+			if (freeze)
+				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
+			else
+				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
 
+			/*
 			if (sender.Handle == 0)
 			{
-				BaseScript.TriggerEvent("freezeTime", freeze);
+				TimeWeather.Orario.FreezeTime(freeze);
 				if (freeze)
 					Server.Logger.Info( $"Orario di gioco bloccato alle ore {h}:{m}");
 				else
@@ -635,12 +650,13 @@ namespace TheLastPlanet.Server.Core
 			}
 			else
 			{
-				BaseScript.TriggerEvent("freezeTime", freeze);
+				TimeWeather.Orario.FreezeTime(freeze);
 				if (freeze)
 					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
 				else
 					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
 			}
+			*/
 		}
 
 		public static void Weather(ClientId sender, List<string> args, string rawCommand)
@@ -649,16 +665,16 @@ namespace TheLastPlanet.Server.Core
 			{
 				if (args.Count > 1 || Convert.ToInt32(args[0]) > 14 || !(args[0] as string).All(o => char.IsDigit(o)))
 				{
-					Server.Logger.Error( "/weather <weathertype>\nCurrent Weather: " + TimeWeather.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
+					Server.Logger.Error( "/weather <weathertype>\nCurrent Weather: " + TimeWeather.MeteoServer.Meteo.CurrentWeather + "\nErrore weather, argomenti disponibili: 0 = EXTRASUNNY, 1 =  CLEAR, 2 = CLOUDS, 3 = SMOG, 4 = FOGGY, 5 = OVERCAST, 6 = RAIN, 7 = THUNDERSTORM, 8 = CLEARING, 9 = NEUTRAL, 10 = SNOW, 11 =  BLIZZARD, 12 = SNOWLIGHT, 13 = XMAS, 14 = HALLOWEEN");
 
 					return;
 				}
 				else
 				{
-					TimeWeather.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
-					Server.Logger.Debug(TimeWeather.Meteo.CurrentWeather + "");
-					TimeWeather.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-					BaseScript.TriggerEvent("changeWeather", false);
+					TimeWeather.MeteoServer.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
+					Server.Logger.Debug(TimeWeather.MeteoServer.Meteo.CurrentWeather + "");
+					TimeWeather.MeteoServer.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+					TimeWeather.MeteoServer.CambiaMeteo(false);
 				}
 			}
 			else
@@ -669,9 +685,9 @@ namespace TheLastPlanet.Server.Core
 				}
 				else
 				{
-					TimeWeather.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
-					TimeWeather.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
-					BaseScript.TriggerEvent("changeWeather", false);
+					TimeWeather.MeteoServer.Meteo.CurrentWeather = Convert.ToInt32(args[0]);
+					TimeWeather.MeteoServer.Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+					TimeWeather.MeteoServer.CambiaMeteo(false);
 					string meteo = "";
 					int a = Convert.ToInt32(args[0]);
 

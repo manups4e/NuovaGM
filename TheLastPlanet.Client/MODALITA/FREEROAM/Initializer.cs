@@ -10,6 +10,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.ListaPlayers;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
+using TheLastPlanet.Client.TimeWeather;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM
@@ -24,6 +25,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 			PlayerBlipsHandler.Init();
 			BaseEventsFreeRoam.Init();
 			PlayerTags.Init();
+			MeteoClient.Init();
+			OrarioClient.Init();
 			//AGGIUNGERE GESTIONE METEO
 			//AGGIUNGERE GESTIONE ORARIO
 			//AGGIUNGERE GESTIONE STATISTICHE
@@ -38,11 +41,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 			WorldEventsManager.Stop();
 			BaseEventsFreeRoam.Stop();
 			PlayerTags.Stop();
-			//AGGIUNGERE GESTIONE METEO
-			//AGGIUNGERE GESTIONE ORARIO
+			MeteoClient.Stop();
+			OrarioClient.Stop();
+
 			//AGGIUNGERE GESTIONE STATISTICHE
 			//AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
-			//Death.Init();
+
 			await Task.FromResult(0);
 		}
 	}

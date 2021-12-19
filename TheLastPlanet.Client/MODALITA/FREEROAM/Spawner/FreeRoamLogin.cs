@@ -64,14 +64,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
-
-            await BaseScript.Delay(1000);
+            NetworkClearClockTimeOverride();
+            AdvanceClockTimeTo(TimeWeather.OrarioClient.h, TimeWeather.OrarioClient.m, TimeWeather.OrarioClient.s);
+            await BaseScript.Delay(7000);
+            Client.Instance.AddTick(TimeWeather.OrarioClient.AggiornaTempo);
+            Client.Instance.Events.Send("SyncWeatherForMe", true);
+            await BaseScript.Delay(2000);
+            if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 
             StartPlayerTeleport(PlayerId(), rpos.X, rpos.Y, rpos.Z, rpos.Heading, false, true, true);
             while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
 
-            //AGGIUNGERE GESTIONE METEO
-            //AGGIUNGERE GESTIONE ORARIO
+            // CARICAMENTO PROPRIETA'
+            // CARICAMENTO VEICOLI
 
             // PARTE FINALE
             Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");

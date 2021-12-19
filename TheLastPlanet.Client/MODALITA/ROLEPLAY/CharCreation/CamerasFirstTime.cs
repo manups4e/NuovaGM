@@ -239,8 +239,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			playerPed.IsPositionFrozen = false;
 			NetworkClearClockTimeOverride();
 			await BaseScript.Delay(1000);
-			Client.Instance.AddTick(TimeWeather.Orario.AggiornaTempo);
-			BaseScript.TriggerServerEvent("changeWeatherForMe", true);
+			Client.Instance.AddTick(TimeWeather.OrarioClient.AggiornaTempo);
+			Client.Instance.Events.Send("SyncWeatherForMe", true);
 			Screen.Fading.FadeIn(800);
 			Client.Instance.RemoveTick(Controllo);
 			BaseScript.TriggerEvent("tlg:roleplay:onPlayerSpawn");
