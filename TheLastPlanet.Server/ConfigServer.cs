@@ -13,9 +13,8 @@ namespace TheLastPlanet.Server
 	{
 		public static async Task Init()
 		{
-			string jsonServerConfig = Resources.ServerConfig;
-			Server.Impostazioni = jsonServerConfig.FromJson<Configurazione>();
-			ConfigShared.SharedConfig = new SharedConfig();
+			Server.Impostazioni = Resources.ServerConfig.FromJson<Configurazione>();
+			ConfigShared.SharedConfig = Resources.SharedConfig.FromJson<SharedConfig>();
 			Server.Instance.Events.Mount("Config.CallClientConfig", new Func<ClientId, ModalitaServer, Task<string>>(ClientConfigCallback));
 
 			await Task.FromResult(0);
