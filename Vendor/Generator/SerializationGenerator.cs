@@ -26,9 +26,9 @@ namespace TheLastPlanet.Events.Generator
             foreach (var item in engine.WorkItems)
             {
                 var code = engine.Compile(item);
-                var identifier = $"{item.TypeSymbol.ContainingNamespace}.{item.TypeSymbol.Name}";
+                var identifier = $"{item.TypeSymbol.Name}";
                 var count = _sources.Count(self => self == identifier);
-                var unique = $"{identifier}{(count != 0 ? Convert.ToChar(65 + count) : string.Empty)}.Serialization.cs";
+                var unique = $"{identifier}.Serialization.cs";
 
                 foreach (var problem in engine.Problems)
                 {
