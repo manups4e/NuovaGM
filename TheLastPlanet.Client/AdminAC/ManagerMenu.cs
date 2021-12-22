@@ -450,8 +450,8 @@ namespace TheLastPlanet.Client.AdminAC
 			#region Meteo
 
 			UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
-			UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, MODALITA.ROLEPLAY.TimeWeather.Meteo.BlackOut, "BlackOut di tutte le luci in mappa");
-			UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+			UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.MeteoClient.Meteo.Blackout, "BlackOut di tutte le luci in mappa");
+			UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, TimeWeather.MeteoClient.Meteo.DynamicMeteo, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
 			Meteo.AddItem(blackout);
 			Meteo.AddItem(dinamico);
 			UIMenuItem Soleggiato = new("Super Soleggiato");
@@ -488,18 +488,18 @@ namespace TheLastPlanet.Client.AdminAC
 			{
 				if (item == blackout)
 				{
-					BaseScript.TriggerServerEvent("changeWeatherWithParams", MODALITA.ROLEPLAY.TimeWeather.Meteo.CurrentWeather, _checked, false);
+					Client.Instance.Events.Send("changeWeatherWithParams", TimeWeather.MeteoClient.Meteo.CurrentWeather, _checked, false);
 					HUD.ShowNotification("Blackout ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
 				}
 				else if (item == dinamico)
 				{
-					BaseScript.TriggerServerEvent("changeWeatherDynamic", _checked);
+					Client.Instance.Events.Send("changeWeatherDynamic", _checked);
 					HUD.ShowNotification("Meteo dinamico ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
 				}
 			};
 			metei.OnItemSelect += async (menu, item, index) =>
 			{
-				BaseScript.TriggerServerEvent("changeWeatherWithParams", index, MODALITA.ROLEPLAY.TimeWeather.Meteo.BlackOut, false);
+				Client.Instance.Events.Send("changeWeatherWithParams", index, TimeWeather.MeteoClient.Meteo.Blackout, false);
 				string m = "";
 
 				switch (index)
@@ -585,7 +585,7 @@ namespace TheLastPlanet.Client.AdminAC
 			Orario.AddItem(Pomeriggio);
 			Orario.AddItem(Sera);
 			Orario.AddItem(Notte);
-			Orario.OnItemSelect += async (menu, item, index) =>
+			Orario.OnItemSelect += (menu, item, index) =>
 			{
 				int secondOfDay = 0;
 				if (item == Mattino)
@@ -595,7 +595,7 @@ namespace TheLastPlanet.Client.AdminAC
 				else if (item == Sera)
 					secondOfDay = 18 * 3600;
 				else if (item == Notte) secondOfDay = 21 * 3600;
-				BaseScript.TriggerServerEvent("UpdateFromCommandTime", secondOfDay);
+				Client.Instance.Events.Send("UpdateFromCommandTime", secondOfDay);
 			};
 
 			#endregion
