@@ -1049,7 +1049,7 @@ namespace ScaleformUI
 			Title = title;
 			Subtitle = subtitle;
 			MouseWheelControlEnabled = true;
-			_loadScaleform();
+			LoadScaleform();
 			SetKey(MenuControls.Up, Control.PhoneUp);
 			SetKey(MenuControls.Down, Control.PhoneDown);
 
@@ -1654,10 +1654,6 @@ namespace ScaleformUI
 			}
 		}
 
-		internal async void requestValueAsync(PointF mouse)
-        {
-		}
-
 		public void GoBack()
 		{
 			Game.PlaySound(AUDIO_BACK, AUDIO_LIBRARY);
@@ -1670,7 +1666,7 @@ namespace ScaleformUI
 				ParentMenu.MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				MenuChangeEv(this, ParentMenu, MenuState.ChangeBackward);
 				ParentMenu.Visible = true;
-				ParentMenu._buildUpMenu();
+				ParentMenu.BuildUpMenu();
 			}
 			Visible = false;
 		}
@@ -1793,7 +1789,7 @@ namespace ScaleformUI
 			}
 		}
 
-		public async void Select(bool playSound)
+		public void Select(bool playSound)
 		{
 			if (!MenuItems[CurrentSelection].Enabled)
 			{
@@ -1834,7 +1830,7 @@ namespace ScaleformUI
 					MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 					Children[MenuItems[CurrentSelection]].MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 					Children[MenuItems[CurrentSelection]].Visible = true;
-					Children[MenuItems[CurrentSelection]]._buildUpMenu();
+					Children[MenuItems[CurrentSelection]].BuildUpMenu();
 					Children[MenuItems[CurrentSelection]].MouseEdgeEnabled = MouseEdgeEnabled;
 					break;
 			}
@@ -1910,7 +1906,7 @@ namespace ScaleformUI
 			get { return _visible; }
 			set
 			{
-				_loadScaleform();
+				LoadScaleform();
 				_visible = value;
 				_justOpened = value;
 				_itemsDirty = value;
@@ -1923,7 +1919,7 @@ namespace ScaleformUI
 				{
 					_poolcontainer.MenuChangeEv(null, this, MenuState.Opened);
 					MenuChangeEv(null, this, MenuState.Opened);
-					_buildUpMenu();
+					BuildUpMenu();
 				}
 				else
 				{
@@ -1938,39 +1934,31 @@ namespace ScaleformUI
 			}
 		}
 
-		private async void _loadScaleform()
+		private async void LoadScaleform()
 		{
-			while (!HasStreamedTextureDictLoaded("commonmenu"))
-			{
+
+			RequestStreamedTextureDict("commonmenu", true);
+			RequestStreamedTextureDict("pause_menu_pages_char_mom_dad", true);
+			RequestStreamedTextureDict(_customTexture.Key, true);
+			RequestStreamedTextureDict("char_creator_portraits", true);
+
+			while (!HasStreamedTextureDictLoaded("commonmenu") && 
+				!HasStreamedTextureDictLoaded("pause_menu_pages_char_mom_dad") && 
+				!HasStreamedTextureDictLoaded(_customTexture.Key) && 
+				!HasStreamedTextureDictLoaded("char_creator_portraits"))
 				await BaseScript.Delay(0);
-				RequestStreamedTextureDict("commonmenu", true);
-			}
-			while (!HasStreamedTextureDictLoaded("pause_menu_pages_char_mom_dad"))
-			{
-				await BaseScript.Delay(0);
-				RequestStreamedTextureDict("pause_menu_pages_char_mom_dad", true);
-			}
-			while (!HasStreamedTextureDictLoaded(_customTexture.Key))
-			{
-				await BaseScript.Delay(0);
-				RequestStreamedTextureDict(_customTexture.Key, true);
-			}
-			while (!API.HasStreamedTextureDictLoaded("char_creator_portraits"))
-			{
-				await BaseScript.Delay(0);
-				API.RequestStreamedTextureDict("char_creator_portraits", true);
-			}
 		}
 
-		internal async void _buildUpMenu()
+		internal async void BuildUpMenu()
 		{
+			LoadScaleform();
 			while (!NativeUIScaleform._nativeui.IsLoaded) await BaseScript.Delay(0);
 			NativeUIScaleform._nativeui.CallFunction("CREATE_MENU", Title, Subtitle, _customTexture.Key, _customTexture.Value);
 			if(Windows.Count > 0)
 				NativeUIScaleform._nativeui.CallFunction("ADD_HERITAGE_WINDOW", Windows[0].Mom, Windows[0].Dad);
 			foreach (var item in MenuItems)
 			{
-				_loadScaleform();
+				LoadScaleform();
 				switch (item)
 				{
 					case UIMenuListItem:
