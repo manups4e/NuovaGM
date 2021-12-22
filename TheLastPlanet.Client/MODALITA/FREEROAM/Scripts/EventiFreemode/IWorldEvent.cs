@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using Logger;
 using ScaleformUI;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
@@ -27,19 +28,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
         public double EventCountdownTime { get; set; } = 90;
         public TimeSpan CountdownTime { get; set; }
         public TimeSpan TimeRemaining { get; set; }
-        public TextTimerBar CountdownTimerBar = new("Nuovo Evento", "");
-        public TextTimerBar TimeRemainingTimerBar = new("Fine evento", "");
-        public TextTimerBar CurrentAttemptTimerBar = new("Tentativo attuale", "0");
-        public TextTimerBar YourBestTimerBar = new("Il tuo meglio", "0");
-        public TextTimerBar FirstPlaceTimerBar = new("~y~1°: Player 1", "~y~0");
-        public TextTimerBar SecondPlaceTimerBar = new("~c~2°: Player 2", "~c~0");
-        public TextTimerBar ThirdPlaceTimerBar = new("~o~3°: Player 3", "~o~0");
-        public TextTimerBar EventNameTimerBar = new("Nome Evento:", "");
+        public TextTimerBar CountdownTimerBar = new("Nuovo Evento", "") { Enabled = true };
+        public TextTimerBar TimeRemainingTimerBar = new("Fine evento", "") { Enabled = true };
+        public TextTimerBar CurrentAttemptTimerBar = new("Tentativo attuale", "0"){ Enabled = true };
+        public TextTimerBar YourBestTimerBar = new("Il tuo meglio", "0"){ Enabled = true };
+        public TextTimerBar FirstPlaceTimerBar = new("~y~1°: Player 1", "~y~0"){ Enabled = true };
+        public TextTimerBar SecondPlaceTimerBar = new("~c~2°: Player 2", "~c~0"){ Enabled = true };
+        public TextTimerBar ThirdPlaceTimerBar = new("~o~3°: Player 3", "~o~0"){ Enabled = true };
+        public TextTimerBar EventNameTimerBar = new("Nome Evento:", ""){ Enabled = true };
 
         public virtual Dictionary<Vector4, VehicleHash> VehicleSpawnLocations { get; set; }
 
         public List<TimerBarBase> TimerBars = new List<TimerBarBase>();
-        public TimerBarPool TimerBarPool = new TimerBarPool();
+        public TimerBarPool TimerBarPool = HUD.TimerBarPool;
 
         public float CurrentAttempt = 0;
         public float BestAttempt = 0;
@@ -98,7 +99,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 OnEventActivated();
                 Screen.LoadingPrompt.Hide();
                 Client.Instance.AddTick(OnWorldEventTick);
-                Client.Instance.AddTick(OnDrawUiTick);
 
                 ActivateEventTimerBars();
 
@@ -109,7 +109,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             else
             {
                 Client.Instance.RemoveTick(OnWorldEventTick);
-                Client.Instance.RemoveTick(OnDrawUiTick);
                 ResetEvent();
             }
         }
@@ -195,23 +194,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             {
                 Client.Logger.Error(ex.ToString());
             }
-        }
-
-        private async Task OnDrawUiTick()
-        {
-            try
-            {
-                if (!IsActive) { return; }
-
-                if (TimerBars.Count != 0)
-                    TimerBarPool.Draw();
-            }
-            catch (Exception ex)
-            {
-                Client.Logger.Error(ex.ToString());
-            }
-
-            await Task.FromResult(0);
         }
 
         public void StartEventTimerBars()

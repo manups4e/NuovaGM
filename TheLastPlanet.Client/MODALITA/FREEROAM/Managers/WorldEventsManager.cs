@@ -16,9 +16,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     static class WorldEventsManager
     {
-        private static List<IWorldEvent> WorldEvents = new List<IWorldEvent>();
-
-        private static TimerBarPool _timerBarPool = new TimerBarPool();
+        private static readonly List<IWorldEvent> WorldEvents = new();
 
         public static IWorldEvent ActiveWorldEvent;
         public static IWorldEvent NextWorldEvent;
@@ -238,7 +236,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             DownTime = seconds;
 
-            if (DownTime > 0) { Screen.LoadingPrompt.Show("Preparazione prossimo evento"); }
+            if (DownTime > 0 && DownTime < 60) { Screen.LoadingPrompt.Show("Preparazione prossimo evento"); }
         }
 
 
@@ -250,7 +248,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             DownTime = downTime;
             JoinWaitTime = joinWaitTime;
 
-            if (DownTime > 0)
+            if (DownTime > 0 && DownTime < 60)
             {
                 Screen.LoadingPrompt.Show("Preparazione prossimo evento");
                 return;
