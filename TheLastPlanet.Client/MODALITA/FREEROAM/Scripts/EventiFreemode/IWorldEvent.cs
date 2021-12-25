@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
             Client.Instance.AddEventHandler("OnClientResourceStart", new Action<string>(OnClientResourceStart));
 
-            Client.Logger.Info($"Added Event [{name}]");
+            Client.Logger.Debug($"Added Event [{name}]");
         }
 
         public virtual void OnClientResourceStart(string resourceName)
@@ -86,12 +86,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             else if (PlayerStatType == PlayerStatType.Float)
                 StatSetFloat((uint)PlayerStat, 0f, true);
 
-            Client.Logger.Info($"{Name} Event Activated");
+            Client.Logger.Debug($"{Name} Event Activated");
         }
 
         public void Activate(bool active)
         {
-            Client.Logger.Info($"{(active ? "Activated" : "Deactivated")} Event {Name}.");
+            Client.Logger.Debug($"{(active ? "Activated" : "Deactivated")} Event {Name}.");
             IsActive = active;
 
             if (IsActive)
@@ -118,7 +118,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             try
             {
                 if (!IsActive) { return; }
-                if (Screen.LoadingPrompt.IsActive) { Screen.LoadingPrompt.Hide(); }
+                //if (Screen.LoadingPrompt.IsActive) { Screen.LoadingPrompt.Hide(); }
                 if (IsStarted)
                 {
                     await BaseScript.Delay(1000);
@@ -138,23 +138,27 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                         CountdownStarted = true;
                     }
 
-                    var x = 0;
-                    switch (PlayerStatType)
+                    /*
+                    if ((int)PlayerStat != -1)
                     {
-                        case PlayerStatType.Int:
-                            StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
-                            CurrentAttempt = x;
-                            break;
-                        case PlayerStatType.Float:
-                            var f = 0f;
-                            StatGetFloat(unchecked((uint)PlayerStat), ref f, 1);
-                            CurrentAttempt = f;
-                            break;
-                        default:
-                            StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
-                            break;
+                        var x = 0;
+                        switch (PlayerStatType)
+                        {
+                            case PlayerStatType.Int:
+                                StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
+                                CurrentAttempt = x;
+                                break;
+                            case PlayerStatType.Float:
+                                var f = 0f;
+                                StatGetFloat(unchecked((uint)PlayerStat), ref f, 1);
+                                CurrentAttempt = f;
+                                break;
+                            default:
+                                StatGetInt(unchecked((uint)PlayerStat), ref x, 1);
+                                break;
+                        }
                     }
-
+                    */
                     if (CurrentAttempt > BestAttempt)
                     {
                         BestAttempt = CurrentAttempt;

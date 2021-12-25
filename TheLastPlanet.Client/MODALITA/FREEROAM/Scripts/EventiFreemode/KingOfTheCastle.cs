@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using Environment = TheLastPlanet.Client.MODALITA.FREEROAM.Managers.Environment;
+using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
@@ -38,7 +39,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
             new Vector3(-531.49578857422f, 5322.77734375f, 91.377044677734f),
         };
 
-        public KingOfTheCastle(int id, string name, double countdownTime, double seconds) : base(id, name, countdownTime, seconds, false, "AMCH_BIG_0", (PlayerStats)(-1), isTimeEvent: true)
+        public KingOfTheCastle(int id, string name, double countdownTime, double seconds) : base(id, name, countdownTime, seconds, false, "KOTC_KLLALL", (PlayerStats)(-1), isTimeEvent: true)
         {
         }
 
@@ -57,10 +58,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
+            if(radius is not null) radius.Delete();
+            if (icon is not null) icon.Delete();
+            CurrentPlace = Vector3.Zero;
 			Environment.EnableWanted(true);
             Client.Instance.RemoveTick(OnTick);
             base.ResetEvent();
         }
+
+        private int _timer =0;
+
         private async Task OnTick()
         {
             try
@@ -72,16 +79,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 else
                 {
                     if (!Cache.PlayerCache.MyPlayer.Posizione.IsInRangeOf(CurrentPlace, 50f))
+                    {
                         Screen.ShowSubtitle("Entra nell'area e difendila il più possibile per conquistare RP", 50);
+                        if (CurrentAttempt > 0) CurrentAttempt = 0;
+                    }
                     else
                     {
-                        if(API.GetMaxWantedLevel() == 5)
+                        if (PlayerCache.MyPlayer.Player.WantedLevel > 0)
                             Environment.EnableWanted(false);
-                        Screen.ShowSubtitle("Difendi il castello dagli altri giocatori", 1000);
-                        await BaseScript.Delay(1000);
-                        CurrentAttempt++;
-                        if (CurrentAttempt > BestAttempt)
-                            BestAttempt = CurrentAttempt;
+                        Screen.ShowSubtitle("Difendi il castello dagli altri giocatori", 1);
+                        if (Game.GameTime - _timer > 1000)
+                        {
+                            _timer = Game.GameTime;
+                            CurrentAttempt++;
+                            Client.Logger.Debug(CurrentAttempt.ToString());
+                        }
                     }
                 }
             }

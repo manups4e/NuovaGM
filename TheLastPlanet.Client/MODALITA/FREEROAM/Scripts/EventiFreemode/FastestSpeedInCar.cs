@@ -31,20 +31,18 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 if (!IsActive) { return; }
 
                 if (!IsStarted)
-                    Screen.ShowSubtitle($"Recupera un veicolo da strada e preparati per la sfida ~b~{Name}~w~.", 50);
+                    Screen.ShowSubtitle($"Recupera un veicolo da strada e preparati per la sfida ~b~{Name}~w~.", 1);
                 else
                 {
-                    Screen.ShowSubtitle("Raggiungi la velocità più alta su un veicolo da strada.", 50);
+                    Screen.ShowSubtitle("Raggiungi la velocità più alta su un veicolo da strada.", 1);
                     if (Cache.PlayerCache.MyPlayer.Ped.IsInVehicle() && Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Speed > 0)
                     {
                         var speed = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Speed;
                         var speedKM = speed * 3.6f;
                         CurrentAttempt = speedKM;
-                        /*
                         StatGetFloat(unchecked((uint)PlayerStat), ref tentativoCorrente, -1);
                         if (tentativoCorrente != 0)
                             CurrentAttempt = tentativoCorrente;
-                        */
                         if (CurrentAttempt > BestAttempt)
                             BestAttempt = CurrentAttempt;
                     }

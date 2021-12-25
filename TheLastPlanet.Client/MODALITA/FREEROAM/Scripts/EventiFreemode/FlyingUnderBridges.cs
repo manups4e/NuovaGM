@@ -159,6 +159,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
+            base.ResetEvent();
             foreach (var blip in ActiveBlips)
             {
                 blip.Delete();
@@ -166,7 +167,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
             ActiveBlips.Clear();
 
-            base.ResetEvent();
             Client.Instance.RemoveTick(OnTick);
         }
 

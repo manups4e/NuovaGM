@@ -66,8 +66,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
-            Client.Instance.RemoveTick(OnTick);
             base.ResetEvent();
+            Client.Instance.RemoveTick(OnTick);
         }
     }
 }

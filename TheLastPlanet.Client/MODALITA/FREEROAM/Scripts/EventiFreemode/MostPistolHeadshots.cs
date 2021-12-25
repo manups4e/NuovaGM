@@ -29,9 +29,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
+            base.ResetEvent();
             Cache.PlayerCache.MyPlayer.Player.WantedLevel = 0;
             Client.Instance.RemoveTick(OnTick);
-            base.ResetEvent();
         }
         private async Task OnTick()
         {

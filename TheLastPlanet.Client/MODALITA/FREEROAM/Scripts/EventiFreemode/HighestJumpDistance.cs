@@ -26,9 +26,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
+            base.ResetEvent();
             Game.Player.WantedLevel = 0;
 
-            base.ResetEvent();
             Client.Instance.RemoveTick(OnTick);
             StatSetFloat((uint)PlayerStat, 0f, true);
             tentativoCorrente = 0;
