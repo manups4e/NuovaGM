@@ -15,7 +15,7 @@ using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Cache;
 using TheLastPlanet.Client.Core.Ingresso;
 
-namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 {
     internal static class FreeRoamCreator
     {
@@ -2001,9 +2001,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Creator
 					Client.Instance.RemoveTick(Controllo);
                     Client.Instance.RemoveTick(Scaleform);
                     Client.Instance.RemoveTick(TastiMenu);
-                    //TODO: GESTIRE CAMFIRSTTIME
-                    //CamerasFirstTime.FirstTimeTransition(_data.CharID == 1);
-                    RemoveAnimDict("mp_character_creation@lineup@male_a");
+					//TODO: GESTIRE CAMFIRSTTIME
+					//CamerasFirstTime.FirstTimeTransition(_data.CharID == 1);
+
+					//TODO: CONTINUARE DA QUI
+					FreeRoamCamerasFirstTime.FirstTimeTransition();
+
+					RemoveAnimDict("mp_character_creation@lineup@male_a");
                     RemoveAnimDict("mp_character_creation@lineup@male_b");
                     RemoveAnimDict("mp_character_creation@lineup@female_a");
                     RemoveAnimDict("mp_character_creation@lineup@female_b");
