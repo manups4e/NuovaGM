@@ -104,7 +104,7 @@ namespace ScaleformUI
 
         internal void Update()
         {
-            if (_sc == null) return;
+            if (_sc == null || Game.IsPaused) return;
             _sc.Render2D();
             if (_start != 0 && Game.GameTime - _start > _timer)
             {
@@ -112,7 +112,6 @@ namespace ScaleformUI
                 _start = 0;
                 Dispose();
             }
-
         }
     }
 

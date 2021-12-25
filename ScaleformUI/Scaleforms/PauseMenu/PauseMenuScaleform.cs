@@ -215,7 +215,7 @@ namespace ScaleformUI
 
         public void Draw()
         {
-            if (_visible)
+            if (_visible && !Game.IsPaused)
             {
                 if(IsInputDisabled(2))
                     ShowCursorThisFrame();
