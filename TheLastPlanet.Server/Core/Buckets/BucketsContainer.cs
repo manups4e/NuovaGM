@@ -47,7 +47,6 @@ namespace TheLastPlanet.Server.Core.Buckets
 
     }
 
-
     public class FreeRoamBucketContainer
     {
         public ModalitaServer Modalita { get; set; }
@@ -327,7 +326,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             //API.DeleteResourceKvpNoSync($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
             if (source.User.ID != id) return null;
             string sbytes = API.GetResourceKvpString($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
-            if (string.IsNullOrWhiteSpace(sbytes))
+            if (string.IsNullOrWhiteSpace(sbytes) || sbytes == "00")
             {
                 source.User.FreeRoamChar = new();
             }
@@ -337,30 +336,6 @@ namespace TheLastPlanet.Server.Core.Buckets
                 source.User.FreeRoamChar = bytes.FromBytes<FreeRoamChar>();
             }
             return source.User.FreeRoamChar;
-
-            /*
-            string query = "SELECT * FROM freeroampersonaggi WHERE UserID = @id";
-            User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
-            FreeRoamChar_Metadata res = await MySQL.QuerySingleAsync<FreeRoamChar_Metadata>(query, new { id });
-            if (res == null)
-            {
-                user.FreeRoamChar = new FreeRoamChar();
-                return user.FreeRoamChar;
-            }
-            user.FreeRoamChar = new()
-            {
-                Finance = new Finance(res.money, res.bank, 0),
-                Posizione = res.location.FromJson<Position>(),
-                Gang = new Gang(res.gang, res.gang_grade),
-                Skin = res.skin.FromJson<Skin>(),
-                Weapons = res.weapons.FromJson<List<Weapons>>(),
-                Dressing = res.dressing.FromJson<Dressing>(),
-                Statistiche = res.statistiche.FromJson<FreeRoamStats>(),
-                Level = res.level,
-                TotalXp = res.totalXp,
-            };
-            return source.User.FreeRoamChar;
-            */
         }
 
         private void SavePlayerData(ClientId client)

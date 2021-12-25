@@ -11,6 +11,7 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -52,6 +53,7 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddCommand("setmeteo", new Action<ClientId, List<string>, string>(Weather),ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
 			Server.Instance.AddCommand("dailicenza", new Action<ClientId, List<string>, string>(DaiLicenza),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
 			Server.Instance.AddCommand("rimuovilicenza", new Action<ClientId, List<string>, string>(RimuoviLicenza),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
+			Server.Instance.AddCommand("delchar", new Action<ClientId, List<string>, string>(delchar), ModalitaServer.FreeRoam, UserGroup.Moderatore);
 			RegisterCommand("status", new Action<int, List<object>, string>((a, b, c) =>
 			{
 				if (a != 0) return;
@@ -132,6 +134,13 @@ namespace TheLastPlanet.Server.Core
 			}), true);
 
 			//			Server.Instance.AddCommand("nome comando", new Action<ClientId, List<string>, string>(funzione comando), false, new ChatSuggestion("", new SuggestionParam[] { new SuggestionParam() }));
+		}
+
+		private static void delchar(ClientId sender, List<string> args, string rawCommand)
+        {
+			string bytes = GetResourceKvpString($"freeroam:player_{sender.User.Identifiers.Discord}:char_model");
+			DeleteResourceKvpNoSync($"freeroam:player_{sender.User.Identifiers.Discord}:char_model");
+			Server.Logger.Warning($"{bytes.ToBytes().Length} bytes cancellati con successo");
 		}
 
 		// GESTIONE CHAT
@@ -507,13 +516,28 @@ namespace TheLastPlanet.Server.Core
 
 				foreach (var player in Server.Instance.Clients)
 				{
+					int freer = 0;
+					int rp = 0;
 					if (player.User.Status.Spawned)
 					{
-						player.Player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
-						await player.User.SalvaPersonaggioRoleplay();
-						Server.Logger.Info( "Salvato personaggio: '" + player.User.FullName + "' appartenente a '" + player.Player.Name + "' - " + player.User.Identifiers.Discord);
-						await Task.FromResult(0);
+						switch (player.User.Status.PlayerStates.Modalita)
+						{
+							case ModalitaServer.Roleplay:
+								player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
+								await player.User.SalvaPersonaggioRoleplay();
+								Server.Logger.Info($"Salvato personaggio: '{player.User.FullName}' appartenente a '{player.Player.Name}' - {player.User.Identifiers.Discord}");
+								await Task.FromResult(0);
+								rp++;
+								break;
+							case ModalitaServer.FreeRoam:
+								player.TriggerSubsystemEvent("tlg:freeroam:showLoading", 4, "Sincronizzazione", 5000);
+								EventiFreeRoam.SalvaPersonaggio(player);
+								Server.Logger.Info($"Salvato personaggio freeroam appartenente a '{player.Player.Name}' - {player.User.Identifiers.Discord}");
+								freer++;
+								break;
+						}
 					}
+					Server.Logger.Info($"Salvati in totale {freer} giocatori FreeRoam e {rp} giocatori RP");
 				}
 				//BaseScript.TriggerClientEvent("lprp:aggiornaPlayers", ServerSession.PlayerList.ToJson());
 			}
