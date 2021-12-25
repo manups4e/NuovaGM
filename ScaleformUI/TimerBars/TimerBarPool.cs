@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CitizenFX.Core.UI;
+using System.Collections.Generic;
 
 namespace ScaleformUI
 {
@@ -28,9 +29,10 @@ namespace ScaleformUI
 
         public void Draw()
         {
+            var off = NativeUIScaleform.InstructionalButtons.Enabled || NativeUIScaleform.InstructionalButtons.IsSaving ? 9 : 0;
             for (int i = 0; i < _bars.Count; i++)
             {
-                _bars[i].Draw(i * 10);
+                _bars[i].Draw((i * 10)+off);
             }
         }
     }
