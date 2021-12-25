@@ -1,4 +1,5 @@
-﻿using CitizenFX.Core.Native;
+﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,6 +15,13 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
         public static void Init()
         {
 			Server.Instance.Events.Mount("tlg:freeroam:finishCharServer", new Action<ClientId, FreeRoamChar>(FinishChar));
+			Server.Instance.Events.Mount("tlg:freeroam:salvapersonaggio", new Action<ClientId>(SalvaPersonaggio));
+		}
+
+		public static void SalvaPersonaggio(ClientId client)
+        {
+			client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
+			API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
 		}
 
 		public static void FinishChar(ClientId client, FreeRoamChar data)
@@ -30,5 +38,10 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
 				Server.Logger.Error($"{e.Message}");
 			}
 		}
+
+		public static async void SpawnEventVehicles(Dictionary<Vector4, uint> vehicles)
+        {
+
+        }
 	}
 }

@@ -28,7 +28,7 @@ namespace TheLastPlanet.Server.FREEROAM
 		{
 			try
 			{
-				await BaseScript.Delay(500); // per ora mezzo secondo.. non so se cambierò in futuro.. vedremo le performances..
+				await BaseScript.Delay(200); // per ora mezzo secondo.. non so se cambierò in futuro.. vedremo le performances..
 				if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // cambiare con 2... se sono da solo non ha senso (se non per testare)
 
 				var daRim = _blipsInfos.Where(x => !BucketsHandler.FreeRoam.Bucket.Players.Any(y => y.Handle == x.ServerId)).ToList();
@@ -36,6 +36,7 @@ namespace TheLastPlanet.Server.FREEROAM
 
 				foreach (var client in BucketsHandler.FreeRoam.Bucket.Players)
 				{
+					if (!client.User.Status.Spawned) continue;
 					int hand = client.Handle;
 					// GESTIRE QUANDO IL PLAYER ESCE DAL SERVER
 					var serverId = Convert.ToInt32(client.Player.Handle);
@@ -73,6 +74,7 @@ namespace TheLastPlanet.Server.FREEROAM
 						FRBlipsInfo user = new(client.Player.Name, new Position(pos, rot), netId, serverId);
 						_blipsInfos.Add(user);
 					}
+					client.User.FreeRoamChar.Posizione = new(pos, rot);
 				}
 				Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
 			}

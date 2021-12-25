@@ -12,6 +12,7 @@ using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Shared.Internal.Events;
 using CitizenFX.Core.Native;
+using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
@@ -34,21 +35,25 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         private static WorldEvent CurrentEvent;
         private static WorldEvent NextEvent;
-        private static Random rnd = new(DateTime.Now.Millisecond);
+        private static Random rnd;
         private static TimeSpan TimeUntilNextEvent = TimeSpan.FromSeconds(5); //TimeSpan.FromMinutes(rnd.Next(40, 45))
+        private static long _savingTimer = 0;
 
         private static bool IsAnyEventActive = false;
 
         public static void Init()
         {
+            rnd = new(DateTime.Now.Millisecond);
             Server.Instance.Events.Mount("worldEventsManage.Server:AddParticipant", new Action<ClientId>(OnAddParticipant));
             Server.Instance.Events.Mount("worldEventsManage.Server:EventEnded", new Action<ClientId, int, int, int>(OnEventEnded));
             Server.Instance.Events.Mount("worldEventsManage.Server:UpdateCurrentEvent", new Action<ClientId, int, float>(OnUpdateCurrentEvent));
             Server.Instance.Events.Mount("worldEventsManage.Server:GetStatus", new Func<ClientId, Task<Tuple<int, int, int, int, bool>>>(OnGetStatus));
+            Server.Instance.Events.Mount("tlg:freeroam:SaveMe", new Action<ClientId>(Salvami));
 
             Task.Run(OnPeriodicTick);
             Task.Run(OnEventTick);
             ChooseNextEvent();
+
         }
 
         private static void OnUpdateCurrentEvent(ClientId client, int eventId, float currentAttempt)
@@ -68,7 +73,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     if (CurrentEvent.CountdownTime > TimeSpan.Zero)
                     {
                         Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.CountdownTime.TotalSeconds, false);
-                        return;
+                        continue;
                     }
                     // RIMUOVERE SE SI TORNA SOTTO CON I 1000 ANZICHE' 100
                     Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:PeriodicSync", (int)CurrentEvent.EventTime.TotalSeconds, true);
@@ -150,6 +155,25 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             }
 
             await Task.FromResult(0);
+        }
+
+        private static void Salvami(ClientId client)
+        {
+            try
+            {
+                if (BucketsHandler.FreeRoam.Bucket.Players.Any(x => x.Handle == client.Handle))
+                {
+                    if (client.User.Status.Spawned)
+                    {
+                        EventiFreeRoam.SalvaPersonaggio(client);
+                        Server.Logger.Info($"Salvato personaggio freeroam appartenente a '{client.Player.Name}' - {client.User.Identifiers.Discord}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Server.Logger.Error(e.ToString());
+            }
         }
 
         private static void OnEventEnded(ClientId client, int eventId, int currentAttempt, int bestAttempt)
