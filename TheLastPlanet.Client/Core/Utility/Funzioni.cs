@@ -635,16 +635,13 @@ namespace TheLastPlanet.Client.Core.Utility
 				foreach (Vehicle v in vehs) v.Delete();
 			}
 
-			Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, false, false))
-			{
-				IsPersistent = true,
-				NeedsToBeHotwired = false,
-				RadioStation = RadioStation.RadioOff,
-				IsEngineStarting = false,
-				IsEngineRunning = false,
-				IsDriveable = false
-			};
+			Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, false, false));
 			while (!vehicle.Exists()) await BaseScript.Delay(0);
+			vehicle.IsPersistent = true;
+			vehicle.NeedsToBeHotwired = false;
+			vehicle.RadioStation = RadioStation.RadioOff;
+			vehicle.IsEngineRunning = true;
+			vehicle.IsDriveable = true;
 			vehicle.PlaceOnGround();
 			vehicleModel.MarkAsNoLongerNeeded();
 
