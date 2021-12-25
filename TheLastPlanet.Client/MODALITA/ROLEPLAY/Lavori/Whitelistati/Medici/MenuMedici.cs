@@ -206,7 +206,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 						if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
 					}
 
-					if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+					if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
 						if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
 						{
 							HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");

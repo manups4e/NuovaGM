@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
 using static CitizenFX.Core.Native.API;
 using ScaleformUI;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Creator;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -389,7 +388,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 			#region DriveBy
 
 			if (gameTime - _timerDriveBy > 1000)
-				if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
 				{
 					if (p.SeatIndex == VehicleSeat.Driver)
 						SetPlayerCanDoDriveBy(pl.Handle, weapon.Hash == WeaponHash.Unarmed);

@@ -43,7 +43,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
 				if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno.ToVector3, 3f)) continue;
 				if (!Cache.PlayerCache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key)) continue;
 
-				if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
 				{
 					string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
 					int model = playerPed.CurrentVehicle.Model.Hash;

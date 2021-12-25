@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 		private static async void TogliVeh()
 		{
 			if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.Ammanettato)
-				if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+				if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
 					Cache.PlayerCache.MyPlayer.Ped.Task.LeaveVehicle();
 		}
 
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 						}
 
 						foreach (Position t in t1.Deleters)
-							if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo)
+							if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
 							{
 								World.DrawMarker(MarkerType.CarSymbol, t.ToVector3, new Vector3(0), new Vector3(0), new Vector3(2f, 2f, 1.5f), Colors.Red, false, false, true);
 

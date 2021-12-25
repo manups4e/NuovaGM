@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Creator;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -78,7 +77,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 							SetRichPresence("E' fermo a piedi in " + NomeVia);
 					}
 				}
-				else if (Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
+				else if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo && !playerPed.IsInHeli && !playerPed.IsInPlane && !playerPed.IsOnFoot && !playerPed.IsInSub && !playerPed.IsInBoat)
 				{
 					float KMH = (float)Math.Round(playerPed.CurrentVehicle.Speed * 3.6, 2);
 					string VehName = playerPed.CurrentVehicle.LocalizedName;
@@ -153,7 +152,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 				{
 					SetRichPresence("Fa paracadutismo");
 				}
-				else if (IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 2f))
+				else if (IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo && playerPed.CurrentVehicle.Speed == 0 && (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f) > (int)Math.Floor(Client.Impostazioni.RolePlay.Main.AFKCheckTime / 2f))
 				{
 					SetRichPresence("AFK in gioco");
 				}

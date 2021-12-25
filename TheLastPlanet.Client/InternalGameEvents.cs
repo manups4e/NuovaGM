@@ -17,6 +17,7 @@ namespace TheLastPlanet.Client
 	public delegate void EntityKilledEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
 	public delegate void VehicleDamagedEvent(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag);
 	public delegate void EntityDamagedEvent(int entity, int attacker, uint weaponHash, bool isMeleeDamage);
+	public delegate void PlayerEnteredVehicle(Player player, Vehicle vehicle);
 	public delegate void PlayerJoined();
 
 	public class InternalGameEvents
@@ -36,6 +37,7 @@ namespace TheLastPlanet.Client
 		public static event EntityKilledEvent OnEntityKilled;
 		public static event VehicleDamagedEvent OnVehicleDamaged;
 		public static event EntityDamagedEvent OnEntityDamaged;
+		public static event PlayerEnteredVehicle OnPlayerEnteredVehicle;
 		public static event PlayerJoined PlayerJoined;
 		/// <summary>
 		/// Event gets triggered whenever a vehicle is destroyed.
@@ -239,8 +241,11 @@ namespace TheLastPlanet.Client
 					break;
 				case "CEventNetworkPlayerEnteredVehicle":
 					{
-						int player = int.Parse(data[0].ToString());
-						int vehicle = int.Parse(data[1].ToString());
+						int plr = int.Parse(data[0].ToString());
+						int veh = int.Parse(data[1].ToString());
+						Player player = new(plr);
+						Vehicle vehicle = new(veh);
+						OnPlayerEnteredVehicle?.Invoke(player, vehicle);
 					}
 					break;
 				case "CEventNetworkStartSession":

@@ -36,7 +36,16 @@ namespace TheLastPlanet.Client.Cache
 			};
 			Client.Instance.AddTick(TickStatus);
 			await Task.FromResult(0);
+            InternalGameEvents.OnPlayerEnteredVehicle += OnPlayerEnteredVehicle;
+		}
 
+        private static void OnPlayerEnteredVehicle(Player player, Vehicle vehicle)
+        {
+			if (player.Handle == MyPlayer.Player.Handle)
+			{
+				MyPlayer.User.Status.PlayerStates.InVeicolo = true;
+				_inVeh = true;
+			}
 		}
 
 		public static async Task Loaded()
@@ -47,7 +56,6 @@ namespace TheLastPlanet.Client.Cache
 		public static async Task TickStatus()
 		{
 			await Loaded();
-			await BaseScript.Delay(200);
 
 			#region Posizione
 
@@ -58,19 +66,11 @@ namespace TheLastPlanet.Client.Cache
 
 			#region Check Veicolo
 
-			if (!_inVeh)
-			{
-				if (MyPlayer.Ped.IsInVehicle())
-				{
-					MyPlayer.User.Status.RolePlayStates.InVeicolo = true;
-					_inVeh = true;
-				}
-			}
-			else if(_inVeh)
+			if(_inVeh)
             {
                 if (!MyPlayer.Ped.IsInVehicle())
                 {
-					MyPlayer.User.Status.RolePlayStates.InVeicolo = false;
+					MyPlayer.User.Status.PlayerStates.InVeicolo = false;
 					_inVeh = false;
 				}
 			}
