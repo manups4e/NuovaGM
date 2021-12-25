@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Creator;
+using TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Cache;
 using CitizenFX.Core.UI;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using Impostazioni.Shared.Configurazione.Generici;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
@@ -20,12 +19,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
     public static class FreeRoamLogin
     {
         public static event FreeRoamPlayerLoadedEvent OnPlayerJoined;
-        public static void Init()
-        {
-            Inizializza();
-        }
-
-        private static async void Inizializza()
+        internal static async void Inizializza()
         {
             //Cache.PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
             var roamchar = await Client.Instance.Events.Get<FreeRoamChar>("tlg:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
@@ -46,6 +40,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 
         public static async Task CaricaPlayer(FreeRoamChar roamchar)
         {
+            PlayerCache.MyPlayer.Player.CanControlCharacter = false;
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
+
             if (PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerCache.MyPlayer.Ped.Handle, true, false);
             var apos = PlayerCache.MyPlayer.Ped.Position;
             var rpos = roamchar.Posizione;
@@ -72,19 +69,20 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             await BaseScript.Delay(2000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 
-            StartPlayerTeleport(PlayerId(), rpos.X, rpos.Y, rpos.Z, rpos.Heading, false, true, true);
-            while (!HasPlayerTeleportFinished(PlayerId())) await BaseScript.Delay(0);
+            RequestCollisionAtCoord(PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.X, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Y, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Z);
+            PlayerCache.MyPlayer.Ped.Position = (await PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.GetPositionWithGroundZ()).ToVector3;
 
             // CARICAMENTO PROPRIETA'
             // CARICAMENTO VEICOLI
 
-            // PARTE FINALE
-            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
-            OnPlayerJoined?.Invoke();
-
             SwitchInPlayer(PlayerCache.MyPlayer.Ped.Handle);
             while (IsPlayerSwitchInProgress()) await BaseScript.Delay(0);
             if (!PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeInEntity(PlayerCache.MyPlayer.Ped.Handle, true);
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
+            PlayerCache.MyPlayer.Player.CanControlCharacter = true;
+            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
+            JoinedEvent();
+            PlayerCache.MyPlayer.User.Status.Spawned = true;
         }
 
         public static async Task LoadChar()
@@ -135,5 +133,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             }
         }
 
+        public static void JoinedEvent()
+        {
+            OnPlayerJoined?.Invoke();
+        }
     }
 }
