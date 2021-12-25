@@ -18,9 +18,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         public static void Init()
         {
             Client.Instance.AddTick(OnHudTick);
-
             //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
             Client.Instance.Events.Mount("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
+        }
+
+        public static void Stop()
+        {
+            Client.Instance.RemoveTick(OnHudTick);
+            //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
+            Client.Instance.Events.Unmount("worldeventsManage.Client:GetLevelXp");
         }
 
         private static async Task OnHudTick()

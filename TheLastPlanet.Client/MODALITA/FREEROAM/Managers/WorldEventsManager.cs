@@ -11,6 +11,7 @@ using TheLastPlanet.Shared;
 using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
+using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -25,7 +26,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         private static int DownTime = 0;
         public static bool WarningMessageDisplayed = false;
         private static bool FirstSpawn = true;
-        private static readonly Random rnd = new Random();
 
         public static void Init() => FreeRoamLogin.OnPlayerJoined += FreeRoamLogin_OnPlayerJoined;
         private static async void FreeRoamLogin_OnPlayerJoined()
@@ -33,6 +33,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             //Client.Instance.AddTick(OnDefaultTick);
             //Client.Instance.AddTick(OnDiscordTick);
             Client.Instance.AddTick(OnWaitTick);
+            Client.Instance.AddTick(SaveMe);
 
             Client.Instance.Events.Mount("worldEventsManage.Client:EventActivate", new Action<int, int>(OnActivateEvent));
             Client.Instance.Events.Mount("worldeventsManager.Client:GetEventData", new Action<int, float, float>(OnGetEventData));
@@ -40,6 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             Client.Instance.Events.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
             Client.Instance.Events.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
             Client.Instance.Events.Mount("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
+            Client.Instance.Events.Mount("tlg:freeroam:showLoading", new Action<int, string, int>(ShowDialog));
 
             WorldEvents.Add(new NumberOfNearMisses(1, "Schivate mortali", 60, 300));
             WorldEvents.Add(new FlyingUnderBridges(2, "Volando sotto i ponti", 90, 300));
@@ -58,13 +60,32 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             FreeRoamLogin.OnPlayerJoined -= FreeRoamLogin_OnPlayerJoined;
             Client.Instance.RemoveTick(OnWaitTick);
+            Client.Instance.RemoveTick(SaveMe);
+
             Client.Instance.Events.Unmount("worldEventsManage.Client:EventActivate");
             Client.Instance.Events.Unmount("worldeventsManager.Client:GetEventData");
             Client.Instance.Events.Unmount("worldEventsManage.Client:NextEventIn");
             Client.Instance.Events.Unmount("worldEventsManage.Client:GetTop3");
             Client.Instance.Events.Unmount("worldEventsManage.Client:FinalTop3");
             Client.Instance.Events.Unmount("worldEventsManage.Client:PeriodicSync");
+            Client.Instance.Events.Unmount("tlg:freeroam:showLoading");
             WorldEvents.Clear();
+            ActiveWorldEvent.ResetEvent();
+        }
+
+        public static async Task SaveMe()
+        {
+            await BaseScript.Delay(600000); // 600000
+            Client.Instance.Events.Send("tlg:freeroam:SaveMe");
+            if (!NativeUIScaleform.InstructionalButtons.IsSaving)
+                NativeUIScaleform.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
+
+        }
+
+        public static void ShowDialog(int type, string txt, int time)
+        {
+            if (!NativeUIScaleform.InstructionalButtons.IsSaving)
+                NativeUIScaleform.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
         }
 
         private static async Task OnWaitTick()

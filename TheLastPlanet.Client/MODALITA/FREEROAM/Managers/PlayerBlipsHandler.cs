@@ -18,9 +18,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		private static List<FRBlipsInfo> _fRBlipsInfos = new();
 		private static Dictionary<int, Blip> playerBlips = new();
 
-        public static void Init() => FreeRoamLogin.OnPlayerJoined += () => Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
+        public static void Init() => FreeRoamLogin.OnPlayerJoined += OnPlayerJoined;
 
-        private static void UpdateBlips(List<FRBlipsInfo> info)
+        private static void OnPlayerJoined()
+        {
+			Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
+		}
+
+		public static void Stop()
+		{
+			FreeRoamLogin.OnPlayerJoined -= OnPlayerJoined;
+			Client.Instance.Events.Unmount("freeroam.UpdatePlayerBlipInfos");
+			foreach(var bb in playerBlips) if (bb.Value.Exists()) bb.Value.Delete();
+		}
+
+		private static void UpdateBlips(List<FRBlipsInfo> info)
 		{
 			_fRBlipsInfos = info;
 			UpdatePlayerBlips();
