@@ -35,6 +35,7 @@ namespace TheLastPlanet.Server.TimeWeather
 
 		public static async Task UpdateTime()
 		{
+			await BaseScript.Delay(1000);
 			while (true)
 			{
 				await BaseScript.Delay(33);

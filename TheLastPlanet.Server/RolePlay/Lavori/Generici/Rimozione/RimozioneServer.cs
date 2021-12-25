@@ -7,7 +7,7 @@ namespace TheLastPlanet.Server.Lavori.Generici.Rimozione
 	{
 		public static void Init()
 		{
-			Server.Instance.AddTick(AggiornaVeicoli);
+			//Server.Instance.AddTick(AggiornaVeicoli);
 			Server.Instance.AddEventHandler("lprp:AggiornaVeicoliRimossi", new Action<dynamic>(AggiornaVeicoliRimossi));
 		}
 
