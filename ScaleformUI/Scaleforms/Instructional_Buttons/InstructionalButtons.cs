@@ -328,7 +328,7 @@ namespace ScaleformUI
             _changed = true;
             savingTimer = Game.GameTime;
             Screen.LoadingPrompt.Show(text, spinnerType);
-            while (Game.GameTime - savingTimer < time) await BaseScript.Delay(100);
+            while (Game.GameTime - savingTimer <= time) await BaseScript.Delay(100);
             Screen.LoadingPrompt.Hide();
             _isSaving = false;
         }
@@ -412,15 +412,14 @@ namespace ScaleformUI
 
             if (!NativeUIScaleform.Warning.IsShowing) Draw();
 
-            foreach (InstructionalButton button in ControlButtons.Where(x => x.InputButton == null))
+            foreach (InstructionalButton button in ControlButtons.Where(x => x.InputButton != InputGroup.UNUSED))
             {
                 if (IsControlJustPressed(button.GamepadButton, button.PadCheck) || (button.GamepadButtons != null && button.GamepadButtons.Any(x => IsControlJustPressed(x, button.PadCheck))))
                     button.InvokeEvent(button.GamepadButton);
                 else if (IsControlJustPressed(button.KeyboardButton, button.PadCheck) || (button.KeyboardButtons != null && button.KeyboardButtons.Any(x => IsControlJustPressed(x, button.PadCheck))))
                     button.InvokeEvent(button.KeyboardButton);
             }
-            if (_useMouseButtons)
-                Screen.Hud.ShowCursorThisFrame();
+            if (_useMouseButtons) Screen.Hud.ShowCursorThisFrame();
             Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
             Screen.Hud.HideComponentThisFrame(HudComponent.AreaName);
             Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
