@@ -61,6 +61,13 @@ namespace TheLastPlanet.Shared
         private readonly BaseStateBag<bool> _inPausa;
         private readonly BaseStateBag<ModalitaServer> _modalita;
         private readonly BaseStateBag<bool> _wanted;
+        private readonly BaseStateBag<bool> _inVeicolo;
+
+        public bool InVeicolo
+        {
+            get => _inVeicolo.Value;
+            set => _inVeicolo.Value = value;
+        }
 
         public bool Wanted
         {
@@ -91,13 +98,22 @@ namespace TheLastPlanet.Shared
 #endif
             }
         }
-        public PlayerStates() { }
         public PlayerStates(Player player, string name) : base(player, name)
         {
             _adminSpecta = new BaseStateBag<bool>(player, _name + ":AdminSpecta", true);
             _inPausa = new BaseStateBag<bool>(player, _name + ":InPausa", true);
             _modalita = new BaseStateBag<ModalitaServer>(player, _name + ":Modalita", true);
             _wanted = new BaseStateBag<bool>(player, _name + ":WantedAttivo", true);
+            _inVeicolo = new BaseStateBag<bool>(player, _name + ":InVeicolo", true);
+
+            InVeicolo = false;
+        }
+    }
+
+    public class FreeRoamStates : BaseBag
+    {
+        public FreeRoamStates(Player player, string name) : base(player, name)
+        {
         }
     }
 
@@ -108,51 +124,37 @@ namespace TheLastPlanet.Shared
         private readonly BaseStateBag<bool> _inCasa;
         private readonly BaseStateBag<bool> _inServizio;
         private readonly BaseStateBag<bool> _finDiVita;
-        private readonly BaseStateBag<bool> _inVeicolo;
-
-        private bool svenuto;
-        private bool ammanettato;
-        private bool inCasa;
-        private bool inServizio;
-        private bool finDiVita;
-        private bool inVeicolo;
 
         public bool Svenuto
         {
-            get => svenuto;
-            set => svenuto = value;
+            get => _svenuto.Value;
+            set => _svenuto.Value = value;
         }
 
         public bool Ammanettato
         {
-            get => ammanettato;
-            set => ammanettato = value;
+            get => _ammanettato.Value;
+            set => _ammanettato.Value = value;
         }
 
         public bool InCasa
         {
-            get => inCasa;
-            set => inCasa = value;
+            get => _inCasa.Value;
+            set => _inCasa.Value = value;
         }
 
         public bool InServizio
         {
-            get => inServizio;
-            set => inServizio = value;
+            get => _inServizio.Value;
+            set => _inServizio.Value = value;
         }
 
         public bool FinDiVita
         {
-            get => finDiVita;
-            set => finDiVita = value;
+            get => _finDiVita.Value;
+            set => _finDiVita.Value = value;
         }
-
-        public bool InVeicolo
-        {
-            get => inVeicolo;
-            set => inVeicolo = value;
-        }
-        
+            
         public RPStates() { }
 
         public RPStates(Player player, string name) : base(player, name)
@@ -162,14 +164,12 @@ namespace TheLastPlanet.Shared
             _inCasa = new BaseStateBag<bool>(player, _name + ":InCasa", true);
             _inServizio = new BaseStateBag<bool>(player, _name + ":InServizio", true);
             _finDiVita = new BaseStateBag<bool>(player, _name + ":FinDiVita", true);
-            _inVeicolo = new BaseStateBag<bool>(player, _name + ":InVeicolo", true);
 
             Svenuto = false;
             Ammanettato = false;
             InCasa = false;
             InServizio = false;
             FinDiVita = false;
-            InVeicolo = false;
         }
     }
 
