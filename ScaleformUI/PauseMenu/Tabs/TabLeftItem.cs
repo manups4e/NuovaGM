@@ -15,6 +15,7 @@ namespace ScaleformUI.PauseMenu
     }
 
     public delegate void IndexChangeEvent(SettingsTabItem item, int index);
+    public delegate void ActivatedEvent(TabLeftItem item, int index);
 
     public class TabLeftItem
     {
@@ -29,6 +30,7 @@ namespace ScaleformUI.PauseMenu
         public string TextTitle { get; set; }
 
         public event IndexChangeEvent OnIndexChanged;
+        public event ActivatedEvent OnActivated;
         public BaseTab Parent { get; set; }
 
         public TabLeftItem(string label, LeftItemType type, HudColor mainColor = HudColor.NONE, HudColor highlightColor = HudColor.NONE)
@@ -48,6 +50,11 @@ namespace ScaleformUI.PauseMenu
         internal void IndexChanged()
         {
             OnIndexChanged?.Invoke(ItemList[ItemIndex] as SettingsTabItem, ItemIndex);
+        }
+
+        internal void Activated()
+        {
+            OnActivated?.Invoke(this, Parent.LeftItemList.IndexOf(this));
         }
     }
 }

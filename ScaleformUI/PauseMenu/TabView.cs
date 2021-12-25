@@ -314,13 +314,22 @@ namespace ScaleformUI.PauseMenu
             else if (Game.IsControlJustPressed(2, Control.FrontendAccept))
             {
                 result = await _pause.SendInputEvent(16);
-                if (focusLevel == 2)
+                switch (focusLevel)
                 {
-                    if (Tabs[Index].LeftItemList[leftItemIndex].ItemList[rightItemIndex] is SettingsTabItem)
-                    {
-                        var it = Tabs[Index].LeftItemList[leftItemIndex].ItemList[rightItemIndex] as SettingsTabItem;
-                        it.Activate();
-                    }
+
+                    case 1:
+                        if(Tabs[Index].LeftItemList[leftItemIndex].ItemType == LeftItemType.Info || Tabs[Index].LeftItemList[leftItemIndex].ItemType == LeftItemType.Empty)
+                        {
+                            Tabs[Index].LeftItemList[leftItemIndex].Activated();
+                        }
+                        break;
+                    case 2:
+                        if (Tabs[Index].LeftItemList[leftItemIndex].ItemList[rightItemIndex] is SettingsTabItem)
+                        {
+                            var it = Tabs[Index].LeftItemList[leftItemIndex].ItemList[rightItemIndex] as SettingsTabItem;
+                            it.Activate();
+                        }
+                        break;
                 }
             }
 
