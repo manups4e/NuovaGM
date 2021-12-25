@@ -50,6 +50,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 		public void Draw(bool useZ = false)
 		{
+			if (Game.IsPaused) return;
 			World.DrawMarker(MarkerType, Position.ToVector3, Direction, Position.ToRotationVector, Scale, Color, BobUpDown, FaceCamera, Rotate);
 			if (useZ)
 			{
