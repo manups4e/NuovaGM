@@ -83,12 +83,14 @@ namespace TheLastPlanet.Shared.PlayerChar
 		public PlayerStates PlayerStates;
 		public RPStates RolePlayStates;
 		public InstanceBags Istanza;
-		public Status() { }
+		public FreeRoamStates FreeRoamStates;
+
 		public Status(Player player)
 		{
 			_spawned = new(player, "spawned", true);
 			PlayerStates = new(player, "PlayerStates");
 			RolePlayStates = new(player, "RolePlayStates");
+			FreeRoamStates = new(player, "FreeRoamStates");
 			Istanza = new(player, "PlayerInstance");
 		}
 	}
