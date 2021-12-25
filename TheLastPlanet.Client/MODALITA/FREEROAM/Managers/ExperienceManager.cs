@@ -35,6 +35,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     await BaseScript.Delay(2000);
                     await HUD.ShowPlayerRankScoreAfterUpdate(updatedCurrentRankLimit, updatedNextRankLimit, 0, updatedXp - currentXp, updatedLevel);
                 }
+                Client.Instance.Events.Send("tlg:freeroam:salvapersonaggio");
             }
             catch (Exception e)
             {
