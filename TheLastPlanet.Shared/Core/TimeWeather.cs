@@ -11,8 +11,6 @@ namespace TheLastPlanet.Shared
         public DateTime Date { get; set; }
         public int SecondOfDay { get; set; }
         public bool Frozen { get; set; }
-
-        public ServerTime() { }
     }
 
     [Serialization]
@@ -27,6 +25,5 @@ namespace TheLastPlanet.Shared
         public bool DynamicMeteo { get; set; } = true;
         public bool StartUp { get; set; } = false;
         public float WindSpeed { get; set; } 
-        public ServerWeather() { }
     }
 }
