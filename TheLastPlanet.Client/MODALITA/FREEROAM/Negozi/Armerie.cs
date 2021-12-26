@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Handlers;
 
-namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
+namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.Negozi
 {
 	static class Armerie
 	{
+		private static string anim = "random@shop_gunstore";
+
 		private static List<InputController> inputs = new();
 		private static List<Blip> blips = new();
 		private static List<Position> negozi = new()
@@ -56,7 +58,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts
 
 		private static async void MenuArmeria(Ped p, object[] _)
 		{
-
+			
 		}
 
 		private static string GetWeaponByName(int i)
