@@ -50,7 +50,7 @@
 	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 	<Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="Shared" />
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5090" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5132" />
 		<PackageReference Include="Confuser.MSBuild" Version="1.5.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -72,12 +72,15 @@
 		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
+	<!--SE OUTPUTDIR E' VUOTA NON CI SONO FILE DA COPIARE QUINDI NIENTE COPIA FINO A COMPILAZIONE SUCCESSIVA!-->
+	<ItemGroup>
+		<SourceFiles Include="$(OutDir)*.dll" />
+		<SourceFiles Include="$(OutDir)*.pdb" />
+		<SourceFiles Remove="$(OutDir)Citizen*.*" />
+		<SourceFiles Remove="$(OutDir)*.json" />
+	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy /y $(OutDir)\TheLastPlanet.Client.net.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
-		<Exec Command="copy /y $(OutDir)\ScaleformUI.dll L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
+		<Copy SkipUnchangedFiles="true" SourceFiles="@(SourceFiles)" DestinationFolder="L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />
 	</Target>
 </Project>
-
-<!--se servisse di nuovo la configurazione in LUA-->
-<!--&#xD;&#xA;xcopy /e /y $(ProjectDir)CONFIGURAZIONE\ L:\FiveM\ManuGamemode\resources\[local]\tlp\CONFIGURAZIONE\-->

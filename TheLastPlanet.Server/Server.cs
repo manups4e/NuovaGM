@@ -101,7 +101,7 @@ namespace TheLastPlanet.Server
 		/// </summary>
 		/// <param name="action"></param>
 		public void AddTick(Func<Task> onTick)
-		{
+		{ 
 			Tick += onTick;
 		}
 
