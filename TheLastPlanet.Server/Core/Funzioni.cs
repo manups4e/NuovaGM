@@ -349,6 +349,9 @@ namespace TheLastPlanet.Server.Core
 		public static User GetCurrentChar(this Player player)
 			=> Server.Instance.Clients.SingleOrDefault(x => player.Handle == x.Handle.ToString()).User;
 
-		public static float RandomFloatInRange(float minimum, float maximum) { return (float)new Random(DateTime.Now.Millisecond).NextDouble() * (maximum - minimum) + minimum; }
-	}
+        public static float RandomFloatInRange(float minimum, float maximum)
+        {
+            return (float)new Random(DateTime.Now.Millisecond + new Random().Next()).NextDouble() * (maximum - minimum) + minimum;
+        }
+    }
 }

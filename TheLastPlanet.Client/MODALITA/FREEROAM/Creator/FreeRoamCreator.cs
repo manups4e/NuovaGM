@@ -1824,10 +1824,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 							if (_selezionato == "Maschio")
 								prop = MaleHats[index-1];
 							else
-							{
 								prop = FemaleHats[index - 1];
-							}
-
 							var comp = new ComponentDrawables(GetPedDrawableVariation(id, 0), GetPedDrawableVariation(id, 1), GetPedDrawableVariation(id, 2), GetPedDrawableVariation(id, 3), GetPedDrawableVariation(id, 4), GetPedDrawableVariation(id, 5), GetPedDrawableVariation(id, 6), GetPedDrawableVariation(id, 7), GetPedDrawableVariation(id, 8), GetPedDrawableVariation(id, 9), GetPedDrawableVariation(id, 10), GetPedDrawableVariation(id, 11));
 							var text = new ComponentDrawables(GetPedTextureVariation(id, 0), GetPedTextureVariation(id, 1), GetPedTextureVariation(id, 2), GetPedTextureVariation(id, 3), GetPedTextureVariation(id, 4), GetPedTextureVariation(id, 5), GetPedTextureVariation(id, 6), GetPedTextureVariation(id, 7), GetPedTextureVariation(id, 8), GetPedTextureVariation(id, 9), GetPedTextureVariation(id, 10), GetPedTextureVariation(id, 11));
 							var _prop = new PropIndices(prop.drawable, GetPedPropIndex(id, 1), GetPedPropIndex(id, 2), GetPedPropIndex(id, 3), GetPedPropIndex(id, 4), GetPedPropIndex(id, 5), GetPedPropIndex(id, 6), GetPedPropIndex(id, 7), GetPedPropIndex(id, 8));
@@ -1855,7 +1852,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 							_data.Dressing = new("", "", comp, text, _prop, _proptxt);
 						}
 					}
-
 					UpdateDress(Cache.PlayerCache.MyPlayer.Ped.Handle, _data.Dressing);
 					TaskProvaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.sex));
 				};
@@ -6470,7 +6466,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 			}
 			return new int[][] { new int[12] { components[0], components[1], components[2], components[3], components[4], components[5], components[6], components[7], components[8], components[9], components[10], components[11] }, new int[12] { textures[0], textures[1], textures[2], textures[3], textures[4], textures[5], textures[6], textures[7], textures[8], textures[9], textures[10], textures[11] } };
 		}
-
 	}
 
 	public class ParentFaces
