@@ -102,7 +102,6 @@ namespace TheLastPlanet.Server.TimeWeather
 					{
 						Meteo.RandomWindDirection = Funzioni.RandomFloatInRange(0, 359);
 						Meteo.WindSpeed = Funzioni.RandomFloatInRange(0, 12);
-						Server.Logger.Debug($"windDir:{Meteo.RandomWindDirection}, windSpeed:{Meteo.WindSpeed}");
 						_timer = tt;
 					}
 					CambiaMeteo(false);
