@@ -21,6 +21,8 @@ namespace TheLastPlanet.Server.TimeWeather
 				CurrentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather,
 				WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60,
 				RainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60,
+				RandomWindDirection = Funzioni.RandomFloatInRange(0, 359),
+				WindSpeed = Funzioni.RandomFloatInRange(0, 12),
 			};
 			Server.Instance.Events.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
 			Server.Instance.Events.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
@@ -52,7 +54,7 @@ namespace TheLastPlanet.Server.TimeWeather
 
 		public static void CambiaMeteo(bool startup)
 		{
-			Meteo.StartUp = startup;
+			if(startup)Meteo.StartUp = startup;
 			Server.Instance.ServerState.Set("Meteo", Meteo.ToBytes(), true);
 		}
 
@@ -90,19 +92,20 @@ namespace TheLastPlanet.Server.TimeWeather
 									Meteo.RainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
 									Meteo.RainPossible = false;
 								}
-								CambiaMeteo(false);
 								Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 							}
 						}
 						if (Meteo.RainTimer == 0)
 							Meteo.RainPossible = true;
-						if (tt - _timer == 600000)
-						{
-							Meteo.RandomWindDirection = rand.Next(0, 359);
-							Meteo.WindSpeed = rand.NextFloat(0, 12);
-							_timer = tt;
-						}
 					}
+					if (tt - _timer > 600000)
+					{
+						Meteo.RandomWindDirection = Funzioni.RandomFloatInRange(0, 359);
+						Meteo.WindSpeed = Funzioni.RandomFloatInRange(0, 12);
+						Server.Logger.Debug($"windDir:{Meteo.RandomWindDirection}, windSpeed:{Meteo.WindSpeed}");
+						_timer = tt;
+					}
+					CambiaMeteo(false);
 				}
 			}
 			catch (Exception e)

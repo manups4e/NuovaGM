@@ -18,7 +18,6 @@ namespace TheLastPlanet.Client.TimeWeather
 		public static bool Transitioning = false;
 		private static float _windCostantDirectRad = 51.4285714286f;
 		private static ParticleEffectsAssetNetworked snowFx;
-		private static float RandomWindDirection => Funzioni.GetRandomInt(0, 359) / _windCostantDirectRad;
 
 		public static void Init()
 		{
@@ -41,36 +40,43 @@ namespace TheLastPlanet.Client.TimeWeather
 
 		public static async void SetMeteo(ServerWeather meteo)
         {
-			if (meteo.CurrentWeather != Meteo.CurrentWeather)
+			if (meteo != Meteo)
 			{
 				Meteo = meteo;
-				World.TransitionToWeather((Weather)Meteo.CurrentWeather, Meteo.StartUp ? 1f : 45f);
+				if (meteo.CurrentWeather != Meteo.CurrentWeather)
+				{
+					World.TransitionToWeather((Weather)Meteo.CurrentWeather, Meteo.StartUp ? 1f : 45f);
 
-				if (Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13)
-				{
-					SetForceVehicleTrails(true);
-					SetForcePedFootstepsTracks(true);
-					ForceSnowPass(true);
-					RequestScriptAudioBank("ICE_FOOTSTEPS", false);
-					RequestScriptAudioBank("SNOW_FOOTSTEPS", false);
-					World.CloudHat = CloudHat.Snowy;
-					snowFx = new ParticleEffectsAssetNetworked("core_snow");
-					await snowFx.Request(1000);
-					while (!snowFx.IsLoaded) await BaseScript.Delay(0);
-					snowFx.SetNextCall();
-				}
-				else
-				{
-					SetForceVehicleTrails(false);
-					SetForcePedFootstepsTracks(false);
-					ForceSnowPass(false);
-					ReleaseScriptAudioBank();
-					if (snowFx is not null && snowFx.IsLoaded) snowFx.MarkAsNoLongerNeeded();
+					if (Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13)
+					{
+						SetForceVehicleTrails(true);
+						SetForcePedFootstepsTracks(true);
+						ForceSnowPass(true);
+						RequestScriptAudioBank("ICE_FOOTSTEPS", false);
+						RequestScriptAudioBank("SNOW_FOOTSTEPS", false);
+						World.CloudHat = CloudHat.Snowy;
+						snowFx = new ParticleEffectsAssetNetworked("core_snow");
+						await snowFx.Request(1000);
+						while (!snowFx.IsLoaded) await BaseScript.Delay(0);
+						snowFx.SetNextCall();
+					}
+					else
+					{
+						SetForceVehicleTrails(false);
+						SetForcePedFootstepsTracks(false);
+						ForceSnowPass(false);
+						ReleaseScriptAudioBank();
+						if (snowFx is not null && snowFx.IsLoaded) snowFx.MarkAsNoLongerNeeded();
+					}
 				}
 			}
-
 			if (Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13)
 			{
+				if(snowFx is null)
+                {
+					snowFx = new ParticleEffectsAssetNetworked("core_snow");
+					await snowFx.Request(1000);
+				}
 				if (!snowFx.IsLoaded) await snowFx.Request(1000);
 				snowFx.SetNextCall();
 			}
@@ -79,14 +85,6 @@ namespace TheLastPlanet.Client.TimeWeather
 			SetWindDirection(Meteo.RandomWindDirection);
 			//SetWind(ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_Mult[newWeather] + 0.1f * ConfigShared.SharedConfig.Main.Meteo.ss_wind_speed_max);
 			SetWindSpeed(Meteo.WindSpeed);
-		}
-
-		public static async Task PulisciVeicolo()
-		{
-			await BaseScript.Delay(30000);
-			if (!Transitioning)
-				if (Meteo.CurrentWeather == 7 || Meteo.CurrentWeather == 8)
-					Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.DirtLevel -= 0.1f;
 		}
 	}
 }
