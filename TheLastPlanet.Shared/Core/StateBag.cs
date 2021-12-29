@@ -62,6 +62,7 @@ namespace TheLastPlanet.Shared
         private readonly BaseStateBag<ModalitaServer> _modalita;
         private readonly BaseStateBag<bool> _wanted;
         private readonly BaseStateBag<bool> _inVeicolo;
+        private readonly BaseStateBag<bool> _passive;
 
         public bool InVeicolo
         {
@@ -86,6 +87,12 @@ namespace TheLastPlanet.Shared
             set => _inPausa.Value = value;
         }
 
+        public bool ModalitaPassiva
+        {
+            get => _passive.Value;
+            set => _passive.Value = value;
+        }
+
         public ModalitaServer Modalita
         {
             get => _modalita.Value;
@@ -105,8 +112,10 @@ namespace TheLastPlanet.Shared
             _modalita = new BaseStateBag<ModalitaServer>(player, _name + ":Modalita", true);
             _wanted = new BaseStateBag<bool>(player, _name + ":WantedAttivo", true);
             _inVeicolo = new BaseStateBag<bool>(player, _name + ":InVeicolo", true);
+            _passive = new BaseStateBag<bool>(player, _name + ":ModPassiva", true);
 
             InVeicolo = false;
+            ModalitaPassiva = false;
         }
     }
 

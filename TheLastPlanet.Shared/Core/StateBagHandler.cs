@@ -11,6 +11,7 @@ namespace TheLastPlanet.Shared
     public delegate void EntityStateBagChaged(int entity, string type, bool value);
     public delegate void TimeChangedEvent(ServerTime value);
     public delegate void WeatherChangedEvent(ServerWeather value);
+    public delegate void PassiveModeEvent(bool value);
 
     public class StateBagsHandler
     {
@@ -20,6 +21,7 @@ namespace TheLastPlanet.Shared
         public event InstanceBagChanged OnInstanceBagChange;
         public event TimeChangedEvent OnTimeChange;
         public event WeatherChangedEvent OnWeatherChange;
+        public event PassiveModeEvent OnPassiveMode;
 
         private readonly Logger.Log logger = new();
         public StateBagsHandler()
@@ -64,8 +66,16 @@ namespace TheLastPlanet.Shared
                                     switch (state)
                                     {
                                         case "InPausa":
-                                            bool res = (value as byte[]).FromBytes<bool>();
-                                            OnPlayerStateBagChange?.Invoke(userId, state, res);
+                                            {
+                                                bool res = (value as byte[]).FromBytes<bool>();
+                                                OnPlayerStateBagChange?.Invoke(userId, state, res);
+                                            }
+                                            break;
+                                        case "ModPassiva":
+                                            {
+                                                bool res = (value as byte[]).FromBytes<bool>();
+                                                OnPassiveMode?.Invoke(res);
+                                            }
                                             break;
                                     }
                                     break;

@@ -7,6 +7,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using ScaleformUI;
 using TheLastPlanet.Shared;
 using CitizenFX.Core.Native;
+using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
@@ -21,10 +22,16 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		private static BucketMarker Roam_Marker = new(new Marker(MarkerType.VerticalCylinder, new Position(-1250.61f, -3007.73f, -49.0f), new(10f, 10f, 1f), Colors.Indigo), "", "mp_mission_name_freemode_1999999");
 
 		private static ParticleEffectsAssetNetworked DespawnParticle = new("scr_powerplay");
+		public static void Init()
+		{
+			Client.Instance.AddTick(DrawMarkers);
+			Client.Instance.StateBagsHandler.OnPassiveMode += PassiveMode;
+		}
 
 		public static void Stop()
 		{
 			Client.Instance.RemoveTick(DrawMarkers);
+			Client.Instance.StateBagsHandler.OnPassiveMode -= PassiveMode;
 		}
 
 		private static Position _posRp = Position.Zero;
@@ -34,7 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		private static Position _posRoam = Position.Zero;
 		private static bool firstTick = true;
 
-		public static async Task DrawMarkers()
+		private static async Task DrawMarkers()
 		{
 			await Cache.PlayerCache.Loaded();
 			if (firstTick)
@@ -207,5 +214,33 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			await BaseScript.Delay(100);
 			NativeUIScaleform.Warning.Dispose();
 		}
+
+		private static void PassiveMode(bool active)
+		{
+            if (active)
+            {
+                PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = false;
+                PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+                PlayerCache.MyPlayer.Ped.SetConfigFlag(342, true);
+                PlayerCache.MyPlayer.Ped.SetConfigFlag(122, true);
+                API.SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
+                Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, true, false);
+                API.NetworkSetPlayerIsPassive(true);
+                API.NetworkSetFriendlyFireOption(false);
+                API.SetCanAttackFriendly(API.PlayerPedId(), false, false);
+            }
+            else
+            {
+                PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = true;
+                PlayerCache.MyPlayer.Ped.SetConfigFlag(342, false);
+                PlayerCache.MyPlayer.Ped.SetConfigFlag(122, false);
+                API.SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
+                API.NetworkSetPlayerIsPassive(false);
+                API.NetworkSetFriendlyFireOption(true);
+                API.SetCanAttackFriendly(API.PlayerPedId(), true, false);
+                Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, false, false);
+            }
+        }
+
 	}
 }

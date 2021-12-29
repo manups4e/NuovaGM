@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Cache;
+using CitizenFX.Core.Native;
+using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -13,9 +16,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		public static void Init()
 		{
 			GestisciInteriors();
+            Client.Instance.StateBagsHandler.OnPassiveMode += PassiveMode;
 		}
 
-		private static void GestisciInteriors()
+        private static void GestisciInteriors()
 		{
 			RequestIpl("chop_props");
 			RequestIpl("FIBlobby");
@@ -149,6 +153,31 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 		{
 			NetworkSetFriendlyFireOption(enabled);
 			SetCanAttackFriendly(PlayerPedId(), enabled, false);
+		}
+
+		private static void PassiveMode(bool active)
+        {
+			if (!active)
+			{
+				PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = true;
+				PlayerCache.MyPlayer.Ped.SetConfigFlag(342, false);
+				PlayerCache.MyPlayer.Ped.SetConfigFlag(122, false);
+				SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
+				NetworkSetPlayerIsPassive(false);
+				EnablePvP(true);
+				Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, false, false);
+			}
+			else
+			{
+				PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = false;
+				PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
+				PlayerCache.MyPlayer.Ped.SetConfigFlag(342, true);
+				PlayerCache.MyPlayer.Ped.SetConfigFlag(122, true);
+				SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
+				Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, true, false);
+				NetworkSetPlayerIsPassive(true);
+				EnablePvP(false);
+			}
 		}
 
 		public static void EnableWanted(bool enabled)
