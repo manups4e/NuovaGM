@@ -119,7 +119,7 @@ namespace TheLastPlanet.Client.IPLs
 			{
 				SetTextRenderId(renderId);
 				SetUiLayer(4);
-				DrawRect(1f, 1f, 1.0f, 1.0f, 0, 0, 0, 255);
+				DrawRect(0.5f, 0.5f, 1.0f, 1.0f, 0, 0, 0, 255);
 				SetTextRenderId(GetDefaultScriptRendertargetRenderId());
 				ReleaseNamedRendertarget(name);
 			}
@@ -139,19 +139,25 @@ namespace TheLastPlanet.Client.IPLs
 				case 1:
 					if (IPLInstance.FinanceOrganization.Office.Movie.IsLoaded)
 					{
-						IPLInstance.FinanceOrganization.Office.Movie.CallFunction("SET_ORGANISATION_NAME", name, (int)style, (int)color, (int)font);
+						BeginScaleformMovieMethod(IPLInstance.FinanceOrganization.Office.Movie.Handle, "SET_ORGANISATION_NAME");
+						ScaleformMovieMethodAddParamTextureNameString_2(name);
+						ScaleformMovieMethodAddParamInt((int)style);
+						ScaleformMovieMethodAddParamInt((int)color);
+						ScaleformMovieMethodAddParamInt((int)font);
+						EndScaleformMovieMethod();
+						N_0x32f34ff7f617643b(IPLInstance.FinanceOrganization.Office.Movie.Handle, 1);
 						IPLInstance.FinanceOrganization.Office.Stage = 2;
 					}
 					else IPLInstance.FinanceOrganization.Office.Movie = new("ORGANISATION_NAME");
 					break;
 				case 2:
 					SetTextRenderId(IPLInstance.FinanceOrganization.Office.RenderId);
-					SetUiLayer(4);
-					N_0xc6372ecd45d73bcd(true);
-					ScreenDrawPositionBegin(73, 73);
+					SetScriptGfxDrawOrder(4);
+					SetScriptGfxDrawBehindPausemenu(true);
+					SetScriptGfxAlign(73, 73);
 					//IPLInstance.FinanceOrganization.Office.Movie.Render2D();
 					DrawScaleformMovie(IPLInstance.FinanceOrganization.Office.Movie.Handle, 0.196f, 0.245f, 0.46f, 0.66f, 255, 255, 255, 255, 0);
-					SetTextRenderId(GetDefaultScriptRendertargetRenderId());
+					SetTextRenderId(1);
 					ScreenDrawPositionEnd();
 					break;
 			}

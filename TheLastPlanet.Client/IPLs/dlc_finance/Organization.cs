@@ -39,6 +39,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_finance
     }
     public enum OrganizationStyle
     {
+        Classic = 0,
         Light = 1,
         Normal = 3
     }
