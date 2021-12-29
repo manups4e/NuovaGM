@@ -13,334 +13,8 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 {
 	public class BikerGang
 	{
-		public class BikerName
-		{
-			public enum Colors { Black = 0, Grey = 1, White = 2, Orange = 3, Red = 4, Green = 5, Yellow = 6, Blue = 7 }
-			public enum Fonts { Font1 = 0, Font2 = 1, Font3 = 2, Font4 = 3, Font5 = 4, Font6 = 5, Font7 = 6, Font = 7, Font9 = 8, Font10 = 9, Font11 = 10, Fon12 = 11, Font13 = 12 }
-
-			public string Name = "";
-			public int Color = 0;
-			public int Font = 0;
-			public void Set(string name, Colors color, Fonts font)
-			{
-				Name = name;
-				Color = (int)color;
-				Font = (int)font;
-			}
-		}
-
-		public class BikerEmblem
-		{
-			public string Eagle = "MPClubPreset1";
-            public string Skull = "MPClubPreset2";
-            public string Ace = "MPClubPreset3";
-            public string BrassKnuckles = "MPClubPreset4";
-            public string UR = "MPClubPreset5";
-            public string Fox = "MPClubPreset6";
-            public string City = "MPClubPreset7";
-            public string Dices = "MPClubPreset8";
-			public string Target = "MPClubPreset9";
-
-			public string Emblem = "MPClubPreset1";
-			public float Rot = 90f;
-			public void Set(string logo, float rotation)
-			{
-				Emblem = logo;
-				Rot = rotation;
-				ClubHouse.Emblem.Stage = 0;
-			}
-		}
-
-		public class BikerClubHouse
-		{
-			public int InteriorId1 = 246273;
-			public int InteriorId2 = 246529;
-
-			public class BMembers
-			{
-				public class Member
-				{
-					public bool NeedToLoad = false;
-					public bool Loaded = false;
-					public int RenderId = -1;
-					public string TextureDict;
-					public int PedHeadshot = -1;
-					public string Target;
-					public string Prop;
-					public int Stage = 0;
-					public Member(string target, string prop)
-					{
-						Target = target;
-						Prop = prop;
-					}
-					public void Init()
-					{
-						IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
-					}
-					public void Enable(bool state)
-					{
-						NeedToLoad = state;
-					}
-					public void Set(Ped ped)
-					{
-						ClubHouse.Members.Set(this, ped);
-					}
-					public void Clear()
-					{
-						ClubHouse.Members.Clear(this);
-					}
-				}
-
-				public Member President = new Member("memorial_wall_president", "bkr_prop_rt_memorial_president");
-				public Member VicePresident = new Member("memorial_wall_vice_president", "bkr_prop_rt_memorial_vice_pres");
-				public Member RoadCaptain = new Member("memorial_wall_active_01", "bkr_prop_rt_memorial_active_01");
-				public Member Enforcer = new Member("memorial_wall_active_02", "bkr_prop_rt_memorial_active_02");
-				public Member SergeantAtArms = new Member("memorial_wall_active_03", "bkr_prop_rt_memorial_active_03");
-
-				public async void Set(Member member, Ped ped)
-				{
-					member.Clear();
-					Tuple<int, string> mugshot = await Core.Utility.Funzioni.GetPedMugshotAsync(ped);
-					member.PedHeadshot = mugshot.Item1;
-					member.TextureDict = mugshot.Item2;
-					bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(member.TextureDict);
-					//if (!IsTextureDictLoaded) Client.Logger.Error( "Errore a caricare la texture del biker");
-				}
-				public void Clear(Member member)
-				{
-					if (API.IsNamedRendertargetRegistered(member.Target))
-						API.ReleaseNamedRendertarget(member.Target);
-					if (member.PedHeadshot != -1)
-						API.UnregisterPedheadshot(member.PedHeadshot);
-					if (member.TextureDict != "")
-						API.SetStreamedTextureDictAsNoLongerNeeded(member.TextureDict);
-				}
-			}
-			public class BClubName
-			{
-				public bool NeedToLoad = false;
-				public bool Loaded = false;
-				public string Target = "clubname_blackboard_01a";
-				public string Prop = "bkr_prop_clubhouse_blackboard_01a";
-				public int RenderId = -1;
-				public int MovieId = -1;
-				public int Stage = 0;
-				public void Init()
-				{
-					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
-				}
-				public void Enable(bool state)
-				{
-					NeedToLoad = state;
-				}
-				public void Clear()
-				{
-					if (API.IsNamedRendertargetRegistered(Target))
-						API.ReleaseNamedRendertarget(Target);
-					if (API.HasScaleformMovieLoaded(MovieId))
-						API.SetScaleformMovieAsNoLongerNeeded(ref MovieId);
-					RenderId = -1;
-					MovieId = -1;
-					Stage = 0;
-				}
-			}
-			public class BEmblem
-			{
-				public bool NeedToLoad = false;
-				public bool Loaded = false;
-				public string Target = "clubhouse_table";
-				public string Prop = "bkr_prop_rt_clubhouse_table";
-				public int RenderId = -1;
-				public string MovieName;
-				public int MovieId = -1;
-				public int Stage = 0;
-				public void Init()
-				{
-					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
-				}
-				public void Enable(bool state)
-				{
-					NeedToLoad = state;
-				}
-				public void Clear()
-				{
-					if (API.IsNamedRendertargetRegistered(Target))
-						API.ReleaseNamedRendertarget(Target);
-					RenderId = -1;
-					Stage = 0;
-				}
-			}
-			public class BMissionWalls
-			{
-				public class Missions
-				{
-					public class BTitles
-					{
-						public string byThePoundUpper = "BDEAL_DEALN";
-						public string byThePound = "DEAL_DEALN";
-						public string prisonerOfWarUpper = "BIGM_RESCN";
-						public string prisonerOfWar = "CELL_BIKER_RESC";
-						public string gunsForHire = "LR_INTRO_ST";
-						public string weaponOfChoice = "CELL_BIKER_CK";
-						public string gunrunningUpper = "GB_BIGUNLOAD_U";
-						public string gunrunning = "GB_BIGUNLOAD_T";
-						public string nineTenthsOfTheLawUpper = "SB_INTRO_TITLE";
-						public string nineTenthsOfTheLaw = "SB_MENU_TITLE";
-						public string jailbreakUpper = "FP_INTRO_TITLE";
-						public string jailbreak = "FP_MENU_TITLE";
-						public string crackedUpper = "SC_INTRO_TITLE";
-						public string cracked = "SC_MENU_TITLE";
-						public string fragileGoodsUpper = "DV_SH_BIG";
-						public string fragileGoods = "DV_SH_TITLE";
-						public string torchedUpper = "BA_SH_BIG";
-						public string torched = "BA_SH_TITLE";
-						public string outriderUpper = "SHU_SH_BIG";
-						public string outrider = "SHU_SH_TITLE";
-					}
-					public class BDescriptions
-					{
-						public string byThePound = "DEAL_DEALND";
-						public string prisonerOfWar = "CELL_BIKER_RESD";
-						public string gunsForHire = "GFH_MENU_DESC";
-						public string weaponOfChoice = "CELL_BIKER_CKD";
-						public string gunrunning = "GB_BIGUNLOAD_D";
-						public string nineTenthsOfTheLaw = "SB_MENU_DESC";
-						public string jailbreak = "FP_MENU_DESC";
-						public string cracked = "SC_MENU_DESC";
-						public string fragileGoods = "DV_MENU_DESC";
-						public string torched = "BA_MENU_DESC";
-						public string outrider = "SHU_MENU_DESC";
-					}
-					public class BPictures
-					{
-						public string byThePound = "CHM_IMG0";          // Pickup car parked
-						public string prisonerOfWar = "CHM_IMG8";           // Police with man down
-						public string gunsForHire = "CHM_IMG4";             // Limo
-						public string weaponOfChoice = "CHM_IMG10";         // Prisoner being beaten
-						public string gunrunning = "CHM_IMG3";              // Shipment
-						public string nineTenthsOfTheLaw = "CHM_IMG6";      // Wheeling
-						public string jailbreak = "CHM_IMG5";                   // Prison bus
-						public string cracked = "CHM_IMG1";                 // Safe
-						public string fragileGoods = "CHM_IMG2";                // Lost Van
-						public string torched = "CHM_IMG9";                 // Explosive crate
-						public string outrider = "CHM_IMG7";                // Sport ride
-					}
-					public BTitles Titles = new BTitles();
-					public BPictures Pictures = new BPictures();
-					public BDescriptions Descriptions = new BDescriptions();
-				}
-				public bool NeedToLoad = false;
-				public bool Loaded = false;
-				public string Target = "clubhouse_Plan_01a";
-				public string Prop = "bkr_prop_rt_clubhouse_plan_01a";
-				public int RenderId = -1;
-				public string MovieName;
-				public int MovieId = -1;
-				public int Stage = 0;
-				public enum BPosition
-				{
-					none = -1,
-					left = 0,
-					center = 1,
-					right = 2
-				}
-				public void Init()
-				{
-					IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
-				}
-				public void Enable(bool state)
-				{
-					NeedToLoad = state;
-				}
-				public void SelectMission(BPosition position)
-				{
-					API.BeginScaleformMovieMethod(MovieId, "SET_SELECTED_MISSION");
-					API.PushScaleformMovieMethodParameterInt((int)position); // Mission index 0 to 2(-1 = no mission)
-					API.EndScaleformMovieMethod();
-				}
-				public async void SetMission(BPosition position, string name = null, string desc = null, string textdict = null, float x = 0, float y = 0)
-				{
-					if (NeedToLoad)
-					{
-						if (!API.HasScaleformMovieLoaded(MovieId))
-						{
-							MovieId = API.RequestScaleformMovie("BIKER_MISSION_WALL");
-							while (!API.HasScaleformMovieLoaded(MovieId)) await BaseScript.Delay(0);
-							if (MovieId != -1)
-							{
-								if ((int)position > -1)
-								{
-									API.BeginScaleformMovieMethod(MovieId, "SET_MISSION");
-									API.PushScaleformMovieMethodParameterInt((int)position);		// Mission index 0 to 2(-1 = no mission);
-									API.PushScaleformMovieMethodParameterString(name);
-									API.PushScaleformMovieMethodParameterString(desc);
-									API.PushScaleformMovieMethodParameterButtonName(textdict);
-									API.PushScaleformMovieMethodParameterFloat(x);		// Mission 0: world coordinates X
-									API.PushScaleformMovieMethodParameterFloat(y);		// Mission 0: world coordinates Y
-									API.EndScaleformMovieMethod();
-								}
-								else
-								{
-									RemoveMission(BPosition.none);
-									RemoveMission(BPosition.left);
-									RemoveMission(BPosition.center);
-									RemoveMission(BPosition.right);
-									SelectMission(BPosition.none);
-								}
-							}
-						}
-					}
-				}
-				public void RemoveMission(BPosition pos)
-				{
-					API.BeginScaleformMovieMethod(MovieId, "HIDE_MISSION");
-					API.PushScaleformMovieMethodParameterInt((int)pos);
-					API.EndScaleformMovieMethod();
-				}
-				public void Clear()
-				{
-					SelectMission(BPosition.none);
-					SetMission(BPosition.none);
-					if (API.IsNamedRendertargetRegistered(Prop))
-						API.ReleaseNamedRendertarget(Prop);
-					if (API.HasScaleformMovieLoaded(MovieId))
-						API.SetScaleformMovieAsNoLongerNeeded(ref MovieId);
-					// Resetting
-					RenderId = -1;
-					MovieId = -1;
-					Stage = 0;
-
-				}
-			}
-			public BEmblem Emblem = new BEmblem();
-			public BMembers Members = new BMembers();
-			public BClubName ClubName = new BClubName();
-			public BMissionWalls MissionWall = new BMissionWalls();
-			public void ClearAll()
-			{
-				ClubName.Clear();
-				ClubName.Loaded = false;
-				Emblem.Clear();
-				Emblem.Loaded = false;
-				MissionWall.Clear();
-				MissionWall.Loaded = false;
-
-				Members.President.Clear();
-				Members.VicePresident.Clear();
-				Members.RoadCaptain.Clear();
-				Members.Enforcer.Clear();
-				Members.SergeantAtArms.Clear();
-				Members.President.Loaded = false;
-				Members.VicePresident.Loaded = false;
-				Members.RoadCaptain.Loaded = false;
-				Members.Enforcer.Loaded = false;
-				Members.SergeantAtArms.Loaded = false;
-
-			}
-		}
-
-		public static BikerName Name = new BikerName();
-		public static BikerEmblem Emblem = new BikerEmblem();
+		public BikerName Name = new BikerName();
+		public BikerEmblem Emblem = new BikerEmblem();
 		public static BikerClubHouse ClubHouse = new BikerClubHouse();
 
 		public BikerGang()
@@ -356,7 +30,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 			Client.Instance.AddTick(BikerGangTick);
 		}
 
-		public static async Task BikerGangTick()
+		public async Task BikerGangTick()
 		{
 			if (ClubHouse.ClubName.NeedToLoad ||
 				ClubHouse.Emblem.NeedToLoad ||
@@ -551,7 +225,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 			}
 		}
 
-		public static void DrawMember(BikerClubHouse.BMembers.Member member)
+		public static void DrawMember(Member member)
 		{
 			if (member.Stage == 0)
 				member.Stage = 1;
@@ -573,5 +247,329 @@ namespace TheLastPlanet.Client.IPLs.dlc_bikers
 			}
 		}
 	}
-	
+	public class BikerName
+	{
+		public enum Colors { Black = 0, Grey = 1, White = 2, Orange = 3, Red = 4, Green = 5, Yellow = 6, Blue = 7 }
+		public enum Fonts { Font1 = 0, Font2 = 1, Font3 = 2, Font4 = 3, Font5 = 4, Font6 = 5, Font7 = 6, Font = 7, Font9 = 8, Font10 = 9, Font11 = 10, Fon12 = 11, Font13 = 12 }
+
+		public string Name = "";
+		public int Color = 0;
+		public int Font = 0;
+		public void Set(string name, Colors color, Fonts font)
+		{
+			Name = name;
+			Color = (int)color;
+			Font = (int)font;
+		}
+	}
+
+	public class BikerEmblem
+	{
+		public string Eagle = "MPClubPreset1";
+		public string Skull = "MPClubPreset2";
+		public string Ace = "MPClubPreset3";
+		public string BrassKnuckles = "MPClubPreset4";
+		public string UR = "MPClubPreset5";
+		public string Fox = "MPClubPreset6";
+		public string City = "MPClubPreset7";
+		public string Dices = "MPClubPreset8";
+		public string Target = "MPClubPreset9";
+
+		public string Emblem = "MPClubPreset1";
+		public float Rot = 90f;
+		public void Set(string logo, float rotation)
+		{
+			Emblem = logo;
+			Rot = rotation;
+			BikerGang.ClubHouse.Emblem.Stage = 0;
+		}
+	}
+
+	public class BikerClubHouse
+	{
+		public int InteriorId1 = 246273;
+		public int InteriorId2 = 246529;
+		public BEmblem Emblem = new BEmblem();
+		public BMembers Members = new BMembers();
+		public BClubName ClubName = new BClubName();
+		public BMissionWalls MissionWall = new BMissionWalls();
+		public void ClearAll()
+		{
+			ClubName.Clear();
+			ClubName.Loaded = false;
+			Emblem.Clear();
+			Emblem.Loaded = false;
+			MissionWall.Clear();
+			MissionWall.Loaded = false;
+
+			Members.President.Clear();
+			Members.VicePresident.Clear();
+			Members.RoadCaptain.Clear();
+			Members.Enforcer.Clear();
+			Members.SergeantAtArms.Clear();
+			Members.President.Loaded = false;
+			Members.VicePresident.Loaded = false;
+			Members.RoadCaptain.Loaded = false;
+			Members.Enforcer.Loaded = false;
+			Members.SergeantAtArms.Loaded = false;
+
+		}
+	}
+	public class BMembers
+	{
+		public Member President = new Member("memorial_wall_president", "bkr_prop_rt_memorial_president");
+		public Member VicePresident = new Member("memorial_wall_vice_president", "bkr_prop_rt_memorial_vice_pres");
+		public Member RoadCaptain = new Member("memorial_wall_active_01", "bkr_prop_rt_memorial_active_01");
+		public Member Enforcer = new Member("memorial_wall_active_02", "bkr_prop_rt_memorial_active_02");
+		public Member SergeantAtArms = new Member("memorial_wall_active_03", "bkr_prop_rt_memorial_active_03");
+
+		public async void Set(Member member, Ped ped)
+		{
+			member.Clear();
+			Tuple<int, string> mugshot = await Core.Utility.Funzioni.GetPedMugshotAsync(ped);
+			member.PedHeadshot = mugshot.Item1;
+			member.TextureDict = mugshot.Item2;
+			bool IsTextureDictLoaded = await IplManager.LoadStreamedTextureDict(member.TextureDict);
+			if (!IsTextureDictLoaded) Client.Logger.Error( "Errore a caricare la texture del biker");
+		}
+		public void Clear(Member member)
+		{
+			if (API.IsNamedRendertargetRegistered(member.Target))
+				API.ReleaseNamedRendertarget(member.Target);
+			if (member.PedHeadshot != -1)
+				API.UnregisterPedheadshot(member.PedHeadshot);
+			if (member.TextureDict != "")
+				API.SetStreamedTextureDictAsNoLongerNeeded(member.TextureDict);
+		}
+	}
+	public class Member
+	{
+		public bool NeedToLoad = false;
+		public bool Loaded = false;
+		public int RenderId = -1;
+		public string TextureDict;
+		public int PedHeadshot = -1;
+		public string Target;
+		public string Prop;
+		public int Stage = 0;
+		public Member(string target, string prop)
+		{
+			Target = target;
+			Prop = prop;
+		}
+		public void Init()
+		{
+			IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+		}
+		public void Enable(bool state)
+		{
+			NeedToLoad = state;
+		}
+		public void Set(Ped ped)
+		{
+			BikerGang.ClubHouse.Members.Set(this, ped);
+		}
+		public void Clear()
+		{
+			BikerGang.ClubHouse.Members.Clear(this);
+		}
+	}
+
+	public class BClubName
+	{
+		public bool NeedToLoad = false;
+		public bool Loaded = false;
+		public string Target = "clubname_blackboard_01a";
+		public string Prop = "bkr_prop_clubhouse_blackboard_01a";
+		public int RenderId = -1;
+		public int MovieId = -1;
+		public int Stage = 0;
+		public void Init()
+		{
+			IplManager.DrawEmptyRect(Target, Funzioni.HashUint(Prop));
+		}
+		public void Enable(bool state)
+		{
+			NeedToLoad = state;
+		}
+		public void Clear()
+		{
+			if (API.IsNamedRendertargetRegistered(Target))
+				API.ReleaseNamedRendertarget(Target);
+			if (API.HasScaleformMovieLoaded(MovieId))
+				API.SetScaleformMovieAsNoLongerNeeded(ref MovieId);
+			RenderId = -1;
+			MovieId = -1;
+			Stage = 0;
+		}
+	}
+	public class BEmblem
+	{
+		public bool NeedToLoad = false;
+		public bool Loaded = false;
+		public string Target = "clubhouse_table";
+		public string Prop = "bkr_prop_rt_clubhouse_table";
+		public int RenderId = -1;
+		public string MovieName;
+		public int MovieId = -1;
+		public int Stage = 0;
+		public void Init()
+		{
+			IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+		}
+		public void Enable(bool state)
+		{
+			NeedToLoad = state;
+		}
+		public void Clear()
+		{
+			if (API.IsNamedRendertargetRegistered(Target))
+				API.ReleaseNamedRendertarget(Target);
+			RenderId = -1;
+			Stage = 0;
+		}
+	}
+	public class BMissionWalls
+	{
+		public bool NeedToLoad = false;
+		public bool Loaded = false;
+		public string Target = "clubhouse_Plan_01a";
+		public string Prop = "bkr_prop_rt_clubhouse_plan_01a";
+		public int RenderId = -1;
+		public string MovieName;
+		public int MovieId = -1;
+		public int Stage = 0;
+		public enum BPosition
+		{
+			none = -1,
+			left = 0,
+			center = 1,
+			right = 2
+		}
+		public void Init()
+		{
+			IplManager.DrawEmptyRect(Target, Core.Utility.Funzioni.HashUint(Prop));
+		}
+		public void Enable(bool state)
+		{
+			NeedToLoad = state;
+		}
+		public void SelectMission(BPosition position)
+		{
+			API.BeginScaleformMovieMethod(MovieId, "SET_SELECTED_MISSION");
+			API.PushScaleformMovieMethodParameterInt((int)position); // Mission index 0 to 2(-1 = no mission)
+			API.EndScaleformMovieMethod();
+		}
+		public async void SetMission(BPosition position, string name = null, string desc = null, string textdict = null, float x = 0, float y = 0)
+		{
+			if (NeedToLoad)
+			{
+				if (!API.HasScaleformMovieLoaded(MovieId))
+				{
+					MovieId = API.RequestScaleformMovie("BIKER_MISSION_WALL");
+					while (!API.HasScaleformMovieLoaded(MovieId)) await BaseScript.Delay(0);
+					if (MovieId != -1)
+					{
+						if ((int)position > -1)
+						{
+							API.BeginScaleformMovieMethod(MovieId, "SET_MISSION");
+							API.PushScaleformMovieMethodParameterInt((int)position);        // Mission index 0 to 2(-1 = no mission);
+							API.PushScaleformMovieMethodParameterString(name);
+							API.PushScaleformMovieMethodParameterString(desc);
+							API.PushScaleformMovieMethodParameterButtonName(textdict);
+							API.PushScaleformMovieMethodParameterFloat(x);      // Mission 0: world coordinates X
+							API.PushScaleformMovieMethodParameterFloat(y);      // Mission 0: world coordinates Y
+							API.EndScaleformMovieMethod();
+						}
+						else
+						{
+							RemoveMission(BPosition.none);
+							RemoveMission(BPosition.left);
+							RemoveMission(BPosition.center);
+							RemoveMission(BPosition.right);
+							SelectMission(BPosition.none);
+						}
+					}
+				}
+			}
+		}
+		public void RemoveMission(BPosition pos)
+		{
+			API.BeginScaleformMovieMethod(MovieId, "HIDE_MISSION");
+			API.PushScaleformMovieMethodParameterInt((int)pos);
+			API.EndScaleformMovieMethod();
+		}
+		public void Clear()
+		{
+			SelectMission(BPosition.none);
+			SetMission(BPosition.none);
+			if (API.IsNamedRendertargetRegistered(Prop))
+				API.ReleaseNamedRendertarget(Prop);
+			if (API.HasScaleformMovieLoaded(MovieId))
+				API.SetScaleformMovieAsNoLongerNeeded(ref MovieId);
+			// Resetting
+			RenderId = -1;
+			MovieId = -1;
+			Stage = 0;
+
+		}
+	}
+	public class Missions
+	{
+		public BTitles Titles = new BTitles();
+		public BPictures Pictures = new BPictures();
+		public BDescriptions Descriptions = new BDescriptions();
+	}
+	public class BTitles
+	{
+		public string byThePoundUpper = "BDEAL_DEALN";
+		public string byThePound = "DEAL_DEALN";
+		public string prisonerOfWarUpper = "BIGM_RESCN";
+		public string prisonerOfWar = "CELL_BIKER_RESC";
+		public string gunsForHire = "LR_INTRO_ST";
+		public string weaponOfChoice = "CELL_BIKER_CK";
+		public string gunrunningUpper = "GB_BIGUNLOAD_U";
+		public string gunrunning = "GB_BIGUNLOAD_T";
+		public string nineTenthsOfTheLawUpper = "SB_INTRO_TITLE";
+		public string nineTenthsOfTheLaw = "SB_MENU_TITLE";
+		public string jailbreakUpper = "FP_INTRO_TITLE";
+		public string jailbreak = "FP_MENU_TITLE";
+		public string crackedUpper = "SC_INTRO_TITLE";
+		public string cracked = "SC_MENU_TITLE";
+		public string fragileGoodsUpper = "DV_SH_BIG";
+		public string fragileGoods = "DV_SH_TITLE";
+		public string torchedUpper = "BA_SH_BIG";
+		public string torched = "BA_SH_TITLE";
+		public string outriderUpper = "SHU_SH_BIG";
+		public string outrider = "SHU_SH_TITLE";
+	}
+	public class BDescriptions
+	{
+		public string byThePound = "DEAL_DEALND";
+		public string prisonerOfWar = "CELL_BIKER_RESD";
+		public string gunsForHire = "GFH_MENU_DESC";
+		public string weaponOfChoice = "CELL_BIKER_CKD";
+		public string gunrunning = "GB_BIGUNLOAD_D";
+		public string nineTenthsOfTheLaw = "SB_MENU_DESC";
+		public string jailbreak = "FP_MENU_DESC";
+		public string cracked = "SC_MENU_DESC";
+		public string fragileGoods = "DV_MENU_DESC";
+		public string torched = "BA_MENU_DESC";
+		public string outrider = "SHU_MENU_DESC";
+	}
+	public class BPictures
+	{
+		public string byThePound = "CHM_IMG0";          // Pickup car parked
+		public string prisonerOfWar = "CHM_IMG8";           // Police with man down
+		public string gunsForHire = "CHM_IMG4";             // Limo
+		public string weaponOfChoice = "CHM_IMG10";         // Prisoner being beaten
+		public string gunrunning = "CHM_IMG3";              // Shipment
+		public string nineTenthsOfTheLaw = "CHM_IMG6";      // Wheeling
+		public string jailbreak = "CHM_IMG5";                   // Prison bus
+		public string cracked = "CHM_IMG1";                 // Safe
+		public string fragileGoods = "CHM_IMG2";                // Lost Van
+		public string torched = "CHM_IMG9";                 // Explosive crate
+		public string outrider = "CHM_IMG7";                // Sport ride
+	}
+
 }

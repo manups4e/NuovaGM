@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheLastPlanet.Client.Core.Utility;
 
 namespace TheLastPlanet.Client.IPLs.dlc_heists
 {
 	public class HeistYacht
 	{
-		private static bool _enabled = false;
-		public static List<string> ipl = new List<string>()
+		private bool _enabled = false;
+		public List<string> ipl = new List<string>()
 		{
 			"hei_yacht_heist",
 			"hei_yacht_heist_bar",
@@ -28,35 +29,9 @@ namespace TheLastPlanet.Client.IPLs.dlc_heists
 			"hei_yacht_heist_slod"
 		};
 
-		public class YacthWater
-		{
-			int modelHash = API.GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple1");
+		public YacthWater Water = new YacthWater(new Vector4(-2023.773f, -1038.0f, 5.40f, 5.0f));
 
-			public async void Enable(bool state)
-			{
-				int handle = API.GetClosestObjectOfType(-2023.773f, -1038.0f, 5.40f, 5.0f, (uint)modelHash, false, false, false);
-				if (state)
-				{
-					if (handle == 0)
-					{
-						API.RequestModel((uint)modelHash);
-						while (!API.HasModelLoaded((uint)modelHash)) await BaseScript.Delay(0);
-						Prop water = new Prop(API.CreateObjectNoOffset((uint)modelHash, -2023.773f, -1038.0f, 5.40f, false, true, false));
-						API.SetEntityAsMissionEntity(water.Handle, false, false);
-					}
-				}
-				else
-				{
-					if (handle != 0)
-						API.SetEntityAsMissionEntity(handle, false, false);
-					API.DeleteEntity(ref handle);
-				}
-			}
-		}
-
-		public static YacthWater Water = new YacthWater();
-
-		public static bool Enabled
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set
@@ -65,6 +40,34 @@ namespace TheLastPlanet.Client.IPLs.dlc_heists
 				IplManager.EnableIpl(ipl, _enabled);
 			}
 		}
-
+	}
+	public class YacthWater
+	{
+		int modelHash = API.GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple1");
+		Vector4 Position = Vector4.Zero;
+		public YacthWater(Vector4 pos)
+        {
+			Position = pos;
+        }
+		public async void Enable(bool state)
+		{
+			int handle = API.GetClosestObjectOfType(Position.X, Position.Y, Position.Z, Position.W, (uint)modelHash, false, false, false);
+			if (state)
+			{
+				if (handle == 0)
+				{
+					API.RequestModel((uint)modelHash);
+					while (!API.HasModelLoaded((uint)modelHash)) await BaseScript.Delay(0);
+					handle = API.CreateObjectNoOffset((uint)modelHash, Position.X, Position.Y, Position.Z, false, true, false);
+					API.SetEntityAsMissionEntity(handle, false, false);
+				}
+			}
+			else
+			{
+				if (handle != 0)
+					API.SetEntityAsMissionEntity(handle, false, false);
+				API.DeleteEntity(ref handle);
+			}
+		}
 	}
 }

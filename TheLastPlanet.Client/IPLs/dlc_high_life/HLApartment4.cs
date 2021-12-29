@@ -7,31 +7,11 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.IPLs.gta_online
 {
-	public class HLApartment4
+	public class HLApartment4 : OnlineApartament
 	{
-		public class Style
-		{
-			public string A;
-			public string B;
-			public string C;
-
-			public Style(string a, string b, string c)
-			{
-				A = a;
-				B = b;
-				C = c;
-			}
-
-			public void Enable(string details, bool state, bool refresh = true)
-			{
-				IplManager.SetIplPropState(InteriorId, details, state, refresh);
-			}
-		}
-
-		public static int InteriorId = 146945;
-		private static bool _enabled = false;
-		public static string ipl = "mpbusiness_int_placement_interior_v_mp_apt_h_01_milo__3";
-		public static bool Enabled
+		private bool _enabled = false;
+		public string ipl = "mpbusiness_int_placement_interior_v_mp_apt_h_01_milo__3";
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set
@@ -41,23 +21,18 @@ namespace TheLastPlanet.Client.IPLs.gta_online
 			}
 		}
 
-		public static Style Strip = new Style("Apart_Hi_Strip_A", "Apart_Hi_Strip_B", "Apart_Hi_Strip_C");
-		public static Style Booze = new Style("Apart_Hi_Booze_A", "Apart_Hi_Booze_B", "Apart_Hi_Booze_C");
-		public static Style Smoke = new Style("Apart_Hi_Smoke_A", "Apart_Hi_Smoke_B", "Apart_Hi_Smoke_C");
+		public HLApartment4()
+		{
+			InteriorId = 146945;
+			Strip = new Style(InteriorId, "Apart_Hi_Strip_A", "Apart_Hi_Strip_B", "Apart_Hi_Strip_C");
+			Booze = new Style(InteriorId, "Apart_Hi_Booze_A", "Apart_Hi_Booze_B", "Apart_Hi_Booze_C");
+			Smoke = new Style(InteriorId, "Apart_Hi_Smoke_A", "Apart_Hi_Smoke_B", "Apart_Hi_Smoke_C");
+		}
 
-		public static void LoadDefault()
+		public override void LoadDefault()
 		{
 			Enabled = true;
-			Strip.Enable(Strip.A, true);
-			Strip.Enable(Strip.B, true);
-			Strip.Enable(Strip.C, true);
-			Booze.Enable(Booze.A, true);
-			Booze.Enable(Booze.B, true);
-			Booze.Enable(Booze.C, true);
-			Smoke.Enable(Smoke.A, true);
-			Smoke.Enable(Smoke.B, true);
-			Smoke.Enable(Smoke.C, true);
-			API.RefreshInterior(InteriorId);
+			base.LoadDefault();
 		}
 	}
 }

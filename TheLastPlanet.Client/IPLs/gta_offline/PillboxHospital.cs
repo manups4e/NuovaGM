@@ -8,9 +8,9 @@ namespace TheLastPlanet.Client.IPLs.gtav
 {
 	public class PillboxHospital
 	{
-		private static bool _enabled = false;
-		public static List<string> ipl = new List<string>(){ "rc12b_default" };
-		public static bool Enabled
+		private bool _enabled = false;
+		public List<string> ipl = new List<string>(){ "rc12b_default" };
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set

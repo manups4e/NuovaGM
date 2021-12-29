@@ -3,12 +3,35 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
+using CitizenFX.Core.Native;
+using TheLastPlanet.Client.IPLs.dlc_finance;
+using TheLastPlanet.Client.Core.Utility;
 
 namespace TheLastPlanet.Client.IPLs
 {
 	public static class IplManager
 	{
 		public static GlobalIPLEnablers Global = new GlobalIPLEnablers();
+
+		public static void EnableInterior(int interior, bool enabled)
+        {
+			if (enabled)
+			{
+				if (IsInteriorDisabled(interior))
+				{
+					PinInteriorInMemory(interior);
+					SetInteriorActive(interior, true);
+				}
+			}
+            else
+            {
+				if (!IsInteriorDisabled(interior))
+				{
+					API.UnpinInterior(interior);
+					SetInteriorActive(interior, false);
+				}
+			}
+		}
 
 		public static void EnableIpl(List<string> ipls, bool activate)
 		{
@@ -96,9 +119,41 @@ namespace TheLastPlanet.Client.IPLs
 			{
 				SetTextRenderId(renderId);
 				SetUiLayer(4);
-				DrawRect(0.5f, 0.5f, 1.0f, 1.0f, 0, 0, 0, 0);
+				DrawRect(1f, 1f, 1.0f, 1.0f, 0, 0, 0, 255);
 				SetTextRenderId(GetDefaultScriptRendertargetRenderId());
 				ReleaseNamedRendertarget(name);
+			}
+		}
+
+		public static void DrawOrganizationName(string name, OrganizationStyle style, OrganizationColors color, OrganizationFonts font)
+		{
+			switch (IPLInstance.FinanceOrganization.Office.Stage)
+			{
+				case 0:
+					if (IPLInstance.FinanceOrganization.Office.RenderId == -1)
+						IPLInstance.FinanceOrganization.Office.RenderId = RenderTargets.CreateNamedRenderTargetForModel(IPLInstance.FinanceOrganization.Office.Target, Funzioni.HashUint(IPLInstance.FinanceOrganization.Office.Prop));
+					if (IPLInstance.FinanceOrganization.Office.Movie is null)
+						IPLInstance.FinanceOrganization.Office.Movie = new("ORGANISATION_NAME");
+					IPLInstance.FinanceOrganization.Office.Stage = 1;
+					break;
+				case 1:
+					if (IPLInstance.FinanceOrganization.Office.Movie.IsLoaded)
+					{
+						IPLInstance.FinanceOrganization.Office.Movie.CallFunction("SET_ORGANISATION_NAME", name, (int)style, (int)color, (int)font);
+						IPLInstance.FinanceOrganization.Office.Stage = 2;
+					}
+					else IPLInstance.FinanceOrganization.Office.Movie = new("ORGANISATION_NAME");
+					break;
+				case 2:
+					SetTextRenderId(IPLInstance.FinanceOrganization.Office.RenderId);
+					SetUiLayer(4);
+					N_0xc6372ecd45d73bcd(true);
+					ScreenDrawPositionBegin(73, 73);
+					//IPLInstance.FinanceOrganization.Office.Movie.Render2D();
+					DrawScaleformMovie(IPLInstance.FinanceOrganization.Office.Movie.Handle, 0.196f, 0.245f, 0.46f, 0.66f, 255, 255, 255, 255, 0);
+					SetTextRenderId(GetDefaultScriptRendertargetRenderId());
+					ScreenDrawPositionEnd();
+					break;
 			}
 		}
 	}
@@ -106,10 +161,10 @@ namespace TheLastPlanet.Client.IPLs
 	public class GlobalIPLEnablers
 	{
 		public int CurrentInteriorId = 0;
-		public GTAOnline Online = new GTAOnline();
-		public HighLife HighLife = new HighLife();
-		public BikersClubHouse Biker = new BikersClubHouse();
-		public FinanceOffices FinanceOffices = new FinanceOffices();
+		public GTAOnline Online = new();
+		public HighLife HighLife = new();
+		public BikersClubHouse Biker = new();
+		public FinanceOffices FinanceOffices = new();
 
 		public void ResetInteriorVariables()
 		{

@@ -1,4 +1,6 @@
-﻿using CitizenFX.Core.Native;
+﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using System.Collections.Generic;
 using TheLastPlanet.Client.IPLs.dlc_afterhours;
 using TheLastPlanet.Client.IPLs.dlc_bikers;
 using TheLastPlanet.Client.IPLs.dlc_doomsday;
@@ -15,9 +17,69 @@ namespace TheLastPlanet.Client.IPLs
 {
 	public static class IPLInstance
 	{
-
-		public static async void Init()
+		// TODO: SPOSTARE IN LUOGO MIGLIORE.
+		public static Michael Michael = new();
+		public static Simeon Simeon = new();
+		public static FranklinAunt FranklinAunt = new();
+		public static Franklin Franklin = new();
+		public static Floyd Floyd = new();
+		public static TrevorsTrailer TrevorsTrailer = new();
+		public static BahamaMamas BahamaMamas = new();
+		public static PillboxHospital PillboxHospital = new();
+		public static ZancudoGates ZancudoGates = new();
+		public static Ammunations Ammunations = new();
+		public static LesterFactory LesterFactory = new();
+		public static StripClub StripClub = new();
+		public static Graffitis Graffitis = new();
+		public static UFO UFO = new();
+		public static RedCarpet RedCarpet = new();
+		public static NorthYankton NorthYankton = new();
+		public static GTAOApartmentHi1 GTAOApartmentHi1 = new();
+		public static GTAOApartmentHi2 GTAOApartmentHi2 = new();
+		public static GTAOHouseHi1 GTAOHouseHi1 = new();
+		public static GTAOHouseHi2 GTAOHouseHi2 = new();
+		public static GTAOHouseHi3 GTAOHouseHi3 = new();
+		public static GTAOHouseHi4 GTAOHouseHi4 = new();
+		public static GTAOHouseHi5 GTAOHouseHi5 = new();
+		public static GTAOHouseHi6 GTAOHouseHi6 = new();
+		public static GTAOHouseHi7 GTAOHouseHi7 = new();
+		public static GTAOHouseHi8 GTAOHouseHi8 = new();
+		public static GTAOHouseMid1 GTAOHouseMid1 = new();
+		public static GTAOHouseLow1 GTAOHouseLow1 = new();
+		public static HLApartment1 HLApartment1 = new();
+		public static HLApartment2 HLApartment2 = new();
+		public static HLApartment3 HLApartment3 = new();
+		public static HLApartment4 HLApartment4 = new();
+		public static HLApartment5 HLApartment5 = new();
+		public static HLApartment6 HLApartment6 = new();
+		public static ImportCEOGarage1 ImportCEOGarage1 = new();
+		public static ImportCEOGarage2 ImportCEOGarage2 = new();
+		public static ImportCEOGarage3 ImportCEOGarage3 = new();
+		public static ImportCEOGarage4 ImportCEOGarage4 = new();
+		public static ImportVehicleWarehouse ImportVehicleWarehouse = new();
+		public static SmugglerHangar SmugglerHangar = new();
+		public static HeistCarrier HeistCarrier = new();
+		public static HeistYacht HeistYacht = new();
+		public static ExecApartment1 ExecApartment1 = new();
+		public static ExecApartment2 ExecApartment2 = new();
+		public static ExecApartment3 ExecApartment3 = new();
+		public static FinanceOffice1 FinanceOffice1 = new();
+		public static FinanceOffice2 FinanceOffice2 = new();
+		public static FinanceOffice3 FinanceOffice3 = new();
+		public static FinanceOffice4 FinanceOffice4 = new();
+		public static BikerCocaine BikerCocaine = new();
+		public static BikerCounterfeit BikerCounterfeit = new();
+		public static BikerDocumentForgery BikerDocumentForgery = new();
+		public static BikerMethLab BikerMethLab = new();
+		public static BikerWeedFarm BikerWeedFarm = new();
+		public static BikerClubhouse1 BikerClubhouse1 = new();
+		public static BikerClubhouse2 BikerClubhouse2 = new();
+		public static GunrunningBunker GunrunningBunker = new();
+		public static GunrunningYacht GunrunningYacht = new();
+		public static FinanceOrganization FinanceOrganization = new();
+		public static void Init()
 		{
+			/*
 			// ====================================================================
 			// =--------------------- [GTA V: Single player] ---------------------=
 			// ====================================================================
@@ -40,31 +102,12 @@ namespace TheLastPlanet.Client.IPLs
 			// Trevor: 1985.48132, 3828.76757, 32.5
 			TrevorsTrailer.LoadDefault();
 
-			// Bahama Mamas: -1388.0013, -618.41967, 30.819599
-			BahamaMamas.Enabled = true;
-
-			// Pillbox hospital: 307.1680, -590.807, 43.280
-			PillboxHospital.Enabled = true;
-
 			// Zancudo Gates (GTAO like): -1600.30100000, 2806.73100000, 18.79683000
 			ZancudoGates.LoadDefault();
 
 			// Other
-			Ammunations.LoadDefault();
 			LesterFactory.LoadDefault();
 			StripClub.LoadDefault();
-			Graffitis.Enabled = true;
-
-			// UFO
-			UFO.Hippie.Enabled = false;    // 2490.47729, 3774.84351, 2414.035
-			UFO.Chiliad.Enabled = false;   // 501.52880000, 5593.86500000, 796.23250000
-			UFO.Zancudo.Enabled = false;   // -2051.99463, 3237.05835, 1456.97021
-
-			// Red Carpet: 300.5927, 199.7589, 104.3776
-			RedCarpet.Enabled = false;
-
-			// North Yankton: 3217.697, -4834.826, 111.8152
-			NorthYankton.Enabled = false;
 
 			// ====================================================================
 			// =-------------------------- [GTA Online] --------------------------=
@@ -127,6 +170,12 @@ namespace TheLastPlanet.Client.IPLs
 			BikerClubhouse2.LoadDefault();       // 998.4809, -3164.711, -38.90733
 
 			// ====================================================================
+			// =------------------------ [DLC: Gunrunning] -----------------------=
+			// ====================================================================
+			GunrunningBunker.LoadDefault();  // 892.6384, -3245.8664, -98.2645
+			GunrunningYacht.LoadDefault();   // -1363.724, 6734.108, 2.44598
+
+			// ====================================================================
 			// =---------------------- [DLC: Import/Export] ----------------------=
 			// ====================================================================
 			ImportCEOGarage1.LoadDefault();         // Arcadius Business Centre
@@ -135,11 +184,6 @@ namespace TheLastPlanet.Client.IPLs
 			ImportCEOGarage4.LoadDefault();         // Maze Bank West     /!\ Do not load parts Garage1, Garage2 and Garage3 at the same time (overlaping issues)
 			ImportVehicleWarehouse.LoadDefault();   // Vehicle warehouse: 994.5925, -3002.594, -39.64699
 
-			// ====================================================================
-			// =------------------------ [DLC: Gunrunning] -----------------------=
-			// ====================================================================
-			GunrunningBunker.LoadDefault();  // 892.6384, -3245.8664, -98.2645
-			GunrunningYacht.LoadDefault();   // -1363.724, 6734.108, 2.44598
 
 			// ====================================================================
 			// =---------------------- [DLC: Smuggler's Run] ---------------------=
@@ -155,155 +199,119 @@ namespace TheLastPlanet.Client.IPLs
 			// =----------------------- [DLC: After Hours] -----------------------=
 			// ====================================================================
 			AfterHoursNightclubs.LoadDefault();  // -1604.664, -3012.583, -78.000
-
+			*/
 
 			// ====================================================================
-			// =----------------------- DA FIXARE CON CALMA ----------------------=
+			// =------------------------ SEMPRE ATTIVI ---------------------------=
 			// ====================================================================
 
+			FinanceOffice1.LoadDefault();    // -141.1987, -620.913, 168.8205 (Arcadius Business Centre)
+			
 			// Heist Jewel: -637.20159 - 239.16250 38.1
-
-			API.RequestIpl("post_hiest_unload");
+			IplManager.EnableIpl("post_hiest_unload", true);
 
 			// Max Renda: -585.8247, -282.72, 35.45475
-
-			API.RequestIpl("refit_unload");
+			IplManager.EnableIpl("refit_unload", true);
 
 			// Heist Union Depository: 2.69689322, -667.0166, 16.1306286
-
-			API.RequestIpl("FINBANK");
+			IplManager.EnableIpl("FINBANK", true);
 
 			// Morgue: 239.75195, -1360.64965, 39.53437
-
-			API.RequestIpl("Coroner_Int_on");
-
-			API.RequestIpl("coronertrash");
+			IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, true);
 
 			// Cluckin Bell: -146.3837, 6161.5, 30.2062
-
-			API.RequestIpl("CS1_02_cf_onmission1");
-
-			API.RequestIpl("CS1_02_cf_onmission2");
-
-			API.RequestIpl("CS1_02_cf_onmission3");
-
-			API.RequestIpl("CS1_02_cf_onmission4");
+			IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, true);
 
 			// Grapeseed's farm: 2447.9, 4973.4, 47.7
-
-			API.RequestIpl("farm");
-
-			API.RequestIpl("farmint");
-
-			API.RequestIpl("farm_lod");
-
-			API.RequestIpl("farm_props");
-
-			API.RequestIpl("des_farmhouse");
+			IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, true);
 
 			// FIB lobby: 105.4557, -745.4835, 44.7548
-
-			API.RequestIpl("FIBlobby");
+			IplManager.EnableIpl("FIBlobby", true);
 
 			// Billboard: iFruit
-
-			API.RequestIpl("FruitBB");
-
-			API.RequestIpl("sc1_01_newbill");
-
-			API.RequestIpl("hw1_02_newbill");
-
-			API.RequestIpl("hw1_emissive_newbill");
-
-			API.RequestIpl("sc1_14_newbill");
-
-			API.RequestIpl("dt1_17_newbill");
+			IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, true);
 
 			// Lester's factory: 716.84, -962.05, 31.59
-
-			API.RequestIpl("id2_14_during_door");
-
-			API.RequestIpl("id2_14_during1");
+			IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, true);
 
 			// Life Invader lobby: -1047.9, -233.0, 39.0
-
-			API.RequestIpl("facelobby");
+			IplManager.EnableIpl("facelobby", true);
 
 			// Tunnels
-
-			API.RequestIpl("v_tunnel_hole");
+			IplManager.EnableIpl("v_tunnel_hole", true);
 
 			// Carwash: 55.7, -1391.3, 30.5
-
-			API.RequestIpl("Carwash_with_spinners");
+			IplManager.EnableIpl("Carwash_with_spinners", true);
 
 			// Stadium "Fame or Shame": -248.49159240722656, -2010.509033203125, 34.57429885864258
-
-			API.RequestIpl("sp1_10_real_interior");
-
-			API.RequestIpl("sp1_10_real_interior_lod");
+			IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, true);
 
 			// House in Banham Canyon: -3086.428, 339.2523, 6.3717
-
-			API.RequestIpl("ch1_02_open");
+			IplManager.EnableIpl("ch1_02_open", true);
 
 			// Hill Valley church - Grave: -282.46380000, 2835.84500000, 55.91446000
-
-			API.RequestIpl("lr_cs6_08_grave_closed");
+			IplManager.EnableIpl("lr_cs6_08_grave_closed", true);
 
 			// Lost's trailer park: 49.49379000, 3744.47200000, 46.38629000
-
-			API.RequestIpl("methtrailer_grp1");
+			IplManager.EnableIpl("methtrailer_grp1", true);
 
 			// Garage in La Mesa(autoshop): 970.27453, -1826.56982, 31.11477
-
-			API.RequestIpl("bkr_bi_id1_23_door");
+			IplManager.EnableIpl("bkr_bi_id1_23_door", true);
 
 			// Lost safehouse: 984.1552, -95.3662, 74.50
-
-			API.RequestIpl("bkr_bi_hw1_13_int");
+			IplManager.EnableIpl("bkr_bi_hw1_13_int", true);
 
 			// Raton Canyon river: -1652.83, 4445.28, 2.52
-
-			API.RequestIpl("CanyonRvrShallow");
+			IplManager.EnableIpl("CanyonRvrShallow", true);
 
 			// Pillbox hospital: 307.1680, -590.807, 43.280
-
-			API.RequestIpl("rc12b_default");
+			IplManager.EnableIpl("rc12b_default", true);
 
 			// Josh's house: -1117.1632080078, 303.090698, 66.52217
-
-			API.RequestIpl("bh1_47_joshhse_unburnt");
-
-			API.RequestIpl("bh1_47_joshhse_unburnt_lod");
+			IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, true);
 
 			// Bahama Mamas: -1388.0013, -618.41967, 30.819599
-
-			API.RequestIpl("hei_sm_16_interior_v_bahama_milo_");
+			IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", true);
 
 			// Zancudo River(need streamed content): 86.815, 3191.649, 30.463
-
-			API.RequestIpl("cs3_05_water_grp1");
-
-			API.RequestIpl("cs3_05_water_grp1_lod");
-
-			API.RequestIpl("trv1_trail_start");
+			IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, true);
 
 			// Cassidy Creek(need streamed content): -425.677, 4433.404, 27.3253
-
-			API.RequestIpl("canyonriver01");
-
-			API.RequestIpl("canyonriver01_lod");
+			IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, true);
 
 			// Ferris wheel
+			IplManager.EnableIpl("ferris_finale_anim", true);
 
-			//API.RequestIpl("ferris_finale_anim");
+			// Bahama Mamas: -1388.0013, -618.41967, 30.819599
+			BahamaMamas.Enabled = true;
+			// Pillbox hospital: 307.1680, -590.807, 43.280
+			PillboxHospital.Enabled = true;
 
+			// Graffitis
+			Graffitis.Enabled = true;
+
+			// UFO
+			UFO.Hippie.Enabled = false;    // 2490.47729, 3774.84351, 2414.035
+			UFO.Chiliad.Enabled = false;   // 501.52880000, 5593.86500000, 796.23250000
+			UFO.Zancudo.Enabled = false;   // -2051.99463, 3237.05835, 1456.97021
+
+			// Red Carpet: 300.5927, 199.7589, 104.3776
+			RedCarpet.Enabled = true;
+
+			// North Yankton: 3217.697, -4834.826, 111.8152
+			NorthYankton.Enabled = false;
 			/*
 			 2 Car Garage	173.2903 -1003.600 -99.65707
 	 		 6 Car Garage	197.8153 -1002.293 -99.65749
 			 10 Car Garage	229.9559 -981.7928 -99.66071
 		   */
+			FinanceOrganization.Office.Init();
+			// si può migliorare per rimuovere il tick fisso sempre.. 🤔
+			Client.Instance.AddTick(InteriorObserver.Observer);
+			Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
+			Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
+			GunrunningBunker.Exterior.Enabled = true;
+
 		}
 
 		public static async void Stop()
@@ -317,10 +325,9 @@ namespace TheLastPlanet.Client.IPLs
 			BahamaMamas.Enabled = true;
 			PillboxHospital.Enabled = true;
 			ZancudoGates.LoadDefault();
-			Ammunations.LoadDefault();
 			LesterFactory.LoadDefault();
 			StripClub.LoadDefault();
-			Graffitis.Enabled = true;
+			Graffitis.Enabled = false;
 			UFO.Hippie.Enabled = false;
 			UFO.Chiliad.Enabled = false;
 			UFO.Zancudo.Enabled = false;
@@ -344,8 +351,8 @@ namespace TheLastPlanet.Client.IPLs
 			HLApartment4.LoadDefault();
 			HLApartment5.LoadDefault();
 			HLApartment6.LoadDefault();
-			HeistCarrier.Enabled = true;
-			HeistYacht.Enabled = true;
+			HeistCarrier.Enabled = false;
+			HeistYacht.Enabled = false;
 			ExecApartment1.LoadDefault();
 			ExecApartment2.LoadDefault();
 			ExecApartment3.LoadDefault();
@@ -370,49 +377,32 @@ namespace TheLastPlanet.Client.IPLs
 			SmugglerHangar.LoadDefault();
 			DoomsdayFacility.LoadDefault();
 			AfterHoursNightclubs.LoadDefault();
-			API.RemoveIpl("post_hiest_unload");
-			API.RemoveIpl("refit_unload");
-			API.RemoveIpl("FINBANK");
-			API.RemoveIpl("Coroner_Int_on");
-			API.RemoveIpl("coronertrash");
-			API.RemoveIpl("CS1_02_cf_onmission1");
-			API.RemoveIpl("CS1_02_cf_onmission2");
-			API.RemoveIpl("CS1_02_cf_onmission3");
-			API.RemoveIpl("CS1_02_cf_onmission4");
-			API.RemoveIpl("farm");
-			API.RemoveIpl("farmint");
-			API.RemoveIpl("farm_lod");
-			API.RemoveIpl("farm_props");
-			API.RemoveIpl("des_farmhouse");
-			API.RemoveIpl("FIBlobby");
-			API.RemoveIpl("FruitBB");
-			API.RemoveIpl("sc1_01_newbill");
-			API.RemoveIpl("hw1_02_newbill");
-			API.RemoveIpl("hw1_emissive_newbill");
-			API.RemoveIpl("sc1_14_newbill");
-			API.RemoveIpl("dt1_17_newbill");
-			API.RemoveIpl("id2_14_during_door");
-			API.RemoveIpl("id2_14_during1");
-			API.RemoveIpl("facelobby");
-			API.RemoveIpl("v_tunnel_hole");
-			API.RemoveIpl("Carwash_with_spinners");
-			API.RemoveIpl("sp1_10_real_interior");
-			API.RemoveIpl("sp1_10_real_interior_lod");
-			API.RemoveIpl("ch1_02_open");
-			API.RemoveIpl("lr_cs6_08_grave_closed");
-			API.RemoveIpl("methtrailer_grp1");
-			API.RemoveIpl("bkr_bi_id1_23_door");
-			API.RemoveIpl("bkr_bi_hw1_13_int");
-			API.RemoveIpl("CanyonRvrShallow");
-			API.RemoveIpl("rc12b_default");
-			API.RemoveIpl("bh1_47_joshhse_unburnt");
-			API.RemoveIpl("bh1_47_joshhse_unburnt_lod");
-			API.RemoveIpl("hei_sm_16_interior_v_bahama_milo_");
-			API.RemoveIpl("cs3_05_water_grp1");
-			API.RemoveIpl("cs3_05_water_grp1_lod");
-			API.RemoveIpl("trv1_trail_start");
-			API.RemoveIpl("canyonriver01");
-			API.RemoveIpl("canyonriver01_lod");
+			IplManager.EnableIpl("post_hiest_unload", false);
+			IplManager.EnableIpl("refit_unload", false);
+			IplManager.EnableIpl("FINBANK", false);
+			IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, false);
+			IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, false);
+			IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, false);
+			IplManager.EnableIpl("FIBlobby", false);
+			IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, false);
+			IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, false);
+			IplManager.EnableIpl("facelobby", false);
+			IplManager.EnableIpl("v_tunnel_hole", false);
+			IplManager.EnableIpl("Carwash_with_spinners", false);
+			IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, false);
+			IplManager.EnableIpl("ch1_02_open", false);
+			IplManager.EnableIpl("lr_cs6_08_grave_closed", false);
+			IplManager.EnableIpl("methtrailer_grp1", false);
+			IplManager.EnableIpl("bkr_bi_id1_23_door", false);
+			IplManager.EnableIpl("bkr_bi_hw1_13_int", false);
+			IplManager.EnableIpl("CanyonRvrShallow", false);
+			IplManager.EnableIpl("rc12b_default", false);
+			IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, false);
+			IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", false);
+			IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, false);
+			IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, false);
+			IplManager.EnableIpl("ferris_finale_anim", false);
+			Client.Instance.RemoveTick(InteriorObserver.Observer);
 		}
 	}
 }

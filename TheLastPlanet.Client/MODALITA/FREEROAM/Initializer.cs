@@ -7,6 +7,7 @@ using CitizenFX.Core;
 using Logger;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.PlayerChar;
+using TheLastPlanet.Client.IPLs;
 using TheLastPlanet.Client.ListaPlayers;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu;
@@ -20,6 +21,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 	{
 		public static async Task Init()
 		{
+			IPLInstance.Init();
 			FreeRoamLogin.Inizializza();
 			ExperienceManager.Init();
 			WorldEventsManager.Init();
@@ -39,6 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
 
 		public static async Task Stop()
 		{
+			IPLInstance.Stop();
 			ExperienceManager.Stop();
 			WorldEventsManager.Stop();
 			PlayerBlipsHandler.Stop();

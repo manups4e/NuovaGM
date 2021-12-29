@@ -8,8 +8,8 @@ namespace TheLastPlanet.Client.IPLs.gtav
 {
 	public class NorthYankton
 	{
-		private static bool _enabled = false;
-		public static List<string> ipl = new List<string>()
+		private bool _enabled = false;
+		public List<string> ipl = new List<string>()
 		{
 			"prologue01",
 			"prologue01c",
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.IPLs.gtav
 			"prologue_m2_door"
 		};
 
-		public static bool Enabled
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set

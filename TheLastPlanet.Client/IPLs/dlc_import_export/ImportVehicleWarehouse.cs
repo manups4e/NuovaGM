@@ -9,91 +9,21 @@ namespace TheLastPlanet.Client.IPLs.dlc_import_export
 {
 	public class ImportVehicleWarehouse
 	{
-		public class VehUpper
+		public VehUpper Upper = new VehUpper();
+		public VehLower Lower = new VehLower();
+		private bool enabled;
+		public bool Enabled
 		{
-			public static int InteriorId = 252673;
-			private static bool _enabled = false;
-			public static string ipl = "imp_impexp_interior_placement_interior_1_impexp_intwaremed_milo_";
-			public bool Enabled
+			get => enabled;
+			set
 			{
-				get { return _enabled; }
-				set
-				{
-					_enabled = value;
-					IplManager.EnableIpl(ipl, _enabled);
-				}
+				enabled = value;
+				Upper.Enabled = value;
+				Lower.Enabled = value;
 			}
-
-			public class UpperStyle
-			{
-				public string Basic = "basic_style_set";
-				public string Branded = "branded_style_set";
-				public string Urban = "urban_style_set";
-				public void Set(string style, bool refresh = true)
-				{
-					Clear(false);
-					IplManager.SetIplPropState(InteriorId, style, true, refresh);
-				}
-				public void Clear(bool refresh)
-				{
-					IplManager.SetIplPropState(InteriorId, new List<string>() { "basic_style_set", "branded_style_set", "urban_style_set" }, false, refresh);
-				}
-			}
-
-			public class UpperDetails
-			{
-				public string FloorHatch = "car_floor_hatch";
-	            public string DoorBlocker = "door_blocker";       // Invisible wall
-				public void Enable(string detail, bool state, bool refresh = true)
-				{
-					IplManager.SetIplPropState(InteriorId, detail, state, refresh);
-				}
-			}
-			public UpperStyle Style = new UpperStyle();
-			public UpperDetails Details = new UpperDetails();
 		}
 
-		public class VehLower
-		{
-			public static int InteriorId = 253185;
-			private static bool _enabled = false;
-			public static string ipl = "imp_impexp_interior_placement_interior_3_impexp_int_02_milo_";
-			public bool Enabled
-			{
-				get { return _enabled; }
-				set
-				{
-					_enabled = value;
-					IplManager.EnableIpl(ipl, _enabled);
-				}
-			}
-
-			public class LowerDetails
-			{
-				public class DPumps
-				{
-					public string pump1 = "pump_01";
-					public string pump2 = "pump_02";
-					public string pump3 = "pump_03";
-					public string pump4 = "pump_04";
-					public string pump5 = "pump_05";
-					public string pump6 = "pump_06";
-					public string pump7 = "pump_07";
-					public string pump8 = "pump_08";
-				}
-				public DPumps Pumps = new DPumps();
-				public void Enable(string detail, bool state = true, bool refresh = true)
-				{
-					IplManager.SetIplPropState(InteriorId, detail, state, refresh);
-				}
-			}
-			public LowerDetails Details = new LowerDetails();
-		}
-
-		public static VehUpper Upper = new VehUpper();
-		public static VehLower Lower = new VehLower();
-
-		public static void LoadDefault()
+		public void LoadDefault()
 		{
 			Upper.Enabled = true;
 			Upper.Style.Set(Upper.Style.Branded);
@@ -112,5 +42,95 @@ namespace TheLastPlanet.Client.IPLs.dlc_import_export
 			Lower.Details.Enable(Lower.Details.Pumps.pump8);
 		}
 
+	}
+
+	public class VehUpper
+	{
+		public static int InteriorId = 252673;
+		private bool _enabled = false;
+		public string ipl = "imp_impexp_interior_placement_interior_1_impexp_intwaremed_milo_";
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				IplManager.EnableIpl(ipl, _enabled);
+			}
+		}
+
+		public UpperStyle Style = new UpperStyle(InteriorId);
+		public UpperDetails Details = new UpperDetails(InteriorId);
+	}
+
+	public class VehLower
+	{
+		public static int InteriorId = 253185;
+		private bool _enabled = false;
+		public string ipl = "imp_impexp_interior_placement_interior_3_impexp_int_02_milo_";
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				IplManager.EnableIpl(ipl, _enabled);
+			}
+		}
+
+		public LowerDetails Details = new LowerDetails(InteriorId);
+	}
+	public class LowerDetails
+	{
+		private int interiorId;
+		public LowerDetails(int interior) { interiorId = interior; }
+		public DPumps Pumps = new DPumps();
+		public void Enable(string detail, bool state = true, bool refresh = true)
+		{
+			IplManager.SetIplPropState(interiorId, detail, state, refresh);
+		}
+	}
+
+	public class DPumps
+	{
+		public string pump1 = "pump_01";
+		public string pump2 = "pump_02";
+		public string pump3 = "pump_03";
+		public string pump4 = "pump_04";
+		public string pump5 = "pump_05";
+		public string pump6 = "pump_06";
+		public string pump7 = "pump_07";
+		public string pump8 = "pump_08";
+	}
+
+	public class UpperStyle
+	{
+		private int interiorId;
+		public string Basic = "basic_style_set";
+		public string Branded = "branded_style_set";
+		public string Urban = "urban_style_set";
+
+		public UpperStyle(int interior) { interiorId = interior; }
+		public void Set(string style, bool refresh = true)
+		{
+			Clear(false);
+			IplManager.SetIplPropState(interiorId, style, true, refresh);
+		}
+		public void Clear(bool refresh)
+		{
+			IplManager.SetIplPropState(interiorId, new List<string>() { "basic_style_set", "branded_style_set", "urban_style_set" }, false, refresh);
+		}
+	}
+
+	public class UpperDetails
+	{
+		private int interiorId;
+		public string FloorHatch = "car_floor_hatch";
+		public string DoorBlocker = "door_blocker";       // Invisible wall
+		public UpperDetails(int interior) { interiorId = interior; }
+		public void Enable(string detail, bool state, bool refresh = true)
+		{
+			IplManager.SetIplPropState(interiorId, detail, state, refresh);
+		}
 	}
 }

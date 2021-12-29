@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static TheLastPlanet.Client.IPLs.dlc_heists.HeistYacht;
+using TheLastPlanet.Client.IPLs.dlc_heists;
 
 namespace TheLastPlanet.Client.IPLs.dlc_gunrunning
 {
 	public class GunrunningYacht
 	{
-		private static bool _enabled = false;
-		public static List<string> ipl = new List<string>()
+		private bool _enabled = false;
+		public List<string> ipl = new List<string>()
 		{
 			"gr_heist_yacht2",
 			"gr_heist_yacht2_bar",
@@ -28,7 +30,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_gunrunning
 			"gr_heist_yacht2_lounge_lod",
 			"gr_heist_yacht2_slod",
 		};
-		public static bool Enabled
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set
@@ -37,40 +39,11 @@ namespace TheLastPlanet.Client.IPLs.dlc_gunrunning
 				IplManager.EnableIpl(ipl, _enabled);
 			}
 		}
+		public YacthWater Water = new YacthWater(new Vector4(-1369.0f, 6736.0f, 5.40f, 5.0f));
 
-		public class YWater
-		{
-			int ModelHash = Funzioni.HashInt("apa_mp_apa_yacht_jacuzzi_ripple1");
-			public async void Enable(bool state)
-			{
-				int handle = API.GetClosestObjectOfType(-1369.0f, 6736.0f, 5.40f, 5.0f, (uint)ModelHash, false, false, false);
-				if (state)
-				{
-					if (handle == 0)
-					{
-						API.RequestModel((uint)ModelHash);
-						while (!API.HasModelLoaded((uint)ModelHash)) await BaseScript.Delay(0);
-						int water = API.CreateObjectNoOffset((uint)ModelHash, -1369.0f, 6736.0f, 5.40f, true, true, false);
-						API.SetEntityAsMissionEntity(water, false, true);
-					}
-					else
-					{
-						if (handle != 0)
-						{
-							API.SetEntityAsMissionEntity(handle, false, false);
-							API.DeleteEntity(ref handle);
-						}
-					}
-				}
-			}
-		}
-
-		public static YWater Water = new YWater();
-
-		public static void LoadDefault()
+		public void LoadDefault()
 		{
 			Enabled = true;
 		}
-
 	}
 }

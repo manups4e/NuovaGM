@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -21,41 +22,103 @@ namespace TheLastPlanet.Client.IPLs
 	{
 		public static async Task Observer()
 		{
-			IplManager.Global.CurrentInteriorId = GetInteriorAtCoords(Cache.PlayerCache.MyPlayer.Posizione.ToVector3.X, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Y, Cache.PlayerCache.MyPlayer.Posizione.ToVector3.Z);
+			await PlayerCache.Loaded();
+			IplManager.Global.CurrentInteriorId = GetInteriorFromGameplayCam();
 			if (IplManager.Global.CurrentInteriorId == 0)
+			{
 				IplManager.Global.ResetInteriorVariables();
+				foreach(var ipl in IPLInstance.Ammunations.AmmunationsList)
+                {
+					float x = 0, y = 0, z = 0;
+					GetInteriorPosition(ipl.InteriorId, ref x, ref y, ref z);
+
+					if (PlayerCache.MyPlayer.Posizione.IsInRangeOf(new Vector3(x, y, z), 300))
+					{
+						if (!ipl.Enabled) ipl.Enabled = true;
+					}
+					else
+					{
+						if (ipl.Enabled) ipl.Enabled = false;
+					}
+				}
+			}
 			else
 			{
-				IplManager.Global.Online.isInsideApartmentHi1 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOApartmentHi1.InteriorId);
-				IplManager.Global.Online.isInsideApartmentHi2 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOApartmentHi2.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi1 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi1.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi2 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi2.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi3 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi3.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi4 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi4.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi5 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi5.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi6 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi6.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi7 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi7.InteriorId);
-				IplManager.Global.Online.isInsideHouseHi8 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseHi8.InteriorId);
-				IplManager.Global.Online.isInsideHouseLow1 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseLow1.InteriorId);
-				IplManager.Global.Online.isInsideHouseMid1 = (IplManager.Global.CurrentInteriorId == gta_online.GTAOHouseMid1.InteriorId);
-
-				// DLC: High life
-				IplManager.Global.HighLife.isInsideApartment1 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment1.InteriorId);
-				IplManager.Global.HighLife.isInsideApartment2 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment2.InteriorId);
-				IplManager.Global.HighLife.isInsideApartment3 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment3.InteriorId);
-				IplManager.Global.HighLife.isInsideApartment4 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment4.InteriorId);
-				IplManager.Global.HighLife.isInsideApartment5 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment5.InteriorId);
-				IplManager.Global.HighLife.isInsideApartment6 = (IplManager.Global.CurrentInteriorId == gta_online.HLApartment6.InteriorId);
-
-				// DLC: Bikers - Clubhouses
-				IplManager.Global.Biker.isInsideClubhouse1 = (IplManager.Global.CurrentInteriorId == BikerClubhouse1.InteriorId);
-				IplManager.Global.Biker.isInsideClubhouse2 = (IplManager.Global.CurrentInteriorId == BikerClubhouse2.InteriorId);
-
-				// DLC: Finance & Felony - Offices
-				IplManager.Global.FinanceOffices.isInsideOffice1 = (IplManager.Global.CurrentInteriorId == FinanceOffice1.CurrentInteriorId);
-				IplManager.Global.FinanceOffices.isInsideOffice2 = (IplManager.Global.CurrentInteriorId == FinanceOffice2.CurrentInteriorId);
-				IplManager.Global.FinanceOffices.isInsideOffice3 = (IplManager.Global.CurrentInteriorId == FinanceOffice3.CurrentInteriorId);
-				IplManager.Global.FinanceOffices.isInsideOffice4 = (IplManager.Global.CurrentInteriorId == FinanceOffice4.CurrentInteriorId);
+				switch (IplManager.Global.CurrentInteriorId)
+				{
+                    case int a when a == IPLInstance.GTAOApartmentHi1.InteriorId:
+						IplManager.Global.Online.isInsideApartmentHi1 = true;
+						break;
+					case int a when a == IPLInstance.GTAOApartmentHi2.InteriorId:
+						IplManager.Global.Online.isInsideApartmentHi2 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi1.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi1 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi2.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi2 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi3.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi3 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi4.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi4 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi5.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi5 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi6.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi6 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi7.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi7 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseHi8.InteriorId:
+						IplManager.Global.Online.isInsideHouseHi8 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseLow1.InteriorId:
+						IplManager.Global.Online.isInsideHouseLow1 = true;
+						break;
+					case int a when a == IPLInstance.GTAOHouseMid1.InteriorId:
+						IplManager.Global.Online.isInsideHouseMid1 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment1.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment1 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment2.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment2 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment3.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment3 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment4.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment4 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment5.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment5 = true;
+						break;
+					case int a when a == IPLInstance.HLApartment6.InteriorId:
+						IplManager.Global.HighLife.isInsideApartment6 = true;
+						break;
+					case int a when a == BikerClubhouse1.InteriorId:
+						IplManager.Global.Biker.isInsideClubhouse1 = true;
+						break;
+					case int a when a == BikerClubhouse2.InteriorId:
+						IplManager.Global.Biker.isInsideClubhouse2 = true;
+						break;
+					case int a when a == IPLInstance.FinanceOffice1.CurrentInteriorId:
+						IplManager.Global.FinanceOffices.isInsideOffice1 = true;
+						break;
+					case int a when a == IPLInstance.FinanceOffice2.CurrentInteriorId:
+						IplManager.Global.FinanceOffices.isInsideOffice2 = true;
+						break;
+					case int a when a == IPLInstance.FinanceOffice3.CurrentInteriorId:
+						IplManager.Global.FinanceOffices.isInsideOffice3 = true;
+						break;
+					case int a when a == IPLInstance.FinanceOffice4.CurrentInteriorId:
+						IplManager.Global.FinanceOffices.isInsideOffice4 = true;
+						break;
+				}
 			}
 			await BaseScript.Delay(250);
 		}
@@ -63,16 +126,16 @@ namespace TheLastPlanet.Client.IPLs
 		public static async Task OfficeSafeDoorHandler()
 		{
 			int doorhandle = 0;
-			dynamic office = null;
+			FinanceOffice office = null;
 
-			if (IplManager.Global.FinanceOffices.isInsideOffice1) office = FinanceOffice1.Instance;
-			else if (IplManager.Global.FinanceOffices.isInsideOffice2) office = FinanceOffice2.Instance;
-			else if (IplManager.Global.FinanceOffices.isInsideOffice3) office = FinanceOffice3.Instance;
-			else if (IplManager.Global.FinanceOffices.isInsideOffice4) office = FinanceOffice4.Instance;
+			if (IplManager.Global.FinanceOffices.isInsideOffice1) office = IPLInstance.FinanceOffice1;
+			else if (IplManager.Global.FinanceOffices.isInsideOffice2) office = IPLInstance.FinanceOffice2;
+			else if (IplManager.Global.FinanceOffices.isInsideOffice3) office = IPLInstance.FinanceOffice3;
+			else if (IplManager.Global.FinanceOffices.isInsideOffice4) office = IPLInstance.FinanceOffice4;
 
 			if (office != null)
 			{
-				doorhandle = office.Safe.GetDoorHandle(office.CurrentSafeDoors.HashL);
+				doorhandle = await office.Safe.GetDoorHandle(OfficeCassaForte.CurrentSafeDoors.HashL);
 
 				//sinsitra
 				if (doorhandle != 0)
@@ -81,7 +144,7 @@ namespace TheLastPlanet.Client.IPLs
 					else office.Safe.SetDoorState("left", false);
 				}
 
-				doorhandle = office.Safe.GetDoorHandle(office.CurrentSafeDoors.HashR);
+				doorhandle = await office.Safe.GetDoorHandle(OfficeCassaForte.CurrentSafeDoors.HashR);
 
 				//destra
 				if (doorhandle != 0)
@@ -92,5 +155,25 @@ namespace TheLastPlanet.Client.IPLs
 			}
 			await BaseScript.Delay(500);
 		}
+
+		public static async Task OrganizationWatchers()
+		{
+			if (IPLInstance.FinanceOrganization.Office.NeedToLoad)
+			{
+				if (IplManager.Global.FinanceOffices.isInsideOffice1 || IplManager.Global.FinanceOffices.isInsideOffice2 ||
+					IplManager.Global.FinanceOffices.isInsideOffice3 || IplManager.Global.FinanceOffices.isInsideOffice4)
+				{
+					IplManager.DrawOrganizationName(IPLInstance.FinanceOrganization.Name.Name, IPLInstance.FinanceOrganization.Name.Style, IPLInstance.FinanceOrganization.Name.Color, IPLInstance.FinanceOrganization.Name.Font);
+					IPLInstance.FinanceOrganization.Office.Loaded = true;
+				}
+			}
+			else if (IPLInstance.FinanceOrganization.Office.Loaded)
+			{
+				IPLInstance.FinanceOrganization.Office.Clear();
+				IPLInstance.FinanceOrganization.Office.Loaded = false;
+			}
+			else await BaseScript.Delay(1000);
+		}
+
 	}
 }

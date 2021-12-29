@@ -10,16 +10,15 @@ namespace TheLastPlanet.Client.IPLs.gtav
 	{
 		public static int InteriorId = 197121;
 
-		public static string Mess = "V_19_Trevor_Mess";
-		public static void Enable(bool state)
+		public string Mess = "V_19_Trevor_Mess";
+		public void Enable(bool state)
 		{
 			IplManager.SetIplPropState(InteriorId, Mess, state, true);
 		}
 
-		public static void LoadDefault()
+		public void LoadDefault()
 		{
 			Enable(false);
 		}
-
 	}
 }

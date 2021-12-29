@@ -8,8 +8,8 @@ namespace TheLastPlanet.Client.IPLs.dlc_heists
 {
 	public class HeistCarrier
 	{
-		private static bool _enabled = false;
-		public static List<string> ipl = new List<string>() 
+		private bool _enabled = false;
+		public List<string> ipl = new List<string>() 
 		{       
 			"hei_carrier",
 			"hei_carrier_int1",
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_heists
 			"hei_carrier_lod",
 			"hei_carrier_slod"
 		};
-		public static bool Enabled
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set

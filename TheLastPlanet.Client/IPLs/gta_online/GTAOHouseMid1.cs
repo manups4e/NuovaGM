@@ -7,67 +7,36 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.IPLs.gta_online
 {
-	public class GTAOHouseMid1
+	public class GTAOHouseMid1 : OnlineApartament
 	{
-		public class Style
+		public GTAOHouseMid1() : base()
 		{
-			public string A;
-			public string B;
-			public string C;
-
-			public Style(string a, string b, string c)
-			{
-				A = a;
-				B = b;
-				C = c;
-			}
-
-			public void Enable(string details, bool state, bool refresh = true)
-			{
-				IplManager.SetIplPropState(InteriorId, details, state, refresh);
-			}
-
-			public void Set(string smoke, bool refresh)
-			{
-				if (smoke != "")
-				{
-					if (smoke.Contains("Smoke"))
-					{
-						Clear(false);
-						IplManager.SetIplPropState(InteriorId, smoke, true, refresh);
-					}
-				}
-				else
-				{
-					if (refresh) API.RefreshInterior(InteriorId);
-				}
-			}
-			public void Clear(bool refresh)
-			{
-				IplManager.SetIplPropState(InteriorId, Smoke.A, false);
-				IplManager.SetIplPropState(InteriorId, Smoke.B, false);
-				IplManager.SetIplPropState(InteriorId, Smoke.C, false);
-			}
+			InteriorId = 148225;
+			Style Strip = new Style(InteriorId, "Apart_Mid_Strip_A", "Apart_Mid_Strip_B", "Apart_Mid_Strip_C");
+			Style Booze = new Style(InteriorId, "Apart_Mid_Booze_A", "Apart_Mid_Booze_B", "Apart_Mid_Booze_C");
+			Style Smoke = new Style(InteriorId, "Apart_Mid_Smoke_A", "Apart_Mid_Smoke_B", "Apart_Mid_Smoke_C");
 		}
 
-//		public static int InteriorId = 149761;
-		public static int InteriorId = 148225;
-		public static Style Strip = new Style("Apart_Mid_Strip_A", "Apart_Mid_Strip_B", "Apart_Mid_Strip_C");
-		public static Style Booze = new Style("Apart_Mid_Booze_A", "Apart_Mid_Booze_B", "Apart_Mid_Booze_C");
-		public static Style Smoke = new Style("Apart_Mid_Smoke_A", "Apart_Mid_Smoke_B", "Apart_Mid_Smoke_C");
-
-		public static void LoadDefault()
+		public void Set(string smoke, bool refresh)
 		{
-			Strip.Enable(Strip.A, false);
-			Strip.Enable(Strip.B, false);
-			Strip.Enable(Strip.C, false);
-			Booze.Enable(Booze.A, false);
-			Booze.Enable(Booze.B, false);
-			Booze.Enable(Booze.C, false);
-			Smoke.Enable(Smoke.A, false);
-			Smoke.Enable(Smoke.B, false);
-			Smoke.Enable(Smoke.C, false);
-			API.RefreshInterior(InteriorId);
+			if (smoke != "")
+			{
+				if (smoke.Contains("Smoke"))
+				{
+					Clear(false);
+					IplManager.SetIplPropState(InteriorId, smoke, true, refresh);
+				}
+			}
+			else
+			{
+				if (refresh) API.RefreshInterior(InteriorId);
+			}
+		}
+		public void Clear(bool refresh)
+		{
+			IplManager.SetIplPropState(InteriorId, Smoke.Stage1, false);
+			IplManager.SetIplPropState(InteriorId, Smoke.Stage2, false);
+			IplManager.SetIplPropState(InteriorId, Smoke.Stage3, false);
 		}
 	}
 }
