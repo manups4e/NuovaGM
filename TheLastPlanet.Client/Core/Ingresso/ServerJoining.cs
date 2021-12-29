@@ -51,7 +51,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 		{
 			Screen.Fading.FadeOut(800);
 			while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
-			SmugglerHangar.LoadDefault();
+			IPLs.IPLInstance.SmugglerHangar.LoadDefault();
 			await Cache.PlayerCache.InitPlayer();
 			Client.Logger.Debug("Player => " + Cache.PlayerCache.MyPlayer.Player.Name);
 			while (!NetworkIsPlayerActive(Cache.PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			//MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
-			Client.Instance.AddTick(MainChooser.DrawMarkers);
+			MainChooser.Init();
 			SpawnParticle.MarkAsNoLongerNeeded();
 		}
 
@@ -121,7 +121,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
 			Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
-			Client.Instance.AddTick(MainChooser.DrawMarkers);
+			MainChooser.Init();
 			SpawnParticle.MarkAsNoLongerNeeded();
 		}
 	}
