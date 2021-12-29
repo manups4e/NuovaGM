@@ -128,8 +128,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.GuiEnabled)
 			{
-				AddTextEntry("LastPlanetHelpText", helpText);
-				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
+				AddTextEntry("LastGalaxyHelpText", helpText);
+				DisplayHelpTextThisFrame("LastGalaxyHelpText", false);
 			}
 		}
 
@@ -137,8 +137,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 		{
 			if (!IsPlayerSwitchInProgress() && !LogIn.GuiEnabled)
 			{
-				AddTextEntry("LastPlanetHelpText", helpText);
-				DisplayHelpTextThisFrame("LastPlanetHelpText", false);
+				AddTextEntry("LastGalaxyHelpText", helpText);
+				DisplayHelpTextThisFrame("LastGalaxyHelpText", false);
 			}
 		}
 
@@ -153,8 +153,8 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 
 			if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen)
 			{
-				AddTextEntry("LastPlanetHelpText", helpText);
-				BeginTextCommandDisplayHelp("LastPlanetHelpText");
+				AddTextEntry("LastGalaxyHelpText", helpText);
+				BeginTextCommandDisplayHelp("LastGalaxyHelpText");
 				EndTextCommandDisplayHelp(0, false, true, tempo);
 			}
 		}
