@@ -3,6 +3,8 @@ using CitizenFX.Core.Native;
 using System.Collections.Generic;
 using TheLastPlanet.Client.IPLs.dlc_afterhours;
 using TheLastPlanet.Client.IPLs.dlc_bikers;
+using TheLastPlanet.Client.IPLs.dlc_casino;
+using TheLastPlanet.Client.IPLs.dlc_cayo_perico;
 using TheLastPlanet.Client.IPLs.dlc_doomsday;
 using TheLastPlanet.Client.IPLs.dlc_executive;
 using TheLastPlanet.Client.IPLs.dlc_finance;
@@ -77,6 +79,11 @@ namespace TheLastPlanet.Client.IPLs
 		public static GunrunningBunker GunrunningBunker = new();
 		public static GunrunningYacht GunrunningYacht = new();
 		public static FinanceOrganization FinanceOrganization = new();
+		public static Casino DiamondCasino = new();
+		public static Penthouse DiamondPenthouse = new();
+
+		// 4840.571 -5174.425 2.0
+		public static Island CayoPericoIsland = new();
 		public static void Init()
 		{
 			/*
@@ -204,8 +211,6 @@ namespace TheLastPlanet.Client.IPLs
 			// ====================================================================
 			// =------------------------ SEMPRE ATTIVI ---------------------------=
 			// ====================================================================
-
-			FinanceOffice1.LoadDefault();    // -141.1987, -620.913, 168.8205 (Arcadius Business Centre)
 			
 			// Heist Jewel: -637.20159 - 239.16250 38.1
 			IplManager.EnableIpl("post_hiest_unload", true);
@@ -305,12 +310,22 @@ namespace TheLastPlanet.Client.IPLs
 	 		 6 Car Garage	197.8153 -1002.293 -99.65749
 			 10 Car Garage	229.9559 -981.7928 -99.66071
 		   */
+
 			FinanceOrganization.Office.Init();
-			// si può migliorare per rimuovere il tick fisso sempre.. 🤔
-			Client.Instance.AddTick(InteriorObserver.Observer);
+			GunrunningBunker.Exterior.Enabled = true;
+
+			if (API.GetGameBuildNumber() >= 2060)
+			{
+				// casino 1100.000 220.000 -50.000
+				// penthouse 976.636 70.295 115.164
+				DiamondCasino.Enabled = true;
+				DiamondPenthouse.Enabled = true;
+			}
+
+            // si può migliorare per rimuovere il tick fisso sempre.. 🤔
+            Client.Instance.AddTick(InteriorObserver.Observer);
 			Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
 			Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
-			GunrunningBunker.Exterior.Enabled = true;
 
 		}
 
@@ -403,6 +418,8 @@ namespace TheLastPlanet.Client.IPLs
 			IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, false);
 			IplManager.EnableIpl("ferris_finale_anim", false);
 			Client.Instance.RemoveTick(InteriorObserver.Observer);
+			Client.Instance.RemoveTick(InteriorObserver.OfficeSafeDoorHandler);
+			Client.Instance.RemoveTick(InteriorObserver.OrganizationWatchers);
 		}
 	}
 }

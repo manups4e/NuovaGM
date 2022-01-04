@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Cache;
+using TheLastPlanet.Client.IPLs.dlc_cayo_perico;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -23,7 +24,7 @@ namespace TheLastPlanet.Client.IPLs
 		public static async Task Observer()
 		{
 			await PlayerCache.Loaded();
-			IplManager.Global.CurrentInteriorId = GetInteriorFromGameplayCam();
+			IplManager.Global.CurrentInteriorId = GetInteriorFromEntity(PlayerPedId());
 			if (IplManager.Global.CurrentInteriorId == 0)
 			{
 				IplManager.Global.ResetInteriorVariables();
@@ -44,6 +45,9 @@ namespace TheLastPlanet.Client.IPLs
 			}
 			else
 			{
+				// eseguiamolo una volta sola
+				if (IplManager.Global.IsAnyInteriorActive) return;
+
 				switch (IplManager.Global.CurrentInteriorId)
 				{
                     case int a when a == IPLInstance.GTAOApartmentHi1.InteriorId:
@@ -118,9 +122,19 @@ namespace TheLastPlanet.Client.IPLs
 					case int a when a == IPLInstance.FinanceOffice4.CurrentInteriorId:
 						IplManager.Global.FinanceOffices.isInsideOffice4 = true;
 						break;
+					case int a when a == IPLInstance.DiamondCasino.InteriorId:
+						IplManager.Global.DiamondDlc.IsInCasino = true;
+						if (IPLInstance.DiamondCasino.ExpositionVeh is null)
+						{
+							string model = await Client.Instance.Events.Get<string>("tlg:casino:getVehModel");
+							IPLInstance.DiamondCasino.CreateVehicleForDisplay(model);
+						}
+						IPLInstance.DiamondCasino.RenderWalls(true);
+						break;
 				}
 			}
-			await BaseScript.Delay(250);
+
+			await BaseScript.Delay(500);
 		}
 
 		public static async Task OfficeSafeDoorHandler()

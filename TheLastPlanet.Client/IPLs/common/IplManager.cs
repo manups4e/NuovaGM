@@ -171,7 +171,7 @@ namespace TheLastPlanet.Client.IPLs
 		public HighLife HighLife = new();
 		public BikersClubHouse Biker = new();
 		public FinanceOffices FinanceOffices = new();
-
+		public Diamond DiamondDlc = new();
 		public void ResetInteriorVariables()
 		{
 			Online.isInsideApartmentHi1 = false;
@@ -198,43 +198,80 @@ namespace TheLastPlanet.Client.IPLs
 			HighLife.isInsideApartment4 = false;
 			HighLife.isInsideApartment5 = false;
 			HighLife.isInsideApartment6 = false;
+			DiamondDlc.IsInCasino = false;
+			DiamondDlc.IsInPenthouse = false;
+			if (IPLInstance.DiamondCasino.ExpositionVeh is not null) IPLInstance.DiamondCasino.DeleteVehicle();
+			IPLInstance.DiamondCasino.RenderWalls(false);
+
 		}
-	}
+		public bool IsAnyInteriorActive => 
+			Online.isInsideApartmentHi1		||
+			Online.isInsideApartmentHi2		||
+			Online.isInsideHouseHi1			||
+			Online.isInsideHouseHi2			||
+			Online.isInsideHouseHi3			||
+			Online.isInsideHouseHi4			||
+			Online.isInsideHouseHi5			||
+			Online.isInsideHouseHi6			||
+			Online.isInsideHouseHi7			||
+			Online.isInsideHouseHi8			||
+			Online.isInsideHouseLow1		||
+			Online.isInsideHouseMid1		||
+			Biker.isInsideClubhouse1		||
+			Biker.isInsideClubhouse2		||
+			FinanceOffices.isInsideOffice1	||
+			FinanceOffices.isInsideOffice2	||
+			FinanceOffices.isInsideOffice3	||
+			FinanceOffices.isInsideOffice4	||
+			HighLife.isInsideApartment1		||
+			HighLife.isInsideApartment2		||
+			HighLife.isInsideApartment3		||
+			HighLife.isInsideApartment4		||
+			HighLife.isInsideApartment5		||
+			HighLife.isInsideApartment6		||
+			DiamondDlc.IsInCasino			||
+			DiamondDlc.IsInPenthouse;
+    }
 
 	public class GTAOnline
 	{
-		public bool isInsideApartmentHi1 = false;
-		public bool isInsideApartmentHi2 = false;
-		public bool isInsideHouseHi1 = false;
-		public bool isInsideHouseHi2 = false;
-		public bool isInsideHouseHi3 = false;
-		public bool isInsideHouseHi4 = false;
-		public bool isInsideHouseHi5 = false;
-		public bool isInsideHouseHi6 = false;
-		public bool isInsideHouseHi7 = false;
-		public bool isInsideHouseHi8 = false;
-		public bool isInsideHouseLow1 = false;
-		public bool isInsideHouseMid1 = false;
+		public bool isInsideApartmentHi1 { get; set; }
+		public bool isInsideApartmentHi2 { get; set; }
+		public bool isInsideHouseHi1 { get; set; }
+		public bool isInsideHouseHi2 { get; set; }
+		public bool isInsideHouseHi3 { get; set; }
+		public bool isInsideHouseHi4 { get; set; }
+		public bool isInsideHouseHi5 { get; set; }
+		public bool isInsideHouseHi6 { get; set; }
+		public bool isInsideHouseHi7 { get; set; }
+		public bool isInsideHouseHi8 { get; set; }
+		public bool isInsideHouseLow1 { get; set; }
+		public bool isInsideHouseMid1 { get; set; }
 	}
 	public class HighLife
 	{
-		public bool isInsideApartment1 = false;
-		public bool isInsideApartment2 = false;
-		public bool isInsideApartment3 = false;
-		public bool isInsideApartment4 = false;
-		public bool isInsideApartment5 = false;
-		public bool isInsideApartment6 = false;
+		public bool isInsideApartment1 { get; set; }
+		public bool isInsideApartment2 { get; set; }
+		public bool isInsideApartment3 { get; set; }
+		public bool isInsideApartment4 { get; set; }
+		public bool isInsideApartment5 { get; set; }
+		public bool isInsideApartment6 { get; set; }
 	}
 	public class BikersClubHouse
 	{
-		public bool isInsideClubhouse1 = false;
-		public bool isInsideClubhouse2 = false;
+		public bool isInsideClubhouse1 { get; set; }
+		public bool isInsideClubhouse2 { get; set; }
 	}
 	public class FinanceOffices
 	{
-		public bool isInsideOffice1 = false;
-		public bool isInsideOffice2 = false;
-		public bool isInsideOffice3 = false;
-		public bool isInsideOffice4 = false;
+		public bool isInsideOffice1 { get; set; }
+		public bool isInsideOffice2 { get; set; }
+		public bool isInsideOffice3 { get; set; }
+		public bool isInsideOffice4 { get; set; }
 	}
+	public class Diamond
+    {
+		public bool IsInCasino { get; set; }
+		public bool IsInPenthouse { get; set; }
+    }
 }
