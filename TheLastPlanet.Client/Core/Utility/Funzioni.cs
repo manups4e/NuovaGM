@@ -698,15 +698,14 @@ namespace TheLastPlanet.Client.Core.Utility
 		}
 
 
-
-		public static async Task<Prop> SpawnLocalProp(dynamic modelName, Vector3 coords, bool dynamic, bool placeOnGround)
+		public static async Task<Prop> SpawnLocalProp(int modelName, Vector3 coords, bool dynamic, bool placeOnGround)
 		{
 			Model model = new(modelName);
 
 			if (!await model.Request(1000)) return null;
 			Prop p = new(CreateObject(model.Hash, coords.X, coords.Y, coords.Z, false, false, dynamic));
 			if (placeOnGround) PlaceObjectOnGroundProperly(p.Handle);
-
+			model.MarkAsNoLongerNeeded();
 			return p;
 		}
 
