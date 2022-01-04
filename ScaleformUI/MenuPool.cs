@@ -254,14 +254,9 @@ namespace ScaleformUI
         /// Checks if any menu is currently visible.
         /// </summary>
         /// <returns>true if at least one menu is visible, false if not.</returns>
-        public bool IsAnyMenuOpen
-        {
-            get
-            {
-                return _menuList.Any(menu => menu.Visible);
-            }
-        }
+        public bool IsAnyMenuOpen => _menuList.Any(menu => menu.Visible) || _pauseMenuList.Any(menu => menu.Visible);
 
+        public bool IsAnyPauseMenuOpen => _pauseMenuList.Any(menu => menu.Visible);
 
         /// <summary>
         /// Process all of your menus' functions. Call this in a tick event.

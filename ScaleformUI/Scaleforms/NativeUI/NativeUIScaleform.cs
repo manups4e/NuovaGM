@@ -15,7 +15,7 @@ namespace ScaleformUI
         public static BigMessageHandler BigMessageInstance { get; set; }
         public static PopupWarning Warning { get; set; }
         public static PlayerListHandler PlayerListInstance { get; set; }
-
+        public static MissionSelectorHandler JobMissionSelection { get; set; }
         internal static Scaleform _nativeui { get; set; }
         public NativeUIScaleform()
         {
@@ -23,6 +23,7 @@ namespace ScaleformUI
             MedMessageInstance = new();
             BigMessageInstance = new();
             PlayerListInstance = new();
+            JobMissionSelection = new();
             PauseMenu = new();
             _nativeui = new("nativeui");
             InstructionalButtons = new();
@@ -36,6 +37,7 @@ namespace ScaleformUI
             MedMessageInstance.Update();
             BigMessageInstance.Update();
             PlayerListInstance.Update();
+            JobMissionSelection.Update();
             InstructionalButtons.HandleScaleform();
 
             if (_nativeui is null)
