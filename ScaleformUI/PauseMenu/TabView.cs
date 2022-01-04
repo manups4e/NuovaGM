@@ -122,7 +122,7 @@ namespace ScaleformUI.PauseMenu
                     SendPauseMenuClose();
                     API.SetPlayerControl(Game.Player.Handle, true, 0);
                 }
-                API.SetPauseMenuActive(value);
+                Game.IsPaused = value;
                 NativeUIScaleform.InstructionalButtons.Enabled = value;
                 _pause.Visible = value;
                 _visible = value;
