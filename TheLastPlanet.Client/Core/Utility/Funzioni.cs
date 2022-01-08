@@ -513,10 +513,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
-				{
-					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs) v.Delete();
-				}
+					ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
 				int callback =
 					await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, coords.Z, heading));
@@ -575,10 +572,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); //for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
-				{
-					Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-					foreach (Vehicle v in vehs) v.Delete();
-				}
+					ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
 				int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
 					coords.X, coords.Y, coords.Z, heading));
@@ -630,10 +624,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			if (!vehicleModel.IsLoaded) await vehicleModel.Request(3000); // for when you stream resources.
 
 			if (!IsSpawnPointClear(coords, 2f))
-			{
-				Vehicle[] vehs = GetVehiclesInArea(coords, 2f);
-				foreach (Vehicle v in vehs) v.Delete();
-			}
+				ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
 			Vehicle vehicle = new Vehicle(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, false, false));
 			while (!vehicle.Exists()) await BaseScript.Delay(0);
@@ -680,10 +671,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (!propModel.IsLoaded) await propModel.Request(3000); //for when you stream resources.
 
 				if (!IsSpawnPointClear(coords, 2f))
-				{
-					Prop[] props = GetPropsInArea(coords, 1f);
-					foreach (var v in props) v.Delete();
-				}
+					ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
 				int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnProp", propModel.Hash, 
 					new Position(coords, rot));
@@ -766,12 +754,7 @@ namespace TheLastPlanet.Client.Core.Utility
 				if (!pedModel.IsLoaded) await pedModel.Request(3000); // for when you stream resources.
 
 				if (!IsSpawnPedPointClear(position.ToVector3, 2f))
-				{
-					var Peds = GetPedsInArea(position.ToVector3, 2f);
-					foreach (var v in Peds)
-						if (!v.IsPlayer)
-							v.Delete();
-				}
+					ClearArea(position.ToVector3.X, position.ToVector3.Y, position.ToVector3.Z, 2f, true, false, false, true);
 			}
 
 			int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnPed", (uint) pedModel.Hash, position, (int)pedType);
@@ -1022,21 +1005,18 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static bool IsSpawnPointClear(this Vector3 pos, float Radius)
 		{
 			Vehicle[] vehs = GetVehiclesInArea(pos, Radius);
-
 			return vehs.Length < 1 ? true : false;
 		}
 
 		public static bool IsSpawnObjPointClear(this Vector3 pos, float Radius)
 		{
 			Prop[] vehs = GetPropsInArea(pos, Radius);
-
 			return vehs.Length < 1 ? true : false;
 		}
 
 		public static bool IsSpawnPedPointClear(this Vector3 pos, float Radius)
 		{
 			Ped[] vehs = GetPedsInArea(pos, Radius);
-
 			return vehs.Length < 1;
 		}
 
