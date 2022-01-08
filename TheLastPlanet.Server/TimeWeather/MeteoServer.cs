@@ -14,6 +14,7 @@ namespace TheLastPlanet.Server.TimeWeather
 	{
 		public static ServerWeather Meteo;
 		private static long _timer = 0;
+		private static SharedTimer WeatherTimer;
 		public static void Init()
 		{
 			Meteo = new ServerWeather()
@@ -28,7 +29,9 @@ namespace TheLastPlanet.Server.TimeWeather
 			Server.Instance.Events.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
 			Server.Instance.Events.Mount("changeWeather", new Action<bool>(CambiaMeteo));
 			Server.Instance.Events.Mount("SyncWeatherForMe", new Action<ClientId, bool>(SyncMeteoPerMe));
-			Task.Run(Conteggio);
+
+			WeatherTimer = new(1000);
+			Server.Instance.AddTick(Conteggio);
 		}
 
 		private static void SyncMeteoPerMe(ClientId p, bool startup)
@@ -62,54 +65,50 @@ namespace TheLastPlanet.Server.TimeWeather
 		{
 			try
 			{
-				while (true)
+				await BaseScript.Delay(1000);
+				long tt = API.GetGameTimer();
+				var rand = new Random((int)tt);
+				if (Meteo.DynamicMeteo)
 				{
-					await BaseScript.Delay(1000);
-					long tt = API.GetGameTimer();
-					var rand = new Random((int)tt);
-					if (Meteo.DynamicMeteo)
+					Meteo.WeatherTimer--;
+					if (Meteo.RainPossible) Meteo.RainTimer = -1;
+					else Meteo.RainTimer--;
+					if (Meteo.WeatherTimer == 0)
 					{
-						Meteo.WeatherTimer--;
-						if (Meteo.RainPossible) Meteo.RainTimer = -1;
-						else Meteo.RainTimer--;
-						if (Meteo.WeatherTimer == 0)
+						if (ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather)
 						{
-							if (ConfigShared.SharedConfig.Main.Meteo.ss_enable_dynamic_weather)
-							{
-								List<int> currentOptions = ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition[Meteo.CurrentWeather];
-								Meteo.CurrentWeather = currentOptions[rand.Next(currentOptions.Count - 1)];
-								if (ConfigShared.SharedConfig.Main.Meteo.ss_reduce_rain_chance)
-									foreach (int p in currentOptions)
-										if (p == 7 || p == 8)
-											Meteo.CurrentWeather = currentOptions[rand.Next(currentOptions.Count - 1)];
-
-								if (Meteo.RainPossible == false)
-									while (Meteo.CurrentWeather == 7 || Meteo.CurrentWeather == 8)
+							List<int> currentOptions = ConfigShared.SharedConfig.Main.Meteo.ss_weather_Transition[Meteo.CurrentWeather];
+							Meteo.CurrentWeather = currentOptions[rand.Next(currentOptions.Count - 1)];
+							if (ConfigShared.SharedConfig.Main.Meteo.ss_reduce_rain_chance)
+								foreach (int p in currentOptions)
+									if (p == 7 || p == 8)
 										Meteo.CurrentWeather = currentOptions[rand.Next(currentOptions.Count - 1)];
 
-								if (Meteo.CurrentWeather == 7 || Meteo.CurrentWeather == 8)
-								{
-									Meteo.RainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
-									Meteo.RainPossible = false;
-								}
-								Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
+							if (Meteo.RainPossible == false)
+								while (Meteo.CurrentWeather == 7 || Meteo.CurrentWeather == 8)
+									Meteo.CurrentWeather = currentOptions[rand.Next(currentOptions.Count - 1)];
+
+							if (Meteo.CurrentWeather == 7 || Meteo.CurrentWeather == 8)
+							{
+								Meteo.RainTimer = ConfigShared.SharedConfig.Main.Meteo.ss_rain_timeout * 60;
+								Meteo.RainPossible = false;
 							}
+							Meteo.WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60;
 						}
-						if (Meteo.RainTimer == 0)
-							Meteo.RainPossible = true;
 					}
-					if (tt - _timer > 600000)
-					{
-						Meteo.RandomWindDirection = Funzioni.RandomFloatInRange(0, 359);
-						Meteo.WindSpeed = Funzioni.RandomFloatInRange(0, 12);
-						_timer = tt;
-					}
-					CambiaMeteo(false);
+					if (Meteo.RainTimer == 0)
+						Meteo.RainPossible = true;
 				}
+				if (tt - _timer > 600000)
+				{
+					Meteo.RandomWindDirection = Funzioni.RandomFloatInRange(0, 359);
+					Meteo.WindSpeed = Funzioni.RandomFloatInRange(0, 12);
+					_timer = tt;
+				}
+				CambiaMeteo(false);
 			}
 			catch (Exception e)
 			{
-				await BaseScript.Delay(0);
 				Server.Logger.Error(e + e.StackTrace);
 			}
 		}

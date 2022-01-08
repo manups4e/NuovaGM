@@ -46,7 +46,11 @@ namespace TheLastPlanet.Client.IPLs
 			else
 			{
 				// eseguiamolo una volta sola
-				if (IplManager.Global.IsAnyInteriorActive) return;
+				if (IplManager.Global.IsAnyInteriorActive)
+				{
+					HideMinimapExteriorMapThisFrame();
+					return;
+				}
 
 				switch (IplManager.Global.CurrentInteriorId)
 				{

@@ -1,45 +1,74 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
+using CitizenFX.Core.Native;
+using ScaleformUI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Cache;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using ScaleformUI;
+using TheLastPlanet.Client.IPLs;
 using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client
 {
 	internal static class ClasseDiTest
 	{
-		// TODO: PROGRESSBARS IN NATIVEUI.. DA FINIRE E MIGLIORARE
 		public static void Init()
 		{
-			AttivaMenu();
+			Client.Instance.AddTick(TestTick);
+			IPLInstance.CayoPericoIsland.Enabled = false;
+		}
+
+		static bool pp = false;
+		static Marker dummyMarker = new(MarkerType.VerticalCylinder, WorldProbe.CrossairRaycastResult.HitPosition.ToPosition(), Colors.Blue);
+		private static async Task TestTick()
+        {
+			RaycastResult res = WorldProbe.CrossairRaycastResult;
+			Vector3 direction = res.HitPosition;
+			dummyMarker.Color = Colors.Red;
+			dummyMarker.Draw();
+			dummyMarker.Position = direction.ToPosition();
+			float z = 0;
+			API.GetGroundZFor_3dCoord(direction.X, direction.Y, direction.Z, ref z, false);
+			if (z != 0 && res.DitHit)
+				dummyMarker.Position = new(dummyMarker.Position.X, dummyMarker.Position.Y, z);
+
+			//Client.Logger.Debug(IplManager.Global.ToJson());
+			if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
+			{
+				//AttivaMenu();
+			}
 		}
 
 		public static void Stop()
 		{
+			Client.Instance.RemoveTick(TestTick);
 		}
 
-		private static async void AttivaMenu()
+		private static void AttivaMenu()
 		{
-			UIMenu test = new("Main Title", "I'm a subtitle", new System.Drawing.PointF(20, 20), false);
-			test.AddItem(new UIMenuItem("UIMenuItem", "Description!!"));
-			test.AddItem(new UIMenuListItem("UIMenuListItem", new List<dynamic>() { "this", "is", "my", "list", 12, 13453, 542545, 2452345324 }, 0, "Description!!"));
-			test.AddItem(new UIMenuCheckboxItem("UIMenuCheckboxItem", UIMenuCheckboxStyle.Tick, false, "Description!!"));
-			test.AddItem(new UIMenuSliderItem("UIMenuSliderItem", "Description!!", 10, 1, 0, false));
-			test.AddItem(new UIMenuSliderItem("UIMenuSliderItem", "Description!!", 10, 1, 0, true));
-			test.AddItem(new UIMenuProgressItem("UIMenuProgressItem", 10, 0, "Description!!"));
-			test.MenuItems[0].SetRightLabel("Right Label");
-			test.MenuItems[0].AddPanel(new UIMenuColorPanel("Title", ColorPanelType.Hair));
-			test.MenuItems[1].AddPanel(new UIMenuPercentagePanel("Title", "0%", "100%"));
-			test.MenuItems[2].AddPanel(new UIMenuGridPanel("Top", "Left", "Right", "Bottom", new System.Drawing.PointF(0.5f, 0.5f)));
-			test.MenuItems[2].AddPanel(new UIMenuGridPanel("Left", "Right", new System.Drawing.PointF(0.5f, 0.5f)));
-			test.MenuItems[3].AddPanel(new UIMenuStatisticsPanel());
-			(test.MenuItems[3].Panels[0] as UIMenuStatisticsPanel).AddStatistics("Statistic 1", 50);
-			HUD.MenuPool.Add(test);
-			test.Visible = true;
+			JobSelectionData data = new();
+			data.SetTitle("TEST");
+			data.SetVotes(0, 3, "TEST");
+			data.Cards = new List<JobSelectionCard>();
+			for (int i=0; i<6; i++)
+            {
+				var card = new JobSelectionCard("Test", "test", "", "", 12, 15, JobSelectionCardIcon.CAPTURE_THE_FLAG, HudColor.HUD_COLOUR_FREEMODE, 2, new List<JobSelectionCardDetail>()
+				 {
+					 new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right"),
+					 new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right"),
+					 new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right")
+				 });
+
+				data.AddCard(card);
+            }
+			data.Buttons = new List<JobSelectionButton>()
+			{
+				new JobSelectionButton("Test1", null),
+				new JobSelectionButton("Test2", null),
+				new JobSelectionButton("Test3", null),
+			};
+			NativeUIScaleform.JobMissionSelection.JobData = data;
+			NativeUIScaleform.JobMissionSelection.Enabled = true;
 		}
 	}
 }

@@ -18,6 +18,8 @@ using Logger;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY;
+using TheLastPlanet.Client.Core.Ingresso;
 
 namespace TheLastPlanet.Client.RolePlay.MenuPausa
 {
@@ -158,6 +160,24 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 			intro.AddItem(a2);
 			intro.AddItem(a3);
 
+			TabSubmenuItem online = new("FREEROAM");
+			TabLeftItem disc = new("Torna alla Lobby", LeftItemType.Info)
+			{
+				TextTitle = "ATTENZIONE"
+			};
+			BasicTabItem _discinfo = new("Stai per tornare al pianeta Lobby, tutti i progressi non salvati verranno perduti!");
+			disc.AddItem(_discinfo);
+			online.AddLeftItem(disc);
+			disc.OnActivated += async (item, index) =>
+			{
+				Screen.Fading.FadeOut(1000);
+				await BaseScript.Delay(1500);
+				MainMenu.Visible = false;
+				await Initializer.Stop();
+				ServerJoining.ReturnToLobby();
+			};
+
+
 			TabSubmenuItem impostazioni = new("IMPOSTAZIONI");
 			TabLeftItem hud = new("HUD", LeftItemType.Settings);
 			TabLeftItem Telecamere = new("Telecamere", LeftItemType.Settings);
@@ -285,6 +305,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 			#endregion
 
 			MainMenu.AddTab(intro);
+			MainMenu.AddTab(online);
 			MainMenu.AddTab(comandi);
 			MainMenu.AddTab(impostazioni);
 			intro.Active = true;

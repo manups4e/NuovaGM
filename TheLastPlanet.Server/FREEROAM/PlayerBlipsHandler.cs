@@ -13,6 +13,7 @@ namespace TheLastPlanet.Server.FREEROAM
 	static class PlayerBlipsHandler
 	{
 		private static List<FRBlipsInfo> _blipsInfos = new();
+        private static SharedTimer blipTimer;
 
 		private static readonly List<int> HeliHashes = new() { 837858166, 788747387, 745926877, -50547061, 1621617168, 1394036463, 2025593404, 744705981, 1949211328, -1660661558, -82626025, 1044954915, 710198397, -1671539132, -339587598, 1075432268, -1600252419, 1543134283, -1845487887, };
 		private static readonly List<int> PlaneHashes = new() { -150975354, -613725916, 368211810, -644710429, -901163259, 970356638, 1058115860, 621481054, -1214293858, -1746576111, 165154707, -1295027632, -1214505995, -2122757008, 1981688531, -1673356438, 1077420264, 1341619767, };
@@ -21,6 +22,7 @@ namespace TheLastPlanet.Server.FREEROAM
 
 		public static void Init()
 		{
+			blipTimer = new(500);
 			Server.Instance.AddTick(UpdatePlayersBlips);
 		}
 
@@ -28,7 +30,7 @@ namespace TheLastPlanet.Server.FREEROAM
 		{
 			try
 			{
-				await BaseScript.Delay(200); // per ora mezzo secondo.. non so se cambierò in futuro.. vedremo le performances..
+				await BaseScript.Delay(500);
 				if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // cambiare con 2... se sono da solo non ha senso (se non per testare)
 
 				var daRim = _blipsInfos.Where(x => !BucketsHandler.FreeRoam.Bucket.Players.Any(y => y.Handle == x.ServerId)).ToList();
@@ -77,8 +79,9 @@ namespace TheLastPlanet.Server.FREEROAM
 					client.User.FreeRoamChar.Posizione = new(pos, rot);
 				}
 				Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
+
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Server.Logger.Error(e.ToString());
 			}

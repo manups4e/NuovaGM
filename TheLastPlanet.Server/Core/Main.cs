@@ -13,9 +13,11 @@ namespace TheLastPlanet.Server.Core
 	public static class Main
 	{
 		private static DateTime Now;
+		private static SharedTimer PlayTimeTimer;
 		public static void Init()
 		{
-			Task.Run(Orario_Playtime);
+			PlayTimeTimer = new(5000);
+			Server.Instance.AddTick(Orario_Playtime);
 			Now = DateTime.Now;
 		}
 
@@ -23,18 +25,15 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
-				while (true)
+				await BaseScript.Delay(600000);
+				if (Server.Instance.Clients.Count > 0)
 				{
-					await BaseScript.Delay(60000);
-					if (Server.Instance.Clients.Count > 0)
-					{
-						foreach (var user in from user in Server.Instance.Clients where user.Player is not null && user.User is not null && user.User.Status.Spawned select user)
-							user.User.playTime += 60;
-					}
-					var ora = DateTime.Now - Now;
-					await BaseScript.Delay(0);
-					SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
+					foreach (var user in from user in Server.Instance.Clients where user.Player is not null && user.User is not null && user.User.Status.Spawned select user)
+						user.User.playTime += 60;
 				}
+				var ora = DateTime.Now - Now;
+				await BaseScript.Delay(0);
+				SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
 			}
 			catch (Exception e)
 			{

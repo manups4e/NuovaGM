@@ -18,14 +18,15 @@ namespace TheLastPlanet.Server
 {
 	public class Server : BaseScript
 	{
-		public static Log Logger;
+		public static Log Logger { get; set; }
 		public static Server Instance { get; protected set; }
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public List<ClientId> Clients = new();
-		public static Configurazione Impostazioni = null;
-		public ServerGateway Events;
-		public static bool Debug;
+		public static Configurazione Impostazioni { get; set; }
+		public ServerGateway Events { get; set; }
+		public static bool Debug { get; set; }
+		public Request WebRequest { get; set; }
 		public StateBag ServerState => GlobalState;
 
 		public Server()
@@ -51,15 +52,19 @@ namespace TheLastPlanet.Server
 		private async void StartServer()
 		{
 			Events = new ServerGateway();
+			WebRequest = new();
+
+
+
 			await ClassCollector.Init();
 		}
 
-		/// <summary>
-		/// registra un evento (TriggerEvent)
-		/// </summary>
-		/// <param name="name">Nome evento</param>
-		/// <param name="action">Azione legata all'evento</param>
-		public void AddEventHandler(string eventName, Delegate action)
+        /// <summary>
+        /// registra un evento (TriggerEvent)
+        /// </summary>
+        /// <param name="name">Nome evento</param>
+        /// <param name="action">Azione legata all'evento</param>
+        public void AddEventHandler(string eventName, Delegate action)
 		{
 			EventHandlers[eventName] += action;
 		}

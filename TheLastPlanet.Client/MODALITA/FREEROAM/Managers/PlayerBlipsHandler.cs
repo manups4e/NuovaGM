@@ -57,7 +57,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 					blip = World.CreateBlip(player.Pos.ToVector3);
 					SetBlipCategory(blip.Handle, 7);
 					SetBlipDisplay(blip.Handle, 6);
-					SetBlipShrink(blip.Handle, true);
+					SetBlipShrink(blip.Handle, false);
 					SetBlipShowCone(blip.Handle, true);
 					playerBlips.Add(player.ServerId, blip);
 				}

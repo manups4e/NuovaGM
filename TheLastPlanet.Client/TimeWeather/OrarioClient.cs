@@ -8,57 +8,41 @@ using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
-	public static class OrarioClient
-	{
-		private static int NEWsecondOfDay = 0;
-		private static float _timeBuffer = 0;
-		private static bool _cambio = false;
-		public static int h = 0, m = 0, s = 0;
-		public static ServerTime TempoOrario { get; set; }
-
-		public static async void Init()
+    public static class OrarioClient
+    {
+        private static TimeSpan currentDayTime;
+        public static TimeSpan CurrentDayTime
 		{
-			TempoOrario = new ServerTime();
-			Client.Instance.Events.Mount("UpdateFromCommandTime", new Action<int>(CambiaOra));
-			Client.Instance.AddTick(AggiornaTempo);
-			Client.Instance.StateBagsHandler.OnTimeChange += CambiaTempo;
-		}
-
-		public static async void Stop()
-		{
-			Client.Instance.RemoveTick(AggiornaTempo);
-		}
-
-		public static void CambiaTempo(ServerTime tempo)
-		{
-			if (_cambio) return;
-			TempoOrario = tempo;
-		}
-
-		public static async Task AggiornaTempo()
-		{
-			if (_cambio) return; 
-			if (!TempoOrario.Frozen)
+			get
 			{
-				await BaseScript.Delay(33);
-				_timeBuffer += 0.9900f;
-
-				if (_timeBuffer > 1f)
-				{
-					_timeBuffer -= (int)Math.Floor(_timeBuffer);
-					TempoOrario.SecondOfDay += (int)Math.Floor(_timeBuffer);
-					if (TempoOrario.SecondOfDay > 86399) TempoOrario.SecondOfDay = 0;
-				}
-
-				h = (int)Math.Floor(TempoOrario.SecondOfDay / 3600f);
-				m = (int)Math.Floor((TempoOrario.SecondOfDay - h * 3600f) / 60);
-				s = TempoOrario.SecondOfDay - h * 3600 - m * 60;
+				if (NetworkIsClockTimeOverridden()) return OverriddenDayTime;
+				int h = 0, m = 0, s = 0;
+				NetworkGetGlobalMultiplayerClock(ref h, ref m, ref s);
+				currentDayTime = new TimeSpan(h, m, s);
+				return currentDayTime;
 			}
-			NetworkOverrideClockTime(h, m, s);
+			//set => currentDayTime = value;
 		}
+		public static TimeSpan OverriddenDayTime;
 
-		public static async void CambiaOra(int tempo)
+		public static void Init()
         {
+
+        }
+
+		public static void Stop()
+        {
+
+        }
+
+		public static async void Override(int h, int m, int s)
+        {
+
+		}
+		public static async void Override(int ticks)
+        {
+
+            /*
 			_cambio = true;
 			HUD.ShowLoadingSavingNotificationWithTime("Aggiornamento orario del server tra 3 secondi", LoadingSpinnerType.Clockwise1, 1000);
 			await BaseScript.Delay(1000);
@@ -87,6 +71,7 @@ namespace TheLastPlanet.Client.TimeWeather
 				Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
 			Screen.Fading.FadeIn(800);
 			_cambio = false;
-		}
-	}
+			*/
+        }
+    }
 }

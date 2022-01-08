@@ -25,7 +25,6 @@ namespace TheLastPlanet.Server
 		public static async Task Init()
 		{
 			BucketsHandler.Init();
-			RequestInternal.Init();
 			NewServerEntrance.Init();
 			await ConfigServer.Init();
 			while (Server.Impostazioni == null) await BaseScript.Delay(0);
@@ -50,7 +49,7 @@ namespace TheLastPlanet.Server
 			GiostreServer.Init();
 			//Telefoni.TelefonoMainServer.Init();
 			TimeWeather.MeteoServer.Init();
-			TimeWeather.OrarioServer.Init();
+			//TimeWeather.OrarioServer.Init();
 			PickupsServer.Init();
 			//NuovaCoda.Init();
 			ServerManager.Init();

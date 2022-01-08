@@ -390,7 +390,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
 						RenderScriptCams(true, false, 1000, true, true);
-						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
+						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp(Funzioni.HashInt("prop_ld_test_01"), Vector3.Zero, false, false);
 						renderCamObject.IsVisible = false;
 
 						switch (immobile)
@@ -422,7 +422,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 					{
 						Screen.Fading.FadeOut(800);
 						while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(0);
-						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp("prop_ld_test_01", Vector3.Zero, false, false);
+						if (renderCamObject == null) renderCamObject = await Funzioni.SpawnLocalProp(Funzioni.HashInt("prop_ld_test_01"), Vector3.Zero, false, false);
 						renderCamObject.IsVisible = false;
 						if (MainCamera == null) MainCamera = World.CreateCamera(Cache.PlayerCache.MyPlayer.Posizione.ToVector3 + new Vector3(0, 0, 100), new Vector3(0, 0, 0), 45f);
 						MainCamera.IsActive = true;
@@ -580,23 +580,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.A, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.B, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Strip.Enable(IPLs.gta_online.GTAOHouseLow1.Strip.C, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Strip.Enable(IPLs.IPLInstance.GTAOHouseLow1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Strip.Enable(IPLs.IPLInstance.GTAOHouseLow1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Strip.Enable(IPLs.IPLInstance.GTAOHouseLow1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.A, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.B, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Booze.Enable(IPLs.gta_online.GTAOHouseLow1.Booze.C, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Booze.Enable(IPLs.IPLInstance.GTAOHouseLow1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Booze.Enable(IPLs.IPLInstance.GTAOHouseLow1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Booze.Enable(IPLs.IPLInstance.GTAOHouseLow1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.A, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.B, check, true);
-										IPLs.gta_online.GTAOHouseLow1.Smoke.Enable(IPLs.gta_online.GTAOHouseLow1.Smoke.C, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseLow1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseLow1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseLow1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseLow1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);
@@ -627,23 +627,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.A, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.B, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Strip.Enable(IPLs.gta_online.GTAOHouseMid1.Strip.C, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Strip.Enable(IPLs.IPLInstance.GTAOHouseMid1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Strip.Enable(IPLs.IPLInstance.GTAOHouseMid1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Strip.Enable(IPLs.IPLInstance.GTAOHouseMid1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.A, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.B, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Booze.Enable(IPLs.gta_online.GTAOHouseMid1.Booze.C, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Booze.Enable(IPLs.IPLInstance.GTAOHouseMid1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Booze.Enable(IPLs.IPLInstance.GTAOHouseMid1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Booze.Enable(IPLs.IPLInstance.GTAOHouseMid1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.A, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.B, check, true);
-										IPLs.gta_online.GTAOHouseMid1.Smoke.Enable(IPLs.gta_online.GTAOHouseMid1.Smoke.C, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseMid1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseMid1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseMid1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseMid1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);
@@ -674,23 +674,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.A, check, true);
-										IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.B, check, true);
-										IPLs.gta_online.HLApartment1.Strip.Enable(IPLs.gta_online.HLApartment1.Strip.C, check, true);
+										IPLs.IPLInstance.HLApartment1.Strip.Enable(IPLs.IPLInstance.HLApartment1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.HLApartment1.Strip.Enable(IPLs.IPLInstance.HLApartment1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.HLApartment1.Strip.Enable(IPLs.IPLInstance.HLApartment1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.A, check, true);
-										IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.B, check, true);
-										IPLs.gta_online.HLApartment1.Booze.Enable(IPLs.gta_online.HLApartment1.Booze.C, check, true);
+										IPLs.IPLInstance.HLApartment1.Booze.Enable(IPLs.IPLInstance.HLApartment1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.HLApartment1.Booze.Enable(IPLs.IPLInstance.HLApartment1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.HLApartment1.Booze.Enable(IPLs.IPLInstance.HLApartment1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.A, check, true);
-										IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.B, check, true);
-										IPLs.gta_online.HLApartment1.Smoke.Enable(IPLs.gta_online.HLApartment1.Smoke.C, check, true);
+										IPLs.IPLInstance.HLApartment1.Smoke.Enable(IPLs.IPLInstance.HLApartment1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.HLApartment1.Smoke.Enable(IPLs.IPLInstance.HLApartment1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.HLApartment1.Smoke.Enable(IPLs.IPLInstance.HLApartment1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);
@@ -721,23 +721,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.A, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.B, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Strip.Enable(IPLs.gta_online.GTAOApartmentHi1.Strip.C, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Strip.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Strip.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Strip.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.A, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.B, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Booze.Enable(IPLs.gta_online.GTAOApartmentHi1.Booze.C, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Booze.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Booze.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Booze.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.A, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.B, check, true);
-										IPLs.gta_online.GTAOApartmentHi1.Smoke.Enable(IPLs.gta_online.GTAOApartmentHi1.Smoke.C, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Enable(IPLs.IPLInstance.GTAOApartmentHi1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);
@@ -768,23 +768,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.A, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.B, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Strip.Enable(IPLs.gta_online.GTAOHouseHi1.Strip.C, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Strip.Enable(IPLs.IPLInstance.GTAOHouseHi1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Strip.Enable(IPLs.IPLInstance.GTAOHouseHi1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Strip.Enable(IPLs.IPLInstance.GTAOHouseHi1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.A, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.B, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Booze.Enable(IPLs.gta_online.GTAOHouseHi1.Booze.C, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Booze.Enable(IPLs.IPLInstance.GTAOHouseHi1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Booze.Enable(IPLs.IPLInstance.GTAOHouseHi1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Booze.Enable(IPLs.IPLInstance.GTAOHouseHi1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.A, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.B, check, true);
-										IPLs.gta_online.GTAOHouseHi1.Smoke.Enable(IPLs.gta_online.GTAOHouseHi1.Smoke.C, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseHi1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseHi1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.GTAOHouseHi1.Smoke.Enable(IPLs.IPLInstance.GTAOHouseHi1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);
@@ -830,35 +830,35 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									switch (index)
 									{
 										case 0:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Modern, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Modern, ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 1:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Moody, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Moody,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 2:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Vibrant, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Vibrant,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 3:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Sharp, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Sharp,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 4:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Monochrome, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Monochrome,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 5:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Seductive, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Seductive,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 6:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Regal, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Regal,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 										case 7:
-											IPLs.dlc_executive.ExecApartment1.Style.Set(IPLs.dlc_executive.ExecApartment1.StyleExec.ExecApartTheme.Aqua, true);
+											IPLs.IPLInstance.ExecApartment1.Style.Set(IPLs.IPLInstance.ExecApartment1.Style.Theme.Aqua,ref IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, true);
 
 											break;
 									}
@@ -874,23 +874,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 									if (item == strip)
 									{
 										casaDummy.Strip = check;
-										IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.A, check, true);
-										IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.B, check, true);
-										IPLs.dlc_executive.ExecApartment1.Strip.Enable(IPLs.dlc_executive.ExecApartment1.Strip.C, check, true);
+										IPLs.IPLInstance.ExecApartment1.Strip.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Strip.Stage1, check, true);
+										IPLs.IPLInstance.ExecApartment1.Strip.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Strip.Stage2, check, true);
+										IPLs.IPLInstance.ExecApartment1.Strip.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Strip.Stage3, check, true);
 									}
 									else if (item == booze)
 									{
 										casaDummy.Booze = check;
-										IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.A, check, true);
-										IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.B, check, true);
-										IPLs.dlc_executive.ExecApartment1.Booze.Enable(IPLs.dlc_executive.ExecApartment1.Booze.C, check, true);
+										IPLs.IPLInstance.ExecApartment1.Booze.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Booze.Stage1, check, true);
+										IPLs.IPLInstance.ExecApartment1.Booze.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Booze.Stage2, check, true);
+										IPLs.IPLInstance.ExecApartment1.Booze.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Booze.Stage3, check, true);
 									}
 									else if (item == smoke)
 									{
 										casaDummy.Smoke = check;
-										IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.A, check, true);
-										IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.B, check, true);
-										IPLs.dlc_executive.ExecApartment1.Smoke.Enable(IPLs.dlc_executive.ExecApartment1.Smoke.C, check, true);
+										IPLs.IPLInstance.ExecApartment1.Smoke.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Smoke.Stage1, check, true);
+										IPLs.IPLInstance.ExecApartment1.Smoke.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Smoke.Stage2, check, true);
+										IPLs.IPLInstance.ExecApartment1.Smoke.Enable(IPLs.IPLInstance.ExecApartment1.CurrentInteriorId, IPLs.IPLInstance.ExecApartment1.Smoke.Stage3, check, true);
 									}
 
 									await BaseScript.Delay(500);

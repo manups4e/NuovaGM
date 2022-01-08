@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.Negozi
 
 		private static async void MenuArmeria(Ped p, object[] _)
 		{
-			
+
 		}
 
 		private static string GetWeaponByName(int i)

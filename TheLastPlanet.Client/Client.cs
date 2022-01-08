@@ -22,10 +22,10 @@ namespace TheLastPlanet.Client
 		public ExportDictionary GetExports => Exports;
 		public PlayerList GetPlayers => Players;
 		public static Configurazione Impostazioni = new Configurazione();
-		public ClientGateway Events;
+		public ClientGateway Events { get; set; }
 		public List<ClientId> Clients = new();
 		public NuiManager NuiManager = new();
-		public StateBagsHandler StateBagsHandler;
+		public StateBagsHandler StateBagsHandler { get; set; }
 		public StateBag ServerState => GlobalState;
 		public Client() { Inizializza(); }
 

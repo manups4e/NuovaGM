@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			try
 			{
 				Vector3 position = GameplayCamera.Position;
-				Vector3 direction = position + distance * GameplayCamForwardVector();
+				Vector3 direction = distance * GameplayCamForwardVector();
 
 				return await Raycast(position, direction, distance, IntersectOptions.Everything, ignoredEntity);
 			}

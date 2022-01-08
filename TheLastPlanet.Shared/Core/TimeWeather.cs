@@ -8,6 +8,7 @@ namespace TheLastPlanet.Shared
     [Serialization]
     public partial class ServerTime
     {
+        public TimeSpan TimeOfDay { get; set; }
         public DateTime Date { get; set; }
         public int SecondOfDay { get; set; }
         public bool Frozen { get; set; }

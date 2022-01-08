@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 
@@ -16,6 +17,7 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
         {
 			Server.Instance.Events.Mount("tlg:freeroam:finishCharServer", new Action<ClientId, FreeRoamChar>(FinishChar));
 			Server.Instance.Events.Mount("tlg:freeroam:salvapersonaggio", new Action<ClientId>(SalvaPersonaggio));
+			Server.Instance.Events.Mount("tlg:casino:getVehModel", new Func<ClientId, Task<string>>(ReturnCasinoPriceModelForPlayer));
 		}
 
 		public static void SalvaPersonaggio(ClientId client)
@@ -38,10 +40,16 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
 				Server.Logger.Error($"{e.Message}");
 			}
 		}
+		public static async Task<string> ReturnCasinoPriceModelForPlayer(ClientId client)
+		{
+			// per il momento usiamo una prototipo poi vediamo...
+			return "zentorno";
+		}
 
 		public static async void SpawnEventVehicles(Dictionary<Vector4, uint> vehicles)
-        {
+		{
 
-        }
+		}
+
 	}
 }

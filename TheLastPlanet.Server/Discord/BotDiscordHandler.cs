@@ -40,9 +40,9 @@ namespace TheLastPlanet.Server.Discord
 			}
 		}
 
-		public static async Task InviaAlBot(object data) { await Request.Http(serverUrl, "GET", data.ToJson()); }
+		public static async Task InviaAlBot(object data) { await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
 
-		public static async Task<RequestResponse> InviaAlBotERicevi(object data) { return await Request.Http(serverUrl, "GET", data.ToJson()); }
+		public static async Task<RequestResponse> InviaAlBotERicevi(object data) { return await Server.Instance.WebRequest.Http(serverUrl, "GET", data.ToJson()); }
 
 		public static async Task<IngressoResponse> DoesPlayerHaveRole(string discordId, List<string> Ruoli, List<string> tokens)
 		{

@@ -79,11 +79,12 @@ namespace TheLastPlanet.Client.IPLs
 		public static GunrunningBunker GunrunningBunker = new();
 		public static GunrunningYacht GunrunningYacht = new();
 		public static FinanceOrganization FinanceOrganization = new();
+		public static AfterHoursNightclubs NightClub = new();
 		public static Casino DiamondCasino = new();
 		public static Penthouse DiamondPenthouse = new();
-
 		// 4840.571 -5174.425 2.0
 		public static Island CayoPericoIsland = new();
+
 		public static void Init()
 		{
 			/*
@@ -322,8 +323,8 @@ namespace TheLastPlanet.Client.IPLs
 				DiamondPenthouse.Enabled = true;
 			}
 
-            // si può migliorare per rimuovere il tick fisso sempre.. 🤔
-            Client.Instance.AddTick(InteriorObserver.Observer);
+			// si può migliorare per rimuovere il tick fisso sempre.. 🤔
+			Client.Instance.AddTick(InteriorObserver.Observer);
 			Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
 			Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
 
@@ -391,7 +392,7 @@ namespace TheLastPlanet.Client.IPLs
 			GunrunningYacht.LoadDefault();
 			SmugglerHangar.LoadDefault();
 			DoomsdayFacility.LoadDefault();
-			AfterHoursNightclubs.LoadDefault();
+			NightClub.LoadDefault();
 			IplManager.EnableIpl("post_hiest_unload", false);
 			IplManager.EnableIpl("refit_unload", false);
 			IplManager.EnableIpl("FINBANK", false);

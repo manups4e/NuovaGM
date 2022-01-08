@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.TimeWeather
 
 		public static void Init()
 		{
-			Meteo = new();
 			Client.Instance.Events.Mount("tlg:getMeteo", new Action<ServerWeather>(SetMeteo));
 			Client.Instance.StateBagsHandler.OnWeatherChange += SetMeteo;
 		}
@@ -39,14 +38,13 @@ namespace TheLastPlanet.Client.TimeWeather
 		}
 
 		public static async void SetMeteo(ServerWeather meteo)
-        {
-			if (meteo != Meteo)
+		{
+			if (Meteo != meteo)
 			{
 				Meteo = meteo;
-				if (meteo.CurrentWeather != Meteo.CurrentWeather)
+				if (meteo.CurrentWeather != (int)World.Weather)
 				{
 					World.TransitionToWeather((Weather)Meteo.CurrentWeather, Meteo.StartUp ? 1f : 45f);
-
 					if (Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13)
 					{
 						SetForceVehicleTrails(true);
@@ -70,7 +68,8 @@ namespace TheLastPlanet.Client.TimeWeather
 					}
 				}
 			}
-			if (Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13)
+
+			if ((Meteo.CurrentWeather == 10 || Meteo.CurrentWeather == 11 || Meteo.CurrentWeather == 12 || Meteo.CurrentWeather == 13) && !IPLs.IplManager.Global.IsAnyInteriorActive) 
 			{
 				if(snowFx is null)
                 {

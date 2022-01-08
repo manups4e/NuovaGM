@@ -32,6 +32,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 
 		public static async void FreeRoamMenu(Ped me, object[] _unused)
         {
+			if (HUD.MenuPool.IsAnyPauseMenuOpen) return;
 			ClientId client = Cache.PlayerCache.MyPlayer;
 
 			var day = GetClockDayOfWeek();

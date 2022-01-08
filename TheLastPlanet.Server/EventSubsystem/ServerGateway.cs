@@ -48,7 +48,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (_signatures.ContainsKey(client.Handle))
                 {
-                   Server.Logger.Info($"Client {client} tried acquiring event signature more than once.");
+                   Server.Logger.Warning($"Client {client} tried acquiring event signature more than once.");
 
                     return;
                 }

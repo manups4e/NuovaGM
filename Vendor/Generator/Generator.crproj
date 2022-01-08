@@ -1,4 +1,4 @@
-<project baseDir="" outputDir="G:\Progetti\source\repos\output\NuovaGM\Confused" >
+<project baseDir="" outputDir="" >
     <rule pattern="true" inherit="false">
       <protection id="anti ildasm" />
       <protection id="ctrl flow">
@@ -28,5 +28,5 @@
         <argument name="initCount" value="16" />
       </protection>
     </rule>
-    <module path="TheLastPlanet.Client.net.dll" />
+    <module path="TheLastPlanet.Server.net.dll" />
 </project>

@@ -158,7 +158,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
                 }
                 else
                 {
-                    platformHandle.Heading += 4 * Timestep();
+                    platformHandle.Heading += 8 * Timestep();
                     if (platformHandle.Heading >= 360)
                         platformHandle.Heading -= 360;
                 }
@@ -250,7 +250,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
             }
             else
             {
-                if (Game.GameTime - currentTime > 30000)
+                if (Game.GameTime - currentTime > 42666)
                 {
                     currentTime = Game.GameTime;
                     SetCurrentScreen(MeteoClient.Meteo.CurrentWeather switch

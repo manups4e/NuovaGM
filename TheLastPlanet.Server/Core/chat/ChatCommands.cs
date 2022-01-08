@@ -48,8 +48,6 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.AddCommand("sviluppatore", new Action<ClientId, List<string>, string>(Sviluppatore),ModalitaServer.UNKNOWN, UserGroup.Sviluppatore, new ChatSuggestion("Attiva le funzioni dello sviluppatore", new SuggestionParam[1] { new("Accensione", "On/Off") }));
 			Server.Instance.AddCommand("setjob", new Action<ClientId, List<string>, string>(SetJob),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Cambia lavoro ad un player", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Lavoro", "Il lavoro da attivare"), new("Grado", "Il grado lavorativo") }));
 			Server.Instance.AddCommand("setgang", new Action<ClientId, List<string>, string>(SetGang),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Cambia gang ad un giocatore", new SuggestionParam[3] { new("ID Player", "Il Server ID del player"), new("Gang", "La gang da settare"), new("Grado", "Il grado della gang") }));
-			Server.Instance.AddCommand("cambiaora", new Action<ClientId, List<string>, string>(Time),ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia ora nel server", new SuggestionParam[2] { new("Ore", ""), new("Minuti", "") }));
-			Server.Instance.AddCommand("bloccatempo", new Action<ClientId, List<string>, string>(FreezeTime),ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Frezza il tempo e non cambia piu ora", new SuggestionParam[1] { new("Blocca / sblocca", "Si/True/Vero/1 - No/False/Falso/0") }));
 			Server.Instance.AddCommand("setmeteo", new Action<ClientId, List<string>, string>(Weather),ModalitaServer.UNKNOWN, UserGroup.Admin, new ChatSuggestion("Cambia il meteo in gioco", new SuggestionParam[1] { new("Meteo", "Inserisci il numero") }));
 			Server.Instance.AddCommand("dailicenza", new Action<ClientId, List<string>, string>(DaiLicenza),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Dai una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da dare") }));
 			Server.Instance.AddCommand("rimuovilicenza", new Action<ClientId, List<string>, string>(RimuoviLicenza),ModalitaServer.UNKNOWN, UserGroup.Moderatore, new ChatSuggestion("Togli una licenza ad un player", new SuggestionParam[2] { new("ID Player", "Il Server ID del player"), new("Licenza", "La licenza da togliere") }));
@@ -591,96 +589,6 @@ namespace TheLastPlanet.Server.Core
 			{
 				sender.Player.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore id player non trovato, riprova!" }, color = new[] { 255, 0, 0 } });
 			}
-		}
-
-		public static void Time(ClientId sender, List<string> args, string rawCommand)
-		{
-			int Tempo = 0;
-			int h = 0;
-			int m = 0;
-
-			if (args != null && args.Count > 0 && args.Count < 3)
-			{
-				if (args.Count == 2)
-				{
-					Tempo = (Convert.ToInt32(args[0]) < 24 ? Convert.ToInt32(args[0]) : 0) * 3600 + (Convert.ToInt32(args[1]) < 59 ? Convert.ToInt32(args[1]) : 0) * 60 + 0;
-					h = (int)Math.Floor(Tempo / 3600f);
-					m = (int)Math.Floor((Tempo - h * 3600) / 60f);
-				}
-
-				if (args.Count == 1)
-				{
-					Tempo = (Convert.ToInt32(args[0]) < 24 ? Convert.ToInt32(args[0]) : 0) * 3600 + 0 + 0;
-					h = (int)Math.Floor(Tempo / 3600f);
-					m = 0;
-				}
-			}
-			if (args != null && args.Count > 0 && args.Count < 3)
-			{
-				TimeWeather.OrarioServer.Update(Tempo);
-				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
-			}
-			else
-				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
-
-			/*
-			if (sender.Handle == 0)
-			{
-				if (args != null && args.Count > 0 && args.Count < 3)
-				{
-					TimeWeather.Orario.Update(Tempo);
-					Server.Logger.Info( $"Time -- Orario server impostato alle ore {h}:{m}");
-				}
-				else
-				{
-					Server.Logger.Error( $"Time -- Devi impostare almeno l'ora");
-				}
-			}
-			else
-			{
-				if (args != null && args.Count > 0 && args.Count < 3)
-				{
-					TimeWeather.Orario.Update(Tempo);
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario server impostato alle ~y~{h}:{m}~w~");
-				}
-				else
-				{
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"ERRORE! Devi impostare almeno l'orario!");
-				}
-			}
-			*/
-		}
-
-		public static void FreezeTime(ClientId sender, List<string> args, string rawCommand)
-		{
-			bool freeze = false;
-			if (args[0].ToLower() == "true" || args[0].ToLower() == "1" || args[0].ToLower() == "vero" || args[0].ToLower() == "si") freeze = true;
-			TimeWeather.OrarioServer.FreezeTime(freeze);
-			int h = (int)Math.Floor(TimeWeather.OrarioServer.TempoOrario.SecondOfDay / 3600f);
-			int m = (int)Math.Floor((TimeWeather.OrarioServer.TempoOrario.SecondOfDay - h * 3600) / 60f);
-			if (freeze)
-				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
-			else
-				sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
-
-			/*
-			if (sender.Handle == 0)
-			{
-				TimeWeather.Orario.FreezeTime(freeze);
-				if (freeze)
-					Server.Logger.Info( $"Orario di gioco bloccato alle ore {h}:{m}");
-				else
-					Server.Logger.Info( $"Orario di gioco sbloccato dalle ore {h}:{m}");
-			}
-			else
-			{
-				TimeWeather.Orario.FreezeTime(freeze);
-				if (freeze)
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco bloccato alle ore ~b~{h}:{m}~w~");
-				else
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", $"Orario di gioco sbloccato dlle ore ~b~{h}:{m}~w~");
-			}
-			*/
 		}
 
 		public static void Weather(ClientId sender, List<string> args, string rawCommand)

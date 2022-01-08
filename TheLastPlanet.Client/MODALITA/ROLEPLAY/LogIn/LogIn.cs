@@ -292,10 +292,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
 			NetworkClearClockTimeOverride();
-			AdvanceClockTimeTo(TimeWeather.OrarioClient.h, TimeWeather.OrarioClient.m, TimeWeather.OrarioClient.s);
+
 			if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
 			await BaseScript.Delay(7000);
-			Client.Instance.AddTick(TimeWeather.OrarioClient.AggiornaTempo);
 			Client.Instance.Events.Send("SyncWeatherForMe", true);
 			if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 			Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);

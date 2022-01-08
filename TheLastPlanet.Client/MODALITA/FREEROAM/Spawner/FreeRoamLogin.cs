@@ -62,9 +62,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
             NetworkClearClockTimeOverride();
-            AdvanceClockTimeTo(TimeWeather.OrarioClient.h, TimeWeather.OrarioClient.m, TimeWeather.OrarioClient.s);
+
             await BaseScript.Delay(7000);
-            Client.Instance.AddTick(TimeWeather.OrarioClient.AggiornaTempo);
             Client.Instance.Events.Send("SyncWeatherForMe", true);
             await BaseScript.Delay(2000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();

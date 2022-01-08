@@ -9,10 +9,10 @@ namespace TheLastPlanet.Client.IPLs.dlc_afterhours
 	{
 		public static int InteriorId = 271617;
 
-		private static bool _enabled = false;
-		public static string ipl = "ba_int_placement_ba_interior_0_dlc_int_01_ba_milo_";
+		private bool _enabled = false;
+		public string ipl = "ba_int_placement_ba_interior_0_dlc_int_01_ba_milo_";
 
-		public static bool Enabled
+		public bool Enabled
 		{
 			get { return _enabled; }
 			set
@@ -338,7 +338,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_afterhours
 		public static AHInfo Vinewood = new AHInfo(8);
 		public static AHInfo Vespucci = new AHInfo(9);
 
-		public static void LoadDefault()
+		public void LoadDefault()
 		{
 
 			Enabled = true;
