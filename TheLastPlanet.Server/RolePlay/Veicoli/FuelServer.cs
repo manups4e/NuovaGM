@@ -5,6 +5,10 @@ using TheLastPlanet.Shared;
 using System;
 using static CitizenFX.Core.Native.API;
 using TheLastPlanet.Server.Core.PlayerChar;
+using TheLastPlanet.Shared.Internal.Events;
+using System.Collections.Generic;
+using Impostazioni.Shared.Configurazione.Generici;
+using System.Threading.Tasks;
 
 namespace TheLastPlanet.Server.Veicoli
 {
@@ -16,7 +20,13 @@ namespace TheLastPlanet.Server.Veicoli
 			Server.Instance.AddEventHandler("lprp:fuel:buytanker", new Action<Player, string>(BuyTanker));
 			Server.Instance.AddEventHandler("lprp:fuel:buyfuelfortanker", new Action<Player, int, int>(BuyFuelForTanker));
 			Server.Instance.AddEventHandler("lprp:getDecor", new Action<Player>(RespondDecor));
+			Server.Instance.Events.Mount("tlg:roleplay:getStations", new Func<ClientId, Task<List<GasStation>>>(GetStations));
 		}
+
+		private static async Task<List<GasStation>> GetStations(ClientId client)
+        {
+			return ConfigShared.SharedConfig.Main.Veicoli.gasstations;
+        }
 
 		public static void RespondDecor([FromSource]Player p)
 		{

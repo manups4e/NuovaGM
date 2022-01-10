@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using CitizenFX.Core;
+using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace Impostazioni.Shared.Configurazione.Generici
 {
-    public class GasStation
+    [Serialization]
+    public partial class GasStation
     {
         public Vector3 pos;
         public List<Vector3> pumps = new List<Vector3>();

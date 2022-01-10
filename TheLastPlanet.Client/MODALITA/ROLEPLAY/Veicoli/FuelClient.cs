@@ -123,9 +123,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
 		public static void checkfuel(int fuel, int price) { lastStationFuel = new StazioneSingola(fuel, price); }
 		
-		public static void CaricaBlipStazioni()
+		public static async void CaricaBlipStazioni()
 		{
-			foreach (GasStation p in ConfigShared.SharedConfig.Main.Veicoli.gasstations)
+			List<GasStation> stations = await Client.Instance.Events.Get<List<GasStation>>("tlg:roleplay:getStations");
+			foreach (GasStation p in stations)
 			{
 				Blip blip = new Blip(AddBlipForCoord(p.pos[0], p.pos[1], p.pos[2])) { Sprite = BlipSprite.JerryCan, Scale = 0.85f, IsShortRange = true, Name = "Stazione di Rifornimento" };
 				SetBlipDisplay(blip.Handle, 4);
