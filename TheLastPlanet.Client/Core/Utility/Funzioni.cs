@@ -54,6 +54,11 @@ namespace TheLastPlanet.Client.Core.Utility
 
 	internal static class Funzioni
 	{
+		private static Random random;
+		static Funzioni()
+        {
+			random = new Random(DateTime.UtcNow.Millisecond);
+		}
 		/// <summary>
 		/// Salva clientside dei dati arbitrari
 		/// </summary>
@@ -990,7 +995,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		/// <returns></returns>
 		public static async Task<Dictionary<string, User>> GetOnlinePlayersAndTheirData()
 		{
-			return await Client.Instance.Events.Get<Dictionary<string, User>>("lprp:callPlayers");
+			return await Client.Instance.Events.Get<Dictionary<string, User>>("tlg:callPlayers");
 		}
 
 		/// <summary>
@@ -1138,31 +1143,25 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static void StartScenario(this Ped ped, string scenario) { TaskStartScenarioInPlace(ped.Handle, scenario, 0, true); }
 
-		public static int GetRandomInt(int end) { return new Random(GetGameTimer()).Next(end); }
+		public static int GetRandomInt(int end) { return random.Next(end); }
 
-		public static int GetRandomInt(int start, int end) { return new Random(GetGameTimer()).Next(start, end); }
+		public static int GetRandomInt(int start, int end) { return random.Next(start, end); }
 
 		public static long GetRandomLong(long end)
 		{
-			Random rand = new Random(GetGameTimer());
-
-			return rand.NextLong(end);
+			return random.NextLong(end);
 		}
 
 		public static long GetRandomLong(long start, long end)
 		{
-			Random rand = new Random(GetGameTimer());
-
-			return rand.NextLong(start, end);
+			return random.NextLong(start, end);
 		}
 
 		public static float GetRandomFloat(float end) { return GetRandomFloat(0, end); }
 
 		public static float GetRandomFloat(float start, float end)
 		{
-			Random rand = new Random(GetGameTimer());
-
-			return (float)Math.Round(rand.NextFloat(start, end), 3);
+			return (float)Math.Round(random.NextFloat(start, end), 3);
 		}
 
 		public static Tuple<int, int> secondsToClock(int Seconds)
