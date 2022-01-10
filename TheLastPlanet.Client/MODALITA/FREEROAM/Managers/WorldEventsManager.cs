@@ -77,15 +77,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             await BaseScript.Delay(600000); // 600000
             Client.Instance.Events.Send("tlg:freeroam:SaveMe");
-            if (!NativeUIScaleform.InstructionalButtons.IsSaving)
-                NativeUIScaleform.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
+            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
+                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
 
         }
 
         public static void ShowDialog(int type, string txt, int time)
         {
-            if (!NativeUIScaleform.InstructionalButtons.IsSaving)
-                NativeUIScaleform.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
+            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
+                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
         }
 
         private static async Task OnWaitTick()
@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                         break;
                 }
 
-                NativeUIScaleform.MedMessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
+                ScaleformUI.ScaleformUI.MedMessageInstance.ShowColoredShard(title, description, HudColor.HUD_COLOUR_PURPLE, true, false, 7500);
             }
             catch (Exception e)
             {

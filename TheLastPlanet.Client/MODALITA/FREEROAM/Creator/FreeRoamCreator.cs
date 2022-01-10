@@ -2654,12 +2654,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
             {
                 HUD.MenuPool.CloseAllMenus();
-                NativeUIScaleform.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
+                ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
                 {
                     new InstructionalButton(Control.FrontendCancel, "No"),
                     new InstructionalButton(Control.FrontendAccept, "Si"),
                 });
-                NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
+                ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
                 {
                     if (a.GamepadButton == Control.FrontendCancel)
                     {
@@ -2674,16 +2674,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         if (_dummyPed != null)
                             if (_dummyPed.Exists())
                                 _dummyPed.Delete();
-						Creazione.Visible = false;
-						HUD.MenuPool.CloseAllMenus();
-						BD1.Detach();
-						BD1.Delete();
-						Cache.PlayerCache.MyPlayer.Ped.Detach();
-						Client.Instance.RemoveTick(Controllo);
-						Client.Instance.RemoveTick(Scaleform);
-						Client.Instance.RemoveTick(TastiMenu);
-						ServerJoining.ReturnToLobby();
-						RenderScriptCams(false, false, 300, false, false);
+                        Creazione.Visible = false;
+                        HUD.MenuPool.CloseAllMenus();
+                        BD1.Detach();
+                        BD1.Delete();
+                        Cache.PlayerCache.MyPlayer.Ped.Detach();
+                        Client.Instance.RemoveTick(Controllo);
+                        Client.Instance.RemoveTick(Scaleform);
+                        Client.Instance.RemoveTick(TastiMenu);
+                        ServerJoining.ReturnToLobby();
+                        RenderScriptCams(false, false, 300, false, false);
 					}
                 };
             }

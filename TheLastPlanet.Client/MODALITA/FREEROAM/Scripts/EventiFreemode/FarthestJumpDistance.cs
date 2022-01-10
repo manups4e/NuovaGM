@@ -42,7 +42,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 					Screen.ShowSubtitle(GetLabelText("AMCH_BIG_0"), 50);
 					if (Cache.PlayerCache.MyPlayer.Ped.IsInVehicle())
 					{
-						await BaseScript.Delay(300);
 						StatGetFloat(unchecked((uint)PlayerStat), ref tentativoCorrente, -1);
 
 						if (tentativoCorrente != 0)

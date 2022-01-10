@@ -63,7 +63,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			else
 				Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
+            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Client.Instance.Events.Send("lpop:onPlayerDied", -1, attackerPed, GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
+            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -90,7 +90,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Client.Instance.Events.Send("lpop:onPlayerDied", suicidato ? 0 : -1, attacker, API.GetEntityCoords(ped, false).ToPosition());
 			Game.PlaySound("TextHit", "WastedSounds");
-			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), suicidato ? "Ti Sei suicidato" : "");
+            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), suicidato ? "Ti Sei suicidato" : "");
 			await BaseScript.Delay(5000);
 			Revive();
 		}
@@ -104,7 +104,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 			GameplayCamera.Shake(CameraShake.DeathFail, 1f);
 			Game.PlaySound("TextHit", "WastedSounds");
 			Client.Instance.Events.Send("lpop:onPlayerDied", 1, killerPed.ServerId, API.GetEntityCoords(ped, false).ToPosition());
-			NativeUIScaleform.BigMessageInstance.ShowMpWastedMessage(Game.GetGXTEntry("RESPAWN_W_MP"), $"{killerPed.Name} ti ha ucciso");
+            ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage(Game.GetGXTEntry("RESPAWN_W_MP"), $"{killerPed.Name} ti ha ucciso");
 			await BaseScript.Delay(5000);
 			Revive();
 		}

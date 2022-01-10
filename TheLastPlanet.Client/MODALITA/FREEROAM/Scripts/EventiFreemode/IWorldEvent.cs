@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                 if (CountdownTime == TimeSpan.Zero)
                 {
                     StartEventTimerBars();
-                    NativeUIScaleform.MedMessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, true);
+                    ScaleformUI.ScaleformUI.MedMessageInstance.ShowColoredShard("Sfida Iniziata", ChallengeStartedLabelText, HudColor.HUD_COLOUR_PURPLE, true);
                     Audio.PlaySoundFrontend("FLIGHT_SCHOOL_LESSON_PASSED", "HUD_AWARDS");
                     IsStarted = true;
                     CountdownStarted = false;
