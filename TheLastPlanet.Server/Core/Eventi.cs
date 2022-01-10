@@ -14,6 +14,7 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using System.Collections.Concurrent;
 using TheLastPlanet.Server.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Server.Core.Buckets;
 
 namespace TheLastPlanet.Server.Core
 {
@@ -28,10 +29,41 @@ namespace TheLastPlanet.Server.Core
 			Server.Instance.Events.Mount("lprp:CheckPing", new Action<ClientId>(Ping));
 			Server.Instance.Events.Mount("lprp:checkAFK", new Action<ClientId>(AFK));
 			Server.Instance.Events.Mount("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
+			Server.Instance.Events.Mount("tlg:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>(
+			async (a, b) =>
+			{
+				User user = a.User;
+                switch (user.Status.PlayerStates.Modalita)
+                {
+                    case ModalitaServer.Roleplay:
+						if (user.CurrentChar is null) return null;
+                        user.CurrentChar.Posizione = b;
+                        TimeSpan time = (DateTime.Now - user.LastSaved);
+                        if (time.Minutes > 10)
+                        {
+                            BaseScript.TriggerClientEvent(a.Player, "lprp:mostrasalvataggio");
+                            await user.SalvaPersonaggioRoleplay();
+                            Server.Logger.Info("Salvato personaggio: '" + user.FullName + "' appartenente a '" +
+                                               a.Player.Name + "' - " + user.Identifiers.Discord);
+                        }
+                        return BucketsHandler.RolePlay.Bucket.Players;
+                    case ModalitaServer.FreeRoam:
+                        return BucketsHandler.FreeRoam.Bucket.Players;
+                    case ModalitaServer.Lobby:
+                        return BucketsHandler.Lobby.Bucket.Players;
+                    case ModalitaServer.Minigiochi:
+                        return null;
+                    case ModalitaServer.Gare:
+                        return null;
+                    case ModalitaServer.Negozio:
+                        return null;
+					default:
+						return Server.Instance.Clients;
+                }
+            }));
+        }
 
-		}
-
-		public static void Drop(ClientId client, string reason)
+        public static void Drop(ClientId client, string reason)
 		{
 			client.Player.Drop(reason);
 		}
@@ -88,5 +120,5 @@ namespace TheLastPlanet.Server.Core
 			BaseScript.TriggerEvent("lprp:serverLog", $"Il player {Kicker.Name} ha kickato {Target.Name} fuori dal server, Motivazione: {motivazione}");
 			Target.Drop($"SHIELD 2.0 Sei stato allontanato dal server:\nMotivazione: {motivazione},\nKickato da: {Kicker.Name}");
 		}
-	}
+    }
 }
