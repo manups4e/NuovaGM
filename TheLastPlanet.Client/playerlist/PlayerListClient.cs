@@ -47,7 +47,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 		{
 			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
 			{
-				NativeUIScaleform.PlayerListInstance.PlayerRows.Clear();
+                ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Clear();
 				var num = await Client.Instance.Events.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
 				List<PlayerSlot> list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
@@ -58,9 +58,9 @@ namespace TheLastPlanet.Client.ListaPlayers
 
 				foreach (var p in list)
                 {
-					Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetClientIdFromServerId(p.ServerId).Ped;
+					Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetClientIdFromServerId(p.ServerId)?.Ped;
 					var mug = await Funzioni.GetPedMugshotAsync(ped);
-					if (NativeUIScaleform.PlayerListInstance.PlayerRows.Any(x => x.ServerId == p.ServerId)) continue;
+					if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
 					var row = new PlayerRow()
 					{
 						Color = p.Color,
@@ -75,25 +75,25 @@ namespace TheLastPlanet.Client.ListaPlayers
 						ServerId = p.ServerId,
 						TextureString = mug.Item2
 					};
-					NativeUIScaleform.PlayerListInstance.AddRow(row);
+                    ScaleformUI.ScaleformUI.PlayerListInstance.AddRow(row);
 					UnregisterPedheadshot(mug.Item1);
 				}
-				NativeUIScaleform.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(NativeUIScaleform.PlayerListInstance.CurrentPage+1)} / {NativeUIScaleform.PlayerListInstance.MaxPages}", 2);
-				NativeUIScaleform.PlayerListInstance.CurrentPage++;
+                ScaleformUI.ScaleformUI.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage+1)} / {ScaleformUI.ScaleformUI.PlayerListInstance.MaxPages}", 2);
+                ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage++;
 			}
-			if (NativeUIScaleform.PlayerListInstance.Enabled)
+			if (ScaleformUI.ScaleformUI.PlayerListInstance.Enabled)
 			{
 				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) MostraMoney();
-				if (NativeUIScaleform.PlayerListInstance.PlayerRows.Count > 0)
+				if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Count > 0)
 				{
-					foreach (var p in NativeUIScaleform.PlayerListInstance.PlayerRows)
+					foreach (var p in ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows)
 					{
 						var player = GetPlayerFromServerId(p.ServerId);
-						var index = NativeUIScaleform.PlayerListInstance.PlayerRows.IndexOf(p);
+						var index = ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.IndexOf(p);
 						if (NetworkIsPlayerTalking(player) || MumbleIsPlayerTalking(player))
-							NativeUIScaleform.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
+                            ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
 						else
-							NativeUIScaleform.PlayerListInstance.SetIcon(index, p.RightIcon, p.RightText);
+                            ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, p.RightIcon, p.RightText);
 					}
 				}
 			}

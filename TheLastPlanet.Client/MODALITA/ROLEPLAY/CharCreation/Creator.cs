@@ -2236,27 +2236,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 			if (Creazione.Visible && Creazione.HasControlJustBeenPressed(UIMenu.MenuControls.Back))
 			{
 				HUD.MenuPool.CloseAllMenus();
-				NativeUIScaleform.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
-				{
+                ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("La creazione verrà annullata", "Vuoi annullare la creazione del personaggio?", "Tornerai alla schermata di selezione.", new List<InstructionalButton>
+                {
 					new InstructionalButton(Control.FrontendCancel, "No"),
 					new InstructionalButton(Control.FrontendAccept, "Si"),
 				});
-				NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
+                ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
 				{
 					if (a.GamepadButton == Control.FrontendCancel)
 					{
-						Screen.Fading.FadeOut(0);
+                        Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);
-						MenuCreazione(_a, _b, _c, _d);
+                        MenuCreazione(_a, _b, _c, _d);
 					}
 					else if (a.GamepadButton == Control.FrontendAccept)
 					{
-						Screen.Fading.FadeOut(0);
+                        Screen.Fading.FadeOut(0);
 						await BaseScript.Delay(100);
 						if (_dummyPed != null)
 							if (_dummyPed.Exists())
-								_dummyPed.Delete();
-						LogIn.LogIn.Inizializza();
+                                _dummyPed.Delete();
+                        LogIn.LogIn.Inizializza();
 					}
 				};
 			}

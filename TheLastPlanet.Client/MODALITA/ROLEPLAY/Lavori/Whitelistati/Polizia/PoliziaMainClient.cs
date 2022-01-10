@@ -238,6 +238,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 			if (Client.Impostazioni.RolePlay.Lavori.Polizia.Config.AbilitaBlipVolanti)
 			{
 				foreach (var p in Cache.PlayerCache.GiocatoriOnline)
+				{
 					if (p.User.CurrentChar.Job.Name == "Polizia")
 					{
 						int id = GetPlayerFromServerId(p.Player.ServerId);
@@ -307,6 +308,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 							CopsBlips.Remove(playerPed);
 						}
 					}
+				}
 			}
 			else
 			{

@@ -1188,7 +1188,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 						{
 							string gname = await HUD.GetUserInput("Nome della Banda", "", 15);
 							HUD.MenuPool.CloseAllMenus();
-							NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
+                            ScaleformUI.ScaleformUI.BigMessageInstance.ShowSimpleShard("Boss", $"Sei diventato il Boss della banda ~o~{gname}~w~.");
 							Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 							Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang(gname, 5);
 							Main.GangsAttive.Add(new Gang(gname, Main.GangsAttive.Count + 1));
@@ -1217,7 +1217,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					{
 						HUD.MenuPool.CloseAllMenus();
 						Main.GangsAttive.Remove(me.GetPlayerData().CurrentChar.Gang);
-						NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
+                        ScaleformUI.ScaleformUI.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non sei più il boss della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};
@@ -1229,7 +1229,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 					ritirati.Activated += (menu, item) =>
 					{
 						HUD.MenuPool.CloseAllMenus();
-						NativeUIScaleform.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
+                        ScaleformUI.ScaleformUI.BigMessageInstance.ShowSimpleShard("Ritirato", $"Non fai più parte della banda ~o~{me.GetPlayerData().CurrentChar.Gang.Name}~w~.");
 						Game.PlaySound("Boss_Message_Orange", "GTAO_Boss_Goons_FM_Soundset");
 						Cache.PlayerCache.MyPlayer.User.CurrentChar.Gang = new Gang("Incensurato", 0);
 					};

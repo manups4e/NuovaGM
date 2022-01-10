@@ -471,8 +471,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 				int t = (int)Math.Floor(GetTimeSinceLastInput(0) / 1000f);
 				if (Funzioni.IsAnyControlJustPressed())
 				{
-					if (!NativeUIScaleform.Warning.IsShowing) return;
-					NativeUIScaleform.Warning.Dispose();
+					if (!ScaleformUI.ScaleformUI.Warning.IsShowing) return;
+                    ScaleformUI.ScaleformUI.Warning.Dispose();
 					triggerato = false;
 					return;
 				}
@@ -492,10 +492,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 
 							if (!triggerato)
 							{
-								NativeUIScaleform.Warning.ShowWarning("Last Planet Shield 2.0", Text, "");
+                                ScaleformUI.ScaleformUI.Warning.ShowWarning("Last Planet Shield 2.0", Text, "");
 								triggerato = true;
 							}
-							NativeUIScaleform.Warning.UpdateWarning("Last Planet Shield 2.0", Text, "", "", WarningPopupType.Serious);
+                            ScaleformUI.ScaleformUI.Warning.UpdateWarning("Last Planet Shield 2.0", Text, "", "", WarningPopupType.Serious);
 						}
 					}
 				}

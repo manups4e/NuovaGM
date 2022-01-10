@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.UI;
 using Impostazioni.Shared.Configurazione.Generici;
-using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
@@ -41,11 +40,10 @@ namespace TheLastPlanet.Client.Core.Utility
 
 		public static async Task AggiornaPlayers()
 		{
-			Cache.PlayerCache.GiocatoriOnline = await Client.Instance.Events.Get<List<ClientId>>("lprp:callPlayers", Cache.PlayerCache.MyPlayer.User.CurrentChar.Posizione);
+			Cache.PlayerCache.GiocatoriOnline = await Client.Instance.Events.Get<List<ClientId>>("tlg:callPlayers", Cache.PlayerCache.MyPlayer.Posizione);
 			Cache.PlayerCache.MyPlayer.User.CurrentChar = Cache.PlayerCache.GiocatoriOnline.FirstOrDefault(x => x.Id == Cache.PlayerCache.MyPlayer.Id)?.User.CurrentChar;
 
-			foreach(var client in Cache.PlayerCache.GiocatoriOnline)
-				Client.Logger.Debug($"{client.ToJson()}");
+			//foreach(var client in Cache.PlayerCache.GiocatoriOnline) Client.Logger.Debug($"{client.ToJson()}");
 		}
 
 		public static async void LoadModel()
@@ -122,7 +120,7 @@ namespace TheLastPlanet.Client.Core.Utility
 		public static async void announce(string msg)
 		{
 			Game.PlaySound("DELETE", "HUD_DEATHMATCH_SOUNDSET");
-			NativeUIScaleform.BigMessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
+            ScaleformUI.ScaleformUI.BigMessageInstance.ShowSimpleShard("~r~ANNUNCIO AI GIOCATORI", msg);
 		}
 
 		public static async void Revive()

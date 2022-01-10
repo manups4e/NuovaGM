@@ -130,7 +130,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 					p.Style.SetDefaultClothes();
 					p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
 					await Cache.PlayerCache.Loaded();
-					Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
+					Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("IngressoRoleplay");
 					await BaseScript.Delay(100);
 					//Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
 					p.IsVisible = false;
@@ -403,16 +403,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 		{
 			GuiEnabled = false;
 			ToggleMenu(false);
-			NativeUIScaleform.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, "", WarningPopupType.Classic);
-			NativeUIScaleform.Warning.OnButtonPressed += async (a) =>
+            ScaleformUI.ScaleformUI.Warning.ShowWarningWithButtons("Sei sicuro?", "Stai uscendo dal Pianeta RolePlay senza aver selezionato un personaggio", "", new List<InstructionalButton> { new(Control.FrontendCancel, "No"), new(Control.FrontendAccept, "Si") }, "", WarningPopupType.Classic);
+            ScaleformUI.ScaleformUI.Warning.OnButtonPressed += async (a) =>
 			{
 				if (a.GamepadButton == Control.FrontendCancel)
-					Attiva();
+                    Attiva();
 				else if (a.GamepadButton == Control.FrontendAccept)
 				{
 					await Initializer.Stop();
-					ServerJoining.ReturnToLobby();
-					World.RenderingCamera = null;
+                    ServerJoining.ReturnToLobby();
+                    World.RenderingCamera = null;
 				}
 			};
 		}

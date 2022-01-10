@@ -188,7 +188,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 		{
 			Screen.Fading.FadeOut(500);
 			await BaseScript.Delay(600);
-			NativeUIScaleform.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", 2000, "Attendi...");
+            ScaleformUI.ScaleformUI.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", 2000, "Attendi...");
 			await BaseScript.Delay(100);
 			Screen.Fading.FadeIn(0);
 			await BaseScript.Delay(3000);
@@ -196,23 +196,23 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
 			if (dentro)
 			{
-				NativeUIScaleform.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
+                ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Errore nel caricamento...", "Ritorno alla lobby!");
 				ServerJoining.ReturnToLobby();
 				await BaseScript.Delay(3000);
-				NativeUIScaleform.Warning.Dispose();
+                ScaleformUI.ScaleformUI.Warning.Dispose();
 
 				return;
 			}
 
 			string settings = await Client.Instance.Events.Get<string>("Config.CallClientConfig", modalita);
 			Client.Impostazioni.LoadConfig(modalita, settings);
-			NativeUIScaleform.Warning.UpdateWarning(nome, "Caricamento completato!");
+            ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Caricamento completato!");
 			Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = modalita;
 			Cache.PlayerCache.ModalitàAttuale = modalita;
 			await BaseScript.Delay(2000);
 			Screen.Fading.FadeOut(0);
 			await BaseScript.Delay(100);
-			NativeUIScaleform.Warning.Dispose();
+            ScaleformUI.ScaleformUI.Warning.Dispose();
 		}
 
 		private static void PassiveMode(bool active)

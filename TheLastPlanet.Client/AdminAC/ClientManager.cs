@@ -75,12 +75,12 @@ namespace TheLastPlanet.Client.AdminAC
 					new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
 					new InstructionalButton(Control.FrontendX, "Cambia velocità")
 				};
-				NativeUIScaleform.InstructionalButtons.Enabled = true;
-				NativeUIScaleform.InstructionalButtons.SetInstructionalButtons(istr);
+                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = true;
+                ScaleformUI.ScaleformUI.InstructionalButtons.SetInstructionalButtons(istr);
 			}
 			else
 			{
-				NativeUIScaleform.InstructionalButtons.Enabled = false;
+                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = false;
 				Client.Instance.RemoveTick(noClip);
 
 				while (p.IsInvincible)
