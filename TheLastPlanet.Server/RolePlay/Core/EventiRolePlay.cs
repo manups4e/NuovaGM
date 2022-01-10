@@ -71,27 +71,6 @@ namespace TheLastPlanet.Server.RolePlay.Core
 				new Action<ClientId, int, string, int>(GiveItemToOtherPlayer));
 			Server.Instance.Events.Mount("lprp:giveWeaponToPlayer",
 				new Action<ClientId, int, string, int>(GiveWeaponToOtherPlayer));
-			Server.Instance.Events.Mount("lprp:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>(
-				async (a, b) =>
-				{
-					User user = a.User;
-					var pos = b;
-					user.CurrentChar.Posizione = pos;
-					TimeSpan time = (DateTime.Now - user.LastSaved);
-					if (time.Minutes > 10)
-					{
-						BaseScript.TriggerClientEvent(a.Player, "lprp:mostrasalvataggio");
-						await user.SalvaPersonaggioRoleplay();
-						Server.Logger.Info("Salvato personaggio: '" + user.FullName + "' appartenente a '" +
-						                   a.Player.Name + "' - " + user.Identifiers.Discord);
-					}
-
-					if(user.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
-						return BucketsHandler.RolePlay.Bucket.Players;
-					else if(user.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
-						return BucketsHandler.FreeRoam.Bucket.Players;
-					return Server.Instance.Clients;
-				}));
 			Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<ClientId, Task<Dictionary<string, User>>>(async (a) =>
 				(await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => a.Player.Handle)));
 		}
