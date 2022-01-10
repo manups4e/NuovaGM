@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using TheLastPlanet.Client.Core.PlayerChar;
+using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
@@ -17,7 +18,7 @@ namespace TheLastPlanet.Client.Cache
 	{
 		internal static bool _inVeh;
 		private static bool _inPausa;
-
+		private static SharedTimer _checkTimer;
 
 		public static ClientId MyPlayer { get; private set; }
 		public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
@@ -34,6 +35,7 @@ namespace TheLastPlanet.Client.Cache
 				Id = pippo.Item1,
 				User = new User(pippo.Item2)
 			};
+			_checkTimer = new(5000);
 			Client.Instance.AddTick(TickStatus);
 			await Task.FromResult(0);
             InternalGameEvents.OnPlayerEnteredVehicle += OnPlayerEnteredVehicle;
@@ -55,13 +57,10 @@ namespace TheLastPlanet.Client.Cache
 
 		public static async Task TickStatus()
 		{
-			await Loaded();
-
 			#region Posizione
-
 			// TODO: non salvare position nel db se siamo in un interior
-			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 
+			MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
 			#endregion
 
 			#region Check Veicolo
@@ -82,7 +81,7 @@ namespace TheLastPlanet.Client.Cache
 			//|| HUD.MenuPool.IsAnyPauseMenuOpen
 			if (!_inPausa)
 			{
-				if (Game.IsPaused)
+				if (Game.IsPaused || HUD.MenuPool.IsAnyPauseMenuOpen)
 				{
 					_inPausa = true;
 					MyPlayer.User.Status.PlayerStates.InPausa = true;
@@ -90,14 +89,22 @@ namespace TheLastPlanet.Client.Cache
 			}
             else
             {
-				if (!Game.IsPaused)
+				if (!Game.IsPaused & !HUD.MenuPool.IsAnyPauseMenuOpen)
 				{
 					_inPausa = false;
 					MyPlayer.User.Status.PlayerStates.InPausa = false;
 				}
 			}
 
-			#endregion
+            #endregion
+
+            if (_checkTimer.IsPassed)
+            {
+				if (MyPlayer.User.Status.Istanza.Instance != "IngressoRoleplay")
+				{
+					await Eventi.AggiornaPlayers();
+				}
+			}
 
 			await Task.FromResult(0);
 		}
