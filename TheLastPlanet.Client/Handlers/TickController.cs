@@ -260,13 +260,6 @@ namespace TheLastPlanet.Client.Handlers
 					_medici = false;
 				}
 			}
-
-			if (Game.GameTime - _timer >= 5000)
-			{
-				_timer = Game.GameTime;
-				await Eventi.AggiornaPlayers();
-			}
-
 			await BaseScript.Delay(250);
 			// 4 volte al secondo bastano per gestire i tick.. non serve che siano tutti immediatamente attivati / disattivati
 		}
