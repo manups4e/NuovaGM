@@ -1209,7 +1209,7 @@ namespace ScaleformUI
 		/// </summary>
 		public void Clear()
 		{
-			MenuItems.Clear();
+			if(MenuItems.Count > 0) MenuItems.Clear();
 		}
 
 		/// <summary>
@@ -1849,13 +1849,13 @@ namespace ScaleformUI
 					Visible = false;
 					ScaleformUI._ui.CallFunction("CLEAR_ALL");
 					ScaleformUI.InstructionalButtons.Enabled = true;
-					ScaleformUI.InstructionalButtons.SetInstructionalButtons(Children[MenuItems[CurrentSelection]].InstructionalButtons);
+					Children[MenuItems[CurrentSelection]].Visible = true;
 					_poolcontainer.MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 					MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
 					Children[MenuItems[CurrentSelection]].MenuChangeEv(this, Children[MenuItems[CurrentSelection]], MenuState.ChangeForward);
-					Children[MenuItems[CurrentSelection]].Visible = true;
 					Children[MenuItems[CurrentSelection]].BuildUpMenu();
 					Children[MenuItems[CurrentSelection]].MouseEdgeEnabled = MouseEdgeEnabled;
+					ScaleformUI.InstructionalButtons.SetInstructionalButtons(Children[MenuItems[CurrentSelection]].InstructionalButtons);
 					break;
 			}
 		}
@@ -1980,6 +1980,23 @@ namespace ScaleformUI
 			ScaleformUI._ui.CallFunction("CREATE_MENU", Title, Subtitle, _customTexture.Key, _customTexture.Value);
 			if(Windows.Count > 0)
 				ScaleformUI._ui.CallFunction("ADD_HERITAGE_WINDOW", Windows[0].Mom, Windows[0].Dad);
+			var timer = GetGameTimer();
+			if (MenuItems.Count == 0)
+			{
+				while (MenuItems.Count == 0)
+				{
+					await BaseScript.Delay(0);
+					if (GetGameTimer() - timer > 150)
+					{
+						ScaleformUI._ui.CallFunction("SET_CURRENT_ITEM", CurrentSelection);
+						SetStreamedTextureDictAsNoLongerNeeded(_customTexture.Key);
+						SetStreamedTextureDictAsNoLongerNeeded("commonmenu");
+						SetStreamedTextureDictAsNoLongerNeeded("pause_menu_pages_char_mom_dad");
+						SetStreamedTextureDictAsNoLongerNeeded("char_creator_portraits");
+						return;
+					}
+				}
+			}
 			foreach (var item in MenuItems)
 			{
 				LoadScaleform();
