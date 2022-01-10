@@ -58,7 +58,7 @@ namespace ScaleformUI
         {
 			var it = this.ParentItem.Parent.MenuItems.IndexOf(this.ParentItem);
 			var van = this.ParentItem.Panels.IndexOf(this);
-			API.BeginScaleformMovieMethod(NativeUIScaleform._nativeui.Handle, "GET_VALUE_FROM_PANEL");
+			API.BeginScaleformMovieMethod(ScaleformUI._ui.Handle, "GET_VALUE_FROM_PANEL");
 			API.ScaleformMovieMethodAddParamInt(it);
 			API.ScaleformMovieMethodAddParamInt(van);
 			var ret = API.EndScaleformMovieMethodReturnValue();
@@ -70,7 +70,7 @@ namespace ScaleformUI
         {
 			var it = ParentItem.Parent.MenuItems.IndexOf(this.ParentItem);
 			var van = ParentItem.Panels.IndexOf(this);
-			NativeUIScaleform._nativeui.CallFunction("SET_COLOR_PANEL_VALUE", it, van, val);
+			ScaleformUI._ui.CallFunction("SET_COLOR_PANEL_VALUE", it, van, val);
 		}
 	}
 }

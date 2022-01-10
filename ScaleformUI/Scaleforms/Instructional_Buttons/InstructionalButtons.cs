@@ -345,7 +345,7 @@ namespace ScaleformUI
                 if (button.IsUsingController)
                 {
                     if (button.PadCheck == PadCheck.Keyboard) continue;
-                    if (NativeUIScaleform.Warning.IsShowing)
+                    if (ScaleformUI.Warning.IsShowing)
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
                     else
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
@@ -357,7 +357,7 @@ namespace ScaleformUI
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button.KeyboardButton);
                     else
                     {
-                        if (NativeUIScaleform.Warning.IsShowing)
+                        if (ScaleformUI.Warning.IsShowing)
                             _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
                         else
                             _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
@@ -410,7 +410,7 @@ namespace ScaleformUI
             }
             UpdateButtons();
 
-            if (!NativeUIScaleform.Warning.IsShowing) Draw();
+            if (!ScaleformUI.Warning.IsShowing) Draw();
 
             foreach (InstructionalButton button in ControlButtons.Where(x => x.InputButton != InputGroup.UNUSED))
             {

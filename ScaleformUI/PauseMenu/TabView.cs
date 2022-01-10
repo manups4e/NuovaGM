@@ -96,7 +96,7 @@ namespace ScaleformUI.PauseMenu
             Index = 0;
             FocusLevel = 0;
             TemporarilyHidden = false;
-            _pause = NativeUIScaleform.PauseMenu;
+            _pause = ScaleformUI.PauseMenu;
         }
 
         public bool Visible
@@ -111,7 +111,7 @@ namespace ScaleformUI.PauseMenu
                     Screen.Effects.Start(ScreenEffect.FocusOut, 800);
                     API.TransitionToBlurred(700);
 
-                    NativeUIScaleform.InstructionalButtons.SetInstructionalButtons(buttons);
+                    ScaleformUI.InstructionalButtons.SetInstructionalButtons(buttons);
                     API.SetPlayerControl(Game.Player.Handle, false, 0);
                 }
                 else
@@ -123,7 +123,7 @@ namespace ScaleformUI.PauseMenu
                     API.SetPlayerControl(Game.Player.Handle, true, 0);
                 }
                 Game.IsPaused = value;
-                NativeUIScaleform.InstructionalButtons.Enabled = value;
+                ScaleformUI.InstructionalButtons.Enabled = value;
                 _pause.Visible = value;
                 _visible = value;
             }

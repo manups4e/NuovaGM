@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScaleformUI
 {
-    public class NativeUIScaleform : BaseScript
+    public class ScaleformUI : BaseScript
     {
         public static PauseMenuScaleform PauseMenu { get; set; }
         public static MediumMessageHandler MedMessageInstance { get; set; }
@@ -16,8 +16,8 @@ namespace ScaleformUI
         public static PopupWarning Warning { get; set; }
         public static PlayerListHandler PlayerListInstance { get; set; }
         public static MissionSelectorHandler JobMissionSelection { get; set; }
-        internal static Scaleform _nativeui { get; set; }
-        public NativeUIScaleform()
+        internal static Scaleform _ui { get; set; }
+        public ScaleformUI()
         {
             Warning = new();
             MedMessageInstance = new();
@@ -25,7 +25,7 @@ namespace ScaleformUI
             PlayerListInstance = new();
             JobMissionSelection = new();
             PauseMenu = new();
-            _nativeui = new("nativeui");
+            _ui = new("scaleformui");
             InstructionalButtons = new();
             InstructionalButtons.Load();
             Tick += NativeUIThread_Tick;
@@ -40,8 +40,8 @@ namespace ScaleformUI
             JobMissionSelection.Update();
             InstructionalButtons.HandleScaleform();
 
-            if (_nativeui is null)
-                _nativeui = new Scaleform("nativeui");
+            if (_ui is null)
+                _ui = new Scaleform("scaleformui");
 
             if (!PauseMenu.Loaded)
                 PauseMenu.Load();

@@ -83,6 +83,7 @@ namespace ScaleformUI
             //if (PlayerRows.Any(x => x.ServerId == row.ServerId)) return;
             PlayerRows.Add(row);
             //PlayerRows.Sort((row1, row2) => row1.ServerId.CompareTo(row2.ServerId));
+            if (PlayerRows.Any(x => x.RightText.ToLower() == "lobby")) return;
             PlayerRows.Sort((row1, row2) => Convert.ToInt32(row1.RightText).CompareTo(Convert.ToInt32(row2.RightText)));
         }
 
@@ -92,6 +93,7 @@ namespace ScaleformUI
             if (r != null)
             {
                 PlayerRows.Remove(r);
+                if (PlayerRows.Any(x => x.RightText.ToLower() == "lobby")) return;
                 PlayerRows.Sort((row1, row2) => Convert.ToInt32(row1.RightText).CompareTo(Convert.ToInt32(row2.RightText)));
             }
         }

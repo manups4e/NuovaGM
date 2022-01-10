@@ -78,7 +78,7 @@ namespace ScaleformUI
             {
                 _checked = value;
                 var it = Parent.MenuItems.IndexOf(this);
-                NativeUIScaleform._nativeui.CallFunction("SET_INPUT_EVENT", 16, it, value);
+                ScaleformUI._ui.CallFunction("SET_INPUT_EVENT", 16, it, value);
             }
         }
 
