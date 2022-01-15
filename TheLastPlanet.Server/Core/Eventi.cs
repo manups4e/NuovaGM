@@ -42,7 +42,7 @@ namespace TheLastPlanet.Server.Core
                         if (time.Minutes > 10)
                         {
                             BaseScript.TriggerClientEvent(a.Player, "lprp:mostrasalvataggio");
-                            await user.SalvaPersonaggioRoleplay();
+							BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(a);
                             Server.Logger.Info("Salvato personaggio: '" + user.FullName + "' appartenente a '" +
                                                a.Player.Name + "' - " + user.Identifiers.Discord);
                         }

@@ -522,7 +522,7 @@ namespace TheLastPlanet.Server.Core
 						{
 							case ModalitaServer.Roleplay:
 								player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
-								await player.User.SalvaPersonaggioRoleplay();
+								BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(player);
 								Server.Logger.Info($"Salvato personaggio: '{player.User.FullName}' appartenente a '{player.Player.Name}' - {player.User.Identifiers.Discord}");
 								await Task.FromResult(0);
 								rp++;

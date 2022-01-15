@@ -360,42 +360,5 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		{
 			Player.TriggerEvent("lprp:ShowNotification", text);
 		}
-
-		public async Task SalvaPersonaggioRoleplay()
-		{
-			try
-			{
-				await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @location, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
-				{
-					gr = group,
-					level = group_level,
-					time = playTime,
-					current = CurrentChar.CharID,
-					mon = Money,
-					bank = Bank,
-					dirty = DirtCash,
-					weap = CurrentChar.Weapons.ToJson(),
-					invent = CurrentChar.Inventory.ToJson(),
-					location = CurrentChar.Posizione.ToJson(),
-					job = CurrentChar.Job.Name,
-					jgrade = CurrentChar.Job.Grade,
-					gang = CurrentChar.Gang.Name,
-					ggrade = CurrentChar.Gang.Grade,
-					skin = CurrentChar.Skin.ToJson(),
-					dress = CurrentChar.Dressing.ToJson(),
-					needs = CurrentChar.Needs.ToJson(),
-					stats = CurrentChar.Statistiche.ToJson(),
-					dead = CurrentChar.is_dead,
-					id = ID,
-				});
-				LastSaved = DateTime.Now;
-			}
-			catch(Exception e)
-			{
-				Server.Logger.Error( e.ToString());
-			}
-			await Task.FromResult(0);
-		}
-
 	}
 }

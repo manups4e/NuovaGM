@@ -340,7 +340,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private void SavePlayerData(ClientId client)
         {
-            API.SetResourceKvpNoSync("freeroam:player_{source.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
+            API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
     }
 
@@ -373,7 +373,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             Bucket.RemovePlayer(client, reason);
             if (client.User.Status.Spawned)
             {
-                await client.User.SalvaPersonaggioRoleplay();
+                SalvaPersonaggioRoleplay(client);
                 Server.Logger.Info($"Salvato personaggio: {client.User.FullName} [{client.Player.Name}] all'uscita dal pianeta RolePlay -- Discord:{client.Identifiers.Discord}");
             }
             else
@@ -429,8 +429,16 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private static async Task<Char_data> LoadChar(ClientId source, ulong id)
         {
-            string query = "SELECT * FROM personaggi WHERE CharID = @id";
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
+
+            await BaseScript.Delay(0);
+            var data = API.GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
+            var bytes = data.ToBytes();
+            user.CurrentChar = bytes.FromBytes<Char_data>();
+            /*
+
+            string query = "SELECT * FROM personaggi WHERE CharID = @id";
+
             Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
 
             user.CurrentChar = new Char_data(
@@ -447,7 +455,46 @@ namespace TheLastPlanet.Server.Core.Buckets
                 res.statistiche.FromJson<Statistiche>(),
                 res.is_dead
             ){ Posizione = res.location.FromJson<Position>() };
+            */
             return user.CurrentChar;
+        }
+
+        public void SalvaPersonaggioRoleplay(ClientId client)
+        {
+            try
+            {
+                /*
+                await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @location, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
+                {
+                    gr = client.User.group,
+                    level = client.User.group_level,
+                    time = client.User.playTime,
+                    current = client.User.CurrentChar.CharID,
+                    mon = client.User.Money,
+                    bank = client.User.Bank,
+                    dirty = client.User.DirtCash,
+                    weap = client.User.CurrentChar.Weapons.ToJson(),
+                    invent = client.User.CurrentChar.Inventory.ToJson(),
+                    location = client.User.CurrentChar.Posizione.ToJson(),
+                    job = client.User.CurrentChar.Job.Name,
+                    jgrade = client.User.CurrentChar.Job.Grade,
+                    gang = client.User.CurrentChar.Gang.Name,
+                    ggrade = client.User.CurrentChar.Gang.Grade,
+                    skin = client.User.CurrentChar.Skin.ToJson(),
+                    dress = client.User.CurrentChar.Dressing.ToJson(),
+                    needs = client.User.CurrentChar.Needs.ToJson(),
+                    stats = client.User.CurrentChar.Statistiche.ToJson(),
+                    dead = client.User.CurrentChar.is_dead,
+                    id = client.User.ID,
+                });
+                */
+                API.SetResourceKvpNoSync($"roleplay:player_{client.User.Identifiers.Discord}:char_model_{client.User.CurrentChar.CharID}", BitConverter.ToString(client.User.CurrentChar.ToBytes()));
+                client.User.LastSaved = DateTime.Now;
+            }
+            catch (Exception e)
+            {
+                Server.Logger.Error(e.ToString());
+            }
         }
 
         #endregion

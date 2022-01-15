@@ -130,7 +130,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 			if (user.Status.Spawned)
 			{
 				client.Player.TriggerEvent("lprp:mostrasalvataggio");
-				await user.SalvaPersonaggioRoleplay();
+				BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(client);
 				Server.Logger.Info("Salvato personaggio: '" + user.FullName + "' appartenente a '" + name +"' tramite telefono");
 			}
 			await Task.FromResult(0);
