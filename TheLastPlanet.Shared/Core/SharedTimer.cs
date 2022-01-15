@@ -7,29 +7,45 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Shared
 {
+    public enum TimerType
+    {
+        Milliseconds,
+        Seconds,
+        Minutes,
+    }
     public class SharedTimer
     {
         private long Timer = 0;
         private readonly long _awaitable = 0;
-        private bool isPassed;
+        private TimerType timerType;
 
         public bool IsPassed
         {
             get
             {
-                isPassed = API.GetGameTimer() - Timer > _awaitable;
-                if (isPassed) ResetTimer();
-                return isPassed;
-            }
-            private set
-            {
-                isPassed = value;
+                var await = _awaitable;
+                switch (timerType)
+                {
+                    case TimerType.Milliseconds:
+                        await = _awaitable;
+                        break;
+                    case TimerType.Seconds:
+                        await = _awaitable * 1000;
+                        break;
+                    case TimerType.Minutes:
+                        await = _awaitable * 1000 * 60;
+                        break;
+                }
+                bool passed = API.GetGameTimer() - Timer > await;
+                if (passed) ResetTimer();
+                return passed;
             }
         }
 
-        public SharedTimer(long time)
+        public SharedTimer(long time, TimerType type = TimerType.Milliseconds)
         {
             _awaitable = time;
+            timerType = type;
             ResetTimer();
         }
 
