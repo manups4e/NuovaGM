@@ -1392,13 +1392,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 int oldIndexMentoPro = 0;
                 int oldIndexMentoFor = 0;
 
-                Dettagli.OnGridPanelChange += (a, b, c) =>
-                {
-                    if (a == _arcSopr)
-                    {
-                        _data.Skin.face.tratti[7] = Funzioni.Denormalize(c.X, -1f, 1f);
-                        _data.Skin.face.tratti[6] = Funzioni.Denormalize(c.Y, -1f, 1f);
-                    }
+				Dettagli.OnGridPanelChange += (a, b, c) =>
+				{
+					if (a == _arcSopr)
+					{
+						_data.Skin.face.tratti[7] = Funzioni.Denormalize(c.X, -1f, 1f);
+						_data.Skin.face.tratti[6] = Funzioni.Denormalize(c.Y, -1f, 1f);
+					}
                     else if (a == _occhi)
                     {
                         _data.Skin.face.tratti[11] = Funzioni.Denormalize(-c.X, -1f, 1f);
@@ -1928,6 +1928,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 							_lungs = c;
 						else b.Value = _lungs;
 					}
+					_data.Statistiche = new()
+					{
+						STAMINA = _stamina,
+						STRENGTH = _strength,
+						LUNG_CAPACITY = _lungs,
+						STEALTH_ABILITY = _stealth,
+						SHOOTING_ABILITY = _shooting,
+						WHEELIE_ABILITY = _driving,
+						FLYING_ABILITY = _flying,
+					};
 				};
                 #endregion
 
