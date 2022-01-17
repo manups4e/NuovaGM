@@ -34,6 +34,12 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
 						Screen.Hud.IsRadarVisible = false;
 					break;
 				case ModalitaServer.FreeRoam:
+					if (PlayerCache.MyPlayer.User.Status.Istanza.Instance == "CreazionePersonaggio") 
+					{
+						if (Screen.Hud.IsRadarVisible)
+							Screen.Hud.IsRadarVisible = false;
+						break;
+					}
 					if (!Screen.Hud.IsRadarVisible)
 						Screen.Hud.IsRadarVisible = true;
 					break;
