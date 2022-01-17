@@ -1090,26 +1090,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
 				#endregion
 
-				#region Stats
-
-				UIMenuStatsItem stamina = new UIMenuStatsItem(GetLabelText("FACE_STAM"), GetLabelText("FACE_H_STA"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem shooting = new UIMenuStatsItem(GetLabelText("FACE_SHOOT"), GetLabelText("FACE_H_SHO"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem strength = new UIMenuStatsItem(GetLabelText("FACE_STR"), GetLabelText("FACE_H_STR"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem stealth = new UIMenuStatsItem(GetLabelText("FACE_STEALTH"), GetLabelText("FACE_H_STE"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem flying = new UIMenuStatsItem(GetLabelText("FACE_FLY"), GetLabelText("FACE_H_FLY"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem driving = new UIMenuStatsItem(GetLabelText("FACE_DRIV"), GetLabelText("FACE_H_DRI"), 0, HudColor.HUD_COLOUR_FREEMODE);
-				UIMenuStatsItem lungs = new UIMenuStatsItem(GetLabelText("FACE_LUNG"), GetLabelText("FACE_H_LCP"), 0, HudColor.HUD_COLOUR_FREEMODE);
-
-				Statistiche.AddItem(stamina);
-				Statistiche.AddItem(shooting);
-				Statistiche.AddItem(strength);
-				Statistiche.AddItem(stealth);
-				Statistiche.AddItem(flying);
-				Statistiche.AddItem(driving);
-				Statistiche.AddItem(lungs);
-
-				#endregion
-
 				#region VESTITI
 				var styleList = new List<dynamic>();
 				for (int i = 0; i < 8; i++) styleList.Add(GetLabelText("FACE_A_STY_" + i));
@@ -1143,15 +1123,49 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 Apparel.AddItem(hat);
                 Apparel.AddItem(glasses);
 
-                #endregion
+				#endregion
 
-                #endregion
+				#region Stats
+				int StatMax = 100;
+				UIMenuStatsItem stamina = new UIMenuStatsItem(GetLabelText("FACE_STAM"), GetLabelText("FACE_H_STA"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat = new("Punti Rimanenti", "0", "100", StatMax);
+				stamina.AddPanel(maxstat);
+				UIMenuStatsItem shooting = new UIMenuStatsItem(GetLabelText("FACE_SHOOT"), GetLabelText("FACE_H_SHO"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat1 = new("Punti Rimanenti", "0", "100", StatMax);
+				shooting.AddPanel(maxstat1);
+				UIMenuStatsItem strength = new UIMenuStatsItem(GetLabelText("FACE_STR"), GetLabelText("FACE_H_STR"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat2 = new("Punti Rimanenti", "0", "100", StatMax);
+				strength.AddPanel(maxstat2);
+				UIMenuStatsItem stealth = new UIMenuStatsItem(GetLabelText("FACE_STEALTH"), GetLabelText("FACE_H_STE"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat3 = new("Punti Rimanenti", "0", "100", StatMax);
+				stealth.AddPanel(maxstat3);
+				UIMenuStatsItem flying = new UIMenuStatsItem(GetLabelText("FACE_FLY"), GetLabelText("FACE_H_FLY"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat4 = new("Punti Rimanenti", "0", "100", StatMax);
+				flying.AddPanel(maxstat4);
+				UIMenuStatsItem driving = new UIMenuStatsItem(GetLabelText("FACE_DRIV"), GetLabelText("FACE_H_DRI"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat5 = new("Punti Rimanenti", "0", "100", StatMax);
+				driving.AddPanel(maxstat5);
+				UIMenuStatsItem lungs = new UIMenuStatsItem(GetLabelText("FACE_LUNG"), GetLabelText("FACE_H_LCP"), 0, HudColor.HUD_COLOUR_FREEMODE);
+				UIMenuPercentagePanel maxstat6 = new("Punti Rimanenti", "0", "100", StatMax);
+				lungs.AddPanel(maxstat6);
 
-                #region CorpoMenu
+				Statistiche.AddItem(stamina);
+				Statistiche.AddItem(shooting);
+				Statistiche.AddItem(strength);
+				Statistiche.AddItem(stealth);
+				Statistiche.AddItem(flying);
+				Statistiche.AddItem(driving);
+				Statistiche.AddItem(lungs);
 
-                #region Sesso
+				#endregion
 
-                Sesso.OnListChanged += async (item, _newIndex) =>
+				#endregion
+
+				#region CorpoMenu
+
+				#region Sesso
+
+				Sesso.OnListChanged += async (item, _newIndex) =>
                 {
                     HUD.MenuPool.CloseAllMenus();
                     Screen.Effects.Start(ScreenEffect.MpCelebWin);
@@ -1856,6 +1870,65 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 					TaskProvaClothes(Cache.PlayerCache.MyPlayer.Ped, sub_7dd83(1, 0, _data.Skin.sex));
 				};
 
+				#endregion
+
+				#region Stats
+				int _stamina = 0, _shooting = 0, _strength = 0, _stealth = 0, _flying = 0, _driving = 0, _lungs = 0;
+				Statistiche.OnStatsItemChanged += (a, b, c) =>
+				{
+					var max = 0;
+					foreach (var item in a.MenuItems)
+					{
+						max += (item as UIMenuStatsItem).Value;
+					}
+					StatMax = 100 - max;
+					foreach (var item in a.MenuItems)
+					{
+						(item.Panels[0] as UIMenuPercentagePanel).Percentage = StatMax;
+					}
+					if (b == stamina)
+					{
+						if (StatMax > 0)
+							_stamina = c;
+						else b.Value = _stamina;
+					}
+					else if (b == shooting)
+					{
+						if (StatMax > 0)
+							_shooting = c;
+						else b.Value = _shooting;
+					}
+					else if (b == strength)
+					{
+						if (StatMax > 0)
+							_strength = c;
+						else b.Value = _strength;
+					}
+					else if (b == stealth)
+					{
+						if (StatMax > 0)
+							_stealth = c;
+						else b.Value = _stealth;
+					}
+					else if (b == flying)
+					{
+						if (StatMax > 0)
+							_flying = c;
+						else b.Value = _flying;
+					}
+					else if (b == driving)
+					{
+						if (StatMax > 0)
+							_driving = c;
+						else b.Value = _driving;
+					}
+					else if (b == lungs)
+					{
+						if (StatMax > 0)
+							_lungs = c;
+						else b.Value = _lungs;
+					}
+				};
                 #endregion
 
                 #endregion
@@ -2016,9 +2089,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 Creazione.Visible = true;
                 Client.Instance.AddTick(TastiMenu);
             }
-            catch
+            catch(Exception e)
             {
-                Client.Logger.Error("MenuCreazione");
+                Client.Logger.Error("MenuCreazione => " + e.ToString());
             }
         }
 
