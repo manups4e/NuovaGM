@@ -30,8 +30,7 @@ namespace TheLastPlanet.Server.Core
 				var p = Funzioni.GetClientFromPlayerId(id);
 				User user = p.User;
 				var currentMode = user.Status.PlayerStates.Modalita;
-				if ((int)user.group_level <= -1) return;
-				if (!user.Status.Spawned && user.group_level <= UserGroup.Helper) return;
+				if ((int)user.group_level < 0) return;
 
 				if (message.StartsWith("/"))
 				{
@@ -103,7 +102,6 @@ namespace TheLastPlanet.Server.Core
 
 		public static void chatCommandEntered(Player sender, string fullCommand, string[] command, string cmd, ChatCommand comm, ModalitaServer mode)
 		{
-			DateTime data = DateTime.Now;
 			User user = Funzioni.GetUserFromPlayerId(sender.Handle);
 
 			if (comm != null)

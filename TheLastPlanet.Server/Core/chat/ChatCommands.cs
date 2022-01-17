@@ -691,7 +691,7 @@ namespace TheLastPlanet.Server.Core
 							break;
 					}
 
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
+					sender.TriggerSubsystemEvent("tlg:ShowNotification", "Meteo modificato in ~b~" + meteo + "~w~");
 				}
 			}
 		}
@@ -713,12 +713,12 @@ namespace TheLastPlanet.Server.Core
 					}
 					else
 					{
-						sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+						sender.TriggerSubsystemEvent("tlg:ShowNotification", "Nessuna licenza specificata!!");
 					}
 				}
 				else
 				{
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessun id specificato!!");
+					sender.TriggerSubsystemEvent("tlg:ShowNotification", "Nessun id specificato!!");
 				}
 			}
 		}
@@ -740,12 +740,12 @@ namespace TheLastPlanet.Server.Core
 					}
 					else
 					{
-						sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessuna licenza specificata!!");
+						sender.TriggerSubsystemEvent("tlg:ShowNotification", "Nessuna licenza specificata!!");
 					}
 				}
 				else
 				{
-					sender.TriggerSubsystemEvent("lprp:ShowNotification", "Nessun id specificato!!");
+					sender.TriggerSubsystemEvent("tlg:ShowNotification", "Nessun id specificato!!");
 				}
 			}
 		}
