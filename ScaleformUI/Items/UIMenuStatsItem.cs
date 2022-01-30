@@ -11,9 +11,12 @@ namespace ScaleformUI
     {
         private int _value;
 
-        public int Value { get => _value; set
+        public int Value
+        {
+            get => _value; 
+            set
             {
-               _value = value;
+                _value = value;
                 SetValue(_value);
             }
         }
@@ -27,6 +30,7 @@ namespace ScaleformUI
 
         public UIMenuStatsItem(string text, string subtitle, int value, HudColor color) : base(text, subtitle)
         {
+            _itemId = 5;
             Type = 0;
             _value = value;
             Color = color;

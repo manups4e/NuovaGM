@@ -38,7 +38,7 @@ namespace ScaleformUI
 		{
 			Min = MinText;
 			Max = MaxText;
-			Title = title != "" || title != null ? title : "Opacity";
+			Title = !string.IsNullOrWhiteSpace(title) ? title : "Opacity";
 			_value = initialValue;
 		}
 

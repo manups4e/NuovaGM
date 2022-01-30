@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,14 @@ namespace ScaleformUI
             InstructionalButtons = new();
             InstructionalButtons.Load();
             Tick += NativeUIThread_Tick;
+            EventHandlers["onResourceStop"] += new Action<string>((resName) =>
+            {
+                if (resName == API.GetCurrentResourceName())
+                {
+                    _ui.Dispose();
+                    PauseMenu.Dispose();
+                }
+            });
         }
 
         private async Task NativeUIThread_Tick()
