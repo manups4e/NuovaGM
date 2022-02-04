@@ -17,6 +17,7 @@ namespace ScaleformUI
         public static PopupWarning Warning { get; set; }
         public static PlayerListHandler PlayerListInstance { get; set; }
         public static MissionSelectorHandler JobMissionSelection { get; set; }
+
         internal static Scaleform _ui { get; set; }
         public ScaleformUI()
         {
@@ -29,7 +30,8 @@ namespace ScaleformUI
             _ui = new("scaleformui");
             InstructionalButtons = new();
             InstructionalButtons.Load();
-            Tick += NativeUIThread_Tick;
+            Tick += ScaleformUIThread_Tick;
+
             EventHandlers["onResourceStop"] += new Action<string>((resName) =>
             {
                 if (resName == API.GetCurrentResourceName())
@@ -38,19 +40,20 @@ namespace ScaleformUI
                     PauseMenu.Dispose();
                 }
             });
+
         }
 
-        private async Task NativeUIThread_Tick()
+        private async Task ScaleformUIThread_Tick()
         {
             Warning.Update();
             MedMessageInstance.Update();
             BigMessageInstance.Update();
             PlayerListInstance.Update();
             JobMissionSelection.Update();
-            InstructionalButtons.HandleScaleform();
+            InstructionalButtons.Update();
 
             if (_ui is null)
-                _ui = new Scaleform("scaleformui");
+                _ui = new Scaleform("ScaleformUI");
 
             if (!PauseMenu.Loaded)
                 PauseMenu.Load();
