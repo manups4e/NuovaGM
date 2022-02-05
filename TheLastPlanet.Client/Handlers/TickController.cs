@@ -105,23 +105,22 @@ namespace TheLastPlanet.Client.Handlers
 			TickMedici.Add(MediciMainClient.BlipMorti);
 		}
 
-		public static void Stop()
+		public static async void Stop()
 		{
 			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
-			// TICK HUD \\
 			TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
-			TickHUD.Clear();
 			TickGenerici.ForEach(x => Client.Instance.RemoveTick(x));
-			TickGenerici.Clear();
 			TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
-			TickAPiedi.Clear();
 			TickVeicolo.ForEach(x => Client.Instance.RemoveTick(x));
-			TickVeicolo.Clear();
 			TickAppartamento.ForEach(x => Client.Instance.RemoveTick(x));
-			TickAppartamento.Clear();
 			TickPolizia.ForEach(x => Client.Instance.RemoveTick(x));
-			TickPolizia.Clear();
 			TickMedici.ForEach(x => Client.Instance.RemoveTick(x));
+			TickHUD.Clear();
+			TickGenerici.Clear();
+			TickAPiedi.Clear();
+			TickVeicolo.Clear();
+			TickAppartamento.Clear();
+			TickPolizia.Clear();
 			TickMedici.Clear();
 		}
 

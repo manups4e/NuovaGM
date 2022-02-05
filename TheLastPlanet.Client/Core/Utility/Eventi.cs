@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.Core.Utility
 			//Client.Instance.Events.Mount("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
 			Client.Instance.Events.Mount("lprp:sendUserInfo", new Action<string, string>(sendUserInfo));
 			Client.Instance.Events.Mount("lprp:ObjectDeleteGun", new Action<string>(DelGun));
-			Client.Instance.Events.Mount("lprp:ShowNotification", new Action<string>(notification));
+			Client.Instance.Events.Mount("tlg:ShowNotification", new Action<string>(notification));
 			Client.Instance.Events.Mount("lpop:ShowNotification", new Action<string>(notification));
 			Client.Instance.Events.Mount("lprp:death", new Action(death));
 			Client.Instance.Events.Mount("lprp:announce", new Action<string>(announce));
@@ -33,8 +33,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			Client.Instance.Events.Mount("lprp:deleteVehicle", new Action(DeleteVehicle));
 			Client.Instance.Events.Mount("lprp:mostrasalvataggio", new Action(Salva));
 
-			// da muovere in rp
-			//Client.Instance.AddTick(Mappina);
 			timer = GetGameTimer();
 		}
 
@@ -163,26 +161,6 @@ namespace TheLastPlanet.Client.Core.Utility
 			vehicle.Delete();
 		}
 
-		/*
-				public static bool wasmenuopen = false;
-				public static async Task Mappina()
-				{
-					if (Game.IsPaused && !wasmenuopen && !IsPedInAnyVehicle(PlayerPedId(), false))
-					{
-						SetCurrentPedWeapon(PlayerPedId(), 0xA2719263, true);
-						TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_TOURIST_MAP", 0, false);
-						wasmenuopen = true;
-					}
-
-					if (!Game.IsPaused && wasmenuopen && !IsPedInAnyVehicle(PlayerPedId(), false))
-					{
-						ClearPedTasks(PlayerPedId());
-						ClearPedSecondaryTask(PlayerPedId());
-						wasmenuopen = false;
-					}
-					await BaseScript.Delay(100);
-				}
-		*/
 
 		public static async void Salva()
 		{
