@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using CitizenFX.Core;
-using TheLastPlanet.Shared;
 
 namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 {

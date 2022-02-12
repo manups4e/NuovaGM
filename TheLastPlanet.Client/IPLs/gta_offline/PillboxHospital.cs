@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TheLastPlanet.Client.IPLs.gtav
 {
-	public class PillboxHospital
-	{
-		private bool _enabled = false;
-		public List<string> ipl = new List<string>(){ "rc12b_default" };
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set
-			{
-				_enabled = value;
-				IplManager.EnableIpl(ipl, _enabled);
-			}
-		}
-	}
+    public class PillboxHospital
+    {
+        private bool _enabled = false;
+        public List<string> ipl = new List<string>() { "rc12b_default" };
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                _enabled = value;
+                IplManager.EnableIpl(ipl, _enabled);
+            }
+        }
+    }
 }

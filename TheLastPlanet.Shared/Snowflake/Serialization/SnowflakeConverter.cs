@@ -1,11 +1,9 @@
-﻿using System;
-using CitizenFX.Core;
-using Logger;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace TheLastPlanet.Shared.Snowflakes.Serialization
 {
-    
+
     public class SnowflakeConverter : JsonConverter
     {
         public SnowflakeRepresentation Representation { get; set; }
@@ -24,8 +22,8 @@ namespace TheLastPlanet.Shared.Snowflakes.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             return Representation == SnowflakeRepresentation.UInt
-                ? new Snowflake((long) (reader.Value ?? 0))
-                : new Snowflake(ulong.Parse((string) reader.Value ?? "0"));
+                ? new Snowflake((long)(reader.Value ?? 0))
+                : new Snowflake(ulong.Parse((string)reader.Value ?? "0"));
         }
 
         public override bool CanConvert(Type objectType) => objectType == typeof(Snowflake);

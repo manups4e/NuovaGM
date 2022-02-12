@@ -1,10 +1,4 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -17,7 +11,7 @@ namespace TheLastPlanet.Client.IPLs
         public int Hash = -1;
         public bool Enabled
         {
-            get => enabled; 
+            get => enabled;
             set
             {
                 enabled = value;

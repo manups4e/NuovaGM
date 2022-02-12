@@ -1,7 +1,7 @@
 namespace TheLastPlanet.Shared.Internal.Events
 {
-	public class ServerId : ISource
-	{
-		public int Handle => -1;
-	}
+    public class ServerId : ISource
+    {
+        public int Handle => -1;
+    }
 }

@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Telefono;
-using TheLastPlanet.Client.Telefono.Models;
-
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core;
+using TheLastPlanet.Client.Telefono.Models;
 
 namespace TheLastPlanet.Client.Telefono.Apps
 {
-	public class Settings : App
+    public class Settings : App
     {
         private int SelectedItem { get; set; } = 0;
 
-		private SettingsSubMenu CurrentSubMenu = null;
+        private SettingsSubMenu CurrentSubMenu = null;
 
-		private static bool FirstTick = true;
-		private static string numero;
+        private static bool FirstTick = true;
+        private static string numero;
 
 
-		private static List<SettingsSubMenuItem> Themes = new List<SettingsSubMenuItem>
+        private static List<SettingsSubMenuItem> Themes = new List<SettingsSubMenuItem>
         {
             new SettingsSubMenuItem("~l~" + GetLabelText("CELL_820"), 1, 23),
             new SettingsSubMenuItem("~l~" + GetLabelText("CELL_821"), 2, 23),
@@ -53,47 +45,47 @@ namespace TheLastPlanet.Client.Telefono.Apps
             new SettingsSubMenuItem("~l~" + GetLabelText("CELL_857"), 17, 23)
         };
 
-		private static List<SettingsSubMenuItem> Standby = new List<SettingsSubMenuItem>
-		{
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_800"), 1, 25),
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_801"), 2, 26)
-		};
-
-		private static List<SettingsSubMenuItem> Suoneria = new List<SettingsSubMenuItem>
-		{
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_810"), 1, 18),
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_811"), 2, 18),
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_812"), 3, 18),
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_813"), 4, 22),
-		};
-
-		private static List<SettingsSubMenuItem> Vibrate = new List<SettingsSubMenuItem>
-		{
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_831"), 1, 21),
-			new SettingsSubMenuItem("~l~" + GetLabelText("CELL_830"), 2, 20)
-		};
-
-		private static List<SettingsSubMenuItem> Personale = new List<SettingsSubMenuItem>
-		{
-			new SettingsSubMenuItem("~l~ Numero di Telefono", 0, 21),
-			new SettingsSubMenuItem("~l~" + numero, 1, 21),
-
-
-		};
-
-		private List<SettingsSubMenu> SubMenus = new List<SettingsSubMenu>
+        private static List<SettingsSubMenuItem> Standby = new List<SettingsSubMenuItem>
         {
-			new SettingsSubMenu("Dati Personali", 25, Personale),
-			new SettingsSubMenu(GetLabelText("CELL_740"), 23, Wallpapers),
-			new SettingsSubMenu(GetLabelText("CELL_700"), 25, Standby),
-			new SettingsSubMenu(GetLabelText("CELL_710"), 18, Suoneria),
-			new SettingsSubMenu(GetLabelText("CELL_720"), 23, Themes),
-			new SettingsSubMenu(GetLabelText("CELL_730"), 20, Vibrate),
-		};
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_800"), 1, 25),
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_801"), 2, 26)
+        };
 
-		public Settings(Phone phone) : base(GetLabelText("CELL_16"), 24, phone)
+        private static List<SettingsSubMenuItem> Suoneria = new List<SettingsSubMenuItem>
         {
-			numero = Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber.ToString();
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_810"), 1, 18),
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_811"), 2, 18),
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_812"), 3, 18),
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_813"), 4, 22),
+        };
+
+        private static List<SettingsSubMenuItem> Vibrate = new List<SettingsSubMenuItem>
+        {
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_831"), 1, 21),
+            new SettingsSubMenuItem("~l~" + GetLabelText("CELL_830"), 2, 20)
+        };
+
+        private static List<SettingsSubMenuItem> Personale = new List<SettingsSubMenuItem>
+        {
+            new SettingsSubMenuItem("~l~ Numero di Telefono", 0, 21),
+            new SettingsSubMenuItem("~l~" + numero, 1, 21),
+
+
+        };
+
+        private List<SettingsSubMenu> SubMenus = new List<SettingsSubMenu>
+        {
+            new SettingsSubMenu("Dati Personali", 25, Personale),
+            new SettingsSubMenu(GetLabelText("CELL_740"), 23, Wallpapers),
+            new SettingsSubMenu(GetLabelText("CELL_700"), 25, Standby),
+            new SettingsSubMenu(GetLabelText("CELL_710"), 18, Suoneria),
+            new SettingsSubMenu(GetLabelText("CELL_720"), 23, Themes),
+            new SettingsSubMenu(GetLabelText("CELL_730"), 20, Vibrate),
+        };
+
+        public Settings(Phone phone) : base(GetLabelText("CELL_16"), 24, phone)
+        {
+            numero = Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.phoneNumber.ToString();
         }
 
         public override async Task Tick()
@@ -118,15 +110,15 @@ namespace TheLastPlanet.Client.Telefono.Apps
                     if (!String.IsNullOrEmpty(CurrentSubMenu.Name))
                     {
                         appName = CurrentSubMenu.Name;
-					}
-				}
+                    }
+                }
             }
             else
             {
                 foreach (SettingsSubMenu subMenu in SubMenus)
                 {
                     Phone.Scaleform.CallFunction("SET_DATA_SLOT", 13, SubMenus.IndexOf(subMenu), subMenu.Icon, "~l~" + subMenu.Name);
-                }                
+                }
             }
 
             Phone.Scaleform.CallFunction("SET_HEADER", "~w~" + appName);
@@ -134,80 +126,80 @@ namespace TheLastPlanet.Client.Telefono.Apps
             Phone.Scaleform.CallFunction("DISPLAY_VIEW", 13, SelectedItem);
 
             bool navigated = true;
-			if (Input.IsControlJustPressed(Control.PhoneUp))
-			{
-				MoveFinger(1);
-				if (SelectedItem > 0)
-					SelectedItem -= 1;
-				else if (CurrentSubMenu != null)
-					SelectedItem = CurrentSubMenu.Items.Count - 1;
-				else
-					SelectedItem = SubMenus.Count - 1;
-			}
-			else if (Input.IsControlJustPressed(Control.PhoneDown))
-			{
-				MoveFinger(2);
-				if (CurrentSubMenu == null)
-				{
-					if (SelectedItem < SubMenus.Count - 1)
-						SelectedItem += 1;
-					else
-						SelectedItem = 0;
-				}
-				else
-				{
-					if (SelectedItem < CurrentSubMenu.Items.Count - 1)
-						SelectedItem += 1;
-					else
-						SelectedItem = 0;
-				}
-			}
-			else if (Input.IsControlJustPressed(Control.FrontendAccept))
-			{
-				MoveFinger(5);
-				if (CurrentSubMenu == null)
-				{
-					CurrentSubMenu = SubMenus[SelectedItem];
-					SelectedItem = 0;
-				}
-				else
-				{
-					if (CurrentSubMenu.Name == GetLabelText("CELL_720"))
-						SetTheme(CurrentSubMenu.Items[SelectedItem].Id);
-					else if (CurrentSubMenu.Name == GetLabelText("CELL_740"))
-						SetWallpaper(CurrentSubMenu.Items[SelectedItem].Id);
-					else if (CurrentSubMenu.Name == GetLabelText("CELL_700"))
-						SetSleep(CurrentSubMenu.Items[SelectedItem].Id);
-					else if (CurrentSubMenu.Name == GetLabelText("CELL_710"))
-						SetRingtone(CurrentSubMenu.Items[SelectedItem].Id);
-					else if (CurrentSubMenu.Name == GetLabelText("CELL_730"))
-						SetVibration(CurrentSubMenu.Items[SelectedItem].Id);
-				}
-			}
-			else if (Input.IsControlJustPressed(Control.FrontendCancel))
-			{
-				MoveFinger(5);
-				if (CurrentSubMenu != null)
-				{
-					CurrentSubMenu = null;
-					SelectedItem = 0;
-				}
-				else
-				{
-					navigated = false;
-					BaseScript.TriggerEvent("lprp:phone_start", "Main");
-				}
-			}
-			else
-			{
-				navigated = false;
-			}
+            if (Input.IsControlJustPressed(Control.PhoneUp))
+            {
+                MoveFinger(1);
+                if (SelectedItem > 0)
+                    SelectedItem -= 1;
+                else if (CurrentSubMenu != null)
+                    SelectedItem = CurrentSubMenu.Items.Count - 1;
+                else
+                    SelectedItem = SubMenus.Count - 1;
+            }
+            else if (Input.IsControlJustPressed(Control.PhoneDown))
+            {
+                MoveFinger(2);
+                if (CurrentSubMenu == null)
+                {
+                    if (SelectedItem < SubMenus.Count - 1)
+                        SelectedItem += 1;
+                    else
+                        SelectedItem = 0;
+                }
+                else
+                {
+                    if (SelectedItem < CurrentSubMenu.Items.Count - 1)
+                        SelectedItem += 1;
+                    else
+                        SelectedItem = 0;
+                }
+            }
+            else if (Input.IsControlJustPressed(Control.FrontendAccept))
+            {
+                MoveFinger(5);
+                if (CurrentSubMenu == null)
+                {
+                    CurrentSubMenu = SubMenus[SelectedItem];
+                    SelectedItem = 0;
+                }
+                else
+                {
+                    if (CurrentSubMenu.Name == GetLabelText("CELL_720"))
+                        SetTheme(CurrentSubMenu.Items[SelectedItem].Id);
+                    else if (CurrentSubMenu.Name == GetLabelText("CELL_740"))
+                        SetWallpaper(CurrentSubMenu.Items[SelectedItem].Id);
+                    else if (CurrentSubMenu.Name == GetLabelText("CELL_700"))
+                        SetSleep(CurrentSubMenu.Items[SelectedItem].Id);
+                    else if (CurrentSubMenu.Name == GetLabelText("CELL_710"))
+                        SetRingtone(CurrentSubMenu.Items[SelectedItem].Id);
+                    else if (CurrentSubMenu.Name == GetLabelText("CELL_730"))
+                        SetVibration(CurrentSubMenu.Items[SelectedItem].Id);
+                }
+            }
+            else if (Input.IsControlJustPressed(Control.FrontendCancel))
+            {
+                MoveFinger(5);
+                if (CurrentSubMenu != null)
+                {
+                    CurrentSubMenu = null;
+                    SelectedItem = 0;
+                }
+                else
+                {
+                    navigated = false;
+                    BaseScript.TriggerEvent("lprp:phone_start", "Main");
+                }
+            }
+            else
+            {
+                navigated = false;
+            }
 
             if (navigated)
             {
                 Game.PlaySound("Menu_Navigate", "Phone_SoundSet_Default");
             }
-			await Task.FromResult(0);
+            await Task.FromResult(0);
         }
 
         public override void Initialize(Phone phone)
@@ -226,38 +218,38 @@ namespace TheLastPlanet.Client.Telefono.Apps
         public void SetTheme(int themeId)
         {
             Phone.getCurrentCharPhone().Theme = themeId;
-			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "Theme", themeId);
-		}
-
-		public void SetWallpaper(int wallpaperId)
-        {
-            Phone.getCurrentCharPhone().Wallpaper = wallpaperId;
-			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "wall", wallpaperId);
+            BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "Theme", themeId);
         }
 
-		public void SetRingtone(int ringtoneId)
-		{
-			Phone.getCurrentCharPhone().Ringtone = ringtoneId;
-			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "ring", ringtoneId);
-		}
-		public void SetVibration(int Vibe)
-		{
-			if (Vibe == 2)
-				SetPadShake(0, 300, 200);
-			Phone.getCurrentCharPhone().Vibration = Vibe;
-			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "vibe", Vibe);
-		}
+        public void SetWallpaper(int wallpaperId)
+        {
+            Phone.getCurrentCharPhone().Wallpaper = wallpaperId;
+            BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "wall", wallpaperId);
+        }
 
-		public void SetSleep(int toggle)
-		{
-			if (toggle == 2)
-				HUD.ShowHelp("Attenzione! Se attivi la modalità StandBy non riceverai chiamate da nessuno!~n~Potrai ricevere di nuovo chiamate quando riattiverai la modalità normale");
-			Phone.getCurrentCharPhone().SleepMode = toggle;
-			BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "sleep", toggle);
-		}
-	}
+        public void SetRingtone(int ringtoneId)
+        {
+            Phone.getCurrentCharPhone().Ringtone = ringtoneId;
+            BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "ring", ringtoneId);
+        }
+        public void SetVibration(int Vibe)
+        {
+            if (Vibe == 2)
+                SetPadShake(0, 300, 200);
+            Phone.getCurrentCharPhone().Vibration = Vibe;
+            BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "vibe", Vibe);
+        }
 
-	public class SettingsSubMenu
+        public void SetSleep(int toggle)
+        {
+            if (toggle == 2)
+                HUD.ShowHelp("Attenzione! Se attivi la modalità StandBy non riceverai chiamate da nessuno!~n~Potrai ricevere di nuovo chiamate quando riattiverai la modalità normale");
+            Phone.getCurrentCharPhone().SleepMode = toggle;
+            BaseScript.TriggerServerEvent("lprp:phone:updatePhones", "sleep", toggle);
+        }
+    }
+
+    public class SettingsSubMenu
     {
         public string Name { get; private set; }
         public int Icon { get; private set; }
@@ -275,13 +267,13 @@ namespace TheLastPlanet.Client.Telefono.Apps
     {
         public string Name { get; set; }
         public int Id { get; set; }
-		public int Icon { get; set; }
+        public int Icon { get; set; }
 
-		public SettingsSubMenuItem(string name, int id, int icon)
+        public SettingsSubMenuItem(string name, int id, int icon)
         {
             Name = name;
             Id = id;
-			Icon = icon;
+            Icon = icon;
         }
     }
 }

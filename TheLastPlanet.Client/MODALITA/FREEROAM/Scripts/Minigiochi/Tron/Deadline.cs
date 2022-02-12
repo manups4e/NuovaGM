@@ -1,20 +1,15 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Cache;
 
 namespace Client.Scripts.Minigiochi.Tron
 {
-	static class Deadline
-	{
-		public static void Init()
-		{
+    static class Deadline
+    {
+        public static void Init()
+        {
 
-		}
+        }
         static Vector4[] posList = new Vector4[99];
 
         public static async Task OnTick()

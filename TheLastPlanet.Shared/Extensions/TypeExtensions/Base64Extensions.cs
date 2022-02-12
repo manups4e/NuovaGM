@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TheLastPlanet.Shared.TypeExtensions
 {
-    
+
     public static class Base64Extensions
     {
         public static string ToBase64(this string value)

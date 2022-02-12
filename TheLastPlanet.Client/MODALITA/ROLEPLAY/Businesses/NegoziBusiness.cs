@@ -1,20 +1,16 @@
-﻿using CitizenFX.Core;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using ScaleformUI;
-using TheLastPlanet.Shared;
+﻿using Impostazioni.Client.Configurazione.Negozi.Generici;
 using System.Collections.Generic;
 using System.Linq;
-using Impostazioni.Client.Configurazione.Negozi.Generici;
+using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 {
-	internal static class NegoziBusiness
-	{
-		public static void Init()
-		{
-			/*
+    internal static class NegoziBusiness
+    {
+        public static void Init()
+        {
+            /*
 			Client.Instance().AddEventHandler("lprp:negozi:setstations", new Action<string, string>(SetStations));
 			Client.Instance().AddEventHandler("lprp:negozi:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
 			Client.Instance().AddEventHandler("lprp:negozi:getstationcash", new Action<int>(GetStationCash));
@@ -27,81 +23,81 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 			Client.Instance().AddEventHandler("lprp:negozi:addstationfunds", new Action<dynamic>(AddStationFunds));
 			Client.Instance().AddEventHandler("lprp:negozi:remstationfunds", new Action<dynamic>(RemStationFunds));
 			*/
-		}
+        }
 
-		public static void Stop()
-		{
-		}
+        public static void Stop()
+        {
+        }
 
-		public static void NegozioPubblico(string tipo)
-		{
-			KeyValuePair<string, string> neg = Main.Textures[tipo];
-			string description = "";
-			List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.shared;
+        public static void NegozioPubblico(string tipo)
+        {
+            KeyValuePair<string, string> neg = Main.Textures[tipo];
+            string description = "";
+            List<OggettoVendita> oggettiDaAggiungere = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.shared;
 
-			switch (tipo)
-			{
-				case "247":
-					description = "Aperti 24/7!";
-					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
+            switch (tipo)
+            {
+                case "247":
+                    description = "Aperti 24/7!";
+                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.tfs.ForEach(x => oggettiDaAggiungere.Add(x));
 
-					break;
-				case "ltd":
-					description = "Non è mica infinita!";
-					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
+                    break;
+                case "ltd":
+                    description = "Non è mica infinita!";
+                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.ltd.ForEach(x => oggettiDaAggiungere.Add(x));
 
-					break;
-				case "rq":
-					description = "I liquori migliori!";
-					Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
+                    break;
+                case "rq":
+                    description = "I liquori migliori!";
+                    Client.Impostazioni.RolePlay.Negozi.NegoziGenerici.OggettiDaVendere.rq.ForEach(x => oggettiDaAggiungere.Add(x));
 
-					break;
-			}
+                    break;
+            }
 
-			UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
-			HUD.MenuPool.Add(Negozio);
+            UIMenu Negozio = new UIMenu("", description, new System.Drawing.PointF(1470, 500), neg.Key, neg.Value);
+            HUD.MenuPool.Add(Negozio);
 
-			foreach (OggettoVendita ogg in oggettiDaAggiungere)
-			{
-				UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
-				if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo || Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
-					oggetto.SetRightLabel($"~g~${ogg.prezzo}");
-				else
-					oggetto.SetRightLabel($"~r~${ogg.prezzo}");
-				Negozio.AddItem(oggetto);
-			}
+            foreach (OggettoVendita ogg in oggettiDaAggiungere)
+            {
+                UIMenuItem oggetto = new UIMenuItem(ConfigShared.SharedConfig.Main.Generici.ItemList[ogg.oggetto].label, "");
+                if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo || Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
+                    oggetto.SetRightLabel($"~g~${ogg.prezzo}");
+                else
+                    oggetto.SetRightLabel($"~r~${ogg.prezzo}");
+                Negozio.AddItem(oggetto);
+            }
 
-			Negozio.OnItemSelect += (menu, item, index) =>
-			{
-				string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Label).Key;
+            Negozio.OnItemSelect += (menu, item, index) =>
+            {
+                string nome = ConfigShared.SharedConfig.Main.Generici.ItemList.FirstOrDefault(x => x.Value.label == item.Label).Key;
 
-				if (!string.IsNullOrEmpty(nome))
-				{
-					OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
+                if (!string.IsNullOrEmpty(nome))
+                {
+                    OggettoVendita ogg = oggettiDaAggiungere.FirstOrDefault(x => x.oggetto == nome);
 
-					if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo)
-					{
-						BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
-						BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
-					}
-					else
-					{
-						if (Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
-						{
-							BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
-							BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
-						}
-						else
-						{
-							HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
-						}
-					}
-				}
-			};
-			Negozio.Visible = true;
-		}
+                    if (Cache.PlayerCache.MyPlayer.User.Money >= ogg.prezzo)
+                    {
+                        BaseScript.TriggerServerEvent("lprp:removemoney", ogg.prezzo);
+                        BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
+                    }
+                    else
+                    {
+                        if (Cache.PlayerCache.MyPlayer.User.Bank >= ogg.prezzo)
+                        {
+                            BaseScript.TriggerServerEvent("lprp:removebank", ogg.prezzo);
+                            BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", ogg.oggetto, 1, 1f);
+                        }
+                        else
+                        {
+                            HUD.ShowNotification("Non hai abbastanza denaro!", NotificationColor.Red, true);
+                        }
+                    }
+                }
+            };
+            Negozio.Visible = true;
+        }
 
-		/*
+        /*
 		public void SetStations(string lista, string license)
 		{
 			List<dynamic> newlist = new List<dynamic>();
@@ -240,7 +236,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 		}
 
 		*/
-		/*
+        /*
 		public async Task BusinessesPumps()
 		{
 			for (int i = 0; i < stations.Count; i++)
@@ -289,5 +285,5 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 			}
 		}
 		*/
-	}
+    }
 }

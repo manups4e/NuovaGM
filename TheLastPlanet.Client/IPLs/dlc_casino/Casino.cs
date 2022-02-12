@@ -1,15 +1,9 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.TimeWeather;
-using CitizenFX.Core.UI;
 
 namespace TheLastPlanet.Client.IPLs.dlc_casino
 {

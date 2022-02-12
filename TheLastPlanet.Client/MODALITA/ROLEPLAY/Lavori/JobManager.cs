@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
 {
-	internal static class JobManager
-	{
-		public static List<LavoroBase> Registered { get; set; } = new List<LavoroBase>();
+    internal static class JobManager
+    {
+        public static List<LavoroBase> Registered { get; set; } = new List<LavoroBase>();
 
-		private static void Init() 
-		{
+        private static void Init()
+        {
             RegisterJob(new PescatoreJob());
-		}
+        }
 
         public static async void RegisterJob(LavoroBase job)
         {

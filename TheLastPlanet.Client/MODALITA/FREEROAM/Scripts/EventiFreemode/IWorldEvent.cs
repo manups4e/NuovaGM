@@ -1,14 +1,6 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using static CitizenFX.Core.Native.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared;
-using Logger;
-using ScaleformUI;
 using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
@@ -30,12 +22,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
         public TimeSpan TimeRemaining { get; set; }
         public TextTimerBar CountdownTimerBar = new("Nuovo Evento", "") { Enabled = true };
         public TextTimerBar TimeRemainingTimerBar = new("Fine evento", "") { Enabled = true };
-        public TextTimerBar CurrentAttemptTimerBar = new("Tentativo attuale", "0"){ Enabled = true };
-        public TextTimerBar YourBestTimerBar = new("Il tuo meglio", "0"){ Enabled = true };
-        public TextTimerBar FirstPlaceTimerBar = new("~y~1°: Player 1", "~y~0"){ Enabled = true };
-        public TextTimerBar SecondPlaceTimerBar = new("~c~2°: Player 2", "~c~0"){ Enabled = true };
-        public TextTimerBar ThirdPlaceTimerBar = new("~o~3°: Player 3", "~o~0"){ Enabled = true };
-        public TextTimerBar EventNameTimerBar = new("Nome Evento:", ""){ Enabled = true };
+        public TextTimerBar CurrentAttemptTimerBar = new("Tentativo attuale", "0") { Enabled = true };
+        public TextTimerBar YourBestTimerBar = new("Il tuo meglio", "0") { Enabled = true };
+        public TextTimerBar FirstPlaceTimerBar = new("~y~1°: Player 1", "~y~0") { Enabled = true };
+        public TextTimerBar SecondPlaceTimerBar = new("~c~2°: Player 2", "~c~0") { Enabled = true };
+        public TextTimerBar ThirdPlaceTimerBar = new("~o~3°: Player 3", "~o~0") { Enabled = true };
+        public TextTimerBar EventNameTimerBar = new("Nome Evento:", "") { Enabled = true };
 
         public virtual Dictionary<Vector4, VehicleHash> VehicleSpawnLocations { get; set; }
 

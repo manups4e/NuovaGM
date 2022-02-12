@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.Telefono.Models
 {
@@ -10,8 +6,8 @@ namespace TheLastPlanet.Client.Telefono.Models
     {
         public string Name { get; set; }
         public int Icon { get; set; }
-		int SelectedItem;
-		public bool OverrideBack { get; set; }
+        int SelectedItem;
+        public bool OverrideBack { get; set; }
         public Phone Phone { get; set; }
 
         public App(string name, int icon, Phone phone, bool overrideBack = true)
@@ -28,5 +24,5 @@ namespace TheLastPlanet.Client.Telefono.Models
 
         public abstract void Kill();
 
-	}
+    }
 }

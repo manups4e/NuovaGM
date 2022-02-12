@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Client.Core.PlayerChar;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
 {
@@ -63,8 +56,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
     }
 
     public abstract class LavoroBase
-	{
-		public abstract Employment Lavoro { get; set; }
+    {
+        public abstract Employment Lavoro { get; set; }
         public abstract string Label { get; set; }
         public abstract void OnJobSet();
         public abstract void OnJobRemoved();

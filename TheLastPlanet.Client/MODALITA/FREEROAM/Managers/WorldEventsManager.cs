@@ -1,17 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using static CitizenFX.Core.Native.API;
-using Newtonsoft.Json;
-using Logger;
-using TheLastPlanet.Shared;
-using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
-using TheLastPlanet.Client.Core.Utility.HUD;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -94,7 +87,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             {
                 await BaseScript.Delay(1000);
 
-                if(JoinWaitTime != 0)
+                if (JoinWaitTime != 0)
                     JoinWaitTime--;
 
                 if (DownTime != 0)
@@ -114,19 +107,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
             if (isStarted)
             {
-                if(ActiveWorldEvent.TimeRemaining.TotalSeconds != eventTime)
+                if (ActiveWorldEvent.TimeRemaining.TotalSeconds != eventTime)
                     ActiveWorldEvent.TimeRemaining = TimeSpan.FromSeconds(eventTime);
             }
             else
             {
-                if(ActiveWorldEvent.CountdownTime.TotalSeconds != eventTime)
+                if (ActiveWorldEvent.CountdownTime.TotalSeconds != eventTime)
                     ActiveWorldEvent.CountdownTime = TimeSpan.FromSeconds(eventTime);
             }
         }
 
         private static void OnGetEventData(int eventId, float currentAttempt, float bestAttempt)
         {
-            if (ActiveWorldEvent == null){ return; }
+            if (ActiveWorldEvent == null) { return; }
 
             ActiveWorldEvent.CurrentAttempt = currentAttempt;
             ActiveWorldEvent.BestAttempt = bestAttempt;

@@ -1,8 +1,4 @@
-﻿
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using ScaleformUI;
-using ScaleformUI.PauseMenu;
+﻿using ScaleformUI.PauseMenu;
 using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Core.Ingresso;
@@ -12,7 +8,6 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.RolePlay.MenuPausa
 {

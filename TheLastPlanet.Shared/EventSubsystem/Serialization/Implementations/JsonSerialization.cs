@@ -1,7 +1,7 @@
+using Newtonsoft.Json;
 using System;
 using System.Text;
 using TheLastPlanet.Shared.Internal.Events.Diagnostics;
-using Newtonsoft.Json;
 
 namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
 {
@@ -18,7 +18,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
         {
             context.Writer.Write(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)));
         }
-       
+
         public void Serialize<T>(T value, SerializationContext context)
         {
             Serialize(typeof(T), value, context);

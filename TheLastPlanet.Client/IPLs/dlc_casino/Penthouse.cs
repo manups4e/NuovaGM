@@ -1,10 +1,4 @@
 ﻿using CitizenFX.Core.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.IPLs.dlc_casino
 {
@@ -108,7 +102,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
 
         public void Clear(bool refresh = true)
         {
-            for(int i=1; i<10; i++)
+            for (int i = 1; i < 10; i++)
             {
                 var patt = "Set_Pent_Pattern_0" + i;
                 IplManager.SetIplPropState(Penthouse.InteriorId, patt, false, refresh);
@@ -175,7 +169,7 @@ namespace TheLastPlanet.Client.IPLs.dlc_casino
         public string None = "";
         public string Retro = "Set_Pent_Arcade_Retro";
         public string Modern = "Set_Pent_Arcade_Modern";
-    
+
         public void Set(string value, bool refresh = true)
         {
             Clear(false);

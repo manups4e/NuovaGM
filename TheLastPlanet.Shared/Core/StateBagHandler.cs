@@ -1,7 +1,5 @@
 ﻿using CitizenFX.Core.Native;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheLastPlanet.Shared
 {
@@ -48,7 +46,7 @@ namespace TheLastPlanet.Shared
                             break;
                     }
                 }
-                else 
+                else
                 {
                     var entType = bagName.Substring(0, bagName.IndexOf(':'));
                     int userId = Convert.ToInt32(bagName.Substring(bagName.IndexOf(':') + 1));

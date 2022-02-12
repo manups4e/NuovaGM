@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CitizenFX.Core;
 
 namespace Impostazioni.Client.Configurazione.Negozi.Generici
 {
@@ -23,7 +22,7 @@ namespace Impostazioni.Client.Configurazione.Negozi.Generici
     public class OggettoVendita
     {
         public string oggetto { get; set; }
-        public int prezzo{ get; set; }
+        public int prezzo { get; set; }
     }
 
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CitizenFX.Core;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events.Diagnostics;
 using TheLastPlanet.Shared.Internal.Events.Message;
@@ -10,7 +9,7 @@ using TheLastPlanet.Shared.Internal.Events.Serialization.Implementations;
 
 namespace TheLastPlanet.Client.Internal.Events
 {
-	public class ClientGateway : BaseGateway
+    public class ClientGateway : BaseGateway
     {
         public List<NetworkMessage> Buffer { get; } = new List<NetworkMessage>();
         protected override ISerialization Serialization { get; }

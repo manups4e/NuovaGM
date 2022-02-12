@@ -1,18 +1,15 @@
-﻿using System;
+﻿using Logger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using Logger;
 using TheLastPlanet.Shared.Internal.Events.Diagnostics;
 using TheLastPlanet.Shared.Internal.Events.Exceptions;
 using TheLastPlanet.Shared.Internal.Events.Message;
 using TheLastPlanet.Shared.Internal.Events.Models;
 using TheLastPlanet.Shared.Internal.Events.Payload;
 using TheLastPlanet.Shared.Internal.Events.Serialization;
-using TheLastPlanet.Shared.TypeExtensions;
-using System.Data.Common;
 
 namespace TheLastPlanet.Shared.Internal.Events
 {

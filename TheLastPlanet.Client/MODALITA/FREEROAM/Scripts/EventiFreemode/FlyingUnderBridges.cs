@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
@@ -138,7 +133,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
             await VehicleManager.SpawnEventVehicles(VehicleSpawnLocations);
 
-            HUD.ShowAdvancedNotification("Velivoli di ogni genere avvistati in tutta Los Santos! Molti pronti per il decollo sono all'AILS.", "Fly By Intel", "Da: Josef", "CHAR_JOSEF", "CHAR_JOSEF", HudColor.HUD_COLOUR_REDDARK, Color.FromArgb(255, 255,255,255), true, NotificationType.Mail);
+            HUD.ShowAdvancedNotification("Velivoli di ogni genere avvistati in tutta Los Santos! Molti pronti per il decollo sono all'AILS.", "Fly By Intel", "Da: Josef", "CHAR_JOSEF", "CHAR_JOSEF", HudColor.HUD_COLOUR_REDDARK, Color.FromArgb(255, 255, 255, 255), true, NotificationType.Mail);
 
             base.OnEventActivated();
 
@@ -185,9 +180,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     Screen.ShowSubtitle("Volare sotto un ponte non nega l'aquisizione di punti agli altri giocatori. Non puoi ottenere punti volando sotto lo stesso ponte più di una volta", 50);
 
                     var currentVehicle = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
-                    if(currentVehicle == null) { return; }
+                    if (currentVehicle == null) { return; }
 
-                    if(!Cache.PlayerCache.MyPlayer.Ped.IsInFlyingVehicle) { return; }
+                    if (!Cache.PlayerCache.MyPlayer.Ped.IsInFlyingVehicle) { return; }
 
                     var vehiclePos = currentVehicle.Position;
                     foreach (var bridge in UnderBridgeLocations.Keys.ToList())
@@ -196,7 +191,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                         {
 
                             var dist = vehiclePos.DistanceToSquared(bridge);
-                            if(dist > 90000f) { continue; }
+                            if (dist > 90000f) { continue; }
                             World.DrawMarker(MarkerType.HorizontalCircleFat, bridge, Vector3.Zero, new Vector3(90, 90, 0), new Vector3(22f), Color.FromArgb(150, 240, 200, 80), faceCamera: true);
                             World.DrawMarker(MarkerType.ChevronUpx2, bridge, Cache.PlayerCache.MyPlayer.Ped.ForwardVector, new Vector3(90, 90, 0), new Vector3(11f), Color.FromArgb(110, 93, 182, 229));
 
@@ -211,7 +206,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                                     ActiveBlips.Remove(blip);
                                     blip.Delete();
                                 }
-                                
+
                                 var x = (int)CurrentAttempt;
                                 var y = x + 1;
                                 StatIncrement(hash, 1);

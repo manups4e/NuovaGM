@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TheLastPlanet.Shared.TypeExtensions
 {
-    
+
     public static class EnumerableExtensions
     {
         public static string GetString(this List<object> list, int index)
@@ -61,7 +61,7 @@ namespace TheLastPlanet.Shared.TypeExtensions
             for (var i = 0; i < list.Count; i++)
             {
                 var entry = list[i];
-                
+
                 if (filter.Invoke(entry))
                 {
                     index = i;

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {

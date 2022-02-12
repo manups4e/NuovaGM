@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CitizenFX.Core.Native;
+using System;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
@@ -25,8 +21,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         private void VehicleDamaged(int vehicle, int attacker, uint weaponHash, bool isMeleeDamage, int vehicleDamageTypeFlag)
         {
-            if (IsStarted) 
-            {   
+            if (IsStarted)
+            {
                 Vehicle veh = new(vehicle);
                 if (veh == Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle)
                 {
@@ -50,7 +46,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     var x = 0;
                     var p = 0;
                     API.StatGetInt(unchecked((uint)PlayerStats.NumberNearMisses), ref x, -1);
-                    if(x != 0)
+                    if (x != 0)
                         CurrentAttempt = x;
                     API.StatGetInt(unchecked((uint)PlayerStats.NumberNearMissesNoCrash), ref p, -1);
                     BestAttempt = p;

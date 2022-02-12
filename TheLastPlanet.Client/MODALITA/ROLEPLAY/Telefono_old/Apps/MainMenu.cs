@@ -1,12 +1,7 @@
-﻿using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Client.Telefono.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Telefono.Models;
 
 namespace TheLastPlanet.Client.Telefono.Apps
 {
@@ -19,7 +14,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
         {
             AllApps = allApps;
 
-            Client.Logger.Debug( $"Apps totali {AllApps.Count}");
+            Client.Logger.Debug($"Apps totali {AllApps.Count}");
         }
 
         public override async Task Tick()
@@ -90,7 +85,7 @@ namespace TheLastPlanet.Client.Telefono.Apps
             }
             catch (Exception e)
             {
-                Client.Logger.Error( $"{e.Message} : Exception thrown on Apps.Main.Tick()");
+                Client.Logger.Error($"{e.Message} : Exception thrown on Apps.Main.Tick()");
             }
         }
 

@@ -577,7 +577,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
             }
         }
 
-		public void Serialize<T>(T value, SerializationContext context) => Serialize(typeof(T), value, context);
+        public void Serialize<T>(T value, SerializationContext context) => Serialize(typeof(T), value, context);
         public object Deserialize(Type type, SerializationContext context) => Deserialize<object>(type, context);
         public T Deserialize<T>(SerializationContext context) => Deserialize<T>(typeof(T), context);
 

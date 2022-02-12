@@ -1,11 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
@@ -19,7 +15,7 @@ namespace TheLastPlanet.Shared
         public float Yaw { get; set; }
         public float Pitch { get; set; }
         public float Roll { get; set; }
-        
+
         public static readonly Position Zero = new();
 
 
@@ -254,7 +250,7 @@ namespace TheLastPlanet.Shared
         public static bool operator >=(float left, Position right) => left >= right.X || left >= right.Y || left >= right.Z || left >= right.Yaw || left >= right.Pitch || left >= right.Roll;
         public static bool operator <=(float left, Position right) => left <= right.X || left <= right.Y || left <= right.Z || left <= right.Yaw || left <= right.Pitch || left <= right.Roll;
 
-        public bool Equals(ref Position other) => other is not null && MathUtil.NearEqual(other.X, X) && MathUtil.NearEqual(other.Y, Y) && MathUtil.NearEqual(other.Z, Z) 
+        public bool Equals(ref Position other) => other is not null && MathUtil.NearEqual(other.X, X) && MathUtil.NearEqual(other.Y, Y) && MathUtil.NearEqual(other.Z, Z)
             && MathUtil.NearEqual(other.Yaw, Yaw) && MathUtil.NearEqual(other.Pitch, Pitch) && MathUtil.NearEqual(other.Roll, Roll);
 
         public bool Equals(Position other) => Equals(ref other);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
@@ -25,6 +23,6 @@ namespace TheLastPlanet.Shared
         public float RandomWindDirection { get; set; }
         public bool DynamicMeteo { get; set; } = true;
         public bool StartUp { get; set; } = false;
-        public float WindSpeed { get; set; } 
+        public float WindSpeed { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
@@ -11,7 +10,6 @@ using TheLastPlanet.Server;
 #elif CLIENT
 using TheLastPlanet.Client.Core.PlayerChar;
 #endif
-using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
@@ -30,19 +28,23 @@ namespace TheLastPlanet.Shared.Internal.Events
         //public ClientStateBags ClientStateBags { get; set; }
 #if CLIENT
         private Ped _ped;
-        [Ignore][JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public Position Posizione { get; set; }
-        [Ignore][JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public bool Ready => User != null;
-        [Ignore] [JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public Player Player { get => new(API.GetPlayerFromServerId(Handle)); }
-        [Ignore][JsonIgnore]
-        public Ped Ped 
+        [Ignore]
+        [JsonIgnore]
+        public Ped Ped
         {
             get
             {
                 var handle = API.PlayerPedId();
-                if(_ped is null || _ped.Handle != handle)
+                if (_ped is null || _ped.Handle != handle)
                     _ped = new Ped(handle);
                 return _ped;
             }
@@ -62,10 +64,10 @@ namespace TheLastPlanet.Shared.Internal.Events
         public ClientId() { }
 #if CLIENT
         public ClientId(Tuple<Snowflake, User> value)
-		{
+        {
             Id = value.Item1;
             Handle = Game.Player.ServerId;
-			User = new(value.Item2);
+            User = new(value.Item2);
             //ClientStateBags = new ClientStateBags(Player);
         }
 #endif
@@ -157,7 +159,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         }
 
         public void LoadUser()
-		{
+        {
             ClientId res;
 #if SERVER
              res = Server.Server.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);

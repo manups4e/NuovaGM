@@ -1,23 +1,16 @@
-﻿using CitizenFX.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
+﻿namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 {
-	public class Hotel
-	{
-		public string Name;
-		public Vector3 Coords;
-		public PrezzoHotel Prezzi = new PrezzoHotel();
-	}
+    public class Hotel
+    {
+        public string Name;
+        public Vector3 Coords;
+        public PrezzoHotel Prezzi = new PrezzoHotel();
+    }
 
-	public class PrezzoHotel
-	{
-		public int StanzaPiccola;
-		public int StanzaMedia;
-		public int Appartamento;
-	}
+    public class PrezzoHotel
+    {
+        public int StanzaPiccola;
+        public int StanzaMedia;
+        public int Appartamento;
+    }
 }

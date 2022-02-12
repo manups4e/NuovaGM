@@ -1,12 +1,6 @@
-﻿using System;
+﻿using CitizenFX.Core.Native;
+using System;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using ScaleformUI;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {

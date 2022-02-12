@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using CitizenFX.Core.UI;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.TimeWeather
 {
@@ -12,34 +6,34 @@ namespace TheLastPlanet.Client.TimeWeather
     {
         private static TimeSpan currentDayTime;
         public static TimeSpan CurrentDayTime
-		{
-			get
-			{
-				if (NetworkIsClockTimeOverridden()) return OverriddenDayTime;
-				int h = 0, m = 0, s = 0;
-				NetworkGetGlobalMultiplayerClock(ref h, ref m, ref s);
-				currentDayTime = new TimeSpan(h, m, s);
-				return currentDayTime;
-			}
-			//set => currentDayTime = value;
-		}
-		public static TimeSpan OverriddenDayTime;
+        {
+            get
+            {
+                if (NetworkIsClockTimeOverridden()) return OverriddenDayTime;
+                int h = 0, m = 0, s = 0;
+                NetworkGetGlobalMultiplayerClock(ref h, ref m, ref s);
+                currentDayTime = new TimeSpan(h, m, s);
+                return currentDayTime;
+            }
+            //set => currentDayTime = value;
+        }
+        public static TimeSpan OverriddenDayTime;
 
-		public static void Init()
+        public static void Init()
         {
 
         }
 
-		public static void Stop()
+        public static void Stop()
         {
 
         }
 
-		public static async void Override(int h, int m, int s)
+        public static async void Override(int h, int m, int s)
         {
 
-		}
-		public static async void Override(int ticks)
+        }
+        public static async void Override(int ticks)
         {
 
             /*

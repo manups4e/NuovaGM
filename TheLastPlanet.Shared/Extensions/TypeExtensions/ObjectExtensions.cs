@@ -1,10 +1,8 @@
 ﻿using System;
 
-using TheLastPlanet.Shared;
-
 namespace TheLastPlanet.Shared.TypeExtensions
 {
-    
+
     public static class ObjectExtensions
     {
         public static void Clone(this object source, object destination, bool defaults = true)
@@ -29,7 +27,7 @@ namespace TheLastPlanet.Shared.TypeExtensions
                     }
 
                     if (!defaults && value == null) continue;
-                    
+
                     target.SetValue(destination, !primitive ? value.ToString().FromJson(property.PropertyType) : value, null);
                 }
             }

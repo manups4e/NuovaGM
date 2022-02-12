@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using System.Collections.Generic;
 using TheLastPlanet.Client.IPLs.dlc_afterhours;
 using TheLastPlanet.Client.IPLs.dlc_bikers;
@@ -17,77 +16,77 @@ using TheLastPlanet.Client.IPLs.gtav;
 
 namespace TheLastPlanet.Client.IPLs
 {
-	public static class IPLInstance
-	{
-		// TODO: SPOSTARE IN LUOGO MIGLIORE.
-		public static Michael Michael = new();
-		public static Simeon Simeon = new();
-		public static FranklinAunt FranklinAunt = new();
-		public static Franklin Franklin = new();
-		public static Floyd Floyd = new();
-		public static TrevorsTrailer TrevorsTrailer = new();
-		public static BahamaMamas BahamaMamas = new();
-		public static PillboxHospital PillboxHospital = new();
-		public static ZancudoGates ZancudoGates = new();
-		public static Ammunations Ammunations = new();
-		public static LesterFactory LesterFactory = new();
-		public static StripClub StripClub = new();
-		public static Graffitis Graffitis = new();
-		public static UFO UFO = new();
-		public static RedCarpet RedCarpet = new();
-		public static NorthYankton NorthYankton = new();
-		public static GTAOApartmentHi1 GTAOApartmentHi1 = new();
-		public static GTAOApartmentHi2 GTAOApartmentHi2 = new();
-		public static GTAOHouseHi1 GTAOHouseHi1 = new();
-		public static GTAOHouseHi2 GTAOHouseHi2 = new();
-		public static GTAOHouseHi3 GTAOHouseHi3 = new();
-		public static GTAOHouseHi4 GTAOHouseHi4 = new();
-		public static GTAOHouseHi5 GTAOHouseHi5 = new();
-		public static GTAOHouseHi6 GTAOHouseHi6 = new();
-		public static GTAOHouseHi7 GTAOHouseHi7 = new();
-		public static GTAOHouseHi8 GTAOHouseHi8 = new();
-		public static GTAOHouseMid1 GTAOHouseMid1 = new();
-		public static GTAOHouseLow1 GTAOHouseLow1 = new();
-		public static HLApartment1 HLApartment1 = new();
-		public static HLApartment2 HLApartment2 = new();
-		public static HLApartment3 HLApartment3 = new();
-		public static HLApartment4 HLApartment4 = new();
-		public static HLApartment5 HLApartment5 = new();
-		public static HLApartment6 HLApartment6 = new();
-		public static ImportCEOGarage1 ImportCEOGarage1 = new();
-		public static ImportCEOGarage2 ImportCEOGarage2 = new();
-		public static ImportCEOGarage3 ImportCEOGarage3 = new();
-		public static ImportCEOGarage4 ImportCEOGarage4 = new();
-		public static ImportVehicleWarehouse ImportVehicleWarehouse = new();
-		public static SmugglerHangar SmugglerHangar = new();
-		public static HeistCarrier HeistCarrier = new();
-		public static HeistYacht HeistYacht = new();
-		public static ExecApartment1 ExecApartment1 = new();
-		public static ExecApartment2 ExecApartment2 = new();
-		public static ExecApartment3 ExecApartment3 = new();
-		public static FinanceOffice1 FinanceOffice1 = new();
-		public static FinanceOffice2 FinanceOffice2 = new();
-		public static FinanceOffice3 FinanceOffice3 = new();
-		public static FinanceOffice4 FinanceOffice4 = new();
-		public static BikerCocaine BikerCocaine = new();
-		public static BikerCounterfeit BikerCounterfeit = new();
-		public static BikerDocumentForgery BikerDocumentForgery = new();
-		public static BikerMethLab BikerMethLab = new();
-		public static BikerWeedFarm BikerWeedFarm = new();
-		public static BikerClubhouse1 BikerClubhouse1 = new();
-		public static BikerClubhouse2 BikerClubhouse2 = new();
-		public static GunrunningBunker GunrunningBunker = new();
-		public static GunrunningYacht GunrunningYacht = new();
-		public static FinanceOrganization FinanceOrganization = new();
-		public static AfterHoursNightclubs NightClub = new();
-		public static Casino DiamondCasino = new();
-		public static Penthouse DiamondPenthouse = new();
-		// 4840.571 -5174.425 2.0
-		public static Island CayoPericoIsland = new();
+    public static class IPLInstance
+    {
+        // TODO: SPOSTARE IN LUOGO MIGLIORE.
+        public static Michael Michael = new();
+        public static Simeon Simeon = new();
+        public static FranklinAunt FranklinAunt = new();
+        public static Franklin Franklin = new();
+        public static Floyd Floyd = new();
+        public static TrevorsTrailer TrevorsTrailer = new();
+        public static BahamaMamas BahamaMamas = new();
+        public static PillboxHospital PillboxHospital = new();
+        public static ZancudoGates ZancudoGates = new();
+        public static Ammunations Ammunations = new();
+        public static LesterFactory LesterFactory = new();
+        public static StripClub StripClub = new();
+        public static Graffitis Graffitis = new();
+        public static UFO UFO = new();
+        public static RedCarpet RedCarpet = new();
+        public static NorthYankton NorthYankton = new();
+        public static GTAOApartmentHi1 GTAOApartmentHi1 = new();
+        public static GTAOApartmentHi2 GTAOApartmentHi2 = new();
+        public static GTAOHouseHi1 GTAOHouseHi1 = new();
+        public static GTAOHouseHi2 GTAOHouseHi2 = new();
+        public static GTAOHouseHi3 GTAOHouseHi3 = new();
+        public static GTAOHouseHi4 GTAOHouseHi4 = new();
+        public static GTAOHouseHi5 GTAOHouseHi5 = new();
+        public static GTAOHouseHi6 GTAOHouseHi6 = new();
+        public static GTAOHouseHi7 GTAOHouseHi7 = new();
+        public static GTAOHouseHi8 GTAOHouseHi8 = new();
+        public static GTAOHouseMid1 GTAOHouseMid1 = new();
+        public static GTAOHouseLow1 GTAOHouseLow1 = new();
+        public static HLApartment1 HLApartment1 = new();
+        public static HLApartment2 HLApartment2 = new();
+        public static HLApartment3 HLApartment3 = new();
+        public static HLApartment4 HLApartment4 = new();
+        public static HLApartment5 HLApartment5 = new();
+        public static HLApartment6 HLApartment6 = new();
+        public static ImportCEOGarage1 ImportCEOGarage1 = new();
+        public static ImportCEOGarage2 ImportCEOGarage2 = new();
+        public static ImportCEOGarage3 ImportCEOGarage3 = new();
+        public static ImportCEOGarage4 ImportCEOGarage4 = new();
+        public static ImportVehicleWarehouse ImportVehicleWarehouse = new();
+        public static SmugglerHangar SmugglerHangar = new();
+        public static HeistCarrier HeistCarrier = new();
+        public static HeistYacht HeistYacht = new();
+        public static ExecApartment1 ExecApartment1 = new();
+        public static ExecApartment2 ExecApartment2 = new();
+        public static ExecApartment3 ExecApartment3 = new();
+        public static FinanceOffice1 FinanceOffice1 = new();
+        public static FinanceOffice2 FinanceOffice2 = new();
+        public static FinanceOffice3 FinanceOffice3 = new();
+        public static FinanceOffice4 FinanceOffice4 = new();
+        public static BikerCocaine BikerCocaine = new();
+        public static BikerCounterfeit BikerCounterfeit = new();
+        public static BikerDocumentForgery BikerDocumentForgery = new();
+        public static BikerMethLab BikerMethLab = new();
+        public static BikerWeedFarm BikerWeedFarm = new();
+        public static BikerClubhouse1 BikerClubhouse1 = new();
+        public static BikerClubhouse2 BikerClubhouse2 = new();
+        public static GunrunningBunker GunrunningBunker = new();
+        public static GunrunningYacht GunrunningYacht = new();
+        public static FinanceOrganization FinanceOrganization = new();
+        public static AfterHoursNightclubs NightClub = new();
+        public static Casino DiamondCasino = new();
+        public static Penthouse DiamondPenthouse = new();
+        // 4840.571 -5174.425 2.0
+        public static Island CayoPericoIsland = new();
 
-		public static void Init()
-		{
-			/*
+        public static void Init()
+        {
+            /*
 			// ====================================================================
 			// =--------------------- [GTA V: Single player] ---------------------=
 			// ====================================================================
@@ -209,218 +208,218 @@ namespace TheLastPlanet.Client.IPLs
 			AfterHoursNightclubs.LoadDefault();  // -1604.664, -3012.583, -78.000
 			*/
 
-			// ====================================================================
-			// =------------------------ SEMPRE ATTIVI ---------------------------=
-			// ====================================================================
-			
-			// Heist Jewel: -637.20159 - 239.16250 38.1
-			IplManager.EnableIpl("post_hiest_unload", true);
+            // ====================================================================
+            // =------------------------ SEMPRE ATTIVI ---------------------------=
+            // ====================================================================
 
-			// Max Renda: -585.8247, -282.72, 35.45475
-			IplManager.EnableIpl("refit_unload", true);
+            // Heist Jewel: -637.20159 - 239.16250 38.1
+            IplManager.EnableIpl("post_hiest_unload", true);
 
-			// Heist Union Depository: 2.69689322, -667.0166, 16.1306286
-			IplManager.EnableIpl("FINBANK", true);
+            // Max Renda: -585.8247, -282.72, 35.45475
+            IplManager.EnableIpl("refit_unload", true);
 
-			// Morgue: 239.75195, -1360.64965, 39.53437
-			IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, true);
+            // Heist Union Depository: 2.69689322, -667.0166, 16.1306286
+            IplManager.EnableIpl("FINBANK", true);
 
-			// Cluckin Bell: -146.3837, 6161.5, 30.2062
-			IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, true);
+            // Morgue: 239.75195, -1360.64965, 39.53437
+            IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, true);
 
-			// Grapeseed's farm: 2447.9, 4973.4, 47.7
-			IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, true);
+            // Cluckin Bell: -146.3837, 6161.5, 30.2062
+            IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, true);
 
-			// FIB lobby: 105.4557, -745.4835, 44.7548
-			IplManager.EnableIpl("FIBlobby", true);
+            // Grapeseed's farm: 2447.9, 4973.4, 47.7
+            IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, true);
 
-			// Billboard: iFruit
-			IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, true);
+            // FIB lobby: 105.4557, -745.4835, 44.7548
+            IplManager.EnableIpl("FIBlobby", true);
 
-			// Lester's factory: 716.84, -962.05, 31.59
-			IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, true);
+            // Billboard: iFruit
+            IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, true);
 
-			// Life Invader lobby: -1047.9, -233.0, 39.0
-			IplManager.EnableIpl("facelobby", true);
+            // Lester's factory: 716.84, -962.05, 31.59
+            IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, true);
 
-			// Tunnels
-			IplManager.EnableIpl("v_tunnel_hole", true);
+            // Life Invader lobby: -1047.9, -233.0, 39.0
+            IplManager.EnableIpl("facelobby", true);
 
-			// Carwash: 55.7, -1391.3, 30.5
-			IplManager.EnableIpl("Carwash_with_spinners", true);
+            // Tunnels
+            IplManager.EnableIpl("v_tunnel_hole", true);
 
-			// Stadium "Fame or Shame": -248.49159240722656, -2010.509033203125, 34.57429885864258
-			IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, true);
+            // Carwash: 55.7, -1391.3, 30.5
+            IplManager.EnableIpl("Carwash_with_spinners", true);
 
-			// House in Banham Canyon: -3086.428, 339.2523, 6.3717
-			IplManager.EnableIpl("ch1_02_open", true);
+            // Stadium "Fame or Shame": -248.49159240722656, -2010.509033203125, 34.57429885864258
+            IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, true);
 
-			// Hill Valley church - Grave: -282.46380000, 2835.84500000, 55.91446000
-			IplManager.EnableIpl("lr_cs6_08_grave_closed", true);
+            // House in Banham Canyon: -3086.428, 339.2523, 6.3717
+            IplManager.EnableIpl("ch1_02_open", true);
 
-			// Lost's trailer park: 49.49379000, 3744.47200000, 46.38629000
-			IplManager.EnableIpl("methtrailer_grp1", true);
+            // Hill Valley church - Grave: -282.46380000, 2835.84500000, 55.91446000
+            IplManager.EnableIpl("lr_cs6_08_grave_closed", true);
 
-			// Garage in La Mesa(autoshop): 970.27453, -1826.56982, 31.11477
-			IplManager.EnableIpl("bkr_bi_id1_23_door", true);
+            // Lost's trailer park: 49.49379000, 3744.47200000, 46.38629000
+            IplManager.EnableIpl("methtrailer_grp1", true);
 
-			// Lost safehouse: 984.1552, -95.3662, 74.50
-			IplManager.EnableIpl("bkr_bi_hw1_13_int", true);
+            // Garage in La Mesa(autoshop): 970.27453, -1826.56982, 31.11477
+            IplManager.EnableIpl("bkr_bi_id1_23_door", true);
 
-			// Raton Canyon river: -1652.83, 4445.28, 2.52
-			IplManager.EnableIpl("CanyonRvrShallow", true);
+            // Lost safehouse: 984.1552, -95.3662, 74.50
+            IplManager.EnableIpl("bkr_bi_hw1_13_int", true);
 
-			// Pillbox hospital: 307.1680, -590.807, 43.280
-			IplManager.EnableIpl("rc12b_default", true);
+            // Raton Canyon river: -1652.83, 4445.28, 2.52
+            IplManager.EnableIpl("CanyonRvrShallow", true);
 
-			// Josh's house: -1117.1632080078, 303.090698, 66.52217
-			IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, true);
+            // Pillbox hospital: 307.1680, -590.807, 43.280
+            IplManager.EnableIpl("rc12b_default", true);
 
-			// Bahama Mamas: -1388.0013, -618.41967, 30.819599
-			IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", true);
+            // Josh's house: -1117.1632080078, 303.090698, 66.52217
+            IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, true);
 
-			// Zancudo River(need streamed content): 86.815, 3191.649, 30.463
-			IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, true);
+            // Bahama Mamas: -1388.0013, -618.41967, 30.819599
+            IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", true);
 
-			// Cassidy Creek(need streamed content): -425.677, 4433.404, 27.3253
-			IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, true);
+            // Zancudo River(need streamed content): 86.815, 3191.649, 30.463
+            IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, true);
 
-			// Ferris wheel
-			IplManager.EnableIpl("ferris_finale_anim", true);
+            // Cassidy Creek(need streamed content): -425.677, 4433.404, 27.3253
+            IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, true);
 
-			// Bahama Mamas: -1388.0013, -618.41967, 30.819599
-			BahamaMamas.Enabled = true;
-			// Pillbox hospital: 307.1680, -590.807, 43.280
-			PillboxHospital.Enabled = true;
+            // Ferris wheel
+            IplManager.EnableIpl("ferris_finale_anim", true);
 
-			// Graffitis
-			Graffitis.Enabled = true;
+            // Bahama Mamas: -1388.0013, -618.41967, 30.819599
+            BahamaMamas.Enabled = true;
+            // Pillbox hospital: 307.1680, -590.807, 43.280
+            PillboxHospital.Enabled = true;
 
-			// UFO
-			UFO.Hippie.Enabled = false;    // 2490.47729, 3774.84351, 2414.035
-			UFO.Chiliad.Enabled = false;   // 501.52880000, 5593.86500000, 796.23250000
-			UFO.Zancudo.Enabled = false;   // -2051.99463, 3237.05835, 1456.97021
+            // Graffitis
+            Graffitis.Enabled = true;
 
-			// Red Carpet: 300.5927, 199.7589, 104.3776
-			RedCarpet.Enabled = true;
+            // UFO
+            UFO.Hippie.Enabled = false;    // 2490.47729, 3774.84351, 2414.035
+            UFO.Chiliad.Enabled = false;   // 501.52880000, 5593.86500000, 796.23250000
+            UFO.Zancudo.Enabled = false;   // -2051.99463, 3237.05835, 1456.97021
 
-			// North Yankton: 3217.697, -4834.826, 111.8152
-			NorthYankton.Enabled = false;
-			/*
+            // Red Carpet: 300.5927, 199.7589, 104.3776
+            RedCarpet.Enabled = true;
+
+            // North Yankton: 3217.697, -4834.826, 111.8152
+            NorthYankton.Enabled = false;
+            /*
 			 2 Car Garage	173.2903 -1003.600 -99.65707
 	 		 6 Car Garage	197.8153 -1002.293 -99.65749
 			 10 Car Garage	229.9559 -981.7928 -99.66071
 		   */
 
-			FinanceOrganization.Office.Init();
-			GunrunningBunker.Exterior.Enabled = true;
+            FinanceOrganization.Office.Init();
+            GunrunningBunker.Exterior.Enabled = true;
 
-			if (API.GetGameBuildNumber() >= 2060)
-			{
-				// casino 1100.000 220.000 -50.000
-				// penthouse 976.636 70.295 115.164
-				DiamondCasino.Enabled = true;
-				DiamondPenthouse.Enabled = true;
-			}
+            if (API.GetGameBuildNumber() >= 2060)
+            {
+                // casino 1100.000 220.000 -50.000
+                // penthouse 976.636 70.295 115.164
+                DiamondCasino.Enabled = true;
+                DiamondPenthouse.Enabled = true;
+            }
 
-			// si può migliorare per rimuovere il tick fisso sempre.. 🤔
-			Client.Instance.AddTick(InteriorObserver.Observer);
-			Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
-			Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
+            // si può migliorare per rimuovere il tick fisso sempre.. 🤔
+            Client.Instance.AddTick(InteriorObserver.Observer);
+            Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
+            Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
 
-		}
+        }
 
-		public static async void Stop()
-		{
-			Michael.LoadDefault();
-			Simeon.LoadDefault();
-			FranklinAunt.LoadDefault();
-			Franklin.LoadDefault();
-			Floyd.LoadDefault();
-			TrevorsTrailer.LoadDefault();
-			BahamaMamas.Enabled = true;
-			PillboxHospital.Enabled = true;
-			ZancudoGates.LoadDefault();
-			LesterFactory.LoadDefault();
-			StripClub.LoadDefault();
-			Graffitis.Enabled = false;
-			UFO.Hippie.Enabled = false;
-			UFO.Chiliad.Enabled = false;
-			UFO.Zancudo.Enabled = false;
-			RedCarpet.Enabled = false;
-			NorthYankton.Enabled = false;
-			GTAOApartmentHi1.LoadDefault();
-			GTAOApartmentHi2.LoadDefault();
-			GTAOHouseHi1.LoadDefault();
-			GTAOHouseHi2.LoadDefault();
-			GTAOHouseHi3.LoadDefault();
-			GTAOHouseHi4.LoadDefault();
-			GTAOHouseHi5.LoadDefault();
-			GTAOHouseHi6.LoadDefault();
-			GTAOHouseHi7.LoadDefault();
-			GTAOHouseHi8.LoadDefault();
-			GTAOHouseMid1.LoadDefault();
-			GTAOHouseLow1.LoadDefault();
-			HLApartment1.LoadDefault();
-			HLApartment2.LoadDefault();
-			HLApartment3.LoadDefault();
-			HLApartment4.LoadDefault();
-			HLApartment5.LoadDefault();
-			HLApartment6.LoadDefault();
-			HeistCarrier.Enabled = false;
-			HeistYacht.Enabled = false;
-			ExecApartment1.LoadDefault();
-			ExecApartment2.LoadDefault();
-			ExecApartment3.LoadDefault();
-			FinanceOffice1.LoadDefault();
-			FinanceOffice2.LoadDefault();
-			FinanceOffice3.LoadDefault();
-			FinanceOffice4.LoadDefault();
-			BikerCocaine.LoadDefault();
-			BikerCounterfeit.LoadDefault();
-			BikerDocumentForgery.LoadDefault();
-			BikerMethLab.LoadDefault();
-			BikerWeedFarm.LoadDefault();
-			BikerClubhouse1.LoadDefault();
-			BikerClubhouse2.LoadDefault();
-			ImportCEOGarage1.LoadDefault();
-			ImportCEOGarage2.LoadDefault();
-			ImportCEOGarage3.LoadDefault();
-			ImportCEOGarage4.LoadDefault();
-			ImportVehicleWarehouse.LoadDefault();
-			GunrunningBunker.LoadDefault();
-			GunrunningYacht.LoadDefault();
-			SmugglerHangar.LoadDefault();
-			DoomsdayFacility.LoadDefault();
-			NightClub.LoadDefault();
-			IplManager.EnableIpl("post_hiest_unload", false);
-			IplManager.EnableIpl("refit_unload", false);
-			IplManager.EnableIpl("FINBANK", false);
-			IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, false);
-			IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, false);
-			IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, false);
-			IplManager.EnableIpl("FIBlobby", false);
-			IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, false);
-			IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, false);
-			IplManager.EnableIpl("facelobby", false);
-			IplManager.EnableIpl("v_tunnel_hole", false);
-			IplManager.EnableIpl("Carwash_with_spinners", false);
-			IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, false);
-			IplManager.EnableIpl("ch1_02_open", false);
-			IplManager.EnableIpl("lr_cs6_08_grave_closed", false);
-			IplManager.EnableIpl("methtrailer_grp1", false);
-			IplManager.EnableIpl("bkr_bi_id1_23_door", false);
-			IplManager.EnableIpl("bkr_bi_hw1_13_int", false);
-			IplManager.EnableIpl("CanyonRvrShallow", false);
-			IplManager.EnableIpl("rc12b_default", false);
-			IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, false);
-			IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", false);
-			IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, false);
-			IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, false);
-			IplManager.EnableIpl("ferris_finale_anim", false);
-			Client.Instance.RemoveTick(InteriorObserver.Observer);
-			Client.Instance.RemoveTick(InteriorObserver.OfficeSafeDoorHandler);
-			Client.Instance.RemoveTick(InteriorObserver.OrganizationWatchers);
-		}
-	}
+        public static async void Stop()
+        {
+            Michael.LoadDefault();
+            Simeon.LoadDefault();
+            FranklinAunt.LoadDefault();
+            Franklin.LoadDefault();
+            Floyd.LoadDefault();
+            TrevorsTrailer.LoadDefault();
+            BahamaMamas.Enabled = true;
+            PillboxHospital.Enabled = true;
+            ZancudoGates.LoadDefault();
+            LesterFactory.LoadDefault();
+            StripClub.LoadDefault();
+            Graffitis.Enabled = false;
+            UFO.Hippie.Enabled = false;
+            UFO.Chiliad.Enabled = false;
+            UFO.Zancudo.Enabled = false;
+            RedCarpet.Enabled = false;
+            NorthYankton.Enabled = false;
+            GTAOApartmentHi1.LoadDefault();
+            GTAOApartmentHi2.LoadDefault();
+            GTAOHouseHi1.LoadDefault();
+            GTAOHouseHi2.LoadDefault();
+            GTAOHouseHi3.LoadDefault();
+            GTAOHouseHi4.LoadDefault();
+            GTAOHouseHi5.LoadDefault();
+            GTAOHouseHi6.LoadDefault();
+            GTAOHouseHi7.LoadDefault();
+            GTAOHouseHi8.LoadDefault();
+            GTAOHouseMid1.LoadDefault();
+            GTAOHouseLow1.LoadDefault();
+            HLApartment1.LoadDefault();
+            HLApartment2.LoadDefault();
+            HLApartment3.LoadDefault();
+            HLApartment4.LoadDefault();
+            HLApartment5.LoadDefault();
+            HLApartment6.LoadDefault();
+            HeistCarrier.Enabled = false;
+            HeistYacht.Enabled = false;
+            ExecApartment1.LoadDefault();
+            ExecApartment2.LoadDefault();
+            ExecApartment3.LoadDefault();
+            FinanceOffice1.LoadDefault();
+            FinanceOffice2.LoadDefault();
+            FinanceOffice3.LoadDefault();
+            FinanceOffice4.LoadDefault();
+            BikerCocaine.LoadDefault();
+            BikerCounterfeit.LoadDefault();
+            BikerDocumentForgery.LoadDefault();
+            BikerMethLab.LoadDefault();
+            BikerWeedFarm.LoadDefault();
+            BikerClubhouse1.LoadDefault();
+            BikerClubhouse2.LoadDefault();
+            ImportCEOGarage1.LoadDefault();
+            ImportCEOGarage2.LoadDefault();
+            ImportCEOGarage3.LoadDefault();
+            ImportCEOGarage4.LoadDefault();
+            ImportVehicleWarehouse.LoadDefault();
+            GunrunningBunker.LoadDefault();
+            GunrunningYacht.LoadDefault();
+            SmugglerHangar.LoadDefault();
+            DoomsdayFacility.LoadDefault();
+            NightClub.LoadDefault();
+            IplManager.EnableIpl("post_hiest_unload", false);
+            IplManager.EnableIpl("refit_unload", false);
+            IplManager.EnableIpl("FINBANK", false);
+            IplManager.EnableIpl(new List<string> { "Coroner_Int_on", "coronertrash" }, false);
+            IplManager.EnableIpl(new List<string> { "CS1_02_cf_onmission1", "CS1_02_cf_onmission2", "CS1_02_cf_onmission3", "CS1_02_cf_onmission4" }, false);
+            IplManager.EnableIpl(new List<string> { "farm", "farmint", "farm_lod", "farm_props", "des_farmhouse" }, false);
+            IplManager.EnableIpl("FIBlobby", false);
+            IplManager.EnableIpl(new List<string> { "FruitBB", "sc1_01_newbill", "hw1_02_newbill", "hw1_emissive_newbill", "sc1_14_newbill", "dt1_17_newbill" }, false);
+            IplManager.EnableIpl(new List<string> { "id2_14_during_door", "id2_14_during1" }, false);
+            IplManager.EnableIpl("facelobby", false);
+            IplManager.EnableIpl("v_tunnel_hole", false);
+            IplManager.EnableIpl("Carwash_with_spinners", false);
+            IplManager.EnableIpl(new List<string> { "sp1_10_real_interior", "sp1_10_real_interior_lod" }, false);
+            IplManager.EnableIpl("ch1_02_open", false);
+            IplManager.EnableIpl("lr_cs6_08_grave_closed", false);
+            IplManager.EnableIpl("methtrailer_grp1", false);
+            IplManager.EnableIpl("bkr_bi_id1_23_door", false);
+            IplManager.EnableIpl("bkr_bi_hw1_13_int", false);
+            IplManager.EnableIpl("CanyonRvrShallow", false);
+            IplManager.EnableIpl("rc12b_default", false);
+            IplManager.EnableIpl(new List<string> { "bh1_47_joshhse_unburnt", "bh1_47_joshhse_unburnt_lod" }, false);
+            IplManager.EnableIpl("hei_sm_16_interior_v_bahama_milo_", false);
+            IplManager.EnableIpl(new List<string> { "cs3_05_water_grp1", "cs3_05_water_grp1_lod", "trv1_trail_start" }, false);
+            IplManager.EnableIpl(new List<string> { "canyonriver01", "canyonriver01_lod" }, false);
+            IplManager.EnableIpl("ferris_finale_anim", false);
+            Client.Instance.RemoveTick(InteriorObserver.Observer);
+            Client.Instance.RemoveTick(InteriorObserver.OfficeSafeDoorHandler);
+            Client.Instance.RemoveTick(InteriorObserver.OrganizationWatchers);
+        }
+    }
 }

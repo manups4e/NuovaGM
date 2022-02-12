@@ -1,20 +1,11 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
-using Logger;
-using TheLastPlanet.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.MODALITA.FREEROAM.Managers;
 using Environment = TheLastPlanet.Client.MODALITA.FREEROAM.Managers.Environment;
-using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 {
-	public class KingOfTheCastle : IWorldEvent
+    public class KingOfTheCastle : IWorldEvent
     {
         private Blip radius;
         private Blip icon;
@@ -58,15 +49,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
 
         public override void ResetEvent()
         {
-            if(radius is not null) radius.Delete();
+            if (radius is not null) radius.Delete();
             if (icon is not null) icon.Delete();
             CurrentPlace = Vector3.Zero;
-			Environment.EnableWanted(true);
+            Environment.EnableWanted(true);
             Client.Instance.RemoveTick(OnTick);
             base.ResetEvent();
         }
 
-        private int _timer =0;
+        private int _timer = 0;
 
         private async Task OnTick()
         {

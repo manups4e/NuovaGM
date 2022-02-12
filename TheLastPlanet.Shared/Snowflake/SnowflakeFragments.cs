@@ -1,6 +1,6 @@
 ﻿namespace TheLastPlanet.Shared.Snowflakes
 {
-    
+
     public class SnowflakeFragments
     {
         public long Timestamp { get; set; }

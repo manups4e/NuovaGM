@@ -1,16 +1,8 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
+﻿using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Client.Cache;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -130,7 +122,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 string str = "pioggia";
                 int textureIndex = raindrop.textureNumber;
                 SizeF size = new SizeF(raindrop.size, raindrop.size);
-                ScaleformUI.Sprite.Draw(str, "raindrop_"+ textureIndex, point.X, point.Y, size.Width, size.Height, raindrop.heading, color);
+                ScaleformUI.Sprite.Draw(str, "raindrop_" + textureIndex, point.X, point.Y, size.Width, size.Height, raindrop.heading, color);
             }
         }
     }
@@ -156,7 +148,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             opacity = 400 + random.Next(300);
             size = random.NextFloat(50, 80);
             int index = random.Next(0, 4);
-//            int index = random.Next(1, 6);
+            //            int index = random.Next(1, 6);
             textureNumber = index;
             textureIndex = Pioggia.index[index];
             Pioggia.index[index] = Pioggia.index[index] >= 128 ? 0 : Pioggia.index[index] + 1;

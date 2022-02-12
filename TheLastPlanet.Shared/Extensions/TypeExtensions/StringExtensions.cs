@@ -3,7 +3,7 @@
 
 namespace TheLastPlanet.Shared.TypeExtensions
 {
-    
+
     public static class StringExtensions
     {
         public static bool Contains(this string source, string target, StringComparison comparison)

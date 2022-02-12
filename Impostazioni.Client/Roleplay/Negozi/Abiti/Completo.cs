@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace Impostazioni.Client.Configurazione.Negozi.Abiti
@@ -10,8 +9,8 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
         public int Price { get; set; }
 
         public Completo() : base() { }
-        public Completo(string name, string desc, int price, ComponentDrawables componentDrawables, ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures) : 
-            base (name, desc, componentDrawables, componentTextures, propIndices, propTextures)
+        public Completo(string name, string desc, int price, ComponentDrawables componentDrawables, ComponentDrawables componentTextures, PropIndices propIndices, PropIndices propTextures) :
+            base(name, desc, componentDrawables, componentTextures, propIndices, propTextures)
         {
             Price = price;
         }

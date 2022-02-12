@@ -4,14 +4,14 @@ namespace Impostazioni.Client.Configurazione.Negozi.Abiti
 {
     public class ConfigNegoziAbiti
     {
-	    public Abiti Femmina { get; set; }
-	    public Abiti Maschio { get; set; }
+        public Abiti Femmina { get; set; }
+        public Abiti Maschio { get; set; }
     }
-    
+
     public class Abiti
     {
         public List<Completo> BincoVest { get; set; }
-		public List<Completo> DiscVest { get; set; }
+        public List<Completo> DiscVest { get; set; }
         public List<Completo> SubVest { get; set; }
         public List<Completo> PonsVest { get; set; }
         public List<Singolo> BincoScarpe { get; set; }

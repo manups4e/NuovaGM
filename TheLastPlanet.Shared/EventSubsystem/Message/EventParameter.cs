@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+﻿using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared.Internal.Events.Payload
 {

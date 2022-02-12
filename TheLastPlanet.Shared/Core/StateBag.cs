@@ -1,6 +1,5 @@
-﻿using System;
-using CitizenFX.Core;
-using Logger;
+﻿using CitizenFX.Core;
+using System;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
@@ -163,7 +162,7 @@ namespace TheLastPlanet.Shared
             get => _finDiVita.Value;
             set => _finDiVita.Value = value;
         }
-            
+
         public RPStates() { }
 
         public RPStates(Player player, string name) : base(player, name)

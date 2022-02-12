@@ -1,108 +1,100 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Core.Utility.HUD;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
+using TheLastPlanet.Client.Core.Utility;
+using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
-using TheLastPlanet.Client.Cache;
-using ScaleformUI;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.ListaPlayers
 {
-	internal static class FivemPlayerlist
-	{
-		static int maxPlayers = 0;
-		public static void Init()
-		{
-			Client.Instance.AddTick(DisplayController);
-		}
+    internal static class FivemPlayerlist
+    {
+        static int maxPlayers = 0;
+        public static void Init()
+        {
+            Client.Instance.AddTick(DisplayController);
+        }
 
-		public static void MostraMoney()
-		{
-			N_0x170f541e1cadd1de(true);
-			SetMultiplayerWalletCash();
-			SetMultiplayerBankCash();
-			N_0x170f541e1cadd1de(false);
-		}
+        public static void MostraMoney()
+        {
+            N_0x170f541e1cadd1de(true);
+            SetMultiplayerWalletCash();
+            SetMultiplayerBankCash();
+            N_0x170f541e1cadd1de(false);
+        }
 
-		public static void NascondiMoney()
-		{
-			RemoveMultiplayerWalletCash();
-			RemoveMultiplayerBankCash();
-		}
+        public static void NascondiMoney()
+        {
+            RemoveMultiplayerWalletCash();
+            RemoveMultiplayerBankCash();
+        }
 
-		//TODO: QUANDO ENTRA/ESCE AGGIORNA LISTA.. E LA RICHIESTA è FATTA SOLO AL LOGIN
+        //TODO: QUANDO ENTRA/ESCE AGGIORNA LISTA.. E LA RICHIESTA è FATTA SOLO AL LOGIN
 
-		/// <summary>
-		/// Manages the display and page setup of the playerlist.
-		/// </summary>
-		/// <returns></returns>
-		private static async Task DisplayController()
-		{
-			if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
-			{
+        /// <summary>
+        /// Manages the display and page setup of the playerlist.
+        /// </summary>
+        /// <returns></returns>
+        private static async Task DisplayController()
+        {
+            if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
+            {
                 ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Clear();
-				var num = await Client.Instance.Events.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
-				List<PlayerSlot> list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
+                var num = await Client.Instance.Events.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
+                List<PlayerSlot> list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
                 {
-					if (BankingClient.InterfacciaAperta)
-						return;
-				}
+                    if (BankingClient.InterfacciaAperta)
+                        return;
+                }
 
-				foreach (var p in list)
+                foreach (var p in list)
                 {
-					Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetClientIdFromServerId(p.ServerId)?.Ped;
-					var mug = await Funzioni.GetPedMugshotAsync(ped);
-					if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
-					var row = new PlayerRow()
-					{
-						Color = p.Color,
-						CrewLabelText = p.CrewLabelText,
-						FriendType = p.FriendType,
-						IconOverlayText = p.IconOverlayText,
-						JobPointsDisplayType = (ScoreDisplayType)p.JobPointsDisplayType,
-						JobPointsText = p.JobPointsText,
-						Name = p.Name,
-						RightIcon = (ScoreRightIconType)p.RightIcon,
-						RightText = p.RightText,
-						ServerId = p.ServerId,
-						TextureString = mug.Item2
-					};
+                    Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetClientIdFromServerId(p.ServerId)?.Ped;
+                    var mug = await Funzioni.GetPedMugshotAsync(ped);
+                    if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
+                    var row = new PlayerRow()
+                    {
+                        Color = p.Color,
+                        CrewLabelText = p.CrewLabelText,
+                        FriendType = p.FriendType,
+                        IconOverlayText = p.IconOverlayText,
+                        JobPointsDisplayType = (ScoreDisplayType)p.JobPointsDisplayType,
+                        JobPointsText = p.JobPointsText,
+                        Name = p.Name,
+                        RightIcon = (ScoreRightIconType)p.RightIcon,
+                        RightText = p.RightText,
+                        ServerId = p.ServerId,
+                        TextureString = mug.Item2
+                    };
                     ScaleformUI.ScaleformUI.PlayerListInstance.AddRow(row);
-					UnregisterPedheadshot(mug.Item1);
-				}
-                ScaleformUI.ScaleformUI.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage+1)} / {ScaleformUI.ScaleformUI.PlayerListInstance.MaxPages}", 2);
+                    UnregisterPedheadshot(mug.Item1);
+                }
+                ScaleformUI.ScaleformUI.PlayerListInstance.SetTitle($"Modalità {PlayerCache.ModalitàAttuale} (online {num})", $"{(ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage + 1)} / {ScaleformUI.ScaleformUI.PlayerListInstance.MaxPages}", 2);
                 ScaleformUI.ScaleformUI.PlayerListInstance.CurrentPage++;
-			}
-			if (ScaleformUI.ScaleformUI.PlayerListInstance.Enabled)
-			{
-				if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) MostraMoney();
-				if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Count > 0)
-				{
-					foreach (var p in ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows)
-					{
-						var player = GetPlayerFromServerId(p.ServerId);
-						var index = ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.IndexOf(p);
-						if (NetworkIsPlayerTalking(player) || MumbleIsPlayerTalking(player))
+            }
+            if (ScaleformUI.ScaleformUI.PlayerListInstance.Enabled)
+            {
+                if (!Screen.Hud.IsComponentActive(HudComponent.MpCash)) MostraMoney();
+                if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Count > 0)
+                {
+                    foreach (var p in ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows)
+                    {
+                        var player = GetPlayerFromServerId(p.ServerId);
+                        var index = ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.IndexOf(p);
+                        if (NetworkIsPlayerTalking(player) || MumbleIsPlayerTalking(player))
                             ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, ScoreRightIconType.ACTIVE_HEADSET, "");
-						else
+                        else
                             ScaleformUI.ScaleformUI.PlayerListInstance.SetIcon(index, p.RightIcon, p.RightText);
-					}
-				}
-			}
-			else
-			{
-				if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) NascondiMoney();
-			}
-		}
-		/*
+                    }
+                }
+            }
+            else
+            {
+                if (Screen.Hud.IsComponentActive(HudComponent.MpCash)) NascondiMoney();
+            }
+        }
+        /*
 				private static async Task LoadScale()
 				{
 					if (scale != null)
@@ -195,5 +187,5 @@ namespace TheLastPlanet.Client.ListaPlayers
 					}
 				}
 		*/
-	}
+    }
 }

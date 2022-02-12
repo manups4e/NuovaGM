@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Client.Core.PlayerChar;
-using TheLastPlanet.Shared;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.Handlers.Animations
 {
@@ -60,7 +54,7 @@ namespace TheLastPlanet.Client.Handlers.Animations
 
                 if (entity == null || !entity.Exists())
                 {
-                    Client.Logger.Warning( $"[AnimationQueue] Could not find entity #{Entity}");
+                    Client.Logger.Warning($"[AnimationQueue] Could not find entity #{Entity}");
 
                     return;
                 }
@@ -123,7 +117,7 @@ namespace TheLastPlanet.Client.Handlers.Animations
 
                         if (next.Offset != null)
                         {
-							var position = next.Position != null ? next.Position : ped.Position.ToPosition();
+                            var position = next.Position != null ? next.Position : ped.Position.ToPosition();
 
                             position.Heading = ped.Heading;
 

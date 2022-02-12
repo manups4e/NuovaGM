@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace TheLastPlanet.Shared.TypeExtensions
 {
-    
+
     public static class DelegateExtensions
     {
         public static Delegate CreateDelegate(this MethodInfo method, object target)

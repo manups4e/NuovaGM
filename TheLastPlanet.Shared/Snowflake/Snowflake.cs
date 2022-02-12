@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TheLastPlanet.Shared.Snowflakes
 {
-    
+
     public struct Snowflake : IEquatable<Snowflake>
     {
         public static readonly Snowflake Empty = new Snowflake(0);
@@ -28,7 +28,7 @@ namespace TheLastPlanet.Shared.Snowflakes
         {
             var instance = SnowflakeGenerator.Instance;
 
-            return instance.Deconstruct((long) _value);
+            return instance.Deconstruct((long)_value);
         }
 
         public Snowflake(ulong value)
@@ -36,13 +36,13 @@ namespace TheLastPlanet.Shared.Snowflakes
             _value = value;
         }
 
-        public Snowflake(long value) : this((ulong) value)
+        public Snowflake(long value) : this((ulong)value)
         {
         }
 
         public Snowflake(string value)
         {
-            _value = (ulong) long.Parse(value);
+            _value = (ulong)long.Parse(value);
         }
 
         public Snowflake(BinaryReader reader)
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Shared.Snowflakes
             return obj switch
             {
                 ulong unsigned => _value == unsigned,
-                long signed => _value == (ulong) signed,
+                long signed => _value == (ulong)signed,
                 string serialized => ToString() == serialized,
                 _ => obj is Snowflake other && Equals(other)
             };

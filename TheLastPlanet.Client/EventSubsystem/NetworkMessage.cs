@@ -1,5 +1,4 @@
-﻿using TheLastPlanet.Shared.Internal;
-using TheLastPlanet.Shared.Snowflakes;
+﻿using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.Internal.Events
 {

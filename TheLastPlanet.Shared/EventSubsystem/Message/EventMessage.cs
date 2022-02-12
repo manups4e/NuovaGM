@@ -1,7 +1,7 @@
-﻿using TheLastPlanet.Shared.Internal.Events.Payload;
-using TheLastPlanet.Shared.Snowflakes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
+using TheLastPlanet.Shared.Internal.Events.Payload;
+using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared.Internal.Events.Message
 {

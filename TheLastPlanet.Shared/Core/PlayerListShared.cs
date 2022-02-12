@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+﻿using TheLastPlanet.Shared.Internal.Events.Attributes;
 
 namespace TheLastPlanet.Shared
 {
@@ -55,7 +52,7 @@ namespace TheLastPlanet.Shared
         public char FriendType;
 
         public PlayerSlot() { }
-        public PlayerSlot(int serverid, string name, string rightText, int hudcolor, string iconoverlaytext, string jobpointstext, string crewlabeltext, SlotScoreDisplayType jobpointstype, SlotScoreRightIconType righticon, string texturestring,char friendtype) 
+        public PlayerSlot(int serverid, string name, string rightText, int hudcolor, string iconoverlaytext, string jobpointstext, string crewlabeltext, SlotScoreDisplayType jobpointstype, SlotScoreRightIconType righticon, string texturestring, char friendtype)
         {
             ServerId = serverid;
             Name = name;

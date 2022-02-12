@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
-using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -88,7 +85,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                 SetTextRightJustify(true);
                 SetTextEntry("STRING");
                 AddTextComponentString(vehicleSpeed.ToString());
-                DrawText(1f- 0.124f, 0.945f);
+                DrawText(1f - 0.124f, 0.945f);
 
                 SetTextFont(0);
                 SetTextProportional(true);

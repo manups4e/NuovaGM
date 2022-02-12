@@ -1,30 +1,24 @@
-﻿using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 {
-	public static class BraccioDiFerro
-	{
-		public static void Init()
-		{
-			CaricaTutto();
-		}
+    public static class BraccioDiFerro
+    {
+        public static void Init()
+        {
+            CaricaTutto();
+        }
 
-		private static async void CaricaTutto()
-		{
-			//RequestAnimDict("mini@arm_wrestling"); //"ref_intro"
-		}
+        private static async void CaricaTutto()
+        {
+            //RequestAnimDict("mini@arm_wrestling"); //"ref_intro"
+        }
 
 
-		public static async Task ControlloBraccioDiFerro()
-		{
+        public static async Task ControlloBraccioDiFerro()
+        {
 
-		}
+        }
 
-	}
+    }
 }

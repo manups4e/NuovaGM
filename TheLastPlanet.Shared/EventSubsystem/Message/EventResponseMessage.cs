@@ -1,5 +1,4 @@
-﻿using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+﻿using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared.Internal.Events.Message

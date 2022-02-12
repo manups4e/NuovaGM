@@ -1,13 +1,4 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TheLastPlanet.Client.IPLs.dlc_cayo_perico
+﻿namespace TheLastPlanet.Client.IPLs.dlc_cayo_perico
 {
     public class Island
     {

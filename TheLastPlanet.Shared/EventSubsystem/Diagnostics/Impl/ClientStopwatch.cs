@@ -13,9 +13,9 @@ namespace TheLastPlanet.Shared.Internal.Events.Diagnostics.Impl
             get
             {
                 EnsureReduction();
-                
+
                 return new TimeSpan((GetTimestamp() - _timestamp - _reduction) * 10000);
-            } 
+            }
         }
 
         public ClientStopwatch()
@@ -45,7 +45,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Diagnostics.Impl
 
         internal static long GetTimestamp()
         {
-            return (long) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }
 }

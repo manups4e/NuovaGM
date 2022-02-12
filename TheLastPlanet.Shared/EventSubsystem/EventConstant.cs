@@ -2,7 +2,7 @@
 
 namespace TheLastPlanet.Shared.Internal.Events
 {
-    
+
     public static class EventConstant
     {
         public static readonly string InboundPipeline = "!8c3wq=BSxr#vXfm_MFdv$cZ-2s4VX+3r!4GJb_rgGw?K^Mp6y8WNr7=M_rpc_in";

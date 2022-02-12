@@ -1,17 +1,7 @@
-﻿using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheLastPlanet.Client.Handlers;
-using ScaleformUI;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Client.Cache;
-using CitizenFX.Core.UI;
-using CitizenFX.Core.Native;
+using TheLastPlanet.Client.Handlers;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Inventario
 {

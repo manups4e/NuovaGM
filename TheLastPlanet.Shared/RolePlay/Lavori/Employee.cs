@@ -1,4 +1,3 @@
-using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared

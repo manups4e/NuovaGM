@@ -1,6 +1,4 @@
-﻿using CitizenFX.Core;
-
-namespace Impostazioni.Client.Configurazione.Lavori.Generici
+﻿namespace Impostazioni.Client.Configurazione.Lavori.Generici
 {
     public class Cacciatori
     {

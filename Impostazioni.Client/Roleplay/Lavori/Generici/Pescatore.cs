@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CitizenFX.Core;
 
 namespace Impostazioni.Client.Configurazione.Lavori.Generici
 {
@@ -14,7 +13,7 @@ namespace Impostazioni.Client.Configurazione.Lavori.Generici
         public List<string> Barche { get; set; }
         public PesciPescati Pesci { get; set; }
     }
-    
+
     public class PesciPescati
     {
         public List<string> facile = new List<string>();

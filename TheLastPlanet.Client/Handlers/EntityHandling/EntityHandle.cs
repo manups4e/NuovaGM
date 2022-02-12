@@ -1,191 +1,189 @@
 ﻿using System.Threading.Tasks;
-using CitizenFX.Core;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Handlers.Animations;
-using TheLastPlanet.Shared;
 
 namespace TheLastPlanet.Client.Handlers.EntityHandling
 {
-	public enum TypeSpawn
-	{
-		Network,
-		Local
-	}
-	
-	#region Entity
-	public abstract class EntityHandle
-	{
-		public int Handle { get; set; }
-		public Position Position { get; set; }
-		public Model Model { get; set; }
-		public TypeSpawn TypeSpawn { get; set; }
-		public ModalitaServer ModalitaSpawn { get; set; }
+    public enum TypeSpawn
+    {
+        Network,
+        Local
+    }
 
-		protected EntityHandle()
-		{
-		}
+    #region Entity
+    public abstract class EntityHandle
+    {
+        public int Handle { get; set; }
+        public Position Position { get; set; }
+        public Model Model { get; set; }
+        public TypeSpawn TypeSpawn { get; set; }
+        public ModalitaServer ModalitaSpawn { get; set; }
 
-		protected EntityHandle(Position pos, TypeSpawn type, ModalitaServer modalita)
-		{
-			Position = pos;
-			TypeSpawn = type;
-			ModalitaSpawn = modalita;
-		}
+        protected EntityHandle()
+        {
+        }
 
-		protected virtual void Delete()
-		{
-		}
-	}
-#endregion
-	
-	#region Ped
+        protected EntityHandle(Position pos, TypeSpawn type, ModalitaServer modalita)
+        {
+            Position = pos;
+            TypeSpawn = type;
+            ModalitaSpawn = modalita;
+        }
 
-	public class PedHandle : EntityHandle
-	{
-		public Ped Ped { get; set; }
-		public AnimationQueue AnimQueue;
+        protected virtual void Delete()
+        {
+        }
+    }
+    #endregion
 
-		public PedHandle()
-		{
-		}
+    #region Ped
 
-		public PedHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-		}
+    public class PedHandle : EntityHandle
+    {
+        public Ped Ped { get; set; }
+        public AnimationQueue AnimQueue;
 
-		public PedHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-		}
+        public PedHandle()
+        {
+        }
 
-		public PedHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = model;
-		}
+        public PedHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+        }
 
-		public async Task<Ped> SpawnResult()
-		{
-			Ped result;
-			if (TypeSpawn == TypeSpawn.Local)
-				result = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
-			else
-				result = await Funzioni.SpawnPed(Model.Hash, Position);
+        public PedHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+        }
 
-			return result;
-		}
+        public PedHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = model;
+        }
 
-		public async Task Spawn()
-		{
-			if (TypeSpawn == TypeSpawn.Local)
-				Ped = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
-			else
-				Ped = await Funzioni.SpawnPed(Model.Hash, Position);
-			AnimQueue = new AnimationQueue(Ped.Handle);
-		}
-	}
+        public async Task<Ped> SpawnResult()
+        {
+            Ped result;
+            if (TypeSpawn == TypeSpawn.Local)
+                result = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
+            else
+                result = await Funzioni.SpawnPed(Model.Hash, Position);
 
-	#endregion
+            return result;
+        }
 
-	#region Vehicle
+        public async Task Spawn()
+        {
+            if (TypeSpawn == TypeSpawn.Local)
+                Ped = await Funzioni.CreatePedLocally(Model.Hash, Position.ToVector3, Position.Heading);
+            else
+                Ped = await Funzioni.SpawnPed(Model.Hash, Position);
+            AnimQueue = new AnimationQueue(Ped.Handle);
+        }
+    }
 
-	public class VehicleHandle : EntityHandle
-	{
-		public Vehicle Vehicle { get; set; }
+    #endregion
 
-		public VehicleHandle()
-		{
-		}
+    #region Vehicle
 
-		public VehicleHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-		}
+    public class VehicleHandle : EntityHandle
+    {
+        public Vehicle Vehicle { get; set; }
 
-		public VehicleHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-		}
+        public VehicleHandle()
+        {
+        }
 
-		public VehicleHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
-		{
-			Model = model;
-		}
+        public VehicleHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+        }
 
-		public async Task<Vehicle> SpawnResult()
-		{
-			Vehicle result;
-			if (TypeSpawn == TypeSpawn.Local)
-				result = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
-			else
-				result = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
+        public VehicleHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+        }
 
-			return result;
-		}
+        public VehicleHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita) : base(pos, type, modalita)
+        {
+            Model = model;
+        }
 
-		public async Task Spawn()
-		{
-			if (TypeSpawn == TypeSpawn.Local)
-				Vehicle = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
-			else
-				Vehicle = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
-		}
-	}
+        public async Task<Vehicle> SpawnResult()
+        {
+            Vehicle result;
+            if (TypeSpawn == TypeSpawn.Local)
+                result = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
+            else
+                result = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
 
-	#endregion
+            return result;
+        }
 
-	#region Prop
+        public async Task Spawn()
+        {
+            if (TypeSpawn == TypeSpawn.Local)
+                Vehicle = await Funzioni.SpawnLocalVehicle(Model.Hash, Position.ToVector3, Position.Heading);
+            else
+                Vehicle = await Funzioni.SpawnVehicleNoPlayerInside(Model.Hash, Position.ToVector3, Position.Heading);
+        }
+    }
 
-	public class PropHandle : EntityHandle
-	{
-		public Prop Prop { get; set; }
-		private bool _placeOnGround;
-		private bool _dynamic;
+    #endregion
 
-		public PropHandle()
-		{
-		}
+    #region Prop
 
-		public PropHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-			_placeOnGround = placeOnGround;
-			_dynamic = dynamic;
-		}
+    public class PropHandle : EntityHandle
+    {
+        public Prop Prop { get; set; }
+        private bool _placeOnGround;
+        private bool _dynamic;
 
-		public PropHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
-		{
-			Model = new Model(model);
-			_placeOnGround = placeOnGround;
-			_dynamic = dynamic;
-		}
+        public PropHandle()
+        {
+        }
 
-		public PropHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
-		{
-			Model = model;
-			_placeOnGround = placeOnGround;
-			_dynamic = dynamic;
-		}
+        public PropHandle(string model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+            _placeOnGround = placeOnGround;
+            _dynamic = dynamic;
+        }
 
-		public async Task<Prop> SpawnResult()
-		{
-			Prop result;
-			if (TypeSpawn == TypeSpawn.Local)
-				result = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
-			else
-				result = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
+        public PropHandle(PedHash model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        {
+            Model = new Model(model);
+            _placeOnGround = placeOnGround;
+            _dynamic = dynamic;
+        }
 
-			return result;
-		}
+        public PropHandle(Model model, Position pos, TypeSpawn type, ModalitaServer modalita, bool placeOnGround = true, bool dynamic = true) : base(pos, type, modalita)
+        {
+            Model = model;
+            _placeOnGround = placeOnGround;
+            _dynamic = dynamic;
+        }
 
-		public async Task Spawn()
-		{
-			if (TypeSpawn == TypeSpawn.Local)
-				Prop = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
-			else
-				Prop = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
-		}
-	}
+        public async Task<Prop> SpawnResult()
+        {
+            Prop result;
+            if (TypeSpawn == TypeSpawn.Local)
+                result = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
+            else
+                result = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
 
-	#endregion
+            return result;
+        }
+
+        public async Task Spawn()
+        {
+            if (TypeSpawn == TypeSpawn.Local)
+                Prop = await Funzioni.SpawnLocalProp(Model.Hash, Position.ToVector3, _dynamic, _placeOnGround);
+            else
+                Prop = await Funzioni.CreateProp(Model.Hash, Position.ToVector3, Vector3.Zero);
+        }
+    }
+
+    #endregion
 }

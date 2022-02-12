@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using TheLastPlanet.Shared.Snowflakes.Serialization;
-using Newtonsoft.Json.Serialization;
 using TheLastPlanet.Shared.Snowflakes;
+using TheLastPlanet.Shared.Snowflakes.Serialization;
 
 namespace TheLastPlanet.Shared
 {
@@ -18,7 +18,7 @@ namespace TheLastPlanet.Shared
         };
 
         public static readonly JsonSerializerSettings Empty = new()
-		{
+        {
             Converters = Converters,
             ContractResolver = new ContractResolver()
         };
