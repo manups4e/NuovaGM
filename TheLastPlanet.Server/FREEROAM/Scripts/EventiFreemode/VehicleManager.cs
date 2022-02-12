@@ -1,8 +1,5 @@
-﻿using CitizenFX.Core;
-using Logger;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Shared.Internal.Events;
 

@@ -1,18 +1,16 @@
-﻿using System;
+﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using Logger;
 using TheLastPlanet.Server.Core;
-using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Internal.Events.Message;
 using TheLastPlanet.Shared.Internal.Events.Serialization;
-using TheLastPlanet.Shared.TypeExtensions;
 using TheLastPlanet.Shared.Internal.Events.Serialization.Implementations;
+using TheLastPlanet.Shared.TypeExtensions;
 
 namespace TheLastPlanet.Server.Internal.Events
 {
@@ -27,8 +25,8 @@ namespace TheLastPlanet.Server.Internal.Events
             DelayDelegate = async delay => await BaseScript.Delay(delay);
             PushDelegate = Push;
             Server.Instance.AddEventHandler(EventConstant.SignaturePipeline, new Action<string>(GetSignature));
-			Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string, byte[]>(Inbound));
-			Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string, byte[]>(Outbound));
+            Server.Instance.AddEventHandler(EventConstant.InboundPipeline, new Action<string, byte[]>(Inbound));
+            Server.Instance.AddEventHandler(EventConstant.OutboundPipeline, new Action<string, byte[]>(Outbound));
         }
 
         public void Push(string pipeline, ISource source, byte[] buffer)
@@ -48,7 +46,7 @@ namespace TheLastPlanet.Server.Internal.Events
 
                 if (_signatures.ContainsKey(client.Handle))
                 {
-                   Server.Logger.Warning($"Client {client} tried acquiring event signature more than once.");
+                    Server.Logger.Warning($"Client {client} tried acquiring event signature more than once.");
 
                     return;
                 }
@@ -140,9 +138,9 @@ namespace TheLastPlanet.Server.Internal.Events
         public void Send(List<ClientId> clients, string endpoint, params object[] args) => Send(clients.Select(x => x.Handle).ToList(), endpoint, args);
 
         public void Send(List<int> targets, string endpoint, params object[] args)
-		{
-            for(int i=0; i<targets.Count; i++) Send(targets[i], endpoint, args);
-		}
+        {
+            for (int i = 0; i < targets.Count; i++) Send(targets[i], endpoint, args);
+        }
 
         public async void Send(int target, string endpoint, params object[] args)
         {

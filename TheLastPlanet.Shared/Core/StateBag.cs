@@ -205,7 +205,7 @@ namespace TheLastPlanet.Shared
 #if CLIENT
             ServerIdProprietario = Game.Player.ServerId;
 #elif SERVER
-			ServerIdProprietario = Convert.ToInt32(player.Handle);
+            ServerIdProprietario = Convert.ToInt32(player.Handle);
 #endif
             IsProprietario = true;
             Instance = string.Empty;
@@ -222,7 +222,7 @@ namespace TheLastPlanet.Shared
 #if CLIENT
             ServerIdProprietario = Game.Player.ServerId;
 #elif SERVER
-			ServerIdProprietario = Convert.ToInt32(player.Handle);
+            ServerIdProprietario = Convert.ToInt32(player.Handle);
 #endif
             IsProprietario = true;
             this.Instance = instance;

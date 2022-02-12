@@ -1,6 +1,6 @@
 ﻿namespace TheLastPlanet.Server.Discord.GuildData
 {
-	public class Emoji
-	{
-	}
+    public class Emoji
+    {
+    }
 }

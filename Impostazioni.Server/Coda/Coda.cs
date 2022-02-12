@@ -14,5 +14,5 @@ namespace Impostazioni.Server.Configurazione.Coda
         public bool allowSymbols { get; set; }
         public bool stateChangeMessages { get; set; }
     }
-    
+
 }

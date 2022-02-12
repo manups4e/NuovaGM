@@ -1,18 +1,13 @@
 ﻿using CitizenFX.Core;
-using Logger;
 using Newtonsoft.Json;
-using TheLastPlanet.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static CitizenFX.Core.Native.API;
-using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.Buckets;
-using TheLastPlanet.Shared.Internal.Events;
-using CitizenFX.Core.Native;
 using TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode;
+using TheLastPlanet.Shared;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
@@ -152,7 +147,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
             await Task.FromResult(0);
         }
-    
+
         private static void Salvami(ClientId client)
         {
             try

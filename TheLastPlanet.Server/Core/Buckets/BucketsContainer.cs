@@ -3,15 +3,12 @@ using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Core.Buckets;
 using TheLastPlanet.Shared.Internal.Events;
-using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server.Core.Buckets
 {
@@ -418,7 +415,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             string dress = await MySQL.QuerySingleAsync<string>(queryDress, new { id });
             string loc = await MySQL.QuerySingleAsync<string>(queryLoc, new { id });
 
-			SkinAndDress result = new()
+            SkinAndDress result = new()
             {
                 Skin = skin.FromJson<Skin>(),
                 Position = loc.FromJson<Position>(),
@@ -502,7 +499,7 @@ namespace TheLastPlanet.Server.Core.Buckets
     }
 
     public class LobbyBucketsContainer
-	{
+    {
         public ModalitaServer Modalita { get; set; }
         public Bucket Bucket { get; set; }
 

@@ -1,14 +1,14 @@
 using CitizenFX.Core;
 using Logger;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
-using TheLastPlanet.Shared.Internal.Events;
 using System.Text;
+using System.Threading.Tasks;
+using TheLastPlanet.Shared.Internal.Events;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
 using ScaleformUI;
@@ -796,15 +796,15 @@ namespace TheLastPlanet.Shared
         }
 
 #if SERVER
-		public static void TriggerSubsystemEvent(this Player player, string endpoint, params object[] args)
-		{
-			Server.Server.Instance.Events.Send(player, endpoint, args);
-		}
+        public static void TriggerSubsystemEvent(this Player player, string endpoint, params object[] args)
+        {
+            Server.Server.Instance.Events.Send(player, endpoint, args);
+        }
 
-		public static void TriggerSubsystemEvent(this ClientId client, string endpoint, params object[] args)
-		{
-			Server.Server.Instance.Events.Send(client, endpoint, args);
-		}
+        public static void TriggerSubsystemEvent(this ClientId client, string endpoint, params object[] args)
+        {
+            Server.Server.Instance.Events.Send(client, endpoint, args);
+        }
 #endif
 
         public static void SetState<T>(this Player player, string key, T val, bool replicated) => player.State.Set(key, val.ToBytes(), replicated);

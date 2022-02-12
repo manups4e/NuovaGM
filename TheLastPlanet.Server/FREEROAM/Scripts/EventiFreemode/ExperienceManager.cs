@@ -1,12 +1,7 @@
-﻿using CitizenFX.Core;
-using Logger;
-using TheLastPlanet.Shared;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.Buckets;
+using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode

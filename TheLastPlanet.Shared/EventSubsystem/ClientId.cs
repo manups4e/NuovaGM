@@ -51,10 +51,12 @@ namespace TheLastPlanet.Shared.Internal.Events
         }
 
 #elif SERVER
-        [Ignore] [JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public Player Player { get => Server.Server.Instance.GetPlayers[Handle]; }
 
-        [Ignore] [JsonIgnore]
+        [Ignore]
+        [JsonIgnore]
         public Ped Ped { get => Player.Character; }
 
         public static readonly ClientId Global = new(-1);
@@ -162,7 +164,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         {
             ClientId res;
 #if SERVER
-             res = Server.Server.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);
+            res = Server.Server.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);
 #elif CLIENT
             res = Client.Client.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);
 #endif

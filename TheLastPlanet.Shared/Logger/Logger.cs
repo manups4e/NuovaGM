@@ -21,22 +21,22 @@ namespace Logger
         public Log() { }
 
 #if SERVER
-		public async Task Writer(string err, string text)
-		{
-			string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
-			try
-			{
-				
-				using var _writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
-				await _writer.WriteLineAsync($"{incipit} {err} {text}");
-				_writer.Close();
-			}
-			catch (Exception e)
-			{
-				CitizenFX.Core.Debug.WriteLine($"{LIGHT_RED}{incipit} -- [ERRORE] -- {e}.^7");
-			}
-			await Task.FromResult(0);
-		}
+        public async Task Writer(string err, string text)
+        {
+            string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
+            try
+            {
+
+                using var _writer = File.AppendText($"Logs\\Server__{DateTime.Now:dd-MM-yyyy}.log");
+                await _writer.WriteLineAsync($"{incipit} {err} {text}");
+                _writer.Close();
+            }
+            catch (Exception e)
+            {
+                CitizenFX.Core.Debug.WriteLine($"{LIGHT_RED}{incipit} -- [ERRORE] -- {e}.^7");
+            }
+            await Task.FromResult(0);
+        }
 #endif
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Logger
             string colore = LIGHT_GREEN;
             CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 #if SERVER
-			await Writer(err, text);
+            await Writer(err, text);
 #endif
         }
 
@@ -83,7 +83,7 @@ namespace Logger
             string colore = YELLOW;
             CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 #if SERVER
-			await Writer(err, text);
+            await Writer(err, text);
 #endif
         }
 
@@ -98,7 +98,7 @@ namespace Logger
             string colore = LIGHT_RED;
             CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 #if SERVER
-			await Writer(err, text);
+            await Writer(err, text);
 #endif
         }
 
@@ -113,7 +113,7 @@ namespace Logger
             string colore = DARK_RED;
             CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
 #if SERVER
-			await Writer(err, text);
+            await Writer(err, text);
 #endif
         }
     }
