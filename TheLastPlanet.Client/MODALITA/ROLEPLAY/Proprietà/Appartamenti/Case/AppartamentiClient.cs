@@ -17,6 +17,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using TheLastPlanet.Client.Core;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
 {
@@ -58,7 +59,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
 			cam.PointAt(app.Value.TelecameraFuori.guarda.ToVector3);
 			RenderScriptCams(true, true, 1500, true, false);
 			dummycam.InterpTo(cam, 1500, 1, 1);
-			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti");
+			UIMenu casa = new UIMenu(app.Value.Label, "Appartamenti", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.ControlDisablingEnabled = true;
 			HUD.MenuPool.Add(casa);
 			UIMenu Citofona = casa.AddSubMenu("Citofona ai residenti");
@@ -140,7 +141,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
 
 		public static async void EsciMenu(ConfigCase app, bool inGarage = false, bool inTetto = false)
 		{
-			UIMenu esci = new UIMenu(app.Label, "Appartamenti");
+			UIMenu esci = new UIMenu(app.Label, "Appartamenti", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(esci);
 			UIMenuItem escisci = new UIMenuItem("Esci dall'appartamento");
 			esci.AddItem(escisci);

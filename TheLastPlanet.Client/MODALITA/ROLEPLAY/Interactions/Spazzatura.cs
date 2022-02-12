@@ -10,6 +10,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Client.Core;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -82,7 +83,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
 					if (inv.Count > 0)
 					{
-						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?");
+						UIMenu GettaMenu = new UIMenu("Getta nel Cestino", "Cosa buttiamo via?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 						HUD.MenuPool.Add(GettaMenu);
 
 						foreach (Inventory it in inv)

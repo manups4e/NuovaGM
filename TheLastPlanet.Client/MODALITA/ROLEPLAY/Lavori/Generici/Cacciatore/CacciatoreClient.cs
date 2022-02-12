@@ -15,6 +15,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
 using TheLastPlanet.Shared;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 {
@@ -232,7 +233,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 
 		private static async void ApriMenuAffittoArmi()
 		{
-			UIMenu affittoArmi = new UIMenu("Menu dei cacciatori", "Per i veri amanti di un nobile sport");
+			UIMenu affittoArmi = new UIMenu("Menu dei cacciatori", "Per i veri amanti di un nobile sport", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(affittoArmi);
 
 			if (!StaCacciando)

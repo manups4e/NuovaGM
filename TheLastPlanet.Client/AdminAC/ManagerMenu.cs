@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.AdminAC
 
 		public static async void AdminMenu(UserGroup group_level)
 		{
-			UIMenu AdminMenu = new("Admin menu", "Il menu di chi comanda!", new PointF(950, 50));
+			UIMenu AdminMenu = new("Admin menu", "Il menu di chi comanda!", new PointF(950, 50), "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(AdminMenu);
 			UIMenu MenuPlayers = AdminMenu.AddSubMenu("Gestione Giocatori", "~r~Attenzione!!~w~ - Qui non solo potrai gestire i giocatori ma anche i loro personaggi (soldi, lavoro, inventario, armi).\n~o~FAI ATTENZIONE!~w~");
 			UIMenu MenuVehicles = AdminMenu.AddSubMenu("Menu Veicoli");

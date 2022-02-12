@@ -14,6 +14,7 @@ using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 {
@@ -224,7 +225,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 
 			if (oggi.DayOfWeek == DayOfWeek.Monday || oggi.DayOfWeek == DayOfWeek.Wednesday || oggi.DayOfWeek == DayOfWeek.Friday)
 			{
-				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più");
+				UIMenu venditaPesce = new UIMenu("Vendita pesce fresco", "Vendi qui e guadagna di più", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 				HUD.MenuPool.Add(venditaPesce);
 				List<Inventory> inventario = Cache.PlayerCache.MyPlayer.User.CurrentChar.Inventory;
 
@@ -417,7 +418,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 
 		private static async void MenuBarche()
 		{
-			UIMenu Barche = new UIMenu("Pescatore", "Scegli la barca", new System.Drawing.PointF(50, 50));
+			UIMenu Barche = new UIMenu("Pescatore", "Scegli la barca", new System.Drawing.PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(Barche);
 			foreach (UIMenuItem boat in PuntiPesca.Barche.Select(barca => new UIMenuItem(GetLabelText(barca), "~y~Se sei in compagnia dei tuoi amici~w~ potete usare una barca sola insieme e risparmiare nell'affitto!"))) Barche.AddItem(boat);
 			Vehicle veh = new Vehicle(0);

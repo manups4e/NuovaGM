@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 		{
 			AbitiLav PilotaMaschio = new() { Abiti = new ComponentDrawables(-1, 0, -1, 96, 41, -1, 24, 40, 15, 0, 0, 54), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0), Accessori = new PropIndices(47, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(0, -1, -1, -1, -1, -1, -1, -1, -1) };
 			AbitiLav PilotaFemmina = new() { Abiti = new ComponentDrawables(-1, 0, -1, 25, 0, -1, 24, 0, 13, 0, 0, 1), TextureVestiti = new ComponentDrawables(-1, 0, -1, 0, 1, -1, 0, 0, 0, 0, 0, 4), Accessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1), TexturesAccessori = new PropIndices(-1, -1, -1, -1, -1, -1, -1, -1, -1) };
-			UIMenu Spogliatoio = new UIMenu("Spogliatoio Polizia", "Cambiati ed entra/esci dal servizio");
+			UIMenu Spogliatoio = new UIMenu("Spogliatoio Polizia", "Cambiati ed entra/esci dal servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(Spogliatoio);
 
 			UIMenuItem Uniforme = new UIMenuItem("");
@@ -177,7 +177,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 			string nome = "";
 			string cognome = "";
 			string numero = "";
-			MenuPoliziaPrincipale = new UIMenu("Menu Polizia", "IO SONO LA LEGGE!", new Point(50, 200));
+			MenuPoliziaPrincipale = new UIMenu("Menu Polizia", "IO SONO LA LEGGE!", new Point(50, 200), "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(MenuPoliziaPrincipale);
 			InterazioneCivile = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Cittadino", "Mi faccia vedere i dati!");
 			InterazioneVeicolo = MenuPoliziaPrincipale.AddSubMenu("Interazioni col Veicolo", "Mi faccia controllare il veicolo!");
@@ -510,7 +510,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 			RequestAdditionalCollisionAtCoord(-1267.0f, -3013.135f, -48.5f);
 			HeliCam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { Position = new Vector3(-1268.174f, -2999.561f, -44.215f), IsActive = true };
 			await BaseScript.Delay(1000);
-			UIMenu MenuElicotteri = new UIMenu("Elicotteri Polizia", "Pattuglia le strade con stile!");
+			UIMenu MenuElicotteri = new UIMenu("Elicotteri Polizia", "Pattuglia le strade con stile!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(MenuElicotteri);
 
 			foreach (Autorizzati t in Stazione.ElicotteriAutorizzati)
@@ -763,7 +763,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
 		private static async void MenuPiano()
 		{
-			UIMenu Ascensore = new UIMenu("Seleziona Piano", "Sali o scendi?");
+			UIMenu Ascensore = new UIMenu("Seleziona Piano", "Sali o scendi?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new UIMenuItem("Esci dal Garage");
 			Ascensore.AddItem(esci);

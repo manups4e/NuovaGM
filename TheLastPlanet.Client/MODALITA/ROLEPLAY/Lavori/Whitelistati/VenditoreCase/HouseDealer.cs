@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Impostazioni.Client.Configurazione.Lavori.WhiteList;
 using Logger;
 using TheLastPlanet.Client.Core;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
@@ -90,7 +91,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
 		private static async void MenuVenditoreCase()
 		{
-			UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!");
+			UIMenu venditore = new UIMenu("Agenzia Immobiliare", "Abbiamo la casa per tutte le esigenze!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(venditore);
 			Dictionary<string, ConfigCase> Appartamenti = Client.Impostazioni.RolePlay.Proprieta.Appartamenti;
 			Dictionary<string, Garages> Garages = Client.Impostazioni.RolePlay.Proprieta.Garages.Garages;

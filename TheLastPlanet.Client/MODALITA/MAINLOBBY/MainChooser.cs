@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿global using CitizenFX.Core;
+global using CitizenFX.Core.UI;
+global using static CitizenFX.Core.Native.API;
+global using ScaleformUI;
+global using TheLastPlanet.Shared;
+global using TheLastPlanet.Client.Cache;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.UI;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using ScaleformUI;
-using TheLastPlanet.Shared;
 using CitizenFX.Core.Native;
-using TheLastPlanet.Client.Cache;
 
 namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 {
@@ -46,8 +47,13 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 			await Cache.PlayerCache.Loaded();
 			if (firstTick)
 			{
-				API.StopPlayerSwitch();
+				StopPlayerSwitch();
 				await BaseScript.Delay(1000);
+				var txd = CreateRuntimeTxd("thelastgalaxy");
+				var _titledui = CreateDui("https://c.tenor.com/2jV0hjUDz6QAAAAC/galaxy-stars.gif", 498, 290);
+				var _logodui = CreateDui("https://giphy.com/embed/VI2UC13hwWin1MIfmi", 80, 80);
+				CreateRuntimeTextureFromDuiHandle(txd, "bannerbackground", GetDuiHandle(_titledui));
+				CreateRuntimeTextureFromDuiHandle(txd, "serverlogo", GetDuiHandle(_logodui));
 				firstTick = false;
 			}
 			if (_posRp == Position.Zero)
@@ -223,21 +229,21 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
                 PlayerCache.MyPlayer.Ped.SetConfigFlag(342, true);
                 PlayerCache.MyPlayer.Ped.SetConfigFlag(122, true);
-                API.SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
+                SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
                 Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, true, false);
-                API.NetworkSetPlayerIsPassive(true);
-                API.NetworkSetFriendlyFireOption(false);
-                API.SetCanAttackFriendly(API.PlayerPedId(), false, false);
+                NetworkSetPlayerIsPassive(true);
+                NetworkSetFriendlyFireOption(false);
+                SetCanAttackFriendly(PlayerPedId(), false, false);
             }
             else
             {
                 PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = true;
                 PlayerCache.MyPlayer.Ped.SetConfigFlag(342, false);
                 PlayerCache.MyPlayer.Ped.SetConfigFlag(122, false);
-                API.SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
-                API.NetworkSetPlayerIsPassive(false);
-                API.NetworkSetFriendlyFireOption(true);
-                API.SetCanAttackFriendly(API.PlayerPedId(), true, false);
+                SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
+                NetworkSetPlayerIsPassive(false);
+                NetworkSetFriendlyFireOption(true);
+                SetCanAttackFriendly(PlayerPedId(), true, false);
                 Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, false, false);
             }
         }

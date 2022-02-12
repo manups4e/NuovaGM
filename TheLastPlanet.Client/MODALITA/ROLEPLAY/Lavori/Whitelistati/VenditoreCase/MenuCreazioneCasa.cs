@@ -78,7 +78,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
 
 			#region dichiarazione
 
-			UIMenu creazione = new("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0));
+			UIMenu creazione = new("Creatore Immobiliare", "Usare con cautela!", new PointF(1450f, 0), "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(creazione);
 			creazione.MouseControlsEnabled = false;
 			UIMenuListItem tipo = new("Tipo di immobile", new List<dynamic>() { "Casa", "Garage" }, 0);

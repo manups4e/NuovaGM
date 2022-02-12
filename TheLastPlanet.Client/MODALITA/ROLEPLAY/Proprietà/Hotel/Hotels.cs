@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 		private static async void MenuHotel(Ped _, object[] args)
 		{
 			Hotel hotel = (Hotel)args[0];
-			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50));
+			UIMenu HotelMenu = new UIMenu(hotel.Name, "~b~Benvenuto.", new System.Drawing.PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(HotelMenu);
 			UIMenuItem stanzaPiccola = new UIMenuItem("Stanza Piccola", "Costa poco.. e ha un letto..");
 			stanzaPiccola.SetRightLabel((Cache.PlayerCache.MyPlayer.User.Money >= hotel.Prezzi.StanzaPiccola || Cache.PlayerCache.MyPlayer.User.Bank >= hotel.Prezzi.StanzaPiccola ? "~g~$" : "~r~$") + hotel.Prezzi.StanzaPiccola);

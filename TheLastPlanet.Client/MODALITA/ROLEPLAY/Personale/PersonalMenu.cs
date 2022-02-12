@@ -76,7 +76,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 			Ped playerPed = PlayerCache.MyPlayer.Ped;
 			Player me = PlayerCache.MyPlayer.Player;
 			Point pos = new Point(50, 50);
-			UIMenu PersonalMenu = new UIMenu("Menu Personale", "~g~A portata di mano~w~", pos);
+			UIMenu PersonalMenu = new UIMenu(Game.Player.Name, "~g~A portata di mano~w~", pos, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(PersonalMenu);
 
 			#region GPS Veloce

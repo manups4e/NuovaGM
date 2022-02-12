@@ -13,6 +13,7 @@ using ScaleformUI;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
 using Newtonsoft.Json;
 using TheLastPlanet.Shared;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 {
@@ -22,7 +23,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
 		public static async void MenuSpogliatoio()
 		{
-			UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio");
+			UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(spogliatoio);
 			UIMenuItem cambio;
 			cambio = !Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
@@ -95,7 +96,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
 		public static async void MenuFarmacia()
 		{
-			UIMenu farmacia = new("Farmacia e Medicinali", "Con prescrizione o senza?");
+			UIMenu farmacia = new("Farmacia e Medicinali", "Con prescrizione o senza?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(farmacia);
 			farmacia.Visible = true;
 		}
@@ -106,7 +107,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
 		public static async void InteractionMenu()
 		{
-			UIMenu MenuMedico = new("Menu Medico", "Salviamo qualche vita!");
+			UIMenu MenuMedico = new("Menu Medico", "Salviamo qualche vita!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(MenuMedico);
 			UIMenuItem controlloFerite = new("Controlla ferite", "Dove fa male?");
 			UIMenuItem rianima = new("Tenta rianimazione", "Attenzione: potrebbe fallire!");
@@ -259,7 +260,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
 		private static async void MenuPiano()
 		{
-			UIMenu Ascensore = new("Seleziona Piano", "Sali o scendi?");
+			UIMenu Ascensore = new("Seleziona Piano", "Sali o scendi?", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(Ascensore);
 			UIMenuItem esci = new("Esci dal Garage");
 			Ascensore.AddItem(esci);
@@ -327,7 +328,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 			HeliCam.Position = new Vector3(-1268.174f, -2999.561f, -44.215f);
 			HeliCam.IsActive = true;
 			await BaseScript.Delay(1000);
-			UIMenu MenuElicotteri = new("Elicotteri Medici", "Cura le strade con stile!");
+			UIMenu MenuElicotteri = new("Elicotteri Medici", "Cura le strade con stile!", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(MenuElicotteri);
 
 			for (int i = 0; i < Stazione.ElicotteriAutorizzati.Count; i++)

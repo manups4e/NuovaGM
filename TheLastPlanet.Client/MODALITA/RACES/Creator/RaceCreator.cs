@@ -105,7 +105,7 @@ namespace TheLastPlanet.Client.Races.Creator
 
 		public static async void CreatorMainMenu()
 		{
-			Creator = new("Creatore Gare", "Lo strumento dei creativi");
+			Creator = new("Creatore Gare", "Lo strumento dei creativi", new PointF(0,0), "thelastgalaxy", "bannerbackground", false, true);
 			Creator.MouseControlsEnabled = false;
 			HUD.MenuPool.Add(Creator);
 			UIMenu Dettagli = Creator.AddSubMenu("Dettagli");

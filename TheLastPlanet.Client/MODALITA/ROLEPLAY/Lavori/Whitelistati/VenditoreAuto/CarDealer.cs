@@ -14,6 +14,7 @@ using Impostazioni.Client.Configurazione.Lavori.WhiteList;
 using Logger;
 using TheLastPlanet.Shared.Veicoli;
 using TheLastPlanet.Client.Core;
+using System.Drawing;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto
 {
@@ -71,7 +72,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 
 		private static async void MenuVenditore()
 		{
-			UIMenu menuVenditore = new UIMenu("Menu Venditore", "Tutto l'occorrente a portata di click");
+			UIMenu menuVenditore = new UIMenu("Menu Venditore", "Tutto l'occorrente a portata di click", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(menuVenditore);
 
 			// la fattura sarà automatica all'acquisto da parte dell'acquirente (magari non ci sarà fattura ma acquisto automatico)
@@ -159,7 +160,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 			World.RenderingCamera = cam;
 			cam.Position = new Vector3(230.2893f, -996.1444f, -98.08697f);
 			cam.PointAt(new Vector3(228.9409f, -989.8207f, -99.99992f));
-			UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
+			UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 			HUD.MenuPool.Add(catalogo);
 			Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 			string SelectedVeh = "";
@@ -295,7 +296,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
 
 			if (venditore)
 			{
-				UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia");
+				UIMenu catalogo = new UIMenu("Catalogo concessionaria", "Il tuo catalogo di fiducia", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
 				HUD.MenuPool.Add(catalogo);
 				Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo = new Dictionary<string, List<VeicoloCatalogoVenditore>>();
 

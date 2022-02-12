@@ -41,6 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 			taxi = null;
 			Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
 			TickController.TickAPiedi.Remove(Markers);
+			Client.Instance.RemoveTick(Markers);
 			Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == taxi.PosAccettazione);
 			if (p != null) p.Delete();
 		}

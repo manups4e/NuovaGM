@@ -96,10 +96,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
 			//MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
 			SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
 			NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
-			var txd = CreateRuntimeTxd("thelastgalaxy");
-			var _titledui = CreateDui("https://c.tenor.com/2jV0hjUDz6QAAAAC/galaxy-stars.gif", 498, 290);
-			var handle = GetDuiHandle(_titledui);
-			CreateRuntimeTextureFromDuiHandle(txd, "bannerbackground", handle);
 			MainChooser.Init();
 			SpawnParticle.MarkAsNoLongerNeeded();
 		}

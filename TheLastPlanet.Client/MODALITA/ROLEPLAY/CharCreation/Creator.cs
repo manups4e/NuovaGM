@@ -523,7 +523,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 				Screen.Fading.FadeIn(800);
 				Point offset = new Point(50, 50);
 				HUD.MenuPool.MouseEdgeEnabled = false;
-				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
+				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset, "thelastgalaxy", "bannerbackground", false, true);
 				Creazione.ControlDisablingEnabled = true;
 				HUD.MenuPool.Add(Creazione);
 				UIMenuListItem Sesso;
