@@ -1,10 +1,4 @@
-﻿global using CitizenFX.Core;
-global using CitizenFX.Core.UI;
-global using ScaleformUI;
-global using TheLastPlanet.Client.Cache;
-global using TheLastPlanet.Shared;
-global using static CitizenFX.Core.Native.API;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Ingresso;
