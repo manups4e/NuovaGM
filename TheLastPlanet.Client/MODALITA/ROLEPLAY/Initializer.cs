@@ -9,6 +9,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Inventario;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
 using TheLastPlanet.Client.RolePlay.MenuPausa;
@@ -56,12 +57,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			//Giostre.Funivia.Init();
 			IPLInstance.Init();
 			Proprietà.Hotel.Hotels.Init();
-			Interactions.Macchinette.Init();
-			Interactions.Docce.Init();
-			Interactions.PickupsClient.Init();
-			Interactions.OggettiGenerici.Init();
-			Interactions.PrimaPersonaObbligatoria.Init();
-			Interactions.Pioggia.Init();
+			Macchinette.Init();
+			Docce.Init();
+			PickupsClient.Init();
+			OggettiGenerici.Init();
+			PrimaPersonaObbligatoria.Init();
+			Pioggia.Init();
 			Sport.Yoga.Init();
 
 			//Telefono.PhoneMainClient.Init();
@@ -70,12 +71,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Init();
 			PauseMenu.Init();
 			TickController.Init();
+			MapLooking.Init();
 			await Task.FromResult(0);
 		}
 
 		public static async Task Stop()
 		{
 			//ClasseDiTest.Stop(); // da rimouvere
+			TickController.Stop();
 			DecorationClass.Stop();
 			BankingClient.Stop();
 			PompeDiBenzinaClient.Stop();
@@ -104,17 +107,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
 			Veicoli.VehHud.Stop();
 			IPLInstance.Stop(); // da finire
 			Proprietà.Hotel.Hotels.Stop();
-			Interactions.Macchinette.Stop();
-			Interactions.Docce.Stop();
-			Interactions.PickupsClient.Stop();
-			Interactions.OggettiGenerici.Stop();
-			Interactions.PrimaPersonaObbligatoria.Stop();
+			Macchinette.Stop();
+			Docce.Stop();
+			PickupsClient.Stop();
+			OggettiGenerici.Stop();
+			PrimaPersonaObbligatoria.Stop();
 			Sport.Yoga.Stop();
 			Lavori.Whitelistati.VenditoreAuto.CarDealer.Stop();
 			Lavori.Whitelistati.VenditoreCase.HouseDealer.Stop();
 			PauseMenu.Stop();
 			Minimap.Stop();
-			TickController.Stop();
 			await CoreInitializer.LogInStop();
 			await Task.FromResult(0);
 		}
