@@ -71,6 +71,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 			};
 			var mugshot = await Funzioni.GetPedMugshotAsync(me);
 			MainMenu.HeaderPicture = new(mugshot.Item2, mugshot.Item2);
+			MainMenu.CrewPicture = new("thelastgalaxy", "serverlogo");
 
 			HUD.MenuPool.Add(MainMenu);
 			TabSubmenuItem online = new("FREEROAM");
@@ -78,7 +79,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
             {
                 TextTitle = "ATTENZIONE"
             };
-            BasicTabItem _discinfo = new("Stai per tornare al pianeta Lobby, tutti i progressi non salvati verranno perduti!");
+            BasicTabItem _discinfo = new("⚠ Stai per tornare al pianeta Lobby, tutti i progressi non salvati verranno perduti!");
 			disc.AddItem(_discinfo);
 			online.AddLeftItem(disc);
 
