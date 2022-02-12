@@ -892,12 +892,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             }
         }
 
-        public static UIMenu Creazione = new UIMenu("", "");
-        public static UIMenu Genitori = new UIMenu("", "");
-        public static UIMenu Dettagli = new UIMenu("", "");
-        public static UIMenu Apparenze = new UIMenu("", "");
-        public static UIMenu Apparel = new UIMenu("", "");
-        public static UIMenu Statistiche = new UIMenu("", "");
+        public static UIMenu Creazione = new UIMenu("", "", true);
+        public static UIMenu Genitori = new UIMenu("", "", false);
+        public static UIMenu Dettagli = new UIMenu("", "", false);
+        public static UIMenu Apparenze = new UIMenu("", "", false);
+        public static UIMenu Apparel = new UIMenu("", "", false);
+        public static UIMenu Statistiche = new UIMenu("", "", false);
         private static List<dynamic> _arcSop = new List<dynamic> { "Standard", "Alte", "Basse" };
         private static List<dynamic> _occ = new List<dynamic> { "Standard", "Grandi", "Stretti" };
         private static List<dynamic> _nas = new List<dynamic> { "Standard", "Grande", "Piccolo" };
@@ -929,9 +929,11 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 				Screen.Fading.FadeIn(800);
 				Point offset = new Point(50, 50);
 				HUD.MenuPool.MouseEdgeEnabled = false;
-				Creazione = new UIMenu("TLP Creator", "Crea un nuovo Personaggio", offset);
-				Creazione.ControlDisablingEnabled = true;
-				HUD.MenuPool.Add(Creazione);
+                Creazione = new("FreeRoam Creator", "Crea un nuovo Personaggio", offset, "thelastgalaxy", "bannerbackground", false, true)
+                {
+                    ControlDisablingEnabled = true
+                };
+                HUD.MenuPool.Add(Creazione);
 				UIMenuListItem Sesso;
 				Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
 				Creazione.AddItem(Sesso);
@@ -1204,7 +1206,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 #region Genitori
 
-                Genitori.OnListChange += async (_sender, _listItem, _newIndex) =>
+                Genitori.OnListChange += (_sender, _listItem, _newIndex) =>
                 {
                     if (_listItem == mamma)
                     {
@@ -1831,7 +1833,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
 					else if (item == hat)
 					{
-						if (index == 0) ClearPedProp(PlayerPedId(), 0);
+						Client.Logger.Debug("hat id = " + index);
+						if (index == 0) ClearPedProp(id, 0);
 						else
 						{
 							ShopPed.PedComponentData prop = new();
@@ -1937,6 +1940,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 						SHOOTING_ABILITY = _shooting,
 						WHEELIE_ABILITY = _driving,
 						FLYING_ABILITY = _flying,
+						Experience = 0,
+						Prestige = 0,
+						Kills = 0,
+						Deaths = 0,
+						Headshots = 0,
+						MaxKillStreak = 0,
+						MissionsDone = 0,
+						EventsWon = 0,
 					};
 				};
                 #endregion
