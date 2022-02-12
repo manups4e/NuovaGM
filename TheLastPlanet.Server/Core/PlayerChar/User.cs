@@ -21,6 +21,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 		public User() { }
 		public User(Player player, BasePlayerShared result)
 		{
+			Name = player.Name;
 			source = player.Handle;
 			ID = result.ID;
 			PlayerID = result.PlayerID;
@@ -157,7 +158,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				if (checkedItem.Amount == ConfigShared.SharedConfig.Main.Generici.ItemList[item].max)
 				{
 					checkedItem.Amount = ConfigShared.SharedConfig.Main.Generici.ItemList[item].max;
-					Player.TriggerEvent("lprp:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "~w~!");
+					Player.TriggerEvent("tlg:ShowNotification", "HAI GIA' IL MASSIMO DI ~w~" + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "~w~!");
 				}
 			}
 			else
@@ -165,7 +166,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				CurrentChar.Inventory.Add(new Inventory(item, amount, weight));
 			}
 
-			Player.TriggerEvent("lprp:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
+			Player.TriggerEvent("tlg:ShowNotification", "Hai ricevuto " + amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + "!");
 		}
 
 		public void removeInventoryItem(string item, int amount)
@@ -183,7 +184,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 				CurrentChar.Inventory.ToList().Remove(checkedItem);
 			}
 
-			Player.TriggerEvent("lprp:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
+			Player.TriggerEvent("tlg:ShowNotification", amount + " " + ConfigShared.SharedConfig.Main.Generici.ItemList[item].label + " ti sono stati rimossi/e!");
 		}
 
 		public List<Weapons> getCharWeapons(uint charId)
@@ -358,7 +359,7 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
 		public void showNotification(string text)
 		{
-			Player.TriggerEvent("lprp:ShowNotification", text);
+			Player.TriggerSubsystemEvent("tlg:ShowNotification", text);
 		}
 	}
 }

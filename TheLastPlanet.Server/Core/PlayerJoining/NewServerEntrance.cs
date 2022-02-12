@@ -135,8 +135,9 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 			{
 				Snowflake newone = SnowflakeGenerator.Instance.Next();
 				const string procedure = "call IngressoPlayer(@disc, @lice, @name, @snow)";
-				BasePlayerShared p = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
-				User user = new(source, p);
+				await BaseScript.Delay(0);
+				BasePlayerShared basePlayerShared = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
+				User user = new(source, basePlayerShared);
 				ClientId client = new(user);
 				Server.Instance.Clients.Add(client);
 			}
@@ -184,7 +185,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
 				Server.Instance.Clients.RemoveAll(x => x.Handle.ToString() == player.Handle);
 				Server.Logger.Info(text);
 				// TODO: creare funzione per sapere il bucket del player come oggetto
-				BaseScript.TriggerClientEvent("lprp:ShowNotification", "~r~" + text);
+				BaseScript.TriggerClientEvent("tlg:ShowNotification", "~r~" + text);
 			}
 			catch(Exception e)
 			{

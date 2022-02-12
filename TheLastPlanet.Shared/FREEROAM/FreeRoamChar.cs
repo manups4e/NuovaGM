@@ -84,20 +84,21 @@ namespace TheLastPlanet.Shared
 	[Serialization]
 	public partial class FreeRoamStats
 	{
-		public float STAMINA { get; set; }
-		public float STRENGTH { get; set; }
-		public float LUNG_CAPACITY { get; set; }
-		public float SHOOTING_ABILITY { get; set; }
-		public float WHEELIE_ABILITY { get; set; }
-		public float FLYING_ABILITY { get; set; }
-		public int Experience { get; set; }
-		public int Prestige { get; set; }
-		public int Kills { get; set; }
-		public int Deaths { get; set; }
-		public int Headshots { get; set; }
-		public int MaxKillStreak { get; set; }
-		public int MissionsDone { get; set; }
-		public int EventsWon { get; set; }
+		public float STAMINA { get; set; } = 0;
+		public float STRENGTH { get; set; } = 0;
+		public float LUNG_CAPACITY { get; set; } = 0;
+		public float SHOOTING_ABILITY { get; set; } = 0;
+		public float WHEELIE_ABILITY { get; set; } = 0;
+		public float FLYING_ABILITY { get; set; } = 0;
+		public float STEALTH_ABILITY { get; set; } = 0;
+		public int Experience { get; set; } = 0;
+		public int Prestige { get; set; } = 0;
+		public int Kills { get; set; } = 0;
+		public int Deaths { get; set; } = 0;
+		public int Headshots { get; set; } = 0;
+		public int MaxKillStreak { get; set; } = 0;
+		public int MissionsDone { get; set; } = 0;
+		public int EventsWon { get; set; } = 0;
 	}
 
 	[Serialization]

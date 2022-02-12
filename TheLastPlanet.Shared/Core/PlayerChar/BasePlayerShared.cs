@@ -25,8 +25,9 @@ namespace TheLastPlanet.Shared.PlayerChar
 			set => PlayerID = Snowflake.Parse(value);
 		}
 
+		public string? Name { get; set; }
 		public Snowflake PlayerID { get; set; }
-		public string group{ get; set; }
+		public string? group{ get; set; }
 		public UserGroup group_level{ get; set; }
 		public long playTime{ get; set; }
 		[Ignore] [JsonIgnore] 

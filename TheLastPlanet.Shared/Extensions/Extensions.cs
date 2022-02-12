@@ -21,6 +21,8 @@ namespace TheLastPlanet.Shared
 	{
 
 		private static Log Logger = new();
+		private static Random random = new Random();
+
 		/// <summary>
 		/// Returns a random floating-point number that is greater than or equal to minValue, and less than maxValue.
 		/// </summary>
@@ -425,7 +427,6 @@ namespace TheLastPlanet.Shared
 		public static string GetRandomString(int size, bool lowerCase = false)
 		{
 			var builder = new StringBuilder(size);
-			var random = new Random();
 			// Unicode/ASCII Letters are divided into two blocks
 			// (Letters 65�90 / 97�122):
 			// The first group containing the uppercase letters and

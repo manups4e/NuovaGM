@@ -68,13 +68,13 @@ namespace TheLastPlanet.Server.Businesses
 						if (p.Bank < rentprice)
 						{
 							await Server.Instance.Execute($"UPDATE businesses SET identifier = '', ownerchar = '', stationname = 'Stazione di Rifornimento', thanksmessage = 'Grazie per il tuo lavoro!', cashwaiting = 0, fuelprice = 2, lastmanaged = 0, delivertype = 1, deliverallow = '', lastlogin = 0, lastpaidrent = 0 WHERE stationindex = @index", new { index = result[i].stationindex });
-							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "La tua stazione di rifornimento è stata ripresa per mancato pagamento.");
+							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "tlg:ShowNotification", "La tua stazione di rifornimento è stata ripresa per mancato pagamento.");
 						}
 						else
 						{
 							p.Bank -= rentprice;
 							await Server.Instance.Execute($"UPDATE businesses SET lastpaidrent = @now  WHERE stationindex = @idx", new { now = timenow, idx = result[i].stationindex });
-							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "lprp:ShowNotification", "{0} è stato pagato automaticamente per l'affitto della stazione.", rentprice);
+							BaseScript.TriggerClientEvent(Server.Instance.GetPlayers[Convert.ToInt32(p.source)], "tlg:ShowNotification", "{0} è stato pagato automaticamente per l'affitto della stazione.", rentprice);
 						}
 					}
 				}
@@ -120,7 +120,7 @@ namespace TheLastPlanet.Server.Businesses
 				}
 				else
 				{
-					p.TriggerEvent("lprp:ShowNotification", "Non ci sono fondi disponibili per questa stazione.");
+					p.TriggerEvent("tlg:ShowNotification", "Non ci sono fondi disponibili per questa stazione.");
 				}
 			}
 			else
@@ -155,7 +155,7 @@ namespace TheLastPlanet.Server.Businesses
 					id = p.GetCurrentChar().Identifiers.Discord
 				});
 				SendStationsUpdate();
-				p.TriggerEvent("lprp:ShowNotification", "Le impostazioni della tua stazione sono state aggiornate.");
+				p.TriggerEvent("tlg:ShowNotification", "Le impostazioni della tua stazione sono state aggiornate.");
 			}
 		}
 
@@ -396,7 +396,7 @@ namespace TheLastPlanet.Server.Businesses
 				int oldm = result[0].cashwaiting;
 				int newm = oldm + amount;
 				await Server.Instance.Execute($"UPDATE `businesses` SET `cashwaiting` = @cash WHERE `stationindex` = @idx ", new { cash = newm, idx = index });
-				p.TriggerEvent("lprp:ShowNotification", "Aggiunti soldi alla stazione. Nuovo saldo: {0}", newm.ToString());
+				p.TriggerEvent("tlg:ShowNotification", "Aggiunti soldi alla stazione. Nuovo saldo: {0}", newm.ToString());
 			}
 		}
 
@@ -412,7 +412,7 @@ namespace TheLastPlanet.Server.Businesses
 				int oldf = result[0].fuel;
 				int newf = oldf + amount;
 				await Server.Instance.Execute($"UPDATE `businesses` SET `fuel` = @fuel WHERE `stationindex` = @idx", new { fuel = newf, idx = index });
-				p.TriggerEvent("lprp:ShowNotification", "Carburante aggiunto. Nuovo livello settato a {0}", newf.ToString());
+				p.TriggerEvent("tlg:ShowNotification", "Carburante aggiunto. Nuovo livello settato a {0}", newf.ToString());
 			}
 		}
 
@@ -425,7 +425,7 @@ namespace TheLastPlanet.Server.Businesses
 			if (index > 0)
 			{
 				await Server.Instance.Execute($"UPDATE `businesses` SET `lastmanaged` = @last WHERE `stationindex` = @idx", new { last = DateTime.MinValue.ToString(), idx = index });
-				p.TriggerEvent("lprp:ShowNotification", "Data di gestione resettata.");
+				p.TriggerEvent("tlg:ShowNotification", "Data di gestione resettata.");
 			}
 		}
 

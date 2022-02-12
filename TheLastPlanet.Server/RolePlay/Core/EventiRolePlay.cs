@@ -114,7 +114,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
 			User user = source.User;
 			Server.Logger.Info($"{user.FullName} ({source.Player.Name} è entrato in città");
 			foreach (var client in from ClientId client in BucketsHandler.RolePlay.Bucket.Players where client.Handle != source.Handle select client)
-				client.Player.TriggerEvent("lprp:ShowNotification","~g~" + user.FullName + " (" + source.Player.Name + ")~w~ è entrato in città");
+				client.Player.TriggerEvent("tlg:ShowNotification","~g~" + user.FullName + " (" + source.Player.Name + ")~w~ è entrato in città");
 			source.Player.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
 			user.Status.Spawned = true;
 		}

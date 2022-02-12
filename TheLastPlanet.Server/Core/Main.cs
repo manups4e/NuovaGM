@@ -23,11 +23,14 @@ namespace TheLastPlanet.Server.Core
 		{
 			try
 			{
+				// gestione tempo players da rifare.. sicuramente!
 				await BaseScript.Delay(600000);
 				if (Server.Instance.Clients.Count > 0)
 				{
-                    foreach (var user in from user in Server.Instance.Clients where user.User is not null where user.User.Status.Spawned select user)
-                        user.User.playTime += 60;
+                    foreach (var user in from user in Server.Instance.Clients where user.User is not null where (user.User.Status is not null && user.User.Status.Spawned) select user)
+                    {
+                        user.User.playTime += 600;
+                    }
                 }
 				var ora = DateTime.UtcNow - Now;
 				SetConvarServerInfo("Attivo da:", $"{ora.Days} giorni {ora.Hours} Ore {ora.Minutes} Minuti");
