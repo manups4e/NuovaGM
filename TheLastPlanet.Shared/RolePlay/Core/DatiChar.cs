@@ -134,6 +134,8 @@ namespace TheLastPlanet.Shared
     {
         public string Name { get; set; } = "Disoccupato";
         public int Grade { get; set; } = 0;
+        public bool Occupato { get; set; }
+
 
         public Job() { }
         public Job(string name, int grade)

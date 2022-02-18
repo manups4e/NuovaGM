@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Lavori.Generici;
+﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Lavoro;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 {
     // NON E PIU UN LAVORO... LIBERO PER TUTTI.. CREARE PUNTI DI AFFITTO BARCHE PER CHI LE VUOLE..
     // CREARE PUNTI GENERICI DI VENDITA DEL PESCE, E PUNTI GENERICI DI ATTACCO / STACCO BARCHE PER CHI LE POSSIEDE
 
-    internal static class PescatoreClient
+    public class PescatoreClient : GenericJob
     {
-        private static Pescatori PuntiPesca;
-        private static string scenario = "WORLD_HUMAN_STAND_FISHING";
-        private static string AnimDict = "amb@world_human_stand_fishing@base";
-        private static bool LavoroAccettato = false;
-        private static Vehicle lastVehicle;
-        public static bool Pescando = false;
-        public static bool CannaInMano = false;
-        private static int TipoCanna = -1;
-        private static Prop CannaDaPesca;
-        private static bool mostrablip = false;
-        private static List<string> PerVendereIlPesce = new List<string>()
+        private Pescatori PuntiPesca;
+        private string scenario = "WORLD_HUMAN_STAND_FISHING";
+        private string AnimDict = "amb@world_human_stand_fishing@base";
+        private bool LavoroAccettato = false;
+        private Vehicle lastVehicle;
+        public bool Pescando = false;
+        public bool CannaInMano = false;
+        private int TipoCanna = -1;
+        private Prop CannaDaPesca;
+        private bool mostrablip = false;
+        private List<string> PerVendereIlPesce = new List<string>()
         {
             "branzino",
             "sgombro",
@@ -56,16 +57,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             "storionecomune",
             "storioneladano"
         };
-        private static List<Blip> venditaPesceBlip = new List<Blip>();
+        private List<Blip> venditaPesceBlip = new List<Blip>();
 
-        private static Vector3 LuogoDiPesca = new Vector3(0);
+        private Vector3 LuogoDiPesca = new Vector3(0);
         // oggetti: canna da pesca, esche, pesci, frutti di mare magari, gamberi.. crostacei
         // considerare spogliatoio (obbligatorio / opzionale)
 
         // N_0xc54a08c85ae4d410 mentre peschi (0.0 normale, 1.0 acqua liscia, 3.0 acqua mossa)
         // benson per portare il pesce
 
-        public static async void Init()
+        public PescatoreClient() : base("Pescatore", Employment.Pescatore)
+        {
+            OnJobSet += Init;
+            OnJobFired += Stop;
+        }
+        public async void Init()
         {
             PuntiPesca = Client.Impostazioni.RolePlay.Lavori.Generici.Pescatore;
             ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa += async (item, index) =>
@@ -109,7 +115,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             };
         }
 
-        public static async void Stop()
+        public async void Stop()
         {
             PuntiPesca = null;
             ConfigShared.SharedConfig.Main.Generici.ItemList["cannadapescabase"].Usa -= async (item, index) =>
@@ -153,7 +159,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             };
         }
 
-        public static async Task ControlloPesca()
+        public void ControlloPesca()
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
@@ -211,7 +217,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             }
         }
 
-        private static async Task ApriMenuVenditaPesce()
+        private void ApriMenuVenditaPesce()
         {
             DateTime oggi = new DateTime();
 
@@ -266,7 +272,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             }
         }
 
-        public static async Task Pesca()
+        public async Task Pesca()
         {
             if (CannaInMano)
             {
@@ -313,7 +319,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             }
         }
 
-        private static async Task ControlliEPesca()
+        private async Task ControlliEPesca()
         {
             int TocchiTotali = Funzioni.GetRandomInt(20, 40);
             int tocchiEffettuati = 0;
@@ -408,7 +414,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             }
         }
 
-        private static async void MenuBarche()
+        private async void MenuBarche()
         {
             UIMenu Barche = new UIMenu("Pescatore", "Scegli la barca", new System.Drawing.PointF(50, 50), "thelastgalaxy", "bannerbackground", false, true);
             HUD.MenuPool.Add(Barche);

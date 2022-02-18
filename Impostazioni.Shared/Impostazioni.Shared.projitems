@@ -11,6 +11,14 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Generici\Generici.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Meteo\Meteo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Cacciatore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Pescatore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Tassista.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Towing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Medici.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Polizia.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreAuto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Veicoli\Businesses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Veicoli\GasStations.cs" />
   </ItemGroup>

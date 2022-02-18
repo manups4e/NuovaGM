@@ -2,9 +2,12 @@
 global using CitizenFX.Core.Native;
 global using CitizenFX.Core.UI;
 global using ScaleformUI;
-global using TheLastPlanet.Client.Cache;
-global using TheLastPlanet.Shared;
 global using static CitizenFX.Core.Native.API;
+global using TheLastPlanet.Shared;
+global using TheLastPlanet.Client.Cache;
+global using TheLastPlanet.Client.Core.PlayerChar;
+global using TheLastPlanet.Client.Core.Utility;
+global using TheLastPlanet.Client.Core.Utility.HUD;
 using Logger;
 using System;
 using System.Collections.Generic;

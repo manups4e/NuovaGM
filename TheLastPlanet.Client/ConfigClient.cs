@@ -1,9 +1,9 @@
-﻿using Impostazioni.Client.Configurazione.Lavori.WhiteList;
-using Impostazioni.Client.Configurazione.Main;
+﻿using Impostazioni.Client.Configurazione.Main;
 using Impostazioni.Client.Configurazione.Negozi.Abiti;
 using Impostazioni.Client.Configurazione.Negozi.Barbieri;
 using Impostazioni.Client.Configurazione.Negozi.Generici;
 using Impostazioni.Client.Configurazione.Veicoli;
+using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
 using System.Collections.Generic;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel;

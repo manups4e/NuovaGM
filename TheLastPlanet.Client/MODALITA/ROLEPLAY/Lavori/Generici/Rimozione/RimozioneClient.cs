@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Lavori.Generici;
+﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

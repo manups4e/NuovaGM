@@ -528,7 +528,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
         private static void Pescatore(Ped playerPed, Player me, Statistica pesca)
         {
             int baseStat = (int)Cache.PlayerCache.MyPlayer.User.CurrentChar.Statistiche.FISHING;
-
+            /*
             if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
             {
                 pesca.ChangeVal = 0.003f;
@@ -537,7 +537,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             else
             {
                 pesca.ChangeVal = 0;
-            }
+            }*/
 
             if (pesca.Val - baseStat >= 1f)
             {

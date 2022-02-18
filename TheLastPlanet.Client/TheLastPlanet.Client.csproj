@@ -80,6 +80,9 @@
 		<SourceFiles Remove="$(OutDir)Citizen*.*" />
 		<SourceFiles Remove="$(OutDir)*.json" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="MODALITA\ROLEPLAY\Lavori\Profili\" />
+	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(SourceFiles)" DestinationFolder="L:\FiveM\ManuGamemode\resources\[local]\tlp\Client\" />

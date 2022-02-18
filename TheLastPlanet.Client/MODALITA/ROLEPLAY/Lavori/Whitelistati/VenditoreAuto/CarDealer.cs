@@ -1,4 +1,4 @@
-﻿using Impostazioni.Client.Configurazione.Lavori.WhiteList;
+﻿using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

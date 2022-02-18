@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.Handlers
             TickAPiedi.Add(Spazzatura.CestiSpazzatura);
             TickAPiedi.Add(Spazzatura.ControlloSpazzatura);
             TickAPiedi.Add(CacciatoreClient.ControlloCaccia);
-            TickAPiedi.Add(PescatoreClient.ControlloPesca);
+            //TickAPiedi.Add(PescatoreClient.ControlloPesca);
             //TickAPiedi.Add(Hotels.ControlloHotel);
             TickAPiedi.Add(MODALITA.ROLEPLAY.Proprietà.Manager.MarkerFuori);
             TickAPiedi.Add(DivaniEPosizioniSedute.CheckSedia);

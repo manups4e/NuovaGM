@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Impostazioni.Client.Configurazione.Lavori.Generici
+namespace Impostazioni.Shared.Roleplay.Lavori.Generici
 {
     public class Tassisti
     {

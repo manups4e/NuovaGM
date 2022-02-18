@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
+namespace Impostazioni.Shared.Roleplay.Lavori.WhiteList
 {
     public class ConfigVenditoriCase
     {

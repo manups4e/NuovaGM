@@ -34,7 +34,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
             BaseInventory.Init();
             Lavori.Whitelistati.Polizia.PoliziaMainClient.Init();
             Lavori.Whitelistati.Medici.MediciMainClient.Init();
-            Lavori.Generici.Pescatore.PescatoreClient.Init();
+            //Lavori.Generici.Pescatore.PescatoreClient.Init();
             Lavori.Generici.Cacciatore.CacciatoreClient.Init();
             Lavori.Generici.Rimozione.RimozioneClient.Init();
             Lavori.Generici.Taxi.TaxiClient.Init();
@@ -88,7 +88,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
             Core.Status.StatsNeeds.Stop();
             Lavori.Whitelistati.Polizia.PoliziaMainClient.Stop();
             Lavori.Whitelistati.Medici.MediciMainClient.Stop();
-            Lavori.Generici.Pescatore.PescatoreClient.Stop();
+            //Lavori.Generici.Pescatore.PescatoreClient.Stop();
             Lavori.Generici.Cacciatore.CacciatoreClient.Stop();
             Lavori.Generici.Rimozione.RimozioneClient.Stop();
             Lavori.Generici.Taxi.TaxiClient.Stop();

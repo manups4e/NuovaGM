@@ -1,4 +1,4 @@
-﻿namespace Impostazioni.Client.Configurazione.Lavori.Generici
+﻿namespace Impostazioni.Shared.Roleplay.Lavori.Generici
 {
     public class Cacciatori
     {

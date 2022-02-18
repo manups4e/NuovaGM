@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori;
 
-namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
+namespace Impostazioni.Shared.Roleplay.Lavori.WhiteList
 {
     public class ConfigVenditoriAuto
     {
@@ -11,4 +10,12 @@ namespace Impostazioni.Client.Configurazione.Lavori.WhiteList
 
         public Dictionary<string, List<VeicoloCatalogoVenditore>> Catalogo { get; set; }
     }
+
+    public class VeicoloCatalogoVenditore
+    {
+        public string name;
+        public int price;
+        public string description;
+    }
+
 }

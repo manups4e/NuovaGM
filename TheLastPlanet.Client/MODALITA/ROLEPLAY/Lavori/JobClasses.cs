@@ -1,4 +1,5 @@
-﻿using Impostazioni.Client.Configurazione.Lavori.Generici;
+﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
 using System.Collections.Generic;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
@@ -26,13 +27,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
     {
         public ConfigurazioneVendCase Config = new ConfigurazioneVendCase();
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
-    }
-
-    public class VeicoloCatalogoVenditore
-    {
-        public string name;
-        public int price;
-        public string description;
     }
 
     public class LavoriGenerici

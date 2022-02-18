@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             }
             else
             {
-                if (playerPed.IsOnFoot && !playerPed.IsInWater && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+                if (playerPed.IsOnFoot && !playerPed.IsInWater /*&& !Lavori.Generici.Pescatore.PescatoreClient.Pescando*/ && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
                 {
                     if (playerPed.IsSprinting)
                     {
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
                 {
                     SetRichPresence("Sta esplorando i fondali in un sottomarino");
                 }
-                else if (playerPed.IsAiming || playerPed.IsAimingFromCover || playerPed.IsShooting && !Lavori.Generici.Pescatore.PescatoreClient.Pescando && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
+                else if (playerPed.IsAiming || playerPed.IsAimingFromCover || playerPed.IsShooting /*&& !Lavori.Generici.Pescatore.PescatoreClient.Pescando*/ && !Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
                 {
                     SetRichPresence("E' in uno scontro a fuoco");
                 }
@@ -156,10 +156,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
                 {
                     SetRichPresence("In Pausa");
                 }
+                /*
                 else if (Lavori.Generici.Pescatore.PescatoreClient.Pescando)
                 {
                     SetRichPresence("Sta pescando");
                 }
+                */
                 else if (Lavori.Generici.Cacciatore.CacciatoreClient.StaCacciando)
                 {
                     SetRichPresence("Sta cacciando");
