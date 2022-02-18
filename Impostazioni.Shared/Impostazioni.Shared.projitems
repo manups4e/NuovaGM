@@ -9,6 +9,9 @@
     <Import_RootNamespace>Impostazioni.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generici\Generici.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Meteo\Meteo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Veicoli\Businesses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Veicoli\GasStations.cs" />
   </ItemGroup>
 </Project>

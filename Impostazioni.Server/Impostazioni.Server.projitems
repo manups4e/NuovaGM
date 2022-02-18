@@ -9,6 +9,7 @@
     <Import_RootNamespace>Impostazioni.Server</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Coda\Coda.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Main\Main.cs" />
   </ItemGroup>
 </Project>

@@ -9,6 +9,23 @@
     <Import_RootNamespace>Impostazioni.Client</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FreeRoam\ConfigPrincipaleFR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FreeRoam\FreeRoamConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Cacciatore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Pescatore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Tassista.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\Generici\Towing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Medici.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\Polizia.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreAuto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Lavori\WhiteList\VenditoreCase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Main\MainClientConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Abiti\Abiti.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Abiti\Completo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\Barbieri\Barbieri.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Negozi\NegoziGenerici\NegoziGenerici.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\ConfigVeicoli.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\VehAffitto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roleplay\Veicoli\Veicoli.cs" />
   </ItemGroup>
 </Project>
