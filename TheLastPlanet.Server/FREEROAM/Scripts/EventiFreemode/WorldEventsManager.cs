@@ -214,6 +214,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                 var xp = BucketsHandler.FreeRoam.GetCurrentExperiencePoints(client);
                 var level = BucketsHandler.FreeRoam.GetCurrentLevel(client);
                 Server.Instance.Events.Send(client, "worldeventsManage.Client:GetLevelXp", level, xp);
+                AccessingEvents.FreeRoamSpawn(client);
             }
             catch (Exception e)
             {

@@ -19,6 +19,20 @@ namespace TheLastPlanet.Server.FREEROAM
         {
             blipTimer = new(500);
             Server.Instance.AddTick(UpdatePlayersBlips);
+            AccessingEvents.OnFreeRoamSpawn += (client) =>
+            {
+                var serverId = client.Handle;
+                var pos = client.Ped.Position;
+                var rot = client.Ped.Rotation;
+                var netId = client.Ped.NetworkId;
+                FRBlipsInfo user = new(client.Player.Name, new Position(pos, rot), netId, serverId);
+                _blipsInfos.Add(user);
+            };
+
+            AccessingEvents.OnFreeRoamLeave += (client) =>
+            {
+                _blipsInfos.RemoveAll(x => client.Handle == x.ServerId);
+            };
         }
 
         private static async Task UpdatePlayersBlips()
@@ -26,28 +40,23 @@ namespace TheLastPlanet.Server.FREEROAM
             try
             {
                 await BaseScript.Delay(500);
-                if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // cambiare con 2... se sono da solo non ha senso (se non per testare)
-
-                var daRim = _blipsInfos.Where(x => !BucketsHandler.FreeRoam.Bucket.Players.Any(y => y.Handle == x.ServerId)).ToList();
-                _blipsInfos.RemoveAll(x => daRim.Contains(x));
+                if (BucketsHandler.FreeRoam.GetTotalPlayers() < 1) return; // cambiare con <= ... se sono da solo non ha senso (se non per testare)
 
                 foreach (var client in BucketsHandler.FreeRoam.Bucket.Players)
                 {
                     if (!client.User.Status.Spawned) continue;
-                    int hand = client.Handle;
-                    // GESTIRE QUANDO IL PLAYER ESCE DAL SERVER
                     var serverId = Convert.ToInt32(client.Player.Handle);
                     var pos = client.Ped.Position;
                     var rot = client.Ped.Rotation;
                     var netId = client.Ped.NetworkId;
                     Ped p = client.Ped;
-                    int sprite = 1;
                     if (_blipsInfos.Any(x => x.ServerId == serverId))
                     {
                         var blip = _blipsInfos.SingleOrDefault(x => x.ServerId == serverId);
                         blip.Pos = new(pos, rot);
                         var veh = GetVehiclePedIsIn(p.Handle, false);
                         var model = GetEntityModel(veh);
+                        int sprite = 1;
                         if (veh != 0)
                         {
                             switch (GetVehicleType(veh))
@@ -71,21 +80,11 @@ namespace TheLastPlanet.Server.FREEROAM
                                     break;
                             }
                         }
-                        else
-                        {
-                            sprite = 1;
-                        }
                         blip.Sprite = sprite;
-                    }
-                    else
-                    {
-                        FRBlipsInfo user = new(client.Player.Name, new Position(pos, rot), netId, serverId);
-                        _blipsInfos.Add(user);
                     }
                     client.User.FreeRoamChar.Posizione = new(pos, rot);
                 }
                 Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
-
             }
             catch (Exception e)
             {
