@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
 {
@@ -18,6 +19,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
         private static List<Blip> blips = new();
 
         public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+
+        public static void Spawnato(ClientId client)
         {
             foreach (Hotel t in Client.Impostazioni.RolePlay.Proprieta.hotels) hotelInputs.Add(new InputController(Control.Context, t.Coords.ToPosition(), $"~INPUT_CONTEXT~ per soggiornare al ~b~{t.Name}~w~.", new((MarkerType)(-1), t.Coords.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(MenuHotel), t));
             InputHandler.AddInputList(hotelInputs);
@@ -43,8 +50,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Hotel
                 Client.Logger.Debug("Hash = " + pickupObject.Model.Hash);
             }), false);
         }
-
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             InputHandler.RemoveInputList(hotelInputs);
             blips.ForEach(x => x.Delete());

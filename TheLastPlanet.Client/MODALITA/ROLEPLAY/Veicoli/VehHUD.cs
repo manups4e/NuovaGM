@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -44,9 +45,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         private static int _timer1;
         private static int _timer2;
 
-        public static async void Init() { TickController.TickVeicolo.Add(OnTickSpeedo3); }
-
-        public static async void Stop()
+        public static async void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
+            TickController.TickVeicolo.Add(OnTickSpeedo3);
+        }
+        public static void onPlayerLeft(ClientId client)
         {
             TickController.TickVeicolo.Remove(OnTickSpeedo3);
         }

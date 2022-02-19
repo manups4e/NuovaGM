@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 {
@@ -52,17 +53,19 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 
         private static List<Vector3> necessari_non_so_a_cosa = new List<Vector3> { new Vector3(-1644.153f, -1125.433f, 18.3447f), new Vector3(-1645.723f, -1127.408f, 18.3447f), new Vector3(-1647.315f, -1129.374f, 18.3447f), new Vector3(-1648.95f, -1131.299f, 18.3447f) };
 
+        private static Blip Rollercoaster;
         public static async void Init()
         {
             func_220();
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Client.Instance.AddEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
             Client.Instance.AddEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
             Client.Instance.AddEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
             Client.Instance.AddEventHandler("onResourceStop", new Action<string>(OnStop));
-            Blip roller = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Montagne Russe" };
-            SetBlipDisplay(roller.Handle, 4);
+            Blip Rollercoaster = new Blip(AddBlipForCoord(-1651.641f, -1134.325f, 21.90398f)) { Sprite = BlipSprite.Fairground, IsShortRange = true, Name = "Montagne Russe" };
+            SetBlipDisplay(Rollercoaster.Handle, 4);
             CaricaTutto();
         }
 
@@ -93,7 +96,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
             Client.Instance.AddTick(ControlloMontagne);
         }
 
-        private static async void Spawnato() { Client.Instance.AddTick(EliminaGialli); }
+        private static void Spawnato(ClientId client) { Client.Instance.AddTick(EliminaGialli); }
+        private static void onPlayerLeft(ClientId client)
+        {
+            Client.Instance.RemoveTick(EliminaGialli);
+            Client.Instance.RemoveEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));
+            Client.Instance.RemoveEventHandler("lprp:montagnerusse:playerSale", new Action<int, int, int>(playerSale));
+            Client.Instance.RemoveEventHandler("lprp:montagnerusse:playerScende", new Action<int>(playerScende));
+            Client.Instance.RemoveEventHandler("lprp:montagnerusse:syncCarrelli", new Action<int, int>(SyncCarrelli));
+            Client.Instance.RemoveEventHandler("onResourceStop", new Action<string>(OnStop));
+            SetModelAsNoLongerNeeded((uint)GetHashKey("ind_prop_dlc_roller_car"));
+            SetModelAsNoLongerNeeded((uint)GetHashKey("ind_prop_dlc_roller_car_02"));
+            Client.Instance.RemoveTick(MuoveMontagneRusse);
+            HUD.TimerBarPool.Remove(montagna);
+            Client.Instance.RemoveTick(ControlloMontagne);
+            OnStop(GetCurrentResourceName());
+            Rollercoaster.Delete();
+        }
+
 
         private static List<ObjectHash> DaEliminare = new List<ObjectHash>() { ObjectHash.prop_roller_car_01, ObjectHash.prop_roller_car_02 };
 

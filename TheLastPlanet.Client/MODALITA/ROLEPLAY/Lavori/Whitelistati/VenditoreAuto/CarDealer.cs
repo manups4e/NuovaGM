@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto
@@ -15,26 +16,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
     {
         private static ConfigVenditoriAuto carDealer;
         private static Vehicle PreviewVeh;
+        private static Blip vend;
 
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             carDealer = Client.Impostazioni.RolePlay.Lavori.VenditoriAuto;
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Client.Instance.AddEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
             Client.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             carDealer = null;
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Client.Instance.RemoveEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
             Client.Instance.RemoveEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
+            vend.Delete();
         }
 
-        private static void Spawnato()
+        private static void Spawnato(ClientId client)
         {
-            Blip vend = World.CreateBlip(carDealer.Config.MenuVendita.ToVector3);
+            vend = World.CreateBlip(carDealer.Config.MenuVendita.ToVector3);
             vend.Sprite = BlipSprite.PersonalVehicleCar;
             vend.Color = BlipColor.Green;
             vend.IsShortRange = true;

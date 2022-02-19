@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
@@ -16,13 +17,18 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
 
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
             Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
             Client.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
             Client.Instance.AddEventHandler("lprp:entraGarageConProprietario", new Action<Vector3>(EntraGarageConProprietario));
             Client.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
             Client.Instance.RemoveEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));

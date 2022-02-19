@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -104,14 +105,20 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
         private static List<int> Doccie = new List<int>() { 1924030334, 1358716892, 879181614, -553740697 };
 
-        public static async void Init() { Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato)); }
-
-        public static async void Stop()
+        public static void Init()
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        private static async void Spawnato()
+        public static void onPlayerLeft(ClientId client)
+        {
+            RemoveAnimDict(sLocal_436);
+            ReleaseAmbientAudioBank();
+            RemoveNamedPtfxAsset("scr_fm_mp_missioncreator");
+        }
+
+        private static async void Spawnato(ClientId client)
         {
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
             {

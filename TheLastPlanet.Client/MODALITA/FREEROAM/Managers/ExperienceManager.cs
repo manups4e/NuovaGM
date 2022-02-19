@@ -7,11 +7,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     public static class ExperienceManager
     {
-        public static void Init() => FreeRoamLogin.OnPlayerJoined += () => Client.Instance.Events.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
-        public static void Stop()
+        public static void Init()
         {
-            FreeRoamLogin.OnPlayerJoined -= () => Client.Instance.Events.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
-            Client.Instance.Events.Unmount("worldEventsManage.Client.UpdateExperience");
+            AccessingEvents.OnFreeRoamSpawn += (client) => Client.Instance.Events.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
+            AccessingEvents.OnFreeRoamLeave += (client) => Client.Instance.Events.Unmount("worldEventsManage.Client.UpdateExperience");
         }
 
         private static async void OnUpdateExperience(int currentRankLimit, int nextRankLimit, int updatedCurrentRankLimit, int updatedNextRankLimit, int currentXp, int updatedXp, int currentLevel, int updatedLevel, bool leveledUp)

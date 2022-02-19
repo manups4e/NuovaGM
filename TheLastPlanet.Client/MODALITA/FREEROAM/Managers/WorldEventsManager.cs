@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -20,8 +21,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         public static bool WarningMessageDisplayed = false;
         private static bool FirstSpawn = true;
 
-        public static void Init() => FreeRoamLogin.OnPlayerJoined += FreeRoamLogin_OnPlayerJoined;
-        private static async void FreeRoamLogin_OnPlayerJoined()
+        public static void Init()
+        {
+            AccessingEvents.OnFreeRoamSpawn += OnPlayerJoined;
+            AccessingEvents.OnFreeRoamLeave += OnPlayerLeft;
+        }
+
+        private static async void OnPlayerJoined(ClientId client)
         {
             //Client.Instance.AddTick(OnDefaultTick);
             //Client.Instance.AddTick(OnDiscordTick);
@@ -49,9 +55,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
         }
 
-        public static void Stop()
+        public static void OnPlayerLeft(ClientId client)
         {
-            FreeRoamLogin.OnPlayerJoined -= FreeRoamLogin_OnPlayerJoined;
             Client.Instance.RemoveTick(OnWaitTick);
             Client.Instance.RemoveTick(SaveMe);
 

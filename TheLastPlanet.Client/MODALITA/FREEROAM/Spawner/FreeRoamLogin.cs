@@ -6,10 +6,8 @@ using TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
 {
-    public delegate void FreeRoamPlayerLoadedEvent();
     public static class FreeRoamLogin
     {
-        public static event FreeRoamPlayerLoadedEvent OnPlayerJoined;
         internal static async void Inizializza()
         {
             //Cache.PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
@@ -71,7 +69,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
             Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
-            JoinedEvent();
+            AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
             PlayerCache.MyPlayer.User.Status.Spawned = true;
         }
 
@@ -121,11 +119,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
                     ammoTypes[ammoType] = true;
                 }
             }
-        }
-
-        public static void JoinedEvent()
-        {
-            OnPlayerJoined?.Invoke();
         }
     }
 }

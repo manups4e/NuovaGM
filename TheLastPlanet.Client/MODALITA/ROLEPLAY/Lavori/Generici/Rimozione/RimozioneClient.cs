@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
 {
@@ -19,8 +20,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
         private static TextTimerBar timerVeicolo = new TextTimerBar("Veicolo da rimorchiare", "");
         private static int TempoRimozione;
         private static bool distwarn = false;
-
+        private static Blip Rim;
         public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+
+        public static void Spawnato(ClientId client)
         {
             Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
             //RequestAnimDict("oddjobs@towing");
@@ -45,18 +52,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
 			*/
 
             // cercare "hint" per le telecamere.. fiiiiiigo
-            Blip Rim = World.CreateBlip(Rimozione.InizioLavoro);
+            Rim = World.CreateBlip(Rimozione.InizioLavoro);
             Rim.Sprite = BlipSprite.TowTruck;
             Rim.Name = "Soccorso Stradale";
             Rim.IsShortRange = true;
             SetBlipDisplay(Rim.Handle, 4);
         }
-
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
-            Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == Rimozione.InizioLavoro);
-            p.Delete();
+            Rim.Delete();
         }
 
         public static async Task InizioLavoro()

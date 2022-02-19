@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
@@ -15,15 +16,20 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         private static InputController input = new InputController(Control.Context, ModalitaServer.Roleplay, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(Test));
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             house = Client.Impostazioni.RolePlay.Lavori.VenditoriCase;
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Handlers.InputHandler.AddInput(input);
         }
 
-        public static void Stop()
+        private static void Spawnato(ClientId client) 
+        { 
+            Client.Instance.AddTick(Markers); 
+        }
+        public static void onPlayerLeft(ClientId client)
         {
+            Client.Instance.RemoveTick(Markers);
             house = null;
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Handlers.InputHandler.RemoveInput(input);
         }
 
@@ -275,6 +281,5 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             venditore.Visible = true;
         }
 
-        private static void Spawnato() { Client.Instance.AddTick(Markers); }
     }
 }

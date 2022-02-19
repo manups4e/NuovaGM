@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
 {
@@ -15,6 +16,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
         private static Scaleform _info = new Scaleform("mp_mission_name_freemode");
 
         public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
         {
             Client.Instance.AddEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
             Client.Instance.AddEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));
@@ -30,7 +36,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses
             Client.Instance.NuiManager.RegisterCallback("lprp:businesses:remstationfunds", new Action<IDictionary<string, object>>(RemStationFunds));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("lprp:businesses:setstations", new Action<string, string>(SetStations));
             Client.Instance.RemoveEventHandler("lprp:businesses:checkcanmanage", new Action<bool, int, string, int>(CheckCanManage));

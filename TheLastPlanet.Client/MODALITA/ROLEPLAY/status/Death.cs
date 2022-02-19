@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 {
@@ -32,8 +33,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
 
+        public static void Spawnato(ClientId client)
+        {
             //Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
             //Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
             Client.Instance.AddEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
@@ -44,12 +49,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             Client.Instance.AddEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
             Client.Instance.AddEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
             Client.Instance.AddTick(Injuried);
+            ReviveReward = Client.Impostazioni.RolePlay.Main.ReviveReward;
+            EarlyRespawnFine = Client.Impostazioni.RolePlay.Main.EarlyRespawnFine;
+            EarlyRespawnFineAmount = Client.Impostazioni.RolePlay.Main.EarlyRespawnFineAmount;
+            EarlyRespawn = Client.Impostazioni.RolePlay.Main.EarlyRespawn;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
-
             //Client.Instance.RemoveEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
             //Client.Instance.RemoveEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
             Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByVehicle", new Action<int, int>(PedKilledByVehicle));
@@ -60,6 +67,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             Client.Instance.RemoveEventHandler("DamageEvents:EntityDamaged", new Action<int, int, uint, bool>(EntityDamaged));
             Client.Instance.RemoveEventHandler("lprp:iniziaConteggio", new Action(StartDeathTimer));
             Client.Instance.RemoveTick(Injuried);
+            ReviveReward = 0;
+            EarlyRespawnFine = false;
+            EarlyRespawnFineAmount = 0;
+            EarlyRespawn = false;
         }
 
         #region events
@@ -124,14 +135,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             if (ped != PlayerPedId()) return;
             StartDeathTimer();
             onPlayerDeath(morte);
-        }
-
-        public static void Spawnato()
-        {
-            ReviveReward = Client.Impostazioni.RolePlay.Main.ReviveReward;
-            EarlyRespawnFine = Client.Impostazioni.RolePlay.Main.EarlyRespawnFine;
-            EarlyRespawnFineAmount = Client.Impostazioni.RolePlay.Main.EarlyRespawnFineAmount;
-            EarlyRespawn = Client.Impostazioni.RolePlay.Main.EarlyRespawn;
         }
 
         public static void onPlayerDeath(DatiMorte morte)

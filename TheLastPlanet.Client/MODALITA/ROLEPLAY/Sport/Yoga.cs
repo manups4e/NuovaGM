@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 {
@@ -61,21 +62,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
         private static readonly string YogaAnim = "mini@yoga";
         private static readonly string YogaAnimUnknown = "move_p_m_zero_idles@generic";
 
-        public static async void Init()
+        public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
-            ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
-            {
-                Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
-                //rimuovere da inventario
-                YogaButtons = new Scaleform("yoga_buttons");
-                YogaKeys = new Scaleform("yoga_keys");
-            };
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static async void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa -= async (item, index) =>
             {
                 Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
@@ -83,14 +77,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
                 YogaButtons = new Scaleform("yoga_buttons");
                 YogaKeys = new Scaleform("yoga_keys");
             };
+            RemoveAnimDict(YogaAnim);
+            RemoveAnimDict(YogaAnimUnknown);
+            RemoveAnimDict("missfam5_yoga");
         }
 
-        private static void Spawnato()
+        private static void Spawnato(ClientId client)
         {
             RequestAnimDict(YogaAnim);
             RequestAnimDict(YogaAnimUnknown);
             RequestAnimDict("missfam5_yoga");
             RequestAdditionalText("YOGA", 3);
+            ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa += async (item, index) =>
+            {
+                Materasso = await Funzioni.CreateProp(new Model(MaterassoYoga), GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2f, 0), new Vector3(0), true);
+                //rimuovere da inventario
+                YogaButtons = new Scaleform("yoga_buttons");
+                YogaKeys = new Scaleform("yoga_keys");
+            };
             Client.Instance.AddTick(Materassino);
         }
 

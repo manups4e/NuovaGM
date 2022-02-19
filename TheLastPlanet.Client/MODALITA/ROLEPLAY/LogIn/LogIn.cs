@@ -308,7 +308,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Cache.PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
             Cache.PlayerCache.MyPlayer.User.Status.Spawned = true;
-            BaseScript.TriggerEvent("tlg:roleplay:onPlayerSpawn");
+
+            AccessingEvents.RoleplaySpawn(PlayerCache.MyPlayer);
+
             Client.Instance.Events.Send("tlg:roleplay:onPlayerSpawn");
             ClearFocus();
             NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);

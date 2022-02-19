@@ -77,45 +77,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY
         public static async Task Stop()
         {
             //ClasseDiTest.Stop(); // da rimouvere
-            TickController.Stop();
+            AccessingEvents.RoleplayLeave(PlayerCache.MyPlayer);
             DecorationClass.Stop();
-            BankingClient.Stop();
-            PompeDiBenzinaClient.Stop();
-            PublicTraffic.Stop();
             Creator.Stop();
             CamerasFirstTime.Stop();
-            Core.Status.Death.Stop();
-            Core.Status.StatsNeeds.Stop();
-            Lavori.Whitelistati.Polizia.PoliziaMainClient.Stop();
-            Lavori.Whitelistati.Medici.MediciMainClient.Stop();
             //Lavori.Generici.Pescatore.PescatoreClient.Stop();
-            Lavori.Generici.Cacciatore.CacciatoreClient.Stop();
-            Lavori.Generici.Rimozione.RimozioneClient.Stop();
-            Lavori.Generici.Taxi.TaxiClient.Stop();
-            Proprietà.Manager.Stop();
-            AppartamentiClient.Stop();
-            Negozi.BarberClient.Stop();
-            Negozi.NegozioAbitiClient.Stop();
             NegoziBusiness.Stop();
-            Negozi.NegoziClient.Stop();
-            Veicoli.FuelClient.Stop();
-            Veicoli.VehicleDamage.Stop();
-            Veicoli.VeicoliClient.Stop();
-            Veicoli.Treni.Stop();
-            Veicoli.EffettiRuote.Stop();
-            Veicoli.VehHud.Stop();
-            IPLInstance.Stop(); // da finire
-            Proprietà.Hotel.Hotels.Stop();
-            Macchinette.Stop();
-            Docce.Stop();
-            PickupsClient.Stop();
-            OggettiGenerici.Stop();
-            PrimaPersonaObbligatoria.Stop();
-            Sport.Yoga.Stop();
-            Lavori.Whitelistati.VenditoreAuto.CarDealer.Stop();
-            Lavori.Whitelistati.VenditoreCase.HouseDealer.Stop();
-            PauseMenu.Stop();
-            Minimap.Stop();
             await CoreInitializer.LogInStop();
             await Task.FromResult(0);
         }

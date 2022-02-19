@@ -1,13 +1,18 @@
 ﻿using CitizenFX.Core.Native;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
     static class BaseEventsFreeRoam
     {
-        public static void Init() => FreeRoamLogin.OnPlayerJoined += FreeRoamLogin_OnPlayerJoined;
+        public static void Init()
+        {
+            AccessingEvents.OnFreeRoamSpawn += FreeRoamLogin_OnPlayerJoined;
+            AccessingEvents.OnFreeRoamLeave += FreeRoamLogin_OnPlayerLeft;
+        }
 
-        private static void FreeRoamLogin_OnPlayerJoined()
+        private static void FreeRoamLogin_OnPlayerJoined(ClientId client)
         {
             InternalGameEvents.OnPedKilledByPlayer += OnPedKilledByPlayer;
             InternalGameEvents.OnPedDied += OnPedDied;
@@ -15,9 +20,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             InternalGameEvents.OnPedKilledByVehicle += OnPedKilledByVehicle;
             Environment.EnablePvP(true);
         }
-        public static void Stop()
+        private static void FreeRoamLogin_OnPlayerLeft(ClientId client)
         {
-            FreeRoamLogin.OnPlayerJoined -= FreeRoamLogin_OnPlayerJoined;
             InternalGameEvents.OnPedKilledByPlayer -= OnPedKilledByPlayer;
             InternalGameEvents.OnPedDied -= OnPedDied;
             InternalGameEvents.OnPedKilledByPed -= OnPedKilledByPed;

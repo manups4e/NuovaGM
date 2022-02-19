@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
@@ -69,25 +70,28 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             new Vector3(537.0f, -1324.1f, 29.1f),
             new Vector3(219.1f, -2487.7f, 6.0f)
         };
-
+        private static List<Blip> blips = new List<Blip>();
         public static void Init()
         {
             Client.Instance.AddEventHandler("lprp:spawntrain", new Action(SpawnTrain));
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("lprp:spawntrain", new Action(SpawnTrain));
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            blips.ForEach(x => x.Delete());
+            blips.Clear();
         }
 
-        private static async void Spawnato()
+        private static void Spawnato(ClientId client)
         {
             foreach (Vector3 v in MetroTrainStations)
             {
                 Blip p = new Blip(AddBlipForCoord(v.X, v.Y, v.Z)) { Color = BlipColor.Green, Sprite = BlipSprite.Lift, Scale = 0.75f, Name = "Metropolitana" };
                 SetBlipAsShortRange(p.Handle, true);
+                blips.Add(p);
             }
         }
 

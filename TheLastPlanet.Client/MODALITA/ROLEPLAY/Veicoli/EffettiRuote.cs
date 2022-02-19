@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -17,13 +18,18 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
         public static async void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
             Client.Instance.AddEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
             Client.Instance.AddEventHandler("cBrakes:add_front", new Action<int>(AddFront));
             Client.Instance.AddEventHandler("cBrakes:rem_rear", new Action<int>(RemRear));
             Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
         }
 
-        public static async void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
             Client.Instance.RemoveEventHandler("cBrakes:add_front", new Action<int>(AddFront));

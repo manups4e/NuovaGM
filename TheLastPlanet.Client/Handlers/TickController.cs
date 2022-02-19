@@ -16,6 +16,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -38,7 +39,9 @@ namespace TheLastPlanet.Client.Handlers
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += Disconnesso;
+
             // TICK HUD \\
             TickHUD.Add(EventiPersonalMenu.MostramiStatus);
 
@@ -103,9 +106,17 @@ namespace TheLastPlanet.Client.Handlers
             TickMedici.Add(MediciMainClient.BlipMorti);
         }
 
-        public static async void Stop()
+
+        private static void Spawnato(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            TickGenerici.ForEach(x => Client.Instance.AddTick(x));
+            TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
+            TickHUD.ForEach(x => Client.Instance.AddTick(x));
+            Client.Instance.AddTick(TickHandler);
+        }
+        private static void Disconnesso(ClientId client)
+        {
+
             TickHUD.ForEach(x => Client.Instance.RemoveTick(x));
             TickGenerici.ForEach(x => Client.Instance.RemoveTick(x));
             TickAPiedi.ForEach(x => Client.Instance.RemoveTick(x));
@@ -121,15 +132,6 @@ namespace TheLastPlanet.Client.Handlers
             TickPolizia.Clear();
             TickMedici.Clear();
         }
-
-        private static void Spawnato()
-        {
-            TickGenerici.ForEach(x => Client.Instance.AddTick(x));
-            TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
-            TickHUD.ForEach(x => Client.Instance.AddTick(x));
-            Client.Instance.AddTick(TickHandler);
-        }
-
         private static async Task TickHandler()
         {
             if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)

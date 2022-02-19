@@ -1,14 +1,27 @@
 ﻿using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
     internal static class Minimap
     {
         //public static Scaleform minimap = new Scaleform("MINIMAP");
-        public static void Init() => Client.Instance.AddTick(MinimapDrawing);
-
-        public static void Stop() => Client.Instance.RemoveTick(MinimapDrawing);
+        public static async void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+            AccessingEvents.OnFreeRoamSpawn += Spawnato;
+            AccessingEvents.OnFreeRoamLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
+            Client.Instance.AddTick(MinimapDrawing);
+        }
+        public static void onPlayerLeft(ClientId client)
+        {
+            Client.Instance.RemoveTick(MinimapDrawing);
+        }
 
         public static async Task MinimapDrawing()
         {

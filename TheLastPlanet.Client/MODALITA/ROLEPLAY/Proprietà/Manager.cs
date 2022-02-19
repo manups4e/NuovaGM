@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
+using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
@@ -11,9 +12,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
     internal static class Manager
     {
         private static ConfigProprietaRP Proprietà;
-        public static void Init() { Proprietà = Client.Impostazioni.RolePlay.Proprieta; }
-
-        public static void Stop()
+        public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
+            Proprietà = Client.Impostazioni.RolePlay.Proprieta;
+        }
+        public static void onPlayerLeft(ClientId client)
         {
             Proprietà = null;
         }

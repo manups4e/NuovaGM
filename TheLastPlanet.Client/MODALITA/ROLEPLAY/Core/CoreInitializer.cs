@@ -17,7 +17,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
         public static async Task LogInStop()
         {
             LogIn.LogIn.Stop();
-            Main.Stop();
             //Eventi.Stop();
             TimeWeather.MeteoClient.Stop();
             TimeWeather.OrarioClient.Stop();

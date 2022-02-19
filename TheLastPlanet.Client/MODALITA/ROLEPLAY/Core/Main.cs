@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -115,14 +116,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             scopedWeapons = Client.Impostazioni.RolePlay.Main.ScopedWeapons;
             passengerDriveBy = Client.Impostazioni.RolePlay.Main.PassengerDriveBy;
             //Client.Instance.AddTick(Connesso);
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(onPlayerSpawn));
+            AccessingEvents.OnRoleplaySpawn += onPlayerSpawn;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
             Screen.Fading.FadeOut(800);
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(onPlayerSpawn));
             Client.Instance.RemoveEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
             ImpostazioniClient = null;
         }
@@ -156,9 +157,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             if (resourceName == GetCurrentResourceName()) Screen.Fading.FadeOut(800);
         }
 
-        public static async void onPlayerSpawn()
+        public static async void onPlayerSpawn(ClientId client)
         {
-            Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
+            Ped playerPed = client.Ped;
             SetEnablePedEnveffScale(playerPed.Handle, true);
             SetPlayerTargetingMode(2);
             Game.MaxWantedLevel = 0;
@@ -173,27 +174,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4Benvenuto nel server test di Manups4e" } });
             BaseScript.TriggerEvent("chat:addMessage", new { color = new[] { 71, 255, 95 }, multiline = true, args = new[] { "^4QUESTO SERVER E' IN FASE ALPHA" } });
             SetPlayerHealthRechargeMultiplier(PlayerId(), -1.0f);
-            Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+            client.User.Status.Istanza.RimuoviIstanza();
             playerPed.IsVisible = true;
-            Cache.PlayerCache.MyPlayer.User.Status.Spawned = true;
-            spawned = Cache.PlayerCache.MyPlayer.User.Status.Spawned;
+            client.User.Status.Spawned = true;
+            spawned = client.User.Status.Spawned;
 
             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.CurrentChar.CharID);
             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "status", true);
 
-            if (Cache.PlayerCache.MyPlayer.User.DeathStatus)
+            if (client.User.DeathStatus)
             {
                 HUD.ShowNotification("Sei stato ucciso perche ti sei disconnesso da morto!", NotificationColor.Red, true);
                 DateTime now = DateTime.Now;
-                BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + Cache.PlayerCache.MyPlayer.User.FullName + " e' spawnato morto poiché è sloggato da morto");
+                BaseScript.TriggerServerEvent("lprp:serverlog", now.ToString("dd/MM/yyyy, HH:mm:ss") + " -- " + client.User.FullName + " e' spawnato morto poiché è sloggato da morto");
                 playerPed.Health = 0;
-                Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = false;
+                client.User.Status.RolePlayStates.FinDiVita = false;
             }
 
             //Peds();
             foreach (string t in tipi) player.SetRelationshipBetweenGroups(new RelationshipGroup(Funzioni.HashInt(t)), Relationship.Neutral, true);
             // test per vedere se va chiamato ogni tick o no
-            pickupList.ForEach(x => N_0x616093ec6b139dd9(Cache.PlayerCache.MyPlayer.Player.Handle, Funzioni.HashUint(x), false));
+            pickupList.ForEach(x => N_0x616093ec6b139dd9(client.Player.Handle, Funzioni.HashUint(x), false));
             for (int i = 1; i <= 15; i++) EnableDispatchService(i, false);
             await BaseScript.Delay(0);
         }

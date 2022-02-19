@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -20,18 +21,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         private static bool CreatoHawick = false;
         private static bool CreatoOsheas = false;
         private static bool CreatoCombo = false;
+        private static List<Blip> blips = new List<Blip>();
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            blips.ForEach(x => x.Delete());
+            blips.Clear();
         }
 
-        public static async void Spawnato()
+        public static void Spawnato(ClientId client)
         {
             foreach (NegozioBarbiere barbiere in ConfigBarbieri.Kuts)
             {
@@ -40,11 +44,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 kuts.Color = (BlipColor)12;
                 kuts.IsShortRange = true;
                 kuts.Name = "Herr Kuts";
+                blips.Add(kuts);
             }
 
             Blip Hawick = new Blip(AddBlipForCoord(ConfigBarbieri.Hawick.Coord.X, ConfigBarbieri.Hawick.Coord.Y, ConfigBarbieri.Hawick.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)17, IsShortRange = true, Name = "Barbieri Hair On Hawick" };
             Blip Combo = new Blip(AddBlipForCoord(ConfigBarbieri.Combo.Coord.X, ConfigBarbieri.Combo.Coord.Y, ConfigBarbieri.Combo.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)66, IsShortRange = true, Name = "Barbieri Beachcombover" };
             Blip Osheas = new Blip(AddBlipForCoord(ConfigBarbieri.Osheas.Coord.X, ConfigBarbieri.Osheas.Coord.Y, ConfigBarbieri.Osheas.Coord.Z)) { Sprite = (BlipSprite)71, Color = (BlipColor)38, IsShortRange = true, Name = "Barbieri Oshea's" };
+            blips.Add(Hawick);
+            blips.Add(Osheas);
+            blips.Add(Combo);
         }
 
         public static async Task<Ped> CreateBarber(BarberModel ped)

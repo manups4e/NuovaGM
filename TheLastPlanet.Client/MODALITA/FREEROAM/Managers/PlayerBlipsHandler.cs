@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -10,16 +11,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         private static List<FRBlipsInfo> _fRBlipsInfos = new();
         private static Dictionary<int, Blip> playerBlips = new();
 
-        public static void Init() => FreeRoamLogin.OnPlayerJoined += OnPlayerJoined;
+        public static void Init()
+        {
+            AccessingEvents.OnFreeRoamSpawn += OnPlayerJoined;
+            AccessingEvents.OnFreeRoamLeave += OnPlayerLeft;
+        }
 
-        private static void OnPlayerJoined()
+        private static void OnPlayerJoined(ClientId client)
         {
             Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
         }
 
-        public static void Stop()
+        public static void OnPlayerLeft(ClientId client)
         {
-            FreeRoamLogin.OnPlayerJoined -= OnPlayerJoined;
             Client.Instance.Events.Unmount("freeroam.UpdatePlayerBlipInfos");
             foreach (var bb in playerBlips) if (bb.Value.Exists()) bb.Value.Delete();
         }
@@ -51,10 +55,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     SetBlipDisplay(blip.Handle, 6);
                     SetBlipShrink(blip.Handle, false);
                     SetBlipShowCone(blip.Handle, true);
-                    SetBlipDisplayIndicatorOnBlip(blip.Handle, true);
+                    ShowHeadingIndicatorOnBlip(blip.Handle, true);
                     playerBlips.Add(player.ServerId, blip);
                 }
-
 
                 blip.Name = player.Name;
                 blip.Sprite = BlipSprite.Standard;

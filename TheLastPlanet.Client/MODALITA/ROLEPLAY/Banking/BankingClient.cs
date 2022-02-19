@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 {
@@ -110,6 +111,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
 
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+
+        public static void Spawnato(ClientId client)
+        {
             Client.Instance.AddEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
             Client.Instance.AddEventHandler("lprp:changeMoney", new Action<int>(AggMon));
             Client.Instance.AddEventHandler("lprp:changeDirty", new Action<int>(AggDirty));
@@ -117,8 +124,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
             InputHandler.AddInputList(atmInputs);
             AddTextEntry("MENU_PLYR_BANK", "Soldi Sporchi");
         }
-
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("lprp:banking:transactionstatus", new Action<bool, string>(Status));
             Client.Instance.RemoveEventHandler("lprp:changeMoney", new Action<int>(AggMon));

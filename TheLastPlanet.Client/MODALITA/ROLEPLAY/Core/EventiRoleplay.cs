@@ -2,12 +2,18 @@
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
     static class EventiRoleplay
     {
-        public static void Init()
+        public static async void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
         {
             Client.Instance.Events.Mount("lprp:possiediArma", new Action<string, string>(PossiediArma));
             Client.Instance.Events.Mount("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
@@ -17,6 +23,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             Client.Instance.Events.Mount("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
             Client.Instance.Events.Mount("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
             Client.Instance.Events.Mount("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
+        }
+        public static void onPlayerLeft(ClientId client)
+        {
+            Client.Instance.Events.Unmount("lprp:possiediArma");
+            Client.Instance.Events.Unmount("lprp:possiediTinta");
+            Client.Instance.Events.Unmount("lprp:removeWeaponComponent");
+            Client.Instance.Events.Unmount("lprp:removeWeapon");
+            Client.Instance.Events.Unmount("lprp:addWeapon");
+            Client.Instance.Events.Unmount("lprp:addWeaponComponent");
+            Client.Instance.Events.Unmount("lprp:addWeaponTint");
+            Client.Instance.Events.Unmount("lprp:riceviOggettoAnimazione");
         }
 
         private static void AnimazioneRiceviOggetto()

@@ -14,12 +14,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 
         public static void Init()
         {
-            InputHandler.AddInput(pauseMenu);
-        }
-
-        public static void Stop()
-        {
-            InputHandler.RemoveInput(pauseMenu);
+            AccessingEvents.OnFreeRoamSpawn += (client) => InputHandler.AddInput(pauseMenu);
+            AccessingEvents.OnFreeRoamLeave += (client) => InputHandler.RemoveInput(pauseMenu);
         }
 
         public static async void FreeRoamMenu(Ped me, object[] _unused)

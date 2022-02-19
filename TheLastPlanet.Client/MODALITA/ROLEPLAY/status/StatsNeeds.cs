@@ -6,6 +6,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.status.Interfacce;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 {
@@ -44,7 +45,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
+            AccessingEvents.OnRoleplaySpawn += Eccolo;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
             Needs.Add("Fame", new Necessità("Fame", 0, 0.005f, new Action<Ped, Player, Necessità>(Fame)));
             Needs.Add("Sete", new Necessità("Sete", 0, 0.006f, new Action<Ped, Player, Necessità>(Sete)));
@@ -60,19 +62,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             Statistics.Add("DRUGS", new Statistica("Droghe", "Droghe", "Droga +", new Action<Ped, Player, Statistica>(Droga)));
             //PSF_SHOOTING aggiungere abilità sparatorie?
         }
-
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
             Client.Instance.RemoveEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
             Needs = null;
             Statistics = null;
             //PSF_SHOOTING aggiungere abilità sparatorie?
         }
 
-        public static void Eccolo()
+        public static void Eccolo(ClientId client)
         {
-            User me = Cache.PlayerCache.MyPlayer.User;
+            User me = client.User;
             Needs["Fame"].Val = me.CurrentChar.Needs.Fame;
             Needs["Sete"].Val = me.CurrentChar.Needs.Sete;
             Needs["Stanchezza"].Val = me.CurrentChar.Needs.Stanchezza;

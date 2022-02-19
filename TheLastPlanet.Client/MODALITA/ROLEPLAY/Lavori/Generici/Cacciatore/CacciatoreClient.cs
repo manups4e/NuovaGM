@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 {
     internal static class CacciatoreClient
     {
         public static bool StaCacciando = false;
+        private static Blip caccia;
         public static Cacciatori Cacciatore;
         private static List<string> animalGroups = new List<string>
         {
@@ -41,20 +43,22 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            Cacciatore = null;
+            caccia.Delete();
         }
 
-        private static void Spawnato()
+        private static void Spawnato(ClientId client)
         {
             Cacciatore = Client.Impostazioni.RolePlay.Lavori.Generici.Cacciatore;
-            Blip caccia = World.CreateBlip(Cacciatore.inizioCaccia);
+            caccia = World.CreateBlip(Cacciatore.inizioCaccia);
             caccia.Sprite = BlipSprite.Hunting;
             caccia.Color = BlipColor.TrevorOrange;
             caccia.Scale = 1.0f;

@@ -6,6 +6,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -84,10 +85,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         public static Dictionary<Vehicle, int> state_indic = new Dictionary<Vehicle, int>();
 
         private static List<InputController> inputs = new();
-
+        private static List<Blip> blips = new();
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
             Client.Instance.AddEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
             for (int i = 0; i < carGarageSpots.Count; i++)
@@ -100,13 +102,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             InputHandler.AddInputList(inputs);
         }
 
-        public static void Stop()
+        public static void Spawnato(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            foreach (Blip b in carGarageSpots.Select(v => new Blip(AddBlipForCoord(v.X, v.Y, v.Z))))
+            {
+                b.Sprite = BlipSprite.Garage2;
+                SetBlipDisplay(b.Handle, 4);
+                b.Scale = 0.9f;
+                b.IsShortRange = true;
+                b.Name = "Affitto / Restituzione Veicoli";
+                blips.Add(b);
+            }
+        }
+
+        public static void onPlayerLeft(ClientId client)
+        {
             Client.Instance.RemoveEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
             Client.Instance.RemoveEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));
             InputHandler.RemoveInputList(inputs);
             inputs.Clear();
+            blips.ForEach(x => x.Delete());
+            blips.Clear();
         }
 
         public static async Task Lux()
@@ -403,18 +419,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             if (!ped_s.IsInVehicle()) return;
             Vehicle veh = ped_s.CurrentVehicle;
             TogIndicStateForVeh(veh, newstate);
-        }
-
-        public static void Spawnato()
-        {
-            foreach (Blip b in carGarageSpots.Select(v => new Blip(AddBlipForCoord(v.X, v.Y, v.Z))))
-            {
-                b.Sprite = BlipSprite.Garage2;
-                SetBlipDisplay(b.Handle, 4);
-                b.Scale = 0.9f;
-                b.IsShortRange = true;
-                b.Name = "Affitto / Restituzione Veicoli";
-            }
         }
 
         private static float angle = 0f;

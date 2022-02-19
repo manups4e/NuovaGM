@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 {
@@ -11,24 +12,26 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
     {
         public static Vehicle VeicoloAttuale;
         public static Vehicle ElicotteroAttuale;
+        private static List<Blip> ospedali = new();
         public static Dictionary<Ped, Blip> MedsBlips = new Dictionary<Ped, Blip>();
         public static Dictionary<Ped, Blip> Morti = new Dictionary<Ped, Blip>();
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
             Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Client.Instance.RemoveEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
             Client.Instance.RemoveEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
+            ospedali.ForEach(x => x.Delete());
         }
 
-        private static async void Spawnato()
+        private static void Spawnato(ClientId client)
         {
             foreach (Ospedale ospedale in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
             {
@@ -39,10 +42,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 blip.IsShortRange = true;
                 blip.Name = ospedale.Blip.Nome;
                 SetBlipDisplay(blip.Handle, ospedale.Blip.Display);
+                ospedali.Add(blip);
             }
         }
 
-        private static async void Aggiungi(int player)
+        private static void Aggiungi(int player)
         {
             Player pl = new Player(GetPlayerFromServerId(player));
 
@@ -58,18 +62,24 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             }
         }
 
-        private static async void Rimuovi(int player)
+        private static void Rimuovi(int player)
         {
             Player pl = new Player(GetPlayerFromServerId(player));
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
+            {
                 if (Morti.ContainsKey(pl.Character))
+                {
                     foreach (Blip bl in pl.Character.AttachedBlips)
+                    {
                         if (bl == Morti[pl.Character])
                         {
                             bl.Delete();
                             Morti.Remove(pl.Character);
                         }
+                    }
+                }
+            }
         }
 
         public static async Task MarkersMedici()
@@ -77,16 +87,20 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Name.ToLower() == "medico")
+            {
                 foreach (Ospedale osp in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
                 {
                     foreach (Position vettore in osp.Spogliatoio)
+                    {
                         if (p.IsInRangeOf(vettore.ToVector3, 2f))
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per ~y~entrare~w~ / ~b~uscire~w~ in servizio");
                             if (Input.IsControlJustPressed(Control.Context)) MenuMedici.MenuSpogliatoio();
                         }
+                    }
 
                     foreach (Position vettore in osp.Farmacia)
+                    {
                         if (p.IsInRangeOf(vettore.ToVector3, 1.5f))
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per usare la farmacia");
@@ -96,8 +110,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 // Menu farmacia
                             }
                         }
+                    }
 
                     foreach (Position vettore in osp.IngressoVisitatori)
+                    {
                         if (p.IsInRangeOf(vettore.ToVector3, 1.375f))
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare in ospedale");
@@ -115,8 +131,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 Screen.Fading.FadeIn(800);
                             }
                         }
+                    }
 
                     foreach (Position vettore in osp.UscitaVisitatori)
+                    {
                         if (p.IsInRangeOf(vettore.ToVector3, 1.375f))
                         {
                             HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per uscire dall'ospedale");
@@ -134,6 +152,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 Screen.Fading.FadeIn(800);
                             }
                         }
+                    }
 
                     foreach (SpawnerSpawn vehicle in osp.Veicoli)
                     {
@@ -238,6 +257,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                         }
                     }
                 }
+            }
         }
 
         public static async Task MarkersNonMedici()
@@ -283,7 +303,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
             if (Client.Impostazioni.RolePlay.Lavori.Medici.Config.AbilitaBlipVolanti)
             {
-                foreach (var p in Cache.PlayerCache.GiocatoriOnline)
+                foreach (var p in PlayerCache.GiocatoriOnline)
+                {
                     if (p.User.CurrentChar.Job.Name == "Medici")
                     {
                         int id = GetPlayerFromServerId(p.Player.ServerId);
@@ -353,6 +374,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                             MedsBlips.Remove(playerPed);
                         }
                     }
+                }
             }
             else
             {

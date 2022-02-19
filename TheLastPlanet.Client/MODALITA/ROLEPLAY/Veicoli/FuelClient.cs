@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -68,10 +69,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Client.Instance.AddEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
             Client.Instance.AddEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
             Client.Instance.AddEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
             Client.Instance.RemoveEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
@@ -87,10 +89,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Client.Instance.RemoveEventHandler("lprp:fuel:saddfuel", new Action<int>(SAddFuel));
             Client.Instance.RemoveEventHandler("lprp:fuel:saddmoney", new Action<int>(SAddMoney));
             Client.Instance.RemoveEventHandler("lprp:fuel:sresetmanage", new Action<int>(SResetManage));
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            registryBlips.ForEach(x => x.Delete());
+            gsblips.ForEach(x => x.Delete());
+            gsblips.Clear();
+            registryBlips.Clear();
         }
 
-        public static void Spawnato()
+        public static void Spawnato(ClientId client)
         {
             FuelCapacity = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelCapacity;
             FuelRpmImpact = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelRpmImpact;

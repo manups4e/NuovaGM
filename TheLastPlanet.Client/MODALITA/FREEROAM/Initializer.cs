@@ -21,25 +21,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
             MeteoClient.Init();
             OrarioClient.Init();
             MenuPausa.Init();
-            //AGGIUNGERE GESTIONE METEO
-            //AGGIUNGERE GESTIONE ORARIO
             //AGGIUNGERE GESTIONE STATISTICHE
             //AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
-            //Death.Init();
             await Task.FromResult(0);
         }
 
         public static async Task Stop()
         {
-            IPLInstance.Stop();
-            ExperienceManager.Stop();
-            WorldEventsManager.Stop();
-            PlayerBlipsHandler.Stop();
-            BaseEventsFreeRoam.Stop();
-            PlayerTags.Stop();
             MeteoClient.Stop();
             OrarioClient.Stop();
-            MenuPausa.Stop();
+            AccessingEvents.FreeRoamLeave(PlayerCache.MyPlayer);
 
             //AGGIUNGERE GESTIONE STATISTICHE
             //AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)

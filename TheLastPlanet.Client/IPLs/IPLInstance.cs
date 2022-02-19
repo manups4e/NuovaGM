@@ -13,6 +13,7 @@ using TheLastPlanet.Client.IPLs.dlc_import_export;
 using TheLastPlanet.Client.IPLs.dlc_smuggler;
 using TheLastPlanet.Client.IPLs.gta_online;
 using TheLastPlanet.Client.IPLs.gtav;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -86,6 +87,13 @@ namespace TheLastPlanet.Client.IPLs
 
         public static void Init()
         {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+
+        public static void Spawnato(ClientId client)
+        {
+
             /*
 			// ====================================================================
 			// =--------------------- [GTA V: Single player] ---------------------=
@@ -326,10 +334,9 @@ namespace TheLastPlanet.Client.IPLs
             Client.Instance.AddTick(InteriorObserver.Observer);
             Client.Instance.AddTick(InteriorObserver.OfficeSafeDoorHandler);
             Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
-
         }
 
-        public static async void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             Michael.LoadDefault();
             Simeon.LoadDefault();

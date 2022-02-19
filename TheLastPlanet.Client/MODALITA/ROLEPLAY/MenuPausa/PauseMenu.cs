@@ -8,6 +8,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.RolePlay.MenuPausa
 {
@@ -37,18 +38,18 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
         public static void Init()
         {
-            InputHandler.AddInput(pauseMenu);
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             InputHandler.RemoveInput(pauseMenu);
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
         }
 
-        private static async void Spawnato()
+        private static void Spawnato(ClientId client)
         {
+            InputHandler.AddInput(pauseMenu);
             string effect;
 
             switch (Main.ImpostazioniClient.Filtro)

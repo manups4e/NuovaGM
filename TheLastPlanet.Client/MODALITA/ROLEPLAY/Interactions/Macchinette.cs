@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -24,9 +25,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             ObjectHash.prop_vend_water_01
         };
 
-        public static void Init() { RequestAmbientAudioBank(AudioBank, false); }
-
-        public static void Stop()
+        public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
+            RequestAmbientAudioBank(AudioBank, false);
+        }
+        public static void onPlayerLeft(ClientId client)
         {
             ReleaseAmbientAudioBank();
         }

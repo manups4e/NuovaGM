@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -13,28 +14,32 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         private static List<InputController> rqInputs = new();
         private static List<InputController> ltdInputs = new();
         private static List<InputController> armerieInputs = new();
+        private static List<Blip> blips = new List<Blip>();
+
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(NegoziSpawn));
+            AccessingEvents.OnRoleplaySpawn += NegoziSpawn;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             NegoziGenerici = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(NegoziSpawn));
             NegoziGenerici = null;
             InputHandler.RemoveInputList(tfsInputs);
             InputHandler.RemoveInputList(rqInputs);
             InputHandler.RemoveInputList(ltdInputs);
             InputHandler.RemoveInputList(armerieInputs);
+            blips.ForEach(x => x.Delete());
+            blips.Clear();
             tfsInputs.Clear();
             rqInputs.Clear();
             ltdInputs.Clear();
             armerieInputs.Clear();
         }
 
-        public static void NegoziSpawn()
+        public static void NegoziSpawn(ClientId client)
         {
             foreach (Vector3 v in NegoziGenerici.tfs)
             {
@@ -46,6 +51,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliptfs.IsShortRange = true;
                 bliptfs.Name = "24/7";
                 tfsInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(tfs)));
+                blips.Add(bliptfs);
             }
 
             foreach (Vector3 v in NegoziGenerici.rq)
@@ -58,6 +64,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliptrq.IsShortRange = true;
                 bliptrq.Name = "Robs Liquor";
                 rqInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(rq)));
+                blips.Add(bliptrq);
             }
 
             foreach (Vector3 v in NegoziGenerici.ltd)
@@ -70,6 +77,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 blipltd.IsShortRange = true;
                 blipltd.Name = "Limited Gasoline";
                 ltdInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere al negozio", new((MarkerType)(-1), v.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(ltd)));
+                blips.Add(blipltd);
             }
 
             foreach (Vector3 v in NegoziGenerici.armerie)
@@ -82,6 +90,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bliparmi.IsShortRange = true;
                 bliparmi.Name = "Armeria";
                 armerieInputs.Add(new InputController(Control.Context, v.ToPosition(), "Premi ~INPUT_CONTEXT~ per accedere all'armeria", new((MarkerType)(-1), v.ToPosition(), ScaleformUI.Colors.Transparent), ModalitaServer.Roleplay, action: new Action<Ped, object[]>(Armerie.NuovaArmeria)));
+                blips.Add(bliparmi);
             }
 
             InputHandler.AddInputList(tfsInputs);

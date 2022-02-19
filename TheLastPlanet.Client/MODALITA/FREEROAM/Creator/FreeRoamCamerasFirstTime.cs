@@ -250,7 +250,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             Screen.Fading.FadeIn(800);
             Client.Instance.RemoveTick(Controllo);
             Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
-            FreeRoamLogin.JoinedEvent();
+            AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
             PlayerCache.MyPlayer.User.Status.Spawned = true;
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
         }

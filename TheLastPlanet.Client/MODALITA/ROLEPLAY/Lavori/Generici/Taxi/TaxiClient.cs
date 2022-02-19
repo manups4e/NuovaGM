@@ -7,6 +7,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 {
@@ -22,21 +23,21 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
         public static void Init()
         {
             taxi = Client.Impostazioni.RolePlay.Lavori.Generici.Tassista;
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
+            AccessingEvents.OnRoleplaySpawn += Eccolo;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             TickController.TickAPiedi.Add(Markers);
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
             taxi = null;
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Eccolo));
             TickController.TickAPiedi.Remove(Markers);
             Client.Instance.RemoveTick(Markers);
             Blip p = World.GetAllBlips().FirstOrDefault(x => x.Position == taxi.PosAccettazione);
             if (p != null) p.Delete();
         }
 
-        private static void Eccolo()
+        private static void Eccolo(ClientId client)
         {
             Blip Tax = World.CreateBlip(taxi.PosAccettazione);
             Tax.Sprite = BlipSprite.PersonalVehicleCar;

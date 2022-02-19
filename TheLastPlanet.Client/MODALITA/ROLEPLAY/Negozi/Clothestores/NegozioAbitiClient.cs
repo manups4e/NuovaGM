@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Handlers;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -13,26 +14,30 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
         private static List<InputController> discountInputs = new();
         private static List<InputController> suburbanInputs = new();
         private static List<InputController> ponsombysInputs = new();
+        private static List<Blip> blips = new();
+
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             InputHandler.RemoveInputList(bincoInputs);
             InputHandler.RemoveInputList(discountInputs);
             InputHandler.RemoveInputList(suburbanInputs);
             InputHandler.RemoveInputList(ponsombysInputs);
+            blips.ForEach(x => x.Delete());
             bincoInputs.Clear();
             discountInputs.Clear();
             suburbanInputs.Clear();
             ponsombysInputs.Clear();
+            blips.Clear();
         }
 
-        public static async void Spawnato()
+        public static async void Spawnato(ClientId client)
         {
             foreach (NegozioAbiti v in ConfigClothes.Binco)
             {
@@ -43,6 +48,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 bincoInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoPant), v.Pantaloni.W));
                 bincoInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoOcchiali), v.Occhiali.W));
                 bincoInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(BincoAccessori), v.Accessori.W));
+                blips.Add(blip);
             }
 
             foreach (NegozioAbiti v in ConfigClothes.Discount)
@@ -54,6 +60,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 discountInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountPant), v.Pantaloni.W));
                 discountInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountOcchiali), v.Occhiali.W));
                 discountInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(DiscountAccessori), v.Accessori.W));
+                blips.Add(blip);
             }
 
             foreach (NegozioAbiti v in ConfigClothes.Suburban)
@@ -65,6 +72,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 suburbanInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanPant), v.Pantaloni.W));
                 suburbanInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanOcchiali), v.Occhiali.W));
                 suburbanInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(SuburbanAccessori), v.Accessori.W));
+                blips.Add(blip);
             }
 
             foreach (NegozioAbiti v in ConfigClothes.Ponsombys)
@@ -76,6 +84,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                 ponsombysInputs.Add(new InputController(Control.Context, v.Pantaloni.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare i pantaloni", new((MarkerType)(-1), v.Pantaloni.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysPant), v.Pantaloni.W));
                 ponsombysInputs.Add(new InputController(Control.Context, v.Occhiali.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli occhiali", new((MarkerType)(-1), v.Occhiali.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysOcchiali), v.Occhiali.W));
                 ponsombysInputs.Add(new InputController(Control.Context, v.Accessori.ToPosition(), "Premi ~INPUT_CONTEXT~ per guardare gli accessori", new((MarkerType)(-1), v.Accessori.ToPosition(), Colors.Transparent), ModalitaServer.Roleplay, PadCheck.Any, ControlModifier.None, new Action<Ped, object[]>(PonsombysAccessori), v.Accessori.W));
+                blips.Add(blip);
             }
             InputHandler.AddInputList(bincoInputs);
             InputHandler.AddInputList(discountInputs);

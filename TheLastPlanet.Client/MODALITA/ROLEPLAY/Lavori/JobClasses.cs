@@ -1,4 +1,5 @@
-﻿using Impostazioni.Shared.Roleplay.Lavori.Generici;
+﻿using Impostazioni.Shared.Roleplay.Lavori;
+using Impostazioni.Shared.Roleplay.Lavori.Generici;
 using Impostazioni.Shared.Roleplay.Lavori.WhiteList;
 using System.Collections.Generic;
 
@@ -29,8 +30,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori
         public Dictionary<string, JobGrade> Gradi = new Dictionary<string, JobGrade>();
     }
 
-    public class LavoriGenerici
+    public class ConfigLavoriGenerici
     {
+        public Disoccupato Disoccupato = new Disoccupato();
         public Pescatori Pescatore = new Pescatori();
         public Cacciatori Cacciatore = new Cacciatori();
         public Towing Rimozione = new Towing();

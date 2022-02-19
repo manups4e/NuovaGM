@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 {
@@ -16,23 +17,23 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
         public static void Init()
         {
-            Client.Instance.AddEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
             Client.Instance.AddEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
             Client.Instance.AddEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
             Client.Instance.AddEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
             Client.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
         }
 
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Client.Instance.RemoveEventHandler("tlg:roleplay:onPlayerSpawn", new Action(Spawnato));
             Client.Instance.RemoveEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
             Client.Instance.RemoveEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
             Client.Instance.RemoveEventHandler("lprp:polizia:mettiVeh", new Action(MettiVeh));
             Client.Instance.RemoveEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
         }
 
-        public static void Spawnato()
+        public static void Spawnato(ClientId client)
         {
             foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
             {

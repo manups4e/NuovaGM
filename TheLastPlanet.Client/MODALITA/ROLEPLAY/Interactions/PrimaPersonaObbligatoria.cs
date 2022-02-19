@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
+using TheLastPlanet.Shared.Internal.Events;
 //using ScaleformUI.PauseMenu;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
@@ -8,12 +9,20 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
     {
         private static bool Switched = false;
         private static int vecchiaMod = 2;
-        public static void Init() { Client.Instance.AddTick(WeaponHandling); }
-
-        public static void Stop()
+        public static void Init()
+        {
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+        public static void Spawnato(ClientId client)
+        {
+            Client.Instance.AddTick(WeaponHandling);
+        }
+        public static void onPlayerLeft(ClientId client)
         {
             Client.Instance.RemoveTick(WeaponHandling);
         }
+
 
         //aggiungere controlli impostazioni.. V
         //migliorare coordinate testa e aggiungere effetto grafico.. V

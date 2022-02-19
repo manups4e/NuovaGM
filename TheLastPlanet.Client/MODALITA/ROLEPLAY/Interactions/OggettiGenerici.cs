@@ -1,4 +1,5 @@
 ﻿using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -6,7 +7,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
     {
         public static void Init()
         {
-            Ped p = Cache.PlayerCache.MyPlayer.Ped;
+            AccessingEvents.OnRoleplaySpawn += Spawnato;
+            AccessingEvents.OnRoleplayLeave += onPlayerLeft;
+        }
+
+        public static void Spawnato(ClientId client)
+        {
+            Ped p = client.Ped;
             ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa += async (item, index) =>
             {
                 RequestAnimDict("mp_player_inteat@burger");
@@ -50,10 +57,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 RemoveAnimDict("mp_player_intdrink");
             };
         }
-
-        public static void Stop()
+        public static void onPlayerLeft(ClientId client)
         {
-            Ped p = Cache.PlayerCache.MyPlayer.Ped;
+            Ped p = client.Ped;
             ConfigShared.SharedConfig.Main.Generici.ItemList["hamburger"].Usa -= async (item, index) =>
             {
                 RequestAnimDict("mp_player_inteat@burger");
@@ -97,5 +103,6 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                 RemoveAnimDict("mp_player_intdrink");
             };
         }
+
     }
 }
