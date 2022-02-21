@@ -69,6 +69,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             foreach (var worldEvent in WorldEventsManager.WorldEvents)
                 highscores.Add(new PlayerScore { EventId = worldEvent.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = worldEvent.EventXpMultiplier });
             client.User.PlayerScores = highscores;
+            SetEntityDistanceCullingRadius(client.Ped.Handle, 5000f);
         }
 
 
@@ -85,6 +86,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 });
             }
             Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta FreeRoam.");
+            SetEntityDistanceCullingRadius(client.Ped.Handle, 0f);
         }
 
         public void UpdateCurrentAttempt(ClientId client, int eventId, float currentAttempt)
@@ -332,6 +334,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 byte[] bytes = sbytes.ToBytes();
                 source.User.FreeRoamChar = bytes.FromBytes<FreeRoamChar>();
             }
+            await BaseScript.Delay(0);
             return source.User.FreeRoamChar;
         }
 
@@ -363,9 +366,10 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(ClientId client)
         {
             Bucket.AddPlayer(client);
+            SetEntityDistanceCullingRadius(client.Ped.Handle, 5000f);
         }
 
-        public async void RemovePlayer(ClientId client, string reason = "")
+        public void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
             if (client.User.Status.Spawned)
@@ -375,6 +379,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
             else
                 Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta RolePlay senza selezionare un personaggio.");
+            SetEntityDistanceCullingRadius(client.Ped.Handle, 0f);
         }
 
         #region EVENTS
