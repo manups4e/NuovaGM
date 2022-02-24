@@ -95,24 +95,24 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static User GetPlayerCharFromPlayerId(int id)
         {
-            foreach (var p in from p in PlayerCache.GiocatoriOnline where GetPlayerFromServerId(p.Player.ServerId) == id select p) return p.User;
+            foreach (var p in from p in Client.Instance.Clients where GetPlayerFromServerId(p.Player.ServerId) == id select p) return p.User;
             return null;
         }
 
         public static User GetPlayerCharFromServerId(int id)
         {
-            foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId == id select p) return p.User;
+            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p.User;
             return null;
         }
 
         public static ClientId GetClientIdFromServerId(int id)
         {
-            foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId == id select p) return p;
+            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p;
             return null;
         }
         public static ClientId GetClientIdFromServerId(string id)
         {
-            foreach (var p in from p in PlayerCache.GiocatoriOnline where p.Player.ServerId.ToString() == id select p) return p;
+            foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId.ToString() == id select p) return p;
             return null;
         }
 

@@ -45,7 +45,7 @@ namespace TheLastPlanet.Shared
         public Skin Skin { get; set; }
         public List<Weapons> Weapons { get; set; }
         public List<string> Proprietà { get; set; } // da aggiungere
-        public List<OwnedVehicle> Veicoli { get; set; } // da aggiungere
+        //public List<OwnedVehicle> Veicoli { get; set; } // da aggiungere
         public Dressing Dressing { get; set; }
         public FreeRoamStats Statistiche { get; set; }
         public int Level { get; set; } = 1;

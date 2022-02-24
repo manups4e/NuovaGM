@@ -64,7 +64,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             Client.Instance.AddTick(Crediti);
             playerPed.IsPositionFrozen = true;
             playerPed.IsVisible = false;
-            PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("IngressoPlayer");
+            PlayerCache.MyPlayer.Status.Istanza.Istanzia("IngressoPlayer");
             playerPed.Position = new Vector3(745.877f, 1215.591f, 359.405f);
             Camera Cam1 = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true)) { FieldOfView = 60f, Position = new Vector3(745.877f, 1215.591f, 359.405f) };
             Cam1.IsActive = true;
@@ -241,7 +241,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             playerPed.Position = new Vector3(262.687f, -875.486f, 29.153f);
             RenderScriptCams(false, false, 0, false, false);
             playerPed.IsVisible = true;
-            PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+            PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
             playerPed.IsPositionFrozen = false;
             NetworkClearClockTimeOverride();
             await BaseScript.Delay(1000);
@@ -251,7 +251,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             Client.Instance.RemoveTick(Controllo);
             Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
             AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
-            PlayerCache.MyPlayer.User.Status.Spawned = true;
+            PlayerCache.MyPlayer.Status.PlayerStates.Spawned = true;
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
         }
 

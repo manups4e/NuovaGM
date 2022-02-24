@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                     p.Style.SetDefaultClothes();
                     p.SetDecor("TheLastPlanet2019fighissimo!yeah!", p.Handle);
                     await Cache.PlayerCache.Loaded();
-                    Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("IngressoRoleplay");
+                    Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("IngressoRoleplay");
                     await BaseScript.Delay(100);
                     //Cache.PlayerCache.MyPlayer.Player.State.Set("Pausa", new { Attivo = false }, true);
                     p.IsVisible = false;
@@ -280,9 +280,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                     dummyPed.Delete();
             Eventi.LoadModel();
             if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerPedId(), true, false);
-            Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
             Cache.PlayerCache.MyPlayer.Ped.SetDecor("TheLastPlanet2019fighissimo!yeah!", Cache.PlayerCache.MyPlayer.Ped.Handle);
-            Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Ingresso");
+            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("Ingresso");
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Sincronizzazione col server", LoadingSpinnerType.Clockwise1);
             NetworkClearClockTimeOverride();
@@ -307,7 +307,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             await BaseScript.Delay(1000);
             Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Cache.PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
-            Cache.PlayerCache.MyPlayer.User.Status.Spawned = true;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Spawned = true;
 
             AccessingEvents.RoleplaySpawn(PlayerCache.MyPlayer);
 

@@ -184,7 +184,7 @@ namespace TheLastPlanet.Client
         public ConfigMedici Medici { get; set; }
         public ConfigVenditoriAuto VenditoriAuto { get; set; }
         public ConfigVenditoriCase VenditoriCase { get; set; }
-        public LavoriGenerici Generici { get; set; }
+        public ConfigLavoriGenerici Generici { get; set; }
     }
 
     public class ConfigVeicoliRP

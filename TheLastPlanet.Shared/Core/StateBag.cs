@@ -29,14 +29,12 @@ namespace TheLastPlanet.Shared
             _player = player;
             Name = name;
             Replicated = replicated;
-            Value = default;
         }
         public BaseStateBag(Entity entity, string name, bool replicated = true)
         {
             _entity = entity;
             Name = name;
             Replicated = replicated;
-            Value = default;
         }
     }
 
@@ -56,6 +54,7 @@ namespace TheLastPlanet.Shared
 
     public class PlayerStates : BaseBag
     {
+        private readonly BaseStateBag<bool> _spawned;
         private readonly BaseStateBag<bool> _adminSpecta;
         private readonly BaseStateBag<bool> _inPausa;
         private readonly BaseStateBag<ModalitaServer> _modalita;
@@ -63,6 +62,11 @@ namespace TheLastPlanet.Shared
         private readonly BaseStateBag<bool> _inVeicolo;
         private readonly BaseStateBag<bool> _passive;
 
+        public bool Spawned
+        {
+            get => _spawned.Value;
+            set => _spawned.Value = value;
+        }
         public bool InVeicolo
         {
             get => _inVeicolo.Value;
@@ -104,22 +108,25 @@ namespace TheLastPlanet.Shared
 #endif
             }
         }
+
+        public PlayerStates() { }
+
         public PlayerStates(Player player, string name) : base(player, name)
         {
+            _spawned = new(player, ":Spawned", true);
             _adminSpecta = new BaseStateBag<bool>(player, _name + ":AdminSpecta", true);
             _inPausa = new BaseStateBag<bool>(player, _name + ":InPausa", true);
             _modalita = new BaseStateBag<ModalitaServer>(player, _name + ":Modalita", true);
             _wanted = new BaseStateBag<bool>(player, _name + ":WantedAttivo", true);
             _inVeicolo = new BaseStateBag<bool>(player, _name + ":InVeicolo", true);
             _passive = new BaseStateBag<bool>(player, _name + ":ModPassiva", true);
-
-            InVeicolo = false;
-            ModalitaPassiva = false;
         }
     }
 
     public class FreeRoamStates : BaseBag
     {
+        public FreeRoamStates() {
+        }
         public FreeRoamStates(Player player, string name) : base(player, name)
         {
         }
@@ -163,7 +170,8 @@ namespace TheLastPlanet.Shared
             set => _finDiVita.Value = value;
         }
 
-        public RPStates() { }
+        public RPStates() {
+        }
 
         public RPStates(Player player, string name) : base(player, name)
         {
@@ -172,12 +180,6 @@ namespace TheLastPlanet.Shared
             _inCasa = new BaseStateBag<bool>(player, _name + ":InCasa", true);
             _inServizio = new BaseStateBag<bool>(player, _name + ":InServizio", true);
             _finDiVita = new BaseStateBag<bool>(player, _name + ":FinDiVita", true);
-
-            Svenuto = false;
-            Ammanettato = false;
-            InCasa = false;
-            InServizio = false;
-            FinDiVita = false;
         }
     }
 
@@ -188,7 +190,6 @@ namespace TheLastPlanet.Shared
         public InstanceBags(Player player, string name) : base(player, name)
         {
             _instanceBag = new BaseStateBag<InstanceBag>(player, _name);
-            RimuoviIstanza();
         }
 
         public bool Stanziato { get; set; }

@@ -71,7 +71,11 @@ namespace TheLastPlanet.Server.Core.PlayerChar
         public bool DeathStatus
         {
             get => CurrentChar.is_dead;
-            set { CurrentChar.is_dead = value; Status.RolePlayStates.Svenuto = true; }
+            set
+            {
+                CurrentChar.is_dead = value;
+                //Status.RolePlayStates.Svenuto = true;
+            }
         }
 
         [Ignore]

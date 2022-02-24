@@ -69,7 +69,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             foreach (var worldEvent in WorldEventsManager.WorldEvents)
                 highscores.Add(new PlayerScore { EventId = worldEvent.Id, BestAttempt = 0, CurrentAttempt = 0, EventXpMultiplier = worldEvent.EventXpMultiplier });
             client.User.PlayerScores = highscores;
-            SetEntityDistanceCullingRadius(client.Ped.Handle, 5000f);
+            SetPlayerCullingRadius(client.Handle.ToString(), 5000f);
         }
 
 
@@ -86,7 +86,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 });
             }
             Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta FreeRoam.");
-            SetEntityDistanceCullingRadius(client.Ped.Handle, 0f);
+            SetPlayerCullingRadius(client.Handle.ToString(), 0f);
         }
 
         public void UpdateCurrentAttempt(ClientId client, int eventId, float currentAttempt)
@@ -340,6 +340,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         private void SavePlayerData(ClientId client)
         {
+            client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
     }
@@ -366,20 +367,20 @@ namespace TheLastPlanet.Server.Core.Buckets
         public void AddPlayer(ClientId client)
         {
             Bucket.AddPlayer(client);
-            SetEntityDistanceCullingRadius(client.Ped.Handle, 5000f);
+            SetPlayerCullingRadius(client.Handle.ToString(), 5000f);
         }
 
         public void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
-            if (client.User.Status.Spawned)
+            if (client.Status.PlayerStates.Spawned)
             {
                 SalvaPersonaggioRoleplay(client);
                 Server.Logger.Info($"Salvato personaggio: {client.User.FullName} [{client.Player.Name}] all'uscita dal pianeta RolePlay -- Discord:{client.Identifiers.Discord}");
             }
             else
                 Server.Logger.Info($"Il Player {client.Player.Name} [{client.Identifiers.Discord}] è uscito dal pianeta RolePlay senza selezionare un personaggio.");
-            SetEntityDistanceCullingRadius(client.Ped.Handle, 0f);
+            SetPlayerCullingRadius(client.Handle.ToString(), 0f);
         }
 
         #region EVENTS
@@ -434,11 +435,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
 
             await BaseScript.Delay(0);
-            var data = API.GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
+
+            var data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
             var bytes = data.ToBytes();
             user.CurrentChar = bytes.FromBytes<Char_data>();
-            /*
 
+            /*
             string query = "SELECT * FROM personaggi WHERE CharID = @id";
 
             Char_Metadata res = await MySQL.QuerySingleAsync<Char_Metadata>(query, new { id });
@@ -461,12 +463,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             return user.CurrentChar;
         }
 
-        public void SalvaPersonaggioRoleplay(ClientId client)
+        public async void SalvaPersonaggioRoleplay(ClientId client)
         {
             try
             {
-                /*
-                await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @location, @job, @jgrade, @gang, @ggrade, @skin, @dress, @needs, @stats, @dead, @id)", new
+                // per sicurezza teniamo anche il database aggiornato...
+                await MySQL.ExecuteAsync("call SalvaPersonaggio(@gr, @level, @time, @current, @mon, @bank, @dirty, @weap, @invent, @location, @job, @gang, @skin, @dress, @needs, @stats, @dead, @id)", new
                 {
                     gr = client.User.group,
                     level = client.User.group_level,
@@ -478,10 +480,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                     weap = client.User.CurrentChar.Weapons.ToJson(),
                     invent = client.User.CurrentChar.Inventory.ToJson(),
                     location = client.User.CurrentChar.Posizione.ToJson(),
-                    job = client.User.CurrentChar.Job.Name,
-                    jgrade = client.User.CurrentChar.Job.Grade,
-                    gang = client.User.CurrentChar.Gang.Name,
-                    ggrade = client.User.CurrentChar.Gang.Grade,
+                    job = client.User.CurrentChar.Job.ToJson(),
+                    gang = client.User.CurrentChar.Gang.ToJson(),
                     skin = client.User.CurrentChar.Skin.ToJson(),
                     dress = client.User.CurrentChar.Dressing.ToJson(),
                     needs = client.User.CurrentChar.Needs.ToJson(),
@@ -489,7 +489,8 @@ namespace TheLastPlanet.Server.Core.Buckets
                     dead = client.User.CurrentChar.is_dead,
                     id = client.User.ID,
                 });
-                */
+
+                await BaseScript.Delay(0);
                 API.SetResourceKvpNoSync($"roleplay:player_{client.User.Identifiers.Discord}:char_model_{client.User.CurrentChar.CharID}", BitConverter.ToString(client.User.CurrentChar.ToBytes()));
                 client.User.LastSaved = DateTime.Now;
             }

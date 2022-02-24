@@ -18,19 +18,13 @@ namespace TheLastPlanet.Client.Cache
 
         public static ClientId MyPlayer { get; private set; }
         public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
-        public static List<ClientId> GiocatoriOnline = new();
         public static ModalitaServer ModalitàAttuale = ModalitaServer.Lobby;
 
 
         public static async Task InitPlayer()
         {
             var pippo = await Client.Instance.Events.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
-            MyPlayer = new ClientId
-            {
-                Handle = Game.Player.ServerId,
-                Id = pippo.Item1,
-                User = new User(pippo.Item2)
-            };
+            MyPlayer = new ClientId(pippo);
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);
             await Task.FromResult(0);
@@ -41,7 +35,7 @@ namespace TheLastPlanet.Client.Cache
         {
             if (player.Handle == MyPlayer.Player.Handle)
             {
-                MyPlayer.User.Status.PlayerStates.InVeicolo = true;
+                MyPlayer.Status.PlayerStates.InVeicolo = true;
                 _inVeh = true;
             }
         }
@@ -63,9 +57,9 @@ namespace TheLastPlanet.Client.Cache
 
             if (_inVeh)
             {
-                if (!MyPlayer.Ped.IsInVehicle())
+                if (MyPlayer.Ped.CurrentVehicle == null)
                 {
-                    MyPlayer.User.Status.PlayerStates.InVeicolo = false;
+                    MyPlayer.Status.PlayerStates.InVeicolo = false;
                     _inVeh = false;
                 }
             }
@@ -74,13 +68,12 @@ namespace TheLastPlanet.Client.Cache
 
             #region Check Pausa
 
-            //|| HUD.MenuPool.IsAnyPauseMenuOpen
             if (!_inPausa)
             {
                 if (Game.IsPaused || HUD.MenuPool.IsAnyPauseMenuOpen)
                 {
                     _inPausa = true;
-                    MyPlayer.User.Status.PlayerStates.InPausa = true;
+                    MyPlayer.Status.PlayerStates.InPausa = true;
                 }
             }
             else
@@ -88,7 +81,7 @@ namespace TheLastPlanet.Client.Cache
                 if (!Game.IsPaused & !HUD.MenuPool.IsAnyPauseMenuOpen)
                 {
                     _inPausa = false;
-                    MyPlayer.User.Status.PlayerStates.InPausa = false;
+                    MyPlayer.Status.PlayerStates.InPausa = false;
                 }
             }
 
@@ -96,9 +89,9 @@ namespace TheLastPlanet.Client.Cache
 
             if (_checkTimer.IsPassed)
             {
-                if (MyPlayer.User.Status.Istanza.Instance != "IngressoRoleplay")
+                if (MyPlayer.Status.Istanza.Instance != "IngressoRoleplay")
                 {
-                    await Eventi.AggiornaPlayers();
+                    Eventi.AggiornaPlayers();
                 }
             }
 

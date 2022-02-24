@@ -806,12 +806,6 @@ namespace TheLastPlanet.Shared
             Server.Server.Instance.Events.Send(client, endpoint, args);
         }
 #endif
-
-        public static void SetState<T>(this Player player, string key, T val, bool replicated) => player.State.Set(key, val.ToBytes(), replicated);
-        public static T GetState<T>(this Player player, string key) => (player.State.Get(key) as byte[]).FromBytes<T>();
-
-        public static void SetState<T>(this Entity ent, string key, T val, bool replicated) => ent.State.Set(key, val.ToBytes(), replicated);
-        public static T GetState<T>(this Entity ent, string key) => (ent.State.Get(key) as byte[]).FromBytes<T>();
     }
 
     internal class IgnoreJsonAttributesResolver : DefaultContractResolver

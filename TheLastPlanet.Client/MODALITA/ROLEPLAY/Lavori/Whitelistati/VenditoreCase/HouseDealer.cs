@@ -42,7 +42,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (!Cache.PlayerCache.MyPlayer.User.Status.Istanza.Stanziato)
+            if (!PlayerCache.MyPlayer.Status.Istanza.Stanziato)
             {
                 World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Ingresso.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Blue);
 
@@ -53,13 +53,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                     if (Input.IsControlJustPressed(Control.Context))
                     {
                         Funzioni.Teleport(house.Config.Dentro.ToVector3);
-                        Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("VenditoreCase");
+                        Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("VenditoreCase");
                     }
                 }
             }
             else
             {
-                if (Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance == "VenditoreCase")
+                if (Cache.PlayerCache.MyPlayer.Status.Istanza.Instance == "VenditoreCase")
                 {
                     World.DrawMarker(MarkerType.VerticalCylinder, house.Config.Uscita.ToVector3, Vector3.Zero, Vector3.Zero, new Vector3(1.375f, 1.375f, 0.4f), Colors.Red);
 
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                         if (Input.IsControlJustPressed(Control.Context))
                         {
                             Funzioni.Teleport(house.Config.Fuori.ToVector3);
-                            Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
                         }
                     }
                 }

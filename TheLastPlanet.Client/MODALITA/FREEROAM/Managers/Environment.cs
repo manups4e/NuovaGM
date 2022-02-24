@@ -184,12 +184,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                 SetPlayerWantedLevelNow(PlayerId(), false);
             }
             SetMaxWantedLevel(enabled ? 5 : 0);
-            Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Wanted = enabled;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Wanted = enabled;
         }
 
         public static void SetWantedLevel(int level, bool permanent, int maxLevel = 5)
         {
-            if (!Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Wanted)
+            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.Wanted)
                 return;
 
             if (permanent)

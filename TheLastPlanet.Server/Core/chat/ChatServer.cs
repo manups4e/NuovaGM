@@ -26,9 +26,8 @@ namespace TheLastPlanet.Server.Core
             try
             {
                 var p = Funzioni.GetClientFromPlayerId(id);
-                User user = p.User;
-                var currentMode = user.Status.PlayerStates.Modalita;
-                if ((int)user.group_level < 0) return;
+                var currentMode = p.Status.PlayerStates.Modalita;
+                if ((int)p.User.group_level < 0) return;
 
                 if (message.StartsWith("/"))
                 {
@@ -40,7 +39,7 @@ namespace TheLastPlanet.Server.Core
 
                     if (comm is not null)
                     {
-                        if (user.group_level >= comm.Restriction)
+                        if (p.User.group_level >= comm.Restriction)
                         {
                             if (currentMode == comm.Modalita || comm.Modalita == ModalitaServer.UNKNOWN)
                             {
@@ -61,7 +60,7 @@ namespace TheLastPlanet.Server.Core
                     switch (currentMode)
                     {
                         case ModalitaServer.Roleplay:
-                            BucketsHandler.RolePlay.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, user.FullName + ":", message);
+                            BucketsHandler.RolePlay.Bucket.TriggerClientEvent("lprp:triggerProximityDisplay", p.Handle, p.User.FullName + ":", message);
                             break;
                         case ModalitaServer.Lobby:
                             foreach (var player in BucketsHandler.Lobby.Bucket.Players)

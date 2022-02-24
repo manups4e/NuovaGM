@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             UIMenu spogliatoio = new("Spogliatoio", "Entra / esci in servizio", PointF.Empty, "thelastgalaxy", "bannerbackground", false, true);
             HUD.MenuPool.Add(spogliatoio);
             UIMenuItem cambio;
-            cambio = !Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
+            cambio = !Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio ? new UIMenuItem("Entra in Servizio", "Hai fatto un giuramento.") : new UIMenuItem("Esci dal Servizio", "Smetti di lavorare");
             spogliatoio.AddItem(cambio);
             cambio.Activated += async (item, index) =>
             {
@@ -26,7 +26,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 HUD.MenuPool.CloseAllMenus();
                 NetworkFadeOutEntity(PlayerPedId(), true, false);
 
-                if (!Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio)
+                if (!Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio)
                 {
                     foreach (KeyValuePair<string, JobGrade> Grado in Client.Impostazioni.RolePlay.Lavori.Medici.Gradi.Where(Grado => Grado.Value.Id == Cache.PlayerCache.MyPlayer.User.CurrentChar.Job.Grade))
                         switch (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex)
@@ -41,11 +41,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 break;
                         }
 
-                    Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio = true;
+                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = true;
                 }
                 else
                 {
-                    Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.InServizio = false;
+                    Cache.PlayerCache.MyPlayer.Status.RolePlayStates.InServizio = false;
                     Funzioni.UpdateDress(PlayerPedId(), Cache.PlayerCache.MyPlayer.User.CurrentChar.Dressing);
                 }
 
@@ -132,7 +132,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
         public static async void VehicleMenuNuovo(Ospedale Stazione, SpawnerSpawn Punto)
         {
-            Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("SceltaVeicoliMedici");
+            Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("SceltaVeicoliMedici");
             StazioneAttuale = Stazione;
             PuntoAttuale = Punto;
             Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(236.349f, -1005.013f, -100f);
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
         {
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.User.Status.Istanza.Stanziato)
+            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Stanziato)
                 if (InGarage)
                 {
                     if (p.IsInRangeOf(new Vector3(240.317f, -1004.901f, -99f), 3f))
@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                         if (Input.IsControlJustPressed(Control.Context)) MenuPiano();
                     }
 
-                    if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
+                    if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
                         if (p.CurrentVehicle.HasDecor("VeicoloMedici"))
                         {
                             HUD.ShowHelp("Per selezionare questo veicolo e uscire~n~~y~Accendi il motore~w~ e ~y~accelera~w~.");
@@ -240,7 +240,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 StazioneAttuale = null;
                                 PuntoAttuale = null;
                                 veicoliParcheggio.Clear();
-                                Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+                                Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
                                 await BaseScript.Delay(1000);
                                 Screen.Fading.FadeIn(800);
                                 Client.Instance.RemoveTick(ControlloGarage);
@@ -286,7 +286,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                         InGarage = false;
                         StazioneAttuale = null;
                         PuntoAttuale = null;
-                        Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
+                        Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
                         veicoliParcheggio.Clear();
                         Client.Instance.RemoveTick(ControlloGarage);
                     }

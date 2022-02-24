@@ -58,7 +58,7 @@ namespace TheLastPlanet.Server.Core
                     if (Server.Instance.GetPlayers.Count() > 0)
                     {
                         Server.Logger.Info($"Player totali: {Server.Instance.GetPlayers.Count()}.");
-                        foreach (Player player in Server.Instance.GetPlayers) Server.Logger.Info($"ID:{player.Handle}, {player.Name}, Discord:{player.Identifiers["discord"]}, Ping:{player.Ping}, Pianeta:{player.GetCurrentChar().Status.PlayerStates.Modalita}");
+                        foreach (ClientId player in Server.Instance.Clients) Server.Logger.Info($"ID:{player.Handle}, {player.Player.Name}, Discord:{player.Player.Identifiers["discord"]}, Ping:{player.Player.Ping}, Pianeta:{player.Status.PlayerStates.Modalita}");
                     }
                     else
                         Server.Logger.Warning("Non ci sono player in nel server");
@@ -514,9 +514,9 @@ namespace TheLastPlanet.Server.Core
                 {
                     int freer = 0;
                     int rp = 0;
-                    if (player.User.Status.Spawned)
+                    if (player.Status.PlayerStates.Spawned)
                     {
-                        switch (player.User.Status.PlayerStates.Modalita)
+                        switch (player.Status.PlayerStates.Modalita)
                         {
                             case ModalitaServer.Roleplay:
                                 player.TriggerSubsystemEvent("lprp:mostrasalvataggio");
@@ -559,9 +559,8 @@ namespace TheLastPlanet.Server.Core
 
             if (p != null)
             {
-                User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-                if (pers.Status.Spawned)
-                    pers.SetJob(args[1], Convert.ToInt32(args[2]));
+                if (p.Status.PlayerStates.Spawned)
+                    p.User.SetJob(args[1], Convert.ToInt32(args[2]));
                 else
                     sender.Player.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setjob] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
             }
@@ -577,9 +576,8 @@ namespace TheLastPlanet.Server.Core
 
             if (p != null)
             {
-                User pers = Funzioni.GetUserFromPlayerId(p.Handle);
-                if (pers.Status.Spawned)
-                    pers.SetGang(args[1], Convert.ToInt32(args[2]));
+                if (p.Status.PlayerStates.Spawned)
+                    p.User.SetGang(args[1], Convert.ToInt32(args[2]));
                 else
                     sender.Player.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO setgang] = ", "Errore il player non ha selezionato un personaggio, riprova!" }, color = new[] { 255, 0, 0 } });
             }

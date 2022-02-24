@@ -27,6 +27,7 @@ namespace TheLastPlanet.Server
         public static bool Debug { get; set; }
         public Request WebRequest { get; set; }
         public StateBag ServerState => GlobalState;
+        public StateBagsHandler StateBagsHandler { get; set; }
 
         public Server()
         {
@@ -52,11 +53,9 @@ namespace TheLastPlanet.Server
         {
             Events = new ServerGateway();
             WebRequest = new();
-
-
-
             await ClassCollector.Init();
         }
+
 
         /// <summary>
         /// registra un evento (TriggerEvent)

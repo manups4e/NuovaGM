@@ -23,7 +23,7 @@ namespace TheLastPlanet.Server.Core
                 await BaseScript.Delay(600000);
                 if (Server.Instance.Clients.Count > 0)
                 {
-                    foreach (var user in from user in Server.Instance.Clients where user.User is not null where (user.User.Status is not null && user.User.Status.Spawned) select user)
+                    foreach (var user in from user in Server.Instance.Clients where user.User is not null where (user.Status is not null && user.Status.PlayerStates.Spawned) select user)
                     {
                         user.User.playTime += 600;
                     }

@@ -59,7 +59,7 @@ namespace FivemPlayerlistServer
                     ServerId = client.Handle
                 };
 
-                switch (client.User.Status.PlayerStates.Modalita)
+                switch (client.Status.PlayerStates.Modalita)
                 {
                     case ModalitaServer.Lobby:
                         slot.RightIcon = SlotScoreRightIconType.NONE;

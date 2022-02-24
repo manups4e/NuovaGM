@@ -27,16 +27,24 @@ namespace TheLastPlanet.Client.Core.Utility
             Client.Instance.Events.Mount("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
             Client.Instance.Events.Mount("lprp:deleteVehicle", new Action(DeleteVehicle));
             Client.Instance.Events.Mount("lprp:mostrasalvataggio", new Action(Salva));
+            Client.Instance.Events.Mount("tlg:GetModePlayers", new Action<List<ClientId>>(GetPlayers));
 
             timer = GetGameTimer();
         }
 
-        public static async Task AggiornaPlayers()
+        public static void GetPlayers(List<ClientId> list)
         {
-            Cache.PlayerCache.GiocatoriOnline = await Client.Instance.Events.Get<List<ClientId>>("tlg:callPlayers", Cache.PlayerCache.MyPlayer.Posizione);
-            Cache.PlayerCache.MyPlayer.User.CurrentChar = Cache.PlayerCache.GiocatoriOnline.FirstOrDefault(x => x.Id == Cache.PlayerCache.MyPlayer.Id)?.User.CurrentChar;
+            Client.Instance.Clients = list;
+        }
 
-            //foreach(var client in Cache.PlayerCache.GiocatoriOnline) Client.Logger.Debug($"{client.ToJson()}");
+        public static async void AggiornaPlayers()
+        {
+            Client.Instance.Clients = await Client.Instance.Events.Get<List<ClientId>>("tlg:callPlayers", PlayerCache.MyPlayer.Posizione);
+            foreach (var client in Client.Instance.Clients)
+            {
+                client.Status = new(client.Player);
+                Client.Logger.Debug($"Player:{client.Handle}, status:{client.Status.ToJson()}");
+            }
         }
 
         public static async void LoadModel()
@@ -121,7 +129,7 @@ namespace TheLastPlanet.Client.Core.Utility
             Screen.Fading.FadeOut(800);
             while (Screen.Fading.IsFadingOut) await BaseScript.Delay(50);
             Main.RespawnPed(Cache.PlayerCache.MyPlayer.Posizione);
-            if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
             {
                 StatsNeeds.Needs["Fame"].Val = 0.0f;
                 StatsNeeds.Needs["Sete"].Val = 0.0f;
@@ -131,7 +139,7 @@ namespace TheLastPlanet.Client.Core.Utility
                 Cache.PlayerCache.MyPlayer.User.CurrentChar.Needs = nee;
                 Cache.PlayerCache.MyPlayer.User.CurrentChar.is_dead = false;
                 BaseScript.TriggerServerEvent("lprp:medici:rimuoviDaMorti");
-                Cache.PlayerCache.MyPlayer.User.Status.RolePlayStates.FinDiVita = false;
+                Cache.PlayerCache.MyPlayer.Status.RolePlayStates.FinDiVita = false;
                 Death.endConteggio();
             }
             //BaseScript.TriggerServerEvent("lprp:updateCurChar", "needs", nee.ToJson());

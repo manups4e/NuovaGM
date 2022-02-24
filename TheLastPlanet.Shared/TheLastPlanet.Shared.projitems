@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\AccessingEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ModalitàServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\PlayerChar\BasePlayerShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\PlayerChar\StateBagsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\PlayerListShared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Position.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\SharedTimer.cs" />

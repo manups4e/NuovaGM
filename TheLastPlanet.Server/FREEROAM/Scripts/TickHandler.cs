@@ -17,8 +17,8 @@ namespace TheLastPlanet.Server.Scripts
             await BaseScript.Delay(600000);
             foreach (var p in BucketsHandler.FreeRoam.Bucket.Players)
             {
-                var user = Funzioni.GetUserFromPlayerId(p.Handle);
-                if (user != null && user.Status.Spawned)
+                var user = Funzioni.GetClientFromPlayerId(p.Handle);
+                if (user != null && user.Status.PlayerStates.Spawned)
                     BucketsHandler.RolePlay.SalvaPersonaggioRoleplay(p);
             }
         }

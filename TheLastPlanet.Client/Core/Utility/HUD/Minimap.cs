@@ -36,7 +36,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
                         Screen.Hud.IsRadarVisible = false;
                     break;
                 case ModalitaServer.FreeRoam:
-                    if (PlayerCache.MyPlayer.User.Status.Istanza.Instance == "CreazionePersonaggio")
+                    if (PlayerCache.MyPlayer.Status.Istanza.Instance == "CreazionePersonaggio")
                     {
                         if (Screen.Hud.IsRadarVisible)
                             Screen.Hud.IsRadarVisible = false;
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
                                     }
                             }
 
-                            switch (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
+                            switch (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
                             {
                                 //se non sono su un veicolo e non ho il menu di pausa attivo.
                                 case false when !IsPauseMenuActive():

@@ -21,7 +21,6 @@ namespace TheLastPlanet.Client.Core.PlayerChar
             Player = Game.Player;
             char_data = result.char_data;
             Identifiers = result.Identifiers;
-            Status = new(Game.Player);
         }
 
         public User() { }

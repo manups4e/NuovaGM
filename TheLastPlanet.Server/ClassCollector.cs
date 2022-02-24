@@ -56,7 +56,7 @@ namespace TheLastPlanet.Server
             BotDiscordHandler.Init();
             WorldEventsManager.Init();
             VehicleManager.Init();
-            PlayerBlipsHandler.Init();
+            //PlayerBlipsHandler.Init();
             BaseEventsFreeRoam.Init();
             EventiFreeRoam.Init();
             await Task.FromResult(0);

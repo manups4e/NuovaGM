@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             {
                 if (Prostituta.IsPlayer) return;
 
-                if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo && p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
+                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && p.CurrentVehicle.GetPedOnSeat(VehicleSeat.Passenger) != Prostituta)
                 {
                     HUD.ShowHelp(GetLabelText("PROS_ACCEPT"));
 

@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                 if (!playerPed.IsInRangeOf(app.Value.MarkerGarageEsterno.ToVector3, 3f)) continue;
                 if (!Cache.PlayerCache.MyPlayer.User.CurrentChar.Proprietà.Contains(app.Key)) continue;
 
-                if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
+                if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
                 {
                     string plate = playerPed.CurrentVehicle.Mods.LicensePlate;
                     int model = playerPed.CurrentVehicle.Model.Hash;
@@ -52,14 +52,15 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                     await BaseScript.Delay(1000);
                     VehProp pr = await playerPed.CurrentVehicle.GetVehicleProperties();
                     BaseScript.TriggerServerEvent("lprp:vehInGarage", plate, true, pr.ToJson(settings: JsonHelper.IgnoreJsonIgnoreAttributes));
-                    Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia(app.Key);
+                    Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia(app.Key);
                     await BaseScript.Delay(1000);
 
                     if (playerPed.CurrentVehicle.PassengerCount > 0)
                         foreach (Ped p in playerPed.CurrentVehicle.Passengers)
                         {
                             Player pl = Funzioni.GetPlayerFromPed(p);
-                            pl.GetPlayerData().Status.Istanza.Istanzia(Cache.PlayerCache.MyPlayer.Player.ServerId, Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance);
+                            var pp = Funzioni.GetClientIdFromServerId(pl.ServerId);
+                            pp.Status.Istanza.Istanzia(Cache.PlayerCache.MyPlayer.Player.ServerId, Cache.PlayerCache.MyPlayer.Status.Istanza.Instance);
                             BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
                         }
 
@@ -99,7 +100,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                         await BaseScript.Delay(0);
                     }
 
-                    foreach (OwnedVehicle veh in Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance).Where(veh => veh.Garage.InGarage))
+                    foreach (OwnedVehicle veh in Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli.Where(veh => veh.Garage.Garage == Cache.PlayerCache.MyPlayer.Status.Istanza.Instance).Where(veh => veh.Garage.InGarage))
                     {
                         Vehicle veic = await Funzioni.SpawnLocalVehicle(veh.DatiVeicolo.props.Model, new Vector3(Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].X, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Y, Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Z), Client.Impostazioni.RolePlay.Proprieta.Garages.LowEnd.PosVehs[veh.Garage.Posto].Heading);
                         await veic.SetVehicleProperties(veh.DatiVeicolo.props);
@@ -128,10 +129,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
         {
             Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
 
-            if (Cache.PlayerCache.MyPlayer.User.Status.Istanza.Stanziato)
-                if (Proprietà.Appartamenti.ContainsKey(Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance))
+            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Stanziato)
+                if (Proprietà.Appartamenti.ContainsKey(Cache.PlayerCache.MyPlayer.Status.Istanza.Instance))
                 {
-                    ConfigCase app = Proprietà.Appartamenti[Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance];
+                    ConfigCase app = Proprietà.Appartamenti[Cache.PlayerCache.MyPlayer.Status.Istanza.Instance];
 
                     if (playerPed.IsInRangeOf(app.MarkerUscita.ToVector3, 1.375f))
                     {

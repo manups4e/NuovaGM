@@ -132,22 +132,25 @@ namespace TheLastPlanet.Shared
 
     public class Job
     {
-        public string Name { get; set; } = "Disoccupato";
+        public string? Name { get; set; } = "Disoccupato";
+        public int Stipendio { get; set; } = 0;
         public int Grade { get; set; } = 0;
-        public bool Occupato { get; set; }
-
+        public bool InServizio { get; set; } = false;
+        public DateTime HiredDate { get; set; }
+        public bool IsBoss { get; set; } = false;
 
         public Job() { }
         public Job(string name, int grade)
         {
             this.Name = name;
             this.Grade = grade;
+            HiredDate = DateTime.Now;
         }
     }
 
     public class Gang
     {
-        public string Name { get; set; } = "Incensurato";
+        public string? Name { get; set; } = "Incensurato";
         public int Grade { get; set; } = 0;
         public Gang() { }
         public Gang(string name, int grade)

@@ -48,7 +48,6 @@ namespace TheLastPlanet.Client.Core.Ingresso
             while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
             IPLs.IPLInstance.SmugglerHangar.LoadDefault();
             await Cache.PlayerCache.InitPlayer();
-            Client.Logger.Debug("Player => " + Cache.PlayerCache.MyPlayer.Player.Name);
             while (!NetworkIsPlayerActive(Cache.PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
             BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
             Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
@@ -81,7 +80,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             Ped p = Cache.PlayerCache.MyPlayer.Ped;
             p.Style.SetDefaultClothes();
             await Cache.PlayerCache.Loaded();
-            Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
             Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             ShutdownLoadingScreen();
             ShutdownLoadingScreenNui();
@@ -110,7 +109,7 @@ namespace TheLastPlanet.Client.Core.Ingresso
             // TODO: sostituire con caricamento personaggio freeroam.
             Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
 
-            Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
             Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Screen.Fading.FadeIn(1000);
             SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);

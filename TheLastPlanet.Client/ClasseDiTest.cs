@@ -22,7 +22,10 @@ namespace TheLastPlanet.Client
             if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
             {
                 //TestMenu();
-                AttivaMenu();
+                //AttivaMenu();
+
+                Client.Logger.Debug(Game.Player.GetState<bool>("PlayerStates:InVeicolo").ToString());
+
             }
             if (Input.IsControlJustPressed(Control.Context, PadCheck.Keyboard, ControlModifier.Shift))
             {

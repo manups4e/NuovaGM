@@ -91,7 +91,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
             Vehicle vehicle = saveVehicle;
 
-            if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
             {
                 Vehicle veh = Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle;
 
@@ -167,7 +167,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
 
         public static void Finestrini(string finestrini)
         {
-            if (!Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo) return;
+            if (!Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo) return;
             if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Driver != Cache.PlayerCache.MyPlayer.Ped) return;
 
             switch (finestrini)
@@ -365,7 +365,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale
             if (!HUD.MenuPool.IsAnyMenuOpen && !IsHelpMessageBeingDisplayed() && !Main.ImpostazioniClient.ModCinema)
                 if (!IsPedRunningMobilePhoneTask(PlayerPedId()) && Main.spawned && MostraStatus)
                 {
-                    if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.Ped.IsWalking || Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo && !Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
+                    if (Input.IsControlPressed(Control.FrontendRight, PadCheck.Controller) && !Input.IsControlPressed(Control.FrontendLb, PadCheck.Controller) || Input.IsControlPressed(Control.SelectCharacterFranklin, PadCheck.Keyboard) && (!Game.IsPaused || IsPedStill(PlayerPedId()) || Cache.PlayerCache.MyPlayer.Ped.IsWalking || Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && !Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsEngineRunning))
                     {
                         Game.DisableControlThisFrame(2, Control.FrontendLeft);
                         if (StatsNeeds.Needs["Fame"].GetPercent() > 30f)

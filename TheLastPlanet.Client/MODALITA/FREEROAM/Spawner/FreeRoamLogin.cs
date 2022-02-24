@@ -10,7 +10,6 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
     {
         internal static async void Inizializza()
         {
-            //Cache.PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("lprp:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
             var roamchar = await Client.Instance.Events.Get<FreeRoamChar>("tlg:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
             PlayerCache.MyPlayer.User.FreeRoamChar = roamchar;
 
@@ -57,8 +56,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             await BaseScript.Delay(2000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 
-            RequestCollisionAtCoord(PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.X, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Y, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Z);
-            PlayerCache.MyPlayer.Ped.Position = (await PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.GetPositionWithGroundZ()).ToVector3;
+            if (PlayerCache.MyPlayer.User.FreeRoamChar.Posizione is null)
+            {
+                PlayerCache.MyPlayer.Ped.Position = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                RequestCollisionAtCoord(PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.X, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Y, PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.Z);
+                PlayerCache.MyPlayer.Ped.Position = (await PlayerCache.MyPlayer.User.FreeRoamChar.Posizione.GetPositionWithGroundZ()).ToVector3;
+            }
 
             // CARICAMENTO PROPRIETA'
             // CARICAMENTO VEICOLI
@@ -70,7 +76,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
             Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
             AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
-            PlayerCache.MyPlayer.User.Status.Spawned = true;
+            PlayerCache.MyPlayer.Status.PlayerStates.Spawned = true;
         }
 
         public static async Task LoadChar()

@@ -21,11 +21,12 @@ namespace TheLastPlanet.Server.Core
             Server.Instance.Events.Mount("lprp:CheckPing", new Action<ClientId>(Ping));
             Server.Instance.Events.Mount("lprp:checkAFK", new Action<ClientId>(AFK));
             Server.Instance.Events.Mount("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
+            Server.Instance.Events.Mount("tlg:setStateBag", new Action<ClientId, string, string>(SetStateBag));
             Server.Instance.Events.Mount("tlg:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>(
             async (a, b) =>
             {
                 User user = a.User;
-                switch (user.Status.PlayerStates.Modalita)
+                switch (a.Status.PlayerStates.Modalita)
                 {
                     case ModalitaServer.Roleplay:
                         if (user.CurrentChar is null) return null;
@@ -40,6 +41,8 @@ namespace TheLastPlanet.Server.Core
                         }
                         return BucketsHandler.RolePlay.Bucket.Players;
                     case ModalitaServer.FreeRoam:
+                        if(a.Status.PlayerStates.Spawned)
+                            user.FreeRoamChar.Posizione = b;
                         return BucketsHandler.FreeRoam.Bucket.Players;
                     case ModalitaServer.Lobby:
                         return BucketsHandler.Lobby.Bucket.Players;
@@ -55,6 +58,12 @@ namespace TheLastPlanet.Server.Core
             }));
         }
 
+        public static void SetStateBag(ClientId client, string key, string value)
+        {
+            Server.Logger.Debug(key);
+            byte[] val = value.ToBytes();
+            client.Player.SetState(key, val, true);
+        }
         public static void Drop(ClientId client, string reason)
         {
             client.Player.Drop(reason);

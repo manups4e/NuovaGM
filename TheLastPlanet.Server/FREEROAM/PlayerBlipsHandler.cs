@@ -44,7 +44,7 @@ namespace TheLastPlanet.Server.FREEROAM
 
                 foreach (var client in BucketsHandler.FreeRoam.Bucket.Players)
                 {
-                    if (!client.User.Status.Spawned) continue;
+                    if (!client.Status.PlayerStates.Spawned) continue;
                     var serverId = Convert.ToInt32(client.Player.Handle);
                     var pos = client.Ped.Position;
                     var rot = client.Ped.Rotation;

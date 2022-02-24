@@ -135,6 +135,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 BasePlayerShared basePlayerShared = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
                 User user = new(source, basePlayerShared);
                 ClientId client = new(user);
+                client.Status.Clear();
                 Server.Instance.Clients.Add(client);
             }
             catch (Exception e)
@@ -164,15 +165,15 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 if (ped != null)
                 {
                     string disc = ped.Identifiers.Discord;
-                    if (ped.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
+                    if (client?.Status.PlayerStates.Modalita == ModalitaServer.Lobby)
                     {
                         Server.Logger.Info($"Il Player {name} [{disc}] è uscito dal server.");
                     }
-                    else if (ped.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
+                    else if (client?.Status.PlayerStates.Modalita == ModalitaServer.Roleplay)
                     {
                         BucketsHandler.RolePlay.RemovePlayer(client, reason);
                     }
-                    else if (ped.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
+                    else if (client?.Status.PlayerStates.Modalita == ModalitaServer.FreeRoam)
                     {
                         BucketsHandler.FreeRoam.RemovePlayer(client, reason);
                     }
@@ -193,8 +194,6 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
         {
             try
             {
-                source.User.Status = new Status(source.Player);
-                await BaseScript.Delay(100);
                 await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
                 return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
             }

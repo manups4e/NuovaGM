@@ -314,7 +314,7 @@ namespace TheLastPlanet.Server.Core
 			if (Server.PlayerList.ContainsKey(handle))
 			{
 				var ped = Server.PlayerList.TryGetValue(handle];
-				if (ped.status.spawned)
+				if (ped.Status.PlayerStates.Spawned)
 				{
 					Funzioni.SalvaPersonaggio(player);
 					Server.Logger.Info( "Salvato personaggio: '" + ped.FullName + "' appartenente a '" + name + "' all'uscita dal gioco -- Discord:" + ped.identifiers.discord);

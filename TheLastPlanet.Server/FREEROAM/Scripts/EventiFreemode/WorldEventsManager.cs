@@ -154,7 +154,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             {
                 if (BucketsHandler.FreeRoam.Bucket.Players.Any(x => x.Handle == client.Handle))
                 {
-                    if (client.User.Status.Spawned)
+                    if (client.Status.PlayerStates.Spawned)
                     {
                         EventiFreeRoam.SalvaPersonaggio(client);
                         Server.Logger.Info($"Salvato personaggio freeroam appartenente a '{client.Player.Name}' - {client.User.Identifiers.Discord}");

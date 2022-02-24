@@ -20,11 +20,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impostazioni.Shared", "Impo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Impostazioni", "Impostazioni", "{95A5FB57-0877-466C-AEF9-7B0693FFCE05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleformUI", "ScaleformUI\ScaleformUI.csproj", "{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condiviso", "Condiviso", "{5FCCD1FE-371D-4C56-944B-3C7F64E58C82}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheLastPlanet.Shared", "TheLastPlanet.Shared\TheLastPlanet.Shared.shproj", "{5D0E5616-DB3C-414A-BB2E-F21930E804CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleformUI", "ScaleformUI\ScaleformUI.csproj", "{936D2DB3-9669-4EB5-8EF9-5F52E35E743F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

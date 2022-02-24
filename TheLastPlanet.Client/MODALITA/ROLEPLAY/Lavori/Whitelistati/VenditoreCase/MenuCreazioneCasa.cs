@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             dummyMarker = new Marker(MarkerType.VerticalCylinder, Position.Zero, new(1.5f), Colors.WhiteSmoke);
             interno = 0;
             abbreviazione = "";
-            InstanceBags oldInstance = new(Game.Player, "PlayerInstance");
+            InstanceBags oldInstance = new();
             ConfigCase casaDummy = new();
             casaDummy.VehCapacity = 2;
             Garages garageDummy = new();
@@ -904,14 +904,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
                 switch (state)
                 {
                     case MenuState.Opened:
-                        oldInstance = Cache.PlayerCache.MyPlayer.User.Status.Istanza;
-                        Cache.PlayerCache.MyPlayer.User.Status.Istanza.Istanzia("Creatore Immobiliare");
+                        oldInstance = Cache.PlayerCache.MyPlayer.Status.Istanza;
+                        Cache.PlayerCache.MyPlayer.Status.Istanza.Istanzia("Creatore Immobiliare");
 
                         break;
                     case MenuState.Closed:
                         {
-                            if (Cache.PlayerCache.MyPlayer.User.Status.Istanza.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.User.Status.Istanza.RimuoviIstanza();
-                            Cache.PlayerCache.MyPlayer.User.Status.Istanza = oldInstance;
+                            if (Cache.PlayerCache.MyPlayer.Status.Istanza.Instance == "Creatore Immobiliare") Cache.PlayerCache.MyPlayer.Status.Istanza.RimuoviIstanza();
+                            Cache.PlayerCache.MyPlayer.Status.Istanza = oldInstance;
 
                             break;
                         }

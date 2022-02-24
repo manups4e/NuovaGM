@@ -10,15 +10,14 @@ namespace TheLastPlanet.Events.Generator
     [Generator]
     public class SerializationGenerator : ISourceGenerator
     {
-        private readonly List<string> _sources = new();
-
         public void Initialize(GeneratorInitializationContext context)
         {
             context.RegisterForSyntaxNotifications(() => GenerationEngine.Instance);
         }
 
-        public void Execute(GeneratorExecutionContext context)
+        public async void Execute(GeneratorExecutionContext context)
         {
+            List<string> _sources = new();
             var engine = (GenerationEngine) context.SyntaxContextReceiver;
 
             if (engine == null) return;
@@ -26,8 +25,8 @@ namespace TheLastPlanet.Events.Generator
             foreach (var item in engine.WorkItems)
             {
                 var code = engine.Compile(item);
-                var identifier = $"{context.Compilation.AssemblyName}.{item.TypeSymbol.Name}";
-                var count = _sources.Count(self => $"{context.Compilation.AssemblyName}.{self}" == identifier);
+                var identifier = $"{item.TypeSymbol.Name}";
+                var count = _sources.Count(self => $"{self}" == identifier);
                 var unique = $"{identifier}.Serialization.cs";
 
                 foreach (var problem in engine.Problems)

@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client
             if (userId != PlayerCache.MyPlayer.Handle)
             {
                 var client = Funzioni.GetClientIdFromServerId(userId);
-                if (client.User is null || !client.User.Status.Spawned) return;
+                if (client.User is null || !client.Status.PlayerStates.Spawned) return;
                 if (!value.Stanziato)
                 {
                     if (NetworkIsPlayerConcealed(client.Player.Handle))
@@ -27,9 +27,9 @@ namespace TheLastPlanet.Client
                 }
                 if (value.Instance != string.Empty)
                 {
-                    if (value.ServerIdProprietario != 0 || PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != 0)
+                    if (value.ServerIdProprietario != 0 || PlayerCache.MyPlayer.Status.Istanza.ServerIdProprietario != 0)
                     {
-                        if (value.ServerIdProprietario != PlayerCache.MyPlayer.Player.ServerId && PlayerCache.MyPlayer.User.Status.Istanza.ServerIdProprietario != client.Handle)
+                        if (value.ServerIdProprietario != PlayerCache.MyPlayer.Player.ServerId && PlayerCache.MyPlayer.Status.Istanza.ServerIdProprietario != client.Handle)
                         {
                             if (!NetworkIsPlayerConcealed(client.Player.Handle))
                                 NetworkConcealPlayer(client.Player.Handle, true, true);

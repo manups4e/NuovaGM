@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
 using TheLastPlanet.Shared.Internal.Events;
 
@@ -10,6 +11,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
     {
         private static List<FRBlipsInfo> _fRBlipsInfos = new();
         private static Dictionary<int, Blip> playerBlips = new();
+        private static readonly List<int> JetHashes = new() { 970385471, -1281684762, 1824333165 };
 
         public static void Init()
         {
@@ -19,19 +21,70 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
         private static void OnPlayerJoined(ClientId client)
         {
-            Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
+            //Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
+            ///////// test /////////
+            Client.Instance.AddTick(Blips);
         }
 
         public static void OnPlayerLeft(ClientId client)
         {
-            Client.Instance.Events.Unmount("freeroam.UpdatePlayerBlipInfos");
-            foreach (var bb in playerBlips) if (bb.Value.Exists()) bb.Value.Delete();
+            //Client.Instance.Events.Unmount("freeroam.UpdatePlayerBlipInfos");
+            Client.Instance.RemoveTick(Blips);
+            //foreach (var bb in playerBlips) if (bb.Value.Exists()) bb.Value.Delete();
         }
 
         private static void UpdateBlips(List<FRBlipsInfo> info)
         {
             _fRBlipsInfos = info;
-            UpdatePlayerBlips();
+            //UpdatePlayerBlips();
+        }
+
+        public static async Task Blips()
+        {
+            await BaseScript.Delay(500);
+            foreach(var client in Client.Instance.Clients)
+            {
+                if (client.Status.PlayerStates.Spawned)
+                {
+                    if(client.Ped.AttachedBlip != null)
+                    {
+                        var blip = client.Ped.AttachedBlip;
+                        var sprite = BlipSprite.Standard;
+                        if (client.Status.PlayerStates.InVeicolo)
+                        {
+                            var model = client.Ped.CurrentVehicle.Model;
+
+                            if (model.IsHelicopter)
+                                sprite = (BlipSprite)422;
+                            else if (model.IsPlane)
+                                sprite = (BlipSprite)423;
+                            if (JetHashes.Contains(model))
+                                sprite = (BlipSprite)424;
+                            /*
+                            else if (model.IsBoat)
+                                sprite = (BlipSprite)427;
+                            else if (model.IsBike)
+                                sprite = (BlipSprite)226;
+                            else if (model.IsCar)
+                                sprite = (BlipSprite)225;
+                            */
+                        }
+                        blip.Sprite = sprite;
+                        blip.Name = client.Player.Name;
+                    }
+                    else
+                    {
+                        var blip = client.Ped.AttachBlip();
+                        blip.Sprite = BlipSprite.Standard;
+                        SetBlipCategory(blip.Handle, 7);
+                        SetBlipDisplay(blip.Handle, 4);
+                        SetBlipShrink(blip.Handle, false);
+                        //SetBlipShowCone(blip.Handle, true);
+                        //ShowHeadingIndicatorOnBlip(blip.Handle, true);
+                        blip.Name = client.Player.Name;
+                    }
+                }
+            }
         }
 
         public static void UpdatePlayerBlips()
@@ -46,7 +99,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                 {
                     blip = playerBlips[player.ServerId];
                     blip.Position = player.Pos.ToVector3;
-                    blip.Rotation = (int)Math.Ceiling(player.Pos.Heading);
+                    //blip.Rotation = (int)Math.Ceiling(player.Pos.Heading);
                 }
                 else
                 {

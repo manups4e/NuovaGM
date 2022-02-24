@@ -46,25 +46,30 @@ namespace TheLastPlanet.Server.Core.Buckets
         /// <param name="id">Id del bucket</param>
         private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
         {
-            RemovePlayerFromBucket(player, player.User.Status.PlayerStates.Modalita, "");
+            List<ClientId> clients = null;
+            RemovePlayerFromBucket(player, player.Status.PlayerStates.Modalita, "");
             switch (id)
             {
                 case ModalitaServer.Lobby:
                     Lobby.AddPlayer(player);
+                    clients = Lobby.Bucket.Players;
                     break;
                 case ModalitaServer.Roleplay:
                     RolePlay.AddPlayer(player);
+                    clients = RolePlay.Bucket.Players;
                     break;
                 case ModalitaServer.FreeRoam:
                     FreeRoam.AddPlayer(player);
+                    clients = FreeRoam.Bucket.Players;
                     break;
                 case ModalitaServer.Gare:
                     break;
                 case ModalitaServer.Minigiochi:
                     break;
             }
-            player.User.Status.PlayerStates.Modalita = id;
+            player.SetState($"{player.Status.PlayerStates._name}:Modalita", id);
             UpdateBucketsCount();
+            Server.Instance.Events.Send(clients, "tlg:GetModePlayers", clients);
         }
 
         private static void RemovePlayerFromBucket(ClientId player, ModalitaServer id, string reason)

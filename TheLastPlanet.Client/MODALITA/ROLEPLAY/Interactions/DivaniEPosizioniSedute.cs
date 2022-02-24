@@ -234,7 +234,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 
                         if (Vector3.Distance(SediaClosest.Position, ped.Position) < 0.35f)
                             if (!IsPedActiveInScenario(ped.Handle))
-                                if (!p.IsDead && !(p.Health < 1) && !Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo)
+                                if (!p.IsDead && !(p.Health < 1) && !Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
                                 {
                                     HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per sederti");
                                     {

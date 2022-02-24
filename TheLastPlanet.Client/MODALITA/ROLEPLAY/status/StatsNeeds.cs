@@ -127,11 +127,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 
         private static async void Clacson()
         {
-            Ped p = Cache.PlayerCache.MyPlayer.Ped;
-            if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo) Client.Instance.AddTick(Horn);
+            Ped p = PlayerCache.MyPlayer.Ped;
+            if (PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo) Client.Instance.AddTick(Horn);
             await BaseScript.Delay(30000);
             p.CancelRagdoll();
-            if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo) Client.Instance.RemoveTick(Horn);
+            if (PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo) Client.Instance.RemoveTick(Horn);
         }
 
         public static async Task Horn()
@@ -352,7 +352,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
                             HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Trova un posto per riposare!!");
                             Clacson();
                         }
-                        else if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo || playerPed.IsInFlyingVehicle)
+                        else if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo || playerPed.IsInFlyingVehicle)
                         {
                             SetBlockingOfNonTemporaryEvents(PlayerPedId(), true);
                             HUD.ShowNotification("Sei svenuto perche sei troppo stanco.. Se sopravvivi trova un posto per riposare!!");
@@ -372,7 +372,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
         public static void Stamina(Ped playerPed, Player me, Statistica stam)
         {
             int baseStat = (int)Cache.PlayerCache.MyPlayer.User.CurrentChar.Statistiche.STAMINA;
-            stam.ChangeVal = !Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo ? playerPed.IsSprinting || playerPed.IsSwimmingUnderWater ? 0.002f : playerPed.IsRunning || playerPed.IsSwimming ? 0.001f : 0f : playerPed.CurrentVehicle.Model.IsBicycle ? 0.003f : 0f;
+            stam.ChangeVal = !Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo ? playerPed.IsSprinting || playerPed.IsSwimmingUnderWater ? 0.002f : playerPed.IsRunning || playerPed.IsSwimming ? 0.001f : 0f : playerPed.CurrentVehicle.Model.IsBicycle ? 0.003f : 0f;
             stam.Val += stam.ChangeVal;
 
             if (stam.Val - baseStat >= 1f)
@@ -439,7 +439,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
         {
             int baseStat = (int)Cache.PlayerCache.MyPlayer.User.CurrentChar.Statistiche.WHEELIE_ABILITY;
 
-            if (Cache.PlayerCache.MyPlayer.User.Status.PlayerStates.InVeicolo && playerPed.SeatIndex == VehicleSeat.Driver)
+            if (Cache.PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo && playerPed.SeatIndex == VehicleSeat.Driver)
             {
                 if (playerPed.CurrentVehicle.Model.IsVehicle || playerPed.CurrentVehicle.Model.IsBike || playerPed.CurrentVehicle.Model.IsBoat || playerPed.CurrentVehicle.Model.IsQuadbike)
                 {

@@ -13,6 +13,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
+using System.IO;
 
 namespace TheLastPlanet.Shared.Internal.Events
 {
@@ -43,7 +44,7 @@ namespace TheLastPlanet.Shared.Internal.Events
         {
             get
             {
-                var handle = API.PlayerPedId();
+                var handle = GetPlayerPed(GetPlayerFromServerId(Handle));
                 if (_ped is null || _ped.Handle != handle)
                     _ped = new Ped(handle);
                 return _ped;
@@ -61,16 +62,20 @@ namespace TheLastPlanet.Shared.Internal.Events
 
         public static readonly ClientId Global = new(-1);
 #endif
-
-
-        public ClientId() { }
+        [Ignore]
+        public Status Status { get; set; }
+        public ClientId()
+        {
+            Status = new(Player);
+        }
 #if CLIENT
-        public ClientId(Tuple<Snowflake, User> value)
+        public ClientId(Tuple<Snowflake, BasePlayerShared> value)
         {
             Id = value.Item1;
             Handle = Game.Player.ServerId;
             User = new(value.Item2);
             //ClientStateBags = new ClientStateBags(Player);
+            Status = new(Player);
         }
 #endif
         public ClientId(Snowflake id)
@@ -89,6 +94,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 Handle = Convert.ToInt32(owner.Handle);
                 LoadUser();
 #endif
+                Status = new(Player);
                 //ClientStateBags = new(Player);
             }
             else
@@ -106,6 +112,7 @@ namespace TheLastPlanet.Shared.Internal.Events
                 LoadUser();
             Id = User != null ? User.PlayerID : Snowflake.Empty;
             //ClientStateBags = new(Player);
+            Status = new(Player);
         }
 #endif
 
@@ -117,6 +124,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             User = user;
             Id = user.PlayerID;
             //ClientStateBags = new(Player);
+            Status = new(Player);
         }
 #endif
 
@@ -126,6 +134,7 @@ namespace TheLastPlanet.Shared.Internal.Events
             Handle = handle;
             LoadUser();
             //ClientStateBags = new(Player);
+            Status = new(Player);
         }
 
         public override string ToString()
@@ -192,5 +201,37 @@ namespace TheLastPlanet.Shared.Internal.Events
         public static explicit operator ClientId(int handle) => new(handle);
 #endif
 
+    }
+
+    public class Status
+    {
+        public PlayerStates PlayerStates { get; set; }
+        public RPStates RolePlayStates { get; set; }
+        public InstanceBags Istanza { get; set; }
+        public FreeRoamStates FreeRoamStates { get; set; }
+
+        public Status(Player player)
+        {
+            PlayerStates = new(player, "PlayerStates");
+            RolePlayStates = new(player, "RolePlayStates");
+            FreeRoamStates = new(player, "FreeRoamStates");
+            Istanza = new(player, "PlayerInstance");
+        }
+
+        public void Clear()
+        {
+            PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerStates.Spawned = false;
+            PlayerStates.InVeicolo = false;
+            PlayerStates.InPausa = false;
+            PlayerStates.AdminSpecta = false;
+            PlayerStates.Wanted = false;
+            RolePlayStates.InCasa = false;
+            RolePlayStates.Svenuto = false;
+            RolePlayStates.InServizio = false;
+            RolePlayStates.Ammanettato = false;
+            RolePlayStates.FinDiVita = false;
+            Istanza.RimuoviIstanza();
+        }
     }
 }

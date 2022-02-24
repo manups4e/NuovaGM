@@ -51,7 +51,7 @@
 	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 	<Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="Shared" />
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5153" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5363" />
 		<PackageReference Include="Confuser.MSBuild" Version="1.6.0-rc1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -67,8 +67,8 @@
 		<!--<Compile Include="..\Impostazioni\Shared\**\*.cs" />-->
 		<!--PER OFFUSCARE-->
 		<Content Include="TheLastPlanet.Client.crproj" />
-		<!--PER OFFUSCARE-->
 		<ProjectReference Include="..\ScaleformUI\ScaleformUI.csproj" />
+		<!--PER OFFUSCARE-->
 
 		<ProjectReference Include="..\Vendor\Generator\Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>

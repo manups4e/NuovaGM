@@ -25,9 +25,9 @@ namespace TheLastPlanet.Shared
         public StateBagsHandler()
         {
 #if SERVER
-            return;
+            //return;
 #endif
-            API.AddStateBagChangeHandler("", "", new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
+            AddStateBagChangeHandler("", "", new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
             {
                 if (replicated) return;
 
@@ -51,7 +51,7 @@ namespace TheLastPlanet.Shared
                     var entType = bagName.Substring(0, bagName.IndexOf(':'));
                     int userId = Convert.ToInt32(bagName.Substring(bagName.IndexOf(':') + 1));
 
-                    logger.Warning($"{bagName}, {key}, {value}, {_unused}, {replicated}");
+                    //logger.Warning($"{bagName}, {key}, {value}, {_unused}, {replicated}");
                     switch (entType)
                     {
                         case "player":
@@ -63,16 +63,18 @@ namespace TheLastPlanet.Shared
                                 case "PlayerStates":
                                     switch (state)
                                     {
-                                        case "InPausa":
-                                            {
-                                                bool res = (value as byte[]).FromBytes<bool>();
-                                                OnPlayerStateBagChange?.Invoke(userId, state, res);
-                                            }
-                                            break;
                                         case "ModPassiva":
                                             {
                                                 bool res = (value as byte[]).FromBytes<bool>();
                                                 OnPassiveMode?.Invoke(res);
+                                            }
+                                            break;
+                                        case "InPausa":
+                                        case "InVeicolo":
+                                        case "Spawned":
+                                            {
+                                                bool res = (value as byte[]).FromBytes<bool>();
+                                                OnPlayerStateBagChange?.Invoke(userId, state, res);
                                             }
                                             break;
                                     }
@@ -105,15 +107,11 @@ namespace TheLastPlanet.Shared
                 }
             }));
 
-            OnRoleplayStateBagChange += (a, b, c) =>
-            {
-                logger.Debug($"{a}, {b}, {c}");
-            };
+            OnPlayerStateBagChange += (a,b, c) => logger.Debug($"OnPlayerStateBagChange => PlayerId:{a}, State:{b}, Value:{c}");
 
-            OnInstanceBagChange += (a, b) =>
-            {
-                logger.Debug($"{a}, {b.ToJson()}");
-            };
+            OnRoleplayStateBagChange += (a, b, c) => logger.Debug($"OnRoleplayStateBagChange => PlayerId:{a}, State:{b}, Value:{c}");
+
+            OnInstanceBagChange += (a, b) => logger.Debug($"OnInstanceBagChange => PlayerId:{a}, Data:{b.ToJson()}");
         }
     }
 }

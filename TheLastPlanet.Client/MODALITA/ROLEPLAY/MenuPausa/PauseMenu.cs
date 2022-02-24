@@ -263,27 +263,38 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             #region comandi
             TabSubmenuItem comandi = new("COMANDI");
 
-            TabLeftItem generici = new("Generici (sempre validi)", LeftItemType.Statistics);
-            StatsTabItem g1 = new("Menu Personale", "Tasto M / Select");
-            StatsTabItem g2 = new("Lista Giocatori", "Tasto Z / Dpad giù");
-            StatsTabItem g3 = new("Portafoglio", "Tasto Z / Dpad giù");
+            TabLeftItem generici = new("Generici (sempre validi)", LeftItemType.Keymap);
+            generici.TextTitle = GetLabelText("MAPPING_HDR");
+            generici.KeymapRightLabel_1 = "TASTIERA";
+            generici.KeymapRightLabel_2 = "GAMEPAD";
+
+            KeymapItem g1 = new("Menu Personale", "~INPUT_INTERACTION_MENU~", "","", "~INPUT_INTERACTION_MENU~");
+            KeymapItem g2 = new("Lista Giocatori e Portafoglio", "~INPUT_MULTIPLAYER_INFO~", "", "", "~INPUT_MULTIPLAYER_INFO~");
             generici.AddItem(g1);
             generici.AddItem(g2);
-            generici.AddItem(g3);
 
-            TabLeftItem piedi = new("A piedi", LeftItemType.Statistics);
-            StatsTabItem p1 = new("Azione", "Tasto E / Dpad destra");
+            TabLeftItem piedi = new("A piedi", LeftItemType.Keymap);
+            piedi.TextTitle = GetLabelText("MAPPING_HDR");
+            piedi.KeymapRightLabel_1 = "TASTIERA";
+            piedi.KeymapRightLabel_2 = "GAMEPAD";
+            KeymapItem p1 = new("Azione", "~INPUT_CONTEXT~", "", "", "~INPUT_CONTEXT~");
             piedi.AddItem(p1);
 
-            TabLeftItem veicolo = new("Su veicolo", LeftItemType.Statistics);
-            StatsTabItem v1 = new("Accendi veicolo", "Tasto F10 / LB+A");
-            StatsTabItem v2 = new("Allaccia / Slaccia cintura", "Tasto X / LB+X");
+            TabLeftItem veicolo = new("Su veicolo", LeftItemType.Keymap);
+            veicolo.TextTitle = GetLabelText("MAPPING_HDR");
+            veicolo.KeymapRightLabel_1 = "TASTIERA";
+            veicolo.KeymapRightLabel_2 = "GAMEPAD";
+            KeymapItem v1 = new("Accendi veicolo", "~INPUT_DROP_AMMO~", "", "", "~INPUT_FRONTEND_LB~ + ~INPUT_FRONTEND_ACCEPT~");
+            KeymapItem v2 = new("Allaccia / Slaccia cintura", "~INPUT_VEH_DUCK~", "", "", "~INPUT_FRONTEND_LB~ + ~INPUT_FRONTEND_X~");
             veicolo.AddItem(v1);
             veicolo.AddItem(v2);
 
-            TabLeftItem Lavoro = new("Lavoro", LeftItemType.Statistics);
-            StatsTabItem l1 = new StatsTabItem("Menu lavorativo (solo alcuni lavori)", "Tasto F6 / Menu personale");
-            StatsTabItem l2 = new StatsTabItem("In servizio / Fuori servizio (solo alcuni lavori)", "Tasto F6 / Menu personale");
+            TabLeftItem Lavoro = new("Lavoro", LeftItemType.Keymap);
+            Lavoro.TextTitle = GetLabelText("MAPPING_HDR");
+            Lavoro.KeymapRightLabel_1 = "TASTIERA";
+            Lavoro.KeymapRightLabel_2 = "GAMEPAD";
+            KeymapItem l1 = new("Menu lavorativo (solo alcuni lavori)", "~INPUT_SELECT_CHARACTER_FRANKLIN~", "", "", "Menu personale");
+            KeymapItem l2 = new("In servizio / Fuori servizio (solo alcuni lavori)", "~INPUT_SELECT_CHARACTER_FRANKLIN~", "", "", "Menu personale");
             Lavoro.AddItem(l1);
             Lavoro.AddItem(l2);
 
