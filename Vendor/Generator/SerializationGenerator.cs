@@ -15,7 +15,7 @@ namespace TheLastPlanet.Events.Generator
             context.RegisterForSyntaxNotifications(() => GenerationEngine.Instance);
         }
 
-        public async void Execute(GeneratorExecutionContext context)
+        public void Execute(GeneratorExecutionContext context)
         {
             List<string> _sources = new();
             var engine = (GenerationEngine) context.SyntaxContextReceiver;
