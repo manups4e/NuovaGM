@@ -234,7 +234,7 @@ namespace ScaleformUI
         /// <summary>
         /// Returns true if the Saving button is showing
         /// </summary>
-        public bool IsSaving => _isSaving;
+        public bool LoadingPromptActive => _isSaving;
 
         public List<InstructionalButton> ControlButtons { get; private set; }
 
@@ -318,7 +318,7 @@ namespace ScaleformUI
         /// <param name="spinnerType">The type of Spinner to show</param>
         /// <param name="text">The text of the Button</param>
         /// <param name="time">Duration of the Button</param>
-        public async void AddSavingText(LoadingSpinnerType spinnerType, string text, int time)
+        public async void AddLoadingPrompt(LoadingSpinnerType spinnerType, string text, int time)
         {
             _isSaving = true;
             _changed = true;
@@ -328,6 +328,29 @@ namespace ScaleformUI
             Screen.LoadingPrompt.Hide();
             _isSaving = false;
         }
+
+        /// <summary>
+        /// Shows the Saving / Loading Button
+        /// </summary>
+        /// <param name="spinnerType">The type of Spinner to show</param>
+        /// <param name="text">The text of the Button</param>
+        public void AddLoadingPrompt(LoadingSpinnerType spinnerType, string text)
+        {
+            _isSaving = true;
+            _changed = true;
+            savingTimer = Game.GameTime;
+            Screen.LoadingPrompt.Show(text, spinnerType);
+        }
+
+        public void HideLoadingPrompt()
+        {
+            if (_isSaving)
+            {
+                Screen.LoadingPrompt.Hide();
+                _isSaving = false;
+            }
+        }
+
 
         internal void UpdateButtons()
         {
