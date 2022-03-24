@@ -25,7 +25,7 @@ namespace ScaleformUI
 			set
 			{
 				sliderColor = value;
-				if (Parent is not null)
+				if (Parent is not null && Parent.Visible)
 				{
 					ScaleformUI._ui.CallFunction("UPDATE_COLORS", Parent.MenuItems.IndexOf(this), (int)MainColor, (int)HighlightColor, (int)TextColor, (int)HighlightedTextColor, (int)value);
 				}
@@ -83,6 +83,16 @@ namespace ScaleformUI
 		internal virtual void ProgressChanged(int value)
 		{
 			OnSliderChanged?.Invoke(this, value);
+		}
+
+		public override void SetRightBadge(BadgeIcon badge)
+		{
+			throw new Exception("UIMenuProgressItem cannot have a right badge.");
+		}
+
+		public override void SetRightLabel(string text)
+		{
+			throw new Exception("UIMenuProgressItem cannot have a right label.");
 		}
 	}
 }

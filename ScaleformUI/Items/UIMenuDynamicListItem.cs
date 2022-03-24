@@ -10,7 +10,6 @@ namespace ScaleformUI
     {
         public enum ChangeDirection
         {
-            None,
             Left,
             Right
         }
@@ -24,11 +23,10 @@ namespace ScaleformUI
 
         public string CurrentListItem
         {
-            get => currentListItem; 
-            set
+            get => currentListItem; internal set
             {
                 currentListItem = value;
-                if (Parent is not null && Parent.Visible)
+                if(Parent is not null && Parent.Visible)
                 {
                     ScaleformUI._ui.CallFunction("UPDATE_LISTITEM_LIST", Parent.MenuItems.IndexOf(this), currentListItem, 0);
                 }
