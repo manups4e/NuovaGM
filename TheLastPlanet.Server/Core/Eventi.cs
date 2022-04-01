@@ -6,6 +6,7 @@ using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Internal.Events;
+using TheLastPlanet.Shared.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
@@ -22,6 +23,7 @@ namespace TheLastPlanet.Server.Core
             Server.Instance.Events.Mount("lprp:checkAFK", new Action<ClientId>(AFK));
             Server.Instance.Events.Mount("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
             Server.Instance.Events.Mount("tlg:setStateBag", new Action<ClientId, string, string>(SetStateBag));
+            Server.Instance.Events.Mount("tlg:GetUserFromServerId", new Func<int, Task<BasePlayerShared>>(GetUserFromHandle));
             Server.Instance.Events.Mount("tlg:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>(
             async (a, b) =>
             {
@@ -57,11 +59,14 @@ namespace TheLastPlanet.Server.Core
                 }
             }));
         }
-
+        public static async Task<BasePlayerShared> GetUserFromHandle(int handle) 
+        {
+            return Funzioni.GetUserFromPlayerId(handle).basePlayer;
+        }
         public static void SetStateBag(ClientId client, string key, string value)
         {
             Server.Logger.Debug(key);
-            byte[] val = value.ToBytes();
+            byte[] val = value.StringToBytes();
             client.Player.SetState(key, val, true);
         }
         public static void Drop(ClientId client, string reason)

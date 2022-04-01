@@ -833,7 +833,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                 _dummyPed.BlockPermanentEvents = true;
                 _selezionato = sesso;
                 Client.Instance.AddTick(Controllo);
-                long assicurazione = Funzioni.GetRandomLong(999999999999999);
+                long assicurazione = SharedMath.GetRandomLong(999999999999999);
                 //Vector3 spawna = new Vector3(Main.charCreateCoords.X, Main.charCreateCoords.Y, Main.charCreateCoords.Z);
                 if (IsValidInterior(94722)) LoadInterior(94722);
                 while (!IsInteriorReady(94722)) await BaseScript.Delay(1000);
@@ -892,6 +892,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
         public static UIMenu Apparenze = new UIMenu("", "", false);
         public static UIMenu Apparel = new UIMenu("", "", false);
         public static UIMenu Statistiche = new UIMenu("", "", false);
+        public static UIMenuItem Salva = new("", "");
         private static List<dynamic> _arcSop = new List<dynamic> { "Standard", "Alte", "Basse" };
         private static List<dynamic> _occ = new List<dynamic> { "Standard", "Grandi", "Stretti" };
         private static List<dynamic> _nas = new List<dynamic> { "Standard", "Grande", "Piccolo" };
@@ -928,8 +929,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                     ControlDisablingEnabled = true
                 };
                 HUD.MenuPool.Add(Creazione);
-                UIMenuListItem Sesso;
-                Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
+                UIMenuListItem Sesso = _selezionato == "Maschio" ? new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 0, "Decidi il Sesso") : new UIMenuListItem("Sesso", new List<dynamic>() { "Maschio", "Femmina" }, 1, "Decidi il Sesso");
                 Creazione.AddItem(Sesso);
                 Genitori = HUD.MenuPool.AddSubMenu(Creazione, GetLabelText("FACE_HERI"), GetLabelText("FACE_MM_H3"));
                 Genitori.ControlDisablingEnabled = true;
@@ -2063,9 +2063,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
                 #region CREA_BUTTON_FINISH
 
-                UIMenuItem Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", HudColor.HUD_COLOUR_FREEMODE_DARK, HudColor.HUD_COLOUR_FREEMODE);
+                Salva = new UIMenuItem("Salva Personaggio", "Pronto per ~y~entrare in gioco~w~?", HudColor.HUD_COLOUR_FREEMODE_DARK, HudColor.HUD_COLOUR_FREEMODE);
                 Salva.SetRightBadge(BadgeIcon.TICK);
-                Creazione.AddItem(Salva);
                 Salva.Activated += async (_selectedItem, _index) =>
                 {
                     Screen.Fading.FadeOut(800);
@@ -2099,10 +2098,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                     RemoveAnimDict("mp_character_creation@customise@male_a");
                     RemoveAnimDict("mp_character_creation@customise@female_a");
                 };
+                Creazione.AddItem(Salva);
 
                 #endregion
 
                 Creazione.Visible = true;
+                Client.Logger.Debug(Creazione.MenuItems.Count.ToString());
                 Client.Instance.AddTick(TastiMenu);
             }
             catch (Exception e)
@@ -2791,7 +2792,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 
         private static void sub_7cddb()
         {
-            string v_3 = sub_7ce29(Funzioni.GetRandomInt(0, 7));
+            string v_3 = sub_7ce29(SharedMath.GetRandomInt(0, 7));
             if (AreStringsEqual(v_3, "mood_smug_1")) v_3 = "mood_Happy_1";
             if (AreStringsEqual(v_3, "mood_sulk_1")) v_3 = "mood_Angry_1";
             if (!Cache.PlayerCache.MyPlayer.Ped.IsInjured) SetFacialIdleAnimOverride(Cache.PlayerCache.MyPlayer.Ped.Handle, v_3, "0");

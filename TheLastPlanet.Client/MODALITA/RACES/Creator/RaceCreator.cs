@@ -46,7 +46,7 @@ namespace TheLastPlanet.Client.Races.Creator
         private static int tipoPropScelto = 0;
         private static int colorePropScelto = 0;
         private static int attachedBone;
-
+        private static int popMultiplierSphere = 0;
         private static bool accatastamento = true;
         private static SnapOptions OpzioniSnap = new SnapOptions();
 
@@ -56,7 +56,7 @@ namespace TheLastPlanet.Client.Races.Creator
         private static UIMenu Creator = new UIMenu("", "");
         public static async void CreatorPreparation()
         {
-            Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
+            PlayerCache.MyPlayer.Player.CanControlCharacter = false;
             float height = GetHeightmapTopZForPosition(199.4f, -934.3f);
             Vector3 rot = new(-90f, 0f, 0f);
             enteringCamera = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", false));
@@ -68,10 +68,11 @@ namespace TheLastPlanet.Client.Races.Creator
             RenderScriptCams(true, false, 3000, true, false);
             SetFrontendActive(false);
             curRotation = enteringCamera.Rotation;
-            Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
-            Cache.PlayerCache.MyPlayer.Ped.IsVisible = false;
-            Cache.PlayerCache.MyPlayer.Ped.IsInvincible = true;
-            Cache.PlayerCache.MyPlayer.Ped.DiesInstantlyInWater = false;
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
+            PlayerCache.MyPlayer.Ped.IsVisible = false;
+            PlayerCache.MyPlayer.Ped.IsInvincible = true;
+            PlayerCache.MyPlayer.Ped.DiesInstantlyInWater = false;
+            PlayerCache.MyPlayer.Ped.Position = new Vector3(0, 0, 1000);
             Screen.Hud.IsRadarVisible = false;
             placeMarker ??= new Marker(MarkerType.HorizontalCircleSkinny, WorldProbe.CrossairRenderingRaycastResult.HitPosition.ToPosition(), new(6.7f), Colors.GreyDark);
 
@@ -99,6 +100,7 @@ namespace TheLastPlanet.Client.Races.Creator
         {
             Creator = new("Creatore Gare", "Lo strumento dei creativi", new PointF(0, 0), "thelastgalaxy", "bannerbackground", false, true);
             Creator.MouseControlsEnabled = false;
+            Creator.MouseWheelControlEnabled = false;
             HUD.MenuPool.Add(Creator);
             UIMenu Dettagli = Creator.AddSubMenu("Dettagli");
             UIMenu Posizionamento = Creator.AddSubMenu("Posizionamento");
@@ -106,20 +108,20 @@ namespace TheLastPlanet.Client.Races.Creator
             #region Dettagli
 
             UIMenuItem titolo = new("Titolo");
-            Dettagli.AddItem(titolo);
             titolo.SetRightBadge(BadgeIcon.WARNING);
             UIMenuItem descrizione = new("Descrizione");
             descrizione.SetRightBadge(BadgeIcon.WARNING);
-            Dettagli.AddItem(descrizione);
-            UIMenuItem foto = new("Foto");
-            Dettagli.AddItem(foto);
+            UIMenuItem foto = new("Foto"); // TODO: GESTIRE FOTO
             UIMenuListItem tipoGara = new("Tipo di Gara", new List<dynamic>() { "Standard", "Senza contatto" }, data.TipoGara);
-            Dettagli.AddItem(tipoGara);
             UIMenuListItem tipoDiGiri = new("Tipo di Giri", new List<dynamic>() { "Giri", "Da punto a punto" }, data.TipoGiri); // punto a punto disabilita numero laps
-            Dettagli.AddItem(tipoDiGiri);
             UIMenuListItem numeroLaps = new("Numero di Giri", new List<dynamic>() { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 }, data.Laps);
-            Dettagli.AddItem(numeroLaps);
             UIMenuListItem numPlayers = new("Max Giocatori", new List<dynamic>() { 32, 64 }, data.MaxPlayers);
+            Dettagli.AddItem(titolo);
+            Dettagli.AddItem(descrizione);
+            Dettagli.AddItem(foto);
+            Dettagli.AddItem(tipoGara);
+            Dettagli.AddItem(tipoDiGiri);
+            Dettagli.AddItem(numeroLaps);
             Dettagli.AddItem(numPlayers);
             UIMenu veicoliDisponibili = Dettagli.AddSubMenu("Veicoli Disponibili", "Attenzione, se si sceglie la griglia piccola saranno disponibili solo le MOTO"); // aggiungere le classi dei veicoli e premendo espandi scegliamo i singoli veicoli
             veicoliDisponibili.ParentItem.SetRightBadge(BadgeIcon.CAR);
@@ -192,7 +194,7 @@ namespace TheLastPlanet.Client.Races.Creator
                 }
                 if (!(string.IsNullOrWhiteSpace(data.Titolo) && string.IsNullOrWhiteSpace(data.Descrizione)))
                 {
-                    // unlocks everything
+                    // TODO: sblocca tutto
                     titolo.SetRightBadge(BadgeIcon.NONE);
                     descrizione.SetRightBadge(BadgeIcon.NONE);
                 }
@@ -238,7 +240,6 @@ namespace TheLastPlanet.Client.Races.Creator
                 else if (b == meteo)
                 {
                     data.Meteo = c;
-                    //"Soleggiato", "Pioggia", "Smog", "Sereno", "Nuvoloso", "Coperto", "Tempesta", "Nebbia"
                     switch (c)
                     {
                         case 0:
@@ -272,8 +273,6 @@ namespace TheLastPlanet.Client.Races.Creator
                     data.Traffico = c;
                     switch (c)
                     {
-                        case 0:
-                            break;
                         case 1:
                             break;
                         case 2:
@@ -376,9 +375,9 @@ namespace TheLastPlanet.Client.Races.Creator
             #endregion
 
             #endregion
-            /*
-			#region PROPS E POSIZIONAMENTO
-			UIMenuDynamicListItem tipo = new("Tipo", RaceCreatorHelper.GetPropName(-248283675), async (sender, direction) =>
+
+            #region PROPS E POSIZIONAMENTO
+            UIMenuDynamicListItem tipo = new("Tipo", RaceCreatorHelper.GetPropName(-248283675), async (sender, direction) =>
 			{
 				if (direction == UIMenuDynamicListItem.ChangeDirection.Right)
 				{
@@ -581,7 +580,6 @@ namespace TheLastPlanet.Client.Races.Creator
 
 
 			#endregion
-			*/
             #endregion
 
             UIMenuItem Esci = new("Esci");

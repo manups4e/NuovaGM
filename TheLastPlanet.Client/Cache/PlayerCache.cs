@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Shared.Internal.Events;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
@@ -28,12 +29,22 @@ namespace TheLastPlanet.Client.Cache
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);
             await Task.FromResult(0);
-            InternalGameEvents.OnPlayerEnteredVehicle += OnPlayerEnteredVehicle;
+            VehicleChecker.OnPedEnteredVehicle += OnPedEnteredVehicle;
+            VehicleChecker.OnPedLeftVehicle += OnPedLeftVehicle;
         }
 
-        private static void OnPlayerEnteredVehicle(Player player, Vehicle vehicle)
+        private static void OnPedLeftVehicle(Ped ped, Vehicle vehicle, VehicleSeat seatIndex)
         {
-            if (player.Handle == MyPlayer.Player.Handle)
+            if (ped.Handle == MyPlayer.Ped.Handle)
+            {
+                MyPlayer.Status.PlayerStates.InVeicolo = false;
+                _inVeh = false;
+            }
+        }
+
+        private static void OnPedEnteredVehicle(Ped ped, Vehicle vehicle, VehicleSeat seat)
+        {
+            if (ped.Handle == MyPlayer.Ped.Handle)
             {
                 MyPlayer.Status.PlayerStates.InVeicolo = true;
                 _inVeh = true;
@@ -51,19 +62,6 @@ namespace TheLastPlanet.Client.Cache
             // TODO: non salvare position nel db se siamo in un interior
 
             MyPlayer.Posizione = new Position(MyPlayer.Ped.Position, MyPlayer.Ped.Rotation);
-            #endregion
-
-            #region Check Veicolo
-
-            if (_inVeh)
-            {
-                if (MyPlayer.Ped.CurrentVehicle == null)
-                {
-                    MyPlayer.Status.PlayerStates.InVeicolo = false;
-                    _inVeh = false;
-                }
-            }
-
             #endregion
 
             #region Check Pausa
@@ -87,6 +85,7 @@ namespace TheLastPlanet.Client.Cache
 
             #endregion
 
+            /*
             if (_checkTimer.IsPassed)
             {
                 if (MyPlayer.Status.Istanza.Instance != "IngressoRoleplay")
@@ -94,7 +93,7 @@ namespace TheLastPlanet.Client.Cache
                     Eventi.AggiornaPlayers();
                 }
             }
-
+            */
             await Task.FromResult(0);
         }
     }

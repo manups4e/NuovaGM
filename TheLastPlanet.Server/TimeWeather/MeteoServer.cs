@@ -11,12 +11,16 @@ namespace TheLastPlanet.Server.TimeWeather
 {
     static class MeteoServer
     {
-        public static ServerWeather Meteo;
+        public static SharedWeather Meteo;
         private static long _timer = 0;
         private static SharedTimer WeatherTimer;
-        public static void Init()
+        public static async void Init()
         {
-            Meteo = new ServerWeather()
+            Server.Instance.Events.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+            Server.Instance.Events.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
+            Server.Instance.Events.Mount("changeWeather", new Action<bool>(CambiaMeteo));
+            Server.Instance.Events.Mount("SyncWeatherForMe", new Action<ClientId, bool>(SyncMeteoPerMe));
+            Meteo = new SharedWeather()
             {
                 CurrentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather,
                 WeatherTimer = ConfigShared.SharedConfig.Main.Meteo.ss_weather_timer * 60,
@@ -24,10 +28,6 @@ namespace TheLastPlanet.Server.TimeWeather
                 RandomWindDirection = Funzioni.RandomFloatInRange(0, 359),
                 WindSpeed = Funzioni.RandomFloatInRange(0, 12),
             };
-            Server.Instance.Events.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-            Server.Instance.Events.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-            Server.Instance.Events.Mount("changeWeather", new Action<bool>(CambiaMeteo));
-            Server.Instance.Events.Mount("SyncWeatherForMe", new Action<ClientId, bool>(SyncMeteoPerMe));
 
             WeatherTimer = new(1000);
             Server.Instance.AddTick(Conteggio);
@@ -57,7 +57,8 @@ namespace TheLastPlanet.Server.TimeWeather
         public static void CambiaMeteo(bool startup)
         {
             if (startup) Meteo.StartUp = startup;
-            Server.Instance.ServerState.Set("Meteo", Meteo.ToBytes(), true);
+            var bytes = Meteo.ToBytes();
+            Server.Instance.ServerState.Set("Meteo", bytes, true);
         }
 
         public static async Task Conteggio()

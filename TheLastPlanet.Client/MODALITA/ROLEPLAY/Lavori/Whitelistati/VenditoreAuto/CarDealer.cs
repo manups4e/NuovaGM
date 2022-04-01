@@ -199,10 +199,10 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
                                         prendi.AddItem(c);
                                         c.Activated += async (_menu_, _item_) =>
                                         {
-                                            string s1 = Extensions.GetRandomString(2);
+                                            string s1 = SharedMath.GetRandomString(2);
                                             await BaseScript.Delay(100);
-                                            string s2 = Extensions.GetRandomString(2);
-                                            string plate = s1 + " " + Funzioni.GetRandomInt(001, 999).ToString("000") + s2;
+                                            string s2 = SharedMath.GetRandomString(2);
+                                            string plate = s1 + " " + SharedMath.GetRandomInt(001, 999).ToString("000") + s2;
                                             PreviewVeh.Mods.LicensePlate = plate;
                                             VehProp prop = await PreviewVeh.GetVehicleProperties();
                                             OwnedVehicle veicolo = new OwnedVehicle(PreviewVeh, plate, new VehicleData(Cache.PlayerCache.MyPlayer.User.CurrentChar.Info.insurance, prop, false), new VehGarage(true, pro.Key, Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli.Where(x => x.Garage.Garage == pro.Key).ToList().Count), "Normale");

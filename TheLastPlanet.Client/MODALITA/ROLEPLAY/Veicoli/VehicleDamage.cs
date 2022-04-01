@@ -65,7 +65,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         public static void Init()
         {
             tireBurstMaxNumber = randomTireBurstInterval * 1200;
-            if (randomTireBurstInterval != 0) tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
+            if (randomTireBurstInterval != 0) tireBurstLuckyNumber = SharedMath.GetRandomInt(tireBurstMaxNumber);
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
@@ -94,7 +94,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             randomTireBurstInterval = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.randomTireBurstInterval;
             classDamageMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.classDamageMultiplier;
             tireBurstMaxNumber = randomTireBurstInterval * 1200;
-            if (randomTireBurstInterval != 0) tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
+            if (randomTireBurstInterval != 0) tireBurstLuckyNumber = SharedMath.GetRandomInt(tireBurstMaxNumber);
         }
 
 
@@ -161,7 +161,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
         public static void tireBurstLottery()
         {
-            int tireBurstNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
+            int tireBurstNumber = SharedMath.GetRandomInt(tireBurstMaxNumber);
 
             if (tireBurstNumber == tireBurstLuckyNumber)
             {
@@ -171,16 +171,16 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
                 if (numWheels == 2)
                 {
-                    affectedTire = (Funzioni.GetRandomInt(1, 2) - 1) * 4; // wheel 0 or 4;
+                    affectedTire = (SharedMath.GetRandomInt(1, 2) - 1) * 4; // wheel 0 or 4;
                 }
                 else if (numWheels == 4)
                 {
-                    affectedTire = Funzioni.GetRandomInt(1, 4) - 1;
+                    affectedTire = SharedMath.GetRandomInt(1, 4) - 1;
                     if (affectedTire > 1) affectedTire += 2; // 0, 1, 4, 5
                 }
                 else if (numWheels == 6)
                 {
-                    affectedTire = Funzioni.GetRandomInt(1, 6) - 1;
+                    affectedTire = SharedMath.GetRandomInt(1, 6) - 1;
                 }
                 else
                 {
@@ -193,7 +193,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                     HUD.ShowNotification("Hai bucato!\nCerca un meccanico!");
                 }
 
-                tireBurstLuckyNumber = Funzioni.GetRandomInt(tireBurstMaxNumber);
+                tireBurstLuckyNumber = SharedMath.GetRandomInt(tireBurstMaxNumber);
             }
         }
 

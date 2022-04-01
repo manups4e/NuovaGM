@@ -17,9 +17,12 @@ namespace TheLastPlanet.Server.Core.PlayerChar
 
         [Ignore] [JsonIgnore] public DateTime LastSaved;
 
+        [Ignore] [JsonIgnore] internal BasePlayerShared basePlayer;
+
         public User() { }
         public User(Player player, BasePlayerShared result)
         {
+            basePlayer = result;
             Name = player.Name;
             source = player.Handle;
             ID = result.ID;

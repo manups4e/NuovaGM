@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core.Native;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -21,11 +22,9 @@ namespace TheLastPlanet.Client
             //Client.Logger.Debug(IplManager.Global.ToJson());
             if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
             {
+                PlayerCache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 100, true, true);
                 //TestMenu();
                 //AttivaMenu();
-
-                Client.Logger.Debug(Game.Player.GetState<bool>("PlayerStates:InVeicolo").ToString());
-
             }
             if (Input.IsControlJustPressed(Control.Context, PadCheck.Keyboard, ControlModifier.Shift))
             {

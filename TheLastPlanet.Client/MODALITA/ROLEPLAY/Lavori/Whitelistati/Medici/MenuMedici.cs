@@ -152,7 +152,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                     veicoliParcheggio[i].IsDriveable = false;
                     veicoliParcheggio[i].IsSirenActive = true;
                     veicoliParcheggio[i].IsSirenSilent = true;
-                    veicoliParcheggio[i].SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+                    veicoliParcheggio[i].SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
                 }
             else
                 await GarageConPiuVeicoli(Stazione.VeicoliAutorizzati, LivelloGarage);
@@ -181,7 +181,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                 veicoliParcheggio[i].IsDriveable = false;
                 veicoliParcheggio[i].IsSirenActive = true;
                 veicoliParcheggio[i].IsSirenSilent = true;
-                veicoliParcheggio[i].SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+                veicoliParcheggio[i].SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
             }
         }
 
@@ -232,8 +232,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
                                 p.CurrentVehicle.SetVehicleFuelLevel(100f);
                                 p.CurrentVehicle.IsEngineRunning = true;
                                 p.CurrentVehicle.IsDriveable = true;
-                                p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
-                                p.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+                                p.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "MED" + SharedMath.GetRandomInt(999);
+                                p.CurrentVehicle.SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
                                 VeicoloPol veh = new(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
                                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());
                                 InGarage = false;
@@ -370,8 +370,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetVehicleFuelLevel(100f);
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
-                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "MED" + Funzioni.GetRandomInt(999);
-                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloMedici", Funzioni.GetRandomInt(100));
+                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "MED" + SharedMath.GetRandomInt(999);
+                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloMedici", SharedMath.GetRandomInt(100));
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle, 1);
                 VeicoloPol veh = new(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehMedici", veh.ToJson());

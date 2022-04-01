@@ -89,8 +89,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
             Screen.Fading.FadeIn(1000);
             //MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
             SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
-            NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
+            Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
             MainChooser.Init();
+            PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
             SpawnParticle.MarkAsNoLongerNeeded();
         }
 
@@ -113,9 +114,10 @@ namespace TheLastPlanet.Client.Core.Ingresso
             Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Screen.Fading.FadeIn(1000);
             SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
-            NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
+            Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
             Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
             MainChooser.Init();
+            PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
             SpawnParticle.MarkAsNoLongerNeeded();
         }
     }

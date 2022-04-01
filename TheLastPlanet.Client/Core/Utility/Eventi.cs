@@ -27,24 +27,28 @@ namespace TheLastPlanet.Client.Core.Utility
             Client.Instance.Events.Mount("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
             Client.Instance.Events.Mount("lprp:deleteVehicle", new Action(DeleteVehicle));
             Client.Instance.Events.Mount("lprp:mostrasalvataggio", new Action(Salva));
-            Client.Instance.Events.Mount("tlg:GetModePlayers", new Action<List<ClientId>>(GetPlayers));
-
+            Client.Instance.Events.Mount("tlg:onPlayerEntrance", new Action<ClientId>(PlayerJoined));
             timer = GetGameTimer();
+            AccessingEvents.OnFreeRoamSpawn += OnSpawn;
+            AccessingEvents.OnRoleplaySpawn += OnSpawn;
         }
 
-        public static void GetPlayers(List<ClientId> list)
+        private static void OnSpawn(ClientId client)
         {
-            Client.Instance.Clients = list;
+            AggiornaPlayers();
+        }
+
+        public static void PlayerJoined(ClientId client)
+        {
+            if (client.Status == null)
+                client.Status = new(client.Player);
+            Client.Instance.Clients.Add(client);
         }
 
         public static async void AggiornaPlayers()
         {
             Client.Instance.Clients = await Client.Instance.Events.Get<List<ClientId>>("tlg:callPlayers", PlayerCache.MyPlayer.Posizione);
-            foreach (var client in Client.Instance.Clients)
-            {
-                client.Status = new(client.Player);
-                Client.Logger.Debug($"Player:{client.Handle}, status:{client.Status.ToJson()}");
-            }
+            foreach (var client in Client.Instance.Clients) client.Status = new(client.Player);
         }
 
         public static async void LoadModel()
@@ -154,6 +158,8 @@ namespace TheLastPlanet.Client.Core.Utility
             Vector3 coords = Cache.PlayerCache.MyPlayer.Posizione.ToVector3;
             Vehicle Veh = await Funzioni.SpawnVehicle(model, coords, Cache.PlayerCache.MyPlayer.Ped.Heading);
             Veh.PreviouslyOwnedByPlayer = true;
+            Veh.FadeEntity(false);
+            await Veh.FadeEntityAsync(true, true, false);
         }
 
         public static void DeleteVehicle()

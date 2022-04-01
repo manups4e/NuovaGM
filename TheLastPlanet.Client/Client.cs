@@ -33,12 +33,10 @@ namespace TheLastPlanet.Client
         public NuiManager NuiManager = new();
         public StateBagsHandler StateBagsHandler { get; set; }
         public StateBag ServerState => GlobalState;
-        public Client() { Inizializza(); }
-
-        private async void Inizializza()
+        public Client() 
         {
             Logger = new();
-            SnowflakeGenerator.Create(1);
+            SnowflakeGenerator.Create(new Random().NextShort(1, 199));
             Instance = this;
             Events = new();
             HUD.Init();
@@ -52,6 +50,7 @@ namespace TheLastPlanet.Client
             ServerJoining.Init();
             StateBagsHandler = new StateBagsHandler();
             GestionePlayersDecors.Init();
+            VehicleChecker.Init();
         }
 
         /// <summary>

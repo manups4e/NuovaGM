@@ -14,8 +14,9 @@ using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Snowflakes;
 using System.IO;
+using TheLastPlanet.Shared.Internal.Events;
 
-namespace TheLastPlanet.Shared.Internal.Events
+namespace TheLastPlanet.Shared
 {
     [Serialization]
     public partial class ClientId : ISource

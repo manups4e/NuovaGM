@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\Buckets\Bucket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Chat\ChatShared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AccessingEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\GameLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ModalitàServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\PlayerChar\BasePlayerShared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\PlayerChar\StateBagsExtensions.cs" />
@@ -23,12 +24,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\StateBag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\StateBagHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\TimeWeather.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\WeaponData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\ConcurrentAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\ForceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\IgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Attributes\SerializationAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\BaseGateway.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\ClientId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ClientId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\IEventLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\Impl\ClientStopwatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventSubsystem\Diagnostics\Impl\ServerStopwatch.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContractResolvers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Math.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectHash.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeConverter.cs" />

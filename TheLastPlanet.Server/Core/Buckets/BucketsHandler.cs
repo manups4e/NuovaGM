@@ -22,7 +22,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         public static BucketsContainer Negozio;
         public static RolePlayBucketsContainer RolePlay;
         public static FreeRoamBucketContainer FreeRoam;
-        public static BucketsContainer Gare;
+        public static RaceBucketContainer Gare;
         public static BucketsContainer Minigiochi;
 
         public static void Init()
@@ -35,7 +35,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
             RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
             FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
-            Gare = new(ModalitaServer.Gare, new List<Bucket>());
+            Gare = new(ModalitaServer.Gare, new Bucket(3000, "GARE") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
             Minigiochi = new(ModalitaServer.Minigiochi, new List<Bucket>());
         }
 
@@ -63,13 +63,17 @@ namespace TheLastPlanet.Server.Core.Buckets
                     clients = FreeRoam.Bucket.Players;
                     break;
                 case ModalitaServer.Gare:
+                    Gare.AddPlayer(player);
+                    clients = Gare.Bucket.Players;
                     break;
                 case ModalitaServer.Minigiochi:
                     break;
             }
+
             player.SetState($"{player.Status.PlayerStates._name}:Modalita", id);
+            Server.Instance.Events.Send(clients, "tlg:onPlayerEntrance", player);
             UpdateBucketsCount();
-            Server.Instance.Events.Send(clients, "tlg:GetModePlayers", clients);
+            player.Status.Clear();
         }
 
         private static void RemovePlayerFromBucket(ClientId player, ModalitaServer id, string reason)
@@ -141,7 +145,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 case ModalitaServer.FreeRoam:
                     return FreeRoam.Bucket.Players.Contains(player);
                 case ModalitaServer.Gare:
-                    return Gare.Buckets.Any(x => x.Players.Contains(player));
+                    return Gare.Bucket.Players.Contains(player);
                 case ModalitaServer.Minigiochi:
                     return Minigiochi.Buckets.Any(x => x.Players.Contains(player));
                 default:

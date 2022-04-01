@@ -30,7 +30,7 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
 
         public void Serialize(Type type, object? value, SerializationContext context)
         {
-            var writer = context.Writer;
+            BinaryWriter writer = context.Writer;
 
             try
             {
@@ -180,15 +180,9 @@ namespace TheLastPlanet.Shared.Internal.Events.Serialization.Implementations
                             break;
                         default:
                             {
-                                var method = type.GetMethod(PackMethod, BindingFlags.Public | BindingFlags.Instance,
-                                    null,
-                                    CallingConventions.HasThis, new[] { typeof(BinaryWriter) }, null);
-
-                                if (Equals(method, null))
-                                {
-                                    throw new SerializationException(context, type,
-                                        $"Failed to find \"{PackMethod}\" method; are you sure you have annotated the type with [Serialization] and the partial keyword?");
-                                }
+                                var method = type.GetMethod(PackMethod, BindingFlags.Public | BindingFlags.Instance, null, CallingConventions.HasThis, new[] { typeof(BinaryWriter) }, null);
+                                if (method is null)
+                                    throw new SerializationException(context, type, $"Failed to find \"{PackMethod}\" method; are you sure you have annotated the type with [Serialization] and the partial keyword?");
 
                                 var parameter = Expression.Parameter(typeof(BinaryWriter), "writer");
                                 var expression = Expression.Call(Expression.Constant(value, type), method, parameter);

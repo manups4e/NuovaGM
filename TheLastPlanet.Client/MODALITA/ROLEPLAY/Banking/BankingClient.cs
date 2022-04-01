@@ -1115,7 +1115,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
                     AddText("MPATM_PEND");
                     EndScaleformMovieMethod();
                     atm.CallFunction("DISPLAY_MESSAGE");
-                    await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
+                    await BaseScript.Delay(SharedMath.GetRandomInt(2500, 4500));
                     var trans = await Client.Instance.Events.Get<Tuple<bool, string>>("lprp:banking:" + evento, _soldiTransazione);
                     if (trans.Item1)
                         HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);
@@ -1154,7 +1154,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Banking
                     AddText("MPATM_PEND");
                     EndScaleformMovieMethod();
                     atm.CallFunction("DISPLAY_MESSAGE");
-                    await BaseScript.Delay(Funzioni.GetRandomInt(2500, 4500));
+                    await BaseScript.Delay(SharedMath.GetRandomInt(2500, 4500));
                     trans = await Client.Instance.Events.Get<Tuple<bool, string>>("lprp:banking:" + evento, _destinatario, _soldiTransazione);
                     if (trans.Item1)
                         HUD.ShowNotification("Transazione Completata!\nIl tuo nuovo Saldo bancario è di ~b~" + trans.Item2 + "$", NotificationColor.GreenLight);

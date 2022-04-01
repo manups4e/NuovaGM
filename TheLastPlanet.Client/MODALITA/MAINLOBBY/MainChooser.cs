@@ -20,13 +20,13 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
         public static void Init()
         {
             Client.Instance.AddTick(DrawMarkers);
-            Client.Instance.StateBagsHandler.OnPassiveMode += PassiveMode;
+            Client.Instance.StateBagsHandler.OnPlayerStateBagChange += PassiveMode;
         }
 
         public static void Stop()
         {
             Client.Instance.RemoveTick(DrawMarkers);
-            Client.Instance.StateBagsHandler.OnPassiveMode -= PassiveMode;
+            Client.Instance.StateBagsHandler.OnPlayerStateBagChange -= PassiveMode;
         }
 
         private static Position _posRp = Position.Zero;
@@ -82,11 +82,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
             if (!Game.IsPaused)
             {
-                RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]} / 256", "", "", "");
+                RP_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Immergiti nella simulazione!", "~b~Pianeta RolePlay~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Roleplay]} / 512", "", "", "");
                 Mini_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Minigiochi a squadre o singoli!", "~g~Pianeta Minigiochi~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Minigiochi]} / 64", "", "", "");
                 Gare_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Gareggia contro tutti!", "~p~Pianeta Gare~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.Gare]} / 64", "", "", "");
                 Nego_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "Non influisce sul server RolePlay!", "~o~Negozio~w~", "", "", "", "", "", "", "", "");
-                Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]} / 256", "", "", "");
+                Roam_Marker.Scaleform.CallFunction("SET_MISSION_INFO", "PVP in piena libertà!", "~f~Pianeta FreeRoam~w~", "", "", "", "", $"{Bucket_n_Players[ModalitaServer.FreeRoam]} / 512", "", "", "");
 
                 RP_Marker.Draw();
                 Mini_Marker.Draw();
@@ -100,7 +100,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    if (Bucket_n_Players[ModalitaServer.Roleplay] == 256)
+                    if (Bucket_n_Players[ModalitaServer.Roleplay] >= 512)
                     {
                         HUD.ShowNotification("Il Pianeta RolePlay è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
@@ -119,16 +119,23 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    /*
-					if (Bucket_n_Players[2] == 64)
-					{
-						HUD.ShowNotification("Il mondo dei Minigiochi è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                    if (PlayerCache.MyPlayer.User.group_level >= UserGroup.Founder)
+                    {
+                        /*
+                        if (Bucket_n_Players[2] == 64)
+                        {
+                            HUD.ShowNotification("Il mondo dei Minigiochi è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
-						return;
-					}
-					*/
-                    await CambiaBucket("~g~Server Minigiochi~w~", ModalitaServer.Minigiochi);
-                    Screen.Fading.FadeIn(1000);
+                            return;
+                        }
+                        */
+                        await CambiaBucket("~g~Server Minigiochi~w~", ModalitaServer.Minigiochi);
+                        Screen.Fading.FadeIn(1000);
+                    }
+                    else
+                    {
+                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
+                    }
                 }
             }
 
@@ -138,17 +145,24 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    /*
-					if (Bucket_n_Players[3] == 64)
-					{
-						HUD.ShowNotification("Il mondo delle Gare è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
+                    if (PlayerCache.MyPlayer.User.group_level >= UserGroup.Founder)
+                    {
+                        /*
+                        if (Bucket_n_Players[3] == 64)
+                        {
+                            HUD.ShowNotification("Il mondo delle Gare è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
-						return;
-					}
-					*/
-                    await CambiaBucket("~p~Server Gare~w~", ModalitaServer.Gare);
-                    Races.Creator.RaceCreator.CreatorPreparation();
-                    await Task.FromResult(0);
+                            return;
+                        }
+                        */
+                        await CambiaBucket("~p~Server Gare~w~", ModalitaServer.Gare);
+                        Races.Creator.RaceCreator.CreatorPreparation();
+                        await Task.FromResult(0);
+                    }
+                    else
+                    {
+                        HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
+                    }
                 }
             }
 
@@ -156,10 +170,17 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             {
                 HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per entrare nel ~o~Negozio~w~");
 
-                if (Input.IsControlJustPressed(Control.Context))
+                if (PlayerCache.MyPlayer.User.group_level >= UserGroup.Founder)
                 {
-                    await CambiaBucket("~o~Negozio~w~", ModalitaServer.Negozio);
-                    Screen.Fading.FadeIn(1000);
+                    if (Input.IsControlJustPressed(Control.Context))
+                    {
+                        await CambiaBucket("~o~Negozio~w~", ModalitaServer.Negozio);
+                        Screen.Fading.FadeIn(1000);
+                    }
+                }
+                else
+                {
+                    HUD.ShowNotification("Questo pianeta è al momento irraggiungibile!!", NotificationColor.Red, true);
                 }
             }
 
@@ -169,7 +190,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
 
                 if (Input.IsControlJustPressed(Control.Context))
                 {
-                    if (Bucket_n_Players[ModalitaServer.FreeRoam] == 256)
+                    if (Bucket_n_Players[ModalitaServer.FreeRoam] >= 512)
                     {
                         HUD.ShowNotification("Il pianeta FreeRoam è pieno al momento, riprova più tardi!", NotificationColor.Red, true);
 
@@ -209,38 +230,43 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
             ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Caricamento completato!");
             Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = modalita;
             Cache.PlayerCache.ModalitàAttuale = modalita;
+            Cache.PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = false;
             await BaseScript.Delay(2000);
             Screen.Fading.FadeOut(0);
             await BaseScript.Delay(100);
             ScaleformUI.ScaleformUI.Warning.Dispose();
         }
 
-        private static void PassiveMode(bool active)
+        private static void PassiveMode(int userId, string type, bool active)
         {
-            if (active)
+            if (type == "ModPassiva")
             {
-                PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = false;
-                PlayerCache.MyPlayer.Ped.Weapons.Select(WeaponHash.Unarmed);
-                PlayerCache.MyPlayer.Ped.SetConfigFlag(342, true);
-                PlayerCache.MyPlayer.Ped.SetConfigFlag(122, true);
-                SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
-                Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, true, false);
-                NetworkSetPlayerIsPassive(true);
-                NetworkSetFriendlyFireOption(false);
-                SetCanAttackFriendly(PlayerPedId(), false, false);
-            }
-            else
-            {
-                PlayerCache.MyPlayer.Ped.CanBeDraggedOutOfVehicle = true;
-                PlayerCache.MyPlayer.Ped.SetConfigFlag(342, false);
-                PlayerCache.MyPlayer.Ped.SetConfigFlag(122, false);
-                SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
-                NetworkSetPlayerIsPassive(false);
-                NetworkSetFriendlyFireOption(true);
-                SetCanAttackFriendly(PlayerPedId(), true, false);
-                Function.Call(Hash._SET_LOCAL_PLAYER_AS_GHOST, false, false);
+                if (userId == PlayerCache.MyPlayer.Handle)
+                {
+                    var ped = PlayerCache.MyPlayer.Ped;
+                    if (active)
+                    {
+                        ped.CanBeDraggedOutOfVehicle = false;
+                        ped.Weapons.Select(WeaponHash.Unarmed);
+                        ped.SetConfigFlag(342, true);
+                        ped.SetConfigFlag(122, true);
+                        SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 0.5f);
+                        NetworkSetPlayerIsPassive(true);
+                        NetworkSetFriendlyFireOption(false);
+                        SetCanAttackFriendly(PlayerPedId(), false, false);
+                    }
+                    else
+                    {
+                        ped.CanBeDraggedOutOfVehicle = true;
+                        ped.SetConfigFlag(342, false);
+                        ped.SetConfigFlag(122, false);
+                        SetPlayerVehicleDefenseModifier(PlayerCache.MyPlayer.Player.Handle, 1f);
+                        NetworkSetPlayerIsPassive(false);
+                        NetworkSetFriendlyFireOption(true);
+                        SetCanAttackFriendly(PlayerPedId(), true, false);
+                    }
+                }
             }
         }
-
     }
 }

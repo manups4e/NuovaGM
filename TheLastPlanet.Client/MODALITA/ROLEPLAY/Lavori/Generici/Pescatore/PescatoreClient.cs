@@ -312,7 +312,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
             if (Pescando)
             {
                 if (PuntiPesca.TempoPescaDinamico)
-                    await BaseScript.Delay(Funzioni.GetRandomInt(30000, 120000));
+                    await BaseScript.Delay(SharedMath.GetRandomInt(30000, 120000));
                 else
                     await BaseScript.Delay(PuntiPesca.TempoFisso * 1000);
                 await ControlliEPesca();
@@ -321,7 +321,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
 
         private async Task ControlliEPesca()
         {
-            int TocchiTotali = Funzioni.GetRandomInt(20, 40);
+            int TocchiTotali = SharedMath.GetRandomInt(20, 40);
             int tocchiEffettuati = 0;
             int contogenerico = 0;
             int contomax = 0;
@@ -331,12 +331,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                 switch (TipoCanna)
                 {
                     case 0:
-                        TocchiTotali = Funzioni.GetRandomInt(20, 40);
+                        TocchiTotali = SharedMath.GetRandomInt(20, 40);
                         contomax = 1500;
 
                         break;
                     case 1:
-                        TocchiTotali = Funzioni.GetRandomInt(30, 50);
+                        TocchiTotali = SharedMath.GetRandomInt(30, 50);
                         contomax = 1000;
 
                         break;
@@ -344,7 +344,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                         {
                             if (TipoCanna == 0)
                             {
-                                TocchiTotali = Funzioni.GetRandomInt(40, 60);
+                                TocchiTotali = SharedMath.GetRandomInt(40, 60);
                                 contomax = 800;
                             }
 
@@ -374,27 +374,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Pescatore
                     if (contogenerico > contomax) break;
                 }
 
-                if (Funzioni.GetRandomInt(0, 100) < 90 && contogenerico < contomax)
+                if (SharedMath.GetRandomInt(0, 100) < 90 && contogenerico < contomax)
                 {
                     string pesce = "";
 
                     switch (TipoCanna)
                     {
                         case 0:
-                            pesce = PuntiPesca.Pesci.facile[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.facile.Count - 1)];
+                            pesce = PuntiPesca.Pesci.facile[SharedMath.GetRandomInt(0, PuntiPesca.Pesci.facile.Count - 1)];
 
                             break;
                         case 1:
-                            pesce = PuntiPesca.Pesci.medio[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.medio.Count - 1)];
+                            pesce = PuntiPesca.Pesci.medio[SharedMath.GetRandomInt(0, PuntiPesca.Pesci.medio.Count - 1)];
 
                             break;
                         case 2:
-                            pesce = PuntiPesca.Pesci.avanzato[Funzioni.GetRandomInt(0, PuntiPesca.Pesci.avanzato.Count - 1)];
+                            pesce = PuntiPesca.Pesci.avanzato[SharedMath.GetRandomInt(0, PuntiPesca.Pesci.avanzato.Count - 1)];
 
                             break;
                     }
 
-                    float peso = Funzioni.GetRandomFloat(0f, ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].peso);
+                    float peso = SharedMath.GetRandomFloat(0f, ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].peso);
                     HUD.ShowNotification($"Hai pescato un bell'esemplare di {ConfigShared.SharedConfig.Main.Generici.ItemList[pesce].label}, dal peso di {peso}Kg");
                     BaseScript.TriggerServerEvent("lprp:addIntenvoryItem", pesce, 1, peso);
                 }

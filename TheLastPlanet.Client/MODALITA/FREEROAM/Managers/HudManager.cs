@@ -14,14 +14,14 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
         public static void Init()
         {
-            Client.Instance.AddTick(OnHudTick);
+            //Client.Instance.AddTick(OnHudTick);
             //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
             Client.Instance.Events.Mount("worldeventsManage.Client:GetLevelXp", new Action<int, int>(OnGetLevelXp));
         }
 
         public static void Stop()
         {
-            Client.Instance.RemoveTick(OnHudTick);
+            //Client.Instance.RemoveTick(OnHudTick);
             //Client.Instance.AddEventHandler("onClientResourceStart", new Action<string>(OnClientResourceStart)); trovare nuovo nome evento
             Client.Instance.Events.Unmount("worldeventsManage.Client:GetLevelXp");
         }
@@ -62,9 +62,9 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
         private static void OnGetLevelXp(int level, int xp)
         {
-            Cache.PlayerCache.MyPlayer.User.FreeRoamChar.Level = level;
-            Cache.PlayerCache.MyPlayer.User.FreeRoamChar.TotalXp = xp;
-            Debug.WriteLine($"OnGetLevelXp | Level [{level}] | XP [{xp}]");
+            PlayerCache.MyPlayer.User.FreeRoamChar.Level = level;
+            PlayerCache.MyPlayer.User.FreeRoamChar.TotalXp = xp;
+            Client.Logger.Info($"OnGetLevelXp | Level [{level}] | XP [{xp}]");
             BaseScript.TriggerEvent("worldeventsManage.Client:UpdatedLevel", level, false); // da aggiornare perché non esiste nel codice
         }
 

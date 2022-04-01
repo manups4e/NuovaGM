@@ -111,7 +111,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                 await BaseScript.Delay(0);
                 Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
                 if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
-                Vector4 charSelectCoords = SelectFirstCoords[Funzioni.GetRandomInt(SelectFirstCoords.Count - 1)];
+                Vector4 charSelectCoords = SelectFirstCoords[SharedMath.GetRandomInt(SelectFirstCoords.Count - 1)];
                 RequestCollisionAtCoord(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z);
                 Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(charSelectCoords.X, charSelectCoords.Y, charSelectCoords.Z - 1);
                 Cache.PlayerCache.MyPlayer.Ped.Heading = charSelectCoords.W;
@@ -155,7 +155,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             dummyPed.BlockPermanentEvents = true;
             GuiEnabled = true;
             TimeWeather.MeteoClient.SetMeteoPerMe((int)CitizenFX.Core.Weather.ExtraSunny, false, true);
-            NetworkOverrideClockTime(Funzioni.GetRandomInt(0, 23), Funzioni.GetRandomInt(0, 59), Funzioni.GetRandomInt(0, 59));
+            NetworkOverrideClockTime(SharedMath.GetRandomInt(0, 23), SharedMath.GetRandomInt(0, 59), SharedMath.GetRandomInt(0, 59));
             await Cache.PlayerCache.Loaded();
             List<LogInInfo> data = await Client.Instance.Events.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
             ToggleMenu(true, "charloading", data);
@@ -231,7 +231,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                 p1.Task.WanderAround();
                 SetFocusEntity(p1.Handle);
                 /*
-				string scena = scenari[Funzioni.GetRandomInt(scenari.Count)];
+				string scena = scenari[SharedMath.GetRandomInt(scenari.Count)];
 				p1.Task.StartScenario(scena, p1.Position);
 				//Client.Instance.AddTick(Controllo);
 				*/

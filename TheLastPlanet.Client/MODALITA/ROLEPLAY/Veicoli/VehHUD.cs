@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                     if (RPM > 0.999f)
                     {
                         RPM *= 100f;
-                        RPM += Funzioni.GetRandomFloat(-2f, 2f);
+                        RPM += SharedMath.GetRandomFloat(-2f, 2f);
                         RPM /= 100f;
                     }
 

@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -331,7 +332,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
             else
             {
-                byte[] bytes = sbytes.ToBytes();
+                byte[] bytes = sbytes.StringToBytes();
                 source.User.FreeRoamChar = bytes.FromBytes<FreeRoamChar>();
             }
             await BaseScript.Delay(0);
@@ -437,7 +438,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             await BaseScript.Delay(0);
 
             var data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
-            var bytes = data.ToBytes();
+            var bytes = data.StringToBytes();
             user.CurrentChar = bytes.FromBytes<Char_data>();
 
             /*
@@ -527,9 +528,39 @@ namespace TheLastPlanet.Server.Core.Buckets
             Bucket.AddPlayer(client);
         }
 
-        public async void RemovePlayer(ClientId client, string reason = "")
+        public void RemovePlayer(ClientId client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
         }
+    }
+
+    public class RaceBucketContainer
+    {
+        public ModalitaServer Modalita { get; set; }
+        public Bucket Bucket { get; set; }
+
+        public RaceBucketContainer(ModalitaServer modalitaServer, Bucket bucket)
+        {
+            Modalita = modalitaServer;
+            Bucket = bucket;
+        }
+
+        public int GetTotalPlayers()
+        {
+            if (Bucket != null)
+                return Bucket.TotalPlayers;
+            return 0;
+        }
+
+        public void AddPlayer(ClientId client)
+        {
+            Bucket.AddPlayer(client);
+        }
+
+        public void RemovePlayer(ClientId client, string reason = "")
+        {
+            Bucket.RemovePlayer(client, reason);
+        }
+
     }
 }

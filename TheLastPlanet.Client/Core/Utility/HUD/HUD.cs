@@ -239,8 +239,19 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxLength)
         {
             ClearKeyboard(windowTitle, defaultText, maxLength);
-            while (UpdateOnscreenKeyboard() == 0) await BaseScript.Delay(0);
-
+            while (UpdateOnscreenKeyboard() == 0)
+            {
+                Game.DisableAllControlsThisFrame(0);
+                Game.DisableAllControlsThisFrame(1);
+                Game.DisableAllControlsThisFrame(2);
+                Game.EnableControlThisFrame(0, Control.FrontendCancel);
+                Game.EnableControlThisFrame(1, Control.FrontendCancel);
+                Game.EnableControlThisFrame(2, Control.FrontendCancel);
+                Game.EnableControlThisFrame(0, Control.FrontendAccept);
+                Game.EnableControlThisFrame(1, Control.FrontendAccept);
+                Game.EnableControlThisFrame(2, Control.FrontendAccept);
+                await BaseScript.Delay(0);
+            }
             return UpdateOnscreenKeyboard() == 2 ? "" : GetOnscreenKeyboardResult();
         }
 

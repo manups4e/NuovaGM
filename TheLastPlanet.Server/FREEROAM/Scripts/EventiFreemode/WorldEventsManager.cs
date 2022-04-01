@@ -15,7 +15,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
     {
         public static readonly List<WorldEvent> WorldEvents = new List<WorldEvent>
         {
-            new WorldEvent{ Id = 1, Name = "Schivate mortali", CountdownTime = TimeSpan.FromSeconds(60), EventTime = TimeSpan.FromSeconds(300), EventXpMultiplier = 13.5f },
+            new WorldEvent{ Id = 1, Name = "Schivate mortali", CountdownTime = TimeSpan.FromSeconds(SharedMath.GetRandomInt(2700, 5400)), EventTime = TimeSpan.FromSeconds(300), EventXpMultiplier = 13.5f },
             new WorldEvent{ Id = 2, Name = "Volando sotto i ponti", CountdownTime = TimeSpan.FromSeconds(90), EventTime = TimeSpan.FromSeconds(300), EventXpMultiplier = 35.25f },
             new WorldEvent{ Id = 3, Name = "Fast & Furious", CountdownTime = TimeSpan.FromSeconds(60), EventTime = TimeSpan.FromSeconds(270), EventXpMultiplier = 1.5f},
             new WorldEvent{ Id = 4, Name = "Il miglior Pistolero", CountdownTime = TimeSpan.FromSeconds(60), EventTime = TimeSpan.FromSeconds(300), EventXpMultiplier = 20.5f},
@@ -30,17 +30,15 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         private static WorldEvent CurrentEvent;
         private static WorldEvent NextEvent;
-        private static Random rnd;
         private static SharedTimer PeriodicTimer;
         private static SharedTimer EventTimer;
-        private static TimeSpan TimeUntilNextEvent = TimeSpan.FromSeconds(5); //TimeSpan.FromMinutes(rnd.Next(40, 45))
+        private static TimeSpan TimeUntilNextEvent = TimeSpan.FromMinutes(SharedMath.GetRandomInt(45, 90));
         private static long _savingTimer = 0;
 
         private static bool IsAnyEventActive = false;
 
         public static void Init()
         {
-            rnd = new(DateTime.Now.Millisecond);
             Server.Instance.Events.Mount("worldEventsManage.Server:AddParticipant", new Action<ClientId>(OnAddParticipant));
             Server.Instance.Events.Mount("worldEventsManage.Server:EventEnded", new Action<ClientId, int, int, int>(OnEventEnded));
             Server.Instance.Events.Mount("worldEventsManage.Server:UpdateCurrentEvent", new Action<ClientId, int, float>(OnUpdateCurrentEvent));
@@ -127,7 +125,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                             CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE); // reset this element. it's actually the next event
                             CurrentEvent.IsStarted = false;
                             CurrentEvent.IsActive = false;
-                            TimeUntilNextEvent = TimeSpan.FromSeconds(5); //TimeSpan.FromMinutes(rnd.Next(40, 45))
+                            TimeUntilNextEvent = TimeSpan.FromMinutes(SharedMath.GetRandomInt(45, 90));
                             await BaseScript.Delay(3500); // Wait until we start the next event (total 5 seconds)
                             Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:DestroyEventVehicles");
                             Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:NextEventIn", (int)TimeUntilNextEvent.TotalSeconds);
@@ -228,11 +226,11 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
             {
                 if (CurrentEvent == null)
                 {
-                    var cE = JsonConvert.SerializeObject(WorldEvents.OrderBy(x => rnd.NextDouble()).First());
+                    var cE = JsonConvert.SerializeObject(WorldEvents.OrderBy(x => SharedMath.GetRandomFloat()).First());
                     CurrentEvent = JsonConvert.DeserializeObject<WorldEvent>(cE);
                 }
 
-                var nE = JsonConvert.SerializeObject(WorldEvents.Where(x => x.Id != CurrentEvent.Id).OrderBy(x => rnd.NextDouble()).First());
+                var nE = JsonConvert.SerializeObject(WorldEvents.Where(x => x.Id != CurrentEvent.Id).OrderBy(x => SharedMath.GetRandomFloat()).First());
                 NextEvent = JsonConvert.DeserializeObject<WorldEvent>(nE);
             }
             catch (Exception e)

@@ -341,3 +341,5 @@ healthchecksdb
 /NuovaGM.Client/html
 /NuovaGM.Client/CONFIGURAZIONE
 /NuovaGM.Client/fxmanifest.lua
+/TheLastPlanet.Server/Generated/Generator/TheLastPlanet.Events.Generator.SerializationGenerator
+/TheLastPlanet.Client/Generated/Generator/TheLastPlanet.Events.Generator.SerializationGenerator

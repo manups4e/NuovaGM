@@ -65,7 +65,7 @@ namespace TheLastPlanet.Server.Properties {
         ///   &quot;Main&quot;:{
         ///      &quot;AfkTimeout&quot;:300,
         ///      &quot;AutoSavingInterval&quot;:180000,
-        ///      &quot;PingThreshold&quot;:250,
+        ///      &quot;PingThreshold&quot;:300,
         ///      &quot;MaxPlayerNameLength&quot;:24,
         ///      &quot;EnableVoiceChat&quot;:false,
         ///      &quot;DiscordNotificationInterval&quot;:900000,
@@ -90,7 +90,7 @@ namespace TheLastPlanet.Server.Properties {
         /// <summary>
         ///   Cerca una stringa localizzata simile a {
         ///    &quot;Main&quot;:{
-        ///       &quot;NomeServer&quot;:&quot;The Last Planet&quot;,
+        ///       &quot;NomeServer&quot;:&quot;The Last Galaxy&quot;,
         ///       &quot;DiscordAppId&quot;:&quot;625350962776637491&quot;,
         ///       &quot;DiscordRichPresenceAsset&quot;:&quot;majoras2&quot;,
         ///       &quot;PassengerDriveBy&quot;:true,
@@ -158,6 +158,39 @@ namespace TheLastPlanet.Server.Properties {
         internal static string SharedConfig {
             get {
                 return ResourceManager.GetString("SharedConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a [
+        ///  {
+        ///    &quot;Name&quot;: &quot;WEAPON_UNARMED&quot;,
+        ///    &quot;Label&quot;: {
+        ///      &quot;Hash&quot;: 1122011548,
+        ///      &quot;Name&quot;: &quot;WT_UNARMED&quot;
+        ///    },
+        ///    &quot;UintHash&quot;: 2725352035,
+        ///    &quot;IntHash&quot;: -1569615261,
+        ///    &quot;DlcName&quot;: &quot;TitleUpdate&quot;,
+        ///    &quot;Category&quot;: &quot;GROUP_UNARMED&quot;,
+        ///    &quot;Description&quot;: null,
+        ///    &quot;Tints&quot;: [
+        ///      {
+        ///        &quot;Index&quot;: 0,
+        ///        &quot;Label&quot;: {
+        ///          &quot;Hash&quot;: 3773086928,
+        ///          &quot;Name&quot;: &quot;WM_TINT0&quot;
+        ///        }
+        ///      },
+        ///      {
+        ///        &quot;Index&quot;: 1,
+        ///        &quot;Label&quot;: {
+        ///          &quot;Hash&quot;: 3271590152,
+        ///          &quot;Name&quot; [stringa troncata]&quot;;.
+        /// </summary>
+        internal static string Weapons {
+            get {
+                return ResourceManager.GetString("Weapons", resourceCulture);
             }
         }
     }

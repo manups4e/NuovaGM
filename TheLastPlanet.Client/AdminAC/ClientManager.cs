@@ -12,6 +12,12 @@ namespace TheLastPlanet.Client.AdminAC
         private static InputController adminMenu = new(Control.DropAmmo, ModalitaServer.UNKNOWN, PadCheck.Keyboard, ControlModifier.Shift, new Action<Ped, object[]>(AdminMenu));
         private static InputController noclip = new(Control.ReplayStartStopRecordingSecondary, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(_NoClip));
         private static InputController teleport = new(Control.SaveReplayClip, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Teleport));
+        private static InputController camera = new(Control.ReplayStartStopRecording, ModalitaServer.UNKNOWN, PadCheck.Keyboard, action: new Action<Ped, object[]>(Telecamera));
+        private static Camera noClipCamera;
+        private static Vector3 cameraPosition;
+        private static float zoom = 75f;
+        private static float Height = 0;
+
         public static void Init()
         {
             //Client.Instance.AddTick(AC);
@@ -19,6 +25,7 @@ namespace TheLastPlanet.Client.AdminAC
             InputHandler.AddInput(adminMenu);
             InputHandler.AddInput(noclip);
             InputHandler.AddInput(teleport);
+            InputHandler.AddInput(camera);
         }
 
         public static void Stop()
@@ -26,6 +33,7 @@ namespace TheLastPlanet.Client.AdminAC
             InputHandler.RemoveInput(adminMenu);
             InputHandler.RemoveInput(noclip);
             InputHandler.RemoveInput(teleport);
+            InputHandler.RemoveInput(camera);
         }
 
         private static void AdminMenu(Ped p, object[] args)
@@ -206,6 +214,221 @@ namespace TheLastPlanet.Client.AdminAC
             if (Input.IsControlPressed(Control.MoveRightOnly)) curHeading -= rotationSpeed;
             target.Position = curLocation;
             target.Heading = curHeading - rotationSpeed;
+        }
+
+        private static async void Telecamera(Ped p, object[] args)
+        {
+            if (Cache.PlayerCache.MyPlayer.User == null || (int)Cache.PlayerCache.MyPlayer.User.group_level < 4) return;
+
+            if (!NoClip)
+            {
+                noClipCamera = World.CreateCamera(PlayerCache.MyPlayer.Ped.Bones[Bone.SKEL_Head].Position, PlayerCache.MyPlayer.Ped.Rotation, GameplayCamera.FieldOfView);
+                curLocation = PlayerCache.MyPlayer.Posizione.ToVector3;
+                cameraPosition = curLocation;
+                curRotation = p.Rotation;
+                curHeading = PlayerCache.MyPlayer.Posizione.Heading;
+                zoom = GameplayCamera.FieldOfView;
+                p.Rotation = new Vector3(0);
+                Client.Instance.AddTick(NoClipCamera);
+                NoClip = true;
+                List<InstructionalButton> istr = new()
+                {
+                    new InstructionalButton(Control.FrontendLt, "Sali"),
+                    new InstructionalButton(Control.FrontendRt, "Scendi"),
+                    new InstructionalButton(Control.FrontendLb, "Zoom+"),
+                    new InstructionalButton(Control.FrontendRb, "Zoom-"),
+                    new InstructionalButton(Control.MoveLeftRight, "Ruota Dx / Sx"),
+                    new InstructionalButton(Control.MoveUpDown, "Muovi avanti / indietro"),
+                    new InstructionalButton(Control.FrontendX, "Cambia velocità"),
+                    new InstructionalButton(Control.NextCamera, "Save Camera")
+                };
+                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = true;
+                ScaleformUI.ScaleformUI.InstructionalButtons.SetInstructionalButtons(istr);
+                RenderScriptCams(true, true, 2000, true, false);
+            }
+            else
+            {
+                ScaleformUI.ScaleformUI.InstructionalButtons.Enabled = false;
+                Client.Instance.RemoveTick(NoClipCamera);
+                RenderScriptCams(false, true, 2000, true, false);
+                noClipCamera = null;
+
+                while (p.IsInvincible)
+                {
+                    p.IsInvincible = false;
+                    await BaseScript.Delay(0);
+                }
+
+                if (!PlayerCache.MyPlayer.Status.PlayerStates.InVeicolo)
+                {
+                    ClearPedTasksImmediately(PlayerPedId());
+                    SetUserRadioControlEnabled(true);
+                    p.IsInvincible = false;
+                }
+                else
+                {
+                    SetUserRadioControlEnabled(true);
+                    p.IsInvincible = false;
+                    Vehicle veh = p.CurrentVehicle;
+                    veh.IsInvincible = false;
+                }
+
+                ClearAllHelpMessages();
+                NoClip = false;
+            }
+        }
+
+        static float forwardPush = 0.8f;
+
+        private static async Task NoClipCamera()
+        {
+            Game.DisableAllControlsThisFrame(0);
+            Game.DisableAllControlsThisFrame(1);
+            Game.DisableAllControlsThisFrame(2);
+            HUD.ShowHelp("Velocità attuale: ~y~" + travelSpeedStr + "~w~.");
+            const float rotationSpeed = 2.5f;
+            float fVar0 = GetDisabledControlNormal(2, 218) * forwardPush;
+            float fVar1 = GetDisabledControlNormal(2, 219) * forwardPush;
+            float fVar2 = GetDisabledControlNormal(2, 220);
+            float fVar3 = GetDisabledControlNormal(2, 221);
+            float ltNorm = GetDisabledControlNormal(2, 252);
+            float rtNorm = GetDisabledControlNormal(2, 253);
+            float zoomingWheel = 0f;
+            if (!IsLookInverted())
+            {
+                fVar1 = -fVar1;
+                fVar3 = -fVar3;
+            }
+            if (!IsInputDisabled(2))
+            {
+                N_0xc8b5c4a79cc18b94(noClipCamera.Handle);
+            }
+            else if (Input.IsDisabledControlPressed(Control.CreatorLT) || Input.IsDisabledControlPressed(Control.CreatorRT))
+            {
+                N_0xc8b5c4a79cc18b94(noClipCamera.Handle);
+            }
+            if (IsInputDisabled(2))
+            {
+                fVar2 = GetDisabledControlUnboundNormal(2, 1) * 2;
+                fVar3 = GetDisabledControlUnboundNormal(2, 2) * -1 * 2;
+                if (GetDisabledControlNormal(2, 241) > 0.25f)
+                    zoomingWheel = 3f;
+                if (GetDisabledControlNormal(2, 242) > 0.25f)
+                    zoomingWheel = -3f;
+            }
+
+            float xVectFwd = -fVar1 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
+            float yVectFwd = fVar1 * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
+            float xVectLat = fVar0 * (float)Math.Cos(Funzioni.Deg2rad(curRotation.Z));
+            float yVectLat = fVar0 * (float)Math.Sin(Funzioni.Deg2rad(curRotation.Z));
+
+
+            cameraPosition.X += xVectFwd + xVectLat;
+            cameraPosition.Y += yVectFwd + yVectLat;
+            curRotation = new(fVar3 + noClipCamera.Rotation.X, 0, -fVar2 + noClipCamera.Rotation.Z);
+
+            curLocation = new((cameraPosition + zoom * noClipCamera.CamForwardVector()).X, (cameraPosition + zoom * noClipCamera.CamForwardVector()).Y, Height);
+
+            if (ltNorm > 0 || rtNorm > 0 || zoomingWheel != 0)
+            {
+                zoom += rtNorm;
+                zoom -= ltNorm;
+                zoom += zoomingWheel;
+                if (zoom >= 130f)
+                    zoom = 130f;
+                if (zoom <= 16f)
+                    zoom = 16f;
+                noClipCamera.FieldOfView = zoom;
+            }
+
+            if (IsDisabledControlPressed(2, func_7450()))
+            {
+                cameraPosition.Z += 1f * forwardPush;
+                Height += 1f * forwardPush;
+            }
+            if (IsDisabledControlPressed(2, func_7449()))
+            {
+                cameraPosition.Z -= 1f * forwardPush;
+                Height -= 1f * forwardPush;
+            }
+
+
+            switch (travelSpeed)
+            {
+                case 0:
+                    forwardPush = 0.1f; //medium
+                    travelSpeedStr = "Media";
+
+                    break;
+                case 1:
+                    forwardPush = 0.2f; //fast
+                    travelSpeedStr = "Veloce";
+
+                    break;
+                case 2:
+                    forwardPush = 0.4f; //very fast
+                    travelSpeedStr = "Molto veloce";
+
+                    break;
+                case 3:
+                    forwardPush = 0.8f; //extremely fast
+                    travelSpeedStr = "Estremamente veloce";
+
+                    break;
+                case 6:
+                    forwardPush = 0.02f; //very slow
+                    travelSpeedStr = "Estremamente lenta";
+
+                    break;
+                case 5:
+                    forwardPush = 0.05f; //very slow
+                    travelSpeedStr = "Molto lenta";
+
+                    break;
+                case 4:
+                    forwardPush = 0.08f; //slow
+                    travelSpeedStr = "Lenta";
+
+                    break;
+            }
+
+            if (Input.IsControlJustPressed(Control.FrontendX))
+            {
+                travelSpeed++;
+                if (travelSpeed > 6) travelSpeed = 0;
+            }
+
+            if (Input.IsDisabledControlPressed(Control.FrontendLt)) zoom -= 1f;
+            if (Input.IsDisabledControlPressed(Control.FrontendRt)) zoom += 1f;
+            if (Input.IsControlJustPressed(Control.NextCamera)) Client.Logger.Debug(noClipCamera.ToJson());
+
+
+            float z = 0;
+            GetGroundZFor_3dCoord(curLocation.X, curLocation.Y, Height + 300, ref z, false);
+            if (Height <= z + 0.3f)
+                Height = z + 0.3f;
+
+            noClipCamera.Position = cameraPosition;
+            noClipCamera.Rotation = curRotation;
+            noClipCamera.FieldOfView = zoom;
+
+            HUD.DrawText(0.4f, 0.825f, $"~o~Posizione~w~: {cameraPosition}");
+            HUD.DrawText(0.4f, 0.85f, $"Rotazione: {curRotation}");
+            HUD.DrawText(0.4f, 0.80f, $"Fov = {zoom}");
+        }
+
+        private static int func_7449()
+        {
+            if (IsInputDisabled(2))
+                return 251;
+            return 206;
+        }
+
+        private static int func_7450()
+        {
+            if (IsInputDisabled(2))
+                return 250;
+            return 205;
         }
 
         private static async void TeleportToMarker()

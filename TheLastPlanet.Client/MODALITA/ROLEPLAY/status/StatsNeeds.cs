@@ -344,7 +344,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             if (stanchezza.Val >= 80.0f)
                 if (Game.GameTime - _svieniTimer > 600000)
                 {
-                    if (Funzioni.GetRandomInt(100) > 85)
+                    if (SharedMath.GetRandomInt(100) > 85)
                     {
                         if (playerPed.IsWalking)
                         {

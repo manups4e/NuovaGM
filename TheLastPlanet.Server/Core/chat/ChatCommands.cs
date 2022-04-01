@@ -136,7 +136,7 @@ namespace TheLastPlanet.Server.Core
         {
             string bytes = GetResourceKvpString($"freeroam:player_{sender.User.Identifiers.Discord}:char_model");
             DeleteResourceKvpNoSync($"freeroam:player_{sender.User.Identifiers.Discord}:char_model");
-            Server.Logger.Warning($"{bytes.ToBytes().Length} bytes cancellati con successo");
+            Server.Logger.Warning($"{bytes.StringToBytes().Length} bytes cancellati con successo");
         }
 
         // GESTIONE CHAT
@@ -478,7 +478,7 @@ namespace TheLastPlanet.Server.Core
 
         public static void Teleport(ClientId sender, List<string> args, string rawCommand)
         {
-            if (float.TryParse(args[0], out float x) && float.TryParse(args[1], out float y) && float.TryParse(args[2], out float z))
+            if (float.TryParse(args[0].Replace("f", "").Replace(",", ""), out float x) && float.TryParse(args[1].Replace("f", "").Replace(",", ""), out float y) && float.TryParse(args[2].Replace("f", ""), out float z))
                 sender.TriggerSubsystemEvent("lprp:teleportCoords", new Position(x, y, z));
             else
                 sender.Player.TriggerEvent("chat:addMessage", new { args = new[] { "[COMANDO tp] = ", "Errore coordinate non valide, riprova!" }, color = new[] { 255, 0, 0 } });

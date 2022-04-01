@@ -5,7 +5,7 @@ namespace TheLastPlanet.Client.TimeWeather
 {
     internal static class MeteoClient
     {
-        public static ServerWeather Meteo { get; set; }
+        public static SharedWeather Meteo { get; set; }
         public static int OldWeather;
         public static bool Transitioning = false;
         private static float _windCostantDirectRad = 51.4285714286f;
@@ -13,7 +13,7 @@ namespace TheLastPlanet.Client.TimeWeather
 
         public static void Init()
         {
-            Client.Instance.Events.Mount("tlg:getMeteo", new Action<ServerWeather>(SetMeteo));
+            Client.Instance.Events.Mount("tlg:getMeteo", new Action<SharedWeather>(SetMeteo));
             Client.Instance.StateBagsHandler.OnWeatherChange += SetMeteo;
         }
 
@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.TimeWeather
             SetBlackout(black);
         }
 
-        public static async void SetMeteo(ServerWeather meteo)
+        public static async void SetMeteo(SharedWeather meteo)
         {
             if (Meteo != meteo)
             {

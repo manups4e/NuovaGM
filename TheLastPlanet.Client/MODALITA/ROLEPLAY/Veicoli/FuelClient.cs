@@ -634,7 +634,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                                 if (Input.IsControlJustPressed(Control.Context))
                                 {
                                     canRegisterForTanker = false;
-                                    curRegPickup = Funzioni.GetRandomInt(1, tankerSpots.Count);
+                                    curRegPickup = SharedMath.GetRandomInt(1, tankerSpots.Count);
                                     SetNewWaypoint(tankerSpots[curRegPickup].pos.X, tankerSpots[curRegPickup].pos.Y);
 
                                     if (pickupBlip.Count > 0)

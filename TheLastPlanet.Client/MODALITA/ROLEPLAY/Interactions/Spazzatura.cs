@@ -109,17 +109,17 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
                     TaskGoStraightToCoord(PlayerPedId(), offset.X, offset.Y, offset.Z + 1, 1f, 20000, BinClosest.Heading, 0.1f);
                     TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_BUM_BIN", 0, true);
                     await BaseScript.Delay(5000);
-                    int random = Funzioni.GetRandomInt(0, 100);
+                    int random = SharedMath.GetRandomInt(0, 100);
 
                     switch (random)
                     {
                         case int n when n < 16:
                             HUD.ShowNotification("Qualcuno ha gettato via dei soldi!!");
-                            BaseScript.TriggerServerEvent("lprp:givemoney", Funzioni.GetRandomInt(10, 50));
+                            BaseScript.TriggerServerEvent("lprp:givemoney", SharedMath.GetRandomInt(10, 50));
 
                             break;
                         case int n when n > 15 && n < 41:
-                            int rd = Funzioni.GetRandomInt(1, 2);
+                            int rd = SharedMath.GetRandomInt(1, 2);
 
                             switch (rd)
                             {

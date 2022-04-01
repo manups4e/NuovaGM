@@ -18,7 +18,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
                 RequestModel((uint)PedHash.FreemodeMale01);
                 RequestModel((uint)PedHash.FreemodeFemale01);
                 FreeRoamCreator.Init();
-                var sex = Funzioni.GetRandomInt(0, 100) > 50 ? "Maschio" : "Femmina";
+                var sex = SharedMath.GetRandomInt(0, 100) > 50 ? "Maschio" : "Femmina";
                 await FreeRoamCreator.CharCreationMenu(sex);
                 return;
             }

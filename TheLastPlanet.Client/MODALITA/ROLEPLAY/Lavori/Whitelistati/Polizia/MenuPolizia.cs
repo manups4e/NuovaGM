@@ -555,9 +555,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetVehicleFuelLevel(100f);
                 Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.IsDriveable = true;
-                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
+                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "POL" + SharedMath.GetRandomInt(999);
                 if (Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash == 353883353) SetVehicleLivery(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle, 0);
-                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+                Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
                 VeicoloPol veh = new VeicoloPol(Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Mods.LicensePlate, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Model.Hash, Cache.PlayerCache.MyPlayer.Ped.CurrentVehicle.Handle);
                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
                 HUD.MenuPool.CloseAllMenus();
@@ -650,7 +650,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     veicoliParcheggio[i].IsDriveable = false;
                     veicoliParcheggio[i].IsSirenActive = true;
                     veicoliParcheggio[i].IsSirenSilent = true;
-                    veicoliParcheggio[i].SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+                    veicoliParcheggio[i].SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
                 }
             else
                 await GarageConPiuVeicoli(Stazione.VeicoliAutorizzati, LivelloGarage);
@@ -679,7 +679,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                 veicoliParcheggio[i].IsDriveable = false;
                 veicoliParcheggio[i].IsSirenActive = true;
                 veicoliParcheggio[i].IsSirenSilent = true;
-                veicoliParcheggio[i].SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+                veicoliParcheggio[i].SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
             }
         }
 
@@ -738,8 +738,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                                 p.CurrentVehicle.SetVehicleFuelLevel(100f);
                                 p.CurrentVehicle.IsEngineRunning = true;
                                 p.CurrentVehicle.IsDriveable = true;
-                                p.CurrentVehicle.Mods.LicensePlate = Funzioni.GetRandomInt(99) + "POL" + Funzioni.GetRandomInt(999);
-                                p.CurrentVehicle.SetDecor("VeicoloPolizia", Funzioni.GetRandomInt(100));
+                                p.CurrentVehicle.Mods.LicensePlate = SharedMath.GetRandomInt(99) + "POL" + SharedMath.GetRandomInt(999);
+                                p.CurrentVehicle.SetDecor("VeicoloPolizia", SharedMath.GetRandomInt(100));
                                 VeicoloPol veh = new VeicoloPol(p.CurrentVehicle.Mods.LicensePlate, p.CurrentVehicle.Model.Hash, p.CurrentVehicle.Handle);
                                 BaseScript.TriggerServerEvent("lprp:polizia:AggiungiVehPolizia", veh.ToJson());
                                 InGarage = false;

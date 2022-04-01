@@ -12,15 +12,22 @@ namespace TheLastPlanet.Shared
 
         public string Name { get; set; }
         public bool Replicated { get; set; } = true;
+        private T _value;
         public T Value
         {
-            get => _player != null ? _player.GetState<T>(Name) : _entity.GetState<T>(Name);
+            get
+            {
+                _value = _player != null ? _player.GetState<T>(Name) : _entity.GetState<T>(Name);
+                if (_value == null) _value = default;
+                return _value;
+            }
             set
             {
                 if (_player != null)
                     _player.SetState(Name, value, true);
                 else
                     _entity.SetState(Name, value, Replicated);
+                _value = value;
             }
         }
 

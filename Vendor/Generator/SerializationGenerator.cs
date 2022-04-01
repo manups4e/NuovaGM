@@ -22,7 +22,7 @@ namespace TheLastPlanet.Events.Generator
 
             if (engine == null) return;
 
-            foreach (var item in engine.WorkItems)
+            foreach (var item in engine.WorkItems.ToList())
             {
                 var code = engine.Compile(item);
                 var identifier = $"{item.TypeSymbol.Name}";
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Events.Generator
                 {
                     Location location = null;
 
-                    foreach (var entry in problem.Locations)
+                    foreach (var entry in problem.Locations.ToList())
                     {
                         location = entry;
 

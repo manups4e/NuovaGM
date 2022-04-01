@@ -39,11 +39,11 @@ namespace TheLastPlanet.Server
 #else
 			SetConvarReplicated("DEBUG", "0");
 #endif
-            SnowflakeGenerator.Create(2);
+            SnowflakeGenerator.Create(new Random().NextShort(100,200));
             SetConvarServerInfo("sv_projectName", "^2THE ^0LAST ^1GALAXY.");
             SetConvarServerInfo("sv_projectDesc", "^5Un server per domarli, un server per trovarli, un server per ghermirli e nel videogioco incatenarli!");
             SetConvarServerInfo("locale", "it-IT");
-            SetConvarServerInfo("tags", "RolePlay, GTAO style");
+            SetConvarServerInfo("tags", "RolePlay, GTAO style, MultiMode");
             SetGameType("RolePlay");
             SetMapName("The Last Planet");
             StartServer();
@@ -52,10 +52,10 @@ namespace TheLastPlanet.Server
         private async void StartServer()
         {
             Events = new ServerGateway();
+            StateBagsHandler = new StateBagsHandler();
             WebRequest = new();
             await ClassCollector.Init();
         }
-
 
         /// <summary>
         /// registra un evento (TriggerEvent)

@@ -149,12 +149,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
             if (VeicoloDaRimuovere == null && VeicoloDaRimuovere.Exists())
             {
                 await BaseScript.Delay(10000);
-                puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
+                puntoDiSpawn = Rimozione.SpawnVeicoli[SharedMath.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
 
                 while (Funzioni.GetVehiclesInArea(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), 3f).ToList().FirstOrDefault(x => x.HasDecor("VeicoloRimozione")) != null)
                 {
                     await BaseScript.Delay(0);
-                    puntoDiSpawn = Rimozione.SpawnVeicoli[Funzioni.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
+                    puntoDiSpawn = Rimozione.SpawnVeicoli[SharedMath.GetRandomInt(Rimozione.SpawnVeicoli.Count - 1)];
                 }
 
                 // DEBUG
@@ -163,14 +163,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                 uint crossing = 0;
                 GetStreetNameAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z, ref streename, ref crossing);
                 string str = GetStreetNameFromHashKey(streename);
-                string veicolo = Rimozione.VeicoliDaRimorchiare[Funzioni.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
+                string veicolo = Rimozione.VeicoliDaRimorchiare[SharedMath.GetRandomInt(Rimozione.VeicoliDaRimorchiare.Count - 1)];
                 RequestCollisionAtCoord(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z);
                 HUD.ShowAdvancedNotification("Veicolo", "Da rimuovere", $"Veicolo da rimuovere in {str}", "CHAR_CALL911", IconType.DollarIcon);
                 BlipVeicoloDaRimuovere = World.CreateBlip(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z));
                 BlipVeicoloDaRimuovere.Sprite = BlipSprite.PersonalVehicleCar;
                 BlipVeicoloDaRimuovere.Color = BlipColor.Red;
                 BlipVeicoloDaRimuovere.Name = "Veicolo da Rimorchiare";
-                TempoRimozione = Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Cache.PlayerCache.MyPlayer.Posizione.ToVector3) < 1000 ? Funzioni.GetRandomInt(60, 120) : Funzioni.GetRandomInt(120, 240);
+                TempoRimozione = Vector3.Distance(new Vector3(puntoDiSpawn.X, puntoDiSpawn.Y, puntoDiSpawn.Z), Cache.PlayerCache.MyPlayer.Posizione.ToVector3) < 1000 ? SharedMath.GetRandomInt(60, 120) : SharedMath.GetRandomInt(120, 240);
                 HUD.TimerBarPool.Add(timerVeicolo);
                 Client.Instance.AddTick(TimerVeicolo);
 
@@ -214,7 +214,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
                     VeicoloDaRimuovere.CanTiresBurst = false;
                     SetEntityLoadCollisionFlag(VeicoloDaRimuovere.Handle, true);
                     VeicoloDaRimuovere.IsAxlesStrong = true;
-                    PuntoDiConsegna = World.CreateBlip(Rimozione.PuntiDespawn[Funzioni.GetRandomInt(Rimozione.PuntiDespawn.Count - 1)]);
+                    PuntoDiConsegna = World.CreateBlip(Rimozione.PuntiDespawn[SharedMath.GetRandomInt(Rimozione.PuntiDespawn.Count - 1)]);
                     PuntoDiConsegna.ShowRoute = true;
                 }
             }

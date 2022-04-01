@@ -13,7 +13,7 @@ namespace TheLastPlanet.Shared
     }
 
     [Serialization]
-    public partial class ServerWeather
+    public partial class SharedWeather
     {
         public int CurrentWeather { get; set; }
         public bool Blackout { get; set; } = false;
@@ -24,5 +24,7 @@ namespace TheLastPlanet.Shared
         public bool DynamicMeteo { get; set; } = true;
         public bool StartUp { get; set; } = false;
         public float WindSpeed { get; set; }
+
+        public SharedWeather() { }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using CitizenFX.Core.Native;
 using System;
+using System.Linq;
 
 namespace TheLastPlanet.Shared
 {
     public delegate void RoleplayStateBagChaged(int userId, string type, bool value);
     public delegate void PlayerStateBagChaged(int userId, string type, bool value);
     public delegate void InstanceBagChanged(int userId, InstanceBag value);
-    public delegate void EntityStateBagChaged(int entity, string type, bool value);
+    public delegate void EntityStateBagChaged(Entity entity, string type, bool value);
     public delegate void TimeChangedEvent(ServerTime value);
-    public delegate void WeatherChangedEvent(ServerWeather value);
+    public delegate void WeatherChangedEvent(SharedWeather value);
     public delegate void PassiveModeEvent(bool value);
 
     public class StateBagsHandler
@@ -24,12 +25,13 @@ namespace TheLastPlanet.Shared
         private readonly Logger.Log logger = new();
         public StateBagsHandler()
         {
-#if SERVER
-            //return;
-#endif
             AddStateBagChangeHandler("", "", new Action<string, string, dynamic, dynamic, bool>((bagName, key, value, _unused, replicated) =>
             {
+#if CLIENT
                 if (replicated) return;
+#elif SERVER    
+                if (!replicated) return;
+#endif
 
                 if (bagName == "global")
                 {
@@ -41,7 +43,7 @@ namespace TheLastPlanet.Shared
                             OnTimeChange?.Invoke(time);
                             break;
                         case "meteo":
-                            var meteo = (value as byte[]).FromBytes<ServerWeather>();
+                            var meteo = (value as byte[]).FromBytes<SharedWeather>();
                             OnWeatherChange?.Invoke(meteo);
                             break;
                     }
@@ -64,11 +66,6 @@ namespace TheLastPlanet.Shared
                                     switch (state)
                                     {
                                         case "ModPassiva":
-                                            {
-                                                bool res = (value as byte[]).FromBytes<bool>();
-                                                OnPassiveMode?.Invoke(res);
-                                            }
-                                            break;
                                         case "InPausa":
                                         case "InVeicolo":
                                         case "Spawned":

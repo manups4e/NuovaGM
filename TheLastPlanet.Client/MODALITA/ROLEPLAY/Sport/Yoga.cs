@@ -207,7 +207,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
                         HUD.ShowHelp(Game.GetGXTEntry("EXHALE_NEW"), 3000);
                         if (!IsControlPressed(2, 228) && !IsControlPressed(2, 229))
                         {
-                            int iVar1 = Funzioni.GetRandomInt(1, 6);
+                            int iVar1 = SharedMath.GetRandomInt(1, 6);
                             switch (iVar1)
                             {
                                 case 1:
@@ -253,7 +253,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
                         Vector3 rot = Cache.PlayerCache.MyPlayer.Ped.Rotation;
                         ClearSequenceTask(ref uVar0);
                         OpenSequenceTask(ref uVar0);
-                        switch (Funzioni.GetRandomInt(0, 3))
+                        switch (SharedMath.GetRandomInt(0, 3))
                         {
                             case 0:
                                 TaskPlayAnimAdvanced(0, "missfam5_yoga", "fail_to_start_a", coord.X, coord.Y, coord.Z, rot.X, rot.Y, rot.Z, 1000f, -4f, -1, 528384, 0f, 2, 1);
