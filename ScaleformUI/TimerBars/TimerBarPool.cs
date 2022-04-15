@@ -29,7 +29,7 @@ namespace ScaleformUI
 
         public void Draw()
         {
-            var off = ScaleformUI.InstructionalButtons.Enabled || ScaleformUI.InstructionalButtons.LoadingPromptActive ? 9 : 0;
+            var off = ScaleformUI.InstructionalButtons.Enabled || ScaleformUI.InstructionalButtons.IsSaving ? 9 : 0;
             for (int i = 0; i < _bars.Count; i++)
             {
                 _bars[i].Draw((i * 10)+off);

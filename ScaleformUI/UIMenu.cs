@@ -1229,8 +1229,15 @@ namespace ScaleformUI
         {
             int selectedItem = CurrentSelection;
             MenuItems.RemoveAt(index);
+            if (Visible) ScaleformUI._ui.CallFunction("REMOVE_ITEM", index);
             CurrentSelection = selectedItem;
         }
+
+        public void RemoveItem(UIMenuItem item)
+        {
+            RemoveItemAt(MenuItems.IndexOf(item));
+        }
+
 
         /// <summary>
         /// Reset the current selected item to 0. Use this after you add or remove items dynamically.
@@ -1468,6 +1475,8 @@ namespace ScaleformUI
         {
             if (!Visible || ScaleformUI.Warning.IsShowing) return;
             while (!ScaleformUI._ui.IsLoaded) await BaseScript.Delay(0);
+
+            HideHudComponentThisFrame(19);
 
             if (ControlDisablingEnabled)
                 Controls.Toggle(false);
@@ -1987,6 +1996,7 @@ namespace ScaleformUI
                     _poolcontainer.MenuChangeEv(null, this, MenuState.Opened);
                     MenuChangeEv(null, this, MenuState.Opened);
                     BuildUpMenu();
+                    _poolcontainer.currentMenu = this;
                 }
                 else
                 {
@@ -2320,7 +2330,7 @@ namespace ScaleformUI
             OnStatsItemChanged?.Invoke(this, item, value);
         }
 
-        protected virtual void MenuChangeEv(UIMenu oldmenu, UIMenu newmenu, MenuState state)
+        internal virtual void MenuChangeEv(UIMenu oldmenu, UIMenu newmenu, MenuState state)
         {
             OnMenuStateChanged?.Invoke(oldmenu, newmenu, state);
         }

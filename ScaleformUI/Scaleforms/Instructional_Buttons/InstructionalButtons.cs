@@ -53,7 +53,7 @@ namespace ScaleformUI
         INPUTGROUP_VEH_HYDRAULICS_CONTROL = 31,
 	};
 
-    public delegate void OnInstructionControlSelected(Control control);
+    public delegate void OnInstructionControlSelected(InstructionalButton control);
     public class InstructionalButton
     {
         public event OnInstructionControlSelected OnControlSelected;
@@ -78,6 +78,8 @@ namespace ScaleformUI
         /// <param name="padFilter">Filter to show only with GamePad or Keyoboard (default both).</param>
         public InstructionalButton(Control control, string text, PadCheck padFilter = PadCheck.Any)
         {
+            Text = text;
+            PadCheck = padFilter;
             if (padFilter == PadCheck.Controller)
                 GamepadButton = control;
             else if (padFilter == PadCheck.Keyboard)
@@ -87,8 +89,6 @@ namespace ScaleformUI
                 GamepadButton = control;
                 KeyboardButton = control;
             }
-            Text = text;
-            PadCheck = padFilter;
         }
 
         /// <summary>
@@ -140,6 +140,12 @@ namespace ScaleformUI
             PadCheck = PadCheck.Any;
         }
 
+        /// <summary>
+        /// Add an InstructionalButton using the InputGroup to handle all the buttons needed automatically
+        /// </summary>
+        /// <param name="control">The InputGroup</param>
+        /// <param name="text">Help text that goes with the button.</param>
+        /// <param name="padFilter">Filter to show only with GamePad or Keyoboard (default both).</param>
         public InstructionalButton(InputGroup control, string text, PadCheck padFilter = PadCheck.Any)
 		{
             InputButton = control;
@@ -188,7 +194,7 @@ namespace ScaleformUI
             return IsUsingController ? API.GetControlInstructionalButton(2, (int)GamepadButton, 1) : API.GetControlInstructionalButton(2, (int)KeyboardButton, 1);
         }
 
-        public void InvokeEvent(Control control)
+        public void InvokeEvent(InstructionalButton control)
         {
             OnControlSelected?.Invoke(control);
         }
@@ -234,9 +240,11 @@ namespace ScaleformUI
         /// <summary>
         /// Returns true if the Saving button is showing
         /// </summary>
-        public bool LoadingPromptActive => _isSaving;
+        public bool IsSaving => _isSaving;
 
         public List<InstructionalButton> ControlButtons { get; private set; }
+        private List<InstructionalButton> keyboardButtons = new();
+        private List<InstructionalButton> gamepadButtons = new();
 
         internal async void Load()
         {
@@ -318,7 +326,7 @@ namespace ScaleformUI
         /// <param name="spinnerType">The type of Spinner to show</param>
         /// <param name="text">The text of the Button</param>
         /// <param name="time">Duration of the Button</param>
-        public async void AddLoadingPrompt(LoadingSpinnerType spinnerType, string text, int time)
+        public async void AddSavingText(LoadingSpinnerType spinnerType, string text, int time)
         {
             _isSaving = true;
             _changed = true;
@@ -334,7 +342,7 @@ namespace ScaleformUI
         /// </summary>
         /// <param name="spinnerType">The type of Spinner to show</param>
         /// <param name="text">The text of the Button</param>
-        public void AddLoadingPrompt(LoadingSpinnerType spinnerType, string text)
+        public void AddSavingText(LoadingSpinnerType spinnerType, string text)
         {
             _isSaving = true;
             _changed = true;
@@ -342,7 +350,7 @@ namespace ScaleformUI
             Screen.LoadingPrompt.Show(text, spinnerType);
         }
 
-        public void HideLoadingPrompt()
+        public void HideSavingText()
         {
             if (_isSaving)
             {
@@ -351,10 +359,12 @@ namespace ScaleformUI
             }
         }
 
-
         internal void UpdateButtons()
         {
             if (!_changed) return;
+            keyboardButtons.Clear();
+            gamepadButtons.Clear();
+
             _sc.CallFunction("SET_DATA_SLOT_EMPTY");
             _sc.CallFunction("TOGGLE_MOUSE_BUTTONS", _useMouseButtons);
             int count = 0;
@@ -364,7 +374,8 @@ namespace ScaleformUI
                 if (button.IsUsingController)
                 {
                     if (button.PadCheck == PadCheck.Keyboard) continue;
-                    if (ScaleformUI.Warning.IsShowing)
+                    gamepadButtons.Add(button);
+                    if (ScaleformUI.Warning.IsShowing || ScaleformUI.Warning.IsShowingWithButtons)
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
                     else
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
@@ -372,11 +383,12 @@ namespace ScaleformUI
                 else
                 {
                     if (button.PadCheck == PadCheck.Controller) continue;
+                    keyboardButtons.Add(button);
                     if (_useMouseButtons)
                         _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 1, (int)button.KeyboardButton);
                     else
                     {
-                        if (ScaleformUI.Warning.IsShowing)
+                        if (ScaleformUI.Warning.IsShowing || ScaleformUI.Warning.IsShowingWithButtons)
                             _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text, 0, -1);
                         else
                             _sc.CallFunction("SET_DATA_SLOT", count, button.GetButtonId(), button.Text);
@@ -430,14 +442,17 @@ namespace ScaleformUI
 
             UpdateButtons();
 
-            if (!ScaleformUI.Warning.IsShowing) Draw();
+            if (!ScaleformUI.Warning.IsShowing || ScaleformUI.Warning.IsShowingWithButtons) Draw();
 
-            foreach (InstructionalButton button in ControlButtons.Where(x => x.InputButton != InputGroup.UNUSED))
+            foreach (InstructionalButton button in keyboardButtons)
+            {
+                if (IsControlJustPressed(button.KeyboardButton, button.PadCheck) || (button.KeyboardButtons != null && button.KeyboardButtons.Any(x => IsControlJustPressed(x, button.PadCheck))))
+                    button.InvokeEvent(button);
+            }
+            foreach (InstructionalButton button in gamepadButtons)
             {
                 if (IsControlJustPressed(button.GamepadButton, button.PadCheck) || (button.GamepadButtons != null && button.GamepadButtons.Any(x => IsControlJustPressed(x, button.PadCheck))))
-                    button.InvokeEvent(button.GamepadButton);
-                else if (IsControlJustPressed(button.KeyboardButton, button.PadCheck) || (button.KeyboardButtons != null && button.KeyboardButtons.Any(x => IsControlJustPressed(x, button.PadCheck))))
-                    button.InvokeEvent(button.KeyboardButton);
+                    button.InvokeEvent(button);
             }
             if (_useMouseButtons) Screen.Hud.ShowCursorThisFrame();
             Screen.Hud.HideComponentThisFrame(HudComponent.VehicleName);
@@ -445,6 +460,6 @@ namespace ScaleformUI
             Screen.Hud.HideComponentThisFrame(HudComponent.StreetName);
         }
 
-        public static bool IsControlJustPressed(Control control, PadCheck keyboardOnly = PadCheck.Any) => Game.IsControlJustPressed(0, control) && (keyboardOnly == PadCheck.Keyboard ? !API.IsUsingKeyboard(2) : keyboardOnly == PadCheck.Controller ? API.IsUsingKeyboard(2) : true);
+        public static bool IsControlJustPressed(Control control, PadCheck keyboardOnly = PadCheck.Any) => Game.IsControlJustPressed(2, control) && (keyboardOnly == PadCheck.Keyboard ? API.IsUsingKeyboard(2) : keyboardOnly != PadCheck.Controller || !API.IsUsingKeyboard(2));
 	}
 }
