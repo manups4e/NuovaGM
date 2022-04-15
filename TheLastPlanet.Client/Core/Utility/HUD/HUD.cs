@@ -137,6 +137,23 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
             }
         }
 
+        public static void ShowHelpLabel(string label)
+        {
+            if (!IsPlayerSwitchInProgress() && !MenuPool.IsAnyMenuOpen && !LogIn.GuiEnabled)
+            {
+                DisplayHelpTextThisFrame(label, false);
+            }
+        }
+
+        public static void ShowHelpLabelNoMenu(string label)
+        {
+            if (!IsPlayerSwitchInProgress() && !LogIn.GuiEnabled)
+            {
+                DisplayHelpTextThisFrame(label, false);
+            }
+        }
+
+
         /// <summary>
         /// Il testo che viene mostrato in alto a destra dello schermo
         /// </summary>
