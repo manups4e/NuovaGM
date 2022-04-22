@@ -75,15 +75,15 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             await BaseScript.Delay(600000); // 600000
             Client.Instance.Events.Send("tlg:freeroam:SaveMe");
-            if (!ScaleformUI.ScaleformUI.InstructionalButtons.LoadingPromptActive)
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddLoadingPrompt(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
+            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
+                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
 
         }
 
         public static void ShowDialog(int type, string txt, int time)
         {
-            if (!ScaleformUI.ScaleformUI.InstructionalButtons.LoadingPromptActive)
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddLoadingPrompt((LoadingSpinnerType)type, txt, time);
+            if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
+                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText((LoadingSpinnerType)type, txt, time);
         }
 
         private static async Task OnWaitTick()
@@ -255,7 +255,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             DownTime = seconds;
 
-            if (DownTime > 0 && DownTime < 60) { ScaleformUI.ScaleformUI.InstructionalButtons.AddLoadingPrompt(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento"); }
+            if (DownTime > 0 && DownTime < 60) { ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento"); }
         }
 
 
@@ -269,7 +269,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
             if (DownTime > 0 && DownTime < 60)
             {
-                ScaleformUI.ScaleformUI.InstructionalButtons.AddLoadingPrompt(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento");
+                ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.Clockwise1, "Preparazione prossimo evento");
                 return;
             }
 

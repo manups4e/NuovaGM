@@ -10,6 +10,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         {
             GestisciInteriors();
             Client.Instance.StateBagsHandler.OnPassiveMode += PassiveMode;
+            SetAmbientPedsDropMoney(true);
         }
 
         private static void GestisciInteriors()

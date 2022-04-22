@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace TheLastPlanet.Client
 {
-    [Flags]
     public enum PadCheck
     {
         Any = 0,

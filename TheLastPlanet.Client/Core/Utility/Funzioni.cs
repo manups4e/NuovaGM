@@ -1041,10 +1041,8 @@ namespace TheLastPlanet.Client.Core.Utility
 
         private static Vector3 PolarSphereToWorld3D(Vector3 center, float radius, float polarAngleDeg, float azimuthAngleDeg)
         {
-            // CONVERT THE ANGLE FROM DEG TO RAD
             var polarAngleRad = polarAngleDeg * (Math.PI / 180.0f);
             var azimuthAngleRad = azimuthAngleDeg * (Math.PI / 180.0f);
-            // RETURN THE TRANSFORMATION
             return new Vector3(
                 center.X + radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Cos(polarAngleRad)),
                 center.Y - radius * ((float)Math.Sin(azimuthAngleRad) * (float)Math.Sin(polarAngleRad)),

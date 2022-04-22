@@ -41,7 +41,7 @@ namespace TheLastPlanet.Client.ListaPlayers
             {
                 ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Clear();
                 var num = await Client.Instance.Events.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
-                List<PlayerSlot> list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
+                var list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
                 {
                     if (BankingClient.InterfacciaAperta)

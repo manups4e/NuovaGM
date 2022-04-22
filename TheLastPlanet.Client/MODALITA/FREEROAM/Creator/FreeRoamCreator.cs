@@ -3545,7 +3545,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 3;
                         textures[4] = 11;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET001"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET001"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
@@ -3625,7 +3625,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB8_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB8_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -3637,7 +3637,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 3;
                         textures[4] = 7;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET011"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET011"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
@@ -3672,7 +3672,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB5_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB5_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -3684,7 +3684,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 2;
                         textures[4] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET006"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET006"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 2;
@@ -3728,7 +3728,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR4"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 2;
@@ -3757,7 +3757,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 5;
                         components[6] = 1;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -3766,7 +3766,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB0_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -3804,7 +3804,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 9;
                         components[6] = 12;
                         textures[6] = 12;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -3834,7 +3834,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_LTS_F_JBIB_1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_LTS_F_JBIB_1_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -3880,7 +3880,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB1_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -3897,7 +3897,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 1;
                         components[6] = 6;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -3943,7 +3943,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 4;
                         components[6] = 12;
                         textures[6] = 4;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -3961,7 +3961,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 11;
@@ -3990,7 +3990,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 12;
                         components[6] = 12;
                         textures[6] = 12;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 5;
@@ -4081,7 +4081,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 15;
                         components[6] = 7;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -4111,7 +4111,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB1_1"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4145,10 +4145,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_LTS_F_LEGS_0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_LTS_F_LEGS_0_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_PILOT_F_FEET_0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_PILOT_F_FEET_0_0"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 5;
@@ -4171,21 +4171,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_LEGS0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_LEGS0_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
                         components[7] = 12;
                         textures[7] = 2;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_ACCS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_ACCS0_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_JBIB2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_JBIB2_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4197,10 +4197,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 8;
                         textures[4] = 4;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH0_3"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 13;
@@ -4209,7 +4209,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB4_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB4_8"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4224,10 +4224,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 4;
                         textures[4] = 2;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_5"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 4;
@@ -4236,7 +4236,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB1_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4272,10 +4272,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 4;
                         textures[4] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_7"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 4;
@@ -4284,7 +4284,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB1_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4294,10 +4294,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_2"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 7;
@@ -4308,7 +4308,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_9"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4321,21 +4321,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_ACCS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_ACCS1_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_JBIB0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_JBIB0_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4347,19 +4347,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 8;
                         textures[4] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_4"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 6;
                         textures[7] = 1;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS0_1"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_6"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4372,10 +4372,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 6;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
@@ -4419,21 +4419,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_LEGS0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_LEGS0_5"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_ACCS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_ACCS1_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_JBIB0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_JBIB0_5"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4443,7 +4443,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 6;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS1_8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 0;
@@ -4456,7 +4456,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB1_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB1_9"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4494,7 +4494,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 12;
                         components[6] = 8;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 5;
@@ -4515,22 +4515,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_TEETH1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_TEETH1_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_ACCS4_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_ACCS4_1"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_JBIB1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_JBIB1_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4564,10 +4564,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_3"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET0_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET0_7"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 11;
@@ -4578,7 +4578,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB9_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB9_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4588,23 +4588,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_6"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_FEET1_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_FEET1_5"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_TEETH0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_TEETH0_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_ACCS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_ACCS1_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB0_6"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4617,22 +4617,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 1;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_11"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET0_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_ACCS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_ACCS1_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4666,7 +4666,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS1_4"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 1;
@@ -4679,7 +4679,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_VAL_M_JBIB2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_VAL_M_JBIB2_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4689,23 +4689,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_10"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_FEET1_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_FEET1_10"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_TEETH0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_TEETH0_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUS2_F_ACCS0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUS2_F_ACCS0_1"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB0_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4718,22 +4718,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 1;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_7"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET1_6"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_ACCS6_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_ACCS6_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4767,13 +4767,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 8;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET0_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_TEETH0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_TEETH0_3"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -4782,7 +4782,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB5_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB5_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4792,21 +4792,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 6;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 3;
                         textures[6] = 10;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_ACCS1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_ACCS1_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB3_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB3_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4819,22 +4819,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 1;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_6"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET0_0"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_ACCS1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_ACCS1_1"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4844,23 +4844,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_11"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_FEET1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_FEET1_4"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_TEETH0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_TEETH0_3"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_ACCS1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_ACCS1_6"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB4_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB4_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4873,7 +4873,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 7;
@@ -4886,7 +4886,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB11_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB11_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4896,22 +4896,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_7"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_1"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 4;
                         textures[7] = 2;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_ACCS1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_ACCS1_1"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB0_6"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4924,22 +4924,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 14;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET0_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET0_11"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_VAL_M_ACCS2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_VAL_M_ACCS2_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_6"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4951,10 +4951,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 0;
                         textures[4] = 7;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_5"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -4963,7 +4963,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB2_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB2_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4978,7 +4978,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 15;
                         textures[4] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_FEET0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_FEET0_5"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
@@ -4989,7 +4989,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_JBIB1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_JBIB1_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -4999,10 +4999,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 15;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS0_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET009"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET009"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
@@ -5013,7 +5013,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_JBIB2_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_JBIB2_10"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5026,7 +5026,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR2_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 1;
@@ -5048,12 +5048,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 15;
                         textures[6] = 1;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_TEETH0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_TEETH0_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -5062,7 +5062,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_JBIB1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_JBIB1_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5075,10 +5075,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR0_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR0_7"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_FEET0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_FEET0_6"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
@@ -5089,7 +5089,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_JBIB1_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_JBIB1_5"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5099,13 +5099,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR107"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR107"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET008"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET008"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -5114,7 +5114,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB5_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB5_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5127,7 +5127,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 15;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR2_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR2_11"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 5;
@@ -5153,7 +5153,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 14;
                         components[6] = 3;
                         textures[6] = 13;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -5162,7 +5162,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_JBIB2_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_JBIB2_9"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5175,13 +5175,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR0_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_FEET0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_FEET0_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH1_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -5190,7 +5190,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_JBIB1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_JBIB1_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5224,10 +5224,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR2_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR2_3"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_FEET0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_FEET0_4"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
@@ -5247,10 +5247,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 15;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET001"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET001"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 9;
@@ -5261,7 +5261,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_JBIB2_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_JBIB2_6"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5274,12 +5274,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 15;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR0_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 1;
                         textures[6] = 7;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_TEETH0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_TEETH0_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -5297,10 +5297,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR104"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR104"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET007"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET007"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 3;
@@ -5325,7 +5325,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 6;
                         textures[4] = 10;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_FEET0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_FEET0_6"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
@@ -5336,7 +5336,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB11_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB11_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5346,23 +5346,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_LOWR10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_LOWR10"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_FEET003"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_FEET003"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH0_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_ACCS0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_ACCS0_4"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB0_5"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5375,23 +5375,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS0_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS0_5"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET1_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET1_10"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH0_12"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH0_12"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_ACCS3_13"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_ACCS3_13"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB1_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB1_5"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5401,7 +5401,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS0_4"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 0;
@@ -5414,7 +5414,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5427,21 +5427,21 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_LEGS1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_LEGS1_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_ACCS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_ACCS1_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI2_M_JBIB2_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI2_M_JBIB2_1"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5451,13 +5451,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS1_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS1_4"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_0"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_TEETH0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_TEETH0_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 2;
@@ -5466,7 +5466,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB3_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB3_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5479,13 +5479,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS0_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS0_7"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_2"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_10"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 6;
@@ -5494,7 +5494,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB2_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5504,22 +5504,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS0_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
                         textures[7] = 1;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS2_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS2_5"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5536,7 +5536,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 0;
                         components[6] = 10;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 4;
@@ -5545,7 +5545,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB5_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB5_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5561,7 +5561,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[6] = 0;
                         components[7] = 6;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS0_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
@@ -5584,7 +5584,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 0;
                         components[6] = 11;
                         textures[6] = 12;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH0_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH0_11"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -5593,7 +5593,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB3_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB3_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5605,19 +5605,19 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 7;
                         textures[4] = 2;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_9"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
                         textures[7] = 1;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS1_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB4_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB4_10"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5630,10 +5630,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS1_8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 12;
@@ -5644,7 +5644,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB0_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5656,12 +5656,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 6;
                         textures[4] = 2;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_7"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 6;
                         textures[7] = 4;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS2_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS2_9"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
@@ -5684,7 +5684,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[4] = 2;
                         components[6] = 10;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_14"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_14"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 4;
@@ -5693,7 +5693,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB5_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB5_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5705,7 +5705,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 7;
                         textures[4] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_0"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 6;
@@ -5716,7 +5716,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB1_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5729,13 +5729,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS1_8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET1_6"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_13"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_13"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 6;
@@ -5744,7 +5744,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB2_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB2_9"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5754,13 +5754,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS0_4"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_TEETH0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_TEETH0_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 2;
@@ -5769,7 +5769,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB3_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB3_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -5929,7 +5929,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB5_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB5_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6014,7 +6014,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[6] = 15;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_ACCS4_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_ACCS4_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
@@ -6054,7 +6054,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_M_LOWR2_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_M_LOWR2_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 9;
@@ -6067,7 +6067,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB6_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB6_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6146,10 +6146,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 11;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_9"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET1_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 11;
@@ -6160,7 +6160,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB7_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB7_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6170,22 +6170,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS1_0"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_9"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 6;
                         textures[7] = 1;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_ACCS0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_ACCS0_3"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_10"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6198,13 +6198,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS2_2"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET1_14"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET1_14"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_TEETH0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_TEETH0_4"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 15;
@@ -6213,7 +6213,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB0_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB0_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6223,7 +6223,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_5"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 8;
@@ -6248,13 +6248,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS0_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS0_11"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_6"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_4"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 4;
@@ -6263,7 +6263,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB1_0"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6273,23 +6273,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_13"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_13"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_FEET1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_FEET1_3"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_TEETH0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_TEETH0_2"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_ACCS1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_ACCS1_8"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB4_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB4_1"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6302,7 +6302,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 0;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS1_6"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 12;
@@ -6315,7 +6315,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_VAL_M_JBIB2_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_VAL_M_JBIB2_1"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6325,13 +6325,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_8"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_FEET1_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_FEET1_7"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 2;
@@ -6340,7 +6340,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB2_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6353,22 +6353,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_LEGS0_12"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_LEGS0_12"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 10;
                         textures[6] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH4_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH4_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_ACCS1_12"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_ACCS1_12"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB0_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB0_3"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6380,7 +6380,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[3] = 0;
                         components[4] = 0;
                         textures[4] = 14;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET0_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET0_4"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 1;
@@ -6403,10 +6403,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS2_12"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS2_12"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_FEET0_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_FEET0_2"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 12;
@@ -6417,7 +6417,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_4"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_4"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6427,13 +6427,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 5;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS1_5"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS1_5"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_7"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_7"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_3"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_3"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 0;
@@ -6442,7 +6442,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB0_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB0_8"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6455,23 +6455,23 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS1_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS1_1"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET1_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET1_10"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_TEETH1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_TEETH1_6"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_ACCS1_6"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_ACCS1_6"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_JBIB2_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_JBIB2_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6481,13 +6481,13 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 12;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_LEGS2_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_LEGS2_9"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_FEET1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_FEET1_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH0_1"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH0_1"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -6496,7 +6496,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_JBIB2_11"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_JBIB2_11"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6509,22 +6509,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 14;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_LEGS0_10"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_LEGS0_10"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_M_FEET1_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_M_FEET1_8"));
                         components[6] = Var1.drawable;
                         textures[6] = Var1.texture;
                         components[7] = 0;
                         textures[7] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_VAL_M_ACCS2_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_VAL_M_ACCS2_0"));
                         components[8] = Var1.drawable;
                         textures[8] = Var1.texture;
                         components[9] = 0;
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_M_JBIB1_2"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_M_JBIB1_2"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }
@@ -6534,12 +6534,12 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[1] = 0;
                         components[3] = 4;
                         textures[3] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BUSI_F_LEGS1_9"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BUSI_F_LEGS1_9"));
                         components[4] = Var1.drawable;
                         textures[4] = Var1.texture;
                         components[6] = 8;
                         textures[6] = 8;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_BEACH_F_TEETH1_0"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_BEACH_F_TEETH1_0"));
                         components[7] = Var1.drawable;
                         textures[7] = Var1.texture;
                         components[8] = 3;
@@ -6548,7 +6548,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                         textures[9] = 0;
                         components[10] = 0;
                         textures[10] = 0;
-                        Var1 = ShopPed.GetShopPedComponent((uint)Game.GenerateHash("DLC_MP_HIPS_F_JBIB2_8"));
+                        Var1 = ShopPed.GetShopPedComponent(Funzioni.HashUint("DLC_MP_HIPS_F_JBIB2_8"));
                         components[11] = Var1.drawable;
                         textures[11] = Var1.texture;
                     }

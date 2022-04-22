@@ -26,6 +26,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
             Armerie.Init();
             //AGGIUNGERE GESTIONE STATISTICHE
             //AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
+            SetAmbientPedsDropMoney(true);
             await Task.FromResult(0);
         }
 
@@ -38,7 +39,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM
             Armerie.Stop();
             //AGGIUNGERE GESTIONE STATISTICHE
             //AGGIUNGERE GESTIONE MORTE (SE POSSIBILE SERVERSIDE)
-
+            SetAmbientPedsDropMoney(false);
             await Task.FromResult(0);
         }
     }
