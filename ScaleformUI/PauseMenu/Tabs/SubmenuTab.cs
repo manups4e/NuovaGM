@@ -5,11 +5,12 @@ using CitizenFX.Core;
 
 namespace ScaleformUI.PauseMenu
 {
-    public class TabSubmenuItem : BaseTab
+    public class SubmenuTab : BaseTab
     {
         private bool _focused;
-        public TabSubmenuItem(string name) : base(name)
+        public SubmenuTab(string name) : base(name)
         {
+            _type = 1;
         }
 
         public List<BasicTabItem> Items = new List<BasicTabItem>();

@@ -32,7 +32,9 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5392" />
+	  <PackageReference Include="CitizenFX.Core.Client" Version="1.0.5611" />
+	</ItemGroup>
+	<ItemGroup>
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
 		<Reference Include="System.Xml.Linq" />

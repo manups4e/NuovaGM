@@ -350,6 +350,9 @@ namespace ScaleformUI
             Screen.LoadingPrompt.Show(text, spinnerType);
         }
 
+        /// <summary>
+        /// Hides the saving button in case no time has been given
+        /// </summary>
         public void HideSavingText()
         {
             if (_isSaving)

@@ -63,7 +63,7 @@ namespace ScaleformUI
         public event MenuStateChangeEvent OnMenuStateChanged;
 
         internal readonly List<UIMenu> _menuList = new List<UIMenu>();
-        internal readonly List<TabView> _pauseMenuList = new List<TabView>();
+        internal readonly List<PauseMenuBase> _pauseMenuList = new List<PauseMenuBase>();
 
         /// <summary>
         /// Add your menu to the menu pool.
@@ -71,11 +71,11 @@ namespace ScaleformUI
         /// <param name="menu"></param>
         public void Add(UIMenu menu)
         {
-            menu._poolcontainer = this;
-            currentMenu = menu;
             _menuList.Add(menu);
+            currentMenu = menu;
+            menu._poolcontainer = this;
         }
-        public void Add(TabView menu)
+        public void Add(PauseMenuBase menu)
         {
             _pauseMenuList.Add(menu);
         }
@@ -107,7 +107,7 @@ namespace ScaleformUI
 		/// <returns>The newly created submenu.</returns>
 		public UIMenu AddSubMenu(UIMenu menu, string text, PointF offset)
 		{
-			return AddSubMenu(menu, text, "", Point.Empty);
+			return AddSubMenu(menu, text, "", offset);
 		}
 
 		/// <summary>
@@ -230,6 +230,12 @@ namespace ScaleformUI
             {
                 if (_menuList[i].Visible)
                     _menuList[i].ProcessMouse();
+            }
+
+            for (int i = 0; i < _pauseMenuList.Count; i++)
+            {
+                if (_pauseMenuList[i].Visible)
+                    _pauseMenuList[i].ProcessMouse();
             }
         }
 
