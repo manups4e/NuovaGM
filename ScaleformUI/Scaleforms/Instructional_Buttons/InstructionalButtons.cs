@@ -321,7 +321,7 @@ namespace ScaleformUI
 
 
         /// <summary>
-        /// Shows the Saving / Loading Button
+        /// Shows the Saving / Loading Button and hides it after some time automatically
         /// </summary>
         /// <param name="spinnerType">The type of Spinner to show</param>
         /// <param name="text">The text of the Button</param>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using ScaleformUI.PauseMenu;
@@ -56,6 +57,7 @@ namespace ScaleformUI
 
 		public bool OffsetInheritance = true;
         internal UIMenu currentMenu;
+        internal bool ableToDraw;
 
         /// <summary>
 		/// Called when user either opens or closes the main menu, clicks on a binded button, goes back to a parent menu.
@@ -78,6 +80,7 @@ namespace ScaleformUI
         public void Add(PauseMenuBase menu)
         {
             _pauseMenuList.Add(menu);
+            menu._poolcontainer = this;
         }
 
         /// <summary>
@@ -183,8 +186,7 @@ namespace ScaleformUI
                 menu.ProcessControl();
             }*/
 
-            int count = _menuList.Count; // Cache count
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < _menuList.ToList().Count; i++)
             {
                 if (_menuList[i].Visible)
                     _menuList[i].ProcessControl();
@@ -201,13 +203,7 @@ namespace ScaleformUI
         /// <param name="key"></param>
         public void ProcessKey(Keys key)
         {
-            /*foreach (var menu in _menuList.Where(menu => menu.Visible))
-            {
-                menu.ProcessKey(key);
-            }*/
-
-            int count = _menuList.Count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < _menuList.ToList().Count; i++)
             {
                 if (_menuList[i].Visible)
                     _menuList[i].ProcessKey(key);
@@ -220,23 +216,15 @@ namespace ScaleformUI
         /// </summary>
         public void ProcessMouse()
         {
-            /*foreach (var menu in _menuList.Where(menu => menu.Visible))
-            {
-                menu.ProcessMouse();
-            }*/
-
-            int count = _menuList.Count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < _menuList.ToList().Count; i++)
             {
                 if (_menuList[i].Visible)
                     _menuList[i].ProcessMouse();
             }
 
-            for (int i = 0; i < _pauseMenuList.Count; i++)
-            {
-                if (_pauseMenuList[i].Visible)
-                    _pauseMenuList[i].ProcessMouse();
-            }
+            var pauseMenu = _pauseMenuList.SingleOrDefault(x => x.Visible);
+            if (pauseMenu is not null)
+                pauseMenu.ProcessMouse();
         }
 
 
@@ -245,13 +233,7 @@ namespace ScaleformUI
         /// </summary>
         public void Draw()
         {
-            /*foreach (var menu in _menuList.Where(menu => menu.Visible))
-            {
-                menu.Draw();
-            }*/
-
-            int count = _menuList.Count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < _menuList.ToList().Count; i++)
             {
                 if (_menuList[i].Visible)
                     _menuList[i].Draw();
@@ -273,11 +255,16 @@ namespace ScaleformUI
         /// <summary>
         /// Process all of your menus' functions. Call this in a tick event.
         /// </summary>
-        public void ProcessMenus()
+        public async void ProcessMenus(bool draw)
         {
-            ProcessControl();
-            ProcessMouse();
-            Draw();
+            ableToDraw = draw;
+            while (ableToDraw)
+            {
+                await BaseScript.Delay(0);
+                ProcessControl();
+                ProcessMouse();
+                Draw();
+            }
         }
 
 
@@ -305,6 +292,18 @@ namespace ScaleformUI
             }
             ScaleformUI._ui.CallFunction("CLEAR_ALL");
             ScaleformUI.InstructionalButtons.Enabled = false;
+        }
+
+        public void FlushMenus()
+        {
+            _menuList.ForEach(async menu => { if (menu.Visible) menu.Visible = false; });
+            _menuList.Clear();
+        }
+
+        public void FlushPauseMenus()
+        {
+            _pauseMenuList.ForEach(async menu => { if (menu.Visible) menu.Visible = false; });
+            _pauseMenuList.Clear();
         }
 
         public void SetKey(UIMenu.MenuControls menuControl, Control control)

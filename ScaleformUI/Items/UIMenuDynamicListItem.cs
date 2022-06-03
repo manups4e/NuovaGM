@@ -19,8 +19,7 @@ namespace ScaleformUI
 
         public string CurrentListItem
         {
-            get => currentListItem; 
-            set
+            get => currentListItem; internal set
             {
                 currentListItem = value;
                 if(Parent is not null && Parent.Visible)

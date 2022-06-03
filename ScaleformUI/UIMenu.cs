@@ -1504,8 +1504,7 @@ namespace ScaleformUI
 
             HideHudComponentThisFrame(19);
 
-            if (ControlDisablingEnabled)
-                Controls.Toggle(false);
+            Controls.Toggle(!ControlDisablingEnabled);
 
             float x = 0 / Screen.Width;
             float y = 0 / Screen.Height;
@@ -2108,12 +2107,14 @@ namespace ScaleformUI
                     MenuChangeEv(null, this, MenuState.Opened);
                     BuildUpMenu();
                     _poolcontainer.currentMenu = this;
+                    _poolcontainer.ProcessMenus(true);
                 }
                 else
                 {
                     _poolcontainer.MenuChangeEv(this, null, MenuState.Closed);
                     MenuChangeEv(this, null, MenuState.Closed);
                     ScaleformUI._ui.CallFunction("CLEAR_ALL");
+                    _poolcontainer.ProcessMenus(false);
                 }
                 if (!value) return;
                 if (!ResetCursorOnOpen) return;
