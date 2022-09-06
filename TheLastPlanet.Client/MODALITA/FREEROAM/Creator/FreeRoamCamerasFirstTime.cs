@@ -246,10 +246,10 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
             NetworkClearClockTimeOverride();
             await BaseScript.Delay(1000);
 
-            Client.Instance.Events.Send("SyncWeatherForMe", true);
+            EventDispatcher.Send("SyncWeatherForMe", true);
             Screen.Fading.FadeIn(800);
             Client.Instance.RemoveTick(Controllo);
-            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
+            EventDispatcher.Send("worldEventsManage.Server:AddParticipant");
             AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
             PlayerCache.MyPlayer.Status.PlayerStates.Spawned = true;
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;

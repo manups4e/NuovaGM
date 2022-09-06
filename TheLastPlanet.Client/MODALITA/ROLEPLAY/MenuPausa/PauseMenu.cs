@@ -8,7 +8,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.RolePlay.MenuPausa
 {
@@ -42,12 +42,12 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             InputHandler.RemoveInput(pauseMenu);
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             InputHandler.AddInput(pauseMenu);
             string effect;
@@ -142,7 +142,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             HUD.MenuPool.Add(MainMenu);
 
-            TabTextItem intro = new("INTRODUZIONE", "Benvenuto su The Last Galaxy");
+            TextTab intro = new("INTRODUZIONE", "Benvenuto su The Last Galaxy");
             BasicTabItem a1 = new("~BLIP_INFO_ICON~ Questa pagina ti accompagnerà nella gestione delle tue ~y~impostazioni personali~w~ e come ~y~enciclopedia~w~ nel server.");
             BasicTabItem a2 = new("~BLIP_INFO_ICON~ Qui potrai trovare i comandi che il nostro server utilizza per farti giocare.");
             BasicTabItem a3 = new("~BLIP_INFO_ICON~ Potrai in ogni mento riaprire questo menu di pausa premendo i tasti ~INPUT_SPRINT~ + ~INPUT_DROP_WEAPON~ oppure con il comando /help.");
@@ -150,7 +150,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             intro.AddItem(a2);
             intro.AddItem(a3);
 
-            TabSubmenuItem online = new("ROLEPLAY");
+            SubmenuTab online = new("ROLEPLAY");
             TabLeftItem disc = new("Torna alla Lobby", LeftItemType.Info)
             {
                 TextTitle = "ATTENZIONE"
@@ -168,7 +168,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             };
 
 
-            TabSubmenuItem impostazioni = new("IMPOSTAZIONI");
+            SubmenuTab impostazioni = new("IMPOSTAZIONI");
             TabLeftItem hud = new("HUD", LeftItemType.Settings);
             TabLeftItem Telecamere = new("Telecamere", LeftItemType.Settings);
             impostazioni.AddLeftItem(hud);
@@ -178,10 +178,10 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #region cinema
 
-            SettingsTabItem aa = new("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema);
-            SettingsTabItem ab = new("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox, false);
-            SettingsTabItem ac = new("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
-            SettingsTabItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100), false);
+            SettingsCheckboxItem aa = new("Modalità Cinema", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ModCinema);
+            SettingsProgressItem ab = new("Spessore LetterBox", 100, (int)Main.ImpostazioniClient.LetterBox, false);
+            SettingsListItem ac = new("Filtro cinema", filtri, filtri.IndexOf(Main.ImpostazioniClient.Filtro));
+            SettingsProgressItem ad = new("Intensita filtro", 100, (int)(Main.ImpostazioniClient.FiltroStrenght * 100), false);
             aa.OnCheckboxChange += (item, attiva) => Main.ImpostazioniClient.ModCinema = attiva;
             ab.OnBarChanged += (item, index) => Main.ImpostazioniClient.LetterBox = index;
             ad.OnBarChanged += (item, index) =>
@@ -189,7 +189,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
                 Main.ImpostazioniClient.FiltroStrenght = index / 100f;
                 SetTimecycleModifierStrength(Main.ImpostazioniClient.FiltroStrenght);
             };
-            ac.OnListItemChange += (item, index, label) =>
+            ac.OnListItemChanged += (item, index, label) =>
             {
                 string activeItem = label;
                 string effect = activeItem switch
@@ -221,15 +221,15 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #endregion
 
-            SettingsTabItem ae = new("", ""); // SEPARATORE
+            SettingsItem ae = new("", ""); // SEPARATORE
 
             #region Minimappa
 
-            SettingsTabItem af = new("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva);
-            SettingsTabItem ag = new("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
-            SettingsTabItem ah = new("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto);
+            SettingsCheckboxItem af = new("Minimappa attiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaAttiva);
+            SettingsListItem ag = new("Dimensioni Minimappa", new List<dynamic>() { "Normale", "Grande" }, Main.ImpostazioniClient.DimensioniMinimappa);
+            SettingsCheckboxItem ah = new("Gps in macchina", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.MiniMappaInAuto);
             af.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.MiniMappaAttiva = check;
-            ag.OnListItemChange += (item, index, label) => Main.ImpostazioniClient.DimensioniMinimappa = index;
+            ag.OnListItemChanged += (item, index, label) => Main.ImpostazioniClient.DimensioniMinimappa = index;
             ah.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.MiniMappaInAuto = check;
 
             #endregion
@@ -247,9 +247,9 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
 
             #region Telecamere
 
-            SettingsTabItem ba = new("Mira in soggettiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira);
-            SettingsTabItem bb = new("Copertura in soggettiva (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura);
-            SettingsTabItem bc = new("Soggettiva nei veicoli (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto);
+            SettingsCheckboxItem ba = new("Mira in soggettiva", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_Mira);
+            SettingsCheckboxItem bb = new("Copertura in soggettiva (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura);
+            SettingsCheckboxItem bc = new("Soggettiva nei veicoli (sovrascrive la mira in soggettiva)", UIMenuCheckboxStyle.Tick, Main.ImpostazioniClient.ForzaPrimaPersona_InAuto);
             ba.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_Mira = check;
             bb.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_InCopertura = check;
             bc.OnCheckboxChange += (item, check) => Main.ImpostazioniClient.ForzaPrimaPersona_InAuto = check;
@@ -261,7 +261,7 @@ namespace TheLastPlanet.Client.RolePlay.MenuPausa
             #endregion
 
             #region comandi
-            TabSubmenuItem comandi = new("COMANDI");
+            SubmenuTab comandi = new("COMANDI");
 
             TabLeftItem generici = new("Generici (sempre validi)", LeftItemType.Keymap);
             generici.TextTitle = GetLabelText("MAPPING_HDR");

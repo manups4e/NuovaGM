@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
@@ -20,7 +20,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Client.Instance.AddEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
             Client.Instance.AddEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
             Client.Instance.AddEventHandler("lprp:housedealer:caricaImmobiliDaDB", new Action<string, string>(CaricaCaseDaDb));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:richiestaDiEntrare", new Action<int, string>(Richiesta));
             Client.Instance.RemoveEventHandler("lprp:citofono:puoiEntrare", new Action<int, string>(PuoiEntrare));
@@ -95,11 +95,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case
                     case MenuState.ChangeForward when _menu == Citofona:
                         {
                             _menu.Clear();
-                            List<ClientId> gioc = (from p in Client.Instance.Clients.ToList() where p != PlayerCache.MyPlayer let pl = p where pl.Status.Istanza.Stanziato where pl.Status.Istanza.IsProprietario where pl.Status.Istanza.Instance == app.Key select p).ToList();
+                            List<PlayerClient> gioc = (from p in Client.Instance.Clients.ToList() where p != PlayerCache.MyPlayer let pl = p where pl.Status.Istanza.Stanziato where pl.Status.Istanza.IsProprietario where pl.Status.Istanza.Instance == app.Key select p).ToList();
 
                             if (gioc.Count > 0)
                             {
-                                foreach (ClientId p in gioc.ToList())
+                                foreach (PlayerClient p in gioc.ToList())
                                 {
                                     UIMenuItem it = new(p.User.FullName);
                                     _menu.AddItem(it);

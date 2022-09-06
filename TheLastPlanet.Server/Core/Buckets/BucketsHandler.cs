@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Core.Buckets;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.Core.Buckets
 {
@@ -27,11 +27,11 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         public static void Init()
         {
-            Server.Instance.Events.Mount("tlg:addPlayerToBucket", new Action<ClientId, ModalitaServer>(AddPlayerToBucket));
-            Server.Instance.Events.Mount("tlg:checkSeGiaDentro", new Func<ClientId, ModalitaServer, Task<bool>>(CheckIn));
-            Server.Instance.Events.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
-            Server.Instance.Events.Mount("tlg:richiediContoBuckets", new Func<ClientId, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
-            Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
+            EventDispatcher.Mount("tlg:addPlayerToBucket", new Action<PlayerClient, ModalitaServer>(AddPlayerToBucket));
+            EventDispatcher.Mount("tlg:checkSeGiaDentro", new Func<PlayerClient, ModalitaServer, Task<bool>>(CheckIn));
+            EventDispatcher.Mount("tlg:addEntityToBucket", new Action<int, ModalitaServer>(AddEntityToBucket));
+            EventDispatcher.Mount("tlg:richiediContoBuckets", new Func<PlayerClient, Task<Dictionary<ModalitaServer, int>>>(CountPlayers));
+            Lobby = new(ModalitaServer.Lobby, new Bucket(0, "LOBBY") { LockdownMode = BucketLockdownMode.inactive, PopulationEnabled = false });
             Negozio = new(ModalitaServer.Negozio, new Bucket(4000, "NEGOZI") { LockdownMode = BucketLockdownMode.strict, PopulationEnabled = false });
             RolePlay = new(ModalitaServer.Roleplay, new Bucket(1000, "ROLEPLAY") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
             FreeRoam = new(ModalitaServer.FreeRoam, new Bucket(5000, "FREEROAM") { LockdownMode = BucketLockdownMode.relaxed, PopulationEnabled = true });
@@ -44,9 +44,9 @@ namespace TheLastPlanet.Server.Core.Buckets
         /// </summary>
         /// <param name="player">Player da aggiungere</param>
         /// <param name="id">Id del bucket</param>
-        private static void AddPlayerToBucket(ClientId player, ModalitaServer id)
+        private static void AddPlayerToBucket(PlayerClient player, ModalitaServer id)
         {
-            List<ClientId> clients = null;
+            List<PlayerClient> clients = null;
             RemovePlayerFromBucket(player, player.Status.PlayerStates.Modalita, "");
             switch (id)
             {
@@ -71,12 +71,13 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
 
             player.SetState($"{player.Status.PlayerStates._name}:Modalita", id);
-            Server.Instance.Events.Send(clients, "tlg:onPlayerEntrance", player);
+            Server.Logger.Debug("onentrance: " + player.ToJson());
+            EventDispatcher.Send(clients, "tlg:onPlayerEntrance", player);
             UpdateBucketsCount();
             player.Status.Clear();
         }
-
-        private static void RemovePlayerFromBucket(ClientId player, ModalitaServer id, string reason)
+            
+        private static void RemovePlayerFromBucket(PlayerClient player, ModalitaServer id, string reason)
         {
             switch (id)
             {
@@ -121,7 +122,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
         }
 
-        private static async Task<Dictionary<ModalitaServer, int>> CountPlayers(ClientId player)
+        private static async Task<Dictionary<ModalitaServer, int>> CountPlayers(PlayerClient player)
         {
             Dictionary<ModalitaServer, int> result = new()
             {
@@ -134,7 +135,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return result;
         }
 
-        private static async Task<bool> CheckIn(ClientId player, ModalitaServer id)
+        private static async Task<bool> CheckIn(PlayerClient player, ModalitaServer id)
         {
             switch (id)
             {
@@ -164,7 +165,7 @@ namespace TheLastPlanet.Server.Core.Buckets
                 [ModalitaServer.Minigiochi] = Minigiochi.GetTotalPlayers(),
             };
 
-            Server.Instance.Events.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);
+            EventDispatcher.Send(Lobby.Bucket.Players, "tlg:SetBucketsPlayers", result);
         }
 
     }

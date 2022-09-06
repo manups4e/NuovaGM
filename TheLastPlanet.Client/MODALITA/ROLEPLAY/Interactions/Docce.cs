@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -111,14 +111,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             RemoveAnimDict(sLocal_436);
             ReleaseAmbientAudioBank();
             RemoveNamedPtfxAsset("scr_fm_mp_missioncreator");
         }
 
-        private static async void Spawnato(ClientId client)
+        private static async void Spawnato(PlayerClient client)
         {
             if (Cache.PlayerCache.MyPlayer.User.CurrentChar.Skin.sex == "Maschio")
             {

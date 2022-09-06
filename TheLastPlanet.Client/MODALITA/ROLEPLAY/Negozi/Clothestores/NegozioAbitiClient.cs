@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -23,7 +23,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             InputHandler.RemoveInputList(bincoInputs);
             InputHandler.RemoveInputList(discountInputs);
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             blips.Clear();
         }
 
-        public static async void Spawnato(ClientId client)
+        public static async void Spawnato(PlayerClient client)
         {
             foreach (NegozioAbiti v in ConfigClothes.Binco)
             {

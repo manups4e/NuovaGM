@@ -22,7 +22,8 @@ namespace TheLastPlanet.Events.Generator
 
             if (engine == null) return;
 
-            foreach (var item in engine.WorkItems.ToList())
+            var list = engine.WorkItems.ToList();
+            foreach (var item in list)
             {
                 var code = engine.Compile(item);
                 var identifier = $"{item.TypeSymbol.Name}";

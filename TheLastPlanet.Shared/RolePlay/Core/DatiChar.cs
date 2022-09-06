@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 using TheLastPlanet.Shared.Veicoli;
 #if CLIENT
 using TheLastPlanet.Client.Cache;

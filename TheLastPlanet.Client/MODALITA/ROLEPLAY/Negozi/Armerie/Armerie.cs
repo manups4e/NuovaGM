@@ -120,7 +120,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                Client.Instance.Events.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removemoney", 150);
                             }
                             else
                             {
@@ -128,7 +128,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 {
                                     AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi1[_index].name), 250);
                                     HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    Client.Instance.Events.Send("lprp:removebank", 150);
+                                    EventDispatcher.Send("lprp:removebank", 150);
                                 }
                                 else
                                 {
@@ -140,8 +140,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[_index].price)
                             {
-                                Client.Instance.Events.Send("lprp:addWeapon", armi1[_index].name, 250);
-                                Client.Instance.Events.Send("lprp:removemoney", armi1[_index].price);
+                                EventDispatcher.Send("lprp:addWeapon", armi1[_index].name, 250);
+                                EventDispatcher.Send("lprp:removemoney", armi1[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
@@ -149,8 +149,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 if (Cache.PlayerCache.MyPlayer.User.Money >= armi1[_index].price)
                                 {
-                                    Client.Instance.Events.Send("lprp:addWeapon", armi1[_index].name, 250);
-                                    Client.Instance.Events.Send("lprp:removebank", armi1[_index].price);
+                                    EventDispatcher.Send("lprp:addWeapon", armi1[_index].name, 250);
+                                    EventDispatcher.Send("lprp:removebank", armi1[_index].price);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi1[_index].name)));
                                     _item.SetRightBadge(BadgeIcon.GUN);
                                 }
@@ -190,7 +190,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                Client.Instance.Events.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removemoney", 150);
                             }
                             else
                             {
@@ -198,7 +198,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 {
                                     AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi2[_index].name), 250);
                                     HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    Client.Instance.Events.Send("lprp:removebank", 150);
+                                    EventDispatcher.Send("lprp:removebank", 150);
                                 }
                                 else
                                 {
@@ -210,8 +210,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[_index].price)
                             {
-                                Client.Instance.Events.Send("lprp:addWeapon", armi2[_index].name, 250);
-                                Client.Instance.Events.Send("lprp:removemoney", armi2[_index].price);
+                                EventDispatcher.Send("lprp:addWeapon", armi2[_index].name, 250);
+                                EventDispatcher.Send("lprp:removemoney", armi2[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
@@ -219,8 +219,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 if (Cache.PlayerCache.MyPlayer.User.Money >= armi2[_index].price)
                                 {
-                                    Client.Instance.Events.Send("lprp:addWeapon", armi2[_index].name, 250);
-                                    Client.Instance.Events.Send("lprp:removebank", armi2[_index].price);
+                                    EventDispatcher.Send("lprp:addWeapon", armi2[_index].name, 250);
+                                    EventDispatcher.Send("lprp:removebank", armi2[_index].price);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi2[_index].name)));
                                     _item.SetRightBadge(BadgeIcon.GUN);
                                 }
@@ -260,7 +260,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
                                 HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                Client.Instance.Events.Send("lprp:removemoney", 150);
+                                EventDispatcher.Send("lprp:removemoney", 150);
                             }
                             else
                             {
@@ -268,7 +268,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 {
                                     AddAmmoToPed(playerPed.Handle, Funzioni.HashUint(armi3[_index].name), 250);
                                     HUD.ShowNotification("Poichè già possiedi quest'arma, ti sono state ricaricate le munizioni al prezzo di 150$");
-                                    Client.Instance.Events.Send("lprp:removebank", 150);
+                                    EventDispatcher.Send("lprp:removebank", 150);
                                 }
                                 else
                                 {
@@ -280,8 +280,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                         {
                             if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[_index].price)
                             {
-                                Client.Instance.Events.Send("lprp:addWeapon", armi3[_index].name, 250);
-                                Client.Instance.Events.Send("lprp:removemoney", armi3[_index].price);
+                                EventDispatcher.Send("lprp:addWeapon", armi3[_index].name, 250);
+                                EventDispatcher.Send("lprp:removemoney", armi3[_index].price);
                                 HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
                                 _item.SetRightBadge(BadgeIcon.GUN);
                             }
@@ -289,8 +289,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 if (Cache.PlayerCache.MyPlayer.User.Money >= armi3[_index].price)
                                 {
-                                    Client.Instance.Events.Send("lprp:addWeapon", armi3[_index].name, 250);
-                                    Client.Instance.Events.Send("lprp:removebank", armi3[_index].price);
+                                    EventDispatcher.Send("lprp:addWeapon", armi3[_index].name, 250);
+                                    EventDispatcher.Send("lprp:removebank", armi3[_index].price);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(armi3[_index].name)));
                                     _item.SetRightBadge(BadgeIcon.GUN);
                                 }
@@ -344,8 +344,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 
                                     if (Cache.PlayerCache.MyPlayer.User.Money >= arm.price)
                                     {
-                                        Client.Instance.Events.Send("lprp:addWeaponComponent", armi.name, arm.name);
-                                        Client.Instance.Events.Send("lprp:removemoney", arm.price);
+                                        EventDispatcher.Send("lprp:addWeaponComponent", armi.name, arm.name);
+                                        EventDispatcher.Send("lprp:removemoney", arm.price);
                                         HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
                                         _item.SetRightBadge(BadgeIcon.AMMO);
                                     }
@@ -353,8 +353,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                     {
                                         if (Cache.PlayerCache.MyPlayer.User.Bank >= arm.price)
                                         {
-                                            Client.Instance.Events.Send("lprp:addWeaponComponent", armi.name, arm.name);
-                                            Client.Instance.Events.Send("lprp:removebank", arm.price);
+                                            EventDispatcher.Send("lprp:addWeaponComponent", armi.name, arm.name);
+                                            EventDispatcher.Send("lprp:removebank", arm.price);
                                             HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(arm.name)));
                                             _item.SetRightBadge(BadgeIcon.AMMO);
                                         }
@@ -404,8 +404,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                             {
                                 if (Cache.PlayerCache.MyPlayer.User.Money >= tinte[_index].price)
                                 {
-                                    Client.Instance.Events.Send("lprp:removemoney", tinte[_index].price);
-                                    Client.Instance.Events.Send("lprp:addWeaponTint", armi.name, _index);
+                                    EventDispatcher.Send("lprp:removemoney", tinte[_index].price);
+                                    EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
                                     HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
                                     _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
                                     //attTi.SetRightBadge(BadgeIcon.NONE);
@@ -417,8 +417,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
                                 {
                                     if (Cache.PlayerCache.MyPlayer.User.Bank >= tinte[_index].price)
                                     {
-                                        Client.Instance.Events.Send("lprp:removebank", tinte[_index].price);
-                                        Client.Instance.Events.Send("lprp:addWeaponTint", armi.name, _index);
+                                        EventDispatcher.Send("lprp:removebank", tinte[_index].price);
+                                        EventDispatcher.Send("lprp:addWeaponTint", armi.name, _index);
                                         HUD.ShowNotification("Hai acquistato un/a ~y~" + Funzioni.GetWeaponLabel(Funzioni.HashUint(tinte[_index].name)));
                                         _menu.MenuItems.ForEach(x => x.SetRightBadge(BadgeIcon.NONE));
                                         //attTi.SetRightBadge(BadgeIcon.NONE);

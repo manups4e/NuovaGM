@@ -21,6 +21,12 @@ namespace Logger
         public Log() { }
 
 #if SERVER
+        /// <summary>
+        /// Writes a log file in the Logs folder on the server.. might go bananas sometimes..
+        /// </summary>
+        /// <param name="err"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public async Task Writer(string err, string text)
         {
             string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
@@ -40,7 +46,7 @@ namespace Logger
 #endif
 
         /// <summary>
-        /// Manda in console un messaggio di informazione
+        /// sends an green info message in console
         /// </summary>
         /// <param name="text">Testo del messaggio</param>
         public async void Info(string text)
@@ -55,7 +61,7 @@ namespace Logger
         }
 
         /// <summary>
-        /// Manda in console un messaggio di Debug
+        /// sends a purple debug message in console. (it checks for the DEBUG convar on server cfg)
         /// </summary>
         /// <param name="text">Testo del messaggio</param>
         public async void Debug(string text)
@@ -63,7 +69,7 @@ namespace Logger
             if (API.GetConvarInt("DEBUG", 0) == 0) return;
             string incipit = $"{DateTime.Now:dd/MM/yyyy, HH:mm}";
             string err = "-- [DEBUG] -- ";
-            string colore = PURPLE;
+            string colore = LIGHT_BLUE;
             CitizenFX.Core.Debug.WriteLine($"{colore}{incipit} {err} {text}.^7");
             /*
             #if SERVER
@@ -73,7 +79,7 @@ namespace Logger
         }
 
         /// <summary>
-        /// Manda in console un messaggio di Avviso
+        /// Sends a yellow Warning message
         /// </summary>
         /// <param name="text">Testo del messaggio</param>
         public async void Warning(string text)
@@ -88,7 +94,7 @@ namespace Logger
         }
 
         /// <summary>
-        /// Manda in console un messaggio di Errore
+        /// Sends a red Error message
         /// </summary>
         /// <param name="text">Testo del messaggio</param>
         public async void Error(string text)
@@ -103,7 +109,7 @@ namespace Logger
         }
 
         /// <summary>
-        /// Manda in console un messaggio di Errore FATALE
+        /// Sends a dark red Fatal Error message
         /// </summary>
         /// <param name="text">Testo del messaggio</param>
         public async void Fatal(string text)

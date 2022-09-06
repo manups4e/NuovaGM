@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Client.Instance.AddEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
             Client.Instance.AddEventHandler("cBrakes:add_front", new Action<int>(AddFront));
@@ -29,7 +29,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             Client.Instance.AddEventHandler("cBrakes:rem_front", new Action<int>(RemFront));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("cBrakes:add_rear", new Action<int>(AddRear));
             Client.Instance.RemoveEventHandler("cBrakes:add_front", new Action<int>(AddFront));

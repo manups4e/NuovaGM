@@ -40,7 +40,7 @@ namespace TheLastPlanet.Client.Handlers
                         var netId = VehToNet(veh);
                         isEnteringVehicle = true;
                         OnPedEnteringVehicle?.Invoke(me, currentVehicle, seat);
-                        Client.Instance.Events.Send("baseevents:enteringVehicle", veh, seat, netId);
+                        EventDispatcher.Send("baseevents:enteringVehicle", veh, seat, netId);
                     }
                 }
                 else if (!DoesEntityExist(GetVehiclePedIsTryingToEnter(meHandle)) && !me.IsInVehicle() && isEnteringVehicle)
@@ -48,7 +48,7 @@ namespace TheLastPlanet.Client.Handlers
                     if (NetworkGetEntityIsNetworked(GetVehiclePedIsTryingToEnter(meHandle)))
                     {
 
-                        Client.Instance.Events.Send("baseevents:enteringAborted");
+                        EventDispatcher.Send("baseevents:enteringAborted");
                         isEnteringVehicle = false;
                     }
                 }
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.Handlers
                         currentSeat = me.SeatIndex;
 
                         OnPedEnteredVehicle?.Invoke(me, currentVehicle, currentSeat);
-                        Client.Instance.Events.Send("baseevents:enteredVehicle", currentVehicle.Handle, currentSeat, currentVehicle.NetworkId);
+                        EventDispatcher.Send("baseevents:enteredVehicle", currentVehicle.Handle, currentSeat, currentVehicle.NetworkId);
                     }
                 }
             }
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Client.Handlers
                 if (!me.IsInVehicle() || me.IsDead)
                 {
                     OnPedLeftVehicle?.Invoke(me, currentVehicle, currentSeat);
-                    Client.Instance.Events.Send("baseevents:leftVehicle", currentVehicle.Handle, currentSeat);
+                    EventDispatcher.Send("baseevents:leftVehicle", currentVehicle.Handle, currentSeat);
                     isInVehicle = false;
                     currentVehicle = null;
                     currentSeat = 0;

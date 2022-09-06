@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
 {
@@ -18,13 +18,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Client.Instance.AddEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
             Client.Instance.AddEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));
             Client.Instance.AddEventHandler("lprp:createMissingPickups", new Action<string>(CreaMissingPickups));
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:createPickup", new Action<string, string>(CreatePickup));
             Client.Instance.RemoveEventHandler("lprp:removePickup", new Action<int>(RimuoviPickup));

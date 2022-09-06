@@ -17,8 +17,8 @@ namespace TheLastPlanet.Client
             await PlayerCache.Loaded();
             if (userId != PlayerCache.MyPlayer.Handle)
             {
-                var client = Funzioni.GetClientIdFromServerId(userId);
-                if (client.User is null || !client.Status.PlayerStates.Spawned) return;
+                var client = Funzioni.GetPlayerClientFromServerId(userId);
+                if (client == null || client.User == null || !client.Status.PlayerStates.Spawned) return;
                 if (!value.Stanziato)
                 {
                     if (NetworkIsPlayerConcealed(client.Player.Handle))

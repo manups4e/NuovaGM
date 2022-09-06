@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -27,20 +27,20 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             AccessingEvents.OnFreeRoamLeave += OnPlayerLeft;
         }
 
-        private static async void OnPlayerJoined(ClientId client)
+        private static async void OnPlayerJoined(PlayerClient client)
         {
             //Client.Instance.AddTick(OnDefaultTick);
             //Client.Instance.AddTick(OnDiscordTick);
             Client.Instance.AddTick(OnWaitTick);
             Client.Instance.AddTick(SaveMe);
 
-            Client.Instance.Events.Mount("worldEventsManage.Client:EventActivate", new Action<int, int>(OnActivateEvent));
-            Client.Instance.Events.Mount("worldeventsManager.Client:GetEventData", new Action<int, float, float>(OnGetEventData));
-            Client.Instance.Events.Mount("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
-            Client.Instance.Events.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
-            Client.Instance.Events.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
-            Client.Instance.Events.Mount("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
-            Client.Instance.Events.Mount("tlg:freeroam:showLoading", new Action<int, string, int>(ShowDialog));
+            EventDispatcher.Mount("worldEventsManage.Client:EventActivate", new Action<int, int>(OnActivateEvent));
+            EventDispatcher.Mount("worldeventsManager.Client:GetEventData", new Action<int, float, float>(OnGetEventData));
+            EventDispatcher.Mount("worldEventsManage.Client:NextEventIn", new Action<int>(OnNextEventIn));
+            EventDispatcher.Mount("worldEventsManage.Client:GetTop3", new Action<string>(OnGetTop3));
+            EventDispatcher.Mount("worldEventsManage.Client:FinalTop3", new Action<int, string>(OnGetFinalTop3));
+            EventDispatcher.Mount("worldEventsManage.Client:PeriodicSync", new Action<int, bool>(OnPeriodicSync));
+            EventDispatcher.Mount("tlg:freeroam:showLoading", new Action<int, string, int>(ShowDialog));
 
             WorldEvents.Add(new NumberOfNearMisses(1, "Schivate mortali", 60, 300));
             WorldEvents.Add(new FlyingUnderBridges(2, "Volando sotto i ponti", 90, 300));
@@ -51,22 +51,22 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             WorldEvents.Add(new FarthestJumpDistance(7, "Salto in lungo", 60, 270));
             WorldEvents.Add(new HighestJumpDistance(8, "Salto in alto", 60, 270));
             WorldEvents.Add(new KingOfTheCastle(9, "Re del Castello", 60, 300));
-            var status = await Client.Instance.Events.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
+            var status = await EventDispatcher.Get<Tuple<int, int, int, int, bool>>("worldEventsManage.Server:GetStatus");
             OnGetStatus(status.Item1, status.Item2, status.Item3, status.Item4, status.Item5);
         }
 
-        public static void OnPlayerLeft(ClientId client)
+        public static void OnPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveTick(OnWaitTick);
             Client.Instance.RemoveTick(SaveMe);
 
-            Client.Instance.Events.Unmount("worldEventsManage.Client:EventActivate");
-            Client.Instance.Events.Unmount("worldeventsManager.Client:GetEventData");
-            Client.Instance.Events.Unmount("worldEventsManage.Client:NextEventIn");
-            Client.Instance.Events.Unmount("worldEventsManage.Client:GetTop3");
-            Client.Instance.Events.Unmount("worldEventsManage.Client:FinalTop3");
-            Client.Instance.Events.Unmount("worldEventsManage.Client:PeriodicSync");
-            Client.Instance.Events.Unmount("tlg:freeroam:showLoading");
+            EventDispatcher.Unmount("worldEventsManage.Client:EventActivate");
+            EventDispatcher.Unmount("worldeventsManager.Client:GetEventData");
+            EventDispatcher.Unmount("worldEventsManage.Client:NextEventIn");
+            EventDispatcher.Unmount("worldEventsManage.Client:GetTop3");
+            EventDispatcher.Unmount("worldEventsManage.Client:FinalTop3");
+            EventDispatcher.Unmount("worldEventsManage.Client:PeriodicSync");
+            EventDispatcher.Unmount("tlg:freeroam:showLoading");
             WorldEvents.Clear();
             ActiveWorldEvent.ResetEvent();
         }
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
         public static async Task SaveMe()
         {
             await BaseScript.Delay(600000); // 600000
-            Client.Instance.Events.Send("tlg:freeroam:SaveMe");
+            EventDispatcher.Send("tlg:freeroam:SaveMe");
             if (!ScaleformUI.ScaleformUI.InstructionalButtons.IsSaving)
                 ScaleformUI.ScaleformUI.InstructionalButtons.AddSavingText(LoadingSpinnerType.SocialClubSaving, "Sincronizzazione", 5000);
 

@@ -3,8 +3,8 @@ using CitizenFX.Core.Native;
 using System;
 using System.Linq;
 using TheLastPlanet.Server.Core;
-using TheLastPlanet.Shared.Internal.Events;
-using TheLastPlanet.Shared.Snowflakes;
+
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server.manager
 {
@@ -12,11 +12,11 @@ namespace TheLastPlanet.Server.manager
     {
         public static void Init()
         {
-            Server.Instance.Events.Mount("manager:TeletrasportaDaMe", new Action<ClientId, int>(TippaDaMe));
+            EventDispatcher.Mount("manager:TeletrasportaDaMe", new Action<PlayerClient, int>(TippaDaMe));
             //Server.Instance.AddEventHandler("entityCreated", new Action<int>(EntityCreating));
         }
 
-        private static void TippaDaMe(ClientId client, int source)
+        private static void TippaDaMe(PlayerClient client, int source)
         {
             var player = Funzioni.GetClientFromPlayerId(source);
             player.Ped.Position = client.Ped.Position + new Vector3(0, 1f, 0);

@@ -1,11 +1,12 @@
 ﻿using CitizenFX.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.PlayerChar;
 using static CitizenFX.Core.Native.API;
 
@@ -17,14 +18,17 @@ namespace TheLastPlanet.Server.Core
 
         public static void Init()
         {
-            Server.Instance.Events.Mount("lprp:dropPlayer", new Action<ClientId, string>(Drop));
-            Server.Instance.Events.Mount("lprp:kickClientId", new Action<string, string, int>(Kick));
-            Server.Instance.Events.Mount("lprp:CheckPing", new Action<ClientId>(Ping));
-            Server.Instance.Events.Mount("lprp:checkAFK", new Action<ClientId>(AFK));
-            Server.Instance.Events.Mount("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
-            Server.Instance.Events.Mount("tlg:setStateBag", new Action<ClientId, string, string>(SetStateBag));
-            Server.Instance.Events.Mount("tlg:GetUserFromServerId", new Func<int, Task<BasePlayerShared>>(GetUserFromHandle));
-            Server.Instance.Events.Mount("tlg:callPlayers", new Func<ClientId, Position, Task<List<ClientId>>>(
+            EventDispatcher.Mount("lprp:dropPlayer", new Action<PlayerClient, string>(Drop));
+            EventDispatcher.Mount("lprp:kickPlayerClient", new Action<string, string, int>(Kick));
+            EventDispatcher.Mount("lprp:CheckPing", new Action<PlayerClient>(Ping));
+            EventDispatcher.Mount("lprp:checkAFK", new Action<PlayerClient>(AFK));
+            EventDispatcher.Mount("lprp:bannaPlayer", new Action<string, string, bool, long, int>(BannaPlayer));
+            EventDispatcher.Mount("tlg:setStateBag", new Action<PlayerClient, string, string>(SetStateBag));
+            EventDispatcher.Mount("tlg:GetUserFromServerId", new Func<int, Task<BasePlayerShared>>(GetUserFromHandle));
+            EventDispatcher.Mount("tlg:getPlayers", new Func<Task<List<Player>>>(GetAllPlayers));
+            EventDispatcher.Mount("tlg:getClients", new Func<PlayerClient, Task<List<PlayerClient>>>(GetAllClients));
+
+            EventDispatcher.Mount("tlg:callPlayers", new Func<PlayerClient, Position, Task<List<PlayerClient>>>(
             async (a, b) =>
             {
                 User user = a.User;
@@ -59,28 +63,58 @@ namespace TheLastPlanet.Server.Core
                 }
             }));
         }
+
+        public static async Task<List<Player>> GetAllPlayers()
+        {
+            return Server.Instance.GetPlayers.OrderBy(x => Convert.ToInt32(x.Handle)).ToList();
+        }
+        public static async Task<List<PlayerClient>> GetAllClients(PlayerClient request)
+        {
+
+
+            switch (request.Status.PlayerStates.Modalita)
+            {
+                case ModalitaServer.Roleplay:
+                    return BucketsHandler.RolePlay.Bucket.Players;
+                case ModalitaServer.FreeRoam:
+                    return BucketsHandler.FreeRoam.Bucket.Players;
+                case ModalitaServer.Lobby:
+                    return BucketsHandler.Lobby.Bucket.Players;
+                case ModalitaServer.Minigiochi:
+                    return null;
+                case ModalitaServer.Gare:
+                    return null;
+                case ModalitaServer.Negozio:
+                    return null;
+                case ModalitaServer.UNKNOWN:
+                    return Server.Instance.Clients;
+                default:
+                    return Server.Instance.Clients;
+            }
+        }
+
         public static async Task<BasePlayerShared> GetUserFromHandle(int handle) 
         {
             return Funzioni.GetUserFromPlayerId(handle).basePlayer;
         }
-        public static void SetStateBag(ClientId client, string key, string value)
+        public static void SetStateBag(PlayerClient client, string key, string value)
         {
             Server.Logger.Debug(key);
             byte[] val = value.StringToBytes();
             client.Player.SetState(key, val, true);
         }
-        public static void Drop(ClientId client, string reason)
+        public static void Drop(PlayerClient client, string reason)
         {
             client.Player.Drop(reason);
         }
 
-        public static void Ping(ClientId client)
+        public static void Ping(PlayerClient client)
         {
             if (client.Player.Ping >= Server.Impostazioni.Main.PingMax)
                 client.Player.Drop("Ping troppo alto (Limite: " + Server.Impostazioni.Main.PingMax + ", tuo ping: " + client.Player.Ping + ")");
         }
 
-        public static void AFK(ClientId client)
+        public static void AFK(PlayerClient client)
         {
             client.Player.Drop("Last Planet Shield 2.0:\nSei stato rilevato per troppo tempo in AFK");
         }

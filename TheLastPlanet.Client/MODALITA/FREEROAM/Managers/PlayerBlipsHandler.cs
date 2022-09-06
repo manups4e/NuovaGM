@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -19,16 +19,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             AccessingEvents.OnFreeRoamLeave += OnPlayerLeft;
         }
 
-        private static void OnPlayerJoined(ClientId client)
+        private static void OnPlayerJoined(PlayerClient client)
         {
-            //Client.Instance.Events.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
+            //EventDispatcher.Mount("freeroam.UpdatePlayerBlipInfos", new Action<List<FRBlipsInfo>>(UpdateBlips));
             ///////// test /////////
             Client.Instance.AddTick(Blips);
         }
 
-        public static void OnPlayerLeft(ClientId client)
+        public static void OnPlayerLeft(PlayerClient client)
         {
-            //Client.Instance.Events.Unmount("freeroam.UpdatePlayerBlipInfos");
+            //EventDispatcher.Unmount("freeroam.UpdatePlayerBlipInfos");
             Client.Instance.RemoveTick(Blips);
             //foreach (var bb in playerBlips) if (bb.Value.Exists()) bb.Value.Delete();
         }

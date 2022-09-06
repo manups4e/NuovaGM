@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
 {
@@ -48,14 +48,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Cacciatore
             Client.Instance.AddEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("DamageEvents:PedKilledByPlayer", new Action<int, int, uint, bool>(ControlloAnimale));
             Cacciatore = null;
             caccia.Delete();
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             Cacciatore = Client.Impostazioni.RolePlay.Lavori.Generici.Cacciatore;
             caccia = World.CreateBlip(Cacciatore.inizioCaccia);

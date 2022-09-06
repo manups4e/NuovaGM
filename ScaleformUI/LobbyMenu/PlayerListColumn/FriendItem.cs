@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using ScaleformUI.PauseMenu;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace ScaleformUI.LobbyMenu
         internal bool boolL;
         internal bool boolR;
         private bool coloredTag;
+
         public string Label
         {
             get => label;
@@ -219,6 +221,7 @@ namespace ScaleformUI.LobbyMenu
                     pause._pause._pause.CallFunction("SET_PLAYERS_TAB_PLAYER_ICON_RIGHT", ParentColumn.ParentTab, idx, iconR, boolR);
             }
         }
+
 
         public void AddPanel(PlayerStatsPanel panel)
         {

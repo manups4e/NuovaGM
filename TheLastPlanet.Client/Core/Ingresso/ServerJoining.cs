@@ -11,12 +11,12 @@ namespace TheLastPlanet.Client.Core.Ingresso
         private static bool _firstTick = true;
         internal static readonly ParticleEffectsAssetNetworked SpawnParticle = new("scr_powerplay");
 
-        public static void Init()
+        public static async void Init()
         {
+            EventDispatcher.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ModalitaServer, int>>(UpdateCountPlayers));
 #if DEBUG
             Client.Instance.AddTick(Entra);
 #endif
-            Client.Instance.Events.Mount("tlg:SetBucketsPlayers", new Action<Dictionary<ModalitaServer, int>>(UpdateCountPlayers));
             InternalGameEvents.PlayerJoined += InternalGameEvents_PlayerJoined;
         }
 
@@ -25,13 +25,9 @@ namespace TheLastPlanet.Client.Core.Ingresso
             PlayerSpawned();
         }
 
-        private static void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
-        {
-            MainChooser.Bucket_n_Players = count;
-        }
-
         private static async Task Entra()
         {
+            await BaseScript.Delay(100);
             if (NetworkIsSessionStarted() && _firstTick)
             {
                 _firstTick = false;
@@ -42,27 +38,31 @@ namespace TheLastPlanet.Client.Core.Ingresso
             await Task.FromResult(0);
         }
 
+        private static void UpdateCountPlayers(Dictionary<ModalitaServer, int> count)
+        {
+            MainChooser.Bucket_n_Players = count;
+        }
+
         public static async void PlayerSpawned()
         {
+            _firstTick = false;
             Screen.Fading.FadeOut(800);
             while (!Screen.Fading.IsFadedOut) await BaseScript.Delay(1000);
             IPLs.IPLInstance.SmugglerHangar.LoadDefault();
-            await Cache.PlayerCache.InitPlayer();
-            while (!NetworkIsPlayerActive(Cache.PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
-            BaseScript.TriggerServerEvent("lprp:coda: playerConnected");
+            await PlayerCache.InitPlayer();
+            while (!NetworkIsPlayerActive(PlayerCache.MyPlayer.Player.Handle)) await BaseScript.Delay(0);
+            BaseScript.TriggerServerEvent("lprp:coda:playerConnected");
             Client.Instance.NuiManager.SendMessage(new { resname = GetCurrentResourceName() });
-            if (Cache.PlayerCache.MyPlayer.Ped.Model.Hash != (int)PedHash.FreemodeMale01)
-            {
-                await Cache.PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
-            }
+            if (PlayerCache.MyPlayer.Ped.Model.Hash != (int)PedHash.FreemodeMale01)
+                await PlayerCache.MyPlayer.Player.ChangeModel(new Model(PedHash.FreemodeMale01));
             NetworkSetTalkerProximity(-1000f);
 
             // eventi di utility.. da sistemare (togliere gli eventi non di utility e spostarli)
-            Utility.Eventi.Init();
+            Eventi.Init();
             // TODO: gestire questa parte separatamente per i vari pianeti
-            Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
-            Cache.PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
-            Cache.PlayerCache.MyPlayer.Player.DispatchsCops = false;
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = true;
+            PlayerCache.MyPlayer.Player.IgnoredByPolice = true;
+            PlayerCache.MyPlayer.Player.DispatchsCops = false;
             Screen.Hud.IsRadarVisible = false;
             // TODO: gestire questa parte separatamente per i vari pianeti
             CharSelect();
@@ -72,23 +72,23 @@ namespace TheLastPlanet.Client.Core.Ingresso
         {
             SpawnParticle.Request();
             while (!SpawnParticle.IsLoaded) await BaseScript.Delay(0);
-            Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
-            if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
+            PlayerCache.MyPlayer.Player.CanControlCharacter = true;
+            if (PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerCache.MyPlayer.Ped.Handle, true, false);
             RequestCollisionAtCoord(-1266.726f, -2986.766f, -48f);
-            Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
-            Cache.PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
-            Ped p = Cache.PlayerCache.MyPlayer.Ped;
+            PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
+            PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
+            Ped p = PlayerCache.MyPlayer.Ped;
             p.Style.SetDefaultClothes();
-            await Cache.PlayerCache.Loaded();
-            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
-            Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
+            await PlayerCache.Loaded();
+            PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             ShutdownLoadingScreen();
             ShutdownLoadingScreenNui();
             ClampGameplayCamPitch(0, 0);
             ClampGameplayCamYaw(0, 0);
             Screen.Fading.FadeIn(1000);
-            //MainChooser.Bucket_n_Players = await Client.Instance.Events.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
-            SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
+            //MainChooser.Bucket_n_Players = await EventDispatcher.Get<Dictionary<ModalitaServer, int>>("tlg:richiediContoBuckets");
+            SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", PlayerCache.MyPlayer.Ped);
             Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
             MainChooser.Init();
             PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
@@ -97,25 +97,25 @@ namespace TheLastPlanet.Client.Core.Ingresso
 
         public static async void ReturnToLobby()
         {
-            Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = false;
+            PlayerCache.MyPlayer.Player.CanControlCharacter = false;
             Screen.Fading.FadeOut(500);
             while (Screen.Fading.IsFadingOut) await BaseScript.Delay(0);
             SpawnParticle.Request();
             while (!SpawnParticle.IsLoaded) await BaseScript.Delay(0);
-            if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
+            if (PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(PlayerCache.MyPlayer.Ped.Handle, true, false);
             RequestCollisionAtCoord(-1266.726f, -2986.766f, -48f);
-            Cache.PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
-            Cache.PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
+            PlayerCache.MyPlayer.Ped.Position = new Vector3(-1266.726f, -2986.766f, -49.2f);
+            PlayerCache.MyPlayer.Ped.Heading = 176.1187f;
 
             // TODO: sostituire con caricamento personaggio freeroam.
-            Cache.PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
+            PlayerCache.MyPlayer.Ped.Style.SetDefaultClothes();
 
-            Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
-            Cache.PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
+            PlayerCache.MyPlayer.Status.PlayerStates.Modalita = ModalitaServer.Lobby;
+            PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             Screen.Fading.FadeIn(1000);
-            SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", Cache.PlayerCache.MyPlayer.Ped);
+            SpawnParticle.StartNonLoopedOnEntityNetworked("scr_powerplay_beast_appear", PlayerCache.MyPlayer.Ped);
             Function.Call(Hash.NETWORK_FADE_IN_ENTITY, PlayerCache.MyPlayer.Ped.Handle, true, 1);
-            Cache.PlayerCache.MyPlayer.Player.CanControlCharacter = true;
+            PlayerCache.MyPlayer.Player.CanControlCharacter = true;
             MainChooser.Init();
             PlayerCache.MyPlayer.Status.PlayerStates.ModalitaPassiva = true;
             SpawnParticle.MarkAsNoLongerNeeded();

@@ -6,7 +6,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.status.Interfacce;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 {
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             Statistics.Add("DRUGS", new Statistica("Droghe", "Droghe", "Droga +", new Action<Ped, Player, Statistica>(Droga)));
             //PSF_SHOOTING aggiungere abilità sparatorie?
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:skills:registraSkill", new Action<string, float>(RegistraStats));
             Needs = null;
@@ -70,7 +70,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             //PSF_SHOOTING aggiungere abilità sparatorie?
         }
 
-        public static void Eccolo(ClientId client)
+        public static void Eccolo(PlayerClient client)
         {
             User me = client.User;
             Needs["Fame"].Val = me.CurrentChar.Needs.Fame;

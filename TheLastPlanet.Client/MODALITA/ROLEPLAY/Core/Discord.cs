@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             await Cache.PlayerCache.Loaded();
             Ped playerPed = Cache.PlayerCache.MyPlayer.Ped;
             Player player = Cache.PlayerCache.MyPlayer.Player;
-            ClientId client = PlayerCache.MyPlayer;
+            PlayerClient client = PlayerCache.MyPlayer;
             SetDiscordAppId(Client.Impostazioni.RolePlay.Main.DiscordAppId);
             SetDiscordRichPresenceAsset(Client.Impostazioni.RolePlay.Main.DiscordRichPresenceAsset);
             Vector3 PedCoords = !Cache.PlayerCache.MyPlayer.Status.PlayerStates.Spawned ? playerPed.Position : Cache.PlayerCache.MyPlayer.Posizione.ToVector3;

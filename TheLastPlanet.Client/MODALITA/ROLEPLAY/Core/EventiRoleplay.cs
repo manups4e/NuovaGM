@@ -2,7 +2,7 @@
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -13,27 +13,27 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
-            Client.Instance.Events.Mount("lprp:possiediArma", new Action<string, string>(PossiediArma));
-            Client.Instance.Events.Mount("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
-            Client.Instance.Events.Mount("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
-            Client.Instance.Events.Mount("lprp:removeWeapon", new Action<string>(RemoveWeapon));
-            Client.Instance.Events.Mount("lprp:addWeapon", new Action<string, int>(AddWeapon));
-            Client.Instance.Events.Mount("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
-            Client.Instance.Events.Mount("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
-            Client.Instance.Events.Mount("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
+            EventDispatcher.Mount("lprp:possiediArma", new Action<string, string>(PossiediArma));
+            EventDispatcher.Mount("lprp:possiediTinta", new Action<string, int>(PossiediTinta));
+            EventDispatcher.Mount("lprp:removeWeaponComponent", new Action<string, string>(RemoveWeaponComponent));
+            EventDispatcher.Mount("lprp:removeWeapon", new Action<string>(RemoveWeapon));
+            EventDispatcher.Mount("lprp:addWeapon", new Action<string, int>(AddWeapon));
+            EventDispatcher.Mount("lprp:addWeaponComponent", new Action<string, string>(AddWeaponComponent));
+            EventDispatcher.Mount("lprp:addWeaponTint", new Action<string, int>(AddWeaponTint));
+            EventDispatcher.Mount("lprp:riceviOggettoAnimazione", new Action(AnimazioneRiceviOggetto));
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
-            Client.Instance.Events.Unmount("lprp:possiediArma");
-            Client.Instance.Events.Unmount("lprp:possiediTinta");
-            Client.Instance.Events.Unmount("lprp:removeWeaponComponent");
-            Client.Instance.Events.Unmount("lprp:removeWeapon");
-            Client.Instance.Events.Unmount("lprp:addWeapon");
-            Client.Instance.Events.Unmount("lprp:addWeaponComponent");
-            Client.Instance.Events.Unmount("lprp:addWeaponTint");
-            Client.Instance.Events.Unmount("lprp:riceviOggettoAnimazione");
+            EventDispatcher.Unmount("lprp:possiediArma");
+            EventDispatcher.Unmount("lprp:possiediTinta");
+            EventDispatcher.Unmount("lprp:removeWeaponComponent");
+            EventDispatcher.Unmount("lprp:removeWeapon");
+            EventDispatcher.Unmount("lprp:addWeapon");
+            EventDispatcher.Unmount("lprp:addWeaponComponent");
+            EventDispatcher.Unmount("lprp:addWeaponTint");
+            EventDispatcher.Unmount("lprp:riceviOggettoAnimazione");
         }
 
         private static void AnimazioneRiceviOggetto()

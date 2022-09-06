@@ -15,7 +15,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 
         public static void Init()
         {
-            Client.Instance.Events.Mount("worldEventsManage.Client:DestroyEventVehicles", new Action(OnDestroySpawnedEventVehicles));
+            EventDispatcher.Mount("worldEventsManage.Client:DestroyEventVehicles", new Action(OnDestroySpawnedEventVehicles));
             Client.Instance.AddTick(OnTick);
 
             DecorRegister("weEventVehicle", 2);

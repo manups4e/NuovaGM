@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 #if SERVER
 using TheLastPlanet.Server.Core;
@@ -10,16 +8,15 @@ using TheLastPlanet.Server;
 #elif CLIENT
 using TheLastPlanet.Client.Core.PlayerChar;
 #endif
-using TheLastPlanet.Shared.Internal.Events.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Snowflakes;
-using System.IO;
-using TheLastPlanet.Shared.Internal.Events;
+using FxEvents.Shared.Snowflakes;
+using FxEvents.Shared.Attributes;
+using FxEvents.Shared.EventSubsystem;
 
 namespace TheLastPlanet.Shared
 {
     [Serialization]
-    public partial class ClientId : ISource
+    public partial class PlayerClient : ISource
     {
         public Snowflake Id { get; set; }
         public int Handle { get; set; }
@@ -29,7 +26,6 @@ namespace TheLastPlanet.Shared
         //[Ignore]
         //public ClientStateBags ClientStateBags { get; set; }
 #if CLIENT
-        private Ped _ped;
         [Ignore]
         [JsonIgnore]
         public Position Posizione { get; set; }
@@ -39,6 +35,7 @@ namespace TheLastPlanet.Shared
         [Ignore]
         [JsonIgnore]
         public Player Player { get => new(API.GetPlayerFromServerId(Handle)); }
+        private Ped _ped;
         [Ignore]
         [JsonIgnore]
         public Ped Ped
@@ -61,16 +58,17 @@ namespace TheLastPlanet.Shared
         [JsonIgnore]
         public Ped Ped { get => Player.Character; }
 
-        public static readonly ClientId Global = new(-1);
+        public static readonly PlayerClient Global = new(-1);
 #endif
         [Ignore]
         public Status Status { get; set; }
-        public ClientId()
+
+        public PlayerClient()
         {
-            Status = new(Player);
         }
+
 #if CLIENT
-        public ClientId(Tuple<Snowflake, BasePlayerShared> value)
+        public PlayerClient(Tuple<Snowflake, BasePlayerShared> value)
         {
             Id = value.Item1;
             Handle = Game.Player.ServerId;
@@ -79,7 +77,7 @@ namespace TheLastPlanet.Shared
             Status = new(Player);
         }
 #endif
-        public ClientId(Snowflake id)
+        public PlayerClient(Snowflake id)
         {
 #if SERVER
             Player owner = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
@@ -104,21 +102,18 @@ namespace TheLastPlanet.Shared
             }
         }
 
-#if SERVER
-        public ClientId(int handle)
+        public PlayerClient(int handle)
         {
             Handle = handle;
             //Player = Server.Server.Instance.GetPlayers.FirstOrDefault(x => x.Handle == Handle.ToString());
-            if (handle > 0)
-                LoadUser();
+            if (handle > 0) LoadUser();
             Id = User != null ? User.PlayerID : Snowflake.Empty;
             //ClientStateBags = new(Player);
             Status = new(Player);
         }
-#endif
 
 #if SERVER
-        public ClientId(User user)
+        public PlayerClient(User user)
         {
             Handle = Convert.ToInt32(user.Player.Handle);
             //Player = user.Player;
@@ -129,7 +124,7 @@ namespace TheLastPlanet.Shared
         }
 #endif
 
-        public ClientId(Snowflake id, int handle, string[] identifiers)
+        public PlayerClient(Snowflake id, int handle, string[] identifiers)
         {
             Id = id;
             Handle = handle;
@@ -143,6 +138,7 @@ namespace TheLastPlanet.Shared
             return $"{(Id != Snowflake.Empty ? Id.ToString() : Handle.ToString())} ({Player.Name})";
         }
 
+
 #if SERVER
         public bool Compare(Identifiers identifier)
         {
@@ -154,32 +150,31 @@ namespace TheLastPlanet.Shared
             return Compare(player.GetCurrentChar().Identifiers);
         }
 
-        public static explicit operator ClientId(string netId)
+        public static explicit operator PlayerClient(string netId)
         {
             if (int.TryParse(netId.Replace("net:", string.Empty), out int handle))
             {
-                return new ClientId(handle);
+                return new PlayerClient(handle);
             }
 
             throw new Exception($"Could not parse net id: {netId}");
         }
 #endif
-
-        public bool Compare(ClientId client)
+        public bool Compare(PlayerClient client)
         {
             return client.Handle == Handle;
         }
 
         public void LoadUser()
         {
-            ClientId res;
+            PlayerClient res;
 #if SERVER
             res = Server.Server.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);
+            if (res != null) User = res.User;
 #elif CLIENT
             res = Client.Client.Instance.Clients.FirstOrDefault(x => x.Handle == Handle);
+            User = new();
 #endif
-            if (res != null)
-                User = res.User;
             /*
 #if SERVER
             else
@@ -199,7 +194,7 @@ namespace TheLastPlanet.Shared
         }
 
 #if SERVER
-        public static explicit operator ClientId(int handle) => new(handle);
+        public static explicit operator PlayerClient(int handle) => new(handle);
 #endif
 
     }
@@ -233,6 +228,26 @@ namespace TheLastPlanet.Shared
             RolePlayStates.Ammanettato = false;
             RolePlayStates.FinDiVita = false;
             Istanza.RimuoviIstanza();
+        }
+
+        public void Load()
+        {
+            PlayerStates.Modalita = PlayerStates._modalita.State;
+            PlayerStates.Spawned = PlayerStates._spawned.State;
+            PlayerStates.InVeicolo = PlayerStates._inVeicolo.State;
+            PlayerStates.InPausa = PlayerStates._inPausa.State;
+            PlayerStates.AdminSpecta = PlayerStates._adminSpecta.State;
+            PlayerStates.Wanted = PlayerStates._wanted.State;
+            RolePlayStates.InCasa = RolePlayStates._inCasa.State;
+            RolePlayStates.Svenuto = RolePlayStates._svenuto.State;
+            RolePlayStates.InServizio = RolePlayStates._inServizio.State;
+            RolePlayStates.Ammanettato = RolePlayStates._ammanettato.State;
+            RolePlayStates.FinDiVita = RolePlayStates._finDiVita.State;
+            var p = Istanza._instanceBag.State;
+            Istanza.Stanziato = p.Stanziato;
+            Istanza.ServerIdProprietario = p.ServerIdProprietario;
+            Istanza.IsProprietario = p.IsProprietario ;
+            Istanza.Instance = p.Instance ;
         }
     }
 }

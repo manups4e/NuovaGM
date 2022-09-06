@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.TimeWeather
 {
@@ -16,10 +16,10 @@ namespace TheLastPlanet.Server.TimeWeather
         private static SharedTimer WeatherTimer;
         public static async void Init()
         {
-            Server.Instance.Events.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
-            Server.Instance.Events.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
-            Server.Instance.Events.Mount("changeWeather", new Action<bool>(CambiaMeteo));
-            Server.Instance.Events.Mount("SyncWeatherForMe", new Action<ClientId, bool>(SyncMeteoPerMe));
+            EventDispatcher.Mount("changeWeatherWithParams", new Action<int, bool, bool>(CambiaMeteoConParams));
+            EventDispatcher.Mount("changeWeatherDynamic", new Action<bool>(CambiaMeteoDinamico));
+            EventDispatcher.Mount("changeWeather", new Action<bool>(CambiaMeteo));
+            EventDispatcher.Mount("SyncWeatherForMe", new Action<PlayerClient, bool>(SyncMeteoPerMe));
             Meteo = new SharedWeather()
             {
                 CurrentWeather = ConfigShared.SharedConfig.Main.Meteo.ss_default_weather,
@@ -33,10 +33,10 @@ namespace TheLastPlanet.Server.TimeWeather
             Server.Instance.AddTick(Conteggio);
         }
 
-        private static void SyncMeteoPerMe(ClientId p, bool startup)
+        private static void SyncMeteoPerMe(PlayerClient p, bool startup)
         {
             Meteo.StartUp = startup;
-            Server.Instance.Events.Send(p, "tlg:getMeteo", Meteo);
+            EventDispatcher.Send(p, "tlg:getMeteo", Meteo);
             Meteo.StartUp = false;
         }
 

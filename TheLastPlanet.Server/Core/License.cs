@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.Core
 {
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Server.Core
             };
         }
 
-        public static string GetLicense(this ClientId client, Identifier identifier)
+        public static string GetLicense(this PlayerClient client, Identifier identifier)
         {
             return identifier switch
             {

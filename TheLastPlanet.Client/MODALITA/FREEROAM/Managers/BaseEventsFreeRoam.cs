@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core.Native;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -12,7 +12,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             AccessingEvents.OnFreeRoamLeave += FreeRoamLogin_OnPlayerLeft;
         }
 
-        private static void FreeRoamLogin_OnPlayerJoined(ClientId client)
+        private static void FreeRoamLogin_OnPlayerJoined(PlayerClient client)
         {
             InternalGameEvents.OnPedKilledByPlayer += OnPedKilledByPlayer;
             InternalGameEvents.OnPedDied += OnPedDied;
@@ -20,7 +20,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             InternalGameEvents.OnPedKilledByVehicle += OnPedKilledByVehicle;
             Environment.EnablePvP(true);
         }
-        private static void FreeRoamLogin_OnPlayerLeft(ClientId client)
+        private static void FreeRoamLogin_OnPlayerLeft(PlayerClient client)
         {
             InternalGameEvents.OnPedKilledByPlayer -= OnPedKilledByPlayer;
             InternalGameEvents.OnPedDied -= OnPedDied;
@@ -45,16 +45,16 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     if (lastPed.Handle != PlayerCache.MyPlayer.Ped.Handle)
                     {
                         Player playerKiller = new(NetworkGetPlayerIndexFromPed(lastPed.Handle));
-                        Client.Instance.Events.Send("lpop:onPlayerDied", 1, playerKiller.Handle, GetEntityCoords(ped, false).ToPosition());
+                        EventDispatcher.Send("lpop:onPlayerDied", 1, playerKiller.Handle, GetEntityCoords(ped, false).ToPosition());
                     }
                     else
-                        Client.Instance.Events.Send("lpop:onPlayerDied", 0, -1, GetEntityCoords(ped, false).ToPosition());
+                        EventDispatcher.Send("lpop:onPlayerDied", 0, -1, GetEntityCoords(ped, false).ToPosition());
                 }
                 else
-                    Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
+                    EventDispatcher.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
             }
             else
-                Client.Instance.Events.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
+                EventDispatcher.Send("lpop:onPlayerDied", -1, -1, GetEntityCoords(ped, false).ToPosition());
             Game.PlaySound("TextHit", "WastedSounds");
             ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
             await BaseScript.Delay(5000);
@@ -67,7 +67,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             Screen.Effects.Start(ScreenEffect.DeathFailMpIn);
             Game.PlaySound("Bed", "WastedSounds");
             GameplayCamera.Shake(CameraShake.DeathFail, 1f);
-            Client.Instance.Events.Send("lpop:onPlayerDied", -1, attackerPed, GetEntityCoords(ped, false).ToPosition());
+            EventDispatcher.Send("lpop:onPlayerDied", -1, attackerPed, GetEntityCoords(ped, false).ToPosition());
             Game.PlaySound("TextHit", "WastedSounds");
             ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), "");
             await BaseScript.Delay(5000);
@@ -81,7 +81,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             Screen.Effects.Start(ScreenEffect.DeathFailMpIn);
             Game.PlaySound("Bed", "WastedSounds");
             GameplayCamera.Shake(CameraShake.DeathFail, 1f);
-            Client.Instance.Events.Send("lpop:onPlayerDied", suicidato ? 0 : -1, attacker, API.GetEntityCoords(ped, false).ToPosition());
+            EventDispatcher.Send("lpop:onPlayerDied", suicidato ? 0 : -1, attacker, API.GetEntityCoords(ped, false).ToPosition());
             Game.PlaySound("TextHit", "WastedSounds");
             ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage("~r~" + Game.GetGXTEntry("RESPAWN_W_MP"), suicidato ? "Ti Sei suicidato" : "");
             await BaseScript.Delay(5000);
@@ -96,7 +96,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             Game.PlaySound("Bed", "WastedSounds");
             GameplayCamera.Shake(CameraShake.DeathFail, 1f);
             Game.PlaySound("TextHit", "WastedSounds");
-            Client.Instance.Events.Send("lpop:onPlayerDied", 1, killerPed.ServerId, API.GetEntityCoords(ped, false).ToPosition());
+            EventDispatcher.Send("lpop:onPlayerDied", 1, killerPed.ServerId, API.GetEntityCoords(ped, false).ToPosition());
             ScaleformUI.ScaleformUI.BigMessageInstance.ShowMpWastedMessage(Game.GetGXTEntry("RESPAWN_W_MP"), $"{killerPed.Name} ti ha ucciso");
             await BaseScript.Delay(5000);
             Revive();

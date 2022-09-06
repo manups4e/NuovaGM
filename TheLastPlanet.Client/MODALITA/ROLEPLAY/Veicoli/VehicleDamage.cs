@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -69,7 +69,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             deformationMultiplier = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.deformationMultiplier;
             deformationExponent = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.deformationExponent;
@@ -98,7 +98,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
         }
 
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             tireBurstMaxNumber = 0;
         }

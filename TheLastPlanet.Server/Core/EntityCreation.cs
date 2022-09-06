@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
@@ -11,7 +11,7 @@ namespace TheLastPlanet.Server.Core
     {
         public static void Init()
         {
-            Server.Instance.Events.Mount("lprp:entity:spawnVehicle", new Func<uint, Position, Task<int>>(async (a, b) =>
+            EventDispatcher.Mount("lprp:entity:spawnVehicle", new Func<uint, Position, Task<int>>(async (a, b) =>
             {
                 try
                 {
@@ -19,9 +19,14 @@ namespace TheLastPlanet.Server.Core
                     Position coords = b;
                     Vehicle veh = new(CreateVehicle(mod, coords.X, coords.Y, coords.Z, coords.Heading, true, true));
                     while (!DoesEntityExist(veh.Handle)) await BaseScript.Delay(0);
+                    while (DoesEntityExist(veh.Handle))
+                    {
+                        if (NetworkGetEntityOwner(veh.Handle) == -1) await BaseScript.Delay(1);
+                        else break;
+                    }
                     var decor = new { decorator = Snowflake.Next().ToInt64() };
                     veh.State.Set("decor", decor, true);
-                    SetEntityDistanceCullingRadius(veh.Handle, 5000f);
+                    //SetEntityDistanceCullingRadius(veh.Handle, 5000f);
 
                     return veh.NetworkId;
                 }
@@ -32,7 +37,7 @@ namespace TheLastPlanet.Server.Core
                     return 0;
                 }
             }));
-            Server.Instance.Events.Mount("lprp:entity:spawnPed", new Func<uint, Position, int, Task<int>>(async (a, b, c) =>
+            EventDispatcher.Mount("lprp:entity:spawnPed", new Func<uint, Position, int, Task<int>>(async (a, b, c) =>
             {
                 try
                 {
@@ -54,7 +59,7 @@ namespace TheLastPlanet.Server.Core
                     return 0;
                 }
             }));
-            Server.Instance.Events.Mount("lprp:entity:spawnProp", new Func<int, Position, Task<int>>(async (a, b) =>
+            EventDispatcher.Mount("lprp:entity:spawnProp", new Func<int, Position, Task<int>>(async (a, b) =>
             {
                 try
                 {

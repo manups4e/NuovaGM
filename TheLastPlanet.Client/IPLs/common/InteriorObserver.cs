@@ -115,7 +115,7 @@ namespace TheLastPlanet.Client.IPLs
                         IplManager.Global.DiamondDlc.IsInCasino = true;
                         if (IPLInstance.DiamondCasino.ExpositionVeh is null)
                         {
-                            string model = await Client.Instance.Events.Get<string>("tlg:casino:getVehModel");
+                            string model = await EventDispatcher.Get<string>("tlg:casino:getVehModel");
                             IPLInstance.DiamondCasino.CreateVehicleForDisplay(model);
                         }
                         IPLInstance.DiamondCasino.RenderWalls(true);

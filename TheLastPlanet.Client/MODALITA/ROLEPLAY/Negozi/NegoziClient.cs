@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Businesses;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             NegoziGenerici = Client.Impostazioni.RolePlay.Negozi.NegoziGenerici;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             NegoziGenerici = null;
             InputHandler.RemoveInputList(tfsInputs);
@@ -39,7 +39,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             armerieInputs.Clear();
         }
 
-        public static void NegoziSpawn(ClientId client)
+        public static void NegoziSpawn(PlayerClient client)
         {
             foreach (Vector3 v in NegoziGenerici.tfs)
             {

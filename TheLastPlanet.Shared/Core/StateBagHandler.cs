@@ -57,7 +57,13 @@ namespace TheLastPlanet.Shared
                     switch (entType)
                     {
                         case "player":
-                            //ClientId player = Server.Instance.Clients[userId];
+                            PlayerClient player;
+#if CLIENT
+                            if (userId == Game.Player.ServerId)
+                                player = PlayerCache.MyPlayer;
+#elif SERVER
+                                //player = Server.Server.Instance.Clients[userId];
+#endif
                             var modeType = key.Contains(":") ? key.Substring(0, key.IndexOf(':')) : key;
                             var state = key.Substring(key.IndexOf(':') + 1);
                             switch (modeType)
@@ -66,6 +72,11 @@ namespace TheLastPlanet.Shared
                                     switch (state)
                                     {
                                         case "ModPassiva":
+                                            {
+                                                bool res = (value as byte[]).FromBytes<bool>();
+                                                OnPlayerStateBagChange?.Invoke(userId, state, res);
+                                            }
+                                            break;
                                         case "InPausa":
                                         case "InVeicolo":
                                         case "Spawned":

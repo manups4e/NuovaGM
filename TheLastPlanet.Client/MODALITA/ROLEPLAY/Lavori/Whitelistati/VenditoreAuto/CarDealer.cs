@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
             Client.Instance.AddEventHandler("lprp:cardealer:cambiaVehCatalogo", new Action<bool, string>(CambiaVehCatalogo));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             carDealer = null;
             Client.Instance.RemoveEventHandler("lprp:cardealer:catalogoAlcuni", new Action<bool, List<int>>(CatalogoAlcuni));
@@ -35,7 +35,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAu
             vend.Delete();
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             vend = World.CreateBlip(carDealer.Config.MenuVendita.ToVector3);
             vend.Sprite = BlipSprite.PersonalVehicleCar;

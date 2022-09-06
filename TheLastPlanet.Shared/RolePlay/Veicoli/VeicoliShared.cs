@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Drawing;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared.Veicoli
 {

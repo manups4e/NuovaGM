@@ -2,14 +2,14 @@
 using CitizenFX.Core.Native;
 using System.Collections.Generic;
 using System.Linq;
-using TheLastPlanet.Shared.Internal.Events;
+
 #if SERVER
 using TheLastPlanet.Server;
 #endif
 namespace TheLastPlanet.Shared.Core.Buckets
 {
-    public delegate void PlayerJoining(ClientId client);
-    public delegate void PlayerLeft(ClientId client, string reason);
+    public delegate void PlayerJoining(PlayerClient client);
+    public delegate void PlayerLeft(PlayerClient client, string reason);
 
     public enum BucketLockdownMode
     {
@@ -22,7 +22,7 @@ namespace TheLastPlanet.Shared.Core.Buckets
     {
         public int ID;
         public string Name;
-        public List<ClientId> Players = new();
+        public List<PlayerClient> Players = new();
         public List<Entity> Entities = new();
         public int TotalPlayers => Players.Count;
         private BucketLockdownMode _lockdownMode;
@@ -61,7 +61,7 @@ namespace TheLastPlanet.Shared.Core.Buckets
             Name = name;
         }
 
-        public virtual void AddPlayer(ClientId client)
+        public virtual void AddPlayer(PlayerClient client)
         {
             if (Players.Any(x => x.Handle == client.Handle)) return;
             Players.Add(client);
@@ -71,7 +71,7 @@ namespace TheLastPlanet.Shared.Core.Buckets
             OnPlayerJoin?.Invoke(client);
         }
 
-        public virtual void RemovePlayer(ClientId client, string reason = "")
+        public virtual void RemovePlayer(PlayerClient client, string reason = "")
         {
             if (!Players.Any(x => x.Handle == client.Handle)) return;
             Players.Remove(Players.FirstOrDefault(x => x.Handle == client.Handle));
@@ -147,17 +147,17 @@ namespace TheLastPlanet.Shared.Core.Buckets
 
 #if SERVER
 
-        public void TriggerClientEvent(ClientId client, string endpoint, params object[] args)
+        public void TriggerClientEvent(PlayerClient client, string endpoint, params object[] args)
         {
             if (Players.Contains(client))
-                Server.Server.Instance.Events.Send(client, endpoint, args);
+                EventDispatcher.Send(client, endpoint, args);
             else
                 Server.Server.Logger.Warning($"Buckets:TriggerClientEvent, client {client} not in the list for {Name}!");
         }
 
         public void TriggerClientEvent(string endpoint, params object[] args)
         {
-            Server.Server.Instance.Events.Send(Players.ToList(), endpoint, args);
+            EventDispatcher.Send(Players.ToList(), endpoint, args);
         }
 #endif
     }

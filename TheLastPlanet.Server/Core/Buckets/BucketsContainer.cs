@@ -9,7 +9,6 @@ using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode;
 using TheLastPlanet.Shared;
 using TheLastPlanet.Shared.Core.Buckets;
-using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Server.Core.Buckets
 {
@@ -54,8 +53,8 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             Modalita = modalitaServer;
             Bucket = bucket;
-            Server.Instance.Events.Mount("tlg:Select_FreeRoamChar", new Func<ClientId, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
-            Server.Instance.Events.Mount("tlg:Save_FreeRoamChar", new Action<ClientId>(SavePlayerData));
+            EventDispatcher.Mount("tlg:Select_FreeRoamChar", new Func<PlayerClient, int, Task<FreeRoamChar>>(LoadFreeRoamChar));
+            EventDispatcher.Mount("tlg:Save_FreeRoamChar", new Action<PlayerClient>(SavePlayerData));
         }
 
         public int GetTotalPlayers()
@@ -63,7 +62,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return Bucket.TotalPlayers;
         }
 
-        public void AddPlayer(ClientId client)
+        public void AddPlayer(PlayerClient client)
         {
             Bucket.AddPlayer(client);
             var highscores = new List<PlayerScore>();
@@ -74,7 +73,7 @@ namespace TheLastPlanet.Server.Core.Buckets
         }
 
 
-        public async void RemovePlayer(ClientId client, string reason = "")
+        public async void RemovePlayer(PlayerClient client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
             SavePlayerData(client);
@@ -90,7 +89,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             SetPlayerCullingRadius(client.Handle.ToString(), 0f);
         }
 
-        public void UpdateCurrentAttempt(ClientId client, int eventId, float currentAttempt)
+        public void UpdateCurrentAttempt(PlayerClient client, int eventId, float currentAttempt)
         {
             try
             {
@@ -127,7 +126,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
         }
 
-        public void UpdateBestAttempt(ClientId client, int eventId, int bestAttempt)
+        public void UpdateBestAttempt(PlayerClient client, int eventId, int bestAttempt)
         {
             try
             {
@@ -188,7 +187,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
                 var newerDict = orderByDescending.ToDictionary(x => x.Key, x => x.Value);
 
-                Server.Instance.Events.Send(Bucket.Players, "worldEventsManage.Client:FinalTop3", eventId, newerDict.ToJson());
+                EventDispatcher.Send(Bucket.Players, "worldEventsManage.Client:FinalTop3", eventId, newerDict.ToJson());
             }
             catch (Exception e)
             {
@@ -228,7 +227,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
                 if (newDict.Count < 3) { return; }
 
-                Server.Instance.Events.Send(Bucket.Players, "worldEventsManage.Client:GetTop3", newDict.ToJson());
+                EventDispatcher.Send(Bucket.Players, "worldEventsManage.Client:GetTop3", newDict.ToJson());
             }
             catch (Exception e)
             {
@@ -255,7 +254,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
         }
 
-        public int GetCurrentLevel(ClientId client)
+        public int GetCurrentLevel(PlayerClient client)
         {
             try
             {
@@ -274,7 +273,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return -1;
         }
 
-        public int GetCurrentExperiencePoints(ClientId client)
+        public int GetCurrentExperiencePoints(PlayerClient client)
         {
             try
             {
@@ -293,7 +292,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return 0;
         }
 
-        public void AddExperience(ClientId client, int experiencePoints)
+        public void AddExperience(PlayerClient client, int experiencePoints)
         {
             try
             {
@@ -321,7 +320,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             }
         }
 
-        private async Task<FreeRoamChar> LoadFreeRoamChar(ClientId source, int id)
+        private async Task<FreeRoamChar> LoadFreeRoamChar(PlayerClient source, int id)
         {
             //API.DeleteResourceKvpNoSync($"freeroam:player_{source.User.Identifiers.Discord}:char_model");
             if (source.User.ID != id) return null;
@@ -339,7 +338,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return source.User.FreeRoamChar;
         }
 
-        private void SavePlayerData(ClientId client)
+        private void SavePlayerData(PlayerClient client)
         {
             client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
@@ -355,9 +354,9 @@ namespace TheLastPlanet.Server.Core.Buckets
         {
             Modalita = modalitaServer;
             Bucket = bucket;
-            Server.Instance.Events.Mount("lprp:RequestLoginInfo", new Func<ClientId, Task<List<LogInInfo>>>(LogInfo));
-            Server.Instance.Events.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
-            Server.Instance.Events.Mount("lprp:Select_Char", new Func<ClientId, ulong, Task<Char_data>>(LoadChar));
+            EventDispatcher.Mount("lprp:RequestLoginInfo", new Func<PlayerClient, Task<List<LogInInfo>>>(LogInfo));
+            EventDispatcher.Mount("lprp:anteprimaChar", new Func<ulong, Task<SkinAndDress>>(PreviewChar));
+            EventDispatcher.Mount("lprp:Select_Char", new Func<PlayerClient, ulong, Task<Char_data>>(LoadChar));
         }
 
         public int GetTotalPlayers()
@@ -365,13 +364,13 @@ namespace TheLastPlanet.Server.Core.Buckets
             return Bucket.TotalPlayers;
         }
 
-        public void AddPlayer(ClientId client)
+        public void AddPlayer(PlayerClient client)
         {
             Bucket.AddPlayer(client);
             SetPlayerCullingRadius(client.Handle.ToString(), 5000f);
         }
 
-        public void RemovePlayer(ClientId client, string reason = "")
+        public void RemovePlayer(PlayerClient client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
             if (client.Status.PlayerStates.Spawned)
@@ -386,7 +385,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
         #region EVENTS
 
-        private static async Task<List<LogInInfo>> LogInfo(ClientId client)
+        private static async Task<List<LogInInfo>> LogInfo(PlayerClient client)
         {
             string query = "SELECT CharID, info, money, bank FROM personaggi WHERE UserID = @id";
             var info = await MySQL.QueryListAsync(query, new
@@ -431,7 +430,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return result;
         }
 
-        private static async Task<Char_data> LoadChar(ClientId source, ulong id)
+        private static async Task<Char_data> LoadChar(PlayerClient source, ulong id)
         {
             User user = Funzioni.GetClientFromPlayerId(source.Handle).User;
 
@@ -439,6 +438,7 @@ namespace TheLastPlanet.Server.Core.Buckets
 
             var data = GetResourceKvpString($"roleplay:player_{source.User.Identifiers.Discord}:char_model_{id}");
             var bytes = data.StringToBytes();
+            Server.Logger.Debug(data);
             user.CurrentChar = bytes.FromBytes<Char_data>();
 
             /*
@@ -464,7 +464,7 @@ namespace TheLastPlanet.Server.Core.Buckets
             return user.CurrentChar;
         }
 
-        public async void SalvaPersonaggioRoleplay(ClientId client)
+        public async void SalvaPersonaggioRoleplay(PlayerClient client)
         {
             try
             {
@@ -523,12 +523,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             return 0;
         }
 
-        public void AddPlayer(ClientId client)
+        public void AddPlayer(PlayerClient client)
         {
             Bucket.AddPlayer(client);
         }
 
-        public void RemovePlayer(ClientId client, string reason = "")
+        public void RemovePlayer(PlayerClient client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
         }
@@ -552,12 +552,12 @@ namespace TheLastPlanet.Server.Core.Buckets
             return 0;
         }
 
-        public void AddPlayer(ClientId client)
+        public void AddPlayer(PlayerClient client)
         {
             Bucket.AddPlayer(client);
         }
 
-        public void RemovePlayer(ClientId client, string reason = "")
+        public void RemovePlayer(PlayerClient client, string reason = "")
         {
             Bucket.RemovePlayer(client, reason);
         }

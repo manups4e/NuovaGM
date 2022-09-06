@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using System.Collections.Generic;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 
 namespace Impostazioni.Shared.Configurazione.Generici
 {

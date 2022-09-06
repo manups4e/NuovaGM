@@ -4,7 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.Telefoni
 {
@@ -15,10 +15,10 @@ namespace TheLastPlanet.Server.Telefoni
         public static void Init()
         {
             //Server.Instance.AddEventHandler("lprp:setupUser", new Action<Player>(SetupPhone));
-            Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(SetupPhone));
+            EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(SetupPhone));
         }
 
-        private static async void SetupPhone(ClientId client)
+        private static async void SetupPhone(PlayerClient client)
         {
             await BaseScript.Delay(0);
             try

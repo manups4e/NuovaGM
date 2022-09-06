@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 {
@@ -25,7 +25,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             Client.Instance.AddEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:polizia:ammanetta_smanetta", new Action(AmmanettaSmanetta));
             Client.Instance.RemoveEventHandler("lprp:polizia:accompagna", new Action<int>(Accompagna));
@@ -33,7 +33,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
             Client.Instance.RemoveEventHandler("lprp:polizia:togliVeh", new Action(TogliVeh));
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             foreach (StazioniDiPolizia stazione in Client.Impostazioni.RolePlay.Lavori.Polizia.Config.Stazioni)
             {

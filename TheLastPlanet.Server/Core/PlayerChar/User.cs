@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 using TheLastPlanet.Shared.Veicoli;
 

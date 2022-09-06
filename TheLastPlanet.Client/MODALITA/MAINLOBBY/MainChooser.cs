@@ -50,6 +50,7 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 CreateRuntimeTextureFromDuiHandle(txd, "serverlogo", GetDuiHandle(_logodui));
                 firstTick = false;
             }
+
             if (_posRp == Position.Zero)
             {
                 _posRp = await RP_Marker.Marker.Position.GetPositionWithGroundZ();
@@ -209,11 +210,11 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
         {
             Screen.Fading.FadeOut(500);
             await BaseScript.Delay(600);
-            ScaleformUI.ScaleformUI.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", 2000, "Attendi...");
+            ScaleformUI.ScaleformUI.Warning.ShowWarning(nome, "Ingresso nella sezione in corso...", "Attendi...");
             await BaseScript.Delay(100);
             Screen.Fading.FadeIn(0);
             await BaseScript.Delay(3000);
-            bool dentro = await Client.Instance.Events.Get<bool>("tlg:checkSeGiaDentro", modalita);
+            bool dentro = await EventDispatcher.Get<bool>("tlg:checkSeGiaDentro", modalita);
 
             if (dentro)
             {
@@ -225,7 +226,12 @@ namespace TheLastPlanet.Client.MODALITA.MAINLOBBY
                 return;
             }
 
-            string settings = await Client.Instance.Events.Get<string>("Config.CallClientConfig", modalita);
+            string settings = await EventDispatcher.Get<string>("Config.CallClientConfig", modalita);
+            if (modalita == ModalitaServer.Roleplay)
+            {
+                string sharedSettings = await EventDispatcher.Get<string>("Config.CallSharedConfig", modalita);
+                ConfigShared.SharedConfig = sharedSettings.FromJson<SharedConfig>();
+            }
             Client.Impostazioni.LoadConfig(modalita, settings);
             ScaleformUI.ScaleformUI.Warning.UpdateWarning(nome, "Caricamento completato!");
             Cache.PlayerCache.MyPlayer.Status.PlayerStates.Modalita = modalita;

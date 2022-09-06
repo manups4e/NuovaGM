@@ -40,8 +40,8 @@ namespace TheLastPlanet.Client.ListaPlayers
             if (Input.IsControlJustPressed(Control.MultiplayerInfo) && !HUD.MenuPool.IsAnyMenuOpen && !IsPedRunningMobilePhoneTask(PlayerPedId()))
             {
                 ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Clear();
-                var num = await Client.Instance.Events.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
-                var list = await Client.Instance.Events.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
+                var num = await EventDispatcher.Get<int>("tlg:fs:getMaxPlayers", PlayerCache.ModalitàAttuale);
+                var list = await EventDispatcher.Get<List<PlayerSlot>>("tlg:fs:getPlayers", PlayerCache.ModalitàAttuale);
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
                 {
                     if (BankingClient.InterfacciaAperta)
@@ -50,7 +50,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 
                 foreach (var p in list)
                 {
-                    Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetClientIdFromServerId(p.ServerId)?.Ped;
+                    Ped ped = p.ServerId == PlayerCache.MyPlayer.Handle ? PlayerCache.MyPlayer.Ped : Funzioni.GetPlayerClientFromServerId(p.ServerId)?.Ped;
                     var mug = await Funzioni.GetPedMugshotAsync(ped);
                     if (ScaleformUI.ScaleformUI.PlayerListInstance.PlayerRows.Any<PlayerRow>(x => x.ServerId == p.ServerId)) continue;
                     var row = new PlayerRow()
@@ -126,7 +126,7 @@ namespace TheLastPlanet.Client.ListaPlayers
 						UnregisterPedheadshot(x);
 					int amount = 0;
 
-					var players = Client.Instance.Events.Get<List<PlayerRow>>("tlg:fs:getPlayersRows");
+					var players = EventDispatcher.Get<List<PlayerRow>>("tlg:fs:getPlayersRows");
 
 					foreach (Player p in Client.Instance.GetPlayers.ToList())
 					{

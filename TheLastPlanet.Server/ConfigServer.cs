@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Properties;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server
 {
@@ -18,8 +18,9 @@ namespace TheLastPlanet.Server
             Server.Impostazioni = Resources.ServerConfig.FromJson<Configurazione>();
             ConfigShared.SharedConfig = Resources.SharedConfig.FromJson<SharedConfig>();
             Weapons = Resources.Weapons.FromJson<List<SharedWeapon>>();
-            Server.Instance.Events.Mount("Config.CallClientConfig", new Func<ClientId, ModalitaServer, Task<string>>(ClientConfigCallback));
-            Server.Instance.Events.Mount("tlg:getWeaponsConfig", new Func<Task<List<SharedWeapon>>>(GiveWeaponsToClient));
+            EventDispatcher.Mount("Config.CallClientConfig", new Func<PlayerClient, ModalitaServer, Task<string>>(ClientConfigCallback));
+            EventDispatcher.Mount("Config.CallSharedConfig", new Func<PlayerClient, ModalitaServer, Task<string>>(ClientSharedCallback));
+            EventDispatcher.Mount("tlg:getWeaponsConfig", new Func<Task<List<SharedWeapon>>>(GiveWeaponsToClient));
 
             await Task.FromResult(0);
         }
@@ -29,23 +30,31 @@ namespace TheLastPlanet.Server
             return Weapons;
         }
 
-        private static async Task<string> ClientConfigCallback(ClientId client, ModalitaServer type)
+        private static async Task<string> ClientSharedCallback(PlayerClient client, ModalitaServer type)
+        {
+            if (type == ModalitaServer.Roleplay)
+            {
+                return Resources.SharedConfig;
+            }
+            return null;
+        }
+        private static async Task<string> ClientConfigCallback(PlayerClient client, ModalitaServer type)
         {
             switch (type)
             {
                 case ModalitaServer.Lobby:
-                    return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Lobby.json");
+                    return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Lobby.json");
                 case ModalitaServer.Roleplay:
                     return Resources.Client_RolePlay;
-                //return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_RolePlay.json");
+                //return LoadResourceFile(GetCurrentResourceName(), "configs/Client_RolePlay.json");
                 case ModalitaServer.Minigiochi:
-                    return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Minigiochi.json");
+                    return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Minigiochi.json");
                     /*
                 case ModalitaServer.Gare:
-                    return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Gare.json");
+                    return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Gare.json");
                     */
                 case ModalitaServer.Negozio:
-                    return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_Negozio.json");
+                    return LoadResourceFile(GetCurrentResourceName(), "configs/Client_Negozio.json");
                 case ModalitaServer.FreeRoam:
                     return Resources.Client_FreeRoam;
                 //return API.LoadResourceFile(API.GetCurrentResourceName(), "configs/Client_FreeRoam.json");

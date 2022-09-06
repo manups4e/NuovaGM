@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server
 {
@@ -261,10 +261,10 @@ namespace TheLastPlanet.Server
 
         public static void Init()
         {
-            Server.Instance.Events.Mount("lpop:onPlayerDied", new Action<ClientId, int, int, Position>(OnPlayerDied));
+            EventDispatcher.Mount("lpop:onPlayerDied", new Action<PlayerClient, int, int, Position>(OnPlayerDied));
         }
 
-        private static void OnPlayerDied(ClientId player, int tipo, int killer, Position victimCoords)
+        private static void OnPlayerDied(PlayerClient player, int tipo, int killer, Position victimCoords)
         {
             string morte = "";
             Player Killer = Funzioni.GetPlayerFromId(killer);
@@ -280,7 +280,7 @@ namespace TheLastPlanet.Server
                     morte = $"~h~{player.Player.Name}~h~ è morto.";
                     break;
             }
-            Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "lpop:ShowNotification", morte);
+            EventDispatcher.Send(BucketsHandler.FreeRoam.Bucket.Players, "lpop:ShowNotification", morte);
         }
     }
 }

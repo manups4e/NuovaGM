@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TheLastPlanet.Server.Core.Buckets;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
@@ -11,10 +11,10 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 
         public static void Init()
         {
-            Server.Instance.Events.Mount("worldEventsManage.Server:SpawnedEventVehicles", new Action<ClientId, List<int>>(OnSpawnedEventVehicles));
+            EventDispatcher.Mount("worldEventsManage.Server:SpawnedEventVehicles", new Action<PlayerClient, List<int>>(OnSpawnedEventVehicles));
         }
 
-        private static void OnSpawnedEventVehicles(ClientId client, List<int> dynamicVehicles)
+        private static void OnSpawnedEventVehicles(PlayerClient client, List<int> dynamicVehicles)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     SpawnedEventVehicles.Add(v);
                 }
 
-                Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
+                EventDispatcher.Send(BucketsHandler.FreeRoam.Bucket.Players, "worldEventsManage.Client:SetVehicleBlips", SpawnedEventVehicles);
             }
             catch (Exception e)
             {

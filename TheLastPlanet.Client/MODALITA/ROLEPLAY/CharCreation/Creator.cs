@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
 {
@@ -1579,9 +1579,9 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation
                     BD1.Detach();
                     BD1.Delete();
                     Cache.PlayerCache.MyPlayer.Ped.Detach();
-                    Client.Instance.Events.Send("tlg:roleplay:finishCharServer", _data.ToJson());
+                    EventDispatcher.Send("tlg:roleplay:finishCharServer", _data.ToJson());
 
-                    Cache.PlayerCache.MyPlayer.User.CurrentChar = await Client.Instance.Events.Get<Char_data>("lprp:Select_Char", _data.CharID);
+                    Cache.PlayerCache.MyPlayer.User.CurrentChar = await EventDispatcher.Get<Char_data>("lprp:Select_Char", _data.CharID);
                     //BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 
                     Client.Instance.RemoveTick(Controllo);

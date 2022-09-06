@@ -116,7 +116,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                     await BaseScript.Delay(1000);
                     if (TimeRemaining == TimeSpan.Zero)
                     {
-                        Client.Instance.Events.Send("worldEventsManage.Server:EventEnded", Id, CurrentAttempt, BestAttempt);
+                        EventDispatcher.Send("worldEventsManage.Server:EventEnded", Id, CurrentAttempt, BestAttempt);
                         await BaseScript.Delay(5000);
                         ResetEvent();
                         return;
@@ -156,7 +156,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.EventiFreemode
                         BestAttempt = CurrentAttempt;
                     }
 
-                    Client.Instance.Events.Send("worldEventsManage.Server:UpdateCurrentEvent", Id, CurrentAttempt);
+                    EventDispatcher.Send("worldEventsManage.Server:UpdateCurrentEvent", Id, CurrentAttempt);
 
                     CurrentAttemptTimerBar.Caption = Math.Round(CurrentAttempt, 2).ToString() + " " + StatUnit;
                     YourBestTimerBar.Caption = Math.Round(BestAttempt, 2).ToString() + " " + StatUnit;

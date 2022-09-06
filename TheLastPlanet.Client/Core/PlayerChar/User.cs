@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Client.Core.Utility;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 using TheLastPlanet.Shared.PlayerChar;
 
 namespace TheLastPlanet.Client.Core.PlayerChar

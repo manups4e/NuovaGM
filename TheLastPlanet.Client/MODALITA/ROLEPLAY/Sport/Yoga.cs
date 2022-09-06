@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
 {
@@ -68,7 +68,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             ConfigShared.SharedConfig.Main.Generici.ItemList["materassinoyoga"].Usa -= async (item, index) =>
             {
@@ -82,7 +82,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Sport
             RemoveAnimDict("missfam5_yoga");
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             RequestAnimDict(YogaAnim);
             RequestAnimDict(YogaAnimUnknown);

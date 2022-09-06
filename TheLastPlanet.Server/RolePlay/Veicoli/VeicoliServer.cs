@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Server.Veicoli
@@ -16,7 +16,7 @@ namespace TheLastPlanet.Server.Veicoli
 
         public static void Init()
         {
-            Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(onPlayerSpawn));
+            EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(onPlayerSpawn));
             Server.Instance.AddEventHandler("lprp:lvc_TogIndicState_s", new Action<Player, int>(lvc_TogIndicState_s));
             Server.Instance.AddEventHandler("lprp:SilentSiren", new Action<Player, bool>(SilentSiren));
             Server.Instance.AddEventHandler("brakes:add_rear", new Action<int>(AddRear));
@@ -24,7 +24,7 @@ namespace TheLastPlanet.Server.Veicoli
             Server.Instance.AddEventHandler("brakes:rem_rear", new Action<int>(RemRear));
             Server.Instance.AddEventHandler("brakes:rem_front", new Action<int>(RemFront));
             Server.Instance.AddEventHandler("lprp:vehInGarage", new Action<Player, string, bool, string>(InGarage));
-            Server.Instance.Events.Mount("lprp:caricaVeicoli", new Func<ClientId, ulong, Task<List<OwnedVehicle>>>(async (a, b) =>
+            EventDispatcher.Mount("lprp:caricaVeicoli", new Func<PlayerClient, ulong, Task<List<OwnedVehicle>>>(async (a, b) =>
             {
                 const string query = "SELECT * FROM owned_vehicles WHERE UserID = @disc AND char_id = @pers";
                 Player player = a.Player;
@@ -38,7 +38,7 @@ namespace TheLastPlanet.Server.Veicoli
             }));
         }
 
-        public static async void onPlayerSpawn(ClientId client)
+        public static async void onPlayerSpawn(PlayerClient client)
         {
             await BaseScript.Delay(0);
 

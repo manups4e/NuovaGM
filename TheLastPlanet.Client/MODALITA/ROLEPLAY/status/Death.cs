@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
 {
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             //Client.Instance.AddEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
             //Client.Instance.AddEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));
@@ -55,7 +55,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status
             EarlyRespawn = Client.Impostazioni.RolePlay.Main.EarlyRespawn;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             //Client.Instance.RemoveEventHandler("baseevents:onPlayerDied", new Action<int, List<dynamic>>(playerDied));
             //Client.Instance.RemoveEventHandler("baseevents:onPlayerKilled", new Action<int, dynamic>(playerKilled));

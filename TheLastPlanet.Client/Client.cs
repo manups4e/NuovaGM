@@ -8,6 +8,8 @@ global using TheLastPlanet.Client.Cache;
 global using TheLastPlanet.Client.Core.PlayerChar;
 global using TheLastPlanet.Client.Core.Utility;
 global using TheLastPlanet.Client.Core.Utility.HUD;
+global using FxEvents;
+global using FxEvents.Shared;
 using Logger;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.AdminAC;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Client.Internal.Events;
-using TheLastPlanet.Shared.Internal.Events;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client
 {
@@ -28,9 +28,8 @@ namespace TheLastPlanet.Client
         public ExportDictionary GetExports => Exports;
         public PlayerList GetPlayers => Players;
         public static Configurazione Impostazioni = new Configurazione();
-        public ClientGateway Events { get; set; }
-        public List<ClientId> Clients = new();
-        public NuiManager NuiManager = new();
+        public List<PlayerClient> Clients { get; set; }
+        public NuiManager NuiManager { get; set; }
         public StateBagsHandler StateBagsHandler { get; set; }
         public StateBag ServerState => GlobalState;
         public Client() 
@@ -38,7 +37,8 @@ namespace TheLastPlanet.Client
             Logger = new();
             SnowflakeGenerator.Create(new Random().NextShort(1, 199));
             Instance = this;
-            Events = new();
+            Clients = new();
+            NuiManager = new();
             HUD.Init();
             ClasseDiTest.Init(); // da rimuovere
             ClientManager.Init();
@@ -47,10 +47,10 @@ namespace TheLastPlanet.Client
             Minimap.Init();
             ListaPlayers.FivemPlayerlist.Init();
             InternalGameEvents.Init();
-            ServerJoining.Init();
             StateBagsHandler = new StateBagsHandler();
             GestionePlayersDecors.Init();
             VehicleChecker.Init();
+            ServerJoining.Init();
         }
 
         /// <summary>

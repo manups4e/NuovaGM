@@ -1,4 +1,5 @@
-﻿using ScaleformUI.PauseMenu;
+﻿using CitizenFX.Core;
+using ScaleformUI.PauseMenu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ScaleformUI.LobbyMenu
     public class PlayerListColumn : Column
     {
         private int currentSelection;
-        public IndexChanged OnIndexChanged;
+        public event IndexChanged OnIndexChanged;
         public int ParentTab { get; internal set; }
         public List<LobbyItem> Items { get; private set; }
         public PlayerListColumn(string label, HudColor color) : base(label, color)
@@ -42,7 +43,6 @@ namespace ScaleformUI.LobbyMenu
 
         public void RemovePlayer(int id)
         {
-            Items.RemoveAt(id);
             if (Parent != null && Parent.Visible)
             {
                 if (Parent is MainView lobby)
@@ -50,6 +50,7 @@ namespace ScaleformUI.LobbyMenu
                 else if (Parent is TabView pause)
                     pause._pause._lobby.CallFunction("REMOVE_PLAYERS_TAB_PLAYER_ITEM", ParentTab, id);
             }
+            Items.RemoveAt(id);
         }
 
         public int CurrentSelection
@@ -59,7 +60,7 @@ namespace ScaleformUI.LobbyMenu
             {
                 if (Items.Count == 0) currentSelection = 0;
                 Items[CurrentSelection].Selected = false;
-                currentSelection = 1000000 - (1000000 % Items.Count) + value;
+                currentSelection = value < 0 ? 0 : value >= Items.Count ? Items.Count - 1 : 1000000 - (1000000 % Items.Count) + value;
                 Items[CurrentSelection].Selected = true;
                 if (Parent != null && Parent.Visible)
                 {

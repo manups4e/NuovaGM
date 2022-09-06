@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.Core.Utility
@@ -105,12 +105,12 @@ namespace TheLastPlanet.Client.Core.Utility
             return null;
         }
 
-        public static ClientId GetClientIdFromServerId(int id)
+        public static PlayerClient GetPlayerClientFromServerId(int id)
         {
             foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId == id select p) return p;
             return null;
         }
-        public static ClientId GetClientIdFromServerId(string id)
+        public static PlayerClient GetPlayerClientFromServerId(string id)
         {
             foreach (var p in from p in Client.Instance.Clients where p.Player.ServerId.ToString() == id select p) return p;
             return null;
@@ -515,11 +515,13 @@ namespace TheLastPlanet.Client.Core.Utility
                     GetVehiclesInArea(coords, 2).ToList().ForEach(x => x.Delete());
 
                 int callback =
-                    await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, coords.Z, heading));
+                    await EventDispatcher.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(coords.X, coords.Y, -190f, heading));
                 var result = (Vehicle)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
 
                 //Vehicle result = new(CreateVehicle((uint)vehicleModel.Hash, coords.X, coords.Y, coords.Z, heading, true, false));
+
+                result.Position = coords;
 
                 if (PlayerCache.ModalitàAttuale == ModalitaServer.Roleplay)
                 {
@@ -532,7 +534,7 @@ namespace TheLastPlanet.Client.Core.Utility
                 }
                 result.IsPersistent = true;
                 result.PlaceOnGround();
-                PlayerCache.MyPlayer.Ped.SetIntoVehicle(result, VehicleSeat.Driver);
+                TaskWarpPedIntoVehicle(PlayerCache.MyPlayer.Ped.Handle, result.Handle, -1);
                 vehicleModel.MarkAsNoLongerNeeded();
                 return result;
             }
@@ -569,7 +571,7 @@ namespace TheLastPlanet.Client.Core.Utility
                 if (!IsSpawnPointClear(coords, 2f))
                     ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
-                int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
+                int callback = await EventDispatcher.Get<int>("lprp:entity:spawnVehicle", (uint)vehicleModel.Hash, new Position(
                     coords.X, coords.Y, coords.Z, heading));
                 var result = (Vehicle)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
@@ -668,7 +670,7 @@ namespace TheLastPlanet.Client.Core.Utility
                 if (!IsSpawnPointClear(coords, 2f))
                     ClearArea(coords.X, coords.Y, coords.Z, 2f, true, false, false, true);
 
-                int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnProp", propModel.Hash,
+                int callback = await EventDispatcher.Get<int>("lprp:entity:spawnProp", propModel.Hash,
                     new Position(coords, rot));
                 var result = (Prop)Entity.FromNetworkId(callback);
                 while (result == null || !result.Exists()) await BaseScript.Delay(50);
@@ -752,7 +754,7 @@ namespace TheLastPlanet.Client.Core.Utility
                     ClearArea(position.ToVector3.X, position.ToVector3.Y, position.ToVector3.Z, 2f, true, false, false, true);
             }
 
-            int callback = await Client.Instance.Events.Get<int>("lprp:entity:spawnPed", (uint)pedModel.Hash, position, (int)pedType);
+            int callback = await EventDispatcher.Get<int>("lprp:entity:spawnPed", (uint)pedModel.Hash, position, (int)pedType);
 
             var ped = (Ped)Entity.FromNetworkId(callback);
             while (!ped.Exists()) await BaseScript.Delay(50);
@@ -1003,7 +1005,7 @@ namespace TheLastPlanet.Client.Core.Utility
         /// <returns></returns>
         public static async Task<Dictionary<string, User>> GetOnlinePlayersAndTheirData()
         {
-            return await Client.Instance.Events.Get<Dictionary<string, User>>("tlg:callPlayers");
+            return await EventDispatcher.Get<Dictionary<string, User>>("tlg:callPlayers");
         }
 
         /// <summary>
@@ -1012,7 +1014,7 @@ namespace TheLastPlanet.Client.Core.Utility
         /// <returns></returns>
         public static async Task<Dictionary<string, User>> GetAllPlayersAndTheirData()
         {
-            return await Client.Instance.Events.Get<Dictionary<string, User>>("lprp:callDBPlayers");
+            return await EventDispatcher.Get<Dictionary<string, User>>("lprp:callDBPlayers");
         }
 
         public static bool IsSpawnPointClear(this Vector3 pos, float Radius)

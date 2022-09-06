@@ -17,7 +17,7 @@ namespace TheLastPlanet.Client.AdminAC
 
         public static void Init()
         {
-            Client.Instance.Events.Mount("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
+            EventDispatcher.Mount("lprp:sviluppatoreOn", new Action<bool>(Sviluppatore));
         }
 
         public static void Sviluppatore(bool toggle)

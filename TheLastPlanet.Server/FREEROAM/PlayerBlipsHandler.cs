@@ -84,7 +84,7 @@ namespace TheLastPlanet.Server.FREEROAM
                     }
                     client.User.FreeRoamChar.Posizione = new(pos, rot);
                 }
-                Server.Instance.Events.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
+                EventDispatcher.Send(BucketsHandler.FreeRoam.Bucket.Players, "freeroam.UpdatePlayerBlipInfos", _blipsInfos);
             }
             catch (Exception e)
             {

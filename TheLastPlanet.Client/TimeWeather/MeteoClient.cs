@@ -13,13 +13,13 @@ namespace TheLastPlanet.Client.TimeWeather
 
         public static void Init()
         {
-            Client.Instance.Events.Mount("tlg:getMeteo", new Action<SharedWeather>(SetMeteo));
+            EventDispatcher.Mount("tlg:getMeteo", new Action<SharedWeather>(SetMeteo));
             Client.Instance.StateBagsHandler.OnWeatherChange += SetMeteo;
         }
 
         public static void Stop()
         {
-            Client.Instance.Events.Unmount("tlg:getMeteo");
+            EventDispatcher.Unmount("tlg:getMeteo");
             Client.Instance.StateBagsHandler.OnWeatherChange -= SetMeteo;
         }
 

@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions
             {
                 if (closest.Item2 > -1 && closest.Item2 < 3f)
                 {
-                    var client = Funzioni.GetClientIdFromServerId(closest.Item1.ServerId);
+                    var client = Funzioni.GetPlayerClientFromServerId(closest.Item1.ServerId);
                     if (client.Status.RolePlayStates.Svenuto || client.Status.RolePlayStates.FinDiVita)
                     {
                         HUD.ShowHelp("Premi ~INPUT_CONTEXT~ per lootare");

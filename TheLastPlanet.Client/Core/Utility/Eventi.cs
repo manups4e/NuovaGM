@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core.Status;
-using TheLastPlanet.Shared.Internal.Events;
 
 namespace TheLastPlanet.Client.Core.Utility
 {
@@ -15,30 +14,30 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static void Init()
         {
-            Client.Instance.Events.Mount("lprp:teleportCoords", new Action<Position>(teleportCoords));
-            //Client.Instance.Events.Mount("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
-            Client.Instance.Events.Mount("lprp:sendUserInfo", new Action<string, string>(sendUserInfo));
-            Client.Instance.Events.Mount("lprp:ObjectDeleteGun", new Action<string>(DelGun));
-            Client.Instance.Events.Mount("tlg:ShowNotification", new Action<string>(notification));
-            Client.Instance.Events.Mount("lpop:ShowNotification", new Action<string>(notification));
-            Client.Instance.Events.Mount("lprp:death", new Action(death));
-            Client.Instance.Events.Mount("lprp:announce", new Action<string>(announce));
-            Client.Instance.Events.Mount("lprp:reviveChar", new Action(Revive));
-            Client.Instance.Events.Mount("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
-            Client.Instance.Events.Mount("lprp:deleteVehicle", new Action(DeleteVehicle));
-            Client.Instance.Events.Mount("lprp:mostrasalvataggio", new Action(Salva));
-            Client.Instance.Events.Mount("tlg:onPlayerEntrance", new Action<ClientId>(PlayerJoined));
+            EventDispatcher.Mount("lprp:teleportCoords", new Action<Position>(teleportCoords));
+            //EventDispatcher.Mount("lprp:onPlayerDeath", new Action<dynamic>(onPlayerDeath));
+            EventDispatcher.Mount("lprp:sendUserInfo", new Action<string, string>(sendUserInfo));
+            EventDispatcher.Mount("lprp:ObjectDeleteGun", new Action<string>(DelGun));
+            EventDispatcher.Mount("tlg:ShowNotification", new Action<string>(notification));
+            EventDispatcher.Mount("lpop:ShowNotification", new Action<string>(notification));
+            EventDispatcher.Mount("lprp:death", new Action(death));
+            EventDispatcher.Mount("lprp:announce", new Action<string>(announce));
+            EventDispatcher.Mount("lprp:reviveChar", new Action(Revive));
+            EventDispatcher.Mount("lprp:spawnVehicle", new Action<string>(SpawnVehicle));
+            EventDispatcher.Mount("lprp:deleteVehicle", new Action(DeleteVehicle));
+            EventDispatcher.Mount("lprp:mostrasalvataggio", new Action(Salva));
+            EventDispatcher.Mount("tlg:onPlayerEntrance", new Action<PlayerClient>(PlayerJoined));
             timer = GetGameTimer();
             AccessingEvents.OnFreeRoamSpawn += OnSpawn;
             AccessingEvents.OnRoleplaySpawn += OnSpawn;
         }
 
-        private static void OnSpawn(ClientId client)
+        private static void OnSpawn(PlayerClient client)
         {
             AggiornaPlayers();
         }
 
-        public static void PlayerJoined(ClientId client)
+        public static void PlayerJoined(PlayerClient client)
         {
             if (client.Status == null)
                 client.Status = new(client.Player);
@@ -47,7 +46,7 @@ namespace TheLastPlanet.Client.Core.Utility
 
         public static async void AggiornaPlayers()
         {
-            Client.Instance.Clients = await Client.Instance.Events.Get<List<ClientId>>("tlg:callPlayers", PlayerCache.MyPlayer.Posizione);
+            Client.Instance.Clients = await EventDispatcher.Get<List<PlayerClient>>("tlg:callPlayers", PlayerCache.MyPlayer.Posizione);
             foreach (var client in Client.Instance.Clients) client.Status = new(client.Player);
         }
 

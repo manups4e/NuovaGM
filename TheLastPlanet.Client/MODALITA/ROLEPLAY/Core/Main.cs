@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.CharCreation;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
 {
@@ -122,7 +122,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             Screen.Fading.FadeOut(800);
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("onClientResourceStop", new Action<string>(OnClientResourceStop));
             ImpostazioniClient = null;
@@ -157,7 +157,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Core
             if (resourceName == GetCurrentResourceName()) Screen.Fading.FadeOut(800);
         }
 
-        public static async void onPlayerSpawn(ClientId client)
+        public static async void onPlayerSpawn(PlayerClient client)
         {
             Ped playerPed = client.Ped;
             SetEnablePedEnveffScale(playerPed.Handle, true);

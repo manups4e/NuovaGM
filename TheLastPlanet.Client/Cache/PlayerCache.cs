@@ -5,9 +5,9 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.Cache
 {
@@ -17,15 +17,16 @@ namespace TheLastPlanet.Client.Cache
         private static bool _inPausa;
         private static SharedTimer _checkTimer;
 
-        public static ClientId MyPlayer { get; private set; }
+        public static PlayerClient MyPlayer { get; private set; }
         public static Char_data CurrentChar => MyPlayer.User.CurrentChar;
         public static ModalitaServer ModalitàAttuale = ModalitaServer.Lobby;
 
 
         public static async Task InitPlayer()
         {
-            var pippo = await Client.Instance.Events.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
-            MyPlayer = new ClientId(pippo);
+            var pippo = await EventDispatcher.Get<Tuple<Snowflake, BasePlayerShared>>("lprp:setupUser");
+            Client.Logger.Warning(pippo.ToJson());
+            MyPlayer = new PlayerClient(pippo);
             _checkTimer = new(5000);
             Client.Instance.AddTick(TickStatus);
             await Task.FromResult(0);

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
 {
@@ -12,18 +12,18 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
     {
         public static void Init()
         {
-            Server.Instance.Events.Mount("tlg:freeroam:finishCharServer", new Action<ClientId, FreeRoamChar>(FinishChar));
-            Server.Instance.Events.Mount("tlg:freeroam:salvapersonaggio", new Action<ClientId>(SalvaPersonaggio));
-            Server.Instance.Events.Mount("tlg:casino:getVehModel", new Func<ClientId, Task<string>>(ReturnCasinoPriceModelForPlayer));
+            EventDispatcher.Mount("tlg:freeroam:finishCharServer", new Action<PlayerClient, FreeRoamChar>(FinishChar));
+            EventDispatcher.Mount("tlg:freeroam:salvapersonaggio", new Action<PlayerClient>(SalvaPersonaggio));
+            EventDispatcher.Mount("tlg:casino:getVehModel", new Func<PlayerClient, Task<string>>(ReturnCasinoPriceModelForPlayer));
         }
 
-        public static void SalvaPersonaggio(ClientId client)
+        public static void SalvaPersonaggio(PlayerClient client)
         {
             client.User.FreeRoamChar.Posizione = client.Ped.Position.ToPosition();
             API.SetResourceKvpNoSync($"freeroam:player_{client.User.Identifiers.Discord}:char_model", BitConverter.ToString(client.User.FreeRoamChar.ToBytes()));
         }
 
-        public static void FinishChar(ClientId client, FreeRoamChar data)
+        public static void FinishChar(PlayerClient client, FreeRoamChar data)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Server.FREEROAM.Scripts.EventiFreemode
                 Server.Logger.Error($"{e.Message}");
             }
         }
-        public static async Task<string> ReturnCasinoPriceModelForPlayer(ClientId client)
+        public static async Task<string> ReturnCasinoPriceModelForPlayer(PlayerClient client)
         {
             // per il momento usiamo una prototipo poi vediamo...
             return "zentorno";

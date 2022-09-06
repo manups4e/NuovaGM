@@ -4,7 +4,7 @@ using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
 {
@@ -21,7 +21,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
         public static async void FreeRoamMenu(Ped me, object[] _unused)
         {
             if (HUD.MenuPool.IsAnyPauseMenuOpen) return;
-            ClientId client = Cache.PlayerCache.MyPlayer;
+            PlayerClient client = Cache.PlayerCache.MyPlayer;
 
             var day = GetClockDayOfWeek();
             string giorno = "Lunedì";
@@ -62,7 +62,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Scripts.PauseMenu
             MainMenu.CrewPicture = new("thelastgalaxy", "serverlogo");
 
             HUD.MenuPool.Add(MainMenu);
-            TabSubmenuItem online = new("FREEROAM");
+            SubmenuTab online = new("FREEROAM");
             TabLeftItem disc = new("disconnettiti", LeftItemType.Info)
             {
                 TextTitle = "ATTENZIONE"

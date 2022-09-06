@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Ingresso;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
 {
@@ -2078,8 +2078,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.CharCreation
                     BD1.Delete();
                     PlayerCache.MyPlayer.Ped.Detach();
 
-                    Client.Instance.Events.Send("tlg:freeroam:finishCharServer", _data);
-                    //PlayerCache.MyPlayer.User.FreeRoamChar = await Client.Instance.Events.Get<FreeRoamChar>("tlg:freeroam:Select_Char", _data.CharID);
+                    EventDispatcher.Send("tlg:freeroam:finishCharServer", _data);
+                    //PlayerCache.MyPlayer.User.FreeRoamChar = await EventDispatcher.Get<FreeRoamChar>("tlg:freeroam:Select_Char", _data.CharID);
                     PlayerCache.MyPlayer.User.FreeRoamChar = _data;
 
                     Client.Instance.RemoveTick(Controllo);

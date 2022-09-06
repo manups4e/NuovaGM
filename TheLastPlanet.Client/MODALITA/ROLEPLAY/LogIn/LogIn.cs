@@ -157,7 +157,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
             TimeWeather.MeteoClient.SetMeteoPerMe((int)CitizenFX.Core.Weather.ExtraSunny, false, true);
             NetworkOverrideClockTime(SharedMath.GetRandomInt(0, 23), SharedMath.GetRandomInt(0, 59), SharedMath.GetRandomInt(0, 59));
             await Cache.PlayerCache.Loaded();
-            List<LogInInfo> data = await Client.Instance.Events.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
+            List<LogInInfo> data = await EventDispatcher.Get<List<LogInInfo>>("lprp:RequestLoginInfo");
             ToggleMenu(true, "charloading", data);
             ShutdownLoadingScreen();
             ShutdownLoadingScreenNui();
@@ -184,7 +184,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
                 cambiato = false;
                 PedHash m = PedHash.FreemodeMale01;
                 PedHash f = PedHash.FreemodeFemale01;
-                SkinAndDress pers = await Client.Instance.Events.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
+                SkinAndDress pers = await EventDispatcher.Get<SkinAndDress>("lprp:anteprimaChar", Convert.ToUInt64(data));
                 if (p1 != null) p1.Delete();
                 p1 = await Funzioni.CreatePedLocally(pers.Skin.sex == "Maschio" ? m : f, pers.Position.ToVector3, pers.Position.Heading);
                 p1.Style.SetDefaultClothes();
@@ -256,7 +256,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 			Cache.MyPlayer.User.char_current = Convert.ToUInt32(data["id"]);
 			BaseScript.TriggerServerEvent("lprp:updateCurChar", "char_current", Cache.MyPlayer.User.char_current);
 			*/
-            Cache.PlayerCache.MyPlayer.User.CurrentChar = await Client.Instance.Events.Get<Char_data>("lprp:Select_Char", ID);
+            Cache.PlayerCache.MyPlayer.User.CurrentChar = await EventDispatcher.Get<Char_data>("lprp:Select_Char", ID);
             Char_data Data = Cache.PlayerCache.MyPlayer.User.CurrentChar;
             DestroyAllCams(true);
             EnableGameplayCam(true);
@@ -289,13 +289,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 
             if (Cache.PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeOutEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true, false);
             await BaseScript.Delay(7000);
-            Client.Instance.Events.Send("SyncWeatherForMe", true);
+            EventDispatcher.Send("SyncWeatherForMe", true);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Applicazione impostazioni personalizzate", LoadingSpinnerType.RegularClockwise);
             await BaseScript.Delay(5000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
             Screen.LoadingPrompt.Show("Ingresso nel server", LoadingSpinnerType.RegularClockwise);
-            Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli = await Client.Instance.Events.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
+            Cache.PlayerCache.MyPlayer.User.CurrentChar.Veicoli = await EventDispatcher.Get<List<OwnedVehicle>>("lprp:caricaVeicoli", Data.CharID);
             //EnableSwitchPauseBeforeDescent();
             SwitchInPlayer(Cache.PlayerCache.MyPlayer.Ped.Handle);
             //Position pos = await Data.Posizione.FindGroundZ();
@@ -311,7 +311,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.LogIn
 
             AccessingEvents.RoleplaySpawn(PlayerCache.MyPlayer);
 
-            Client.Instance.Events.Send("tlg:roleplay:onPlayerSpawn");
+            EventDispatcher.Send("tlg:roleplay:onPlayerSpawn");
             ClearFocus();
             NetworkFadeInEntity(Cache.PlayerCache.MyPlayer.Ped.Handle, true);
             Cache.PlayerCache.MyPlayer.Ped.IsVisible = true;

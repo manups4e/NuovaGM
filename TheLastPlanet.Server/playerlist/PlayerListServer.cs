@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Server;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace FivemPlayerlistServer
 {
@@ -18,13 +18,13 @@ namespace FivemPlayerlistServer
         public static void Init()
         {
 
-            Server.Instance.Events.Mount("tlg:fs:getMaxPlayers", new Func<ClientId, ModalitaServer, Task<int>>(ReturnMaxPlayers));
-            Server.Instance.Events.Mount("tlg:fs:getPlayers", new Func<ClientId, ModalitaServer, Task<List<PlayerSlot>>>(ReturnPlayers));
+            EventDispatcher.Mount("tlg:fs:getMaxPlayers", new Func<PlayerClient, ModalitaServer, Task<int>>(ReturnMaxPlayers));
+            EventDispatcher.Mount("tlg:fs:getPlayers", new Func<PlayerClient, ModalitaServer, Task<List<PlayerSlot>>>(ReturnPlayers));
             Server.Instance.RegisterExport("setPlayerRowConfig", new Action<string, string, string, string>(SetPlayerConfig2));
-            Server.Instance.Events.Mount("tlg:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
+            EventDispatcher.Mount("tlg:fs:setPlayerRowConfig", new Action<int, string, int, bool>(SetPlayerConfig));
         }
 
-        private static async Task<int> ReturnMaxPlayers(ClientId source, ModalitaServer mod)
+        private static async Task<int> ReturnMaxPlayers(PlayerClient source, ModalitaServer mod)
         {
             await BaseScript.Delay(0);
             switch (mod)
@@ -43,7 +43,7 @@ namespace FivemPlayerlistServer
                     return 0;
             }
         }
-        private static async Task<List<PlayerSlot>> ReturnPlayers(ClientId source, ModalitaServer mod)
+        private static async Task<List<PlayerSlot>> ReturnPlayers(PlayerClient source, ModalitaServer mod)
         {
             List<PlayerSlot> result = new();
             foreach (var client in Server.Instance.Clients)

@@ -1,4 +1,4 @@
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {

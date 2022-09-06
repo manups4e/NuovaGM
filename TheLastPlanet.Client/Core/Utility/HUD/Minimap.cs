@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.Core.Utility.HUD
 {
@@ -14,11 +14,11 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
             AccessingEvents.OnFreeRoamSpawn += Spawnato;
             AccessingEvents.OnFreeRoamLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Client.Instance.AddTick(MinimapDrawing);
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveTick(MinimapDrawing);
         }

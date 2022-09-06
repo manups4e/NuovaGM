@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.MODALITA.FREEROAM.Spawner;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
 {
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
             AccessingEvents.OnFreeRoamLeave += OnPlayerLeft;
         }
 
-        public static void OnPlayerLeft(ClientId client)
+        public static void OnPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveTick(GamerTagsHandler);
             foreach (var player in Client.Instance.GetPlayers)

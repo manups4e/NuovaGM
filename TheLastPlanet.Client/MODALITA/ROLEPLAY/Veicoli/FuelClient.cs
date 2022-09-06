@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -73,7 +73,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:fuel:checkfuelforstation", new Action<int, int>(checkfuel));
             Client.Instance.RemoveEventHandler("lprp:fuel:addfueltovehicle", new Action<bool, string, int>(AddFuelToVeh));
@@ -95,7 +95,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             registryBlips.Clear();
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             FuelCapacity = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelCapacity;
             FuelRpmImpact = Client.Impostazioni.RolePlay.Veicoli.DanniVeicoli.FuelRpmImpact;
@@ -124,7 +124,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 
         public static async void CaricaBlipStazioni()
         {
-            List<GasStation> stations = await Client.Instance.Events.Get<List<GasStation>>("tlg:roleplay:getStations");
+            List<GasStation> stations = await EventDispatcher.Get<List<GasStation>>("tlg:roleplay:getStations");
             foreach (GasStation p in stations)
             {
                 Blip blip = new Blip(AddBlipForCoord(p.pos[0], p.pos[1], p.pos[2])) { Sprite = BlipSprite.JerryCan, Scale = 0.85f, IsShortRange = true, Name = "Stazione di Rifornimento" };
@@ -453,6 +453,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                 }
 
                 if (veh.Exists() || lastveh.Exists())
+                {
                     for (int i = 0; i < ConfigShared.SharedConfig.Main.Veicoli.gasstations.Count; i++)
                     {
                         float dist = Vector3.Distance(Cache.PlayerCache.MyPlayer.Posizione.ToVector3, ConfigShared.SharedConfig.Main.Veicoli.gasstations[i].pos);
@@ -556,6 +557,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
                             }
                         }
                     }
+                }
 
                 Weapon wep = playerPed.Weapons.Current;
 

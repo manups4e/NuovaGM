@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
 {
@@ -24,14 +24,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Medici
             Client.Instance.AddEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:medici:aggiungiPlayerAiMorti", new Action<int>(Aggiungi));
             Client.Instance.RemoveEventHandler("lprp:medici:rimuoviPlayerAiMorti", new Action<int>(Rimuovi));
             ospedali.ForEach(x => x.Delete());
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             foreach (Ospedale ospedale in Client.Impostazioni.RolePlay.Lavori.Medici.Config.Ospedali)
             {

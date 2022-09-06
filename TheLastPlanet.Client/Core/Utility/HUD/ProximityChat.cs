@@ -12,8 +12,7 @@ namespace TheLastPlanet.Client.Core.Utility.HUD
         public static void Init()
         {
             Client.Instance.AddEventHandler("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
-            Client.Instance.Events.Mount("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
-
+            EventDispatcher.Mount("lprp:triggerProximityDisplay", new Action<int, string, string>(TriggerProximtyDisplay));
         }
 
         private static Dictionary<int, List<ProxMess>> Messaggi = new Dictionary<int, List<ProxMess>>();

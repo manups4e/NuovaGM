@@ -19,12 +19,12 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Lavoro
     {
         public static void Init()
         {
-            Client.Instance.Events.Mount("lprp:job:employee:hired", new Action<int, string, string>((seed, job, emp) =>
+            EventDispatcher.Mount("lprp:job:employee:hired", new Action<int, string, string>((seed, job, emp) =>
             {
                 HUD.ShowNotification($"Sei stato assunto come {emp}!");
 
             }));
-            Client.Instance.Events.Mount("lprp:job:employee:fired", new Action<int, string, string>((seed, job, emp) =>
+            EventDispatcher.Mount("lprp:job:employee:fired", new Action<int, string, string>((seed, job, emp) =>
             {
                 HUD.ShowNotification($"Sei stato licenziato! Non sei più {emp}!");
             }));

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
 {
@@ -96,8 +96,8 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Giostre
             Client.Instance.AddTick(ControlloMontagne);
         }
 
-        private static void Spawnato(ClientId client) { Client.Instance.AddTick(EliminaGialli); }
-        private static void onPlayerLeft(ClientId client)
+        private static void Spawnato(PlayerClient client) { Client.Instance.AddTick(EliminaGialli); }
+        private static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveTick(EliminaGialli);
             Client.Instance.RemoveEventHandler("lprp:montagnerusse:forceState", new Action<string>(ForceState));

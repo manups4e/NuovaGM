@@ -7,7 +7,7 @@ using TheLastPlanet.Client.Core.PlayerChar;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
 {
@@ -356,7 +356,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.Polizia
                     Tuple<Player, float> Player_Distance = Funzioni.GetClosestPlayer();
                     Ped ClosestPed = Player_Distance.Item1.Character;
                     int playerServerId = Player_Distance.Item1.ServerId;
-                    ClientId player = Funzioni.GetClientIdFromServerId(playerServerId);
+                    PlayerClient player = Funzioni.GetPlayerClientFromServerId(playerServerId);
                     float distance = Player_Distance.Item2;
 
                     if (distance < 3f && ClosestPed != null)

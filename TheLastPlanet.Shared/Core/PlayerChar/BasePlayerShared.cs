@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using CitizenFX.Core;
 using Newtonsoft.Json;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Attributes;
+using FxEvents.Shared.Snowflakes;
 
 #if CLIENT
 using TheLastPlanet.Client.Core.PlayerChar;

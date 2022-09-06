@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core
@@ -280,17 +280,17 @@ namespace TheLastPlanet.Server.Core
             return false;
         }
 
-        public static List<ClientId> GetClosestClients(ClientId client, float radius)
+        public static List<PlayerClient> GetClosestClients(PlayerClient client, float radius)
         {
             return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Ped.Position) <= radius).ToList();
         }
 
-        public static List<ClientId> GetClosestClients(Ped client, float radius)
+        public static List<PlayerClient> GetClosestClients(Ped client, float radius)
         {
             return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Position) <= radius).ToList();
         }
 
-        public static List<ClientId> GetClosestClients(Player client, float radius)
+        public static List<PlayerClient> GetClosestClients(Player client, float radius)
         {
             return Server.Instance.Clients.Where(x => Vector3.Distance(x.Ped.Position, client.Character.Position) <= radius).ToList();
         }
@@ -335,10 +335,10 @@ namespace TheLastPlanet.Server.Core
         public static User GetUserFromPlayerId(int id)
             => Server.Instance.Clients.SingleOrDefault(x => id == x.Handle)?.User;
 
-        public static ClientId GetClientFromPlayerId(int id)
+        public static PlayerClient GetClientFromPlayerId(int id)
             => Server.Instance.Clients.SingleOrDefault(x => id == x.Handle);
 
-        public static ClientId GetClientFromPlayerId(string id)
+        public static PlayerClient GetClientFromPlayerId(string id)
             => Server.Instance.Clients.SingleOrDefault(x => id == x.Handle.ToString());
 
         public static User GetCurrentChar(this Player player)

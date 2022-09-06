@@ -16,7 +16,7 @@ using TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreAuto;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Personale;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.Handlers
 {
@@ -107,14 +107,14 @@ namespace TheLastPlanet.Client.Handlers
         }
 
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             TickGenerici.ForEach(x => Client.Instance.AddTick(x));
             TickAPiedi.ForEach(x => Client.Instance.AddTick(x));
             TickHUD.ForEach(x => Client.Instance.AddTick(x));
             Client.Instance.AddTick(TickHandler);
         }
-        private static void Disconnesso(ClientId client)
+        private static void Disconnesso(PlayerClient client)
         {
 
             TickHUD.ForEach(x => Client.Instance.RemoveTick(x));

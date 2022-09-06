@@ -1,4 +1,4 @@
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Shared
 {

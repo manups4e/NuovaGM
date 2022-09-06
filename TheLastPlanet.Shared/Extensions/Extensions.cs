@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared.Internal.Events;
+
 using System.Linq;
 #if CLIENT
 using TheLastPlanet.Client.Core.Utility.HUD;
@@ -314,12 +314,12 @@ namespace TheLastPlanet.Shared
 #if SERVER
         public static void TriggerSubsystemEvent(this Player player, string endpoint, params object[] args)
         {
-            Server.Server.Instance.Events.Send(player, endpoint, args);
+            EventDispatcher.Send(player, endpoint, args);
         }
 
-        public static void TriggerSubsystemEvent(this ClientId client, string endpoint, params object[] args)
+        public static void TriggerSubsystemEvent(this PlayerClient client, string endpoint, params object[] args)
         {
-            Server.Server.Instance.Events.Send(client, endpoint, args);
+            EventDispatcher.Send(client, endpoint, args);
         }
 
 #endif

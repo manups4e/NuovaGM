@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà.Appartamenti.Case;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
@@ -17,11 +17,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
             AccessingEvents.OnRoleplaySpawn += Spawnato;
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Proprietà = Client.Impostazioni.RolePlay.Proprieta;
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Proprietà = null;
         }
@@ -59,7 +59,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Proprietà
                         foreach (Ped p in playerPed.CurrentVehicle.Passengers)
                         {
                             Player pl = Funzioni.GetPlayerFromPed(p);
-                            var pp = Funzioni.GetClientIdFromServerId(pl.ServerId);
+                            var pp = Funzioni.GetPlayerClientFromServerId(pl.ServerId);
                             pp.Status.Istanza.Istanzia(Cache.PlayerCache.MyPlayer.Player.ServerId, Cache.PlayerCache.MyPlayer.Status.Istanza.Instance);
                             BaseScript.TriggerServerEvent("lprp:entraGarageConProprietario", pl.ServerId, app.Value.SpawnGarageAPiediDentro);
                         }

@@ -6,7 +6,7 @@ using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
 {
@@ -102,7 +102,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             InputHandler.AddInputList(inputs);
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             foreach (Blip b in carGarageSpots.Select(v => new Blip(AddBlipForCoord(v.X, v.Y, v.Z))))
             {
@@ -115,7 +115,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             }
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:lvc_TogIndicState_c", new Action<string, int>(lvc_TogIndicState_c));
             Client.Instance.RemoveEventHandler("lprp:updateSirens", new Action<string, bool>(updateSirens));

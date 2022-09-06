@@ -55,13 +55,18 @@
 	<Import Project="..\TheLastPlanet.Shared\TheLastPlanet.Shared.projitems" Label="Shared" />
 	<Import Project="..\Impostazioni.Shared\Impostazioni.Shared.projitems" Label="Shared" />
 	<ItemGroup>
-		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5392" />
+		<PackageReference Include="CitizenFX.Core.Client" Version="1.0.5828" />
 		<PackageReference Include="Confuser.MSBuild" Version="2.0.0-alpha-0191">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+
+		<Reference Include="FxEvents.Client">
+		  <HintPath>L:\FiveM\ManuGamemode\resources\fx_events\Client\FxEvents.Client.dll</HintPath>
+		  <Private>True</Private>
+		</Reference>
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
 		</Reference>
@@ -79,13 +84,16 @@
 
 	<!--SE OUTPUTDIR E' VUOTA NON CI SONO FILE DA COPIARE QUINDI NIENTE COPIA FINO A COMPILAZIONE SUCCESSIVA!-->
 	<ItemGroup>
-		<SourceFiles Include="$(OutDir)*.dll" />
-		<SourceFiles Include="$(OutDir)*.pdb" />
-		<SourceFiles Remove="$(OutDir)Citizen*.*" />
-		<SourceFiles Remove="$(OutDir)*.json" />
+		<Folder Include="MODALITA\ROLEPLAY\Lavori\Profili\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="MODALITA\ROLEPLAY\Lavori\Profili\" />
+		<SourceFiles Include="$(OutDir)/TheLastPlanet.Client.net.dll" />
+		<!--<SourceFiles Include="$(OutDir)/TheLastPlanet.Client.net.pdb" />-->
+		<SourceFiles Include="$(OutDir)/ScaleformUI.dll" />
+		<SourceFiles Include="$(OutDir)/Newtonsoft.Json.dll" />
+		<SourceFiles Include="$(OutDir)/FxEvents.Client.dll" />
+		<SourceFiles Remove="$(OutDir)Citizen*.*" />
+		<SourceFiles Remove="$(OutDir)*.json" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

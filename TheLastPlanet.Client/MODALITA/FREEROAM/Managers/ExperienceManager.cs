@@ -9,8 +9,8 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
     {
         public static void Init()
         {
-            AccessingEvents.OnFreeRoamSpawn += (client) => Client.Instance.Events.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
-            AccessingEvents.OnFreeRoamLeave += (client) => Client.Instance.Events.Unmount("worldEventsManage.Client.UpdateExperience");
+            AccessingEvents.OnFreeRoamSpawn += (client) => EventDispatcher.Mount("worldEventsManage.Client.UpdateExperience", new Action<int, int, int, int, int, int, int, int, bool>(OnUpdateExperience));
+            AccessingEvents.OnFreeRoamLeave += (client) => EventDispatcher.Unmount("worldEventsManage.Client.UpdateExperience");
         }
 
         private static async void OnUpdateExperience(int currentRankLimit, int nextRankLimit, int updatedCurrentRankLimit, int updatedNextRankLimit, int currentXp, int updatedXp, int currentLevel, int updatedLevel, bool leveledUp)
@@ -32,7 +32,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Managers
                     await BaseScript.Delay(2000);
                     await HUD.ShowPlayerRankScoreAfterUpdate(updatedCurrentRankLimit, updatedNextRankLimit, 0, updatedXp - currentXp, updatedLevel);
                 }
-                Client.Instance.Events.Send("tlg:freeroam:salvapersonaggio");
+                EventDispatcher.Send("tlg:freeroam:salvapersonaggio");
             }
             catch (Exception e)
             {

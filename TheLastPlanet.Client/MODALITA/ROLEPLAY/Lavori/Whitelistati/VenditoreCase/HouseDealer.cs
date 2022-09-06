@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCase
 {
@@ -22,11 +22,11 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Whitelistati.VenditoreCa
             Handlers.InputHandler.AddInput(input);
         }
 
-        private static void Spawnato(ClientId client) 
+        private static void Spawnato(PlayerClient client) 
         { 
             Client.Instance.AddTick(Markers); 
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveTick(Markers);
             house = null;

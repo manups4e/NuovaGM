@@ -1,6 +1,6 @@
 ﻿using Impostazioni.Shared.Configurazione.Generici;
 using System.Collections.Generic;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 
 // ReSharper disable All
 

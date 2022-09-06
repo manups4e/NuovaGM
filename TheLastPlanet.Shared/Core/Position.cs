@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using TheLastPlanet.Shared.Internal.Events.Attributes;
+using FxEvents.Shared.Attributes;
 
 namespace TheLastPlanet.Shared
 {

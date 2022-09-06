@@ -9,7 +9,7 @@ using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Interactions;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.RolePlay.Core
 {
@@ -17,65 +17,65 @@ namespace TheLastPlanet.Server.RolePlay.Core
     {
         public static void Init()
         {
-            Server.Instance.Events.Mount("tlg:roleplay:finishCharServer", new Action<ClientId, string>(FinishChar));
-            Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(Spawnato));
-            Server.Instance.Events.Mount("lprp:setDeathStatus", new Action<ClientId, bool>(deathStatus));
-            Server.Instance.Events.Mount("lprp:payFine", new Action<ClientId, int>(PayFine));
-            Server.Instance.Events.Mount("lprp:givemoney", new Action<ClientId, int>(GiveMoney));
-            Server.Instance.Events.Mount("lprp:removemoney", new Action<ClientId, int>(RemoveMoney));
-            Server.Instance.Events.Mount("lprp:givebank", new Action<ClientId, int>(GiveBank));
-            Server.Instance.Events.Mount("lprp:removebank", new Action<ClientId, int>(RemoveBank));
-            Server.Instance.Events.Mount("lprp:removedirty", new Action<ClientId, int>(RemoveDirty));
-            Server.Instance.Events.Mount("lprp:givedirty", new Action<ClientId, int>(GiveDirty));
-            Server.Instance.Events.Mount("lprp:addIntenvoryItem",
-                new Action<ClientId, string, int, float>(AddInventory));
-            Server.Instance.Events.Mount("lprp:removeIntenvoryItem",
-                new Action<ClientId, string, int>(RemoveInventory));
-            Server.Instance.Events.Mount("lprp:addWeapon", new Action<ClientId, string, int>(AddWeapon));
-            Server.Instance.Events.Mount("lprp:removeWeapon", new Action<ClientId, string>(RemoveWeapon));
-            Server.Instance.Events.Mount("lprp:addWeaponComponent",
-                new Action<ClientId, string, string>(AddWeaponComp));
-            Server.Instance.Events.Mount("lprp:removeWeaponComponent",
-                new Action<ClientId, string, string>(RemoveWeaponComp));
-            Server.Instance.Events.Mount("lprp:addWeaponTint", new Action<ClientId, string, int>(AddWeaponTint));
-            Server.Instance.Events.Mount("lprp:removeItemsDeath", new Action<ClientId>(removeItemsDeath));
-            Server.Instance.Events.Mount("lprp:salvaPlayer", new Action<ClientId>(SalvaPlayer));
-            Server.Instance.Events.Mount("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
-            Server.Instance.Events.Mount("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
-            Server.Instance.Events.Mount("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
-            Server.Instance.Events.Mount("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
-            Server.Instance.Events.Mount("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-            Server.Instance.Events.Mount("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
-            Server.Instance.Events.Mount("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
-            Server.Instance.Events.Mount("lprp:addIntenvoryItemtochar",
+            EventDispatcher.Mount("tlg:roleplay:finishCharServer", new Action<PlayerClient, string>(FinishChar));
+            EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(Spawnato));
+            EventDispatcher.Mount("lprp:setDeathStatus", new Action<PlayerClient, bool>(deathStatus));
+            EventDispatcher.Mount("lprp:payFine", new Action<PlayerClient, int>(PayFine));
+            EventDispatcher.Mount("lprp:givemoney", new Action<PlayerClient, int>(GiveMoney));
+            EventDispatcher.Mount("lprp:removemoney", new Action<PlayerClient, int>(RemoveMoney));
+            EventDispatcher.Mount("lprp:givebank", new Action<PlayerClient, int>(GiveBank));
+            EventDispatcher.Mount("lprp:removebank", new Action<PlayerClient, int>(RemoveBank));
+            EventDispatcher.Mount("lprp:removedirty", new Action<PlayerClient, int>(RemoveDirty));
+            EventDispatcher.Mount("lprp:givedirty", new Action<PlayerClient, int>(GiveDirty));
+            EventDispatcher.Mount("lprp:addIntenvoryItem",
+                new Action<PlayerClient, string, int, float>(AddInventory));
+            EventDispatcher.Mount("lprp:removeIntenvoryItem",
+                new Action<PlayerClient, string, int>(RemoveInventory));
+            EventDispatcher.Mount("lprp:addWeapon", new Action<PlayerClient, string, int>(AddWeapon));
+            EventDispatcher.Mount("lprp:removeWeapon", new Action<PlayerClient, string>(RemoveWeapon));
+            EventDispatcher.Mount("lprp:addWeaponComponent",
+                new Action<PlayerClient, string, string>(AddWeaponComp));
+            EventDispatcher.Mount("lprp:removeWeaponComponent",
+                new Action<PlayerClient, string, string>(RemoveWeaponComp));
+            EventDispatcher.Mount("lprp:addWeaponTint", new Action<PlayerClient, string, int>(AddWeaponTint));
+            EventDispatcher.Mount("lprp:removeItemsDeath", new Action<PlayerClient>(removeItemsDeath));
+            EventDispatcher.Mount("lprp:salvaPlayer", new Action<PlayerClient>(SalvaPlayer));
+            EventDispatcher.Mount("lprp:givemoneytochar", new Action<string, int, int>(GiveMoneyToChar));
+            EventDispatcher.Mount("lprp:removemoneytochar", new Action<string, int, int>(RemoveMoneyToChar));
+            EventDispatcher.Mount("lprp:givebanktochar", new Action<string, int, int>(GiveBankToChar));
+            EventDispatcher.Mount("lprp:removebanktochar", new Action<string, int, int>(RemoveBankToChar));
+            EventDispatcher.Mount("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+            EventDispatcher.Mount("lprp:removedirtytochar", new Action<string, int, int>(RemoveDirtyToChar));
+            EventDispatcher.Mount("lprp:givedirtytochar", new Action<string, int, int>(GiveDirtyToChar));
+            EventDispatcher.Mount("lprp:addIntenvoryItemtochar",
                 new Action<string, int, string, int, float>(AddInventoryToChar));
-            Server.Instance.Events.Mount("lprp:removeIntenvoryItemtochar",
+            EventDispatcher.Mount("lprp:removeIntenvoryItemtochar",
                 new Action<string, int, string, int>(RemoveInventoryToChar));
-            Server.Instance.Events.Mount("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
-            Server.Instance.Events.Mount("lprp:removeWeapontochar",
+            EventDispatcher.Mount("lprp:addWeapontochar", new Action<string, int, string, int>(AddWeaponToChar));
+            EventDispatcher.Mount("lprp:removeWeapontochar",
                 new Action<string, int, string>(RemoveWeaponToChar));
-            Server.Instance.Events.Mount("lprp:addWeaponComponenttochar",
+            EventDispatcher.Mount("lprp:addWeaponComponenttochar",
                 new Action<string, int, string, string>(AddWeaponCompToChar));
-            Server.Instance.Events.Mount("lprp:removeWeaponComponenttochar",
+            EventDispatcher.Mount("lprp:removeWeaponComponenttochar",
                 new Action<string, int, string, string>(RemoveWeaponCompToChar));
-            Server.Instance.Events.Mount("lprp:addWeaponTinttochar",
+            EventDispatcher.Mount("lprp:addWeaponTinttochar",
                 new Action<string, int, string, int>(AddWeaponTintToChar));
-            Server.Instance.Events.Mount("lprp:giveLicense", new Action<ClientId, string>(GiveLicense));
-            Server.Instance.Events.Mount("lprp:giveLicenseToChar",
-                new Action<ClientId, int, string>(GiveLicenseToChar));
-            Server.Instance.Events.Mount("lprp:removeLicense", new Action<ClientId, string>(RemoveLicense));
-            Server.Instance.Events.Mount("lprp:removeLicenseToChar",
-                new Action<ClientId, int, string>(RemoveLicenseToChar));
-            Server.Instance.Events.Mount("lprp:updateWeaponAmmo", new Action<ClientId, string, int>(AggiornaAmmo));
-            Server.Instance.Events.Mount("lprp:giveInventoryItemToPlayer",
-                new Action<ClientId, int, string, int>(GiveItemToOtherPlayer));
-            Server.Instance.Events.Mount("lprp:giveWeaponToPlayer",
-                new Action<ClientId, int, string, int>(GiveWeaponToOtherPlayer));
-            Server.Instance.Events.Mount("lprp:callDBPlayers", new Func<ClientId, Task<Dictionary<string, User>>>(async (a) =>
+            EventDispatcher.Mount("lprp:giveLicense", new Action<PlayerClient, string>(GiveLicense));
+            EventDispatcher.Mount("lprp:giveLicenseToChar",
+                new Action<PlayerClient, int, string>(GiveLicenseToChar));
+            EventDispatcher.Mount("lprp:removeLicense", new Action<PlayerClient, string>(RemoveLicense));
+            EventDispatcher.Mount("lprp:removeLicenseToChar",
+                new Action<PlayerClient, int, string>(RemoveLicenseToChar));
+            EventDispatcher.Mount("lprp:updateWeaponAmmo", new Action<PlayerClient, string, int>(AggiornaAmmo));
+            EventDispatcher.Mount("lprp:giveInventoryItemToPlayer",
+                new Action<PlayerClient, int, string, int>(GiveItemToOtherPlayer));
+            EventDispatcher.Mount("lprp:giveWeaponToPlayer",
+                new Action<PlayerClient, int, string, int>(GiveWeaponToOtherPlayer));
+            EventDispatcher.Mount("lprp:callDBPlayers", new Func<PlayerClient, Task<Dictionary<string, User>>>(async (a) =>
                 (await MySQL.QueryListAsync<User>("select * from users")).ToDictionary(p => a.Player.Handle)));
         }
 
-        public static void FinishChar(ClientId client, string data)
+        public static void FinishChar(PlayerClient client, string data)
         {
             try
             {
@@ -88,13 +88,13 @@ namespace TheLastPlanet.Server.RolePlay.Core
             }
         }
 
-        public static void deathStatus(ClientId source, bool value)
+        public static void deathStatus(PlayerClient source, bool value)
         {
             source.User.DeathStatus = value;
             source.SetState($"{source.Status.RolePlayStates._name}:FinDiVita", value);
         }
 
-        public static void PayFine(ClientId source, int amount)
+        public static void PayFine(PlayerClient source, int amount)
         {
             User player = source.User;
 
@@ -109,18 +109,18 @@ namespace TheLastPlanet.Server.RolePlay.Core
             }
         }
 
-        public static void Spawnato(ClientId source)
+        public static void Spawnato(PlayerClient source)
         {
             User user = source.User;
             Server.Logger.Info($"{user.FullName} ({source.Player.Name} è entrato in città");
-            foreach (var client in from ClientId client in BucketsHandler.RolePlay.Bucket.Players where client.Handle != source.Handle select client)
+            foreach (var client in from PlayerClient client in BucketsHandler.RolePlay.Bucket.Players where client.Handle != source.Handle select client)
                 client.Player.TriggerEvent("tlg:ShowNotification", "~g~" + user.FullName + " (" + source.Player.Name + ")~w~ è entrato in città");
             source.Player.TriggerEvent("lprp:createMissingPickups", PickupsServer.Pickups.ToJson());
             source.SetState($"{source.Status.PlayerStates._name}:Spawned", true);
         }
 
         //TODO: DA CAMBIARE CON NUOVO METODO
-        public static async void SalvaPlayer(ClientId client)
+        public static async void SalvaPlayer(PlayerClient client)
         {
             await BaseScript.Delay(0);
             string name = client.Player.Name;
@@ -136,7 +136,7 @@ namespace TheLastPlanet.Server.RolePlay.Core
             await Task.FromResult(0);
         }
 
-        public static void removeItemsDeath(ClientId source)
+        public static void removeItemsDeath(PlayerClient source)
         {
             User player = source.User;
             int money = player.Money;
@@ -148,13 +148,13 @@ namespace TheLastPlanet.Server.RolePlay.Core
             player.DirtCash -= dirty;
         }
 
-        public static void GiveMoney(ClientId source, int amount)
+        public static void GiveMoney(PlayerClient source, int amount)
         {
             User player = source.User;
             player.Money += amount;
         }
 
-        public static void RemoveMoney(ClientId source, int amount)
+        public static void RemoveMoney(PlayerClient source, int amount)
         {
             if (amount > 0)
                 source.User.Money -= amount;
@@ -162,57 +162,57 @@ namespace TheLastPlanet.Server.RolePlay.Core
                 source.Player.Drop("Rilevata possibile modifica ai valori di gioco");
         }
 
-        public static void GiveBank(ClientId source, int amount)
+        public static void GiveBank(PlayerClient source, int amount)
         {
             source.User.Bank += amount;
         }
 
-        public static void RemoveBank(ClientId source, int amount)
+        public static void RemoveBank(PlayerClient source, int amount)
         {
             source.User.Bank -= amount;
         }
 
-        public static void GiveDirty(ClientId source, int amount)
+        public static void GiveDirty(PlayerClient source, int amount)
         {
             source.User.DirtCash += amount;
         }
 
-        public static void RemoveDirty(ClientId source, int amount)
+        public static void RemoveDirty(PlayerClient source, int amount)
         {
             source.User.DirtCash -= amount;
         }
 
-        public static void AddInventory(ClientId source, string item, int amount, float peso)
+        public static void AddInventory(PlayerClient source, string item, int amount, float peso)
         {
             source.User.addInventoryItem(item, amount, peso > 0 ? peso : ConfigShared.SharedConfig.Main.Generici.ItemList[item].peso);
         }
 
-        public static void RemoveInventory(ClientId source, string item, int amount)
+        public static void RemoveInventory(PlayerClient source, string item, int amount)
         {
             source.User.removeInventoryItem(item, amount);
         }
 
-        public static void AddWeapon(ClientId source, string weaponName, int ammo)
+        public static void AddWeapon(PlayerClient source, string weaponName, int ammo)
         {
             source.User.addWeapon(weaponName, ammo);
         }
 
-        public static void RemoveWeapon(ClientId source, string weaponName)
+        public static void RemoveWeapon(PlayerClient source, string weaponName)
         {
             source.User.removeWeapon(weaponName);
         }
 
-        public static void AddWeaponComp(ClientId source, string weaponName, string weaponComponent)
+        public static void AddWeaponComp(PlayerClient source, string weaponName, string weaponComponent)
         {
             source.User.addWeaponComponent(weaponName, weaponComponent);
         }
 
-        public static void RemoveWeaponComp(ClientId source, string weaponName, string weaponComponent)
+        public static void RemoveWeaponComp(PlayerClient source, string weaponName, string weaponComponent)
         {
             source.User.removeWeaponComponent(weaponName, weaponComponent);
         }
 
-        public static void AddWeaponTint(ClientId source, string weaponName, int tint)
+        public static void AddWeaponTint(PlayerClient source, string weaponName, int tint)
         {
             source.User.addWeaponTint(weaponName, tint);
         }
@@ -291,35 +291,35 @@ namespace TheLastPlanet.Server.RolePlay.Core
             Funzioni.GetUserFromPlayerId(target).addWeaponTint(weaponName, tint);
         }
 
-        private static void GiveLicense(ClientId source, string license)
+        private static void GiveLicense(PlayerClient source, string license)
         {
             User player = source.User;
         }
 
-        private static void GiveLicenseToChar(ClientId source, int target, string license)
+        private static void GiveLicenseToChar(PlayerClient source, int target, string license)
         {
             User player = source.User;
         }
 
-        private static void RemoveLicense(ClientId source, string license)
+        private static void RemoveLicense(PlayerClient source, string license)
         {
             User player = source.User;
         }
 
-        private static void RemoveLicenseToChar(ClientId source, int target, string license)
+        private static void RemoveLicenseToChar(PlayerClient source, int target, string license)
         {
             User player = source.User;
         }
 
-        private static void AggiornaAmmo(ClientId source, string weaponName, int ammo)
+        private static void AggiornaAmmo(PlayerClient source, string weaponName, int ammo)
         {
             source.User.updateWeaponAmmo(weaponName, ammo);
         }
 
-        private static void GiveItemToOtherPlayer(ClientId source, int target, string itemName, int amount)
+        private static void GiveItemToOtherPlayer(PlayerClient source, int target, string itemName, int amount)
         {
             User player = source.User;
-            ClientId targetClient = Funzioni.GetClientFromPlayerId(target);
+            PlayerClient targetClient = Funzioni.GetClientFromPlayerId(target);
             User targetPlayer = targetClient.User;
             player.removeInventoryItem(itemName, amount);
             player.showNotification($"Hai dato {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} a {targetPlayer.FullName}");
@@ -328,10 +328,10 @@ namespace TheLastPlanet.Server.RolePlay.Core
             targetPlayer.showNotification($"Hai ricevuto {amount} di {ConfigShared.SharedConfig.Main.Generici.ItemList[itemName].label} da {player.FullName}");
         }
 
-        private static void GiveWeaponToOtherPlayer(ClientId source, int target, string weaponName, int ammo)
+        private static void GiveWeaponToOtherPlayer(PlayerClient source, int target, string weaponName, int ammo)
         {
             User player = source.User;
-            ClientId targetClient = Funzioni.GetClientFromPlayerId(target);
+            PlayerClient targetClient = Funzioni.GetClientFromPlayerId(target);
             User targetPlayer = targetClient.User;
             Tuple<int, Weapons> weapon = player.getWeapon(weaponName);
             Weapons arma = weapon.Item2;

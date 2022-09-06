@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
+using TheLastPlanet.Shared.TypeExtensions;
 
 namespace TheLastPlanet.Client
 {
     internal static class ClasseDiTest
     {
-        public static void Init()
+        static ClientList list = new ClientList();
+        public static async void Init()
         {
             Client.Instance.AddTick(TestTick);
         }
@@ -22,9 +25,20 @@ namespace TheLastPlanet.Client
             //Client.Logger.Debug(IplManager.Global.ToJson());
             if (Input.IsControlJustPressed(Control.Detonate, PadCheck.Keyboard, ControlModifier.Shift) && !HUD.MenuPool.IsAnyMenuOpen)
             {
-                PlayerCache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 100, true, true);
+                //await PlayerCache.InitPlayer();
+
+                //PlayerCache.MyPlayer.Ped.Weapons.Give(WeaponHash.Pistol, 100, true, true);
                 //TestMenu();
                 //AttivaMenu();
+                /*
+                list.RequestPlayerList();
+                await list.WaitRequested();
+                foreach (var pl in list) 
+                {
+                    Client.Logger.Debug($"giocatori: {pl.Player.Name}, {pl.Handle}");
+                    Client.Logger.Debug(pl.ToJson());
+                }
+                */
             }
             if (Input.IsControlJustPressed(Control.Context, PadCheck.Keyboard, ControlModifier.Shift))
             {
@@ -46,36 +60,6 @@ namespace TheLastPlanet.Client
             menu.AddItem(item);
             HUD.MenuPool.Add(menu);
             menu.Visible = true;
-        }
-
-        private static void AttivaMenu()
-        {
-            var txd = API.CreateRuntimeTxd("test");
-            var _paneldui = API.CreateDui("https://i.imgur.com/mH0Y65C.gif", 288, 160);
-            API.CreateRuntimeTextureFromDuiHandle(txd, "panelbackground", API.GetDuiHandle(_paneldui));
-            JobSelectionData data = new();
-            data.SetTitle("TEST");
-            data.SetVotes(0, 3, "TEST");
-            data.Cards = new List<JobSelectionCard>();
-            for (int i = 0; i < 6; i++)
-            {
-                var card = new JobSelectionCard("Test", "test", "test", "panelbackground", 12, 15, JobSelectionCardIcon.CAPTURE_THE_FLAG, HudColor.HUD_COLOUR_FREEMODE, 2, new List<JobSelectionCardDetail>()
-                {
-                     new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right"),
-                     new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right"),
-                     new JobSelectionCardDetail(JobSelectionCardDetailType.WITH_ICON, "Test Left", "Test Right")
-                });
-
-                data.AddCard(card);
-            }
-            data.Buttons = new List<JobSelectionButton>()
-            {
-                new JobSelectionButton("Test1", null),
-                new JobSelectionButton("Test2", null),
-                new JobSelectionButton("Test3", null),
-            };
-            ScaleformUI.ScaleformUI.JobMissionSelection.JobData = data;
-            ScaleformUI.ScaleformUI.JobMissionSelection.Enabled = true;
         }
     }
 }

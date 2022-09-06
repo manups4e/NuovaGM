@@ -13,7 +13,7 @@ using TheLastPlanet.Client.IPLs.dlc_import_export;
 using TheLastPlanet.Client.IPLs.dlc_smuggler;
 using TheLastPlanet.Client.IPLs.gta_online;
 using TheLastPlanet.Client.IPLs.gtav;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.IPLs
 {
@@ -91,7 +91,7 @@ namespace TheLastPlanet.Client.IPLs
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
 
             /*
@@ -336,7 +336,7 @@ namespace TheLastPlanet.Client.IPLs
             Client.Instance.AddTick(InteriorObserver.OrganizationWatchers);
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Michael.LoadDefault();
             Simeon.LoadDefault();

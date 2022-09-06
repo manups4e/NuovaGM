@@ -2,13 +2,13 @@
 using System.Linq;
 using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
 {
     public class ExperienceManager
     {
-        public static void OnAddExperience(ClientId client, int experiencePoints)
+        public static void OnAddExperience(PlayerClient client, int experiencePoints)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace TheLastPlanet.Server.FreeRoam.Scripts.EventiFreemode
                     leveledUp = true;
                 }
 
-                Server.Instance.Events.Send(client, "worldEventsManage.Client.UpdateExperience", currentRankLimit, nextRankLimit, updatedCurrentRankLimit, updatedNextRankLimit, currentXp, updatedXp, currentLevel, updatedLevel, leveledUp);
+                EventDispatcher.Send(client, "worldEventsManage.Client.UpdateExperience", currentRankLimit, nextRankLimit, updatedCurrentRankLimit, updatedNextRankLimit, currentXp, updatedXp, currentLevel, updatedLevel, leveledUp);
             }
             catch (Exception e)
             {

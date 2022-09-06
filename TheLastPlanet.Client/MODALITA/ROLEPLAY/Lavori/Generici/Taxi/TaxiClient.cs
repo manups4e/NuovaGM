@@ -7,7 +7,7 @@ using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.Handlers;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Interactions;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
 {
@@ -28,7 +28,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
             TickController.TickAPiedi.Add(Markers);
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             taxi = null;
             TickController.TickAPiedi.Remove(Markers);
@@ -37,7 +37,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Taxi
             if (p != null) p.Delete();
         }
 
-        private static void Eccolo(ClientId client)
+        private static void Eccolo(PlayerClient client)
         {
             Blip Tax = World.CreateBlip(taxi.PosAccettazione);
             Tax.Sprite = BlipSprite.PersonalVehicleCar;

@@ -10,7 +10,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
     {
         internal static async void Inizializza()
         {
-            var roamchar = await Client.Instance.Events.Get<FreeRoamChar>("tlg:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
+            var roamchar = await EventDispatcher.Get<FreeRoamChar>("tlg:Select_FreeRoamChar", Cache.PlayerCache.MyPlayer.User.ID);
             PlayerCache.MyPlayer.User.FreeRoamChar = roamchar;
 
             if (roamchar.CharID == 0 && roamchar.Skin is null)
@@ -52,7 +52,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             NetworkClearClockTimeOverride();
 
             await BaseScript.Delay(7000);
-            Client.Instance.Events.Send("SyncWeatherForMe", true);
+            EventDispatcher.Send("SyncWeatherForMe", true);
             await BaseScript.Delay(2000);
             if (Screen.LoadingPrompt.IsActive) Screen.LoadingPrompt.Hide();
 
@@ -74,7 +74,7 @@ namespace TheLastPlanet.Client.MODALITA.FREEROAM.Spawner
             if (!PlayerCache.MyPlayer.Ped.IsVisible) NetworkFadeInEntity(PlayerCache.MyPlayer.Ped.Handle, true);
             PlayerCache.MyPlayer.Ped.IsPositionFrozen = false;
             PlayerCache.MyPlayer.Player.CanControlCharacter = true;
-            Client.Instance.Events.Send("worldEventsManage.Server:AddParticipant");
+            EventDispatcher.Send("worldEventsManage.Server:AddParticipant");
             AccessingEvents.FreeRoamSpawn(PlayerCache.MyPlayer);
             PlayerCache.MyPlayer.Status.PlayerStates.Spawned = true;
         }

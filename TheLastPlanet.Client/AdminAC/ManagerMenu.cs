@@ -30,7 +30,7 @@ namespace TheLastPlanet.Client.AdminAC
 
             MenuPlayers.OnMenuStateChanged += async (oldmenu, newmenu, state) =>
             {
-                if (state != MenuState.Opened) return;
+                //if (state != MenuState.Opened) return;
                 MenuPlayers.Clear();
 
                 /*// COMMENTARE PER TESTARE SU ME STESSO 
@@ -41,16 +41,19 @@ namespace TheLastPlanet.Client.AdminAC
 						return;
 					}
 					*/
-                foreach (Player p in Client.Instance.GetPlayers)
+
+                var players = await EventDispatcher.Get<List<Player>>("tlg:getPlayers");
+
+                foreach (PlayerClient p in Client.Instance.Clients)
                 {
                     //if (p == Cache.Player) continue; // COMMENTARE PER TESTARE SU ME STESSO 
-                    User player = Funzioni.GetPlayerCharFromPlayerId(p.Handle);
+                    User player = p.User;
                     string charscount;
                     if (player.Characters.Count == 1)
                         charscount = "1 personaggio";
                     else
                         charscount = player.Characters.Count + " personaggi";
-                    UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Name, charscount);
+                    UIMenu Giocatore = MenuPlayers.AddSubMenu(p.Player.Name, charscount);
                     UIMenuItem Teletrasportami = new("Teletrasportati alla sua posizione");
                     UIMenuItem Teletrasportalo = new("Teletrasporta il player alla tua posizione");
                     UIMenuItem Specta = new("Specta Player");
@@ -61,18 +64,18 @@ namespace TheLastPlanet.Client.AdminAC
                     {
                         if (item == Teletrasportami)
                         {
-                            Cache.PlayerCache.MyPlayer.Ped.Position = p.Character.Position;
+                            Cache.PlayerCache.MyPlayer.Ped.Position = p.Ped.Position;
                         }
                         else if (item == Teletrasportalo)
                         {
-                            Client.Instance.Events.Send("manager:TeletrasportaDaMe", p.ServerId);
+                            EventDispatcher.Send("manager:TeletrasportaDaMe", p.Handle);
                         }
                         else if (item == Specta)
                         {
-                            if (p == Cache.PlayerCache.MyPlayer.Player) return;
-                            Cache.PlayerCache.MyPlayer.Ped.SetDecor("AdminSpecta", p.Handle);
-                            RequestCollisionAtCoord(p.Character.Position.X, p.Character.Position.Y, p.Character.Position.Z);
-                            NetworkSetInSpectatorMode(true, p.Character.Handle);
+                            if (p == Cache.PlayerCache.MyPlayer) return;
+                            Cache.PlayerCache.MyPlayer.Status.PlayerStates.AdminSpecta = true;
+                            RequestCollisionAtCoord(p.Ped.Position.X, p.Ped.Position.Y, p.Ped.Position.Z);
+                            NetworkSetInSpectatorMode(true, p.Ped.Handle);
                             Client.Instance.AddTick(SpectatorMode);
                         }
                     };
@@ -123,7 +126,7 @@ namespace TheLastPlanet.Client.AdminAC
                         }
                         else if (item == Banna)
                         {
-                            BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.ServerId, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.PlayerCache.MyPlayer.Player.ServerId);
+                            BaseScript.TriggerServerEvent("lprp:bannaPlayer", p.Handle, Motivazione, temp.Checked, TempoDiBan.Ticks, Cache.PlayerCache.MyPlayer.Player.ServerId);
                         }
 
                         // string target, string motivazione, int tempodiban, string banner  - banner e target sono i serverid.. comodo eh?
@@ -233,7 +236,7 @@ namespace TheLastPlanet.Client.AdminAC
                         }
                         else if (item == Kicka)
                         {
-                            BaseScript.TriggerServerEvent("lprp:kickPlayer", p.ServerId, motivazionekick, Cache.PlayerCache.MyPlayer.Player.ServerId);
+                            BaseScript.TriggerServerEvent("lprp:kickPlayer", p.Handle, motivazionekick, Cache.PlayerCache.MyPlayer.Player.ServerId);
                         }
                     };
 
@@ -299,7 +302,7 @@ namespace TheLastPlanet.Client.AdminAC
                                     {
                                         int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
                                         if (quantita < 99 && quantita > 0)
-                                            BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.CharID, item1.Item, quantita);
+                                            BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.Handle, chars.CharID, item1.Item, quantita);
                                         else
                                             HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
                                     }
@@ -307,7 +310,7 @@ namespace TheLastPlanet.Client.AdminAC
                                     {
                                         int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
                                         if (quantita < 99 && quantita > 0)
-                                            BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.ServerId, chars.CharID, item1.Item, quantita);
+                                            BaseScript.TriggerServerEvent("lprp:removeIntenvoryItemtochar", p.Handle, chars.CharID, item1.Item, quantita);
                                         else
                                             HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
                                     }
@@ -321,7 +324,7 @@ namespace TheLastPlanet.Client.AdminAC
                             string oggetto = await HUD.GetUserInput("Nome dell'oggetto", "", 10);
                             int quantita = Convert.ToInt32(await HUD.GetUserInput("Quantità", "1", 2));
                             if (quantita < 99 && quantita > 0)
-                                BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.ServerId, chars.CharID, oggetto, quantita);
+                                BaseScript.TriggerServerEvent("lprp:addIntenvoryItemtochar", p.Handle, chars.CharID, oggetto, quantita);
                             else
                                 HUD.ShowNotification("Quantità non valida!", NotificationColor.Red, true);
                             menu.RefreshIndex();
@@ -446,8 +449,9 @@ namespace TheLastPlanet.Client.AdminAC
             #region Meteo
 
             UIMenu metei = Meteo.AddSubMenu("Seleziona Meteo");
-            UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, TimeWeather.MeteoClient.Meteo.Blackout, "BlackOut di tutte le luci in mappa");
-            UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, TimeWeather.MeteoClient.Meteo.DynamicMeteo, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
+            var meteo = (Client.Instance.ServerState.Get("Meteo") as byte[]).FromBytes<SharedWeather>();
+            UIMenuCheckboxItem blackout = new("BlackOut Generale", UIMenuCheckboxStyle.Tick, meteo.Blackout, "BlackOut di tutte le luci in mappa");
+            UIMenuCheckboxItem dinamico = new("Meteo Dinamico", UIMenuCheckboxStyle.Tick, meteo.DynamicMeteo, "NB: Sperimentale! Potrebbe non funzionare!\nAttiva o disattiva meteo dinamico, se disattivato.. il meteo resterà fisso!");
             Meteo.AddItem(blackout);
             Meteo.AddItem(dinamico);
             UIMenuItem Soleggiato = new("Super Soleggiato");
@@ -484,18 +488,18 @@ namespace TheLastPlanet.Client.AdminAC
             {
                 if (item == blackout)
                 {
-                    Client.Instance.Events.Send("changeWeatherWithParams", TimeWeather.MeteoClient.Meteo.CurrentWeather, _checked, false);
+                    EventDispatcher.Send("changeWeatherWithParams", meteo.CurrentWeather, _checked, false);
                     HUD.ShowNotification("Blackout ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
                 }
                 else if (item == dinamico)
                 {
-                    Client.Instance.Events.Send("changeWeatherDynamic", _checked);
+                    EventDispatcher.Send("changeWeatherDynamic", _checked);
                     HUD.ShowNotification("Meteo dinamico ~b~" + (_checked ? "attivato" : "disattivato") + "~w~.");
                 }
             };
             metei.OnItemSelect += async (menu, item, index) =>
             {
-                Client.Instance.Events.Send("changeWeatherWithParams", index, TimeWeather.MeteoClient.Meteo.Blackout, false);
+                EventDispatcher.Send("changeWeatherWithParams", index, meteo.Blackout, false);
                 string m = "";
 
                 switch (index)
@@ -583,15 +587,15 @@ namespace TheLastPlanet.Client.AdminAC
             Orario.AddItem(Notte);
             Orario.OnItemSelect += (menu, item, index) =>
             {
-                int secondOfDay = 0;
                 if (item == Mattino)
-                    secondOfDay = 6 * 3600;
+                    API.NetworkOverrideClockTime(6, 0, 0);
                 else if (item == Pomeriggio)
-                    secondOfDay = 12 * 3600;
+                    API.NetworkOverrideClockTime(12, 0, 0);
                 else if (item == Sera)
-                    secondOfDay = 18 * 3600;
-                else if (item == Notte) secondOfDay = 21 * 3600;
-                Client.Instance.Events.Send("UpdateFromCommandTime", secondOfDay);
+                    API.NetworkOverrideClockTime(18, 0, 0);
+                else if (item == Notte)
+                    API.NetworkOverrideClockTime(21, 0, 0);
+                //EventDispatcher.Send("UpdateFromCommandTime", secondOfDay);
             };
 
             #endregion

@@ -2,16 +2,14 @@
 global using CitizenFX.Core.Native;
 global using static CitizenFX.Core.Native.API;
 global using TheLastPlanet.Shared;
+global using FxEvents;
+global using FxEvents.Shared;
 using Logger;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheLastPlanet.Server.Core;
-using TheLastPlanet.Server.Internal.Events;
-using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
-using TheLastPlanet.Shared.Snowflakes;
-using static CitizenFX.Core.Native.API;
+using FxEvents.Shared.Snowflakes;
 
 namespace TheLastPlanet.Server
 {
@@ -21,9 +19,8 @@ namespace TheLastPlanet.Server
         public static Server Instance { get; protected set; }
         public ExportDictionary GetExports => Exports;
         public PlayerList GetPlayers => Players;
-        public List<ClientId> Clients = new();
+        public List<PlayerClient> Clients = new();
         public static Configurazione Impostazioni { get; set; }
-        public ServerGateway Events { get; set; }
         public static bool Debug { get; set; }
         public Request WebRequest { get; set; }
         public StateBag ServerState => GlobalState;
@@ -51,7 +48,6 @@ namespace TheLastPlanet.Server
 
         private async void StartServer()
         {
-            Events = new ServerGateway();
             StateBagsHandler = new StateBagsHandler();
             WebRequest = new();
             await ClassCollector.Init();

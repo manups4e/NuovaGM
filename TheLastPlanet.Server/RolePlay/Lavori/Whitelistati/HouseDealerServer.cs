@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using TheLastPlanet.Server.Core;
 using TheLastPlanet.Server.Proprietà;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Server.Lavori.Whitelistati
 {
@@ -15,10 +15,10 @@ namespace TheLastPlanet.Server.Lavori.Whitelistati
         {
             Server.Instance.AddEventHandler("housedealer:vendi", new Action<Player, bool, int, string, int>(Vendi));
             Server.Instance.AddEventHandler("lprp:agenteimmobiliare:salvaAppartamento", new Action<Player, string, string, string>(SalvaAppartamento));
-            Server.Instance.Events.Mount("tlg:roleplay:onPlayerSpawn", new Action<ClientId>(Spawnato));
+            EventDispatcher.Mount("tlg:roleplay:onPlayerSpawn", new Action<PlayerClient>(Spawnato));
         }
 
-        private static async void Spawnato(ClientId client)
+        private static async void Spawnato(PlayerClient client)
         {
             dynamic aparts = await Server.Instance.Query("select * from immobili_creati");
             if (aparts.Count > 0)

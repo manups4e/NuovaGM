@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Core;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
 {
@@ -29,13 +29,13 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Negozi
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             blips.ForEach(x => x.Delete());
             blips.Clear();
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             foreach (NegozioBarbiere barbiere in ConfigBarbieri.Kuts)
             {

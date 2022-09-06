@@ -8,9 +8,9 @@ using TheLastPlanet.Server.Core.Buckets;
 using TheLastPlanet.Server.Core.PlayerChar;
 using TheLastPlanet.Server.Discord;
 using TheLastPlanet.Shared;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.PlayerChar;
-using TheLastPlanet.Shared.Snowflakes;
+using FxEvents.Shared.Snowflakes;
 using static CitizenFX.Core.Native.API;
 
 namespace TheLastPlanet.Server.Core.PlayerJoining
@@ -28,14 +28,18 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             Server.Instance.AddEventHandler("playerConnecting", new Action<Player, string, CallbackDelegate, ExpandoObject>(PlayerConnecting));
             Server.Instance.AddEventHandler("playerJoining", new Action<Player, string>(PlayerJoining));
             Server.Instance.AddEventHandler("playerDropped", new Action<Player, string>(Dropped));
-            Server.Instance.Events.Mount("lprp:setupUser", new Func<ClientId, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
+            EventDispatcher.Debug = true;
+            EventDispatcher.Mount("lprp:setupUser", new Func<PlayerClient, Task<Tuple<Snowflake, BasePlayerShared>>>(SetupUser));
 
 #if DEBUG
             Server.Instance.AddEventHandler("onResourceStart", new Action<string>(async (resName) =>
             {
-                foreach (var p in Server.Instance.GetPlayers)
+                if (resName == GetCurrentResourceName())
                 {
-                    PlayerJoining(p, "");
+                    foreach (var p in Server.Instance.GetPlayers)
+                    {
+                        PlayerJoining(p, "");
+                    }
                 }
             }));
 #endif
@@ -134,7 +138,7 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
                 await BaseScript.Delay(0);
                 BasePlayerShared basePlayerShared = await MySQL.QuerySingleAsync<BasePlayerShared>(procedure, new { disc = Convert.ToInt64(source.GetLicense(Identifier.Discord)), lice = source.GetLicense(Identifier.License), name = source.Name, snow = newone.ToInt64() });
                 User user = new(source, basePlayerShared);
-                ClientId client = new(user);
+                PlayerClient client = new(user);
                 client.Status.Clear();
                 Server.Instance.Clients.Add(client);
             }
@@ -190,10 +194,11 @@ namespace TheLastPlanet.Server.Core.PlayerJoining
             }
         }
 
-        private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(ClientId source)
+        private static async Task<Tuple<Snowflake, BasePlayerShared>> SetupUser(PlayerClient source)
         {
             try
             {
+                Server.Logger.Debug($"{source.Id.ToInt64()}, {source.User.ToJson()}");
                 await Server.Instance.Execute($"UPDATE users SET last_connection = @last WHERE discord = @id", new { last = DateTime.Now, id = source.GetLicense(Identifier.Discord) });
                 return new Tuple<Snowflake, BasePlayerShared>(source.Id, source.User);
             }

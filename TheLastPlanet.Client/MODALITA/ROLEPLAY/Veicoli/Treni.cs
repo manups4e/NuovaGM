@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheLastPlanet.Shared.Internal.Events;
+
 using TheLastPlanet.Shared.Veicoli;
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
@@ -78,14 +78,14 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Client.Instance.RemoveEventHandler("lprp:spawntrain", new Action(SpawnTrain));
             blips.ForEach(x => x.Delete());
             blips.Clear();
         }
 
-        private static void Spawnato(ClientId client)
+        private static void Spawnato(PlayerClient client)
         {
             foreach (Vector3 v in MetroTrainStations)
             {

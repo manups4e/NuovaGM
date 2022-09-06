@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TheLastPlanet.Client.Core.Utility;
 using TheLastPlanet.Client.Core.Utility.HUD;
 using TheLastPlanet.Client.MODALITA.ROLEPLAY.Veicoli;
-using TheLastPlanet.Shared.Internal.Events;
+
 
 namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
 {
@@ -27,7 +27,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
             AccessingEvents.OnRoleplayLeave += onPlayerLeft;
         }
 
-        public static void Spawnato(ClientId client)
+        public static void Spawnato(PlayerClient client)
         {
             Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
             //RequestAnimDict("oddjobs@towing");
@@ -58,7 +58,7 @@ namespace TheLastPlanet.Client.MODALITA.ROLEPLAY.Lavori.Generici.Rimozione
             Rim.IsShortRange = true;
             SetBlipDisplay(Rim.Handle, 4);
         }
-        public static void onPlayerLeft(ClientId client)
+        public static void onPlayerLeft(PlayerClient client)
         {
             Rimozione = Client.Impostazioni.RolePlay.Lavori.Generici.Rimozione;
             Rim.Delete();
